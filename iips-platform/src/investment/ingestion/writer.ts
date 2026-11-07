@@ -84,6 +84,9 @@ export function writeDataset(options: WriteOptions): WriteResult {
     now: options.now,
     importRunId: options.importRunId,
     files,
+    // The grammar the content was built under is a property of the dataset, not of the writer's default. Reading
+    // it from the content is what keeps a written V2 dataset from claiming V1 on disk (`L-036`).
+    ...(options.content.datasetSchema === undefined ? {} : { datasetSchema: options.content.datasetSchema }),
   });
   writeFileSync(join(dir, MANIFEST_FILE_NAME), serialize(manifest), 'utf8');
   return { dir, manifest, files };
@@ -120,6 +123,9 @@ export function readDataset(dir: string): ReadResult {
   }
 
   const content = {
+    // The grammar travels with the dataset: a reader that dropped it would assess a V2 dataset as V1 and refuse
+    // the one item V2 introduces (`L-036`).
+    datasetSchema: manifest.datasetSchema,
     issuers: parsed['issuers.json'],
     securities: parsed['securities.json'],
     listings: parsed['listings.json'],

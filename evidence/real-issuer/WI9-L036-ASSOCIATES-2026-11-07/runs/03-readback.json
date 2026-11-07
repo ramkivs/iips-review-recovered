@@ -1,0 +1,212 @@
+{
+  "bundle": "WI-9 / L-036 \u2014 Infosys associates/JV carrying value and the POLICY_ZERO review control",
+  "readAt": "2026-11-07",
+  "generatedAt": "2026-11-06T14:05:00.000Z",
+  "scope": "co:IN:CIN:L85110KA1981PLC013115",
+  "reportId": "430c6c1f-fed1-4437-8ebb-c814aaf02a9a",
+  "artifactVersion": 1,
+  "chain": {
+    "scopeToken": "co:IN:CIN:L85110KA1981PLC013115",
+    "reportType": "investment.company-assessment",
+    "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+    "chainRootReportId": "430c6c1f-fed1-4437-8ebb-c814aaf02a9a",
+    "versionCount": 1,
+    "versions": [
+      {
+        "reportId": "430c6c1f-fed1-4437-8ebb-c814aaf02a9a",
+        "artifactVersion": 1,
+        "supersedesReportId": null,
+        "generatedAt": "2026-11-06T14:05:00.000Z",
+        "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+        "payloadDigest": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+        "inputDigest": "sha256:dfa4b77be4aeed4a63c2b8be43580d412a0ba674b174abcf5357a6717642837d",
+        "substantiveDigest": "1603336c979a1bc1c1f782eb28f2e58cbf7bea14a1e01df35208b7106c09e994",
+        "substantiveInputDigest": "0e3bc6c04a7209300e3b1465d3c8da265b41c3170a22a60bc4954a640a372e6c",
+        "substantiveIdentityGrammar": "assessment-substantive-identity/1",
+        "substantiveDigestSource": "RECORDED",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-06T14:05:00.000Z",
+        "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+        "contentDigest": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+        "modelVersion": "assessment-engine/1.0.0",
+        "policyVersion": "valuation-policy/1.0.0",
+        "adequacy": "SUFFICIENT",
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "confidence": 0.4378,
+        "evidenceCount": 5,
+        "limitationCount": 8,
+        "datasetClass": "APPROVED_LOCAL_INGESTION"
+      }
+    ],
+    "head": {
+      "reportId": "430c6c1f-fed1-4437-8ebb-c814aaf02a9a",
+      "artifactVersion": 1,
+      "supersedesReportId": null,
+      "generatedAt": "2026-11-06T14:05:00.000Z",
+      "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681",
+      "payloadDigest": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+      "inputDigest": "sha256:dfa4b77be4aeed4a63c2b8be43580d412a0ba674b174abcf5357a6717642837d",
+      "substantiveDigest": "1603336c979a1bc1c1f782eb28f2e58cbf7bea14a1e01df35208b7106c09e994",
+      "substantiveInputDigest": "0e3bc6c04a7209300e3b1465d3c8da265b41c3170a22a60bc4954a640a372e6c",
+      "substantiveIdentityGrammar": "assessment-substantive-identity/1",
+      "substantiveDigestSource": "RECORDED",
+      "dataAsOf": "2024-03-31",
+      "knownAsOf": "2026-11-06T14:05:00.000Z",
+      "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+      "contentDigest": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+      "modelVersion": "assessment-engine/1.0.0",
+      "policyVersion": "valuation-policy/1.0.0",
+      "adequacy": "SUFFICIENT",
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "confidence": 0.4378,
+      "evidenceCount": 5,
+      "limitationCount": 8,
+      "datasetClass": "APPROVED_LOCAL_INGESTION"
+    }
+  },
+  "digestMatch": true,
+  "storedPayloadDigest": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+  "recomputedPayloadDigest": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+  "payloadBytes": 55573,
+  "payloadSha256": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+  "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+  "contentDigest": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+  "asOf": {
+    "dataAsOf": "2024-03-31",
+    "generatedAt": "2026-11-06T14:05:00.000Z",
+    "knownAsOf": "2026-11-06T14:05:00.000Z",
+    "staleBeyondPolicy": true,
+    "stalenessDays": 950
+  },
+  "capitalStructure": {
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "equityBridge": {
+      "formula": "equityValue = enterpriseValue \u2212 netDebt \u2212 minorityInterest \u2212 preferenceCapital + associatesAndJV",
+      "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+      "policyVersion": "associates-treatment/1.0.0",
+      "substitutedInputs": [
+        {
+          "input": "associatesAndJV",
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "treatment": "POLICY_ZERO"
+        }
+      ],
+      "treatment": "POLICY_ZERO_UNAVAILABLE"
+    },
+    "review": {
+      "clockStart": "2024-03-31",
+      "clockStartBasis": "DATASET_PERIOD_END",
+      "reason": "The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence.",
+      "reviewAgeDays": 180,
+      "reviewDueOn": "2024-09-27",
+      "reviewPolicyVersion": "associates-review/1.0.0",
+      "reviewRequired": true,
+      "status": "REVIEW_DUE",
+      "treatment": "POLICY_ZERO",
+      "treatmentPolicyVersion": "associates-treatment/1.0.0"
+    },
+    "netDebt": {
+      "basis": "DERIVED",
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "capital-structure/1.0.0"
+      },
+      "value": -193420000000
+    },
+    "grossDebt": {
+      "basis": "DERIVED",
+      "note": "components declared nil by the filer, counted as zero under the capital-structure aggregation contract: shortTermBorrowings, currentMaturities, longTermBorrowings \u2014 each nil keeps its source and period in components",
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "capital-structure/1.0.0"
+      },
+      "value": 83590000000
+    },
+    "cashAndInvestments": {
+      "basis": "DERIVED",
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "capital-structure/1.0.0"
+      },
+      "value": 277010000000
+    }
+  },
+  "valuation": {
+    "intrinsicPerShare": {
+      "high": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "intrinsic-blend/1.0.0"
+        },
+        "value": 1399.8105188789887
+      },
+      "low": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "intrinsic-blend/1.0.0"
+        },
+        "value": 875.3394146903431
+      },
+      "mid": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "intrinsic-blend/1.0.0"
+        },
+        "value": 1088.972274952081
+      }
+    },
+    "marginOfSafetyBand": "FAIR",
+    "mosVsMid": {
+      "basis": "DERIVED",
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "mos/1.0.0"
+      },
+      "value": -0.08418738213693565
+    }
+  },
+  "confidence": {
+    "combined": 0.4378,
+    "dataConfidence": 0.85,
+    "modelConfidence": 0.6342,
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "POLICY_DEFAULT_WACC",
+      "POLICY_DEFAULT_MULTIPLE"
+    ],
+    "confidenceFloor": null
+  },
+  "limitationsAssociates": [
+    "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+    "Associates/JV review required (REVIEW_DUE): The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence. A review flag is not a carrying value: no figure has been established, no unavailable input has been converted into a nil, and the flag changes no valuation output."
+  ],
+  "reviewBlockHasClockMembers": [],
+  "reviewBlockMembers": [
+    "clockStart",
+    "clockStartBasis",
+    "reason",
+    "reviewAgeDays",
+    "reviewDueOn",
+    "reviewPolicyVersion",
+    "reviewRequired",
+    "status",
+    "treatment",
+    "treatmentPolicyVersion"
+  ]
+}

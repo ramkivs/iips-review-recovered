@@ -1,0 +1,38 @@
+# WI-9 / L-036 — 2026-11-07 — the 180-day review control, re-verified against the payload and the policy
+#
+# The policy (VALUATION_POLICY.associatesReview, unchanged by this work item)
+#   reviewPolicyVersion  associates-review/1.0.0
+#   reviewAgeDays        180                      (calendar days)
+#   anchor               the SOURCE-EVIDENCE date — the newest balance-sheet instant in the dataset — never an
+#                        execution timestamp (clockStartBasis DATASET_PERIOD_END)
+#   obligation           if the carrying value is still unavailable after that age, the assessment must raise a
+#                        review flag. The flag is inert: no value, no nil, no penalty, no confidence, no verdict.
+#
+# The arithmetic, from the payload (runs/03-readback.json)
+#   clockStart       2024-03-31        (the newest balance-sheet instant in the WI-3 dataset)
+#   reviewAgeDays    180
+#   reviewDueOn      2024-09-27        = 2024-03-31 + 180 calendar days
+#   asOf             2026-11-06T14:05:00.000Z   (the assessment clock the WI-3 run was generated at)
+#   elapsed          950 days          (also published as asOf.stalenessDays = 950)
+#   status           REVIEW_DUE        reviewRequired true
+#   treatment        POLICY_ZERO       treatmentPolicyVersion associates-treatment/1.0.0
+#
+# Independent check: 2024-03-31 + 180 days lands on 2024-09-27; the assessment clock is 950 days after 2024-03-31,
+# which is past 2024-09-27, so REVIEW_DUE is the correct verdict for this datum. The boundary is pinned by the
+# existing suite: 179 days NOT_DUE, exactly 180 days REVIEW_DUE, 181 days REVIEW_DUE
+# (tests/investment/assessment-valuation-integrity.test.ts, "179 days is not due; exactly 180 days is due; more than
+# 180 days is due"). Nothing in this work item moved the window, the anchor or the flag semantics.
+#
+# Clock-free by construction: the PERSISTED review block carries
+#   clockStart, clockStartBasis, reviewAgeDays, reviewDueOn, reviewPolicyVersion, reviewRequired, status, treatment,
+#   treatmentPolicyVersion, reason
+# and NOT elapsedDays, NOT asOf — the age is derived at render time from clockStart and the report's own asOf, so a
+# re-run at a later clock cannot mint a version by waiting. Measured on the stored payload: zero clock members.
+#
+# Inertness, measured against the Work Item 3 artifact rather than asserted
+#   valuation.intrinsic.perShare    byte-identical to evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json
+#   valuation.marginOfSafety        byte-identical (band FAIR, mos-policy/1.0.0)
+#   the review block is the only associates-related member that differs from the WI-3 payload, and it is disclosure
+#   The confidence aggregate differs from the WI-3 artifact (0.6736 -> 0.4378) because the authorized IX assumption
+#   caps now apply (POLICY_DEFAULT_WACC, POLICY_DEFAULT_MULTIPLE); that change is IX's, recorded in register 17.7,
+#   and this work item neither made nor re-opened it.

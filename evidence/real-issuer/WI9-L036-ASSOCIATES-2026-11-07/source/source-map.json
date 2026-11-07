@@ -1,0 +1,151 @@
+{
+  "bundle": "WI-9 / L-036 \u2014 primary evidence used, and where it already lives",
+  "note": "The audited consolidated Infosys statements were read and transcribed in WI-4 (evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06). This work item re-reads those committed extracts rather than re-fetching the filings, so the primary evidence is not duplicated. Digests are recomputed here. Text after the line \"OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)\" is annotation and is excluded from every filed-text check below.",
+  "documents": {
+    "INFY-INDAS-CONSOL-FY24": {
+      "title": "Infosys Limited and Subsidiaries \u2014 Consolidated Financial Statements under Ind AS, year ended March 31, 2024",
+      "statementsDated": "2024-04-18",
+      "auditor": "Deloitte Haskins & Sells LLP, FRN 117366W/W-100018",
+      "unit": "INR crore"
+    },
+    "INFY-INDAS-CONSOL-FY23": {
+      "title": "Infosys Limited and Subsidiaries \u2014 Consolidated Financial Statements under Ind AS, year ended March 31, 2023",
+      "statementsDated": "2023-04-13",
+      "auditor": "Deloitte Haskins & Sells LLP, FRN 117366W/W-100018",
+      "unit": "INR crore"
+    }
+  },
+  "extracts": {
+    "fy23-balance-sheet-investments.txt": {
+      "sha256": "b0a63a0defe8891e3a5081f72d4f5107cac2ec5da5dfc8e736ebb0e75ded6fc0",
+      "bytes": 2167
+    },
+    "fy23-note-2.19-other-income.txt": {
+      "sha256": "8ae4f4021e93351f31e582ec653c7673ece480747f08efcdc0619e0d44f4adaf",
+      "bytes": 1649
+    },
+    "fy23-note-2.25-cfs-annexure.txt": {
+      "sha256": "00fc7946f1c883f26aaae8ac6ddbd037d4a0ce2056f99d664069c15481b44921",
+      "bytes": 2558
+    },
+    "fy23-note-2.25-related-parties.txt": {
+      "sha256": "17c257fb1657d6be44437c6f8c1e52d4540556973a4b46052c237df728483191",
+      "bytes": 4358
+    },
+    "fy23-note-2.5-investments.txt": {
+      "sha256": "7d937a2c22e1ada3de5b1eec7a9cbb5563acc1bcf8c46c54d12d74beaaddc868",
+      "bytes": 3247
+    },
+    "fy23-note-2.5.1-details.txt": {
+      "sha256": "b4fc721f320297ab8bd913832cd24f757603c33ae943bf30a3f8c4d559cdfe3a",
+      "bytes": 2827
+    },
+    "fy23-pl-no-associates-line.txt": {
+      "sha256": "b943049db5e5fe7191023bdf96b04c4cf10daa8f6c346c7d6ad6866ab794529b",
+      "bytes": 1967
+    },
+    "fy24-balance-sheet-investments.txt": {
+      "sha256": "ce95a72c4ffe68bad9018e27140055519bf680e7e91cf33b692cbc033325b33d",
+      "bytes": 2047
+    },
+    "fy24-note-1.3-basis-of-consolidation.txt": {
+      "sha256": "953a905549768ebcf069e6405f5a6e3d081b05df77a9cdcca9dd7f25660bf691",
+      "bytes": 2121
+    },
+    "fy24-note-2.19-other-income.txt": {
+      "sha256": "a0fbe4c6a0cfab5e2b0cc6ef00ad058ca7f3b50d5e57ea490282602aed5c509c",
+      "bytes": 2890
+    },
+    "fy24-note-2.25-cfs-annexure.txt": {
+      "sha256": "46ba552448b354540069502e4a9cfbd74f4bdecdd4ffdd2bf6ebe349942ec8f2",
+      "bytes": 2895
+    },
+    "fy24-note-2.25-related-parties.txt": {
+      "sha256": "48198bca997019006743dd71bb4ee26f98a6581fb0e91d18996fa06b5a9d811f",
+      "bytes": 5555
+    },
+    "fy24-note-2.5-investments.txt": {
+      "sha256": "3475ff8767b2c5a55c7e851c484460326e698c1787a3ff78669d1920db1d740e",
+      "bytes": 3364
+    },
+    "fy24-note-2.5.1-details.txt": {
+      "sha256": "bd071da76b95eea64f89bda819bd6d06eda097aa30cb5fc6a4235164982b78a9",
+      "bytes": 2682
+    },
+    "fy24-notes-2.13-to-2.27-sweep.txt": {
+      "sha256": "7acc367dc0f56d955f882c62beb4a9f6457ee29d36cc4fcbb234bfa684df4f16",
+      "bytes": 5932
+    },
+    "fy24-pl-no-associates-line.txt": {
+      "sha256": "9bdecf7f88d95a29d39b6a724edc12449ce83e6b2468cf9eaa313b4458a33b94",
+      "bytes": 2233
+    }
+  },
+  "filedTextCaptionScan": {
+    "fy24-balance-sheet-investments.txt": [],
+    "fy23-balance-sheet-investments.txt": [],
+    "fy24-note-2.5-investments.txt": [],
+    "fy23-note-2.5-investments.txt": [],
+    "fy24-note-2.5.1-details.txt": [],
+    "fy23-note-2.5.1-details.txt": [],
+    "fy24-pl-no-associates-line.txt": [],
+    "fy23-pl-no-associates-line.txt": [],
+    "fy24-notes-2.13-to-2.27-sweep.txt": [],
+    "fy24-note-2.25-related-parties.txt": [],
+    "fy23-note-2.25-related-parties.txt": [],
+    "fy24-note-2.19-other-income.txt": [],
+    "fy23-note-2.19-other-income.txt": [],
+    "fy24-note-1.3-basis-of-consolidation.txt": []
+  },
+  "annotationMentionsOfTheAbsentCaption": {
+    "fy24-balance-sheet-investments.txt": 2,
+    "fy23-balance-sheet-investments.txt": 2,
+    "fy24-note-2.5-investments.txt": 2,
+    "fy23-note-2.5-investments.txt": 1,
+    "fy24-note-2.5.1-details.txt": 1,
+    "fy23-note-2.5.1-details.txt": 1,
+    "fy24-pl-no-associates-line.txt": 1,
+    "fy23-pl-no-associates-line.txt": 1,
+    "fy24-notes-2.13-to-2.27-sweep.txt": 1,
+    "fy24-note-2.25-related-parties.txt": 1,
+    "fy23-note-2.25-related-parties.txt": 1,
+    "fy24-note-2.19-other-income.txt": 1,
+    "fy23-note-2.19-other-income.txt": 0,
+    "fy24-note-1.3-basis-of-consolidation.txt": 1
+  },
+  "note25Reconciliation": [
+    {
+      "period": "2024-03-31",
+      "nonCurrent": 11708,
+      "current": 12915,
+      "sum": 24623,
+      "noteTotal": 24623,
+      "reconciles": true
+    },
+    {
+      "period": "2023-03-31",
+      "nonCurrent": 12569,
+      "current": 6909,
+      "sum": 19478,
+      "noteTotal": 19478,
+      "reconciles": true
+    },
+    {
+      "period": "2023-03-31",
+      "nonCurrent": 12569,
+      "current": 6909,
+      "sum": 19478,
+      "noteTotal": 19478,
+      "reconciles": true
+    },
+    {
+      "period": "2022-03-31",
+      "nonCurrent": 13651,
+      "current": 6673,
+      "sum": 20324,
+      "noteTotal": 20324,
+      "reconciles": true
+    }
+  ],
+  "conclusion": "In the filed text of all three periods there is no equity-method investment caption, no associates/JV row in Note 2.5 or Note 2.5.1, and no share-of-associates line in profit or loss or OCI, and the Note 2.5 decomposition ties to the filed investment totals to the rupee. The caption names that appear in the extracts are in the annotations, which say the caption is absent."
+}

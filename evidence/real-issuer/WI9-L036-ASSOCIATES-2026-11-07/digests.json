@@ -1,0 +1,59 @@
+{
+  "bundle": "WI-9 / L-036 \u2014 Infosys associates/JV carrying value and the 180-day POLICY_ZERO review control",
+  "generatedAt": "2026-11-07",
+  "note": "every shipped file is digested except this manifest and the two transcripts that certify it (runs/08 post-manifest verification, runs/09 clean clone) \u2014 a manifest cannot digest the runs that report on it; runs/08 re-hashes every digested file and reports zero mismatches",
+  "files": {
+    "README.md": {
+      "sha256": "19daa04444cc637b84267824d1d44e8d327568c4fc993c5e1c7460c1594d322a",
+      "bytes": 10169
+    },
+    "artifact/assessment-payload-l036.json": {
+      "sha256": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+      "bytes": 55573
+    },
+    "determination-l036.json": {
+      "sha256": "0fe3d48183426abf420bdece32e314979ba6eaa0d0f466ec4840cf1671a2e8a9",
+      "bytes": 7564
+    },
+    "runs/01-ingest-rerun.txt": {
+      "sha256": "887d623029749be09faa88d4403f8ce3db4697c223ad7d1d79effafc0a482718",
+      "bytes": 960
+    },
+    "runs/02-generate-persist.txt": {
+      "sha256": "92542df9f40aa8d1d6f7f8050b3d847b0b3f3250d92ccc7a8ad3e94cf0695fdf",
+      "bytes": 736
+    },
+    "runs/03-readback.json": {
+      "sha256": "6fd522b9d06e0dcf82999716769ca9448c623b729100f1f78744396927f599d3",
+      "bytes": 9066
+    },
+    "runs/04-v2-operator-path.txt": {
+      "sha256": "40078dbfd7f507855d0d205bdc877004ffb7a29a375f5d62ce8e49b57834d38d",
+      "bytes": 4369
+    },
+    "runs/05-review-control.txt": {
+      "sha256": "7b252d90c371c6a20a417bef170e3e18a78fc9f45a3e4c235556886737023488",
+      "bytes": 2992
+    },
+    "runs/06-tests.txt": {
+      "sha256": "ae72e77d23ed696de7cf272caa0711537b36eadece19c05aaa82dbc12f3ba384",
+      "bytes": 757
+    },
+    "runs/07-typecheck.txt": {
+      "sha256": "87a04200db7299552d0215dcb9d2858803d62a0681d3a5f6f6d83420d864a269",
+      "bytes": 90
+    },
+    "runs/commands.txt": {
+      "sha256": "4b536d90050a8c23d837099f28ddb04a4a3b98e81375e21631003d7ddc3f0c02",
+      "bytes": 4569
+    },
+    "source/source-map.json": {
+      "sha256": "6b2218c3245ce75b3ccda712d4a4459b4af61b56e43ed3cee451df0b0cca4e9a",
+      "bytes": 6025
+    },
+    "source/verification-greps.txt": {
+      "sha256": "baf9a29a727788f9e94b7a3806adfda63af0e8e6e4664a6cde4ebf91bda88ec4",
+      "bytes": 2293
+    }
+  }
+}

@@ -1,0 +1,57 @@
+# WI-9 / L-036 — 2026-11-07 — the V2 operator path, before and after this work item
+#
+# WHAT WAS WRONG (three links, each verified by running the product, not by reading it):
+#   1. `src/investment/cli/ingest.ts` never passed a `datasetSchema`, so every CLI ingest produced V1. No operator
+#      could declare V2 at all.
+#   2. `writeDataset` never forwarded the content's grammar to the manifest, so even an in-memory V2 build was
+#      written to disk under the legacy V1 identifier.
+#   3. `readDataset` never put the manifest's grammar back into the content, so a dataset written as V2 was read
+#      back as V1 — which is the case that refuses the very item V2 introduces.
+#   Net effect: `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` was reachable from the library and from the tests,
+#   and unreachable from the only ingestion entry point. `L-036`'s declared remedy — "add an associates/JV line
+#   item to the dataset so the term is a reported number" — could not be exercised by an operator.
+#
+# WHAT WAS CHANGED (no policy, no D-2 semantic, no grammar, no valuation rule):
+#   ingest.ts   optional `--dataset-schema <id>`, resolved through `assertSupportedDatasetSchema`; absent = V1,
+#               exactly as before; unknown grammars fail closed before anything is read.
+#   writer.ts   the manifest records the grammar the content was built under, and `readDataset` restores it.
+#   The V1 path is byte-identical: runs/01-ingest-rerun.txt shows all ten dataset files unchanged, and the V1
+#   payload digest is unchanged at 9e7f621d… (below).
+#
+# WHAT IT DOES FOR THIS ISSUER: nothing to the treatment, and no value. Declaring V2 for the SAME committed WI-3
+# input — in which the issuer reports no such asset — changes only how the absence is described: the schema can
+# hold the item (MISSING) instead of being unable to (NOT_COMPUTABLE). No figure is supplied either way.
+#
+#   V1 (default)   datasetVersion sha256:21cf2522…  payloadDigest 9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518
+#                  associatesAndJV {"presence":"NOT_COMPUTABLE","reason":"NOT_REPORTED","value":null}
+#                  equityBridge.treatment POLICY_ZERO_UNAVAILABLE   review REVIEW_DUE
+#   V2 (declared)  datasetVersion sha256:21cf2522…  payloadDigest 11be57e03eadcf81284920d50eea49e5bb2126dc14f3c375cd832ab668e783d0
+#                  associatesAndJV {"presence":"MISSING","reason":"NOT_REPORTED","value":null}
+#                  equityBridge.treatment POLICY_ZERO_UNAVAILABLE   review REVIEW_DUE
+#
+#   Both datasets carry the same content digest: `datasetVersion` is the content digest, and the grammar is a
+#   manifest member, not a content member — so a V2 dataset that carries the item (different content) still gets a
+#   different version, while a V2 dataset that carries nothing keeps the version of the same periods under V1.
+#
+# COMMANDS (the issuer's committed input, unchanged; only the declared grammar differs)
+#
+#   cd iips-platform
+#   npx tsx src/investment/cli/ingest.ts \
+#     --input ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input \
+#     --dataset-dir /tmp/l036v1-2/data/investment/dataset --now 2026-11-06T14:05:00.000Z
+#     -> datasetSchema IIPS_INVESTMENT_FUNDAMENTALS_V1, datasetVersion sha256:21cf2522…
+#
+#   npx tsx src/investment/cli/ingest.ts \
+#     --input ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input \
+#     --dataset-dir /tmp/l036v2-2/data/investment/dataset --now 2026-11-06T14:05:00.000Z \
+#     --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V2
+#     -> datasetSchema IIPS_INVESTMENT_FUNDAMENTALS_V2, datasetVersion sha256:21cf2522…
+#
+#   cd ../frontend && IIPS_NP04_DATABASE_PATH=… npx tsx server/investment/cli/generate-investment-artifacts.ts …
+#     -> V1 compose payloadDigest 9e7f621d…   V2 compose payloadDigest 11be57e0…
+#
+# THE REFUSALS, ASSERTED (tests/investment/cli.test.ts, "the dataset grammar is declared by the operator"):
+#   * a V2-only column under the DEFAULT grammar is an ERROR (`LINE_ITEM_REQUIRES_DATASET_SCHEMA_V2`), the run
+#     exits 1, and nothing is written — a filed carrying value is never silently dropped into a policy zero;
+#   * an unknown grammar (`…_V9`) throws before anything is read or written;
+#   * an empty V2 cell is `MISSING` with a null value — never a zero, never a nil.
