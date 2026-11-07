@@ -106,9 +106,9 @@ describe('WI-7 Consumer / Marico — source bytes and identity', () => {
 
   test('identity is a filing fact: CIN, ISIN, BSE code and NSE symbol are printed on committed pages', () => {
     assert.equal(identity.verdict, 'VERIFIED_FROM_FILING');
-    const cinPage = flat(read('source', 'fy24-identity-cin-brsr-p115.txt'));
-    const listingPage = flat(read('source', 'fy24-identity-listing-details-p159.txt'));
-    const aboutPage = flat(read('source', 'fy24-identity-exchange-codes-p5.txt'));
+    const cinPage = flat(read('source', 'fy24-identity-cin-brsr-pdf-page115.txt'));
+    const listingPage = flat(read('source', 'fy24-identity-listing-details-pdf-page159.txt'));
+    const aboutPage = flat(read('source', 'fy24-identity-exchange-codes-pdf-page5.txt'));
     assert.ok(cinPage.includes('L15140MH1988PLC049208'), 'the CIN is not on the BRSR page');
     assert.ok(listingPage.includes('INE196A01026'), 'the ISIN is not on the listing-details page');
     assert.ok(listingPage.includes('531642'), 'the BSE code is not on the listing-details page');
@@ -133,9 +133,9 @@ describe('WI-7 Consumer / Marico — source bytes and identity', () => {
   });
 
   test('the auditor reports on the consolidated statements in both documents', () => {
-    const fy24 = flat(read('source', 'fy24-auditor-opinion-consolidated-p169.txt'));
-    const fy24b = flat(read('source', 'fy24-auditor-opinion-consolidated-p170.txt'));
-    const fy23 = flat(read('source', 'fy23-auditor-opinion-consolidated-p125.txt'));
+    const fy24 = flat(read('source', 'fy24-auditor-opinion-consolidated-pdf-page169.txt'));
+    const fy24b = flat(read('source', 'fy24-auditor-opinion-consolidated-pdf-page170.txt'));
+    const fy23 = flat(read('source', 'fy23-auditor-opinion-consolidated-pdf-page125.txt'));
     assert.ok(fy24.includes('Report on the Audit of the Consolidated Financial Statements'));
     assert.ok(fy24b.includes('Indian Accounting Standards (Ind AS) specified under Section'));
     assert.ok(fy23.includes('Independent Auditor'));
