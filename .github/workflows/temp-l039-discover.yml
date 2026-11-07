@@ -2,9 +2,9 @@ name: L-039 temporary disclosure discovery (throwaway)
 
 # THROWAWAY. Exists only to read the two KEC annual reports from a GitHub-hosted runner, because
 # kecrpg.com is not reachable from the development sandbox. It downloads the PDFs, identifies them by
-# sha256, greps every page for the cash / bank / investment captions, and uploads the matching pages and a
-# hit report as an artifact for the IRR session to read. It writes nothing to the repository and is
-# deleted before the pull request that uses its output.
+# sha256, greps every page for the cash / bank / investment captions, and commits the matching pages and a
+# hit report into a scratch directory on this branch so the IRR session can read them (artifact downloads are
+# not reachable from the sandbox). The scratch directory and this workflow are deleted before the pull request.
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
       - '.github/workflows/temp-l039-discover.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   discover:
@@ -108,9 +108,27 @@ jobs:
           print(f'{len(keep)} pages kept')
           PY
 
-      - name: Upload what was read
-        uses: actions/upload-artifact@v4
-        with:
-          name: l039-pages
-          path: out/
-          retention-days: 3
+      - name: Commit what was read into the scratch directory on this branch
+        run: |
+          set -euo pipefail
+          dest=evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/_l039-discover
+          mkdir -p "$dest"
+          cp out/source-identity.txt out/hits.txt "$dest/"
+          rm -rf "$dest/pages"
+          cp -r out/pages "$dest/pages"
+          git init -q scratch
+          cd scratch
+          git config user.name "IIPS IRR (discovery runner)"
+          git config user.email "iips-irr@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch -q --depth 1 origin "${GITHUB_REF_NAME}"
+          git checkout -q -B "${GITHUB_REF_NAME}" FETCH_HEAD
+          mkdir -p "$dest"
+          cp -r ../out/source-identity.txt ../out/hits.txt "$dest/"
+          cp -r ../out/pages "$dest/pages"
+          git add "$dest"
+          git -c user.name="IIPS IRR (discovery runner)" -c user.email="iips-irr@users.noreply.github.com" \
+              commit -q -m "L-039 discovery: page extracts and hit report (scratch, to be deleted)"
+          git push -q origin "HEAD:${GITHUB_REF_NAME}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
