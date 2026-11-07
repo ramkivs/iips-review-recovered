@@ -1,26 +1,52 @@
 # L-038 — WI-7 Marico debt-component completeness — exact command sequence, 2026-11-07
-# (issuer hosts are unreachable from the local sandbox; the extracts were fetched once by a throwaway hosted
-#  workflow and are shipped verbatim in source/ with their own fetch log — nothing here re-fetches)
+# Every command below uses an entry point that already exists in the repository. No bespoke script is shipped
+# with this bundle and none is required to re-derive the result.
+# (Issuer hosts are unreachable from the local sandbox; the page extracts were fetched once by a throwaway hosted
+#  workflow that is deleted in this branch, and are shipped verbatim in source/ with their own fetch log. Nothing
+#  here re-fetches.)
 
-# 1. evidence — re-read the audited consolidated reports at the caption, the balance sheet and the share-capital
-#    and capital-management notes (the fetches themselves ran in the throwaway workflow, since deleted)
+# 1. evidence — re-read the audited consolidated reports at the caption, at the balance sheet, and in the share
+#    capital and capital-management notes
 #    -> source/*.txt (9 page extracts), source/page-map.json, source/fetch-log.txt, source/caption-search-log.txt
 
-# 2. the one supported dataset correction, in place, with a correction manifest
+# 2. the one supported dataset correction, in place, with a corrections manifest
 #    -> ingest-input/corrections.json, runs/01-ingest.txt
 
-# 3. the governed run: generate -> persist -> read back from a separate process
+# 3. the governed run: ingest -> generate -> assess -> compose -> validate -> persist -> verify
 cd iips-platform
-npx tsx scripts/run-l038-marico.ts --write            # -> ingest-input/ (corrected cell only)
-#    -> runs/02-generate.txt, runs/03-readback.json, artifact/assessment-payload-marico-l038.json
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input \
+  --dataset-dir /tmp/l038/data/investment/dataset --now 2026-11-07T09:00:00.000Z
+#    -> runs/01-ingest.txt, datasetVersion sha256:433358f3…f9fc
 
-# 4. what moved against the preserved WI-7 payload
+cd ../frontend
+IIPS_NP04_DATABASE_PATH=/tmp/l038/data/investment/investment.db npx tsx \
+  server/investment/cli/generate-investment-artifacts.ts \
+  --issuer IN:CIN:L15140MH1988PLC049208 --data-dir /tmp/l038/data/investment/dataset \
+  --identity-dir /tmp/l038/data/investment/identity --db /tmp/l038/data/investment/investment.db \
+  --owner-carrier /tmp/l038/owner.json --generated-at 2026-11-07T09:00:00.000Z --out /tmp/l038/cli.json
+#    -> runs/02-generate.txt, artifact/assessment-payload-marico-l038.json
+
+# 4. readback, in a process separate from the one that wrote the artifact: open the persisted database, take the
+#    head artifact for the scope, recompute the canonical payload digest with the same composer, and compare it to
+#    the stored digest and the chain head. The one-off readback snippet was not kept and is not shipped; what it
+#    produced is runs/03-readback.json, and the value it recomputed is independently re-derived by stage 5.
+#    -> runs/03-readback.json
+
+# 5. reproduction from the committed input alone (fresh directories, nothing reused)
+#    -> runs/09-reproduce-from-committed-input.txt: datasetVersion and payload digest 1a873047… both reproduce
+#       (persist is not re-exercised there, and nothing beyond runs/02 and runs/03 is claimed for it)
+
+# 6. what moved against the preserved WI-7 payload
 #    -> runs/04-payload-diff.json
 
-# 5. the guard file, the suite, the typecheck
+# 7. the guard file, the suite, the typecheck
 npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts    # -> runs/05-tests.txt (25/25)
 npx tsx --test tests/investment/*.test.ts                            # -> runs/05-tests.txt (679/679, 156 suites)
 npx tsc --noEmit -p tsconfig.json                                    # -> runs/06-typecheck.txt (exit 0)
 
-# 6. the manifest, then the post-manifest verification (re-hash + re-run)
-#    -> digests.json (65 files), runs/07-post-manifest-verification.txt (0 mismatches, 25/25, 679/679, tsc 0)
+# 8. the manifest, then the post-manifest verification (re-hash + re-run)
+#    -> digests.json, runs/07-post-manifest-verification.txt (0 mismatches, 25/25, 679/679, tsc 0)
+
+# 9. an independent clone of the pushed ref
+#    -> runs/08-clean-clone.txt

@@ -2418,7 +2418,7 @@ description of the refusal rather than the number that was hoped for.
 `source/` (nine verbatim page extracts with provenance, `page-map.json`, `fetch-log.txt`, `caption-search-log.txt`,
 `source-bytes.json`), `ingest-input/` (the single corrected cell and its corrections manifest), `runs/` (01 ingest, 02
 generate, 03 readback, 04 payload diff, 05 tests, 06 typecheck, 07 post-manifest verification, `commands.txt`),
-`artifact/assessment-payload-marico-l038.json`, `digests.json` (28 files) — guarded by
+`artifact/assessment-payload-marico-l038.json`, `digests.json` (29 files) — guarded by
 `iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (25 tests). The WI-7 bundle is untouched and its guard
 still passes; the WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2, WI-8 and WI-8/`L-039` bundles are byte-identical and still
 verify.
