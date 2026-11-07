@@ -1,0 +1,25 @@
+# WI-10 / L-035 — 2026-11-07 — the same four declarations, bound, are accepted and the binding reaches the payload
+
+  $ npx tsx src/investment/cli/ingest.ts --input /tmp/l035/v3-accepted \
+      --dataset-dir /tmp/l035/v3-accepted-dataset --now 2026-11-06T14:05:00.000Z \
+      --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V3
+
+  exit 0
+  datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V3
+  datasetVersion sha256:6afa27935ce20a8c1fde2f5e54fb3b2fb90defe4b126e19fbe87fece610a47c2
+
+  the three borrowings cells: NIL[section=BS;class=BORROWINGS;scope=CONSOLIDATED_GROUP]: The Group has no outstanding borrowings.
+  the preference-capital cell: NIL[section=BS;class=PREFERENCE_SHARE_CAPITAL;scope=STANDALONE_COMPANY;acceptedBy=WI9-L035-review]: The Company has only one class of shares …
+
+  periods.json @2024-03-31:
+    LONG_TERM_BORROWINGS NIL_BY_DISCLOSURE {"class": "BORROWINGS", "scope": "CONSOLIDATED_GROUP", "section": "BS"}
+    PREFERENCE_CAPITAL NIL_BY_DISCLOSURE {"acknowledgedBy": "WI9-L035-review", "class": "PREFERENCE_SHARE_CAPITAL", "scope": "STANDALONE_COMPANY", "section": "BS"}
+
+  payload, generated and read back separately (runs/06):
+    capitalStructure.components.longTermBorrowings.nilBinding  {section: BS, class: BORROWINGS, scope: CONSOLIDATED_GROUP}
+    capitalStructure.components.preferenceCapital.nilBinding   {section: BS, class: PREFERENCE_SHARE_CAPITAL, scope: STANDALONE_COMPANY, acknowledgedBy: WI9-L035-review}
+
+  datasetVersion sha256:6afa27935ce20a8c1fde2f5e54fb3b2fb90defe4b126e19fbe87fece610a47c2 — a DIFFERENT version from
+  Work Item 3's, because the dataset now records evidence it did not record before. The valuation does not move:
+  confidence 0.4378 and reportKey ed1e54b03e5e… are identical to the unbound run; only the payloadDigest changes
+  (f60fc5c8… instead of 9e7f621d…), because the bindings are published beside the quotes.

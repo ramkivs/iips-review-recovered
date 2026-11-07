@@ -22338,3 +22338,51 @@ missing but absent from the statements; `L-038` `OPEN`, `L-039` unchanged, `L-04
 `L-034` `RESOLVED`, `L-001` … `L-033` untouched. No D-2 or IX policy change, no new persistence mechanism, no new issuer or
 sector, no IPD write, no production scope, no unrelated refactoring, no redefinition of any limitation. Next free §16.278 /
 CV-CORR-253 / CHG-2026-11-06-16 / V2148.
+
+### 16.278 IID WI-10 / L-035 — a nil declaration is bound to a statement section and a line-item class; `L-035` resolved (`2026-11-07`)
+
+**No IPD act, no IPD change.** This is an IRR-only IID work item completing the `L-035` investigation opened at register
+§17.2. It performs no IPD modification, so it carries **no** CV-CORR / CHG / V number; the sequence quoted at the end of
+§16.277 (`CV-CORR-253` / `CHG-2026-11-06-16` / `V2148`) is **not spent** here and remains the next free IPD act reference.
+Only the tracker section number advances.
+
+**Scope.** `L-035` — the nil declaration's link to the component it fills. Out of scope and untouched: `L-036`, `L-037`,
+`L-038`, `L-039`, `L-040` and every other limitation and status; D-2 semantics; the IX policy; the valuation rules; the
+nil-aggregation arithmetic that `L-038` and `L-039` turn on; persistence; every other issuer and sector; IPD.
+
+**Finding, reproduced before it was fixed.** At `0ddf5c7`, the Work Item 3 input with one cell changed —
+`LONG_TERM_BORROWINGS` quoting *"Trade payables are settled within 45 days of the invoice date."* — ingested with **exit
+0 and zero errors** and produced `NIL_BY_DISCLOSURE`. A declared nil is counted as zero by the capital-structure
+aggregation contract, so the cell became zero debt on the strength of a sentence about payables. The register's finding
+was accurate; the limitation is a **declaration-grammar** one, not a missed disclosure or a wrong mapping.
+
+**Resolution — both halves of the recorded criterion.** *Grammar:* a cell may carry
+`NIL[section=…;class=…;scope=…(;acceptedBy=…)]: <quoting>`, where the section must equal the item's own statement, the
+class must equal the item's class in a table total over the closed line-item table, and a scope that differs from the
+row's is legal only with `acceptedBy`, stored on the observation and published beside the quote. Mismatches are
+`NIL_BINDING_SECTION_MISMATCH` / `NIL_BINDING_CLASS_MISMATCH`; unknown, duplicate or missing members are refused. On any
+error the cell becomes `MISSING / NOT_REPORTED`, the ingest exits non-zero and **nothing is written**. Schema
+`IIPS_INVESTMENT_FUNDAMENTALS_V3` requires the binding; V1 and V2 keep the legacy form and their meaning, so no stored
+dataset is re-digested. *Review:* `source/review-record.json` applies the grammar to the four declarations Work Item 3
+made in prose and records the acceptance of each — three borrowings components accepted without qualification, and
+`PREFERENCE_CAPITAL` accepted with a recorded scope nuance (the parent-company sentence applied to the consolidated
+block), which is exactly the interpretive mapping the entry named.
+
+**Measured.** The Work Item 3 dataset re-ingests to **ten byte-identical files** with `datasetVersion`
+`sha256:21cf2522…` and payload digest `9e7f621d…` — unchanged. With the four declarations bound, `datasetVersion`
+becomes `sha256:6afa2793…` and the payload digest `f60fc5c8…`, while `reportKey`, confidence (0.4378), gross debt, net
+debt and every published figure are identical: the binding adds evidence, not arithmetic. Recorded, so it is not
+mistaken for the binding: adopting V2 or V3 moves the adequacy denominator from 52 to 53 permitted items, so
+balance-sheet coverage reads 0.6818 against 0.7143 under V1 — V2 already behaves that way and is untouched here.
+
+**Verification.** Platform suite **721/721** in **168** suites, including the new guard
+`tests/investment/nil-binding.test.ts` (**22**); frontend investment suite **247/247** in **20** files; `tsc --noEmit`
+exits 0; persist and separate-process readback recompute the stored digest; the bundle's `digests.json` re-hashes clean
+(**14** files). Local results are reported separately from CI, and the CI run id for this pull request is cited in its
+receipt; no npm, frontend or IPD run is claimed beyond the suites named.
+
+**Boundaries held.** **`L-035` → `RESOLVED`**; `L-036` remains **`PARTIALLY RESOLVED`**, `L-037`/`L-038` **`OPEN`**,
+`L-039` unchanged, `L-040`/`L-034` **`RESOLVED`**, `L-001` … `L-033` untouched. The WI-3 … WI-9 bundles are
+byte-identical and their guards still pass. No D-2 or IX policy change, no new persistence mechanism or table, no new
+issuer or sector, no IPD write, no production scope, no unrelated refactoring, no redefinition of any limitation. Next
+free §16.279 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.

@@ -1,0 +1,20 @@
+# WI-10 / L-035 — 2026-11-07 — a mismatched declaration is refused and no dataset is written
+
+Input: the Work Item 3 cells replaced by the worst case the register names — the three borrowings components
+quoting a trade-payables sentence and declared as PNL evidence, and the preference-capital sentence offered for
+a consolidated row with no acknowledgement.
+
+  $ npx tsx src/investment/cli/ingest.ts --input /tmp/l035/v3-mismatch \
+      --dataset-dir /tmp/l035/v3-mismatch-dataset --now 2026-11-06T14:05:00.000Z \
+      --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V3
+
+  exit 1
+  ERROR   NIL_BINDING_SECTION_MISMATCH     IN:CIN:L85110KA1981PLC013115#2  "CURRENT_MATURITIES_OF_LONG_TERM_DEBT" is a BS item but the quoted sentence is declared as PNL evidence
+  ERROR   NIL_BINDING_SECTION_MISMATCH     IN:CIN:L85110KA1981PLC013115#2  "LONG_TERM_BORROWINGS" is a BS item but the quoted sentence is declared as PNL evidence
+  ERROR   NIL_BINDING_SECTION_MISMATCH     IN:CIN:L85110KA1981PLC013115#2  "SHORT_TERM_BORROWINGS" is a BS item but the quoted sentence is declared as PNL evidence
+  ERROR   NIL_SCOPE_NUANCE_UNACKNOWLEDGED  IN:CIN:L85110KA1981PLC013115#2  the quoted sentence speaks for STANDALONE_COMPANY but the row is CONSOLIDATED; quoting another scope is legal only with acceptedBy=<who accepted the mapping>
+
+  files written to /tmp/l035/v3-mismatch-dataset: 0
+
+The refusal is not a warning attached to a bad dataset: the ingest exits non-zero and writes nothing, so a
+mismatched mapping cannot reach a dataset, a payload or a persisted version.

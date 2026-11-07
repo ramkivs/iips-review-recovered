@@ -1,0 +1,63 @@
+{
+  "bundle": "WI-10 / L-035 \u2014 nil declarations bound to a statement section and a line-item class",
+  "generatedAt": "2026-11-07",
+  "note": "every shipped file is digested except this manifest and the two transcripts that certify it (runs/09 post-manifest verification, runs/10 clean clone) \u2014 a manifest cannot digest the runs that report on it; runs/09 re-hashes every digested file and reports zero mismatches",
+  "files": {
+    "README.md": {
+      "sha256": "c2f25a5696ca44b7dc43bc60f7884c14a1ba24c32334d35995a069e7a5ab06c3",
+      "bytes": 7864
+    },
+    "artifact/assessment-payload-l035-v3.json": {
+      "sha256": "f60fc5c8673c86667f614199913e9a538c42288b46e8744206c4d47570807c67",
+      "bytes": 56440
+    },
+    "determination-l035.json": {
+      "sha256": "d2bf142122e95c930ee951823434247968292a2c02739fc8f11bf915d3a31061",
+      "bytes": 9607
+    },
+    "runs/01-reproduction-prefix.txt": {
+      "sha256": "bd5b6afb0c5c1ea28105889cd1569c556561253cd8fdaff8b5930784e19186ed",
+      "bytes": 2347
+    },
+    "runs/02-v3-unbound-refused.txt": {
+      "sha256": "cd836f4b346aff4676f6ddb8536cf508b1eaee2694adec1b598eae44e27b673b",
+      "bytes": 1527
+    },
+    "runs/03-mismatch-refused.txt": {
+      "sha256": "149ccfa098bc1f561e9463c46facfb080369b27938006d7399d7f6f39cc1415e",
+      "bytes": 1564
+    },
+    "runs/04-bound-accepted.txt": {
+      "sha256": "95c6cde703622952ca31416a1e7bfbd5a3dd266d452b2046ed139e142f1c07a0",
+      "bytes": 1886
+    },
+    "runs/05-wi3-byte-identity.txt": {
+      "sha256": "7a748588e9d07638c7e05517fb7083dd21d607aeb2e9df53bf4c1588b2a28e2f",
+      "bytes": 1894
+    },
+    "runs/06-generate-persist-readback.txt": {
+      "sha256": "d03b6e23062302f30afc92b683ca20568e1a53a1890dbfe8b600efed73ed58ba",
+      "bytes": 2420
+    },
+    "runs/07-tests.txt": {
+      "sha256": "d97c767d4ed4b833cfe4f306cc211f7dee733a701b466ed481277b44ef4ab1eb",
+      "bytes": 887
+    },
+    "runs/08-typecheck.txt": {
+      "sha256": "de939d6e592ceba5653a20a08722c78c84268d380ae35b4ee58618f79e2e104d",
+      "bytes": 91
+    },
+    "runs/commands.txt": {
+      "sha256": "d9e6642bcc80e19961ad0424fe8832f5d49014720ecdad4eb22937fd7a3e3ebb",
+      "bytes": 4332
+    },
+    "source/grammar.txt": {
+      "sha256": "aa950945dd3013e4658442e8af644224c6f9b17f6b23fd65ec86b53aefc43b1d",
+      "bytes": 3680
+    },
+    "source/review-record.json": {
+      "sha256": "a7d11e0a3c7860490c7eb50d08bdb11b01319590fed6536d696da8ae8f9ef0d3",
+      "bytes": 6719
+    }
+  }
+}

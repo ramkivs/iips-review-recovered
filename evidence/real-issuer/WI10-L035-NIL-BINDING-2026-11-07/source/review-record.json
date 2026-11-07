@@ -1,0 +1,73 @@
+{
+  "bundle": "WI-10 / L-035 — review record for the four nil declarations Work Item 3 made without a binding",
+  "reviewedOn": "2026-11-07",
+  "reviewedBy": "WI-10 (L-035) investigation — investment research review, acting under the owner assignment recorded in register 17.2 (\"ingestion grammar (D-2 lineage) with investment research review\")",
+  "whatThisIs": "The second branch of the resolution L-035 names: \"a review step that records who accepted the mapping\". The first branch — a declaration grammar that binds a nil to a statement section and a line-item class — is implemented and tested in the same work item; this record applies it, after the fact, to the four declarations Work Item 3 made before the grammar existed. No Work Item 3 file is altered: this record cites it.",
+  "dataset": {
+    "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/periods.csv",
+    "sha256": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c",
+    "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847"
+  },
+  "declarations": [
+    {
+      "lineItemId": "LONG_TERM_BORROWINGS",
+      "quotedWording": "The Group has no outstanding borrowings.",
+      "quotedWordingSha256": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067",
+      "locator": "Note 2.11 FINANCIAL INSTRUMENTS -> Financial risk management -> Liquidity risk (document pages 20-26; parse chunk 13 of 17)",
+      "wi3DirectOrDerived": "DIRECT at group level — the sentence is the filer's own statement about borrowings as a whole. Applying it to this individual component is a MAPPING decision (a component of a class the filer says is empty), recorded here rather than hidden in arithmetic.",
+      "binding": {
+        "section": "BS",
+        "class": "BORROWINGS",
+        "scope": "CONSOLIDATED_GROUP"
+      },
+      "matchesItem": true,
+      "acceptance": "Accepted without qualification. The sentence is the group's own statement about borrowings as a whole; the component is a member of the class the group says is empty. Class matches (BORROWINGS), section matches (the balance sheet is where a borrowing would be presented), scope matches (both are the group). This is the mapping the old grammar could not distinguish from an arbitrary one — it is correct, and now it is checkable."
+    },
+    {
+      "lineItemId": "SHORT_TERM_BORROWINGS",
+      "quotedWording": "The Group has no outstanding borrowings.",
+      "quotedWordingSha256": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067",
+      "locator": "Note 2.11 FINANCIAL INSTRUMENTS -> Financial risk management -> Liquidity risk (document pages 20-26; parse chunk 13 of 17)",
+      "wi3DirectOrDerived": "DIRECT at group level — the sentence is the filer's own statement about borrowings as a whole. Applying it to this individual component is a MAPPING decision (a component of a class the filer says is empty), recorded here rather than hidden in arithmetic.",
+      "binding": {
+        "section": "BS",
+        "class": "BORROWINGS",
+        "scope": "CONSOLIDATED_GROUP"
+      },
+      "matchesItem": true,
+      "acceptance": "Accepted without qualification, for the same reasons as LONG_TERM_BORROWINGS."
+    },
+    {
+      "lineItemId": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "quotedWording": "The Group has no outstanding borrowings.",
+      "quotedWordingSha256": "166a81eb781c62090d5fd35fdf0253d920351bf06c4bbb2892031a4b575d3067",
+      "locator": "Note 2.11 FINANCIAL INSTRUMENTS -> Financial risk management -> Liquidity risk (document pages 20-26; parse chunk 13 of 17)",
+      "wi3DirectOrDerived": "DIRECT at group level — the sentence is the filer's own statement about borrowings as a whole. Applying it to this individual component is a MAPPING decision (a component of a class the filer says is empty), recorded here rather than hidden in arithmetic.",
+      "binding": {
+        "section": "BS",
+        "class": "BORROWINGS",
+        "scope": "CONSOLIDATED_GROUP"
+      },
+      "matchesItem": true,
+      "acceptance": "Accepted without qualification: current maturities are a component of borrowings, and a statement that the group has no borrowings covers them."
+    },
+    {
+      "lineItemId": "PREFERENCE_CAPITAL",
+      "quotedWording": "The Company has only one class of shares referred to as equity shares having a par value of ₹5/-.",
+      "quotedWordingSha256": "8deca4008e3db12cb5a336caa294cb4c8c19dd6dbeea0339d381e81bbb390119",
+      "locator": "Note 2.12 EQUITY -> EQUITY SHARE CAPITAL (document pages 26-31; parse chunk 14 of 17)",
+      "wi3DirectOrDerived": "DIRECT as a statement of share classes (parent Company); applied to the consolidated capital block by mapping — see scopeNuance",
+      "binding": {
+        "section": "BS",
+        "class": "PREFERENCE_SHARE_CAPITAL",
+        "scope": "STANDALONE_COMPANY",
+        "acknowledgedBy": "WI-10 L-035 review 2026-11-07 (originally mapped by WI-3)"
+      },
+      "matchesItem": true,
+      "acceptance": "Accepted WITH a recorded scope nuance. The sentence speaks of \"the Company\" — the parent — and is applied to the consolidated capital block. Under the new grammar this mapping is legal only with an explicit acceptedBy, and this is that acceptance: consolidated owners' equity comprises only equity share capital and other equity, non-controlling interests are presented separately, and no preference instrument appears in the consolidated balance sheet or in the authorised share capital. The class (PREFERENCE_SHARE_CAPITAL) and section (BS) match; only the scope differs, which is exactly what the acknowledgement records.",
+      "wi3ScopeNuance": "the sentence speaks of 'the Company' (parent). It is applied to the consolidated block because consolidated owners' equity comprises only equity share capital (₹2,071 crore) and other equity (₹86,045 crore), with non-controlling interests (₹345 crore) separately presented, and no preference instrument appears in the consolidated balance sheet or in the authorised share capital (480,00,00,000 equity shares of ₹5 each only)."
+    }
+  ],
+  "finding": "All four mappings are internally consistent with the closed tables and are accepted. The one cross-scope mapping (PREFERENCE_CAPITAL) is the case the new grammar forces into the data as acceptedBy=… rather than leaving it in prose.",
+  "whatWouldHaveBeenRefused": "A nil borrowing quoting a trade-payables sentence declared as class=TRADE_BALANCES, a balance-sheet item declared as PNL evidence, an unbound declaration under schema V3, and the preference-capital sentence offered for a consolidated row without an acknowledgement."
+}

@@ -12,15 +12,17 @@
  *   - a duplicate/overlapping listing is an error (two instruments must never share a listing).
  */
 import {
-  ITEMS_INTRODUCED_BY_V2,
   LEGACY_DATASET_SCHEMA,
   LINE_ITEMS,
   assertSupportedDatasetSchema,
   isLineItemId,
+  itemsPermittedBy,
+  requiresBoundNil,
   violatesSignRule,
   type DatasetSchema,
   type LineItemId,
 } from '../contracts/lineItems';
+import { checkNilBinding, parseNilDeclaration } from '../contracts/nilBinding';
 import {
   isMetricId,
   OPERATING_METRICS,
@@ -216,7 +218,7 @@ export function parsePeriodCsv(
       }
       // `L-036` / V2 — an item introduced by V2 may not appear in a V1 dataset. Silently reading it would let a
       // dataset claim a schema that cannot represent the figure, so the column is refused by name.
-      if (datasetSchema !== 'IIPS_INVESTMENT_FUNDAMENTALS_V2' && ITEMS_INTRODUCED_BY_V2.includes(column)) {
+      if (!itemsPermittedBy(datasetSchema).includes(column)) {
         issues.push(
           issue(
             'ERROR',
@@ -235,8 +237,27 @@ export function parsePeriodCsv(
       }
       const classificationKey = `${record.issuer_id}|${identity.periodEnd}|${identity.statementScope}|${identity.periodType}|${column}`;
       const nilCell = parseNilCell(raw);
-      if (nilCell.isNil) {
-        if (!hasQuotedWording(nilCell)) {
+      // A bound cell (`NIL[section=...]: …`) is not matched by the legacy `parseNilCell`, so the decision to treat
+      // the cell as a declaration is taken from the extended parser.
+      const declaration = parseNilDeclaration(raw);
+      if (nilCell.isNil || declaration.isNil) {
+        // `L-035` — a bound declaration states which statement section and class the sentence is offered as evidence
+        // for, and whose statements it speaks for. The binding is checked against the closed tables BEFORE the cell is
+        // accepted, so an inconsistent mapping becomes a refusal rather than a stored nil.
+        const binding = checkNilBinding(declaration, column, scope, {
+          requireBinding: requiresBoundNil(datasetSchema),
+        });
+        const bindingErrors = binding.problems.filter((problem) => problem.severity === 'ERROR');
+        for (const problem of binding.problems) {
+          issues.push(issue(problem.severity, problem.code, subject, problem.detail));
+        }
+        if (bindingErrors.length > 0) {
+          // Fail closed: a declaration we cannot tie to this component is not a nil, so nothing downstream may treat
+          // it as one. The cell becomes NOT_REPORTED — the honest state when the only offered evidence is unusable.
+          values[column] = missing('NOT_REPORTED', { periodEnd: identity.periodEnd });
+          continue;
+        }
+        if (!hasQuotedWording(declaration)) {
           issues.push(
             issue(
               'ERROR',
@@ -279,9 +300,10 @@ export function parsePeriodCsv(
           { kind: 'FILING', ref: record.filing_ref, filedAt: record.filed_at },
           {
             periodEnd: identity.periodEnd,
-            statement: nilCell.note as string,
+            statement: declaration.note as string,
             basis: record.basis === 'RESTATED' ? 'RESTATED' : 'AS_FILED',
             filingRef: record.filing_ref,
+            ...(binding.binding === undefined ? {} : { nilBinding: binding.binding }),
           },
         );
         continue;
