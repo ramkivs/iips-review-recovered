@@ -25,13 +25,20 @@ shareholders in the ensuing Annual General Meeting.
 
 --- what this establishes ---
 
-The authorised share capital of the Company consists of a single class: equity shares of Rs. 10 each.
-No preference share capital is authorised, issued, subscribed or paid up in either period presented,
-and the note states in the filer's own words that the Company has only one class of equity shares.
+That the Company's equity shares are a single class of Rs 10 shares carrying one vote per share and rupee dividends.
+The table shows authorised capital of 100,000,000 shares of Rs 10 each (Rs 1,000.00 million) and issued capital of
+48,232,242 shares (Rs 482.32 million) at March 31, 2024.
 
 --- what this does NOT establish ---
 
-It says nothing about borrowings, debt, or any other governed line item. It does not state that
-preference capital is nil in the word "nil"; it states the class position, which is the same form of
-wording that WI-3 accepted for Infosys ("The Company has only one class of shares referred to as
-equity shares having a par value of Rs 5/-.").
+Anything about preference shares. The sentence sits under the heading "Terms / rights attached to equity shares" and
+speaks about classes of EQUITY shares; it does not say the Company has one class of shares, nor that it has no
+preference shares. Note 13's tables contain no preference-share line.
+
+This matters because the WI-5 bundle as first committed recorded PREFERENCE_CAPITAL as a nil on this sentence. That
+declaration was withdrawn on 2026-11-07: presentation and completeness are not a declaration, and this bundle will not
+turn one into the other. See source/preference-capital-investigation.txt for the pages read and the reasoning.
+
+The comparison drawn earlier — that this is "the same form of wording WI-3 accepted for Infosys" — was wrong. Infosys's
+accepted wording is "the Company has only one class of shares referred to as equity shares", a statement about all
+classes of shares; this one is narrower.

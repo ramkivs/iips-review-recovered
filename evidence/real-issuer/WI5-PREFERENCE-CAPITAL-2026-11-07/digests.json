@@ -1,10 +1,11 @@
 {
   "schemaVersion": 1,
-  "bundle": "WI5-PREFERENCE-CAPITAL-NIL-2026-11-07",
+  "bundle": "WI5-PREFERENCE-CAPITAL-2026-11-07",
   "issuerId": "IN:CIN:L72200MH2000PLC125319",
   "digestAlgorithm": "sha256",
   "excluded": [
-    "digests.json (this file)"
+    "digests.json (this file)",
+    "runs/03-guard-test.txt, runs/04-typecheck.txt \u2014 they carry this bundle's own test and typecheck output, so they cannot be digested by the test they record; both are committed verbatim"
   ],
   "documents": [
     {
@@ -28,25 +29,40 @@
     }
   ],
   "chain": {
-    "datasetVersion": "sha256:00db79c1fbcabd959079db1331b3f6c192b613ad92a1c41c12919068f0fe3839",
-    "reportId": "c6d9d573-6e6e-468f-ae27-b037cf84b6e8",
-    "payloadDigest": "287622ae69fbe39bc2cfb7804983877042a32fbfbf7ffbbad3b711aaf9b00eb3",
+    "datasetVersion": "sha256:7aa6e3f90ef0b2591b20ade967f41e2f876d012e6e58a03918eb0eafa1071e75",
+    "reportId": "1c50bcbc-1031-4d77-9f1f-6d0ff45c4791",
+    "payloadDigest": "e876296ae0fb4ee7733f1e674d5c21ae9667a647590c1b73fa0142b7833dbe60",
     "artifactVersion": 1,
     "scope": "co:IN:CIN:L72200MH2000PLC125319"
   },
   "decision": {
-    "nilDeclared": "PREFERENCE_CAPITAL only, FY2024 only",
+    "nilDeclared": "none",
+    "preferenceCapital": "no qualifying explicit nil disclosure; MISSING / NOT_REPORTED",
+    "preferenceCapitalReason": "the only share-class sentence is scoped by its heading ('Terms / rights attached to equity shares') to classes of equity shares; the balance sheet, SOCE, Notes 13, 14, 41, 46 and 47 present no preference component, which is presentation, not a declaration",
     "borrowingsNil": false,
     "borrowingsReason": "the audited consolidated notes contain no sentence declaring borrowings nil; the balance sheet carries a filed dash (an explicit zero) and Note 40 characterises financial liabilities by exclusion",
-    "currentMaturities": "no caption in any of the three filings; left empty (NOT_REPORTED), not zeroed"
+    "currentMaturities": "no caption in any of the three filings; left empty (NOT_REPORTED), not zeroed",
+    "withdrawn": {
+      "claim": "PREFERENCE_CAPITAL NIL_BY_DISCLOSURE on Note 13's sentence, first pass",
+      "datasetVersion": "sha256:00db79c1fbcabd959079db1331b3f6c192b613ad92a1c41c12919068f0fe3839",
+      "payloadDigest": "287622ae69fbe39bc2cfb7804983877042a32fbfbf7ffbbad3b711aaf9b00eb3",
+      "retainedAt": [
+        "artifact/superseded/assessment-payload-wi5-withdrawn-preference-nil.json",
+        "runs/superseded/"
+      ]
+    }
   },
-  "fileCount": 21,
+  "fileCount": 24,
   "files": {
     "README.md": {
-      "sha256": "9b76cf6ec7f7b1103d0a2b528f7d002836bb07a56cad8c21899b2703cbddb704",
-      "bytes": 3976
+      "sha256": "d0b02eab1c76bab8f1ba6ac5a8c0696553f3c1cf7e6ff33b55b3acb25f9835cd",
+      "bytes": 5400
     },
     "artifact/assessment-payload-wi5.json": {
+      "sha256": "e77091149e3fde35d3533f55137ad1f78b747c17d39285975dd5f9d52b9219d2",
+      "bytes": 52333
+    },
+    "artifact/superseded/assessment-payload-wi5-withdrawn-preference-nil.json": {
       "sha256": "cb645fc99677bf599300132641085ec6098f779c299421f17ab063c0e38432d7",
       "bytes": 53154
     },
@@ -63,8 +79,8 @@
       "bytes": 1387
     },
     "ingest-input/periods.csv": {
-      "sha256": "594264d5b8bec457e55d64815a09627340811a90f4344ca629445546fa8e50f5",
-      "bytes": 2131
+      "sha256": "cf0abc1721b75377eda1db23fd86136eaaf22eee533d17b0db41f93ec9ad1fc3",
+      "bytes": 2040
     },
     "ingest-input/prices.json": {
       "sha256": "99ed6edf2cb901313c6132fd10e04c9060ee9180ccdaaa44771d37eb48003400",
@@ -75,36 +91,40 @@
       "bytes": 1169
     },
     "runs/01-ingest.txt": {
-      "sha256": "8d1062d7f67bd3a6cbd90dda8429ef310b345e779bcd1fc1c9a0661d35b5887f",
-      "bytes": 1515
+      "sha256": "0502d409f3a63361961ec51a8af5bad285e52c585c6b81c1b366f91aa041c383",
+      "bytes": 1517
     },
     "runs/02-generate.txt": {
-      "sha256": "d4e12f88b4c795127ab69dc1e3f49afe38adce21510ad9a6bc97d336cd2a789d",
-      "bytes": 5545
-    },
-    "runs/03-guard-test.txt": {
-      "sha256": "3e3d13dea96efe2408c6703ce1886dada2b537ebb5eec2b9309b2464b9f884e8",
-      "bytes": 2444
-    },
-    "runs/04-typecheck.txt": {
-      "sha256": "cbf7de6a7ab22aa8f3b63eed31368677222a5389d4a0bcaa112a952910051cec",
-      "bytes": 11
+      "sha256": "6869d0ad0a1584a47a95539d1c327178d8d77e2103ff38982fb38e902968d598",
+      "bytes": 5546
     },
     "runs/06-payload-verify.json": {
-      "sha256": "f7ddf14cdda93e8eefa3f088cb3940130419c708b4af32e25ac086daf38fe657",
-      "bytes": 11450
+      "sha256": "6b6ae83971faaac5bf71453dbeab93772be64e89a648fdf0494cb78f7c607f46",
+      "bytes": 6785
     },
     "runs/07-clean-clone.txt": {
       "sha256": "eee3dbfe0a0d3b7030b43589d61f37ab57b56da3f0eb3de220f35801e29dce6f",
       "bytes": 1166
     },
-    "runs/cli-wi5-created.json": {
-      "sha256": "48e8a6394b021cd352d64d8679702c27e41a2e92e49fb73cf0eda79d0eace1cc",
-      "bytes": 4823
+    "runs/cli-wi5-corrected.json": {
+      "sha256": "9cfc3a8e66ac0ee8cde3ccf85183f2ff423c8e31f860b8e2bc2f4e38b42fdeee",
+      "bytes": 4824
     },
     "runs/commands.txt": {
-      "sha256": "deb98ff18a63148d802e090a08f5ae524ef5e0710d61fa07f49427dbe98e6018",
-      "bytes": 4724
+      "sha256": "8d6172f7ecc9a2a8e4ffd75c375fe86dacd81bf08ddc212f156d82e7a8170fc3",
+      "bytes": 4027
+    },
+    "runs/superseded/01-ingest-withdrawn-nil.txt": {
+      "sha256": "8d1062d7f67bd3a6cbd90dda8429ef310b345e779bcd1fc1c9a0661d35b5887f",
+      "bytes": 1515
+    },
+    "runs/superseded/02-generate-withdrawn-nil.txt": {
+      "sha256": "d4e12f88b4c795127ab69dc1e3f49afe38adce21510ad9a6bc97d336cd2a789d",
+      "bytes": 5545
+    },
+    "runs/superseded/cli-wi5-withdrawn-nil.json": {
+      "sha256": "48e8a6394b021cd352d64d8679702c27e41a2e92e49fb73cf0eda79d0eace1cc",
+      "bytes": 4823
     },
     "source/consol-fy23-balance-sheet-borrowings.txt": {
       "sha256": "2e68991e84aac61f4f16cc5e3252c1c04507d5c9e2538a179ce3aac842a76312",
@@ -115,16 +135,20 @@
       "bytes": 1543
     },
     "source/consol-fy24-note-13-share-capital.txt": {
-      "sha256": "5e014d627001ab06c70474c7f8ab165b3c073184aa5ed51fd711e8dc4cdb46d7",
-      "bytes": 2073
+      "sha256": "f18660d509fe170e347950cfbe1fb658258c7a9c725bf76e03f114df448df880",
+      "bytes": 2645
     },
     "source/consol-fy24-note-40-financial-risk-management.txt": {
       "sha256": "40667de03c12ce89ec99061d78bdc02beca5c39715001b7bc1ec00c13f8ee12a",
       "bytes": 1666
     },
+    "source/preference-capital-investigation.txt": {
+      "sha256": "0d8154f6c430732f94d5da92dd050def90e6edfd9788dd9f02ee5cb12e7eb7a1",
+      "bytes": 6888
+    },
     "source/quotes.json": {
-      "sha256": "41e8b1b3d76586b32ff5e83fe2a5b5db57326095fb56df7760e121d9d6b25d98",
-      "bytes": 3860
+      "sha256": "6ef6d9a24af94d8809dce89acee6ba4b7e0b0fc7f6308109462e32873f6489dd",
+      "bytes": 12809
     }
   }
 }

@@ -1789,39 +1789,39 @@ Evidence: `evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/` — s
 `iips-platform/tests/investment/wi4AssociatesEvidence.test.ts`, which also asserts that the documentation no longer
 contains the superseded "unstated" phrasing and that the payload really does disclose the treatment.
 
-## 17.10 WI-5 — second issuer validation: explicit nil-by-disclosure (eClerx Services Limited)
+## 17.10 WI-5 — second issuer validation: no qualifying nil-by-disclosure (eClerx Services Limited)
 
-**Date.** 2026-11-07. **Scope.** Technology only, one issuer only, no sector expansion, no policy change, no
-persistence change, no change to valuation or confidence arithmetic.
+**Date.** 2026-11-07 (reviewed and corrected the same day). **Scope.** Technology only, one issuer only; no policy, schema,
+confidence, valuation or persistence change.
 
-**What was validated.** That the D-2 nil path works for an issuer other than Infosys. eClerx Services Limited
-(`L72200MH2000PLC125319`) declares one governed line item nil in its audited consolidated statements: `PREFERENCE_CAPITAL`,
-on the filer's sentence *"The Company has only one class of equity shares having a par value of Rs 10 per share."*
-(Note 13, p.223, AR 2023-24; auditor S.R. Batliboi & Associates LLP, 2024-05-16). Three consecutive audited consolidated
-periods (FY2024, FY2023, FY2022) were ingested as `MILLION`/`INDAS`/`AS_FILED`; the nil arrives in the persisted payload
-as `NIL_BY_DISCLOSURE` / `DECLARED_NIL_IN_SOURCE` with its wording, filing reference and period attached, and the payload
-re-read in a separate process matches the chain head digest (`287622ae69fb…`, artifact v1).
+**Outcome.** Negative. eClerx Services Limited (`L72200MH2000PLC125319`) declares **no** nil on any governed line item in
+its audited consolidated statements for FY2024. The bundle's first pass had declared `PREFERENCE_CAPITAL` nil on Note 13's
+sentence *"The Company has only one class of equity shares having a par value of Rs 10 per share."*; that declaration was
+**withdrawn** after review, because the sentence sits under the heading *"Terms / rights attached to equity shares"* and
+speaks about classes of equity shares — it says nothing about preference shares — and nothing else in the filing declares
+preference share capital nil (balance sheet p.194, statement of changes in equity pp.201–203, Notes 13, 14, 41, 46 and 47
+read; recorded in `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/preference-capital-investigation.txt`).
 
-**What was refused.** No nil was declared on any borrowings line for this issuer: the consolidated balance sheet carries
-a filed dash (`Borrowings 17 - 6.77`), which is an explicitly reported zero and not a declaration, and the notes contain
-no borrowings-nil sentence (Note 40 characterises financial liabilities by exclusion). No `current maturities of long
-term debt` caption exists in any of the three filings, so those cells are `NOT_REPORTED`, not zero. This is the same D-2
-discipline WI-3 applied in the opposite direction.
+**What was refused and kept refused.** The consolidated balance sheet carries a filed dash on Borrowings at 2024-03-31
+(`Borrowings 17 - 6.77`), recorded as an explicitly reported **zero**, with 6.77/3.08 at 2023-03-31 and 0.50/0.91 at
+2022-03-31 as filed; `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` has no caption in any of the three filings and stays empty.
+The distinction between a filed zero, a declared nil and an absent caption is the whole subject of the item, and this
+issuer supplies one of each.
 
-**Measured effect.** `preferenceCapital` stays a nil (never a number, never counted as zero in the aggregate), and the
-capital-structure aggregate is therefore `NOT_REPORTED`: `grossDebt` and `netDebt` carry no value, so enterprise-value
-methods cannot run; margins of safety are `NOT_COMPUTABLE` and the run's combined confidence is **0.3210**
-(`SUFFICIENT` / `MATERIAL_CONCERNS`, the stale-statement flag being the 951-day gap between 2024-03-31 and the run clock).
-The nil did not improve confidence.
+**Correction and consequences.** The corrected dataset (`sha256:7aa6e3f9…`) yields `PREFERENCE_CAPITAL`
+`MISSING`/`NOT_REPORTED` at all three observation points in the payload (`payloadDigest e876296ae0fb…`, artifact v1 in a
+fresh governed store, reportId `1c50bcbc-…`). The field-level difference from the withdrawn payload is six paths: the
+dataset digest and the preference-capital observation. Adequacy `SUFFICIENT`, quality `MATERIAL_CONCERNS`, combined
+confidence **0.3210**, `grossDebt`/`netDebt` `NOT_REPORTED`, valuation and margin of safety unchanged (`PRICE_STALE` on
+the 2026-11-06 close) — every one of them identical before and after the withdrawal. Withdrawing an unsupported nil cost
+the assessment nothing, which is itself the point: the run never had a debt position resting on it.
 
-**Recorded finding, not fixed here.** An issuer that *declares* nil (Infosys: `grossDebt` and `netDebt` `DERIVED`/
-`PRESENT`, net cash ₹19,342 crore) keeps a usable debt position, while an issuer that merely files a dash and presents no
-current-maturities caption loses it. Refusing to treat an unreported component as zero is correct under D-2; changing the
-aggregation contract is outside this work item and was not done.
+**Objective status.** The work item's target — a second issuer with an explicit nil-by-disclosure — remains **unmet**.
+WI-5 now demonstrates the refusal path on real data rather than a second positive. `L-036` remains **`PARTIALLY
+RESOLVED`**, `L-035` remains **`OPEN`**; `L-001` … `L-034` untouched; the 180-day `associates-review/1.0.0` control
+remains due. No status was moved to accommodate this result.
 
-**Statuses.** `L-036` remains **`PARTIALLY RESOLVED`**; `L-035` remains **`OPEN`**; `L-001` … `L-034` untouched; the
-180-day `associates-review/1.0.0` control remains due. One nil on one line item for one further issuer does not resolve
-any other nil case and is not claimed to.
-
-**Evidence.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-NIL-2026-11-07/` (21 files, `digests.json`), guarded by
-`iips-platform/tests/investment/wi5PreferenceCapitalNil.test.ts` (8 tests) with `tsc --noEmit` clean.
+**Evidence.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/` (bundle, `digests.json`), with the withdrawn run
+retained under `runs/superseded/` and `artifact/superseded/`; guarded by
+`iips-platform/tests/investment/wi5PreferenceCapitalEvidence.test.ts`, `tsc --noEmit` clean, and reproduced from a clean
+clone.

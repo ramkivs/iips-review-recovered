@@ -1,0 +1,249 @@
+{
+  "readAt": "2026-11-07T05:06:25.798Z",
+  "process": "separate process: frontend/.tmp-wi5-readback.ts via npx tsx (deleted after use)",
+  "databasePath": "/tmp/wi5b/data/investment/investment.db",
+  "scope": "co:IN:CIN:L72200MH2000PLC125319",
+  "reportId": "1c50bcbc-1031-4d77-9f1f-6d0ff45c4791",
+  "artifactVersion": 1,
+  "chainHeadPayloadDigest": "e876296ae0fb4ee7733f1e674d5c21ae9667a647590c1b73fa0142b7833dbe60",
+  "readPayloadDigest": "e876296ae0fb4ee7733f1e674d5c21ae9667a647590c1b73fa0142b7833dbe60",
+  "payloadSha256OfReadPayloadText": "e876296ae0fb4ee7733f1e674d5c21ae9667a647590c1b73fa0142b7833dbe60",
+  "digestMatchesChainHead": true,
+  "payloadTopLevelKeys": [
+    "artifact",
+    "asOf",
+    "assumptions",
+    "completeness",
+    "confidence",
+    "data",
+    "disclosure",
+    "dividends",
+    "evidence",
+    "fundamentals",
+    "limitations",
+    "moat",
+    "quality",
+    "risk",
+    "schemaVersion",
+    "sectorReferenceView",
+    "subject",
+    "valuation"
+  ],
+  "assessment": {
+    "adequacy": "SUFFICIENT",
+    "adequacyBasis": [
+      "FIELD_COVERAGE_AT_OR_ABOVE_SUFFICIENT_THRESHOLD"
+    ],
+    "requiredFieldCoveragePct": 1,
+    "missingFields": [],
+    "qualityVerdict": "MATERIAL_CONCERNS",
+    "qualityFlags": [
+      {
+        "code": "STALE_STATEMENTS",
+        "evidence": "the latest period end is beyond the freshness policy window",
+        "severity": "HIGH"
+      }
+    ],
+    "confidenceCombined": 0.321,
+    "confidenceData": 0.85,
+    "confidenceModel": 0.125
+  },
+  "dividendVerdict": "INSUFFICIENT_EVIDENCE",
+  "riskAggregate": {
+    "presence": "NOT_COMPUTABLE",
+    "reason": "RISK_EVALUATION_PARTIAL",
+    "value": null
+  },
+  "valuation": {
+    "intrinsic": null,
+    "marginOfSafety": {
+      "band": null,
+      "bandPolicyVersion": "mos-policy/1.0.0",
+      "mosVsLow": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "mosVsMid": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "price": {
+        "basis": "AS_FILED",
+        "note": "price predates the knowledge cutoff",
+        "periodEnd": "2026-11-06",
+        "presence": "MISSING",
+        "reason": "PRICE_STALE",
+        "source": {
+          "filedAt": "2026-11-06",
+          "kind": "MARKET_PRICE",
+          "ref": "YAHOO-FINANCE:query1.finance.yahoo.com/v8/finance/chart/ECLERX.NS:2026-11-06:regularMarketPrice (NSE, series EQ; regularMarketTime 2026-11-06T15:59:58+05:30)"
+        },
+        "value": null
+      },
+      "priceAsOf": "2026-11-06",
+      "refusal": "PRICE_PREDATES_KNOWLEDGE_CUTOFF"
+    },
+    "methodSelection": {
+      "considered": [
+        {
+          "methodId": "DCF_FCFF",
+          "reason": "Free cash flow to firm from statements alone",
+          "role": "PRIMARY"
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "reason": "Enterprise value multiple",
+          "role": "CROSS_CHECK"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "reason": "Revenue multiple qualified by retention",
+          "role": "CROSS_CHECK"
+        },
+        {
+          "methodId": "PB_RELATIVE",
+          "reason": "Asset-light: book value carries no information about earning power",
+          "role": "NOT_APPLICABLE"
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "reason": "P/E on reported diluted EPS",
+          "role": "SECONDARY"
+        }
+      ],
+      "policyVersion": "valuation-policy/1.0.0",
+      "sector": "Technology"
+    }
+  },
+  "capitalStructurePresent": true,
+  "capitalStructureKeys": [
+    "associatesAndJV",
+    "associatesJVReview",
+    "cashAndInvestments",
+    "components",
+    "dilutedShares",
+    "dilutionProxy",
+    "equityBridge",
+    "grossDebt",
+    "leaseLiabilities",
+    "leaseTreatment",
+    "minorityInterest",
+    "netDebt",
+    "pre116Comparative",
+    "preferenceCapital",
+    "shareCountBasis",
+    "shareCountPeriod"
+  ],
+  "preferenceCapitalObservation": {
+    "presence": "MISSING",
+    "reason": "NOT_REPORTED",
+    "value": null
+  },
+  "grossDebt": {
+    "presence": "MISSING",
+    "reason": "NOT_REPORTED",
+    "value": null
+  },
+  "netDebt": {
+    "presence": "MISSING",
+    "reason": "NOT_REPORTED",
+    "value": null
+  },
+  "components": {
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "cashAndCashEquivalents": {
+      "basis": "AS_FILED",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-16",
+        "kind": "FILING",
+        "ref": "ECLERX-INDAS-CONSOL-FY24"
+      },
+      "value": 3539540000
+    },
+    "currentInvestments": {
+      "basis": "AS_FILED",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-16",
+        "kind": "FILING",
+        "ref": "ECLERX-INDAS-CONSOL-FY24"
+      },
+      "value": 3924220000
+    },
+    "currentMaturities": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "leaseLiabilities": {
+      "basis": "AS_FILED",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-16",
+        "kind": "FILING",
+        "ref": "ECLERX-INDAS-CONSOL-FY24"
+      },
+      "value": 2657400000
+    },
+    "longTermBorrowings": {
+      "basis": "AS_FILED",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-16",
+        "kind": "FILING",
+        "ref": "ECLERX-INDAS-CONSOL-FY24"
+      },
+      "value": 0
+    },
+    "nonControllingInterest": {
+      "basis": "AS_FILED",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-16",
+        "kind": "FILING",
+        "ref": "ECLERX-INDAS-CONSOL-FY24"
+      },
+      "value": 19690000
+    },
+    "preferenceCapital": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "restrictedCash": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "shortTermBorrowings": {
+      "basis": "AS_FILED",
+      "filingRef": "ECLERX-INDAS-CONSOL-FY24",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-16",
+        "kind": "FILING",
+        "ref": "ECLERX-INDAS-CONSOL-FY24"
+      },
+      "value": 0
+    }
+  },
+  "leaseTreatment": "IND_AS_116_CAPITALISED"
+}

@@ -1,0 +1,78 @@
+# WI-5 — commands actually run (corrected run, 2026-11-07)
+
+Working directory `frontend/` unless stated; `iips-platform/` for the ingestion CLI. No command below calls the network.
+
+## 0 — the correction
+
+`ingest-input/periods.csv` previously carried, on the FY2024 row:
+
+    PREFERENCE_CAPITAL = NIL: The Company has only one class of equity shares having a par value of Rs 10 per share.
+
+That cell was emptied (no nil anywhere in the file). Nothing else in the input changed: the three periods, the two
+filing references, the borrowings numbers (0 / 6.77 / 3.08 and 0.50 / 0.91), the empty current-maturities cells and the
+price all stay as they were. Evidence for the correction: `source/preference-capital-investigation.txt` and the
+`conclusion` block in `source/quotes.json`.
+
+## 1 — ingest (fresh dataset directory)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input /tmp/wi5b/input \
+      --dataset-dir /tmp/wi5b/data/investment/dataset \
+      --now 2026-11-07T05:00:00.000Z
+    # datasetVersion sha256:7aa6e3f90ef0b2591b20ade967f41e2f876d012e6e58a03918eb0eafa1071e75
+    # issues.json []    Technology G2_PARTIAL, usable 3, withheld 1, stmt 100%
+    # (stdout: runs/01-ingest.txt)
+
+    cp evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/identity/*.json /tmp/wi5b/data/investment/identity/
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/wi5b/owner.json
+
+The owner carrier is reused unchanged: NP-04 ownership is a deployment declaration, not an issuer property.
+
+## 2 — generate -> assess -> compose -> validate -> persist -> verify (fresh store)
+
+    cd frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/wi5b/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L72200MH2000PLC125319 \
+      --data-dir       /tmp/wi5b/data/investment/dataset \
+      --identity-dir   /tmp/wi5b/data/investment/identity \
+      --db             /tmp/wi5b/data/investment/investment.db \
+      --owner-carrier  /tmp/wi5b/owner.json \
+      --generated-at   2026-11-07T05:00:00.000Z \
+      --out            .../runs/cli-wi5-corrected.json
+
+    # OK      snapshot     datasetVersion sha256:7aa6e3f9…
+    # OK      identity     RESOLVED via ISIN
+    # OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3210
+    # OK      compose      reportKey 5296aa9a1084… payloadDigest e876296ae0fb…
+    # OK      validate     scope co:IN:CIN:L72200MH2000PLC125319 (ISSUER)
+    # OK      chain-head   no chain for this scope yet
+    # SKIPPED compare      no head to compare against
+    # OK      persist      CREATED (wrote)
+    # OK      verify       chain valid: 1 version(s), head v1
+    # (stdout: runs/02-generate.txt)
+
+## 3 — corrected payload re-read in a SEPARATE process
+
+Temporary `frontend/.tmp-wi5-readback.ts` (deleted after use):
+`loadAuthoritativeNp04Persistence` -> `createInvestmentArtifactService` -> `readVersionWithPayload`.
+
+    npx tsx .tmp-wi5-readback.ts
+
+    # scope co:IN:CIN:L72200MH2000PLC125319  reportId 1c50bcbc-1031-4d77-9f1f-6d0ff45c4791
+    # digest match true  (read payloadDigest == chain head payloadDigest == sha256 of the read payload text)
+    # preferenceCapital {presence:MISSING, reason:NOT_REPORTED, value:null}
+    # grossDebt / netDebt {presence:MISSING, reason:NOT_REPORTED, value:null}
+    # output: runs/06-payload-verify.json ; payload: artifact/assessment-payload-wi5.json
+
+## 4 — targeted verification
+
+    cd iips-platform && npx tsx --test tests/investment/wi5PreferenceCapitalEvidence.test.ts   # runs/03-guard-test.txt
+    cd iips-platform && npx tsc --noEmit                                                       # runs/04-typecheck.txt
+
+## 5 — independent verification from a clean clone
+
+    rm -rf /tmp/wi5v && git clone --branch arena/f6d5fa4d-iips-review-recovered --single-branch \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/wi5v
+    # bundle digests + guard test: runs/07-clean-clone.txt

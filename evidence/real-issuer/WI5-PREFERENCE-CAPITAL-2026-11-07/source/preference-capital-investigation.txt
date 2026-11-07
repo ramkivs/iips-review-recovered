@@ -1,0 +1,87 @@
+INVESTIGATION — does eClerx's audited consolidated filing declare preference share capital nil?
+
+Recorded 2026-11-07, after review of the WI-5 bundle as first committed (payloadDigest 287622ae69fb…), which had
+declared PREFERENCE_CAPITAL nil on the Note 13 sentence.
+
+Document read
+  eClerx Services Limited, Annual Report 2023-24
+  https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf
+  audited consolidated financial statements for the year ended March 31, 2024
+  auditor S.R. Batliboi & Associates LLP (FRN 101049W/E300004), report dated May 16, 2024
+  text layer read via https://r.jina.ai/<document>; page numbers below are the printed pages in the text layer
+
+Where a preference-share disclosure would have to appear, and what is actually there
+  p.194   Consolidated balance sheet, Equity section:
+            Equity share capital 13          482.32   480.34
+            Other equity 14                21,992.69 16,668.37
+            Total equity attributable to shareholders of the Company 22,475.01 17,148.71
+            Non-controlling interests          19.69    16.83
+            Total equity                   22,494.70 17,165.54
+          No preference share capital caption and no preference component anywhere in equity.
+  p.201-203 Statement of changes in equity:
+            "a. Equity share capital" (4,80,33,979 shares / 480.34 -> 4,82,32,242 shares / 482.32)
+            "b. Other equity" columns: capital redemption reserve, share based payment reserve, statutory reserve,
+            capital reserve, general reserve, retained earnings, foreign exchange translation, cash flow hedging
+            reserve, treasury shares; then "Total equity attributable to the equity holders of the Company" and
+            "Non-controlling interest". No preference share capital column.
+  p.223   Note 13 Share capital:
+            Authorised: 100,000,000 (PY 100,000,000) shares of Rs. 10 each — 1,000.00 / 1,000.00
+            Issued, subscribed and fully paid up: 48,232,242 (PY 48,033,979) shares of Rs. 10 each — 482.32 / 480.34
+            Sub-heading "Terms / rights attached to equity shares":
+              "The Company has only one class of equity shares having a par value of Rs 10 per share. Each holder of
+               equity shares is entitled to one vote per equity share. The Company declares and pays dividends in
+               Indian rupees. …"
+            Then winding-up, bonus-share, buyback, >5% shareholder, promoter-shareholding and ESOP-reservation
+            disclosures — all of them expressed in equity shares only.
+          There is no sentence in Note 13 about preference shares, and no preference-share line in either table.
+  p.224-226 Note 14 Other equity:
+            share based payment reserve, hedging reserve, capital reserve, general reserve, capital redemption
+            reserve, statutory reserve, foreign currency translation reserve, retained earnings, treasury shares;
+            "Total other equity 21,992.69 / 16,668.37". Dividends are described as "Cash dividends on equity shares"
+            and "Proposed dividends on equity shares". No preference capital or preference dividend.
+  p.245-248 Note 40 Financial risk management: market, credit and liquidity risk; the liquidity maturity profile
+            shows "Borrowings - - -" at March 31, 2024 against "Borrowings 3.08 6.77 9.85" at March 31, 2023.
+            Nothing about preference shares.
+  p.247   Note 41 Capital management:
+            "For the purpose of the Group's capital management, capital includes issued equity capital, share
+             premium and all other equity reserves attributable to the equity holders of the parent."
+            A gearing definition ("includes"), not a statement that no other class exists.
+  p.249   Note 46 Ratio analysis: "Total debt (represents lease liabilities and working capital loan)".
+  p.249+  Note 47 group summary (net assets, share in profit/OCI per entity) — no preference capital.
+
+What this supports and what it does not
+  Supported: at both reporting dates the audited consolidated statements present no preference share capital, the
+  statement of changes in equity has no preference column, and the equity section reconciles exactly to equity share
+  capital + other equity + non-controlling interests (482.32 + 21,992.69 = 22,475.01; + 19.69 = 22,494.70). A
+  preference class large enough to matter would have had to appear somewhere in that decomposition.
+  Not supported: a *declaration*. Nothing in the filing states that preference share capital is nil, that the Company
+  has no preference shares, or that its share capital consists solely of equity. What exists is (a) a sentence about
+  classes of EQUITY shares, under a heading scoped to equity shares, and (b) presentation that omits a preference
+  component.
+
+Why the earlier nil was withdrawn
+  D-2 records a nil only where the source declares it, quoted, at the same period. Completeness arithmetic,
+  presentation and a scoped sentence are inferences; converting them into NIL_BY_DISCLOSURE would make the platform
+  assert something the filer never said. The distinction matters in the direction that hurts: an inference written as
+  a declaration is indistinguishable, downstream, from a real one.
+  The WI-3 precedent does not transfer. Infosys's accepted sentence reads "the Company has only one class of SHARES
+  referred to as equity shares having a par value of ₹5/-" — one class of shares, named equity — and its
+  capital-management note adds "…and has no debt". eClerx says "only one class of EQUITY shares", which leaves the
+  existence of a preference class untouched.
+
+Also checked, unchanged by this investigation
+  Borrowings: dash at 2024-03-31 recorded as an explicit zero (0), 6.77/3.08 at 2023-03-31, 0.50/0.91 at 2022-03-31 —
+  a filed zero and real balances, never a nil.
+  Current maturities of long-term debt: no caption in any of the three filings; cells left empty (NOT_REPORTED).
+
+Scope of the search, stated honestly
+  Read in full for this question: p.194 (balance sheet), pp.200-203 (cash-flow close, signatures, statement of changes
+  in equity), pp.223-226 (Notes 13 and 14), pp.245-249 (Notes 40, 41, 46, 47). Notes 15-39 (pp.226-245) were not swept
+  page by page in this pass; they cover employee benefits, borrowings (Note 17), provisions, revenue, leases, taxes and
+  financial instruments, none of which is where a share-capital class would be presented. The standalone statements
+  were not re-read in this pass. No claim is made beyond the pages listed above.
+
+Result
+  No qualifying explicit nil disclosure for PREFERENCE_CAPITAL. The dataset cell is empty, the governed observation is
+  MISSING / NOT_REPORTED, and no zero is substituted. The withdrawn declaration and the run that produced it are kept
+  under runs/superseded/ and artifact/superseded/.
