@@ -14,49 +14,39 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: arena/60fea33a-iips-review-recovered
-      - name: discover annual-report sources
+      - name: probe annual-report URLs
         env:
           UA: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
         run: |
           set +e
           D=evidence/real-issuer/_wi8-discovery
           mkdir -p "$D"
-          get() { # slug url
-            slug="$1"; url="$2"; out="$D/${slug}.html"
-            code=$(curl -sSL --max-time 60 -A "$UA" -H "Accept: text/html,application/xhtml+xml" -o "$out" -w '%{http_code}' "$url")
-            printf '%s\t%s\t%s\t%s\n' "$slug" "$code" "$(wc -c < "$out" 2>/dev/null)" "$url" >> "$D/fetch-status.tsv"
-            if [ -s "$out" ]; then
-              { echo "### $slug  ($url)  http=$code";
-                grep -oiE 'href="[^"]*\.pdf[^"]*"' "$out" | sed 's/^href="//;s/"$//' | sort -u | head -60;
-              } >> "$D/links.txt"
-            fi
+          probe() {
+            code=$(curl -sS --max-time 60 -A "$UA" -r 0-1023 -o /tmp/probe.bin -w '%{http_code}' "$1")
+            printf '%s\t%s\t%s\t%s\n' "$code" "$(wc -c < /tmp/probe.bin 2>/dev/null)" "$1" "$(head -c 120 /tmp/probe.bin | tr -d '\0' | tr '\n' ' ')" >> "$D/probe.tsv"
           }
-          for pair in \
-            "lt-ir|https://www.larsentoubro.com/corporate/investors/financials/annual-reports/" \
-            "lt-ir2|https://www.larsentoubro.com/corporate/investors/" \
-            "kec-ir|https://www.kecrpg.com/investor-relations/annual-reports" \
-            "kec-ir2|https://www.kecrpg.com/investors" \
-            "thermax-ir|https://www.thermaxglobal.com/investors/annual-reports/" \
-            "thermax-ir2|https://www.thermaxglobal.com/investors/" \
-            "cummins-ir|https://www.cummins.com/in/en/company/investors/annual-reports" \
-            "cummins-ir2|https://www.cummins.com/in/en/company/investors" \
-            "siemens-ir|https://www.siemens.com/in/en/company/investor-relations.html" \
-            "abb-ir|https://new.abb.com/in/investors" \
-            "bharatforge-ir|https://www.bharatforge.com/investors/annual-report" \
-            "aia-ir|https://www.aiaengineering.com/investors/annual-reports" ; do
-            get "${pair%%|*}" "${pair#*|}"
+          K=https://www.kecrpg.com/public/media/annualReportMedia
+          for y in 2025-26 2024-25 2023-24 2022-23; do probe "$K/KEC_Annual_Report_$y.pdf"; done
+          for y in 2024-25 2023-24; do probe "$K/KEC-Annual-Report-$y.pdf"; probe "$K/KEC_Annual_Report_${y/-/_}.pdf"; done
+          T=https://www.thermaxglobal.com/sites/default/files
+          for m in 2026-07 2025-07 2025-06 2024-07 2024-06 2023-07 2023-06 2022-07 2022-06; do
+            for y in 2025-26 2024-25 2023-24 2022-23 2021-22; do probe "$T/$m/Thermax-Annual-Report-$y.pdf"; done
           done
-          # BSE annual-report API per scrip (JSON), with the referer BSE expects
-          for scrip in 500510 532714 500411 500480 500550 500002 500493; do
-            out="$D/bse-${scrip}.json"
-            code=$(curl -sSL --max-time 45 -A "$UA" -H "Referer: https://www.bseindia.com/" -H "Origin: https://www.bseindia.com" \
-              -o "$out" -w '%{http_code}' "https://api.bseindia.com/BseIndiaAPI/api/AnnualReportList/w?scripcode=${scrip}")
-            printf 'bse-%s\t%s\t%s\tBSE AnnualReportList %s\n' "$scrip" "$code" "$(wc -c < "$out" 2>/dev/null)" "$scrip" >> "$D/fetch-status.tsv"
-            [ -s "$out" ] && { echo "### bse-$scrip"; head -c 4000 "$out"; echo; } >> "$D/links.txt"
-          done
-          echo "--- status ---"; cat "$D/fetch-status.tsv"
+          # issuer IR pages that may list PDFs (fetch full page where reachable)
+          page() {
+            out="$D/$1.html"
+            code=$(curl -sSL --max-time 60 -A "$UA" -o "$out" -w '%{http_code}' "$2")
+            printf 'page-%s\t%s\t%s\t%s\n' "$1" "$code" "$(wc -c < "$out" 2>/dev/null)" "$2" >> "$D/probe.tsv"
+            [ -s "$out" ] && { echo "### $1 $2 http=$code"; grep -oiE 'href="[^"]*\.pdf[^"]*"' "$out" | sed 's/^href="//;s/"$//' | sort -u | head -40; } >> "$D/pages.txt"
+          }
+          page lt-ar "https://www.larsentoubro.com/corporate/investors-financials/annual-reports/"
+          page lt-ar2 "https://www.larsentoubro.com/corporate/investors-financials/"
+          page kec-ar "https://www.kecrpg.com/investor-relations/annual-reports"
+          page thermax-ar "https://www.thermaxglobal.com/investors/annual-reports/"
+          page abb-ar "https://new.abb.com/in/investors/annual-reports"
+          echo "--- probe status ---"; cat "$D/probe.tsv"
           git config user.name "wi8-discovery"
           git config user.email "wi8-discovery@users.noreply.github.com"
           git add -A "$D"
-          git commit -m "WI-8: temp candidate-issuer source discovery (deleted before merge)" || echo "nothing to commit"
+          git commit -m "WI-8: temp candidate-issuer URL probe (deleted before merge)" || echo "nothing to commit"
           git push origin HEAD:arena/60fea33a-iips-review-recovered || echo "push failed"
