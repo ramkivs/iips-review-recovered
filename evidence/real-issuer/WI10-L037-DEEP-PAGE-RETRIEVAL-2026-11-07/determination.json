@@ -1,0 +1,160 @@
+{
+ "schemaVersion": 1,
+ "workItem": "WI-10",
+ "item": "L-037",
+ "title": "General deep-page retrieval limitation — what is now reusable, and what remains outside the repository",
+ "date": "2026-11-07",
+ "registerEntry": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md §17.12-17.14",
+ "priorRecords": [
+  {
+   "bundle": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/",
+   "status": "both reports read end to end; bytes, sha256, page locators and extracts complete",
+   "treatment": "PRESERVED BYTE-IDENTICAL — re-verified by this bundle, not superseded"
+  },
+  {
+   "bundle": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/",
+   "status": "INVESTIGATED_UNSUCCESSFUL (reading capped)",
+   "treatment": "PRESERVED — the cap it recorded is the limitation this item describes"
+  },
+  {
+   "bundle": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/",
+   "status": "wording reported, not read",
+   "treatment": "PRESERVED — the class REPORTED_NOT_READ now has a name in the contract"
+  }
+ ],
+ "determination": {
+  "status": "PARTIALLY_RESOLVED",
+  "openBecause": "the repository-controlled half is now reusable and tested; the fetch and extraction half still depends on an environment with egress and PDF tooling, and on issuer/exchange provider access — both outside this repository",
+  "whatChanged": "a retrieval-evidence contract, a bundle reader and a CLI gate now exist in the repository, and the WI-6A-S2 bundle verifies against them offline; a fabricated claim is refused with named violations",
+  "whatDidNotChange": "no new retrieval was performed; the in-process ~55-printed-page reader cap is unchanged; two-up column relationships are still not resolved by extraction"
+ },
+ "residualItems": [
+  {
+   "id": "R-037-01",
+   "class": "EXTERNAL_LIMITATION",
+   "finding": "Every in-process reader available to the work item stops at a printed-page cap (~55 printed pages on the FY24 report, ~32 on FY23).",
+   "evidence": [
+    "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/retrieval-log-s2.txt",
+    "register §17.12"
+   ],
+   "iidImpact": "a disclosure printed beyond the cap cannot be read in-process, so it cannot be cited, and its absence cannot be concluded",
+   "status": "OPEN (external)",
+   "nextPath": "a reader that returns whole documents, or a retrieval harness in an environment with egress and PDF tooling"
+  },
+  {
+   "id": "R-037-02",
+   "class": "PROVIDER_ACCESS_RESTRICTION",
+   "finding": "From this environment the issuer, both exchanges, the annual-report host and the Wayback Machine all abort TLS before any HTTP status; only an allowlisted host answers.",
+   "evidence": [
+    "access/attempts.json"
+   ],
+   "iidImpact": "no primary-source retrieval is possible here; nothing may be read, and nothing may be reported as absent",
+   "status": "OPEN (external)",
+   "nextPath": "retrieval executed in an environment with egress (as WI-6A-S2 did out-of-process), with the record kept in-repository"
+  },
+  {
+   "id": "R-037-03",
+   "class": "EXTERNAL_LIMITATION",
+   "finding": "No PDF extraction tooling exists in this environment (no poppler/qpdf/mutool/ghostscript, no pypdf/pdfminer/fitz).",
+   "evidence": [
+    "access/attempts.json#pdfTooling"
+   ],
+   "iidImpact": "page text cannot be produced here, so page provenance has to be carried in from an out-of-process extraction and then verified",
+   "status": "OPEN (external)",
+   "nextPath": "pinned extraction in the retrieval harness; the verifier already checks what it produces"
+  },
+  {
+   "id": "R-037-04",
+   "class": "IMPLEMENTATION_DEFECT",
+   "finding": "Each bundle carried a bespoke guard test, so retrieval evidence was not checkable generically: a bundle could cite an unextracted page, quote a refused fetch, renumber a printed page, or claim a complete read of three pages.",
+   "evidence": [
+    "iips-platform/src/investment/sources/retrievalEvidence.ts",
+    "iips-platform/src/investment/sources/retrievalBundle.ts",
+    "iips-platform/tests/investment/retrieval-evidence.test.ts"
+   ],
+   "iidImpact": "a fabricated or drifted deep-page claim could have reached a finding unchallenged",
+   "status": "RESOLVED",
+   "resolution": "closed-vocabulary contract + bundle reader + CLI gate + 22 targeted tests, verified on the real S2 bundle and on a negative control"
+  },
+  {
+   "id": "R-037-05",
+   "class": "REPRODUCIBILITY_PERSISTENCE_DEFECT",
+   "finding": "The only successful deep read used a temporary GitHub Actions workflow, visible in public run logs and then deleted, so the capability was never a reviewable artifact of the repository.",
+   "evidence": [
+    "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/retrieval-log-s2.txt"
+   ],
+   "iidImpact": "the retrieval cannot be repeated by a reviewer, so its result rests on a record rather than on a method",
+   "status": "PARTIALLY_RESOLVED",
+   "nextPath": "a committed, reviewable retrieval harness with pinned extraction; deliberately not added here (no new persistence mechanism, and the harness must run where egress exists)"
+  },
+  {
+   "id": "R-037-06",
+   "class": "PAGE_PROVENANCE_DEFECT",
+   "finding": "Printed page numbers, PDF page indices and two-up sheets can diverge; a renumbered page or a sheet mapped twice could pass unnoticed.",
+   "evidence": [
+    "iips-platform/tests/investment/retrieval-evidence.test.ts (HEADER_PRINTED_PAGES_MISMATCH, HEADER_PAGE_INDEX_MISMATCH, CALIBRATION_DUPLICATE, PAGE_DUPLICATED)"
+   ],
+   "iidImpact": "a quotation could be attributed to a page that does not carry it",
+   "status": "RESOLVED",
+   "resolution": "the extract header, the page map, the document record and the quotation are cross-checked; drift in any one of them is a named violation"
+  },
+  {
+   "id": "R-037-07",
+   "class": "PARSING_PAGE_DEFECT",
+   "finding": "On a two-up sheet the layout-preserving extractor interleaves the two printed columns line by line, so table, caption and note relationships are not reconstructed.",
+   "evidence": [
+    "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-note-27-capital-management.txt (header note)"
+   ],
+   "iidImpact": "a multi-column table cannot be read as rows from such an extract; the standing rule is that a two-up sheet is never quoted as a single row",
+   "status": "OPEN",
+   "nextPath": "column-aware extraction (cut the sheet in half before text order is applied), then the same verifier applies unchanged"
+  },
+  {
+   "id": "R-037-08",
+   "class": "IMPLEMENTATION_DEFECT",
+   "finding": "Retrieval failure and genuine absence were separated only by prose; a refused fetch could in principle have been read as an empty page.",
+   "evidence": [
+    "iips-platform/src/investment/sources/retrievalEvidence.ts",
+    "iips-platform/tests/investment/retrieval-evidence.test.ts (a bundle of failed retrievals reports zero retrieved)"
+   ],
+   "iidImpact": "L-037s own rule — absence of wording beyond the cap is not evidence of absence — is now mechanical rather than editorial",
+   "status": "RESOLVED",
+   "resolution": "closed status vocabulary; READ quotation refused on any non-RETRIEVED document; REPORTED_NOT_READ never counted as read; a bundle of failures reports zero retrieved"
+  },
+  {
+   "id": "R-037-09",
+   "class": "ALREADY_RESOLVED_BY_WI_6A_S2",
+   "finding": "For Zensar the deep pages were read: both consolidated Note 27 sentences at printed pp.304-305 and pp.320-321, with bytes, sha256, page locators and committed extracts.",
+   "evidence": [
+    "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/"
+   ],
+   "iidImpact": "that issuer and that filing are not an open retrieval question; this item is about the class, not about Zensar",
+   "status": "RESOLVED (S2)",
+   "resolution": "re-verified by runs/01-s2-verification.txt in this bundle"
+  }
+ ],
+ "boundary": {
+  "insideRepository": [
+   "evidence contracts",
+   "bundle reader",
+   "CLI gate",
+   "regression tests",
+   "evidence records"
+  ],
+  "outsideRepository": [
+   "network egress to issuer/exchange hosts",
+   "PDF extraction tooling",
+   "issuer/exchange terms of access"
+  ]
+ },
+ "nextResolutionPath": [
+  "commit a retrieval harness (pinned tooling, reviewable, no temporary workflow) that runs where egress exists",
+  "have the harness emit exactly source-bytes.json / page-map.json / quotes-verified.json + provenance-headed extracts, which this gate already verifies",
+  "add column-aware extraction for two-up sheets, then re-verify the same bundles unchanged"
+ ],
+ "notClaimed": [
+  "that any filing is unavailable",
+  "that any disclosure is absent",
+  "that the retrieval class is closed"
+ ]
+}

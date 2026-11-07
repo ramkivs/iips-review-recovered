@@ -1,0 +1,68 @@
+WI-6A-S2 — retrieval log
+=======================
+
+Question: can the pages that carry the consolidated Note 27 wording (FY2023-24 printed pp.304-305,
+FY2022-23 printed pp.320-321) and the consolidated lease-liability lines be READ, with the file bytes
+in hand, from inside this environment?
+
+WI-6A and WI-6A-S1 answered "no" for every route they tried, and itemised them. Those routes were not
+retried. What follows is only what S2 did, in order, with the outcome of each attempt.
+
+Environment re-measured at the start of S2
+------------------------------------------
+  pdftotext, pdftoppm, pdfimages, mutool, qpdf, gs   -> none installed
+  python pypdf, PyMuPDF (fitz)                        -> not importable
+  curl to nsearchives.nseindia.com, www.bseindia.com,
+       www.rpggroup.com                                -> OpenSSL SSL_connect: SSL_ERROR_SYSCALL (egress blocked at TCP)
+  curl to pypi.org                                     -> HTTP 206 (registry egress only)
+
+So: no PDF tooling, no general egress. The pages cannot be read by any local method; the bytes cannot be
+fetched by this process.
+
+Attempts made in S2
+-------------------
+1. Google Docs viewer wrapper on the issuer-hosted FY2023-24 report
+   (https://docs.google.com/viewer?url=<encoded>&a=gt&chrome=false)
+   -> SUCCESS for the front matter: "Page 1 of 167", cover, RPG blurb, and the index
+      (Standalone 176, Consolidated 248, Glossary 322, …). The wrapper returns whole-document text mode,
+      unlike the 30-page reader.
+   -> FAILURE for the page that matters: the viewer renders only the pages it has scrolled into view.
+      Repeated requests returned 6, 31 and 35 chunks covering PDF pages 1-33 / 1-49, and every later chunk
+      was "Could not preview the file / There was a problem loading this page. Retrying…" followed by an
+      internal "Page 30 of 167 Page 33 of 167". `&page=153`, `&pagenumber=153` and `#page=153` were each
+      tried; none moves the initial position. The route therefore cannot reach printed p.304.
+2. Google Docs viewer wrapper on the NSE URL of the same report -> "No preview available" (Google cannot fetch
+   the NSE host).
+3. Wayback availability API + jina reader over the archived BSE FY2022-23 PDF -> the snapshot exists
+   (20250803083822) but r.jina.ai refuses the web.archive.org domain ("Anonymous access … blocked until 2035").
+4. A throwaway GitHub Actions job on a temporary workflow file added to this branch
+   (.github/workflows/temp-ar-page-recovery.yml), used purely as an out-of-process fetch-and-extract harness:
+   curl -> file bytes -> sha256 -> pdfinfo -> `pdftotext -layout` -> per-page split -> the pages committed here.
+   -> SUCCESS. Both documents were fetched with HTTP 200 and hashed; the FY2022-23 file was fetched twice
+      by two different routes (BSE origin and the Wayback capture) and both copies hash to cc690832….
+
+What the harness produced, and what was done with it
+---------------------------------------------------
+  fy24_rpg  200  10,813,579 bytes  sha256 d52cc3af…  167 pages
+  fy23_bse  200  15,745,097 bytes  sha256 cc690832…  180 pages
+  fy23_wayback 200 15,745,097 bytes  sha256 cc690832… (same file, second route)
+
+The full per-page text of both documents was extracted in the job. Only the eleven pages that carry the
+evidence were committed, as `source/*.txt`, each with a header naming the source URL, the byte count, the sha256,
+the PDF page index and the printed page numbers. The job's scratch tree (whole-document text dumps, ~2.7 MB) was
+not committed and has been deleted from this branch; the workflow file has been deleted with it.
+
+What could NOT be done, and why it does not change the finding
+--------------------------------------------------------------
+  - The FY2022-23 cash-flow statement (PDF p.140 = printed pp.274-275) was rendered and its totals reconcile
+    (3,357 − 178 − 1,826 + 14 = 1,367), but its individual investing lines — including capital expenditure —
+    are not in the extracted text of that two-up sheet. No FY2022 capital-expenditure value was therefore
+    entered in the dataset, and the assessment refuses DCF_FCFF for INSUFFICIENT_HISTORY. That is a gap in
+    what this run READ, not a statement that the filing omits the line.
+  - No market price was obtained for the security, so the margin-of-safety step refuses with
+    NO_PRICE_OBSERVATION. No price was invented to fill it.
+
+Provenance of this file
+-----------------------
+Written by the investigating process from the outputs quoted above; the page texts it refers to are the
+committed extracts, not a retyping of them.

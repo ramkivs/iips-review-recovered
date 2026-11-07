@@ -1902,6 +1902,11 @@ archive. The rule that follows is absolute: **absence of wording beyond the retr
 and no negative finding about unrendered pages may be inferred from it. This is the mirror image of WI-6 — there, an
 unreadable filing could not carry a nil; here, an unreadable filing must not be reported as carrying none.
 
+> *Status note, 2026-11-07 (WI-10, §17.21).* The limitation stands and the rule stands; the entry is now
+> **`PARTIALLY RESOLVED`**, because the repository-owned half — being able to check a deep-page claim offline, for any
+> bundle rather than the one it was written for — is implemented and tested, while the fetch and extraction half remains
+> outside the repository. See §17.21; §17.13 and §17.14 are unchanged.
+
 **Three-period check: `NOT_PERFORMED`.** FY2023-24, FY2022-23 and FY2021-22 are each recorded `NOT_RETRIEVED` in
 `periods.json`. The requirement is a confirmation requirement; it cannot substitute for the base period, and three blank
 consolidated columns would be three unread periods dressed as a finding. No period is described as nil, zero, debt-free
@@ -2615,3 +2620,94 @@ persist/readback and the V1-vs-V3 comparison, 07 tests, 08 typecheck, 09 post-ma
 `commands.txt`), `artifact/assessment-payload-l035-v3.json`, `digests.json` (14 files) — guarded by
 `iips-platform/tests/investment/nil-binding.test.ts` (22 tests). Platform suite 721/721 in 168 suites; frontend
 investment suite 247/247 in 20 files; `tsc --noEmit` exit 0.
+
+## 17.21 WI-10 — `L-037`: what the class of deep-page retrieval failure actually leaves open, and the half the repository can close (2026-11-07; implementation + negative controls)
+
+**Question.** §17.14 read both Zensar reports end to end, out of process, with bytes hashed and pages mapped, and still
+left `L-037` `OPEN`, on the ground that "one issuer on one item is not that class". That was correct, and it is also the
+point where the entry stopped being a measurement and became a question: if the bytes are reachable and the pages are
+readable, what is the residual defect? Not reachability (S2 proved it), not legibility (S2 read it). The residue is that
+the capability was **bespoke**: every deep read so far has needed its own harness — the S2 one a temporary GitHub Actions
+workflow, visible in public run logs and deleted in the same work item — and its own guard test, written against that
+bundle's records. A new bundle could therefore cite a page it never extracted, quote a document whose fetch was refused,
+renumber a printed page, or claim a complete read of three pages, and the only thing standing in the way was the care of
+whoever wrote it. That is a defect in the repository, not in the issuer.
+
+**Reading measured again, so nothing is assumed.** From this environment, five primary-source and archive hosts
+(`www.rpggroup.com`, `www.bseindia.com`, `nseindia.com`, `www.infosys.com`, `web.archive.org`) all fail **before HTTP
+exists** — TLS `SSL_ERROR_SYSCALL`, `curl` exit 35, no status code — while an allowlisted control host answers `200` in
+the same shell; and no PDF tooling is present (no `pdftotext`, `pdfinfo`, `qpdf`, `mutool`, `gs`; no `pypdf`, `pdfminer`
+or `fitz`). Both facts are recorded with their exact commands in `access/attempts.json`. Their meaning is narrow and is
+stated in the file: a fetch that did not happen is a retrieval failure, **not** an absence. No document in this bundle
+carries any status other than `NO_ROUTE`, no quotation is drawn from any of them, and nothing here is evidence about any
+issuer, filing or disclosure. No retrieval was attempted through a workaround: repeating WI-6A-S2 is out of scope, and a
+successful retrieval is never to be fabricated.
+
+**Resolution — the repository-owned half.** A reusable retrieval-evidence contract now exists rather than a sentence in a
+README:
+
+- `iips-platform/src/investment/sources/retrievalEvidence.ts` — closed vocabularies for a retrieval
+  (`RETRIEVED | REFUSED_BY_HOST | NO_ROUTE | TRUNCATED | MALFORMED | NOT_ATTEMPTED`), a page extract, and a quotation
+  (`READ_IN_THIS_RUN | READ_PREVIOUSLY | REPORTED_NOT_READ`), with a pure verifier over them. It performs no network
+  access, no extraction and no writes.
+- `iips-platform/src/investment/sources/retrievalBundle.ts` — reads the record format WI-6A-S2 established
+  (`source-bytes.json`, `page-map.json`, `quotes-verified.json`, provenance-headed extracts) and invents nothing a record
+  does not say: an unhashed document is not retrieved, an unmapped page is not extracted, an unmarked quotation is not
+  read.
+- `iips-platform/src/investment/cli/verify-retrieval-evidence.ts` — exit **0** verified, **1** refused with named
+  violations, **2** unusable bundle.
+- `iips-platform/tests/investment/retrieval-evidence.test.ts` — **27** targeted tests: the real S2 bundle unmodified,
+  eleven poisoned copies of it made in a temporary directory, and five that hold this bundle and the register to what
+  they say.
+
+**`L-037`'s rule, mechanised.** A quotation marked READ may not stand on a document that is not `RETRIEVED`, nor on a
+page the bundle did not extract, nor on an extract whose own header disagrees with the document record, the page map or
+the quotation — `QUOTE_FROM_UNRETRIEVED_DOCUMENT`, `QUOTE_PAGE_NOT_EXTRACTED`, `HEADER_DOCUMENT_MISMATCH`,
+`HEADER_PAGE_INDEX_MISMATCH`, `HEADER_PAGE_COUNT_MISMATCH`, `HEADER_PRINTED_PAGES_MISMATCH`,
+`HEADER_SOURCE_DIGEST_MISMATCH`, `HEADER_SOURCE_BYTES_MISMATCH`, `CALIBRATION_DUPLICATE`, `DOCUMENT_PAGE_WITHOUT_RECORD`,
+`COMPLETE_READ_UNSUPPORTED`, `QUOTE_DIGEST_MISMATCH`, `QUOTE_ABSENT_FROM_PAGE`. `REPORTED_NOT_READ` is a legitimate class
+and is never counted as read: the summary reports `quotations` and `quotationsRead` separately, and a bundle of failed
+retrievals reports **`retrieved 0`** rather than an empty corpus — the difference between "we could not read it" and "there
+is nothing there", which is the whole of `L-037`.
+
+**The real corpus, re-checked rather than restated.** The WI-6A-S2 bundle passes unchanged: 2 documents retrieved, 11 page
+extracts of 347, 2 quotations, 2 read, 0 violations (`runs/01-s2-verification.txt`). Its own bundle-local guard still
+passes, and the L-035 nil-binding contract with it (36 tests).
+
+**The control is refused.** `control/fabricated-claim/` forges that record in the three ways a deep-page claim is most
+likely to be forged: a `COMPLETE` read over 6 extracted pages of 167; a `REFUSED_BY_HOST` document still carrying five
+extracts and a `READ_IN_THIS_RUN` quotation; and a quotation moved to PDF page 92, which nobody extracted. The gate exits
+**1** with eight named violations, including `COMPLETE_READ_UNSUPPORTED`, `QUOTE_PAGE_NOT_EXTRACTED`,
+`QUOTE_FROM_UNRETRIEVED_DOCUMENT` and five `PAGE_WITHOUT_RETRIEVAL`. The extracts in the control are byte-identical to the
+real ones on purpose: what has to be caught is the record diverging from the pages, not the pages being wrong.
+
+**Classification of the residue.** `R-037-01` in-process reader cap (~55 printed pages on FY24, ~32 on FY23) —
+**external limitation, open**. `R-037-02` issuer/exchange/archive reachability from this environment — **provider-access
+restriction, open**, measured. `R-037-03` absent PDF tooling — **external limitation, open**. `R-037-04` no reusable
+verification of retrieval evidence — **implementation defect, resolved**. `R-037-05` bespoke temporary harness, no
+reviewable retrieval method — **reproducibility-persistence defect, partially resolved**; a committed harness with pinned
+tooling is the next step and was deliberately not added here (no new persistence mechanism, and a harness must run where
+egress exists). `R-037-06` printed-vs-PDF numbering, renumbering, duplicate calibration — **page-provenance defect,
+resolved**. `R-037-07` two-up sheets interleave their two printed columns, so table/caption/note relationships are not
+reconstructed — **parsing-page defect, open**; the standing rule that a two-up sheet is never quoted as a single row
+continues to govern. `R-037-08` retrieval failure versus genuine absence — **implementation defect, resolved
+mechanically**. `R-037-09` Zensar itself — **already resolved by WI-6A-S2**, re-verified here, not reopened.
+
+**Status: `L-037` → `PARTIALLY RESOLVED`.** It is not `RESOLVED`, and the register will not be talked into it: three of the
+nine findings turn on network egress, PDF tooling and issuer/exchange terms of access, and one turns on column geometry
+inside a page — none of which this repository controls. The entry's own criterion for the reading itself (a page extract
+at a printed locator) is met for the one issuer read; its criterion for the class is a retrieval capability that any
+reviewer can run, and that capability still has to live where the bytes are. `L-036` remains **`PARTIALLY RESOLVED`**,
+`L-038` **`OPEN`**, `L-039` unchanged, `L-034`/`L-035`/`L-040` **`RESOLVED`**, `L-001` … `L-033` untouched. §17.12's rule is
+restated, not revised: absence of wording beyond the retrieval cap is not evidence of absence.
+
+**How this becomes `RESOLVED`.** Two steps, in order, neither of them a change to the evidence standard: (1) commit a
+retrieval harness — pinned extractor, reviewable, no temporary workflow — that runs where egress exists and emits exactly
+`source-bytes.json` / `page-map.json` / `quotes-verified.json` plus provenance-headed extracts, which the gate in this
+section already verifies unchanged; (2) add column-aware extraction for two-up sheets. On the day those exist, the entry
+closes on its own terms and the bundles it produced can be re-verified without touching this register.
+
+**Evidence.** `evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/` — `determination.json`,
+`access/attempts.json`, `control/fabricated-claim/`, `runs/` (S2 verification, control verdict, 27 targeted tests, 36
+existing-guard tests, typecheck, clean clone, manifest verification) and `digests.json`, guarded by
+`iips-platform/tests/investment/retrieval-evidence.test.ts` (**27** tests).
