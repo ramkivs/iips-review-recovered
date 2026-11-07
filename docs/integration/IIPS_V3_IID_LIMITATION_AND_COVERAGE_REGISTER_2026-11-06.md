@@ -2117,6 +2117,6 @@ still fail to carry a component the bridge needs — and the correct answer is t
 **Evidence.** `evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/` — `README.md`, `determination-wi7.json`,
 `source/source-bytes.json`, `source/page-map.json`, `source/identity-verified.json`, twelve verbatim page extracts,
 `ingest-input/` (roster, `periods.csv`, identity sources, `data-extraction.json`), `runs/` (ingest, generate, readback,
-commands, guard test, typecheck, clean clone), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded by
+commands, guard test, typecheck, clean clone, CI check), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded by
 `iips-platform/tests/investment/wi7ConsumerMarico.test.ts`. Record: `docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md`.
 The WI-3, WI-5, WI-6, WI-6A, WI-6A-S1 and WI-6A-S2 bundles are byte-identical and still verify.

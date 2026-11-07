@@ -1,40 +1,40 @@
-# WI-7 clean-clone reproduction — 2026-11-07T07:46:17Z
-# A fresh clone of the pushed branch, nothing copied in from the authoring workspace but the commands below.
-# node v22.22.3
+# WI-7 clean-clone reproduction — 2026-11-07T07:54:23Z
+# A fresh clone of the pushed branch; nothing copied in from the authoring workspace except the commands below.
+# node v22.22.3  tsc Version 5.9.3
 
 ## 1. clone
-$ git clone --depth 1 --branch arena/8413763a-iips-review-recovered https://github.com/ramkivs/iips-review-recovered.git /tmp/wi7c
-HEAD 08b41186e6cec40c521e1e0a812722ab9943076d  08b4118 WI-7: Consumer sector / Marico Limited — three audited consolidated periods ingested, assessed and persisted; L-038 opened
+$ git clone --depth 1 --branch arena/8413763a-iips-review-recovered https://github.com/ramkivs/iips-review-recovered.git /tmp/wi7d
+HEAD 6924079fbaba4f75e796592a7039575aa93d8588
+6924079 WI-7: normalise extract whitespace to the repository's diff policy, documenting the normalisation in each header
 
-## 2. install (iips-platform only; the package's own lockfile)
+## 2. install (iips-platform only, its own lockfile)
 $ npm ci --no-audit --no-fund
+added 6 packages (dependencies restored from package-lock.json)
 
 ## 3. re-ingest the bundle's committed inputs into an empty dataset directory
-$ npx tsx src/investment/cli/ingest.ts --input <bundle>/ingest-input --dataset-dir /tmp/wi7c-run/dataset --now 2026-11-07T07:00:00.000Z
-
+$ npx tsx src/investment/cli/ingest.ts --input <bundle>/ingest-input --dataset-dir /tmp/wi7d-run/dataset --now 2026-11-07T07:00:00.000Z
 datasetVersion sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
-dataset        /tmp/wi7c-run/dataset
-coverage       /tmp/wi7c-run/dataset/coverage-report.json
-
+dataset        /tmp/wi7d-run/dataset
+coverage       /tmp/wi7d-run/dataset/coverage-report.json
 dataset          sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
 completed        1/13 sectors measured
-  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Consumer         G1_ENABLED   usable 3  withheld 0  stmt 91.7%  metric 100%
 
-expected (recorded in the bundle at authoring time):
-  dataset sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
+expected (the version recorded by the authoring run in runs/01-ingest.txt):
+  datasetVersion sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
 
 ## 4. every byte in the bundle re-hashed against digests.json
 files 30 mismatched 0
 
 ## 5. the persisted payload's canonical digest, recomputed from the committed artifact
 recomputed    sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343
-chainHead     3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343
-canonicalBytes 53229
-expected: sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343 (the chain head and the payloadDigest in runs/readback.json)
+readback      sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343
+expected: sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343
 
-## 6. the guard tests, from the clone
+## 6. guard tests, from the clone
 $ npx tsx --test tests/investment/wi7ConsumerMarico.test.ts tests/investment/wi4*.test.ts tests/investment/wi5*.test.ts tests/investment/wi6*.test.ts
 # tests 104
+# suites 15
 # pass 104
 # fail 0
 
@@ -44,6 +44,11 @@ exit=0
 $ npx tsc --noEmit --strict --skipLibCheck --target es2022 --module esnext --moduleResolution bundler --types node tests/investment/wi7ConsumerMarico.test.ts
 exit=0
 
-# Nothing in the clone was edited; the working tree is clean apart from the scratch helper used in step 5.
-$ git status --short (iips-platform, excluding node_modules)
-?? iips-platform/wi7c-digest.ts
+## 8. the CAP-03 Revision 7 static validator, from the clone (needs the history the validator hard-codes)
+$ python3 docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+# not run in this clone: it resolves hard-coded base commits, so it needs a full fetch; on the pull request
+# it is executed by the repository's own workflow, whose result is recorded in the PR, not here.
+
+# Nothing in the clone was edited; the only untracked file is the throwaway digest helper used in step 5.
+$ git status --short | grep -v node_modules
+?? iips-platform/wi7d-digest.ts

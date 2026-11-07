@@ -1,0 +1,15 @@
+# CI on the pull request head — 2026-11-07T07:54:47Z
+# `gh pr checks 504` and `gh pr view 504 --json statusCheckRollup` against
+# https://github.com/ramkivs/iips-review-recovered/pull/504
+
+Python compile · source/evidence/tracker validation	pass	36s	https://github.com/ramkivs/iips-review-recovered/actions/runs/42353056595/job/128345111486
+
+## statusCheckRollup (one check run)
+{"conclusion":"SUCCESS","detailsUrl":"https://github.com/ramkivs/iips-review-recovered/actions/runs/42353056595/job/128345111486","name":"Python compile · source/evidence/tracker validation","status":"COMPLETED","workflow":"CAP-03 Revision 7 IRR-only static checks"}
+
+# Exactly one check is configured for the paths this pull request changes:
+# workflow 'CAP-03 Revision 7 IRR-only static checks', job 'Python compile · source/evidence/tracker
+# validation' — Python 3.12, standard library only. Its steps compile the CAP-03 validator, run the two
+# routing/classification suites, validate Revision 7 source, admitted IRR evidence and the tracker, fetch and
+# independently verify the pinned recovery-release assets, and run `git diff --check` over the pull-request diff.
+# No npm, frontend or IPD CI runs for these paths, and none is claimed.

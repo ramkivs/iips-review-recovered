@@ -22055,8 +22055,9 @@ no nil was manufactured anywhere.
 
 **Verification.** Targeted only: 104 tests / 104 pass across the WI-7 guard and the six earlier WI guard files; `tsc
 --noEmit` on the package project and on the guard file both exit 0; a fresh clone of the pushed branch reproduces the
-dataset version, re-hashes all 30 digested bundle files clean, and recomputes the chain head. **No CI success is
-claimed**: this branch reports no configured checks, and the absence of checks is recorded as absence.
+dataset version, re-hashes all 30 digested bundle files clean, and recomputes the chain head. The repository's own `CAP-03 Revision 7 IRR-only static checks` — the single check
+configured for the paths this change touches — **passes** on the pull-request head (run `42353056595`, job
+`128345111486`); no npm, frontend or IPD CI runs for these paths and none is claimed.
 
 **Boundaries held.** No change to D-2 nil semantics, IX valuation policy or authorised parameters, the historical
 Infosys/eClerx/Zensar artefacts, limitation-register meanings, or the persistence architecture; no new persistence

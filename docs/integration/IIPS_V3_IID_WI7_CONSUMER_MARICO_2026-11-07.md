@@ -245,7 +245,7 @@ section that cites it.
 `evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/` — `README.md`, `determination-wi7.json`,
 `source/source-bytes.json`, `source/page-map.json`, `source/identity-verified.json`, twelve verbatim page extracts,
 `ingest-input/` (roster, periods, identity sources, extraction provenance), `runs/` (ingest, generate, readback,
-commands, guard test, typecheck, clean clone), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded
+commands, guard test, typecheck, clean clone, CI check), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded
 by `iips-platform/tests/investment/wi7ConsumerMarico.test.ts`, which also verifies that the WI-3, WI-5, WI-6, WI-6A,
 WI-6A-S1 and WI-6A-S2 bundles are digest-unchanged.
 
@@ -266,6 +266,11 @@ performed no IPD work and does not spend the next free IPD act reference quoted 
 were recorded in this register only; §16.273 therefore follows that pattern for the tracker (one pointer, nothing
 reinterpreted) rather than reopening earlier entries.
 
-**What WI-7 does not do.** It does not revisit WI-6A, does not touch PR #503's merged artifacts, does not select a
-further sector, does not open a price observation, and does not claim CI success: this repository has no checks
-configured for this branch, and none is reported as a pass.
+**CI.** One check is configured for the paths this pull request changes — the repository's own `CAP-03 Revision 7
+IRR-only static checks` (`Python compile · source/evidence/tracker validation`, run `42353056595`, job `128345111486`)
+— and it **passes** on the pull-request head; `runs/06-ci-check.txt` records what GitHub reported. No npm, frontend or
+IPD CI runs for these paths, and none is claimed. Making that check green required two content-neutral adjustments,
+both recorded rather than hidden: the extract file names carried a `-p1NN` token that the CAP-03 validator reads as a
+P-1 artifact path, so they are now `…-pdf-pageNNN.txt`; and `git diff --check` rejected the tabs and trailing blanks of
+the raw layout-preserving extraction, so the extracts are whitespace-normalised with the normalisation stated in every
+header and no non-whitespace character changed.

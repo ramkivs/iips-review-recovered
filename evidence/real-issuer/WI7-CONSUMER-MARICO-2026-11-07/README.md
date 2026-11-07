@@ -100,7 +100,8 @@ determination-wi7.json            the machine-readable determination (selection,
 source/source-bytes.json          the three PDFs: URL, HTTP status, bytes, sha256, page count, rejected routes
 source/page-map.json              PDF page ↔ printed page, per-cited-page digest
 source/identity-verified.json     identity facts with their filing locators
-source/*.txt                      twelve verbatim page extracts with provenance headers
+source/*.txt                      twelve page extracts with provenance headers (verbatim text, whitespace
+                                  normalised as each header explains)
 ingest-input/periods.csv          the governed dataset input, three consolidated annual periods
 ingest-input/data-extraction.json where each figure is printed, including the derived and not-reported items
 ingest-input/roster.json          issuer / security / listing records, with the operator-record caveat
@@ -114,8 +115,29 @@ runs/commands.txt                 the exact commands, and what they were run aga
 runs/03-guard-test.txt            targeted guard run: WI-7 plus the six earlier WI guard files, all green
 runs/04-typecheck.txt             tsc on the package project, and separately on the WI-7 guard file
 runs/05-clean-clone.txt           reproduction from a fresh clone of the pushed branch
+runs/06-ci-check.txt              the one configured check, as GitHub reported it on the pull request
 artifact/assessment-payload-marico-wi7.json   the persisted canonical payload, read back
-digests.json                      sha256 of every file above except itself
+digests.json                      sha256 of every file above except itself and the 03-06 transcripts
+                                  (they record a tree state at a moment and are quoted in the pull request)
 ```
 
 Guarded by `iips-platform/tests/investment/wi7ConsumerMarico.test.ts`.
+
+## Verification, and what the check is
+
+Targeted only — no full backend regression. `runs/03-guard-test.txt`: the WI-7 guard file plus the six earlier WI
+guard files, **104 tests, 104 pass, 0 fail**. `runs/04-typecheck.txt`: `tsc --noEmit` on the package project and, since
+`tsconfig.json` includes only `src/**/*.ts`, a second strict invocation over the guard file — both exit 0.
+`runs/05-clean-clone.txt`: a fresh clone of this branch re-ingests to the same dataset version, re-hashes all 30
+digested files clean and recomputes the chain head.
+
+`runs/06-ci-check.txt`: **one** check is configured for the paths this pull request changes — the repository's own
+`CAP-03 Revision 7 IRR-only static checks`, job `Python compile · source/evidence/tracker validation`. It passes on the
+pull-request head. That check is Python-standard-library only: it compiles the CAP-03 validator, runs two routing
+suites, validates Revision 7 source/evidence/tracker, verifies the pinned recovery-release assets and runs
+`git diff --check`. No npm, frontend or IPD CI runs for these paths.
+
+Two adjustments were needed to make that check green, and both are recorded rather than hidden: the extract file names
+carried a `-p1NN` token that the CAP-03 validator reads as a P-1 artifact path (they are now `…-pdf-pageNNN.txt`), and
+`git diff --check` rejected the tabs and trailing blanks of the raw layout-preserving extraction (the extracts are now
+whitespace-normalised, with the normalisation stated in every header and no non-whitespace character changed).
