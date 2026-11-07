@@ -1,8 +1,8 @@
 # clean clone — a fresh copy of the pushed commit, with its own install
-# 2026-11-07T18:02:09Z
-$ git clone --branch arena/8133630f-iips-review-recovered --single-branch https://github.com/ramkivs/iips-review-recovered.git /tmp/l037clone
+# 2026-11-07T18:04:09Z
+$ git clone --branch arena/8133630f-iips-review-recovered --single-branch https://github.com/ramkivs/iips-review-recovered.git /tmp/l037clone2
 $ git log --oneline -1
-32a9473 fix(iid): L-037 — the control references the real extracts by path instead of copying them
+402c080 test(iid): L-037 — record the clean-clone verification, and keep the manifest's exclusions explicit
 $ git status --porcelain | grep -v 'runs/06-clean-clone.txt' | wc -l   # the only working-tree change is this run log
 0
 $ npm ci
@@ -24,7 +24,6 @@ $ npx tsc --noEmit
 exit=0
 
 $ npx tsx src/investment/cli/verify-retrieval-evidence.ts ../evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07
-  documents 2 (retrieved 2), page extracts 11, quotations 2 (read 2)
 
 OK — every quotation was read from an extracted page of a retrieved document, and every
      extract agrees with the record that cites it (document, page index, printed pages, digest).
