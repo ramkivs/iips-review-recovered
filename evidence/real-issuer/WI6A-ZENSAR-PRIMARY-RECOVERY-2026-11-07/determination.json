@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "workItem": "WI-6A",
+  "title": "Zensar primary-source recovery and nil-disclosure determination",
+  "date": "2026-11-07",
+  "issuer": {
+    "legalName": "Zensar Technologies Limited",
+    "exchangeSymbol": "ZENSARTECH",
+    "scripCode": "504067",
+    "series": "EQ",
+    "cin": "NOT_VERIFIED_FROM_FILING",
+    "isin": "NOT_VERIFIED_FROM_FILING",
+    "identitySource": "source/cover-letter-and-index-extract.txt (A.1) — read from the filing's transmittal letter dated 15 July 2024"
+  },
+  "filing": {
+    "document": "Integrated Annual Report 2023-24, including the Notice of the 61st Annual General Meeting",
+    "primaryLocator": "https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf",
+    "mirrorLocator": "https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf",
+    "transmittalDate": "2024-07-15",
+    "printedPagination": {
+      "standaloneFinancialStatements": "176-247",
+      "consolidatedFinancialStatements": "248-321",
+      "glossary": 322,
+      "sasb": 327,
+      "sdgLinkageIndex": 328
+    },
+    "retrieved": {
+      "frontMatter": "printed pp.1-~55, read end-to-end from two independent copies of the same document",
+      "standaloneNotes": "NOT_RETRIEVED",
+      "consolidatedStatements": "NOT_RETRIEVED"
+    }
+  },
+  "result": {
+    "status": "INVESTIGATED_UNSUCCESSFUL",
+    "decision": "CONSOLIDATED_NIL_NOT_ESTABLISHED",
+    "consolidatedWordingQualifies": false,
+    "reason": "CONSOLIDATED_STATEMENTS_NOT_RETRIEVED_BY_ANY_AVAILABLE_READER",
+    "standaloneSentence": {
+      "reportedBy": "owner",
+      "readByThisRun": false,
+      "statementScope": "STANDALONE",
+      "printedPages": "246-247",
+      "belowConsolidationBoundary": true,
+      "transferableToConsolidated": false,
+      "consequence": "the standalone wording cannot carry a consolidated nil even if identical wording is later found in the consolidated notes; the consolidated occurrence would have to be read and quoted in its own right"
+    },
+    "threePeriodCheck": "NOT_PERFORMED",
+    "threePeriodCheckReason": "the qualifying period (FY2023-24 consolidated) was not retrieved, so there is no base against which to line up FY2022-23 and FY2021-22; retrieving later periods first would not cure the gap",
+    "observationCreated": false,
+    "nilDeclared": false,
+    "datasetIngested": false,
+    "assessmentGenerated": false,
+    "persisted": false,
+    "pipelineRun": false
+  },
+  "constraintsHonoured": [
+    "a standalone declaration was not transferred to consolidated data",
+    "no assumption was made that the standalone statement applies to subsidiaries or to the Group",
+    "no dash, absent caption, arithmetic reconciliation, auditor remark or aggregator rendering was promoted to a nil",
+    "no D-2 semantics were changed",
+    "no IPD writes, no production scope, no new persistence mechanism, no IX policy change"
+  ],
+  "limitations": {
+    "opened": [
+      {
+        "id": "L-037",
+        "title": "Deep-page retrieval of large Indian issuer annual reports is capped by every available reader",
+        "status": "OPEN",
+        "detail": "The direct reader renders roughly the first 100 KB of a PDF's text (about 55 printed pages here) and stops; the text-rendering proxy that paginates whole documents is refused (HTTP 403) by the NSE archive. Absence of wording beyond the cap is therefore not evidence of absence, and no negative finding about the unrendered pages may be inferred from it."
+      }
+    ],
+    "unchanged": [
+      "L-036 PARTIALLY RESOLVED",
+      "L-035 OPEN"
+    ]
+  },
+  "evidence": {
+    "bundle": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/",
+    "guardTest": "iips-platform/tests/investment/wi6aZensarRecovery.test.ts",
+    "record": "docs/integration/IIPS_V3_IID_WI6A_ZENSAR_RECOVERY_2026-11-07.md",
+    "registerSection": "17.12"
+  }
+}

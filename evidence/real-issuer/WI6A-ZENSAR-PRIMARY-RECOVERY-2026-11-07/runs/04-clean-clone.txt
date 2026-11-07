@@ -1,0 +1,18 @@
+WI-6A — reproduction from a clean clone (2026-11-07)
+
+  git clone --no-hardlinks /home/user/iips-review-recovered /tmp/wi6av
+  ln -s <working tree>/iips-platform/node_modules /tmp/wi6av/iips-platform/node_modules
+  clone HEAD: 71db978  "WI-6A: Zensar consolidated nil not established ..."
+
+  npx tsx --test tests/investment/wi6aZensarRecovery.test.ts
+      # tests 9   # pass 9   # fail 0
+
+  digest verification against each bundle's own digests.json, in the clone:
+      WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07   7/7  digests verified
+      WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07   8/8  digests verified   (WI-6 unchanged)
+      WI5-PREFERENCE-CAPITAL-2026-11-07        24/24 digests verified   (WI-5 unchanged)
+      WI3-BORROWINGS-NIL-2026-11-06            30/30 digests verified   (WI-3 unchanged)
+
+What the clone proves: the WI-6A bundle, its guard test, the record and the register section all travel with the
+commit, and no historical bundle moved. What it does not prove, and cannot: anything about printed pages 248-321
+of the Zensar filing, which remain unrendered.

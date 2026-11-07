@@ -1,0 +1,89 @@
+# WI-6A-S2 — commands actually run (2026-11-07)
+
+Working directory `iips-platform/` or `frontend/` as stated. No command below calls the network from this
+process; the only network step is the throwaway Actions harness described in `source/retrieval-log-s2.txt`,
+which fetched the two PDFs and ran the text extraction outside this environment.
+
+## 0 — baseline (unchanged from WI-6A-S1)
+
+    git fetch origin main                       # d863d3ee8446a622f7bee44208a3018a3961eaab
+    git status                                  # clean
+    git log --oneline -2                        # 7ccaf31, abae0fd
+
+## 1 — page recovery (out of process)
+
+    # temporary workflow .github/workflows/temp-ar-page-recovery.yml, pushed to this branch:
+    curl -sSL -o fy24_rpg.pdf  https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf
+    curl -sSL -o fy23_bse.pdf  https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf
+    curl -sSL -o fy23_wayback.pdf https://web.archive.org/web/20250803083822id_/https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf
+    sha256sum *.pdf                             # d52cc3af… / cc690832… / cc690832…
+    pdfinfo fy24_rpg.pdf                        # Pages: 167
+    pdfinfo fy23_bse.pdf                        # Pages: 180
+    pdftotext -layout fy24_rpg.pdf fy24.txt     # then split on \f into per-page text
+    pdftotext -layout fy23_bse.pdf fy23.txt
+    # the eleven evidence pages were committed as evidence/…/source/*.txt; the scratch tree was deleted and
+    # the workflow file was deleted from the branch after the capture
+
+## 2 — ingest (three consecutive consolidated periods, INR million)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input      /tmp/s2/input \
+      --dataset-dir /tmp/s2/data/investment/dataset \
+      --now 2026-11-07T06:10:00.000Z
+    # datasetVersion sha256:a71498daabb31f23728f408a2a92d3fabe50efee7f2b1de4813e8e2c6a2581c7
+    # issues.json []   Technology G2_PARTIAL, usable 2, withheld 2, stmt 83.3%
+    # (stdout: runs/01-ingest.txt)
+
+    cp evidence/…/ingest-input/identity/*.json /tmp/s2/data/investment/identity/
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/s2/owner.json
+
+## 3 — generate -> assess -> compose -> validate -> persist -> verify
+
+    cd frontend
+    npm ci --no-audit --no-fund --strict-ssl=false   # 190 packages; the NP-04 second specifier
+                                                    # (github:ramkivs/iips-production-market-data#2e11fa3b…)
+                                                    # must resolve for the governed store to exist
+    IIPS_NP04_DATABASE_PATH=/tmp/s2/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L72200PN1963PLC012621 \
+      --data-dir       /tmp/s2/data/investment/dataset \
+      --identity-dir   /tmp/s2/data/investment/identity \
+      --db             /tmp/s2/data/investment/investment.db \
+      --owner-carrier  /tmp/s2/owner.json \
+      --generated-at   2026-11-07T06:10:00.000Z \
+      --out            /tmp/s2/runs/cli-s2.json
+
+    # OK      snapshot     datasetVersion sha256:a71498da…
+    # OK      identity     RESOLVED via ISIN
+    # OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4032
+    # OK      compose      reportKey dc9e4f47571d… payloadDigest fbfa5564900a…
+    # OK      validate     scope co:IN:CIN:L72200PN1963PLC012621 (ISSUER)
+    # OK      chain-head   no chain for this scope yet
+    # SKIPPED compare      no head to compare against
+    # OK      persist      CREATED (wrote)
+    # OK      verify       chain valid: 1 version(s), head v1
+    # (stdout: runs/02-generate.txt, machine summary: runs/cli-s2.json)
+
+## 4 — payload re-read in a SEPARATE process
+
+Temporary `frontend/.tmp-s2-readback.ts` (deleted after use):
+`loadAuthoritativeNp04Persistence` -> `createInvestmentArtifactService` -> `readVersionWithPayload`.
+
+    npx tsx .tmp-s2-readback.ts
+    # scope co:IN:CIN:L72200PN1963PLC012621   reportId 28b3e5d6-a53d-4fb8-a073-5ed86e73a65e
+    # digest match true (read payloadDigest == chain head payloadDigest == sha256 of the read payload text)
+    # grossDebt  {PRESENT, 1865000000}   note names the three nil components
+    # netDebt    {PRESENT, -9073000000}
+    # (stdout: runs/readback-stdout.txt, record: runs/readback.json, payload: artifact/assessment-payload-zensar-s2.json)
+
+## 5 — targeted verification
+
+    cd iips-platform && npx tsx --test tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts   # runs/03-guard-test.txt
+    cd iips-platform && npx tsc --noEmit                                                        # runs/04-typecheck.txt
+
+## 6 — independent verification from a clean clone
+
+    rm -rf /tmp/s2v && git clone --branch arena/09e91125-iips-review-recovered --single-branch \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/s2v
+    # bundle digests + guard test: runs/05-clean-clone.txt

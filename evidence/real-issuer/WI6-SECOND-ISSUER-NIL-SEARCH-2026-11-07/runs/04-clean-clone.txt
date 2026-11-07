@@ -1,0 +1,34 @@
+# independent verification from a clean clone
+
+    rm -rf /tmp/wi6v
+    git clone --branch arena/f6d5fa4d-iips-review-recovered --single-branch \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/wi6v
+    # clone at commit 4c1bb5e (WI-6 commit); the commit that adds this log changes only
+    # runs/04-clean-clone.txt and digests.json
+
+## bundle digests
+
+    WI6 files 7   mismatched []
+
+## the negative still reads as a negative from committed bytes alone
+
+    accepted 0 | decision NO_QUALIFYING_NIL_FOUND | candidates 10
+
+## historical bundles are byte-unchanged
+
+    WI3-BORROWINGS-NIL-2026-11-06     30 files   mismatched []
+    WI5-PREFERENCE-CAPITAL-2026-11-07 24 files   mismatched []
+
+WI-3's and WI-5's own manifests verify against the clone, which is what "WI-3 and WI-4/WI-5 evidence untouched" means
+in practice: not a claim in a document, a recomputation from committed bytes.
+
+## guard test
+
+    cd /tmp/wi6v/iips-platform && npx tsx --test tests/investment/wi6SecondIssuerSearch.test.ts
+    # tests 8 / pass 8 / fail 0
+
+## note
+
+The clone's `node_modules` was linked from the working tree to supply the TypeScript loader; no source or bundle file is
+shared. No ingestion, generation or persistence command was run for WI-6, so there is no chain version or payload digest
+to reproduce — and none is claimed.

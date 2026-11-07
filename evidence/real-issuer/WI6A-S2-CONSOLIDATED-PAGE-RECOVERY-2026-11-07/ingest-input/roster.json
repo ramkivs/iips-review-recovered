@@ -1,0 +1,48 @@
+{
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L72200PN1963PLC012621",
+      "legalName": "Zensar Technologies Limited",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE520A01027",
+      "issuerId": "IN:CIN:L72200PN1963PLC012621",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ],
+  "listings": [
+    {
+      "listingId": "IN:NSE:ZENSARTECH:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE520A01027",
+      "issuerId": "IN:CIN:L72200PN1963PLC012621",
+      "exchange": "NSE",
+      "symbol": "ZENSARTECH",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2021-04-01",
+      "effectiveTo": null,
+      "sourceRef": "Listing-identifier window declared by the operator for this work item from 2021-04-01 (the start of the oldest audited period in the dataset). THIS DATE IS AN OPERATOR RECORD, NOT A FILING FACT: the filings corroborate the identifiers only — ISIN INE520A01027 ('ISIN in NSDL and CDSL') and NSE symbol ZENSARTECH / BSE scrip code 504067, printed on PDF p.60 of the Integrated Annual Report 2023-24 (printed p.116-117) and PDF p.66 of the Integrated Annual Report 2022-23 (printed p.128-129). No listing or admission date appears in any page read, and none is asserted here."
+    },
+    {
+      "listingId": "IN:BSE:504067:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE520A01027",
+      "issuerId": "IN:CIN:L72200PN1963PLC012621",
+      "exchange": "BSE",
+      "symbol": "504067",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2021-04-01",
+      "effectiveTo": null,
+      "sourceRef": "Listing-identifier window declared by the operator for this work item from 2021-04-01 (the start of the oldest audited period in the dataset). THIS DATE IS AN OPERATOR RECORD, NOT A FILING FACT: the filings corroborate the identifiers only — ISIN INE520A01027 ('ISIN in NSDL and CDSL') and NSE symbol ZENSARTECH / BSE scrip code 504067, printed on PDF p.60 of the Integrated Annual Report 2023-24 (printed p.116-117) and PDF p.66 of the Integrated Annual Report 2022-23 (printed p.128-129). No listing or admission date appears in any page read, and none is asserted here."
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# npx tsc --noEmit  (typescript 5.x from package-lock; project tsconfig includes src/**/*.ts)
+# exit 0 — no diagnostics

@@ -1,0 +1,29 @@
+ACCESS RECORD — what could not be read, and the exact errors
+
+These are the retrievals attempted on 2026-11-07 for candidate issuers whose primary filings were not reachable. They
+are recorded because an unreadable filing is a blocker, not a finding, and because the next pass should start here.
+
+1. Zensar Technologies Limited — Integrated Annual Report 2023-24 (consolidated financial statements start at printed
+   page 248; borrowings/senior-note area within pp. 250-260)
+   URL: https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+   Result: HTTP 403 Forbidden from the origin (Akamai error page, "You don't have permission to access ... on this
+   server", reference #18.1668dc17.1794028603.32167b5a), returned through https://r.jina.ai/<url>.
+   Consequence: the filing could not be read, so nothing about it can be asserted.
+
+2. Zensar — storage mirror of the same annual report
+   URL: https://storage.googleapis.com/assets.cdp.blinkx.in/BlinkxSearch/CompaniesDir/Companies/ZENSARTECH/Annual_Report/ZENSARTECH_annual_report_FY_2024.pdf
+   Result: HTTP 403, "Anonymous caller does not have storage.objects.get access to the Google Cloud Storage object".
+
+3. Zensar — BSE annual-report path (scrip 504067, March 2024)
+   URL: https://www.bseindia.com/bseplus/AnnualReport/504067/504067032024.pdf
+   Result: HTTP 404 (BSE "update your link and/or bookmark" page).
+
+4. Birlasoft Limited — Annual Report 2023-24 (company site)
+   URL: https://www.birlasoft.com/sites/default/files/resources/downloads/investors/annual-reports/annual-report-2023-24.pdf
+   Result: document opened but the text layer came back empty ("This page contains iframe that are currently hidden"),
+   one chunk, no content. Nothing could be read from it.
+
+Why this matters
+   A nil-by-disclosure can only be recorded from the audited consolidated filing itself (§D-2). Where the filing cannot
+   be read, the correct outcome is "not established", never "probably nil". No candidate in this pass was recorded as
+   accepted on the strength of a secondary source.

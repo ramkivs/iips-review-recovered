@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "workItem": "WI-6A",
+  "supplement": "WI-6A-S1",
+  "title": "Supplemental finding — reported consolidated capital-management wording, and why it is not yet a nil",
+  "date": "2026-11-07",
+  "supersedes": null,
+  "priorRecord": {
+    "bundle": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/",
+    "status": "INVESTIGATED_UNSUCCESSFUL",
+    "decision": "CONSOLIDATED_NIL_NOT_ESTABLISHED",
+    "treatment": "PRESERVED BYTE-IDENTICAL — the original run's retrieval limitation is a historical fact and is not rewritten by this supplement"
+  },
+  "claimedEvidence": {
+    "summary": "two consolidated capital-management sentences, one from each annual report, each covering the current and previous year, jointly spanning FY2022 to FY2024",
+    "quotations": "see source/quotes-owner-reported.json (both strings sha256 3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb)",
+    "verificationStatus": "NOT_VERIFIED_BY_THIS_RUN",
+    "whatWasVerified": [
+      "the FY2023-24 document is the right issuer and the right year (transmittal letter, 15 July 2024, 61st AGM)",
+      "the FY2022-23 document is the right issuer and the right year (transmittal letter, 17 July 2023, 60th AGM)",
+      "in each report the cited pages fall inside that report's own consolidated-statements page range (248-321 and 262-345 respectively), read from each report's index",
+      "the CIN on Zensar's letterhead (a 2026 Regulation 33 filing) is L72200PN1963PLC012621"
+    ],
+    "whatWasNotVerified": [
+      "the wording on printed pp.304-305 of the FY2023-24 report",
+      "the wording on printed pp.320-321 of the FY2022-23 report",
+      "the note numbers as printed",
+      "that the subject of either sentence is 'the Group' as distinct from 'the Company'"
+    ],
+    "whyNot": "the only PDF reader in this environment parses 30 pages; those pages are ~150 PDF pages into a 10.1 MB report; the proxy that paginates whole documents cannot parse these files. Fourteen attempts are itemised in source/retrieval-log-supplemental.txt, including a re-measurement of the boundary on the second filing and a successful control read of an 11-page Zensar filing through the same proxy."
+  },
+  "determination": {
+    "status": "INVESTIGATED_UNSUCCESSFUL",
+    "decision": "CONSOLIDATED_NIL_NOT_ESTABLISHED",
+    "changedFromPrior": false,
+    "changedFromPriorReason": "the only thing that changed is that a claim about the wording now exists in the record. A claim is not a reading. D-2 requires the wording to be read at its audited page by the governed run, and it was not.",
+    "observationCreated": false,
+    "nilDeclared": false,
+    "datasetIngested": false,
+    "assessmentGenerated": false,
+    "persisted": false,
+    "pipelineRun": false,
+    "threePeriodCheck": "NOT_PERFORMED",
+    "threePeriodCheckReason": "the coverage argument (FY24 + FY23 from one sentence, FY23 + FY22 from the other) is arithmetically neat and evidentially empty while both sentences are unread"
+  },
+  "secondIndependentBlocker": {
+    "finding": "EVEN IF BOTH QUOTATIONS WERE VERIFIED, THE DEBT BLOCK WOULD NOT CLOSE",
+    "detail": "gross debt is the sum of four components: short-term borrowings, current maturities of long-term debt, long-term borrowings and lease liabilities. The sentence speaks to borrowings only. Lease liabilities are a separate line item and the work item forbids mapping the sentence onto them, so LEASE_LIABILITIES would stay NOT_REPORTED. The aggregation contract returns the first component that carries no information unchanged, so gross debt and net debt would remain NOT_REPORTED and the intrinsic chain would stay withheld.",
+    "consequence": "a verified sentence would complete three of four components and still not produce a computable debt position. The remaining input — the consolidated lease-liability figure — sits on the same unreadable pages as the balance sheet.",
+    "evidence": "iips-platform/src/investment/assessment/capitalStructure.ts, grossDebtOf(): the four-component list and the blocking-observation rule; the WI-3 payload shows the same four components with leaseLiabilities PRESENT and the three borrowings components NIL_BY_DISCLOSURE"
+  },
+  "mappingPreparedNotApplied": "see source/quotes-owner-reported.json -> d2MappingAnalysis: which components would be NIL, which must stay NOT_REPORTED, and the two semantic caveats ('external', and durational wording versus a point-in-time balance-sheet item). Recorded so the decision is auditable; applied to nothing.",
+  "limitations": {
+    "opened": [],
+    "updated": [
+      {
+        "id": "L-037",
+        "status": "OPEN",
+        "change": "generalised, not closed",
+        "detail": "the retrieval boundary was re-measured this run on a second, independent filing (the FY2022-23 report from BSE stops at printed p.32) and reproduced through a third fetching path (Google's translate proxy returns the file, and the parser still stops at 30 pages). L-037 is therefore a property of the evidence environment, not of one filing. No resolution criterion exists in the register, so it stays OPEN."
+      }
+    ],
+    "unchanged": ["L-036 PARTIALLY RESOLVED", "L-035 OPEN"]
+  },
+  "whatWouldCloseThis": [
+    "a readable rendering of printed pp.304-305 (FY2023-24) and pp.320-321 (FY2022-23) — the two pages themselves, as text or as a page extract placed in the workspace, are sufficient, because D-2 anchors a quotation to a page, not to a byte stream",
+    "the consolidated lease-liability figure from the same balance sheet, without which even a verified nil cannot produce gross debt",
+    "then: ingest, generate, persist, separate-process readback, digest verification, and the three-period confirmation"
+  ]
+}

@@ -1,0 +1,71 @@
+TAP version 13
+# Subtest: WI-6A — Zensar consolidated nil not established, and nothing pretends otherwise
+    # Subtest: the determination records an unsuccessful investigation and creates nothing
+    ok 1 - the determination records an unsuccessful investigation and creates nothing
+      ---
+      duration_ms: 0.725051
+      type: 'test'
+      ...
+    # Subtest: the owner-reported sentence is scoped standalone by the filing's own pagination, and is never transferable
+    ok 2 - the owner-reported sentence is scoped standalone by the filing's own pagination, and is never transferable
+      ---
+      duration_ms: 0.560963
+      type: 'test'
+      ...
+    # Subtest: the front-matter extract carries the identity read from the filing, and leaves CIN and ISIN unfilled
+    ok 3 - the front-matter extract carries the identity read from the filing, and leaves CIN and ISIN unfilled
+      ---
+      duration_ms: 0.274956
+      type: 'test'
+      ...
+    # Subtest: the access log records every refusal exactly, and refuses to read silence into the unread pages
+    ok 4 - the access log records every refusal exactly, and refuses to read silence into the unread pages
+      ---
+      duration_ms: 0.191234
+      type: 'test'
+      ...
+    # Subtest: no period is dressed up: three periods, all unretrieved, the check not performed
+    ok 5 - no period is dressed up: three periods, all unretrieved, the check not performed
+      ---
+      duration_ms: 0.707225
+      type: 'test'
+      ...
+    # Subtest: the bundle holds no dataset, no payload and no nil of its own
+    ok 6 - the bundle holds no dataset, no payload and no nil of its own
+      ---
+      duration_ms: 0.797555
+      type: 'test'
+      ...
+    # Subtest: the historical bundles are untouched — WI-3, WI-5 and WI-6 still verify against their own manifests
+    ok 7 - the historical bundles are untouched — WI-3, WI-5 and WI-6 still verify against their own manifests
+      ---
+      duration_ms: 1.859814
+      type: 'test'
+      ...
+    # Subtest: the register opens L-037, leaves L-036 and L-035 alone, and records the negative without a nil
+    ok 8 - the register opens L-037, leaves L-036 and L-035 alone, and records the negative without a nil
+      ---
+      duration_ms: 3.070303
+      type: 'test'
+      ...
+    # Subtest: every committed file in the bundle still hashes to the digest recorded beside it
+    ok 9 - every committed file in the bundle still hashes to the digest recorded beside it
+      ---
+      duration_ms: 0.673925
+      type: 'test'
+      ...
+    1..9
+ok 1 - WI-6A — Zensar consolidated nil not established, and nothing pretends otherwise
+  ---
+  duration_ms: 10.112974
+  type: 'suite'
+  ...
+1..1
+# tests 9
+# suites 1
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 200.865182

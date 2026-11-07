@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_WI6_CANDIDATES_V1",
+  "workItem": "WI-6 \u2014 second successful real-issuer nil-by-disclosure validation",
+  "date": "2026-11-07",
+  "sector": "Technology",
+  "excludedByInstruction": [
+    {
+      "legalName": "Infosys Limited",
+      "reason": "the acknowledged WI-3 issuer; a second issuer must be someone else",
+      "issuerId": "IN:CIN:L85110KA1981PLC013115"
+    },
+    {
+      "legalName": "eClerx Services Limited",
+      "reason": "WI-5; nil withdrawn on review 2026-11-07 (PR #501), no qualifying nil exists",
+      "issuerId": "IN:CIN:L72200MH2000PLC125319"
+    }
+  ],
+  "result": {
+    "accepted": 0,
+    "totalCandidates": 10,
+    "examinedThisPass": 4,
+    "carriedForwardFromWI5": 4,
+    "blocked": 2,
+    "decision": "NO_QUALIFYING_NIL_FOUND",
+    "consequence": "no ingestion, no assessment, no persistence for WI-6; no nil declared; objective remains unmet"
+  },
+  "candidates": [
+    {
+      "legalName": "Newgen Software Technologies Limited",
+      "cin": "L72200DL1992PLC049074",
+      "sector": "Technology (enterprise software products and platforms)",
+      "filingExamined": "Annual Report 2023-24, Notes to consolidated financial statements, Note 19 Borrowings (p.262)",
+      "evidenceClass": "PRIMARY_TEXT_READ",
+      "finding": "borrowings 219.92 lakh at 31-Mar-2024 and 423.55 lakh at 31-Mar-2023 (deferred payment liabilities to erstwhile shareholders of Number Theory Software Private Limited)",
+      "verdict": "REJECTED",
+      "reason": "the governed borrowings lines are non-zero, so there is nothing to declare nil",
+      "source": "source/newgen-fy24-note-19-borrowings.txt"
+    },
+    {
+      "legalName": "Sasken Technologies Limited",
+      "cin": "L72100KA1989PLC014226",
+      "sector": "Technology (engineering R&D services)",
+      "filingExamined": "Annual Report 2023-24, Notes to the Consolidated Financial Statements: Notes 13-15 (pp.193-196), Note 32 Capital management (p.217), Notes 33-34 (pp.217-219)",
+      "evidenceClass": "PRIMARY_TEXT_READ",
+      "finding": "no borrowings note and no sentence declaring any governed line nil; Note 15(c) says only that 'The Company has only one class of equity shares having a par value of Rs 10 per share' under a heading about equity shares; Note 32 measures adjusted net debt as total liabilities less cash",
+      "verdict": "REJECTED",
+      "reason": "silence is not a declaration; and the one share-class sentence is scoped to equity shares \u2014 the construction withdrawn in WI-5",
+      "source": "source/sasken-fy24-note-15-equity-share-capital.txt, source/sasken-fy24-note-32-capital-management.txt"
+    },
+    {
+      "legalName": "Zensar Technologies Limited",
+      "cin": "L72200PN1963PLC012621",
+      "sector": "Technology (digital and application services)",
+      "filingExamined": "Integrated Annual Report 2023-24 (attempted; consolidated statements from printed p.248)",
+      "evidenceClass": "NOT_READABLE",
+      "finding": "primary filing returned HTTP 403 from the NSE archive, HTTP 403 from the storage mirror and HTTP 404 on the BSE annual-report path; a secondary aggregator (Goodreturns) attributes the sentence 'The Company does not have any outstanding borrowings as at 31 March 2024 and 31 March 2023' to Zensar's notes, but a secondary aggregator cannot establish a nil and it is not shown whether the sentence sits in the consolidated notes",
+      "verdict": "BLOCKED_NOT_ESTABLISHED",
+      "reason": "primary filing unreadable in this environment; the named sentence would, if confirmed in the audited consolidated notes, be a qualifying nil for LONG_TERM_BORROWINGS / SHORT_TERM_BORROWINGS",
+      "nextStep": "re-test Zensar first when the NSE archive is reachable; read the borrowings note and the liquidity-risk note of the consolidated statements",
+      "source": "source/access-blockers.txt"
+    },
+    {
+      "legalName": "Birlasoft Limited",
+      "cin": "L72100PN1997PLC106834",
+      "sector": "Technology (digital and IT services)",
+      "filingExamined": "Annual Report 2023-24 on birlasoft.com",
+      "evidenceClass": "NOT_READABLE",
+      "finding": "the PDF's text layer came back empty through the reader; the only 'no borrowings' wording previously located for this issuer is Management Discussion and Analysis of FY2022-23, which is not the audited notes",
+      "verdict": "REJECTED",
+      "reason": "MD&A is not an audited disclosure, and the audited filing could not be read in this pass",
+      "source": "source/access-blockers.txt"
+    },
+    {
+      "legalName": "Tata Consultancy Services Limited",
+      "sector": "Technology",
+      "evidenceClass": "PRIMARY_TEXT_READ",
+      "finding": "consolidated AR 2023-24: no borrowings caption; the contractual-maturity table lists only trade payables, lease liabilities and other financial liabilities; the interest-rate note says only 'not significantly exposed to interest rate risk'; authorised capital includes preference shares",
+      "verdict": "REJECTED",
+      "reason": "no declaration; an exposure statement is not a nil",
+      "source": "docs/integration/IIPS_V3_IID_WI5_PREFERENCE_CAPITAL_2026-11-07.md \u00a72 (WI-5 pass)"
+    },
+    {
+      "legalName": "Tata Elxsi Limited",
+      "sector": "Technology",
+      "evidenceClass": "PRIMARY_TEXT_READ",
+      "finding": "no borrowings caption in the consolidated statements; risk note follows the TCS form",
+      "verdict": "REJECTED",
+      "reason": "absence of a caption is presentation, not a declaration",
+      "source": "docs/integration/IIPS_V3_IID_WI5_PREFERENCE_CAPITAL_2026-11-07.md \u00a72 (WI-5 pass)"
+    },
+    {
+      "legalName": "HCL Technologies / Mphasis / Persistent Systems / LTIMindtree / Happiest Minds",
+      "sector": "Technology",
+      "evidenceClass": "PRIMARY_TEXT_READ",
+      "finding": "consolidated borrowings are non-zero in the period examined (e.g. Mphasis Note 21; Happiest Minds Note 19; Persistent term loan)",
+      "verdict": "REJECTED",
+      "reason": "consolidated borrowings are non-zero for each of these issuers in the periods examined, so none of them is a nil candidate for any borrowings line",
+      "source": "docs/integration/IIPS_V3_IID_WI5_PREFERENCE_CAPITAL_2026-11-07.md \u00a72 (WI-5 pass)"
+    },
+    {
+      "legalName": "Tanla Platforms Limited",
+      "sector": "Technology (CPaaS)",
+      "evidenceClass": "SECONDARY_SNIPPET",
+      "finding": "search snippets of its own results statements show a borrowings line of Rs 14 million non-current at Q2 FY24 and repayment flows",
+      "verdict": "REJECTED",
+      "reason": "borrowings are non-zero; snippet-level evidence only, so nothing is asserted beyond 'not a nil candidate'",
+      "source": "n/a \u2014 not used as evidence"
+    },
+    {
+      "legalName": "KFin Technologies Limited",
+      "sector": "financial-technology platform (classified Financial Services by the exchange)",
+      "evidenceClass": "SECONDARY_SNIPPET",
+      "finding": "AR 2023-24 front matter states 'Debt as on March 31, 2024, represents lease liabilities and there are no outstanding borrowings'",
+      "verdict": "REJECTED",
+      "reason": "front matter is not the audited notes, and the issuer is not a Technology-sector company under the roster taxonomy",
+      "source": "n/a \u2014 not used as evidence"
+    },
+    {
+      "legalName": "Capgemini Technology Services India Limited",
+      "sector": "Technology (unlisted Indian subsidiary)",
+      "evidenceClass": "SECONDARY_SNIPPET",
+      "finding": "issued capital is equity only while authorised capital includes preference shares",
+      "verdict": "REJECTED",
+      "reason": "not a listed issuer; its financial statements are not the consolidated statements of a listed company",
+      "source": "n/a \u2014 not used as evidence"
+    }
+  ]
+}

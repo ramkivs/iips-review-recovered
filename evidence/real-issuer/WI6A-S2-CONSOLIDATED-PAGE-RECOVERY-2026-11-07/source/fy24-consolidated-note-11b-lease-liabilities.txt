@@ -1,0 +1,88 @@
+# Zensar Technologies Limited — Integrated Annual Report 2023-24
+# Source PDF: https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf
+# Source bytes: 10813579 bytes, sha256 d52cc3af3b074f5b288d7f887cca0887a046e7f2b04abebfb4ab1fd45035990d
+# PDF page index: 146 of 167   Printed page numbers on this sheet: 288-289
+# What this page is: Consolidated Note 11(b) Lease liabilities — non-current / current split
+# Extraction: `pdftotext -layout` (poppler) over the fetched bytes, page 146, verbatim.
+# NOTE: this report prints two printed pages per PDF sheet, so one sheet carries two printed page numbers;
+#       the two columns are interleaved line-by-line by the layout-preserving extractor.
+----------------------------------------------------------------------------------------------------
+Zensar Technologies Limited                                                                                                                                                                                      Financial Statements    Integrated Annual Report 2023-24
+
+
+
+
+Notes to the Consolidated Financial Statements                                                                                         Notes to the Consolidated Financial Statements
+as at and for the year ended March 31, 2024					                                                                                       as at and for the year ended March 31, 2024					
+(All amounts in INR Million, unless otherwise stated)		                                                                                (All amounts in INR Million, unless otherwise stated)		
+
+
+(iii) Retained earnings:                                                                                                               11 (b) Lease liabilities
+       Retained earnings represents Group’s undistributed earnings after taxes.
+                                                                                                                                                                                                                                                As at                As at
+                                                                                                                                       Particulars
+(iv) Capital reserve:                                                                                                                                                                                                                 March 31, 2024       March 31, 2023
+                                                                                                                                       Non-current
+       The Group recognises profit and loss on purchase, sale, issue or cancellation of the Group’s own equity instruments to
+                                                                                                                                       Lease Liabilities                                                                                        1,228                1,904
+       capital reserve.
+                                                                                                                                       Current
+(v) Securities premium:                                                                                                                Lease Liabilities                                                                                         637                   826
+                                                                                                                                       Total                                                                                                   1,865                 2,730
+       Securities premium is used to record premium on issue of Equity shares. This reserve can be utilised in accordance with
+       the provisions of the Companies Act, 2013.                                                                                      Refer note 32 (b) and 32 (d)
+
+(vi) General Reserve:
+                                                                                                                                       12 Trade payables
+       The general reserve is a free reserve which is used from time to time to transfer profits from retained earnings for
+       appropriation purposes. As the general reserve is created by a transfer from one component of equity to another and is                                                                                                                   As at                As at
+                                                                                                                                       Particulars
+       not an item of other comprehensive income, items included in the general reserve will not be reclassified subsequently to                                                                                                      March 31, 2024       March 31, 2023
+       statement of profit and loss.                                                                                                   Non-current
+                                                                                                                                       Trade payables                                                                                             129                     -
+(vii) Special economic zone re-investment reserve:                                                                                     Total                                                                                                      129                     -
+                                                                                                                                       Current
+       This Reserve had been created out of profit of eligible SEZ units in accordance with the provision of Section 10 AA(1)(ii) of
+                                                                                                                                       Trade payables                                                                                          3,095                 2,772
+       the Income Tax Act,1961. The reserve can only be utilized by the Company for acquiring new plant and machinery for the
+                                                                                                                                       Total                                                                                                   3,095                 2,772
+       purpose of its business in terms of the section 10AA(2) of the Income Tax Act, 1961.
+                                                                                                                                       For ageing, refer Note 40 (ii)
+(viii) Effective portion of Cash Flow Hedges
+       The effective portion of cash flow hedges represents the cumulative effective portion of gains or losses arising on changes     During the year ended March 31, 2024 and March 31, 2023 an amount of INR 35 Million and INR 10 Million respectively was paid
+       in fair value of designated portion of hedging instruments entered into for cash flow hedges. Such gains or losses will be      beyond the appointed day as defined in the Micro, Small and Medium Enterprises Development Act, 2006.
+       reclassified to statement of profit and loss in the period in which the hedged transaction occurs.
+                                                                                                                                       Interest due and outstanding on the same is INR 0 Million [previous year INR 0 Million]. Interest paid INR 0 Million (previous year
+(ix) Equity Instruments through Other Comprehensive Income                                                                             INR 0 Million).
+
+       The Group has elected to recognise changes in the fair value of certain investments in equity securities in other               Further in view of the Management, the amount of interest, if any remaining due and payable even in the succeeding years,
+       comprehensive income. These changes are accumulated within the equity instruments through other comprehensive                   until such date when the interest dues above are actually paid to the small enterprise, for the purpose of disallowance of a
+       income within equity. The Group transfers amounts from this reserve to retained earnings when the underlying transaction        deductible expenditure under section 23 of the Micro, Small and Medium Enterprises Development Act, 2006 is not expected
+       is consummated.                                                                                                                 to be material.
+
+(x) Exchange differences on translating the financial statements of a foreign operation                                                This information has been determined to the extent such suppliers have been identified on the basis of information obtained
+       Exchange differences arising on translation of the foreign operations are recognised in other comprehensive income as           and available with the Group.
+       described in accounting policy and accumulated in a separate reserve within equity. The cumulative amount is reclassified
+       to profit or loss when the net investment is disposed off.                                                                      13 Provisions [non-current]
+
+                                                                                                                                                                                                                                                As at                As at
+11 (a) Other financial liabilities                                                                                                     Particulars
+                                                                                                                                                                                                                                      March 31, 2024       March 31, 2023
+                                                                                                                                       Provision for Contingencies                                                                                48                    42
+                                                                                                        As at                 As at
+Particulars                                                                                                                            Total                                                                                                      48                    42
+                                                                                              March 31, 2024        March 31, 2023
+Non-current
+Fair value of financial liability (refer note 36)                                                        355                   351     (i)   Information about individual provisions
+Accrued salaries and benefits                                                                              -                    72           It pertains to Lease rentals related litigations. The timing and the amount of cash flows that will arise from this matter will
+Total                                                                                                    355                   423           be determined by the Appellate Authorities only on settlement of this case.
+Current
+Foreign currency derivative liabilities                                                                    59                   97
+Accrued salaries and benefits                                                                          2,008                 1,939
+Unclaimed dividend                                                                                         21                   23
+Capital creditors                                                                                           9                   27
+Others                                                                                                     17                   48
+Total                                                                                                   2,114                2,134
+
+
+ 288                                                                                                                                                                                                                                                                   289

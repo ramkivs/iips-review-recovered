@@ -1,0 +1,50 @@
+WI-6A-S1 — commands performed (2026-11-07, branch arena/09e91125-iips-review-recovered)
+
+== 0. starting point ==========================================================
+
+git status --short                                          # clean at 9b92ae2 (WI-6A published, PR #503 open)
+git log --oneline -3
+git ls-remote origin arena/09e91125-iips-review-recovered    # remote head = 9b92ae2
+
+== 1. retrieval of the reported consolidated pages (14 attempts; see source/retrieval-log-supplemental.txt) ==
+
+DIRECT  https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+          chunk 14 -> printed pp.49-54   |  chunk 16 -> clamped to 15, hasMore false, totalChunks 16
+DIRECT  same URL + "#page=152"                               -> fragment ignored, front matter again
+DIRECT  https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-...pdf
+          chunk 0 -> transmittal letter 17 Jul 2023 + Index (187 standalone / 262 consolidated / 346 glossary)
+          chunk 15 -> stops at printed p.32
+PROXY   https://r.jina.ai/ + BSE FY23 URL (https, http and ?v= cache-buster)  -> empty markdown each time
+PROXY   https://r.jina.ai/ + NSE FY24 URL                                     -> HTTP 403 (Akamai)
+PROXY   https://r.jina.ai/ + translate.goog + NSE FY24 URL                    -> Google "unusual traffic" page
+MIRROR  https://nsearchives-nseindia-com.translate.goog/...pdf?_x_tr_tl=en    -> file fetched, parsed under the same 30-page cap
+PATTERN https://www.bseindia.com/bseplus/AnnualReport/504067/5040670324.pdf   -> HTTP 404
+CONTROL https://r.jina.ai/ + zensar.com Financial-Results-Q2FY27.pdf          -> 11 pages, 5 chunks, full text
+SEARCH  exact-phrase queries for the consolidated wording                      -> only the standalone rendering; not used
+
+== 2. targeted tests and typecheck ===========================================
+
+cd iips-platform
+npx tsx --test tests/investment/wi6aSupplementalZensar.test.ts   # -> runs/02-guard-test.txt
+npx tsx --test tests/investment/wi6aZensarRecovery.test.ts       # original WI-6A guard still green
+npx tsx --test tests/investment/wi6SecondIssuerSearch.test.ts tests/investment/wi5PreferenceCapitalEvidence.test.ts
+npx tsc --noEmit                                                  # -> runs/03-typecheck.txt
+
+== 3. digest generation (never digest digests.json into itself) ==============
+
+node -e '<sha256 every substantive file; exclude digests.json and this bundle own run logs runs/02-*, runs/03-*, runs/04-*>'
+       -> digests.json   (6 files)
+
+== 4. clean-clone reproduction ==============================================
+
+git clone --no-hardlinks . /tmp/wi6as && cd /tmp/wi6as
+ln -s /home/user/iips-review-recovered/iips-platform/node_modules iips-platform/node_modules
+cd iips-platform && npx tsx --test tests/investment/wi6aSupplementalZensar.test.ts     # -> runs/04-clean-clone.txt
+node -e '<verify this supplement, then WI-6A, WI-6, WI-5 and WI-3 against their own digests.json>'
+
+== 5. publication (no merge) ================================================
+
+git add -A && git commit -m "WI-6A-S1: Zensar consolidated wording reported but unread — determination unchanged, L-037 generalised"
+git push origin arena/09e91125-iips-review-recovered
+gh pr view 503        # the existing WI-6A PR is updated by the new commit; not merged
+gh pr checks 503      # no checks reported — this repository has no CI; no success is claimed

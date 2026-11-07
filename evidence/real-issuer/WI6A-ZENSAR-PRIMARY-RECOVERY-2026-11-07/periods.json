@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07",
+  "issuer": "Zensar Technologies Limited",
+  "requirement": "three consecutive audited consolidated annual periods, with the nil wording quoted verbatim, page-anchored, and scoped",
+  "checkPerformed": false,
+  "checkStatus": "NOT_PERFORMED",
+  "checkStatusReason": "The base period's consolidated statements were not retrieved. A three-period check built on an unread base period would be three unread periods, not evidence.",
+  "periods": [
+    {
+      "period": "FY 2023-24",
+      "periodEnd": "2024-03-31",
+      "role": "base period",
+      "filing": "Integrated Annual Report 2023-24 (transmitted 15 July 2024)",
+      "consolidatedStatementsLocator": "printed pp.248-321",
+      "consolidatedStatementsRead": false,
+      "nilWordingLocated": "none admissible",
+      "standaloneNilWordingReported": "The Company does not have any outstanding borrowings as at 31 March 2024 and 31 March 2023. (owner-reported, printed pp.246-247, STANDALONE scope, not read by this run)",
+      "status": "NOT_RETRIEVED"
+    },
+    {
+      "period": "FY 2022-23",
+      "periodEnd": "2023-03-31",
+      "role": "first comparative",
+      "filing": "Integrated Annual Report 2022-23",
+      "consolidatedStatementsLocator": "NOT_IDENTIFIED",
+      "consolidatedStatementsRead": false,
+      "nilWordingLocated": "none",
+      "status": "NOT_RETRIEVED",
+      "note": "Not retrieved in this pass: the comparative period is only required once the base period qualifies, and it does not. The archived copy of the FY2022-23 report was not located on any host reachable to this run."
+    },
+    {
+      "period": "FY 2021-22",
+      "periodEnd": "2022-03-31",
+      "role": "second comparative",
+      "filing": "Integrated Annual Report 2021-22",
+      "consolidatedStatementsLocator": "NOT_IDENTIFIED",
+      "consolidatedStatementsRead": false,
+      "nilWordingLocated": "none",
+      "status": "NOT_RETRIEVED",
+      "note": "Not retrieved for the same reason as FY2022-23."
+    }
+  ],
+  "consequence": "Because no period carries a read, page-anchored consolidated nil, the three-period requirement is unmet in every column. No period is described as nil, zero, debt-free or silent.",
+  "whatWouldSatisfyIt": [
+    "the consolidated notes of FY2023-24 read and quoted for both balance-sheet dates",
+    "the consolidated notes of FY2022-23 and FY2021-22 read and quoted for their own dates",
+    "each quotation anchored to printed page, note number and statement_scope",
+    "identity (legal name, CIN, ISIN, symbols, series) verified from each filing's own front matter"
+  ]
+}

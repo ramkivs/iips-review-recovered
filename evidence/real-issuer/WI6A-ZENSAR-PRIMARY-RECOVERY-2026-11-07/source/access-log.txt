@@ -1,0 +1,95 @@
+WI-6A — RETRIEVAL LOG
+Issuer: Zensar Technologies Limited (ZENSARTECH / 504067)
+Document sought: Integrated Annual Report 2023-24, consolidated financial statements (printed pp.248-321)
+Date of all attempts: 2026-11-07 (Asia/Kolkata). Every attempt below was made with the sandbox's page reader
+(direct fetch, or the r.jina.ai text-rendering proxy named in the URL column). No other network path exists in
+this environment.
+
+================================================================================
+WHAT WAS REACHED
+================================================================================
+
+Front matter of the filing — printed pages ~1 to ~55 — was read from TWO independent copies of the same
+document (NSE origin and the RPG Group mirror). Both stop at the same place: the reader renders roughly the
+first 100 KB of text and no more, whatever the host. Every retrieval of a deep page in this bundle failed for
+that reason or for an outright HTTP refusal; none failed because the page was blank.
+
+================================================================================
+ATTEMPT LOG
+================================================================================
+
+ #   URL / path                                                              RESULT
+---  -----------------------------------------------------------------------  ------------------------------
+ 1   https://nsearchives.nseindia.com/annual_reports/                        PARTIAL. Reader returned 16 chunks
+     AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf                          covering printed pp.1-~55 only
+     (direct, no proxy)                                                       (cover letter, contents, About the
+                                                                              Report, corporate-overview narrative).
+                                                                              Chunks 0, 12, 14 and 15 read in
+                                                                              full. Nothing at or beyond p.176.
+
+ 2   https://www.rpggroup.com/assets/investors/pdfs/                         PARTIAL, identical coverage: 16 chunks,
+     zensar-annual-report-fy241743584822.pdf (direct)                         same front matter, same wording. This
+                                                                              confirms the NSE copy is the same
+                                                                              document and that the cap is a reader
+                                                                              limit, not a server limit.
+
+ 3   https://r.jina.ai/https://nsearchives.nseindia.com/annual_reports/       HTTP 403 Forbidden (Akamai).
+     AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+     Reference #18.1668dc17.1794028603.32167b5a
+                                                                              -> proxy egress is what NSE rejects;
+                                                                                 the origin allows the plain reader
+                                                                                 (attempt 1). Recorded in WI-6 as
+                                                                                 an origin block; corrected here.
+
+ 4   https://r.jina.ai/https://archives.nseindia.com/annual_reports/          HTTP 403 Forbidden.
+     AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+     Reference #18.710f3417.1794029237.9f41b9b4
+
+ 5   https://r.jina.ai/https://www.rpggroup.com/assets/investors/pdfs/        EMPTY. Status success, zero
+     zensar-annual-report-fy241743584822.pdf                                  markdown characters extracted; the
+     (and again with ?v=2, and once more URL-encoded)                         same result on all three attempts.
+
+ 6   https://r.jina.ai/https://storage.googleapis.com/assets.cdp.blinkx.in/  HTTP 403 from Google Cloud Storage.
+     BlinkxSearch/CompaniesDir/Companies/ZENSARTECH/Annual_Report/
+     ZENSARTECH_annual_report_FY_2024.pdf
+     "Anonymous caller does not have storage.objects.get access to the Google Cloud Storage object."
+
+ 7   https://archive.org/wayback/available?url=nsearchives.nseindia.com/      {"archived_snapshots": {}} — the
+     annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf            filing has never been archived.
+
+ 8   https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w?...strScrip=504067  REDIRECTED to
+     (annual-report category, 2024)                                           www.bseindia.com/members/showinterest
+                                                                              — the endpoint is Referer-gated;
+                                                                              no attachment GUID returned. Same
+                                                                              redirect through the proxy.
+
+ 9   https://r.jina.ai/https://api.allorigins.win/raw?url=<NSE pdf>           REFUSED by the proxy itself:
+                                                                              AbuseAlleviationError 40305.
+10   https://r.jina.ai/https://api.codetabs.com/v1/proxy/?quest=<NSE pdf>     REFUSED by the proxy itself:
+                                                                              AbuseAlleviationError 40305.
+11   https://r.jina.ai/https://corsproxy.io/?url=<NSE pdf>                    REFUSED by the proxy itself:
+                                                                              AbuseAlleviationError 40305.
+12   https://r.jina.ai/https://data.fuzz.co/LODR/AnnualReports/                EMPTY (FY2024-25 report, held as a
+     095b6aea-3591-4163-871c-bb789af6825b.pdf                                 fallback for FY2024 comparatives; no
+                                                                              text extracted).
+13   https://www.zensar.com/investors and /investors/investor-corner           The company's own annual-report
+     (read for a direct FY2023-24 PDF link)                                   archive is client-rendered; the page
+                                                                              exposes only current-quarter links.
+                                                                              No FY2023-24 report URL is published
+                                                                              in the served markup.
+14   https://www.bseindia.com/bseplus/AnnualReport/504067/504067032024.pdf     HTTP 404 (recorded in WI-6; not
+                                                                              re-attempted here).
+
+================================================================================
+WHAT THE LOG DOES AND DOES NOT ESTABLISH
+================================================================================
+
+ESTABLISHED: the consolidated statements of the FY2023-24 filing were not obtained in this run, from any host,
+by any available route. Printed pp.248-321 were never rendered.
+
+NOT ESTABLISHED, AND NOT CLAIMED: anything about the contents of those pages. A page that was never rendered is
+never "probably nil", never "silent", and never a finding. The determination in this bundle is that the
+consolidated question is UNRESOLVED for want of retrieval — not that the consolidated notes contain nothing.
+
+CONSEQUENCE: because the qualifying period could not be read, no observation, no nil declaration, no dataset
+and no assessment were created. The three-period check was not performed: it has nothing to stand on.

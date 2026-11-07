@@ -1,0 +1,33 @@
+# WI-6 — what was run, and what was only read
+
+No ingestion, no assessment and no persistence were executed for WI-6. There was nothing to ingest: no candidate's
+audited consolidated filing declares a governed line item nil, and manufacturing one was not an option. The pipeline
+was therefore not run, and the honest artifact of this work item is the investigation itself.
+
+## Retrieval (read-only)
+
+    fetch_page  https://r.jina.ai/https://nsearchives.nseindia.com/annual_reports/AR_24204_NEWGEN_2023_2024_27062024175523.pdf
+                chunks 0, 90, 94, 95, 96   -> Newgen FY2023-24 consolidated notes (Notes 16-28); Note 19 Borrowings: non-zero
+    fetch_page  https://r.jina.ai/https://www.bseindia.com/xml-data/corpfiling/AttachHis/3c9de688-ed93-4eb8-b632-1109e5b91e04.pdf
+                chunks 0, 79, 81, 83, 89   -> Sasken FY2023-24 consolidated notes (Notes 7-34); no borrowings declaration
+    fetch_page  https://r.jina.ai/https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+                chunk 0                    -> HTTP 403 (origin refused the reader)
+    fetch_page  https://r.jina.ai/https://storage.googleapis.com/assets.cdp.blinkx.in/.../ZENSARTECH_annual_report_FY_2024.pdf
+                chunk 124                  -> HTTP 403 (storage object not public)
+    fetch_page  https://r.jina.ai/https://www.bseindia.com/bseplus/AnnualReport/504067/504067032024.pdf
+                chunk 0                    -> HTTP 404
+    fetch_page  https://r.jina.ai/https://www.birlasoft.com/sites/default/files/resources/downloads/investors/annual-reports/annual-report-2023-24.pdf
+                chunk 0                    -> empty text layer
+
+## Verification of the bundle itself
+
+    cd iips-platform && npx tsx --test tests/investment/wi6SecondIssuerSearch.test.ts    # runs/02-guard-test.txt
+    cd iips-platform && npx tsc --noEmit                                                 # runs/03-typecheck.txt
+    # clean clone: runs/04-clean-clone.txt
+
+## WI-5 close-out (before WI-6 started)
+
+    git fetch origin main
+    gh pr view 501 --json state,mergeable        # OPEN, MERGEABLE, head d30a931
+    gh pr merge 501 --squash                     # merged: d863d3e
+    # clean clone of main: 24/24 bundle digests, 9/9 guard tests

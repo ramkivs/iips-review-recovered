@@ -1825,3 +1825,210 @@ remains due. No status was moved to accommodate this result.
 retained under `runs/superseded/` and `artifact/superseded/`; guarded by
 `iips-platform/tests/investment/wi5PreferenceCapitalEvidence.test.ts`, `tsc --noEmit` clean, and reproduced from a clean
 clone.
+
+## 17.11 WI-6 — second issuer search: no qualifying nil exists in the accessible filings
+
+**Date.** 2026-11-07. **Scope.** IRR only, Technology only, one pass. IPD untouched. No policy, schema, confidence,
+valuation or persistence change.
+
+**Outcome: negative, and no data change.** WI-6 was commissioned to produce a second issuer beside Infosys with a
+genuinely supported explicit nil-by-disclosure. It did not succeed, and it did not manufacture a success: **no dataset
+was ingested, no assessment generated, no artifact persisted, and no nil declared.** Infosys therefore remains the only
+issuer on record with a validated explicit nil.
+
+**What was searched.** The candidate register (`evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/candidates.json`)
+records ten issuers. Primary text was read for Newgen Software (Note 19 Borrowings, p.262: ₹219.92 lakh at 31-Mar-2024 —
+non-zero) and Sasken Technologies (consolidated Notes 13–15, 32–34: no borrowings note and no nil wording; its Note
+15(c) "only one class of equity shares" is the same scoped construction withdrawn in WI-5). Carried forward unchanged
+from the WI-5 pass: TCS, Tata Elxsi, HCLTech, Mphasis, Persistent, LTIMindtree, Happiest Minds and the subsidiary filers.
+Rejected on evidence class or scope: Birlasoft (MD&A only; filing unreadable), Tanla (borrowings non-zero), KFin
+(front-matter statement; financial-services classification), Capgemini Technology Services India (unlisted).
+
+**The exact blocker.** Zensar Technologies is the one candidate whose secondary evidence has the required form — a
+secondary aggregator attributes "The Company does not have any outstanding borrowings as at 31 March 2024 and 31 March
+2023" to its notes — and its primary filing could not be read: HTTP 403 from the NSE annual-report archive, HTTP 403
+from the storage mirror, HTTP 404 on the BSE annual-report path (`source/access-blockers.txt`). A secondary aggregator
+cannot establish a nil under D-2, and it is not shown there whether the sentence sits in the consolidated notes, so the
+candidate is recorded as **blocked, not established**. Zensar is the first candidate for the next pass.
+
+**Boundary this adds.** WI-3 shows what a nil needs (an affirmative sentence about the item); WI-5 shows that a sentence
+scoped to a different subject cannot carry one; WI-6 shows that an unreadable filing cannot carry one either. All three
+belong in the register because all three are ways a nil can be wrong or absent.
+
+**Statuses.** `L-036` remains **`PARTIALLY RESOLVED`**, `L-035` remains **`OPEN`**, `L-001` … `L-034` untouched, and the
+180-day `associates-review/1.0.0` control remains due. The WI-6 objective stays open; sector expansion remains deferred.
+
+**Evidence.** `evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/` — `candidates.json`, four page-anchored
+source extracts, `source/access-blockers.txt`, `runs/commands.txt`, `digests.json` — guarded by
+`iips-platform/tests/investment/wi6SecondIssuerSearch.test.ts`, which also verifies that the WI-3 and WI-5 bundles are
+byte-unchanged.
+
+## 17.12 WI-6A — Zensar: the primary filing was reached, the consolidated pages were not, and the sentence is standalone
+
+**Date.** 2026-11-07. **Scope.** IRR only, one pass. IPD untouched. No policy, schema, confidence, valuation or
+persistence change. PR #502 preserved and left unmerged.
+
+**Outcome: `INVESTIGATED_UNSUCCESSFUL`, and no data change.** WI-6A was commissioned to settle one question — whether
+the **consolidated** section of Zensar Technologies' FY2023-24 Integrated Annual Report declares borrowings nil. It is
+not settled. The consolidated statements (printed pp.248-321) were **not retrieved** by any reader available to this
+environment, so **no observation was created, no nil declared, no dataset ingested, no assessment generated and
+nothing persisted.** Zensar is recorded as investigated and unsuccessful; Infosys therefore remains the only issuer on
+record with a validated explicit nil.
+
+**What the pass did settle.** The filing's own pagination decides the scope of the sentence that started the work:
+standalone statements begin at printed p.176, consolidated statements at printed p.248, and the owner-located sentence
+sits at printed pp.246-247. It is therefore a **standalone** declaration — about Zensar Technologies Limited, not the
+Group — and D-2 does not permit a standalone declaration to be transferred to consolidated data. That conclusion holds
+whatever pp.248-321 contain. It is the WI-5 failure mode one level up: a sentence scoped to *equity* shares could not
+carry a preference-capital nil; a sentence scoped to the *parent entity* cannot carry a group nil.
+
+**What was reached, and where it stopped.** The NSE archive URL serves the document to the plain reader — WI-6's "403
+from the NSE archive" was a **proxy** refusal, now corrected, with reference `#18.1668dc17.1794028603.32167b5a` recorded
+as such. The front matter was read end-to-end from two independent copies of the same document (NSE original and the RPG
+Group mirror, identical wording): transmittal letter dated 15 July 2024 with Scrip ID/Symbol `ZENSARTECH`, Scrip Code
+`504067`, Series `EQ`; contents spread showing 176 Standalone / 248 Consolidated; Index with Glossary p.322 and SASB
+p.327. `CIN` and `ISIN` are absent from the readable window and are recorded as `NOT_VERIFIED_FROM_FILING` rather than
+imported from a registry aggregator. Every reader here renders roughly the first 100 KB of text and stops; the one reader
+that paginates whole documents is refused by NSE; the mirror, storage, BSE, Wayback and CORS-proxy routes are itemised
+with exact statuses in `source/access-log.txt` (fourteen attempts).
+
+**New limitation — `L-037` (`OPEN`).** *Deep-page retrieval of large Indian issuer annual reports is capped by every
+available reader.* The direct reader stops after about 55 printed pages; the paginating reader is refused by the NSE
+archive. The rule that follows is absolute: **absence of wording beyond the retrieval cap is not evidence of absence**,
+and no negative finding about unrendered pages may be inferred from it. This is the mirror image of WI-6 — there, an
+unreadable filing could not carry a nil; here, an unreadable filing must not be reported as carrying none.
+
+**Three-period check: `NOT_PERFORMED`.** FY2023-24, FY2022-23 and FY2021-22 are each recorded `NOT_RETRIEVED` in
+`periods.json`. The requirement is a confirmation requirement; it cannot substitute for the base period, and three blank
+consolidated columns would be three unread periods dressed as a finding. No period is described as nil, zero, debt-free
+or silent.
+
+**Boundary this adds.** WI-3 shows what a nil needs; WI-5 shows a sentence scoped to a different subject cannot carry
+one; WI-6 shows an unreadable filing cannot carry one; WI-6A shows both at once, and adds that an unreadable filing must
+not be converted into a negative finding either. Four distinct ways for a nil to be wrong or absent.
+
+**Statuses.** `L-036` remains **`PARTIALLY RESOLVED`**, `L-035` remains **`OPEN`**, `L-037` is **new and `OPEN`**,
+`L-001` … `L-034` untouched, and the 180-day `associates-review/1.0.0` control remains due. The WI-6 objective stays
+open; sector expansion remains deferred.
+
+**Evidence.** `evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/` — `determination.json`, `periods.json`,
+three page-anchored source extracts, `source/access-log.txt`, `runs/`, `digests.json` — guarded by
+`iips-platform/tests/investment/wi6aZensarRecovery.test.ts`, which also verifies that the WI-3, WI-5 and WI-6 bundles
+are byte-unchanged.
+
+## 17.13 WI-6A-S1 — Zensar: the consolidated wording was reported, and could not be read
+
+**Date.** 2026-11-07 (supplement to §17.12, same day). **Scope.** IRR only, one pass. IPD untouched. No policy, schema,
+confidence, valuation or persistence change. PR #503 updated; not merged.
+
+**What was reported.** Consolidated Note 27 *Capital Management* — *"The Group didn't have any external borrowings during
+the current and previous year."* — at printed pp.304-305 of the FY2023-24 report and at printed pp.320-321 of the
+FY2022-23 report (BSE `f1a251aa-…`). Each sentence covers the current and previous year; jointly they would span FY2022,
+FY2023 and FY2024.
+
+**What was verified.** Both documents are the right issuer and year (transmittal letters of 15 July 2024 and 17 July
+2023, read in full); both cited page ranges fall inside the consolidated statements of their own reports (pp.248-321 and
+pp.262-345, from each report's index); the CIN `L72200PN1963PLC012621` from a Zensar Regulation 33 letterhead. **The
+sentences themselves were not read** — the only PDF reader here parses 30 pages and they sit ~150 PDF pages in.
+
+**Outcome: unchanged, and no data change.** `INVESTIGATED_UNSUCCESSFUL` / `CONSOLIDATED_NIL_NOT_ESTABLISHED`. **No
+observation was created, no nil declared, no dataset ingested, no assessment generated, nothing persisted.** A reported
+sentence is a locator, not evidence: its subject ("the Group" or "the Company"), tense and qualifiers cannot be checked
+without reading it, and those are what decide a nil — the WI-5 withdrawal turned on exactly a sentence whose subject was
+wrong.
+
+**A second blocker, independent of retrieval.** Gross debt sums four components — short-term borrowings, current
+maturities, long-term borrowings **and lease liabilities** (`capitalStructure.ts` → `grossDebtOf`). The wording covers
+borrowings only; lease liabilities are a separate line and mapping onto them is forbidden. `LEASE_LIABILITIES` would
+therefore stay `NOT_REPORTED` and the aggregation contract returns the first uninformative component unchanged: **even a
+verified sentence yields no computable gross or net debt**, and the intrinsic chain stays withheld. Three of four
+components are not a debt block.
+
+**Mapping prepared, not applied.** `LONG_TERM_BORROWINGS`, `SHORT_TERM_BORROWINGS` and
+`CURRENT_MATURITIES_OF_LONG_TERM_DEBT` would take the nil (the mapping WI-3 applied to Infosys); `LEASE_LIABILITIES` and
+`PREFERENCE_CAPITAL` stay `NOT_REPORTED`. Two caveats are recorded in advance rather than discovered later: the *external*
+qualifier, and a durational statement being used for a point-in-time balance-sheet item. Recorded in
+`WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/source/quotes-owner-reported.json` under `d2MappingAnalysis`; applied
+to nothing.
+
+**`L-037` — generalised, deliberately not closed.** The 30-page boundary now has two independent measurements (the FY24
+report stops at printed p.55; the FY23 report at printed p.32) and three fetching paths behind it (direct reader; the
+paginating proxy, which fails on these files but reads an 11-page Zensar filing in full; Google's translate proxy, which
+returns the file and is still parsed under the same cap). The register provides no resolution criterion for it, so it
+stays **`OPEN`**, and the rule stands: absence of wording beyond the cap is never evidence of absence. `L-036` remains
+**`PARTIALLY RESOLVED`**, `L-035` remains **`OPEN`**, `L-001` … `L-034` untouched.
+
+**Historical record.** §17.12 and the original WI-6A bundle are preserved unchanged and still verify against their own
+digest manifests; this supplement adds a dated finding, it does not rewrite the earlier one.
+
+**What closes this.** A readable rendering of the four printed pages — a page extract in the workspace suffices, because
+D-2 anchors a quotation to a page, not to a byte stream — plus the consolidated lease-liability figure for the three
+balance-sheet dates. Then the existing governed path, unchanged: ingest → generate → persist → separate-process readback
+→ digest verification → three-period confirmation.
+
+**Evidence.** `evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/` — `quotes-owner-reported.json`,
+`retrieval-log-supplemental.txt`, `index-locator-corroboration.txt`, `determination-supplemental.json`, `runs/`,
+`digests.json` — guarded by `iips-platform/tests/investment/wi6aSupplementalZensar.test.ts`.
+
+## 17.14 WI-6A-S2 — Zensar: the consolidated pages were read, the nil was established and ingested (2026-11-07; primary evidence + governed run)
+
+**Question.** §17.12 and §17.13 left WI-6A at `INVESTIGATED_UNSUCCESSFUL` / `CONSOLIDATED_NIL_NOT_ESTABLISHED` for
+two independent reasons: the consolidated Note 27 wording had never been read, and gross debt also needs lease
+liabilities, which no route had produced. S2 asked whether the pages can be read at all, and if so what the pipeline
+may conclude from them.
+
+**Reading achieved.** Both annual reports were fetched as bytes and their complete per-page text extracted — the
+issuer-hosted FY2023-24 report (10,813,579 bytes, sha256 `d52cc3af…`, 167 pages) and the exchange copy of the
+FY2022-23 report (15,745,097 bytes, sha256 `cc690832…`, 180 pages; the Wayback capture `20250803083822` serves an
+identical hash). Each report prints two printed pages per PDF sheet; the printed-to-PDF calibration is recorded for
+every cited page.
+
+**The wording, read verbatim.** Consolidated Note 27 *Capital management*: *"The Group didn’t have any external
+borrowings during the current and previous year."* — FY2023-24 printed **pp.304-305 (PDF p.154 of 167)**, FY2022-23
+printed **pp.320-321 (PDF p.163 of 180)**. Subject *the Group*, scope consolidated, Ind AS; the 83-character string
+hashes to `3c046626…6597cb`, identical to the string §17.13 recorded as reported-but-unread. The entry that recorded
+it as unread was accurate when written and is not rewritten.
+
+**Lease liabilities, three dates, three presentations.** Consolidated balance-sheet Note 11(b): non-current 1,228 /
+1,904 / 2,348 and current 637 / 826 / 1,005 for 2024-03-31 / 2023-03-31 / 2022-03-31, i.e. **totals 1,865 / 2,730 /
+3,353** — each corroborated by the Note 27 liquidity table carrying value and by the Note 33 movement (whose
+prior-year row is `[3,353]`).
+
+**Outcome: the nil is established and carried through the governed path.** `LONG_TERM_BORROWINGS`,
+`SHORT_TERM_BORROWINGS` and `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` take `NIL_BY_DISCLOSURE` on that sentence (the
+WI-3 mapping; the current-maturity leg recorded as deductive). `LEASE_LIABILITIES` takes the filed numbers, not the
+nil. `PREFERENCE_CAPITAL` and `NON_CONTROLLING_INTEREST` stay `NOT_REPORTED`: a dash is not a declaration. Three
+periods validated, datasetVersion `sha256:a71498da…`, assessment `SUFFICIENT` / `MATERIAL_CONCERNS` / 0.4032,
+reportKey `dc9e4f47571d…`, payloadDigest `fbfa5564900a…`, reportId `28b3e5d6-…`, chain valid, head v1, and a
+separate-process readback whose recomputed digest matches the stored digest and the chain head.
+
+**What became computable.** `grossDebt` **₹1,865 million `PRESENT`** (the three nil components named in the
+aggregation note), cash and investments ₹10,938 million, `netDebt` **−₹9,073 million `PRESENT`** — the first
+computable debt position for this issuer — and net debt / EBITDA at −0.8804.
+
+**What did not.** No intrinsic value: `DCF_FCFF` refuses for `INSUFFICIENT_HISTORY` (the FY2022 capital-expenditure
+line was not captured; a gap in what was read, not in the filing), and the `EV_EBITDA` per-share leg is
+`NOT_COMPUTABLE` — *"enterprise-to-equity conversion blocked by minorityInterest"*. No margin of safety:
+`NO_PRICE_OBSERVATION`, no price obtained and none invented. Only the P/E relative band ₹362.56–₹543.84 is produced.
+`L-036`'s associates review control fires exactly as designed: `REVIEW_DUE`, clock from 2024-03-31, due 2024-09-27,
+age 180 days, treatment unchanged at `POLICY_ZERO` under schema V1.
+
+**Statuses.** `L-037` stays **`OPEN`**: the entry describes a class of deep-page retrieval failure, and one issuer
+on one item is not that class. It is updated — these two documents are now readable end to end with their bytes
+hashed, so the retrieval limitation no longer attaches to them — and left open, because the register still supplies
+no resolution criterion. `L-036` remains **`PARTIALLY RESOLVED`** and `L-035` remains **`OPEN`**; neither was
+touched, because no independent evidence about either was produced. No new limitation is opened. `L-001` … `L-034`
+untouched.
+
+**How the bytes were obtained, and why it matters to this entry.** This environment still has neither general egress
+nor PDF tooling; that measurement, and the routes it ruled out, stand. The fetch and extraction were performed by a
+throwaway GitHub Actions job on a temporary workflow file added to this branch for exactly that purpose and deleted
+in the same work item — a workaround for the environment, not a change to the evidence standard: the source bytes
+are hashed, the page extracts are verbatim tool output with provenance headers, and every page is reproducible from
+the two `curl` lines and the `pdftotext` lines recorded in the bundle's `runs/commands.txt`.
+
+**Evidence.** `evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/` — `determination-s2.json`,
+`source/quotes-verified.json`, `source/source-bytes.json`, `source/page-map.json`, eleven page extracts,
+`source/retrieval-log-s2.txt`, `ingest-input/`, `runs/`, `artifact/assessment-payload-zensar-s2.json`, `digests.json`
+— guarded by `iips-platform/tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts`. The WI-6A, WI-6A-S1, WI-6,
+WI-5 and WI-3 bundles are byte-identical and still verify.

@@ -1,0 +1,21 @@
+# WI-6A-S2 — targeted tests (the S2 guard plus every earlier investment-evidence guard, unchanged)
+# command: npx tsx --test tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts tests/investment/wi6aSupplementalZensar.test.ts tests/investment/wi6aZensarRecovery.test.ts tests/investment/wi6SecondIssuerSearch.test.ts tests/investment/wi5PreferenceCapitalEvidence.test.ts
+
+# Subtest: WI-5 — no nil was declared, and the withdrawal is on the record
+ok 1 - WI-5 — no nil was declared, and the withdrawal is on the record
+# Subtest: WI-6 — no qualifying nil was found, and nothing pretends otherwise
+ok 2 - WI-6 — no qualifying nil was found, and nothing pretends otherwise
+# Subtest: WI-6A-S2 — the consolidated pages, read at last, and the nil that follows
+ok 3 - WI-6A-S2 — the consolidated pages, read at last, and the nil that follows
+# Subtest: WI-6A-S1 — a reported sentence is a locator, not a nil
+ok 4 - WI-6A-S1 — a reported sentence is a locator, not a nil
+# Subtest: WI-6A — Zensar consolidated nil not established, and nothing pretends otherwise
+ok 5 - WI-6A — Zensar consolidated nil not established, and nothing pretends otherwise
+# tests 50
+# suites 5
+# pass 50
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 630.19837

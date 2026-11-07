@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "digests.json (this file)",
+    "runs/02-guard-test.txt, runs/03-typecheck.txt, runs/04-clean-clone.txt \u2014 this bundle's own test, typecheck and clean-clone output, committed verbatim and regenerated after this manifest"
+  ],
+  "result": {
+    "status": "INVESTIGATED_UNSUCCESSFUL",
+    "decision": "CONSOLIDATED_NIL_NOT_ESTABLISHED",
+    "observationCreated": false,
+    "nilDeclared": false,
+    "datasetIngested": false,
+    "assessmentGenerated": false,
+    "persisted": false,
+    "pipelineRun": false
+  },
+  "fileCount": 7,
+  "files": {
+    "README.md": {
+      "sha256": "0014b09f29f9de230e0be097626c7c8898cd8337a19cf536cd543024fd3b1d9d",
+      "bytes": 6381
+    },
+    "determination.json": {
+      "sha256": "3e6dd0925cd90e0daaab37a9a35239e5848c5487e191581ba8cb8fb1314dd5c4",
+      "bytes": 3910
+    },
+    "periods.json": {
+      "sha256": "9214746d203905b834a0b70ad00da0081922ae90ebe41ced67d359f5fcba7885",
+      "bytes": 2648
+    },
+    "runs/commands.txt": {
+      "sha256": "3aad7911ad0891f0f26092ae4f1d8f170dada20df6d325c4e3237e4af9242c32",
+      "bytes": 4122
+    },
+    "source/access-log.txt": {
+      "sha256": "6ed332170ddbf152cfb4f07e96e655ba88b4a6cef82b780317e1ea477b7b3669",
+      "bytes": 7569
+    },
+    "source/cover-letter-and-index-extract.txt": {
+      "sha256": "ec2b0ef6d3a9cf3b4f2eacb8b7430b141098e1d5ee035b559aed42b129e1c52e",
+      "bytes": 4919
+    },
+    "source/standalone-sentence-user-report.txt": {
+      "sha256": "6bce8abcec431be16526992e563c6179658dbd2858da34df9a0a3c59d6e8036b",
+      "bytes": 4285
+    }
+  }
+}

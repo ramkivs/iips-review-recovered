@@ -1,0 +1,284 @@
+{
+  "schemaVersion": 1,
+  "workItem": "WI-6A",
+  "supplement": "WI-6A-S2",
+  "title": "Consolidated page recovery — both Note 27 sentences read, lease liabilities read, nil established and carried through the pipeline",
+  "date": "2026-11-07",
+  "supersedes": null,
+  "priorRecords": [
+    {
+      "bundle": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/",
+      "status": "INVESTIGATED_UNSUCCESSFUL / CONSOLIDATED_NIL_NOT_ESTABLISHED",
+      "treatment": "PRESERVED BYTE-IDENTICAL — a historical fact about what that run could read"
+    },
+    {
+      "bundle": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/",
+      "status": "INVESTIGATED_UNSUCCESSFUL / CONSOLIDATED_NIL_NOT_ESTABLISHED (wording reported, not read)",
+      "treatment": "PRESERVED BYTE-IDENTICAL — its 'second independent blocker' analysis was correct for the evidence it had, and its unread status was accurate when written"
+    }
+  ],
+  "determination": {
+    "status": "NIL_ESTABLISHED",
+    "decision": "CONSOLIDATED_NIL_ESTABLISHED_AND_INGESTED",
+    "changedFromPrior": true,
+    "changedFromPriorReason": "both consolidated Note 27 sentences were read at their printed locators from the bytes of the two annual reports, and the consolidated lease-liability figures were read from the balance sheets and Note 11(b). The S1 blockers were (a) unread wording and (b) lease liabilities unavailable; both are removed by evidence, not by re-description.",
+    "quotationsVerified": 2,
+    "quotationDigest": "3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb",
+    "quotationMatchesOwnerReportedString": true,
+    "observationCreated": true,
+    "nilDeclared": true,
+    "datasetIngested": true,
+    "assessmentGenerated": true,
+    "persisted": true,
+    "pipelineRun": true,
+    "threePeriodCheck": "PASSED",
+    "threePeriodCheckDetail": "2024-03-31 and 2023-03-31 from the FY2023-24 sentence ('current and previous year'); 2023-03-31 and 2022-03-31 from the FY2022-23 sentence. 2023-03-31 is covered twice, by two filings that agree word for word. All four debt components resolve to a single period end per period, so the aggregation's PERIOD_MISMATCH rule is not triggered."
+  },
+  "pageEvidence": [
+    {
+      "document": "Integrated Annual Report 2023-24",
+      "url": "https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf",
+      "sha256": "d52cc3af3b074f5b288d7f887cca0887a046e7f2b04abebfb4ab1fd45035990d",
+      "bytes": 10813579,
+      "pdfPages": 167,
+      "note27": {
+        "pdfPageIndex": 154,
+        "printedPages": "304-305",
+        "file": "source/fy24-consolidated-note-27-capital-management.txt"
+      },
+      "balanceSheet": {
+        "pdfPageIndex": 130,
+        "printedPages": "256-257",
+        "file": "source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt"
+      },
+      "leaseNote": {
+        "pdfPageIndex": 146,
+        "printedPages": "288-289",
+        "file": "source/fy24-consolidated-note-11b-lease-liabilities.txt"
+      },
+      "leaseMovement": {
+        "pdfPageIndex": 156,
+        "printedPages": "308-309",
+        "file": "source/fy24-consolidated-note-33-lease-movement.txt"
+      },
+      "cashFlow": {
+        "pdfPageIndex": 132,
+        "printedPages": "260-261",
+        "file": "source/fy24-consolidated-statement-of-cash-flows.txt"
+      },
+      "isinPrint": {
+        "pdfPageIndex": 60,
+        "printedPages": "116-117",
+        "file": "source/fy24-isin-and-listing-identifiers.txt"
+      }
+    },
+    {
+      "document": "Integrated Annual Report 2022-23",
+      "url": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf",
+      "sha256": "cc690832facf9fbb57973a650f11d1c9ac90ba5aec797021e7184b8b9333dd2c",
+      "bytes": 15745097,
+      "pdfPages": 180,
+      "secondRoute": {
+        "url": "https://web.archive.org/web/20250803083822id_/https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf",
+        "httpStatus": 200,
+        "sha256": "cc690832facf9fbb57973a650f11d1c9ac90ba5aec797021e7184b8b9333dd2c"
+      },
+      "note27": {
+        "pdfPageIndex": 163,
+        "printedPages": "320-321",
+        "file": "source/fy23-consolidated-note-27-capital-management.txt"
+      },
+      "balanceSheet": {
+        "pdfPageIndex": 138,
+        "printedPages": "270-271",
+        "file": "source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt"
+      },
+      "leaseNote": {
+        "pdfPageIndex": 154,
+        "printedPages": "302-303",
+        "file": "source/fy23-consolidated-note-11b-lease-liabilities.txt"
+      },
+      "cashFlow": {
+        "pdfPageIndex": 140,
+        "printedPages": "274-275",
+        "file": "source/fy23-consolidated-statement-of-cash-flows.txt"
+      },
+      "isinPrint": {
+        "pdfPageIndex": 66,
+        "printedPages": "126-127",
+        "file": "source/fy23-isin-and-listing-identifiers.txt"
+      }
+    }
+  ],
+  "d2Mapping": {
+    "status": "APPLIED",
+    "quotedWording": "The Group didn’t have any external borrowings during the current and previous year.",
+    "applied": [
+      {
+        "component": "LONG_TERM_BORROWINGS",
+        "presence": "NIL_BY_DISCLOSURE",
+        "justification": "universal negation over external borrowings; a long-term borrowing is an external borrowing; no non-current borrowings caption in any of the three consolidated balance sheets"
+      },
+      {
+        "component": "SHORT_TERM_BORROWINGS",
+        "presence": "NIL_BY_DISCLOSURE",
+        "justification": "same class, same sentence; no current borrowings caption in any of the three consolidated balance sheets"
+      },
+      {
+        "component": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+        "presence": "NIL_BY_DISCLOSURE",
+        "justification": "a current maturity is a slice of a long-term borrowing; with no long-term borrowing there is nothing to reclassify; no such caption presented. Deductive, and recorded as deductive."
+      }
+    ],
+    "notApplied": [
+      {
+        "component": "LEASE_LIABILITIES",
+        "presence": "PRESENT",
+        "justification": "the sentence does not speak to leases; the figures are reported and were read (1,865 / 2,730 / 3,353)",
+        "values": {
+          "2024-03-31": 1865,
+          "2023-03-31": 2730,
+          "2022-03-31": 3353
+        }
+      },
+      {
+        "component": "PREFERENCE_CAPITAL",
+        "presence": "MISSING: NOT_REPORTED",
+        "justification": "no sentence addresses preference share capital; no preference line presented; presentation completeness is not a declaration"
+      },
+      {
+        "component": "NON_CONTROLLING_INTEREST",
+        "presence": "MISSING: NOT_REPORTED",
+        "justification": "the balance sheets print a dash; a dash is not a declaration; this is what blocks the enterprise-to-equity conversion"
+      }
+    ],
+    "semanticCaveats": [
+      "'external' qualifies the class: at consolidated level intragroup balances are eliminated, so what remains is external by construction — recorded, not assumed away",
+      "durational wording ('during the current and previous year') vs a point-in-time balance: the entailment to a 31 March nil is deductive; WI-3's Infosys anchor was point-in-time, and the difference is recorded"
+    ]
+  },
+  "leaseLiabilities": {
+    "units": "INR million, consolidated, Ind AS, as filed",
+    "source": "consolidated balance sheet Note 11(b) in each report, corroborated by the Note 27 liquidity table carrying values and by the Note 33 cash/non-cash movement",
+    "periods": [
+      {
+        "periodEnd": "2024-03-31",
+        "nonCurrent": 1228,
+        "current": 637,
+        "total": 1865,
+        "corroboration": [
+          "Note 27 liquidity table: Lease liabilities carrying value 1,865 (printed 304-305)",
+          "Note 33 closing balance 1,865 (printed 308-309)"
+        ]
+      },
+      {
+        "periodEnd": "2023-03-31",
+        "nonCurrent": 1904,
+        "current": 826,
+        "total": 2730,
+        "corroboration": [
+          "Note 27 liquidity table: Lease liabilities carrying value 2,730 (printed 304-305)",
+          "Note 33 opening balance 2,730 (printed 308-309)"
+        ]
+      },
+      {
+        "periodEnd": "2022-03-31",
+        "nonCurrent": 2348,
+        "current": 1005,
+        "total": 3353,
+        "corroboration": [
+          "FY2022-23 Note 27 liquidity table: Lease liabilities carrying value 3,353 (printed 320-321)",
+          "FY2023-24 Note 33 prior-year row [3,353]"
+        ]
+      }
+    ],
+    "reconciliationToTaxonomy": "LEASE_LIABILITIES is the sum of the current and non-current lines the balance sheet presents; no new mapping was invented and no other caption was folded in"
+  },
+  "pipeline": {
+    "datasetVersion": "sha256:a71498daabb31f23728f408a2a92d3fabe50efee7f2b1de4813e8e2c6a2581c7",
+    "ingestIssues": [],
+    "identity": "RESOLVED via ISIN (INE520A01027, filing-verified)",
+    "adequacy": "SUFFICIENT",
+    "quality": {
+      "verdict": "MATERIAL_CONCERNS",
+      "flags": [
+        "STALE_STATEMENTS"
+      ]
+    },
+    "confidence": 0.4032,
+    "reportKey": "dc9e4f47571dc3c9fba4d36cfa933cc74efc62a3c2a9b6f429131eed3d61f67f",
+    "payloadDigest": "fbfa5564900a0105d286918dd9572f337358c5c4d6eb0d4df5ef94ec18160f9e",
+    "reportId": "28b3e5d6-a53d-4fb8-a073-5ed86e73a65e",
+    "scopeToken": "co:IN:CIN:L72200PN1963PLC012621",
+    "chain": "1 version, head v1, valid",
+    "readback": "separate process; recomputed digest of the read payload equals the stored digest and the chain head digest",
+    "capitalStructure": {
+      "grossDebt": {
+        "presence": "PRESENT",
+        "value": 1865000000,
+        "note": "components declared nil by the filer, counted as zero under the capital-structure aggregation contract: shortTermBorrowings, currentMaturities, longTermBorrowings"
+      },
+      "netDebt": {
+        "presence": "PRESENT",
+        "value": -9073000000
+      },
+      "cashAndInvestments": {
+        "presence": "PRESENT",
+        "value": 10938000000
+      },
+      "leaseTreatment": "IND_AS_116_CAPITALISED",
+      "pre116Comparative": false,
+      "blockingComponents": [
+        "minorityInterest",
+        "preferenceCapital"
+      ]
+    },
+    "valuation": {
+      "intrinsic": null,
+      "intrinsicReason": "INV-5 requires every weighted method to have an output; DCF_FCFF refuses for INSUFFICIENT_HISTORY (three annual periods of EBIT, D&A and capex required; the FY2022 capex line was not captured) and the EV_EBITDA per-share leg is NOT_COMPUTABLE, blocked by minorityInterest",
+      "marginOfSafety": "NO_PRICE_OBSERVATION (price MISSING / PRICE_UNAVAILABLE; no price was obtained and none was invented)",
+      "peRelativeBand": {
+        "low": 362.56,
+        "mid": 453.2,
+        "high": 543.84,
+        "basis": "normalised EPS 20.60 × P/E 22"
+      },
+      "evEbitda": "enterprise value produced; per-share conversion blocked by minorityInterest",
+      "evRevenue": "NOT_APPLICABLE — MANDATORY_METRIC_MISSING (TM_NRR, TM_RECURRING_REVENUE_PCT)"
+    },
+    "otherBlocks": {
+      "risk": "NOT_COMPUTABLE / NO_RISK_FACTOR_IDENTIFIED (D-3 semantics)",
+      "associatesJV": "POLICY_ZERO under schema V1; review control REVIEW_DUE, clockStart 2024-03-31, reviewDueOn 2024-09-27, reviewAgeDays 180",
+      "netDebtToEbitda": -0.8804,
+      "dividends": {
+        "consecutiveYearsPaid": 3,
+        "payoutRatio": 0.1874,
+        "fcfCoverage": 5.0217
+      }
+    }
+  },
+  "register": {
+    "L-037": {
+      "status": "OPEN",
+      "change": "still OPEN — one issuer on one item is not the general case; the entry is updated to record that these two documents are now readable end to end with their bytes hashed, and that the retrieval limitation no longer attaches to them"
+    },
+    "L-035": {
+      "status": "OPEN",
+      "change": "none — no independent evidence was produced"
+    },
+    "L-036": {
+      "status": "PARTIALLY RESOLVED",
+      "change": "none — the associates/JV term is still a policy zero under schema V1; its 180-day review control is preserved and fires (REVIEW_DUE)"
+    }
+  },
+  "limitationsOpened": [],
+  "evidenceClass": "READ_AT_SOURCE_WITH_HASHED_BYTES",
+  "notClaimed": [
+    "that the consolidated group has no lease liabilities — it has them, quantified above",
+    "that preference share capital is nil",
+    "that non-controlling interest is nil because the balance sheet prints a dash",
+    "that the FY2022-23 filing omits capital expenditure — it reports it; this run did not capture the line",
+    "that any market price exists or that any intrinsic value was computed",
+    "that L-037 can be closed"
+  ]
+}
