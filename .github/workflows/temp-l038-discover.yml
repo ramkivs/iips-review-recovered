@@ -23,21 +23,45 @@ jobs:
       - name: Install poppler-utils
         run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
 
-      - name: Fetch the two annual reports and identify them by hash
+      - name: Fetch the two annual reports, recording every HTTP outcome
         run: |
-          set -euo pipefail
+          set -uo pipefail
           mkdir -p out/pages
-          curl -sSL --retry 3 -o fy24.pdf https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
-          curl -sSL --retry 3 -o fy23.pdf https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf
+          : > out/fetch-log.txt
+          fetch() {
+            local name="$1"; shift
+            for url in "$@"; do
+              code=$(curl -sSL --retry 2 --max-time 240 -A 'Mozilla/5.0 (compatible; IIPS-IRR-evidence/1.0)' \
+                       -o "$name.tmp" -w '%{http_code}' "$url" || echo 'curl-error')
+              size=$(stat -c %s "$name.tmp" 2>/dev/null || echo 0)
+              kind=$(file -b "$name.tmp" 2>/dev/null || echo 'no-file')
+              echo "$name | $url | http=$code | bytes=$size | $kind" >> out/fetch-log.txt
+              if [ "$code" = "200" ] && [ "$size" -gt 1000000 ]; then mv "$name.tmp" "$name"; return 0; fi
+              rm -f "$name.tmp"
+            done
+            return 1
+          }
+          fetch fy24.pdf \
+            https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf \
+            https://www.marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+          fetch fy23.pdf \
+            https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf \
+            https://www.marico.com/investorspdf/Marico_Annual_Report_FY23.pdf
           {
-            echo "## sha256 and size"
-            sha256sum fy24.pdf fy23.pdf
-            echo "## bytes"
-            wc -c fy24.pdf fy23.pdf
-            echo "## pages"
-            pdfinfo fy24.pdf | grep -E '^(Pages|Title|CreationDate)'
-            pdfinfo fy23.pdf | grep -E '^(Pages|Title|CreationDate)'
+            echo "## fetch log"
+            cat out/fetch-log.txt
+            for f in fy24.pdf fy23.pdf; do
+              if [ -s "$f" ]; then
+                echo "## $f"
+                sha256sum "$f"
+                wc -c < "$f"
+                pdfinfo "$f" | grep -E '^(Pages|Title|CreationDate)'
+              else
+                echo "## $f MISSING"
+              fi
+            done
           } | tee out/source-identity.txt
+          exit 0
 
       - name: Search every page for the debt, maturity, net-debt and preference captions
         run: |
@@ -49,8 +73,12 @@ jobs:
           out = Path('out')
           (out / 'pages').mkdir(parents=True, exist_ok=True)
 
-          docs = {'fy24': ('fy24.pdf', 'Marico_Annual_Report_FY24.pdf'),
-                  'fy23': ('fy23.pdf', 'Marico_Annual_Report_FY23.pdf')}
+          docs = {k: v for k, v in {'fy24': ('fy24.pdf', 'Marico_Annual_Report_FY24.pdf'),
+                                    'fy23': ('fy23.pdf', 'Marico_Annual_Report_FY23.pdf')}.items()
+                  if Path(v[0]).exists()}
+          if not docs:
+              Path('out/hits.txt').write_text('no report could be fetched; see fetch-log.txt\n')
+              raise SystemExit(0)
 
           patterns = {
               'current_maturities': r'current\s+maturit',
@@ -113,6 +141,7 @@ jobs:
           PY
 
       - name: Commit what was read into the scratch directory on this branch
+        if: always()
         run: |
           set -euo pipefail
           dest=evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/_discovery
@@ -124,9 +153,10 @@ jobs:
           git fetch -q --depth 1 origin "${GITHUB_REF_NAME}"
           git checkout -q -B "${GITHUB_REF_NAME}" FETCH_HEAD
           mkdir -p "$dest"
-          cp -r ../out/source-identity.txt ../out/hits.txt "$dest/"
+          cp -r ../out/source-identity.txt ../out/fetch-log.txt "$dest/" 2>/dev/null || true
+          cp -r ../out/hits.txt "$dest/" 2>/dev/null || true
           rm -rf "$dest/pages"
-          cp -r ../out/pages "$dest/pages"
+          if [ -d ../out/pages ]; then cp -r ../out/pages "$dest/pages"; fi
           git add "$dest"
           git -c user.name="IIPS IRR (discovery runner)" -c user.email="iips-irr@users.noreply.github.com" \
               commit -q -m "L-038 discovery: debt/maturity page extracts and hit report (scratch, to be deleted)"
