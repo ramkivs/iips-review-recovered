@@ -1,0 +1,9 @@
+### bse-company http=200 url=https://www.bseindia.com/stock-share-price/kec-international-ltd/kec/532714/
+### bse-quote http=200 url=https://www.bseindia.com/stock-share-price/kec-international-ltd/kec/532714
+### nse-quote http=200 url=https://www.nseindia.com/get-quotes/equity?symbol=KEC
+KEC
+KEC\",\"KEC-International-Limited\"],\"q\":\"\",\"i\":false,\"f
+KEC\",\"d\"],{\"children\":[[\"companyName\",\"KEC-Internationa
+KEC\",\"identifierParam\":\"\",\"seriesParam\":\"\"}],[\"$\",\"
+### nse-home http=200 url=https://www.nseindia.com/companies-listing/corporate-filings-annual-reports
+### bse-ar-page http=200 url=https://www.bseindia.com/corporates/ann.html?scrip=532714
