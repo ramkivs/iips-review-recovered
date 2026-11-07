@@ -108,6 +108,10 @@ jobs:
               for i, p in enumerate(pages, start=1):
                   if any(k in p.lower() for k in keys):
                       keep.update((i, i + 1))
+              bands = {"fy24_rpg": [(128, 132), (139, 148)],
+                       "fy23_bse": [(136, 141), (147, 158)]}
+              for lo, hi in bands.get(base, []):
+                  keep.update(range(lo, hi + 1))
               keep = sorted(k for k in keep if 1 <= k <= len(pages))
               with open("%s/%s.selected-pages.txt" % (dest, base), "w", encoding="utf-8") as g:
                   for i in keep:
