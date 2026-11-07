@@ -1,0 +1,42 @@
+# WI-10 / L-035 — 2026-11-07 — persist, readback, and what the two payloads say
+
+## the unchanged V1 dataset (Work Item 3's, re-ingested by the corrected build, runs/05)
+
+  $ cd frontend
+  $ IIPS_NP04_DATABASE_PATH=/tmp/l035/db/investment.db npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer IN:CIN:L85110KA1981PLC013115 --data-dir /tmp/l035/legacy-dataset \
+      --identity-dir <identity> --db /tmp/l035/db/investment.db --owner-carrier <owner carrier> \
+      --generated-at 2026-11-06T14:05:00.000Z --out /tmp/l035/cli.json
+
+  assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4378
+  compose      reportKey ed1e54b03e5e…  payloadDigest 9e7f621d7737…
+  persist      CREATED (wrote);  verify  chain valid: 1 version(s), head v1
+
+  separate process, reading the store back:
+    storedPayloadDigest      sha256:9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518
+    recomputedPayloadDigest  sha256:9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518
+    payloadBytes             55573
+    artifactVersion          1
+
+  The digest is the one Work Item 3 published and Work Item 9 re-verified: 9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518.
+  L-035 adds nothing to this payload, because this dataset declares no binding and none is invented for it.
+
+## the same economics with bindings declared (schema V3, runs/04)
+
+  assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4378      (identical)
+  compose      reportKey ed1e54b03e5e…  payloadDigest f60fc5c8673c…   (reportKey identical, digest not)
+  persist      CREATED (wrote);  verify  chain valid: 1 version(s), head v1
+
+  What differs is evidence, not arithmetic. The bound components carry their declaration:
+
+    longTermBorrowings  NIL_BY_DISCLOSURE  {"class": "BORROWINGS", "scope": "CONSOLIDATED_GROUP", "section": "BS"}
+    preferenceCapital   NIL_BY_DISCLOSURE  {"acknowledgedBy": "WI9-L035-review", "class": "PREFERENCE_SHARE_CAPITAL", "scope": "STANDALONE_COMPANY", "section": "BS"}
+
+  and in the unbound payload those members are simply absent:
+
+    longTermBorrowings  nilBinding present: False
+    preferenceCapital   nilBinding present: False
+
+  Valuation, confidence, gross debt, net debt and every published figure are identical between the two runs.
+  gross debt V1: 83590000000   V3: 83590000000
+  net debt   V1: -193420000000   V3: -193420000000

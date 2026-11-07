@@ -1,0 +1,55 @@
+WI-10 / L-035 — the nil-declaration grammar, as implemented
+============================================================
+
+CELL FORMS
+----------
+  legacy (V1, V2)        NIL: <the filing's wording>
+  bound  (any schema)    NIL[section=BS;class=BORROWINGS;scope=CONSOLIDATED_GROUP]: <the filing's wording>
+  bound, cross-scope     NIL[section=BS;class=PREFERENCE_SHARE_CAPITAL;scope=STANDALONE_COMPANY;acceptedBy=<who accepted the mapping>]: <wording>
+
+  Keys are `section`, `class`, `scope`, `acceptedBy`, separated by `;`, inside `[ ]`, followed by `:` and the quote.
+  A cell may not contain a comma, so the grammar is CSV-safe without quoting.
+
+CLOSED VOCABULARIES
+-------------------
+  section  BS | PNL | CF                      (the statement the sentence is offered as evidence from)
+  class    BORROWINGS | LEASE_LIABILITIES | PREFERENCE_SHARE_CAPITAL | EQUITY | TOTAL_ASSETS |
+           TRADE_BALANCES | CASH | INVESTMENTS | OPERATING_ASSETS | INCOME | EXPENSES | EARNINGS |
+           PER_SHARE | SHARE_COUNT | CASH_FLOW
+           (every line item has exactly one class; the table is total over the closed line-item table
+            and a test asserts it, so no item can be declared nil without a class to check against)
+  scope    CONSOLIDATED_GROUP | STANDALONE_COMPANY
+
+CHECKS, IN ORDER
+----------------
+  1. schema V3 and no binding                       -> ERROR NIL_BINDING_REQUIRED_IN_SCHEMA_V3
+  2. bracket cannot be read (no `]`, no `:`, bad key, duplicate key, non key=value)
+                                                    -> ERROR NIL_BINDING_MALFORMED
+  3. section, class or scope missing                -> ERROR NIL_BINDING_INCOMPLETE
+  4. section not BS|PNL|CF                          -> ERROR NIL_BINDING_UNKNOWN_SECTION
+     class not in the vocabulary                    -> ERROR NIL_BINDING_UNKNOWN_CLASS
+     scope not in the vocabulary                    -> ERROR NIL_BINDING_UNKNOWN_SCOPE
+  5. section ≠ the item's own statement             -> ERROR NIL_BINDING_SECTION_MISMATCH
+     class   ≠ the item's own class                 -> ERROR NIL_BINDING_CLASS_MISMATCH
+  6. scope ≠ the row's scope, and no acceptedBy     -> ERROR NIL_SCOPE_NUANCE_UNACKNOWLEDGED
+     scope ≠ the row's scope, with acceptedBy       -> accepted, acknowledgedBy stored on the observation
+     scope = the row's scope, but acceptedBy given  -> WARNING NIL_ACKNOWLEDGEMENT_NOT_REQUIRED (accepted)
+
+WHAT HAPPENS ON AN ERROR
+------------------------
+  The cell is NOT a nil. It becomes MISSING / NOT_REPORTED, the ingest reports the ERROR and exits non-zero, and
+  nothing is written. A mismatched mapping therefore cannot reach a dataset, a payload or a persisted version —
+  which is the difference between the old behaviour (an accepted nil, published as zero debt) and this one.
+
+WHAT A VALID BINDING DOES
+-------------------------
+  The binding is stored on the observation as `nilBinding` and is published in the payload beside the quoted wording,
+  so a reader sees the claim the operator made — section, class, scope, and who accepted a cross-scope mapping —
+  next to the sentence it was made about. INV-7 additionally refuses a binding that is empty or missing a member.
+
+WHAT THIS DOES NOT DO
+---------------------
+  It does not read English. An operator who declares class=BORROWINGS over a sentence about trade payables has made a
+  FALSE declaration, not an undetected one: the claim is recorded, and the per-issuer evidence bundle has to show the
+  sentence. The grammar enforces the consistency of the claim; the reading of the sentence remains a review
+  responsibility, recorded through `acceptedBy` and the review record beside it.

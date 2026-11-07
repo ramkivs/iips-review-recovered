@@ -1,0 +1,30 @@
+# WI-10 / L-035 — 2026-11-07 — post-manifest verification
+
+Re-hashes every file the bundle manifest covers, then looks for anything shipped but not digested.
+
+$ python3 verify.py evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/digests.json
+
+OK    c2f25a5696ca44b7…     7864 bytes  README.md
+OK    f60fc5c8673c8666…    56440 bytes  artifact/assessment-payload-l035-v3.json
+OK    d2bf142122e95c93…     9607 bytes  determination-l035.json
+OK    bd5b6afb0c5c1ea2…     2347 bytes  runs/01-reproduction-prefix.txt
+OK    cd836f4b346aff46…     1527 bytes  runs/02-v3-unbound-refused.txt
+OK    149ccfa098bc1f56…     1564 bytes  runs/03-mismatch-refused.txt
+OK    95c6cde703622952…     1886 bytes  runs/04-bound-accepted.txt
+OK    7a748588e9d07638…     1894 bytes  runs/05-wi3-byte-identity.txt
+OK    d03b6e23062302f3…     2420 bytes  runs/06-generate-persist-readback.txt
+OK    d97c767d4ed4b833…      887 bytes  runs/07-tests.txt
+OK    de939d6e592ceba5…       91 bytes  runs/08-typecheck.txt
+OK    d9e6642bcc80e199…     4332 bytes  runs/commands.txt
+OK    aa950945dd3013e4…     3680 bytes  source/grammar.txt
+OK    a7d11e0a3c786049…     6719 bytes  source/review-record.json
+
+digested 14 files, mismatches 0, undigested 0
+excluded by construction, and named in the manifest's own note: digests.json (the manifest itself),
+  runs/09-post-manifest-verification.txt (this transcript) and runs/10-clean-clone.txt (written after it) —
+  a manifest cannot digest the runs that certify it
+
+the artifact is the bound V3 payload: sha256 f60fc5c8673c… — the payload in which the four declarations carry
+their section/class/scope, and whose every published figure equals the unbound run (runs/06).
+The unchanged V1 payload (9e7f621d…) is not duplicated here; it is committed in the WI-9 bundle and was
+re-derived and re-read in runs/06.

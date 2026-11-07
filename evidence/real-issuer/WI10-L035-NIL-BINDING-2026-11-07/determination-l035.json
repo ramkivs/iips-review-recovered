@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "recordId": "L-035",
+  "bundle": "WI-10 / L-035 — a nil declaration now names the statement section and line-item class it evidences",
+  "date": "2026-11-07",
+  "baseline": {
+    "originMain": "c95c0480c96a6e88129785bcf14405a12462ade9",
+    "branchHeadAtStart": "0ddf5c7624750616fa03024a672a3f82b259e611"
+  },
+  "requirementAsRecorded": {
+    "registerSection": "17.2",
+    "description": "NIL_BY_DISCLOSURE guarantees that wording was supplied, that a filing_ref and a period exist, and that the item is not a derived one. It does not check that the wording is about that component.",
+    "requiredResolution": "a declaration grammar that binds a nil to a statement section and a line-item class (or a review step that records who accepted the mapping), plus acceptance tests for a mismatched section/component pair.",
+    "owner": "ingestion grammar (D-2 lineage) with investment research review"
+  },
+  "reproduction": {
+    "performedAt": "0ddf5c7 (detached worktree), i.e. before any change in this work item",
+    "input": "the Work Item 3 ingest input with one cell changed: LONG_TERM_BORROWINGS @2024-03-31 CONSOLIDATED quotes 'Trade payables are settled within 45 days of the invoice date.'",
+    "result": "exit 0, zero errors, observation NIL_BY_DISCLOSURE / DECLARED_NIL_IN_SOURCE with that sentence as its note and a filing reference",
+    "consequence": "a NIL_BY_DISCLOSURE component is counted as zero by the capital-structure aggregation contract, so the cell was published as zero debt",
+    "verdict": "the finding in register 17.2 is accurate and reproducible"
+  },
+  "finding": {
+    "kind": "declaration-grammar limitation",
+    "not": [
+      "a missed disclosure",
+      "a genuine absence",
+      "an unsupported mapping of a filed figure",
+      "a calculation-contract defect"
+    ],
+    "why": "the filer's four declarations are correct; what the system could not do was tell a correct mapping from an arbitrary one, because the mapping was recorded only in prose."
+  },
+  "resolution": {
+    "grammar": "NIL[section=<BS|PNL|CF>;class=<line-item class>;scope=<CONSOLIDATED_GROUP|STANDALONE_COMPANY>(;acceptedBy=<who>)]: <quoted wording>",
+    "schema": "IIPS_INVESTMENT_FUNDAMENTALS_V3 requires the binding on every nil cell; V1 and V2 keep the legacy grammar and their recorded meaning, byte for byte",
+    "checks": [
+      "section must equal the item's own statement (BS|PNL|CF)",
+      "class must equal the item's class in a closed, total table over the line-item reference table",
+      "scope must be declared; when it differs from the row's statement scope the declaration is legal only with acceptedBy, which is stored on the observation",
+      "unknown, duplicate or missing binding members are refused (never guessed)"
+    ],
+    "failClosed": "any binding ERROR means the cell is not a nil: it becomes MISSING / NOT_REPORTED and the ingest exits non-zero, so the mapping cannot reach a dataset, payload or persisted version",
+    "recorded": "a valid binding is stored on the observation as nilBinding and is therefore published in the payload beside the quote",
+    "reviewStep": "source/review-record.json applies the grammar to the four declarations Work Item 3 made before it existed, and records the acceptance of each, including the one cross-scope mapping",
+    "whatItCannotDo": "read English. A false declaration is now a recorded, falsifiable claim rather than an unchecked omission; the semantic reading stays a review responsibility, tied to acceptedBy and to the per-issuer evidence bundle."
+  },
+  "mappings": {
+    "accepted": [
+      {
+        "lineItemId": "LONG_TERM_BORROWINGS",
+        "section": "BS",
+        "class": "BORROWINGS",
+        "scope": "CONSOLIDATED_GROUP",
+        "why": "the group states it has no outstanding borrowings; the component is a member of that class, presented on the balance sheet, at the same scope"
+      },
+      {
+        "lineItemId": "SHORT_TERM_BORROWINGS",
+        "section": "BS",
+        "class": "BORROWINGS",
+        "scope": "CONSOLIDATED_GROUP",
+        "why": "same sentence, same class"
+      },
+      {
+        "lineItemId": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+        "section": "BS",
+        "class": "BORROWINGS",
+        "scope": "CONSOLIDATED_GROUP",
+        "why": "current maturities are a component of borrowings"
+      },
+      {
+        "lineItemId": "PREFERENCE_CAPITAL",
+        "section": "BS",
+        "class": "PREFERENCE_SHARE_CAPITAL",
+        "scope": "STANDALONE_COMPANY",
+        "acknowledgedBy": "WI-10 L-035 review 2026-11-07 (originally mapped by WI-3)",
+        "why": "the sentence speaks of the parent company; applied to the consolidated block it is a cross-scope mapping, now legal only because it is acknowledged, and accepted on the evidence in the Work Item 3 bundle (no preference instrument in the consolidated balance sheet or the authorised share capital)"
+      }
+    ],
+    "rejected": [
+      {
+        "mapping": "any unbound nil under schema V3",
+        "code": "NIL_BINDING_REQUIRED_IN_SCHEMA_V3"
+      },
+      {
+        "mapping": "a borrowings sentence offered as share-capital evidence",
+        "code": "NIL_BINDING_CLASS_MISMATCH"
+      },
+      {
+        "mapping": "a balance-sheet item evidenced from a P&L sentence",
+        "code": "NIL_BINDING_SECTION_MISMATCH"
+      },
+      {
+        "mapping": "a parent-company sentence filling a consolidated row without acceptance",
+        "code": "NIL_SCOPE_NUANCE_UNACKNOWLEDGED"
+      },
+      {
+        "mapping": "unknown/incomplete/duplicate binding members",
+        "code": "NIL_BINDING_UNKNOWN_*|NIL_BINDING_INCOMPLETE|NIL_BINDING_MALFORMED"
+      },
+      {
+        "mapping": "a bare NIL or a NIL with no quoted wording",
+        "code": "NIL_WITHOUT_QUOTED_WORDING (unchanged)"
+      },
+      {
+        "mapping": "a nil without a filing_ref",
+        "code": "NIL_WITHOUT_PROVENANCE (unchanged)"
+      },
+      {
+        "mapping": "inferring a nil from an omitted line, a dash, a total or a residual",
+        "why": "unchanged D-2 rule; the omission is MISSING / NOT_REPORTED"
+      }
+    ]
+  },
+  "identities": {
+    "wi3Dataset": {
+      "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+      "reIngestedUnderV1AfterTheChange": "all ten files byte-identical, manifest included",
+      "changed": false
+    },
+    "wi3Payload": {
+      "payloadDigest": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+      "bytes": 55573,
+      "unchanged": true,
+      "why": "the dataset declares no binding, and none is invented for it"
+    },
+    "boundV3Dataset": {
+      "datasetVersion": "sha256:6afa27935ce20a8c1fde2f5e54fb3b2fb90defe4b126e19fbe87fece610a47c2",
+      "payloadDigest": "f60fc5c8673c…",
+      "reportKey": "ed1e54b03e5e… (identical to the unbound run)",
+      "confidence": 0.4378,
+      "whyDifferent": "the dataset records evidence it did not record before; every published figure is identical"
+    }
+  },
+  "valuationImpact": {
+    "intrinsic": "unchanged",
+    "confidence": "unchanged (0.4378 in every variant)",
+    "grossDebt": "unchanged (83,590,000,000 = lease liabilities; the three borrowings components remain nil)",
+    "netDebt": "unchanged (−193,420,000,000)",
+    "coverageNote": "adopting V2 or V3 changes the adequacy denominator from 52 to 53 permitted items, so balance-sheet coverage reads 0.6818 instead of 0.7143; this is the schema's permitted-item set, and V2 (unchanged by this work item) already behaves this way. It is not a consequence of the binding."
+  },
+  "completionStandard": {
+    "criteria": [
+      "a declaration grammar binding a nil to a statement section and a line-item class",
+      "acceptance tests for a mismatched section/component pair"
+    ],
+    "met": true,
+    "how": "the grammar is implemented, is required for schema V3, is checked against closed tables, and is covered by tests/investment/nil-binding.test.ts (22 tests, including a class mismatch, a section mismatch, unknown/incomplete members, a cross-scope nuance with and without acceptance, and the end-to-end consequence that a refused declaration cannot become zero debt). The alternative branch of the criterion (a review step recording who accepted the mapping) is also satisfied for the four historical declarations.",
+    "scopeStatement": "Under V1 and V2 an unbound nil remains legal, because those datasets mean what they always meant and are not re-digested. V3 is the schema that closes the hole for new data, exactly as V2 was the schema that made an associates/JV carrying value representable."
+  },
+  "status": {
+    "before": "OPEN",
+    "after": "RESOLVED"
+  },
+  "boundaries": {
+    "wi3ThroughWi9Preserved": true,
+    "statusesPreserved": [
+      "L-034 RESOLVED",
+      "L-036 PARTIALLY RESOLVED",
+      "L-037 OPEN",
+      "L-038 OPEN",
+      "L-039 unchanged",
+      "L-040 RESOLVED",
+      "L-001…L-033 untouched"
+    ],
+    "d2SemanticsChanged": false,
+    "ixPolicyChanged": false,
+    "newPersistence": false,
+    "newIssuerOrSector": false,
+    "ipdWrites": false,
+    "l039AndL038FindingsUntouched": true
+  },
+  "verification": {
+    "guard": "tests/investment/nil-binding.test.ts — 22/22",
+    "platformSuite": "721/721 in 168 suites",
+    "frontendInvestmentSuite": "247/247 in 20 files",
+    "typecheck": "tsc --noEmit exit 0",
+    "readback": "stored digest = recomputed digest = 9e7f621d… for the unchanged dataset; the bound V3 payload read back at f60fc5c8…",
+    "bundleManifest": "14 files digested, 0 mismatches"
+  }
+}

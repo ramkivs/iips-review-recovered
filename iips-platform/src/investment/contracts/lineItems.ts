@@ -177,23 +177,38 @@ export const LINE_ITEM_IDS = Object.keys(LINE_ITEMS) as readonly LineItemId[];
  * Dataset schema versions this repository can read.
  *
  * V1 is the original closed table. V2 is **additive**: it adds `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES`
- * and changes nothing else, so a V1 dataset is a valid V2 dataset whose new item is absent. Nothing is ever
- * backfilled: a V1 dataset keeps its version, its bytes and its digest.
+ * and changes nothing else, so a V1 dataset is a valid V2 dataset whose new item is absent. V3 is additive over V2
+ * in the same way and adds one **evidence** rule rather than an item: a `NIL:` cell must carry a section/class/scope
+ * binding (see `contracts/nilBinding.ts`, `L-035`), so the quoted sentence is tied to the component it fills. An
+ * unbound nil is still legal under V1 and V2, where it means what it always meant. Nothing is ever backfilled: a V1
+ * or V2 dataset keeps its version, its bytes and its digest.
  */
-export type DatasetSchema = 'IIPS_INVESTMENT_FUNDAMENTALS_V1' | 'IIPS_INVESTMENT_FUNDAMENTALS_V2';
+export type DatasetSchema =
+  | 'IIPS_INVESTMENT_FUNDAMENTALS_V1'
+  | 'IIPS_INVESTMENT_FUNDAMENTALS_V2'
+  | 'IIPS_INVESTMENT_FUNDAMENTALS_V3';
 
-export const CURRENT_DATASET_SCHEMA: DatasetSchema = 'IIPS_INVESTMENT_FUNDAMENTALS_V2';
+/** The schema that requires every nil declaration to carry a binding (`L-035`). */
+export const NIL_BOUND_DATASET_SCHEMA: DatasetSchema = 'IIPS_INVESTMENT_FUNDAMENTALS_V3';
+export const CURRENT_DATASET_SCHEMA: DatasetSchema = NIL_BOUND_DATASET_SCHEMA;
 export const LEGACY_DATASET_SCHEMA: DatasetSchema = 'IIPS_INVESTMENT_FUNDAMENTALS_V1';
 export const SUPPORTED_DATASET_SCHEMAS: readonly DatasetSchema[] = Object.freeze([
   LEGACY_DATASET_SCHEMA,
-  CURRENT_DATASET_SCHEMA,
+  'IIPS_INVESTMENT_FUNDAMENTALS_V2',
+  NIL_BOUND_DATASET_SCHEMA,
 ]);
+
+/** True for the schema that refuses an unbound nil. V1 and V2 keep the legacy grammar and meaning. */
+export function requiresBoundNil(schema: DatasetSchema): boolean {
+  return schema === NIL_BOUND_DATASET_SCHEMA;
+}
 
 /** The only item V2 introduces. A V1 dataset may not carry it; a V2 dataset may. */
 export const ITEMS_INTRODUCED_BY_V2: readonly LineItemId[] = Object.freeze(['INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES']);
 
 export function itemsPermittedBy(schema: DatasetSchema): readonly LineItemId[] {
-  const introduced = schema === 'IIPS_INVESTMENT_FUNDAMENTALS_V2' ? ITEMS_INTRODUCED_BY_V2 : [];
+  // V2 introduced the item; V3 is additive over V2 and therefore carries it too.
+  const introduced = schema === LEGACY_DATASET_SCHEMA ? [] : ITEMS_INTRODUCED_BY_V2;
   return LINE_ITEM_IDS.filter((id) => !ITEMS_INTRODUCED_BY_V2.includes(id) || introduced.includes(id));
 }
 
