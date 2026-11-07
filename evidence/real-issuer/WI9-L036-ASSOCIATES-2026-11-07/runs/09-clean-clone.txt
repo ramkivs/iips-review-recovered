@@ -1,0 +1,33 @@
+# WI-9 / L-036 — 2026-11-07 — independent verification against the remote
+
+## the remote, read directly
+
+  $ git ls-remote origin refs/heads/arena/8133630f-iips-review-recovered
+  e145ecdf725672b65cb48a9239b61ab8b2282828      refs/heads/arena/8133630f-iips-review-recovered
+  $ git rev-parse HEAD
+  e145ecdf725672b65cb48a9239b61ab8b2282828      (identical — the pushed branch is the tested tree)
+
+  Pull request : #508  (base `main`)
+  CI           : CAP-03 Revision 7 IRR-only static checks — run 42396161086, job 128473866480, conclusion SUCCESS
+
+## a fresh clone of that branch, not the working tree
+
+  $ git clone --branch arena/8133630f-iips-review-recovered --depth 1 \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/l036clone
+  $ cd /tmp/l036clone && git rev-parse HEAD && git status --porcelain | wc -l
+  e145ecdf725672b65cb48a9239b61ab8b2282828
+  0                                   # the clone is clean: everything shipped is committed
+
+  bundle digests     13 files re-hashed, 0 mismatches
+  artifact           sha256 9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518
+                     = the payload digest the store recomputed (runs/03-readback.json)
+  WI-3 dataset       10 files, 0 changed  (the historical record is byte-identical in the clone)
+  register           "## 17.19 WI-9 / `L-036`" present
+  tracker            "### 16.277 IID WI-9 / L-036" present
+
+## what this means
+
+The commit the branch points at is the tree these transcripts describe: the evidence re-hashes, the artifact is the
+canonical payload, the Work Item 3 dataset is untouched, and the documentation landed. The test suite and `tsc` were run
+in the working checkout at that same commit (runs/06-tests.txt, runs/07-typecheck.txt); this clean clone is the check that
+nothing in the evidence depended on uncommitted state.

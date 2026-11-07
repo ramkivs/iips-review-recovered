@@ -1,0 +1,44 @@
+# WI-9 / L-036 — 2026-11-07 — the checks behind the negative, re-run against the committed WI-4 extracts
+# (filed text only: everything after "OBSERVATION RECORDED WITH THE EXTRACT" is annotation and is excluded)
+
+## Filed text — any associates/JV or equity-method caption?
+  ABSENT  fy24-balance-sheet-investments.txt
+  ABSENT  fy23-balance-sheet-investments.txt
+  ABSENT  fy24-note-2.5-investments.txt
+  ABSENT  fy23-note-2.5-investments.txt
+  ABSENT  fy24-note-2.5.1-details.txt
+  ABSENT  fy23-note-2.5.1-details.txt
+  ABSENT  fy24-pl-no-associates-line.txt
+  ABSENT  fy23-pl-no-associates-line.txt
+  ABSENT  fy24-notes-2.13-to-2.27-sweep.txt
+  ABSENT  fy24-note-2.25-related-parties.txt
+  ABSENT  fy23-note-2.25-related-parties.txt
+  ABSENT  fy24-note-2.19-other-income.txt
+  ABSENT  fy23-note-2.19-other-income.txt
+  ABSENT  fy24-note-1.3-basis-of-consolidation.txt
+
+## Note 2.5 — does the decomposition tie to the filed investment totals?
+  @2024-03-31: non-current 11,708 + current 12,915 = 24,623 | note total 24,623 -> ties
+  @2023-03-31: non-current 12,569 + current 6,909 = 19,478 | note total 19,478 -> ties
+  @2023-03-31: non-current 12,569 + current 6,909 = 19,478 | note total 19,478 -> ties
+  @2022-03-31: non-current 13,651 + current 6,673 = 20,324 | note total 20,324 -> ties
+
+## Annotation mentions (the extracts naming the caption in order to report its absence)
+   2  fy24-balance-sheet-investments.txt
+   2  fy23-balance-sheet-investments.txt
+   2  fy24-note-2.5-investments.txt
+   1  fy23-note-2.5-investments.txt
+   1  fy24-note-2.5.1-details.txt
+   1  fy23-note-2.5.1-details.txt
+   1  fy24-pl-no-associates-line.txt
+   1  fy23-pl-no-associates-line.txt
+   1  fy24-notes-2.13-to-2.27-sweep.txt
+   1  fy24-note-2.25-related-parties.txt
+   1  fy23-note-2.25-related-parties.txt
+   1  fy24-note-2.19-other-income.txt
+   1  fy24-note-1.3-basis-of-consolidation.txt
+
+Note 2.19 (other income) and Note 2.25 (related parties, with the group-structure annexure) are the only notes
+capable of carrying an associates/JV disclosure. Both are transcribed in full in the WI-4 bundle; neither
+contains one. The single "associated enterprises" phrase in Note 2.24.1 is income-tax transfer-pricing
+language: it names no entity, asserts no relationship and carries no balance.

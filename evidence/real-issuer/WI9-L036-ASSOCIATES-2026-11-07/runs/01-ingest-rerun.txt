@@ -1,0 +1,18 @@
+# WI-9 / L-036 — 2026-11-07 — the governed ingest of the committed WI-3 input, re-run on the current code
+# cd iips-platform && npx tsx src/investment/cli/ingest.ts --input ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input --dataset-dir /tmp/l036final/data/investment/dataset --now 2026-11-06T14:05:00.000Z
+
+datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V1
+datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+dataset        /tmp/l036final/data/investment/dataset
+
+# the dataset the Work Item 3 record shipped is reproduced byte-for-byte under the current code:
+manifest.json  IDENTICAL to evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/manifest.json
+issuers.json  IDENTICAL
+securities.json  IDENTICAL
+listings.json  IDENTICAL
+periods.json  IDENTICAL
+prices.json  IDENTICAL
+corporateActions.json  IDENTICAL
+operatingMetrics.json  IDENTICAL
+issues.json  IDENTICAL
+coverage-report.json  IDENTICAL
