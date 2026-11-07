@@ -1,4 +1,4 @@
-name: TEMP WI-8 discovery (deleted before merge)
+name: TEMP WI-8 fetch (deleted before merge)
 on:
   push:
     branches:
@@ -8,45 +8,36 @@ on:
 permissions:
   contents: write
 jobs:
-  discover:
+  fetch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: arena/60fea33a-iips-review-recovered
-      - name: probe annual-report URLs
+      - name: fetch KEC annual reports and extract full text
         env:
           UA: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
         run: |
           set +e
-          D=evidence/real-issuer/_wi8-discovery
+          D=evidence/real-issuer/_wi8-fulltext
           mkdir -p "$D"
-          probe() {
-            code=$(curl -sS --max-time 60 -A "$UA" -r 0-1023 -o /tmp/probe.bin -w '%{http_code}' "$1")
-            printf '%s\t%s\t%s\t%s\n' "$code" "$(wc -c < /tmp/probe.bin 2>/dev/null)" "$1" "$(head -c 120 /tmp/probe.bin | tr -d '\0' | tr '\n' ' ')" >> "$D/probe.tsv"
+          if ! command -v pdftotext >/dev/null; then sudo apt-get update -qq; sudo apt-get install -y -qq poppler-utils; fi
+          fetch() { # name url
+            name="$1"; url="$2"
+            code=$(curl -sSL --max-time 600 --retry 2 -A "$UA" -o "/tmp/$name.pdf" -w '%{http_code}' "$url")
+            echo -e "fetch-$name\t$code\t$(wc -c < /tmp/$name.pdf)\tsha256=$(sha256sum /tmp/$name.pdf | cut -d' ' -f1)\t$(pdfinfo /tmp/$name.pdf 2>/dev/null | grep -E '^Pages' | tr -s ' ')  url=$url" >> "$D/fetch.tsv"
+            pdftotext -layout "/tmp/$name.pdf" "$D/$name.txt"
+            echo -e "text-$name\tlines=$(wc -l < $D/$name.txt)\tformfeeds=$(grep -c $'\f' $D/$name.txt)" >> "$D/fetch.tsv"
           }
           K=https://www.kecrpg.com/public/media/annualReportMedia
-          for y in 2025-26 2024-25 2023-24 2022-23; do probe "$K/KEC_Annual_Report_$y.pdf"; done
-          for y in 2024-25 2023-24; do probe "$K/KEC-Annual-Report-$y.pdf"; probe "$K/KEC_Annual_Report_${y/-/_}.pdf"; done
-          T=https://www.thermaxglobal.com/sites/default/files
-          for m in 2026-07 2025-07 2025-06 2024-07 2024-06 2023-07 2023-06 2022-07 2022-06; do
-            for y in 2025-26 2024-25 2023-24 2022-23 2021-22; do probe "$T/$m/Thermax-Annual-Report-$y.pdf"; done
-          done
-          # issuer IR pages that may list PDFs (fetch full page where reachable)
-          page() {
-            out="$D/$1.html"
-            code=$(curl -sSL --max-time 60 -A "$UA" -o "$out" -w '%{http_code}' "$2")
-            printf 'page-%s\t%s\t%s\t%s\n' "$1" "$code" "$(wc -c < "$out" 2>/dev/null)" "$2" >> "$D/probe.tsv"
-            [ -s "$out" ] && { echo "### $1 $2 http=$code"; grep -oiE 'href="[^"]*\.pdf[^"]*"' "$out" | sed 's/^href="//;s/"$//' | sort -u | head -40; } >> "$D/pages.txt"
-          }
-          page lt-ar "https://www.larsentoubro.com/corporate/investors-financials/annual-reports/"
-          page lt-ar2 "https://www.larsentoubro.com/corporate/investors-financials/"
-          page kec-ar "https://www.kecrpg.com/investor-relations/annual-reports"
-          page thermax-ar "https://www.thermaxglobal.com/investors/annual-reports/"
-          page abb-ar "https://new.abb.com/in/investors/annual-reports"
-          echo "--- probe status ---"; cat "$D/probe.tsv"
-          git config user.name "wi8-discovery"
-          git config user.email "wi8-discovery@users.noreply.github.com"
+          fetch kec-ar-2025-26 "$K/KEC_Annual_Report_2025-26.pdf"
+          fetch kec-ar-2024-25 "$K/KEC_Annual_Report_2024-25.pdf"
+          # also probe the prior year, recorded as a 404 or a document, never silently assumed
+          code=$(curl -sS --max-time 60 -A "$UA" -r 0-511 -o /tmp/probe.bin -w '%{http_code}' "$K/KEC_Annual_Report_2023-24.pdf")
+          echo -e "probe-kec-ar-2023-24\t$code\t$(wc -c < /tmp/probe.bin)\t$K/KEC_Annual_Report_2023-24.pdf" >> "$D/fetch.tsv"
+          cat "$D/fetch.tsv"
+          git config user.name "wi8-fetch"
+          git config user.email "wi8-fetch@users.noreply.github.com"
           git add -A "$D"
-          git commit -m "WI-8: temp candidate-issuer URL probe (deleted before merge)" || echo "nothing to commit"
+          git commit -m "WI-8: temp KEC annual-report bytes and full text (deleted before merge)" || echo "nothing to commit"
           git push origin HEAD:arena/60fea33a-iips-review-recovered || echo "push failed"
