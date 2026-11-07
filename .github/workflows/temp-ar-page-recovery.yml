@@ -1,0 +1,85 @@
+# TEMPORARY work-item harness — WI-6A-S2 consolidated page recovery.
+#
+# Purpose: obtain the *actual bytes* of two issuer/exchange annual-report PDFs and
+# extract their complete per-page text, because the investigation environment has no
+# PDF tooling and no general egress. The runner has both. It writes nothing to the
+# repository: outputs are uploaded as a build artifact for local inspection.
+#
+# This file is removed from the branch once the evidence is captured; it carries no
+# product logic, no deployment, no credentials and no write permission.
+name: TEMP AR page recovery (WI-6A-S2)
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Install poppler-utils
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          pdftotext -v || true
+      - name: Fetch PDFs
+        run: |
+          mkdir -p out
+          UA='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+          fetch() {
+            name="$1"; url="$2"
+            code=$(curl -sS -L --max-time 240 -A "$UA" -o "out/$name.pdf" -w '%{http_code}' "$url" 2>out/$name.curl.err || echo ERR)
+            magic=$(head -c 4 "out/$name.pdf" 2>/dev/null | tr -d '\0')
+            size=$(stat -c%s "out/$name.pdf" 2>/dev/null || echo 0)
+            sha=$(sha256sum "out/$name.pdf" 2>/dev/null | cut -d' ' -f1)
+            eb=$(head -c 400 "out/$name.curl.err" 2>/dev/null | tr '\n' ' ')
+            echo "$name|$code|$size|$sha|$magic|$url|$eb" >> out/fetch-log.txt
+          }
+          fetch fy24_rpg 'https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf'
+          fetch fy23_bse 'https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf'
+          fetch fy23_wayback 'https://web.archive.org/web/20250803083822id_/https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf'
+          cat out/fetch-log.txt
+      - name: Write splitter
+        run: |
+          cat > /tmp/split.py <<'PY'
+          import sys
+          base = sys.argv[1]
+          txt = open(base + ".layout.txt", encoding="utf-8", errors="replace").read()
+          pages = txt.split("\f")
+          with open(base + ".pages.txt", "w", encoding="utf-8") as g:
+              for i, p in enumerate(pages, start=1):
+                  g.write("\n<<<PDF_PAGE %d>>>\n" % i)
+                  g.write(p.rstrip("\n") + "\n")
+          keys = ("note 27", "financial instruments", "borrowing", "lease liabilit", "capital management")
+          with open(base + ".hits.txt", "w", encoding="utf-8") as h:
+              for i, p in enumerate(pages, start=1):
+                  low = p.lower()
+                  if any(k in low for k in keys):
+                      h.write("\n===== PDF_PAGE %d =====\n" % i)
+                      for line in p.splitlines():
+                          if any(k in line.lower() for k in keys):
+                              h.write(line.rstrip() + "\n")
+          print(base, "pages:", len(pages))
+          PY
+      - name: Extract per-page text
+        run: |
+          cd out
+          for f in *.pdf; do
+            base="${f%.pdf}"
+            if [ "$(head -c 4 "$f" | tr -d '\0')" != "%PDF" ]; then
+              echo "SKIP $base (not a PDF)" >> extract-log.txt
+              continue
+            fi
+            pdfinfo "$f" > "$base.pdfinfo.txt" 2>&1 || true
+            pdftotext -layout "$f" "$base.layout.txt" 2>> extract-log.txt || true
+            python3 /tmp/split.py "$base" >> extract-log.txt 2>&1 || true
+          done
+          ls -l
+      - name: Upload extracted text
+        uses: actions/upload-artifact@v4
+        with:
+          name: ar-pages
+          path: out/
+          if-no-files-found: warn
+          retention-days: 3
