@@ -1,0 +1,15 @@
+## clean clone of branch arena/60fea33a-iips-review-recovered at 5c1be7789673f27f3acdb14821dbf2e297fe8379
+## npm ci in iips-platform: 6 packages, ok
+
+$ npx tsx src/investment/cli/ingest.ts --input ../evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input --dataset-dir /tmp/wi8clone/data/dataset --now 2026-11-07T08:30:00.000Z
+datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab
+  Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+
+## artifact and page-map re-hash in the clean clone
+artifact sha256        4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351
+recorded payloadDigest 4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351
+match True
+page-map mismatches []
+
+## guard tests in the clean clone
+133 tests / 133 pass / 0 fail (8 WI guard files)
