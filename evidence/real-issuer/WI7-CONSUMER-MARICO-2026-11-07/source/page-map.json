@@ -1,0 +1,90 @@
+{
+  "fy24_ar": {
+    "report": "Marico_Annual_Report_FY24.pdf",
+    "sha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+    "pdfPages": 259,
+    "printedToPdf": "one printed sheet carries two printed pages; the sheet's own printed numbers appear in its first line",
+    "pages": {
+      "5": {
+        "file": "fy24-identity-exchange-codes-pdf-page5.txt",
+        "printedPages": null,
+        "contains": "the sentence naming the two exchange identifiers",
+        "sha256": "91f84d712b4b926004606c0fff8032aacc2ff5857008597617cd68a8dff7eb11"
+      },
+      "115": {
+        "file": "fy24-identity-cin-brsr-pdf-page115.txt",
+        "printedPages": "226-227",
+        "contains": "BRSR section I, CIN of the listed entity",
+        "sha256": "d6fa4ea0a4e37345862c6a3e3c884874b3a56dd4f93dbbd64c915b8880f47594"
+      },
+      "159": {
+        "file": "fy24-identity-listing-details-pdf-page159.txt",
+        "printedPages": "314-315",
+        "contains": "General shareholder information: listing details, ISIN, CIN",
+        "sha256": "ec0dc83739a581276fca29864c15cd736644c34c5fe619845a56b6492003d55c"
+      },
+      "169": {
+        "file": "fy24-auditor-opinion-consolidated-pdf-page169.txt",
+        "printedPages": "334-335",
+        "contains": "Independent Auditor's Report on the consolidated financial statements",
+        "sha256": "1192bfb719fcf620b88d772a51a9a5655929b8a9f9dfbc922594fbabfddd4881"
+      },
+      "174": {
+        "file": "fy24-consolidated-balance-sheet-and-profit-and-loss-pdf-page174.txt",
+        "printedPages": "344-345",
+        "contains": "Consolidated Balance Sheet and Consolidated Statement of Profit and Loss",
+        "sha256": "b8a9fc09a4fc8966a74e01091664a4451e09c7a4062fa747e87c07e10d3fe072"
+      },
+      "176": {
+        "file": "fy24-consolidated-cash-flow-pdf-page176.txt",
+        "printedPages": "348-349",
+        "contains": "Consolidated Statement of Cash Flows",
+        "sha256": "d6db1542d46c9b764c510dedcd3230c476ad2761f2227a32cec061fff7d98402"
+      },
+      "191": {
+        "file": "fy24-notes-12c-and-13a-pdf-page191.txt",
+        "printedPages": "378-379",
+        "contains": "Note 12(c) other reserves / NCI, Note 13(a) borrowings",
+        "sha256": "f4f8870091b6061aaef0084d08aa960a75157e9c776bee3fd068000b057b0f8d"
+      },
+      "192": {
+        "file": "fy24-notes-13a-current-and-13b-pdf-page192.txt",
+        "printedPages": "380-381",
+        "contains": "Note 13(a) current borrowings, Note 13(b) other financial liabilities",
+        "sha256": "b5d74fa5d3d1e7792b6ecbabe23ddb81ce867c7717cf012d2adcd580dcea015a"
+      },
+      "170": {
+        "file": "fy24-auditor-opinion-consolidated-pdf-page170.txt",
+        "printedPages": "336-337",
+        "contains": "Independent Auditor's Report, the Ind AS basis paragraph",
+        "sha256": "29cc798b7d8f227f10d0db311c3f85b8db38abe6eb251b5684edfd7f9e64955a"
+      }
+    }
+  },
+  "fy23_ar": {
+    "report": "Marico_Annual_Report_FY23.pdf",
+    "sha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+    "pdfPages": 224,
+    "printedToPdf": "one printed sheet carries two printed pages; the sheet's own printed numbers appear in its first line",
+    "pages": {
+      "125": {
+        "file": "fy23-auditor-opinion-consolidated-pdf-page125.txt",
+        "printedPages": "246-247",
+        "contains": "Independent Auditor's Report on the consolidated financial statements",
+        "sha256": "af41428bb05f1da276c9f4d406e741c2adc4d18f5c593ffdfc0648649c5232fa"
+      },
+      "129": {
+        "file": "fy23-consolidated-balance-sheet-and-profit-and-loss-pdf-page129.txt",
+        "printedPages": "254-255",
+        "contains": "Consolidated Balance Sheet and Consolidated Statement of Profit and Loss",
+        "sha256": "1685220bd6a9ad53046ecc2c03e63d3f4693346f6a1e033e7a715af6b9af15d8"
+      },
+      "131": {
+        "file": "fy23-consolidated-cash-flow-pdf-page131.txt",
+        "printedPages": "258-259",
+        "contains": "Consolidated Statement of Cash Flows",
+        "sha256": "12fbe9211f1122c5f8f33845521970583517a2b2fdd05e45927961dfb0a9d898"
+      }
+    }
+  }
+}

@@ -1,0 +1,126 @@
+# Integrated Annual Report 2023-24 — General shareholder information: listing details, ISIN, CIN
+# source PDF: Marico_Annual_Report_FY24.pdf  bytes=21087675  sha256=03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595  pages=259
+# URL: https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+# PDF page 159 of 259 (printed page 314-315)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
+# the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
+# ----------------------------------------------------------------------------------------------
+      I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                                                               • Corporate Overview • Statutory Reports • Financial Statements
+314   Marico Limited
+                                                                                                                                                                                                                                                                                                              315
+
+
+
+
+  and supply disruptions could impact business margins and                        Stock Exchanges                                             Transfer of Unclaimed Dividend to Investor Education                                              transferred 33,842 shares to IEPF during the financial year.
+  ability to service demand. In view of the sharp swings and                                                                                  and Protection Fund (IEPF)                                                                        Details of these shares are available on the Company’s
+  volatility in key input prices in the past few years, there                     The Quarterly Results, Shareholding Pattern and all
+                                                                                                                                              Section 124 of the Act read with the IEPF Authority                                               website at the following link: https://marico.com/india/
+  is considerable uncertainty in the operating environment.                       other corporate communications to the Stock Exchanges
+                                                                                                                                              (Accounting, Audit, Transfer and Refund) Rules, 2016                                              investors/documentation/dividend.
+  The Company does not enter into any derivative instruments                      are filed through NSE Electronic Application Processing
+                                                                                  System (NEAPS)/Digital Portal and BSE Listing Centre, for   (“Rules”) stipulates transfer of dividend that has remained
+  for trading or speculative purposes. The details of foreign                                                                                                                                                                                   Further, shares in respect of which dividend will remain
+                                                                                  dissemination on their respective websites.                 unclaimed for a period of seven years, from the unpaid
+  exchange exposures as on March 31, 2024 are disclosed                                                                                                                                                                                         unclaimed progressively for seven consecutive years, will
+                                                                                                                                              dividend account to IEPF. Further, the Rules also stipulate
+  in the Notes to the standalone financial statements.                                                                                                                                                                                          be reviewed for transfer to the IEPF as required by law.
+                                                                                                                                              transfer of shares in respect whereof the dividend has not
+                                                                                   GENERAL SHAREHOLDER INFORMATION                                                                                                                              The Company will transfer the said shares, after sending
+  The details of the exposure of the Company to material                                                                                      been paid or claimed for a period of seven consecutive
+                                                                                                                                              years or more to the demat account of the IEPF Authority.                                         an intimation of the proposed transfer in advance to the
+  commodity risks is given below:
+                                                                                  Annual General Meeting through Video Conferencing/Other                                                                                                       concerned shareholders, as well as publish a public notice
+                                                                                  Audio-Visual Means Facility                                 The Company has appointed a Nodal Officer under the
+  Commodity Name                                                                                                                                                                                                                                in this regard. Names of such transferees will be available
+                                                                                  Date                      : August 9, 2024                  provisions of the Rules, the details of which are available
+                                                                                                                                                                                                                                                on the Company’s website at the link: https://marico.com/
+      Exposure in J (Crore)                     Exposure in quantity terms (MT)
+                                                                                  Time                      : 9:00 a.m. IST                   on the website at https://marico.com/india/investors/
+                                                                                                                                                                                                                                                india/investors/documentation/dividend.
+                                                                                  Deemed Venue for          : Registered Office:             documentation/dividend.
+                                                                         H 862
+           Edible Oils
+                                                                       97,585
+                                                                                  Meeting                     Marico Limited,                                                                                                                   Reminder letters are periodically sent by the Company
+                                                                                                              7th floor, Grande Palladium,    In view of the above, during FY24, the Company transferred
+                                                                       H 1,322
+                                                                                                              175 CST Road,                   the following unpaid/unclaimed dividend to IEPF:                                                  to the concerned shareholders advising them to claim
+           CNO
+                                                                     1,52,733                                 Kalina, Santacruz,                                                                                                                their dividends. Shareholders may note that both the
+                                                                         H 614                                Mumbai – 400 098                                                                              Date of        Amount               unclaimed dividend and underlying shares transferred to
+           Crude Oil Derivatives                                                                                                               Financial     Type of     Dividend per       Date of
+                                                                       73,529     Financial calendar                                             Year       Dividend      share (in J)     Declaration
+                                                                                                                                                                                                          transfer to    transferred
+                                                                                                                                                                                                                                                IEPF including all benefits accruing on such shares, if any,
+                                                                                                                                                                                                             IEPF           (in J)
+                                                                                  Financial Year            : April 1 - March 31
+                                                                       J 2,798                                                                                                                                                                  can be claimed back from IEPF Authority by following the
+           Total                                                                  For the year ended March 31, 2024, results were             2015-16      3rd Interim      1.00          10-03-2016 04-05-2023          5,40,207
+                                                                     3,23,847                                                                              Dividend                                                                             procedure prescribed in the Rules.
+                                                                                  announced on
+                                                                                                                                              2016-17      1st Interim      1.50          04-11-2016 19-12-2023          6,67,237
+                                                                                       First quarter        : July 28, 2023                                Dividend
+                                                                                                                                                                                                                                                Equity Shares in the Unclaimed Suspense Account
+      MEANS OF COMMUNICATION                                                           Half year            : October 30, 2023                             2nd Interim      2.00          02-02-2017 14-03-2024          8,65,804
+                                                                                                                                                            Dividend
+                                                                                       Third quarter        : January 29, 2024                                                                                                                  In terms of Regulation 39 of the SEBI Listing Regulations,
+  Publication of financial results                                                     Annual               : May 6, 2024                                                                                                                       details of the equity shares lying in the Unclaimed Suspense
+                                                                                                                                              Further, dividend for the following years will be transferred
+                                                                                  Tentative Schedule for declaration of financial results                                                                                                       Account are as follows:
+  Quarterly and Annual Financial results for Marico Limited                                                                                   to IEPF on respective due dates, as below:
+                                                                                  during the financial year 2024-25
+  and consolidated financial results for the Marico Group
+                                                                                       First quarter        : First week of August, 2024
+  are typically published in Free Press Journal, an English                                                                                                          Type                                               Due Date for                                                             No. of      No. of
+                                                                                       Half-year            : Last week of October, 2024       Financial                                 Dividend per      Date                                                 Particulars
+  financial daily, Financial Express, and Navshakti, a                                                                                           Year
+                                                                                                                                                                      of
+                                                                                                                                                                                          share (in J) of Declaration
+                                                                                                                                                                                                                         transfer to                                                          Shareholders   Shares
+                                                                                       Third quarter        : Last week of January, 2025                           Dividend                                                 IEPF
+  vernacular newspaper. The Company also sends this
+                                                                                       Annual               : Last week of April, 2025                                                                                                           Aggregate number of shareholders and              6         34,000
+  information through email updates to the shareholders                                                                                       2017-18        1st Interim Dividend            1.75        30-10-2017     05-12-2024               the outstanding shares in the suspense
+  who have registered their email address with the Company                        Listing Details
+                                                                                                                                                             2nd Interim Dividend            2.50        09-02-2018     17-03-2025               account lying at the beginning of the
+  or Depository Participant.                                                      Name of Stock             : Stock/Scrip Code
+                                                                                                                                              2018-19        1st Interim Dividend            2.00        01-11-2018     07-12-2025               year (i.e. April 1, 2023)
+                                                                                  Exchange                                                                                                                                                       Number       of     shareholders    who          2*         8,000
+                                                                                                                                                             2nd Interim Dividend            2.75        05-02-2019     13-03-2026
+  Website of the Company                                                          BSE Limited               : 531642                          2019-20        1st Interim Dividend            2.75        25-10-2019     30-11-2026               approached listed entity for transfer of
+                                                                                  Phiroze Jeejeebhoy                                                                                                                                             shares from suspense account during
+  All official news releases and financial results are                                                                                                       2nd Interim Dividend            3.25        30-01-2020     06-03-2027
+                                                                                  Towers, Dalal Street,                                                                                                                                          the Financial Year 2023-24
+  communicated by the Company through its corporate                               Mumbai - 400 001
+                                                                                                                                                             3rd Interim Dividend            0.75        06-03-2020     11-04-2027
+                                                                                                                                                                                                                                                 Number of shareholders to whom                   2*         8,000
+  website - www.marico.com. The Schedule of investor/                             The National Stock        : MARICO
+                                                                                                                                              2020-21        1st Interim Dividend            3.00        28-10-2020     03-12-2027
+                                                                                                                                                                                                                                                 shares were transferred from suspense
+  analyst meet, transcripts and recordings of investor call,                      Exchange of India
+                                                                                                                                                             2nd Interim Dividend            4.50        03-03-2021     08-04-2028
+                                                                                                                                                                                                                                                 account during the Financial Year
+  presentations made to Institutional Investors/Analysts at                       Limited (NSE)
+                                                                                                                                              2021-22        1st Interim Dividend            3.00        28-10-2021     03-12-2028
+                                                                                                                                                                                                                                                 2023-24
+  Investor Meets organized/participated by the Company                            Exchange Plaza,                                                            2nd Interim Dividend            6.25        28-01-2022     05-03-2029               Aggregate number of shareholders and              4         26,000
+  are also hosted on the Investor Relations section of the                                                                                    2022-23         Interim Dividend               4.50        27-02-2023     04-04-2030               the outstanding shares in the suspense
+                                                                                  Bandra Kurla Complex,
+  Company’s website for wider dissemination. All the                              Mumbai - 400 051                                            2023-24        1st Interim Dividend            3.00        30-10-2023     05-12-2030               account lying at the end of the year (i.e.
+                                                                                                                                                             2nd Interim Dividend            6.50        27-02-2024     03-04-2031               March 31, 2024)
+  intimations made to the stock exchanges are also hosted on                      ISIN                      : INE196A01026
+  the website of the Company.                                                     Corporate Identification : L15140MH1988PLC049208
+                                                                                                                                              Transfer of shares to IEPF                                                                        *During the financial year ended March 31, 2024, 4,000 shares of 1
+                                                                                  Number
+                                                                                                                                                                                                                                                shareholder were transferred to the IEPF. Further, 4,000 shares were
+  The Annual Reports including the Management Discussion                                                                                      Pursuant to the provisions of the Act, read with the Rules,                                       transferred to 1 shareholder upon verification of claim.
+  and Analysis Report, are also uploaded on the website                           The Company hereby confirms that it has made the payment    the Company is required to transfer equity shares (including
+  of the Company.                                                                 of Annual Listing Fees to BSE Limited and NSE.              shares lying in the Unclaimed Suspense Account) in respect                                        Your Company confirms that the voting rights on these
+                                                                                                                                              of which dividends have not been claimed for a period of                                          shares shall remain frozen till the rightful owner of such
+                                                                                                                                              seven consecutive years to IEPF. Accordingly, the Company                                         shares claims the shares.

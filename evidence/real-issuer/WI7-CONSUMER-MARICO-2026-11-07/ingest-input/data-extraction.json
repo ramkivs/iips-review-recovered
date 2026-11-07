@@ -1,0 +1,500 @@
+{
+  "bundle": "WI-7 Consumer / Marico Limited \u2014 where every ingested figure is printed",
+  "scale": "INR crore as printed; ingested with source_scale=CRORE (1 crore = 10,000,000)",
+  "documents": {
+    "FY24": "MARICO-FY24-AR",
+    "FY23": "MARICO-FY24-AR (comparative column)",
+    "FY22": "MARICO-FY23-AR (comparative column)"
+  },
+  "items": {
+    "REVENUE_FROM_OPERATIONS": {
+      "printedLabel": "Revenue from operations",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "9653",
+        "FY23": "9764",
+        "FY22": "9512"
+      }
+    },
+    "OTHER_INCOME": {
+      "printedLabel": "Other income",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "142",
+        "FY23": "144",
+        "FY22": "98"
+      }
+    },
+    "TOTAL_INCOME": {
+      "printedLabel": "Total Income",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "9795",
+        "FY23": "9908",
+        "FY22": "9610"
+      }
+    },
+    "EMPLOYEE_BENEFIT_EXPENSE": {
+      "printedLabel": "Employee benefit expense",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "743",
+        "FY23": "653",
+        "FY22": "586"
+      }
+    },
+    "OTHER_EXPENSES": {
+      "printedLabel": "Other expenses",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "2136",
+        "FY23": "1950",
+        "FY22": "1809"
+      }
+    },
+    "FINANCE_COSTS": {
+      "printedLabel": "Finance costs",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "73",
+        "FY23": "56",
+        "FY22": "39"
+      }
+    },
+    "DEPRECIATION_AND_AMORTISATION": {
+      "printedLabel": "Depreciation and amortization expense",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "158",
+        "FY23": "155",
+        "FY22": "139"
+      }
+    },
+    "PROFIT_BEFORE_TAX": {
+      "printedLabel": "Profit before tax",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "1937",
+        "FY23": "1743",
+        "FY22": "1601"
+      }
+    },
+    "TAX_EXPENSE": {
+      "printedLabel": "Tax expense for the current year (current tax + deferred tax)",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "435",
+        "FY23": "421",
+        "FY22": "346"
+      }
+    },
+    "NET_PROFIT": {
+      "printedLabel": "Profit for the year (A)",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "1502",
+        "FY23": "1322",
+        "FY22": "1255"
+      }
+    },
+    "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+      "printedLabel": "Net Profit attributable to: Owners",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "1481",
+        "FY23": "1302",
+        "FY22": "1225"
+      }
+    },
+    "EPS_BASIC": {
+      "printedLabel": "Basic earnings per share",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "11.46",
+        "FY23": "10.08",
+        "FY22": "9.50"
+      }
+    },
+    "EPS_DILUTED": {
+      "printedLabel": "Diluted earnings per share",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY23": "PDF p.174 (printed 344-345), right-hand statement",
+        "FY22": "PDF p.129 (printed 254-255), right-hand statement"
+      },
+      "values": {
+        "FY24": "11.43",
+        "FY23": "10.05",
+        "FY22": "9.49"
+      }
+    },
+    "TOTAL_ASSETS": {
+      "printedLabel": "Total assets",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "7421",
+        "FY23": "6946",
+        "FY22": "5786"
+      }
+    },
+    "TOTAL_EQUITY": {
+      "printedLabel": "Total equity",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "4169",
+        "FY23": "3956",
+        "FY22": "3405"
+      }
+    },
+    "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+      "printedLabel": "Equity attributable to owners",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "3832",
+        "FY23": "3799",
+        "FY22": "3348"
+      }
+    },
+    "NON_CONTROLLING_INTEREST": {
+      "printedLabel": "Non-controlling interests (balance) / Note 12(c) closing balance",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345) and PDF p.191 (printed 378-379), Note 12(c)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "337",
+        "FY23": "157",
+        "FY22": "57"
+      }
+    },
+    "CASH_AND_CASH_EQUIVALENTS": {
+      "printedLabel": "Cash and cash equivalents",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "228",
+        "FY23": "207",
+        "FY22": "276"
+      }
+    },
+    "CURRENT_INVESTMENTS": {
+      "printedLabel": "Financial assets (i) Investments (current)",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "259",
+        "FY23": "578",
+        "FY22": "641"
+      }
+    },
+    "TRADE_RECEIVABLES": {
+      "printedLabel": "Trade receivables",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "1069",
+        "FY23": "1015",
+        "FY22": "652"
+      }
+    },
+    "PROPERTY_PLANT_AND_EQUIPMENT": {
+      "printedLabel": "Property, plant and equipment",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "700",
+        "FY23": "633",
+        "FY22": "600"
+      }
+    },
+    "CAPITAL_WORK_IN_PROGRESS": {
+      "printedLabel": "Capital work-in-progress",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "44",
+        "FY23": "67",
+        "FY22": "39"
+      }
+    },
+    "GOODWILL": {
+      "printedLabel": "Goodwill",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "863",
+        "FY23": "862",
+        "FY22": "654"
+      }
+    },
+    "INTANGIBLE_ASSETS": {
+      "printedLabel": "Other intangible assets",
+      "locators": {
+        "FY24": "PDF p.174 (printed 344-345)",
+        "FY23": "PDF p.174 (printed 344-345)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "937",
+        "FY23": "560",
+        "FY22": "306"
+      }
+    },
+    "OPERATING_CASH_FLOW": {
+      "printedLabel": "Net cash generated from operating activities (A)",
+      "locators": {
+        "FY24": "PDF p.176 (printed 348-349)",
+        "FY23": "PDF p.176 (printed 348-349)",
+        "FY22": "PDF p.131 (printed 258-259)"
+      },
+      "values": {
+        "FY24": "1436",
+        "FY23": "1419",
+        "FY22": "1016"
+      }
+    },
+    "CAPITAL_EXPENDITURE": {
+      "printedLabel": "Payment for property, plant and equipment and intangible assets",
+      "locators": {
+        "FY24": "PDF p.176 (printed 348-349)",
+        "FY23": "PDF p.176 (printed 348-349)",
+        "FY22": "PDF p.131 (printed 258-259)"
+      },
+      "values": {
+        "FY24": "153",
+        "FY23": "182",
+        "FY22": "132"
+      }
+    },
+    "INVESTING_CASH_FLOW": {
+      "printedLabel": "Net cash generated / (utilised) in investing activities (B)",
+      "locators": {
+        "FY24": "PDF p.176 (printed 348-349)",
+        "FY23": "PDF p.176 (printed 348-349)",
+        "FY22": "PDF p.131 (printed 258-259)"
+      },
+      "values": {
+        "FY24": "176",
+        "FY23": "-865",
+        "FY22": "425"
+      }
+    },
+    "FINANCING_CASH_FLOW": {
+      "printedLabel": "Net cash utilised in financing activities (C)",
+      "locators": {
+        "FY24": "PDF p.176 (printed 348-349)",
+        "FY23": "PDF p.176 (printed 348-349)",
+        "FY22": "PDF p.131 (printed 258-259)"
+      },
+      "values": {
+        "FY24": "-1542",
+        "FY23": "-560",
+        "FY22": "-1290"
+      }
+    },
+    "DIVIDENDS_PAID": {
+      "printedLabel": "Dividends paid to company's shareholders",
+      "locators": {
+        "FY24": "PDF p.176 (printed 348-349)",
+        "FY23": "PDF p.176 (printed 348-349)",
+        "FY22": "PDF p.131 (printed 258-259)"
+      },
+      "values": {
+        "FY24": "1229",
+        "FY23": "582",
+        "FY22": "1195"
+      }
+    },
+    "INCOME_TAX_PAID": {
+      "printedLabel": "Income taxes paid (net of refunds)",
+      "locators": {
+        "FY24": "PDF p.176 (printed 348-349)",
+        "FY23": "PDF p.176 (printed 348-349)",
+        "FY22": "PDF p.131 (printed 258-259)"
+      },
+      "values": {
+        "FY24": "378",
+        "FY23": "369",
+        "FY22": "351"
+      }
+    },
+    "NET_CASH_FLOW": {
+      "printedLabel": "NET INCREASE / (DECREASE) IN CASH & CASH EQUIVALENTS (A+B+C+D)",
+      "locators": {
+        "FY24": "PDF p.176 (printed 348-349)",
+        "FY23": "PDF p.176 (printed 348-349)",
+        "FY22": "PDF p.131 (printed 258-259)"
+      },
+      "values": {
+        "FY24": "21",
+        "FY23": "-69",
+        "FY22": "153"
+      }
+    },
+    "LONG_TERM_BORROWINGS": {
+      "printedLabel": "(i) Borrowings \u2014 non-current; Note 13(a) Total non-current borrowings",
+      "locators": {
+        "FY24": "PDF p.191 (printed 378-379) / PDF p.192 (printed 380-381), Note 13(a)",
+        "FY23": "PDF p.191 (printed 378-379) / PDF p.192 (printed 380-381), Note 13(a)",
+        "FY22": "PDF p.129 (printed 254-255) / Note 13(a)"
+      },
+      "values": {
+        "FY24": "",
+        "FY23": "2",
+        "FY22": ""
+      }
+    },
+    "SHORT_TERM_BORROWINGS": {
+      "printedLabel": "(i) Borrowings \u2014 current; Note 13(a) II. Current Borrowings",
+      "locators": {
+        "FY24": "PDF p.191 (printed 378-379) / PDF p.192 (printed 380-381), Note 13(a)",
+        "FY23": "PDF p.191 (printed 378-379) / PDF p.192 (printed 380-381), Note 13(a)",
+        "FY22": "PDF p.129 (printed 254-255) / Note 13(a)"
+      },
+      "values": {
+        "FY24": "383",
+        "FY23": "473",
+        "FY22": "345"
+      }
+    },
+    "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+      "printedLabel": "(no such line printed)",
+      "locators": {
+        "FY24": "PDF p.192 (printed 380-381), Note 13(b)",
+        "FY23": "PDF p.192 (printed 380-381), Note 13(b)",
+        "FY22": "PDF p.129 (printed 254-255) / Note 13(b)"
+      },
+      "values": {
+        "FY24": "",
+        "FY23": "",
+        "FY22": ""
+      }
+    },
+    "PREFERENCE_CAPITAL": {
+      "printedLabel": "(no preference share capital line printed)",
+      "locators": {
+        "FY24": "PDF p.174 / Note 12(a)",
+        "FY23": "PDF p.174 / Note 12(a)",
+        "FY22": "PDF p.129 (printed 254-255)"
+      },
+      "values": {
+        "FY24": "",
+        "FY23": "",
+        "FY22": ""
+      }
+    }
+  },
+  "derivedItems": {
+    "TRADE_PAYABLES": {
+      "rule": "sum of the two printed trade-payable lines (dues of micro and small enterprises + dues of creditors other than micro and small enterprises)",
+      "FY24": "71 + 1,510 = 1,581",
+      "FY23": "68 + 1,384 = 1,452",
+      "FY22": "76 + 1,268 = 1,344",
+      "locator": "PDF p.174 (printed 344-345) / PDF p.129 (printed 254-255)"
+    },
+    "LEASE_LIABILITIES": {
+      "rule": "sum of the printed non-current and current lease-liability lines, corroborated by the financing-activities reconciliation ('Balance at March 31, Lease liabilities')",
+      "FY24": "104 + 41 = 145 (reconciliation: 145)",
+      "FY23": "91 + 42 = 133 (reconciliation: 133)",
+      "FY22": "91 + 43 = 134 (reconciliation: 134)",
+      "locator": "PDF p.174 (printed 344-345), PDF p.129 (printed 254-255), PDF p.176 (printed 348-349), PDF p.131 (printed 258-259)"
+    }
+  },
+  "notReported": {
+    "LONG_TERM_BORROWINGS": {
+      "FY24": "the consolidated balance sheet prints '-' for non-current borrowings and Note 13(a) prints 'Total non-current borrowings  -  2'; FY2022-23 prints 2 and FY2021-22 prints '-' (PDF p.129). A dash is not a number and not a declaration, so FY2024 and FY2022 are NOT_REPORTED and only FY2023 carries the printed 2.",
+      "FY23": "2 (printed)",
+      "FY22": "dash \u2014 NOT_REPORTED"
+    },
+    "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+      "all": "no current-maturity line is printed anywhere in the consolidated balance sheet, Note 13(a) or Note 13(b): the current financial liabilities are Borrowings, Lease liabilities, Trade payables and Other financial liabilities, and Note 13(b) lists no current-maturity item. NOT_REPORTED in all three periods."
+    },
+    "PREFERENCE_CAPITAL": {
+      "all": "the consolidated balance sheet has an equity share capital line (Note 12(a)) and no preference share capital line; nothing in the pages read declares preference capital nil. NOT_REPORTED, not nil."
+    }
+  },
+  "reclassification": {
+    "what": "the FY2022-23 comparative column in the FY2023-24 report differs from the FY2022-23 report's own FY2022-23 column on the investing and financing sections",
+    "observed": "investing cash flow (865) in the FY2023-24 report vs (929) in the FY2022-23 report; financing (560) vs (560); net increase in cash (69) vs (133); operating cash flow 1,419 in both",
+    "treatment": "the FY2023 row is taken from ONE statement \u2014 the FY2023-24 report's comparative column \u2014 and the difference is recorded here rather than averaged or silently resolved. The FY2021-22 row is taken from the FY2022-23 report, which is where the auditor reported that year."
+  }
+}

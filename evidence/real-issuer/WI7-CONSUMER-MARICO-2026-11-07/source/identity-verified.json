@@ -1,0 +1,44 @@
+{
+  "issuerId": "IN:CIN:L15140MH1988PLC049208",
+  "legalName": "Marico Limited",
+  "cin": "L15140MH1988PLC049208",
+  "equityIsin": "INE196A01026",
+  "sector": "Consumer",
+  "verdict": "VERIFIED_FROM_FILING",
+  "facts": [
+    {
+      "fact": "CIN L15140MH1988PLC049208",
+      "locator": "Integrated Annual Report 2023-24, PDF p.115 (printed 226-227), BRSR section I item I-1",
+      "text": "Corporate Identity Number (CIN) of the listed entity : L15140MH1988PLC049208"
+    },
+    {
+      "fact": "BSE scrip code 531642",
+      "locator": "Integrated Annual Report 2023-24, PDF p.159 (printed 314-315), General shareholder information \u2014 Listing Details",
+      "text": "BSE Limited : 531642"
+    },
+    {
+      "fact": "ISIN INE196A01026",
+      "locator": "Integrated Annual Report 2023-24, PDF p.159 (printed 314-315), Listing Details table",
+      "text": "ISIN : INE196A01026"
+    },
+    {
+      "fact": "NSE symbol MARICO",
+      "locator": "Integrated Annual Report 2023-24, PDF p.5 (no printed folio on the sheet), 'About' page",
+      "text": "Marico (BSE 531642, NSE \"MARICO\") is one of India's leading consumer products companies"
+    },
+    {
+      "fact": "consolidated statements audited by B S R & Co. LLP",
+      "locator": "Integrated Annual Report 2023-24, PDF p.169 (printed 334-335), Independent Auditor's Report",
+      "text": "Report on the Audit of the Consolidated Financial Statements ... To the Members of Marico Limited"
+    },
+    {
+      "fact": "Indian Accounting Standards, consolidated basis",
+      "locator": "Integrated Annual Report 2023-24, PDF p.169-170 (printed 334-337), auditor's report",
+      "text": "consolidated cash flows of the Group in accordance with the Indian Accounting Standards (Ind AS) specified under Section 133"
+    }
+  ],
+  "notAsserted": [
+    "No listing or admission date is asserted: no page read states one, and the listing window in the roster is an operator record.",
+    "No claim is made that the two exchange identifiers are the only ones under which the security has ever traded."
+  ]
+}

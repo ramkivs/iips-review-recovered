@@ -1,0 +1,118 @@
+# Integrated Annual Report 2022-23 — Independent Auditor's Report on the consolidated financial statements
+# source PDF: Marico_Annual_Report_FY23.pdf  bytes=28505144  sha256=0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a  pages=224
+# URL: https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf
+# PDF page 125 of 224 (printed page 246-247)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
+# the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
+# ----------------------------------------------------------------------------------------------
+Transformative. Innovative. Purpose-led                                                                               Marico Limited                                                                                    Corporate            Statutory           Financial
+                                                                                                                                                                                                                        Overview              Reports           Statements
+
+
+
+
+Independent Auditor’s Report                                                                                                           Uncertain Tax Position
+                                                                                                                                       Refer note (h) of Significant Accounting Policies
+                                                                                                                                                                                                           Impairment assessment of goodwill and intangible
+                                                                                                                                                                                                           assets with indefinite useful lives
+                                                                                                                                       and Note 26 and 33 to the consolidated financial                    Refer to note (j) of Significant Accounting Policies,
+To the Members of Marico Limited                                   Revenue recognition                                                 statements                                                          Note 2(d) and 5 to the consolidated financial
+                                                                                                                                                                                                           statements
+Report on the Audit of the Consolidated                            Refer note (e) of Significant Accounting Policies and                    The key audit                   How the matter was
+Financial Statements                                                                                                                           matter                      addressed in our audit               The key audit                 How the matter was
+                                                                   Note 19 to the consolidated financial statements
+                                                                                                                                                                                                                   matter                    addressed in our audit
+Opinion                                                                                                                                 The Company operates         In view of the significance
+                                                                                                                                        in a complex tax             of the matter we applied the           The carrying amount          In view of the significance
+We have audited the consolidated financial statements of               The key audit               How the matter was
+                                                                                                                                        jurisdiction with certain    following audit procedures             of goodwill aggregates       of the matter we applied the
+Marico Limited (hereinafter referred to as the “Holding                   matter                  addressed in our audit
+                                                                                                                                        tax     exemptions      /    in this area, among others to          H 862 crores and             following audit procedures
+Company”) and its subsidiaries (Holding Company and                 Revenue is recognised     In view of the significance               deductions that may be       obtain sufficient appropriate          intangible          assets   in this area, among others to
+its subsidiaries together referred to as “the Group”), which        based      on     the     of the matter we applied the              subject to challenges        audit evidence:                        with indefinite lives
+                                                                                                                                                                                                                                         obtain sufficient appropriate
+comprise the consolidated balance sheet as at March 31, 2023,       arrangement      with     following audit procedures                and audits by tax            i.      For      uncertain     tax     aggregates H 545
+                                                                    customers.                in this area, among others to             authorities. There are                                                                           audit evidence:
+and the consolidated statement of profit and loss (including                                                                                                                 positions, inspected select    crores i.e. 12% and 8%
+other comprehensive income), consolidated statement of                                        obtain sufficient appropriate             significant open tax                 correspondences with tax       of the total assets of the
+                                                                    Revenue is recognised                                                                                                                                                •     Evaluated the assumptions
+changes in equity and consolidated statement of cash flows for                                audit evidence:                           matters under litigation             authorities.                   Group respectively as
+                                                                    when control of the                                                                                                                                                        applied to key inputs such
+the year then ended, and notes to the consolidated financial                                  •     Evaluated appropriateness           with tax authorities                                                at March 31, 2023.
+                                                                    underlying     products                                                                          ii.     Evaluated management’s                                            as sales value, operating
+statements, including a summary of significant accounting                                           of the Group’s revenue                                                                                                                     costs, growth rates and
+                                                                    has been transferred to                                             Judgement is required                judgment regarding the         The annual impairment
+policies and other explanatory information (hereinafter                                             recognition     accounting                                                                                                                 discount rates.
+                                                                    the customer. There is                                              in assessing the level               expected resolution of         testing of goodwill
+referred to as “the consolidated financial statements”).                                            policies by comparing
+                                                                    a risk of revenue being                                             of     provisions     and            matters with      various      and intangible assets        •     Compared      the    inputs
+                                                                                                    with applicable accounting
+                                                                    overstated due to the                                               disclosure of contingent             tax authorities, based         with indefinite lives              with the historical growth
+In our opinion and to the best of our information and                                               standards.
+                                                                    pressure management                                                 liabilities required in              on external tax expert/        is considered to be                trends, evaluating the
+according to the explanations given to us, the aforesaid
+                                                                    may feel to achieve       •     Tested               design,        respect of uncertain                 counsel opinions and the       a key audit matter                 forecast used in prior
+consolidated financial statements give the information              performance targets.                                                tax position that reflects
+                                                                                                    implementation          and                                              use of past experience,        due      to   complexity           year models to its actual
+required by the Companies Act, 2013 (“Act”) in the manner                                           operating      effectiveness        management’s         best            where available, with the      of     the   accounting            performance       of    the
+so required and give a true and fair view in conformity with                                        of the Group’s general              estimates of the most                tax authorities.               requirements         and           business, agreeing current
+the accounting principles generally accepted in India, of the                                       IT controls and key IT/             likely outcome based                                                significant judgements             forecast to the board of
+consolidated state of affairs of the Group as at March 31,                                                                              on the facts available.      iii.     Involved tax specialists
+                                                                                                    manual          application                                                                             required in determining            directors / management
+                                                                                                                                                                             to evaluate the status of
+2023, of its consolidated profit and other comprehensive loss,                                      controls over the Group’s                                                                               the assumptions to be              approved plans as well as
+                                                                                                                                                                             ongoing tax litigations and
+consolidated changes in equity and consolidated cash flows                                          systems which govern                                                                                    used to estimate the               our own assessment based
+                                                                                                                                                                             judgemental tax positions
+for the year then ended.                                                                            recording of revenue in the                                                                             recoverable amount.                on our knowledge of the
+                                                                                                                                                                             in tax returns and their
+                                                                                                    general ledger accounting                                                                               The         recoverable            client.
+Basis for Opinion                                                                                                                                                            most likely outcome, basis
+                                                                                                    system.                                                                                                 amount of the relevant
+                                                                                                                                                                             their expertise, industry                                   •     Involved         valuation
+We conducted our audit in accordance with the Standards                                                                                                                                                     cash generating units
+                                                                                              •     Performed         substantive                                            outcomes and company’s                                            specialists,          where
+                                                                                                                                                                                                            (CGUs), which has
+on Auditing (SAs) specified under Section 143(10) of                                                testing by selecting samples                                             own past experience in                                            appropriate, to evaluate
+                                                                                                                                                                                                            been determined based
+the Act. Our responsibilities under those SAs are further                                           of revenue transactions                                                  respect of similar matters.                                       the     reasonability    of
+                                                                                                                                                                                                            on value in use, has
+described in the Auditor’s Responsibilities for the Audit of the                                    recorded, and verifying                                                                                                                    the methodology and
+                                                                                                                                                                     iv. Evaluated the adequacy             been derived from
+Consolidated Financial Statements section of our report. We                                         the underlying documents                                                                                                                   approach used in the
+                                                                                                                                                                         of financial statement             discounted       forecast
+are independent of the Group in accordance with the ethical                                         i.e. sales invoices and                                                                                                                    valuation carried out for
+                                                                                                                                                                         disclosures in respect of the      cash flow models. These
+requirements that are relevant to our audit of the consolidated                                     shipping documents.                                                                                                                        determining the carrying
+                                                                                                                                                                         tax provision / adjustments        models use several key
+financial statements in terms of the Code of Ethics issued by                                 •     Inspected, on a sample                                               and contingencies.                 assumptions, including             amount of the CGUs.
+the Institute of Chartered Accountants of India and the relevant                                    basis,    key     customer                                                                              estimates of future sales    •     Challenged management
+provisions of the Act, and we have fulfilled our other ethical                                      contracts to identify terms                                                                             value, operating costs,            with our own sensitivity
+responsibilities in accordance with these requirements. We                                          and conditions for sale.                                                                                terminal value growth              analysis and evaluated
+believe that the audit evidence obtained by us is sufficient                                                                                                                                                rates and the weighted-            the effect of possible
+                                                                                              •     Tested manual journals
+and appropriate to provide a basis for our opinion on the                                                                                                                                                   average cost of capital            reductions   in    growth
+                                                                                                    posted to revenue to
+                                                                                                                                                                                                            (discount rate).                   rates and forecasted cash
+consolidated financial statements.                                                                  identify unusual items.
+                                                                                                                                                                                                                                               flows on the estimated
+Key Audit Matters                                                                             •     Performed         analytical                                                                                                               headroom.
+                                                                                                    procedures on sales such
+Key audit matters are those matters that, in our professional                                       as trend analysis to identify                                                                                                        •     Evaluated the adequacy
+judgment, were of most significance in our audit of the                                             any unusual fluctuations.                                                                                                                  of financial statement
+consolidated financial statements of the current period. These                                                                                                                                                                                 disclosures in respect of the
+                                                                                                                                                                                                                                               impairment assessment for
+matters were addressed in the context of our audit of the
+                                                                                                                                                                                                                                               goodwill and intangible
+consolidated financial statements as a whole, and in forming
+                                                                                                                                                                                                                                               assets with indefinite lives.
+our opinion thereon, and we do not provide a separate
+opinion on these matters.
+
+
+246                 Integrated Annual Report 2022-23                                                                                                                                                                         Integrated Annual Report 2022-23                247

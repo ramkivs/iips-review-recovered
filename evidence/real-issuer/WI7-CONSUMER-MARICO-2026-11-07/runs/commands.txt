@@ -1,0 +1,89 @@
+# WI-7 — commands actually run (2026-11-07)
+
+Working directory `iips-platform/` or `frontend/` as stated. No command below calls the network from this process.
+The only network step is the throwaway Actions harness described in §1, which fetched the three PDFs and ran the
+text extraction outside this environment, because this sandbox has neither general egress nor PDF tooling.
+
+## 0 — baseline
+
+    git fetch origin main                        # cfc197105e9d0a0c0a0056ee5bb4a2af1bac98d6 (PR #503 merged)
+    git status                                   # clean
+    gh pr view 503 --json state,mergeCommit      # MERGED / cfc1971
+
+## 1 — source capture (out of process)
+
+    # temporary workflow .github/workflows/temp-wi7-source.yml, pushed to this branch, removed before the PR:
+    curl -sSL -o fy24.pdf https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+    curl -sSL -o fy23.pdf https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf
+    curl -sSL -o fy22.pdf https://marico.com/investorspdf/Marico_Annual_Report_FY22.pdf
+    sha256sum fy24.pdf fy23.pdf fy22.pdf          # 03cb0db7… / 0f41759d… / cd8855e5…
+    pdfinfo fy24.pdf                              # Pages: 259
+    pdfinfo fy23.pdf                              # Pages: 224
+    pdfinfo fy22.pdf                              # Pages: 200
+    pdftotext -layout fy24.pdf fy24.txt           # then split on \f into per-page text
+    pdftotext -layout fy23.pdf fy23.txt
+    pdftotext -layout fy22.pdf fy22.txt
+    # the eleven evidence pages were committed as source/*.txt; the scratch text trees were deleted
+
+## 2 — ingest (three consecutive consolidated periods, INR crore)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input        /tmp/wi7/in \
+      --dataset-dir  /tmp/wi7/data/investment/dataset \
+      --now          2026-11-07T07:00:00.000Z
+    # datasetVersion sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
+    # issues.json []   Consumer G1_ENABLED, usable 3, withheld 0, stmt 91.7 %, metric 100 %
+    # (stdout: runs/01-ingest.txt)
+
+    cp evidence/…/ingest-input/identity/*.json /tmp/wi7/data/investment/identity/
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/wi7/owner.json
+
+## 3 — generate -> assess -> compose -> validate -> persist -> verify
+
+    cd frontend
+    npm ci --no-audit --no-fund --strict-ssl=false   # 190 packages; the NP-04 second specifier
+                                                     # (github:ramkivs/iips-production-market-data#2e11fa3b…) must resolve
+    IIPS_NP04_DATABASE_PATH=/tmp/wi7/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L15140MH1988PLC049208 \
+      --data-dir       /tmp/wi7/data/investment/dataset \
+      --identity-dir   /tmp/wi7/data/investment/identity \
+      --db             /tmp/wi7/data/investment/investment.db \
+      --owner-carrier  /tmp/wi7/owner.json \
+      --generated-at   2026-11-07T07:00:00.000Z \
+      --out            runs/cli-wi7.json
+
+    # OK      snapshot     datasetVersion sha256:04c96303…
+    # OK      identity     RESOLVED via ISIN
+    # OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3306
+    # OK      compose      reportKey 01af3264e085… payloadDigest 3fd27a98313d…
+    # OK      validate     scope co:IN:CIN:L15140MH1988PLC049208 (ISSUER)
+    # OK      chain-head   no chain for this scope yet
+    # SKIPPED compare      no head to compare against
+    # OK      persist      CREATED (wrote)
+    # OK      verify       chain valid: 1 version(s), head v1
+    # (stdout: runs/02-generate.txt)
+
+## 4 — payload re-read in a SEPARATE process
+
+Temporary `frontend/.tmp-wi7-readback.ts` (deleted after use):
+`loadAuthoritativeNp04Persistence` -> `createInvestmentArtifactService` -> `readVersionWithPayload`.
+
+    IIPS_NP04_DATABASE_PATH=/tmp/wi7/data/investment/investment.db \
+    IIPS_REPORTS_OWNER_PATH=/tmp/wi7/owner.json \
+    npx tsx .tmp-wi7-readback.ts runs/readback.json artifact/assessment-payload-marico-wi7.json
+    # scope co:IN:CIN:L15140MH1988PLC049208   reportId f110608f-f63b-4e7d-95bc-ad4f6222c17a
+    # digest match true (read payloadDigest == chain head payloadDigest == sha256 of the read payload text)
+    # (stdout: runs/readback-stdout.txt, record: runs/readback.json, payload: artifact/…)
+
+## 5 — targeted verification
+
+    cd iips-platform && npx tsx --test tests/investment/wi7ConsumerMarico.test.ts   # runs/03-guard-test.txt
+    cd iips-platform && npx tsc --noEmit                                           # runs/04-typecheck.txt
+
+## 6 — independent verification from a clean clone
+
+    rm -rf /tmp/wi7v && git clone --branch <this branch> --single-branch \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/wi7v
+    # bundle digests + guard test: runs/05-clean-clone.txt
