@@ -1,0 +1,19 @@
+### lt-ar https://www.larsentoubro.com/corporate/investors-financials/annual-reports/ http=404
+### lt-ar2 https://www.larsentoubro.com/corporate/investors-financials/ http=404
+### kec-ar https://www.kecrpg.com/investor-relations/annual-reports http=200
+/KEC data/Media Kit/KECBrochure.pdf
+/KEC data/gst/GST Registration Details as on 2.6.171.pdf
+media/corporatePresentationFilesMedia/Corporate Presentation Q2 FY27.pdf
+public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf 
+### thermax-ar https://www.thermaxglobal.com/investors/annual-reports/ http=200
+/sites/default/files/2026-07/Letter-from-the-CEO.pdf
+/sites/default/files/2026-07/Letter-from-the-Chairperson.pdf
+/sites/default/files/2026-07/Thermax-Annual-Report-2025-26.pdf
+/sites/default/files/2026-07/Thermax-Business-Strategy.pdf
+/sites/default/files/2026-07/Thermax-Subsidiary-Annual-Report-2025-26.pdf
+/sites/default/files/2026-09/Thermax-Limited-Annual-Return-FY-2025-26.pdf
+/themes/thermax/assets/pdf/BRSR-from-Thermax-AR-2025-26.pdf
+/themes/thermax/assets/pdf/Terms-of-Use.pdf
+https://www.thermaxglobal.com/sites/default/files/2026-07/Thermax-Annual-Report-2025-26.pdf
+https://www.thermaxglobal.com/sites/default/files/2026-11/Thermax-Limited_Financial-Results_Q2-FY-2026-27.pdf
+themes/thermax/assets/pdf/BRSR-from-Thermax-AR-2025-26.pdf
