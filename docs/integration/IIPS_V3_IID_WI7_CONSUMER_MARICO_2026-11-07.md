@@ -245,9 +245,26 @@ section that cites it.
 `evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/` — `README.md`, `determination-wi7.json`,
 `source/source-bytes.json`, `source/page-map.json`, `source/identity-verified.json`, twelve verbatim page extracts,
 `ingest-input/` (roster, periods, identity sources, extraction provenance), `runs/` (ingest, generate, readback,
-commands), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded by
-`iips-platform/tests/investment/wi7ConsumerMarico.test.ts`, which also verifies that the WI-3, WI-5, WI-6, WI-6A,
+commands, guard test, typecheck, clean clone), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded
+by `iips-platform/tests/investment/wi7ConsumerMarico.test.ts`, which also verifies that the WI-3, WI-5, WI-6, WI-6A,
 WI-6A-S1 and WI-6A-S2 bundles are digest-unchanged.
+
+**Verification actually run**, with the transcripts committed beside this record:
+
+* `runs/03-guard-test.txt` — the WI-7 guard file plus the six earlier WI guard files: **104 tests, 104 pass, 0 fail**.
+  (WI-7's own file is 27 tests in 4 suites; the rest belong to WI-4 … WI-6A-S2 and are run to show the new sector did
+  not disturb them.)
+* `runs/04-typecheck.txt` — `tsc --noEmit` on the package project (exit 0) and, because `tsconfig.json` includes only
+  `src/**/*.ts`, a second strict invocation over the guard file itself (exit 0).
+* `runs/05-clean-clone.txt` — a fresh clone of the pushed branch: `npm ci`, re-ingest of the committed
+  `ingest-input/` into an empty dataset directory reproduces `sha256:04c96303…6bd0`; all 30 digested files re-hash
+  clean; the canonical payload re-digest reproduces the chain head `sha256:3fd27a98…2343`; guard tests 104/104; both
+  typechecks exit 0.
+
+**Tracker.** The master tracker carries this work item at **§16.273**, with no CV-CORR / CHG / V number because WI-7
+performed no IPD work and does not spend the next free IPD act reference quoted at the end of §16.272. WI-4 … WI-6A-S2
+were recorded in this register only; §16.273 therefore follows that pattern for the tracker (one pointer, nothing
+reinterpreted) rather than reopening earlier entries.
 
 **What WI-7 does not do.** It does not revisit WI-6A, does not touch PR #503's merged artifacts, does not select a
 further sector, does not open a price observation, and does not claim CI success: this repository has no checks

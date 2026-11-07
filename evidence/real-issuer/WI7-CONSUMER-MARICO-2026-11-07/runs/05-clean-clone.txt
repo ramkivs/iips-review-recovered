@@ -1,0 +1,49 @@
+# WI-7 clean-clone reproduction — 2026-11-07T07:46:17Z
+# A fresh clone of the pushed branch, nothing copied in from the authoring workspace but the commands below.
+# node v22.22.3
+
+## 1. clone
+$ git clone --depth 1 --branch arena/8413763a-iips-review-recovered https://github.com/ramkivs/iips-review-recovered.git /tmp/wi7c
+HEAD 08b41186e6cec40c521e1e0a812722ab9943076d  08b4118 WI-7: Consumer sector / Marico Limited — three audited consolidated periods ingested, assessed and persisted; L-038 opened
+
+## 2. install (iips-platform only; the package's own lockfile)
+$ npm ci --no-audit --no-fund
+
+## 3. re-ingest the bundle's committed inputs into an empty dataset directory
+$ npx tsx src/investment/cli/ingest.ts --input <bundle>/ingest-input --dataset-dir /tmp/wi7c-run/dataset --now 2026-11-07T07:00:00.000Z
+
+datasetVersion sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
+dataset        /tmp/wi7c-run/dataset
+coverage       /tmp/wi7c-run/dataset/coverage-report.json
+
+dataset          sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
+completed        1/13 sectors measured
+  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+
+expected (recorded in the bundle at authoring time):
+  dataset sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
+
+## 4. every byte in the bundle re-hashed against digests.json
+files 30 mismatched 0
+
+## 5. the persisted payload's canonical digest, recomputed from the committed artifact
+recomputed    sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343
+chainHead     3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343
+canonicalBytes 53229
+expected: sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343 (the chain head and the payloadDigest in runs/readback.json)
+
+## 6. the guard tests, from the clone
+$ npx tsx --test tests/investment/wi7ConsumerMarico.test.ts tests/investment/wi4*.test.ts tests/investment/wi5*.test.ts tests/investment/wi6*.test.ts
+# tests 104
+# pass 104
+# fail 0
+
+## 7. typecheck, from the clone
+$ npx tsc --noEmit -p tsconfig.json
+exit=0
+$ npx tsc --noEmit --strict --skipLibCheck --target es2022 --module esnext --moduleResolution bundler --types node tests/investment/wi7ConsumerMarico.test.ts
+exit=0
+
+# Nothing in the clone was edited; the working tree is clean apart from the scratch helper used in step 5.
+$ git status --short (iips-platform, excluding node_modules)
+?? iips-platform/wi7c-digest.ts

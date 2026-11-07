@@ -22014,3 +22014,50 @@ All68 explicit dispositions:1 RESOLVED (new row41 `INE415A01038`+NSE → `EQ_AGI
 B-06 reassessment COMPLETE / VERIFIED: actual freshly fetched pure master ISIN resolver,NSE ACTIVE/effective eligibility,all68 explicit dispositions,1 RESOLVED AGI `INE415A01038`→`EQ_AGI_IN`,67 UNRESOLVED/UNMAPPED_IDENTIFIER with zero exact corpus records,0 ambiguous,0 status changes from B-04. B-05 retains all67 as AUTHORITATIVE_RECORD_UNAVAILABLE with missing authoritative listing/full-record evidence; no manufactured matches or inference of unlisting/ineligibility. All prior134 historical outcomes and actual67 B-04 quarantine records preserved; B-05's IDs carried verbatim,67 new isolated B-06 records additive. No IPD/master/further-expansion,completed B-01/B-02/B-04/B-05,pin/runtime,operational DB/provisioning/holdings write,QE/qualification/admission or unrelated change.
 
 **Broker-import O-02 remains OUTSTANDING / NOT COMPLETED BY B-06.** Separate additive IRR receipt must still register BOTH IPD#131 and#132 and correct stale #491/R2§28 F2 status; prior #494/#495 evidence is not silently treated as that combined completion. Machine `outstanding-register.json` and assessment preserve this action. This is not unrelated capability-matrix O-02 provisioning. B-06 does not reopen completed technical implementations or alter old receipts/status history. Targeted/remote/static validation and actual head/merge/main CI/publication readback recorded in publishing PR receipt after success. Next free§16.273 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.
+
+### 16.273 IID WI-7 — first non-Technology real issuer (Consumer / Marico Limited) ingested, assessed, persisted; L-038 opened (`2026-11-07`)
+
+**No IPD act, no IPD change.** WI-7 is an IRR-only IID work item and performed no IPD modification, so this entry
+carries **no** CV-CORR / CHG / V number. The sequence quoted at the end of §16.272 (`CV-CORR-253` /
+`CHG-2026-11-06-16` / `V2148`) is **not spent** here and remains the next free IPD act reference; only the tracker
+section number advances.
+
+**Scope.** WI-7 of the IIPS v3.0 IID line, authorised as a new sector expansion after the merge of #503 (WI-6A-S2).
+Sector **Consumer** — the only remaining sector in the governed method matrix whose `DCF_FCFF`, `PE_RELATIVE` and
+`EV_EBITDA` declare no mandatory operating metric, so every method it considers can be exercised on audited filings
+alone. Issuer **Marico Limited**: CIN `L15140MH1988PLC049208` (FY2023-24 AR PDF p.115), ISIN `INE196A01026` (p.159),
+BSE `531642` / NSE `MARICO` (p.5), consolidated statements audited by **B S R & Co. LLP** (FRN `101248W/W-100022`,
+opinion p.169, framework paragraph p.170). Rejected candidates and the criteria applied are recorded in the WI-7 record,
+not here.
+
+**Evidence.** `evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/` — three annual reports as hashed bytes (FY2023-24
+`03cb0db7…7595` 21,087,675 B; FY2022-23 `0f41759d…2b0a` 28,505,144 B; FY2021-22 fetched and hashed with **no figure
+taken**), twelve verbatim page extracts with provenance headers, the governed `ingest-input/`, the run transcripts, the
+separate-process readback record, the persisted canonical payload and `digests.json`. Record
+`docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md`; guard
+`iips-platform/tests/investment/wi7ConsumerMarico.test.ts`.
+
+**Result.** Three consecutive audited consolidated periods (2024-03-31, 2023-03-31, 2022-03-31) ingested through the
+existing pipeline: datasetVersion `sha256:04c96303…6bd0`, `issues.json` `[]`, Consumer `G1_ENABLED`, statement coverage
+91.7 %, operating-metric coverage 100 % (none mandated), adequacy `SUFFICIENT`, quality `MATERIAL_CONCERNS`
+(`STALE_STATEMENTS`). Persisted report `f110608f-f63b-4e7d-95bc-ad4f6222c17a` version 1, payload digest
+`sha256:3fd27a98…2343`, chain length 1, chain head equal to the recomputed digest; read back in a separate process.
+Assessment confidence **0.3306** with caps `STALE_DATA, DILUTION_PROXY, POLICY_DEFAULT_WACC, POLICY_DEFAULT_MULTIPLE`.
+
+**What the run refused, and why that is the finding.** The filing prints one current `Borrowings` line, a dash for
+non-current borrowings in FY2024 and FY2022 (not a nil, not a zero — §17.14), no current-maturity row anywhere, and no
+preference-capital line. Gross and net debt are therefore `MISSING`/`NOT_REPORTED`, the enterprise-to-equity bridge has
+no legs, `EV_EBITDA` is `NOT_APPLICABLE` on `CAPITAL_STRUCTURE_INCOMPLETE`, and every DCF per-share leg is
+`NOT_COMPUTABLE`. Only the policy-default P/E band (181.6907 / 227.1133 / 272.536 on normalised EPS 10.3233) carries a
+number; intrinsic value is `null` and MoS `NO_PRICE_OBSERVATION`, no price invented. `L-038` is opened **OPEN** for the
+bridge-component gap; `L-036` stays `PARTIALLY RESOLVED`, `L-001`/`L-035`/`L-037` stay `OPEN`, `L-034` untouched, and
+no nil was manufactured anywhere.
+
+**Verification.** Targeted only: 104 tests / 104 pass across the WI-7 guard and the six earlier WI guard files; `tsc
+--noEmit` on the package project and on the guard file both exit 0; a fresh clone of the pushed branch reproduces the
+dataset version, re-hashes all 30 digested bundle files clean, and recomputes the chain head. **No CI success is
+claimed**: this branch reports no configured checks, and the absence of checks is recorded as absence.
+
+**Boundaries held.** No change to D-2 nil semantics, IX valuation policy or authorised parameters, the historical
+Infosys/eClerx/Zensar artefacts, limitation-register meanings, or the persistence architecture; no new persistence
+mechanism, no unrelated refactoring, no IPD write, no production scope, and no revisit of the merged #503 work.
