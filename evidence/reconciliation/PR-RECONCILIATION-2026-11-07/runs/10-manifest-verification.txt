@@ -1,5 +1,5 @@
 # manifest verification — re-hash every file listed in digests.json
-# 2026-11-07T18:25:20Z
+# 2026-11-07T18:26:51Z
 $ python3 (re-hash each listed path)
 OK   README.md                                                     9173 B  fe7a342c4bd5da07780e75ac664fb70a0d66bacfd6530d88189c070bb7fa0d21
 OK   branch-feasibility.json                                       2258 B  3aa63a86607da951ec53d2f9fd6a2227a036f84f615d3f0d3d11d42556e1e8a5
@@ -15,7 +15,7 @@ OK   runs/05-separability.txt                                      2249 B  35e5a
 OK   runs/06-rebuild-wi9.txt                                        627 B  4302ee36fc49498b0a1d7fbb2014293cbbe68a476e367f5c2941eacaec1b05ce
 OK   runs/07-rebuild-l035.txt                                      1045 B  6ca788cfd352c1dcecb1de6a8fba47dfd993e32dcf9dc135ddd2b133e8b8842f
 OK   runs/08-rebuild-l037.txt                                      1583 B  4fd23d2671868544c9a2068cbd664804e2d519949b3980d008241111061269ed
-OK   runs/09-ci.txt                                                1685 B  c55def7ca9bed014730829fde888fde1d5ed830d4559d2eb0b044880e2686540
+OK   runs/09-ci.txt                                                2154 B  2f6720bff8938b99fb30e1b3cb1ad1c85ff43c92597b926f17b66bf6403e9178
 OK   runs/11-pr507-content-tests.txt                                351 B  6f244bf67f1e03fca2e5756d502cec0c62e8307b382889b9a7cd4819ea29d480
 OK   separability.json                                             3227 B  5d57f0fc4968f26e0fb77748da18d84122e37b0025d166fbf791b73594c857f5
 OK   split/rebuild.sh                                              2424 B  3ace9accfb1f2856c6958d9fcdd36a63611bd7dea8efe880df1f91f539bdbc29

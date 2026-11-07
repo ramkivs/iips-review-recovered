@@ -2,7 +2,7 @@
  "schemaVersion": 1,
  "workItem": "reconciliation",
  "bundle": "evidence/reconciliation/PR-RECONCILIATION-2026-11-07/",
- "generatedAtUtc": "2026-11-07T18:25:20Z",
+ "generatedAtUtc": "2026-11-07T18:26:51Z",
  "note": "sha256 of every file in this bundle except the manifest itself and runs/10-manifest-verification.txt, which re-hashes the files listed here and therefore cannot be inside its own manifest.",
  "excluded": [
   "digests.json",
@@ -82,8 +82,8 @@
   },
   {
    "path": "runs/09-ci.txt",
-   "bytes": 1685,
-   "sha256": "c55def7ca9bed014730829fde888fde1d5ed830d4559d2eb0b044880e2686540"
+   "bytes": 2154,
+   "sha256": "2f6720bff8938b99fb30e1b3cb1ad1c85ff43c92597b926f17b66bf6403e9178"
   },
   {
    "path": "runs/11-pr507-content-tests.txt",

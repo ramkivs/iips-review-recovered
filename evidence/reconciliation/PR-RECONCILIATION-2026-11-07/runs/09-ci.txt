@@ -23,3 +23,11 @@ $ gh pr checks 508
 What these workflows run: the CAP-03 Revision 7 IRR-only static checks (Python compile, source/evidence/tracker
 validation, release-asset verification, changed-file whitespace). They do NOT run the TypeScript suites, so local
 test results above are reported separately and are never described as CI-verified.
+
+## after this reconciliation was published
+
+$ gh run list --branch arena/8133630f-iips-review-recovered --limit 1     # head 3a24ba6, the commit carrying this bundle
+  42401237995  3a24ba6  CAP-03 Revision 7 IRR-only static checks  completed/success
+
+The commit that records this run is the next one on the branch, so its own CI run is cited in the pull-request receipt
+rather than in this file: a record cannot contain the verification of the commit that carries it.
