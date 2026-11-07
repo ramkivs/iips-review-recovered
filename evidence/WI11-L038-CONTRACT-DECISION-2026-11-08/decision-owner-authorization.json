@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "record": "L-038 capital-structure contract — owner decisions and their implementation",
+  "recordId": "IIPS-V3-IID-L038-OWNER-DECISIONS-2026-11-08",
+  "decidedOn": "2026-11-08",
+  "owner": "Designated register owner for the R-4.1/IID-2 capital-structure aggregation contract (Ramki)",
+  "authority": "Explicitly exercised. The owner selected both options from the prepared decision docket (IIPS-V3-IID-L038-DECISION-DOCKET-2026-11-08, v1.1) and authorized their implementation. This is an owner decision, not a recommendation, and not an investigation result.",
+  "docket": "/home/user/L038-decision-docket-2026-11-08.md",
+  "decisions": [
+    {
+      "id": "DEBT-COMPONENT-PERIOD-ALIGNMENT",
+      "selected": "Option A — retain the existing strict same-instant invariant",
+      "rule": "All four debt components (long-term borrowings, short-term borrowings, current maturities, lease liabilities) must resolve to the same reporting instant before gross debt is published.",
+      "notAuthorized": [
+        "earlier-period anchoring",
+        "automatic latest-complete selection",
+        "fallback period selection",
+        "mixed-period debt aggregation"
+      ],
+      "implementation": "VERIFIED UNCHANGED — grossDebtOf() already enforced this rule and was not edited in respect of it. The decision confirms existing behaviour rather than altering it."
+    },
+    {
+      "id": "CASH-SIDE-PERIOD-ALIGNMENT",
+      "selected": "Option B — enforce same-instant alignment across the cash side and against the debt side",
+      "rule": "Cash and current investments must resolve to the same reporting instant before cashAndInvestments is published; the debt-side and cash-side aggregates must resolve to the same instant before netDebt is published. A mismatch withholds the affected aggregate as NOT_COMPUTABLE / PERIOD_MISMATCH.",
+      "preserved": [
+        "individually valid components and their provenance and period",
+        "blocking inputs and their reasons, returned unchanged",
+        "no zero substitution, no alternative reporting date, no arithmetic residual"
+      ],
+      "implementation": "IMPLEMENTED — capitalStructure.ts: sum() replaced by sumAtOneInstant(), subtract() replaced by subtractAtOneInstant(), with a commonPeriod() helper; the cash and investments call site now passes both components' periods."
+    }
+  ],
+  "authorityBoundaries": {
+    "notAuthorized": [
+      "bridge-wide period equality for minority interest, preference capital or associates/JV (remains a separate unresolved policy question)",
+      "D-2 nil-by-disclosure grammar changes",
+      "IX penalty or confidence policy changes",
+      "valuation methodology or formula changes beyond preventing an invalid aggregate",
+      "inferring preference capital as zero",
+      "changes to issuer evidence, source documents or historical datasets",
+      "resolving L-039 or changing its status",
+      "production deployment, acceptance or eligibility",
+      "changes to the IPO Screening Engine or IPD repositories"
+    ],
+    "preserved": {
+      "L-038": "OPEN",
+      "L-039": "OPEN and independent",
+      "maricoPreferenceCapital": "MISSING / NOT_REPORTED",
+      "kecCurrentInvestments": "MISSING / NOT_REPORTED"
+    }
+  },
+  "verification": {
+    "targetedTests": "92 tests across five files, all passing (l038CashSideAlignment 11 new, l038MaricoDebtCompleteness 26, l039CashSideEvidence 18, assessment-capital 8, nil-by-disclosure 29)",
+    "fullInvestmentSuite": "759 tests in 178 suites, all passing",
+    "typecheck": "tsc --noEmit, exit 0",
+    "existingOutputsUnchanged": "ixAuthorizedPolicy.test.ts regenerates the committed IX package exactly (structural digests V1 and V2 unchanged), proving no already-published payload structure moved",
+    "behaviourDiff": "the pre-decision probe re-run over the real Marico dataset differs in exactly one line: the synthetic two-instant case's netDebt changed from -257 crore to NOT_COMPUTABLE:PERIOD_MISMATCH"
+  },
+  "statusAfter": {
+    "ownerDecisionRecorded": true,
+    "contractImplementationCompleted": true,
+    "targetedVerificationPassed": true,
+    "L038": "OPEN — the decisions close the policy questions, not the limitation: Marico's preference capital is still MISSING / NOT_REPORTED",
+    "L039": "OPEN and unchanged"
+  }
+}

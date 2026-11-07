@@ -22481,3 +22481,19 @@ repository's static/evidence validator, reported separately in the pull request.
 **Statuses.** `L-038` remains **`OPEN`**; `L-034` **`RESOLVED`**, `L-035` **`RESOLVED`**, `L-036` **`PARTIALLY RESOLVED`**,
 `L-037` **`PARTIALLY RESOLVED`**, `L-039` **unchanged**, `L-040` **`RESOLVED`**, `L-001` … `L-033` untouched. No new
 limitation identifier consumed. Next free §16.281 / `CV-CORR-254` / `CHG-2026-11-06-17` / `V2149`.
+
+## 16.281 WI-11 / `L-038` — the two contract questions are decided by the owner, and the cash side now refuses to mix instants (2026-11-08)
+
+**Scope.** `L-038` — the two questions §16.280 left undecided: `DEBT-COMPONENT-PERIOD-ALIGNMENT` and `CASH-SIDE-PERIOD-ALIGNMENT`.
+
+**Decision.** The designated R-4.1/IID-2 capital-structure aggregation contract register owner selected both options explicitly on 2026-11-08 from the prepared docket (`IIPS-V3-IID-L038-DECISION-DOCKET-2026-11-08` v1.1): **Decision A = Option A**, retain the strict same-instant invariant for the four debt components (no anchoring, no latest-complete selection, no fallback, no mixed-period total); **Decision B = Option B**, enforce alignment so that `cashAndInvestments` requires cash and current investments at one instant and `netDebt` requires the debt side and the cash side at one instant, with `NOT_COMPUTABLE / PERIOD_MISMATCH` on a mismatch. Owner authority was explicitly exercised; these are decisions, not recommendations.
+
+**Implementation.** `capitalStructure.ts` only: `sum()` → `sumAtOneInstant()`, `subtract()` → `subtractAtOneInstant()`, new `commonPeriod()` helper, and the header states both decisions. Decision A required no code change — the rule already existed and is now confirmed rather than merely present. No new field on any already-published aggregate: an early draft added one, the IX package-regeneration guard detected the moved structural digests, and the field was removed — existing payloads and their digests are unchanged.
+
+**Before and after.** The pre-decision probe re-run over the committed Marico dataset differs in exactly one line: the synthetic two-instant case's `netDebt` moved from **−257 crore** to **`NOT_COMPUTABLE: PERIOD_MISMATCH`**. Marico's published case (`cashAndInvestments` 487 crore, `grossDebt`/`netDebt` `PERIOD_MISMATCH`) and the anchored case (608 / 785 / −177) are unchanged in every figure.
+
+**Verification.** Targeted **92/92** (five files, including the new `l038CashSideAlignment.test.ts` at 11); full investment suite **759 tests / 178 suites / 0 fail**; `tsc --noEmit` exit 0; `ixAuthorizedPolicy` regenerates the committed IX package exactly (11/11). No full backend regression suite was run; no gate required one.
+
+**Statuses.** **`L-038` stays `OPEN`** — the decisions settle the policy questions, not the limitation: **preference capital remains `MISSING / NOT_REPORTED`** and blocks the enterprise-to-equity bridge whatever the period rule says. **`L-039` unchanged and independent** (KEC current investments `MISSING / NOT_REPORTED`; absence is `NOT_REPORTED`, not `PERIOD_MISMATCH`). Bridge-wide instant equality (`BRIDGE-INSTANT-EQUALITY`) remains **undecided and unimplemented**. `L-034`/`L-035`/`L-040` `RESOLVED`, `L-036`/`L-037` `PARTIALLY RESOLVED`, `L-001` … `L-033` untouched. No new limitation identifier consumed.
+
+**Evidence.** `evidence/WI11-L038-CONTRACT-DECISION-2026-11-08/` (README, owner-authorization record, six runs, `digests.json`); register §17.23. Next free §16.282 / `CV-CORR-255` / `CHG-2026-11-06-18` / `V2150`.

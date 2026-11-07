@@ -1,0 +1,49 @@
+# L-038 residual probe — the governed capital-structure contract, unmodified
+# input : /home/user/iips-review-recovered/evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/periods.csv
+# sha256: 7ce8844f395b5ea00db8a97d2f67319af3678d5208bb9c2ec55306cdd145a6f9
+# periods in file order (newest first): 2024@2024-03-31 [MARICO-INDAS-CONSOL-FY24-AR], 2023@2023-03-31 [MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE], 2022@2022-03-31 [MARICO-INDAS-CONSOL-FY23-AR-COMPARATIVE]
+
+### A-1 · as published: every annual period the dataset carries, newest first
+    periods given to the block: 2024@2024-03-31 (MARICO-INDAS-CONSOL-FY24-AR), 2023@2023-03-31 (MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE), 2022@2022-03-31 (MARICO-INDAS-CONSOL-FY23-AR-COMPARATIVE)
+    shortTermBorrowings      383 crore                      @ 2024-03-31
+    currentMaturities        0 crore                        @ 2023-03-31
+    longTermBorrowings       2 crore                        @ 2023-03-31
+    leaseLiabilities         145 crore                      @ 2024-03-31
+    cashAndCashEquivalents   228 crore                      @ 2024-03-31
+    currentInvestments       259 crore                      @ 2024-03-31
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    ————————————————————————————————————————————————————————————
+    grossDebt                NOT_COMPUTABLE:PERIOD_MISMATCH
+    cashAndInvestments       487 crore
+    netDebt                  NOT_COMPUTABLE:PERIOD_MISMATCH
+    preferenceCapital        MISSING:NOT_REPORTED
+
+### A-2 · anchored at 2023-03-31: the one instant at which every required component carries a filed number
+    periods given to the block: 2023@2023-03-31 (MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE)
+    shortTermBorrowings      473 crore                      @ 2023-03-31
+    currentMaturities        0 crore                        @ 2023-03-31
+    longTermBorrowings       2 crore                        @ 2023-03-31
+    leaseLiabilities         133 crore                      @ 2023-03-31
+    cashAndCashEquivalents   207 crore                      @ 2023-03-31
+    currentInvestments       578 crore                      @ 2023-03-31
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    ————————————————————————————————————————————————————————————
+    grossDebt                608 crore
+    cashAndInvestments       785 crore
+    netDebt                  -177 crore
+    preferenceCapital        MISSING:NOT_REPORTED
+
+### B-1 · SYNTHETIC: debt complete @2024-03-31, cash only @2023-03-31  (no Marico figure is published from this run)
+    periods given to the block: 2024@2024-03-31 (SYNTHETIC-PROBE-NOT-A-FILING), 2023@2023-03-31 (MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE)
+    shortTermBorrowings      383 crore                      @ 2024-03-31
+    currentMaturities        0 crore                        @ 2024-03-31
+    longTermBorrowings       0 crore                        @ 2024-03-31
+    leaseLiabilities         145 crore                      @ 2024-03-31
+    cashAndCashEquivalents   207 crore                      @ 2023-03-31
+    currentInvestments       578 crore                      @ 2023-03-31
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    ————————————————————————————————————————————————————————————
+    grossDebt                528 crore
+    cashAndInvestments       785 crore
+    netDebt                  NOT_COMPUTABLE:PERIOD_MISMATCH
+    preferenceCapital        MISSING:NOT_REPORTED
