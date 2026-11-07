@@ -1823,5 +1823,5 @@ aggregation contract is outside this work item and was not done.
 180-day `associates-review/1.0.0` control remains due. One nil on one line item for one further issuer does not resolve
 any other nil case and is not claimed to.
 
-**Evidence.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-NIL-2026-11-07/` (20 files, `digests.json`), guarded by
+**Evidence.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-NIL-2026-11-07/` (21 files, `digests.json`), guarded by
 `iips-platform/tests/investment/wi5PreferenceCapitalNil.test.ts` (8 tests) with `tsc --noEmit` clean.

@@ -2,7 +2,7 @@
 
 **Work item.** Real-Issuer Work Item 5 — second-issuer validation on explicit nil-by-disclosure, Technology only,
 one issuer only, one pass.
-**Bundle.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-NIL-2026-11-07/` (20 files, digested in `digests.json`).
+**Bundle.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-NIL-2026-11-07/` (21 files, digested in `digests.json`).
 **Guard.** `iips-platform/tests/investment/wi5PreferenceCapitalNil.test.ts` (8 tests).
 
 ## 1. Selected issuer and identity

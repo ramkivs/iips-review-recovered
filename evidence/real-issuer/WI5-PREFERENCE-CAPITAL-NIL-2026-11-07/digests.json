@@ -40,7 +40,7 @@
     "borrowingsReason": "the audited consolidated notes contain no sentence declaring borrowings nil; the balance sheet carries a filed dash (an explicit zero) and Note 40 characterises financial liabilities by exclusion",
     "currentMaturities": "no caption in any of the three filings; left empty (NOT_REPORTED), not zeroed"
   },
-  "fileCount": 20,
+  "fileCount": 21,
   "files": {
     "README.md": {
       "sha256": "9b76cf6ec7f7b1103d0a2b528f7d002836bb07a56cad8c21899b2703cbddb704",
@@ -93,6 +93,10 @@
     "runs/06-payload-verify.json": {
       "sha256": "f7ddf14cdda93e8eefa3f088cb3940130419c708b4af32e25ac086daf38fe657",
       "bytes": 11450
+    },
+    "runs/07-clean-clone.txt": {
+      "sha256": "eee3dbfe0a0d3b7030b43589d61f37ab57b56da3f0eb3de220f35801e29dce6f",
+      "bytes": 1166
     },
     "runs/cli-wi5-created.json": {
       "sha256": "48e8a6394b021cd352d64d8679702c27e41a2e92e49fb73cf0eda79d0eace1cc",

@@ -1,0 +1,27 @@
+# independent verification from a clean clone
+
+    rm -rf /tmp/wi5v
+    git clone --branch arena/f6d5fa4d-iips-review-recovered --single-branch \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/wi5v
+    # clone at commit 493b600 (WI-5 commit)
+
+## bundle digests
+
+    files 20   mismatched []
+
+Every file listed in digests.json exists in the clone and hashes to the recorded sha256 with the recorded byte
+count. No file is missing and none was added after the digest was written.
+
+## guard test
+
+    cd /tmp/wi5v/iips-platform && npx tsx --test tests/investment/wi5PreferenceCapitalNil.test.ts
+    # tests 8 / pass 8 / fail 0
+
+The test reads only the committed bundle, so it passes or fails on the clone's own content: a drifted extract, a
+second nil, a re-spelled borrowings zero or a stale digest would all fail here.
+
+## note
+
+`node --experimental-strip-types --test` does not run this suite (the runner needs the project's TypeScript
+loader); `npx tsx` is the runner used everywhere else in iips-platform and is the one recorded above. The clone's
+`node_modules` was linked from the working tree to supply the loader — no source file is shared.
