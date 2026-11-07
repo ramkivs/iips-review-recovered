@@ -170,3 +170,60 @@ look for an affirmative sentence about *consolidated* borrowings covering both 3
 
 Nothing in this record pre-commits that outcome. The objective — a second issuer beside Infosys with a genuine
 consolidated nil-by-disclosure — remains **unmet**, and sector expansion remains deferred.
+
+---
+
+## 9. Supplemental finding (2026-11-07, later the same day) — the consolidated wording was reported, and could not be read
+
+**What changed.** After the record above closed, the owner reported having recovered the consolidated capital-management
+wording that this pass could not read: in the FY2023-24 report, Note 27 *Capital Management*, printed pp.304-305 —
+*"The Group didn't have any external borrowings during the current and previous year."* — and the same sentence at
+Note 27, printed pp.320-321, of the FY2022-23 report (BSE attachment `f1a251aa-69c1-4a16-baad-67c3b12cde24`). The two
+sentences, each covering "the current and previous year", would jointly span FY2022, FY2023 and FY2024.
+
+**What this run could and could not do with it.** The supplemental pass set out to verify both quotations against the
+sources and, if they qualified, to run the governed pipeline unchanged. It verified the documents and the locators, and
+it did **not** verify the sentences:
+
+| Verified | Not verified |
+| --- | --- |
+| FY2023-24 report is the right issuer and year (transmittal letter, 15 July 2024, 61st AGM, Rajiv Mundhra) | the wording at pp.304-305 |
+| FY2022-23 report is the right issuer and year (transmittal letter, 17 July 2023, 60th AGM, Gaurav Tongia) | the wording at pp.320-321 |
+| **cited pages fall inside each report's consolidated section** — pp.248-321 (FY24, from its index) and pp.262-345 (FY23, from its index) | the note numbers as printed |
+| CIN `L72200PN1963PLC012621`, from the letterhead of the Q2 FY2026-27 Regulation 33 filing | that either sentence's subject is "the Group" rather than "the Company" |
+
+The blocker is the same one §2 recorded, now measured twice: the only PDF reader here parses **30 pages**, and these
+pages are ~150 PDF pages into a 10.1 MB report. The boundary was re-measured on the *second, independent* filing
+(which stops at printed p.32) and reproduced through a third fetching path — Google's translate proxy returns the file
+and the parser still stops at 30 pages — while the paginating proxy that fails on these two reports reads an 11-page
+Zensar filing in full. Fourteen attempts are itemised in
+`evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/source/retrieval-log-supplemental.txt`.
+
+**The determination therefore does not move.** `INVESTIGATED_UNSUCCESSFUL`, `CONSOLIDATED_NIL_NOT_ESTABLISHED`; no
+observation, no nil, no dataset, no assessment, nothing persisted. A reported sentence is a locator, not evidence: it
+cannot be checked for subject, tense or qualifier, and those features are precisely what decide a nil — WI-5 was
+withdrawn for a correctly quoted sentence whose *subject* was wrong.
+
+**A second blocker, which verification would not remove.** Gross debt sums four components — short-term borrowings,
+current maturities, long-term borrowings **and lease liabilities** (`capitalStructure.ts`, `grossDebtOf`). The sentence
+speaks to borrowings only; lease liabilities are a separate line and mapping the sentence onto them is forbidden. So
+`LEASE_LIABILITIES` would stay `NOT_REPORTED`, and the aggregation contract returns the first uninformative component
+unchanged: **gross debt and net debt would remain `NOT_REPORTED` even under a verified wording**, and the intrinsic
+chain would stay withheld. A verified sentence completes three of four components and still produces no debt position.
+
+**Mapping prepared, not applied.** Which components the wording would fill (`LONG_TERM_BORROWINGS`,
+`SHORT_TERM_BORROWINGS`, `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` — the same mapping WI-3 applied to Infosys), which must
+stay `NOT_REPORTED` (`LEASE_LIABILITIES`, `PREFERENCE_CAPITAL`), and the two caveats worth stating in advance — the
+word *external* qualifier, and a durational sentence ("during the year") being used for a point-in-time balance-sheet
+item — are recorded in `source/quotes-owner-reported.json` under `d2MappingAnalysis`. Nothing there has been applied.
+
+**L-037 is generalised, not closed.** The boundary now has two independent measurements and three fetching paths behind
+it, so it is a property of the evidence environment rather than of one filing. The register offers no resolution
+criterion, so it stays `OPEN`. `L-036` remains `PARTIALLY RESOLVED`, `L-035` remains `OPEN`.
+
+**What closes this.** A readable rendering of the four pages (pp.304-305, pp.320-321) — a page extract placed in the
+workspace is enough, because D-2 anchors a quotation to a page, not to a byte stream — plus the consolidated
+lease-liability figure for the three balance-sheet dates. Then the existing governed path, unchanged.
+
+**The historical record stands.** §1-§8 above are untouched; the original bundle is byte-identical and its own digest
+manifest still verifies.

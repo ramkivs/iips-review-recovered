@@ -1915,3 +1915,57 @@ open; sector expansion remains deferred.
 three page-anchored source extracts, `source/access-log.txt`, `runs/`, `digests.json` — guarded by
 `iips-platform/tests/investment/wi6aZensarRecovery.test.ts`, which also verifies that the WI-3, WI-5 and WI-6 bundles
 are byte-unchanged.
+
+## 17.13 WI-6A-S1 — Zensar: the consolidated wording was reported, and could not be read
+
+**Date.** 2026-11-07 (supplement to §17.12, same day). **Scope.** IRR only, one pass. IPD untouched. No policy, schema,
+confidence, valuation or persistence change. PR #503 updated; not merged.
+
+**What was reported.** Consolidated Note 27 *Capital Management* — *"The Group didn't have any external borrowings during
+the current and previous year."* — at printed pp.304-305 of the FY2023-24 report and at printed pp.320-321 of the
+FY2022-23 report (BSE `f1a251aa-…`). Each sentence covers the current and previous year; jointly they would span FY2022,
+FY2023 and FY2024.
+
+**What was verified.** Both documents are the right issuer and year (transmittal letters of 15 July 2024 and 17 July
+2023, read in full); both cited page ranges fall inside the consolidated statements of their own reports (pp.248-321 and
+pp.262-345, from each report's index); the CIN `L72200PN1963PLC012621` from a Zensar Regulation 33 letterhead. **The
+sentences themselves were not read** — the only PDF reader here parses 30 pages and they sit ~150 PDF pages in.
+
+**Outcome: unchanged, and no data change.** `INVESTIGATED_UNSUCCESSFUL` / `CONSOLIDATED_NIL_NOT_ESTABLISHED`. **No
+observation was created, no nil declared, no dataset ingested, no assessment generated, nothing persisted.** A reported
+sentence is a locator, not evidence: its subject ("the Group" or "the Company"), tense and qualifiers cannot be checked
+without reading it, and those are what decide a nil — the WI-5 withdrawal turned on exactly a sentence whose subject was
+wrong.
+
+**A second blocker, independent of retrieval.** Gross debt sums four components — short-term borrowings, current
+maturities, long-term borrowings **and lease liabilities** (`capitalStructure.ts` → `grossDebtOf`). The wording covers
+borrowings only; lease liabilities are a separate line and mapping onto them is forbidden. `LEASE_LIABILITIES` would
+therefore stay `NOT_REPORTED` and the aggregation contract returns the first uninformative component unchanged: **even a
+verified sentence yields no computable gross or net debt**, and the intrinsic chain stays withheld. Three of four
+components are not a debt block.
+
+**Mapping prepared, not applied.** `LONG_TERM_BORROWINGS`, `SHORT_TERM_BORROWINGS` and
+`CURRENT_MATURITIES_OF_LONG_TERM_DEBT` would take the nil (the mapping WI-3 applied to Infosys); `LEASE_LIABILITIES` and
+`PREFERENCE_CAPITAL` stay `NOT_REPORTED`. Two caveats are recorded in advance rather than discovered later: the *external*
+qualifier, and a durational statement being used for a point-in-time balance-sheet item. Recorded in
+`WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/source/quotes-owner-reported.json` under `d2MappingAnalysis`; applied
+to nothing.
+
+**`L-037` — generalised, deliberately not closed.** The 30-page boundary now has two independent measurements (the FY24
+report stops at printed p.55; the FY23 report at printed p.32) and three fetching paths behind it (direct reader; the
+paginating proxy, which fails on these files but reads an 11-page Zensar filing in full; Google's translate proxy, which
+returns the file and is still parsed under the same cap). The register provides no resolution criterion for it, so it
+stays **`OPEN`**, and the rule stands: absence of wording beyond the cap is never evidence of absence. `L-036` remains
+**`PARTIALLY RESOLVED`**, `L-035` remains **`OPEN`**, `L-001` … `L-034` untouched.
+
+**Historical record.** §17.12 and the original WI-6A bundle are preserved unchanged and still verify against their own
+digest manifests; this supplement adds a dated finding, it does not rewrite the earlier one.
+
+**What closes this.** A readable rendering of the four printed pages — a page extract in the workspace suffices, because
+D-2 anchors a quotation to a page, not to a byte stream — plus the consolidated lease-liability figure for the three
+balance-sheet dates. Then the existing governed path, unchanged: ingest → generate → persist → separate-process readback
+→ digest verification → three-period confirmation.
+
+**Evidence.** `evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/` — `quotes-owner-reported.json`,
+`retrieval-log-supplemental.txt`, `index-locator-corroboration.txt`, `determination-supplemental.json`, `runs/`,
+`digests.json` — guarded by `iips-platform/tests/investment/wi6aSupplementalZensar.test.ts`.

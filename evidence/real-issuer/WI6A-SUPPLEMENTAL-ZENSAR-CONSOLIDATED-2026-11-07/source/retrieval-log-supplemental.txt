@@ -1,0 +1,92 @@
+WI-6A SUPPLEMENTAL — RETRIEVAL LOG
+Date of every attempt: 2026-11-07 (Asia/Kolkata). Purpose: read consolidated Note 27 (Capital Management) at printed
+pp.304-305 of the FY2023-24 report and pp.320-321 of the FY2022-23 report.
+Two tools exist in this environment: a direct page reader, which parses at most the first 30 pages of any PDF, and a
+text-rendering proxy (r.jina.ai). Nothing else has network access — the shell can reach package registries only, so
+the PDFs cannot be downloaded and hashed as files.
+
+================================================================================
+A. THE BOUNDARY, MEASURED (not assumed)
+================================================================================
+
+ #1  DIRECT  https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+            -> "totalChunks": 16, chunk 14 holds printed pp.49-54. The render ends inside the Corporate Overview.
+
+ #2  DIRECT  same URL + "#page=152"
+            -> the fragment is ignored; identical front matter, "totalChunks": 16.
+
+ #3  DIRECT  same URL, chunkIndex 16
+            -> clamped to chunk 15, "hasMore": false, "totalChunks": 16. There is no seventeenth window: the
+               parse stops at the 30-page boundary and the document continues for another ~140 PDF pages.
+
+ #4  DIRECT  https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-...pdf  (FY2022-23 report)
+            -> "totalChunks": 16; chunk 15 stops at printed p.32. A second, independent filing hits the same
+               boundary at a different page, which is what a parser limit looks like and what a document
+               property does not.
+
+ #5  DIRECT  same FY2022-23 URL, chunk 0
+            -> the transmittal letter (17 July 2023, 60th AGM, Gaurav Tongia) and the Index with page numbers.
+               This is the read recorded in source/index-locator-corroboration.txt.
+
+================================================================================
+B. ROUTES AROUND THE BOUNDARY, ALL REFUSED
+================================================================================
+
+ #6  PROXY   https://r.jina.ai/https://www.bseindia.com/xml-data/corpfiling/AttachHis//f1a251aa-...pdf
+            -> empty markdown; jina reports "This page contains iframe that are currently hidden".
+
+ #7  PROXY   same URL over http://
+            -> empty markdown, and jina adds "This is a cached snapshot"; the failure is cached at the proxy.
+
+ #8  PROXY   same URL + "?v=20261107" (cache-buster, BSE ignores the query)
+            -> empty markdown again. The proxy cannot parse this file, cached or fresh.
+
+ #9  PROXY   https://r.jina.ai/https://nsearchives.nseindia.com/...pdf
+            -> HTTP 403 (Akamai). Recorded in WI-6A as the proxy refusal; unchanged.
+
+ #10 PROXY-OVER-PROXY  https://r.jina.ai/https://nsearchives-nseindia-com.translate.goog/...pdf?...&_x_tr_tl=en
+            -> Google interstitial: "Our systems have detected unusual traffic from your computer network",
+               IP 2600:1900:0:2107::501.
+
+ #11 MIRROR  https://nsearchives-nseindia-com.translate.goog/annual_reports/...pdf?_x_tr_sl=auto&_x_tr_tl=en
+            -> Google's proxy DOES fetch the file (the tool reports the resolved NSE URL), but the tool then
+               parses it as a PDF and applies the same 30-page boundary: "totalChunks": 16, front matter only.
+               Proves the boundary belongs to the parser, not to NSE's bot defence.
+
+ #12 PATTERN https://www.bseindia.com/bseplus/AnnualReport/504067/5040670324.pdf
+            -> HTTP 404. (The sibling name 5040670319.pdf is the FY2018-19 report; the series is not continuous
+               and no FY2023-24 or FY2022-23 file exists under it.)
+
+================================================================================
+C. THE PROXY IS NOT BROKEN — THE FILE IS TOO LARGE FOR IT
+================================================================================
+
+ #13 PROXY   https://r.jina.ai/https://www.zensar.com/assets/files/giWTAtNSdS997FgTzKXfn/Financial-Results-Q2FY27.pdf
+            -> full text, "Number of Pages: 11", 5 chunks, including the letterhead. jina's PDF pipeline works
+               on this issuer's documents at this size. The 10.1 MB integrated annual reports are where it
+               returns empty. That is a capability boundary, not a denial and not a confidentiality control.
+
+================================================================================
+D. SEARCH-INDEX CHECK (NOT USED AS EVIDENCE)
+================================================================================
+
+ #14 Queries for the consolidated phrasing ("didn't have any external borrowings" + Zensar + Capital Management)
+            -> the only rendering of the sentence that a search index returned is the STANDALONE one
+               ("The Company didn't have any external borrowings...", Note 27, an aggregator's reproduction of
+               the standalone notes). No crawler rendering of the consolidated "The Group didn't have..." was
+               returned at all. Nothing from this route enters the record: an aggregator cannot establish a nil
+               and a snippet cannot anchor a page.
+
+================================================================================
+E. WHAT THIS LOG ESTABLISHES
+================================================================================
+
+1. Neither quotation was read from its audited page in this environment. Both remain OWNER-REPORTED.
+2. The boundary is a property of the reader (30 pages), re-measured this run on two independent filings and
+   reproduced through a third fetching path (Google's translate proxy). It is not an NSE block, not a BSE block,
+   and not a change in the documents.
+3. Source-file SHA256 digests are NOT COMPUTABLE here: the shell has no route to nseindia.com or bseindia.com, and
+   the reader returns text, not bytes. The wording itself is hashed instead, and the text extracts in this bundle
+   carry their own digests.
+4. Nothing in this log supports any statement about what pp.304-305 or pp.320-321 contain. It records only that
+   this environment cannot look.

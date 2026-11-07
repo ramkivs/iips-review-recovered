@@ -1,0 +1,77 @@
+TAP version 13
+# Subtest: WI-6A-S1 — a reported sentence is a locator, not a nil
+    # Subtest: both quotations are recorded verbatim, hashed, and marked unread by this run
+    ok 1 - both quotations are recorded verbatim, hashed, and marked unread by this run
+      ---
+      duration_ms: 1.78415
+      type: 'test'
+      ...
+    # Subtest: the cited page ranges fall inside each report's own consolidated section — and nothing more is claimed
+    ok 2 - the cited page ranges fall inside each report's own consolidated section — and nothing more is claimed
+      ---
+      duration_ms: 0.457827
+      type: 'test'
+      ...
+    # Subtest: the three-period coverage argument is recorded as unverified, not as coverage
+    ok 3 - the three-period coverage argument is recorded as unverified, not as coverage
+      ---
+      duration_ms: 0.231954
+      type: 'test'
+      ...
+    # Subtest: the retrieval log measures the boundary twice and refuses to describe the unread pages
+    ok 4 - the retrieval log measures the boundary twice and refuses to describe the unread pages
+      ---
+      duration_ms: 0.272831
+      type: 'test'
+      ...
+    # Subtest: source-file digests are declared not computable instead of being invented
+    ok 5 - source-file digests are declared not computable instead of being invented
+      ---
+      duration_ms: 0.126004
+      type: 'test'
+      ...
+    # Subtest: the determination does not move, and creates nothing
+    ok 6 - the determination does not move, and creates nothing
+      ---
+      duration_ms: 0.198752
+      type: 'test'
+      ...
+    # Subtest: the second blocker is the code: gross debt sums four components, leases among them
+    ok 7 - the second blocker is the code: gross debt sums four components, leases among them
+      ---
+      duration_ms: 0.376028
+      type: 'test'
+      ...
+    # Subtest: the historical record survives — original WI-6A untouched, and the earlier sections still read as written
+    ok 8 - the historical record survives — original WI-6A untouched, and the earlier sections still read as written
+      ---
+      duration_ms: 1.970556
+      type: 'test'
+      ...
+    # Subtest: the register adds §17.13, generalises L-037 without closing it, and moves nothing else
+    ok 9 - the register adds §17.13, generalises L-037 without closing it, and moves nothing else
+      ---
+      duration_ms: 1.605336
+      type: 'test'
+      ...
+    # Subtest: every committed file in the supplement still hashes to the digest recorded beside it
+    ok 10 - every committed file in the supplement still hashes to the digest recorded beside it
+      ---
+      duration_ms: 0.583132
+      type: 'test'
+      ...
+    1..10
+ok 1 - WI-6A-S1 — a reported sentence is a locator, not a nil
+  ---
+  duration_ms: 8.973543
+  type: 'suite'
+  ...
+1..1
+# tests 10
+# suites 1
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 119.972938

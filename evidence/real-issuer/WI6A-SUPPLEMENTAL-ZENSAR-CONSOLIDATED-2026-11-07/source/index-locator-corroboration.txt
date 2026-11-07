@@ -1,0 +1,71 @@
+WI-6A SUPPLEMENTAL — page-range corroboration for the two cited locators
+Read 2026-11-07 from the filings themselves (front matter only; see the retrieval log for why the front matter is all
+this environment can render). This file establishes a NECESSARY condition — that each cited page range falls inside
+the consolidated statements of its own report — and nothing more. It is not evidence for the wording.
+
+================================================================================
+A. FY2023-24 — Integrated Annual Report 2023-24, from the NSE origin
+   https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+================================================================================
+
+Cover spread, verbatim fragment:
+
+    "Integrated Annual Report 2023-24 ... 176 Standalone Financial Statements ... 248 Consolidated
+     Financial Statements"
+
+Index page, verbatim (financial-statements half):
+
+    Financial Statements
+      Standalone Financial Statements
+      Consolidated Financial Statements
+    322 Glossary
+      GRI Content Index
+      UNGC Principles
+    327 SASB
+    328 SDG Linkage Index
+
+=> consolidated statements occupy printed pp.248-321.
+=> the owner's locator, Note 27 at printed pp.304-305, lies INSIDE that range.   [necessary condition met]
+
+================================================================================
+B. FY2022-23 — Integrated Annual Report 2022-23, from BSE
+   https://www.bseindia.com/xml-data/corpfiling/AttachHis//f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf
+================================================================================
+
+Transmittal letter, read in full: dated 17 July 2023; "Notice of the 60th Annual General Meeting and Integrated
+Annual Report for FY 2022-23"; Scrip ID ZENSARTECH, Scrip Code 504067, Symbol ZENSARTECH, Series EQ; signed
+Gaurav Tongia, Company Secretary. Document identity and period are therefore verified from the filing.
+
+Index page, verbatim:
+
+    Notice and Statutory Reports
+      94 Notice
+      104 Board's Report and Annexures
+
+    Financial Statements
+      187 Standalone Financial Statements
+      262 Consolidated Financial Statements
+      346 Glossary
+      348 GRI Content Index
+      351 UNGC Principles
+      352 SASB
+      353 SDG Linkage Index
+
+=> consolidated statements occupy printed pp.262-345.
+=> the owner's locator, Note 27 at printed pp.320-321, lies INSIDE that range.   [necessary condition met]
+
+================================================================================
+C. What this does and does not settle
+================================================================================
+
+SETTLED: both figures are annual reports of the right issuer for the right financial years, both contain a
+consolidated statements section, both cited page ranges fall inside it, and a note numbered 27 near the end of the
+consolidated notes is exactly where a capital-management note belongs (it is Note 27 in the standalone statements of
+the same reports, per the page numbering the owner reports for pp.246-247 of the FY2023-24 filing).
+
+NOT SETTLED: the wording on those pages. Page-range consistency is a necessary condition, not a sufficient one; a
+correct locator does not make the sentence on it verified, and this bundle does not treat it as such.
+
+The FY2023-24 report also prints its CIN on the letterhead of Regulation 33 filings but not on this transmittal
+letter; the CIN recorded in quotes-owner-reported.json was read from the Q2 FY2026-27 letterhead for that reason.
+No ISIN appears in any page rendered here.

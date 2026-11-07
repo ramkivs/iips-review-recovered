@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07",
+  "purpose": "Record the consolidated capital-management wording reported for Zensar Technologies, its locators and periods, and the exact evidence class this run was able to establish for it. Nothing here is paraphrased; the quotation strings are recorded verbatim as supplied by the owner and hashed, and the fact that this run did not read them is stated in the same object.",
+  "issuer": {
+    "legalName": "Zensar Technologies Limited",
+    "cin": "L72200PN1963PLC012621",
+    "cinSource": "read 2026-11-07 from the letterhead of Zensar's Regulation 33 filing 'Financial-Results-Q2FY27.pdf' (https://www.zensar.com/assets/files/giWTAtNSdS997FgTzKXfn/Financial-Results-Q2FY27.pdf, page 1: 'CIN: L72200PN1963PLC012621'). A 2026 letterhead is accepted for the CIN because a CIN is an immutable registrar identifier; the FY2023-24 report itself was not readable at the page where its CIN is printed.",
+    "cinStatus": "VERIFIED_FROM_ISSUER_FILING",
+    "isin": "NOT_VERIFIED_FROM_FILING",
+    "isinStatus": "no ISIN appears in any page this environment could render of either annual report",
+    "exchangeSymbol": "ZENSARTECH",
+    "scripCode": "504067",
+    "series": "EQ"
+  },
+  "quotations": [
+    {
+      "id": "ZENSAR-CONSOL-NOTE27-FY24",
+      "evidenceClass": "OWNER_REPORTED_NOT_READ_BY_THIS_RUN",
+      "quotedWording": "The Group didn\u2019t have any external borrowings during the current and previous year.",
+      "quotedWordingSha256": "3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb",
+      "quotedWordingChars": 83,
+      "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24 (Notice of the 61st AGM)",
+      "primaryLocator": "https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf",
+      "noteNumber": "27",
+      "noteTitle": "Capital Management",
+      "printedPages": "304-305",
+      "statementScope": "CONSOLIDATED",
+      "taxonomy": "INDAS",
+      "periodsCovered": ["FY2023-24", "FY2022-23"],
+      "periodEndsCovered": ["2024-03-31", "2023-03-31"],
+      "readByThisRun": false,
+      "readFailure": "the reader parses only the first ~30 pages of a PDF; printed pp.304-305 lie far beyond that boundary (see source/retrieval-log-supplemental.txt)"
+    },
+    {
+      "id": "ZENSAR-CONSOL-NOTE27-FY23",
+      "evidenceClass": "OWNER_REPORTED_NOT_READ_BY_THIS_RUN",
+      "quotedWording": "The Group didn\u2019t have any external borrowings during the current and previous year.",
+      "quotedWordingSha256": "3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb",
+      "quotedWordingChars": 83,
+      "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23 (Notice of the 60th AGM)",
+      "primaryLocator": "https://www.bseindia.com/xml-data/corpfiling/AttachHis//f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf",
+      "noteNumber": "27",
+      "noteTitle": "Capital Management",
+      "printedPages": "320-321",
+      "statementScope": "CONSOLIDATED",
+      "taxonomy": "INDAS",
+      "periodsCovered": ["FY2022-23", "FY2021-22"],
+      "periodEndsCovered": ["2023-03-31", "2022-03-31"],
+      "readByThisRun": false,
+      "readFailure": "same reader boundary: the FY2022-23 report stops rendering at printed p.32 in this environment"
+    }
+  ],
+  "threePeriodCoverage": {
+    "claim": "the two quotations jointly cover FY2024, FY2023 and FY2022, because each covers 'the current and previous year'",
+    "status": "NOT_VERIFIED",
+    "reason": "the coverage argument is sound only if both sentences are read at their stated locators; neither was. An arithmetic of coverage built on two unread sentences is not evidence.",
+    "perPeriod": [
+      { "period": "FY2023-24", "coveredBy": ["ZENSAR-CONSOL-NOTE27-FY24"], "quotationVerified": false },
+      { "period": "FY2022-23", "coveredBy": ["ZENSAR-CONSOL-NOTE27-FY24", "ZENSAR-CONSOL-NOTE27-FY23"], "quotationVerified": false },
+      { "period": "FY2021-22", "coveredBy": ["ZENSAR-CONSOL-NOTE27-FY23"], "quotationVerified": false }
+    ]
+  },
+  "sourceFileDigests": {
+    "status": "NOT_COMPUTABLE",
+    "reason": "a SHA256 over the source files requires the bytes of the two PDFs. This environment has no general network egress (only the page reader), and the reader returns parsed text rather than file bytes, so the 10.1 MB report and the FY2022-23 report could not be downloaded to be hashed. What is hashed instead is the wording itself (quotedWordingSha256), which is the object that would enter a dataset cell, together with the committed text extracts in this bundle."
+  },
+  "d2MappingAnalysis": {
+    "status": "ANALYSIS_ONLY_NOT_APPLIED",
+    "note": "recorded so that the mapping decision is pre-reasoned and auditable, and explicitly NOT applied to any dataset: no dataset exists for this issuer.",
+    "wouldBeDeclaredNilIfVerified": [
+      { "component": "LONG_TERM_BORROWINGS", "rationale": "a subset of the class the sentence says the Group did not have" },
+      { "component": "SHORT_TERM_BORROWINGS", "rationale": "same class, same sentence" },
+      { "component": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT", "rationale": "a maturity is a slice of a borrowing; with no borrowing outstanding there is no maturity to reclassify — the same mapping WI-3 applied to Infosys" }
+    ],
+    "mustRemainNotReported": [
+      { "component": "LEASE_LIABILITIES", "rationale": "lease liabilities are not 'borrowings' and the sentence does not speak to them; mapping the sentence onto them is forbidden by the work item and by the taxonomy" },
+      { "component": "PREFERENCE_CAPITAL", "rationale": "not addressed by this sentence in either year" }
+    ],
+    "consequence": "gross debt sums short-term borrowings, current maturities, long-term borrowings AND lease liabilities; with leases NOT_REPORTED the aggregation contract returns the blocking observation unchanged, so gross debt, net debt and the intrinsic chain stay NOT_REPORTED even under a verified nil. The nil would complete three components, not the debt block.",
+    "semanticCaveats": [
+      "'external' qualifies the class: at consolidated level intragroup balances are eliminated, so what remains is external by construction — but the qualifier is recorded rather than assumed away",
+      "the sentence is durational ('during the current and previous year'), while a balance-sheet item is measured at 31 March; the entailment from 'never during the year' to 'nil at the year end' is deductive, and WI-3's anchor ('no outstanding borrowings') was a point-in-time statement — the difference is recorded, not smoothed"
+    ]
+  }
+}
