@@ -1,0 +1,22 @@
+# L-038 — 2026-11-07 — the two governed CLI stages re-run from the committed input only
+# (fresh output directories; nothing from the original run was reused)
+
+$ cd iips-platform && npx tsx src/investment/cli/ingest.ts --input ../evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input --dataset-dir /tmp/l038b/data/investment/dataset --now 2026-11-07T09:00:00.000Z
+datasetVersion sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc
+#   identical to runs/01-ingest.txt — the corrected three-period input reproduces its dataset version
+
+$ cd frontend && npx tsx server/investment/cli/generate-investment-artifacts.ts --issuer IN:CIN:L15140MH1988PLC049208 --data-dir /tmp/l038b/data/investment/dataset --identity-dir ../evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/identity --db /tmp/l038b/data/investment/investment.db --owner-carrier /tmp/l038b/owner.json --generated-at 2026-11-07T09:00:00.000Z --out /tmp/l038b/cli.json
+OK      snapshot     datasetVersion sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc
+OK      identity     RESOLVED via ISIN
+OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3306
+OK      compose      reportKey 01af3264e085… payloadDigest 1a873047087d…
+OK      validate     scope co:IN:CIN:L15140MH1988PLC049208 (ISSUER)
+FAILED  abort        OWNER_CONTEXT_UNAVAILABLE
+
+#   snapshot, identity, assessment, compose and validate all reproduce byte-equal results — including the
+#   payload digest 1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59, which is the value
+#   runs/03-readback.json recomputed from the persisted artifact.
+#   The persist stage was NOT exercised in this re-run: it needs the owner context the original run
+#   carried (runs/owner-carrier.json). Persist and readback are recorded in runs/02-generate.txt and
+#   runs/03-readback.json and were not re-executed here, so nothing is claimed about them beyond those
+#   transcripts.

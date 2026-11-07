@@ -1,0 +1,24 @@
+# L-038 — ingest of the corrected three-period consolidated input (2026-11-07)
+# cd iips-platform && npx tsx src/investment/cli/ingest.ts --input ../evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input --dataset-dir /tmp/l038/data/investment/dataset --now 2026-11-07T09:00:00.000Z
+
+datasetVersion sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc
+dataset        /tmp/l038/data/investment/dataset
+coverage       /tmp/l038/data/investment/dataset/coverage-report.json
+
+dataset          sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc
+completed        1/13 sectors measured
+  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Consumer         G1_ENABLED   usable 3  withheld 0  stmt 91.7%  metric 100%
+  Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Industrials      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Technology       UNMEASURED   usable 0  withheld 4  stmt 0%  metric 0%
+  Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+outstanding      Auto, Banking, Capital Markets, Energy, Healthcare, Hospitality, Industrials, Insurance, Materials, Technology, Telecom, Utilities
+methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53

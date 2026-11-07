@@ -6,6 +6,9 @@
 **Baseline:** `cfc197105e9d0a0c0a0056ee5bb4a2af1bac98d6` (the verified merge of PR #503, which closed WI-6A)
 **Sector:** Consumer · **Issuer:** Marico Limited · **Outcome:** validated end to end, **no intrinsic value**, new
 limitation `L-038` opened and left `OPEN`
+**Later:** re-read for `L-038` on 2026-11-07 — see §10. This record's payload stays byte-identical and is **superseded**
+(not overwritten) by `evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/`; `determination-wi7.json` carries
+both supersession reasons.
 
 ---
 
@@ -208,6 +211,14 @@ cannot carry an associates/JV carrying value, and no figure for one was read.
 
 **The enterprise-to-equity bridge needs three borrowing components that a consolidated balance sheet need not print.**
 
+> **Narrowed late on 2026-11-07 (see §10).** A re-read of the same reports found the current-maturities caption after all,
+> in Note 13(a) I (*"Within one year (Current maturities of long term debt)"*), printing `0` for FY2023 and dashes for
+> FY2024 and FY2022. That closes one component at one period end and changes nothing about the outcome: `L-038` stays
+> `OPEN`, now with two named blockers — no period at which all four debt components coexist with that period's cash, and
+> `PREFERENCE_CAPITAL` `NOT_REPORTED` (authorised preference shares exist; issued preference shares are not printed and
+> are not declared nil). The sentence below about "no current-maturity row anywhere" is retained as what this work item
+> concluded; §10 is the correction.
+
 Gross debt is the sum of long-term borrowings, short-term borrowings, current maturities of long-term debt and lease
 liabilities, and **every** component must carry information — a number or a quoted nil. Marico's consolidated balance
 sheet supplies one current `Borrowings` line, a dash in the non-current row, and no current-maturity row anywhere.
@@ -276,3 +287,41 @@ both recorded rather than hidden: the extract file names carried a `-p1NN` token
 P-1 artifact path, so they are now `…-pdf-pageNNN.txt`; and `git diff --check` rejected the tabs and trailing blanks of
 the raw layout-preserving extraction, so the extracts are whitespace-normalised with the normalisation stated in every
 header and no non-whitespace character changed.
+
+---
+
+## 10. Later — the `L-038` re-read, and what it corrected (2026-11-07)
+
+A second pass over the same two audited consolidated reports asked whether the *complete* disclosure set across FY2024,
+FY2023 and FY2022 supports a period-aligned four-component debt breakdown, and whether any caption had been missed rather
+than truly absent. Full record: register **§17.18**, evidence bundle
+`evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/`, guard
+`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (26 tests).
+
+**One caption was missed, and it closes one cell.** Note 13(a) I carries *"Within one year (Current maturities of long
+term debt)"*: FY2023 prints `0` (PDF p.150), FY2024 and FY2022 print dashes (pp.191, 149). A printed zero is a
+qualifying disclosure and maps, so `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` moves from `MISSING` to
+**`PRESENT 0 @ 2023-03-31`** — this record's §7 statement that there was "no current-maturity row anywhere" was wrong and
+is corrected here. `grossDebt` moves from `MISSING`/`NOT_REPORTED` to **`NOT_COMPUTABLE`/`PERIOD_MISMATCH`**: all four
+components exist at 2023-03-31 only, and the FY2024 numbers belong to a different date.
+
+**A second blocker was found behind the first.** Note 12(a) prints a preference class — *Preference shares of ₹10/- each
+7 / 65* — but only under *I Authorised share capital*; *II Issued, subscribed and paid-up* prints equity only
+(1,29,41,01,828 shares, `129 / 129`) with no preference row and no dash. So `PREFERENCE_CAPITAL` stays `NOT_REPORTED`, and
+even a closed debt side would not have produced a per-share value.
+
+**A net-debt figure exists, and is not the governed one.** The FY2022-23 report defines *"Net financial debt … as current
+and non current borrowings"* (Note 29, consolidated, PDF p.163) — borrowing-only, no cash subtracted, no leases. Only its
+ratio row (0.12 / 0.10) survives layout extraction; the amounts printed at company level (p.209: `59 / 95`, equity
+`3,677 / 3,049`, ratio 0.02 / 0.03) belong to a different reporting entity and were shipped for context only. Rejected
+mappings, and the reason no number was manufactured anywhere: this record's `determination-l038.json` counterpart in the
+new bundle lists all of them.
+
+**What did not change.** The dataset correction is exactly one cell; `cashAndInvestments` is still 4,870,000,000; the DCF
+still computes an enterprise value and still withholds every per-share leg; `EV_EBITDA` is still
+`CAPITAL_STRUCTURE_INCOMPLETE`; the P/E band is still **₹181.69 / ₹227.11 / ₹272.54**; leverage stays `NOT_EVALUABLE`.
+The sensitivity grid degrades from nine published values to nine `null`s with `enterpriseValue` diagnostics and
+`withheld` — because those values had used the pre-correction `NCI = 0` substitution, which is `L-040`'s finding, so this
+record's grid is superseded on that ground too. `L-040` stays `RESOLVED`; `L-039` is not touched; `capitalStructure.ts`
+and every policy constant are byte-identical. This record's payload `3fd27a98…2343` and all 30 of its digested files
+are byte-identical and still pass its own guard — superseded, never rewritten.

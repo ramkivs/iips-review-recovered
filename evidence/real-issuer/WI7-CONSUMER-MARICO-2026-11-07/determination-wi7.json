@@ -363,5 +363,18 @@
     "id": "L-038",
     "title": "The enterprise-to-equity bridge needs three borrowing components that a consolidated balance sheet need not print",
     "statement": "Gross debt is the sum of long-term borrowings, short-term borrowings, current maturities of long-term debt and lease liabilities, and every component must carry information. A filing that prints one current 'Borrowings' line, a dash in the non-current row and no current-maturity row cannot supply that, so gross debt, net debt, the enterprise-to-equity conversion and every enterprise-derived per-share figure are withheld \u2014 even where cash, leases and minority interest are fully reported."
-  }
+  },
+  "supersededBy": {
+    "bundle": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07",
+    "determination": "determination-l038.json",
+    "payloadDigest": "sha256:1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
+    "register": "IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md \u00a717.18",
+    "datasetVersion": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc"
+  },
+  "supersededOn": "2026-11-07",
+  "supersessionReasons": [
+    "L-038 re-read: the current-maturities caption exists in Note 13(a) I after all ('Within one year (Current maturities of long term debt)') and prints 0 for FY2023, so the corrected dataset carries the component and the bridge's refusal changes from MISSING/NOT_REPORTED to NOT_COMPUTABLE/PERIOD_MISMATCH",
+    "L-040: this payload's sensitivity grid was published from the pre-correction NCI = 0 substitution; the corrected code publishes no per-share cell, so the grid is withdrawn rather than restated"
+  ],
+  "supersessionNote": "This record remains as non-authoritative evidence and its payload is byte-identical (sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343); nothing in it was rewritten, only marked. The register entry L-038 stays OPEN."
 }

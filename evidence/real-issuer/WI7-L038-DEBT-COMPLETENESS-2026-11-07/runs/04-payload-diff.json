@@ -1,0 +1,315 @@
+{
+  "bundle": "WI-7 / L-038 \u2014 Marico Limited debt-component completeness",
+  "from": {
+    "file": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/artifact/assessment-payload-marico-wi7.json",
+    "payloadDigest": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+    "bytes": 54705
+  },
+  "to": {
+    "file": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/artifact/assessment-payload-marico-l038.json",
+    "payloadDigest": "1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
+    "bytes": 54705
+  },
+  "changedPathCount": 59,
+  "substantiveChangeCount": 54,
+  "substantiveChanges": [
+    {
+      "path": "evidence[0].claim",
+      "before": "DCF_FCFF produced a per-share value from 3 present input(s)",
+      "after": "DCF_FCFF produced no per-share value: NOT_COMPUTABLE (PERIOD_MISMATCH) \u2014 enterprise-to-equity conversion blocked by netDebt"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.basis",
+      "before": "<absent>",
+      "after": "AS_FILED"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.filingRef",
+      "before": "<absent>",
+      "after": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.presence",
+      "before": "MISSING",
+      "after": "PRESENT"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.reason",
+      "before": "NOT_REPORTED",
+      "after": "<absent>"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.source.filedAt",
+      "before": "<absent>",
+      "after": "2024-05-06"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.source.kind",
+      "before": "<absent>",
+      "after": "FILING"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.source.ref",
+      "before": "<absent>",
+      "after": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE"
+    },
+    {
+      "path": "fundamentals.annual[1].values.CURRENT_MATURITIES_OF_LONG_TERM_DEBT.value",
+      "before": null,
+      "after": 0
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.basis",
+      "before": "<absent>",
+      "after": "AS_FILED"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.filingRef",
+      "before": "<absent>",
+      "after": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.periodEnd",
+      "before": "<absent>",
+      "after": "2023-03-31"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.presence",
+      "before": "MISSING",
+      "after": "PRESENT"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.reason",
+      "before": "NOT_REPORTED",
+      "after": "<absent>"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.source.filedAt",
+      "before": "<absent>",
+      "after": "2024-05-06"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.source.kind",
+      "before": "<absent>",
+      "after": "FILING"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.source.ref",
+      "before": "<absent>",
+      "after": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE"
+    },
+    {
+      "path": "fundamentals.capitalStructure.components.currentMaturities.value",
+      "before": null,
+      "after": 0
+    },
+    {
+      "path": "fundamentals.capitalStructure.grossDebt.note",
+      "before": "<absent>",
+      "after": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established"
+    },
+    {
+      "path": "fundamentals.capitalStructure.grossDebt.presence",
+      "before": "MISSING",
+      "after": "NOT_COMPUTABLE"
+    },
+    {
+      "path": "fundamentals.capitalStructure.grossDebt.reason",
+      "before": "NOT_REPORTED",
+      "after": "PERIOD_MISMATCH"
+    },
+    {
+      "path": "fundamentals.capitalStructure.netDebt.note",
+      "before": "<absent>",
+      "after": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established"
+    },
+    {
+      "path": "fundamentals.capitalStructure.netDebt.presence",
+      "before": "MISSING",
+      "after": "NOT_COMPUTABLE"
+    },
+    {
+      "path": "fundamentals.capitalStructure.netDebt.reason",
+      "before": "NOT_REPORTED",
+      "after": "PERIOD_MISMATCH"
+    },
+    {
+      "path": "limitations[3]",
+      "before": "Net debt could not be derived (NOT_REPORTED), so every enterprise-value method is withheld rather than run on a partial bridge.",
+      "after": "Net debt could not be derived (PERIOD_MISMATCH), so every enterprise-value method is withheld rather than run on a partial bridge."
+    },
+    {
+      "path": "risk.evaluation.dimensions[0].measurement.reason",
+      "before": "NOT_REPORTED",
+      "after": "PERIOD_MISMATCH"
+    },
+    {
+      "path": "risk.evaluation.dimensions[0].statement",
+      "before": "Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt.",
+      "after": "Not evaluated: PERIOD_MISMATCH for fundamentals.capitalStructure.netDebt."
+    },
+    {
+      "path": "valuation.methods[0].output.perShareHigh.reason",
+      "before": "NOT_REPORTED",
+      "after": "PERIOD_MISMATCH"
+    },
+    {
+      "path": "valuation.methods[0].output.perShareLow.reason",
+      "before": "NOT_REPORTED",
+      "after": "PERIOD_MISMATCH"
+    },
+    {
+      "path": "valuation.methods[0].output.perShareMid.reason",
+      "before": "NOT_REPORTED",
+      "after": "PERIOD_MISMATCH"
+    },
+    {
+      "path": "valuation.methods[2].inputs[1].observation.note",
+      "before": "<absent>",
+      "after": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established"
+    },
+    {
+      "path": "valuation.methods[2].inputs[1].observation.presence",
+      "before": "MISSING",
+      "after": "NOT_COMPUTABLE"
+    },
+    {
+      "path": "valuation.methods[2].inputs[1].observation.reason",
+      "before": "NOT_REPORTED",
+      "after": "PERIOD_MISMATCH"
+    },
+    {
+      "path": "valuation.sensitivity[0].points[0].enterpriseValue",
+      "before": "<absent>",
+      "after": 185191832952.4706
+    },
+    {
+      "path": "valuation.sensitivity[0].points[0].value",
+      "before": 140.32569551969877,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[1].enterpriseValue",
+      "before": "<absent>",
+      "after": 210271352812.89267
+    },
+    {
+      "path": "valuation.sensitivity[0].points[1].value",
+      "before": 159.6814627043459,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[2].enterpriseValue",
+      "before": "<absent>",
+      "after": 245968207343.53165
+    },
+    {
+      "path": "valuation.sensitivity[0].points[2].value",
+      "before": 187.23143213616248,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[3].enterpriseValue",
+      "before": "<absent>",
+      "after": 161492369080.20416
+    },
+    {
+      "path": "valuation.sensitivity[0].points[3].value",
+      "before": 122.03502218681523,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[4].enterpriseValue",
+      "before": "<absent>",
+      "after": 179438661215.74725
+    },
+    {
+      "path": "valuation.sensitivity[0].points[4].value",
+      "before": 135.88553664388866,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[5].enterpriseValue",
+      "before": "<absent>",
+      "after": 203624216534.23816
+    },
+    {
+      "path": "valuation.sensitivity[0].points[5].value",
+      "before": 154.55136360474964,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[6].enterpriseValue",
+      "before": "<absent>",
+      "after": 143239076578.27536
+    },
+    {
+      "path": "valuation.sensitivity[0].points[6].value",
+      "before": 107.947572268041,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[7].enterpriseValue",
+      "before": "<absent>",
+      "after": 156612835132.35016
+    },
+    {
+      "path": "valuation.sensitivity[0].points[7].value",
+      "before": 118.26911583813384,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].points[8].enterpriseValue",
+      "before": "<absent>",
+      "after": 173925148523.61273
+    },
+    {
+      "path": "valuation.sensitivity[0].points[8].value",
+      "before": 131.63034082544857,
+      "after": null
+    },
+    {
+      "path": "valuation.sensitivity[0].withheld.note",
+      "before": "<absent>",
+      "after": "enterprise-to-equity conversion blocked by netDebt"
+    },
+    {
+      "path": "valuation.sensitivity[0].withheld.presence",
+      "before": "<absent>",
+      "after": "NOT_COMPUTABLE"
+    },
+    {
+      "path": "valuation.sensitivity[0].withheld.reason",
+      "before": "<absent>",
+      "after": "PERIOD_MISMATCH"
+    }
+  ],
+  "identityAndTimeChanges": [
+    {
+      "path": "artifact.generatedAt",
+      "before": "2026-11-07T07:00:00.000Z",
+      "after": "2026-11-07T09:00:00.000Z"
+    },
+    {
+      "path": "asOf.generatedAt",
+      "before": "2026-11-07T07:00:00.000Z",
+      "after": "2026-11-07T09:00:00.000Z"
+    },
+    {
+      "path": "asOf.knownAsOf",
+      "before": "2026-11-07T07:00:00.000Z",
+      "after": "2026-11-07T09:00:00.000Z"
+    },
+    {
+      "path": "data.contentDigest",
+      "before": "sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0",
+      "after": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc"
+    },
+    {
+      "path": "data.datasetVersion",
+      "before": "sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0",
+      "after": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc"
+    }
+  ],
+  "reading": "One dataset cell changed (FY2023 current maturities 0). Everything the payload derives from it moved: the component observation, the gross/net-debt refusal (NOT_REPORTED -> NOT_COMPUTABLE / PERIOD_MISMATCH) and the sentences that quote that reason. No number was added anywhere: every enterprise-to-equity output is still withheld, and the two figures the bridge would produce if the dashes were read as nil (528 crore gross debt, 41 crore net debt) appear nowhere in the payload (runs/03-readback.json)."
+}

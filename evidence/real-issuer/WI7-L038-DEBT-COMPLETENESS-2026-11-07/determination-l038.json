@@ -1,0 +1,402 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI-7 / L-038 \u2014 Marico Limited debt-component completeness",
+  "record": "limitation investigation and determination",
+  "recordId": "L-038",
+  "date": "2026-11-07",
+  "workItem": "IIPS v3.0 IID \u2014 L-038 resolution attempt, continuation of WI-7 (Consumer / Marico Limited)",
+  "branch": "arena/9a0de198-iips-review-recovered",
+  "baselineCommit": "f9d88a77989a1573b66e08a33d0b6175d67b8489",
+  "question": "The enterprise-to-equity bridge needs four borrowing components \u2014 short-term borrowings, current maturities of long-term debt, long-term borrowings and lease liabilities \u2014 at one balance-sheet instant. WI-7 recorded that Marico's consolidated statements print no current-maturity line anywhere. Does the filing in fact support a complete, period-aligned breakdown, and if it does, can gross debt, net debt and the enterprise-to-equity bridge be computed on the existing governed path without inferring anything?",
+  "answer": "The caption exists and WI-7 missed it: Note 13(a) prints a 'scheduled maturity of long term borrowings' table whose first row is exactly 'Within one year (Current maturities of long term debt)', in both reports and for every period column. But the row carries a dash for FY2024 and FY2022 and a printed 0 only for FY2023, and the non-current borrowings row is a dash for FY2024. So the FY2024 component set \u2014 the period the valuation needs \u2014 is two dashes short, the FY2023 set is complete but belongs to a different balance-sheet instant, and the governed contract (rightly) refuses to mix them. Gross debt and net debt therefore still cannot be published, and L-038 stays OPEN. One dataset cell was corrected (FY2023 current maturities = the printed 0) so the record no longer asserts an absence the filing does not have; the refusal now names the real obstacle (PERIOD_MISMATCH across 2024-03-31 and 2023-03-31) instead of 'not reported'.",
+  "governingRule": "D-2 and L-040: unavailable inputs must remain unavailable; they must never silently become zero and produce an apparently valid valuation. A dash is neither a number nor a declaration (register \u00a717.14); a printed zero is a reported amount (ingestion builder: 'a reported zero is PRESENT with a source'); a declared nil requires the filer's quoted wording.",
+  "outcome": {
+    "limitationStatus": "OPEN (unchanged)",
+    "resolved": false,
+    "mappingApplied": true,
+    "mappingAppliedDetail": "one dataset cell: FY2023 CURRENT_MATURITIES_OF_LONG_TERM_DEBT = 0 (printed in both reports' scheduled-maturity tables)",
+    "datasetChanged": true,
+    "payloadChanged": true,
+    "wi7ArtifactsChanged": false,
+    "reason": "No complete, period-aligned set of the four debt components exists for 2024-03-31, which is the balance-sheet instant the valuation runs on: non-current borrowings and current maturities are both printed as dashes there. A complete set exists only for 2023-03-31, and the governed aggregation refuses to mix balance-sheet instants (PERIOD_MISMATCH). Nothing was inferred from totals, prior periods or arithmetic residuals. A second, independent blocker sits behind it: preference capital is NOT_REPORTED (authorised preference shares exist, issued preference shares are not printed and are not declared nil), so the enterprise-to-equity conversion would refuse even with a closed debt side."
+  },
+  "captionsExamined": [
+    {
+      "period": "FY2024 (2024-03-31)",
+      "caption": "Borrowings \u2014 non-current",
+      "printed": "-",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 174,
+      "printedPages": "344-345",
+      "note": "consolidated balance sheet"
+    },
+    {
+      "period": "FY2024",
+      "caption": "Total non-current borrowings (Note 13(a) I) / Non-current borrowings after interest accrued",
+      "printed": "- / -",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 191,
+      "printedPages": "378-379"
+    },
+    {
+      "period": "FY2024",
+      "caption": "Within one year (Current maturities of long term debt)",
+      "printed": "-",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 191,
+      "printedPages": "378-379",
+      "note": "the caption WI-7 recorded as not printed anywhere"
+    },
+    {
+      "period": "FY2024",
+      "caption": "After 1 year but within 2 years / Total (scheduled maturity of long term borrowings)",
+      "printed": "- / -",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 191,
+      "printedPages": "378-379"
+    },
+    {
+      "period": "FY2024",
+      "caption": "Total current borrowings 396; less interest accrued 13; current borrowings as per balance sheet 383",
+      "printed": "396 / 13 / 383",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 192,
+      "printedPages": "380-381",
+      "note": "no 'Add: current maturities' line in this year's presentation; none is needed, the maturity table's within-one-year row is a dash"
+    },
+    {
+      "period": "FY2024",
+      "caption": "Lease liabilities (non-current 104 + current 41)",
+      "printed": "145",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 174,
+      "printedPages": "344-345",
+      "note": "ingested by WI-7, corroborated by the financing reconciliation at PDF p.176"
+    },
+    {
+      "period": "FY2024",
+      "caption": "Cash and cash equivalents / current investments",
+      "printed": "228 / 259",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 174,
+      "printedPages": "344-345",
+      "note": "cashAndInvestments 487 crore, PRESENT"
+    },
+    {
+      "period": "FY2023 (2023-03-31)",
+      "caption": "Within one year (Current maturities of long term debt)",
+      "printed": "0",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 191,
+      "printedPages": "378-379",
+      "note": "FY2023 comparative column of the FY2023-24 report"
+    },
+    {
+      "period": "FY2023",
+      "caption": "Within one year (Current maturities of long term debt)",
+      "printed": "0",
+      "report": "Marico_Annual_Report_FY23.pdf",
+      "pdfPage": 149,
+      "printedPages": "294-295 (derived)",
+      "note": "the FY2022-23 report's own FY2023 column: the same figure, independently printed"
+    },
+    {
+      "period": "FY2023",
+      "caption": "Add : Current maturities of long-term debt (refer note 13(a))",
+      "printed": "no amount added",
+      "report": "Marico_Annual_Report_FY23.pdf",
+      "pdfPage": 150,
+      "printedPages": "296-297 (derived)",
+      "note": "477 + 0 - 4 = 473 reconciles to the printed current borrowings, so the reconciliation corroborates a zero rather than asserting one"
+    },
+    {
+      "period": "FY2023",
+      "caption": "After 1 year but within 2 years / Total",
+      "printed": "FY2024 report: 2 / 2; FY2022-23 report: - / 0",
+      "report": "both",
+      "pdfPage": "191 / 149",
+      "note": "the two reports disagree on how the single ZAR term loan is bucketed; neither shape contains an amount due within one year, and the disagreement is recorded rather than resolved"
+    },
+    {
+      "period": "FY2022 (2022-03-31)",
+      "caption": "Within one year (Current maturities of long term debt) / Total",
+      "printed": "- / -",
+      "report": "Marico_Annual_Report_FY23.pdf",
+      "pdfPage": 149,
+      "printedPages": "294-295 (derived)"
+    },
+    {
+      "period": "FY2022",
+      "caption": "Borrowings \u2014 non-current (consolidated balance sheet)",
+      "printed": "-",
+      "report": "Marico_Annual_Report_FY23.pdf",
+      "pdfPage": 129,
+      "printedPages": "254-255"
+    },
+    {
+      "period": "all",
+      "caption": "Preference share capital",
+      "printed": "not printed on any page of either report (search log: no 'preference share' hit)",
+      "report": "both",
+      "note": "NOT_REPORTED: silence is not a nil"
+    },
+    {
+      "period": "FY2024 / FY2023 (authorised and issued capital)",
+      "caption": "Note 12(a) \u2014 I Authorised share capital: 'Preference shares of Rs 10/- each 7 / 65'; II Issued, subscribed and paid-up: equity only (1,29,41,01,828 shares, 129 / 129)",
+      "printed": "authorised preference 7 / 65; issued preference: no row",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 189,
+      "note": "the only preference-share line in either report, and it is authorised capital, not a claim on the enterprise; the issued table prints no preference row and no dash"
+    },
+    {
+      "period": "FY2023 / FY2022",
+      "caption": "Note 29 Capital Management \u2014 'Net financial debt is defined as current and non current borrowings'; 'Net debt to equity ratio 0.12 / 0.10'",
+      "printed": "definition + ratio; amounts not legible in the consolidated table's layout extraction",
+      "report": "Marico_Annual_Report_FY23.pdf",
+      "pdfPage": 163,
+      "note": "borrowing-only by the filing's own definition: no cash subtracted, no leases; not the governed net debt"
+    },
+    {
+      "period": "FY2023 / FY2022 (company statements)",
+      "caption": "the same note at company level \u2014 'Net debt 59 / 95', 'Total equity 3,677 / 3,049', 'Net debt to equity ratio 0.02 / 0.03'",
+      "printed": "59 / 95",
+      "report": "Marico_Annual_Report_FY23.pdf",
+      "pdfPage": 209,
+      "note": "standalone entity, not the consolidated group; shipped to show where the amounts are visible, not used as an input"
+    },
+    {
+      "period": "FY2024",
+      "caption": "any 'net debt' string in the FY2023-24 report",
+      "printed": "none \u2014 the string occurs on no page of that report",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "note": "so there is no net-debt figure at the latest period, in either sense"
+    }
+  ],
+  "coverage": {
+    "documents": 2,
+    "pagesSearched": 483,
+    "pagesSearchedDetail": "259 (FY2023-24) + 224 (FY2022-23)",
+    "captionsSearched": [
+      "current maturities",
+      "maturit",
+      "scheduled maturity",
+      "long term borrow",
+      "short term borrow",
+      "borrowings",
+      "net debt",
+      "net cash",
+      "preference share",
+      "debenture",
+      "lease liabilit",
+      "note 13"
+    ],
+    "searchLog": "source/caption-search-log.txt",
+    "pagesCarryingTheCaption": [
+      "fy24 p.191",
+      "fy24 p.209 (checklist only)",
+      "fy23 p.149",
+      "fy23 p.150",
+      "fy23 p.170 (checklist only)"
+    ],
+    "netDebtFigurePrintedByEitherFiling": false
+  },
+  "rejectedMappings": [
+    {
+      "candidate": "read the FY2024 dash in 'Within one year (Current maturities of long term debt)' as nil",
+      "why": "a dash is neither a number nor a declaration (register \u00a717.14); no page of either filing states in words that current maturities are nil. Accepting the dash would produce gross debt 528 crore and net debt 41 crore \u2014 a valuation the filings do not support"
+    },
+    {
+      "candidate": "read the FY2024 dash for non-current borrowings as nil",
+      "why": "same rule; the note prints '-' in the borrowings table and in the scheduled-maturity total, not a zero and not a sentence"
+    },
+    {
+      "candidate": "take the FY2023 components (473 + 2 + 0 + 133) and pair them with the FY2024 cash and equity claims",
+      "why": "that mixes two balance sheets. The contract refuses it (PERIOD_MISMATCH), and it would be wrong even if the code allowed it: the resulting net debt would compare a 2023 debt stack with 2024 cash"
+    },
+    {
+      "candidate": "substitute 0 for the FY2023 '0'-less columns to make all four components resolvable at 2024-03-31",
+      "why": "that is the L-040 failure mode \u2014 an unavailable input silently becoming zero. No FY2024 figure exists for either row"
+    },
+    {
+      "candidate": "treat Note 13(b)'s 'Obligation to buy non controlling interest' (405 crore non-current) as debt",
+      "why": "it is an other financial liability, not a borrowing, and the governed gross debt is borrowings plus lease liabilities; adding it would inflate gross debt by a liability the bridge never subtracts"
+    },
+    {
+      "candidate": "use the 'scheduled maturity total' as a total-borrowings figure",
+      "why": "it covers long-term borrowings only; using it as total debt would drop 383 crore of current borrowings"
+    },
+    {
+      "candidate": "read a management 'net debt'/'net cash' figure from the MD&A",
+      "why": "neither report prints one (search log: zero 'net debt' hits; every 'net cash' hit is auditor wording, an acquisition-note line or a per-share KPI)"
+    },
+    {
+      "candidate": "adopt the filing's own 'net financial debt' as net debt",
+      "why": "the note defines it as 'current and non current borrowings' \u2014 borrowing-only, no cash subtracted and no leases \u2014 so it measures something else; using it would silently change the bridge"
+    },
+    {
+      "candidate": "adopt the same figure as gross debt (total borrowings as filed)",
+      "why": "this is exactly the option register 17.15 reserved ('an optional total-borrowings-as-filed component carrying an explicit incompleteness flag'); it is a contract decision, not an evidence question, and is not taken here"
+    },
+    {
+      "candidate": "read the consolidated net-debt-to-equity ratio (0.12) against consolidated equity to recover an amount",
+      "why": "an inference from a ratio and a total; the implied ~475 crore for FY2023 is recorded as an observation and used nowhere"
+    },
+    {
+      "candidate": "use the company-level 'Net debt 59 / 95'",
+      "why": "a different reporting entity (Marico Limited standalone); the dataset is consolidated"
+    },
+    {
+      "candidate": "record PREFERENCE_CAPITAL = 0 because the issued-capital total (129) equals the equity line",
+      "why": "an inference from a total. Note 12(a) prints no issued preference row and nothing declares it nil; the authorised preference line (7 / 65) is not a claim on the enterprise"
+    }
+  ],
+  "acceptedMappings": [
+    {
+      "item": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "periodEnd": "2023-03-31",
+      "value": 0,
+      "unit": "INR crore",
+      "basis": "AS_FILED",
+      "filingRef": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE",
+      "report": "Marico_Annual_Report_FY24.pdf",
+      "pdfPage": 191,
+      "printedPages": "378-379",
+      "corroboration": "Marico_Annual_Report_FY23.pdf PDF p.149 (FY2023 column) and p.150 (the reconciliation line adding nothing)",
+      "why": "the row is printed and its FY2023 cell is the digit 0; a printed zero is a reported amount, not a nil and not an absence"
+    }
+  ],
+  "results": {
+    "before": {
+      "datasetVersion": "sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0",
+      "payloadDigest": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+      "payloadBytes": 54705,
+      "grossDebt": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "netDebt": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      },
+      "cashAndInvestments": {
+        "presence": "PRESENT",
+        "value": 4870000000
+      },
+      "currentMaturities": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED"
+      }
+    },
+    "after": {
+      "datasetVersion": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc",
+      "payloadDigest": "1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
+      "payloadBytes": 54705,
+      "reportId": "ffd898c3-fd22-4863-b529-907e8e5783c2",
+      "grossDebt": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "PERIOD_MISMATCH"
+      },
+      "netDebt": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "PERIOD_MISMATCH"
+      },
+      "cashAndInvestments": {
+        "presence": "PRESENT",
+        "value": 4870000000
+      },
+      "currentMaturities": {
+        "presence": "PRESENT",
+        "value": 0,
+        "periodEnd": "2023-03-31"
+      },
+      "note": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established"
+    },
+    "downstreamWithheld": {
+      "intrinsic": null,
+      "dcfApplicable": true,
+      "dcfBasis": "FCFF base 13541622333, WACC 10.68%, g 4.00%, 5y horizon",
+      "dcfPerShareMid": "NOT_COMPUTABLE (PERIOD_MISMATCH) \u2014 enterprise-to-equity conversion blocked by netDebt",
+      "sensitivityGrid": "9 cells, 0 values; withheld { presence: NOT_COMPUTABLE, reason: PERIOD_MISMATCH }",
+      "evEbitda": "not applicable \u2014 CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+      "peBand": "PRESENT 181.69 / 227.11 / 272.54 (normalised EPS 10.3233 x policy-default 22) \u2014 unchanged, and it does not use net debt",
+      "marginOfSafety": "NO_PRICE_OBSERVATION",
+      "netDebtToEbitda": "NOT_COMPUTABLE",
+      "financialLeverage": "NOT_EVALUABLE (PERIOD_MISMATCH)"
+    },
+    "noNumberWasManufactured": {
+      "candidateGrossDebtIfTheDashesWereNil": 5280000000,
+      "candidateNetDebtIfTheDashesWereNil": 410000000,
+      "grossDebtPublishedAnywhereInThePayload": false,
+      "netDebtPublishedAnywhereInThePayload": false,
+      "numbersWalked": 229
+    }
+  },
+  "l040Finding": {
+    "what": "The WI-7 payload \u2014 the artifact this bundle supersedes \u2014 publishes nine per-share sensitivity cells (107.95 to 187.23) computed with net debt, preference capital and associates/JV substituted as zero, because it was built by the code that existed before the L-040 correction. The corrected code publishes no per-share cell there.",
+    "evidence": "runs/04-payload-diff.json lists the nine `value -> null` cells each gaining a diagnostic `enterpriseValue`; the arithmetic is exactly (EV - NCI) / shares with the three unavailable terms at zero",
+    "statusEffect": "none \u2014 L-040 stays RESOLVED; the defect is in the artifact, not in the shipped code. The WI-7 payload is preserved byte-identical as historical evidence and is marked superseded for two independent reasons: the corrected FY2023 dataset cell, and the pre-correction grid",
+    "whyItMatters": "it is the first time an earlier bundle's payload has been found to carry an already-corrected defect; the register entry records it so the superseded artifact cannot be read as the shipped behaviour"
+  },
+  "contractQuestion": {
+    "id": "DEBT-COMPONENT-PERIOD-ALIGNMENT",
+    "status": "UNDECIDED \u2014 documented, not acted on",
+    "question": "When every debt component is disclosed but not at one balance-sheet instant, the contract refuses with PERIOD_MISMATCH and the payload can name only one reason. Should the contract (a) permit a bridge built entirely on the newest instant at which all four components carry numbers, here 2023-03-31 \u2014 at which gross debt is 608 crore (2 + 473 + 0 + 133) against cash and current investments of 785 crore (207 + 578), i.e. net debt -177 crore \u2014 and if so, must the cash side and the valuation's own inputs move with it; or (b) keep refusing, on the ground that a valuation dated 2024-03-31 cannot use 2023 borrowings?",
+    "whyNotDecidedHere": "either answer changes what the bridge may do with a filing's disclosed figures; it is a valuation-contract decision for the register owner, not an evidence question. It is deliberately left undecided, and the aggregation code was not touched.",
+    "distinctFrom": "L-039's cash-side nil-propagation finding, which is untouched by this work item",
+    "reconciliation": {
+      "period": "2023-03-31",
+      "grossDebtCrore": 608,
+      "grossDebtDerivation": "longTermBorrowings 2 + shortTermBorrowings 473 + currentMaturities 0 + leaseLiabilities 133 (91 + 42)",
+      "cashAndInvestmentsCrore": 785,
+      "cashAndInvestmentsDerivation": "cashAndCashEquivalents 207 + currentInvestments 578",
+      "netDebtCrore": -177,
+      "note": "same instant, governed definitions on both sides: 608 - 785 = -177",
+      "payloadCashAndInvestments": {
+        "value": 4870000000,
+        "crore": 487,
+        "periodEnd": "2024-03-31",
+        "derivation": "cashAndCashEquivalents 228 + currentInvestments 259",
+        "note": "the payload's cash side is a 2024-03-31 amount; 608 - 487 = +121 crore subtracts a 2024 balance from a 2023 one and is not a net-debt figure at any date"
+      },
+      "recomputedIn": "runs/10-net-debt-reconciliation.txt",
+      "correctsEarlierWording": "an earlier revision of the register, tracker, report and this determination quoted the 608 / -177 pair without the 785 crore cash figure, which read as inconsistent with the published 487 crore"
+    }
+  },
+  "whatWouldCloseL038": [
+    "a filing that prints an amount (or a zero) for non-current borrowings AND current maturities at the valuation's balance-sheet instant \u2014 the ordinary route and the only purely evidentiary one, OR",
+    "a filing that declares either of them nil in its own words, which D-2 can record as NIL_BY_DISCLOSURE, OR",
+    "a register-owner decision on DEBT-COMPONENT-PERIOD-ALIGNMENT (above), which would let a complete older-period set be used \u2014 a contract decision this work item does not take, OR",
+    "a register-owner decision to give a filed dash a governed grade (the first option named in register \u00a717.15), which would make the FY2024 dashes usable without pretending they are numbers"
+  ],
+  "integrity": {
+    "wi7ArtifactsUntouched": true,
+    "wi7PayloadDigest": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+    "wi7IngestInputUntouched": true,
+    "otherBundlesUntouched": true,
+    "d2AndIxPolicyUntouched": true,
+    "aggregationCodeUntouched": true,
+    "sourceBytesReread": true,
+    "sourceBytesMatchWi7": true
+  },
+  "verification": {
+    "guardTest": "iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts",
+    "typecheck": "npx tsc --noEmit -p tsconfig.json \u2014 0 diagnostics",
+    "readback": "runs/03-readback.json \u2014 separate process, digest match true",
+    "payloadDiff": "runs/04-payload-diff.json"
+  },
+  "secondBlocker": {
+    "component": "PREFERENCE_CAPITAL",
+    "presence": "MISSING",
+    "reason": "NOT_REPORTED",
+    "why": "the enterprise-to-equity conversion requires preference capital to be a number or a declared nil; it is neither. A closed debt side would therefore still not have produced a per-share value. Recorded so the blocker is not mistaken for a single one."
+  },
+  "cashSideAlignment": {
+    "id": "CASH-SIDE-PERIOD-ALIGNMENT",
+    "status": "UNDECIDED \u2014 documented, not acted on",
+    "observation": "capitalStructure.ts enforces the same-instant rule among the four debt components only (grossDebtOf, line 121). The cash side is cashAndInvestments = sum([cash, currentInvestments]) (line 224) and netDebt = subtract(grossDebt, cashAndInvestments) (line 225), with no comparison of the cash periods against the debt periods.",
+    "whyItMattersHere": "On Marico the path is never reached: grossDebt is NOT_COMPUTABLE, so subtract() returns the blocked minuend and no net-debt number is published. But if DEBT-COMPONENT-PERIOD-ALIGNMENT were granted as originally worded, the published net debt would be 608 - 487 = +121 crore, the 2024 cash side against the 2023 debt side \u2014 the cross-period arithmetic the bridge exists to refuse.",
+    "notActedOn": "no aggregation code, policy, dataset value, payload or period-alignment rule was changed; the finding is recorded only",
+    "distinctFrom": "L-039 (cash-side nil propagation), which is untouched",
+    "recomputedIn": "runs/10-net-debt-reconciliation.txt"
+  }
+}

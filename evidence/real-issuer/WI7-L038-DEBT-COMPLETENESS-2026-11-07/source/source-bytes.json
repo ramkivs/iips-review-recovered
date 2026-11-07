@@ -1,0 +1,35 @@
+{
+ "bundle": "WI-7 / L-038 \u2014 Marico Limited debt-component completeness",
+ "retrievedAt": "2026-11-07",
+ "retrievedBy": "throwaway GitHub Actions workflow (.github/workflows/temp-l038-discover.yml, run 42389718189), because marico.com is not reachable from the development sandbox",
+ "documents": [
+  {
+   "id": "MARICO-FY24-AR",
+   "title": "Marico Limited Integrated Annual Report 2023-24",
+   "url": "https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf",
+   "httpStatus": 200,
+   "bytes": 21087675,
+   "pages": 259,
+   "sha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+   "identityCheck": "sha256, byte count and page count are identical to the bytes WI-7 read on 2026-11-07 (evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/source-bytes.json)"
+  },
+  {
+   "id": "MARICO-FY23-AR",
+   "title": "Marico Limited Integrated Annual Report 2022-23",
+   "url": "https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf",
+   "httpStatus": 200,
+   "bytes": 28505144,
+   "pages": 224,
+   "sha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+   "identityCheck": "identical to the bytes WI-7 read on 2026-11-07"
+  }
+ ],
+ "earlierAttempt": {
+  "run": 42389412993,
+  "outcome": "the FY2023-24 report was fetched (http 200, 21,087,675 bytes); the FY2022-23 report returned http=000 (curl could not complete the TLS handshake) and no bytes were written",
+  "record": "fetch-log.txt in this bundle carries the successful run; the failed attempt is recorded here because a retrieval failure must not be dropped, and it is not a statement about the filing"
+ },
+ "notFetched": [
+  "the Integrated Annual Report 2021-22 (sha256 cd8855e5...a993, 27,915,655 bytes) that WI-7 fetched and took no figure from: the FY2021-22 column of the debt notes is read from the FY2022-23 report comparative, so re-reading the FY2021-22 report would add nothing about current maturities and would risk a second, unreconciled presentation"
+ ]
+}

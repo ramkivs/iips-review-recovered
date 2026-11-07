@@ -1,0 +1,99 @@
+{
+ "bundle": "WI-7 / L-038 \u2014 Marico Limited debt-component completeness",
+ "note": "One PDF page is one printed sheet carrying two printed pages. FY2023-24 report folios are printed in the sheet header; the FY2022-23 report does not print a folio in the extracted text of every sheet, so the two FY2023-24-report-derived numbers are marked as derived.",
+ "fy24_ar": {
+  "report": "Marico_Annual_Report_FY24.pdf",
+  "sha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+  "pdfPages": 259,
+  "pages": {
+   "191": {
+    "file": "fy24-notes-13a-non-current-borrowings-and-maturity-pdf-page191.txt",
+    "report": "Marico_Annual_Report_FY24.pdf",
+    "reportSha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+    "printedPages": "378-379",
+    "printedPagesDerivation": null,
+    "contains": "Note 12(c) NCI, Note 13(a) I Non-current Borrowings and the scheduled-maturity table (the current-maturities row)",
+    "sha256": "7916581cac5c0649e66e2c0a77cef64719da4c14d179c4e66e396fa619f35146"
+   },
+   "192": {
+    "file": "fy24-notes-13a-current-and-13b-pdf-page192.txt",
+    "report": "Marico_Annual_Report_FY24.pdf",
+    "reportSha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+    "printedPages": "380-381",
+    "printedPagesDerivation": null,
+    "contains": "Note 13(a) II Current Borrowings (total 396/477, less interest accrued 13/4, current borrowings 383/473) and Note 13(b)",
+    "sha256": "bf398117246434ffb63fb51faf0af2be135d83a929c1eb308c053f37a7d42036"
+   },
+   "174": {
+    "file": "fy24-consolidated-balance-sheet-and-profit-and-loss-pdf-page174.txt",
+    "report": "Marico_Annual_Report_FY24.pdf",
+    "reportSha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+    "printedPages": "344-345",
+    "printedPagesDerivation": null,
+    "contains": "Consolidated Balance Sheet (borrowings: non-current \"-\", current 383) and Consolidated Statement of Profit and Loss",
+    "sha256": "b870253afd23eda0a758ffe7553c3db7c3412259553b22868c91322b590fef94"
+   },
+   "189": {
+    "file": "fy24-note-12a-authorised-and-issued-share-capital-pdf-page189.txt",
+    "report": "Marico_Annual_Report_FY24.pdf",
+    "reportSha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+    "printedPages": null,
+    "printedPagesDerivation": "the sheet's own folios are printed in its first line; no separate printed-page pair is asserted here",
+    "contains": "Note 12(a) Equity share capital \u2014 I Authorised share capital (equity 150/150 and 8/80, preference shares of Rs 10 each 7/65, total 165/295) and II Issued, subscribed and paid-up (equity only, total 129/129)",
+    "sha256": "d6813584d85c66910e903f7123cbc0a23f418fbfb7184d7b85f3991c155d26bf"
+   }
+  }
+ },
+ "fy23_ar": {
+  "report": "Marico_Annual_Report_FY23.pdf",
+  "sha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+  "pdfPages": 224,
+  "pages": {
+   "149": {
+    "file": "fy23-notes-13a-non-current-borrowings-and-maturity-pdf-page149.txt",
+    "report": "Marico_Annual_Report_FY23.pdf",
+    "reportSha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+    "printedPages": "294-295",
+    "printedPagesDerivation": "the printed folio is not present in this page's extracted text; the number is derived from PDF page 129 (printed 254-255) and the two-printed-pages-per-sheet stride confirmed by PDF page 130's folio 256, and is marked as derived rather than printed",
+    "contains": "Note 12(c) NCI, Note 13(a) I Non-current Borrowings (2 / -) and the scheduled-maturity table for FY2023 and FY2022",
+    "sha256": "9fecb04934cfae0c4c084ad9820d413b653fc6fff5db037bfde812719a77282a"
+   },
+   "150": {
+    "file": "fy23-notes-13a-current-and-13b-pdf-page150.txt",
+    "report": "Marico_Annual_Report_FY23.pdf",
+    "reportSha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+    "printedPages": "296-297",
+    "printedPagesDerivation": "derived as for PDF page 149: PDF page 129 is printed 254-255 and each sheet carries two printed pages",
+    "contains": "Note 13(a) II Current Borrowings with the \"Add : Current maturities of long-term debt (refer note 13(a))\" line",
+    "sha256": "ecc09d3e35d3f0a9e682d8695afd2e7bdc13887e1fe18443c25d25bcf300602d"
+   },
+   "129": {
+    "file": "fy23-consolidated-balance-sheet-and-profit-and-loss-pdf-page129.txt",
+    "report": "Marico_Annual_Report_FY23.pdf",
+    "reportSha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+    "printedPages": "254-255",
+    "printedPagesDerivation": null,
+    "contains": "Consolidated Balance Sheet (borrowings: non-current \"-\", current 345 for FY2022) and Consolidated Statement of Profit and Loss",
+    "sha256": "467819f9d2d52158c0541f1fabcef4b3883be2c685a25879ee2a96c7003788f6"
+   },
+   "163": {
+    "file": "fy23-note-29-capital-management-pdf-page163.txt",
+    "report": "Marico_Annual_Report_FY23.pdf",
+    "reportSha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+    "printedPages": null,
+    "printedPagesDerivation": "the FY2022-23 report does not print a folio in this page's extracted text",
+    "contains": "Note 29 Capital Management (consolidated): the definition of net financial debt and the net-debt-to-equity ratio",
+    "sha256": "25808d9a89d51da04d5b4a37e177c2ee877f7eabe359b32db7374324c0d92dd4"
+   },
+   "209": {
+    "file": "fy23-note-29-capital-management-company-level-pdf-page209.txt",
+    "report": "Marico_Annual_Report_FY23.pdf",
+    "reportSha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+    "printedPages": null,
+    "printedPagesDerivation": "the FY2022-23 report does not print a folio in this page's extracted text",
+    "contains": "The same capital-management note in the COMPANY (standalone) statements: Net debt 59 / 95, Total equity 3,677 / 3,049, ratio 0.02 / 0.03",
+    "sha256": "c13a5f394ee1912022d99eb887477428dbc9bb067ddfd78da3f3664a5ab2387f"
+   }
+  }
+ }
+}

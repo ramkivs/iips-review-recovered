@@ -1,0 +1,29 @@
+# L-038 — 2026-11-07 — post-manifest verification
+# (1) re-hash every file listed in digests.json against its recorded digest
+digested files in digests.json : 30
+re-hashed files              : 30
+sha256 mismatches            : 0
+missing files                : 0
+shipped but undigested       : 0
+mismatch list: (none)
+undigested list: (none)
+
+# (2) re-run the two certifying commands against the finished manifest
+$ npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts
+# tests 26
+# suites 5
+# pass 26
+# fail 0
+# duration_ms 231.661198
+
+$ npx tsx --test tests/investment/*.test.ts
+# tests 680
+# suites 156
+# pass 680
+# fail 0
+# cancelled 0
+# skipped 0
+# duration_ms 10359.040719
+
+$ npx tsc --noEmit -p tsconfig.json
+exit 0, no diagnostics

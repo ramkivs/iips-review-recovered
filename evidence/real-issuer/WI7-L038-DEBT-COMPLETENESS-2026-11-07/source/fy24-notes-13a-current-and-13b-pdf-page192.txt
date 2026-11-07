@@ -1,0 +1,98 @@
+# L-038 — Note 13(a) II Current Borrowings (total 396/477, less interest accrued 13/4, current borrowings 383/473) and Note 13(b)
+# source PDF: Marico_Annual_Report_FY24.pdf  bytes=21087675  sha256=03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595  pages=259
+# URL: https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+# PDF page 192 of 259 (printed pages 380-381)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07 (run 42389718189);
+# the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
+# ----------------------------------------------------------------------------------------------
+        I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                                                 • Corporate Overview • Statutory Reports • Financial Statements
+380     Marico Limited
+                                                                                                                                                                                                                                                                                               381
+
+
+
+
+Notes
+to the Consolidated financial statements for the year ended 31st March 2024
+                                                                                                                                                       Notes
+                                                                                                                                                       to the Consolidated financial statements for the year ended 31st March 2024
+
+
+II.   Current Borrowings                                                                                                                               13(b) Other financial liabilities
+                                                                                                                                        (H in crore)                                                                                                                                     (H in crore)
+
+                                                                                                       Coupon /Interest
+                                                                                                                                As at         As at                                                                                                                As at                      As at
+         Particulars                      Maturity Date                         Terms of repayment                        31st March,   31st March,    Particulars
+                                                                                                       rate
+                                                                                                                                2024          2023
+                                                                                                                                                                                                                                                      31st March, 2024            31st March, 2023
+
+         Unsecured                                                                                                                                     Non-current
+         Short term Loan from    31st March 2023:                               31 March 2023:
+                                                                                  st
+                                                                                                       South African                -             3    Obligation to buy non controlling interest                                                                   405                         266
+         Standard Bank of South Repayable in Nov 2023                           Equal monthly          Prime Lending                                   Total other non-current financial liabilities                                                                405                         266
+         Africa Limited (in ZAR)                                                instalments from Apr   Rate plus 0.5%                                  Current
+                                                                                2023 to Nov 2023       per annum                                       Interest accrued and due on borrowings (refer note 13(a))                                                        13                        4
+         Short term Loan from             31st March 2024:                      For a term upto 12     Relevant Bank's            25             86    Interest accrued and not due on borrowings (refer note 13(a))                                                     0                        0
+         Citi Bank Vietnam                Repayable during April 24 to Mar 25   months                 Benchmark Rate                                  Creditors for capital goods                                                                                       6                        6
+         (in VND)                         31st March 2023:                                             plus applicable                                 Salaries, bonus and other benefits payable to employees                                                          35                       27
+                                          Repayable during April 23 to Mar 24                          spread                                          Trade deposits from customers and others                                                                          2                        1
+         Working capital                  31st March 2024:                      For a term upto 12     SOFR from                186            221
+                                                                                                                                                       Unclaimed dividend (refer note below)                                                                             2                        1
+         demand loan in UAE               Repayable during April 24 to Mar 25   months                 0.85% per annum
+                                                                                                                                                       Others                                                                                                            0                        0
+         (in USD)                         31st March 2023:
+                                                                                                                                                       Derivative designated as hedges                                                                                   0                        0
+                                          Repayable during April 23 to Mar 24
+                                                                                                                                                       Total other current financial liabilities                                                                        59                       40
+         Cash credit in UAE               Payable on demand                     Payable on demand      SOFR plus 0.9%             15           108
+         (in USD)                                                                                      per annum                                       Note : As at 31st March, 2024, there is no amount due and outstanding to be transferred to the Investor Education and Protection Fund
+         Short Term Loan in               April 2024                            For a term of 1        6.5% per annum             40               -
+                                                                                                                                                       (IEPF) by the Group. Unclaimed dividend if any, shall be transferred to IEPF as and when they become due.
+         Bangladesh (in BDT)                                                    month to 2 months
+         Working capital                  31st March 2024                       For a term of 3        Relevant Bank's            42             42
+         demand loan in India             Apr 2024 to Jun 2024 - H 12 crores    months to 12 months    Benchmark Rate                                  13(c) Trade payables
+         (in H)                           Feb 2025 - H 30 crores                                       plus applicable                                                                                                                                                                   (H in crore)
+                                          31st March 2023                                              spread                                                                                                                                                      As at                      As at
+                                                                                                                                                       Particulars
+                                          Apr 2023 to Jun 2023 - H 12 crores                                                                                                                                                                          31st March, 2024            31st March, 2023
+                                          Feb 2024 - H 30 crores
+         Export packing credit            31st March 2024                       For a term of 6        Relevant Bank's            22             17    Current
+         in India (in J)                  Aug 2024 - H 22 crores                months                 Benchmark Rate                                  Trade payables:
+                                          31st March 2023                                              plus applicable                                 Total outstanding dues of micro enterprises and small enterprises                                            71                          68
+                                          Aug 2023 - H 17 crores                                       spread less                                     Total outstanding dues of creditors other than micro enterprises and small enterprises                    1,510                       1,384
+                                                                                                       subvention 2%                                   Total Trade Payable                                                                                       1,581                       1,452
+         Commercial Card         April 2024                                     For a term of 1        6.26% per annum            59               -
+         Borrowing in India from                                                month to 2 months                                                      Trade Payables ageing schedule
+         HDFC (in H)
+                                                                                                                                                       31st March, 2023
+         Cash credit in India    31st March 2024:                               For a term of 3        Relevant Bank's             6               -                                                                                                                                     (H in crore)
+         (in H)                  Repayable during April 24 to Mar 25            months to 12 months    Benchmark Rate
+                                                                                                                                                                                                          Outstanding for following periods from due date of payment
+                                                                                                       plus applicable                                 Particulars                                                                                                                              Total
+                                                                                                                                                                                                   Accrued       Not Due        < 1 year     1-2 years     2-3 years         > 3 years
+                                                                                                       spread
+         Total current                                                                                                          396            477     (i) Undisputed dues - MSME                        -            27             38              2             0                0            68
+         borrowings                                                                                                                                    (ii) Undisputed dues - Others                   409           238            611             93            27                6         1,384
+         Less: Interest accrued                                                                                                   13              4    (iii) Disputed dues – MSME                        -             -              -              -             -                -             -
+         (Refer Note 13(b))                                                                                                                            (iv) Disputed dues - Others                       -             -              -              -             -                -             -
+         Current borrowings                                                                                                     383            473     Total                                           409           266            649             96            28                6         1,452
+
+                                                                                                                                                       31st March, 2024
+                                                                                                                                                                                                                                                                                         (H in crore)
+                                                                                                                                                                                                          Outstanding for following periods from due date of payment
+                                                                                                                                                       Particulars                                                                                                                              Total
+                                                                                                                                                                                                   Accrued       Not Due        < 1 year     1-2 years     2-3 years         > 3 years
+
+                                                                                                                                                       (i) Undisputed dues - MSME                       30            26             15              0              0               -            71
+                                                                                                                                                       (ii) Undisputed dues - Others                   277           770            428             30              3               2         1,510
+                                                                                                                                                       (iii) Disputed dues – MSME                        -             -              -              -              -               -             -
+                                                                                                                                                       (iv) Disputed dues - Others                       -             -              -              -              -               -             -
+                                                                                                                                                       Total                                           307           796            443             30              3               2         1,581
