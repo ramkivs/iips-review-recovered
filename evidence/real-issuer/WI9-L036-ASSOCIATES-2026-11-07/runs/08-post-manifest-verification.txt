@@ -1,0 +1,27 @@
+# WI-9 / L-036 — 2026-11-07 — post-manifest verification
+
+Re-hashes every file the bundle manifest covers, then looks for anything shipped but not digested.
+
+$ python3 verify.py evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/digests.json
+
+OK    19daa04444cc637b…    10169 bytes  README.md
+OK    9e7f621d77371462…    55573 bytes  artifact/assessment-payload-l036.json
+OK    0fe3d48183426abf…     7564 bytes  determination-l036.json
+OK    887d623029749be0…      960 bytes  runs/01-ingest-rerun.txt
+OK    92542df9f40aa8d1…      736 bytes  runs/02-generate-persist.txt
+OK    6fd522b9d06e0dcf…     9066 bytes  runs/03-readback.json
+OK    40078dbfd7f50785…     4369 bytes  runs/04-v2-operator-path.txt
+OK    7b252d90c371c6a2…     2992 bytes  runs/05-review-control.txt
+OK    ae72e77d23ed696d…      757 bytes  runs/06-tests.txt
+OK    87a04200db729955…       90 bytes  runs/07-typecheck.txt
+OK    4b536d90050a8c23…     4569 bytes  runs/commands.txt
+OK    6b2218c3245ce75b…     6025 bytes  source/source-map.json
+OK    baf9a29a727788f9…     2293 bytes  source/verification-greps.txt
+
+digested 13 files, mismatches 0, undigested 0
+excluded by construction, and named in the manifest's own note: digests.json (the manifest itself),
+  runs/08-post-manifest-verification.txt (this transcript) and runs/09-clean-clone.txt (written after it) —
+  a manifest cannot digest the runs that certify it
+
+the artifact is the canonical payload: sha256 9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518,
+the same value the separate-process readback recomputed from the store (runs/03-readback.json).

@@ -2,7 +2,13 @@
 /**
  * IID-0 — fundamentals ingestion CLI (file in, files out).
  *
- *   tsx src/investment/cli/ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors]
+ *   tsx src/investment/cli/ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors] \
+ *     [--dataset-schema <IIPS_INVESTMENT_FUNDAMENTALS_V1|IIPS_INVESTMENT_FUNDAMENTALS_V2>]
+ *
+ * `--dataset-schema` declares the dataset grammar the operator is supplying. It is optional and defaults to the
+ * legacy V1 grammar, so every existing command line produces exactly the dataset it produced before. It exists
+ * because `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` is introduced by V2 (`L-036`): without a way to declare
+ * V2, the one item V2 adds could be accepted by the library and never by an operator.
  *
  * Input directory layout:
  *   roster.json              { issuers[], securities[], listings[] }   (required)
@@ -19,6 +25,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join, resolve } from 'node:path';
 
 import { buildDatasetContent, type DatasetInputs, type TextFile, type XbrlFileInput } from '../ingestion/builder';
+import { assertSupportedDatasetSchema, type DatasetSchema } from '../contracts/lineItems';
 import { COVERAGE_FILE_NAME, writeDataset } from '../ingestion/writer';
 import { canonicalize } from '../fundamentals/canonical';
 import { measureCoverage, renderCoverageSummary } from '../coverage/measure';
@@ -41,6 +48,8 @@ interface Args {
   readonly datasetDir: string;
   readonly now: string;
   readonly allowErrors: boolean;
+  /** The declared dataset grammar. Absent means the legacy V1 grammar, exactly as before the flag existed. */
+  readonly datasetSchema: DatasetSchema;
 }
 
 function parseArgs(argv: readonly string[]): Args {
@@ -51,13 +60,18 @@ function parseArgs(argv: readonly string[]): Args {
   const inputDir = get('--input');
   const datasetDir = get('--dataset-dir');
   if (inputDir === undefined || datasetDir === undefined) {
-    throw new Error('usage: ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors]');
+    throw new Error(
+      'usage: ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors] [--dataset-schema <schema>]',
+    );
   }
   return {
     inputDir: resolve(inputDir),
     datasetDir: resolve(datasetDir),
     now: get('--now') ?? new Date().toISOString(),
     allowErrors: argv.includes('--allow-errors'),
+    // Fail closed on a grammar this build does not know, before anything is read: `assertSupportedDatasetSchema`
+    // is the single authority on which schemas exist, so the CLI cannot invent one.
+    datasetSchema: assertSupportedDatasetSchema(get('--dataset-schema')),
   };
 }
 
@@ -69,7 +83,7 @@ function readTextFile(path: string): TextFile {
   return { name: path.split(/[\\/]/).pop() ?? path, text: readFileSync(path, 'utf8') };
 }
 
-export function loadInputs(inputDir: string): DatasetInputs {
+export function loadInputs(inputDir: string, datasetSchema?: DatasetSchema): DatasetInputs {
   const rosterPath = join(inputDir, 'roster.json');
   if (!existsSync(rosterPath)) throw new Error(`roster.json is required in ${inputDir}`);
   const roster = readJson<{ issuers: IssuerRecord[]; securities: SecurityRecord[]; listings: ListingRecord[] }>(rosterPath);
@@ -99,6 +113,7 @@ export function loadInputs(inputDir: string): DatasetInputs {
   }
 
   return {
+    ...(datasetSchema === undefined ? {} : { datasetSchema }),
     issuers: roster.issuers,
     securities: roster.securities,
     listings: roster.listings,
@@ -112,7 +127,7 @@ export function loadInputs(inputDir: string): DatasetInputs {
 
 export function run(argv: readonly string[]): number {
   const args = parseArgs(argv);
-  const inputs = loadInputs(args.inputDir);
+  const inputs = loadInputs(args.inputDir, args.datasetSchema);
   const content = buildDatasetContent(inputs);
 
   const errors = content.issues.filter((issue) => issue.severity === 'ERROR');
@@ -137,7 +152,8 @@ export function run(argv: readonly string[]): number {
   const coveragePath = join(args.datasetDir, COVERAGE_FILE_NAME);
   writeFileSync(coveragePath, `${JSON.stringify(JSON.parse(canonicalize(report)), null, 2)}\n`, 'utf8');
 
-  process.stdout.write(`\ndatasetVersion ${written.manifest.datasetVersion}\n`);
+  process.stdout.write(`\ndatasetSchema  ${written.manifest.datasetSchema}\n`);
+  process.stdout.write(`datasetVersion ${written.manifest.datasetVersion}\n`);
   process.stdout.write(`dataset        ${written.dir}\n`);
   process.stdout.write(`coverage       ${coveragePath}\n\n`);
   process.stdout.write(`${renderCoverageSummary(report)}\n`);

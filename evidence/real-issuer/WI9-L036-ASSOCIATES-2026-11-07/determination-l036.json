@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "recordId": "L-036",
+  "bundle": "WI-9 / L-036 \u2014 Infosys associates/JV carrying value and the POLICY_ZERO review control",
+  "date": "2026-11-07",
+  "baselineCommit": "c95c0480c96a6e88129785bcf14405a12462ade9",
+  "issuer": {
+    "legalName": "Infosys Limited",
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "securityId": "IN:ISIN:INE009A01021"
+  },
+  "question": "Does the primary evidence establish an associates/JV carrying value for FY2024, FY2023 or FY2022, and are the POLICY_ZERO treatment and its 180-day review control correctly represented?",
+  "answers": {
+    "carryingValueEstablished": false,
+    "why": "In all three periods the audited consolidated statements recognise no equity-accounted interest: no balance-sheet caption (Ind AS 1 para 54(e)), no share-of-associates line in profit or loss or OCI (Ind AS 1 para 82(c) / Ind AS 28), and a Note 2.5 decomposition that ties to the filed investment totals to the rupee in every period (24,623 / 19,478 / 20,324). An absent caption is not a nil, and D-2 forbids turning it into one.",
+    "policyZeroCorrectlyRepresented": true,
+    "reviewControlInForce": true,
+    "reviewControlInert": true,
+    "v2OperatorPathWasUnreachable": true,
+    "v2OperatorPathNowReachable": true
+  },
+  "periods": [
+    {
+      "periodEnd": "2024-03-31",
+      "nonCurrentInvestments": 11708,
+      "currentInvestments": 12915,
+      "totalInvestments": 24623,
+      "equityMethodInterestFound": false
+    },
+    {
+      "periodEnd": "2023-03-31",
+      "nonCurrentInvestments": 12569,
+      "currentInvestments": 6909,
+      "totalInvestments": 19478,
+      "equityMethodInterestFound": false
+    },
+    {
+      "periodEnd": "2022-03-31",
+      "nonCurrentInvestments": 13651,
+      "currentInvestments": 6673,
+      "totalInvestments": 20324,
+      "equityMethodInterestFound": false
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "candidate": "non-current Investments FY2024 11,708",
+      "why": "aggregate treasury and minority holdings, fully decomposed into Ind AS 109 categories; no equity-accounted component"
+    },
+    {
+      "candidate": "total investments 24,623 / 19,478 / 20,324",
+      "why": "treasury portfolio totals including current instruments"
+    },
+    {
+      "candidate": "named holdings 404 / 365 / 377",
+      "why": "minority stakes and fund interests carried at fair value; fair value is incompatible with the equity method"
+    },
+    {
+      "candidate": "Ideaforge equity 113",
+      "why": "a listed minority holding at FVOCI; no significant influence asserted"
+    },
+    {
+      "candidate": "Form AOC-1",
+      "why": "an annexure to the standalone statements, absent from the audited consolidated statements"
+    },
+    {
+      "candidate": "ownership percentages or associate results applied to a total",
+      "why": "forbidden by the work item and by D-2; nothing was inferred"
+    },
+    {
+      "candidate": "a nil declared from the omission",
+      "why": "the nil grammar requires the filer's own wording, a filing reference and a period; no sentence declares this balance nil"
+    }
+  ],
+  "reviewControl": {
+    "policyVersion": "associates-review/1.0.0",
+    "treatmentPolicyVersion": "associates-treatment/1.0.0",
+    "reviewAgeDays": 180,
+    "anchor": "clockStart = the newest balance-sheet instant in the dataset (DATASET_PERIOD_END), never an execution timestamp",
+    "clockStart": "2024-03-31",
+    "reviewDueOn": "2024-09-27",
+    "assessmentClock": "2026-11-06T14:05:00.000Z",
+    "elapsedDays": 950,
+    "status": "REVIEW_DUE",
+    "reviewRequired": true,
+    "boundaryEvidence": "179 days NOT_DUE, 180 days REVIEW_DUE, 181 days REVIEW_DUE (tests/investment/assessment-valuation-integrity.test.ts)",
+    "clockFree": true,
+    "clockMembersAbsentFromPayload": [
+      "elapsedDays",
+      "asOf"
+    ],
+    "inert": true,
+    "inertnessEvidence": "valuation.intrinsic.perShare and valuation.marginOfSafety are byte-identical to the Work Item 3 artifact"
+  },
+  "productDefectFoundAndCorrected": {
+    "id": "V2-OPERATOR-PATH-UNREACHABLE",
+    "finding": "Dataset schema V2 \u2014 the remedy IX declared for L-036 \u2014 could not be exercised by an operator: the ingest CLI never passed a datasetSchema, writeDataset never recorded the content's grammar in the manifest, and readDataset never restored it, so a V2 dataset written to disk was read back as V1 and its carrying value would have been refused.",
+    "correction": "ingest.ts gained an optional --dataset-schema (absent = V1, unknown = fail closed); writeDataset records the grammar; readDataset restores it. No policy, no D-2 semantic, no grammar, no valuation rule and no default changed.",
+    "proofV1Unchanged": "WI-3's committed dataset reproduces byte-for-byte (all ten files, including manifest.json) and the V1 payload digest is unchanged at 9e7f621d\u2026",
+    "proofV2Reachable": "the same committed input ingested as V2 yields associatesAndJV MISSING/NOT_REPORTED instead of NOT_COMPUTABLE/NOT_REPORTED, with the same treatment and review status; no value was supplied",
+    "tests": "tests/investment/cli.test.ts \u2014 'the dataset grammar is declared by the operator, and defaults to the legacy V1 grammar'"
+  },
+  "dataset": {
+    "committedDatasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+    "changed": false,
+    "schema": "IIPS_INVESTMENT_FUNDAMENTALS_V1"
+  },
+  "payload": {
+    "reportId": "430c6c1f-fed1-4437-8ebb-c814aaf02a9a",
+    "digest": "9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518",
+    "bytes": 55573,
+    "changedByThisWorkItem": false,
+    "supersedes": null,
+    "note": "This is the current-code payload for the unchanged WI-3 dataset, captured for readback evidence only. The WI-3 artifact stays byte-identical and remains the historical record."
+  },
+  "valuationImpact": {
+    "intrinsic": "unchanged",
+    "perShare": "unchanged",
+    "marginOfSafety": "unchanged",
+    "confidence": "unchanged by this work item; the WI-3 artifact's 0.6736 differs from today's 0.4378 because the authorized IX assumption caps apply, which is IX's change, not this one",
+    "why": "no dataset value, no observation, no policy and no valuation rule was touched"
+  },
+  "limitationStatus": {
+    "before": "PARTIALLY RESOLVED",
+    "after": "PARTIALLY RESOLVED",
+    "resolved": false,
+    "why": "the carrying-value criterion is not met and cannot be met for this issuer by a number: the statements recognise no such asset, and an omission is not a nil. The representational half is now demonstrably reachable by an operator, and the control is verified in force and inert.",
+    "whatWouldResolve": "an issuer that files an equity-accounted carrying value (V2 now carries it end to end), or an issuer sentence declaring the balance nil, or a register-owner decision to grade an absent caption"
+  },
+  "boundaries": {
+    "ixPolicyUnchanged": true,
+    "d2SemanticsUnchanged": true,
+    "periodAlignmentAndAggregationUnchanged": true,
+    "noNewPersistence": true,
+    "wi3ArtifactsPreserved": true,
+    "unrelatedLimitationsUnchanged": true,
+    "noIpDWrite": true
+  },
+  "verification": {
+    "targetedTests": "tests/investment/cli.test.ts 6/6; tests/investment/ixAuthorizedPolicy.test.ts, wi4AssociatesEvidence.test.ts, assessment-valuation-integrity.test.ts, dataset-schema-v2.test.ts all green",
+    "fullSuite": "681/681 in 156 suites",
+    "typecheck": "tsc --noEmit exit 0",
+    "readback": "separate process, recomputed digest = stored digest = chain head"
+  }
+}

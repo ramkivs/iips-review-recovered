@@ -1,0 +1,66 @@
+# WI-9 / L-036 — 2026-11-07 — every command, in the order it was run
+# cwd is the repository root unless a `cd` says otherwise. /tmp paths are scratch space, not evidence.
+
+## baseline
+git fetch origin --unshallow          # the clone is shallow; validators need history
+git rev-parse origin/main             # c95c0480c96a6e88129785bcf14405a12462ade9
+git status --porcelain               # clean before the work item started
+
+## the register and the earlier bundles
+sed -n '1300,1400p' docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md   # 17.3 (L-036)
+python3 -c "... investigation.json ..."                                      # WI-4 decision: NO_SUPPORTABLE_CARRYING_VALUE
+grep -n "associat|joint venture|equity method" evidence/real-issuer/WI4-.../source/*.txt   # filed text vs annotation
+
+## the governed run for the unchanged Work Item 3 input
+cd iips-platform
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input \
+  --dataset-dir /tmp/l036final/data/investment/dataset --now 2026-11-06T14:05:00.000Z
+#   -> datasetSchema IIPS_INVESTMENT_FUNDAMENTALS_V1
+#      datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+#      (identical to the committed WI-3 record; all ten files byte-identical — runs/01-ingest-rerun.txt)
+cd ../frontend
+IIPS_NP04_DATABASE_PATH=/tmp/l036final/data/investment/investment.db npx tsx \
+  server/investment/cli/generate-investment-artifacts.ts \
+  --issuer IN:CIN:L85110KA1981PLC013115 \
+  --data-dir /tmp/l036final/data/investment/dataset \
+  --identity-dir /tmp/l036final/data/investment/identity \
+  --db /tmp/l036final/data/investment/investment.db \
+  --owner-carrier /tmp/l036/owner.json \
+  --generated-at 2026-11-06T14:05:00.000Z --out /tmp/l036final/cli.json
+#   -> SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4378; reportKey ed1e54b03e5e…; payloadDigest 9e7f621d7737…
+#      persist CREATED (wrote); verify chain valid: 1 version(s), head v1; reportId 430c6c1f-fed1-4437-8ebb-c814aaf02a9a
+
+## readback in a separate process (scratch script, never committed)
+npx tsx /tmp/l036-readback.ts ...     # recomputed digest == stored digest == sha256 of the persisted payload
+
+## the V2 operator path: the defect, then the fix
+npx tsx --test tests/investment/dataset-schema-v2.test.ts          # 34/34 green — V2 works in the library
+grep -n "datasetSchema" src/investment/cli/ingest.ts               # no hits: the CLI could not declare it
+#   -> patched ingest.ts (--dataset-schema, fail-closed), writer.ts (manifest records + reader restores the grammar)
+npm ci                                                             # node_modules vanishes between sessions
+npx tsc --noEmit                                                   # exit 0
+npx tsx src/investment/cli/ingest.ts ... --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V2
+#   -> same datasetVersion, V2 declared; the V2-only column becomes MISSING rather than NOT_COMPUTABLE
+IIPS_NP04_DATABASE_PATH=... npx tsx server/investment/cli/generate-investment-artifacts.ts ... --data-dir /tmp/l036v2-2/...
+#   -> payloadDigest 11be57e03eadcf81284920d50eea49e5bb2126dc14f3c375cd832ab668e783d0
+#      associatesAndJV {"presence":"MISSING","reason":"NOT_REPORTED","value":null}
+#      treatment POLICY_ZERO_UNAVAILABLE, review REVIEW_DUE — identical to V1
+
+## the V1 default is provably untouched
+npx tsx src/investment/cli/ingest.ts ... --dataset-dir /tmp/l036v1-2/data/investment/dataset   # no flag
+diff -r /tmp/l036v1-2/data/investment/dataset \
+        ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset                      # no differences
+sha256sum /tmp/l036v1-2/data/investment/dataset/manifest.json                                # unchanged
+
+## verification
+npx tsx --test tests/investment/wi9AssociatesResolution.test.ts      # 17/17
+npx tsx --test tests/investment/cli.test.ts                          # 6/6
+npx tsx --test tests/investment/*.test.ts                            # 698/698 in 161 suites
+npx tsc --noEmit                                                     # exit 0
+
+## this bundle
+python3 (inline) -> source/source-map.json, source/verification-greps.txt, runs/03-readback.json,
+                    runs/04-v2-operator-path.txt, runs/05-review-control.txt, determination-l036.json
+python3 (inline) -> digests.json      (every file except itself and runs/08-… / runs/09-…, the verification logs)
+python3 (inline) -> runs/08-post-manifest-verification.txt   (re-hash every digested file; 0 mismatches)

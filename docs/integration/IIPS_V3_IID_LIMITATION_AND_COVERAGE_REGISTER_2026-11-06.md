@@ -2443,3 +2443,83 @@ reproduction, 10 net-debt reconciliation, `commands.txt`),
 `iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (26 tests). The WI-7 bundle is untouched and its guard
 still passes; the WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2, WI-8 and WI-8/`L-039` bundles are byte-identical and still
 verify.
+
+## 17.19 WI-9 / `L-036` — Infosys associates/JV: the carrying value is not merely unreported, it is not recognised; the 180-day control is verified in force; and the V2 path that could carry the figure was unreachable from the CLI until this work item (2026-11-07; primary evidence + governed run + one ingestion defect corrected)
+
+**Question.** `L-036` was opened at §17.3 with an answer — no carrying value exists — and a declared remedy: add an
+associates/JV line item to the dataset as schema V2, "so the term is a reported number rather than a policy zero". Its
+acceptance criteria are two, and only two: (a) establish the carrying value from primary evidence, and (b) show the
+`POLICY_ZERO` treatment and its 180-day review correctly represented. This work item asked both, and a third question
+that fell out of the first: **can an operator actually declare V2?**
+
+**What the primary evidence says — and it is stronger than §17.3 said.** In the filed text of all three periods there is
+no Ind AS 1 para 54(e) caption, no equity-method row in Note 2.5 or Note 2.5.1, and no share-of-associates line in profit
+or loss or in OCI; Note 2.5 decomposes to the filed investment totals **to the rupee** — 24,623 = 11,708 + 12,915,
+19,478 = 12,569 + 6,909, 20,324 = 13,651 + 6,673 — and Notes 2.19 (other income) and 2.25 (related parties, with the
+group-structure annexure), read in full, carry no associates/JV balance. The only "associated" wording in the statements
+is the income-tax transfer-pricing phrase in Note 2.24.1, which names no entity and carries no balance. §17.3 read that
+as an omission from the extraction; the correct reading is narrower and firmer: **Infosys holds no equity-accounted
+interest in an associate or joint venture in any of the three periods**, so there is no carrying value to map. Nothing
+was inferred — not from ownership percentages, not from associate results, not from the aggregate investment totals, not
+from a residual. Rejected by name: the non-current `Investments` 11,708 and the totals 24,623 / 19,478 / 20,324 (treasury
+and minority holdings, all Ind AS 109 categories), the named holdings 404 / 365 / 377 (fair value, which is incompatible
+with the equity method), Ideaforge's 113 (a listed minority stake at FVOCI, no significant influence asserted), and
+Form AOC-1 (an annexure to the *standalone* statements, absent from the audited consolidated set). An absent caption is
+not a nil, so no `DECLARED_NIL` either: D-2 still requires the filer's own wording, a filing reference and a period.
+
+**The control, verified rather than assumed.** The clock starts at the evidence date, never at the run:
+`clockStart` **2024-03-31** (`clockStartBasis` `DATASET_PERIOD_END`), `reviewAgeDays` **180**, `reviewDueOn`
+**2024-09-27** — 2024-03-31 plus 180 calendar days, checked as arithmetic. The assessment clock is
+**2026-11-06T14:05:00Z**, 950 days after the anchor (the payload publishes the same 950 as `stalenessDays`), so the
+status is **`REVIEW_DUE`** with `reviewRequired` true, `treatment` `POLICY_ZERO` under `associates-treatment/1.0.0` and
+`reviewPolicyVersion` `associates-review/1.0.0`. The boundary is already pinned test-side (179 days not due, exactly 180
+due, 181 due), and the persisted block is **clock-free**: it carries `clockStart`, `clockStartBasis`, `reviewAgeDays`,
+`reviewDueOn`, the policy versions, `reviewRequired`, `status`, `treatment` and `reason`, and neither `elapsedDays` nor
+`asOf`, so a later re-run cannot mint a version by waiting. It is inert in the only sense that matters: `intrinsic` and
+`marginOfSafety` are byte-identical to the Work Item 3 artifact. **No window, anchor, threshold or flag semantic was
+moved** — the entry's prohibition is intact.
+
+**The defect this work item found, and closed.** The declared remedy could not be exercised. `ingest.ts` never passed a
+`datasetSchema`, so every CLI ingest produced V1; `writeDataset` never recorded the content's grammar in the manifest, so
+a V2 build was written to disk under the V1 identifier; `readDataset` never restored it, so even a dataset written as V2
+was read back as V1 — the one case that *refuses* the very line item V2 exists to carry. In other words the line item was
+reachable from the library and from the tests and unreachable from the only production ingestion entry point. The
+correction is three small, contained changes: an optional `--dataset-schema <id>` resolved through
+`assertSupportedDatasetSchema` (absent = V1, unknown = fail closed before anything is read); the manifest recording the
+grammar the content was built under; and the reader restoring it. The V1 path is provably untouched — the Work Item 3
+dataset re-ingests to **all ten files byte-identical**, manifest included, and the V1 payload digest is unchanged at
+`9e7f621d…`. Declaring V2 for the same committed input changes only how the absence is described — `MISSING` where V1
+could only say `NOT_COMPUTABLE` (`11be57e03ead…`) — with the same `POLICY_ZERO_UNAVAILABLE` treatment and the same
+`REVIEW_DUE` review: **no figure is supplied, and none could be.**
+
+**What did not change, measured rather than claimed.** The dataset is unchanged (`sha256:21cf2522…`, same ten files);
+the committed Work Item 3 artifact is untouched and still the pre-IX record it always was (`confidence.combined`
+0.6736, `caps` `STALE_DATA` + `DILUTION_PROXY`); the live payload's **0.4378** differs only because the authorized IX
+assumption caps now apply — additive by category, 0.20 + 0.15, ceiling 0.35, `confidenceFloor: null` — which is IX's change
+recorded at §17.7 and is neither made nor re-opened here. Valuation is unchanged (`FAIR`, `mos-policy/1.0.0`), D-2
+semantics are untouched, no persistence mechanism, table, journal or cache was added, and no unrelated issuer, sector or
+repository was touched.
+
+**Statuses after §17.19.** `L-036` stays **`PARTIALLY RESOLVED`**, and the qualifier now means something precise: the
+**control** criterion is satisfied and verified in force, while the **carrying-value** criterion is not merely unmet but
+unsatisfiable by a number for this issuer — the statements recognise no such asset, and an omission is not a nil. What
+would resolve it is named: an issuer that files an equity-accounted carrying value (V2 now carries one end to end), an
+issuer sentence declaring the balance nil, or a register-owner decision to grade an absent caption. `L-038` stays
+**`OPEN`**, `L-039` **unchanged**, `L-040` **`RESOLVED`**, `L-035`/`L-037` **`OPEN`**, `L-034` **`RESOLVED`**, `L-001` …
+`L-033` untouched. No new limitation identifier was consumed. Next free §17.20 / CV-CORR-253 / CHG-2026-11-06-16 / V2148 —
+none of those references is spent, because this is an IRR-only work item with no IPD act.
+
+**Boundary this adds.** §17.17 established that an absence can be a fact, and §17.18 that a caption found late is a
+finding about the search rather than about the issuer. This entry adds two more: **a remedy can be built and still leave
+a limitation unresolved**, because it was a representational fix and not an evidential one; and **a schema able to hold a
+line item is not the same thing as a path able to deliver it** — which is why the remedy was tested by running the
+operator's command line rather than by reading the contract.
+
+**Evidence.** `evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/` — `README.md`, `determination-l036.json`, `source/`
+(`source-map.json` re-hashing the sixteen WI-4 extracts, `verification-greps.txt` with the filed-text caption scan and the
+Note 2.5 tie-outs), `runs/` (01 ingest rerun and byte-identity, 02 generate and persist, 03 readback, 04 the V2 operator
+path, 05 the review-control arithmetic, 06 tests, 07 typecheck, 08 post-manifest verification, 09 clean clone,
+`commands.txt`), `artifact/assessment-payload-l036.json` (the canonical payload, 55,573 bytes, guard-checked against the
+readback digest), `digests.json` — guarded by `iips-platform/tests/investment/wi9AssociatesResolution.test.ts` (17 tests),
+with the new CLI case in `tests/investment/cli.test.ts`. The WI-3, WI-4, WI-7 and WI-8 bundles are byte-identical and
+their guards still pass.
