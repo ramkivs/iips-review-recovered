@@ -1,0 +1,22 @@
+WI-6A-S1 — reproduction from a clean clone (2026-11-07)
+
+  git clone --no-hardlinks /home/user/iips-review-recovered /tmp/wi6as
+  ln -s <working tree>/iips-platform/node_modules /tmp/wi6as/iips-platform/node_modules
+  clone HEAD: abae0fd  "WI-6A-S1: Zensar consolidated wording reported but unread ..."
+
+  npx tsx --test tests/investment/wi6aSupplementalZensar.test.ts
+      # tests 10   # pass 10   # fail 0
+
+  digest verification against each bundle's own digests.json, in the clone:
+      WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07   6/6  digests verified   (this supplement)
+      WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07            7/7  digests verified   (original WI-6A, unchanged)
+      WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07            8/8  digests verified   (WI-6, unchanged)
+      WI5-PREFERENCE-CAPITAL-2026-11-07                 24/24 digests verified   (WI-5, unchanged)
+      WI3-BORROWINGS-NIL-2026-11-06                     30/30 digests verified   (WI-3, unchanged)
+
+Targeted suite run in the same clone alongside the supplement's guard: WI-6A original 9/9 pass, WI-6 + WI-5 guard
+17/17 pass, tsc --noEmit clean.
+
+What the clone proves: the supplement, its guard test, §9 of the record and §17.13 of the register travel with the
+commit, and no historical bundle moved. What it does not prove, and cannot: anything about printed pp.304-305 or
+pp.320-321 of the Zensar reports, which remain unrendered in this environment.
