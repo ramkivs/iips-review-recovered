@@ -1825,3 +1825,40 @@ remains due. No status was moved to accommodate this result.
 retained under `runs/superseded/` and `artifact/superseded/`; guarded by
 `iips-platform/tests/investment/wi5PreferenceCapitalEvidence.test.ts`, `tsc --noEmit` clean, and reproduced from a clean
 clone.
+
+## 17.11 WI-6 — second issuer search: no qualifying nil exists in the accessible filings
+
+**Date.** 2026-11-07. **Scope.** IRR only, Technology only, one pass. IPD untouched. No policy, schema, confidence,
+valuation or persistence change.
+
+**Outcome: negative, and no data change.** WI-6 was commissioned to produce a second issuer beside Infosys with a
+genuinely supported explicit nil-by-disclosure. It did not succeed, and it did not manufacture a success: **no dataset
+was ingested, no assessment generated, no artifact persisted, and no nil declared.** Infosys therefore remains the only
+issuer on record with a validated explicit nil.
+
+**What was searched.** The candidate register (`evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/candidates.json`)
+records ten issuers. Primary text was read for Newgen Software (Note 19 Borrowings, p.262: ₹219.92 lakh at 31-Mar-2024 —
+non-zero) and Sasken Technologies (consolidated Notes 13–15, 32–34: no borrowings note and no nil wording; its Note
+15(c) "only one class of equity shares" is the same scoped construction withdrawn in WI-5). Carried forward unchanged
+from the WI-5 pass: TCS, Tata Elxsi, HCLTech, Mphasis, Persistent, LTIMindtree, Happiest Minds and the subsidiary filers.
+Rejected on evidence class or scope: Birlasoft (MD&A only; filing unreadable), Tanla (borrowings non-zero), KFin
+(front-matter statement; financial-services classification), Capgemini Technology Services India (unlisted).
+
+**The exact blocker.** Zensar Technologies is the one candidate whose secondary evidence has the required form — a
+secondary aggregator attributes "The Company does not have any outstanding borrowings as at 31 March 2024 and 31 March
+2023" to its notes — and its primary filing could not be read: HTTP 403 from the NSE annual-report archive, HTTP 403
+from the storage mirror, HTTP 404 on the BSE annual-report path (`source/access-blockers.txt`). A secondary aggregator
+cannot establish a nil under D-2, and it is not shown there whether the sentence sits in the consolidated notes, so the
+candidate is recorded as **blocked, not established**. Zensar is the first candidate for the next pass.
+
+**Boundary this adds.** WI-3 shows what a nil needs (an affirmative sentence about the item); WI-5 shows that a sentence
+scoped to a different subject cannot carry one; WI-6 shows that an unreadable filing cannot carry one either. All three
+belong in the register because all three are ways a nil can be wrong or absent.
+
+**Statuses.** `L-036` remains **`PARTIALLY RESOLVED`**, `L-035` remains **`OPEN`**, `L-001` … `L-034` untouched, and the
+180-day `associates-review/1.0.0` control remains due. The WI-6 objective stays open; sector expansion remains deferred.
+
+**Evidence.** `evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/` — `candidates.json`, four page-anchored
+source extracts, `source/access-blockers.txt`, `runs/commands.txt`, `digests.json` — guarded by
+`iips-platform/tests/investment/wi6SecondIssuerSearch.test.ts`, which also verifies that the WI-3 and WI-5 bundles are
+byte-unchanged.

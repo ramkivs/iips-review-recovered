@@ -1,0 +1,35 @@
+SOURCE EXTRACT — Newgen Software Technologies Limited, Annual Report 2023-24, "Notes to consolidated financial
+statements for the year ended 31 March 2024", Note 19 "Borrowings", printed page 262.
+(All amounts in lakhs of Indian Rupees.)
+
+Document: https://nsearchives.nseindia.com/annual_reports/AR_24204_NEWGEN_2023_2024_27062024175523.pdf
+Text layer read through https://r.jina.ai/<document>, chunk 95 (printed pages 261-263).
+Issuer CIN: L72200DL1992PLC049074 (printed on the AR cover letter and the corporate information page).
+
+--- verbatim (text layer) ---
+
+19  Borrowings
+Particulars As at 31 March 2024 As at 31 March 2023
+Non Current Borrowings
+- Deferred payment liabilities - 220.05
+- 220.05
+Particulars As at 31 March 2024 As at 31 March 2023
+Current Borrowings
+Current maturities of deferred payment liabilities 219.92 203.50
+219.92 203.50
+
+Reconciliation between the opening and closing balances in the balance sheet for liabilities arising from financing
+activities
+Name of the entity Balance as at 31 March 2023 Interest Accrued Loan repayments Other non cash changes Balance as at 31 March 2024
+Erstwhile shareholders of Number Theory Software Private Limited 423.55 30.61 (234.24) - 219.92
+
+--- what this establishes ---
+
+Newgen carries borrowings in both periods (₹219.92 lakh at 31 March 2024 against ₹423.55 lakh at 31 March 2023,
+being deferred payment liabilities owed to the erstwhile shareholders of Number Theory Software Private Limited).
+It is not a nil candidate for any borrowings line item.
+
+--- what this does NOT establish ---
+
+Nothing about other issuers, and nothing about preference capital or the current-maturities line of any other issuer.
+This extract exists to record a candidate that was examined and rejected on its own numbers.

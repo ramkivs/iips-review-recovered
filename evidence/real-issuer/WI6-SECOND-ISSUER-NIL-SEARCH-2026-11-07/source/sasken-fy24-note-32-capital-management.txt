@@ -1,0 +1,30 @@
+SOURCE EXTRACT — Sasken Technologies Limited, Annual Report 2023-24, "Notes to the Consolidated Financial
+Statements", Note 32 "Capital management", printed page 217.
+
+Document: https://www.bseindia.com/xml-data/corpfiling/AttachHis/3c9de688-ed93-4eb8-b632-1109e5b91e04.pdf
+Text layer read through https://r.jina.ai/<document>, chunk 89 (printed pages 215-218).
+
+--- verbatim (text layer) ---
+
+32.  Capital management
+The Group's policy is to maintain a strong capital base so as to maintain investor, creditor and market confidence and
+to sustain future development of the business. Management monitors the return on capital as well as the level of
+dividends to equity shareholders.
+The Group monitors capital using a ratio of 'adjusted net debt' to 'adjusted equity'. For this purpose, adjusted net debt
+is defined as total liabilities less cash and cash equivalents. Adjusted equity comprises all components of equity, other
+than amounts accumulated in the hedging reserve.
+The Group's policy is to keep the ratio below 2.00.
+Total liabilities 14,136.17 10,380.78
+Less: Cash and cash equivalents and other bank balances 5,515.68 2,795.58
+Adjusted net debt 8,620.49 7,585.20
+Total equity 76,882.38 71,933.02
+Adjusted net debt to adjusted equity ratio 0.11 0.11
+
+--- what this establishes ---
+
+That Sasken's capital-management note defines and reports a leverage ratio rather than declaring a borrowings position.
+
+--- what this does NOT establish ---
+
+Any nil. There is no sentence in this note stating that borrowings, preference capital or current maturities are nil;
+the note does not even mention borrowings.

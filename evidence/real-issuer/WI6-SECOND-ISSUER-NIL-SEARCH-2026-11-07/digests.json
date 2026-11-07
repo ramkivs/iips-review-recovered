@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "digests.json (this file)",
+    "runs/02-guard-test.txt, runs/03-typecheck.txt \u2014 this bundle's own test and typecheck output, committed verbatim"
+  ],
+  "result": {
+    "accepted": 0,
+    "decision": "NO_QUALIFYING_NIL_FOUND",
+    "ingested": false,
+    "persisted": false
+  },
+  "fileCount": 7,
+  "files": {
+    "README.md": {
+      "sha256": "9aa360e4345a36c37602a9a6c957123394d8aad411e99c0bc5196af3ee5967c0",
+      "bytes": 4483
+    },
+    "candidates.json": {
+      "sha256": "4e72a921d03773317f1e20866cb7b004fc504392ffbb675955d257344fc2e4e1",
+      "bytes": 7822
+    },
+    "runs/commands.txt": {
+      "sha256": "8d6bd4c7b9a3e098bac9e744f9e2b6015d03c9288d5eefb18bdc1f57a9eaeec4",
+      "bytes": 2293
+    },
+    "source/access-blockers.txt": {
+      "sha256": "15e0d4861e0634a5d90ccc574d49ac2428acc1ae55fa95b190c62eaf5d707170",
+      "bytes": 2094
+    },
+    "source/newgen-fy24-note-19-borrowings.txt": {
+      "sha256": "803d24ac0e627900c10fda58362b75ac3d9fc61a3094677f5669b62c8e08326c",
+      "bytes": 1779
+    },
+    "source/sasken-fy24-note-15-equity-share-capital.txt": {
+      "sha256": "0c9c99a5f94da0c5c334ffaa24c72f77ebb0aa584a1a324a7c1f47a50d3cb8da",
+      "bytes": 1590
+    },
+    "source/sasken-fy24-note-32-capital-management.txt": {
+      "sha256": "0b8ec5d350503427e97edcf874f35b68feeae7b6342cb5c10b18798d0cda74e4",
+      "bytes": 1617
+    }
+  }
+}

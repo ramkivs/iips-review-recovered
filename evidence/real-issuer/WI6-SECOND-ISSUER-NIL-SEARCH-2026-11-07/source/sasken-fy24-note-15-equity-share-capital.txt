@@ -1,0 +1,27 @@
+SOURCE EXTRACT — Sasken Technologies Limited, Annual Report 2023-24, "Notes to the Consolidated Financial
+Statements", Note 15 "Equity share capital", printed pages 194-196. (Amounts in lakhs of Indian Rupees.)
+
+Document: https://www.bseindia.com/xml-data/corpfiling/AttachHis/3c9de688-ed93-4eb8-b632-1109e5b91e04.pdf
+Text layer read through https://r.jina.ai/<document>, chunk 81 (printed pages 193-196).
+Issuer CIN: L72100KA1989PLC014226 (printed on the AR cover letter).
+
+--- verbatim (text layer, selected) ---
+
+15.  Equity share capital
+Authorised: 55,000,000 (March 31, 2023: 55,000,000 ) equity shares of ` 10 each   5,500.00   5,500.00
+Issued, subscribed and paid up capital: 15,077,941 (March 31, 2023 : 15,050,871) equity shares of ` 10 each fully paid up   1,507.80   1,505.09
+
+(c)  Rights, preference and restrictions attached to the equity shares:
+The Company has only one class of equity shares having a par value of ` 10 per share. Accordingly, all equity shares rank
+equally with regard to dividends and share in the Company's residual assets. ...
+
+--- what this establishes ---
+
+That Sasken has a single class of equity shares of ₹10 each, with the usual Schedule III rights and restrictions
+disclosed under a heading about equity shares.
+
+--- what this does NOT establish ---
+
+The absence of preference share capital, and nothing at all about borrowings. This is textually the same construction
+that was withdrawn as a nil in WI-5 (eClerx Note 13): a sentence scoped by its heading to equity shares. It is recorded
+here so that the same trap is not walked into twice.
