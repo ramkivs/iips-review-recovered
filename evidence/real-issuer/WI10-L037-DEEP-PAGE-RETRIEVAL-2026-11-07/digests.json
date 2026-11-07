@@ -3,7 +3,7 @@
  "workItem": "WI-10",
  "item": "L-037",
  "bundle": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/",
- "generatedAtUtc": "2026-11-07T17:58:34Z",
+ "generatedAtUtc": "2026-11-07T18:00:50Z",
  "note": "sha256 of every file in this bundle that a later run does not rewrite. The manifest excludes itself, the test log (runs/03, rewritten by every test run), the clean-clone record (runs/06) and the manifest verification (runs/07) -- each is produced by a run performed after this manifest was written, so digesting them would make the manifest false the moment it was checked. The exclusion is stated, not silent: runs/07-manifest-verification.txt re-hashes every file listed here and prints the result.",
  "excluded": [
   "digests.json",
@@ -11,7 +11,7 @@
   "runs/06-clean-clone.txt",
   "runs/07-manifest-verification.txt"
  ],
- "fileCount": 24,
+ "fileCount": 12,
  "files": [
   {
    "path": "README.md",
@@ -25,78 +25,18 @@
   },
   {
    "path": "control/README.md",
-   "bytes": 1226,
-   "sha256": "9258d1c72aa22f13c16228c0f563c641aa1fd1a56ec8690b57ad75a1ebe8d13f"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt",
-   "bytes": 21062,
-   "sha256": "c4b86f2d436590d152c97ecb38d0c6f9c22558f82f5520ada1aaf2b99a88bdc1"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy23-consolidated-note-11b-lease-liabilities.txt",
-   "bytes": 12202,
-   "sha256": "e7bf92ce216843de5fd9212a79bc1de2623cdb6787cb62441b7063ed9e4f844b"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy23-consolidated-note-27-capital-management.txt",
-   "bytes": 12630,
-   "sha256": "adde6484f15ac3d7363c6ccb8ba23614005c8c652802fb12cf5088716e5e40be"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy23-consolidated-statement-of-cash-flows.txt",
-   "bytes": 12588,
-   "sha256": "cc1ad5a0d3439a4a19c850a515a01b028d9123aa2562394887c54471c307fe9c"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy23-isin-and-listing-identifiers.txt",
-   "bytes": 15224,
-   "sha256": "f12dc34f2e10f9fb859db58060950992805fd6b8fa8e8fa0ff9ee4e9891dc0a6"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt",
-   "bytes": 21599,
-   "sha256": "e1111119f49c11da4b1c716fe711928df65443699f494c2d7730778686dbfee7"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy24-consolidated-note-11b-lease-liabilities.txt",
-   "bytes": 12898,
-   "sha256": "4f9abea2fa58df3ab386da049c838e140e3ba49d965f783426f997a6e2a8b4f9"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy24-consolidated-note-27-capital-management.txt",
-   "bytes": 14171,
-   "sha256": "21fa1206e6a22beb758b5f8a96e8a56bd2b5a9981888d8fe6f431bed915b958f"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy24-consolidated-note-33-lease-movement.txt",
-   "bytes": 14596,
-   "sha256": "7d3e9a63a8a8ce072351147f9f2c4fc66ccbe185eb64c61c6558302be6147e60"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy24-consolidated-statement-of-cash-flows.txt",
-   "bytes": 10518,
-   "sha256": "2d361e265176246a92ede271f3eadbaf9c7e5879ac7a280aa34935c3482a3cbb"
-  },
-  {
-   "path": "control/fabricated-claim/source/fy24-isin-and-listing-identifiers.txt",
-   "bytes": 22947,
-   "sha256": "750c2074a19a93c890436dd8a99ccf8772f292599afa475df15b8da126fc4659"
+   "bytes": 1534,
+   "sha256": "d3e4ddc0d290ce7bd2886baaebe04deb12e1f6b8bf13a3e76aa34a72665bee3f"
   },
   {
    "path": "control/fabricated-claim/source/page-map.json",
-   "bytes": 4006,
-   "sha256": "9b2a88ede14b27535f91ead9eeeb9143b9cda2f03dc9dcdf0f8bc2b9e8ece9e4"
+   "bytes": 4611,
+   "sha256": "5c5026b6983439bbc76e1a5677dec09ae1b36ad8b0bad911d780cb629691924b"
   },
   {
    "path": "control/fabricated-claim/source/quotes-verified.json",
    "bytes": 5472,
    "sha256": "f63daf1c723047e28e7f5b22ffbbdaaced37f68d5c54a37c5af12f590ef27703"
-  },
-  {
-   "path": "control/fabricated-claim/source/retrieval-log-s2.txt",
-   "bytes": 4621,
-   "sha256": "badd1c2e584e71b705addfdb515b02b5832371dc08f47d6f4e62d7c739e1f7de"
   },
   {
    "path": "control/fabricated-claim/source/source-bytes.json",
@@ -121,7 +61,7 @@
   {
    "path": "runs/02-control-verdict.txt",
    "bytes": 1649,
-   "sha256": "ea3c68200f2d9053ac435040ccf9a6e36f5138e2d452c856f2bf655cc892949d"
+   "sha256": "54772424ae43b766c9e440b77a4ae1e221c1cf9646162cf38e2136303529083c"
   },
   {
    "path": "runs/04-existing-guards.txt",
