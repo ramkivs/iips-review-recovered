@@ -1,0 +1,170 @@
+{
+  "bundle": "WI-8 \u2014 Industrials / KEC International Limited",
+  "generatedAt": "2026-11-07",
+  "files": {
+    "README.md": {
+      "sha256": "5711618621ad8d71f337575b4f6e3228840d6e6c787fab7720d31285c0a49ac2",
+      "bytes": 26814
+    },
+    "artifact/assessment-payload-kec-wi8.json": {
+      "sha256": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+      "bytes": 52357
+    },
+    "determination-wi8.json": {
+      "sha256": "7f39616013ed02a2bbe5a12bff24be3714ad00ab61ff4bcf2a32637bbadc6a4b",
+      "bytes": 20814
+    },
+    "ingest-input/data-extraction.json": {
+      "sha256": "44e80efd84468f62ecca5ca2c3a5615f37a45a682596d81e1cc709cb24f1ab8e",
+      "bytes": 26857
+    },
+    "ingest-input/identity/corporate-actions.json": {
+      "sha256": "6db8b7cf6ad5764cf2f2c26793e4359c068426342526bcf9cb74c4c87e104ab5",
+      "bytes": 558
+    },
+    "ingest-input/identity/eligible-roster.json": {
+      "sha256": "31123077207b90f463266e264b3256cf4fc10f30b835ee60f62a29d6a615a333",
+      "bytes": 794
+    },
+    "ingest-input/identity/listing-map.json": {
+      "sha256": "ba3ff2e7a88fb3f3019e133e996bd5869365ea3470f3d27372ad372d3d91e07c",
+      "bytes": 1522
+    },
+    "ingest-input/periods.csv": {
+      "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd",
+      "bytes": 2011
+    },
+    "ingest-input/roster.json": {
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6",
+      "bytes": 2166
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "5c5504f5fa08fb5c47c875888a3fcdfce3c85824f1a11091dbcbb81db6a7ba52",
+      "bytes": 1514
+    },
+    "runs/02-generate.txt": {
+      "sha256": "baf80647b9aae1ffa4e68d0c5360d1753eab629ae0980e077b839825d95b6ad1",
+      "bytes": 5543
+    },
+    "runs/03-chain-read.txt": {
+      "sha256": "a79795ac2d073a2a95c20c271bb305a33a52ad6f006291720d915e88dc8cf326",
+      "bytes": 1532
+    },
+    "runs/03-generate-again.txt": {
+      "sha256": "05606c71055ce27a24477a774094a3dc694a850a3cbaaffd29d00e82f5027ff9",
+      "bytes": 5553
+    },
+    "runs/04-payload-findings.json": {
+      "sha256": "a9577a9da7ed979cf01726587f4d65238e9542c2ff93afac7426f51a22a2f23e",
+      "bytes": 16018
+    },
+    "runs/05-guard-test.txt": {
+      "sha256": "0f513fb68168d873e18b6fcebc52fad089225baf9f456817b2c7b9c8440a1a95",
+      "bytes": 38393
+    },
+    "runs/06-typecheck.txt": {
+      "sha256": "339f7b2fae338fbbf7c979120df31187745a531759f75c69be684e5b918b80cc",
+      "bytes": 302
+    },
+    "runs/07-clean-clone.txt": {
+      "sha256": "c05bfbda6a29be94c9afe93ac22570dd7726fad3c128739ddde36d4bb732e825",
+      "bytes": 846
+    },
+    "runs/08-ci-check.txt": {
+      "sha256": "a604b9f25a509fd6f31be4d67d5d1faef6d957ee8ebe2eecfcc8e5b1baa77203",
+      "bytes": 2232
+    },
+    "runs/cli-wi8-unchanged.json": {
+      "sha256": "92a4242d5ab4265bf5ba267845d0b7eb194173597c3340ecda838a7f1cb8c11f",
+      "bytes": 4825
+    },
+    "runs/cli-wi8.json": {
+      "sha256": "34c7e4adc74f9fdb0d2908ac01fb8da5e9f774e3816ea459cc26ad47356d9df8",
+      "bytes": 4821
+    },
+    "runs/commands.txt": {
+      "sha256": "576bbebeb53a7d9d8242fb65f78000d71a9b9e63f52ea589824fe63578256f33",
+      "bytes": 5465
+    },
+    "runs/readback-stdout.txt": {
+      "sha256": "d7d55ef18fb709dbc619f561436d7935490881a6c8ae385dde1a698ee6f9de8f",
+      "bytes": 4635
+    },
+    "runs/readback.json": {
+      "sha256": "a6cd6230d343649855eeba683ffb41090a81431fa3757461a7b8c889b1d98aec",
+      "bytes": 11224
+    },
+    "source/fy25-consolidated-balance-sheet-and-profit-and-loss-pdf-page110.txt": {
+      "sha256": "3c9150854e554a9022e53e8d1e10083210eaf0cd26588479d82bf930bc3df318",
+      "bytes": 19579
+    },
+    "source/fy25-consolidated-cash-flow-financing-pdf-page112.txt": {
+      "sha256": "e34d841031dd0b9502938d643635a4d3f05db26c078f39ab665b7049551ea5d1",
+      "bytes": 19997
+    },
+    "source/fy25-consolidated-cash-flow-operating-and-investing-pdf-page111.txt": {
+      "sha256": "31b1dbb65435dc0a7fcca26d2e6a15af039978b30405a1046d78f8c144406abb",
+      "bytes": 39248
+    },
+    "source/fy25-note-30-borrowings-pdf-page129.txt": {
+      "sha256": "5939cc4f4290d0595a64a471916de0cc8704172ed8dc9810eb00c6823516a6e8",
+      "bytes": 14786
+    },
+    "source/fy26-accounting-policy-ind-as-basis-pdf-page120.txt": {
+      "sha256": "1b76689239dbe9d0f02820d6eb84352febef3411d3cc864759e311d9507d5de5",
+      "bytes": 19260
+    },
+    "source/fy26-auditor-opinion-consolidated-pdf-page111.txt": {
+      "sha256": "5943e241c5c8cd8b840dfaffc3f14711cf499310bf7ac161bcba2ef08d75d772",
+      "bytes": 20738
+    },
+    "source/fy26-auditor-signature-and-firm-details-pdf-page115.txt": {
+      "sha256": "c7f40e90b0b19fd31a5d11a0145bd8236f8c1fa801b1b25bc5ddf27687736eb0",
+      "bytes": 11511
+    },
+    "source/fy26-consolidated-balance-sheet-and-profit-and-loss-pdf-page117.txt": {
+      "sha256": "da5d5f73e3cdcb015636b1bcd576a6c34ba11f6fe5d8f8360a6c7dc3ee93912b",
+      "bytes": 18853
+    },
+    "source/fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt": {
+      "sha256": "5f5c6ec2919ffadc28809280dd7c0466a9bb3a2b2bc9b40b9a9fd967af9ba81a",
+      "bytes": 19008
+    },
+    "source/fy26-consolidated-cash-flow-operating-and-investing-pdf-page118.txt": {
+      "sha256": "a52ada4a384401c6fe7ce83d8a2a14b999cdb816beafaf68d5094a80bb4e8e26",
+      "bytes": 97620
+    },
+    "source/fy26-identity-isin-and-listing-pdf-page107.txt": {
+      "sha256": "d1277e08b53c1754d32aaead7b082aa52e86417d603060d0b35d38fc4d2014a6",
+      "bytes": 20352
+    },
+    "source/fy26-mdna-key-metrics-pdf-page28.txt": {
+      "sha256": "6546a3f065e9e6e122b93aef25b8cc62073018f855db7476f47a71cc592f2791",
+      "bytes": 12178
+    },
+    "source/fy26-note-30-borrowings-pdf-page136.txt": {
+      "sha256": "ffa4668536bb1f7add8b9ba518ede58d1c6af02893a7d63a8076ea323c6a4b2d",
+      "bytes": 15541
+    },
+    "source/fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt": {
+      "sha256": "3fa001b894aef5af95e7ecb7bea7a7eb182f7b703c73c12dc43fbcd8d9fa9e95",
+      "bytes": 13216
+    },
+    "source/fy26-order-intake-and-order-book-pdf-page6.txt": {
+      "sha256": "aab401554ba89f6d03294fef8f038a74c2dd385ff711b32009d53f69e90c7764",
+      "bytes": 8945
+    },
+    "source/identity-nse-corroboration.json": {
+      "sha256": "1934406d5f0ed066013b8422a28b5b8c882a93f4e74b86e270b733cb9ad2197c",
+      "bytes": 1606
+    },
+    "source/page-map.json": {
+      "sha256": "241a5532f529e0f18627e1e43e5316d55c4b213dc328672d7620530a5fd32c0e",
+      "bytes": 5476
+    },
+    "source/source-bytes.json": {
+      "sha256": "9600930888b8416e2dcfc6c315c322e01b47838aac89a3b67d6a3632a05d8c90",
+      "bytes": 1306
+    }
+  }
+}

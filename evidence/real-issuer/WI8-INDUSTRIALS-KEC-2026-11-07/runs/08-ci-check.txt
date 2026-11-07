@@ -1,0 +1,36 @@
+## What CI actually reported for this branch and pull request (2026-11-07)
+
+Repository: ramkivs/iips-review-recovered
+Branch:     arena/60fea33a-iips-review-recovered
+PR:         #505
+
+$ gh pr checks 505
+no checks reported on the 'arena/60fea33a-iips-review-recovered' branch
+
+## Why
+
+`.github/workflows/cap03-revision7-irr-static.yml` ("CAP-03 Revision 7 IRR-only static checks") is the only workflow
+configured for these paths, and it is path-filtered: `pull_request` runs only when the change touches a fixed list
+(`.gitattributes`, the master tracker, specific CAP-03 `docs/integration/…` files, `tests/validation/test_cap03_*`,
+`docs/integration/cap03-s2/verify_recovery_release.py`, `ci.yml`, the workflow itself). This pull request changes none of
+those paths — it adds `docs/integration/IIPS_V3_IID_WI8_INDUSTRIALS_KEC_2026-11-07.md`, appends §17.16 to the limitation
+register, adds the WI-8 evidence bundle, and adds one guard test — so GitHub produced no run for it.
+
+$ gh run list --workflow=cap03-revision7-irr-static.yml --limit 5
+42354428014  6575d68f  completed  success  push          2026-11-07T08:11:47Z
+42353456653  858a6241  completed  success  pull_request  2026-11-07T07:58:16Z
+42353279839  d977cf84  completed  success  pull_request  2026-11-07T07:55:33Z
+42353056595  6924079f  completed  success  pull_request  2026-11-07T07:52:13Z
+42352744264  bec815f5  completed  failure  pull_request  2026-11-07T07:47:36Z
+(the newest of these is the WI-7 merge on main; none of them is a WI-8 run)
+
+## What is therefore claimed, and what is not
+
+* CLAIMED: no CI check ran for this pull request, and GitHub's own `gh pr checks` output says so.
+* CLAIMED: the local verification in `runs/05-guard-test.txt`, `runs/06-typecheck.txt` and `runs/07-clean-clone.txt`
+  (133/133 tests, two typechecks exit 0, clean-clone reproduction of datasetVersion and payload digest).
+* NOT CLAIMED: any CI success for this pull request. No npm, frontend or IPD CI runs for these paths, and none is
+  asserted.
+
+`git diff --check` was run locally before every commit and is clean; the extracts declare their whitespace
+normalisation in each header because that check is the one governance validator these paths would meet on merge.

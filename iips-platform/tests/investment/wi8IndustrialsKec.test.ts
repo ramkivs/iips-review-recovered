@@ -435,6 +435,18 @@ describe('WI-8 — the register, the record, and what must not have changed', ()
     }
   });
 
+  test('this bundle is internally consistent: every digested file is the file it was digested as', () => {
+    const manifest = readJson('digests.json');
+    const files = manifest.files as Record<string, { sha256: string; bytes: number }>;
+    assert.ok(Object.keys(files).length >= 40, 'the WI-8 manifest lost files');
+    for (const [file, entry] of Object.entries(files)) {
+      const data = readFileSync(join(BUNDLE, file));
+      assert.equal(sha256(data), entry.sha256, `${file} digest drift`);
+      assert.equal(data.byteLength, entry.bytes, `${file} byte length drift`);
+    }
+    assert.equal(files['artifact/assessment-payload-kec-wi8.json'].sha256, PAYLOAD_DIGEST);
+  });
+
   test('the earlier real-issuer bundles still verify by digest', () => {
     for (const bundle of [
       'WI7-CONSUMER-MARICO-2026-11-07',
