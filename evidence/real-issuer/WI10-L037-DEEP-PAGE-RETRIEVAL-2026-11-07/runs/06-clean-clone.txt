@@ -1,0 +1,39 @@
+# clean clone — a fresh copy of the pushed commit, with its own install
+# 2026-11-07T18:02:09Z
+$ git clone --branch arena/8133630f-iips-review-recovered --single-branch https://github.com/ramkivs/iips-review-recovered.git /tmp/l037clone
+$ git log --oneline -1
+32a9473 fix(iid): L-037 — the control references the real extracts by path instead of copying them
+$ git status --porcelain | grep -v 'runs/06-clean-clone.txt' | wc -l   # the only working-tree change is this run log
+0
+$ npm ci
+exit=0 (installed)
+
+$ npx tsx --test tests/investment/retrieval-evidence.test.ts
+# tests 27
+# pass 27
+# fail 0
+exit=0
+
+$ npx tsx --test tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts tests/investment/nil-binding.test.ts
+# tests 36
+# pass 36
+# fail 0
+exit=0
+
+$ npx tsc --noEmit
+exit=0
+
+$ npx tsx src/investment/cli/verify-retrieval-evidence.ts ../evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07
+  documents 2 (retrieved 2), page extracts 11, quotations 2 (read 2)
+
+OK — every quotation was read from an extracted page of a retrieved document, and every
+     extract agrees with the record that cites it (document, page index, printed pages, digest).
+exit=0
+
+$ npx tsx src/investment/cli/verify-retrieval-evidence.ts ../evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim
+exit=1
+named violations: 8
+
+$ python3 (re-hash every file listed in the bundle manifest, from the clone)
+12 files checked, 0 mismatch(es)
+exit=0

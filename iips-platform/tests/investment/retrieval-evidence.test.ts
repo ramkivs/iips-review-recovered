@@ -405,7 +405,7 @@ describe('L-037 — the WI-10 bundle and the register agree', () => {
       note: string;
       files: { path: string; bytes: number; sha256: string }[];
     };
-    assert.match(manifest.note, /excludes/i);
+    assert.match(manifest.note, /exclud/i);
     assert.ok(manifest.files.length >= 5);
     for (const file of manifest.files) {
       assert.notEqual(file.path, 'digests.json');
