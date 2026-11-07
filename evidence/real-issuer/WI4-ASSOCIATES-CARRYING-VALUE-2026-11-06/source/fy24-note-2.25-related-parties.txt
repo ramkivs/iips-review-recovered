@@ -1,0 +1,82 @@
+SOURCE EXTRACT — verbatim text layer of Note 2.25 RELATED PARTY TRANSACTIONS (entity roster, trusts, KMP)
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2024
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Pages    : 50–52 (Note 2.25)
+Units    : holdings as %; compensation in ₹ crore
+Read via : full-document reader of the same PDF (all 57 pages); page anchors as printed in the filed text
+
+2.25 RELATED PARTY TRANSACTIONS
+
+List of related parties:
+Name of subsidiaries | Country | Holdings as at March 31, 2024 | March 31, 2023
+
+Infosys Technologies (China) Co. Limited (Infosys China) (1) | China | 100% | 100%
+Infosys Technologies S. de R. L. de C. V. (Infosys Mexico) (1) | Mexico | 100% | 100%
+Infosys Technologies (Sweden) AB (Infosys Sweden) (1) | Sweden | 100% | 100%
+Infosys Technologies (Shanghai) Company Limited (Infosys Shanghai) (1) | China | 100% | 100%
+EdgeVerve Systems Limited (EdgeVerve) (1) | India | 100% | 100%
+Infosys Austria GmbH (1) | Austria | 100% | 100%
+Skava Systems Private Limited (Skava Systems) (1)(22) | India | 100% | 100%
+Infosys Chile SpA (1) | Chile | 100% | 100%
+Infosys Arabia Limited (2)(22) | Saudi Arabia | 70% | 70%
+Infosys Consulting Ltda. (1) | Brazil | 100% | 100%
+[…]  (the list continues without a break, 100%-owned or majority-owned subsidiaries only, in the filed order: Infosys
+Public Services, Infosys BPM Limited and its subsidiaries, Panaya, Brilliant Basics, Infosys Consulting Holding AG and
+its subsidiaries, GuideVision, Infosys Nova, Simplus/Kaleidoscope, Blue Acorn iCi, Infosys Singapore and its
+subsidiaries, Fluido, Stater N.V. and its subsidiaries, WongDoody and the oddity entities, BASE life science and its
+subsidiaries …)
+BASE life science A/S (13)(24) | Denmark | 100% | 100%
+BASE life science AG (25) | Switzerland | 100% | 100%
+BASE life science GmbH (25) | Germany | 100% | 100%
+BASE life science S.A.S (25) | France | 100% | 100%
+BASE life science Ltd. (25) | U.K. | 100% | 100%
+BASE life science S.r.l. (25) | Italy | 100% | 100%
+Innovisor Inc. (25) | U.S. | 100% | 100%
+BASE life science Inc. (25) | U.S. | 100% | 100%
+BASE life science S.L. (25)(26) | Spain | 100% | 100%
+
+Footnote markers used in the list, verbatim in part:
+(2) Majority owned and controlled subsidiary of Infosys Limited
+(22) Under liquidation
+(30) Liquidated effective July 14, 2023
+(34) Kaleidoscope Prototyping LLC, a Wholly-owned subsidiary of Kaleidoscope Animations is liquidated effective
+     November 1, 2023
+(36) On March 15, 2024 Infosys BPM Canada Inc., a Wholly-owned subsidiary of Infosys BPM Limited got dissolved.
+
+Particulars | Country
+Infosys Limited Employees' Gratuity Fund Trust | India | Post-employment benefit plan of Infosys
+Infosys Limited Employees' Provident Fund Trust | India | Post-employment benefit plan of Infosys
+Infosys Limited Employees' Superannuation Fund Trust | India | Post-employment benefit plan of Infosys
+Infosys BPM Limited Employees' Superannuation Fund Trust | India | Post-employment benefit plan of Infosys BPM
+Infosys BPM Limited Employees' Gratuity Fund Trust | India | Post-employment benefit plan of Infosys BPM
+EdgeVerve Systems Limited Employees' Gratuity Fund Trust | India | Post-employment benefit plan of EdgeVerve
+EdgeVerve Systems Limited Employees' Superannuation Fund Trust | India | Post-employment benefit plan of EdgeVerve
+Infosys Employees Welfare Trust | India | Controlled trust
+Infosys Employee Benefits Trust | India | Controlled trust
+Infosys Science Foundation | India | Controlled trust
+Infosys Expanded Stock Ownership Trust | India | Controlled trust
+Infosys Foundation (1) | India | Trust jointly controlled by KMPs
+
+List of key management personnel
+Whole-time Directors; Non-whole-time Directors (Nandan M. Nilekani, D. Sundaram, Kiran Mazumdar-Shaw, Micheal Gibbs,
+Uri Levine, Bobby Parikh, Chitra Nayak, Govind Iyer, Helene Auriol Potier, Nitin Paranjpe); Executive Officers
+(Inderpreet Sawhney, Jayesh Sanghrajka, Nilanjan Roy, Shaji Mathew, Krishnamurthy Shankar, Mohit Joshi, Ravi Kumar S);
+Company Secretary (A.G.S. Manikantha)
+
+Transaction with key management personnel:
+Salaries and other employee benefits to whole-time directors and executive officers (1)(2) | 113 | 111
+Commission and other benefits to non-executive/independent directors | 17 | 16
+Total | 130 | 127
+
+(1) During the year ended March 31, 2024 and March 31, 2023, the Group contributed ₹408 crore and ₹354 crore,
+    respectively towards CSR.
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+This is the complete structure of the note, and it has exactly three related-party groups: (i) subsidiaries — a single
+list, every row 100%-owned or majority-owned and controlled, with holdings shown for 2024 and 2023; (ii) trusts —
+post-employment benefit plans, four controlled trusts and Infosys Foundation (a trust jointly controlled by KMPs);
+(iii) key management personnel and their compensation. There is no "associates" list, no "joint ventures" list and no
+"entities over which KMP exercise significant influence" list. The parenthetical "(22) Under liquidation" marks
+subsidiaries that are under liquidation — a dormancy marker on entities that are already consolidated line by line,
+not on an associate. No equity-method investment, no carrying amount, no additions, disposals or impairment of an
+associate appears anywhere in the note.

@@ -223,7 +223,8 @@
       "what": "Notes 2.13 to 2.27 of the FY2024 statement (pp. 31-57), including Note 2.19 Other income, Note 2.24 Contingent liabilities and Note 2.25 Related party transactions (p. 50).",
       "why": "The PDF text extraction available in this environment returns the first 30 pages of the filing (through Note 2.12.4).",
       "effectOnTheConclusion": "None for this question. The conclusion rests on three complete primary statements plus the complete Note 2.5/2.5.1 reconciliation: an equity-accounted interest cannot be recognised without a separate balance-sheet caption (Ind AS 1.54(e)), a share of its result in profit or loss (Ind AS 1.82(c)), and its own reconciliation in the investments note. All three are absent, and the investment captions tie to the rupee.",
-      "residualRisk": "A related-party list could name an associate that the balance sheet treats as immaterial or dormant; that would not create a carrying amount to ingest, but it is a reason to keep L-036 open rather than to close it."
+      "residualRisk": "A related-party list could name an associate that the balance sheet treats as immaterial or dormant; that would not create a carrying amount to ingest, but it is a reason to keep L-036 open rather than to close it.",
+      "resolvedBy": "residualReview (2026-11-07): pages 31-57 of both filings were read note by note. No associate, joint venture, dormant associate or equity-method balance is disclosed, and the group-structure annexure that follows Note 2.25 has no associates block."
     }
   ],
   "limitations": {
@@ -239,5 +240,176 @@
     "issuerExpanded": false,
     "historicalEvidenceRewritten": false,
     "v1Backfilled": false
+  },
+  "residualReview": {
+    "completedAt": "2026-11-07",
+    "trigger": "The WI-4 record stated that Notes 2.13-2.27 could not be machine-read (the 30-page extraction window) and that a related-party roster could still name an associate. This review closes that gap.",
+    "method": "Both filings are digitally typeset PDFs with a complete text layer (they are not scans). Pages 31-57 were read through a full-document reader of the same PDF that does not truncate at 30 pages, page-anchored to the page numbers printed in the filed text. Every note was opened and characterised; the two notes capable of carrying an associates/JV disclosure (2.19 and 2.25) are transcribed in full in the bundle.",
+    "documents": [
+      "INFY-INDAS-CONSOL-FY24 (pages 31-57)",
+      "INFY-INDAS-CONSOL-FY23 (pages 37-54, for FY2023 and the FY2022 comparatives)"
+    ],
+    "pageCoverage": {
+      "pagesRead": "pp. 31-57 of the FY2024 filing; pp. 37-54 of the FY2023 filing",
+      "notReRead": "the interior movement tables of Notes 2.21 (leases) and 2.22 (employee benefits), pp. 41-46 of the FY2024 filing; their opening tables and closing pages were read",
+      "whyItDoesNotAffectTheQuestion": "Both notes reconcile balances the balance sheet and Note 2.11 already account for (right-of-use assets, lease liabilities, defined benefit obligations, share-based payment plans). Neither can present a third-party equity interest, and neither is a route by which an equity-accounted investment could be omitted from the balance sheet, the investments note and the group-structure annexure at once.",
+      "recordedAsLimit": true
+    },
+    "notesExamined": [
+      {
+        "note": "2.13",
+        "pages": "31",
+        "content": "other financial liabilities by measurement category",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.14",
+        "pages": "31",
+        "content": "trade payables and ageing; \"There are no transactions with struck off companies\"",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.15",
+        "pages": "32",
+        "content": "other liabilities, unearned revenue 7,341, withholding taxes 3,185",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.16",
+        "pages": "32",
+        "content": "post-sales client support provisions 1,796 and movement",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.17",
+        "pages": "33-35",
+        "content": "income taxes, deferred tax movement, unused losses; deferred tax on undistributed earnings of subsidiaries and branches",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.18",
+        "pages": "36-38",
+        "content": "revenue by service line and geography, contract balances, remaining performance obligation 90,658",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.19",
+        "pages": "39-40",
+        "content": "other income, net — complete component list, total 4,711 (2,701); the note in which a share of an associate's result would appear",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.20",
+        "pages": "40",
+        "content": "employee benefit expenses 82,620, software packages 13,515, other expenses 4,716",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.21",
+        "pages": "40-43",
+        "content": "leases — policy, right-of-use assets 6,552, lease liabilities 8,359",
+        "associatesOrJvContent": "none (interior tables not re-read)"
+      },
+      {
+        "note": "2.22",
+        "pages": "43-47",
+        "content": "employee benefits and share-based payments, expense 652 (519)",
+        "associatesOrJvContent": "none (interior tables not re-read)"
+      },
+      {
+        "note": "2.23",
+        "pages": "48",
+        "content": "EPS share reconciliation 4,144,680,425",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.24",
+        "pages": "48-49",
+        "content": "contingent liabilities 3,583 (4,762), commitments, McCamish incident, legal proceedings; contains the tax phrase \"associated enterprises\"",
+        "associatesOrJvContent": "none — tax terminology only"
+      },
+      {
+        "note": "2.25",
+        "pages": "50-54",
+        "content": "complete related-party universe (subsidiaries, trusts, KMP), KMP compensation 130 (127), and the group-structure annexure",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.26",
+        "pages": "55-56",
+        "content": "segment reporting by industry; no client above 10% of revenue",
+        "associatesOrJvContent": "none"
+      },
+      {
+        "note": "2.27",
+        "pages": "57",
+        "content": "function-wise classification of profit and loss",
+        "associatesOrJvContent": "none"
+      }
+    ],
+    "relationshipFindings": {
+      "associatesDisclosed": false,
+      "jointVenturesDisclosed": false,
+      "dormantOrInactiveAssociatesDisclosed": false,
+      "equityMethodPolicyOrBalanceFound": false,
+      "relatedPartyGroupsPresent": [
+        "subsidiaries (single list, every row 100%-owned or majority-owned and controlled, holdings for both years)",
+        "post-employment benefit plan trusts, four controlled trusts, and Infosys Foundation (\"Trust jointly controlled by KMPs\")",
+        "key management personnel and their compensation"
+      ],
+      "groupStructureAnnexureBlocks": [
+        "Infosys Limited",
+        "Indian Subsidiaries",
+        "Foreign Subsidiaries",
+        "Subtotal (100%)",
+        "Adjustment arising out of consolidation",
+        "Controlled Trusts",
+        "Non-controlling Interests",
+        "Total"
+      ],
+      "associatesOrJvBlockInAnnexure": false,
+      "dormancyMarkersAttachTo": "subsidiaries under liquidation (e.g. \"(22) Under liquidation\"; \"Liquidated effective July 14, 2023\"; \"Liquidated effective November 1, 2023\") — entities already consolidated line by line, which is the opposite of a dormant associate held outside consolidation"
+    },
+    "wordCheck": {
+      "associateOrAssociates": "no occurrence in Notes 2.13-2.27 other than the tax phrase in Note 2.24.1",
+      "jointVenture": "no occurrence in Notes 2.13-2.27",
+      "quotedTaxPhrase": "These claims are on account of issues of disallowance of expenditure towards software being held as capital in nature, payments made to associated enterprises held as liable for withholding of taxes, among others. (Note 2.24.1, page 48)",
+      "assessment": "\"Associated enterprises\" is Indian income-tax terminology (transfer pricing and withholding on payments to non-residents). It names no entity, asserts no relationship, carries no balance, and is not an Ind AS 28 associate."
+    },
+    "strictDistinctions": [
+      {
+        "distinction": "related-party relationship vs associate/JV classification",
+        "howApplied": "Note 2.25 lists every related party. Subsidiaries are consolidated line by line; trusts are controlled or KMP-related; KMP are individuals. None is a related party that is also an equity-accounted investee."
+      },
+      {
+        "distinction": "dormant associate vs recognised carrying value",
+        "howApplied": "The only dormancy markers are \"(22) Under liquidation\" and liquidation footnotes on subsidiaries. Even if one were an associate, dormancy would not create a carrying amount, and none is asserted."
+      },
+      {
+        "distinction": "investee's financial information vs Infosys's recognised investment",
+        "howApplied": "The group-structure annexure shows each entity's share of consolidated net assets and profit — investee-level attribution, not an investment carrying amount, and only for consolidated subsidiaries."
+      },
+      {
+        "distinction": "transaction or balance with a related party vs the carrying amount of an equity-accounted investment",
+        "howApplied": "The only related-party amounts disclosed are KMP compensation (130 / 127) and CSR contributions; both are profit-or-loss items, not balances, and neither is an investment."
+      },
+      {
+        "distinction": "absence of a disclosed amount vs an explicit nil",
+        "howApplied": "Nothing in these notes says the associates/JV balance is nil. The finding is structural absence, which is why no V2 observation and no nil declaration were created."
+      }
+    ],
+    "conclusion": "NO_ASSOCIATE_OR_JV_RELATIONSHIP_DISCLOSED",
+    "carryingValueEstablished": false,
+    "effectOnPriorConclusion": "unchanged — the WI-4 answer stands, now on complete audited pages rather than on the first 30 pages",
+    "datasetV2": "unchanged; no observation created, no nil declared",
+    "quoteIds": [
+      "FY24-N219-OTHER-INCOME",
+      "FY23-N219-OTHER-INCOME",
+      "FY24-N225-RELATED-PARTIES",
+      "FY23-N225-RELATED-PARTIES",
+      "FY24-N225-CFS-ANNEXURE",
+      "FY23-N225-CFS-ANNEXURE",
+      "FY24-N213-TO-N227-SWEEP"
+    ]
   }
 }

@@ -198,6 +198,153 @@
       "doesNotEstablish": "It does not quantify any associate result.",
       "sha256": "b943049db5e5fe7191023bdf96b04c4cf10daa8f6c346c7d6ad6866ab794529b",
       "bytes": 1967
+    },
+    {
+      "id": "FY24-N219-OTHER-INCOME",
+      "doc": {
+        "documentId": "INFY-INDAS-CONSOL-FY24",
+        "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2024",
+        "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf",
+        "dated": "2024-04-18",
+        "basis": "IND_AS_CONSOLIDATED_AUDITED"
+      },
+      "file": "fy24-note-2.19-other-income.txt",
+      "period": "FY2024 (comparative FY2023)",
+      "locator": "pages 39-40, Note 2.19 Other income, net (complete note)",
+      "unit": "INR crore",
+      "amountQuoted": "Total other income 4,711 (2024) / 2,701 (2023); components: interest at amortised cost 1,007/955, interest at FVOCI 1,965/3, FVTPL gains 285/148, exchange 100/(647) and 87/1,062, miscellaneous 207/318",
+      "establishes": "Note 2.19 is the only disaggregation of profit or loss beyond revenue and operating expenses, and therefore the note in which a share of an associate's or joint venture's profit would appear. Its complete component list is interest income, FVOCI interest, FVTPL gains, exchange gains and miscellaneous income — no equity-accounted share.",
+      "doesNotEstablish": "It does not state that the Group has no associates or joint ventures; it establishes that no share of any such entity's result is recognised in profit or loss.",
+      "sha256": "a0fbe4c6a0cfab5e2b0cc6ef00ad058ca7f3b50d5e57ea490282602aed5c509c",
+      "bytes": 2890
+    },
+    {
+      "id": "FY23-N219-OTHER-INCOME",
+      "doc": {
+        "documentId": "INFY-INDAS-CONSOL-FY23",
+        "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2023",
+        "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf",
+        "dated": "2023-04-13",
+        "basis": "IND_AS_CONSOLIDATED_AUDITED"
+      },
+      "file": "fy23-note-2.19-other-income.txt",
+      "period": "FY2023 (comparative FY2022)",
+      "locator": "pages 39-40, Note 2.19 Other income, net (complete note)",
+      "unit": "INR crore",
+      "amountQuoted": "Total other income 2,701 (2023) / 2,295 (2022); components: interest at amortised cost 955/642, FVTPL gains 148/177, FVOCI interest 1/1, exchange gains (647)/88 and 1,062/186, miscellaneous 321/198",
+      "establishes": "The same test one filing earlier: for FY2023 and the FY2022 comparative, other income contains no share of an associate's or joint venture's profit or loss.",
+      "doesNotEstablish": "It does not state that the Group has no associates or joint ventures; it establishes that no share of any such entity's result is recognised in profit or loss for FY2023 or FY2022.",
+      "sha256": "8ae4f4021e93351f31e582ec653c7673ece480747f08efcdc0619e0d44f4adaf",
+      "bytes": 1649
+    },
+    {
+      "id": "FY24-N225-RELATED-PARTIES",
+      "doc": {
+        "documentId": "INFY-INDAS-CONSOL-FY24",
+        "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2024",
+        "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf",
+        "dated": "2024-04-18",
+        "basis": "IND_AS_CONSOLIDATED_AUDITED"
+      },
+      "file": "fy24-note-2.25-related-parties.txt",
+      "period": "FY2024 (2023 holdings in the comparative column)",
+      "locator": "pages 50-52, Note 2.25 Related party transactions (roster, trusts, KMP)",
+      "unit": "holdings in %; compensation in INR crore",
+      "amountQuoted": "Subsidiary holdings 100% / 81% / 75% / 70% / 60%; KMP compensation 130 (127)",
+      "establishes": "The complete related-party universe has exactly three groups — subsidiaries (one list, every row 100%-owned or majority-owned and controlled, with \"Under liquidation\" markers on some subsidiaries), trusts including Infosys Foundation (\"Trust jointly controlled by KMPs\"), and key management personnel. No associates list and no joint-ventures list exists.",
+      "doesNotEstablish": "It does not by itself rule out an associate that the Group failed to list; that is why the group-structure annexure and the balance sheet are also quoted.",
+      "sha256": "48198bca997019006743dd71bb4ee26f98a6581fb0e91d18996fa06b5a9d811f",
+      "bytes": 5555
+    },
+    {
+      "id": "FY23-N225-RELATED-PARTIES",
+      "doc": {
+        "documentId": "INFY-INDAS-CONSOL-FY23",
+        "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2023",
+        "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf",
+        "dated": "2023-04-13",
+        "basis": "IND_AS_CONSOLIDATED_AUDITED"
+      },
+      "file": "fy23-note-2.25-related-parties.txt",
+      "period": "FY2023 (2022 holdings in the comparative column)",
+      "locator": "pages 49-52, Note 2.25 Related party transactions (roster, trusts, KMP)",
+      "unit": "holdings in %; compensation in INR crore",
+      "amountQuoted": "Subsidiary holdings 100% / majority; KMP compensation 127 (145); the only entry under \"List of other related party\" is Infosys Foundation",
+      "establishes": "Same three groups one year earlier — subsidiaries, trusts, KMP — with Infosys Foundation the only \"other related party\", for FY2023 and by comparative presentation for FY2022. No associates list, no joint ventures list, no equity-method transaction.",
+      "doesNotEstablish": "It does not rule out an associate that the Group failed to list; that is why the group-structure annexure and the balance sheet are also quoted. It establishes only that no associate or joint venture appears among the related parties for FY2023 or FY2022.",
+      "sha256": "17c257fb1657d6be44437c6f8c1e52d4540556973a4b46052c237df728483191",
+      "bytes": 4358
+    },
+    {
+      "id": "FY24-N225-CFS-ANNEXURE",
+      "doc": {
+        "documentId": "INFY-INDAS-CONSOL-FY24",
+        "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2024",
+        "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf",
+        "dated": "2024-04-18",
+        "basis": "IND_AS_CONSOLIDATED_AUDITED"
+      },
+      "file": "fy24-note-2.25-cfs-annexure.txt",
+      "period": "FY2024",
+      "locator": "pages 52-54, \"Additional information pursuant to para 2 of general instructions for the preparation of Consolidated Financial Statements\"",
+      "unit": "INR crore and % of consolidated totals",
+      "amountQuoted": "Infosys Limited 81.59% / 81,176; Indian Subsidiaries; Foreign Subsidiaries; Subtotal 100% / 99,492; consolidation adjustment (11,269); Controlled Trusts (107); Non-controlling interests 345; Total 88,461",
+      "establishes": "The one table required to itemise the sources of consolidated net assets, profit or loss and OCI lists Infosys Limited, Indian Subsidiaries and Foreign Subsidiaries, then a 100% Subtotal, then the consolidation adjustment and controlled trusts. There is no associates block and no joint-ventures block.",
+      "doesNotEstablish": "It does not name a nil for associates and joint ventures; it enumerates the Group's composition and leaves no block in which an equity-accounted entity could hide.",
+      "sha256": "46ba552448b354540069502e4a9cfbd74f4bdecdd4ffdd2bf6ebe349942ec8f2",
+      "bytes": 2895
+    },
+    {
+      "id": "FY23-N225-CFS-ANNEXURE",
+      "doc": {
+        "documentId": "INFY-INDAS-CONSOL-FY23",
+        "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2023",
+        "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf",
+        "dated": "2023-04-13",
+        "basis": "IND_AS_CONSOLIDATED_AUDITED"
+      },
+      "file": "fy23-note-2.25-cfs-annexure.txt",
+      "period": "FY2023",
+      "locator": "pages 52-54, \"Additional information pursuant to para 2 of general instructions for the preparation of Consolidated Financial Statements\"",
+      "unit": "INR crore and % of consolidated totals",
+      "amountQuoted": "Infosys Ltd. 80.97% / 67,745; Indian Subsidiaries; Foreign Subsidiaries; Subtotal 100% / 83,664; consolidation adjustment (8,421); Controlled Trusts 164; Non-controlling interests 388; Total 75,795",
+      "establishes": "The FY2023 annexure has the same four blocks and no associates or joint-ventures block, confirming the position one year earlier.",
+      "doesNotEstablish": "It does not name a nil for associates and joint ventures; it enumerates the Group's composition and leaves no block in which an equity-accounted entity could hide.",
+      "sha256": "00fc7946f1c883f26aaae8ac6ddbd037d4a0ce2056f99d664069c15481b44921",
+      "bytes": 2558
+    },
+    {
+      "id": "FY24-N213-TO-N227-SWEEP",
+      "doc": {
+        "documentId": "INFY-INDAS-CONSOL-FY24",
+        "title": "Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2024",
+        "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf",
+        "dated": "2024-04-18",
+        "basis": "IND_AS_CONSOLIDATED_AUDITED"
+      },
+      "file": "fy24-notes-2.13-to-2.27-sweep.txt",
+      "period": "FY2024 (Notes 2.13-2.27)",
+      "locator": "pages 31-57, Notes 2.13 to 2.27, note by note",
+      "unit": "narrative coverage log",
+      "amountQuoted": null,
+      "establishes": "Every note from 2.13 to 2.27 was opened and characterised: liabilities, payables, provisions, income taxes, revenue, other income, expenses, leases, employee benefits, EPS, contingent liabilities, related parties, segments and the function-wise classification. None discloses an associate, a joint venture, a dormant associate, an equity-method balance or a share of an associate's result.",
+      "doesNotEstablish": "It does not re-read the interior movement tables of Notes 2.21 (leases) and 2.22 (employee benefits), pages 41-46; that limit is stated in the log itself and does not affect the question, since neither note can present an equity-accounted investment.",
+      "sha256": "7acc367dc0f56d955f882c62beb4a9f6457ee29d36cc4fcbb234bfa684df4f16",
+      "bytes": 5932
     }
-  ]
+  ],
+  "residualReview": {
+    "completedAt": "2026-11-07",
+    "scope": "Notes 2.13 to 2.27 of the audited consolidated Ind AS statements, FY2024 and FY2023 filings, with FY2022 taken from the FY2023 comparative columns",
+    "method": "the filing is a digitally typeset PDF with a complete text layer; pages 31-57 were read through a full-document reader of the same PDF that does not truncate at 30 pages, page-anchored to the printed page numbers",
+    "quoteIds": [
+      "FY24-N219-OTHER-INCOME",
+      "FY23-N219-OTHER-INCOME",
+      "FY24-N225-RELATED-PARTIES",
+      "FY23-N225-RELATED-PARTIES",
+      "FY24-N225-CFS-ANNEXURE",
+      "FY23-N225-CFS-ANNEXURE",
+      "FY24-N213-TO-N227-SWEEP"
+    ]
+  }
 }

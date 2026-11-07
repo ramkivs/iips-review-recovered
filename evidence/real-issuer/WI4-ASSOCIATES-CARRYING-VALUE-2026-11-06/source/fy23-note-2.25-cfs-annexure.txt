@@ -1,0 +1,39 @@
+SOURCE EXTRACT — verbatim text layer of the group-structure annexure that follows Note 2.25
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2023
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+Pages    : 52–54
+Units    : ₹ crore; percentages of consolidated totals
+Read via : full-document reader of the same PDF (all 57 pages); page anchors as printed in the filed text
+Note     : covers FY2023; the same annexure in the FY2024 filing carries the FY2023 comparative column
+
+Additional information pursuant to para 2 of general instructions for the preparation of Consolidated Financial
+Statements
+(In ₹ crore)
+
+Name of entity | as % age of consolidated net assets | Amount | as % age of consolidated profit or loss | Amount |
+as % age of consolidated other comprehensive income | Amount | as % age of consolidated total comprehensive income | Amount
+
+Infosys Ltd. | 80.97% | 67,745 | 88.92% | 23,268 | 101.90% | (268) | 88.55% | 23,000
+Indian Subsidiaries
+Infosys BPM Limited | 5.30% | 4,438 | 3.23% | 846 | 7.98% | (20) | 3.18% | 826
+EdgeVerve Systems Limited | 1.75% | 1,467 | 3.55% | 930 | (2.28%) | 6 | 3.60% | 936
+Skava Systems Pvt. Ltd. | 0.10% | 81 | 0.02% | 5 | - | - | 0.02% | 5
+Infosys Green Forum | 0.35% | 294 | 0.02% | 4 | - | - | 0.02% | 4
+Foreign Subsidiaries
+Brilliant Basics Holdings Limited | 0.08% | 63 | - | - | - | - | - | -
+[…]  (fifty-plus further foreign-subsidiary rows, in the filed order, ending with …)
+BASE life science S.L. | - | 1 | - | 1 | - | - | - | 1
+Panaya Germany GmbH | - | (3) | - | - | - | - | - | -
+Infosys Norway | - | - | - | - | - | - | - | -
+Subtotal | 100% | 83,664 | 100.00% | 26,235 | 100.00% | (262) | 100.00% | 25,973
+Adjustment arising out of consolidation | (8,421) | (2,072) | 765 | (1,307)
+Controlled Trusts | 164 | (68) | - | (68)
+ | 75,407 | 24,095 | 503 | 24,598
+Non-controlling Interests | 388 | 13 | 11 | 24
+Total | 75,795 | 24,108 | 514 | 24,622
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+Same structure as FY2024, one year earlier: Infosys Ltd., Indian Subsidiaries, Foreign Subsidiaries, Subtotal,
+consolidation adjustment, Controlled Trusts, Non-controlling interests. No associates block, no joint-ventures block,
+for FY2023 — and none for FY2022 either, whose comparative appears in the same filing's balance sheet and profit and
+loss columns without an equity-accounted interest.

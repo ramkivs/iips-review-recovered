@@ -14,19 +14,20 @@ All paths are relative to the repository root unless stated.
     #  a. sha256 of each source/*.txt against source/quotes.json
     #  b. captions -> note total and measurement categories -> note total, for FY2024, FY2023, FY2022
     #  c. the decision fields of artifact/investigation.json, and the absence of dataset/ and a payload
-    # Expected: 9/9 digests match, 6/6 ties, answer NO, ingestion.performed false, no dataset, no payload.
+    # Expected: 16/16 digests match, 6/6 ties, the residual review block, answer NO, ingestion.performed false,
+    # no dataset, no payload.
 
 §3 — Guard test  (writes runs/02-guard-test.txt)
     cd iips-platform
     ./node_modules/.bin/tsx --test tests/investment/wi4AssociatesEvidence.test.ts
-    # Expected: 18 tests, 18 pass, 0 fail.
+    # Expected: 27 tests, 27 pass, 0 fail.
 
 §4 — Typecheck and the complete investment suite  (writes runs/targeted-tests.txt)
     cd iips-platform
     ./node_modules/.bin/tsc --noEmit
     ./node_modules/.bin/tsx --test tests/investment/*.test.ts
-    # Expected: tsc clean; 498 tests, 498 pass, 0 fail.
-    # 480 of those are the pre-existing suite; 18 are this work item's guard test.
+    # Expected: tsc clean; 507 tests, 507 pass, 0 fail.
+    # 480 of those are the pre-existing suite; 27 are this work item's guard test.
 
 §5 — The persisted evidence is unchanged (read back in a separate process)
     ./node_modules/.bin/tsx --test tests/investment/ixAuthorizedPolicy.test.ts
@@ -58,3 +59,21 @@ All paths are relative to the repository root unless stated.
     PY
 
 Note: this bundle contains no dataset, no payload and no chain head, and that is the finding, not an omission.
+
+§8 — The residual review of Notes 2.13-2.27 (2026-11-07)
+    The originals are digitally typeset PDFs with a complete text layer, so pages 31-57 were read in full through a
+    full-document reader of the same documents that does not truncate at 30 pages:
+      https://r.jina.ai/https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+      https://r.jina.ai/https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+    The page anchors in source/fy24-notes-2.13-to-2.27-sweep.txt are the page numbers printed in the filed text.
+    Transcribed in full: Note 2.19 (both filings), Note 2.25 (both filings), and both group-structure annexures.
+    Finding: no associate, no joint venture, no dormant associate, no equity-method balance — so nothing to ingest.
+
+§9 — The POLICY_ZERO wording check (2026-11-07)
+    cd iips-platform
+    ./node_modules/.bin/tsx --test tests/investment/wi4AssociatesEvidence.test.ts
+    # The suite asserts (a) that the persisted VII payload discloses the treatment
+    # (treatment POLICY_ZERO_UNAVAILABLE, associates-treatment/1.0.0, substitutedInputs[].treatment POLICY_ZERO,
+    # note "policy substitution, not an issuer-reported nil"), (b) that the WI3 payload has no such block — which is the
+    # before/after boundary that made the original sentence true and then stale, and (c) that the operative sections of
+    # the register, the work-item document and this README no longer call the zero unstated.

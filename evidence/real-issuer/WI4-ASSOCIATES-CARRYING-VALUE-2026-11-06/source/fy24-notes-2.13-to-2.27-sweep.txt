@@ -1,0 +1,65 @@
+SOURCE EXTRACT — page-by-page sweep of Notes 2.13 to 2.27, with what each note contains
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2024
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Pages    : 31–57 (57-page filing)
+Method   : the filing is a digitally typeset PDF with a complete text layer (it is not a scan). The first 30 pages were
+           already read for WI-4 directly; pages 31–57 were read through a full-document reader of the same PDF that
+           does not truncate at 30 pages. Page anchors below are the page numbers printed in the filed text.
+Units    : ₹ crore
+
+Note | Pages | What the note contains | Any associate or joint-venture content?
+2.13 Other financial liabilities | 31 | Accrued compensation, accrued expenses, compensated absences, financial
+     liability under option arrangements, unpaid dividends, payable by controlled trusts, contingent consideration,
+     forward/options contracts, capital creditors, other payables; split by amortised cost / FVTPL / FVOCI | none
+2.14 Trade payables | 31 | Trade payables 3,956 (3,865) and their ageing; "Relationship with struck off companies — There
+     are no transactions with struck off companies for the year ending March 31, 2024 and March 31, 2023." | none
+2.15 Other liabilities | 32 | Accrued defined benefit liability, other non-current liabilities, unearned revenue 7,341,
+     withholding taxes and others 3,185 | none
+2.16 Provisions | 32 | Post-sales client support and other provisions 1,796 (1,307) and their movement | none
+2.17 Income taxes | 33–35 | Current/deferred tax expense, rate reconciliation, deferred tax movement, unused tax losses,
+     current tax asset movement; deferred tax on undistributed earnings "associated with investments in subsidiaries and
+     branches" | none
+2.18 Revenue from operations | 36–38 | Revenue by service line 153,670, by geography, contract balances, remaining
+     performance obligation 90,658 | none
+2.19 Other income, net | 39–40 | Interest at amortised cost 1,007, interest at FVOCI 1,965, FVTPL gains 285, exchange
+     gains 100 and 87, interest on income-tax refund, miscellaneous 207 — total 4,711 (2,701) | none
+2.20 Expenses | 40 | Employee benefit expenses 82,620, cost of software packages 13,515, other expenses 4,716 | none
+2.21 Leases | 40–43 | Accounting policy, right-of-use assets 6,552 and lease liabilities 8,359, maturity analysis |
+     none (policy and movement pages read; interior movement tables not re-read — see the coverage note below)
+2.22 Employee benefits | 43–47 | Gratuity, provident fund, superannuation, compensated absences, share-based payment
+     (RSU/ESOP) plans, grants and expense 652 (519) | none (opening policy and closing tables read; interior
+     actuarial-assumption tables not re-read — see the coverage note below)
+2.23 Reconciliation of shares for EPS | 48 | Weighted average shares 4,138,568,090 + dilutive 6,112,335 = 4,144,680,425 |
+     none
+2.24 Contingent liabilities and commitments | 48–49 | Claims not acknowledged as debts 3,583 (4,762), commitments,
+     McCamish cybersecurity incident, legal proceedings | none — but see the tax phrase quoted below
+2.25 Related party transactions | 50–54 | Related-party roster (subsidiaries only), trusts, KMP, KMP compensation,
+     group-structure annexure | none — see the dedicated extracts and their observations
+2.26 Segment reporting | 55–56 | Business segments by industry, unallocable expenses, other income 4,711, finance cost
+     470, PBT 35,988, "No client individually accounted for more than 10% of the revenues" | none
+2.27 Function-wise classification of the statement of profit and loss | 57 | Cost of sales 107,413, gross profit
+     46,257, S&M 6,973, G&A 7,537, operating profit 31,747, other income 4,711, finance cost 470, PBT 35,988 | none
+
+The only occurrence of the word "associated" anywhere in these notes that carries any weight is a tax phrase, quoted
+verbatim from the Note 2.24.1 footnote (page 48):
+
+  "These claims are on account of issues of disallowance of expenditure towards software being held as capital in
+   nature, payments made to associated enterprises held as liable for withholding of taxes, among others."
+
+"Associated enterprises" there is Indian income-tax terminology (transfer pricing / withholding on payments to
+non-residents). It names no entity, asserts no relationship, carries no balance, and has nothing to do with an Ind AS 28
+associate.
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+Nothing in Notes 2.13 to 2.27 discloses an associate or a joint venture, a dormant associate, an equity-method balance,
+or a share of an associate's result. The two notes that could have carried such a disclosure — 2.19 (the only
+disaggregation of profit or loss beyond revenue and expenses) and 2.25 (the entire related-party universe, including the
+group-structure annexure) — are both complete above and contain none. The dormancy markers in 2.25 ("Under liquidation",
+"Liquidated effective …") attach to subsidiaries that are already consolidated line by line, which is the opposite of a
+dormant associate outside consolidation.
+
+Coverage note: Notes 2.21 (leases) and 2.22 (employee benefits) occupy pages 41–46 with movement tables for right-of-use
+assets, lease liabilities, defined benefit obligations and share-based payment plans. Their opening tables and closing
+pages were read; their interior pages were not re-read, because neither note can present an equity-accounted investment
+— both are reconciliations of balances that the balance sheet and Note 2.11 already account for, and neither is a
+vehicle for third-party equity interests. This is recorded as a limit rather than glossed over.

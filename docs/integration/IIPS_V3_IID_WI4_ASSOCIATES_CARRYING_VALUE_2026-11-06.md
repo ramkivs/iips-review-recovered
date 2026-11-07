@@ -40,8 +40,10 @@ document family the Work Item 3 nil declarations rest on; the price and identity
 
 Read in full: consolidated balance sheet and consolidated statement of profit and loss (both documents, both columns);
 Note 1.3 *basis of consolidation*; **Note 2.5 *Investments*** and **Note 2.5.1 *Details of investments***
-(all three periods); and Notes 2.6 Loans, 2.7 Other financial assets, 2.9 Cash, 2.10 Other assets, 2.11 Financial
-instruments and 2.12 Equity of the FY2024 statement.
+(all three periods); Notes 2.6 Loans, 2.7 Other financial assets, 2.9 Cash, 2.10 Other assets, 2.11 Financial
+instruments and 2.12 Equity of the FY2024 statement; and, in the 2026-11-07 residual pass, **Notes 2.13 to 2.27 of both
+filings**, including Note 2.19 *Other income* and Note 2.25 *Related party transactions* in full, plus the
+group-structure annexure (§10).
 
 ## 3. The finding, in three tests
 
@@ -125,11 +127,13 @@ found in the control, so nothing about it was changed.
 
 ## 7. Limits
 
-- Notes 2.13–2.27 were not machine-read: the PDF extraction available here returns the first 30 pages of each filing
-  (through Note 2.12.4). That includes Note 2.25 *Related party transactions* (p. 50). The conclusion does not depend
-  on it — an equity-accounted interest must appear in the balance sheet, in profit or loss and in the investments note,
-  and all three are complete and reconcile — but a roster naming a dormant associate would be a reason to keep `L-036`
-  open, and it is kept open.
+- ~~Notes 2.13–2.27 were not machine-read~~ — **closed 2026-11-07 (§10).** The original pass could reach only the first
+  30 pages of each filing (through Note 2.12.4). The residual pass read pp. 31–57 through a full-document reader of the
+  same PDFs: neither filing discloses an associate, a joint venture, a dormant associate or an equity-method balance, and
+  the group-structure annexure has no associates block. `L-036` stays open anyway — because the underlying **amount** is
+  unavailable, not because the roster is unexamined.
+- The interior movement tables of Notes 2.21 (leases) and 2.22 (employee benefits), pp. 41–46, were not re-read in that
+  pass; their opening tables and closing pages were. Neither can present a third-party equity interest.
 - FY2022 is read from the audited comparative column of the FY2023 statements, not reconstructed.
 - The finding is about FY2024–FY2022 only. It does not claim the Group has never held an associate.
 
@@ -148,8 +152,86 @@ found in the control, so nothing about it was changed.
 
 | Entry | Before | After | Reason |
 |---|---|---|---|
-| `L-036` | `PARTIALLY RESOLVED` | **`PARTIALLY RESOLVED`** | Residue narrowed: no filed amount exists to ingest, and the payload still applies an unstated policy zero. Not closed by the investigation completing. |
+| `L-036` | `PARTIALLY RESOLVED` | **`PARTIALLY RESOLVED`** | Residue narrowed: no filed amount exists to ingest. The bridge applies zero for the term under the **disclosed** `POLICY_ZERO` treatment (`POLICY_ZERO_UNAVAILABLE`, `associates-treatment/1.0.0`), which the payload states on every derived per-share observation. Not closed by the investigation completing. |
 | `L-035` | `OPEN` | **`OPEN`** | No nil declaration was made. |
 | `L-001` … `L-034` | unchanged | unchanged | Out of scope. |
 
 Evidence bundle: `evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/`.
+
+## 10. Residual review: Notes 2.13–2.27 (2026-11-07)
+
+Section 7 recorded a limit: Notes 2.13–2.27 were not machine-read, because the extraction available at the time returned
+only the first 30 pages of each filing, and Note 2.25's related-party roster could still have named an associate. That
+limit is now closed.
+
+Both filings are **digitally typeset PDFs with a complete text layer** — they are not scans — so the pages were read in
+full through a full-document reader of the *same* documents, page-anchored to the printed page numbers: pp. 31–57 of
+`INFY-INDAS-CONSOL-FY24`, and pp. 37–54 of `INFY-INDAS-CONSOL-FY23` (which also carries the FY2022 comparatives). Notes
+2.19 and 2.25 are transcribed in full in `source/`, and the note-by-note sweep is `source/fy24-notes-2.13-to-2.27-sweep.txt`.
+
+### 10.1 What the notes contain
+
+| Note | Pages | Associates / JV content |
+|---|---|---|
+| 2.13–2.18 — other financial liabilities, trade payables, other liabilities, provisions, income taxes, revenue | 31–38 | none |
+| **2.19 Other income, net** | 39–40 | **none** — interest at amortised cost 1,007, FVOCI interest 1,965, FVTPL gains 285, exchange 100 / 87, tax-refund interest, miscellaneous 207; total 4,711 (2,701) |
+| 2.20–2.24 — expenses, leases, employee benefits, EPS, contingent liabilities | 40–49 | none |
+| **2.25 Related party transactions** | 50–54 | **none** — subsidiaries (single list, all 100%/majority), trusts (post-employment plans, four controlled trusts, Infosys Foundation as "Trust jointly controlled by KMPs"), KMP compensation 130 (127) |
+| **Group-structure annexure** | 52–54 | **none** — Infosys Limited, Indian Subsidiaries, Foreign Subsidiaries, Subtotal 100%, consolidation adjustment, Controlled Trusts, non-controlling interests |
+| 2.26–2.27 — segments, function-wise classification | 55–57 | none |
+
+Note 2.19 matters most: it is the only disaggregation of profit or loss beyond revenue and operating expenses, and
+therefore the note in which a *share of an associate's or joint venture's profit* would appear. It does not. The
+group-structure annexure matters second: it is the one table required to itemise the sources of consolidated net assets,
+profit or loss and OCI, and its blocks contain no associates or joint-ventures row — an equity-accounted entity could not
+be missing from it silently.
+
+### 10.2 The three distinctions, applied
+
+- **Relationship ≠ classification.** The only "other related party" in either year is Infosys Foundation, a trust jointly
+  controlled by KMPs — a related party that is not an investee at all.
+- **Dormancy ≠ carrying value.** The only dormancy markers are subsidiary footnotes ("(22) Under liquidation",
+  "Liquidated effective July 14, 2023", "Liquidated effective November 1, 2023") on entities *already consolidated line
+  by line* — the opposite of a dormant associate outside consolidation.
+- **"Associated enterprises" ≠ associate.** The single occurrence of the word in these notes is Note 2.24.1 (p. 48):
+  *"…payments made to associated enterprises held as liable for withholding of taxes, among others."* Indian income-tax
+  terminology; it names no entity, asserts no relationship and carries no balance.
+
+**Result:** no associate or joint-venture relationship is disclosed, so no recognised carrying value exists to
+establish. **Dataset V2 is unchanged**; no observation and no nil were created.
+
+*Limit, stated rather than buried:* the interior movement tables of Notes 2.21 and 2.22 (pp. 41–46) were not re-read;
+their opening tables and closing pages were. Neither note can present a third-party equity interest, and neither is a
+route by which an equity-accounted investment could be absent from the balance sheet, the investments note and the
+group-structure annexure simultaneously.
+
+## 11. `POLICY_ZERO` wording reconciliation (2026-11-07)
+
+**The correction.** Section 9's `L-036` row, the bundle README and register §17.8 said the bridge "applies a policy zero
+that the payload does not state". That is **wrong against the implemented policy**, and it has been corrected. The
+sentence was inherited from register §17.3, which described the **Work Item 3** payload accurately: that payload carries
+no `equityBridge` member at all — which is precisely the defect VII fixed.
+
+**What the implementation does** (unchanged throughout):
+
+| Layer | Statement |
+|---|---|
+| `VALUATION_POLICY.associatesTreatment` | `associates-treatment/1.0.0`, basis `CARRYING_VALUE`, `whenUnavailable: POLICY_ZERO` |
+| `describeEquityBridge()` | emits `capitalStructure.equityBridge` with `formula`, `note`, `policyVersion`, `substitutedInputs[]`, `treatment` |
+| composed payload | `treatment: POLICY_ZERO_UNAVAILABLE`; `substitutedInputs[0].treatment = POLICY_ZERO`; note: *"…substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil…"* |
+| propagation | the note reaches every derived per-share observation and `limitations[]` |
+
+Measured on committed artifacts: `equityBridge` occurs **once** in
+`VII-VALUATION-INTEGRITY-2026-11-06/artifact/assessment-payload-vii.json` and **zero** times in
+`WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json`. That contrast is the whole story: accurate before
+VII, stale after it.
+
+**Wording now used**, in §9, the register (§17.8, §17.9) and the bundle README:
+
+> The bridge continues to apply the **disclosed** `POLICY_ZERO` treatment (`POLICY_ZERO_UNAVAILABLE`,
+> `associates-treatment/1.0.0`) because no supportable carrying value is available. `L-036` remains
+> `PARTIALLY RESOLVED` because the underlying amount is unavailable.
+
+**Nothing else changed:** no valuation arithmetic, no policy semantics, no confidence policy, no review timing, no
+schema, no stored payload, no historical evidence. The guard test now fails if the superseded phrasing returns, and
+asserts that the payload really does disclose the treatment.
