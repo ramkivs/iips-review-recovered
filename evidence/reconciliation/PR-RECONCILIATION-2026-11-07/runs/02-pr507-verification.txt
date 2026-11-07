@@ -1,0 +1,60 @@
+# PR #507 — independent verification of the merge and of the L-038 content (main = c95c048)
+# 2026-11-07T18:22:01Z
+
+$ git cat-file -p c95c048 | head -4
+tree f031980f19f48e21e86d7444f710aed1de288792
+parent f9d88a77989a1573b66e08a33d0b6175d67b8489
+parent 1b7f0d56658678eede6544a8fa12e634fc2109a9
+author ramkivs <sairam260573@gmail.com> 1794070899 +0530
+
+$ git log -1 --format='%H %ci %s' c95c048
+c95c0480c96a6e88129785bcf14405a12462ade9 2026-11-07 22:31:39 +0530 Merge pull request #507 from ramkivs/arena/9a0de198-iips-review-recovered
+
+$ git rev-parse c95c048^1 c95c048^2   # merge base, PR head
+f9d88a77989a1573b66e08a33d0b6175d67b8489
+1b7f0d56658678eede6544a8fa12e634fc2109a9
+
+$ git log --oneline c95c048^1..1b7f0d5   # the 11 commits that entered
+1b7f0d5 L-038: reconcile the 608 / -177 / 487 crore figures and record the cash-side alignment gap
+251fcd4 L-038: correct runs/commands.txt to the governed CLI entry points, add reproduction transcript
+63f6a83 L-038: ship the clean-clone transcript and re-seal the manifest at 28 files
+e479534 L-038: WI-7 Marico debt-component re-read — one cell recovered, second blocker found, bridge still refuses
+b3c3d03 L-038 discovery: debt/maturity page extracts and hit report (scratch, to be deleted)
+2726acf L-038 discovery: also read the pages the search attributes to 'preference share'
+a6adc1b L-038 discovery: debt/maturity page extracts and hit report (scratch, to be deleted)
+effe3af L-038 discovery: survive the forced errexit so diagnostics are always written
+fcd51c8 L-038 discovery: debt/maturity page extracts and hit report (scratch, to be deleted)
+3ad41e7 L-038 discovery: record every HTTP outcome and commit diagnostics even on failure
+eeb23e1 L-038: throwaway discovery workflow to read the Marico reports from a hosted runner
+
+$ git diff --stat c95c048^1 1b7f0d5 | tail -1
+ 41 files changed, 4306 insertions(+), 7 deletions(-)
+
+files that are modifications (not additions):
+  M	IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+  M	docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+  M	docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md
+  M	evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/README.md
+  M	evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/determination-wi7.json
+  M	evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/digests.json
+
+temporary workflow in the merged tree:
+  .github/workflows/cap03-p1-consolidated-windows.yml
+  .github/workflows/cap03-revision7-irr-static.yml
+  .github/workflows/ci.yml
+  (temp-l038-discover.yml was added in eeb23e1 and deleted in e479534: 1 deletion commit)
+
+L-038 findings carried by the merged determination:
+  limitationStatus      OPEN (unchanged)   resolved=False
+  mappingApplied        True — one dataset cell: FY2023 CURRENT_MATURITIES_OF_LONG_TERM_DEBT = 0 (printed in both reports' scheduled-maturity tables)
+  secondBlocker         PREFERENCE_CAPITAL MISSING / NOT_REPORTED
+  cashSideAlignment     CASH-SIDE-PERIOD-ALIGNMENT — UNDECIDED — documented, not acted on
+  results.after         grossDebt=NOT_COMPUTABLE/PERIOD_MISMATCH netDebt=NOT_COMPUTABLE cash=4870000000
+
+same-period reconciliation (runs/10), the three figures:
+    gross debt                608 crore   = 2 + 473 + 0 + 133
+    cash + investments        785 crore   = 207 + 578   (@2023-03-31)
+    net debt                  -177 crore   = 608 − 785
+    gross debt                NOT_COMPUTABLE / PERIOD_MISMATCH (two components carry nothing)
+    cash + investments        487 crore (@2024-03-31)
+    608 crore  gross debt @2023-03-31      = 2 + 473 + 0 + 133

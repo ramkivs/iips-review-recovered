@@ -1,0 +1,611 @@
+{
+ "schemaVersion": 1,
+ "record": "pr-508-ancestry",
+ "reconciledAtUtc": "2026-11-07T18:23:12Z",
+ "pullRequest": 508,
+ "base": "main@c95c0480c96a6e88129785bcf14405a12462ade9",
+ "head": "2514e691ec29b5ac6a46afb3975cc60e7ad1a995",
+ "commitCount": 10,
+ "commits": [
+  {
+   "sha": "e145ecdf725672b65cb48a9239b61ab8b2282828",
+   "short": "e145ecd",
+   "subject": "fix(iid): L-036 — the associates/JV carrying value is not recognised, the 180-day control is verified in force, and the V2 ingestion path is made operable",
+   "authorDate": "2026-11-07 17:24:15 +0000",
+   "tree": "67b948c52b1ad0a8592471b5bbbaa966eda87522",
+   "files": [
+    {
+     "status": "M",
+     "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+    },
+    {
+     "status": "M",
+     "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/README.md"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/artifact/assessment-payload-l036.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/determination-l036.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/digests.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/01-ingest-rerun.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/02-generate-persist.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/03-readback.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/04-v2-operator-path.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/05-review-control.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/06-tests.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/07-typecheck.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/08-post-manifest-verification.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/commands.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/source/source-map.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/source/verification-greps.txt"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/src/investment/cli/ingest.ts"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/src/investment/ingestion/writer.ts"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/tests/investment/cli.test.ts"
+    },
+    {
+     "status": "A",
+     "path": "iips-platform/tests/investment/wi9AssociatesResolution.test.ts"
+    }
+   ]
+  },
+  {
+   "sha": "0ddf5c7624750616fa03024a672a3f82b259e611",
+   "short": "0ddf5c7",
+   "subject": "test(iid): L-036 — record the independent remote and clean-clone verification",
+   "authorDate": "2026-11-07 17:25:30 +0000",
+   "tree": "8fcd9ad6afbfe04edc95b9d1c0377520cab43045",
+   "files": [
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/09-clean-clone.txt"
+    }
+   ]
+  },
+  {
+   "sha": "451d7906de36c765fda32d11913dfe83cc8ab0fa",
+   "short": "451d790",
+   "subject": "feat(iid): L-035 — bind every nil declaration to a statement section and a line-item class; resolved",
+   "authorDate": "2026-11-07 17:43:31 +0000",
+   "tree": "9464b68e4db10404d3f3e309ec99463aead74b06",
+   "files": [
+    {
+     "status": "M",
+     "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+    },
+    {
+     "status": "M",
+     "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/README.md"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/artifact/assessment-payload-l035-v3.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/determination-l035.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/digests.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/01-reproduction-prefix.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/02-v3-unbound-refused.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/03-mismatch-refused.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/04-bound-accepted.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/05-wi3-byte-identity.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/06-generate-persist-readback.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/07-tests.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/08-typecheck.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/09-post-manifest-verification.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/commands.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/source/grammar.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/source/review-record.json"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/src/investment/contracts/invariants.ts"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/src/investment/contracts/lineItems.ts"
+    },
+    {
+     "status": "A",
+     "path": "iips-platform/src/investment/contracts/nilBinding.ts"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/src/investment/contracts/observation.ts"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/src/investment/ingestion/builder.ts"
+    },
+    {
+     "status": "A",
+     "path": "iips-platform/tests/investment/nil-binding.test.ts"
+    }
+   ]
+  },
+  {
+   "sha": "fdbbae65e4af50d59fc302cdfe1b840a3ba701fa",
+   "short": "fdbbae6",
+   "subject": "test(iid): L-035 — record the independent remote and clean-clone verification",
+   "authorDate": "2026-11-07 17:44:38 +0000",
+   "tree": "2dcacb7dc3f9d1e64308737c1fbdf417fc49cdcb",
+   "files": [
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/10-clean-clone.txt"
+    }
+   ]
+  },
+  {
+   "sha": "42be41232da7b10695fafd7928a8162120afcffd",
+   "short": "42be412",
+   "subject": "feat(iid): L-037 — a retrieval-evidence contract, a bundle reader and a CLI gate",
+   "authorDate": "2026-11-07 17:58:43 +0000",
+   "tree": "220391b87c4c989c677af6c586ba82cf332d602a",
+   "files": [
+    {
+     "status": "A",
+     "path": "iips-platform/src/investment/cli/verify-retrieval-evidence.ts"
+    },
+    {
+     "status": "A",
+     "path": "iips-platform/src/investment/sources/retrievalBundle.ts"
+    },
+    {
+     "status": "A",
+     "path": "iips-platform/src/investment/sources/retrievalEvidence.ts"
+    }
+   ]
+  },
+  {
+   "sha": "9ed8dcf483be6709b5e58696f9738e4fb1b09183",
+   "short": "9ed8dcf",
+   "subject": "test(iid): L-037 — 27 targeted tests, eleven of them poisoned copies of the real bundle",
+   "authorDate": "2026-11-07 17:58:45 +0000",
+   "tree": "0f3ec9634aabad6b89c5d991e28badc8186658ed",
+   "files": [
+    {
+     "status": "A",
+     "path": "iips-platform/tests/investment/retrieval-evidence.test.ts"
+    }
+   ]
+  },
+  {
+   "sha": "d673d348ee11e532c6a34ea39dae591a3f9014c2",
+   "short": "d673d34",
+   "subject": "docs(iid): L-037 — WI-10 bundle, register 17.21 and tracker 16.279; PARTIALLY RESOLVED with its boundary",
+   "authorDate": "2026-11-07 17:58:48 +0000",
+   "tree": "5b4ddb7b19be35f0006edc96d155727ef118adfc",
+   "files": [
+    {
+     "status": "M",
+     "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+    },
+    {
+     "status": "M",
+     "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/README.md"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/access/attempts.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/README.md"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-11b-lease-liabilities.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-27-capital-management.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-statement-of-cash-flows.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-isin-and-listing-identifiers.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-11b-lease-liabilities.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-27-capital-management.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-33-lease-movement.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-statement-of-cash-flows.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-isin-and-listing-identifiers.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/page-map.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/quotes-verified.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/retrieval-log-s2.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/source-bytes.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/determination.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/01-s2-verification.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/01-s2-verification.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/02-control-verdict.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/03-targeted-tests.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/04-existing-guards.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/05-typecheck.txt"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/07-manifest-verification.txt"
+    }
+   ]
+  },
+  {
+   "sha": "32a9473f86ac7d0c90468f98e8a6ec1dd99cbd93",
+   "short": "32a9473",
+   "subject": "fix(iid): L-037 — the control references the real extracts by path instead of copying them",
+   "authorDate": "2026-11-07 18:00:56 +0000",
+   "tree": "f98830fe46474c80354d34ad96bcfb7a64a36bf8",
+   "files": [
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/README.md"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-11b-lease-liabilities.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-27-capital-management.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-statement-of-cash-flows.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-isin-and-listing-identifiers.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-11b-lease-liabilities.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-27-capital-management.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-33-lease-movement.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-statement-of-cash-flows.txt"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-isin-and-listing-identifiers.txt"
+    },
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/page-map.json"
+    },
+    {
+     "status": "D",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/retrieval-log-s2.txt"
+    },
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json"
+    },
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/02-control-verdict.txt"
+    },
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/03-targeted-tests.txt"
+    },
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/07-manifest-verification.txt"
+    }
+   ]
+  },
+  {
+   "sha": "402c080a849db4cbc734807e1d9f128572ae898f",
+   "short": "402c080",
+   "subject": "test(iid): L-037 — record the clean-clone verification, and keep the manifest's exclusions explicit",
+   "authorDate": "2026-11-07 18:02:24 +0000",
+   "tree": "f2c31a72e60e5e9c6010df8a64b9d482a7702488",
+   "files": [
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json"
+    },
+    {
+     "status": "A",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/06-clean-clone.txt"
+    },
+    {
+     "status": "M",
+     "path": "iips-platform/tests/investment/retrieval-evidence.test.ts"
+    }
+   ]
+  },
+  {
+   "sha": "2514e691ec29b5ac6a46afb3975cc60e7ad1a995",
+   "short": "2514e69",
+   "subject": "test(iid): L-037 — clean-clone verification re-run at 402c080",
+   "authorDate": "2026-11-07 18:04:20 +0000",
+   "tree": "d22cf99be4333a8b9268ea9e6608ff098530c3df",
+   "files": [
+    {
+     "status": "M",
+     "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/06-clean-clone.txt"
+    }
+   ]
+  }
+ ],
+ "workItems": [
+  {
+   "workItem": "WI-9 / L-036",
+   "description": "Infosys associates/JV carrying value, the 180-day review control, and the V2 ingestion path",
+   "range": "c95c048..0ddf5c7",
+   "rangeInclusiveOfBase": false,
+   "publishedRangeInArenaReport": "not previously stated",
+   "rangeVerification": "`c95c048..0ddf5c7` covers both WI-9 commits; no earlier report named a range.",
+   "commits": [
+    {
+     "sha": "e145ecd",
+     "subject": "fix(iid): L-036 — the associates/JV carrying value is not recognised, the 180-day control is verified in force, and the V2 ingestion path is made operable",
+     "files": 21
+    },
+    {
+     "sha": "0ddf5c7",
+     "subject": "test(iid): L-036 — record the independent remote and clean-clone verification",
+     "files": 1
+    }
+   ]
+  },
+  {
+   "workItem": "L-035",
+   "description": "nil declaration grammar bound to a statement section and line-item class, schema V3",
+   "range": "0ddf5c7..fdbbae6",
+   "rangeInclusiveOfBase": false,
+   "publishedRangeInArenaReport": "451d790..fdbbae6",
+   "rangeVerification": "the Arena report cited `451d790..fdbbae6` for L-035: that range is EXCLUSIVE of 451d790 (git A..B), so taken literally it drops the commit that carries the grammar, schema V3, the review record and the acceptance tests and keeps only the clean-clone log. The correct boundary is `0ddf5c7..fdbbae6`, i.e. both 451d790 and fdbbae6. The same careful reading applies to L-037: `42be412..2514e69` excludes 42be412 itself, the commit that adds the three source files.",
+   "commits": [
+    {
+     "sha": "451d790",
+     "subject": "feat(iid): L-035 — bind every nil declaration to a statement section and a line-item class; resolved",
+     "files": 24
+    },
+    {
+     "sha": "fdbbae6",
+     "subject": "test(iid): L-035 — record the independent remote and clean-clone verification",
+     "files": 1
+    }
+   ]
+  },
+  {
+   "workItem": "WI-10 / L-037",
+   "description": "retrieval-evidence contract, bundle reader, offline CLI gate, poisoned-bundle tests",
+   "range": "fdbbae6..2514e69",
+   "rangeInclusiveOfBase": false,
+   "publishedRangeInArenaReport": "42be412..2514e69",
+   "rangeVerification": "`42be412..2514e69` is exclusive of 42be412 (git A..B semantics); the complete series is 42be412, 9ed8dcf, d673d34, 32a9473, 402c080, 2514e69.",
+   "commits": [
+    {
+     "sha": "42be412",
+     "subject": "feat(iid): L-037 — a retrieval-evidence contract, a bundle reader and a CLI gate",
+     "files": 3
+    },
+    {
+     "sha": "9ed8dcf",
+     "subject": "test(iid): L-037 — 27 targeted tests, eleven of them poisoned copies of the real bundle",
+     "files": 1
+    },
+    {
+     "sha": "d673d34",
+     "subject": "docs(iid): L-037 — WI-10 bundle, register 17.21 and tracker 16.279; PARTIALLY RESOLVED with its boundary",
+     "files": 29
+    },
+    {
+     "sha": "32a9473",
+     "subject": "fix(iid): L-037 — the control references the real extracts by path instead of copying them",
+     "files": 18
+    },
+    {
+     "sha": "402c080",
+     "subject": "test(iid): L-037 — record the clean-clone verification, and keep the manifest's exclusions explicit",
+     "files": 3
+    },
+    {
+     "sha": "2514e69",
+     "subject": "test(iid): L-037 — clean-clone verification re-run at 402c080",
+     "files": 1
+    }
+   ]
+  }
+ ],
+ "crossItemOverlap": {
+  "files": [
+   "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+   "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md"
+  ],
+  "statement": "exactly two files are touched by more than one work item, and both are append-only documents: the limitation register and the master tracker. No source file, test, dataset, payload, manifest or evidence artifact is shared — the three items are separable at the file level and require only the document appends to be re-anchored."
+ },
+ "dependencyAssessment": {
+  "wi9_requires_l035_or_l037": false,
+  "l035_requires_wi9_code": false,
+  "l035_requires_l037": false,
+  "l037_requires_wi9_or_l035": false,
+  "evidence": [
+   "runs/05-separability.txt section B: each item’s own tests pass on origin/main with only that item applied",
+   "L-036 imports `assertSupportedDatasetSchema` from contracts/lineItems, which exists on main since #497 — not from L-035",
+   "L-035 changes the schema union and CURRENT_DATASET_SCHEMA (V2 → V3); L-036’s tests pin V2 explicitly and still pass at the combined head (73/73)",
+   "L-037 touches no shared source path at all"
+  ],
+  "textualDependency": "each work item’s document patch carries the previous item’s appended tail as context, so applied to main the append hunk conflicts. This is a text dependency, not a semantic one, and is resolved deterministically by keeping main’s documents and re-anchoring the item’s own sections — see split/rebuild.sh and runs/06..08."
+ }
+}

@@ -1,0 +1,26 @@
+# manifest verification — re-hash every file listed in digests.json
+# 2026-11-07T18:25:20Z
+$ python3 (re-hash each listed path)
+OK   README.md                                                     9173 B  fe7a342c4bd5da07780e75ac664fb70a0d66bacfd6530d88189c070bb7fa0d21
+OK   branch-feasibility.json                                       2258 B  3aa63a86607da951ec53d2f9fd6a2227a036f84f615d3f0d3d11d42556e1e8a5
+OK   merge-plan.md                                                 3676 B  1652ad030100a14e6b0f4e1c6df190691e67fc3738a3183760dd12a50fb4d26d
+OK   pr-507-verification.json                                      4772 B  cb72e7f5f169d3f75d6725a1ec51c27a07afb8405d91238f4f23de8d43fd309f
+OK   pr-508-ancestry.json                                         22513 B  421fce0dc9b4df1ff508c515258aa0a78800f40d95717d6a9aea4c31a3ffd504
+OK   remote-state.json                                             2220 B  eab7cc7644af7019e484e8be53ed3a51a768b5ea1eaa379b1d8250ac79739466
+OK   runs/01-remote-state.txt                                      1266 B  fe3db1cd5ff8c100400ea25b7691632e7ca4a419dda80158870a9928c4bd169a
+OK   runs/02-pr507-verification.txt                                3622 B  6e6e0541679236b1dbb5f0a9d7de19e8bbdd49e3c36b022a7542449d1b13640e
+OK   runs/03-ancestry.txt                                         13447 B  c75a7040c495c4ffbc80498f7873eee7acadb85a329463a305b6d518ade172ca
+OK   runs/04-per-item-tests.txt                                    1165 B  d7625b0383945ea5752dcd606ea65e22e5e53f4f477e0fe3c5a1bbae3958a1c9
+OK   runs/05-separability.txt                                      2249 B  35e5a009cd13ecda18935cbfa570b0712588cbf07a8003de2a7c63f84ae2417b
+OK   runs/06-rebuild-wi9.txt                                        627 B  4302ee36fc49498b0a1d7fbb2014293cbbe68a476e367f5c2941eacaec1b05ce
+OK   runs/07-rebuild-l035.txt                                      1045 B  6ca788cfd352c1dcecb1de6a8fba47dfd993e32dcf9dc135ddd2b133e8b8842f
+OK   runs/08-rebuild-l037.txt                                      1583 B  4fd23d2671868544c9a2068cbd664804e2d519949b3980d008241111061269ed
+OK   runs/09-ci.txt                                                1685 B  c55def7ca9bed014730829fde888fde1d5ed830d4559d2eb0b044880e2686540
+OK   runs/11-pr507-content-tests.txt                                351 B  6f244bf67f1e03fca2e5756d502cec0c62e8307b382889b9a7cd4819ea29d480
+OK   separability.json                                             3227 B  5d57f0fc4968f26e0fb77748da18d84122e37b0025d166fbf791b73594c857f5
+OK   split/rebuild.sh                                              2424 B  3ace9accfb1f2856c6958d9fcdd36a63611bd7dea8efe880df1f91f539bdbc29
+OK   split/recipe.md                                               3249 B  752f77d8a3a929969811d2a49633de3a0070dc2a93d7889d7fc279040bc09220
+OK   split/resolve_docs.py                                         2966 B  6ee9dc0b8bcaa4f0a643335aed2ae9255ce722919cab1926c92c66fed0c415c1
+
+20 files checked, 0 mismatch(es)
+exit=0

@@ -1,0 +1,68 @@
+{
+ "schemaVersion": 1,
+ "record": "remote-state",
+ "reconciledAtUtc": "2026-11-07T18:23:05Z",
+ "repository": "ramkivs/iips-review-recovered",
+ "originMain": "c95c0480c96a6e88129785bcf14405a12462ade9",
+ "originMainSubject": "Merge pull request #507 from ramkivs/arena/9a0de198-iips-review-recovered",
+ "sessionBranch": {
+  "name": "arena/8133630f-iips-review-recovered",
+  "head": "2514e691ec29b5ac6a46afb3975cc60e7ad1a995",
+  "remoteHead": "2514e691ec29b5ac6a46afb3975cc60e7ad1a995",
+  "workingTree": "clean"
+ },
+ "cloneState": {
+  "shallow": false,
+  "commitsAvailable": 223,
+  "note": "the clone was shallow at c95c048 when this task began; it was deepened with `git fetch --deepen=60 origin main` so the PR #507 merge parents and its 11 commits became inspectable"
+ },
+ "pullRequests": {
+  "507": {
+   "state": "MERGED",
+   "mergedAt": "2026-11-07T17:01:39Z",
+   "mergedBy": "ramkivs",
+   "base": "main",
+   "head": "arena/9a0de198-iips-review-recovered",
+   "headSha": "1b7f0d56658678eede6544a8fa12e634fc2109a9",
+   "mergeCommit": "c95c0480c96a6e88129785bcf14405a12462ade9",
+   "files": 41,
+   "additions": 4306,
+   "deletions": 7,
+   "title": "L-038: WI-7 Marico debt-component re-read — one cell recovered, a second blocker found, the bridge still refuses"
+  },
+  "508": {
+   "state": "OPEN",
+   "mergeable": "MERGEABLE",
+   "mergeStateStatus": "CLEAN",
+   "base": "main",
+   "head": "arena/8133630f-iips-review-recovered",
+   "headSha": "2514e691ec29b5ac6a46afb3975cc60e7ad1a995",
+   "files": 65,
+   "additions": 5619,
+   "deletions": 18,
+   "containsWorkItems": [
+    "WI-9 / L-036",
+    "L-035",
+    "WI-10 / L-037"
+   ]
+  }
+ },
+ "ci": {
+  "main@c95c048": {
+   "run": 42394233973,
+   "workflow": "CAP-03 Revision 7 IRR-only static checks",
+   "conclusion": "success"
+  },
+  "pr507@1b7f0d5": {
+   "run": 42393801904,
+   "conclusion": "pass",
+   "note": "checks recorded on the PR before the merge"
+  },
+  "pr508@2514e69": {
+   "run": 42399423008,
+   "conclusion": "pass"
+  },
+  "workflowScope": "static/evidence/tracker validation and changed-file whitespace only; the TypeScript suites are not run by this workflow"
+ },
+ "truthStatement": "read from `git` and `gh` in this task, not from an earlier report"
+}

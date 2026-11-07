@@ -1,0 +1,49 @@
+# separation feasibility — does each item apply to origin/main, and does it stand alone?
+# 2026-11-07T18:22:33Z
+
+## A. patch application of each published commit onto a clean tree of origin/main (git apply --check, no branch)
+
+### WI-9
+  e145ecd: applies to main cleanly
+  0ddf5c7: applies to main cleanly
+
+### L-035
+  451d790: conflicts -> error: patch failed: IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md:22338
+  fdbbae6: applies to main cleanly
+
+### L-037
+  42be412: applies to main cleanly
+  9ed8dcf: applies to main cleanly
+  d673d34: conflicts -> error: patch failed: IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md:22386
+  32a9473: conflicts -> error: evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/README.md: No such file or directory
+  402c080: conflicts -> error: evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json: No such file or directory
+  2514e69: conflicts -> error: evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/06-clean-clone.txt: No such file or directory
+
+  Reading these three lines correctly matters. Only one real conflict exists per item — the append-only section in the
+  two shared documents, whose context is the previous item's tail. Everything else in each commit applies untouched.
+  L-037's 32a9473 / 402c080 / 2514e69 lines are a *cascade* of that single conflict: they edit files that d673d34
+  creates (control/, digests.json, runs/), and because d673d34 could not apply, those files were not there yet. Once
+  d673d34 is resolved, all six commits apply in order — runs/08-rebuild-l037.txt shows exactly that, and the rebuilt
+  tree passes 27/27.
+
+## B. semantic independence — origin/main plus only that item's paths, then run that item's own tests
+
+### WI-9: main + this item only
+  # tests 24
+  # pass 24
+  # fail 0
+  tsc --noEmit exit=0
+
+### L-035: main + this item only
+  # tests 27
+  # pass 27
+  # fail 0
+  tsc --noEmit exit=0
+
+### L-037: main + this item only
+      not ok 4 - the register records L-037 as PARTIALLY RESOLVED and leaves the other statuses alone
+  not ok 7 - L-037 — the WI-10 bundle and the register agree
+  # tests 27
+  # pass 26
+  # fail 1
+  tsc --noEmit exit=0

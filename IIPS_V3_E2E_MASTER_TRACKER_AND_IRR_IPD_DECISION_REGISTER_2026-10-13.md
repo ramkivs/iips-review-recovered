@@ -22425,5 +22425,69 @@ reachability, `R-037-03` absent tooling and `R-037-07` two-up column geometry st
 exists; `R-037-04`, `R-037-06` and `R-037-08` are **resolved**; `R-037-09` (Zensar) remains settled by S2 and was
 re-verified, not reopened. `L-034`/`L-035`/`L-040` remain **`RESOLVED`**, `L-036` **`PARTIALLY RESOLVED`**, `L-038`
 **`OPEN`**, `L-039` and `L-001` … `L-033` untouched. No D-2, IX, valuation, mapping, IPD or IPO Screening change; no new
-persistence mechanism, table, journal or cache; no production scope. Nothing is merged: PR #507, PR #508 and this work
-item's pull request all await the combined closeout. Next free §16.280 / CV-CORR-254 / CHG-2026-11-06-17 / V2149.
+persistence mechanism, table, journal or cache; no production scope. **Corrected 2026-11-07 by the §16.280
+reconciliation:** this paragraph originally read *"Nothing is merged: PR #507, PR #508 and this work item's pull request
+all await the combined closeout"*, which was already untrue when it was written — PR #507 merged at 17:01:39Z the same
+day. The factual position is that **PR #507 is merged into `main` as `c95c048`**, while PR #508 and this work item remain
+unmerged. Nothing else in this entry changes: `L-037` is `PARTIALLY RESOLVED` for the reasons stated above, and `L-038`
+remains `OPEN` in its merged §17.18 form. Next free §16.281 / CV-CORR-255 / CHG-2026-11-07-1 / V2150.
+
+### 16.280 Remote reconciliation, PR separation and closeout preparation — PR #507 verified merged, PR #508 measured rather than assumed, three split series built and verified but not opened (2026-11-07)
+
+**What this entry is.** Not a work item and not a limitation change: a reconciliation of the remote repository against the
+record, run before the controlled merge sequence. No issuer work, no reopened investigation, no limitation status touched.
+Evidence: `evidence/reconciliation/PR-RECONCILIATION-2026-11-07/`.
+
+**Remote truth, read directly.** `origin/main` is `c95c0480c96a6e88129785bcf14405a12462ade9`, and that commit **is the
+merge commit of PR #507** (parents `f9d88a7` and `1b7f0d5`, merged 2026-11-07T17:01:39Z by `ramkivs`, CI `42394233973`
+success). PR #508 is the only open PR: `MERGEABLE`/`CLEAN`, head `2514e69`, 65 files, +5619/−18, CI `42399423008` pass.
+The clone was shallow at `c95c048` at the start (`git rev-parse --is-shallow-repository` → `true`), so the merge parents
+were not inspectable until it was deepened with `git fetch --deepen=60 origin main`; every #507 conclusion below rests on
+the deepened history, not on a prior report.
+
+**PR #507 — verified as the reviewed `L-038` correction.** Eleven commits entered; six files were modified and the rest
+were additions under `WI7-L038-DEBT-COMPLETENESS-2026-11-07/` and its guard test. No unrelated change entered: every
+modified path belongs to `L-038` or the WI-7 consumer it corrects. The temporary discovery workflow
+`.github/workflows/temp-l038-discover.yml` was added in `eeb23e1` and **deleted in `e479534`**, so the merged tree carries
+only the three pre-existing workflows — history carries it, the tree does not. The merged determination still says
+`limitationStatus: OPEN (unchanged)`, `resolved: false`, and preserves every finding this reconciliation was told to
+protect: the **two independent blockers** (period-alignment of the four debt components, and `PREFERENCE_CAPITAL`
+`MISSING`/`NOT_REPORTED`), the **same-period reconciliation** (2023-03-31 gross debt 608 crore, cash and investments 785,
+net debt −177; the payload's 487 crore is the 2024 cash side and is never subtracted from the 2023 debt side), the
+**cash-side period-alignment gap** as `UNDECIDED — documented, not acted on`, and **no additional debt or cash mapping**
+(the only cell moved is FY2023 `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` = 0, printed in both reports). `L-038` stays
+**`OPEN`**; the merge was not reversed and the investigation was not reopened. Register §17.15/§17.18 and tracker §16.276
+are consistent with it — no correction was required.
+
+**PR #508 — ancestry, and two range corrections.** Ten commits in three items: WI-9/`L-036` `e145ecd`,`0ddf5c7`;
+`L-035` `451d790`,`fdbbae6`; WI-10/`L-037` `42be412`,`9ed8dcf`,`d673d34`,`32a9473`,`402c080`,`2514e69`. The range
+`451d790..fdbbae6` cited in the brief is **exclusive of `451d790`** under Git's `A..B` semantics and therefore omits the
+commit that carries the grammar, schema V3, the review record and the acceptance tests; the correct boundary is
+`0ddf5c7..fdbbae6`. The same care applies to `42be412..2514e69`, which omits `42be412` itself. Path ownership is clean:
+20 / 23 / 32 paths respectively, and the **entire cross-item overlap is two append-only documents** — the limitation
+register and this tracker. No source file, test, dataset, payload, manifest or evidence artifact is shared.
+
+**Separation — built and tested, not opened.** Three dedicated PRs were not created, and the reason is stated exactly: the
+repository permits it and this session does not. The token (`ramkivs`) holds `admin`/`push`, 384 branch heads already
+exist on the remote, and `git push --dry-run origin HEAD:refs/heads/arena/reconcile-probe` reported
+`* [new branch] … -> arena/reconcile-probe`, exit 0; but this task is bound to one branch and may not create or push
+another, and no actual push was attempted (a dry run is the strongest permitted evidence). Instead all three series were
+rebuilt on `origin/main` in a scratch clone on a **detached HEAD** — no branch anywhere — with `git cherry-pick -x`:
+WI-9 with no conflict (**24/24**, `tsc` 0), `L-035` with one conflict confined to the two documents (**27/27**, `tsc` 0),
+`L-037` likewise, its code and test applying cleanly (**27/27**, `tsc` 0). The rebuild is deterministic — repeated runs
+produced identical tree SHAs — and the procedure is committed as `split/rebuild.sh` with
+`split/resolve_docs.py`, whose rule is: keep the base documents, re-apply the item's in-place status edits, re-anchor the
+item's own appended section at the new end of file. Semantic independence was verified separately by applying each item
+alone onto `main` (`runs/05-separability.txt`); `L-037`'s single reduced-simulation failure is its own register assertion,
+which passes in the full rebuild.
+
+**One inconsistency found, and how it was corrected.** §16.279 had ended with the claim that nothing was merged, including
+PR #507 — written after #507 had already merged. That is corrected in place above with a dated note (the finding itself is
+untouched), and the correction is the only documentation change this reconciliation made: the register is consistent as
+merged and no limitation status moved.
+
+**Merge order proposed (nothing merged here).** WI-9 → `L-035` → `L-037`, each as a merge commit rather than a squash
+(the commit SHAs are cited in three evidence bundles), with the same trivial document re-anchoring at steps 2 and 3, and a
+post-merge re-run of that item's suites plus the documents' own consistency assertions. Merging #508 as one unit remains
+the conflict-free alternative and is `MERGEABLE`/`CLEAN` today. Numbers and dates stay in step only in that order, which
+is why it is the recommended one. Next free §16.281 / CV-CORR-255 / CHG-2026-11-07-1 / V2150.

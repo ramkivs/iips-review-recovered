@@ -1,0 +1,8 @@
+# post-merge verification of PR #507's content, run against a clean tree of origin/main (c95c048)
+# 2026-11-07T18:25:15Z
+$ git archive c95c048 | tar -x -C /tmp/verify-main ; npm ci
+$ npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts tests/investment/wi7ConsumerMarico.test.ts
+  # tests 53
+  # pass 53
+  # fail 0
+  tsc --noEmit exit=0

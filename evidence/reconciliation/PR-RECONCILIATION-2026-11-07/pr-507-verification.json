@@ -1,0 +1,89 @@
+{
+ "schemaVersion": 1,
+ "record": "pr-507-verification",
+ "reconciledAtUtc": "2026-11-07T18:23:05Z",
+ "independentOfEarlierReports": true,
+ "pullRequest": 507,
+ "merge": {
+  "commit": "c95c0480c96a6e88129785bcf14405a12462ade9",
+  "firstParent": "f9d88a77989a1573b66e08a33d0b6175d67b8489",
+  "secondParent": "1b7f0d56658678eede6544a8fa12e634fc2109a9",
+  "author": "ramkivs <sairam260573@gmail.com>",
+  "committer": "GitHub <noreply@github.com>",
+  "authoredAt": "2026-11-07T22:31:39+05:30",
+  "mergedAtGitHub": "2026-11-07T17:01:39Z",
+  "subject": "Merge pull request #507 from ramkivs/arena/9a0de198-iips-review-recovered",
+  "isOriginMain": true
+ },
+ "commitsThatEntered": [
+  "1b7f0d5 L-038: reconcile the 608 / -177 / 487 crore figures and record the cash-side alignment gap",
+  "251fcd4 L-038: correct runs/commands.txt to the governed CLI entry points, add reproduction transcript",
+  "63f6a83 L-038: ship the clean-clone transcript and re-seal the manifest at 28 files",
+  "e479534 L-038: WI-7 Marico debt-component re-read — one cell recovered, second blocker found, bridge still refuses",
+  "b3c3d03 L-038 discovery: debt/maturity page extracts and hit report (scratch, to be deleted)",
+  "2726acf L-038 discovery: also read the pages the search attributes to 'preference share'",
+  "a6adc1b L-038 discovery: debt/maturity page extracts and hit report (scratch, to be deleted)",
+  "effe3af L-038 discovery: survive the forced errexit so diagnostics are always written",
+  "fcd51c8 L-038 discovery: debt/maturity page extracts and hit report (scratch, to be deleted)",
+  "3ad41e7 L-038 discovery: record every HTTP outcome and commit diagnostics even on failure",
+  "eeb23e1 L-038: throwaway discovery workflow to read the Marico reports from a hosted runner"
+ ],
+ "scope": {
+  "filesChanged": 41,
+  "additions": 4306,
+  "deletions": 7,
+  "added": 35,
+  "modified": 6,
+  "deleted": 0,
+  "modifiedPaths": [
+   "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+   "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+   "docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md",
+   "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/README.md",
+   "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/determination-wi7.json",
+   "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/digests.json"
+  ]
+ },
+ "unrelatedChanges": {
+  "found": false,
+  "note": "every modified path belongs to L-038 or to the WI-7 consumer it corrects; the only non-evidence edits are the register and tracker entries for §17.18 / §16.276. A temporary workflow (.github/workflows/temp-l038-discover.yml) entered in discovery commit eeb23e1 and was deleted in e479534, so the merged tree carries only the three pre-existing workflows — history carries the file, the tree does not, which is the same reproducibility fact L-037 records as R-037-05."
+ },
+ "l038ContentChecks": {
+  "limitationStatus": "OPEN (unchanged)",
+  "resolved": false,
+  "twoIndependentBlockers": [
+   {
+    "blocker": "DEBT-COMPONENT-PERIOD-ALIGNMENT",
+    "evidence": "grossDebt NOT_COMPUTABLE / PERIOD_MISMATCH; components resolve to 2024-03-31 and 2023-03-31, so no single balance-sheet instant exists"
+   },
+   {
+    "blocker": "PREFERENCE_CAPITAL",
+    "presence": "MISSING",
+    "reason": "NOT_REPORTED",
+    "evidence": "authorised preference shares exist, issued preference shares are not printed and are not declared nil"
+   }
+  ],
+  "samePeriodReconciliation": {
+   "instant": "2023-03-31",
+   "grossDebtCrore": 608,
+   "cashAndInvestmentsCrore": 785,
+   "netDebtCrore": -177,
+   "arithmetic": "608 = 2 + 473 + 0 + 133; 785 = 207 + 578; -177 = 608 - 785",
+   "published2024Cash": 487,
+   "publishedNote": "the payload publishes the 2024 cash side; it is never subtracted from the 2023 debt side"
+  },
+  "cashSidePeriodAlignment": {
+   "id": "CASH-SIDE-PERIOD-ALIGNMENT",
+   "status": "UNDECIDED — documented, not acted on",
+   "notActedOn": "no aggregation code, policy, dataset value, payload or period-alignment rule was changed"
+  },
+  "additionalMappingInferred": false,
+  "mappingApplied": "one dataset cell: FY2023 CURRENT_MATURITIES_OF_LONG_TERM_DEBT = 0, printed in both reports’ scheduled-maturity tables"
+ },
+ "documentationConsistency": {
+  "register": "§17.15 and §17.18 present on origin/main; L-038 recorded OPEN with both blockers named; §17.18 status paragraph preserved",
+  "tracker": "§16.276 present on origin/main and consistent with §17.18",
+  "correctionNeeded": false
+ },
+ "verdict": "VERIFIED — the merge is the reviewed L-038 correction, it carries no unrelated change, and every finding the task asked to preserve is present and unchanged. The merge is not reversed and the investigation is not reopened."
+}

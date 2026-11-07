@@ -1,0 +1,16 @@
+# rebuild l035 as a standalone series on origin/main (detached HEAD in /tmp/splitclone; no branch, no push)
+# 2026-11-07T18:21:39Z
+$ split/rebuild.sh l035 /tmp/splitclone <workspace-repo>
+  cherry-pick 451d790: conflicts -> IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+  appended 48 lines to IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+  appended 88 lines to docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+  cherry-pick 451d790: resolved (base documents kept, item sections re-appended)
+  cherry-pick fdbbae6: clean
+  series:
+    3c33576 3da3e9090d07cad0a7ed1c2e593e67f1853698c3 test(iid): L-035 — record the independent remote and cl
+    2f35683 423f66e924b6d16871c0594e06d67412236ef58a feat(iid): L-035 — bind every nil declaration to a stat
+  tests: tests/investment/nil-binding.test.ts tests/investment/cli.test.ts
+    # tests 27
+    # pass 27
+    # fail 0
+  tsc --noEmit exit=0

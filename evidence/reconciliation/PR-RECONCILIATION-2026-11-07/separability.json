@@ -1,0 +1,61 @@
+{
+ "schemaVersion": 1,
+ "record": "separability",
+ "reconciledAtUtc": "2026-11-07T18:23:22Z",
+ "question": "can PR #508 be separated into three dedicated PRs without changing any content?",
+ "answer": "YES, technically — and it was demonstrated, not asserted. It was not performed, because this session may not push any branch other than its own (see branch-feasibility.json).",
+ "method": "no branch was created anywhere. Each work item was rebuilt on origin/main in a scratch clone with a DETACHED HEAD (git cherry-pick -x onto `git checkout --detach origin/main`), the document conflicts were resolved by a deterministic script, and the rebuilt tree was tested. The script is committed as split/rebuild.sh and split/resolve_docs.py.",
+ "results": [
+  {
+   "workItem": "WI-9 / L-036",
+   "commits": [
+    "e145ecd",
+    "0ddf5c7"
+   ],
+   "appliesToMain": "all commits clean, no conflict",
+   "rebuiltTreeSha": "8fcd9ad6afbfe04edc95b9d1c0377520cab43045",
+   "rebuiltCommit": "1bce72a (scratch clone, detached HEAD; not pushed)",
+   "tests": "24/24 (wi9AssociatesResolution + cli)",
+   "typecheck": "0",
+   "log": "runs/06-rebuild-wi9.txt"
+  },
+  {
+   "workItem": "L-035",
+   "commits": [
+    "451d790",
+    "fdbbae6"
+   ],
+   "appliesToMain": "451d790 conflicts in the two append-only documents only; 23 of its 24 paths apply untouched; fdbbae6 clean",
+   "rebuiltTreeSha": "3da3e9090d07cad0a7ed1c2e593e67f1853698c3",
+   "rebuiltCommit": "2f35683 + 3c33576 (scratch clone, detached HEAD; not pushed)",
+   "tests": "27/27 (nil-binding + cli)",
+   "typecheck": "0",
+   "log": "runs/07-rebuild-l035.txt"
+  },
+  {
+   "workItem": "WI-10 / L-037",
+   "commits": [
+    "42be412",
+    "9ed8dcf",
+    "d673d34",
+    "32a9473",
+    "402c080",
+    "2514e69"
+   ],
+   "appliesToMain": "the two code commits and their test apply cleanly; d673d34 conflicts in the two append-only documents only; the three after it then apply in order",
+   "rebuiltTreeSha": "e83260dd69e434ffaed4a3b7f9de73a3012f0054 (parent tree) / cf3f37561834803842162c64a577950f41c35b12 (head tree)",
+   "rebuiltCommit": "0d25f6d..0cf8324 (scratch clone, detached HEAD; not pushed)",
+   "tests": "27/27 (retrieval-evidence)",
+   "typecheck": "0",
+   "log": "runs/08-rebuild-l037.txt"
+  }
+ ],
+ "determinism": "the rebuild was run twice for L-035 and L-037 and produced the identical tree SHAs both times (3da3e90…, and the two L-037 trees above), so the reconstruction is reproducible and content-preserving.",
+ "contentPreservation": "every rebuilt commit is the published commit with `git cherry-pick -x` provenance; the only difference is where three appended document sections sit, which is a base-branch consequence, not a content change.",
+ "semanticIndependence": {
+  "WI-9": "passes on main with only WI-9 applied (24/24)",
+  "L-035": "passes on main with only L-035 applied (27/27)",
+  "L-037": "passes on main with only L-037 applied (26/27); the single failure is its own assertion that the register records L-037 as PARTIALLY RESOLVED — it fails only because the register hunk was deliberately not applied in that simulation, and passes in the full rebuild where it is"
+ },
+ "notPerformedReason": "session branch authority (branch-feasibility.json)"
+}

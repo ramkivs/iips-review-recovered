@@ -1,0 +1,21 @@
+# remote state — fetched 2026-11-07T18:21:59Z
+$ git fetch origin --prune
+origin/main            c95c0480c96a6e88129785bcf14405a12462ade9
+local HEAD             2514e691ec29b5ac6a46afb3975cc60e7ad1a995  (arena/8133630f-iips-review-recovered)
+working tree           1 modified path(s)
+shallow repository     true (deepened to 223 commits for this reconciliation)
+
+remote branches (count) 384
+branch of this session  arena/8133630f-iips-review-recovered -> 2514e691ec29b5ac6a46afb3975cc60e7ad1a995
+recent arena branches (5):
+  refs/heads/arena/8133630f-iips-review-recovered
+  refs/heads/arena/9a0de198-iips-review-recovered
+
+$ gh pr list --state open
+  #508 arena/8133630f-iips-review-recovered -> main: iid: L-036 (WI-9) + L-035 (WI-10, RESOLVED) + L-037 (WI-11, PARTIALLY RESOLVED) — nil binding, associates evidence, deep-page retrieval made checkable
+
+$ gh pr view 507 --json state,mergeCommit,mergedAt,mergedBy
+  #507 state=MERGED mergedAt=2026-11-07T17:01:39Z merge=c95c0480c96a6e88129785bcf14405a12462ade9 head=1b7f0d56658678eede6544a8fa12e634fc2109a9 base=main files=41 +4306/-7
+
+$ gh pr view 508 --json state,mergeable,mergeStateStatus
+  #508 state=OPEN mergeable=MERGEABLE/CLEAN head=2514e691ec29b5ac6a46afb3975cc60e7ad1a995 base=main files=65 +5619/-18

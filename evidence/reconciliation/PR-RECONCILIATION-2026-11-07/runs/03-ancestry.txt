@@ -1,0 +1,146 @@
+# PR #508 — commit ancestry and exact work-item ownership (origin/main c95c048 .. head 2514e69)
+# 2026-11-07T18:22:04Z
+
+$ git log --reverse --format='%h %ci %s' c95c048..2514e69
+e145ecd 2026-11-07 17:24:15 +0000 fix(iid): L-036 — the associates/JV carrying value is not recognised, the 180-day control is verified in force, and the V2 ingestion path is made operable
+0ddf5c7 2026-11-07 17:25:30 +0000 test(iid): L-036 — record the independent remote and clean-clone verification
+451d790 2026-11-07 17:43:31 +0000 feat(iid): L-035 — bind every nil declaration to a statement section and a line-item class; resolved
+fdbbae6 2026-11-07 17:44:38 +0000 test(iid): L-035 — record the independent remote and clean-clone verification
+42be412 2026-11-07 17:58:43 +0000 feat(iid): L-037 — a retrieval-evidence contract, a bundle reader and a CLI gate
+9ed8dcf 2026-11-07 17:58:45 +0000 test(iid): L-037 — 27 targeted tests, eleven of them poisoned copies of the real bundle
+d673d34 2026-11-07 17:58:48 +0000 docs(iid): L-037 — WI-10 bundle, register 17.21 and tracker 16.279; PARTIALLY RESOLVED with its boundary
+32a9473 2026-11-07 18:00:56 +0000 fix(iid): L-037 — the control references the real extracts by path instead of copying them
+402c080 2026-11-07 18:02:24 +0000 test(iid): L-037 — record the clean-clone verification, and keep the manifest's exclusions explicit
+2514e69 2026-11-07 18:04:20 +0000 test(iid): L-037 — clean-clone verification re-run at 402c080
+
+per-commit file lists (name-status), grouped by work item:
+  === e145ecd fix(iid): L-036 — the associates/JV carrying value is not reco
+      M	IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+      M	docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/README.md
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/artifact/assessment-payload-l036.json
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/determination-l036.json
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/digests.json
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/01-ingest-rerun.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/02-generate-persist.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/03-readback.json
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/04-v2-operator-path.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/05-review-control.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/06-tests.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/07-typecheck.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/08-post-manifest-verification.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/commands.txt
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/source/source-map.json
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/source/verification-greps.txt
+      M	iips-platform/src/investment/cli/ingest.ts
+      M	iips-platform/src/investment/ingestion/writer.ts
+      M	iips-platform/tests/investment/cli.test.ts
+      A	iips-platform/tests/investment/wi9AssociatesResolution.test.ts
+  === 0ddf5c7 test(iid): L-036 — record the independent remote and clean-clo
+      A	evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/09-clean-clone.txt
+  === 451d790 feat(iid): L-035 — bind every nil declaration to a statement s
+      M	IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+      M	docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/README.md
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/artifact/assessment-payload-l035-v3.json
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/determination-l035.json
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/digests.json
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/01-reproduction-prefix.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/02-v3-unbound-refused.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/03-mismatch-refused.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/04-bound-accepted.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/05-wi3-byte-identity.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/06-generate-persist-readback.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/07-tests.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/08-typecheck.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/09-post-manifest-verification.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/commands.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/source/grammar.txt
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/source/review-record.json
+      M	iips-platform/src/investment/contracts/invariants.ts
+      M	iips-platform/src/investment/contracts/lineItems.ts
+      A	iips-platform/src/investment/contracts/nilBinding.ts
+      M	iips-platform/src/investment/contracts/observation.ts
+      M	iips-platform/src/investment/ingestion/builder.ts
+      A	iips-platform/tests/investment/nil-binding.test.ts
+  === fdbbae6 test(iid): L-035 — record the independent remote and clean-clo
+      A	evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/10-clean-clone.txt
+  === 42be412 feat(iid): L-037 — a retrieval-evidence contract, a bundle rea
+      A	iips-platform/src/investment/cli/verify-retrieval-evidence.ts
+      A	iips-platform/src/investment/sources/retrievalBundle.ts
+      A	iips-platform/src/investment/sources/retrievalEvidence.ts
+  === 9ed8dcf test(iid): L-037 — 27 targeted tests, eleven of them poisoned
+      A	iips-platform/tests/investment/retrieval-evidence.test.ts
+  === d673d34 docs(iid): L-037 — WI-10 bundle, register 17.21 and tracker 16
+      M	IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+      M	docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/README.md
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/access/attempts.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/README.md
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-11b-lease-liabilities.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-27-capital-management.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-statement-of-cash-flows.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-isin-and-listing-identifiers.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-11b-lease-liabilities.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-27-capital-management.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-33-lease-movement.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-statement-of-cash-flows.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-isin-and-listing-identifiers.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/page-map.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/quotes-verified.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/retrieval-log-s2.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/source-bytes.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/determination.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/01-s2-verification.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/01-s2-verification.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/02-control-verdict.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/03-targeted-tests.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/04-existing-guards.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/05-typecheck.txt
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/07-manifest-verification.txt
+  === 32a9473 fix(iid): L-037 — the control references the real extracts by
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/README.md
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-11b-lease-liabilities.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-note-27-capital-management.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-consolidated-statement-of-cash-flows.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy23-isin-and-listing-identifiers.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-11b-lease-liabilities.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-27-capital-management.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-note-33-lease-movement.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-consolidated-statement-of-cash-flows.txt
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/fy24-isin-and-listing-identifiers.txt
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/page-map.json
+      D	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/retrieval-log-s2.txt
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/02-control-verdict.txt
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/03-targeted-tests.txt
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/07-manifest-verification.txt
+  === 402c080 test(iid): L-037 — record the clean-clone verification, and ke
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json
+      A	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/06-clean-clone.txt
+      M	iips-platform/tests/investment/retrieval-evidence.test.ts
+  === 2514e69 test(iid): L-037 — clean-clone verification re-run at 402c080
+      M	evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/06-clean-clone.txt
+
+work-item ranges (A..B exclusive of A, inclusive of B as published):
+  WI-9  / L-036 : c95c048..0ddf5c7   (2 commits: e145ecd, 0ddf5c7)
+  L-035         : 0ddf5c7..fdbbae6   (2 commits: 451d790, fdbbae6)
+  WI-10 / L-037 : fdbbae6..2514e69   (6 commits: 42be412 9ed8dcf d673d34 32a9473 402c080 2514e69)
+
+
+files touched by more than one work item (the entire cross-item overlap):
+  IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+      L-035, WI-10 / L-037, WI-9 / L-036
+  docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+      L-035, WI-10 / L-037, WI-9 / L-036
+  total: 2 file(s), and no file is a source file, a test, a dataset, a payload or an evidence artifact
+
+per-work-item path ownership (no source/test path appears under two items):
+  WI-9 / L-036: 20 path(s) — 4 platform, 16 evidence, docs shared: 0
+  L-035: 23 path(s) — 6 platform, 17 evidence, docs shared: 0
+  WI-10 / L-037: 32 path(s) — 4 platform, 28 evidence, docs shared: 0

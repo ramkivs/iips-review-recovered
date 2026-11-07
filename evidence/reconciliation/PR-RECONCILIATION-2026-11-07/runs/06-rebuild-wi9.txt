@@ -1,0 +1,13 @@
+# rebuild wi9 as a standalone series on origin/main (detached HEAD in /tmp/splitclone; no branch, no push)
+# 2026-11-07T18:21:33Z
+$ split/rebuild.sh wi9 /tmp/splitclone <workspace-repo>
+  cherry-pick e145ecd: clean
+  cherry-pick 0ddf5c7: clean
+  series:
+    1bce72a 8fcd9ad6afbfe04edc95b9d1c0377520cab43045 test(iid): L-036 — record the independent remote and cl
+    578bb63 67b948c52b1ad0a8592471b5bbbaa966eda87522 fix(iid): L-036 — the associates/JV carrying value is n
+  tests: tests/investment/wi9AssociatesResolution.test.ts tests/investment/cli.test.ts
+    # tests 24
+    # pass 24
+    # fail 0
+  tsc --noEmit exit=0

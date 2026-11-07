@@ -1,0 +1,25 @@
+# CI — actual remote runs, read from GitHub (not local test output)
+# 2026-11-07T18:22:52Z
+
+$ gh run list --branch main --limit 3
+  42394233973  c95c048  CAP-03 Revision 7 IRR-only static checks  completed/success  2026-11-07T17:01:42Z
+  42383964354  f9d88a7  CAP-03 Revision 7 IRR-only static checks  completed/success  2026-11-07T14:56:49Z
+  42373274502  67caec1  CAP-03 Revision 7 IRR-only static checks  completed/success  2026-11-07T12:36:55Z
+
+$ gh run list --branch arena/8133630f-iips-review-recovered --limit 6
+  42399423008  2514e69  CAP-03 Revision 7 IRR-only static checks  completed/success
+  42399260133  402c080  CAP-03 Revision 7 IRR-only static checks  completed/success
+  42399135239  32a9473  CAP-03 Revision 7 IRR-only static checks  completed/success
+  42398952807  d673d34  CAP-03 Revision 7 IRR-only static checks  completed/failure
+  42397807541  fdbbae6  CAP-03 Revision 7 IRR-only static checks  completed/success
+  42397721155  451d790  CAP-03 Revision 7 IRR-only static checks  completed/success
+
+$ gh pr checks 507
+  Python compile · source/evidence/tracker validation	pass	41s	https://github.com/ramkivs/iips-review-recovered/actions/runs/42393801904/job/128466773594
+
+$ gh pr checks 508
+  Python compile · source/evidence/tracker validation	pass	38s	https://github.com/ramkivs/iips-review-recovered/actions/runs/42399423008/job/128483768593
+
+What these workflows run: the CAP-03 Revision 7 IRR-only static checks (Python compile, source/evidence/tracker
+validation, release-asset verification, changed-file whitespace). They do NOT run the TypeScript suites, so local
+test results above are reported separately and are never described as CI-verified.

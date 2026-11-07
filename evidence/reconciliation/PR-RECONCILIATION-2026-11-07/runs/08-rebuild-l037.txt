@@ -1,0 +1,24 @@
+# rebuild l037 as a standalone series on origin/main (detached HEAD in /tmp/splitclone; no branch, no push)
+# 2026-11-07T18:21:45Z
+$ split/rebuild.sh l037 /tmp/splitclone <workspace-repo>
+  cherry-pick 42be412: clean
+  cherry-pick 9ed8dcf: clean
+  cherry-pick d673d34: conflicts -> IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+  appended 41 lines to IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md
+  appended 91 lines to docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+  cherry-pick d673d34: resolved (base documents kept, item sections re-appended)
+  cherry-pick 32a9473: clean
+  cherry-pick 402c080: clean
+  cherry-pick 2514e69: clean
+  series:
+    826ee6f cf3f37561834803842162c64a577950f41c35b12 test(iid): L-037 — clean-clone verification re-run at 4
+    ff0d185 c6416bdecaf27da94e06beb0f68238ae2ab6f169 test(iid): L-037 — record the clean-clone verification,
+    c6f34fc be86275464a45a3c94341d788b0da62caf4b0f3a fix(iid): L-037 — the control references the real extra
+    dc57d51 f6d49c1e940d4ccad24f9cf25846d7f68173179d docs(iid): L-037 — WI-10 bundle, register 17.21 and tra
+    8f1a4db d797c42f0fe5470bbd2a9646d5b85aacc7f5457b test(iid): L-037 — 27 targeted tests, eleven of them po
+    b0ea6c0 e83260dd69e434ffaed4a3b7f9de73a3012f0054 feat(iid): L-037 — a retrieval-evidence contract, a bun
+  tests: tests/investment/retrieval-evidence.test.ts
+    # tests 27
+    # pass 27
+    # fail 0
+  tsc --noEmit exit=0

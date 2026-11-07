@@ -1,0 +1,40 @@
+{
+ "schemaVersion": 1,
+ "record": "branch-separation-feasibility",
+ "measuredAtUtc": "2026-11-07T18:23:22Z",
+ "conclusion": "The repository and the credential can create a branch; this session may not. Separation is blocked by session policy, not by GitHub permissions, branch protection or git configuration.",
+ "githubSide": {
+  "tokenIdentity": "ramkivs (GH_TOKEN configured for https git operations)",
+  "tokenPermissionsOnRepo": {
+   "admin": true,
+   "maintain": true,
+   "push": true,
+   "pull": true,
+   "triage": true
+  },
+  "defaultBranch": "main",
+  "existingRemoteBranches": 384,
+  "note": "hundreds of arena/* branch heads already exist on the remote, created by other sessions of this same tooling, so creating a branch is not itself restricted on the repository side.",
+  "dryRunPushToNewBranch": {
+   "command": "git push --dry-run origin HEAD:refs/heads/arena/reconcile-probe",
+   "result": "* [new branch]      HEAD -> arena/reconcile-probe",
+   "exitCode": 0,
+   "reading": "a dry run performs no write; it shows the remote would have accepted the ref update, i.e. the credential and the repository allow it"
+  },
+  "branchProtectionOnMain": "not the obstacle: the question is creating feature branches, not writing to main"
+ },
+ "sessionSide": {
+  "governingRestriction": "this session is bound to the single branch `arena/8133630f-iips-review-recovered`: all work is committed and pushed there, and creating or pushing any other branch is not permitted. The restriction is a property of the session harness, and it is the only reason the split PRs were not opened.",
+  "noPushAttempted": "an actual push to a new branch was deliberately not attempted: the restriction is a standing instruction, and probing it by writing to the remote would be a policy violation even if it succeeded. The dry run above is the strongest permitted evidence.",
+  "whatWouldUnblockIt": [
+   "a session granted branch authority, or",
+   "the closeout operator running split/rebuild.sh and pushing the three series directly"
+  ]
+ },
+ "alternativeDelivered": {
+  "recipe": "split/recipe.md",
+  "script": "split/rebuild.sh",
+  "resolver": "split/resolve_docs.py",
+  "verified": "runs/06-rebuild-wi9.txt, runs/07-rebuild-l035.txt, runs/08-rebuild-l037.txt"
+ }
+}
