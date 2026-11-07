@@ -509,9 +509,17 @@ function buildEvidence(
   const evidence: CompanyAssessmentPayload['evidence'][number][] = [];
   for (const method of methods) {
     if (!method.applicable || method.output === null) continue;
+    // `L-040`: an evidence item may describe only what the payload publishes. A method whose enterprise-to-
+    // equity conversion refused carries `perShareMid: NOT_COMPUTABLE`, so claiming it "produced a per-share
+    // value" would assert a number the same payload denies. The claim then states the refusal and its reason.
+    const mid = method.output.perShareMid;
+    const presentInputs = method.inputs.filter((entry) => entry.observation.presence === 'PRESENT').length;
     evidence.push({
       evidenceId: `EV-${method.methodId}`,
-      claim: `${method.methodId} produced a per-share value from ${method.inputs.filter((entry) => entry.observation.presence === 'PRESENT').length} present input(s)`,
+      claim:
+        mid.presence === 'PRESENT' && mid.value !== null
+          ? `${method.methodId} produced a per-share value from ${presentInputs} present input(s)`
+          : `${method.methodId} produced no per-share value: ${mid.presence} (${mid.reason ?? 'POLICY_INPUTS_UNAVAILABLE'})${mid.note === undefined ? '' : ` — ${mid.note}`}`,
       supports: [`valuation.methods[${methods.indexOf(method)}].output.perShareMid`],
       source: { kind: 'DERIVED', ref: `${method.formulaId}/${method.formulaVersion}` },
       observationRefs: method.inputs.map((entry) => entry.name),

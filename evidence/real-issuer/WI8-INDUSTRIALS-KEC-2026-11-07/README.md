@@ -225,22 +225,39 @@ distinct limitation (`L-039` in the register), and it is the binding constraint 
 - **Confidence 0.3199** = `0.6 × 0.70 + 0.4 × 0.0833`, then `×0.9` (`STALE_DATA`) `×0.98` (`DILUTION_PROXY`) `×0.8`
   (R-4.3 policy-default-WACC penalty, applied once). Caps: `STALE_DATA`, `DILUTION_PROXY`, `POLICY_DEFAULT_WACC`.
 
-**Two payload behaviours this run exposes, recorded and not fixed.** Neither is repaired here — WI-8 changes no policy, no
-validator and no payload grammar — but both are published because a reader of this artifact would otherwise be misled:
+**Two payload behaviours this run exposed, and the same-day correction that removed them (`L-040`).** The original
+run recorded both rather than repairing them — WI-8 changes no policy, no validator and no payload grammar — because a
+reader of that artifact would otherwise be misled:
 
-1. **The sensitivity grid publishes per-share numbers the headline refuses.** `buildSensitivity` computes
+1. **The sensitivity grid published per-share numbers the headline refused.** `buildSensitivity` computed
    `(EV − (netDebt ?? 0) − (minorityInterest ?? 0) − (preferenceCapital ?? 0) + (associatesAndJV ?? 0)) / shares`
    (`iips-platform/src/investment/assessment/intrinsic.ts`). On this issuer every one of those terms is unavailable, so
-   each `??` substitutes **zero**: the grid's base point therefore reads **₹488.34 per share**, which is enterprise value
-   divided by diluted shares with net debt treated as nil. That number is **not** an intrinsic value, is **not** used
+   each `??` substituted **zero**: the grid's base point therefore read **₹488.34 per share**, which is enterprise value
+   divided by diluted shares with net debt treated as nil. That number is **not** an intrinsic value, was **not** used
    anywhere in this work item's conclusions, and is precisely the "zero in place of NOT_REPORTED" that D-2 forbids one
-   level up. Register `L-040` is OPEN.
-2. **The evidence claim outruns the output.** Evidence `EV-DCF_FCFF` states *"DCF_FCFF produced a per-share value from 3
-   present input(s)"* and declares it `supports: valuation.methods[0].output.perShareMid`, while `perShareMid` is
-   `NOT_COMPUTABLE`. The claim is the same class of overstatement as (1) and is recorded with it under `L-040`.
+   level up.
+2. **The evidence claim outran the output.** Evidence `EV-DCF_FCFF` stated *"DCF_FCFF produced a per-share value from 3
+   present input(s)"* and declared it `supports: valuation.methods[0].output.perShareMid`, while `perShareMid` was
+   `NOT_COMPUTABLE`.
 
-Because of (1), the sensitivity values in `artifact/assessment-payload-kec-wi8.json` must be read as *arithmetic
-evidence about the DCF formula*, not as valuations of this issuer.
+Both surfaces are **corrected** as of 2026-11-07, in the same work item, under `L-040` (now `RESOLVED`). The grid
+converts through the governed `equityValueFromEnterprise()` / `perShare()` pair, so a per-share cell exists only where
+that conversion could compute one; when it refuses, every cell publishes `value: null`, the grid carries
+`withheld: { presence: NOT_COMPUTABLE, reason, note }`, and the discounted enterprise value is retained per cell as
+`enterpriseValue` — **quarantined diagnostic arithmetic**, rendered as a *"(diagnostic)"* column and never published as a
+per-share value. The evidence claim now reads *"DCF_FCFF produced no per-share value: NOT_COMPUTABLE (NOT_REPORTED) —
+enterprise-to-equity conversion blocked by netDebt"*. No replacement number was manufactured.
+
+**How to read the two artifacts in this bundle:**
+
+| File | Status | How to read it |
+|---|---|---|
+| `artifact/assessment-payload-kec-wi8.json` | **original run of record — SUPERSEDED, NOT AUTHORITATIVE** (sha256 `4f89f0ec…e351`, 52,357 bytes, reportId `85809cbd…`) | Historical evidence *of the defect*. Its nine sensitivity per-share cells and its `EV-DCF_FCFF` claim are invalid and must not be used as a valuation or as sensitivity of this issuer. Everything else in it — enterprise value, refusals, confidence, quality, risk, limitations — is unchanged by the correction. |
+| `artifact/assessment-payload-kec-wi8-l040-corrected.json` | **corrected payload** (sha256 `fc50c53e…f370`, 52,760 bytes, reportId `c1ffcd56…`) | The payload the shipped code produces from the same input, datasetVersion, reportKey and `--generated-at` instant. Same refusals, no invented per-share number. Differs from the original in exactly 20 paths (`runs/12-l040-payload-diff.json`). |
+
+Neither payload is a valuation of this issuer: both refuse one, and the corrected one refuses without publishing a
+number. The L-040 record is `determination-l040-correction.json` and
+`docs/integration/IIPS_V3_IID_L040_VALUATION_OUTPUT_CORRECTION_2026-11-07.md`; the correction run is `runs/09`–`runs/12`.
 
 ## 12. Persistence and separate-process readback
 
@@ -254,7 +271,8 @@ evidence about the DCF formula*, not as valuations of this issuer.
 | datasetVersion | `sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab` |
 | chain | valid, 1 version, head v1 |
 | idempotency | a second generate run reported `compare: content and input identical` → `persist: UNCHANGED (no write)` |
-| readback | separate process, `readVersionWithPayload` → recomputed `sha256:4f89f0ec…e351` **equals** the stored digest and the chain head; payload 52,357 bytes |
+| readback (original run) | separate process, `readVersionWithPayload` → recomputed `sha256:4f89f0ec…e351` **equals** the stored digest and the chain head; payload 52,357 bytes |
+| readback (L-040 correction run) | separate process, same port and service → recomputed `sha256:fc50c53e…f370` **equals** the stored digest and the chain head; payload 52,760 bytes; `runs/11-l040-readback.json`, `runs/11-l040-corrected-readback.txt` |
 
 `runs/03-chain-read.txt` is the governed `show-investment-chain` CLI reading the same chain in a third process; it
 reports the same reportId, digests and counts.
@@ -265,7 +283,7 @@ reports the same reportId, digests and counts.
 |---|---|---|
 | `L-038` (bridge needs borrowing components a balance sheet need not print) | stays **OPEN** | The *debt* half did not bite here — Note 30 printed the current maturities — so gross debt resolved. The entry stays open for issuers that print a single `Borrowings` line. |
 | **`L-039` (new)** — the bridge's *cash* half requires a `CURRENT_INVESTMENTS` line | **OPEN** | A fully read, fully audited consolidated balance sheet with no current-investments line yields no `netDebt`, hence no enterprise-to-equity conversion, no enterprise-derived per-share value, no leverage risk dimension, and no `netDebtToEbitda`. |
-| **`L-040` (new)** — the sensitivity grid and the `EV-DCF_FCFF` evidence claim substitute zero for unavailable bridge terms | **OPEN** | The grid publishes ₹488.34 per share while the headline refuses; the evidence claims a per-share value that does not exist. |
+| **`L-040` (new)** — the sensitivity grid and the `EV-DCF_FCFF` evidence claim substitute zero for unavailable bridge terms | **RESOLVED** (2026-11-07) | The grid published ₹488.34 per share while the headline refused, and the evidence claimed a per-share value that did not exist. Both surfaces are corrected and regression-guarded (`l040ValuationZeroSubstitution.test.ts`, 17 tests); the original payload is preserved as superseded evidence and the corrected payload is published beside it. `L-039` — the bridge itself — is untouched and stays `OPEN`. |
 | `L-036` associates/JV policy zero | stays `PARTIALLY RESOLVED` | `REVIEW_DUE` fires again (clock 2026-03-31, due 2026-09-27); no filing figure exists. |
 | `L-035`, `L-037`, others | unchanged | Nothing in this run tests them. |
 

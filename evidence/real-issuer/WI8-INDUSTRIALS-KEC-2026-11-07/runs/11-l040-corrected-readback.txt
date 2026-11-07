@@ -1,0 +1,33 @@
+# L-040 correction run — 2026-11-07 — the corrected payload re-read in a SEPARATE process
+# cd frontend && npx tsx .tmp-l040-readback.ts /tmp/wi8/readback.json /tmp/wi8/payload.json   (harness deleted after use)
+{
+  "gridWithheld": {
+    "note": "enterprise-to-equity conversion blocked by netDebt",
+    "presence": "NOT_COMPUTABLE",
+    "reason": "NOT_REPORTED"
+  },
+  "pointsWithValue": 0,
+  "firstPoint": {
+    "enterpriseValue": 134168309666.93964,
+    "growthBps": 300,
+    "value": null,
+    "waccBps": 968
+  },
+  "basePoint": {
+    "enterpriseValue": 129992950487.77222,
+    "growthBps": 400,
+    "value": null,
+    "waccBps": 1068
+  },
+  "evidence": [
+    "DCF_FCFF produced no per-share value: NOT_COMPUTABLE (NOT_REPORTED) — enterprise-to-equity conversion blocked by netDebt",
+    "dividend sources reconciled with status NOT_COMPARABLE"
+  ],
+  "intrinsic": null,
+  "perShareMid": {
+    "note": "enterprise-to-equity conversion blocked by netDebt",
+    "presence": "NOT_COMPUTABLE",
+    "reason": "NOT_REPORTED",
+    "value": null
+  }
+}

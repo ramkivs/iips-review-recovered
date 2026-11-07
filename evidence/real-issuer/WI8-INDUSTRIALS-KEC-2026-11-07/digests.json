@@ -3,12 +3,20 @@
   "generatedAt": "2026-11-07",
   "files": {
     "README.md": {
-      "sha256": "911365a3ccb193a04669cc1121617091d457aa8f6ded387f8589fc8721b1db0f",
-      "bytes": 26841
+      "sha256": "50d4feb73b06d4784e854ee7741755bfb7272309e5c19ed625faac80e069eadc",
+      "bytes": 29243
+    },
+    "artifact/assessment-payload-kec-wi8-l040-corrected.json": {
+      "sha256": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+      "bytes": 52760
     },
     "artifact/assessment-payload-kec-wi8.json": {
       "sha256": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
       "bytes": 52357
+    },
+    "determination-l040-correction.json": {
+      "sha256": "c734764b027fa7f8dba38ab4679a6c456d7907551377a19f49e584502d7b1116",
+      "bytes": 7445
     },
     "determination-wi8.json": {
       "sha256": "7f39616013ed02a2bbe5a12bff24be3714ad00ab61ff4bcf2a32637bbadc6a4b",
@@ -73,6 +81,46 @@
     "runs/08-ci-check.txt": {
       "sha256": "a604b9f25a509fd6f31be4d67d5d1faef6d957ee8ebe2eecfcc8e5b1baa77203",
       "bytes": 2232
+    },
+    "runs/09-l040-corrected-ingest.txt": {
+      "sha256": "d64905a2446bc4a0cfdc474e51e3391148678b94fcbf18a1d2f1b9c40cdd94ba",
+      "bytes": 1781
+    },
+    "runs/10-l040-corrected-generate.json": {
+      "sha256": "2e108d98454b6fcbd65337a71de04450089b7cd947134ac84d703566f4f3d906",
+      "bytes": 4821
+    },
+    "runs/10-l040-corrected-generate.txt": {
+      "sha256": "6341f4d7bd84ff62e5d32cfcafb464d236eb71fd25728bc97f9615793f0faaff",
+      "bytes": 6004
+    },
+    "runs/11-l040-corrected-readback.txt": {
+      "sha256": "76a024247a4b5ea371bf1a2b2d200effa223cea8714c8cf89e6e0f96ebf19961",
+      "bytes": 1054
+    },
+    "runs/11-l040-readback.json": {
+      "sha256": "d682650d6a5a1626ea0dca4ffeecbcfdc8cbb7aefc3dccb20ca38f6acf3a2b1d",
+      "bytes": 11745
+    },
+    "runs/12-l040-payload-diff.json": {
+      "sha256": "01e721ff48cd75799a1be328a87778a3a39b5e1756de02d53d6736884a832643",
+      "bytes": 3382
+    },
+    "runs/13-l040-tests.txt": {
+      "sha256": "24439e4a77ffc08ed894cc56c81b7987fe3ec53cbd2ad8a7c1c78dfdb985597e",
+      "bytes": 332
+    },
+    "runs/14-l040-typecheck.txt": {
+      "sha256": "75fb1363d0c2ec384e607b5b34a5a1890495a358699cc2f96247630a261cc60e",
+      "bytes": 164
+    },
+    "runs/16-l040-ci-check.txt": {
+      "sha256": "6c25a3102bc721fc1918f527abaa689f4edbb96aecf661bc329d8ea0cb14133c",
+      "bytes": 127
+    },
+    "runs/17-l040-commands.txt": {
+      "sha256": "1830abcb448e183e56c811c5fbd6cf01fb73f1d81501617fecbc78ef946b7dd6",
+      "bytes": 4246
     },
     "runs/cli-wi8-unchanged.json": {
       "sha256": "92a4242d5ab4265bf5ba267845d0b7eb194173597c3340ecda838a7f1cb8c11f",

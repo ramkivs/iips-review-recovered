@@ -18,10 +18,14 @@
  *   7. the profit and loss, the balance sheet and the cash flow reconcile on the numbers actually ingested;
  *   8. the capital structure publishes a gross debt and refuses a net debt, naming the component that blocks it;
  *   9. the valuation claim is bounded: no intrinsic value, no margin of safety, no P/E (the sector has no such method),
- *      one DCF that computes an enterprise value and refuses every per-share leg, and two payload behaviours recorded
- *      rather than repaired;
+ *      and one DCF that computes an enterprise value and refuses every per-share leg;
  *  10. the run's persisted artifact is the artifact that was read back, by digest, in a separate process;
- *  11. the register opens `L-039` and `L-040` and leaves them `OPEN`, and improves no earlier status;
+ *  10a. `L-040` — the defect this run found (a sensitivity grid and an evidence claim built on zero-substituted bridge
+ *      terms, ₹488.34/share) — is **corrected**: the original payload is preserved byte-identical as superseded,
+ *      non-authoritative evidence, the corrected payload is withheld on the per-share column, and the correction's own
+ *      run, readback and payload diff are in the bundle;
+ *  11. the register opens `L-039` and leaves it `OPEN`, records `L-040` as `RESOLVED` by that correction, and improves
+ *      no earlier status;
  *  12. no temporary harness is left in the branch, and the earlier real-issuer bundles still verify by digest.
  */
 import { describe, test } from 'node:test';
@@ -43,6 +47,8 @@ const DATASET_VERSION = 'sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b99
 const PAYLOAD_DIGEST = '4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351';
 const INPUT_DIGEST = 'sha256:513993f2eb1de1ab2bf67d17a8e96fc062a971f484d594f4fab54a4e29cdf22b';
 const REPORT_KEY = '15b68ca53f900918b1953f53119ac90f1b9ec4b30fc325a4b4d259b71991712e';
+const CORRECTED_PAYLOAD_DIGEST = 'fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370';
+const CORRECTED_PAYLOAD_BYTES = 52_760;
 
 const bytes = readJson('source', 'source-bytes.json');
 const pageMap = readJson('source', 'page-map.json');
@@ -54,6 +60,11 @@ const cliAgain = readJson('runs', 'cli-wi8-unchanged.json');
 const readback = readJson('runs', 'readback.json');
 const findings = readJson('runs', '04-payload-findings.json');
 const payload = readJson('artifact', 'assessment-payload-kec-wi8.json');
+const corrected = readJson('artifact', 'assessment-payload-kec-wi8-l040-corrected.json');
+const correctedReadback = readJson('runs', '11-l040-readback.json');
+const correctedCli = readJson('runs', '10-l040-corrected-generate.json');
+const correctedDiff = readJson('runs', '12-l040-payload-diff.json');
+const correctionRecord = readJson('determination-l040-correction.json');
 const periodsCsv = read('ingest-input', 'periods.csv');
 const REGISTER_MD = readFileSync(
   join(ROOT, 'docs', 'integration', 'IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md'),
@@ -333,16 +344,101 @@ describe('WI-8 — what the governed run produced, and what it refused', () => {
     assert.equal(valuation.marginOfSafety.mosVsMid.presence, 'NOT_COMPUTABLE');
   });
 
-  test('the two payload behaviours are recorded, not repaired, and their number is not used as a valuation', () => {
+  test('the HISTORICAL payload still carries the defect, preserved exactly as it was produced', () => {
+    // The defect is not deleted from the record: it stays, byte-identical, as evidence of what the code did on the day.
     const recorded = determination.valuation.payloadBehavioursNotFixed as any[];
     assert.equal(recorded.length, 2);
     assert.match(String(recorded[0].what), /\?\? operators|substitutes 0/);
     assert.match(String(recorded[1].what), /perShareMid/);
     const base = findings.sensitivityBase.valueAtBase[0] as number;
-    assert.equal(Math.round(base * 100) / 100, 488.34, 'the grid no longer publishes the per-share figure this record describes');
+    assert.equal(Math.round(base * 100) / 100, 488.34, 'the historical record no longer describes the figure it recorded');
+    const historicalGrid = (payload.valuation.sensitivity as any[])[0];
+    assert.equal(historicalGrid.withheld, undefined, 'the historical payload was rewritten by the correction');
+    assert.equal(Math.round(historicalGrid.points[4].value * 100) / 100, 488.34);
     const dcf = (payload.valuation.methods as any[]).find((m) => m.methodId === 'DCF_FCFF');
-    assert.equal(dcf.output.perShareMid.presence, 'NOT_COMPUTABLE', 'the grid figure and the headline now disagree differently');
+    assert.equal(dcf.output.perShareMid.presence, 'NOT_COMPUTABLE', 'the historical grid figure and headline disagreed, as recorded');
     assert.match(String(determination.valuation.statement), /No per-share number from this run is published as a valuation/);
+    assert.equal(sha256(readFileSync(join(BUNDLE, 'artifact', 'assessment-payload-kec-wi8.json'))), PAYLOAD_DIGEST);
+  });
+
+  test('the CORRECTED payload withholds the per-share column instead of zeroing the bridge', () => {
+    const grid = (corrected.valuation.sensitivity as any[])[0];
+    assert.deepEqual(grid.withheld, {
+      presence: 'NOT_COMPUTABLE',
+      reason: 'NOT_REPORTED',
+      note: 'enterprise-to-equity conversion blocked by netDebt',
+    });
+    assert.equal(grid.points.length, 9);
+    for (const point of grid.points) {
+      assert.equal(point.value, null, `corrected cell ${point.waccBps}/${point.growthBps} still publishes a per-share value`);
+      assert.equal(typeof point.enterpriseValue, 'number', 'the diagnostic enterprise value is missing');
+      assert.equal(Object.keys(point).sort().join(','), 'enterpriseValue,growthBps,value,waccBps');
+    }
+    // nothing in the corrected payload publishes the superseded figure
+    assert.equal(JSON.stringify(corrected).includes('488.3402340852422'), false, 'the zero-substituted figure survived');
+    const dcf = (corrected.valuation.methods as any[]).find((m) => m.methodId === 'DCF_FCFF');
+    assert.equal(dcf.assumptions.baseFcff, 9_184_155_840, 'the enterprise value that DID compute was disturbed');
+    assert.match(String(dcf.output.basis), /FCFF base 9184155840/);
+    assert.equal(dcf.output.perShareMid.presence, 'NOT_COMPUTABLE');
+    assert.equal(corrected.valuation.intrinsic, null);
+    assert.equal(corrected.valuation.marginOfSafety.refusal, 'NO_PRICE_OBSERVATION');
+  });
+
+  test('the CORRECTED evidence claim states the refusal rather than a per-share value', () => {
+    const entry = (corrected.evidence as any[]).find((e) => e.evidenceId === 'EV-DCF_FCFF');
+    assert.equal(
+      entry.claim,
+      'DCF_FCFF produced no per-share value: NOT_COMPUTABLE (NOT_REPORTED) — enterprise-to-equity conversion blocked by netDebt',
+    );
+    assert.deepEqual(entry.supports, ['valuation.methods[0].output.perShareMid']);
+    const historicalEntry = (payload.evidence as any[]).find((e) => e.evidenceId === 'EV-DCF_FCFF');
+    assert.match(String(historicalEntry.claim), /produced a per-share value from 3 present input/, 'the historical claim was rewritten');
+  });
+
+  test('the correction run is reproducible and its payload is the payload read back', () => {
+    assert.equal(correctedReadback.digestMatch, true);
+    assert.equal(correctedReadback.payloadDigestStored, CORRECTED_PAYLOAD_DIGEST);
+    assert.equal(correctedReadback.payloadDigestRecomputed, `sha256:${CORRECTED_PAYLOAD_DIGEST}`);
+    assert.equal(correctedReadback.payloadBytes, CORRECTED_PAYLOAD_BYTES);
+    assert.equal(
+      sha256(readFileSync(join(BUNDLE, 'artifact', 'assessment-payload-kec-wi8-l040-corrected.json'))),
+      CORRECTED_PAYLOAD_DIGEST,
+    );
+    // same dataset, same report key, same input digest: the only changed input was the code
+    assert.equal(correctedReadback.reportKey, REPORT_KEY);
+    assert.equal(correctedCli.artifact.inputDigest, INPUT_DIGEST);
+    assert.equal(correctedCli.artifact.reportKey, REPORT_KEY);
+    assert.equal(correctedCli.dataset.datasetVersion, DATASET_VERSION);
+    assert.equal(correctedCli.failure, null);
+    assert.equal(correctedCli.assessment.confidence, 0.3199);
+    assert.equal(correctedReadback.quality.verdict, 'MATERIAL_CONCERNS');
+    assert.equal(correctedReadback.confidence.combined, 0.3199);
+    assert.equal(correctedReadback.chainLength, 1);
+  });
+
+  test('the correction touched 20 paths and nothing else', () => {
+    assert.equal(correctedDiff.changedPaths, 20);
+    const paths = (correctedDiff.paths as any[]).map((entry) => entry.path);
+    assert.equal(paths.filter((path) => path === '.evidence[0].claim').length, 1);
+    assert.equal(paths.filter((path) => /\.points\[\d+\]\.value$/.test(path)).length, 9);
+    assert.equal(paths.filter((path) => /\.points\[\d+\]\.enterpriseValue$/.test(path)).length, 9);
+    assert.ok(paths.includes('.valuation.sensitivity[0].withheld'));
+    for (const entry of correctedDiff.paths as any[]) {
+      if (/\.points\[\d+\]\.value$/.test(entry.path)) assert.equal(entry.after, null);
+    }
+    assert.equal(correctedDiff.original.sha256, PAYLOAD_DIGEST);
+    assert.equal(correctedDiff.corrected.sha256, CORRECTED_PAYLOAD_DIGEST);
+  });
+
+  test('the correction record says what it corrected, what it preserved, and what it did not change', () => {
+    assert.equal(correctionRecord.governingRule, 'Unavailable inputs must remain unavailable. They must never silently become zero and produce an apparently valid valuation or sensitivity result.');
+    assert.equal(correctionRecord.supersededEvidence.status, 'PRESERVED, SUPERSEDED, NOT AUTHORITATIVE');
+    assert.equal(correctionRecord.limitationStatus['L-040'], 'RESOLVED (corrected 2026-11-07; the two defective surfaces are corrected and regression-guarded)');
+    assert.match(String(correctionRecord.limitationStatus['L-039']), /^OPEN/);
+    assert.match(String(correctionRecord.limitationStatus['L-036']), /PARTIALLY RESOLVED/);
+    assert.equal(correctionRecord.regressionTests.count, 17);
+    assert.equal(correctionRecord.supersededEvidence.payloadDigest, PAYLOAD_DIGEST);
+    assert.equal(correctionRecord.correctedEvidence.payloadDigest, CORRECTED_PAYLOAD_DIGEST);
   });
 
   test('the metric that withholds the revenue multiple is genuine, not a search failure', () => {
@@ -399,12 +495,14 @@ describe('WI-8 — what the governed run produced, and what it refused', () => {
 });
 
 describe('WI-8 — the register, the record, and what must not have changed', () => {
-  test('the register opens L-039 and L-040 and leaves both OPEN', () => {
+  test('the register leaves L-039 OPEN and records L-040 as RESOLVED by the same-day correction', () => {
     assert.match(REGISTER_MD, /## 17\.16 WI-8/);
     assert.match(REGISTER_MD, /`L-039` \(`OPEN`\)/);
-    assert.match(REGISTER_MD, /`L-040` \(`OPEN`\)/);
     assert.match(REGISTER_MD, /\*\*New limitation — `L-039` \(`OPEN`\)/);
-    assert.match(REGISTER_MD, /\*\*New limitation — `L-040` \(`OPEN`\)/);
+    assert.match(REGISTER_MD, /\*\*`L-040` — `RESOLVED` \(corrected 2026-11-07, same day\)/);
+    assert.equal(/`L-040` \(`OPEN`\)/.test(REGISTER_MD), false, 'the register still shows L-040 as open');
+    // the correction did not become a licence to improve anything else
+    assert.match(REGISTER_MD, /`L-039` is new and \*\*`OPEN`\*\*/);
   });
 
   test('no earlier status is improved or rewritten by this work item', () => {
@@ -445,6 +543,18 @@ describe('WI-8 — the register, the record, and what must not have changed', ()
       assert.equal(data.byteLength, entry.bytes, `${file} byte length drift`);
     }
     assert.equal(files['artifact/assessment-payload-kec-wi8.json'].sha256, PAYLOAD_DIGEST);
+    assert.equal(files['artifact/assessment-payload-kec-wi8-l040-corrected.json'].sha256, CORRECTED_PAYLOAD_DIGEST);
+    for (const file of [
+      'determination-l040-correction.json',
+      'runs/09-l040-corrected-ingest.txt',
+      'runs/10-l040-corrected-generate.txt',
+      'runs/11-l040-corrected-readback.txt',
+      'runs/11-l040-readback.json',
+      'runs/12-l040-payload-diff.json',
+      'runs/17-l040-commands.txt',
+    ]) {
+      assert.ok(files[file] !== undefined, `${file} is not digested`);
+    }
   });
 
   test('the earlier real-issuer bundles still verify by digest', () => {

@@ -5,8 +5,9 @@
 **Date:** 2026-11-07
 **Baseline:** `6575d68fbe5e3ef4951063d9886b3192ae9c0089` (the verified merge of PR #504, which closed WI-7)
 **Sector:** Industrials · **Issuer:** KEC International Limited · **Outcome:** validated end to end,
-**no intrinsic value and no margin of safety**, stage `G2_PARTIAL`, two new limitations (`L-039`, `L-040`), one
-withheld method, one blocked bridge — all of it published rather than filled.
+**no intrinsic value and no margin of safety**, stage `G2_PARTIAL`, two new limitations (`L-039`, `L-040`) — `L-039`
+still `OPEN`, `L-040` **found here and corrected the same day** — one withheld method, one blocked bridge, all of it
+published rather than filled.
 
 ---
 
@@ -188,25 +189,43 @@ is the mirror image of `L-038` on the other side of the same subtraction, and ne
 grammar change is proposed here: the honest resolutions (a governed "no such line" state distinct from `NOT_REPORTED`, or
 declaring the cash side complete from a printed footnote) are decisions for the register's owner.
 
-### 7.2 `L-040` (`OPEN`) — the sensitivity grid and the DCF evidence claim substitute zero for unavailable bridge terms
+### 7.2 `L-040` (`RESOLVED` 2026-11-07) — the sensitivity grid and the DCF evidence claim substituted zero for unavailable bridge terms
 
-Two surfaces publish DCF per-share arithmetic that the headline refuses:
+**As found by this run.** Two surfaces published DCF per-share arithmetic that the headline refused:
 
-* `buildSensitivity` (`iips-platform/src/investment/assessment/intrinsic.ts`) evaluates
+* `buildSensitivity` (`iips-platform/src/investment/assessment/intrinsic.ts`) evaluated
   `(EV − (netDebt ?? 0) − (minorityInterest ?? 0) − (preferenceCapital ?? 0) + (associatesAndJV ?? 0)) / shares`. On
-  this issuer every one of those terms is unavailable, so each `??` substitutes **zero** and the grid's base point reads
+  this issuer every one of those terms is unavailable, so each `??` substituted **zero** and the grid's base point read
   **₹488.34 per share** — enterprise value over diluted shares with net debt treated as nil.
-* Evidence `EV-DCF_FCFF` claims *"DCF_FCFF produced a per-share value from 3 present input(s)"* and declares
+* Evidence `EV-DCF_FCFF` claimed *"DCF_FCFF produced a per-share value from 3 present input(s)"* and declared
   `supports: valuation.methods[0].output.perShareMid`, which is `NOT_COMPUTABLE`.
 
-Both are the "zero in place of `NOT_REPORTED`" that D-2 forbids, one level up from the dataset. WI-8 **records and does
-not repair** them: they are payload/evidence surfaces, not dataset rows, and repairing them is a policy decision with its
-own consequences (an empty grid for every blocked bridge, a re-worded evidence claim that changes stored payload bytes).
-This record's valuation conclusions therefore use neither number.
+Both are the "zero in place of `NOT_REPORTED`" that D-2 forbids, one level up from the dataset: the grid had
+re-implemented the enterprise-to-equity bridge inline rather than calling the governed conversion, and the evidence
+claim was written from the method's *applicability* rather than from its *output*.
+
+**Corrected the same day, in this work item.** The grid now converts through `equityValueFromEnterprise()` and
+`perShare()` — the same governed functions the DCF method's own per-share leg uses — so a per-share cell exists only
+where that conversion could compute one. When it refuses, every cell publishes `value: null` and the grid carries
+`withheld: { presence: NOT_COMPUTABLE, reason, note }` naming the blocking component; the discounted enterprise value is
+retained per cell as `enterpriseValue`, **quarantined diagnostic arithmetic** labelled *"(diagnostic)"* in the rendered
+view and never published as a per-share value. The evidence claim now states the refusal, its reason and the blocking
+component. A healthy grid serializes in the unchanged `{ waccBps, growthBps, value }` shape, so no committed payload
+digest moved — the IX authorized-policy artifact still rebuilds byte-identically.
+
+**On this issuer the corrected grid publishes no per-share value at all**, which is now the same answer the headline
+gives: `DCF_FCFF` computes an enterprise value (₹918.42 crore at base) and refuses the conversion, and the grid says so
+in nine cells instead of inventing nine numbers. Guard:
+`iips-platform/tests/investment/l040ValuationZeroSubstitution.test.ts` (17 tests covering missing net debt, missing
+current investments, incomplete capital structure, withheld-grid behaviour, the evidence claim, prevention of
+zero-derived per-share output, valid-case preservation, and explicit zero vs unavailable). Full record:
+`docs/integration/IIPS_V3_IID_L040_VALUATION_OUTPUT_CORRECTION_2026-11-07.md`.
 
 ## 8. Statuses after WI-8
 
-`L-039` **`OPEN`** (new) and `L-040` **`OPEN`** (new). `L-038` stays **`OPEN`** — the debt half did not bite here, but
+`L-039` **`OPEN`** (new) and `L-040` **`RESOLVED`** (new, corrected 2026-11-07 — the correction is recorded in §7.2 and
+in `IIPS_V3_IID_L040_VALUATION_OUTPUT_CORRECTION_2026-11-07.md`; the underlying bridge gap stays open as `L-039`).
+`L-038` stays **`OPEN`** — the debt half did not bite here, but
 the entry describes issuers that print a single `Borrowings` line and this run produces no evidence about them.
 `L-036` stays **`PARTIALLY RESOLVED`** (the `REVIEW_DUE` control fires again; no filed carrying value exists).
 `L-035` and `L-037` stay **`OPEN`**; nothing here tests them. `L-034` stays `RESOLVED`. `L-001` is **unchanged**: the
@@ -220,8 +239,20 @@ because nothing in this work item promotes a sector.
 `source/source-bytes.json`, `source/page-map.json`, `source/identity-nse-corroboration.json`, fifteen verbatim page
 extracts, `ingest-input/` (roster, periods, identity sources, extraction provenance), `runs/` (ingest, generate,
 idempotency, chain read, readback, findings, guard test, typecheck, clean clone, CI check), `artifact/assessment-payload-kec-wi8.json`,
-`digests.json` — guarded by `iips-platform/tests/investment/wi8IndustrialsKec.test.ts`, which also verifies that the
-WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2 and WI-7 bundles remain digest-unchanged.
+`artifact/assessment-payload-kec-wi8-l040-corrected.json`, `determination-l040-correction.json`, `runs/09`–`runs/12`
+(the correction run, readback and payload diff) and `digests.json` — guarded by
+`iips-platform/tests/investment/wi8IndustrialsKec.test.ts` and
+`iips-platform/tests/investment/l040ValuationZeroSubstitution.test.ts`, which together also verify that the WI-3, WI-5,
+WI-6, WI-6A, WI-6A-S1 and WI-7 bundles remain digest-unchanged.
+
+`artifact/assessment-payload-kec-wi8.json` is the **original run of record**, kept byte-identical
+(`4f89f0ec…`, 52,357 bytes). It is **superseded and not authoritative**: its nine sensitivity per-share cells and its
+`EV-DCF_FCFF` claim are the defect this record describes. The corrected payload
+`artifact/assessment-payload-kec-wi8-l040-corrected.json` (`fc50c53e…`, 52,760 bytes, same datasetVersion
+`0df73ead…`, same reportKey `15b68ca5…`, same inputDigest) is the payload that reflects the shipped code; it differs
+from the original in exactly 20 paths (`runs/12-l040-payload-diff.json`): one evidence claim, nine `value → null`
+cells each gaining a diagnostic `enterpriseValue`, and one grid-level `withheld` block. Neither payload is a valuation
+of the issuer: both refuse one, and the corrected one refuses without publishing a number.
 
 **Tracker.** The master tracker carries this work item at **§16.274**, with no CV-CORR / CHG / V number because WI-8
 performed no IPD work and spends no IPD act reference. It follows the WI-4 … WI-7 pattern: one pointer, nothing

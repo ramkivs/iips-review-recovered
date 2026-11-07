@@ -98,12 +98,26 @@ export function renderAssessmentHtml(payload: CompanyAssessmentPayload, narrativ
     )
     .join('');
 
-  const sensitivityRows = (payload.valuation.sensitivity[0]?.points ?? [])
-    .map(
-      (point) =>
-        `<tr><td>${(point.waccBps / 100).toFixed(2)}%</td><td>${(point.growthBps / 100).toFixed(2)}%</td><td>${point.value === null ? '<span class="absent">out of domain</span>' : num(point.value)}</td></tr>`,
-    )
+  const sensitivityGrid = payload.valuation.sensitivity[0] ?? null;
+  // `L-040`: a grid whose enterprise-to-equity conversion refused carries no per-share value at all. It is
+  // rendered as withheld — with the blocking component named — and its enterprise-value column is labelled
+  // diagnostic, so no cell can be read as a valuation or a sensitivity result.
+  const sensitivityWithheld = sensitivityGrid !== null && sensitivityGrid.withheld !== undefined;
+  const sensitivityRows = (sensitivityGrid?.points ?? [])
+    .map((point) => {
+      const ev = point.enterpriseValue === null ? '<span class="absent">out of domain</span>' : num(point.enterpriseValue);
+      const perShareCell =
+        point.value !== null
+          ? num(point.value)
+          : sensitivityWithheld
+            ? '<span class="absent">withheld</span>'
+            : '<span class="absent">out of domain</span>';
+      return `<tr><td>${(point.waccBps / 100).toFixed(2)}%</td><td>${(point.growthBps / 100).toFixed(2)}%</td><td>${ev}</td><td>${perShareCell}</td></tr>`;
+    })
     .join('');
+  const sensitivityNotice = sensitivityWithheld
+    ? `<p class="absent">No per-share value is published: the enterprise-to-equity conversion is ${escapeHtml(sensitivityGrid!.withheld!.presence)} (${escapeHtml(sensitivityGrid!.withheld!.reason)})${sensitivityGrid!.withheld!.note === null ? '' : ` — ${escapeHtml(sensitivityGrid!.withheld!.note)}`}. The enterprise-value column is diagnostic arithmetic only and is not a valuation.</p>`
+    : '';
 
   const dividendRows = payload.dividends.perShareHistory
     .map((entry) => `<tr><td>${entry.periodEnd}</td><td>${cell(entry.dps)}</td><td class="muted">${entry.basis}</td></tr>`)
@@ -207,8 +221,9 @@ ${
 <tbody>${selectionRows}</tbody>
 </table>
 <h2>Sensitivity (WACC × terminal growth)</h2>
+${sensitivityNotice}
 <table>
-<thead><tr><th>WACC</th><th>Terminal growth</th><th>Value per share</th></tr></thead>
+<thead><tr><th>WACC</th><th>Terminal growth</th><th>Enterprise value${sensitivityWithheld ? ' (diagnostic)' : ''}</th><th>Value per share</th></tr></thead>
 <tbody>${sensitivityRows}</tbody>
 </table>
 

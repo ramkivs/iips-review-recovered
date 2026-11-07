@@ -22062,3 +22062,74 @@ these paths and none is claimed.
 **Boundaries held.** No change to D-2 nil semantics, IX valuation policy or authorised parameters, the historical
 Infosys/eClerx/Zensar artefacts, limitation-register meanings, or the persistence architecture; no new persistence
 mechanism, no unrelated refactoring, no IPD write, no production scope, and no revisit of the merged #503 work.
+
+### 16.274 IID WI-8 — first Industrials real issuer (KEC International Limited) ingested, assessed, persisted; L-039 opened and L-040 opened-and-corrected (`2026-11-07`)
+
+**No IPD act, no IPD change.** WI-8 is an IRR-only IID work item and performed no IPD modification, so this entry
+carries **no** CV-CORR / CHG / V number. The sequence quoted at the end of §16.272 (`CV-CORR-253` /
+`CHG-2026-11-06-16` / `V2148`) is **not spent** here and remains the next free IPD act reference; only the tracker
+section number advances.
+
+**Scope.** WI-8 of the IIPS v3.0 IID line, authorised as the sector expansion after the merge of #504 (WI-7). Sector
+**Industrials**, whose governed matrix is `DCF_FCFF` (PRIMARY), `EV_EBITDA` (SECONDARY, `CAPITAL_STRUCTURE_INCOMPLETE`
+guard) and `EV_REVENUE` (CROSS_CHECK, mandatory metric `IN_BOOK_TO_BILL`), and which declares **no `PE_RELATIVE`** at all.
+Issuer **KEC International Limited**: CIN `L45200MH2005PLC152061` (FY2025-26 AR PDF p.119), ISIN `INE389H01022`
+(p.107), NSE `KEC` (exchange corroboration, 200); the annual reports print no trading symbol and no BSE scrip code, so
+the BSE identity stays **absent** rather than inferred. Rejected candidates and the criteria applied are recorded in the
+WI-8 record, not here.
+
+**Evidence.** `evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/` — two annual reports as hashed bytes (FY2025-26
+`ba638897…c820` 18,566,481 B; FY2024-25 `29dfdf83…c1c6` 14,873,309 B; FY2023-24 requested and recorded as **HTTP 404**,
+not dropped), fifteen verbatim page extracts with provenance headers and a page map, the governed `ingest-input/`, the run
+transcripts, the separate-process readback record, the persisted canonical payload, the L-040 correction run
+(`artifact/assessment-payload-kec-wi8-l040-corrected.json`, `determination-l040-correction.json`, `runs/09`–`runs/12`) and
+`digests.json`. Records `docs/integration/IIPS_V3_IID_WI8_INDUSTRIALS_KEC_2026-11-07.md` and
+`docs/integration/IIPS_V3_IID_L040_VALUATION_OUTPUT_CORRECTION_2026-11-07.md`; guards
+`iips-platform/tests/investment/wi8IndustrialsKec.test.ts` and
+`iips-platform/tests/investment/l040ValuationZeroSubstitution.test.ts`.
+
+**Result.** Three consecutive audited consolidated periods (2026-03-31, 2025-03-31, 2024-03-31) ingested through the
+existing pipeline: datasetVersion `sha256:0df73ead…82ab`, Industrials `G2_PARTIAL`, statement coverage 100 %, operating
+metric coverage 0 % (one mandatory metric absent), adequacy `SUFFICIENT`, quality `MATERIAL_CONCERNS`
+(`CASH_FLOW_EARNINGS_DIVERGENCE`, `STALE_STATEMENTS`). Persisted report `85809cbd-895e-4c9e-b2fc-580fc53fb1c2` version 1,
+payload digest `4f89f0ec…e351` (52,357 B), chain length 1, chain head equal to the recomputed digest; read back in a
+separate process. Assessment confidence **0.3199** with caps `STALE_DATA, DILUTION_PROXY, POLICY_DEFAULT_WACC`.
+
+**What the run refused, and why that is the finding.** Note 30 closes the **debt** side of the bridge — `grossDebt`
+`PRESENT` at ₹5,377.76 crore, the first real filing in this programme to do so — while the **cash** side does not: the
+filing prints no current-investments line, so `cashAndInvestments` and `netDebt` are `MISSING`/`NOT_REPORTED` and
+`L-039` is opened **OPEN**. `DCF_FCFF` computes an enterprise value (FCFF base 9,184,155,840 at WACC 10.68 %, g 4.00 %)
+and refuses every per-share leg; `EV_EBITDA` is `CAPITAL_STRUCTURE_INCOMPLETE`; `EV_REVENUE` is withheld for
+`IN_BOOK_TO_BILL` (order intake 25,280 crore and order book 36,267 crore are printed, the ratio is not, and none was
+derived); `PE_RELATIVE` does not exist in the matrix. Intrinsic value is `null`, MoS `NO_PRICE_OBSERVATION`, no price
+invented, and no nil declared anywhere.
+
+**`L-040` — opened by this run, corrected the same day.** The run disclosed two surfaces that contradicted its own
+refusal: `buildSensitivity` substituted zero for each unavailable bridge term and published **₹488.34 per share** at the
+base cell, and evidence `EV-DCF_FCFF` claimed a per-share value while declaring `supports` on a `NOT_COMPUTABLE` output.
+Both are the D-2 failure mode one level above the dataset, in the pipeline's own arithmetic. The correction makes the
+grid convert through the governed `equityValueFromEnterprise()` / `perShare()` pair: a per-share cell exists only where
+that conversion could compute one, and when it refuses every cell publishes `value: null`, the grid carries
+`withheld: { presence: NOT_COMPUTABLE, reason, note }` naming the blocking component, and the discounted enterprise value
+is retained per cell as **quarantined diagnostic arithmetic** (rendered as a "(diagnostic)" column, never as a per-share
+value). The evidence claim now states the refusal, its reason and the component that blocks it. Healthy grids serialize
+in the unchanged shape, so no committed payload digest moved — the IX authorized-policy artifact still rebuilds
+byte-identically — and no replacement value was manufactured. Corrected payload `fc50c53e…f370` (52,760 B, report 1
+of a fresh chain, same datasetVersion, reportKey and inputDigest as the original run: the only changed input was code);
+the original payload is preserved byte-identical as **superseded, non-authoritative** evidence of the defect.
+`L-040` is **RESOLVED** under the register's own rule (implementation, acceptance tests, evidence pointer); `L-039`
+remains **OPEN**, `L-038`/`L-035`/`L-037` stay `OPEN`, `L-036` stays `PARTIALLY RESOLVED`, `L-034` stays `RESOLVED`.
+
+**Verification.** Targeted only: 636 tests / 636 pass over `iips-platform/tests/investment/*.test.ts` (148 suites),
+including the 17 new L-040 acceptance tests, which fail against the pre-correction code; `tsc --noEmit` on the package
+project exits 0; a fresh clone of the pushed branch reproduces the dataset version, re-hashes every digested bundle file
+clean, and recomputes both payload digests. The repository's single path-filtered check for the paths this pull request
+touches is `CAP-03 Revision 7 IRR-only static checks`; this entry is the first WI-8 path to fall inside its trigger list,
+so its run (and the independent remote readback) is recorded in the publishing pull-request receipt rather than invented
+here. Local tests are reported separately from CI; no npm, frontend or IPD CI runs and none is claimed.
+
+**Boundaries held.** No change to D-2 nil semantics, IX valuation policy, authorised parameters or unrelated valuation
+formulas; no re-read of issuer sources, no re-extraction, no dataset or ingest edit, no nil manufactured; no rewrite of
+the historical WI-8 payload, the earlier WI-3/WI-5/WI-6/WI-6A/WI-6A-S1/WI-6A-S2/WI-7 bundles, or any earlier limitation
+status; no new persistence mechanism, no unrelated refactoring, no IPD write and no production scope. Next free
+§16.275 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.

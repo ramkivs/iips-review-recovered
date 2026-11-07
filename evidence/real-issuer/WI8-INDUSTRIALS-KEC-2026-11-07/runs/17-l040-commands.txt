@@ -1,0 +1,73 @@
+WI-8 / L-040 — exact command sequence that produced runs/09 … runs/12, run 2026-11-07 from branch
+arena/60fea33a-iips-review-recovered.
+
+The dataset, the ingest input, the identity sources and the `--generated-at` instant are the ones the original WI-8 run
+used, so the datasetVersion is unchanged and the correction is attributable to the code alone.
+
+## 1 — ingest the same input again (same datasetVersion expected)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input ../evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input \
+      --dataset-dir /tmp/wi8/data/investment/dataset \
+      --now 2026-11-07T08:30:00.000Z
+    # -> runs/09-l040-corrected-ingest.txt
+    # datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab   (unchanged)
+    # Industrials G2_PARTIAL  usable 2  withheld 1  stmt 100%  metric 0%
+
+## 2 — identity sources and owner carrier (copied verbatim, as in the original run)
+
+    mkdir -p /tmp/wi8/data/investment/identity
+    cp evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/*.json \
+       /tmp/wi8/data/investment/identity/
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/wi8/owner.json
+
+## 3 — generate -> assess -> compose -> validate -> persist -> verify, on the corrected code
+
+    cd frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/wi8/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L45200MH2005PLC152061 \
+      --data-dir       /tmp/wi8/data/investment/dataset \
+      --identity-dir   /tmp/wi8/data/investment/identity \
+      --db             /tmp/wi8/data/investment/investment.db \
+      --owner-carrier  /tmp/wi8/owner.json \
+      --generated-at   2026-11-07T08:30:00.000Z \
+      --out            /tmp/wi8/cli.json
+    # -> runs/10-l040-corrected-generate.txt (console) and runs/10-l040-corrected-generate.json (--out)
+    # OK      snapshot     datasetVersion sha256:0df73ead…             (unchanged)
+    # OK      identity     RESOLVED via ISIN
+    # OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3199
+    # OK      compose      reportKey 15b68ca53f90… payloadDigest fc50c53e0881…   (was 4f89f0ec5148…)
+    # OK      validate     scope co:IN:CIN:L45200MH2005PLC152061 (ISSUER)
+    # OK      chain-head   no chain for this scope yet
+    # SKIPPED compare      no head to compare against
+    # OK      persist      CREATED (wrote)
+    # OK      verify       chain valid: 1 version(s), head v1
+
+## 4 — the corrected payload re-read in a SEPARATE process
+
+Temporary `frontend/.tmp-l040-readback.ts` (deleted after use): `loadAuthoritativeNp04Persistence` ->
+`createInvestmentArtifactService` -> `readChain` -> `readVersionWithPayload`, re-hashing the payload bytes with
+`createHash('sha256')` and comparing against the stored digest, then writing the payload byte-for-byte to
+`artifact/assessment-payload-kec-wi8-l040-corrected.json`.
+
+    IIPS_NP04_DATABASE_PATH=/tmp/wi8/data/investment/investment.db \
+    npx tsx .tmp-l040-readback.ts /tmp/wi8/readback.json /tmp/wi8/payload.json
+    # -> runs/11-l040-corrected-readback.txt and runs/11-l040-readback.json
+    # digestMatch true; stored and recomputed both sha256:fc50c53e0881…f370; 52,760 bytes; chain length 1
+
+## 5 — the payload diff, computed from the two committed artifacts
+
+    # python: recursive key-by-key walk of artifact/assessment-payload-kec-wi8.json against
+    #         artifact/assessment-payload-kec-wi8-l040-corrected.json
+    # -> runs/12-l040-payload-diff.json
+    # 20 changed paths: 1 evidence claim, 9 per-share cells (value -> null) each gaining an enterpriseValue,
+    # and 1 grid-level withheld block. Nothing else in the payload moved.
+
+## 6 — verification recorded beside the bundle
+
+    runs/13-l040-tests.txt        npx tsx --test tests/investment/*.test.ts   (631 tests, 0 fail)
+    runs/14-l040-typecheck.txt    npx tsc --noEmit -p tsconfig.json           (0 errors)
+    runs/15-l040-clean-clone.txt  fresh clone of the branch: npm ci, tests, typecheck, manifest, artifact digest
+    runs/16-l040-ci-check.txt     gh pr checks 505 for the head this bundle names

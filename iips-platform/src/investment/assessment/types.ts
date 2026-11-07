@@ -150,13 +150,39 @@ export interface MarginOfSafetyBlock {
 export interface SensitivityPoint {
   readonly waccBps: number;
   readonly growthBps: number;
+  /**
+   * Equity value per share at this cell. Null when the cell is out of domain (WACC ≤ terminal growth) **or**
+   * when the grid carries `withheld`; the grid says which, so a null is never read as a zero and never as a
+   * value. A per-share cell exists only where the enterprise-to-equity conversion had every input it needs.
+   */
   readonly value: number | null;
+  /**
+   * Enterprise value at this cell, published **only on a withheld grid** — the arithmetic that ran when the
+   * conversion to equity did not. Diagnostic only: it is never a per-share value and never a valuation.
+   */
+  readonly enterpriseValue?: number | null;
+}
+
+/**
+ * Present on a grid whose enterprise-to-equity conversion refused. Under `L-040` such a grid publishes no
+ * per-share value at any cell: the enterprise values it carries are explicitly quarantined as diagnostic
+ * arithmetic, because a grid computed by substituting zero for an unavailable bridge term is a valuation
+ * that no filing supports.
+ */
+export interface SensitivityWithheld {
+  readonly presence: 'NOT_COMPUTABLE';
+  /** The blocking reason, in the observation vocabulary (`NOT_REPORTED`, `POLICY_INPUTS_UNAVAILABLE`, …). */
+  readonly reason: string;
+  /** The blocking component, named by the conversion that refused. */
+  readonly note: string | null;
 }
 
 export interface SensitivityGrid {
   readonly methodId: MethodId;
   readonly baseWaccBps: number;
   readonly baseGrowthBps: number;
+  /** Absent on a grid whose every in-domain cell converted to a per-share value. */
+  readonly withheld?: SensitivityWithheld;
   readonly points: readonly SensitivityPoint[];
 }
 
