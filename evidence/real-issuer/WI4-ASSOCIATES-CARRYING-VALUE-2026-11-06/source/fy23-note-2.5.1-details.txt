@@ -1,0 +1,45 @@
+SOURCE EXTRACT — verbatim text layer of Note 2.5.1 DETAILS OF INVESTMENTS
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2023
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+Page     : 16 (Note 2.5.1)
+Units    : ₹ crore, except otherwise stated
+
+2.5.1 Details of investments
+The details of investments in preference, equity and other instruments at March 31, 2023 and March 31, 2022 are as follows:
+
+| Preference securities |  |  |
+| Airviz, Inc. | - | - |
+| 2,89,695 (2,82,279) Series A Preferred Stock, fully paid up, par value USD 0.001 each |  |  |
+| Whoop, Inc. | 53 | 150 |
+| 1,10,59,340 (11,05,9340) Series B Preferred Stock, fully paid up, par value USD 0.0001 each |  |  |
+| Nivetti Systems Private Limited | 26 | 22 |
+| 2,28,501 (2,28,501) Preferred Stock, fully paid up, par value ₹1/- each |  |  |
+| Tidalscale, Inc. | - | 23 |
+| 36,74,269 (36,74,269) Series B Preferred Stock |  |  |
+| Ideaforge Technology Limited (formerly Ideaforge Technology Private Limited) | 114 | 20 |
+| 5,402 (5,402) Series A compulsorily convertible cumulative Preference shares of ₹10/- each, fully paid up |  |  |
+| 1,787 (Nil) Series B compulsorily convertible cumulative Preference shares of ₹10/- each, fully paid up |  |  |
+| Total investment in preference securities | 193 | 215 |
+| Equity Instruments |  |  |
+| Merasport Technologies Private Limited | - | - |
+| 2,420 (2,420) equity shares at ₹8,052/- each, fully paid up, par value ₹10/- each |  |  |
+| Global Innovation and Technology Alliance | 2 | 2 |
+| 15,000 (15,000) equity shares at ₹1,000/- each, fully paid up, par value ₹1,000/- each |  |  |
+| Ideaforge Technology Limited (formerly Ideaforge Technology Private Limited) | 1 | - |
+| 22,600 (100) equity shares at ₹10/-, fully paid up |  |  |
+| Total investment in equity instruments | 3 | 2 |
+| Compulsorily convertible debentures |  |  |
+| Ideaforge Technology Limited (formerly Ideaforge Technology Private Limited) | - | 7 |
+| Nil (3,886) compulsorily convertible debentures, fully paid up, par value ₹19,300/- each |  |  |
+| Total investment in compulsorily convertible debentures | - | 7 |
+| Others |  |  |
+| Stellaris Venture Partners India | 82 | 76 |
+| The House Fund II, L.P. | 84 | 77 |
+| The House Fund III, L.P. | 3 | - |
+| Total investment in others | 169 | 153 |
+| Total | 365 | 377 |
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+The complete named-holdings list for 2023 and 2022 is the same set of financial investments as FY2024 — minority
+preference/equity stakes and venture-fund interests, carried at fair value. No associate, no joint venture, no
+equity-method carrying amount.

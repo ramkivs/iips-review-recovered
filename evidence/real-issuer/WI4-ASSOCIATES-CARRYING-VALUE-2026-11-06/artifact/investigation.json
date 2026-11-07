@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "phase": "WI4",
+  "workItem": "Establish associates/JV carrying value using Dataset V2",
+  "generatedAt": "2026-11-06",
+  "issuer": {
+    "legalName": "Infosys Limited",
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "securityId": "IN:ISIN:INE009A01021"
+  },
+  "question": "Do the audited consolidated Ind AS financial statements disclose a supportable carrying value for investments in associates and joint ventures, for FY2024, FY2023 or FY2022, that populates INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES under dataset schema V2?",
+  "answer": "NO",
+  "decision": "NO_SUPPORTABLE_CARRYING_VALUE__INGESTION_NOT_PERFORMED",
+  "oneLineReason": "In each of the three periods the audited consolidated balance sheet carries no equity-method investment caption, the complete Note 2.5 decomposes both investment captions exhaustively into Ind AS 109 measurement categories and reconciles to the rupee, and the statement of profit and loss carries no share of associates/JV profit — so no amount exists to report, and an omission is not a nil.",
+  "periodsExamined": [
+    "FY2024 (year ended 2024-03-31)",
+    "FY2023 (year ended 2023-03-31)",
+    "FY2022 (year ended 2022-03-31)"
+  ],
+  "documentsExamined": [
+    {
+      "documentId": "INFY-INDAS-CONSOL-FY24",
+      "period": "FY2024 with FY2023 comparatives",
+      "dated": "2024-04-18"
+    },
+    {
+      "documentId": "INFY-INDAS-CONSOL-FY23",
+      "period": "FY2023 with FY2022 comparatives",
+      "dated": "2023-04-13"
+    }
+  ],
+  "sectionsExamined": [
+    "Consolidated Balance Sheet (both documents)",
+    "Consolidated Statement of Profit and Loss (both documents)",
+    "Consolidated Statement of Changes in Equity and Cash Flows (fiscal-year figures used by the evidence chain; no associates line)",
+    "Note 1.3 Basis of consolidation (FY2024)",
+    "Note 2.5 Investments, complete, both documents, all three periods",
+    "Note 2.5.1 Details of investments, complete, both documents, all three periods",
+    "Note 2.6 Loans / Note 2.7 Other financial assets / Note 2.9 Cash / Note 2.10 Other assets (FY2024)",
+    "Note 2.11 Financial instruments — accounting policies and risk disclosures (FY2024)",
+    "Note 2.12 Equity (FY2024)"
+  ],
+  "reconciliation": [
+    {
+      "period": "FY2024",
+      "balanceSheet": {
+        "nonCurrentInvestments": 11708,
+        "currentInvestments": 12915,
+        "sumOfCaptions": 24623
+      },
+      "note25TotalInvestments": 24623,
+      "measurementCategories": {
+        "amortisedCost": 1759,
+        "fvoci": 19620,
+        "fvtpl": 3244,
+        "sum": 24623
+      },
+      "captionsTieToNote": true,
+      "categoriesTieToNote": true,
+      "equityMethodComponent": 0
+    },
+    {
+      "period": "FY2023",
+      "balanceSheet": {
+        "nonCurrentInvestments": 12569,
+        "currentInvestments": 6909,
+        "sumOfCaptions": 19478
+      },
+      "note25TotalInvestments": 19478,
+      "measurementCategories": {
+        "amortisedCost": 1920,
+        "fvoci": 16012,
+        "fvtpl": 1546,
+        "sum": 19478
+      },
+      "captionsTieToNote": true,
+      "categoriesTieToNote": true,
+      "equityMethodComponent": 0
+    },
+    {
+      "period": "FY2022",
+      "balanceSheet": {
+        "nonCurrentInvestments": 13651,
+        "currentInvestments": 6673,
+        "sumOfCaptions": 20324
+      },
+      "note25TotalInvestments": 20324,
+      "measurementCategories": {
+        "amortisedCost": 2122,
+        "fvoci": 16007,
+        "fvtpl": 2195,
+        "sum": 20324
+      },
+      "captionsTieToNote": true,
+      "categoriesTieToNote": true,
+      "equityMethodComponent": 0
+    }
+  ],
+  "equityMethodTest": {
+    "indAsRequirement": "Ind AS 1 para 54(e) requires investments accounted for using the equity method to be presented as a separate line item in the balance sheet; Ind AS 1 para 82(c) and Ind AS 28 require the share of profit or loss and of OCI of associates and joint ventures to be presented separately.",
+    "separateBalanceSheetCaptionFound": false,
+    "separateProfitAndLossLineFound": false,
+    "separateOciLineFound": false,
+    "note25MeasurementCategories": [
+      "amortised cost",
+      "fair value through other comprehensive income",
+      "fair value through profit or loss"
+    ],
+    "equityMethodPolicyNoteFound": false,
+    "conclusion": "No equity-accounted interest in an associate or joint venture is recognised in any of the three periods presented."
+  },
+  "candidateFiguresConsidered": [
+    {
+      "id": "NON_CURRENT_INVESTMENTS_FY24",
+      "amount": 11708,
+      "unit": "INR crore",
+      "source": "FY24 balance sheet / Note 2.5",
+      "whyNotTheLineItem": "Aggregate of debt instruments (government bonds, tax-free bonds, NCDs, government securities) and minority equity/preference stakes measured at amortised cost, FVOCI or FVTPL. Contains no equity-accounted component; Note 2.5 decomposes it exhaustively."
+    },
+    {
+      "id": "TOTAL_INVESTMENTS_FY24",
+      "amount": 24623,
+      "unit": "INR crore",
+      "source": "FY24 Note 2.5",
+      "whyNotTheLineItem": "Sum of the non-current and current treasury/portfolio captions; a portfolio total, not an associates/JV carrying amount."
+    },
+    {
+      "id": "TOTAL_INVESTMENTS_FY23",
+      "amount": 19478,
+      "unit": "INR crore",
+      "source": "FY23 Note 2.5",
+      "whyNotTheLineItem": "Same objection one year earlier: the FY2023 portfolio total aggregates government securities, NCDs, tax-free bonds, certificates of deposit, commercial paper and fund units. It is a treasury portfolio, not an associates/JV carrying amount."
+    },
+    {
+      "id": "TOTAL_INVESTMENTS_FY22",
+      "amount": 20324,
+      "unit": "INR crore",
+      "source": "FY23 Note 2.5 (comparative)",
+      "whyNotTheLineItem": "Same objection for FY2022: the comparative column of Note 2.5 totals the debt and fund portfolio, with no equity-accounted component inside it."
+    },
+    {
+      "id": "NAMED_EQUITY_AND_PREFERENCE_HOLDINGS_FY24",
+      "amount": 404,
+      "unit": "INR crore",
+      "source": "FY24 Note 2.5.1",
+      "whyNotTheLineItem": "Minority stakes in Airviz, Whoop, Nivetti, Tidalscale, Ideaforge, Merasport, Global Innovation and Technology Alliance, plus venture-fund interests (Stellaris, House Fund II/III). All measured at fair value; none is described as an associate or joint venture, and none is equity-accounted. A financial investment is not an associates/JV carrying value."
+    },
+    {
+      "id": "NAMED_EQUITY_AND_PREFERENCE_HOLDINGS_FY23",
+      "amount": 365,
+      "unit": "INR crore",
+      "source": "FY23 Note 2.5.1",
+      "whyNotTheLineItem": "The FY2023 list is the same set of fair-valued minority stakes and fund interests (Whoop, Nivetti, Ideaforge, Global Innovation and Technology Alliance, Stellaris, House Fund II/III); none is described as an associate or joint venture."
+    },
+    {
+      "id": "NAMED_EQUITY_AND_PREFERENCE_HOLDINGS_FY22",
+      "amount": 377,
+      "unit": "INR crore",
+      "source": "FY23 Note 2.5.1 (comparative)",
+      "whyNotTheLineItem": "The FY2022 comparative shows the same fair-valued minority holdings; none is equity-accounted and none is named as an associate or joint venture."
+    },
+    {
+      "id": "IDEA_FORGE_EQUITY_STAKE_FY24",
+      "amount": 113,
+      "unit": "INR crore",
+      "source": "FY24 Note 2.5.1",
+      "whyNotTheLineItem": "A listed minority stake of 16,47,314 shares carried at FVOCI. No significant influence is asserted; FVOCI measurement is incompatible with the equity method."
+    },
+    {
+      "id": "TOTAL_ASSETS_FY24",
+      "amount": 137814,
+      "unit": "INR crore",
+      "source": "FY24 balance sheet",
+      "whyNotTheLineItem": "Issuer-level total assets — not an investment carrying amount and not an investee figure."
+    },
+    {
+      "id": "TOTAL_EQUITY_FY24",
+      "amount": 88461,
+      "unit": "INR crore",
+      "source": "FY24 balance sheet",
+      "whyNotTheLineItem": "Issuer-level equity, which the market-consistent bridge already uses indirectly; not an associates/JV carrying value."
+    },
+    {
+      "id": "AOC1_ANNEXURE",
+      "amount": null,
+      "unit": null,
+      "source": "not part of the audited consolidated financial statements",
+      "whyNotTheLineItem": "Form AOC-1 is an annexure to the standalone financial statements in the annual report. It is not contained in the audited consolidated Ind AS statements examined here, and its figures (investee net assets, ownership percentages) are explicitly not the required carrying value even when present."
+    }
+  ],
+  "ingestion": {
+    "performed": false,
+    "datasetId": "IIPS_INVESTMENT_FUNDAMENTALS_V2",
+    "lineItem": "INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES",
+    "reason": "The evidence supports no amount for the line item: none is recognised, so none can be reported.",
+    "v1NotBackfilled": true,
+    "v2DatasetNotPublished": true,
+    "nilDeclarationCreated": false,
+    "nilDeclarationReason": "Absence is not a nil. The nil grammar requires the filer's own wording that the item is nil, with filing reference and period; no such wording exists in the pages examined, and the line item is a reported (non-derived) item, so a nil cannot be inferred from an omitted line.",
+    "derivedOrEstimatedAmountUsed": false,
+    "carryingValueAssertedForAnyPeriod": false
+  },
+  "valuationImpact": {
+    "assessmentRebuilt": false,
+    "why": "Nothing changed: no dataset, no observation and no payload member was added or altered by this work item.",
+    "currentTreatmentUnchanged": "POLICY_ZERO_UNAVAILABLE",
+    "currentBridgeOffsetForAssociates": 0,
+    "priorPayloadStillCurrent": "evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/ regenerates byte-identically (guarded by iips-platform/tests/investment/ixAuthorizedPolicy.test.ts)"
+  },
+  "reviewControl": {
+    "policyVersion": "associates-review/1.0.0",
+    "statusUnchanged": "REVIEW_DUE",
+    "remainingAppropriate": true,
+    "why": [
+      "The control is an authorised requirement (180 calendar days from the source-evidence date), not a consequence of the carrying value being unknown; a completed investigation does not switch it off.",
+      "This work item is the action the control exists to force, and its result is now on the record: for this issuer the policy zero coincides with what the consolidated statements recognise.",
+      "No implementation defect was found in the control, so there is no basis to change the clock start, the 180-day age or the flag semantics."
+    ],
+    "reinterpreted": false
+  },
+  "notExamined": [
+    {
+      "what": "Notes 2.13 to 2.27 of the FY2024 statement (pp. 31-57), including Note 2.19 Other income, Note 2.24 Contingent liabilities and Note 2.25 Related party transactions (p. 50).",
+      "why": "The PDF text extraction available in this environment returns the first 30 pages of the filing (through Note 2.12.4).",
+      "effectOnTheConclusion": "None for this question. The conclusion rests on three complete primary statements plus the complete Note 2.5/2.5.1 reconciliation: an equity-accounted interest cannot be recognised without a separate balance-sheet caption (Ind AS 1.54(e)), a share of its result in profit or loss (Ind AS 1.82(c)), and its own reconciliation in the investments note. All three are absent, and the investment captions tie to the rupee.",
+      "residualRisk": "A related-party list could name an associate that the balance sheet treats as immaterial or dormant; that would not create a carrying amount to ingest, but it is a reason to keep L-036 open rather than to close it."
+    }
+  ],
+  "limitations": {
+    "L-036": "PARTIALLY RESOLVED — unchanged. The carrying value is not established as a reported observation, because the statements recognise none. This work item narrows the reason (evidence examined, nothing to ingest) but does not close the entry.",
+    "L-035": "OPEN — unchanged. Nothing here weakens or strengthens the documentary-mapping limitation; no new nil declaration was made."
+  },
+  "boundaries": {
+    "ipdTouched": false,
+    "newPersistence": false,
+    "schemaChanged": false,
+    "ixPolicyChanged": false,
+    "reviewPolicyChanged": false,
+    "issuerExpanded": false,
+    "historicalEvidenceRewritten": false,
+    "v1Backfilled": false
+  }
+}

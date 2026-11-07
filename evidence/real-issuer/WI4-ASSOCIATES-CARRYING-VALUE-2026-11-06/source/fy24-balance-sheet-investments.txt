@@ -1,0 +1,41 @@
+SOURCE EXTRACT — verbatim text layer of the audited consolidated balance sheet
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting
+           Standards (Ind AS) for the year ended March 31, 2024
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Statements dated : April 18, 2024 (auditor: Deloitte Haskins & Sells LLP, FRN 117366W/W-100018)
+Page     : 1 (Consolidated Balance Sheet)
+Units    : ₹ crore
+
+Non-current assets
+Property, plant and equipment | 2.2 | 12,370 | 13,346
+Right-of-use assets | 2.21 | 6,552 | 6,882
+Capital work-in-progress | 2.3 | 293 | 288
+Goodwill | 2.4.1 and 2.1 | 7,303 | 7,248
+Other intangible assets | 2.4.2 | 1,397 | 1,749
+Financial assets
+Investments | 2.5 | 11,708 | 12,569
+Loans | 2.6 | 34 | 39
+Other financial assets | 2.7 | 3,105 | 2,798
+Deferred tax assets (net) | 2.17 | 454 | 1,245
+Income tax assets (net) | 2.17 | 3,045 | 6,453
+Other non-current assets | 2.10 | 2,121 | 2,318
+Total non-current assets |  | 48,382 | 54,935
+
+Current assets
+Financial assets
+Investments | 2.5 | 12,915 | 6,909
+Trade receivables | 2.8 | 30,193 | 25,424
+Cash and cash equivalents | 2.9 | 14,786 | 12,173
+Loans | 2.6 | 248 | 289
+Other financial assets | 2.7 | 12,085 | 11,604
+Income tax assets (net) | 2.17 | 6,397 | 6
+Other current assets | 2.10 | 12,808 | 14,476
+Total current assets |  | 89,432 | 70,881
+Total assets |  | 137,814 | 125,816
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+The non-current and current asset blocks above are complete: every caption in the filed balance sheet is listed,
+and the block totals (48,382 / 89,432) agree with the filed totals. Neither block contains a caption of the form
+"Investments accounted for using the equity method" or "Investments in associates and joint ventures". The only
+investment captions are the two "Investments" lines (11,708 non-current, 12,915 current), both cross-referenced
+to Note 2.5.
