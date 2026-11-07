@@ -1,0 +1,35 @@
+# WI-10 / L-035 — 2026-11-07 — independent verification against the remote
+
+## the remote, read directly
+
+  $ git ls-remote origin refs/heads/arena/8133630f-iips-review-recovered
+  451d7906de36c765fda32d11913dfe83cc8ab0fa      refs/heads/arena/8133630f-iips-review-recovered
+  $ git rev-parse HEAD
+  451d7906de36c765fda32d11913dfe83cc8ab0fa      (identical — the pushed branch is the tested tree)
+
+  Pull request : #508  (base `main`; this branch also carries the L-036 work, see the PR receipt)
+  CI           : CAP-03 Revision 7 IRR-only static checks — run 42397721155, job 128478595779, conclusion SUCCESS
+
+## a fresh clone of that branch, not the working tree
+
+  $ git clone --branch arena/8133630f-iips-review-recovered --depth 1 \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/l035clone
+  $ cd /tmp/l035clone && git rev-parse HEAD && git status --porcelain | wc -l
+  451d7906de36c765fda32d11913dfe83cc8ab0fa
+  0                                   # the clone is clean: everything shipped is committed
+
+  $ cd iips-platform && npx tsx --test tests/investment/nil-binding.test.ts
+  # tests 22 / # pass 22 / # fail 0     (the guard runs in the clone, not only in the working tree)
+
+  bundle digests     14 files re-hashed, 0 mismatches
+  WI-3 dataset       10 files, 0 changed  (the historical record is byte-identical in the clone)
+  register           "## 17.20 WI-10 / `L-035`" present;  §17.2 carries "**`RESOLVED` (2026-11-07, §17.20).**"
+  tracker            "### 16.278 IID WI-10 / L-035" present
+  schema V3          "IIPS_INVESTMENT_FUNDAMENTALS_V3" present in contracts/lineItems.ts
+
+## what this means
+
+The commit the branch points at is the tree these transcripts describe: the evidence re-hashes, the guard passes from a
+clean checkout, the Work Item 3 dataset is untouched, and the register and tracker changes landed. The full suite and
+`tsc` were run in the working checkout at that same commit (runs/07, runs/08); this clone is the check that nothing in
+the evidence depended on uncommitted state.

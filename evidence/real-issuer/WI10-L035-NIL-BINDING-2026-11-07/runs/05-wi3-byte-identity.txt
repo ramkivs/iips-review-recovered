@@ -1,0 +1,30 @@
+# WI-10 / L-035 — 2026-11-07 — the legacy path is byte-identical: Work Item 3's dataset reproduces file for file
+
+  $ cd iips-platform
+  $ npx tsx src/investment/cli/ingest.ts \
+      --input ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input \
+      --dataset-dir /tmp/l035/legacy-dataset --now 2026-11-06T14:05:00.000Z \
+      --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V1
+
+  datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V1
+  datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+
+  file                                   sha256 (this run)   verdict
+  corporateActions.json                  37517e5f3dc66819…      IDENTICAL
+  coverage-report.json                   ce97789e45ee4fda…      IDENTICAL
+  issuers.json                           a5c964c83a3c74b4…      IDENTICAL
+  issues.json                            37517e5f3dc66819…      IDENTICAL
+  listings.json                          515bae232bdfbbd7…      IDENTICAL
+  manifest.json                          c8d0e3665ea4cbf3…      IDENTICAL
+  operatingMetrics.json                  37517e5f3dc66819…      IDENTICAL
+  periods.json                           11d4787bd21d4812…      IDENTICAL
+  prices.json                            a72eb0fd30d7874b…      IDENTICAL
+  securities.json                        2722930e81b7c899…      IDENTICAL
+
+  files compared: 10  |  identical: all
+  manifest datasetSchema: IIPS_INVESTMENT_FUNDAMENTALS_V1
+  manifest datasetVersion: sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+
+The four nil cells of this dataset are legacy (`NIL: <wording>`) and stay legacy: under V1 and V2 the grammar is
+unchanged and the cells are read exactly as they were, with no binding member added to any observation. That is
+why nothing here is backfilled, re-versioned or re-digested — the historical record keeps its bytes.

@@ -1,0 +1,44 @@
+# WI-10 / L-035 — 2026-11-07 — the defect, reproduced at the commit the work item started from
+
+Run in a detached worktree at 0ddf5c7 (the branch head before this work item), against the Work Item 3 input with
+ONE cell changed: LONG_TERM_BORROWINGS on the 2024-03-31 CONSOLIDATED row now quotes a sentence about trade
+payables. Nothing else in the input differs.
+
+  $ git worktree add --detach /tmp/l035-prefix 0ddf5c7
+  $ cd /tmp/l035-prefix/iips-platform
+  $ npx tsx src/investment/cli/ingest.ts \
+      --input /tmp/l035/hole --dataset-dir /tmp/l035/hole-dataset-prefix --now 2026-11-07T00:00:00.000Z
+
+  exit 0            (no error, no warning, the dataset is written)
+  ERROR lines: 0
+  files written: 10
+
+  periods.json @2024-03-31 / CONSOLIDATED / LONG_TERM_BORROWINGS:
+    {
+      "basis": "AS_FILED",
+      "filingRef": "INFY-INDAS-CONSOL-FY24",
+      "note": "Trade payables are settled within 45 days of the invoice date.",
+      "periodEnd": "2024-03-31",
+      "presence": "NIL_BY_DISCLOSURE",
+      "reason": "DECLARED_NIL_IN_SOURCE",
+      "source": {
+        "filedAt": "2024-04-18",
+        "kind": "FILING",
+        "ref": "INFY-INDAS-CONSOL-FY24"
+      },
+      "value": null
+    }
+
+That is exactly the case register 17.2 names — "a later operator could declare, say, a nil long-term borrowing
+from a sentence about trade payables, and the ingester would accept it". It did: the sentence is about trade
+payables, the component is a borrowing, and the observation is NIL_BY_DISCLOSURE with a filing reference, a period
+and the quote attached. Every mechanical check passed, because none of them asked what the sentence was about.
+
+Downstream consequence: a NIL_BY_DISCLOSURE component is counted as zero under the capital-structure aggregation
+contract, so this cell becomes zero debt — and therefore a higher equity value per share — on the strength of a
+sentence that says nothing about borrowings. The evidence trail makes the mapping visible; before this work item
+nothing made it refused.
+
+The corrected build is shown in runs/02-06: the same input under V3 is refused (runs/02), a mismatched declaration
+is refused under every schema it is declared in (runs/03), a correctly bound declaration is accepted and published
+(runs/04), and the legacy V1 dataset Work Item 3 actually shipped is byte-identical (runs/05).
