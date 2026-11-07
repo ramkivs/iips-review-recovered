@@ -3,931 +3,931 @@ TAP version 13
     # Subtest: the bundle names the line item under test and the two audited filings, for three periods
     ok 1 - the bundle names the line item under test and the two audited filings, for three periods
       ---
-      duration_ms: 1.528805
+      duration_ms: 2.430273
       type: 'test'
       ...
     # Subtest: each extract hashes to the digest recorded in quotes.json
     ok 2 - each extract hashes to the digest recorded in quotes.json
       ---
-      duration_ms: 0.929145
+      duration_ms: 1.363962
       type: 'test'
       ...
     # Subtest: each quote carries a locator, a period, a document and both halves of what it proves
     ok 3 - each quote carries a locator, a period, a document and both halves of what it proves
       ---
-      duration_ms: 0.395051
+      duration_ms: 0.737497
       type: 'test'
       ...
     # Subtest: the extracts quote the filing itself, and mark commentary as commentary
     ok 4 - the extracts quote the filing itself, and mark commentary as commentary
       ---
-      duration_ms: 0.557361
+      duration_ms: 0.887407
       type: 'test'
       ...
     # Subtest: no quote claims to supply a value for the line item
     ok 5 - no quote claims to supply a value for the line item
       ---
-      duration_ms: 0.20218
+      duration_ms: 0.37432
       type: 'test'
       ...
     1..5
 ok 1 - provenance — every extract is the filing text it claims to be
   ---
-  duration_ms: 4.676612
+  duration_ms: 7.343765
   type: 'suite'
   ...
 # Subtest: arithmetic — the note reconciles, so no component can be missing
     # Subtest: each period ties twice: captions to the note total, categories to the note total
     ok 1 - each period ties twice: captions to the note total, categories to the note total
       ---
-      duration_ms: 0.258405
+      duration_ms: 0.345762
       type: 'test'
       ...
     # Subtest: the filed totals are the ones quoted in the extracts, not retyped from memory
     ok 2 - the filed totals are the ones quoted in the extracts, not retyped from memory
       ---
-      duration_ms: 13.63703
+      duration_ms: 21.912104
       type: 'test'
       ...
     # Subtest: the structural tests behind the negative finding are all recorded as negative
     ok 3 - the structural tests behind the negative finding are all recorded as negative
       ---
-      duration_ms: 0.305036
+      duration_ms: 0.396334
       type: 'test'
       ...
     1..3
 ok 2 - arithmetic — the note reconciles, so no component can be missing
   ---
-  duration_ms: 14.563096
+  duration_ms: 23.089537
   type: 'suite'
   ...
 # Subtest: decision — no value, no nil, no dataset
     # Subtest: the investigation answers no and decides not to ingest
     ok 1 - the investigation answers no and decides not to ingest
       ---
-      duration_ms: 0.252673
+      duration_ms: 0.261589
       type: 'test'
       ...
     # Subtest: the omission was not converted into a nil declaration, and the reason says why
     ok 2 - the omission was not converted into a nil declaration, and the reason says why
       ---
-      duration_ms: 0.478291
+      duration_ms: 0.436577
       type: 'test'
       ...
     # Subtest: every near-miss figure is recorded as rejected, with a reason
     ok 3 - every near-miss figure is recorded as rejected, with a reason
       ---
-      duration_ms: 0.177338
+      duration_ms: 0.190203
       type: 'test'
       ...
     # Subtest: the bundle ships no dataset and no payload
     ok 4 - the bundle ships no dataset and no payload
       ---
-      duration_ms: 0.12312
+      duration_ms: 0.13177
       type: 'test'
       ...
     # Subtest: the review control is unchanged and still justified
     ok 5 - the review control is unchanged and still justified
       ---
-      duration_ms: 0.081952
+      duration_ms: 0.081937
       type: 'test'
       ...
     # Subtest: the boundaries of the work item are declared, not implied
     ok 6 - the boundaries of the work item are declared, not implied
       ---
-      duration_ms: 0.139328
+      duration_ms: 0.105236
       type: 'test'
       ...
     1..6
 ok 3 - decision — no value, no nil, no dataset
   ---
-  duration_ms: 1.543858
+  duration_ms: 1.594918
   type: 'suite'
   ...
 # Subtest: the live chain is untouched by the investigation
     # Subtest: the Work Item 3 dataset still has no associates column
     ok 1 - the Work Item 3 dataset still has no associates column
       ---
-      duration_ms: 0.242885
+      duration_ms: 0.24548
       type: 'test'
       ...
     # Subtest: the committed payload still reports the item as not reported, with no substituted value
     ok 2 - the committed payload still reports the item as not reported, with no substituted value
       ---
-      duration_ms: 0.688992
+      duration_ms: 0.659289
       type: 'test'
       ...
     # Subtest: the IX policy record still shows POLICY_ZERO + a due review, and the V2 row is still a demonstration
     ok 3 - the IX policy record still shows POLICY_ZERO + a due review, and the V2 row is still a demonstration
       ---
-      duration_ms: 1.880674
+      duration_ms: 1.957859
       type: 'test'
       ...
     # Subtest: the limitation register keeps L-036 partially resolved and L-035 open
     ok 4 - the limitation register keeps L-036 partially resolved and L-035 open
       ---
-      duration_ms: 1.083567
+      duration_ms: 1.046482
       type: 'test'
       ...
     1..4
 ok 4 - the live chain is untouched by the investigation
   ---
-  duration_ms: 4.110942
+  duration_ms: 4.082525
   type: 'suite'
   ...
 # Subtest: the residual review of Notes 2.13-2.27 (2026-11-07)
     # Subtest: the review is recorded, with the pages it read and the pages it did not
     ok 1 - the review is recorded, with the pages it read and the pages it did not
       ---
-      duration_ms: 0.269468
+      duration_ms: 0.204541
       type: 'test'
       ...
     # Subtest: no associate or joint venture is disclosed, and none of the three substitutes is accepted
     ok 2 - no associate or joint venture is disclosed, and none of the three substitutes is accepted
       ---
-      duration_ms: 0.208333
+      duration_ms: 0.217526
       type: 'test'
       ...
     # Subtest: the "associated enterprises" phrase is recorded as tax terminology, not a relationship
     ok 3 - the "associated enterprises" phrase is recorded as tax terminology, not a relationship
       ---
-      duration_ms: 0.179543
+      duration_ms: 0.172978
       type: 'test'
       ...
     # Subtest: the review changed no observation: no carrying value, no dataset, no nil
     ok 4 - the review changed no observation: no carrying value, no dataset, no nil
       ---
-      duration_ms: 0.102646
+      duration_ms: 0.103397
       type: 'test'
       ...
     # Subtest: the seven new extracts exist, hash correctly and back the claims
     ok 5 - the seven new extracts exist, hash correctly and back the claims
       ---
-      duration_ms: 0.716579
+      duration_ms: 0.821424
       type: 'test'
       ...
     1..5
 ok 5 - the residual review of Notes 2.13-2.27 (2026-11-07)
   ---
-  duration_ms: 1.746054
+  duration_ms: 1.758509
   type: 'suite'
   ...
 # Subtest: the POLICY_ZERO wording matches the implementation (2026-11-07)
     # Subtest: the payload discloses the treatment, so "unstated policy zero" is not a true description
     ok 1 - the payload discloses the treatment, so "unstated policy zero" is not a true description
       ---
-      duration_ms: 0.170946
+      duration_ms: 0.165431
       type: 'test'
       ...
     # Subtest: the disclosure is new since VII — the Work Item 3 payload had no bridge block at all
     ok 2 - the disclosure is new since VII — the Work Item 3 payload had no bridge block at all
       ---
-      duration_ms: 0.340153
+      duration_ms: 0.348367
       type: 'test'
       ...
     # Subtest: the operative statements no longer claim the zero is undisclosed
     ok 3 - the operative statements no longer claim the zero is undisclosed
       ---
-      duration_ms: 1.478505
+      duration_ms: 1.487171
       type: 'test'
       ...
     # Subtest: the correction is recorded where a reader of either document will find it
     ok 4 - the correction is recorded where a reader of either document will find it
       ---
-      duration_ms: 1.527411
+      duration_ms: 1.501028
       type: 'test'
       ...
     1..4
 ok 6 - the POLICY_ZERO wording matches the implementation (2026-11-07)
   ---
-  duration_ms: 3.672975
+  duration_ms: 3.652598
   type: 'suite'
   ...
 # Subtest: WI-5 — no nil was declared, and the withdrawal is on the record
     # Subtest: the input carries no nil cell at all, and preference capital is empty in every period
     ok 1 - the input carries no nil cell at all, and preference capital is empty in every period
       ---
-      duration_ms: 1.532367
+      duration_ms: 1.545251
       type: 'test'
       ...
     # Subtest: the filed dash is an explicit zero, the older periods are numbers, and no borrowings cell is a nil
     ok 2 - the filed dash is an explicit zero, the older periods are numbers, and no borrowings cell is a nil
       ---
-      duration_ms: 0.330843
+      duration_ms: 0.368194
       type: 'test'
       ...
     # Subtest: an absent caption stays absent: current maturities are empty in all three periods
     ok 3 - an absent caption stays absent: current maturities are empty in all three periods
       ---
-      duration_ms: 0.130782
+      duration_ms: 0.181053
       type: 'test'
       ...
     # Subtest: three consecutive audited consolidated periods of one issuer, in one scale and taxonomy
     ok 4 - three consecutive audited consolidated periods of one issuer, in one scale and taxonomy
       ---
-      duration_ms: 0.258976
+      duration_ms: 0.269972
       type: 'test'
       ...
     # Subtest: the quoted sentence is classified for what it does not establish, and the retraction is recorded
     ok 5 - the quoted sentence is classified for what it does not establish, and the retraction is recorded
       ---
-      duration_ms: 0.8204
+      duration_ms: 0.818371
       type: 'test'
       ...
     # Subtest: the corrected payload reports preference capital as NOT_REPORTED at every observation point
     ok 6 - the corrected payload reports preference capital as NOT_REPORTED at every observation point
       ---
-      duration_ms: 0.610491
+      duration_ms: 0.547024
       type: 'test'
       ...
     # Subtest: the withdrawn payload is retained, still says NIL_BY_DISCLOSURE, and is not the current artifact
     ok 7 - the withdrawn payload is retained, still says NIL_BY_DISCLOSURE, and is not the current artifact
       ---
-      duration_ms: 1.977386
+      duration_ms: 2.106118
       type: 'test'
       ...
     # Subtest: the persisted payload digests to the value the run recorded, and the run matches the readback
     ok 8 - the persisted payload digests to the value the run recorded, and the run matches the readback
       ---
-      duration_ms: 0.6569
+      duration_ms: 0.631058
       type: 'test'
       ...
     # Subtest: every committed file still hashes to the digest recorded beside it
     ok 9 - every committed file still hashes to the digest recorded beside it
       ---
-      duration_ms: 1.185634
+      duration_ms: 1.285681
       type: 'test'
       ...
     1..9
 ok 7 - WI-5 — no nil was declared, and the withdrawal is on the record
   ---
-  duration_ms: 9.012065
+  duration_ms: 9.163796
   type: 'suite'
   ...
 # Subtest: WI-6 — no qualifying nil was found, and nothing pretends otherwise
     # Subtest: the candidate register accepts nobody and names the two issuers excluded by instruction
     ok 1 - the candidate register accepts nobody and names the two issuers excluded by instruction
       ---
-      duration_ms: 1.696503
+      duration_ms: 1.564846
       type: 'test'
       ...
     # Subtest: the bundle holds no dataset, no payload and no nil of its own
     ok 2 - the bundle holds no dataset, no payload and no nil of its own
       ---
-      duration_ms: 1.112529
+      duration_ms: 1.069832
       type: 'test'
       ...
     # Subtest: Newgen stays rejected on its own numbers
     ok 3 - Newgen stays rejected on its own numbers
       ---
-      duration_ms: 0.269342
+      duration_ms: 0.259552
       type: 'test'
       ...
     # Subtest: Sasken's equity-class sentence is recorded as the scoped construction, never as a nil
     ok 4 - Sasken's equity-class sentence is recorded as the scoped construction, never as a nil
       ---
-      duration_ms: 0.534666
+      duration_ms: 0.469292
       type: 'test'
       ...
     # Subtest: the unreadable filings are recorded as blocked, with the exact statuses
     ok 5 - the unreadable filings are recorded as blocked, with the exact statuses
       ---
-      duration_ms: 0.344169
+      duration_ms: 0.330895
       type: 'test'
       ...
     # Subtest: the historical bundles are untouched — WI-3 and WI-5 still verify against their own manifests
     ok 6 - the historical bundles are untouched — WI-3 and WI-5 still verify against their own manifests
       ---
-      duration_ms: 4.013786
+      duration_ms: 3.578123
       type: 'test'
       ...
     # Subtest: the register records the negative outcome without moving any status
     ok 7 - the register records the negative outcome without moving any status
       ---
-      duration_ms: 1.469131
+      duration_ms: 1.42511
       type: 'test'
       ...
     # Subtest: every committed file in the bundle still hashes to the digest recorded beside it
     ok 8 - every committed file in the bundle still hashes to the digest recorded beside it
       ---
-      duration_ms: 0.49242
+      duration_ms: 0.475295
       type: 'test'
       ...
     1..8
 ok 8 - WI-6 — no qualifying nil was found, and nothing pretends otherwise
   ---
-  duration_ms: 11.39901
+  duration_ms: 10.437077
   type: 'suite'
   ...
 # Subtest: WI-6A-S2 — the consolidated pages, read at last, and the nil that follows
     # Subtest: both Note 27 sentences are recorded as READ, verbatim, at their printed locators
     ok 1 - both Note 27 sentences are recorded as READ, verbatim, at their printed locators
       ---
-      duration_ms: 1.70265
+      duration_ms: 1.646722
       type: 'test'
       ...
     # Subtest: the sentence is literally on the committed page — the record cannot outrun its page
     ok 2 - the sentence is literally on the committed page — the record cannot outrun its page
       ---
-      duration_ms: 0.754678
+      duration_ms: 0.762518
       type: 'test'
       ...
     # Subtest: printed page ↔ PDF page index ↔ page header ↔ source digest are consistent for every cited page
     ok 3 - printed page ↔ PDF page index ↔ page header ↔ source digest are consistent for every cited page
       ---
-      duration_ms: 1.326659
+      duration_ms: 1.025229
       type: 'test'
       ...
     # Subtest: the source bytes are identified, and the FY2022-23 file is the same file by two routes
     ok 4 - the source bytes are identified, and the FY2022-23 file is the same file by two routes
       ---
-      duration_ms: 0.219375
+      duration_ms: 0.265746
       type: 'test'
       ...
     # Subtest: three consecutive periods, each covered by a read sentence, with 2023-03-31 covered twice
     ok 5 - three consecutive periods, each covered by a read sentence, with 2023-03-31 covered twice
       ---
-      duration_ms: 0.178183
+      duration_ms: 0.16166
       type: 'test'
       ...
     # Subtest: D-2 is applied to the three borrowing components only — not widened to leases, preference capital or NCI
     ok 6 - D-2 is applied to the three borrowing components only — not widened to leases, preference capital or NCI
       ---
-      duration_ms: 0.228149
+      duration_ms: 0.241956
       type: 'test'
       ...
     # Subtest: lease liabilities are numbers for all three dates, and the totals reconcile to their components
     ok 7 - lease liabilities are numbers for all three dates, and the totals reconcile to their components
       ---
-      duration_ms: 0.242237
+      duration_ms: 0.205134
       type: 'test'
       ...
     # Subtest: the ingested dataset carries the nil on exactly the three components, with the quoted wording, in all three rows
     ok 8 - the ingested dataset carries the nil on exactly the three components, with the quoted wording, in all three rows
       ---
-      duration_ms: 0.463191
+      duration_ms: 0.474937
       type: 'test'
       ...
     # Subtest: the aggregation produced the numbers the filing supports — gross debt is the leases, net debt is gross less cash
     ok 9 - the aggregation produced the numbers the filing supports — gross debt is the leases, net debt is gross less cash
       ---
-      duration_ms: 0.305537
+      duration_ms: 0.319297
       type: 'test'
       ...
     # Subtest: the governed run is recorded end to end, and the readback digest matches the stored digest and the chain head
     ok 10 - the governed run is recorded end to end, and the readback digest matches the stored digest and the chain head
       ---
-      duration_ms: 0.46857
+      duration_ms: 0.568178
       type: 'test'
       ...
     # Subtest: the valuation is NOT claimed: no intrinsic value, and the payload names every separate reason
     ok 11 - the valuation is NOT claimed: no intrinsic value, and the payload names every separate reason
       ---
-      duration_ms: 0.240157
+      duration_ms: 0.254252
       type: 'test'
       ...
     # Subtest: the register is not revised upward: L-037 stays OPEN, L-035 OPEN, L-036 PARTIALLY RESOLVED
     ok 12 - the register is not revised upward: L-037 stays OPEN, L-035 OPEN, L-036 PARTIALLY RESOLVED
       ---
-      duration_ms: 0.390006
+      duration_ms: 0.384474
       type: 'test'
       ...
     # Subtest: nothing is overstated: the bundle states what it did not establish
     ok 13 - nothing is overstated: the bundle states what it did not establish
       ---
-      duration_ms: 0.206965
+      duration_ms: 0.145203
       type: 'test'
       ...
     # Subtest: the earlier bundles are untouched and still verify
     ok 14 - the earlier bundles are untouched and still verify
       ---
-      duration_ms: 4.126367
+      duration_ms: 3.65536
       type: 'test'
       ...
     1..14
 ok 9 - WI-6A-S2 — the consolidated pages, read at last, and the nil that follows
   ---
-  duration_ms: 12.230265
+  duration_ms: 11.525031
   type: 'suite'
   ...
 # Subtest: WI-6A-S1 — a reported sentence is a locator, not a nil
     # Subtest: both quotations are recorded verbatim, hashed, and marked unread by this run
     ok 1 - both quotations are recorded verbatim, hashed, and marked unread by this run
       ---
-      duration_ms: 1.87544
+      duration_ms: 1.509542
       type: 'test'
       ...
     # Subtest: the cited page ranges fall inside each report's own consolidated section — and nothing more is claimed
     ok 2 - the cited page ranges fall inside each report's own consolidated section — and nothing more is claimed
       ---
-      duration_ms: 0.55855
+      duration_ms: 0.542013
       type: 'test'
       ...
     # Subtest: the three-period coverage argument is recorded as unverified, not as coverage
     ok 3 - the three-period coverage argument is recorded as unverified, not as coverage
       ---
-      duration_ms: 0.270647
+      duration_ms: 0.254933
       type: 'test'
       ...
     # Subtest: the retrieval log measures the boundary twice and refuses to describe the unread pages
     ok 4 - the retrieval log measures the boundary twice and refuses to describe the unread pages
       ---
-      duration_ms: 0.30903
+      duration_ms: 0.351618
       type: 'test'
       ...
     # Subtest: source-file digests are declared not computable instead of being invented
     ok 5 - source-file digests are declared not computable instead of being invented
       ---
-      duration_ms: 0.154376
+      duration_ms: 0.234857
       type: 'test'
       ...
     # Subtest: the determination does not move, and creates nothing
     ok 6 - the determination does not move, and creates nothing
       ---
-      duration_ms: 0.27882
+      duration_ms: 0.241768
       type: 'test'
       ...
     # Subtest: the second blocker is the code: gross debt sums four components, leases among them
     ok 7 - the second blocker is the code: gross debt sums four components, leases among them
       ---
-      duration_ms: 0.435514
+      duration_ms: 0.407402
       type: 'test'
       ...
     # Subtest: the historical record survives — original WI-6A untouched, and the earlier sections still read as written
     ok 8 - the historical record survives — original WI-6A untouched, and the earlier sections still read as written
       ---
-      duration_ms: 4.440669
+      duration_ms: 3.528677
       type: 'test'
       ...
     # Subtest: the register adds §17.13, generalises L-037 without closing it, and moves nothing else
     ok 9 - the register adds §17.13, generalises L-037 without closing it, and moves nothing else
       ---
-      duration_ms: 2.665091
+      duration_ms: 1.769288
       type: 'test'
       ...
     # Subtest: every committed file in the supplement still hashes to the digest recorded beside it
     ok 10 - every committed file in the supplement still hashes to the digest recorded beside it
       ---
-      duration_ms: 2.448339
+      duration_ms: 0.671722
       type: 'test'
       ...
     1..10
 ok 10 - WI-6A-S1 — a reported sentence is a locator, not a nil
   ---
-  duration_ms: 14.860018
+  duration_ms: 10.837196
   type: 'suite'
   ...
 # Subtest: WI-6A — Zensar consolidated nil not established, and nothing pretends otherwise
     # Subtest: the determination records an unsuccessful investigation and creates nothing
     ok 1 - the determination records an unsuccessful investigation and creates nothing
       ---
-      duration_ms: 0.9276
+      duration_ms: 0.913409
       type: 'test'
       ...
     # Subtest: the owner-reported sentence is scoped standalone by the filing's own pagination, and is never transferable
     ok 2 - the owner-reported sentence is scoped standalone by the filing's own pagination, and is never transferable
       ---
-      duration_ms: 0.555873
+      duration_ms: 0.569541
       type: 'test'
       ...
     # Subtest: the front-matter extract carries the identity read from the filing, and leaves CIN and ISIN unfilled
     ok 3 - the front-matter extract carries the identity read from the filing, and leaves CIN and ISIN unfilled
       ---
-      duration_ms: 0.408906
+      duration_ms: 0.437159
       type: 'test'
       ...
     # Subtest: the access log records every refusal exactly, and refuses to read silence into the unread pages
     ok 4 - the access log records every refusal exactly, and refuses to read silence into the unread pages
       ---
-      duration_ms: 0.322685
+      duration_ms: 0.365229
       type: 'test'
       ...
     # Subtest: no period is dressed up: three periods, all unretrieved, the check not performed
     ok 5 - no period is dressed up: three periods, all unretrieved, the check not performed
       ---
-      duration_ms: 0.864838
+      duration_ms: 0.815645
       type: 'test'
       ...
     # Subtest: the bundle holds no dataset, no payload and no nil of its own
     ok 6 - the bundle holds no dataset, no payload and no nil of its own
       ---
-      duration_ms: 2.60593
+      duration_ms: 3.047873
       type: 'test'
       ...
     # Subtest: the historical bundles are untouched — WI-3, WI-5 and WI-6 still verify against their own manifests
     ok 7 - the historical bundles are untouched — WI-3, WI-5 and WI-6 still verify against their own manifests
       ---
-      duration_ms: 2.149752
+      duration_ms: 2.070308
       type: 'test'
       ...
     # Subtest: the register opens L-037, leaves L-036 and L-035 alone, and records the negative without a nil
     ok 8 - the register opens L-037, leaves L-036 and L-035 alone, and records the negative without a nil
       ---
-      duration_ms: 2.843589
+      duration_ms: 3.135644
       type: 'test'
       ...
     # Subtest: every committed file in the bundle still hashes to the digest recorded beside it
     ok 9 - every committed file in the bundle still hashes to the digest recorded beside it
       ---
-      duration_ms: 0.641434
+      duration_ms: 0.602823
       type: 'test'
       ...
     1..9
 ok 11 - WI-6A — Zensar consolidated nil not established, and nothing pretends otherwise
   ---
-  duration_ms: 12.780704
+  duration_ms: 13.370558
   type: 'suite'
   ...
 # Subtest: WI-7 Consumer / Marico — source bytes and identity
     # Subtest: the three documents are identified by hash, size and page count
     ok 1 - the three documents are identified by hash, size and page count
       ---
-      duration_ms: 0.941641
+      duration_ms: 0.858655
       type: 'test'
       ...
     # Subtest: the second route to the FY2023-24 report serves the same bytes
     ok 2 - the second route to the FY2023-24 report serves the same bytes
       ---
-      duration_ms: 0.202174
+      duration_ms: 0.177216
       type: 'test'
       ...
     # Subtest: the rejected source routes are recorded rather than dropped
     ok 3 - the rejected source routes are recorded rather than dropped
       ---
-      duration_ms: 0.187428
+      duration_ms: 0.141545
       type: 'test'
       ...
     # Subtest: identity is a filing fact: CIN, ISIN, BSE code and NSE symbol are printed on committed pages
     ok 4 - identity is a filing fact: CIN, ISIN, BSE code and NSE symbol are printed on committed pages
       ---
-      duration_ms: 0.9057
+      duration_ms: 0.842866
       type: 'test'
       ...
     # Subtest: every cited page carries its own provenance header and is digested in the page map
     ok 5 - every cited page carries its own provenance header and is digested in the page map
       ---
-      duration_ms: 3.703577
+      duration_ms: 3.556899
       type: 'test'
       ...
     # Subtest: the auditor reports on the consolidated statements in both documents
     ok 6 - the auditor reports on the consolidated statements in both documents
       ---
-      duration_ms: 0.985234
+      duration_ms: 0.93991
       type: 'test'
       ...
     1..6
 ok 12 - WI-7 Consumer / Marico — source bytes and identity
   ---
-  duration_ms: 7.942451
+  duration_ms: 7.554104
   type: 'suite'
   ...
 # Subtest: WI-7 — three consecutive consolidated periods, and D-2 written down
     # Subtest: the dataset carries three consecutive annual consolidated periods in crore
     ok 1 - the dataset carries three consecutive annual consolidated periods in crore
       ---
-      duration_ms: 1.092453
+      duration_ms: 1.110095
       type: 'test'
       ...
     # Subtest: no cell in the dataset is a nil: nothing read declares one
     ok 2 - no cell in the dataset is a nil: nothing read declares one
       ---
-      duration_ms: 0.400318
+      duration_ms: 0.362848
       type: 'test'
       ...
     # Subtest: a dash is not a number and not a nil: the non-current borrowings row is empty where the sheet prints a dash
     ok 3 - a dash is not a number and not a nil: the non-current borrowings row is empty where the sheet prints a dash
       ---
-      duration_ms: 0.377339
+      duration_ms: 0.299958
       type: 'test'
       ...
     # Subtest: the numbers that ARE printed are ingested as printed
     ok 4 - the numbers that ARE printed are ingested as printed
       ---
-      duration_ms: 0.533059
+      duration_ms: 0.495577
       type: 'test'
       ...
     # Subtest: the profit and loss and the balance sheet reconcile on the ingested numbers
     ok 5 - the profit and loss and the balance sheet reconcile on the ingested numbers
       ---
-      duration_ms: 0.25128
+      duration_ms: 0.286693
       type: 'test'
       ...
     # Subtest: the extraction record says where every figure is printed, including the ones that are not
     ok 6 - the extraction record says where every figure is printed, including the ones that are not
       ---
-      duration_ms: 0.109544
+      duration_ms: 0.119293
       type: 'test'
       ...
     1..6
 ok 13 - WI-7 — three consecutive consolidated periods, and D-2 written down
   ---
-  duration_ms: 3.183776
+  duration_ms: 3.150178
   type: 'suite'
   ...
 # Subtest: WI-7 — what the governed run produced, and what it refused
     # Subtest: the dataset digest is the digest the run recorded
     ok 1 - the dataset digest is the digest the run recorded
       ---
-      duration_ms: 0.157903
+      duration_ms: 0.164073
       type: 'test'
       ...
     # Subtest: the capital structure refuses rather than approximates
     ok 2 - the capital structure refuses rather than approximates
       ---
-      duration_ms: 0.113587
+      duration_ms: 0.084361
       type: 'test'
       ...
     # Subtest: the published non-current borrowing is the printed prior-year figure, labelled with its own period
     ok 3 - the published non-current borrowing is the printed prior-year figure, labelled with its own period
       ---
-      duration_ms: 0.093991
+      duration_ms: 0.079931
       type: 'test'
       ...
     # Subtest: what the filing does report is carried: leases, minority interest and cash
     ok 4 - what the filing does report is carried: leases, minority interest and cash
       ---
-      duration_ms: 0.082079
+      duration_ms: 0.111197
       type: 'test'
       ...
     # Subtest: no intrinsic value and no margin of safety are claimed
     ok 5 - no intrinsic value and no margin of safety are claimed
       ---
-      duration_ms: 0.073326
+      duration_ms: 0.085724
       type: 'test'
       ...
     # Subtest: each method says exactly why it did or did not produce a number
     ok 6 - each method says exactly why it did or did not produce a number
       ---
-      duration_ms: 0.229945
+      duration_ms: 0.300721
       type: 'test'
       ...
     # Subtest: the sector is Consumer and its revenue multiple is excluded for the Consumer reason
     ok 7 - the sector is Consumer and its revenue multiple is excluded for the Consumer reason
       ---
-      duration_ms: 0.111373
+      duration_ms: 0.115565
       type: 'test'
       ...
     # Subtest: confidence, adequacy and quality are the published values, caps included
     ok 8 - confidence, adequacy and quality are the published values, caps included
       ---
-      duration_ms: 0.113025
+      duration_ms: 0.122855
       type: 'test'
       ...
     # Subtest: the persisted artifact is the artifact read back, by digest, in a separate process
     ok 9 - the persisted artifact is the artifact read back, by digest, in a separate process
       ---
-      duration_ms: 0.307941
+      duration_ms: 0.31977
       type: 'test'
       ...
     # Subtest: the assessment step ran and the run reported no failure
     ok 10 - the assessment step ran and the run reported no failure
       ---
-      duration_ms: 0.124015
+      duration_ms: 0.133002
       type: 'test'
       ...
     1..10
 ok 14 - WI-7 — what the governed run produced, and what it refused
   ---
-  duration_ms: 1.682051
+  duration_ms: 1.789271
   type: 'suite'
   ...
 # Subtest: WI-7 — the register, the record, and what must not have changed
     # Subtest: the register opens L-038 and leaves it OPEN
     ok 1 - the register opens L-038 and leaves it OPEN
       ---
-      duration_ms: 0.352798
+      duration_ms: 0.347073
       type: 'test'
       ...
     # Subtest: no earlier status is improved by this work item
     ok 2 - no earlier status is improved by this work item
       ---
-      duration_ms: 0.232618
+      duration_ms: 0.181005
       type: 'test'
       ...
     # Subtest: the WI-7 record names the sector, the issuer and the refusal
     ok 3 - the WI-7 record names the sector, the issuer and the refusal
       ---
-      duration_ms: 0.132103
+      duration_ms: 0.169399
       type: 'test'
       ...
     # Subtest: no temporary harness is left in the branch
     ok 4 - no temporary harness is left in the branch
       ---
-      duration_ms: 0.236826
+      duration_ms: 0.171574
       type: 'test'
       ...
     # Subtest: the earlier real-issuer bundles still verify
     ok 5 - the earlier real-issuer bundles still verify
       ---
-      duration_ms: 2.900848
+      duration_ms: 2.959076
       type: 'test'
       ...
     1..5
 ok 15 - WI-7 — the register, the record, and what must not have changed
   ---
-  duration_ms: 4.030666
+  duration_ms: 4.000597
   type: 'suite'
   ...
 # Subtest: WI-8 Industrials / KEC — source bytes and identity
     # Subtest: both documents are identified by hash, size and page count
     ok 1 - both documents are identified by hash, size and page count
       ---
-      duration_ms: 1.268238
+      duration_ms: 0.869163
       type: 'test'
       ...
     # Subtest: the unavailable third report is recorded, not dropped
     ok 2 - the unavailable third report is recorded, not dropped
       ---
-      duration_ms: 0.221074
+      duration_ms: 0.154713
       type: 'test'
       ...
     # Subtest: identity is a filing fact for CIN and ISIN, and an exchange fact for the NSE symbol
     ok 3 - identity is a filing fact for CIN and ISIN, and an exchange fact for the NSE symbol
       ---
-      duration_ms: 1.921169
+      duration_ms: 1.344933
       type: 'test'
       ...
     # Subtest: the annual reports print no trading symbol or BSE scrip code at all
     ok 4 - the annual reports print no trading symbol or BSE scrip code at all
       ---
-      duration_ms: 4.10711
+      duration_ms: 3.481626
       type: 'test'
       ...
     # Subtest: every cited page carries its provenance header and is digested in the page map
     ok 5 - every cited page carries its provenance header and is digested in the page map
       ---
-      duration_ms: 2.89826
+      duration_ms: 2.585118
       type: 'test'
       ...
     # Subtest: the auditor reports on the consolidated statements under Ind AS
     ok 6 - the auditor reports on the consolidated statements under Ind AS
       ---
-      duration_ms: 0.856532
+      duration_ms: 0.827697
       type: 'test'
       ...
     1..6
 ok 16 - WI-8 Industrials / KEC — source bytes and identity
   ---
-  duration_ms: 12.756626
+  duration_ms: 10.366762
   type: 'suite'
   ...
 # Subtest: WI-8 — three consecutive consolidated periods, and D-2 written down
     # Subtest: the dataset carries three consecutive annual consolidated periods in crore
     ok 1 - the dataset carries three consecutive annual consolidated periods in crore
       ---
-      duration_ms: 0.584743
+      duration_ms: 0.579549
       type: 'test'
       ...
     # Subtest: no cell in the dataset is a nil: nothing read declares one
     ok 2 - no cell in the dataset is a nil: nothing read declares one
       ---
-      duration_ms: 0.372742
+      duration_ms: 0.367618
       type: 'test'
       ...
     # Subtest: the absent lines are absent, not zero
     ok 3 - the absent lines are absent, not zero
       ---
-      duration_ms: 0.422417
+      duration_ms: 0.456121
       type: 'test'
       ...
     # Subtest: the current-borrowings partition adds back to the printed balance-sheet line
     ok 4 - the current-borrowings partition adds back to the printed balance-sheet line
       ---
-      duration_ms: 0.460385
+      duration_ms: 0.521037
       type: 'test'
       ...
     # Subtest: the numbers that ARE printed are ingested as printed
     ok 5 - the numbers that ARE printed are ingested as printed
       ---
-      duration_ms: 0.370428
+      duration_ms: 0.369481
       type: 'test'
       ...
     # Subtest: the profit and loss, the balance sheet and the cash flow reconcile on the ingested numbers
     ok 6 - the profit and loss, the balance sheet and the cash flow reconcile on the ingested numbers
       ---
-      duration_ms: 0.309729
+      duration_ms: 0.254265
       type: 'test'
       ...
     # Subtest: the extraction record says where every figure is printed, including the ones that are not
     ok 7 - the extraction record says where every figure is printed, including the ones that are not
       ---
-      duration_ms: 0.124736
+      duration_ms: 0.125237
       type: 'test'
       ...
     1..7
 ok 17 - WI-8 — three consecutive consolidated periods, and D-2 written down
   ---
-  duration_ms: 3.090831
+  duration_ms: 3.109578
   type: 'suite'
   ...
 # Subtest: WI-8 — what the governed run produced, and what it refused
     # Subtest: the dataset digest is the digest the run recorded, and the sector is measured G2_PARTIAL
     ok 1 - the dataset digest is the digest the run recorded, and the sector is measured G2_PARTIAL
       ---
-      duration_ms: 0.257422
+      duration_ms: 0.212293
       type: 'test'
       ...
     # Subtest: gross debt resolves on a real filing for the first time
     ok 2 - gross debt resolves on a real filing for the first time
       ---
-      duration_ms: 0.10931
+      duration_ms: 0.113588
       type: 'test'
       ...
     # Subtest: net debt refuses, and the blocking component is named
     ok 3 - net debt refuses, and the blocking component is named
       ---
-      duration_ms: 0.111931
+      duration_ms: 0.117893
       type: 'test'
       ...
     # Subtest: each method says exactly why it did or did not produce a number
     ok 4 - each method says exactly why it did or did not produce a number
       ---
-      duration_ms: 0.136333
+      duration_ms: 0.147036
       type: 'test'
       ...
     # Subtest: the sector declares no P/E method, so the P/E leg is unsatisfiable by design
     ok 5 - the sector declares no P/E method, so the P/E leg is unsatisfiable by design
       ---
-      duration_ms: 0.127755
+      duration_ms: 0.126199
       type: 'test'
       ...
     # Subtest: no intrinsic value and no margin of safety are claimed
     ok 6 - no intrinsic value and no margin of safety are claimed
       ---
-      duration_ms: 0.08556
+      duration_ms: 0.087632
       type: 'test'
       ...
     # Subtest: the two payload behaviours are recorded, not repaired, and their number is not used as a valuation
     ok 7 - the two payload behaviours are recorded, not repaired, and their number is not used as a valuation
       ---
-      duration_ms: 0.211552
+      duration_ms: 0.162755
       type: 'test'
       ...
     # Subtest: the metric that withholds the revenue multiple is genuine, not a search failure
     ok 8 - the metric that withholds the revenue multiple is genuine, not a search failure
       ---
-      duration_ms: 0.285945
+      duration_ms: 0.280777
       type: 'test'
       ...
     # Subtest: confidence, adequacy and quality are the published values, caps included
     ok 9 - confidence, adequacy and quality are the published values, caps included
       ---
-      duration_ms: 0.202991
+      duration_ms: 0.21475
       type: 'test'
       ...
     # Subtest: the persisted artifact is the artifact read back, by digest, in a separate process
     ok 10 - the persisted artifact is the artifact read back, by digest, in a separate process
       ---
-      duration_ms: 0.282025
+      duration_ms: 0.285935
       type: 'test'
       ...
     # Subtest: the run reported no failure, and the second run wrote nothing
     ok 11 - the run reported no failure, and the second run wrote nothing
       ---
-      duration_ms: 0.233631
+      duration_ms: 0.221692
       type: 'test'
       ...
     1..11
 ok 18 - WI-8 — what the governed run produced, and what it refused
   ---
-  duration_ms: 2.38452
+  duration_ms: 2.331669
   type: 'suite'
   ...
 # Subtest: WI-8 — the register, the record, and what must not have changed
     # Subtest: the register opens L-039 and L-040 and leaves both OPEN
     ok 1 - the register opens L-039 and L-040 and leaves both OPEN
       ---
-      duration_ms: 0.483796
+      duration_ms: 0.566242
       type: 'test'
       ...
     # Subtest: no earlier status is improved or rewritten by this work item
     ok 2 - no earlier status is improved or rewritten by this work item
       ---
-      duration_ms: 0.390677
+      duration_ms: 0.397007
       type: 'test'
       ...
     # Subtest: the WI-8 record names the sector, the issuer and the refusal
     ok 3 - the WI-8 record names the sector, the issuer and the refusal
       ---
-      duration_ms: 0.226264
+      duration_ms: 0.146782
       type: 'test'
       ...
     # Subtest: no temporary harness is left in the branch
     ok 4 - no temporary harness is left in the branch
       ---
-      duration_ms: 0.202139
+      duration_ms: 0.174724
       type: 'test'
       ...
     # Subtest: the earlier real-issuer bundles still verify by digest
     ok 5 - the earlier real-issuer bundles still verify by digest
       ---
-      duration_ms: 4.440785
+      duration_ms: 4.314252
       type: 'test'
       ...
     1..5
 ok 19 - WI-8 — the register, the record, and what must not have changed
   ---
-  duration_ms: 5.951889
+  duration_ms: 5.785888
   type: 'suite'
   ...
 1..19
@@ -938,8 +938,8 @@ ok 19 - WI-8 — the register, the record, and what must not have changed
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 1293.140767
+# duration_ms 1238.028039
 
 ## guard summary
-133 tests / 133 pass / 0 fail across the 8 WI guard files (wi4, wi5, wi6, wi6a, wi6a-S1, wi6a-S2, wi7, wi8).
+133 tests / 133 pass / 0 fail across the 8 WI guard files (wi4, wi4-associates, wi5, wi6, wi6a, wi6a-S1, wi6a-S2, wi7, wi8).
 WI-8 own file: 29 tests in 4 suites.

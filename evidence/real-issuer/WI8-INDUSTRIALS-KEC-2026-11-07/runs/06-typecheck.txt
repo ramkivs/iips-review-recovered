@@ -1,5 +1,4 @@
+exit 0, no diagnostics (project includes src/**/*.ts only).
 
-## typecheck
-npx tsc --noEmit -p tsconfig.json -> exit 0, no diagnostics (project includes src/**/*.ts only).
 Second invocation, strict, over the guard file itself:
 npx tsc --noEmit --strict --module nodenext --moduleResolution nodenext --target es2022 --skipLibCheck --types node tests/investment/wi8IndustrialsKec.test.ts -> exit 0, no diagnostics.
