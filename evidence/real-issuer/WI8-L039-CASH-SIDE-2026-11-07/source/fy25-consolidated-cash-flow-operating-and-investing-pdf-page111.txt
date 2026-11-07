@@ -1,3 +1,14 @@
+# KEC International Limited — FY2024-25 annual report (consolidated)
+# What this page is: Consolidated cash flow, sections A and B, FY2025 and FY2024
+# source PDF: KEC_Annual_Report_2024-25.pdf  bytes=14873309  sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  pages=206
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+# PDF page 111 of 206  (printed page numbers not detected on this sheet)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
                                   A.          EQUITY SHARE CAPITAL                                                                                                                                                                                                                                                                                                                                    ` in Crore
                             218
                                                                                                                                                                                                                                                                                              As at March 31, 2025                                                 As at March 31, 2024
@@ -18,7 +29,6 @@ KEC International Limited
                                                                                                                                                                                     Capital                                  Securities             Statutory General                                                                          Retained
                                                                                                                                                                                                                  Reserve on             Redemption                                                                                                             of cash on translation
                                                                                                                                                                                                                                                                                                                                                                                                                                  for the year ended March 31, 2025
-
 
                                                                                                                                                                                    Reserve                                    Premium                Reserve Reserve                                                                           Earnings
                                                                                                                                                                                                                Consolidation               Reserve                                                                                                                 flow      of foreign
@@ -62,13 +72,8 @@ KEC International Limited
                                   Place : Mumbai                                                                                                                                                                                                            Place : Mumbai
                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Consolidated statement of changes in equity
 
-
-
                                   Date : May 26, 2025                                                                                                                                                                                                       Date : May 26, 2025
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Integrated Annual Report 2024-25
-
-
-
 
                                                                                                                                                                                                                                                                                                                              A. CASH FLOW FROM OPERATING ACTIVITIES
                                        B. CASH FLOW FROM INVESTING ACTIVITIES
@@ -86,12 +91,8 @@ KEC International Limited
                                                                                                                                                                                                                                                                                                                                 derecognition of leased assets
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Integrated Annual Report 2024-25
 
-
-
                                           Proceeds from sale of property, plant and equipment
                                                                                                                                                                                                                                                                                                                                                                                                                                  for the year ended March 31, 2025
-
-
 
                                                                                                                                                                                                                                                        Trade receivables                                                        Loss on property, plant and equipment discarded and intangible
                                                                                                                                                                         Other current liabilities
@@ -113,8 +114,6 @@ KEC International Limited
                                           NET CASH FLOW USED IN INVESTING ACTIVITIES (B)
                                                                                                                 NET CASH FLOW GENERATED FROM OPERATING ACTIVITIES (A)
 
-
-
                                                                                                                                                                         1,244.06                                                                            72.85
                                                                                                                                                                           (53.52)                                                                        (992.62)                                                            663.59
                                                       33.40                                                                                                                27.17                                                                           (23.42)                                                           (55.24)                                    156.75                                                                                                                                                             CORPORATE OVERVIEW
@@ -123,7 +122,6 @@ KEC International Limited
                                                      (42.06)
                                                                                                 (182.52)                                                                                                                                                                                                                        9.71
                                                                                                                                                                             (0.68)                                                                           (6.56)                                                            (2.09)                        3.32        (8.56)                       For the year ended
-
 
                                                                                                                                    1,665.74                                                                                                                                                                       1,214.82
                                                                                                                                      261.88
@@ -143,7 +141,6 @@ KEC International Limited
                                                                                                                                                                               2.83                                                                           (9.30)                                                           47.02                          2.64        (3.26)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Consolidated Statement of Cash Flows
 
-
 KEC International Limited
 
                                                                                                                                                                                                                                                                                                                                                                                                       For the year ended
@@ -155,4 +152,3 @@ KEC International Limited
                             219                                                                                                                                                                                                                                                                                   1,353.45                                                               346.78           March 31, 2024
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            FINANCIAL STATEMENTS
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Consolidated
-

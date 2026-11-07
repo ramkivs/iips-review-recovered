@@ -1,3 +1,14 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Notes 15–18 — inventories, trade receivables, cash and cash equivalents, bank balances other than cash and cash equivalents
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 131 of 215  (printed pages 258-259)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
                                                                                                                                                                                                                                                    FINANCIAL STATEMENTS
                                                                                                         KEC International Limited                                                                                                                             Consolidated
 
@@ -72,4 +83,3 @@ Trade receivable from related parties is ` 2.20 crore (As at March 31, 2025 ` 5.
 
 
 258     Integrated Annual Report 2025-26                                                                                                                                                                                          Integrated Annual Report 2025-26       259
-

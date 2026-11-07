@@ -1,0 +1,14 @@
+# L-039 — 2026-11-07 — post-manifest verification (this run is deliberately OUTSIDE the manifest: it is the check that the manifest
+# and the bundle it digests agree at the shipped head)
+# cd iips-platform && npx tsx --test tests/investment/*.test.ts && npx tsc --noEmit -p tsconfig.json
+# tests 654
+# suites 151
+# pass 654
+# fail 0
+# duration_ms 8970.034062
+
+# typecheck
+# exit 0, no diagnostics
+
+# bundle manifest re-hash, every digested file
+digested files 22  mismatches []

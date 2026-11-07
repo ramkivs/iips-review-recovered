@@ -1,3 +1,15 @@
+# Caption search over BOTH annual reports, page by page — the evidence that the search was exhaustive
+# What this is: every page of KEC_Annual_Report_2025-26.pdf (215 pages) and KEC_Annual_Report_2024-25.pdf (206 pages)
+#   was converted with `pdftotext -layout -f N -l N` and tested for the cash, bank and investment captions. This
+#   file lists every page on which any of NOTE 10 / NOTE 17 / NOTE 18 / NOTE 19, "current investment",
+#   "non-current investment" or "mutual fund" matched, with match counts.
+# source PDFs: KEC_Annual_Report_2025-26.pdf sha256 ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820 (215 pages)
+#              KEC_Annual_Report_2024-25.pdf sha256 29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6 (206 pages)
+# runner: throwaway GitHub Actions workflow `temp-l039-discover.yml`, run 42375363922, 2026-11-07 (deleted before PR).
+# Result, in one line: NO page of either report carries a "Current investments" caption; the only "current investment"
+#   hits are Ind AS 107 classification tables that classify the NON-current equity investment and the cash and bank
+#   balances; the only "mutual fund" hit is the shareholding pattern, where mutual funds hold KEC shares.
+# -----------------------------------------------------------------------------------------------------
 == fy26 KEC_Annual_Report_2025-26.pdf (215 pages)
 fy26 p108: mutual_fund=1 | investments=1 bank_balances=0 cash=0
 fy26 p119: note_17=2 | investments=0 bank_balances=0 cash=3

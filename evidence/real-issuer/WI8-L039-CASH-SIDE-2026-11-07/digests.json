@@ -1,0 +1,94 @@
+{
+  "bundle": "WI-8 / L-039 \u2014 KEC International Limited cash-side evidence",
+  "generatedAt": "2026-11-07",
+  "files": {
+    "README.md": {
+      "sha256": "c81d821f2526927f1b4e9e5b8d0e1b595ada4c85b02251afa2b85233a2423d98",
+      "bytes": 13302
+    },
+    "determination-l039.json": {
+      "sha256": "b596359fc60e06e6462478dee5e78a18eaf567916e7570d774e452af41e6d0ce",
+      "bytes": 15677
+    },
+    "runs/01-reverification-ingest.txt": {
+      "sha256": "12b23921a46d968041568d00498acf4d42cfe8986dc044f6ffef68a107561799",
+      "bytes": 1941
+    },
+    "runs/02-reverification-generate.txt": {
+      "sha256": "3dc01c7745249e910238e1bfc4cf8430f13e169d7863b2a5abc12e2846d4d320",
+      "bytes": 6168
+    },
+    "runs/03-readback.json": {
+      "sha256": "8ef731ee7b8eb775f92f6383daa0474ae69aadd8f58c84335bd145a9962b521f",
+      "bytes": 3100
+    },
+    "runs/04-tests.txt": {
+      "sha256": "14544f74dc0f9b155990a15c519bd68bce453feb48a81fbf03619870ea807d25",
+      "bytes": 260
+    },
+    "runs/05-typecheck.txt": {
+      "sha256": "d453004981e017ff73685341139c6d33dc9dba62e498d2110e2e09ddf11af0e2",
+      "bytes": 118
+    },
+    "runs/commands.txt": {
+      "sha256": "ae49b67870f8d28e2ad2fb4ac8e4e1d12f5fb7a80754e48c6edeee0d70df1929",
+      "bytes": 5103
+    },
+    "source/caption-search-log.txt": {
+      "sha256": "5286c4fd387251f98a3f89f2d0158710d58d974ccc060367b4e73575275fe59d",
+      "bytes": 2687
+    },
+    "source/fy25-consolidated-balance-sheet-pdf-page110.txt": {
+      "sha256": "3c9150854e554a9022e53e8d1e10083210eaf0cd26588479d82bf930bc3df318",
+      "bytes": 19579
+    },
+    "source/fy25-consolidated-cash-flow-operating-and-investing-pdf-page111.txt": {
+      "sha256": "31b1dbb65435dc0a7fcca26d2e6a15af039978b30405a1046d78f8c144406abb",
+      "bytes": 39248
+    },
+    "source/fy25-note-54-ind-as-107-financial-instrument-classification-pdf-page137.txt": {
+      "sha256": "a8eecc054936b83671c0d2c820866530d42c952efd4801bb8827ac66898b6a74",
+      "bytes": 10121
+    },
+    "source/fy25-notes-17-to-19-cash-bank-balances-and-other-financial-assets-pdf-page124.txt": {
+      "sha256": "dd045f3b3399d6d163dab0048dbe3cf4285bc7411c0fdd8ee925e7ec5d074a21",
+      "bytes": 15978
+    },
+    "source/fy26-consolidated-balance-sheet-pdf-page117.txt": {
+      "sha256": "da5d5f73e3cdcb015636b1bcd576a6c34ba11f6fe5d8f8360a6c7dc3ee93912b",
+      "bytes": 18853
+    },
+    "source/fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt": {
+      "sha256": "5f5c6ec2919ffadc28809280dd7c0466a9bb3a2b2bc9b40b9a9fd967af9ba81a",
+      "bytes": 19008
+    },
+    "source/fy26-consolidated-cash-flow-operating-and-investing-pdf-page118.txt": {
+      "sha256": "a52ada4a384401c6fe7ce83d8a2a14b999cdb816beafaf68d5094a80bb4e8e26",
+      "bytes": 97620
+    },
+    "source/fy26-note-19-other-financial-assets-pdf-page132.txt": {
+      "sha256": "6d6fe27abfe13e69784917dad2134b5e20b85c69fd9c47e31bf80ec1b2766c94",
+      "bytes": 14494
+    },
+    "source/fy26-note-54-ind-as-107-financial-instrument-classification-pdf-page145.txt": {
+      "sha256": "0594c8812249d66c437c7c4db10a97a4723cfd3b2e16a50594f8087661e5aca5",
+      "bytes": 14374
+    },
+    "source/fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt": {
+      "sha256": "3fa001b894aef5af95e7ecb7bea7a7eb182f7b703c73c12dc43fbcd8d9fa9e95",
+      "bytes": 13216
+    },
+    "source/fy26-notes-15-to-18-inventories-cash-and-bank-balances-pdf-page131.txt": {
+      "sha256": "c994c779e23fda03649626aff70f684d185c673ab6c7d6826aaa64c9c4276fe9",
+      "bytes": 14397
+    },
+    "source/page-map.json": {
+      "sha256": "47fb00de69fcca6791853273c6c4a2fad245b75684f82ab9746a41bf1be33448",
+      "bytes": 3880
+    },
+    "source/source-bytes.json": {
+      "sha256": "156bcccb5bfac64178978e0ab276ec49c2cf6f7eeb93592cdc38a76bf81db331",
+      "bytes": 1440
+    }
+  }
+}

@@ -1,3 +1,14 @@
+# KEC International Limited — FY2024-25 annual report (consolidated)
+# What this page is: Notes 17–19 — cash and cash equivalents, bank balances other than cash and cash equivalents, other financial assets (FY2025 and FY2024 columns)
+# source PDF: KEC_Annual_Report_2024-25.pdf  bytes=14873309  sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  pages=206
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+# PDF page 124 of 206  (printed pages 244-245)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
                                                                                                       Integrated Annual Report 2024-25   Integrated Annual Report 2024-25                              CORPORATE OVERVIEW        STATUTORY REPORTS         FINANCIAL STATEMENTS
 
                                                                                                                                                                                                                                                                    Consolidated
@@ -83,4 +94,3 @@ Total                                                                           
 
 244                                                                                                                                                                                                                                                                          245
          KEC International Limited                                                                                                                                                                                                            KEC International Limited
-

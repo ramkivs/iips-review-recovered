@@ -1,0 +1,106 @@
+{
+  "scope": "co:IN:CIN:L45200MH2005PLC152061",
+  "reportId": "a27be28a-34db-4797-9e3e-ee636244e591",
+  "reportKey": "15b68ca53f900918b1953f53119ac90f1b9ec4b30fc325a4b4d259b71991712e",
+  "artifactVersion": 1,
+  "chainLength": 1,
+  "payloadDigestStored": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+  "payloadDigestRecomputed": "sha256:fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+  "digestMatch": true,
+  "payloadBytes": 52760,
+  "capitalStructure": {
+    "grossDebt": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 53777600000,
+      "note": null
+    },
+    "cashAndCashEquivalents": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 4112600000,
+      "note": null
+    },
+    "currentInvestments": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": null
+    },
+    "cashAndInvestments": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": null
+    },
+    "netDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": null
+    },
+    "minorityInterest": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": null
+    },
+    "preferenceCapital": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": null
+    },
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": null
+    },
+    "dilutedShares": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 266193406.5934066,
+      "note": null
+    }
+  },
+  "zeroSubstitutionControl": {
+    "grossDebtLessCash": 49665000000,
+    "publishedAnywhereInPayload": false,
+    "netDebtPresence": "MISSING"
+  },
+  "valuation": {
+    "intrinsic": null,
+    "dcfPerShareMid": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": "enterprise-to-equity conversion blocked by netDebt"
+    },
+    "dcfEnterpriseValue": 9184155840,
+    "dcfBasis": "FCFF base 9184155840, WACC 10.68%, g 4.00%, 5y horizon",
+    "evEbitdaApplicable": false,
+    "evEbitdaReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+    "evRevenueApplicable": false,
+    "evRevenueReason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL",
+    "sensitivityWithheld": {
+      "note": "enterprise-to-equity conversion blocked by netDebt",
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED"
+    },
+    "marginOfSafetyRefusal": "NO_PRICE_OBSERVATION"
+  },
+  "dependents": {
+    "financialLeverage": {
+      "status": "NOT_EVALUABLE",
+      "statement": "Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt."
+    },
+    "netDebtToEbitda": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "note": null
+    },
+    "evidenceClaim": "DCF_FCFF produced no per-share value: NOT_COMPUTABLE (NOT_REPORTED) — enterprise-to-equity conversion blocked by netDebt"
+  }
+}
