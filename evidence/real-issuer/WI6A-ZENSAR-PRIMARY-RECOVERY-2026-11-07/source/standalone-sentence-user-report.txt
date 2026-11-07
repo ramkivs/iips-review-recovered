@@ -1,0 +1,64 @@
+WI-6A — THE SENTENCE THE OWNER LOCATED, AND WHY IT CANNOT BE USED
+Status of this extract: OWNER-REPORTED. It was NOT read by this run (the pages it sits on are beyond the
+retrieval cap — see source/access-log.txt, attempts 1-2). It is recorded here because the work item must not
+silently drop the one thing that started it, and because its scope can be settled even though its text cannot
+be re-read: the scope follows from where the filing puts it.
+
+--------------------------------------------------------------------------------
+THE SENTENCE (owner-reported, verbatim)
+--------------------------------------------------------------------------------
+
+  "The Company does not have any outstanding borrowings as at 31 March 2024 and 31 March 2023."
+
+  Reported locator: Notes to the Standalone Financial Statements, printed pages ~246-247.
+
+--------------------------------------------------------------------------------
+SCOPE DETERMINATION — settled on the document's own pagination
+--------------------------------------------------------------------------------
+
+  Standalone Financial Statements begin at printed page 176
+  Consolidated Financial Statements begin at printed page 248     (source/cover-letter-and-index-extract.txt, A.2)
+
+  The sentence sits at printed pages 246-247, i.e. BEFORE the consolidation boundary at page 248.
+
+  => statement_scope = STANDALONE
+  => subject of the sentence = Zensar Technologies Limited, the legal entity
+  => the sentence says nothing about subsidiaries, joint ventures, or the Group
+
+A standalone declaration must not be transferred to consolidated data. This is the central constraint of
+WI-6A and it holds whatever the consolidated notes turn out to contain. Even if an identical sentence were
+later found inside the consolidated section, the standalone occurrence would still not be the evidence for it:
+the consolidated occurrence would have to be read, quoted and page-anchored in its own right.
+
+--------------------------------------------------------------------------------
+SECOND REASON IT CANNOT CARRY A NIL IN THIS RUN
+--------------------------------------------------------------------------------
+
+The text above is the owner's transcription. Under D-2 a nil must be carried by wording that the governed run
+read from the audited note and anchored by printed page and note number. A transcription supplied in
+conversation is a locator, not evidence: it tells the next pass where to look, and nothing more.
+
+--------------------------------------------------------------------------------
+WHAT WOULD CHANGE THE ANSWER (and what would not)
+--------------------------------------------------------------------------------
+
+WOULD: reading printed pp.248-321 of the FY2023-24 filing and finding, in the consolidated notes, an affirmative
+sentence about consolidated borrowings for both 31 March 2024 and 31 March 2023, quoted verbatim with page and
+note number, plus two preceding audited consolidated periods on the same basis.
+
+WOULD NOT: this standalone sentence; a dash or an absent caption in the consolidated balance sheet; equity
+reconciling arithmetically; an auditor's remark; a Management Discussion and Analysis statement; a secondary
+aggregator's rendering of the notes.
+
+--------------------------------------------------------------------------------
+A CAUTION AGAINST THE TRANSFER, RECORDED AS A CAUTION ONLY
+--------------------------------------------------------------------------------
+
+Zensar's own consolidation working papers show that the group is not obviously debt-free at subsidiary level:
+the special-purpose financial statements of Zensar Technologies Inc. prepared "for the purpose of consolidation
+by its Holding Company (Zensar Technologies Limited)" show a current-borrowings line reading 110 / 140 (amounts
+and units as rendered by the aggregator, not verified) alongside lease liabilities. That is a reproduction of a filing by a market-data
+aggregator, undated against the audited set, and it is therefore NOT evidence of anything. It is recorded for
+one purpose only: to show that importing a parent-only "no borrowings" sentence into group figures is not a
+harmless assumption. It does not establish a consolidated borrowing balance, and no number from it appears in
+any dataset.

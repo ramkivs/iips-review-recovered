@@ -1862,3 +1862,56 @@ belong in the register because all three are ways a nil can be wrong or absent.
 source extracts, `source/access-blockers.txt`, `runs/commands.txt`, `digests.json` — guarded by
 `iips-platform/tests/investment/wi6SecondIssuerSearch.test.ts`, which also verifies that the WI-3 and WI-5 bundles are
 byte-unchanged.
+
+## 17.12 WI-6A — Zensar: the primary filing was reached, the consolidated pages were not, and the sentence is standalone
+
+**Date.** 2026-11-07. **Scope.** IRR only, one pass. IPD untouched. No policy, schema, confidence, valuation or
+persistence change. PR #502 preserved and left unmerged.
+
+**Outcome: `INVESTIGATED_UNSUCCESSFUL`, and no data change.** WI-6A was commissioned to settle one question — whether
+the **consolidated** section of Zensar Technologies' FY2023-24 Integrated Annual Report declares borrowings nil. It is
+not settled. The consolidated statements (printed pp.248-321) were **not retrieved** by any reader available to this
+environment, so **no observation was created, no nil declared, no dataset ingested, no assessment generated and
+nothing persisted.** Zensar is recorded as investigated and unsuccessful; Infosys therefore remains the only issuer on
+record with a validated explicit nil.
+
+**What the pass did settle.** The filing's own pagination decides the scope of the sentence that started the work:
+standalone statements begin at printed p.176, consolidated statements at printed p.248, and the owner-located sentence
+sits at printed pp.246-247. It is therefore a **standalone** declaration — about Zensar Technologies Limited, not the
+Group — and D-2 does not permit a standalone declaration to be transferred to consolidated data. That conclusion holds
+whatever pp.248-321 contain. It is the WI-5 failure mode one level up: a sentence scoped to *equity* shares could not
+carry a preference-capital nil; a sentence scoped to the *parent entity* cannot carry a group nil.
+
+**What was reached, and where it stopped.** The NSE archive URL serves the document to the plain reader — WI-6's "403
+from the NSE archive" was a **proxy** refusal, now corrected, with reference `#18.1668dc17.1794028603.32167b5a` recorded
+as such. The front matter was read end-to-end from two independent copies of the same document (NSE original and the RPG
+Group mirror, identical wording): transmittal letter dated 15 July 2024 with Scrip ID/Symbol `ZENSARTECH`, Scrip Code
+`504067`, Series `EQ`; contents spread showing 176 Standalone / 248 Consolidated; Index with Glossary p.322 and SASB
+p.327. `CIN` and `ISIN` are absent from the readable window and are recorded as `NOT_VERIFIED_FROM_FILING` rather than
+imported from a registry aggregator. Every reader here renders roughly the first 100 KB of text and stops; the one reader
+that paginates whole documents is refused by NSE; the mirror, storage, BSE, Wayback and CORS-proxy routes are itemised
+with exact statuses in `source/access-log.txt` (fourteen attempts).
+
+**New limitation — `L-037` (`OPEN`).** *Deep-page retrieval of large Indian issuer annual reports is capped by every
+available reader.* The direct reader stops after about 55 printed pages; the paginating reader is refused by the NSE
+archive. The rule that follows is absolute: **absence of wording beyond the retrieval cap is not evidence of absence**,
+and no negative finding about unrendered pages may be inferred from it. This is the mirror image of WI-6 — there, an
+unreadable filing could not carry a nil; here, an unreadable filing must not be reported as carrying none.
+
+**Three-period check: `NOT_PERFORMED`.** FY2023-24, FY2022-23 and FY2021-22 are each recorded `NOT_RETRIEVED` in
+`periods.json`. The requirement is a confirmation requirement; it cannot substitute for the base period, and three blank
+consolidated columns would be three unread periods dressed as a finding. No period is described as nil, zero, debt-free
+or silent.
+
+**Boundary this adds.** WI-3 shows what a nil needs; WI-5 shows a sentence scoped to a different subject cannot carry
+one; WI-6 shows an unreadable filing cannot carry one; WI-6A shows both at once, and adds that an unreadable filing must
+not be converted into a negative finding either. Four distinct ways for a nil to be wrong or absent.
+
+**Statuses.** `L-036` remains **`PARTIALLY RESOLVED`**, `L-035` remains **`OPEN`**, `L-037` is **new and `OPEN`**,
+`L-001` … `L-034` untouched, and the 180-day `associates-review/1.0.0` control remains due. The WI-6 objective stays
+open; sector expansion remains deferred.
+
+**Evidence.** `evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/` — `determination.json`, `periods.json`,
+three page-anchored source extracts, `source/access-log.txt`, `runs/`, `digests.json` — guarded by
+`iips-platform/tests/investment/wi6aZensarRecovery.test.ts`, which also verifies that the WI-3, WI-5 and WI-6 bundles
+are byte-unchanged.

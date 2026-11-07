@@ -1,0 +1,93 @@
+WI-6A — Zensar Technologies Limited, Integrated Annual Report 2023-24
+EXTRACT A — the filing's front matter (the only part of the document that this run could read end-to-end)
+Retrieved 2026-11-07. Two copies of the same document were read and agree:
+
+  PRIMARY    https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+             (read directly; the reader returned 16 chunks and stopped inside the Corporate Overview,
+              at printed page ~55 — see source/access-log.txt, attempt 2)
+  MIRROR     https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf
+             (RPG Group, the parent group's own site; same 16-chunk cap, same front matter, byte-for-byte
+              identical wording in every passage quoted below)
+
+--------------------------------------------------------------------------------
+A.1 COVER LETTER (transmittal to the stock exchanges), dated 15 July 2024
+--------------------------------------------------------------------------------
+
+  Addressed to:     BSE Limited                        The National Stock Exchange of India Ltd.
+  Scrip ID:         ZENSARTECH
+  Scrip Code:       504067
+  Symbol:           ZENSARTECH
+  Series:           EQ
+
+  Sub: Notice of 61st Annual General Meeting and Integrated Annual Report for FY 2023-24
+
+  Signed:           For Zensar Technologies Limited
+                    Rajiv Mundhra
+                    Authorized Signatory
+
+  Enclosures:       Notice of the 61st AGM and the Integrated Annual Report for FY 2023-24.
+
+  Identity therefore verified FROM THE FILING ITSELF: legal name (as printed on the cover), scrip code 504067,
+  NSE symbol ZENSARTECH, series EQ, report period FY 2023-24, transmittal date 15 July 2024.
+
+  NOT verified from the filing in this run — and therefore NOT asserted anywhere in this bundle:
+    * CIN            — not present in the readable window (printed pp.1-55); third-party registers are not evidence.
+    * ISIN           — not present in the readable window; third-party registers are not evidence.
+
+--------------------------------------------------------------------------------
+A.2 CONTENTS SPREAD AND INDEX — the document's own architecture
+--------------------------------------------------------------------------------
+
+  Cover spread, verbatim fragment:
+       "Integrated Annual Report 2023-24 ... 176 Standalone Financial Statements ... 248 Consolidated
+        Financial Statements"
+
+  Index page, verbatim (financial-statements half):
+
+       Financial Statements
+         Standalone Financial Statements
+         Consolidated Financial Statements
+       322 Glossary
+         GRI Content Index
+         UNGC Principles
+       327 SASB
+       328 SDG Linkage Index
+
+  Index page, verbatim (earlier half):
+
+       Corporate Overview
+         About the Report ... Zensar at a Glance ... Strategic Highlights ... Sound Financials ...
+         Chairman's Message ... In Conversation with the CEO and Managing Director ...
+         Board of Directors and Leadership Team ... ESG Goals ... Strategic Focus ... Business Model ...
+         Governance ... Stakeholder Engagement ... Materiality Assessment ... Financial Capital ...
+         Human Capital ... Intellectual Capital ... Natural Capital ... Manufactured Capital ...
+         Social and Relationship Capital
+       Notice and Statutory Reports
+         Notice
+         Board's Report and Annexures
+         Business Responsibility & Sustainability Reporting
+
+--------------------------------------------------------------------------------
+A.3 WHY THIS MATTERS — the scope arithmetic
+--------------------------------------------------------------------------------
+
+The filing publishes TWO separate sets of audited financial statements, one after the other:
+
+    Standalone Financial Statements   printed pages 176 .. 247
+    Consolidated Financial Statements printed pages 248 .. 321   (Glossary begins at 322)
+
+The owner reports the Zensar sentence at printed pages ~246-247:
+
+    "The Company does not have any outstanding borrowings as at 31 March 2024 and 31 March 2023."
+
+Printed pages 246-247 sit BELOW the consolidation boundary at page 248. On the document's own architecture the
+sentence is therefore part of the STANDALONE notes, i.e. it describes Zensar Technologies Limited alone and says
+nothing about its subsidiaries or about the Group. Under D-2 a standalone declaration cannot be transferred to
+consolidated data, so the sentence can never carry a consolidated nil regardless of what the consolidated notes
+say.
+
+A.4 WHAT THIS EXTRACT DOES NOT CONTAIN
+
+Nothing on printed pages 248-321. That is a retrieval outcome, not a finding about those pages: the readers
+available to this run stop inside the front matter (see source/access-log.txt). Absence of text beyond the
+retrieval cap is never evidence of absence, and it is never a nil.

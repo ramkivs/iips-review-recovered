@@ -1,0 +1,61 @@
+WI-6A — commands performed (2026-11-07, branch arena/f6d5fa4d-iips-review-recovered)
+
+== 0. starting point ==========================================================
+
+git fetch origin main
+git rev-list --left-right --count origin/main...HEAD     # 0 0 — main is d863d3e (WI-5 squash), WI-6 not merged
+gh pr view 502 --json number,state,headRefName,headRefOid,mergeable
+                                                         # #502 OPEN, head da9be07; WI-6 commits live on the remote branch only
+git fetch origin arena/f6d5fa4d-iips-review-recovered
+git merge --no-edit FETCH_HEAD                            # restores 4c1bb5e (WI-6 substance) + da9be07 (clean-clone record)
+
+== 1. primary-source retrieval (all attempts; exact statuses in source/access-log.txt) ======
+
+GET  https://nsearchives.nseindia.com/annual_reports/AR_24514_ZENSARTECH_2023_2024_1507202421929.pdf
+       -> 16 chunks, printed pp.1-~55 (cover letter, contents, Index, corporate-overview narrative)
+GET  https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf
+       -> 16 chunks, same coverage, same wording  (document identity corroborated)
+GET  https://r.jina.ai/https://nsearchives.nseindia.com/annual_reports/AR_24514_...pdf
+       -> HTTP 403, reference #18.1668dc17.1794028603.32167b5a
+GET  https://r.jina.ai/https://archives.nseindia.com/annual_reports/AR_24514_...pdf
+       -> HTTP 403, reference #18.710f3417.1794029237.9f41b9b4
+GET  https://r.jina.ai/https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf
+       -> empty extraction (repeated with ?v=2 and URL-encoded form: same)
+GET  https://r.jina.ai/https://storage.googleapis.com/assets.cdp.blinkx.in/.../ZENSARTECH_annual_report_FY_2024.pdf
+       -> HTTP 403 AccessDenied (storage.objects.get)
+GET  https://archive.org/wayback/available?url=nsearchives.nseindia.com/annual_reports/AR_24514_...pdf
+       -> {"archived_snapshots": {}}
+GET  https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w?...strScrip=504067...  -> redirect to /members/showinterest (Referer-gated)
+GET  public CORS proxies via the text-rendering proxy (allorigins / codetabs / corsproxy)
+       -> AbuseAlleviationError 40305 at the proxy layer
+GET  https://r.jina.ai/https://data.fuzz.co/LODR/AnnualReports/095b6aea-...pdf   -> empty extraction
+GET  https://www.zensar.com/investors , /investors/investor-corner
+       -> archive is client-rendered; no FY2023-24 PDF URL published in served markup
+GET  https://www.bseindia.com/bseplus/AnnualReport/504067/504067032024.pdf       -> HTTP 404 (not retried)
+
+== 2. targeted tests and typecheck ===========================================
+
+cd iips-platform
+npx tsx --test tests/investment/wi6aZensarRecovery.test.ts      # -> runs/02-guard-test.txt
+npx tsx --test tests/investment/wi6SecondIssuerSearch.test.ts    # WI-6 guard still green
+npx tsx --test tests/investment/wi5PreferenceCapitalEvidence.test.ts
+npx tsc --noEmit                                                 # -> runs/03-typecheck.txt
+
+== 3. digest generation (never digest digests.json into itself) ==============
+
+node -e '<sha256 every substantive file; exclude digests.json and this bundle own run logs runs/02-*, runs/03-*, runs/04-*>'
+       -> digests.json
+
+== 4. clean-clone reproduction ==============================================
+
+git clone --no-hardlinks . /tmp/wi6av && cd /tmp/wi6av
+ln -s /home/user/iips-review-recovered/iips-platform/node_modules iips-platform/node_modules
+cd iips-platform && npx tsx --test tests/investment/wi6aZensarRecovery.test.ts   # -> runs/04-clean-clone.txt
+node -e '<verify this bundle, then WI-6, WI-3 and WI-5 bundles, against their own digests.json>'
+
+== 5. publication (no merge) ================================================
+
+git add -A && git commit -m "WI-6A: Zensar consolidated nil not established — standalone-scoped sentence, deep pages unretrievable"
+git push origin arena/f6d5fa4d-iips-review-recovered
+gh pr create ...        # PR from this branch; PR #502 left untouched and unmerged
+gh pr checks <n>        # expect: no checks reported (no CI in this repository)
