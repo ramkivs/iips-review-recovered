@@ -22221,7 +22221,7 @@ history and artifacts, new issuers or sectors, IPD, production scope.
 with per-page provenance (`source/`, `page-map.json`), the one-cell correction and its manifest (`ingest-input/`), the
 governed run and separate-process readback (`runs/01`–`runs/03`), the payload diff against WI-7 (`runs/04`), suite,
 typecheck and post-manifest transcripts (`runs/05`–`runs/07`, `commands.txt`), the machine-readable determination
-(`determination-l038.json`) and a 27-file `digests.json`. Record
+(`determination-l038.json`) and a 28-file `digests.json`. Record
 `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md` §17.18 and
 `docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md` §10; guard
 `iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (25 tests).

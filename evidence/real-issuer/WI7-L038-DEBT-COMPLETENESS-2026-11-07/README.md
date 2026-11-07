@@ -182,9 +182,9 @@ register owner, so it is **recorded and not decided** here, and **no aggregation
 | `npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts` | 25/25 (`runs/05-tests.txt`) |
 | `npx tsx --test tests/investment/*.test.ts` | 679/679, 156 suites (`runs/05-tests.txt`, re-run in `runs/07`) |
 | `npx tsc --noEmit -p tsconfig.json` | 0 diagnostics (`runs/06-typecheck.txt`) |
-| `digests.json` re-hash | 27 files re-hashed, 0 mismatches, 0 undigested (`runs/07-post-manifest-verification.txt`) |
+| `digests.json` re-hash | 28 files re-hashed, 0 mismatches, 0 undigested (`runs/07-post-manifest-verification.txt`) |
 | separate-process readback | `runs/03-readback.json` — recomputed digest equals stored digest and chain head |
-| clean clone of the pushed branch | re-ingests to the same datasetVersion, re-hashes every digested file, guard green |
+| clean clone of the pushed branch | `runs/08-clean-clone.txt` — 27/27 and 30/30 digested files re-hash from GitHub's bytes, payloads identical, guard 52/52 |
 
 `runs/07` sits **outside** the manifest by construction — a manifest cannot digest the run that verifies it — and the
 guard test asserts that every other shipped file is digested.
@@ -206,8 +206,9 @@ guard test asserts that every other shipped file is digested.
 | `runs/03-readback.json` | separate-process readback with the L-038 facts and the zero-substitution control |
 | `runs/04-payload-diff.json` | WI-7 payload → this payload, path by path |
 | `runs/05-tests.txt`, `runs/06-typecheck.txt`, `runs/07-post-manifest-verification.txt` | the suite, the typecheck, and the post-manifest re-run |
+| `runs/08-clean-clone.txt` | the same checks re-run against a fresh clone of the pushed ref |
 | `runs/commands.txt` | the exact command sequence |
-| `digests.json` | sha256 and byte length of all 27 shipped files (everything but itself and the three certifying transcripts) |
+| `digests.json` | sha256 and byte length of all 28 shipped files (everything but itself and the three certifying transcripts) |
 | `artifact/assessment-payload-marico-l038.json` | the persisted canonical payload, read back |
 | `digests.json` | every file above by sha256, except itself and `runs/07` |
 

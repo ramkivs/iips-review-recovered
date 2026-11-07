@@ -1,0 +1,22 @@
+# L-038 — 2026-11-07 — clean clone of the pushed branch (independent of this working tree)
+$ git clone --depth 1 --branch arena/9a0de198-iips-review-recovered https://github.com/ramkivs/iips-review-recovered.git /tmp/verify
+HEAD = e47953483ffcc3a742ba4f79cd8b060da04f81dd   (== git ls-remote origin refs/heads/arena/9a0de198-iips-review-recovered)
+
+# the bundle's own manifest, verified against the bytes that GitHub serves
+L-038 digests.json      : 27 files, 0 mismatches
+WI-7  digests.json      : 30 files, 0 mismatches
+WI-7  payload sha256    : 3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343 (unchanged)
+L-038 payload           : 54,705 bytes
+grossDebt / netDebt     : NOT_COMPUTABLE / PERIOD_MISMATCH (both)
+currentMaturities       : PRESENT 0 @ 2023-03-31
+_discovery/ present     : False
+temp-l038-discover.yml  : False
+register 17.18 / tracker 16.276 present : True / True
+
+# the guard, run from the cloned bytes after npm ci
+$ cd /tmp/verify/iips-platform && npm ci && npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts tests/investment/wi7ConsumerMarico.test.ts
+# tests 52
+# suites 9
+# pass 52
+# fail 0
+#   (25 L-038 + 27 WI-7)
