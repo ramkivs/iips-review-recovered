@@ -1,0 +1,52 @@
+{
+ "schemaVersion": 1,
+ "note": "The bytes were obtained in this run, and hashed. The investigating environment has no general network egress and no PDF tooling; the fetch and the text extraction were therefore performed by a throwaway GitHub Actions job on a temporary workflow file added to this branch for exactly that purpose (removed again in the same work item). The job fetched with curl, hashed the file, and ran `pdftotext -layout` (poppler) — the committed page extracts are that output, unedited apart from the provenance header.",
+ "documents": [
+  {
+   "id": "fy24_rpg",
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "url": "https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf",
+   "host": "issuer group website (rpggroup.com), i.e. issuer-hosted, not an exchange copy",
+   "httpStatus": 200,
+   "bytes": 10813579,
+   "sha256": "d52cc3af3b074f5b288d7f887cca0887a046e7f2b04abebfb4ab1fd45035990d",
+   "pdfinfo": {
+    "Pages": 167,
+    "PageSize": "595.276 x 841.89 pts (A4)",
+    "Title": "(Downloaded from SustainabilityReports.com)",
+    "Producer": "pypdf",
+    "PDFVersion": "1.7"
+   },
+   "corroboratingRoute": "the same content was rendered through the Google Docs viewer wrapper (https://docs.google.com/viewer?url=…&a=gt), which reports 'Page 1 of 167' and reproduces the same cover and index; that route cannot render pages beyond roughly PDF page 50 and was therefore not used for the page evidence",
+   "retrievedAt": "2026-11-07T05:53Z (first successful fetch) and again at 05:56Z and 05:59Z; identical sha256 each time",
+   "completeness": "COMPLETE"
+  },
+  {
+   "id": "fy23_bse",
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23",
+   "url": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf",
+   "host": "BSE corporate-filing store (exchange-hosted copy of the report transmitted to the exchanges on 17 July 2023)",
+   "httpStatus": 403,
+   "bytes": null,
+   "sha256": null,
+   "pdfinfo": {
+    "Pages": 180,
+    "PageSize": "595.32 x 841.92 pts (A4)",
+    "Creator": "Adobe Acrobat Pro (64-bit) 23.3.20244",
+    "CreationDate": "Mon Jul 17 06:10:10 2023 UTC",
+    "ModDate": "Mon Jul 17 06:55:56 2023 UTC",
+    "PDFVersion": "1.7"
+   },
+   "corroboratingRoute": "the same bytes were served by the Wayback Machine capture 20250803083822 (https://web.archive.org/web/20250803083822id_/…) with an IDENTICAL sha256 (cc690832…), so the exchange copy and the archived copy are the same file",
+   "retrievedAt": "2026-11-07T05:53Z, 05:56Z and 05:59Z; identical sha256 each time",
+   "secondRoute": {
+    "url": "https://web.archive.org/web/20250803083822id_/https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf",
+    "host": "Internet Archive Wayback Machine capture 20250803083822 of the same BSE filing URL",
+    "httpStatus": 200,
+    "bytes": 15745097,
+    "sha256": "cc690832facf9fbb57973a650f11d1c9ac90ba5aec797021e7184b8b9333dd2c",
+    "identicalToOrigin": true
+   }
+  }
+ ]
+}

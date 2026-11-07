@@ -1,0 +1,88 @@
+# targeted tests — L-037 retrieval-evidence contract
+# 2026-11-07T17:58:33Z  v22.22.3
+$ tsx --test tests/investment/retrieval-evidence.test.ts
+# retrieval evidence: /home/user/iips-review-recovered/evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07
+#   fy24_rpg     RETRIEVED          pages extracted   6 of 167
+#   fy23_bse     RETRIEVED          pages extracted   5 of 180
+#   documents 2 (retrieved 2), page extracts 11, quotations 2 (read 2)
+# OK — every quotation was read from an extracted page of a retrieved document, and every
+#      extract agrees with the record that cites it (document, page index, printed pages, digest).
+# retrieval evidence: /tmp/l037-cli-brobYT
+#   fy24_rpg     RETRIEVED          pages extracted   6 of 167
+#   fy23_bse     RETRIEVED          pages extracted   5 of 180
+#   documents 2 (retrieved 2), page extracts 11, quotations 2 (read 2)
+# REFUSED — 1 check(s) failed:
+#   QUOTE_DIGEST_MISMATCH              quotations[ZENSAR-CONSOL-NOTE27-FY24]
+#       the recorded digest is not the digest of the recorded wording
+# bundle directory not found: /tmp/l037-does-not-exist
+# retrieval evidence: /home/user/iips-review-recovered/evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim
+#   fy24_rpg     RETRIEVED          pages extracted   6 of 167
+#   fy23_bse     REFUSED_BY_HOST    pages extracted   5 of 180
+#   documents 2 (retrieved 1), page extracts 11, quotations 2 (read 2)
+# REFUSED — 8 check(s) failed:
+#   COMPLETE_READ_UNSUPPORTED          documents[fy24_rpg]
+#       claims a complete read but 161 of 167 pages have no extract (first: 1)
+#   PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse\#163]
+#       a page extract cannot exist for a REFUSED_BY_HOST document
+#   PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse\#138]
+#       a page extract cannot exist for a REFUSED_BY_HOST document
+#   PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse\#154]
+#       a page extract cannot exist for a REFUSED_BY_HOST document
+#   PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse\#140]
+#       a page extract cannot exist for a REFUSED_BY_HOST document
+#   PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse\#66]
+#       a page extract cannot exist for a REFUSED_BY_HOST document
+#   QUOTE_PAGE_NOT_EXTRACTED           quotations[ZENSAR-CONSOL-NOTE27-FY24]
+#       page 92 has no extract in this bundle (extracted: 154, 130, 146, 156, 132, 60)
+#   QUOTE_FROM_UNRETRIEVED_DOCUMENT    quotations[ZENSAR-CONSOL-NOTE27-FY23]
+#       the quotation is marked READ_IN_THIS_RUN but the document is REFUSED_BY_HOST
+# Subtest: L-037 retrieval evidence — the real bundle verifies
+    ok 1 - WI-6A-S2 passes the reusable contract unchanged
+    ok 2 - both reports are RETRIEVED with bytes and digests, and the extract list is the page map
+    ok 3 - the coverage is reported honestly — 11 extracted pages of 347, not "all"
+ok 1 - L-037 retrieval evidence — the real bundle verifies
+# Subtest: L-037 retrieval evidence — a quote cannot stand on a page that was not read
+    ok 1 - a quotation on a document whose fetch was refused is refused
+    ok 2 - a quotation on a page the bundle never extracted is refused
+    ok 3 - a quotation marked REPORTED_NOT_READ is accepted but is never counted as read
+ok 2 - L-037 retrieval evidence — a quote cannot stand on a page that was not read
+# Subtest: L-037 retrieval evidence — provenance cannot drift
+    ok 1 - an extract whose header names another document is refused
+    ok 2 - a printed page number renumbered in the record is refused
+    ok 3 - a PDF page index renumbered in the record is refused
+    ok 4 - a quotation whose recorded digest does not match its wording is refused
+    ok 5 - a quotation whose wording is not in the extract it cites is refused
+    ok 6 - the same printed page cannot be mapped to two different PDF sheets
+    ok 7 - an extract that has lost its provenance header cannot be tied to anything
+ok 3 - L-037 retrieval evidence — provenance cannot drift
+# Subtest: L-037 retrieval evidence — a read cannot be overstated
+    ok 1 - a document cannot claim a complete read while pages are missing
+    ok 2 - a document cannot claim an extracted page the page map does not hold
+    ok 3 - a bundle of failed retrievals reports zero retrieved — never empty evidence
+    ok 4 - an extract cannot exist for a document whose fetch was refused
+ok 4 - L-037 retrieval evidence — a read cannot be overstated
+# Subtest: L-037 retrieval evidence — header parsing and normalisation
+    ok 1 - the S2 header parses to a document, a page index, a page count and a printed locator
+    ok 2 - a header with no digest is not a header
+    ok 3 - normalisation folds the layout spacing a two-up sheet introduces, and nothing else
+ok 5 - L-037 retrieval evidence — header parsing and normalisation
+# Subtest: L-037 retrieval evidence — the CLI gate
+    ok 1 - passes on the real bundle and refuses a damaged copy
+    ok 2 - a missing directory is an unusable bundle, not a pass
+ok 6 - L-037 retrieval evidence — the CLI gate
+# Subtest: L-037 — the WI-10 bundle and the register agree
+    ok 1 - the negative control is refused, and says so in its own run record
+    ok 2 - the bundle determination says PARTIALLY RESOLVED and keeps the external items open
+    ok 3 - no probe in the access record is read as an absence
+    ok 4 - the register records L-037 as PARTIALLY RESOLVED and leaves the other statuses alone
+    not ok 5 - the bundle manifest re-hashes clean, excluding itself and the clean-clone run it cannot cover
+not ok 7 - L-037 — the WI-10 bundle and the register agree
+# tests 27
+# suites 7
+# pass 26
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 246.100868
+exit=1

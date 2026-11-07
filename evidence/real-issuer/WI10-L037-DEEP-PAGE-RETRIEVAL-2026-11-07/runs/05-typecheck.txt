@@ -1,0 +1,4 @@
+# typecheck
+# 2026-11-07T17:58:09Z
+$ npx tsc --noEmit
+exit=0

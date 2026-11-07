@@ -1,0 +1,116 @@
+{
+ "schemaVersion": 1,
+ "bundle": "WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07",
+ "purpose": "The two consolidated capital-management sentences, READ IN THIS RUN from the fetched bytes of both annual reports. Each quotation below was extracted from the page file named beside it; the sentence string is byte-identical to the string the owner reported in WI-6A-S1 (sha256 3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb, 83 characters, U+2019 apostrophe).",
+ "issuer": {
+  "legalName": "Zensar Technologies Limited",
+  "cin": "L72200PN1963PLC012621",
+  "cinStatus": "VERIFIED_FROM_FILING",
+  "cinEvidence": "printed on the cover/corporate-information page of the FY2022-23 report (PDF p.1) and repeatedly inside both reports (e.g. FY2023-24 PDF p.44, p.62, p.87)",
+  "isin": "INE520A01027",
+  "isinStatus": "VERIFIED_FROM_FILING",
+  "isinEvidence": "'ISIN in NSDL and CDSL INE520A01027' printed in both annual reports: FY2023-24 PDF p.60 = printed p.116-117 (source/fy24-isin-and-listing-identifiers.txt) and FY2022-23 PDF p.66 = printed p.126-127 (source/fy23-isin-and-listing-identifiers.txt). This SUPERSEDES the WI-6A/WI-6A-S1 status NOT_VERIFIED_FROM_FILING, which was a retrieval limitation, not a property of the filings.",
+  "exchangeSymbol": "ZENSARTECH",
+  "scripCode": "504067",
+  "listingIdentifierEvidence": "NSE symbol ZENSARTECH and BSE scrip code 504067 are printed on the same two pages that print the ISIN"
+ },
+ "quotations": [
+  {
+   "id": "ZENSAR-CONSOL-NOTE27-FY24",
+   "evidenceClass": "READ_IN_THIS_RUN",
+   "quotedWording": "The Group didn’t have any external borrowings during the current and previous year.",
+   "quotedWordingSha256": "3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb",
+   "quotedWordingChars": 83,
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "sourceUrl": "https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf",
+   "sourceSha256": "d52cc3af3b074f5b288d7f887cca0887a046e7f2b04abebfb4ab1fd45035990d",
+   "noteNumber": "27",
+   "noteTitle": "Capital management",
+   "pdfPageIndex": 92,
+   "pdfPages": 167,
+   "printedPages": "33-34",
+   "statementScope": "CONSOLIDATED",
+   "taxonomy": "INDAS",
+   "subject": "The Group",
+   "sentenceContext": "last sentence of the paragraph that begins 'The Group's capital comprises equity share capital, securities premium, retained earnings and other equity attributable to equity holders.'",
+   "pageFile": "source/fy24-consolidated-note-27-capital-management.txt",
+   "periodsCovered": [
+    "FY2023-24",
+    "FY2022-23"
+   ],
+   "periodEndsCovered": [
+    "2024-03-31",
+    "2023-03-31"
+   ],
+   "readByThisRun": true
+  },
+  {
+   "id": "ZENSAR-CONSOL-NOTE27-FY23",
+   "evidenceClass": "READ_IN_THIS_RUN",
+   "quotedWording": "The Group didn’t have any external borrowings during the current and previous year.",
+   "quotedWordingSha256": "3c04662681a405bc869cc4c1c2dff93cd1417b30c6371282c296322ede6597cb",
+   "quotedWordingChars": 83,
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23",
+   "sourceUrl": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf",
+   "sourceSha256": "cc690832facf9fbb57973a650f11d1c9ac90ba5aec797021e7184b8b9333dd2c",
+   "noteNumber": "27",
+   "noteTitle": "Capital management",
+   "pdfPageIndex": 163,
+   "pdfPages": 180,
+   "printedPages": "320-321",
+   "statementScope": "CONSOLIDATED",
+   "taxonomy": "INDAS",
+   "subject": "The Group",
+   "sentenceContext": "last sentence of the paragraph that begins 'The Group's capital comprises equity share capital, share premium, retained earnings and other equity attributable to equity holders.' (the FY2022-23 report prints 'share premium' where the FY2023-24 report prints 'securities premium')",
+   "pageFile": "source/fy23-consolidated-note-27-capital-management.txt",
+   "periodsCovered": [
+    "FY2022-23",
+    "FY2021-22"
+   ],
+   "periodEndsCovered": [
+    "2023-03-31",
+    "2022-03-31"
+   ],
+   "readByThisRun": true
+  }
+ ],
+ "verification": {
+  "bothSentencesRead": true,
+  "identicalStrings": true,
+  "matchesOwnerReportedString": true,
+  "note": "The two sentences are the same 83-character string in both reports. The owner-reported digest in WI-6A-S1 (3c046626…) is reproduced exactly from the page text, which confirms that the string reported but unread in S1 is the string the filings print. The S1 record kept the correct wording and the correct status for it (NOT_VERIFIED_BY_THIS_RUN); nothing in S1 has been rewritten."
+ },
+ "threePeriodCoverage": {
+  "status": "VERIFIED",
+  "perPeriod": [
+   {
+    "period": "FY2023-24",
+    "periodEnd": "2024-03-31",
+    "coveredBy": [
+     "ZENSAR-CONSOL-NOTE27-FY24"
+    ],
+    "how": "the FY2023-24 sentence covers 'the current ... year'",
+    "quotationVerified": true
+   },
+   {
+    "period": "FY2022-23",
+    "periodEnd": "2023-03-31",
+    "coveredBy": [
+     "ZENSAR-CONSOL-NOTE27-FY24",
+     "ZENSAR-CONSOL-NOTE27-FY23"
+    ],
+    "how": "covered twice: as the 'previous year' of the FY2023-24 report and as the 'current year' of the FY2022-23 report; the two filings agree word for word",
+    "quotationVerified": true
+   },
+   {
+    "period": "FY2021-22",
+    "periodEnd": "2022-03-31",
+    "coveredBy": [
+     "ZENSAR-CONSOL-NOTE27-FY23"
+    ],
+    "how": "the FY2022-23 sentence covers 'the ... previous year'",
+    "quotationVerified": true
+   }
+  ]
+ }
+}

@@ -1,0 +1,88 @@
+# Zensar Technologies Limited — Integrated Annual Report 2022-23
+# Source PDF: https://www.bseindia.com/xml-data/corpfiling/AttachHis/f1a251aa-69c1-4a16-baad-67c3b12cde24.pdf
+# Source bytes: 15745097 bytes, sha256 cc690832facf9fbb57973a650f11d1c9ac90ba5aec797021e7184b8b9333dd2c
+# PDF page index: 154 of 180   Printed page numbers on this sheet: 302-303
+# What this page is: Consolidated Note 11(b) Lease liabilities — non-current / current split
+# Extraction: `pdftotext -layout` (poppler) over the fetched bytes, page 154, verbatim.
+# NOTE: this report prints two printed pages per PDF sheet, so one sheet carries two printed page numbers;
+#       the two columns are interleaved line-by-line by the layout-preserving extractor.
+----------------------------------------------------------------------------------------------------
+Zensar Technologies Limited                                                                                                                                                                                   Integrated Annual Report 2022-23
+                                                                                                                                                                                                                              Financial Statements
+
+
+
+
+Notes to the Consolidated Financial Statements                                                                             Notes to the Consolidated Financial Statements
+as at and for the year ended March 31, 2023                                                                                as at and for the year ended March 31, 2023
+(All amounts in INR Mn, unless otherwise stated)                                                                           (All amounts in INR Mn, unless otherwise stated)
+
+
+      (vi) General Reserve:                                        designated as cash flow hedges. To the extent           11 (b) Lease liabilities
+                                                                   this hedge is effective, the change in fair value
+          The general reserve is a free reserve which is                                                                                                                                                             As at                 As at
+                                                                   of the hedging instrument is recognised in the          Particulars
+          used from time to time to transfer profits from                                                                                                                                                  March 31, 2023        March 31, 2022
+                                                                   cash flow hedging reserve. Amounts recognised
+          retained earnings for appropriation purposes.            in the hedging reserve are reclassified to profit or    Non-current
+          As the general reserve is created by a transfer          loss when the hedged item affects profit or loss.       Lease Liabilities                                                                          1,904                2,348
+          from one component of equity to another and
+                                                                                                                           Current
+          is not an item of other comprehensive income,         (ix)	
+                                                                    Equity   Instruments           through      Other
+                                                                                                                           Lease Liabilities                                                                            826                1,005
+          items included in the general reserve will not be         Comprehensive Income
+          reclassified subsequently to statement of profit                                                                 Total                                                                                      2,730                3,353
+          and loss.                                                The Group has elected to recognise changes in
+                                                                   the fair value of certain investments in equity         During the year, Group has entered/renewed Right of Use assets and lease liabilities of INR 307 Mn [previous year INR
+      (vii)	Special economic zone re-investment reserve:          securities in other comprehensive income.               421 Mn] and incurred cash outflows of INR 1,022 Mn [previous year INR 971 Mn]		
+                                                                   These changes are accumulated within the
+          This Reserve had been created out of profit              FVOCI equity instruments reserve within equity.
+                                                                                                                           12 Trade payables
+          of eligible SEZ units in accordance with the             The Group transfers amounts from this reserve                                                                                                     As at                 As at
+          provision of Section 10 AA(1)(ii) of the Income Tax                                                              Particulars
+                                                                   to retained earnings when the underlying                                                                                                March 31, 2023        March 31, 2022
+          Act,1961. The reserve can only be utilized by the        transaction is consummated.
+          Company for acquiring new plant and machinery                                                                    Current
+          for the purpose of its business in terms of the           Exchange differences on translating the
+                                                                (x)	                                                      Trade payables                                                                             2,772                3,164
+          section 10AA(2) of the Income Tax Act, 1961.              financial statements of a foreign operation            Total                                                                                      2,772                3,164
+
+      (viii) Effective portion of Cash Flow Hedges                 Exchange differences arising on translation             For ageing, refer Note 42				
+                                                                   of the foreign operations are recognised in
+          The Group uses hedging instruments as part               other comprehensive income as described                 During the year ended March 31, 2023 and March 31, 2022 an amount of INR 10 Mn and INR 26 Mn respectively was paid
+          of its management of foreign currency risk               in accounting policy and accumulated in a               beyond the appointed day as defined in the Micro, Small and Medium Enterprises Development Act, 2006.
+          associated with its highly probable forecast             separate reserve within equity. The cumulative
+          sales. For hedging foreign currency risk, the            amount is reclassified to profit or loss when the       Interest due and outstanding on the same is INR 0 Mn [previous year INR 0 Mn]. Interest paid INR 0 Mn (previous year
+          Group uses forward contracts which are                   net investment is disposed of.                          INR 1 Mn).
+
+11 (a) Other financial liabilities                                                                                         Further in view of the Management, the amount of interest, if any remaining due and payable even in the succeeding
+                                                                                        As at                 As at        years, until such date when the interest dues above are actually paid to the small enterprise, for the purpose of
+Particulars                                                                                                                disallowance of a deductible expenditure under section 23 of the Micro, Small and Medium Enterprises Development
+                                                                              March 31, 2023        March 31, 2022
+                                                                                                                           Act, 2006 is not expected to be material.
+Non-current
+Fair value of financial liability (Refer note 40)                                          351                   296       This information has been determined to the extent such suppliers have been identified on the basis of information
+Contingent consideration payable                                                               -                       -   obtained and available with the Group.
+Accrued salaries and benefits                                                                72                   22
+Total                                                                                      423                   318
+                                                                                                                           13 Provisions [Non-Current]
+Current                                                                                                                                                                                                              As at                 As at
+                                                                                                                           Particulars
+Contingent consideration payable                                                               -                 407                                                                                       March 31, 2023        March 31, 2022
+Fair value of financial liability                                                              -                       -   Provision for Contingencies                                                                   42                   37
+Foreign Currency derivative liabilities                                                      97                  181       Total                                                                                         42                   37
+Accrued salaries and benefits                                                            1,939                 1,473
+                                                                                                                           (i) Information about individual provisions				
+Unclaimed dividend                                                                           23                   23
+Capital creditors                                                                            27                   84           It pertains to Lease rentals related litigations. The timing and the amount of cash flows that will arise from this
+Others                                                                                       48                     8          matter will be determined by the Appellate Authorities only on settlement of this case.				
+Total                                                                                    2,134                 2,176
+                                                                                                                           (ii) Movements in provisions				
+
+                                                                                                                               Movements in each class of provisions during the financial year, are set out below
+
+
+
+
+302                                                                                                                                                                                                                                           303
