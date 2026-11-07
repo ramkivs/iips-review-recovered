@@ -1,0 +1,7 @@
+runner: Linux runnervmwuk1x 7.0.0-1019-azure #20-Ubuntu SMP PREEMPT Mon Oct 19 22:41:16 UTC 2026 x86_64 GNU/Linux
+pdftotext missing
+/home/runner/work/_temp/b9a98a56-e41b-4aa4-b608-85297ef46ae0.sh: line 11: /tmp/fy24.pdf: No such file or directory
+curl_rc=35 http=000 bytes=0
+no file
+/home/runner/work/_temp/b9a98a56-e41b-4aa4-b608-85297ef46ae0.sh: line 14: pdftotext: command not found
+p170_bytes=0
