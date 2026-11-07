@@ -12,7 +12,7 @@
     "ingested": false,
     "persisted": false
   },
-  "fileCount": 7,
+  "fileCount": 8,
   "files": {
     "README.md": {
       "sha256": "9aa360e4345a36c37602a9a6c957123394d8aad411e99c0bc5196af3ee5967c0",
@@ -21,6 +21,10 @@
     "candidates.json": {
       "sha256": "4e72a921d03773317f1e20866cb7b004fc504392ffbb675955d257344fc2e4e1",
       "bytes": 7822
+    },
+    "runs/04-clean-clone.txt": {
+      "sha256": "26f5c3294b1819db5a82d978a89a5216ecf82bef3f760526128edb76c3e4e74c",
+      "bytes": 1339
     },
     "runs/commands.txt": {
       "sha256": "8d6bd4c7b9a3e098bac9e744f9e2b6015d03c9288d5eefb18bdc1f57a9eaeec4",
