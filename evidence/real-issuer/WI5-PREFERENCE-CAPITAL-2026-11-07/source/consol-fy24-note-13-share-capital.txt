@@ -1,0 +1,44 @@
+SOURCE EXTRACT — eClerx Services Limited, Annual Report 2023-24 (audited consolidated financial
+statements for the year ended March 31, 2024), "Notes forming part of the consolidated financial
+statements", Note 13 "Share capital", printed page 223.
+
+Document: https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf (254 pages)
+Auditor: S.R. Batliboi & Associates LLP (ICAI FRN 101049W/E300004), report dated May 16, 2024.
+Text layer read through https://r.jina.ai/<document>, chunk 91 (printed pages 221-223).
+
+--- verbatim (text layer) ---
+
+13. Share capital Authorised share capital (Rupees in Million)
+
+As at March 31, 2024 As at March 31, 2023
+
+Authorised share capital 100,000,000 (March 31, 2023: 100,000,000) shares of Rs. 10 each 1,000.00 1,000.00
+Issued, subscribed and fully paid up 48,232,242 (March 31, 2023: 48,033,979) shares of Rs. 10 each fully paid up 482.32 480.34
+223 ECLERX SERVICES LIMITED | Consolidated Financial Statements
+
+Terms / rights attached to equity shares
+
+The Company has only one class of equity shares having a par value of Rs 10 per share. Each holder of
+equity shares is entitled to one vote per equity share. The Company declares and pays dividends in
+Indian rupees. The dividend proposed by the Board of Directors is subject to the approval of the
+shareholders in the ensuing Annual General Meeting.
+
+--- what this establishes ---
+
+That the Company's equity shares are a single class of Rs 10 shares carrying one vote per share and rupee dividends.
+The table shows authorised capital of 100,000,000 shares of Rs 10 each (Rs 1,000.00 million) and issued capital of
+48,232,242 shares (Rs 482.32 million) at March 31, 2024.
+
+--- what this does NOT establish ---
+
+Anything about preference shares. The sentence sits under the heading "Terms / rights attached to equity shares" and
+speaks about classes of EQUITY shares; it does not say the Company has one class of shares, nor that it has no
+preference shares. Note 13's tables contain no preference-share line.
+
+This matters because the WI-5 bundle as first committed recorded PREFERENCE_CAPITAL as a nil on this sentence. That
+declaration was withdrawn on 2026-11-07: presentation and completeness are not a declaration, and this bundle will not
+turn one into the other. See source/preference-capital-investigation.txt for the pages read and the reasoning.
+
+The comparison drawn earlier — that this is "the same form of wording WI-3 accepted for Infosys" — was wrong. Infosys's
+accepted wording is "the Company has only one class of shares referred to as equity shares", a statement about all
+classes of shares; this one is narrower.

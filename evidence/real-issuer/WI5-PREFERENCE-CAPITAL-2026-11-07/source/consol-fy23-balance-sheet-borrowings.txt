@@ -1,0 +1,24 @@
+SOURCE EXTRACT — eClerx Services Limited, Annual Report 2022-23, audited consolidated balance sheet
+as at March 31, 2023 (with March 31, 2022 comparatives), printed page 186.
+
+Document: https://eclerx.com/wp-content/uploads/2024/07/eClerx_Annual_Report_2023_Composite-1.pdf
+Auditor: S.R. Batliboi & Associates LLP, report dated May 25, 2023.
+Text layer read through https://r.jina.ai/<document>, chunk 74 (printed pages 185-190).
+
+--- verbatim (text layer, borrowings captions only) ---
+
+Non-current liabilities
+Financial Liabilities
+Lease liabilities 34.a. 1,501.92 1,264.84
+Borrowings 17 6.77 0.50
+
+Current liabilities
+Financial liabilities
+Lease liabilities 34.a. 423.81 364.99
+Derivative instruments 7 128.00 -
+Borrowings 17 3.08 0.91
+
+--- what this establishes ---
+
+Both audited periods in the FY2022-23 filing carry non-zero borrowings captions (Rs million). No nil
+is available for borrowings in any of the three periods WI-5 covers.

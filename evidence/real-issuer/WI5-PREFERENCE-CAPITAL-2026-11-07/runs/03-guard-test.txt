@@ -1,0 +1,72 @@
+TAP version 13
+# Subtest: WI-5 — no nil was declared, and the withdrawal is on the record
+    # Subtest: the input carries no nil cell at all, and preference capital is empty in every period
+    ok 1 - the input carries no nil cell at all, and preference capital is empty in every period
+      ---
+      duration_ms: 2.516595
+      type: 'test'
+      ...
+    # Subtest: the filed dash is an explicit zero, the older periods are numbers, and no borrowings cell is a nil
+    ok 2 - the filed dash is an explicit zero, the older periods are numbers, and no borrowings cell is a nil
+      ---
+      duration_ms: 0.572102
+      type: 'test'
+      ...
+    # Subtest: an absent caption stays absent: current maturities are empty in all three periods
+    ok 3 - an absent caption stays absent: current maturities are empty in all three periods
+      ---
+      duration_ms: 0.246838
+      type: 'test'
+      ...
+    # Subtest: three consecutive audited consolidated periods of one issuer, in one scale and taxonomy
+    ok 4 - three consecutive audited consolidated periods of one issuer, in one scale and taxonomy
+      ---
+      duration_ms: 0.434023
+      type: 'test'
+      ...
+    # Subtest: the quoted sentence is classified for what it does not establish, and the retraction is recorded
+    ok 5 - the quoted sentence is classified for what it does not establish, and the retraction is recorded
+      ---
+      duration_ms: 1.428423
+      type: 'test'
+      ...
+    # Subtest: the corrected payload reports preference capital as NOT_REPORTED at every observation point
+    ok 6 - the corrected payload reports preference capital as NOT_REPORTED at every observation point
+      ---
+      duration_ms: 0.866074
+      type: 'test'
+      ...
+    # Subtest: the withdrawn payload is retained, still says NIL_BY_DISCLOSURE, and is not the current artifact
+    ok 7 - the withdrawn payload is retained, still says NIL_BY_DISCLOSURE, and is not the current artifact
+      ---
+      duration_ms: 1.386951
+      type: 'test'
+      ...
+    # Subtest: the persisted payload digests to the value the run recorded, and the run matches the readback
+    ok 8 - the persisted payload digests to the value the run recorded, and the run matches the readback
+      ---
+      duration_ms: 2.83317
+      type: 'test'
+      ...
+    # Subtest: every committed file still hashes to the digest recorded beside it
+    ok 9 - every committed file still hashes to the digest recorded beside it
+      ---
+      duration_ms: 2.094747
+      type: 'test'
+      ...
+    1..9
+ok 1 - WI-5 — no nil was declared, and the withdrawal is on the record
+  ---
+  duration_ms: 15.153781
+  type: 'suite'
+  ...
+1..1
+# tests 9
+# suites 1
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 284.897437
+exit 0

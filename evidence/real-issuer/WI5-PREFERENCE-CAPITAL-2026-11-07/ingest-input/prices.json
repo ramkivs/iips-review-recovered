@@ -1,0 +1,14 @@
+{
+  "prices": [
+    {
+      "securityId": "IN:ISIN:INE738I01010",
+      "value": 1600.6,
+      "currency": "INR",
+      "asOf": "2026-11-06",
+      "kind": "CLOSE",
+      "source": "DATASET_EOD",
+      "sourceRef": "YAHOO-FINANCE:query1.finance.yahoo.com/v8/finance/chart/ECLERX.NS:2026-11-06:regularMarketPrice (NSE, series EQ; regularMarketTime 2026-11-06T15:59:58+05:30)",
+      "adjustment": null
+    }
+  ]
+}

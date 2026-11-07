@@ -1,0 +1,38 @@
+# independent verification from a clean clone (corrected bundle)
+
+    rm -rf /tmp/wi5v
+    git clone --branch arena/f6d5fa4d-iips-review-recovered --single-branch \
+      https://github.com/ramkivs/iips-review-recovered.git /tmp/wi5v
+    # clone at commit 949ee23 (WI-5 review commit)
+    # the commit that adds this log changes only runs/07-clean-clone.txt and digests.json
+
+## bundle digests
+
+    files 24   excluded 2 (digests.json; runs/03-guard-test.txt and runs/04-typecheck.txt)   mismatched []
+
+Every file listed in digests.json exists in the clone and hashes to the recorded sha256 with the recorded byte count.
+
+## payload digest, recomputed from committed bytes
+
+    sha256(artifact/assessment-payload-wi5.json, trailing newline stripped)
+      e876296ae0fb4ee7733f1e674d5c21ae9667a647590c1b73fa0142b7833dbe60
+    runs/06-payload-verify.json readPayloadDigest          same value   (match True)
+    runs/06-payload-verify.json chainHeadPayloadDigest     same value   (match True)
+    payload.data.datasetVersion
+      sha256:7aa6e3f90ef0b2591b20ade967f41e2f876d012e6e58a03918eb0eafa1071e75
+
+The clone therefore reproduces, from committed bytes alone, the digest the governed store returned in a separate
+process — the payload is not a hand-edited copy.
+
+## guard test
+
+    cd /tmp/wi5v/iips-platform && npx tsx --test tests/investment/wi5PreferenceCapitalEvidence.test.ts
+    # tests 9 / pass 9 / fail 0
+
+The test reads only committed bundle bytes, so a reintroduced nil, a re-spelled borrowings zero, a zeroed
+current-maturities cell, a stale quote classification or a drifted digest all fail here.
+
+## note
+
+The clone's `node_modules` was linked from the working tree to supply the TypeScript loader; no source or bundle file
+is shared.

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "entries": [
+    {
+      "listingId": "IN:NSE:ECLERX:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE738I01010",
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "exchange": "NSE",
+      "symbol": "ECLERX",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2007-12-05",
+      "effectiveTo": null,
+      "sourceRef": "CIN L72200MH2000PLC125319 as printed on the audited consolidated balance sheet (Annual Report 2023-24, consolidated balance sheet signature block, p.195); NSE symbol ECLERX and BSE scrip code 532927 as used by the exchange listings; ISIN INE738I01010 corroborated across three independent market-data references (not printed in the audited financial statements)"
+    },
+    {
+      "listingId": "IN:BSE:532927:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE738I01010",
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "exchange": "BSE",
+      "symbol": "532927",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2007-12-05",
+      "effectiveTo": null,
+      "sourceRef": "CIN L72200MH2000PLC125319 as printed on the audited consolidated balance sheet (Annual Report 2023-24, p.195); BSE scrip code 532927; ISIN INE738I01010 corroborated across three independent market-data references (not printed in the audited financial statements)"
+    }
+  ]
+}

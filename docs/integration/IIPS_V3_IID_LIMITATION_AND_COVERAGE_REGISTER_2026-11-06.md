@@ -1788,3 +1788,40 @@ Evidence: `evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/` — s
 `source/quotes.json`, and the `residualReview` block in `artifact/investigation.json`; guarded by
 `iips-platform/tests/investment/wi4AssociatesEvidence.test.ts`, which also asserts that the documentation no longer
 contains the superseded "unstated" phrasing and that the payload really does disclose the treatment.
+
+## 17.10 WI-5 — second issuer validation: no qualifying nil-by-disclosure (eClerx Services Limited)
+
+**Date.** 2026-11-07 (reviewed and corrected the same day). **Scope.** Technology only, one issuer only; no policy, schema,
+confidence, valuation or persistence change.
+
+**Outcome.** Negative. eClerx Services Limited (`L72200MH2000PLC125319`) declares **no** nil on any governed line item in
+its audited consolidated statements for FY2024. The bundle's first pass had declared `PREFERENCE_CAPITAL` nil on Note 13's
+sentence *"The Company has only one class of equity shares having a par value of Rs 10 per share."*; that declaration was
+**withdrawn** after review, because the sentence sits under the heading *"Terms / rights attached to equity shares"* and
+speaks about classes of equity shares — it says nothing about preference shares — and nothing else in the filing declares
+preference share capital nil (balance sheet p.194, statement of changes in equity pp.201–203, Notes 13, 14, 41, 46 and 47
+read; recorded in `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/preference-capital-investigation.txt`).
+
+**What was refused and kept refused.** The consolidated balance sheet carries a filed dash on Borrowings at 2024-03-31
+(`Borrowings 17 - 6.77`), recorded as an explicitly reported **zero**, with 6.77/3.08 at 2023-03-31 and 0.50/0.91 at
+2022-03-31 as filed; `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` has no caption in any of the three filings and stays empty.
+The distinction between a filed zero, a declared nil and an absent caption is the whole subject of the item, and this
+issuer supplies one of each.
+
+**Correction and consequences.** The corrected dataset (`sha256:7aa6e3f9…`) yields `PREFERENCE_CAPITAL`
+`MISSING`/`NOT_REPORTED` at all three observation points in the payload (`payloadDigest e876296ae0fb…`, artifact v1 in a
+fresh governed store, reportId `1c50bcbc-…`). The field-level difference from the withdrawn payload is six paths: the
+dataset digest and the preference-capital observation. Adequacy `SUFFICIENT`, quality `MATERIAL_CONCERNS`, combined
+confidence **0.3210**, `grossDebt`/`netDebt` `NOT_REPORTED`, valuation and margin of safety unchanged (`PRICE_STALE` on
+the 2026-11-06 close) — every one of them identical before and after the withdrawal. Withdrawing an unsupported nil cost
+the assessment nothing, which is itself the point: the run never had a debt position resting on it.
+
+**Objective status.** The work item's target — a second issuer with an explicit nil-by-disclosure — remains **unmet**.
+WI-5 now demonstrates the refusal path on real data rather than a second positive. `L-036` remains **`PARTIALLY
+RESOLVED`**, `L-035` remains **`OPEN`**; `L-001` … `L-034` untouched; the 180-day `associates-review/1.0.0` control
+remains due. No status was moved to accommodate this result.
+
+**Evidence.** `evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/` (bundle, `digests.json`), with the withdrawn run
+retained under `runs/superseded/` and `artifact/superseded/`; guarded by
+`iips-platform/tests/investment/wi5PreferenceCapitalEvidence.test.ts`, `tsc --noEmit` clean, and reproduced from a clean
+clone.

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "bundle": "WI5-PREFERENCE-CAPITAL-2026-11-07",
+  "issuerId": "IN:CIN:L72200MH2000PLC125319",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "digests.json (this file)",
+    "runs/03-guard-test.txt, runs/04-typecheck.txt \u2014 they carry this bundle's own test and typecheck output, so they cannot be digested by the test they record; both are committed verbatim"
+  ],
+  "documents": [
+    {
+      "documentId": "ECLERX-INDAS-CONSOL-FY24",
+      "title": "eClerx Services Limited, Annual Report 2023-24, audited consolidated financial statements for the year ended March 31, 2024",
+      "url": "https://eclerx.com/wp-content/uploads/2024/09/Annual-Report-2023-24.pdf",
+      "pages": 254,
+      "auditor": "S.R. Batliboi & Associates LLP (FRN 101049W/E300004)",
+      "auditReportDate": "2024-05-16",
+      "committed": false,
+      "note": "page-anchored extracts committed under source/; the PDF itself is not committed"
+    },
+    {
+      "documentId": "ECLERX-INDAS-CONSOL-FY23",
+      "title": "eClerx Services Limited, Annual Report 2022-23, audited consolidated financial statements for the year ended March 31, 2023",
+      "url": "https://eclerx.com/wp-content/uploads/2024/07/eClerx_Annual_Report_2023_Composite-1.pdf",
+      "auditor": "S.R. Batliboi & Associates LLP (FRN 101049W/E300004)",
+      "auditReportDate": "2023-05-25",
+      "committed": false,
+      "note": "page-anchored extracts committed under source/; the PDF itself is not committed"
+    }
+  ],
+  "chain": {
+    "datasetVersion": "sha256:7aa6e3f90ef0b2591b20ade967f41e2f876d012e6e58a03918eb0eafa1071e75",
+    "reportId": "1c50bcbc-1031-4d77-9f1f-6d0ff45c4791",
+    "payloadDigest": "e876296ae0fb4ee7733f1e674d5c21ae9667a647590c1b73fa0142b7833dbe60",
+    "artifactVersion": 1,
+    "scope": "co:IN:CIN:L72200MH2000PLC125319"
+  },
+  "decision": {
+    "nilDeclared": "none",
+    "preferenceCapital": "no qualifying explicit nil disclosure; MISSING / NOT_REPORTED",
+    "preferenceCapitalReason": "the only share-class sentence is scoped by its heading ('Terms / rights attached to equity shares') to classes of equity shares; the balance sheet, SOCE, Notes 13, 14, 41, 46 and 47 present no preference component, which is presentation, not a declaration",
+    "borrowingsNil": false,
+    "borrowingsReason": "the audited consolidated notes contain no sentence declaring borrowings nil; the balance sheet carries a filed dash (an explicit zero) and Note 40 characterises financial liabilities by exclusion",
+    "currentMaturities": "no caption in any of the three filings; left empty (NOT_REPORTED), not zeroed",
+    "withdrawn": {
+      "claim": "PREFERENCE_CAPITAL NIL_BY_DISCLOSURE on Note 13's sentence, first pass",
+      "datasetVersion": "sha256:00db79c1fbcabd959079db1331b3f6c192b613ad92a1c41c12919068f0fe3839",
+      "payloadDigest": "287622ae69fbe39bc2cfb7804983877042a32fbfbf7ffbbad3b711aaf9b00eb3",
+      "retainedAt": [
+        "artifact/superseded/assessment-payload-wi5-withdrawn-preference-nil.json",
+        "runs/superseded/"
+      ]
+    }
+  },
+  "fileCount": 24,
+  "files": {
+    "README.md": {
+      "sha256": "d0b02eab1c76bab8f1ba6ac5a8c0696553f3c1cf7e6ff33b55b3acb25f9835cd",
+      "bytes": 5400
+    },
+    "artifact/assessment-payload-wi5.json": {
+      "sha256": "e77091149e3fde35d3533f55137ad1f78b747c17d39285975dd5f9d52b9219d2",
+      "bytes": 52333
+    },
+    "artifact/superseded/assessment-payload-wi5-withdrawn-preference-nil.json": {
+      "sha256": "cb645fc99677bf599300132641085ec6098f779c299421f17ab063c0e38432d7",
+      "bytes": 53154
+    },
+    "identity/corporate-actions.json": {
+      "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+      "bytes": 70
+    },
+    "identity/eligible-roster.json": {
+      "sha256": "93383ba0d98c0bfc226e7196c0114e1f23dd1ab53f14b532c7e6f3d7fa117165",
+      "bytes": 770
+    },
+    "identity/listing-map.json": {
+      "sha256": "a7552b1a1e8a835d59c2b4d539edeb7f89a7dd518a91c9aaf7e992e3b4766ac0",
+      "bytes": 1387
+    },
+    "ingest-input/periods.csv": {
+      "sha256": "cf0abc1721b75377eda1db23fd86136eaaf22eee533d17b0db41f93ec9ad1fc3",
+      "bytes": 2040
+    },
+    "ingest-input/prices.json": {
+      "sha256": "99ed6edf2cb901313c6132fd10e04c9060ee9180ccdaaa44771d37eb48003400",
+      "bytes": 413
+    },
+    "ingest-input/roster.json": {
+      "sha256": "05918c1942d840a65dc21b7d80a1207697e6bf86602fe83eee6bc5ce2c90d5d9",
+      "bytes": 1169
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "0502d409f3a63361961ec51a8af5bad285e52c585c6b81c1b366f91aa041c383",
+      "bytes": 1517
+    },
+    "runs/02-generate.txt": {
+      "sha256": "6869d0ad0a1584a47a95539d1c327178d8d77e2103ff38982fb38e902968d598",
+      "bytes": 5546
+    },
+    "runs/06-payload-verify.json": {
+      "sha256": "6b6ae83971faaac5bf71453dbeab93772be64e89a648fdf0494cb78f7c607f46",
+      "bytes": 6785
+    },
+    "runs/07-clean-clone.txt": {
+      "sha256": "ba73ec3e184d447ee55b85c37975a00c3181646276fa3a4464e9659009eff5fa",
+      "bytes": 1752
+    },
+    "runs/cli-wi5-corrected.json": {
+      "sha256": "9cfc3a8e66ac0ee8cde3ccf85183f2ff423c8e31f860b8e2bc2f4e38b42fdeee",
+      "bytes": 4824
+    },
+    "runs/commands.txt": {
+      "sha256": "8d6172f7ecc9a2a8e4ffd75c375fe86dacd81bf08ddc212f156d82e7a8170fc3",
+      "bytes": 4027
+    },
+    "runs/superseded/01-ingest-withdrawn-nil.txt": {
+      "sha256": "8d1062d7f67bd3a6cbd90dda8429ef310b345e779bcd1fc1c9a0661d35b5887f",
+      "bytes": 1515
+    },
+    "runs/superseded/02-generate-withdrawn-nil.txt": {
+      "sha256": "d4e12f88b4c795127ab69dc1e3f49afe38adce21510ad9a6bc97d336cd2a789d",
+      "bytes": 5545
+    },
+    "runs/superseded/cli-wi5-withdrawn-nil.json": {
+      "sha256": "48e8a6394b021cd352d64d8679702c27e41a2e92e49fb73cf0eda79d0eace1cc",
+      "bytes": 4823
+    },
+    "source/consol-fy23-balance-sheet-borrowings.txt": {
+      "sha256": "2e68991e84aac61f4f16cc5e3252c1c04507d5c9e2538a179ce3aac842a76312",
+      "bytes": 943
+    },
+    "source/consol-fy24-balance-sheet-borrowings.txt": {
+      "sha256": "62c0534c08b14f5b46d4caa503464301b4684de4e3f63e25434e04035db39c4d",
+      "bytes": 1543
+    },
+    "source/consol-fy24-note-13-share-capital.txt": {
+      "sha256": "f18660d509fe170e347950cfbe1fb658258c7a9c725bf76e03f114df448df880",
+      "bytes": 2645
+    },
+    "source/consol-fy24-note-40-financial-risk-management.txt": {
+      "sha256": "40667de03c12ce89ec99061d78bdc02beca5c39715001b7bc1ec00c13f8ee12a",
+      "bytes": 1666
+    },
+    "source/preference-capital-investigation.txt": {
+      "sha256": "0d8154f6c430732f94d5da92dd050def90e6edfd9788dd9f02ee5cb12e7eb7a1",
+      "bytes": 6888
+    },
+    "source/quotes.json": {
+      "sha256": "6ef6d9a24af94d8809dce89acee6ba4b7e0b0fc7f6308109462e32873f6489dd",
+      "bytes": 12809
+    }
+  }
+}

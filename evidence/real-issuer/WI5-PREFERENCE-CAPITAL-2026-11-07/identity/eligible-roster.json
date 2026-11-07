@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "rosterLabel": "WI-5 operator-supplied roster (one real issuer, eClerx Services Limited)",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "legalName": "eClerx Services Limited",
+      "cin": "L72200MH2000PLC125319",
+      "equityIsin": "INE738I01010",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": null,
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE738I01010",
+      "issuerId": "IN:CIN:L72200MH2000PLC125319",
+      "isin": "INE738I01010",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ]
+}
