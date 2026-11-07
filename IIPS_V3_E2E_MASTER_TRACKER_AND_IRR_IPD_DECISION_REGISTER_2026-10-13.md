@@ -22496,4 +22496,6 @@ limitation identifier consumed. Next free §16.281 / `CV-CORR-254` / `CHG-2026-1
 
 **Statuses.** **`L-038` stays `OPEN`** — the decisions settle the policy questions, not the limitation: **preference capital remains `MISSING / NOT_REPORTED`** and blocks the enterprise-to-equity bridge whatever the period rule says. **`L-039` unchanged and independent** (KEC current investments `MISSING / NOT_REPORTED`; absence is `NOT_REPORTED`, not `PERIOD_MISMATCH`). Bridge-wide instant equality (`BRIDGE-INSTANT-EQUALITY`) remains **undecided and unimplemented**. `L-034`/`L-035`/`L-040` `RESOLVED`, `L-036`/`L-037` `PARTIALLY RESOLVED`, `L-001` … `L-033` untouched. No new limitation identifier consumed.
 
+**Publication.** Published on `arena/3f12cf6a-iips-review-recovered` at `9473824` (PR #512, base `main` @ `3acb202`, `MERGEABLE/CLEAN`, unmerged); remote head = local head, remote `capitalStructure.ts` blob `ffa2c8ed…`, fresh-clone manifest check 21/21, GitHub Actions run **42408717210** `success` (the CAP-03 static gate — it does not run the TypeScript tests, which are local results in the bundle).
+
 **Evidence.** `evidence/WI11-L038-CONTRACT-DECISION-2026-11-08/` (README, owner-authorization record, six runs, `digests.json`); register §17.23. Next free §16.282 / `CV-CORR-255` / `CHG-2026-11-06-18` / `V2150`.
