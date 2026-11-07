@@ -1,0 +1,134 @@
+# clean-clone verification of commit 95b31ba80a716eec883cb9d73dfee90cfcb88713 (clone of the committed state, before publication)
+# clone: git clone --no-hardlinks <repo> /tmp/l038cc ; branch arena/3f12cf6a-iips-review-recovered ; dirty 0
+
+npm ci exit=0
+## probe (unmodified contract, committed dataset)
+# L-038 residual probe — the governed capital-structure contract, unmodified
+# input : /tmp/l038cc/evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/periods.csv
+# sha256: 7ce8844f395b5ea00db8a97d2f67319af3678d5208bb9c2ec55306cdd145a6f9
+# periods in file order (newest first): 2024@2024-03-31 [MARICO-INDAS-CONSOL-FY24-AR], 2023@2023-03-31 [MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE], 2022@2022-03-31 [MARICO-INDAS-CONSOL-FY23-AR-COMPARATIVE]
+
+### A-1 · as published: every annual period the dataset carries, newest first
+    periods given to the block: 2024@2024-03-31 (MARICO-INDAS-CONSOL-FY24-AR), 2023@2023-03-31 (MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE), 2022@2022-03-31 (MARICO-INDAS-CONSOL-FY23-AR-COMPARATIVE)
+    shortTermBorrowings      383 crore                      @ 2024-03-31
+    currentMaturities        0 crore                        @ 2023-03-31
+    longTermBorrowings       2 crore                        @ 2023-03-31
+    leaseLiabilities         145 crore                      @ 2024-03-31
+    cashAndCashEquivalents   228 crore                      @ 2024-03-31
+    currentInvestments       259 crore                      @ 2024-03-31
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    ————————————————————————————————————————————————————————————
+    grossDebt                NOT_COMPUTABLE:PERIOD_MISMATCH
+    cashAndInvestments       487 crore
+    netDebt                  NOT_COMPUTABLE:PERIOD_MISMATCH
+    preferenceCapital        MISSING:NOT_REPORTED
+
+### A-2 · anchored at 2023-03-31: the one instant at which every required component carries a filed number
+    periods given to the block: 2023@2023-03-31 (MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE)
+    shortTermBorrowings      473 crore                      @ 2023-03-31
+    currentMaturities        0 crore                        @ 2023-03-31
+    longTermBorrowings       2 crore                        @ 2023-03-31
+    leaseLiabilities         133 crore                      @ 2023-03-31
+    cashAndCashEquivalents   207 crore                      @ 2023-03-31
+    currentInvestments       578 crore                      @ 2023-03-31
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    ————————————————————————————————————————————————————————————
+    grossDebt                608 crore
+    cashAndInvestments       785 crore
+    netDebt                  -177 crore
+    preferenceCapital        MISSING:NOT_REPORTED
+
+### B-1 · SYNTHETIC: debt complete @2024-03-31, cash only @2023-03-31  (no Marico figure is published from this run)
+    periods given to the block: 2024@2024-03-31 (SYNTHETIC-PROBE-NOT-A-FILING), 2023@2023-03-31 (MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE)
+    shortTermBorrowings      383 crore                      @ 2024-03-31
+    currentMaturities        0 crore                        @ 2024-03-31
+    longTermBorrowings       0 crore                        @ 2024-03-31
+    leaseLiabilities         145 crore                      @ 2024-03-31
+    cashAndCashEquivalents   207 crore                      @ 2023-03-31
+    currentInvestments       578 crore                      @ 2023-03-31
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    ————————————————————————————————————————————————————————————
+    grossDebt                528 crore
+    cashAndInvestments       785 crore
+    netDebt                  -257 crore
+    preferenceCapital        MISSING:NOT_REPORTED
+probe exit=0
+## targeted tests
+# tests 34
+# pass 34
+# fail 0
+## typecheck
+tsc exit=0
+## bundle manifests (all committed digests.json)
+OK   iid5-historical-change-intelligence-2026-11-06         0 listed, 0 mismatch(es)
+OK   REL-1-INFOSYS-2026-11-06                              37 listed, 0 mismatch(es)
+OK   VII-VALUATION-INTEGRITY-2026-11-06                    10 listed, 0 mismatch(es)
+OK   VIII-VALUATION-DECISIONS-2026-11-06                    0 listed, 0 mismatch(es)
+OK   WI10-L035-NIL-BINDING-2026-11-07                      14 listed, 0 mismatch(es)
+OK   WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07              12 listed, 0 mismatch(es)
+OK   WI2-PRICE-OBSERVATION-2026-11-06                      27 listed, 0 mismatch(es)
+OK   WI3-BORROWINGS-NIL-2026-11-06                         30 listed, 0 mismatch(es)
+OK   WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06              22 listed, 0 mismatch(es)
+OK   WI5-PREFERENCE-CAPITAL-2026-11-07                     24 listed, 0 mismatch(es)
+OK   WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07                8 listed, 0 mismatch(es)
+OK   WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07         29 listed, 0 mismatch(es)
+OK   WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07       6 listed, 0 mismatch(es)
+OK   WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07                7 listed, 0 mismatch(es)
+OK   WI7-CONSUMER-MARICO-2026-11-07                        30 listed, 0 mismatch(es)
+OK   WI7-L038-DEBT-COMPLETENESS-2026-11-07                 30 listed, 0 mismatch(es)
+OK   WI7-L038-RESIDUAL-2026-11-08                          13 listed, 0 mismatch(es)
+OK   WI8-INDUSTRIALS-KEC-2026-11-07                        54 listed, 0 mismatch(es)
+OK   WI8-L039-CASH-SIDE-2026-11-07                         22 listed, 0 mismatch(es)
+OK   WI9-L036-ASSOCIATES-2026-11-07                        13 listed, 0 mismatch(es)
+# bundles with a mismatch: 0
+## static validator
+Traceback (most recent call last):
+  File "/tmp/l038cc/docs/integration/cap03-p1-f9/validate_windows10_host_profile.py", line 442, in <module>
+    base_tracker = subprocess.run(
+                   ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'show', '235b793dcca944fdfca1da166f3d09cc655afb49:IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md']' returned non-zero exit status 128.
+validator exit=1
+
+## second pass — the same checks in a FULL clone of the published branch
+# The first block ran in a clone of the local working repository, which is a partial-history clone: the CAP-03
+# validator needs historical commit 235b793d, absent there, so it exits 128 in that clone. Re-run here instead:
+#   git clone https://github.com/ramkivs/iips-review-recovered.git   (full history)
+#   git checkout 95b31ba80a716eec883cb9d73dfee90cfcb88713
+
+### static validator
+validator exit=0
+PASS: exact PA-authorized Windows 10 profile, evidence-gated pre-start retries, and post-marker no-retry controls
+PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation
+PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified
+LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS
+U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN
+
+### targeted tests
+# tests 34
+# pass 34
+# fail 0
+
+### typecheck
+tsc exit=0
+
+### probe — the three verdict lines per run (full output in runs/01-probe.txt)
+### A-1 · as published: every annual period the dataset carries, newest first
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    grossDebt                NOT_COMPUTABLE:PERIOD_MISMATCH
+    cashAndInvestments       487 crore
+    netDebt                  NOT_COMPUTABLE:PERIOD_MISMATCH
+    preferenceCapital        MISSING:NOT_REPORTED
+### A-2 · anchored at 2023-03-31: the one instant at which every required component carries a filed number
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    grossDebt                608 crore
+    cashAndInvestments       785 crore
+    netDebt                  -177 crore
+    preferenceCapital        MISSING:NOT_REPORTED
+### B-1 · SYNTHETIC: debt complete @2024-03-31, cash only @2023-03-31  (no Marico figure is published from this run)
+    preferenceCapital        MISSING:NOT_REPORTED           @ —
+    grossDebt                528 crore
+    cashAndInvestments       785 crore
+    netDebt                  -257 crore
+    preferenceCapital        MISSING:NOT_REPORTED

@@ -51,6 +51,10 @@
    "sha256": "0dae2a66c3adb771a4896d55f28055399ff0cec6c0c5eafd6a159b168912a225",
    "bytes": 2479
   },
+  "runs/08-clean-clone.txt": {
+   "sha256": "454a2d16de0cebf633f3dbea2d0a3206fb00882e5b44492811993300b08def92",
+   "bytes": 8801
+  },
   "runs/commands.txt": {
    "sha256": "52c74c0f537ff51889332c3933c8e7f89cb6f424eff0d0b738dd37a129f4ec4d",
    "bytes": 2480
