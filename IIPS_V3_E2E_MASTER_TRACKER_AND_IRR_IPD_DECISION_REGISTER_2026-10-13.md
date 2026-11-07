@@ -22124,9 +22124,12 @@ remains **OPEN**, `L-038`/`L-035`/`L-037` stay `OPEN`, `L-036` stays `PARTIALLY 
 including the 17 new L-040 acceptance tests, which fail against the pre-correction code; `tsc --noEmit` on the package
 project exits 0; a fresh clone of the pushed branch reproduces the dataset version, re-hashes every digested bundle file
 clean, and recomputes both payload digests. The repository's single path-filtered check for the paths this pull request
-touches is `CAP-03 Revision 7 IRR-only static checks`; this entry is the first WI-8 path to fall inside its trigger list,
-so its run (and the independent remote readback) is recorded in the publishing pull-request receipt rather than invented
-here. Local tests are reported separately from CI; no npm, frontend or IPD CI runs and none is claimed.
+touches is `CAP-03 Revision 7 IRR-only static checks`. This entry is the first WI-8 path to fall inside that workflow's
+trigger list, and the runs it produced for PR #505 **passed**: `42358220694` on head `c8e08b6` and `42373092259` on head
+`65e1422`, both `pull_request`, both read back through the Actions API and recorded in
+`evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/16-l040-ci-check.txt`. (`gh pr checks` reports no checks for
+this head; the runs are cited by id, not through the checks API.) Local tests are reported separately from CI; no npm,
+frontend or IPD CI runs and none is claimed.
 
 **Boundaries held.** No change to D-2 nil semantics, IX valuation policy, authorised parameters or unrelated valuation
 formulas; no re-read of issuer sources, no re-extraction, no dataset or ingest edit, no nil manufactured; no rewrite of

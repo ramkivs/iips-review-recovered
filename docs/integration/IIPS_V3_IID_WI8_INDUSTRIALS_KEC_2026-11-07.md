@@ -258,10 +258,13 @@ of the issuer: both refuse one, and the corrected one refuses without publishing
 performed no IPD work and spends no IPD act reference. It follows the WI-4 … WI-7 pattern: one pointer, nothing
 reinterpreted, no earlier entry reopened.
 
-**CI.** The repository configures one check for the paths this pull request changes — `CAP-03 Revision 7 IRR-only static
-checks` (`Python compile · source/evidence/tracker validation`). This record claims **only** what the run transcript in
-`runs/08-ci-check.txt` shows for the head it names. No npm, frontend or IPD CI runs for these paths, and none is claimed.
-Local verification is reported separately from CI in the pull request body.
+**CI.** The repository configures one check — `CAP-03 Revision 7 IRR-only static checks` (`Python compile ·
+source/evidence/tracker validation`) — and it is **path-filtered**. The heads pushed before the `L-040` correction touched
+no filtered path, so `runs/08-ci-check.txt` records "no checks reported" for them and this record claimed nothing.
+The correction's own heads touched the master tracker (§16.274), which *is* filtered, so the workflow ran on PR #505 and
+**passed**: run `42358220694` on `c8e08b6`, run `42373092259` on `65e1422`, both read back through the Actions API
+(`runs/16-l040-ci-check.txt`). No npm, frontend or IPD CI runs for these paths, and none is claimed. Local verification is
+reported separately from CI in the pull request body.
 
 **Hygiene.** The throwaway workflow `.github/workflows/temp-wi8-discover.yml` and the scratch trees
 `evidence/real-issuer/_wi8-discovery/`, `_wi8-fulltext/`, `_wi8-cols/` and `_wi8-identity/` were deleted before the pull

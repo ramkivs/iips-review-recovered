@@ -204,11 +204,23 @@ same input, the same code path, one defect fewer.
 | corrected output mistakable for an authoritative valuation | no: no per-share value is published, the EV column is labelled diagnostic, the grid carries `withheld` |
 | unrelated repository changes | none: the diff is two source files' arithmetic, one type, one evidence-claim function, one view block, two test files, the bundle and the records |
 
-**CI versus local.** This record claims **only local verification** for the code changes: the repository's single
-path-filtered check (`CAP-03 Revision 7 IRR-only static checks`) does not cover these paths and, as for PR #505
-throughout, reports **no checks** for the head. No green CI run is claimed or implied; `runs/16-l040-ci-check.txt` records
-what `gh pr checks` returned. Local tests are reported separately from CI in the pull request body, and neither is
-presented as the other.
+**CI versus local — kept apart.** Local verification is everything in the table above. **CI is a different claim, and
+here it is a real one:** this correction is the first WI-8 push to touch a path the repository's single check
+(`CAP-03 Revision 7 IRR-only static checks`) is filtered on — the master tracker, where §16.274 carries the work item — so
+that workflow ran for the first time on PR #505 and **passed**:
+
+| head | run | event | conclusion |
+|---|---|---|---|
+| `c8e08b6` | `42358220694` | `pull_request` (PR #505) | success (44 s) |
+| `65e1422` | `42373092259` | `pull_request` (PR #505) | success |
+
+Both runs performed the workflow's six steps — Python compile of the standard-library validator, artifact-classification
+tests, receipt-routing tests, Revision 7 source/evidence/tracker validation, independent CAP-03 recovery-release
+verification, and a changed-file `git diff --check` — and both are cited **by run id, read back through the Actions API**
+(`runs/16-l040-ci-check.txt`). `gh pr checks 505` still prints *"no checks reported"* for this head even though those runs
+are attached to PR #505; that checks-API/Actions-API disagreement is recorded rather than smoothed over. **No npm,
+frontend or IPD CI runs for these paths, and none is claimed**; the npm tests, typecheck and clean clone above are local
+verification and are never presented as CI.
 
 ## 9. Limitation status after this correction
 
