@@ -198,7 +198,7 @@ same input, the same code path, one defect fewer.
 | committed IX authorized-policy artifact still rebuilds byte-identically | yes — `ixAuthorizedPolicy.test.ts` green; optional fields are emitted only on the withheld path |
 | corrected payload reproducible and read back by digest, separate process | yes (`runs/11-l040-readback.json`) |
 | bundle manifest (`digests.json`) after the correction | 51 files, every digest verified by the guard test |
-| clean clone of the branch: install, tests, typecheck, manifest, artifact digests | see `runs/15-l040-clean-clone.txt` |
+| clean clone of the pushed branch (`c8e08b6…`) | `npm ci` (6 packages, then 190 in `frontend`); 636/636 tests, 148 suites; `tsc --noEmit` 0; 53-file manifest re-hashed clean; both payload digests recomputed; both source bundles untouched; the corrected payload **regenerated to `fc50c53e…f370`** from the same input (`runs/15-l040-clean-clone.txt`) |
 | dataset digest | **unchanged**: `sha256:0df73ead…82ab` |
 | original persistence record | **preserved**: reportId `85809cbd…`, payload `4f89f0ec…`, chain length 1, untouched |
 | corrected output mistakable for an authoritative valuation | no: no per-share value is published, the EV column is labelled diagnostic, the grid carries `withheld` |
