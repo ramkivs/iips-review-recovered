@@ -3,8 +3,8 @@
  "workItem": "WI-10",
  "item": "L-037",
  "bundle": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/",
- "generatedAtUtc": "2026-11-07T18:00:50Z",
- "note": "sha256 of every file in this bundle that a later run does not rewrite. The manifest excludes itself, the test log (runs/03, rewritten by every test run), the clean-clone record (runs/06) and the manifest verification (runs/07) -- each is produced by a run performed after this manifest was written, so digesting them would make the manifest false the moment it was checked. The exclusion is stated, not silent: runs/07-manifest-verification.txt re-hashes every file listed here and prints the result.",
+ "generatedAtUtc": "2026-11-07T18:02:18Z",
+ "note": "sha256 of every file in this bundle that a later run does not rewrite. Excluded, and named here so the exclusion is not silent: digests.json itself; runs/03-targeted-tests.txt, rewritten by every test run; runs/06-clean-clone.txt, produced from a clone of the commit that contains this manifest; and runs/07-manifest-verification.txt, which re-hashes the files listed here.",
  "excluded": [
   "digests.json",
   "runs/03-targeted-tests.txt",
