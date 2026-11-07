@@ -1,0 +1,76 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Order intake and order book as printed in the year in review
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 6 of 215  (printed pages 8-9)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                  CORPORATE OVERVIEW
+                                                                                  KEC International Limited                                                                                             Building Excellence
+
+Building Excellence
+
+                                                                                                              KEY NUMBERS FOR FY26 (AS ON MARCH 31, 2026)                    OUR STRENGTHS
+
+                                                                                                              Established                     Revenue                             Well-diversified across businesses
+                                                                                                                                                                                  and geographies
+TRANSMISSION
+LINES                    SUBSTATIONS         HVDC
+                                                             UNDERGROUND
+                                                             CABLING                 CABLES                   1945                            ` 23,506 Crore
+                                                                                                              (80+ years of operations)
+
+                                                                                                                                                                                  Strong project management and
+                                                                                                                                                                                  execution capabilities
+                                                                                                              PBT                             PAT
+
+                                                                                                              ` 789 Crore                     ` 606 Crore
+                         RESIDENTIAL         COMMERCIAL
+FACTORIES                BUILDINGS           BUILDINGS       WATER                   WAREHOUSES                                                                                   Preferred contractor for ahead-
+                                                                                                                                                                                  of-schedule delivery of projects
+                                                                                                              Order Intake                    Order Book
+
+                                                                                                              ` 25,280 Crore                  ` 36,267 Crore
+                                                                                                                                                                                  Capabilities to execute projects in
+                                                                                                                                                                                  difficult terrains and conditions
+                                                                                                              Ongoing Projects                Employees
+LOGISTICS                AIRPORTS            HOSPITALS       DATA CENTRES            DEFENCE
+
+                                                                                                              250+                            7,800+
+                                                                                                                                                                                  Unparalleled manufacturing,
+                                                                                                                                                                                  engineering and design capabilities
+                                                                                                              Nationalities                   Happiness Score
+
+                         OVERHEAD            BALLASTLESS
+                                                                                                              40                              85%                                Backward integration of operations
+METROS CIVIL             ELECTRIFICATION     TRACKS          TUNNEL VENTILATION      DEPOT & WORKSHOPS                                        Happiness Index                    — Transmission & Distribution,
+                                                                                                                                                                                 Transportation and Renewables
+
+                                                                                                              Global Presence                 Manufacturing Plants
+
+                                                                                                              110+                            8                                   Well-integrated
+                                                                                                                                                                                  global supply chain
+                                                                                                              countries across 6 continents   (India, UAE, Brazil, Mexico)
+                         SIGNALLING &        STATIONS &
+METROS - TECH            TELECOM             PLATFORMS       SMART CITY              OIL & GAS PIPELINES
+
+                                                                                                              Global Manufacturing            Market                              Experienced professionals from
+                                                                                                              Capacity                        Capitalisation                      40 diverse nationalities
+
+                                                                                                              4,83,800 MT                     ` 13,600+ Crore
+                                                                                                              per annum
+                                                                                                                                                                                  Digital and AI capabilities
+                                             AUTOMATIC                                                                                                                            embedded across the
+TCAS - KAVACH            SPEED UPGRADATION   SIGNALLING      SOLAR                   STATCOM
+                                                                                                              Vision Statement                                                    project lifecycle
+
+                                                                                                              Unleash Talent, Touch Lives,
+                                                                                                              Outperform & Be Happy
+
+WIND EPC                 SEMICONDUCTOR       THERMAL POWER   ROPEWAY                 CONDUCTORS
+
+8    Integrated Annual Report 2025-26                                                                                                                                              Integrated Annual Report 2025-26      9

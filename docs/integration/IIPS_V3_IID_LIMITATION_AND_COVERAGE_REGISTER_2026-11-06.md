@@ -2120,3 +2120,104 @@ still fail to carry a component the bridge needs — and the correct answer is t
 commands, guard test, typecheck, clean clone, CI check), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded by
 `iips-platform/tests/investment/wi7ConsumerMarico.test.ts`. Record: `docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md`.
 The WI-3, WI-5, WI-6, WI-6A, WI-6A-S1 and WI-6A-S2 bundles are byte-identical and still verify.
+
+## 17.16 WI-8 — Industrials: gross debt resolves, the cash side does not, and the grid says more than the headline (2026-11-07; primary evidence + governed run)
+
+**Question.** §17.15 ended by recommending Industrials and naming `IN_BOOK_TO_BILL` as the one thing between that sector
+and a statement-only validation. WI-8 asked the question the recommendation implied but could not answer: what does the
+governed pipeline actually do with an Industrials filing when the order-book metric is *not* printed — and does the
+enterprise-value family stand up when the borrowing note is complete?
+
+**Sector: Industrials, and the issuer.** Industrials declares `DCF_FCFF` (PRIMARY), `EV_EBITDA` (SECONDARY) and
+`EV_REVENUE` (CROSS_CHECK, mandatory `IN_BOOK_TO_BILL`), and declares **no `PE_RELATIVE`**. **KEC International Limited**
+(CIN `L45200MH2005PLC152061`, ISIN `INE389H01022`, NSE `KEC`) was selected because its Note 30 decomposes current
+borrowings into demand loans, other short-term borrowings, financial-institution commercial paper *and* current
+maturities, while its balance sheet prints no current-investments line — one issuer exercising both halves of the bridge.
+Larsen & Toubro (404), Thermax (one report only), ABB, Cummins, Bharat Forge, Siemens and AIA were rejected on retrieval
+grounds, each recorded.
+
+**Sources.** Two integrated annual reports, byte-verified: FY2025-26 (18,566,481 bytes, sha256 `ba638897…c820`, 215 pages)
+and FY2024-25 (14,873,309 bytes, sha256 `29dfdf83…e1c6`, 206 pages). The FY2023-24 report is a **404**, so FY2024 is the
+**comparative column** of the two reports read, stated per row. Auditor Price Waterhouse Chartered Accountants LLP
+(FRN `012754N/N500016`) on the **consolidated** statements, Ind AS, signed 2026-05-16. Fifteen verbatim page extracts
+with per-page provenance headers; every ingested figure mapped to its printed page, `REPORTED` or `DERIVED`.
+
+**Identity, and one gap left open.** CIN at PDF p.119, ISIN and the two-exchange listing sentence at PDF p.107. Neither
+report prints a trading symbol or a BSE scrip code anywhere in 215/206 pages; NSE's own quote-routing payload corroborated
+`KEC` on 2026-11-07 (147,213 bytes, `symbol: "KEC"`, `companyName: "KEC-International-Limited"`), while BSE returned a
+16,912-byte JavaScript shell containing neither the scrip code nor the company name. The listing map therefore carries
+the **NSE leg only**, marked as an operator record with the corroboration named and the BSE absence explained. No scrip
+code was invented to make the identity look complete.
+
+**D-2 — the one representation decision.** The balance sheet prints one current-borrowings line (`4,441.86` / `3,342.64` /
+`3,552.27`) and Note 30 decomposes it (I `2,638.96`, II `1,122.54`, FI CP `444.76`, III `235.60`, total `4,441.86`). The
+dataset records the **partition** — `SHORT_TERM_BORROWINGS` `4,206.26` and `CURRENT_MATURITIES_OF_LONG_TERM_DEBT`
+`235.60` — which adds back to the printed line to the paisa. The total in the short-term row *and* section III filled
+would double count ₹235.60 crore; the total with section III blank would deny a figure the note prints. Every component
+of the partition is printed. `CURRENT_INVESTMENTS`, `NON_CONTROLLING_INTEREST` and `PREFERENCE_CAPITAL` stay
+`NOT_REPORTED`; the `*` on Note 10's single non-current investment ("less than rounding off norms") is a sub-rounding
+positive amount and is not converted into a nil; business acceptances (`2,120.74` / `1,507.27`) are a separate line and
+not inside borrowings, because Note 30's total excludes them.
+
+**Outcome: everything computable was computed, and the bridge refused on the side that had never been tested.**
+datasetVersion `sha256:0df73ead…`, `issues.json` `[]`, three periods × 37 reported + 6 derived items, Industrials measured
+**`G2_PARTIAL`** — the first `G2_PARTIAL` in the programme — with statement coverage **100 %**, operating-metric coverage
+**0 %**, `DCF_FCFF` and `EV_EBITDA` usable and `EV_REVENUE` `WITHHELD` (`MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL`);
+adequacy `SUFFICIENT` (required-field coverage 100 %); assessment `SUFFICIENT` / `MATERIAL_CONCERNS`; confidence
+**0.3199** (data 0.70, model 0.0833, caps `STALE_DATA`, `DILUTION_PROXY`, `POLICY_DEFAULT_WACC`); reportKey
+`15b68ca5…`, payloadDigest `4f89f0ec…`, reportId `73fc9365-…`, chain valid, head v1, second generate run
+`UNCHANGED (no write)`, and a separate-process readback whose recomputed digest equals the stored digest and the chain
+head. **`grossDebt` is `PRESENT` at ₹5,377.76 crore — the first time in this programme that a real filing closes the
+debt side of the bridge** — while `netDebt` is `MISSING` / `NOT_REPORTED`. `DCF_FCFF` therefore computes an enterprise
+value (FCFF base 9,184,155,840 at WACC 10.68 %, g 4.00 %) and refuses every per-share leg (*"enterprise-to-equity
+conversion blocked by netDebt"*); `EV_EBITDA` is `CAPITAL_STRUCTURE_INCOMPLETE`; `EV_REVENUE` is withheld for the metric;
+`PE_RELATIVE` does not exist in the Industrials matrix at all, so the P/E leg the brief asks for is unsatisfiable by
+policy design and no policy was changed to satisfy it. `intrinsic` is `null`; the margin of safety refuses with
+`NO_PRICE_OBSERVATION`, no price obtained and none invented. Quality carries `CASH_FLOW_EARNINGS_DIVERGENCE`
+(OCF −68 % of profit) and `STALE_STATEMENTS`; risk is `PARTIAL` with `FINANCIAL_LEVERAGE` `NOT_EVALUABLE` because net
+debt is unavailable; moat is `INSUFFICIENT_EVIDENCE`; dividends show FCF coverage −5.07 and `netDebtToEbitda`
+`NOT_COMPUTABLE`.
+
+**New limitation — `L-039` (`OPEN`). The enterprise-to-equity bridge needs a current-investments line that a balance
+sheet need not print.** `cashAndInvestments` is the sum of cash and cash equivalents and current investments, and it
+refuses unless both carry a number or a quoted nil. A consolidated balance sheet is under no obligation to print a
+current-investments line, so an issuer that reports cash, borrowings, leases *and* current maturities in full can still
+have no net debt, no enterprise-to-equity conversion, no enterprise-derived per-share value, no `FINANCIAL_LEVERAGE`
+dimension and no `netDebtToEbitda`. This is the mirror of `L-038` on the other side of the same subtraction: WI-7 lost
+the debt half, WI-8 loses the cash half, and neither entry subsumes the other. No grammar change is proposed here; the
+honest resolutions (a governed "no such line" state distinct from `NOT_REPORTED`, or a printed-footnote basis for
+declaring the cash side complete) are decisions for this register's owner.
+
+**New limitation — `L-040` (`OPEN`). The sensitivity grid and the DCF evidence claim substitute zero for unavailable
+bridge terms.** `buildSensitivity` evaluates `(EV − (netDebt ?? 0) − (minorityInterest ?? 0) − (preferenceCapital ?? 0) +
+(associatesAndJV ?? 0)) / shares`; on this issuer every one of those terms is unavailable, so each `??` substitutes zero
+and the grid's base point reads **₹488.34 per share** while the headline per-share is `NOT_COMPUTABLE`. Evidence
+`EV-DCF_FCFF` simultaneously claims *"DCF_FCFF produced a per-share value from 3 present input(s)"* and declares
+`supports: …output.perShareMid`, which does not exist. Both are the D-2 failure mode one level above the dataset — a zero
+where the payload itself says `NOT_REPORTED` — and both are recorded, not repaired: they are payload and evidence
+surfaces, and changing them is a policy decision (an empty grid for every blocked bridge; re-worded evidence that changes
+stored payload bytes). WI-8's valuation conclusions use neither number.
+
+**Statuses after §17.16.** `L-039` and `L-040` are new and **`OPEN`**. `L-038` stays **`OPEN`** — the debt half did not
+bite here, and this run says nothing about issuers that print a single `Borrowings` line. `L-036` stays **`PARTIALLY
+RESOLVED`** (the `REVIEW_DUE` control fires again from 2026-03-31, due 2026-09-27; no filed carrying value exists).
+`L-035` and `L-037` stay **`OPEN`**; nothing here tests them. `L-034` stays `RESOLVED`. `L-002` … `L-033` untouched.
+`L-001` is **unchanged**: the ingest records "1 of 13 sectors measured" *in this dataset*, a dataset-scoped fact, and the
+sector frame still lists Industrials as outstanding because nothing in this work item promotes a sector.
+
+**Boundary this adds.** WI-3 showed what a nil needs, WI-5 that a scoped sentence cannot carry one, WI-6 that an unreadable
+filing cannot, WI-6A that an unreadable filing must not be turned into a negative finding either, and WI-7 that a legible
+filing can still fail to carry a component the bridge needs. WI-8 adds the fifth shape: **a filing can satisfy one half of
+the bridge completely and still fail the other — and the pipeline must publish the half it got, the half it could not get,
+and the name of the missing component, rather than netting the two into a number.** It also adds the first evidence that
+the pipeline's own arithmetic *does* reach for a zero when the bridge refuses, which is why `L-040` exists as a limitation
+rather than as a footnote.
+
+**Evidence.** `evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/` — `README.md`, `determination-wi8.json`,
+`source/source-bytes.json`, `source/page-map.json`, `source/identity-nse-corroboration.json`, fourteen verbatim page
+extracts, `ingest-input/` (roster, `periods.csv`, identity sources, `data-extraction.json`), `runs/` (ingest, generate,
+idempotency, chain read, readback, findings, commands, guard test, typecheck, clean clone, CI check),
+`artifact/assessment-payload-kec-wi8.json`, `digests.json` — guarded by
+`iips-platform/tests/investment/wi8IndustrialsKec.test.ts`. Record:
+`docs/integration/IIPS_V3_IID_WI8_INDUSTRIALS_KEC_2026-11-07.md`. The WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2 and WI-7
+bundles are byte-identical and still verify.

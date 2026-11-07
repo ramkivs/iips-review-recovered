@@ -1,0 +1,90 @@
+# KEC International Limited — FY2024-25 annual report (consolidated)
+# What this page is: Note 30 borrowings, including current maturities of long-term borrowings (FY2024 column)
+# source PDF: KEC_Annual_Report_2024-25.pdf  bytes=14873309  sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  pages=206
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+# PDF page 129 of 206  (printed page numbers not detected on this sheet)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                            Integrated Annual Report 2024-25     Integrated Annual Report 2024-25                                  CORPORATE OVERVIEW         STATUTORY REPORTS        FINANCIAL STATEMENTS
+
+                                                                                                                                                                                                                                                                                 Consolidated
+
+Notes                                                                                                                                            Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025                                                forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025
+
+NOTE 30 - BORROWINGS                                                                                                                             Note 30.2 : Other short-term borrowings
+                                                                                                                                 ` in Crore      (a)   From Banks-Secured
+                                                                                                             As at                    As at
+Particulars                                                                                                                                            (i)     ` 493.75 crore (As at March 31, 2024: ` 597.52 crore) Buyer’s Credit/Packing Credit in Foreign Currency and FCNR (B)
+                                                                                                    March 31, 2025          March 31, 2024
+                                                                                                                                                               loans secured by security stated in Note 30.1(a) (i) above. The interest rates are in the ranges from 5.7% to 6.54% p.a.
+I      Loans repayable on demand
+                                                                                                                                                               (previous year ranges from 3.81% to 6.65% p.a.).
+       From Banks
+       Secured [Refer Note 30.1 (a)]                                                                        1,790.04               1,513.09
+                                                                                                                                                       (ii)    ` Nil (As at March 31, 2024: ` 19.02 crore) Buyers credit secured by assignment of certain book debt at Abu Dhabi
+       Unsecured [Refer Note 30.1 (b)]                                                                        103.46                 112.05
+                                                                                                                                                               projects. The interest rates are in the ranges from 7.53% to 8.33% p.a.
+                                                                                                            1,893.50               1,625.14
+II     Other short term borrowings                                                                                                                     (iii)   ` Nil (As at March 31, 2024: ` 29.70 crore) debtors bill discounting secured by assignment of certain book debt for Cable
+       From Banks
+                                                                                                                                                               projects. The interest rates are in ranges from 8.00% to 8.50% p.a. (previous year rate ranges from 8.00% to 8.55% p.a.).
+       Secured [Refer Note 30.2 (a)]                                                                          579.40                 646.24
+       Unsecured [Refer Note 30.2 (b)]                                                                        553.50                 874.36
+                                                                                                                                                       (iv)    ` 51.91 crore (As at March 31, 2024: ` Nil) pertains to a jointly controlled operation at Saudi Arabia secured by irrevocable
+                                                                                                            1,132.90               1,520.60
+                                                                                                                                                               Corporate Guarantee from the Company. The interest rate ranges between 5.49% to 6.65% p.a.
+       From Financial Institutions
+       Unsecured [Refer Note 30.2 (c)]                                                                        196.14                   98.20
+                                                                                                                                                       (v)     ` 32.43 crore (As at March 31, 2024: ` Nil) Buyers credit/Packing Credit in foreign currency and FCNR (B) obtained by KEC
+III    Current Maturities of Long Term Borrowings                                                                                                              Asian Cables Ltd. The interest rates are in the ranges from 5.7% to 6.54% p.a.
+       From banks
+       Secured [Refer Note 25.1 (a)]                                                                               -                  33.70
+                                                                                                                                                       (vi)    ` 1.31 crore (As at March 31, 2024: ` Nil) debtors bill discounting secured by assignment of certain book debt obtained
+       Unsecured [Refer Note 30.3(b)]                                                                         120.10                  74.63
+                                                                                                                                                               by KEC Asian Cables Ltd. The interest rates are in the ranges from 8.2% to 8.35% p.a.
+                                                                                                              120.10                 108.33
+       From Financial Institutions
+                                                                                                                                                 (b)   From Bank-unsecured
+       Unsecured [Refer Note 25.1(c)]                                                                              -                 200.00
+                                                                                                                   -                 200.00            (i)     ` 553.50 crore (As at March 31, 2024: ` 771 crore) short term loan from various banks carrying interest rates ranging from
+                                                                                                            3,342.64               3,552.27                    7.90% to 8.55% p.a. (previous year interest rate ranges from 7.00% to 8.05 % p.a.)
+
+Note 30.1 : Loans repayable on demand from banks :                                                                                                     (ii)    ` Nil (As at March 31, 2024: ` 103.36 crore) pertain to subsidiary KEC Spur Infrastructure Pvt. Ltd. unsecured purchase
+                                                                                                                                                               and service bill discounting from various banks registered under Receivable Exchange of India Limited (RXIL) portal for
+(a)   Secured
+                                                                                                                                                               Micro & Small Enterprises vendors. The interest rates for previous year ranges from 6.89% to 7.90 % p.a.
+      (i)      ` 1,622.24 crore (As at March 31, 2024: ` 1,473.80 crore) obtained from consortium of banks which are secured by first
+               pari passu charge on the entire current assets of the Company, both present and future (except specific export receivables        (c)   From Financial Institutions
+               financed by financial institutions and banks), second pari passu charge on fixed assets of the Company’s manufacturing
+                                                                                                                                                       Unsecured:
+               facilities situated at Jaipur, Jabalpur and Nagpur factories and further secured by first pari passu charge on flat situated at
+               Juhu, Mumbai in favour of working capital consortium bankers. The interest rates are in the ranges from 8.10% to 10.50%                 ` 196.14 crore (As at March 31, 2024: ` 98.20 crore) being listed commercial papers which carries interest rate 8.40% p.a.
+               p.a. (previous year ranges from 7.5% to 8.70% p.a).                                                                                     (previous year interest rate ranges from 7.90% p.a. to 8.20% p.a.) having maturity period of 90 days (previous year 85-90 days).
+
+      (ii)     ` 47.82 crore (As at March 31, 2024: ` Nil), pertains to a jointly controlled operation at Saudi Arabia secured by irrevocable    Note 30.3 Current Maturities of Long Term Borrowings
+               Corporate Guarantee from the Company. The interest rates were in the ranges of 6.87% p.a to 7.25% p.a.                            (a)   From banks: Secured
+      (iii)    ` 11.90 crore (As at March 31, 2024: ` 11.36 crore) obtained for Bangladesh project & secured primarily by Hypothecation                ` Nil (As at March 31, 2024: ` 33.70 crore) External Commercial Borrowing loan secured by first charge over construction
+               2nd charge on pool of receivables against work orders executing in Bangladesh, secured by company through international                 Equipments present at all projects site relating to its Transmission, Railway and Civil business in India. During the current
+               bidding process and collateral given as SBLC in equivalent USD covering 110% of Company’s proposed credit limit First                   financial year, the Company has prepaid the loan in November 2024. Interest rate is 3M LIBOR + 160 bps.
+               Class Indian Bank. The interest rate is 10.26% p.a.
+                                                                                                                                                 (b)   Unsecured:
+      (iv)     ` 79.39 crore (As at March 31, 2024: ` 27.93 crores) obtained for Malaysia project & secured by corporate guarantee.
+                                                                                                                                                       (i)     ` 40 crore (As at March 31, 2024: ` Nil) loan repayment is in 24 installment out of which 8 installment due within 1 year.
+               The interest rate is 3.75%+KLIBOR p.a.
+                                                                                                                                                               The variable interest rate is MCLR-1Y+ Spread p.a.
+      (v)      ` 28.69 crore (Previous year Nil) pertain to subsidiary KEC Spur Infrastructure & secured against stock & debtors.
+               The interest rate interest rate in the range of 8.7% to 10.6% p.a.                                                                      (ii)    ` 2.70 crore (As at March 31, 2024: ` Nil) pertains to subsidiary KEC Asian Cable Ltd. repayable in equal quarterly installments
+                                                                                                                                                               starting from February 01, 2026 to May 1, 2030. Interest rate is External Benchmark rate + Spread 2.25%. is 9.10% p.a.
+(b)   Unsecured
+      (i) ` 62.07 crore (As at March 31, 2024: ` 79.29 crore) pertaining to a subsidiary at Brazil. The interest rate interest rate in                 (iii)   ` 38.95 crore (As at March 31, 2024: ` 50.08 crore) pertains to a subsidiary at Brazil repayable in monthly structured
+          the range of 21.98% to 25.93% p.a (previous year ranges from 8.67% to 15.57% p.a).                                                                   instalments during from 2025 to 2026. The present interest rate at 7.06% p.a (previous year 13.96% p.a). These loans are
+      (ii)     ` 41.40 crore (As at March 31, 2024: ` 32.76 crore) pertaining to a subsidiary at Mexico. The interest rate interest rate in                    repayable in Brazilian Real (BRL).
+               the range of 9.09% to 9.44% p.a.
+
+254                                                                                                                                                                                                                                                                                       255
+              KEC International Limited                                                                                                                                                                                                                    KEC International Limited

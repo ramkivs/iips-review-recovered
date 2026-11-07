@@ -1,0 +1,102 @@
+# KEC International Limited — FY2024-25 annual report (consolidated)
+# What this page is: Consolidated cash flow, section C, FY2025 and FY2024
+# source PDF: KEC_Annual_Report_2024-25.pdf  bytes=14873309  sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  pages=206
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+# PDF page 112 of 206  (printed page numbers not detected on this sheet)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                     Integrated Annual Report 2024-25      Integrated Annual Report 2024-25                             CORPORATE OVERVIEW       STATUTORY REPORTS         FINANCIAL STATEMENTS
+
+                                                                                                                                                                                                                                                                      Consolidated
+
+Consolidated Statement of Cash Flows                                                                                                       Notes
+for the year ended March 31, 2025                                                                                                          forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025
+
+                                                                                                                            ` in Crore     1.   GENERAL INFORMATION                                            3.2 Basis of preparation and presentation
+                                                                                  For the year ended              For the year ended            KEC International Limited (“the Company”) (CIN:                    The consolidated financial statements have been prepared
+Particulars
+                                                                                      March 31, 2025                  March 31, 2024            L45200MH2005PLC152061) is a public limited company                 on the historical cost basis except for certain financial
+C. CASH FLOW FROM FINANCING ACTIVITIES                                                                                                          incorporated and domiciled in India. Its shares are listed         assets and liabilities (including derivative instruments) and
+   Repayment of other than short-term borrowings                                (331.94)                                -                       on BSE Limited and National Stock Exchange of India                plan assets under defined benefit plans that are measured
+   Proceeds from other than short-term borrowings                                266.16                         169.90                          Limited. The registered office of the Company is located           at fair values at the end of each reporting period, as
+   Proceeds from issue of equity shares (QIP Issue)                              870.16                                 -                                                                                          explained in the accounting policies below.
+                                                                                                                                                at RPG House, 463, Dr. Annie Besant Road, Worli,
+   Share issue expenses                                                           (19.04)                               -
+                                                                                                                                                Mumbai- 400 030.
+   Repayments of short-term borrowings                                            (21.40)                       438.05                                                                                             Summary of material accounting policies is as under:
+   Payment of principal of lease liabilities                                      (44.34)                        (17.04)
+   Payment of interest of lease liabilities                                       (16.10)                          (9.57)                       The Company including its branches, jointly controlled
+                                                                                                                                                                                                                   Operating Cycle
+   Finance costs paid                                                           (632.83)                       (648.85)                         operations and its subsidiaries (as detailed in note 3.3) is
+   Dividend paid                                                                (102.79)                         (77.16)                        herein after together referred to as the ‘Group’.                  Assets and liabilities other than those relating to long-term
+   NET CASH FLOW USED IN FINANCING ACTIVITIES (C)                                                (32.12)                      (144.68)                                                                             contracts (i.e. supply or construction contracts) are
+   NET INCREASE/(DECREASE) IN CASH AND CASH                                                      319.08                        (56.59)          The Group is primarily engaged in Engineering,                     classified as current if it is expected to realize or settle
+   EQUIVALENTS (A+B+C)                                                                                                                          Procurement and Construction business (EPC) relating               within 12 months after the balance sheet date.
+   Cash and cash equivalents at the beginning of the year                                        205.10                        281.16           to infrastructure interalia products, projects and systems
+   Effect of exchange differences on restatement of foreign currency                              21.51                        (19.47)          and related activities for power transmission, distribution,       In case of long-term contracts, operating cycle of the Group
+   cash and cash equivalents                                                                                                                                                                                       exceeds one year covering the duration of the contract
+                                                                                                                                                railway, civil, cable and other EPC businesses.
+   Cash and cash equivalents at the end of the year                                              545.69                        205.10                                                                              including the defect liability period, wherever applicable,
+   Supplemental Information                                                                                                                                                                                        and extends upto the realisation of receivables (including
+                                                                                                                                                The Company’s manufacturing footprint extends across
+   Non Cash Transactions from Investing and Financing                                                                                                                                                              retention monies) within the credit period normally applicable
+                                                                                                                                                three countries in addition to India. The Company has
+   Activities:                                                                                                                                                                                                     to the respective contract. Accordingly, for classification
+   Acquisition of Right-of-Use assets                                                            128.20                           0.76          several international branch offices enabling diversified
+                                                                                                                                                                                                                   of assets and liabilities related to such contracts as
+                                                                                                                                                global footprint.
+The above consolidated statement of cash flows has been prepared under the “indirect method” as set out in Ind AS 7                                                                                                current, duration of each contract is considered as its
+‘statement of cash flows’                                                                                                                                                                                          operating cycle.
+                                                                                                                                           2.   NEW AND AMENDED STANDARDS ADOPTED BY
+Reconciliation of liabilities arising from financing activities:                                                              ` in Crore        THE GROUP
+                                                                                                                                                                                                               3.3 Basis of consolidation
+                                          As at                  Movement           Foreign                                      As at          The Ministry of Corporate Affairs vide notification dated
+                                                                                                    Interest     Interest                                                                                          The consolidated financial statements incorporate the
+Particulars                           March 31,   Cash flows        in lease      exchange                                   March 31,          September 9, 2024 and September 28, 2024 notified
+                                                                                                   expense           paid                                                                                          financial statements of the Company and its subsidiaries.
+                                          2024                    liabilities     movement                                        2025          the Companies (Indian Accounting Standards) Second                 Control is achieved when the Company:-
+Borrowings                             3,802.09        (87.18)              -        (14.93)         623.33      (622.21)     3,701.10          Amendment Rules, 2024 and Companies (Indian Accounting
+Lease liabilities                        172.71        (44.34)        128.01                          16.10        (16.10)      256.38          Standards) Third Amendment Rules, 2024, respectively,              •    has power over the investee;
+Total liabilities from financing       3,974.80      (131.52)         128.01           (14.93)       639.43      (638.31)     3,957.48
+                                                                                                                                                which amended/ notified certain accounting standards
+activities                                                                                                                                                                                                         •    is exposed, or has rights, to variable returns from its
+                                                                                                                                                (see below), and are effective for annual reporting periods
+                                                                                                                                                                                                                        involvement with the investee; and
+                                          As at                  Movement           Foreign                                      As at          beginning on or after April 1, 2024:
+                                                                                                    Interest     Interest
+Particulars                           March 31,   Cash flows        in lease      exchange
+                                                                                                   expense           paid
+                                                                                                                             March 31,                                                                             •    has the ability to use its power to affect its returns.
+                                           2023                   liabilities     movement                                        2024          •    Insurance contracts - Ind AS 117; and
+Borrowings                             3,191.81       607.94                -          9.92          634.50      (642.08)     3,802.09                                                                             The Company reassesses whether or not it controls an
+                                                                                                                                                •    Lease Liability in Sale and Leaseback – Amendments
+Lease liabilities                        188.92       (17.04)            0.76          0.07            9.57         (9.57)      172.71                                                                             investee if facts and circumstances indicate that there
+                                                                                                                                                     to Ind AS 116
+Total liabilities from financing       3,380.73       590.90             0.76          9.99          644.07      (651.65)     3,974.80                                                                             are changes to one or more of the three elements of
+activities
+                                                                                                                                                These amendments did not have any material impact on the           control listed above.
+The above consolidated statement of cash flows should be read in conjunction with the accompanying notes.
+                                                                                                                                                amounts recognized in prior periods and are not expected
+                                                                                                                                                                                                                   When the Company has less than a majority of the voting
+                                                                                                                                                to significantly affect the current or future periods.
+In terms of our report of even date                       For and on behalf of the Board of Directors                                                                                                              rights of an investee, it has power over the investee when
+For Price Waterhouse Chartered Accountants LLP                                                                                                                                                                     the voting rights are sufficient to give it the practical ability
+                                                                                                                                           3.   ACCOUNTING POLICY INFORMATION
+Firm Registration Number: 012754N/N500016                                                                                                                                                                          to direct the relevant activities of the investee unilaterally.
+                                                                                                                                           3.1 Statement of compliance                                             The Company considers all relevant facts and circumstances
+                                                          H.V. GOENKA                               VIMAL KEJRIWAL
+                                                          Chairman                                  Managing Director and CEO                   The consolidated financial statements have been prepared           in assessing whether or not the Company’s voting rights in
+SUMIT SETH                                                DIN - 00026726                            DIN - 00026981                              in accordance with the provisions of Companies Act,                an investee are sufficient to give it power, including:
+Partner
+Membership Number : 105869                                RAJEEV AGGARWAL                           SURAJ EKSAMBEKAR                            2013 and Indian Accounting Standards (Ind AS) notified
+                                                          Chief Financial Officer                   Company Secretary                           under Section 133 of the Companies Act, 2013 (the Act)             •    the size of the Company’s holding of voting rights
+                                                                                                                                                [Companies (Indian Accounting Standards) Rules, 2015]                   relative to the size and dispersion of holdings of the
+Place : Mumbai                                            Place : Mumbai                                                                                                                                                other vote holders;
+Date : May 26, 2025                                       Date : May 26, 2025                                                                   and other relevant provisions of the Act.
+
+220                                                                                                                                                                                                                                                                            221
+         KEC International Limited                                                                                                                                                                                                             KEC International Limited

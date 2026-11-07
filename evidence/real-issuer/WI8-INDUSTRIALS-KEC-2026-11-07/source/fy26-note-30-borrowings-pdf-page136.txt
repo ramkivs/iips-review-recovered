@@ -1,0 +1,86 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Note 30 borrowings, including current maturities of long-term borrowings
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 136 of 215  (printed pages 268-269)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                                  FINANCIAL STATEMENTS
+                                                                                                         KEC International Limited                                                                                                                             Consolidated
+
+Notes                                                                                                                                 Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026                                     forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026
+
+                                                                                                                         ` in Crore   NOTE 29 - OTHER NON CURRENT LIABILITIES
+Particulars                                Opening Recognised in       Recognised Exchange Recognised                      Closing                                                                                                                             ` in Crore
+                                            Balance    Consolidated        in other Differences directly in               Balance     Particulars                                                                                             As at                 As at
+                                         (As at April  Statement of comprehensive                   equity           (As at March                                                                                                    March 31, 2026       March 31, 2025
+                                            1, 2024) Profit and Loss  income (OCI)                                       31, 2025)    Non-current:
+Deffered tax liabilities                                                                                                              Deferred Government Grant* (Refer note 29.1)                                                               0.39                 0.41
+recognised in relation to:                                                                                                                                                                                                                       0.39                 0.41
+Property, plant and equipment and              (33.37)        23.99                 -         (0.42)             -           (9.80)
+intangible assets                                                                                                                     * Movement in deferred Government Grant
+Right of use assets                             (4.00)       (26.32)                -              -             -         (30.32)    Particulars                                                                                                               ` in Crore
+Derivative contracts                            (7.89)             -             7.89              -             -                -
+                                                                                                                                      Balance as at March 31, 2024                                                                                                    0.43
+Exchange differences on foreign                 (6.94)             -             6.94              -             -                -   Add: Received during the year                                                                                                      -
+operations
+                                                                                                                                      Less: Recognised as income during the year                                                                                         -
+Others                                         (10.80)        10.80                 -              -             -                -
+                                                                                                                                      Less: Disclosed as other current liabilities (Refer Note - 36)                                                                  0.02
+Deferred tax liabilities                      (63.00)          8.47             14.83        (0.42)              -         (40.12)    Balance as at March 31, 2025                                                                                                    0.41
+recognised
+                                                                                                                                      Add: Received during the year                                                                                                      -
+Deferred tax assets (net)                      353.43        112.87           (11.17)       (37.00)         34.57          452.70
+                                                                                                                                      Less: Recognised as income during the year                                                                                         -
+                                                                                                                                      Less: Disclosed as other current liabilities (Refer Note - 36)                                                                  0.02
+28.2 Significant components of deferred tax liabilities (net) of the Company’s subsidiaries as at March 31, 2025 are
+                                                                                                                                      Balance as at March 31, 2026                                                                                                    0.39
+as follows :
+                                                                                                                         ` in Crore   Note 29.1:
+Particulars                                Opening Recognised in       Recognised Exchange                                 Closing
+                                                                                                                                      During the year ended March 31, 2022, the Group had received ` 0.50 crore towards government grant from Government of Rajasthan
+                                            Balance    Consolidated        in other Differences Recognised                Balance
+                                                                                                                                      for setting up an Oxygen plant under Special package for Medical oxygen. The Group has amortised the grant based on useful life
+                                         (As at April  Statement of comprehensive                 directly in        (As at March
+                                            1, 2024) Profit and Loss  income (OCI)                    equity             31, 2025)    of the plant and recognised income for current year of ` 0.02 crore (previous year ` 0.02 crore) under other income (Refer note No
+                                                                                                                                      40). The balance amount of grant is shown as “Deferred Grant” in non-current liability of ` 0.39 crore (previous year ` 0.41 crore)
+Deferred tax liabilities
+recognised in relation to:                                                                                                            and other current liability of ` 0.02 crore (Refer Note 36). The Group does not have any unfulfilled conditions or other contingencies
+                                                                                                                                      attached to the same.
+Property, plant and equipment and               (0.37)         0.57                 -         (0.03)       (18.78)         (18.61)
+Intangible assets
+                                                                                                                                      NOTE 30 - BORROWINGS
+Others                                               -        (0.27)                -          0.06              -           (0.21)
+Deferred tax liabilities                        (0.37)         0.30                 -          0.03        (18.78)         (18.82)                                                                                                                             ` in Crore
+recognised                                                                                                                            Particulars                                                                                             As at                 As at
+Deferred tax assetss recognised                                                                                                                                                                                                      March 31, 2026       March 31, 2025
+in relation to:                                                                                                                       I     Loans repayable on demand
+Allowance for expected credit                        -         0.45                 -              -             -            0.45          From Banks
+losses                                                                                                                                      Secured [Refer Note 30.1 (a)]                                                                   2,538.96              1,790.04
+Expenses deductible for tax                          -         0.18              0.41              -         0.60             1.19          Unsecured [Refer Note 30.1 (b)]                                                                        -                103.46
+purposes in future periods                                                                                                                  From Others
+Right of use asset                                   -         0.01                 -              -             -            0.01          Unsecured [Refer Note 30.1 (c)]                                                                   100.00                     -
+Derivative contracts                                 -                           1.62              -             -            1.62                                                                                                          2,638.96              1,893.50
+Others                                           0.60         (0.60)                -              -             -                -   II    Other short term borrowings
+Deferred tax assets recognised                   0.60          0.04              2.03              -         0.60             3.27          From Banks
+Deferred tax liabilities (net)                   0.23          0.34              2.03          0.03        (18.18)         (15.55)          Secured [Refer Note 30.2 (a)]                                                                     597.54                579.40
+                                                                                                                                            Unsecured [Refer Note 30.2 (b)]                                                                   525.00                553.50
+* There is no expiry period for carry forward of losses                                                                                                                                                                                     1,122.54              1,132.90
+                                                                                                                                            From Financial Institutions
+Deferred tax liabilities are not recognized for temporary differences between the carrying amount and tax bases of investments in
+                                                                                                                                            Unsecured [Refer Note 30.2 (c)]                                                                   444.76                196.14
+Jointly Controlled Operation and subsidiaries amounting to ` 1,208.76 crore, where the company is able to control the timing of the
+                                                                                                                                      III   Current Maturities of Long Term Borrowings
+reversal of the temporary differences and it is probable that the differences will not reverse in the foreseeable future.
+                                                                                                                                            From banks
+                                                                                                                                            Secured [Refer Note 30.3(a)(i)]                                                                    10.78                  2.70
+                                                                                                                                            Unsecured [Refer Note 30.3(b)]                                                                    224.82                117.40
+                                                                                                                                                                                                                                              235.60                120.10
+                                                                                                                                                                                                                                            4,441.86              3,342.64
+
+268    Integrated Annual Report 2025-26                                                                                                                                                                                            Integrated Annual Report 2025-26    269

@@ -1,0 +1,107 @@
+# KEC International Limited — FY2024-25 annual report (consolidated)
+# What this page is: Consolidated balance sheet and statement of profit and loss, FY2025 and FY2024 columns
+# source PDF: KEC_Annual_Report_2024-25.pdf  bytes=14873309  sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6  pages=206
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+# PDF page 110 of 206  (printed page numbers not detected on this sheet)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                              Integrated Annual Report 2024-25    Integrated Annual Report 2024-25                                  CORPORATE OVERVIEW        STATUTORY REPORTS       FINANCIAL STATEMENTS
+
+                                                                                                                                                                                                                                                                              Consolidated
+
+Consolidated Balance Sheet                                                                                                                        Consolidated Statement of Profit and Loss
+as at March 31, 2025                                                                                                                              for the year ended March 31, 2025
+                                                                                                                                    ` in Crore
+                                                                                                                      As at              As at
+Particulars                                                                                       Note No.
+                                                                                                             March 31, 2025    March 31, 2024
+ASSETS                                                                                                                                                                                                                                                                          ` in Crore
+(1) Non-Current Assets
+    (a) Property, plant and equipment                                                                5             1,073.99          1,141.22                                                                                                  For the year ended      For the year ended
+                                                                                                                                                  Particulars                                                                      Note No.
+    (b) Right-of-use assets                                                                          6               289.57            195.24                                                                                                      March 31, 2025          March 31, 2024
+    (c) Capital work-in-progress                                                                     7                38.52             13.92
+    (d) Goodwill                                                                                     8               278.22            272.13     I     Revenue from operations                                                        39                21,846.70              19,914.17
+    (e) Intangible assets                                                                            9                 4.83             19.68
+                                                                                                                   1,685.13          1,642.19     II    Other income                                                                   40                    70.86                    52.41
+      (f)    Financial assets                                                                                                                     III   Total Income (I+II)                                                                              21,917.56              19,966.58
+             (i)   Investments                                                                      10                    *-                *-
+             (ii)  Trade receivables                                                                11               214.93            288.34     IV    Expenses
+             (iii) Other financial assets                                                           12                66.07             61.94
+                                                                                                                     281.00            350.28           (i)     Cost of materials consumed                                             41                 9,912.15               8,413.69
+      (g)   Deferred tax assets (net)                                                               28               452.70            353.66           (ii)    Changes in inventories of finished goods and work-in-                  42                   166.52                    (5.70)
+      (h)   Non-current tax assets (net)                                                            13               138.92            294.06
+      (i)   Other non-current assets                                                                14               235.53            233.43                   progress
+      Total Non-Current Assets                                                                                     2,793.28          2,873.62
+(2)   Current Assets                                                                                                                                    (iii)   Erection and sub-contracting expenses                                  43                 6,831.64               7,176.82
+      (a)   Inventories                                                                             15             1,140.46          1,213.31           (iv)    Employee benefits expense                                              44                 1,540.20               1,440.63
+      (b)   Financial assets
+            (i)    Trade receivables                                                                16             5,051.10          4,136.62           (v)     Finance costs                                                          45                   663.59                   655.13
+            (ii)   Cash and cash equivalents                                                        17               545.69            205.10
+            (iii)  Bank balances other than (ii) above                                              18               110.24             68.18           (vi)    Depreciation and amortisation expense                                  46                   183.68                   185.36
+            (iv)   Other financial assets                                                           19               144.42            148.51
+                                                                                                                   5,851.45          4,558.41           (vii) Other expenses                                                           47                 1,892.29               1,674.16
+      (c)   Contract assets                                                                         20            11,043.51          9,088.37                   Total expenses                                                                           21,190.07              19,540.09
+      (d)   Current tax assets (net)                                                                21                16.70            179.89
+      (e)   Other current assets                                                                    22             1,334.52          1,117.87     V     Profit before tax (III-IV)                                                                          727.49                   426.49
+      Total Current Assets                                                                                        19,386.64         16,157.85
+      Total Assets                                                                                                22,179.92         19,031.47     VI    Tax expenses                                                                   48
+      EQUITY AND LIABILITIES                                                                                                                            (i)     Current tax                                                                                 269.96                   114.10
+      Equity
+      (a)   Equity share capital                                                                    23                53.24             51.42           (ii)    Deferred tax                                                                               (113.21)                  (34.39)
+      (b)   Other equity                                                                            24             5,294.21          4,044.28                                                                                                               156.75                    79.71
+      Total Equity                                                                                                 5,347.45          4,095.70
+      Liabilities                                                                                                                                 VII   Profit for the year (V - VI)                                                                        570.74                   346.78
+(1)   Non-Current Liabilities
+      (a)   Financial liabilities                                                                                                                 VIII Other Comprehensive Income
+            (i)    Borrowings                                                                       25               358.46              236.01
+            (ii)   Lease liabilities                                                                26               211.48              148.14         A.      Items that will not be reclassified to profit or loss
+                                                                                                                     569.94              384.15                 (i) Remeasurement of defined benefit obligations                       55                    (0.28)                    2.46
+      (b)   Provisions                                                                              27                19.69               17.49
+      (c)   Deferred tax liabilities (net)                                                          28                15.55                   -                 (ii) Income tax relating to these items                               48.2                   (0.13)                   (0.63)
+      (d)   Other non-current liabilities                                                           29                 0.41                0.43
+      Total Non-Current Liabilities                                                                                  605.59              402.07         B.      Items that will be reclassified to profit or loss                      24
+(2)   Current Liabilities                                                                                                                                       (i) Exchange differences on translation of financial                                         (6.60)                   32.46
+      (a)          Financial liabilities
+            (i)    Borrowings                                                                       30             3,342.64          3,552.27                       statements of foreign operations
+            (ii)   Lease liabilities                                                                31                44.90             24.57
+            (iii)  Trade payables                                                                   32               164.64            167.62                   (ii) Net gain/(loss) on cash flow hedges                                                     60.99                    31.11
+                   - total outstanding dues of micro and small enterprises                                                                                      (iii) Income tax relating to these items                              48.2                   (9.01)                  (10.91)
+                   - total outstanding dues of creditors other than micro and small                                8,831.57          7,502.60
+                     enterprises                                                                                                                        Total Other Comprehensive (Loss)/Income                                                              44.97                    54.49
+            (iv)   Trade acceptances                                                                33             1,507.27          1,560.79
+            (v)    Other financial liabilities                                                      34                97.28             29.69     IX    Total Comprehensive Income for the year (VII+VIII)                                                  615.71                   401.27
+                                                                                                                  13,988.30         12,837.54
+      (b)   Contract liabilities                                                                    35             1,659.36          1,211.49
+                                                                                                                                                  X     Earnings per equity share (of ` 2 each)
+      (c)   Other current liabilities                                                               36               305.45            281.36           (i)     Basic (in `)                                                           49                    21.80                    13.49
+      (d)   Provisions                                                                              37               100.87            102.23
+      (e)   Current tax liabilities (net)                                                           38               172.90            101.08           (ii)    Diluted (in `)                                                                               21.80                    13.49
+      Total Current Liabilities                                                                                   16,226.88         14,533.70
+      Total Equity and Liabilities                                                                                22,179.92         19,031.47
+                                                                                                                                                  The above Consolidated Statement of Profit and Loss should be read in conjunction with the accompanying notes.
+* less than rounding off norms adopted by the Company.
+The above Consolidated Balance Sheet should be read in conjunction with the accompanying notes.
+                                                                                                                                                  In terms of our report of even date                               For and on behalf of the Board of Directors
+                                                                                                                                                  For Price Waterhouse Chartered Accountants LLP
+In terms of our report of even date                                  For and on behalf of the Board of Directors
+                                                                                                                                                  Firm Registration Number: 012754N/N500016
+For Price Waterhouse Chartered Accountants LLP
+Firm Registration Number: 012754N/N500016                                                                                                                                                                           H.V. GOENKA                          VIMAL KEJRIWAL
+                                                                                                                                                                                                                    Chairman                             Managing Director and CEO
+                                                                     H.V. GOENKA                             VIMAL KEJRIWAL                       SUMIT SETH                                                        DIN - 00026726                       DIN - 00026981
+                                                                     Chairman                                Managing Director and CEO            Partner
+SUMIT SETH                                                           DIN - 00026726                          DIN - 00026981                       Membership Number : 105869                                        RAJEEV AGGARWAL                      SURAJ EKSAMBEKAR
+Partner                                                                                                                                                                                                             Chief Financial Officer              Company Secretary
+Membership Number : 105869                                           RAJEEV AGGARWAL                         SURAJ EKSAMBEKAR
+                                                                     Chief Financial Officer                 Company Secretary                    Place : Mumbai                                                    Place : Mumbai
+                                                                                                                                                  Date : May 26, 2025                                               Date : May 26, 2025
+Place : Mumbai                                                       Place : Mumbai
+Date : May 26, 2025                                                  Date : May 26, 2025
+
+216                                                                                                                                                                                                                                                                                     217
+            KEC International Limited                                                                                                                                                                                                                    KEC International Limited

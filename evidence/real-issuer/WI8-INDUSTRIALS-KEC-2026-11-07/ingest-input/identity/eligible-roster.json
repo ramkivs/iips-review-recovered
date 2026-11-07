@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "rosterLabel": "WI-8 operator-supplied roster (one real issuer, KEC International Limited, Industrials sector)",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "legalName": "KEC International Limited",
+      "cin": "L45200MH2005PLC152061",
+      "equityIsin": "INE389H01022",
+      "issuerKeyBasis": "CIN",
+      "sector": "Industrials",
+      "subSegment": null,
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE389H01022",
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "isin": "INE389H01022",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ]
+}

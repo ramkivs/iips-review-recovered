@@ -1,5 +1,0 @@
-fetch-kec-ar-2025-26	200	18566481	sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820	Pages: 215  url=https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
-text-kec-ar-2025-26	lines=19721	formfeeds=215
-fetch-kec-ar-2024-25	200	14873309	sha256=29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6	Pages: 206  url=https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
-text-kec-ar-2024-25	lines=18527	formfeeds=206
-probe-kec-ar-2023-24	404	6609	https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2023-24.pdf

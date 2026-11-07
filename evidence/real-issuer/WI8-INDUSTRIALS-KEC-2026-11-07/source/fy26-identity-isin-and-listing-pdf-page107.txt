@@ -1,0 +1,105 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: General shareholder information: ISIN, the listing sentence
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 107 of 215  (printed pages 210-211)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                                STATUTORY REPORTS
+                                                                                                         KEC International Limited                                                                                                        Corporate Governance Report
+
+      Listing Regulations including material information having          Press Release / Investor Presentations                           Name and address of the Stock Exchanges:                              In case the shareholder/claimant fails to submit the demat
+      bearing on the performance/operations of the Company              The Company participates in various investor conferences            1.   BSE Limited                                                request within 120 days, the shares shall be credited to
+      and other price sensitive information. Information to Stock     and analyst meets and makes presentation thereat.                                                                                   the Suspense Escrow Demat Account of the Company.
+                                                                                                                                                        Phiroze Jeejeebhoy Towers,
+      Exchanges is filed electronically on the online portals of      Press Releases and Investor presentations are submitted                                                                             The shareholder may claim their shares from the Suspense
+                                                                      to the Stock Exchanges as well as are hosted on the                               Dalal Street, Mumbai - 400 001                             Escrow Demat Account of the Company. SEBI has recently
+      BSE Limited i.e. BSE Corporate Compliance & Listing
+      Centre (Listing Centre) and National Stock Exchange of          Company’s website at www.kecrpg.com.                                                                                                dispensed with the requirement of issuance of Letter of
+                                                                                                                                          2.   National Stock Exchange of India Limited                   Confirmation and has now enabled direct credit of shares
+      India Limited i.e. NSE Electronic Application Processing
+                                                                        The achievements and important events, such as receipt                                 Exchange Plaza, Plot No. C/1, G Block,                     to investors’ demat accounts.
+      System (NEAPS).
+                                                                      of major orders by the Company etc., are announced
+                                                                      through press and electronic media and also hosted on the                         Bandra - Kurla Complex, Bandra (E), Mumbai - 400 051
+                                                                                                                                                                                                                
+                                                                                                                                                                                                         The Company has opened a Special Window for
+        
+ Quarterly   and    Annual    Financial    Results are                Company’s website.
+                                                                                                                                                                                                         re-lodgement of share transfer deeds submitted on or
+ published     in     prominent      newspapers    viz.                                                                                   Registrar and Share Transfer Agent
+                                                                                                                                                                                                         before April 01, 2019 but rejected, returned, or not attended
+ Business Standard, Free Press Journal and Nav Shakti                    Company’s Website                                              MUFG Intime India Private Limited (formerly Link Intime           to, due to deficiency in the documents/process or otherwise
+ and are also hosted on the Company’s website at                        The Company’s corporate website i.e., www.kecrpg.com             India Private Limited) is the Company’s Registrar and Share       as prescribed by SEBI vide its circular titled “Ease of doing
+ https://www.kecrpg.com/quarterly-results.                            depicts comprehensive information about the business             Transfer Agent (“RTA”). Their contact details are as follows:     Investment – Special Window for Re-lodgement of Transfer
+                                                                      activities of the Company. The website contains a separate
+                                                                                                                                                                                                         Requests of Physical Shares”. The Special Window has
+      Integrated Annual Report                                        dedicated section “Investors”, where the Company                    MUFG Intime India Private Limited                              been opened for the period of One Year i.e February 05,
+                                                                      disseminates information as required under the Act and
+        Integrated Annual Report containing inter alia, Audited                                                                                 (Unit: KEC International Limited)                              2026 to February 04, 2027.
+                                                                      the SEBI Listing Regulations, such as financial results,
+  Financial Statements, Board’s Report, Management                    shareholding patterns, policies and codes, credit rating            C 101, Embassy 247, LBS Marg,
+  Discussion and Analysis, Corporate Governance Report                details, investor presentations, recording/transcripts                                                                                    Shareholders who are still holding share certificate(s) in
+                                                                                                                                          Vikhroli (West), Mumbai - 400 083
+  and Business Responsibility and Sustainability Report,              of conference calls, CSR programmes/projects of the                                                                                 physical form have been advised to dematerialize their
+  etc. are sent via email to all the Shareholders who have            Company, details of the corporate contact persons viz.              Tel: +91 8108116767                                             shareholding to facilitate transfers and avail other inherent
+  provided their email IDs. Annual Reports are also hosted on         Nodal Officer and other Designated Officials responsible for        Fax: 022 - 49186060                                             benefits of dematerialization.
+  the Company’s website at www.kecrpg.com.                            assisting and handling investor grievances, e-mail address
+                                                                                                                                          Email : investor.helpdesk@in.mpms.mufg.com
+                                                                      for grievance and redressal, and details of the Registrar &                                                                               In accordance with various SEBI Circulars, the Company
+                                                                      Share Transfer Agent of the Company, etc.                           Website: https://in.mpms.mufg.com/                              annually sends reminder letter to shareholders holding
+        Further, pursuant to the provisions of Regulation 36(1)(b) of
+                                                                                                                                        Weblink for Service request: https://web.in.mpms.mufg.             shares in physical mode requesting them to update/furnish
+  the SEBI Listing Regulations, the Company shall also issue            The means of communication between the Company and               com/helpdesk/Service_Request.html.                                 prescribed details such as PAN, KYC and Nomination, to
+  a letter to those shareholders whose e-mail addresses               the shareholders are transparent and investor friendly                                                                              the RTA of the Company. The process along with requisite
+  are not registered with Company/Registrar & Transfer                and the Company takes all possible endeavors to inform
+                                                                                                                                          Contact Address for Investors                                   forms are also made available at https://www.kecrpg.com/
+  Agent/Depository Participants, providing the weblink of             its stakeholders about every material information having
+                                                                                                                                        
+                                                                                                                                      Shareholders can send their queries regarding                       transfer-of-shares-in-demat-form-only. Members holding
+  Company’s website from where the Integrated Annual                  bearing on the performance and operations of the Company
+                                                                                                                                      Transmission/Dematerialisation of shares and any other              shares in physical mode are requested to ensure the
+  Report of the Company can be accessed.                              and other price sensitive information.
+                                                                                                                                      correspondences relating to the shares of the Company               aforesaid KYC details are updated with the Company’s RTA.
+
+VIII. GENERAL SHAREHOLDERS INFORMATION                                                                                                to the abovementioned address of the Company’s
+                                                                                                                                                                                                                The Company has also made available a Shareholders
+                                                                                                                                      RTA. Shareholders holding shares in electronic mode
+      Date, time and venue of Annual General Meeting Friday, August 21, 2026 at 11:00 a.m. IST through Video Conferencing                                                                                 Handbook on its website at www.kecrpg.com.
+                                                                                                                                      should address all correspondences to their respective
+                                                                                                                                                                                                          Shareholders can refer to the same to know the various
+      Financial Year                                        April 01 - March 31                                                       depository participants.
+                                                                                                                                                                                                          procedures for dematerialization, transmission of shares,
+      Financial Calendar:                                                                                                                                                                                 claiming shares transferred to IEPF and unclaimed
+                                                                                                                                          Share Transfer System
+                                                                                                                                                                                                          suspense account etc.
+      First quarter results                                 By second week of August 2026*                                              Pursuant to the provisions of Regulation 40 of the SEBI
+      Second quarter results                                By second week of November 2026*                                           Listing Regulations, with effect from April 01, 2021,                    As stipulated by SEBI, a Company Secretary in Practice
+                                                                                                                                       transfer of securities of listed entities is permitted only in     carried out an Audit, on a quarterly basis, to reconcile the
+      Third quarter results                                 By second week of February 2027*                                           dematerialised form. Further, SEBI vide its Circular dated         total admitted capital with National Securities Depository
+      Results for the year ending March 2027                By the end of May 2027*                                                    January 25, 2022, has mandated that certain Service                Limited and Central Depository Services (India) Limited
+                                                                                                                                       Requests viz., issue of duplicate share certificates, claim        and the total issued and listed capital. Such reconciliation
+      Record Date for the payment of Dividend               Friday, August 07, 2026
+                                                                                                                                       from unclaimed suspense account, renewal/exchange                  of share capital audit report is submitted to the Stock
+      Dividend Payment Date                                 The dividend will be paid on or before Friday, September 18, 2026          of share certificates, endorsement, transmission or                Exchanges on a quarterly basis.
+                                                                                                                                       transposition of securities held in physical form shall be
+      * Tentative                                                                                                                      processed by issuing securities in dematerialized form only           Dematerialisation of Shares and Liquidity
+      Status of Listing on Stock Exchanges                                                                                             and physical Share Certificates shall not be issued by the
+                                                                                                                                                                                                                The Company has executed an agreement with both
+                                                                                                                                       Company to the shareholder/claimant.
+        The Equity Shares of the Company are listed on BSE Limited and the National Stock Exchange of India Limited and annual                                                                                  the depositories of the Country i.e. National Securities
+  listing fees have been paid to both the stock exchanges.                                                                                                                                                Depositories Limited and Central Depository Services
+                                                                                                                                        The RTA verifies and processes the Service Requests
+                                                                                                                                       and thereafter issues a ‘Letter of Confirmation’ in lieu of        (India) Limited for admission of its securities under
+      Further, the Company has listed its Commercial Papers on BSE Limited.                                                                                                                               dematerialised mode. The International Securities
+                                                                                                                                       Physical share certificate(s), to the shareholder/claimant
+                                                                                                                                       within 30 days, which is valid for a period of 120 days from       Identification Number allotted to the Equity Shares of
+                                                                                                                                       the date of its issuance, within which the shareholder/            the Company is INE389H01022. As on March 31, 2026,
+                                                                                                                                       claimant shall make a request to the Depository Participant        total Equity Shares representing 99.55 percent are held in
+                                                                                                                                       for dematerializing the said shares.                               dematerialised form.
+
+210     Integrated Annual Report 2025-26                                                                                                                                                                                        Integrated Annual Report 2025-26   211

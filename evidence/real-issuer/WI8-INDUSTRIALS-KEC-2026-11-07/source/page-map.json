@@ -1,0 +1,125 @@
+{
+  "note": "page map for the WI-8 evidence bundle; PDF page numbers are 1-based as pdftotext numbers them",
+  "pages": {
+    "fy26-identity-isin-and-listing-pdf-page107.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 107,
+      "printedPages": "210-211",
+      "contains": "General shareholder information: ISIN, the listing sentence",
+      "sha256": "d1277e08b53c1754d32aaead7b082aa52e86417d603060d0b35d38fc4d2014a6",
+      "bytes": 20352
+    },
+    "fy26-auditor-opinion-consolidated-pdf-page111.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 111,
+      "printedPages": "218-219",
+      "contains": "Independent Auditor's Report on the consolidated financial statements",
+      "sha256": "5943e241c5c8cd8b840dfaffc3f14711cf499310bf7ac161bcba2ef08d75d772",
+      "bytes": 20738
+    },
+    "fy26-consolidated-balance-sheet-and-profit-and-loss-pdf-page117.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 117,
+      "printedPages": "230-231",
+      "contains": "Consolidated balance sheet and statement of profit and loss, FY2026 and FY2025 columns",
+      "sha256": "da5d5f73e3cdcb015636b1bcd576a6c34ba11f6fe5d8f8360a6c7dc3ee93912b",
+      "bytes": 18853
+    },
+    "fy26-consolidated-cash-flow-operating-and-investing-pdf-page118.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 118,
+      "printedPages": null,
+      "contains": "Consolidated cash flow sections A and B; the same sheet also carries the statement of changes in equity",
+      "sha256": "a52ada4a384401c6fe7ce83d8a2a14b999cdb816beafaf68d5094a80bb4e8e26",
+      "bytes": 97620
+    },
+    "fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 119,
+      "printedPages": "234-235",
+      "contains": "Cash flow section C, CIN, and the financing-liabilities reconciliation",
+      "sha256": "5f5c6ec2919ffadc28809280dd7c0466a9bb3a2b2bc9b40b9a9fd967af9ba81a",
+      "bytes": 19008
+    },
+    "fy26-accounting-policy-ind-as-basis-pdf-page120.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 120,
+      "printedPages": "236-237",
+      "contains": "Note 1: the Ind AS basis sentence",
+      "sha256": "1b76689239dbe9d0f02820d6eb84352febef3411d3cc864759e311d9507d5de5",
+      "bytes": 19260
+    },
+    "fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 129,
+      "printedPages": "254-255",
+      "contains": "Note 10 investments (consolidated) and the sub-rounding footnote",
+      "sha256": "3fa001b894aef5af95e7ecb7bea7a7eb182f7b703c73c12dc43fbcd8d9fa9e95",
+      "bytes": 13216
+    },
+    "fy26-note-30-borrowings-pdf-page136.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 136,
+      "printedPages": "268-269",
+      "contains": "Note 30 borrowings, including current maturities of long-term borrowings",
+      "sha256": "ffa4668536bb1f7add8b9ba518ede58d1c6af02893a7d63a8076ea323c6a4b2d",
+      "bytes": 15541
+    },
+    "fy26-order-intake-and-order-book-pdf-page6.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 6,
+      "printedPages": "8-9",
+      "contains": "Order intake and order book as printed in the year in review",
+      "sha256": "aab401554ba89f6d03294fef8f038a74c2dd385ff711b32009d53f69e90c7764",
+      "bytes": 8945
+    },
+    "fy26-mdna-key-metrics-pdf-page28.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 28,
+      "printedPages": "52-53",
+      "contains": "MD&A key metrics, including the issuer's own net-debt KPI",
+      "sha256": "6546a3f065e9e6e122b93aef25b8cc62073018f855db7476f47a71cc592f2791",
+      "bytes": 12178
+    },
+    "fy25-consolidated-balance-sheet-and-profit-and-loss-pdf-page110.txt": {
+      "report": "kec-ar-2024-25",
+      "pdfPage": 110,
+      "printedPages": null,
+      "contains": "Consolidated balance sheet and statement of profit and loss, FY2025 and FY2024 columns",
+      "sha256": "3c9150854e554a9022e53e8d1e10083210eaf0cd26588479d82bf930bc3df318",
+      "bytes": 19579
+    },
+    "fy25-consolidated-cash-flow-operating-and-investing-pdf-page111.txt": {
+      "report": "kec-ar-2024-25",
+      "pdfPage": 111,
+      "printedPages": null,
+      "contains": "Consolidated cash flow, sections A and B, FY2025 and FY2024",
+      "sha256": "31b1dbb65435dc0a7fcca26d2e6a15af039978b30405a1046d78f8c144406abb",
+      "bytes": 39248
+    },
+    "fy25-consolidated-cash-flow-financing-pdf-page112.txt": {
+      "report": "kec-ar-2024-25",
+      "pdfPage": 112,
+      "printedPages": null,
+      "contains": "Consolidated cash flow, section C, FY2025 and FY2024",
+      "sha256": "e34d841031dd0b9502938d643635a4d3f05db26c078f39ab665b7049551ea5d1",
+      "bytes": 19997
+    },
+    "fy25-note-30-borrowings-pdf-page129.txt": {
+      "report": "kec-ar-2024-25",
+      "pdfPage": 129,
+      "printedPages": null,
+      "contains": "Note 30 borrowings, including current maturities of long-term borrowings (FY2024 column)",
+      "sha256": "5939cc4f4290d0595a64a471916de0cc8704172ed8dc9810eb00c6823516a6e8",
+      "bytes": 14786
+    },
+    "fy26-auditor-signature-and-firm-details-pdf-page115.txt": {
+      "report": "kec-ar-2025-26",
+      "pdfPage": 115,
+      "printedPages": null,
+      "contains": "Auditor's report signature block: firm, FRN 012754N/N500016, signing partner, membership number, UDIN, place, date",
+      "sha256": "3a9980f9520f9c87c5388a86cbdd4b37d8a73b4194442ded1a267a0391840959",
+      "bytes": 11512
+    }
+  }
+}

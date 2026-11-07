@@ -1,0 +1,109 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Independent Auditor's Report on the consolidated financial statements
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 111 of 215  (printed pages 218-219)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                        FINANCIAL STATEMENTS
+                                                                                                          KEC International Limited                                                                                                                  Consolidated
+
+Independent Auditor’s Report                                                                                                           Key audit matter
+                                                                                                                                       Estimation of construction contract revenue and
+                                                                                                                                                                                                   How our audit addressed the key audit matter
+                                                                                                                                                                                                   Our procedures in respect of recognition of construction
+To the Members of KEC International Limited                                                                                            related cost                                                contract revenue and related cost included the following:
+
+                                                                                                                                       (Refer Notes 39 and         51   to   the   consolidated    •    Understood and evaluated the design and tested the
+REPORT ON THE AUDIT OF THE CONSOLIDATED                                 consolidated total comprehensive income (comprising            financial statements)                                          operating effectiveness of key internal financial controls,
+FINANCIAL STATEMENTS                                                    of profit and other comprehensive income), consolidated                                                                       including those related to estimation of construction
+                                                                                                                                       The Holding Company enters into engineering,
+                                                                        changes in equity and its consolidated cash flows for the                                                                     contract costs, contract revenue and review and
+                                                                                                                                       procurement and construction contracts, which are
+OPINION                                                                 year then ended.                                                                                                              approval thereof.
+                                                                                                                                       complex in nature and generally extend over a period of
+1.      We have audited the accompanying consolidated financial                                                                            2 to 3 years. Contract prices are fixed and/or subject to   •       Assessed the appropriateness of the revenue recognition
+    statements of KEC International Limited (hereinafter           BASIS FOR OPINION
+                                                                                                                                       price variance clauses.                                        accounting policies in accordance with Ind AS 115
+    referred to as the “Holding Company ”), which includes the     3.   We conducted our audit in accordance with the Standards                                                                        “Revenue from Contracts with Customers”.
+                                                                                                                                       Contract revenue is measured based on the proportion
+    financial statements/financial information of the Holding          on Auditing (SAs) specified under Section 143(10) of the
+                                                                                                                                       of contract costs incurred for work performed until         •    
+                                                                                                                                                                                                     For selected sample of contracts, performed the
+    Company’s 41 branches at Abu Dhabi, Afghanistan,                   Act. Our responsibilities under those Standards are further
+                                                                                                                                       the balance sheet date, relative to the estimated total       following procedures:
+    Algeria, Armenia, Bangladesh, Bhutan, Benin, Burundi,              described in the “Auditor’s Responsibilities for the Audit
+                                                                                                                                       contract costs. The recognition of revenue, therefore, is
+    Burkina Faso, Cameroon, Dubai, Egypt, Ethiopia, Georgia,           of the Consolidated Financial Statements” section of our                                                                         a)      Obtained and examined project related documents
+                                                                                                                                       based on estimates in relation to total estimated costs
+    Ghana, Guinea, Ivory Coast, Jordan, Kenya, Kuwait,                 report. We are independent of the Group, in accordance                                                                               such as contracts, customer communications and
+                                                                                                                                       and estimated contract price of each contract.
+    Libya, Malaysia, Mali, Moldova, Morocco, Mozambique,               with the ethical requirements that are relevant to our audit                                                                         price or scope variation orders.
+    Nepal, Nigeria, Oman, Papua New Guinea, Philippines,               of the consolidated financial statements in India in terms      This method requires the Holding Company to perform an
+                                                                                                                                                                                                        b)      
+                                                                                                                                                                                                           Obtained     the   percentage   of   completion
+    Senegal, Sierra Leone, South Africa, Sri Lanka, Tanzania,          of the Code of Ethics issued by the Institute of Chartered      initial assessment of total estimated cost, which include
+                                                                                                                                                                                                           calculations, agreed key contractual terms with
+    Thailand, Togo, Tunisia, Uganda and Zambia, financial              Accountants of India and the relevant provisions of the Act,    cost contingencies and subsequently, reassess the total
+                                                                                                                                                                                                           customer contracts/communication, tested the
+    statements/financial information of 34 jointly controlled          and we have fulfilled our other ethical responsibilities in     construction cost at each reporting period to determine
+                                                                                                                                                                                                           mathematical accuracy of the cost to complete
+    operations consolidated on a proportionate basis and               accordance with these requirements. We believe that the         the appropriate percentage of completion.
+                                                                                                                                                                                                           calculations and re-performed the calculation of
+    its 17 subsidiaries (Holding Company, branches, jointly            audit evidence we have obtained, and the audit evidence
+                                                                                                                                       Based on contractual tenability of claims, price or scope           revenue recognised during the year based on the
+    controlled operations and its subsidiaries together referred       obtained by the other auditors in terms of their reports
+                                                                                                                                       variations, and progress of discussions and negotiations            percentage of completion.
+    to as “the Group”) (refer Notes 3.3 and 50 to the attached         referred to in sub-paragraphs 16, 17, 18 and 19 of the
+                                                                                                                                       with the customers, Management recognises revenue
+    consolidated financial statements), which comprise the             “Other Matter” section below, is sufficient and appropriate                                                                      c)      
+                                                                                                                                                                                                           Evaluated Management’s development of the
+                                                                                                                                       for variable consideration and related contract balances
+                                                                       to provide a basis for our opinion.                                                                                                 budgeted project/contract costs, changes between
+    consolidated Balance Sheet as at March 31, 2026, and the                                                                           in those circumstances, where it is highly probable that
+    consolidated Statement of Profit and Loss (including Other                                                                                                                                             planned and actual costs, and the estimated
+                                                                                                                                       there will not be a significant reversal of cumulatively
+                                                                   EMPHASIS OF MATTER                                                                                                                      costs to complete.
+    Comprehensive Income), the consolidated Statement of                                                                               recognised revenue when the related uncertainties are
+    Changes in Equity and the consolidated Statement of Cash       4.   We draw attention to Note 63 to the consolidated financial                                                                       d)    
+                                                                                                                                                                                                           Verified relevant supporting documents and
+                                                                                                                                       resolved. Recognition of variable consideration involves
+    Flows for the year then ended, and notes to the consolidated       statements regarding an investigation by a government                                                                               performed cut off procedures for construction
+                                                                                                                                       significant Management judgment considering the
+    financial statements, including material accounting policy         agency, who has filed a chargesheet, and the Court has                                                                              contract related costs incurred through the
+                                                                                                                                       complexities, uncertainties and extended period of time
+    information and other explanatory information (hereinafter         taken cognizance of the same. Pending completion of the                                                                             reporting period.
+                                                                                                                                       when the related matters are ultimately concluded.
+    referred to as “the consolidated financial statements”).           proceedings, the possible impact, if any, on the consolidated
+                                                                       financial statements is currently not determinable.             Management periodically assesses the recoverability of           e)      Evaluated the reasonableness of key assumptions
+                                                                                                                                       such claims, price, or scope variations recognised as                included in the estimated total construction
+2.      
+   In our opinion and to the best of our information and
+                                                                        Our opinion is not modified in respect of the above matter.    part of revenue and related contract balances, based on              contract related costs:
+   according to the explanations given to us and based on the
+                                                                                                                                       inputs from Management’s expert, certain assumptions,
+   consideration of the reports of other auditors on the audited                                                                                                                                                        •       
+                                                                                                                                                                                                               Obtained the breakdown of estimated total
+                                                                   KEY AUDIT MATTERS                                                   past experience, facts and circumstances of the
+   standalone/consolidated financial statements/financial                                                                                                                                                      contract costs and tested elements of the
+                                                                   5.   Key audit matters are those matters that, in our professional   underlying customer contract and consequently updates
+   information of branches, jointly controlled operations                                                                                                                                                      committed cost by obtaining executed
+                                                                       judgment, were of most significance in our audit of the         the amounts recognised in the financial statements.
+   and subsidiaries, the aforesaid consolidated financial                                                                                                                                                      purchase orders, agreements, customer
+   statements give the information required by the Companies           consolidated financial statements of the current period.        We considered the estimation of construction contract                   confirmations/ documents, evidence relating to
+   Act, 2013 (“the Act”) in the manner so required and give            These matters were addressed in the context of our audit        revenue and related cost as a key audit matter                          variable consideration/claims.
+   a true and fair view in conformity with the accounting              of the consolidated financial statements as a whole, and        given the following:
+                                                                                                                                                                                                                        •       
+                                                                                                                                                                                                               Evaluated reasonableness of Management’s
+   principles generally accepted in India, of the consolidated         in forming our opinion thereon, and we do not provide a
+                                                                                                                                       •        There is an inherent risk and a presumed risk of                     judgements and assumptions by using past
+   state of affairs of the Group, as at March 31, 2026, and            separate opinion on these matters.
+                                                                                                                                          fraud in revenue recognition, considering also the                   experience and comparing the change in
+                                                                                                                                          complex nature of the customer contracts; and                        estimated total construction contract costs at
+                                                                                                                                                                                                               period end from the previous periods.
+
+218    Integrated Annual Report 2025-26                                                                                                                                                                                   Integrated Annual Report 2025-26   219
