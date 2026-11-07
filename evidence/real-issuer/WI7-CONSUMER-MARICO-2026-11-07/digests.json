@@ -1,0 +1,126 @@
+{
+  "bundle": "WI-7 \u2014 Consumer / Marico Limited",
+  "generatedAt": "2026-11-07",
+  "files": {
+    "README.md": {
+      "sha256": "43c6e9ca55746eac9e2476751710f5e8fe80650e9ba1f8880601377f8b2021e3",
+      "bytes": 9280
+    },
+    "artifact/assessment-payload-marico-wi7.json": {
+      "sha256": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+      "bytes": 53245
+    },
+    "determination-wi7.json": {
+      "sha256": "b76f8653a93f338b0383f018e4f7c7f0396c0c0ede4afd273f021daa35e9644e",
+      "bytes": 16550
+    },
+    "ingest-input/data-extraction.json": {
+      "sha256": "9137582f64c840a60287a6cf308e4eff7fd60593fc0952585a21795bb944c837",
+      "bytes": 16686
+    },
+    "ingest-input/identity/corporate-actions.json": {
+      "sha256": "eeab6a794374217cfc801f61461cfd21b9182cfbe0ab5a5114b8d6678b04bf5a",
+      "bytes": 69
+    },
+    "ingest-input/identity/eligible-roster.json": {
+      "sha256": "1641e72775a47564c9048383c80ac56365428e759763190a77b580dabb11de57",
+      "bytes": 766
+    },
+    "ingest-input/identity/listing-map.json": {
+      "sha256": "ca81334ef752ac6995d51e7e4cf76b871c9a9e2f277027b82a2904af10a45bbb",
+      "bytes": 1469
+    },
+    "ingest-input/periods.csv": {
+      "sha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4",
+      "bytes": 1730
+    },
+    "ingest-input/roster.json": {
+      "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb",
+      "bytes": 1909
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "912572522d4cddc6fb22360267a65a566cf8d62b31a386c605b3a6983bfab6da",
+      "bytes": 1518
+    },
+    "runs/02-generate.txt": {
+      "sha256": "16482834cce3a68b1d1cc1fa642bb689f3e2a9a39fdba95eef9fc6d77bf1bc6c",
+      "bytes": 5546
+    },
+    "runs/cli-wi7.json": {
+      "sha256": "a9462d7743b53cdcb857972fa2b5142b8a6c8f61f16553b4ab1c3dcf303942ca",
+      "bytes": 4824
+    },
+    "runs/commands.txt": {
+      "sha256": "4f889c5a4e93e2f429b5c79a2b7b1b078d7c6dc83251ad079af768279b70a462",
+      "bytes": 4917
+    },
+    "runs/readback-stdout.txt": {
+      "sha256": "b4572af3557da7b1f05d1c037ffff4b6ac8f19843c2136d1f56ae2a9ee6b0323",
+      "bytes": 10927
+    },
+    "runs/readback.json": {
+      "sha256": "b4572af3557da7b1f05d1c037ffff4b6ac8f19843c2136d1f56ae2a9ee6b0323",
+      "bytes": 10927
+    },
+    "source/fy23-auditor-opinion-consolidated-p125.txt": {
+      "sha256": "aaaf933025aec6b91f89d940937036f651ed27f39740435048f178fe2904384d",
+      "bytes": 22983
+    },
+    "source/fy23-consolidated-balance-sheet-and-profit-and-loss-p129.txt": {
+      "sha256": "865c5a4786a0340eae1a1386bf1e2e4c58baf6ce11ab1d92ba3ad53c6d1e071d",
+      "bytes": 24562
+    },
+    "source/fy23-consolidated-cash-flow-p131.txt": {
+      "sha256": "9f7e295a9446006e9540644e7e0924c100ac01db10a74f7431ccc014c1a7b3dc",
+      "bytes": 17906
+    },
+    "source/fy24-auditor-opinion-consolidated-p169.txt": {
+      "sha256": "06e41d50352e4c3fbaac1c58a6eee0d7813477b55f57c2799b0d9c8039415571",
+      "bytes": 24346
+    },
+    "source/fy24-auditor-opinion-consolidated-p170.txt": {
+      "sha256": "78373b09c899765447b14b1f6e9fd6b718ef2ca5c480bc0bde4f8e19c6c977b0",
+      "bytes": 21292
+    },
+    "source/fy24-consolidated-balance-sheet-and-profit-and-loss-p174.txt": {
+      "sha256": "6d600aa2ef52eb14938e7296602dbb7a2b40659a4c3a29f82a28f012ab062e9c",
+      "bytes": 27852
+    },
+    "source/fy24-consolidated-cash-flow-p176.txt": {
+      "sha256": "e3b5ce5c201d06dae556db2cf9a82a2975eb622d3336bfefac261bba9dbf15cd",
+      "bytes": 14077
+    },
+    "source/fy24-identity-cin-brsr-p115.txt": {
+      "sha256": "c0447f7ecaa4055287d223cc39ccf9af7a14461800cb056279ff9d89ab446dfb",
+      "bytes": 14614
+    },
+    "source/fy24-identity-exchange-codes-p5.txt": {
+      "sha256": "c3d0577efd3fb1e26b60404cab8dcca0e3a58cd28d4328559e6c72a821196a0b",
+      "bytes": 4880
+    },
+    "source/fy24-identity-listing-details-p159.txt": {
+      "sha256": "2f994d49043b4b4f2c761da6a1d289f1bc6680f4cff71cf03fc8b7aa4e6e3dc3",
+      "bytes": 24481
+    },
+    "source/fy24-notes-12c-and-13a-p191.txt": {
+      "sha256": "a7ce019a176ba6ee182b0652fcec6de5e8494991b1381ec3ea9d8919246ef32a",
+      "bytes": 12649
+    },
+    "source/fy24-notes-13a-current-and-13b-p192.txt": {
+      "sha256": "b0d4ae01b61a96068c07d8ee3679e5cca205207d8f200fa810443d1a47e532c7",
+      "bytes": 17110
+    },
+    "source/identity-verified.json": {
+      "sha256": "360c578681da6d613bfc9e811097c9933842494ba6c036b4bae86a4635be5bbd",
+      "bytes": 2064
+    },
+    "source/page-map.json": {
+      "sha256": "c08527ee59df77fe8aa11221a7aa1e3c81032fa76e42438d662aec34544af2eb",
+      "bytes": 4053
+    },
+    "source/source-bytes.json": {
+      "sha256": "710f49aa381ec45f2f9af40fefbe5de0ea2ec7fff6d2fd6a011dfacd5d990b82",
+      "bytes": 2521
+    }
+  }
+}

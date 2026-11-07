@@ -1,0 +1,22 @@
+
+datasetVersion sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
+dataset        /tmp/wi7/data/investment/dataset
+coverage       /tmp/wi7/data/investment/dataset/coverage-report.json
+
+dataset          sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0
+completed        1/13 sectors measured
+  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Consumer         G1_ENABLED   usable 3  withheld 0  stmt 91.7%  metric 100%
+  Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Industrials      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Technology       UNMEASURED   usable 0  withheld 4  stmt 0%  metric 0%
+  Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+outstanding      Auto, Banking, Capital Markets, Energy, Healthcare, Hospitality, Industrials, Insurance, Materials, Technology, Telecom, Utilities
+methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53

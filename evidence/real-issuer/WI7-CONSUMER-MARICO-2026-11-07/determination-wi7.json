@@ -1,0 +1,367 @@
+{
+  "bundle": "WI-7 \u2014 cross-sector real-issuer validation (Consumer / Marico Limited)",
+  "workItem": "WI-7",
+  "date": "2026-11-07",
+  "scope": "IRR only; no IPD writes, no policy change, no new persistence mechanism",
+  "selection": {
+    "sector": "Consumer",
+    "issuer": "Marico Limited",
+    "issuerId": "IN:CIN:L15140MH1988PLC049208",
+    "sectorRationale": [
+      "The governed method matrix (iips-platform/src/investment/coverage/methodMatrix.ts) gives Consumer three methods \u2014 DCF_FCFF (PRIMARY), PE_RELATIVE (SECONDARY), EV_EBITDA (CROSS_CHECK) \u2014 and not one of them declares a mandatory operating metric.",
+      "Every other sector still unmeasured after Technology mandates at least one operating metric that no audited filing supplies in governed form (Banking BM_NIM/BM_GNPA/BM_CET1, Insurance IM_EMBEDDED_VALUE, Capital Markets CM_AUM, Utilities UM_RAB/UM_ALLOWED_ROE, Energy EM_LIFTING_COST, Materials MM_RESERVE_LIFE/MM_COST_POSITION, Telecom TL_SUBSCRIBERS/TL_ARPU, Auto AU_CAPACITY_UTILISATION/AU_MARKET_SHARE, Healthcare HC_OCCUPANCY/HC_ARPOB, Hospitality HM_REVPAR, Industrials IN_BOOK_TO_BILL).",
+      "Choosing Consumer therefore means the sector's whole method matrix can be exercised on primary filings alone, with no operator-entered or vendor metric invented to make a method applicable.",
+      "Consumer is also the deepest-disclosure sector among the unmeasured twelve: consolidated Ind AS statements with a comparative column, itemised borrowing and lease notes, and segment notes \u2014 which is what a cross-sector validation needs."
+    ],
+    "issuerRationale": [
+      "Three consecutive audited consolidated periods are printed in two documents: FY2023-24 (FY2024 and FY2023 columns) and FY2022-23 (FY2022 column).",
+      "Both documents are served directly by the issuer over HTTPS, so the bytes are hash-verifiable without an intermediary: FY2023-24 sha256 03cb0db78289cdda\u2026, 21,087,675 bytes, 259 pages; FY2022-23 sha256 0f41759d903f2f9e\u2026, 28,505,144 bytes, 224 pages.",
+      "The capital structure is not trivial: real borrowings (\u20b9383 crore current at 2024-03-31), Ind AS 116 lease liabilities (\u20b9145 crore), a reported non-controlling interest (\u20b9337 crore) and goodwill plus intangibles of \u20b91,800 crore, so D-2 and the equity bridge are actually tested rather than satisfied by emptiness.",
+      "It is the market leader in its categories, which matters for a validation that will be read as evidence about the sector rather than about an obscure issuer."
+    ],
+    "rejectedSectors": [
+      {
+        "sector": "Banking",
+        "reason": "RESIDUAL_INCOME PRIMARY needs BM_NIM, BM_GNPA and BM_CET1; the sector's own exclusion list also removes DCF_FCFF and EV_EBITDA, so a statement-only validation cannot make any of its methods applicable."
+      },
+      {
+        "sector": "Insurance",
+        "reason": "P_EMBEDDED_VALUE PRIMARY needs IM_EMBEDDED_VALUE, IM_VNB_MARGIN and IM_SOLVENCY \u2014 none is a statement line item."
+      },
+      {
+        "sector": "Capital Markets",
+        "reason": "P_AUM PRIMARY needs CM_AUM and CM_COST_TO_INCOME, and DCF_FCFF is explicitly excluded for the sector."
+      },
+      {
+        "sector": "Utilities",
+        "reason": "REGULATED_ASSET_BASE needs UM_RAB and UM_ALLOWED_ROE (operator/vendor inputs); PB_RELATIVE is excluded for the sector."
+      },
+      {
+        "sector": "Energy",
+        "reason": "EV_EBITDAX needs EM_LIFTING_COST and NAV_RESERVES needs EM_RESERVE_REPLACEMENT; PB_RELATIVE and EV_REVENUE are excluded for the sector."
+      },
+      {
+        "sector": "Materials",
+        "reason": "DCF_FCFF is excluded for the sector, and the remaining methods need MM_RESERVE_LIFE / MM_COST_POSITION."
+      },
+      {
+        "sector": "Telecom",
+        "reason": "EV_SUBSCRIBER PRIMARY needs TL_SUBSCRIBERS and TL_ARPU; PB_RELATIVE is excluded."
+      },
+      {
+        "sector": "Auto",
+        "reason": "EV_REVENUE needs AU_CAPACITY_UTILISATION and AU_MARKET_SHARE and is in any case excluded for the sector, so only two of three legs could run."
+      },
+      {
+        "sector": "Healthcare",
+        "reason": "EV_EBITDA needs HC_OCCUPANCY and HC_ARPOB."
+      },
+      {
+        "sector": "Hospitality",
+        "reason": "EV_EBITDA needs HM_REVPAR; PB_RELATIVE is excluded for the sector."
+      },
+      {
+        "sector": "Industrials",
+        "reason": "EV_REVENUE needs IN_BOOK_TO_BILL. This is the closest rival to Consumer and is the recommended next sector once an order-book metric has a governed source \u2014 that metric is the only thing between Industrials and a statement-only validation."
+      }
+    ],
+    "rejectedIssuers": {
+      "considered": [
+        "Hindustan Unilever Limited",
+        "Nestle India Limited",
+        "Dabur India Limited",
+        "Godrej Consumer Products Limited",
+        "Britannia Industries Limited",
+        "Colgate-Palmolive (India) Limited"
+      ],
+      "reason": "None of these was fetched, and no page of any of their filings was read in this work item, so no finding about any of them is asserted. Marico was selected because it satisfied every criterion on the bytes actually obtained \u2014 a direct issuer-hosted PDF route, three audited consolidated periods across two reports, real borrowings and leases, and a reported non-controlling interest \u2014 and the work item did not spend further evidence budget testing candidates once one satisfied all of them.",
+      "notAReason": "The selection was not made on any expectation that a borrowing component would be nil, and no nil was manufactured to make the debt position computable. The outcome below is the opposite: the borrowing disclosure is what blocks the bridge."
+    }
+  },
+  "identity": {
+    "verdict": "VERIFIED_FROM_FILING",
+    "cin": "L15140MH1988PLC049208",
+    "isin": "INE196A01026",
+    "bse": "531642",
+    "nse": "MARICO",
+    "auditor": "B S R & Co. LLP",
+    "basis": "CONSOLIDATED",
+    "taxonomy": "INDAS",
+    "currency": "INR",
+    "scale": "CRORE",
+    "locators": "CIN: Integrated Annual Report 2023-24 PDF p.115 (printed 226-227), BRSR item I-1. BSE scrip code and ISIN: same report PDF p.159 (printed 314-315), Listing Details. NSE symbol: PDF p.5 'Marico (BSE 531642, NSE MARICO)'. Auditor's opinion on the consolidated statements: PDF p.169 (printed 334-335); Ind AS: PDF p.169-170."
+  },
+  "coverage": {
+    "periods": [
+      {
+        "fiscalYear": 2024,
+        "periodEnd": "2024-03-31",
+        "source": "MARICO-FY24-AR",
+        "filedAt": "2024-05-06"
+      },
+      {
+        "fiscalYear": 2023,
+        "periodEnd": "2023-03-31",
+        "source": "MARICO-FY24-AR comparative column",
+        "filedAt": "2024-05-06"
+      },
+      {
+        "fiscalYear": 2022,
+        "periodEnd": "2022-03-31",
+        "source": "MARICO-FY23-AR comparative column",
+        "filedAt": "2023-05-05"
+      }
+    ],
+    "consecutive": true,
+    "audited": "each of the three years carries an auditor's report on the consolidated financial statements; the FY2023-24 opinion is at PDF p.169 (printed 334-335), the FY2022-23 opinion at PDF p.125 (printed 246-247)",
+    "reclassification": "the FY2023-24 report reclassifies the prior year's investing and financing sections against the FY2022-23 report's own FY2023 column \u2014 investing (865) vs (929), net increase in cash (69) vs (133), operating cash flow 1,419 in both. Each row is taken from ONE statement, never averaged, and the difference is recorded in ingest-input/data-extraction.json."
+  },
+  "dataset": {
+    "datasetVersion": "sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0",
+    "issues": [],
+    "sectorMeasurement": {
+      "sector": "Consumer",
+      "stage": "G1_ENABLED",
+      "measured": true,
+      "annualPeriodsConsidered": 3,
+      "usableMethods": [
+        "DCF_FCFF",
+        "PE_RELATIVE",
+        "EV_EBITDA"
+      ],
+      "statementCoveragePct": 91.7,
+      "operatingMetricCoveragePct": 100,
+      "note": "all three of the sector's methods are AVAILABLE on this dataset \u2014 the coverage question is not the same as the valuation question, and the run shows the difference: availability is a statement-coverage fact, while EV_EBITDA is then withheld at runtime for an incomplete capital structure."
+    },
+    "sectorsMeasured": 1,
+    "sectorsDeclared": 13,
+    "statementCoverage": {
+      "balanceSheet": 0.7619047619047619,
+      "cashFlow": 0.8888888888888888,
+      "pnl": 0.6818181818181818
+    },
+    "requiredFieldCoveragePct": 1,
+    "adequacy": "SUFFICIENT",
+    "completedMeasurements": [
+      "Consumer"
+    ],
+    "outstandingSectors": [
+      "Auto",
+      "Banking",
+      "Capital Markets",
+      "Energy",
+      "Healthcare",
+      "Hospitality",
+      "Industrials",
+      "Insurance",
+      "Materials",
+      "Technology",
+      "Telecom",
+      "Utilities"
+    ]
+  },
+  "d2": {
+    "nilCellsInDataset": 0,
+    "statement": "No cell in this dataset is a nil. Nothing in the pages read declares borrowings, leases, preference capital or non-controlling interest nil, so the `NIL:` grammar is not used at all in WI-7.",
+    "dash": {
+      "item": "LONG_TERM_BORROWINGS",
+      "printed": "the consolidated balance sheet prints a dash for non-current borrowings at 2024-03-31, and Note 13(a) prints 'Total non-current borrowings  -  2'; the FY2021-22 column prints a dash in the same row",
+      "treatment": "NOT_REPORTED. A dash is neither a number nor a quoted declaration, and register 17.14 already fixed this reading for the same glyph on Zensar's minority interest. The printed 2 is carried for FY2023 because a printed number is a number.",
+      "componentConsequence": "the resolver takes the newest period that carries information, so the published longTermBorrowings component is 20,000,000 with periodEnd 2023-03-31 \u2014 a labelled prior-year figure, not a current one."
+    },
+    "absentLine": {
+      "item": "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "printed": "no current-maturity line exists in the consolidated balance sheet, Note 13(a) or Note 13(b)",
+      "treatment": "NOT_REPORTED in all three periods"
+    },
+    "preference": {
+      "item": "PREFERENCE_CAPITAL",
+      "treatment": "NOT_REPORTED \u2014 the balance sheet has an equity share capital line (Note 12(a)) and no preference share capital line, and nothing read declares it nil"
+    }
+  },
+  "capitalStructure": {
+    "grossDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "netDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "longTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 20000000,
+      "periodEnd": "2023-03-31",
+      "note": null
+    },
+    "shortTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 3830000000,
+      "periodEnd": "2024-03-31",
+      "note": null
+    },
+    "currentMaturities": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "leaseLiabilities": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 1450000000,
+      "periodEnd": "2024-03-31",
+      "note": null
+    },
+    "minorityInterest": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 3370000000,
+      "periodEnd": "2024-03-31",
+      "note": null
+    },
+    "preferenceCapital": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null,
+      "periodEnd": null,
+      "note": null
+    },
+    "cashAndInvestments": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 4870000000,
+      "periodEnd": null,
+      "note": null
+    },
+    "leaseTreatment": "IND_AS_116_CAPITALISED",
+    "shareCountBasis": "REPORTED_EPS",
+    "dilutedShares": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 1295713035.8705163,
+      "periodEnd": "2024-03-31",
+      "note": null
+    },
+    "blockingReason": "gross debt needs all four components to carry information; current maturities carry none in any period, so the aggregation returns the blocking observation and every enterprise-derived per-share figure is withheld. This is not a nil, not a zero and not a rounding question.",
+    "associatesJVReview": "REVIEW_DUE"
+  },
+  "valuation": {
+    "sector": "Consumer",
+    "excluded": [
+      {
+        "methodId": "EV_REVENUE",
+        "reason": "Margin heterogeneity across staples, discretionary and luxury makes a revenue multiple uninformative",
+        "role": "NOT_APPLICABLE"
+      }
+    ],
+    "dcf": {
+      "applicable": true,
+      "assumptions": {
+        "baseFcff": 13541622333,
+        "horizon": 5,
+        "taxRate": 0.2517,
+        "terminalGrowth": 0.04,
+        "wacc": 0.10677961
+      },
+      "perShareMid": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "periodEnd": null,
+        "note": "enterprise-to-equity conversion blocked by netDebt"
+      },
+      "note": "the enterprise value is computed; the per-share division is refused because the enterprise-to-equity conversion has no net debt"
+    },
+    "evEbitda": {
+      "applicable": false,
+      "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+    },
+    "pe": {
+      "low": 181.69066666666666,
+      "mid": 227.11333333333332,
+      "high": 272.53599999999994,
+      "normalisedEps": 10.3233,
+      "targetMultiple": 22,
+      "basis": "normalised EPS 10.32 \u00d7 P/E 22"
+    },
+    "intrinsic": null,
+    "marginOfSafety": {
+      "refusal": "NO_PRICE_OBSERVATION",
+      "band": null,
+      "price": {
+        "presence": "MISSING",
+        "reason": "PRICE_UNAVAILABLE",
+        "value": null,
+        "periodEnd": null,
+        "note": null
+      }
+    },
+    "statement": "No intrinsic value and no margin of safety are produced. The only per-share number the run publishes is the P/E relative band, and it rests on the policy-default multiple, which the payload declares."
+  },
+  "confidence": {
+    "combined": 0.3306,
+    "dataConfidence": 0.85,
+    "modelConfidence": 0.1667,
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "POLICY_DEFAULT_WACC",
+      "POLICY_DEFAULT_MULTIPLE"
+    ],
+    "assumptionCaps": [
+      {
+        "category": "DISCOUNT_RATE",
+        "penaltyRate": 0.2
+      },
+      {
+        "category": "TARGET_MULTIPLE",
+        "penaltyRate": 0.15
+      }
+    ]
+  },
+  "quality": {
+    "flags": [
+      {
+        "code": "STALE_STATEMENTS",
+        "evidence": "the latest period end is beyond the freshness policy window",
+        "severity": "HIGH"
+      }
+    ],
+    "verdict": "MATERIAL_CONCERNS"
+  },
+  "persistence": {
+    "scope": "co:IN:CIN:L15140MH1988PLC049208",
+    "reportId": "f110608f-f63b-4e7d-95bc-ad4f6222c17a",
+    "artifactVersion": 1,
+    "reportKey": "01af3264e085e79764f6609ab59954da39af6d5fa70ad8ee4ee52b33cbe836df",
+    "payloadDigest": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+    "digestMatch": true,
+    "payloadDigestRecomputed": "sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+    "chainHeadDigest": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+    "chainLength": 1,
+    "separateProcess": true
+  },
+  "register": {
+    "opened": "L-038",
+    "L-038": "OPEN",
+    "L-001": "OPEN (unchanged: the sector-analytics frame is not this milestone's, and one Consumer issuer is not twelve sectors)",
+    "L-035": "OPEN (unchanged)",
+    "L-036": "PARTIALLY RESOLVED (unchanged; the associates review control fires REVIEW_DUE again, exactly as designed)",
+    "L-037": "OPEN (unchanged)"
+  },
+  "newLimitation": {
+    "id": "L-038",
+    "title": "The enterprise-to-equity bridge needs three borrowing components that a consolidated balance sheet need not print",
+    "statement": "Gross debt is the sum of long-term borrowings, short-term borrowings, current maturities of long-term debt and lease liabilities, and every component must carry information. A filing that prints one current 'Borrowings' line, a dash in the non-current row and no current-maturity row cannot supply that, so gross debt, net debt, the enterprise-to-equity conversion and every enterprise-derived per-share figure are withheld \u2014 even where cash, leases and minority interest are fully reported."
+  }
+}

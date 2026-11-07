@@ -2032,3 +2032,91 @@ the two `curl` lines and the `pdftotext` lines recorded in the bundle's `runs/co
 `source/retrieval-log-s2.txt`, `ingest-input/`, `runs/`, `artifact/assessment-payload-zensar-s2.json`, `digests.json`
 — guarded by `iips-platform/tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts`. The WI-6A, WI-6A-S1, WI-6,
 WI-5 and WI-3 bundles are byte-identical and still verify.
+
+## 17.15 WI-7 — Consumer: the first issuer outside Technology, and a bridge the borrowing note cannot close (2026-11-07; primary evidence + governed run)
+
+**Question.** WI-6A closed the Technology sector with a nil established and a debt position that could be computed. WI-7
+asked the opposite question of a different sector: can the governed pipeline be exercised end to end on an issuer whose
+disclosures are structurally unlike a software exporter's, without inventing a single input — and what does it refuse?
+
+**Sector: Consumer, and why.** The governed method matrix gives Consumer three methods — `DCF_FCFF` (PRIMARY),
+`PE_RELATIVE` (SECONDARY), `EV_EBITDA` (CROSS_CHECK) — and **not one of them declares a mandatory operating metric**.
+Consumer is the only sector still unmeasured after Technology with that property; every other one requires at least one
+operator- or vendor-sourced metric (Banking `BM_NIM`/`BM_GNPA`/`BM_CET1`, Insurance `IM_EMBEDDED_VALUE`, Capital Markets
+`CM_AUM`, Utilities `UM_RAB`/`UM_ALLOWED_ROE`, Energy `EM_LIFTING_COST`, Materials `MM_RESERVE_LIFE`/`MM_COST_POSITION`,
+Telecom `TL_SUBSCRIBERS`/`TL_ARPU`, Auto `AU_CAPACITY_UTILISATION`/`AU_MARKET_SHARE`, Healthcare `HC_OCCUPANCY`/`HC_ARPOB`,
+Hospitality `HM_REVPAR`, Industrials `IN_BOOK_TO_BILL`). On any of those, a filing-only validation could only demonstrate
+that methods are withheld. **Industrials is the recommended next sector**, and `IN_BOOK_TO_BILL` — a governed source for
+an order-book metric — is the single thing that stands between it and a statement-only validation.
+
+**Issuer: Marico Limited** (CIN `L15140MH1988PLC049208`, ISIN `INE196A01026`, BSE `531642`, NSE `MARICO`). Identity is a
+filing fact: the CIN is printed at PDF p.115 (printed 226-227) of the Integrated Annual Report 2023-24, the ISIN and BSE
+code at PDF p.159 (printed 314-315), the NSE symbol at PDF p.5, and the auditor's opinion on the consolidated statements
+at PDF p.169 (printed 334-335), B S R & Co. LLP, Ind AS. No listing date is asserted because none is printed. Hindustan
+Unilever, Nestlé India, Dabur, Godrej Consumer, Britannia and Colgate-Palmolive were considered and **not fetched** — no
+page of their filings was read in this work item, so nothing about them is claimed; the operator reason is recorded in
+`determination-wi7.json`, not dressed as a finding.
+
+**The bytes.** Two reports, both HTTP 200, both hashed: FY2023-24 `03cb0db7…7595` (21,087,675 bytes, 259 pages),
+FY2022-23 `0f41759d…2b0a` (28,505,144 bytes, 224 pages). A third, FY2021-22 `cd8855e5…a993` (27,915,655 bytes, 200
+pages), is fetched and hashed but supplies **no** figure: the FY2021-22 column is read from the FY2022-23 report's
+comparative, where that year's auditor's report sits. Each PDF page is a sheet carrying two printed pages, and every
+citation gives both. The FY2023-24 report reclassifies the prior year's investing and financing sections against the
+FY2022-23 report's own FY2023 column (investing `(865)` vs `(929)`; net increase in cash `(69)` vs `(133)`; operating
+cash flow `1,419` in both); each row is taken from one statement and the difference is recorded, not averaged.
+
+**D-2, exercised and not used.** Nothing on the eleven pages read declares borrowings, leases, preference capital or
+non-controlling interest nil, so this dataset contains **zero** `NIL:` cells. The nil grammar is not used at all — which
+is the honest state for a company that genuinely borrows. What the filing does instead is print a dash:  non-current
+borrowings are `– / 2 / –` and there is **no current-maturity line anywhere** in the balance sheet, Note 13(a) or Note
+13(b). The dash reading fixed at §17.14 applies unchanged — a dash is neither a number nor a quoted declaration — so
+`LONG_TERM_BORROWINGS` is `NOT_REPORTED` for FY2024 and FY2022 and `2` (crore) for FY2023, and
+`CURRENT_MATURITIES_OF_LONG_TERM_DEBT` is `NOT_REPORTED` in all three periods. `PREFERENCE_CAPITAL` is `NOT_REPORTED`
+too: the balance sheet has an equity share capital line and no preference line, and silence is not a nil. Because the
+component resolver takes the newest period that carries information, the published `longTermBorrowings` is the printed
+FY2023 ₹2 crore **with its own `periodEnd 2023-03-31`** — a labelled prior-year figure, not a current one.
+
+**Outcome: everything computable was computed, and what is not computable says why.** datasetVersion
+`sha256:04c96303…`, `issues.json` `[]`; Consumer measured `G1_ENABLED` with all three of its methods `AVAILABLE`
+(statement coverage 91.7 %, operating-metric coverage 100 %); adequacy `SUFFICIENT` (required-field coverage 100 %);
+assessment `SUFFICIENT` / `MATERIAL_CONCERNS`, confidence **0.3306** (data 0.85, model 0.125, caps `STALE_DATA`,
+`DILUTION_PROXY`, `POLICY_DEFAULT_WACC`, `POLICY_DEFAULT_MULTIPLE`); reportKey `01af3264…`, payloadDigest
+`3fd27a98…`, reportId `f110608f-…`, chain valid, head v1, and a separate-process readback whose recomputed digest equals
+the stored digest and the chain head. `grossDebt` and `netDebt` are `MISSING` / `NOT_REPORTED` — the current-maturity
+component carries nothing — so `DCF_FCFF` computes an enterprise value (FCFF base 13,541,622,333 at WACC 10.68 %, g
+4.00 %) and refuses every per-share leg (*"enterprise-to-equity conversion blocked by netDebt"*), `EV_EBITDA` is
+`CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable`, and `EV_REVENUE` is excluded by the Consumer policy. The one
+per-share figure the run publishes is the P/E band **₹181.69 / ₹227.11 / ₹272.54** (normalised EPS 10.3233 ×
+policy-default 22), and it declares itself policy-default. `intrinsic` is `null`; the margin of safety is
+`NO_PRICE_OBSERVATION`, no price obtained and none invented. `L-036`'s control fires `REVIEW_DUE` again — clock from
+2024-03-31, due 2024-09-27, 180 days, `POLICY_ZERO` — for the same reason it fired on Zensar: schema V1 cannot carry an
+associates/JV value and no figure for one was read.
+
+**New limitation — `L-038` (`OPEN`). The enterprise-to-equity bridge needs three borrowing components that a consolidated
+balance sheet need not print.** Gross debt requires long-term borrowings, short-term borrowings, current maturities of
+long-term debt and lease liabilities, each carrying a number or a quoted nil. A filing that prints one current
+`Borrowings` line, a dash in the non-current row and no current-maturity row cannot supply that, so a company reporting
+cash, leases, minority interest and borrowings in full still gets no debt figure, no enterprise-to-equity conversion and
+no enterprise-derived per-share value. This is a different failure from `L-036` (a term the schema cannot hold) and from
+`L-037` (pages that could not be read): it is a gap between what the bridge requires and what an audited balance sheet is
+obliged to print, and it is the second structural reason a fully read real issuer can still be unvalued. No grammar change
+is proposed in WI-7: the two honest resolutions — a governed grade for a filed dash, or an optional "total borrowings as
+filed" component carrying an explicit incompleteness flag — are decisions for this register's owner.
+
+**Statuses after §17.15.** `L-038` is new and **`OPEN`**. `L-035` stays **`OPEN`** and `L-036` stays **`PARTIALLY
+RESOLVED`**, both untouched: no independent evidence about either was produced. `L-034` stays `RESOLVED`. `L-037` stays
+**`OPEN`** — WI-7 read its pages end to end, which does not test the retrieval cap that entry describes. `L-001` is
+**unchanged**: the ingest records "1 of 13 sectors measured" *in this dataset*, which is a dataset-scoped fact, and one
+Consumer issuer is not the twelve outstanding sectors of the sector-analytics frame. `L-002` … `L-033` untouched.
+
+**Boundary this adds.** WI-3 shows what a nil needs, WI-5 that a scoped sentence cannot carry one, WI-6 that an unreadable
+filing cannot, WI-6A that an unreadable filing must not be turned into a negative finding either. WI-7 adds the fourth
+shape of the same discipline in a new sector: **a filing that is fully read, fully audited and perfectly legible can
+still fail to carry a component the bridge needs — and the correct answer is to publish the refusal, not a number.**
+
+**Evidence.** `evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/` — `README.md`, `determination-wi7.json`,
+`source/source-bytes.json`, `source/page-map.json`, `source/identity-verified.json`, twelve verbatim page extracts,
+`ingest-input/` (roster, `periods.csv`, identity sources, `data-extraction.json`), `runs/` (ingest, generate, readback,
+commands, guard test, typecheck, clean clone), `artifact/assessment-payload-marico-wi7.json`, `digests.json` — guarded by
+`iips-platform/tests/investment/wi7ConsumerMarico.test.ts`. Record: `docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md`.
+The WI-3, WI-5, WI-6, WI-6A, WI-6A-S1 and WI-6A-S2 bundles are byte-identical and still verify.

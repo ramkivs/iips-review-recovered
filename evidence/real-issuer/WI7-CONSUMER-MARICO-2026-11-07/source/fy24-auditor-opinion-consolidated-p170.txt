@@ -1,3 +1,10 @@
+# Integrated Annual Report 2023-24 — Independent Auditor's Report on the consolidated financial statements (continuation)
+# source PDF: Marico_Annual_Report_FY24.pdf  bytes=21087675  sha256=03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595  pages=259
+# URL: https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+# PDF page 170 of 259 (printed page 336; the sheet carries printed 336-337)
+# extractor: pdftotext -layout -f 170 -l 170 (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
+# the page text below is verbatim tool output, including the repeated running header and footer.
+# ----------------------------------------------------------------------------------------------
          I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                                                 • Corporate Overview • Statutory Reports • Financial Statements
 336      Marico Limited
                                                                                                                                                                                                                                                                                               337

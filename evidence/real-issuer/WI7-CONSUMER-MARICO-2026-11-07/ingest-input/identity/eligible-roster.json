@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "rosterLabel": "WI-7 operator-supplied roster (one real issuer, Marico Limited, Consumer sector)",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "legalName": "Marico Limited",
+      "cin": "L15140MH1988PLC049208",
+      "equityIsin": "INE196A01026",
+      "issuerKeyBasis": "CIN",
+      "sector": "Consumer",
+      "subSegment": null,
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE196A01026",
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "isin": "INE196A01026",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ]
+}

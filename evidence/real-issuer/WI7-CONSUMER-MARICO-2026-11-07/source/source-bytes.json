@@ -1,0 +1,49 @@
+{
+  "bundle": "WI-7 Consumer / Marico Limited \u2014 primary source bytes",
+  "retrievedAt": "2026-11-07",
+  "retrievalRoute": "throwaway GitHub Actions runner (this sandbox has neither general egress nor PDF tooling); the workflow file was added to the branch for the capture and is removed before the PR opens",
+  "documents": [
+    {
+      "id": "MARICO-FY24-AR",
+      "label": "Marico Limited \u2014 Integrated Annual Report 2023-24",
+      "url": "https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf",
+      "httpStatus": 200,
+      "bytes": 21087675,
+      "sha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+      "pages": 259,
+      "producer": "Adobe PDF Library 17.0",
+      "creationDate": "2024-07-12T10:48:28Z",
+      "secondRoute": "https://www.marico.com/investorspdf/Marico_Annual_Report_FY24.pdf \u2014 200, 21087675 bytes, sha256 identical",
+      "avatarsCaveat": null
+    },
+    {
+      "id": "MARICO-FY23-AR",
+      "label": "Marico Limited \u2014 Integrated Annual Report 2022-23",
+      "url": "https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf",
+      "httpStatus": 200,
+      "bytes": 28505144,
+      "sha256": "0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a",
+      "pages": 224,
+      "producer": "Adobe PDF Library 17.0",
+      "creationDate": "2023-07-13T11:40:39Z",
+      "secondRoute": null
+    },
+    {
+      "id": "MARICO-FY22-AR",
+      "label": "Marico Limited \u2014 Integrated Annual Report 2021-22 (fetched, hash recorded, not cited for any ingested figure)",
+      "url": "https://marico.com/investorspdf/Marico_Annual_Report_FY22.pdf",
+      "httpStatus": 200,
+      "bytes": 27915655,
+      "sha256": "cd8855e5f03ce8c6081684586a24e3e533bdae3716a989ef7c11e7db8237a993",
+      "pages": 200,
+      "producer": "Adobe PDF Library 16.0.7",
+      "creationDate": "2022-07-12T12:58:08Z",
+      "secondRoute": null
+    }
+  ],
+  "rejectedRoutes": [
+    "https://marico.com/investorspdf/Marico_Annual_Report_FY2023.pdf \u2014 HTTP 404 (45-byte error body)",
+    "https://marico.com/investorspdf/Annual_Report_FY23.pdf \u2014 HTTP 404 (45-byte error body)"
+  ],
+  "note": "Every figure ingested is read from MARICO-FY24-AR (FY2024 and FY2023 columns) or MARICO-FY23-AR (FY2022 column). MARICO-FY22-AR is recorded so the hash of the third document is known, and no figure is taken from it: the FY2021-22 audited column is read from the FY2022-23 report's comparative, which is where the auditor's report on that year sits."
+}

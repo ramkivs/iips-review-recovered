@@ -1,0 +1,48 @@
+{
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "legalName": "Marico Limited",
+      "issuerKeyBasis": "CIN",
+      "sector": "Consumer",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE196A01026",
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null
+    }
+  ],
+  "listings": [
+    {
+      "listingId": "IN:NSE:MARICO:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE196A01026",
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "exchange": "NSE",
+      "symbol": "MARICO",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2021-04-01",
+      "effectiveTo": null,
+      "sourceRef": "Listing-identifier window declared by the operator for this work item from 2021-04-01 (the start of the oldest audited period in the dataset). THIS DATE IS AN OPERATOR RECORD, NOT A FILING FACT: the filings corroborate the identifiers only \u2014 NSE symbol MARICO printed on the 'About' page (PDF p.5) and the Listing Details table (PDF p.159, printed 314-315) naming BSE Limited scrip code 531642 and ISIN INE196A01026; the CIN is printed at PDF p.115 (printed 226-227), BRSR item I-1. No listing or admission date appears in any page read, and none is asserted here."
+    },
+    {
+      "listingId": "IN:BSE:531642:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE196A01026",
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "exchange": "BSE",
+      "symbol": "531642",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2021-04-01",
+      "effectiveTo": null,
+      "sourceRef": "See the NSE entry: same operator-record caveat, same filing locators (PDF p.159 Listing Details; PDF p.5 'BSE 531642'; CIN at PDF p.115)."
+    }
+  ]
+}

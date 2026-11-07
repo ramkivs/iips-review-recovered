@@ -1,0 +1,383 @@
+{
+  "scope": "co:IN:CIN:L15140MH1988PLC049208",
+  "reportId": "f110608f-f63b-4e7d-95bc-ad4f6222c17a",
+  "artifactVersion": 1,
+  "payloadDigestStored": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+  "payloadDigestRecomputed": "sha256:3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+  "digestMatch": true,
+  "chainHeadDigest": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
+  "chainLength": 1,
+  "payloadKeys": [
+    "artifact",
+    "asOf",
+    "assumptions",
+    "completeness",
+    "confidence",
+    "data",
+    "disclosure",
+    "dividends",
+    "evidence",
+    "fundamentals",
+    "limitations",
+    "moat",
+    "quality",
+    "risk",
+    "schemaVersion",
+    "sectorReferenceView",
+    "subject",
+    "valuation"
+  ],
+  "capitalStructure": null,
+  "valuation": {
+    "intrinsic": null,
+    "marginOfSafety": {
+      "band": null,
+      "bandPolicyVersion": "mos-policy/1.0.0",
+      "mosVsLow": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "mosVsMid": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "price": {
+        "presence": "MISSING",
+        "reason": "PRICE_UNAVAILABLE",
+        "value": null
+      },
+      "priceAsOf": null,
+      "refusal": "NO_PRICE_OBSERVATION"
+    },
+    "methodSelection": {
+      "considered": [
+        {
+          "methodId": "DCF_FCFF",
+          "reason": "Free cash flow to firm",
+          "role": "PRIMARY"
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "reason": "EV/EBITDA",
+          "role": "CROSS_CHECK"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "reason": "Margin heterogeneity across staples, discretionary and luxury makes a revenue multiple uninformative",
+          "role": "NOT_APPLICABLE"
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "reason": "P/E",
+          "role": "SECONDARY"
+        }
+      ],
+      "policyVersion": "valuation-policy/1.0.0",
+      "sector": "Consumer"
+    },
+    "methods": [
+      {
+        "allowsImputation": false,
+        "applicable": true,
+        "assumptions": {
+          "baseFcff": 13541622333,
+          "horizon": 5,
+          "taxRate": 0.2517,
+          "terminalGrowth": 0.04,
+          "wacc": 0.10677961
+        },
+        "evidenceIds": [
+          "EV-DCF_FCFF"
+        ],
+        "formulaId": "DCF_FCFF",
+        "formulaVersion": "1.0.0",
+        "inputs": [
+          {
+            "name": "ebit",
+            "observation": {
+              "basis": "DERIVED",
+              "note": "Profit before tax plus finance costs",
+              "periodEnd": "2024-03-31",
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DATASET",
+                "ref": "derived:EBIT@in-fin/1.0.0"
+              },
+              "value": 20100000000
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "depreciationAndAmortisation",
+            "observation": {
+              "basis": "AS_FILED",
+              "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+              "periodEnd": "2024-03-31",
+              "presence": "PRESENT",
+              "source": {
+                "filedAt": "2024-05-06",
+                "kind": "FILING",
+                "ref": "MARICO-INDAS-CONSOL-FY24-AR"
+              },
+              "value": 1580000000
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "capitalExpenditure",
+            "observation": {
+              "basis": "AS_FILED",
+              "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+              "periodEnd": "2024-03-31",
+              "presence": "PRESENT",
+              "source": {
+                "filedAt": "2024-05-06",
+                "kind": "FILING",
+                "ref": "MARICO-INDAS-CONSOL-FY24-AR"
+              },
+              "value": 1530000000
+            },
+            "role": "PRIMARY"
+          }
+        ],
+        "methodId": "DCF_FCFF",
+        "notApplicableReason": null,
+        "output": {
+          "basis": "FCFF base 13541622333, WACC 10.68%, g 4.00%, 5y horizon",
+          "perShareHigh": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "value": null
+          },
+          "perShareLow": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "value": null
+          },
+          "perShareMid": {
+            "note": "enterprise-to-equity conversion blocked by netDebt",
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "value": null
+          }
+        },
+        "role": "PRIMARY"
+      },
+      {
+        "allowsImputation": false,
+        "applicable": true,
+        "assumptions": {
+          "multipleBasis": "POLICY_DEFAULT",
+          "normalisedEps": 10.3233,
+          "targetMultiple": 22
+        },
+        "evidenceIds": [
+          "EV-PE_RELATIVE"
+        ],
+        "formulaId": "PE_RELATIVE",
+        "formulaVersion": "1.0.0",
+        "inputs": [
+          {
+            "name": "epsDiluted",
+            "observation": {
+              "basis": "AS_FILED",
+              "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+              "periodEnd": "2024-03-31",
+              "presence": "PRESENT",
+              "source": {
+                "filedAt": "2024-05-06",
+                "kind": "FILING",
+                "ref": "MARICO-INDAS-CONSOL-FY24-AR"
+              },
+              "value": 11.43
+            },
+            "role": "PRIMARY"
+          }
+        ],
+        "methodId": "PE_RELATIVE",
+        "notApplicableReason": null,
+        "output": {
+          "basis": "normalised EPS 10.32 × P/E 22",
+          "perShareHigh": {
+            "basis": "DERIVED",
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "value": 272.53599999999994
+          },
+          "perShareLow": {
+            "basis": "DERIVED",
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "value": 181.69066666666666
+          },
+          "perShareMid": {
+            "basis": "DERIVED",
+            "periodEnd": "2024-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "kind": "DERIVED",
+              "ref": "valuation-methods/1.0.0"
+            },
+            "value": 227.11333333333332
+          }
+        },
+        "role": "SECONDARY"
+      },
+      {
+        "allowsImputation": false,
+        "applicable": false,
+        "assumptions": {},
+        "evidenceIds": [],
+        "formulaId": "EV_EBITDA",
+        "formulaVersion": "1.0.0",
+        "inputs": [
+          {
+            "name": "ebitda",
+            "observation": {
+              "basis": "DERIVED",
+              "note": "Profit before tax plus finance costs plus depreciation and amortisation",
+              "periodEnd": "2024-03-31",
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DATASET",
+                "ref": "derived:EBITDA@in-fin/1.0.0"
+              },
+              "value": 21680000000
+            },
+            "role": "PRIMARY"
+          },
+          {
+            "name": "netDebt",
+            "observation": {
+              "presence": "MISSING",
+              "reason": "NOT_REPORTED",
+              "value": null
+            },
+            "role": "SECONDARY"
+          }
+        ],
+        "methodId": "EV_EBITDA",
+        "notApplicableReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+        "output": null,
+        "role": "CROSS_CHECK"
+      }
+    ],
+    "sensitivity": [
+      {
+        "baseGrowthBps": 400,
+        "baseWaccBps": 1068,
+        "methodId": "DCF_FCFF",
+        "points": [
+          {
+            "growthBps": 300,
+            "value": 140.32569551969877,
+            "waccBps": 968
+          },
+          {
+            "growthBps": 400,
+            "value": 159.6814627043459,
+            "waccBps": 968
+          },
+          {
+            "growthBps": 500,
+            "value": 187.23143213616248,
+            "waccBps": 968
+          },
+          {
+            "growthBps": 300,
+            "value": 122.03502218681523,
+            "waccBps": 1068
+          },
+          {
+            "growthBps": 400,
+            "value": 135.88553664388866,
+            "waccBps": 1068
+          },
+          {
+            "growthBps": 500,
+            "value": 154.55136360474964,
+            "waccBps": 1068
+          },
+          {
+            "growthBps": 300,
+            "value": 107.947572268041,
+            "waccBps": 1168
+          },
+          {
+            "growthBps": 400,
+            "value": 118.26911583813384,
+            "waccBps": 1168
+          },
+          {
+            "growthBps": 500,
+            "value": 131.63034082544857,
+            "waccBps": 1168
+          }
+        ]
+      }
+    ]
+  },
+  "adequacy": null,
+  "confidence": {
+    "assumptionCaps": [
+      {
+        "applied": true,
+        "basis": "POLICY_DEFAULT",
+        "cap": "POLICY_DEFAULT_WACC",
+        "category": "DISCOUNT_RATE",
+        "factor": null,
+        "penaltyRate": 0.2,
+        "reason": null,
+        "triggers": [
+          {
+            "assumption": "discountRate",
+            "methodId": "DCF_FCFF"
+          }
+        ]
+      },
+      {
+        "applied": true,
+        "basis": "POLICY_DEFAULT",
+        "cap": "POLICY_DEFAULT_MULTIPLE",
+        "category": "TARGET_MULTIPLE",
+        "factor": null,
+        "penaltyRate": 0.15,
+        "reason": null,
+        "triggers": [
+          {
+            "assumption": "targetMultiple",
+            "methodId": "PE_RELATIVE"
+          }
+        ]
+      }
+    ],
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "POLICY_DEFAULT_WACC",
+      "POLICY_DEFAULT_MULTIPLE"
+    ],
+    "combined": 0.3306,
+    "dataConfidence": 0.85,
+    "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_WACC 0.2 + POLICY_DEFAULT_MULTIPLE 0.15) and are capped at one aggregate reduction of 0.35 — applied once here, 0.35, so ×0.65, with no minimum-confidence floor",
+    "modelConfidence": 0.1667
+  },
+  "quality": {
+    "flags": [
+      {
+        "code": "STALE_STATEMENTS",
+        "evidence": "the latest period end is beyond the freshness policy window",
+        "severity": "HIGH"
+      }
+    ],
+    "verdict": "MATERIAL_CONCERNS"
+  }
+}

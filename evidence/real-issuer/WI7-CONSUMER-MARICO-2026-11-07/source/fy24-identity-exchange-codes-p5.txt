@@ -1,0 +1,68 @@
+# Integrated Annual Report 2023-24 — the sentence naming the two exchange identifiers
+# source PDF: Marico_Annual_Report_FY24.pdf  bytes=21087675  sha256=03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595  pages=259
+# URL: https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+# PDF page 5 of 259
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07;
+# the page text below is verbatim tool output, including the repeated running header and footer.
+# ----------------------------------------------------------------------------------------------
+ABOUT
+
+
+Marico
+Marico (BSE 531642, NSE "MARICO") is one of India's leading consumer products             Key Highlights (FY24)
+companies, in the global beauty and wellness space.
+
+Marico touches the lives of 1 out of every 3 Indians, through its portfolio of brands
+such as Parachute, Saffola, Saffola FITTIFY Gourmet, Saffola ImmuniVeda, Saffola
+                                                                                          H 9,653 crore
+Mealmaker, Hair & Care, Parachute Advansed, Nihar Naturals, Mediker, Pure                 Consolidated turnover
+Sense, Coco Soul, Revive, Set Wet, Livon, Just Herbs, True Elements, Beardo and
+
+
+                                                                                          H 1,470 crore
+Plix. The international consumer products portfolio contributes to about 26% of
+the Group’s revenue, with brands like Parachute, Parachute Advansed, HairCode,
+Fiancée, Purité de Prôvence, Ôliv, Lashe', Caivil, Hercules, Black Chic, Code 10,
+Ingwe, X-Men, Thuan Phat and Isoplus.                                                     Recurring consolidated
+                                                                                          net profit after tax
+
+
+
+
+The four pillars that continue to power our progress are
+
+
+
+                                                          ation
+We are continuously investing in new
+growth engines in the domestic and
+                                                    si fic
+international businesses to create a future-
+ready portfolio and drive accelerated          Diver
+and profitable revenue growth. This will
+also enable us to broaden our presence
+as well as premiumise our play in the
+respective geographies.                                                                   We are relentlessly raising the digital
+                                                                       Distr              quotient across the value chain to make
+                                                                            i   b         Marico future-forward. By innovating,
+                                                                                ut        incubating and scaling, we are fast-
+                                                                                    ion   tracking a digital culture throughout the
+                                                                                          organisation, and are aligning our digital
+                                                                                          strategy with our business priorities to
+                                                                                          ensure that we win among evolving
+Our distribution prowess continues              y                                         consumer aspirations and marketplaces.
+to enable consumers across regions
+                                         Divers
+to access our products, thus                   it
+becoming a key lever for driving the
+next leg of growth. We will continue
+our efforts towards go-to- market
+transformation both in urban, rural                                      Dig              Diverse talent and socially inclusive
+as well as new age channels.                                                              culture will continue to be strong business
+                                                                            ital          drivers for us. We are accelerating
+                                                                                          diversity throughout the organisation
+                                                                                          across gender, ability and thought. We
+                                                                                          believe a positive, enabling and inclusive
+                                                                                          culture will amplify opportunities for
+                                                                                          different groups, and in turn, become a
+                                                                                          competitive people advantage for Marico.
