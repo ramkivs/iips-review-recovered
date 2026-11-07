@@ -4,6 +4,7 @@
  * @vitest-environment node
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { createRequire } from 'node:module';
 import http from 'node:http';
 import net from 'node:net';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
@@ -93,8 +94,8 @@ async function startPeer(): Promise<Peer> {
 }
 
 describe('Direct P1 IRR HTTP-to-IPC integration', () => {
-  it('pins the public IPD package and lockfile to the exact reviewed immutable commit', () => {
-    const expected = 'github:ramkivs/iips-production-market-data#f2bb47dc50fc8f16ee8d3354f6f4e8bf995e4bbc';
+  it('pins the public IPD package and lockfile to the exact corrected immutable commit', () => {
+    const expected = 'github:ramkivs/iips-production-market-data#14fdcf00516f891a55fa9d8a209a01433be3bc63';
     const manifest = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
       dependencies: Record<string, string>;
     };
@@ -104,7 +105,15 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     expect(manifest.dependencies['iips-production-market-data']).toBe(expected);
     expect(lock.packages[''].dependencies?.['iips-production-market-data']).toBe(expected);
     expect(lock.packages['node_modules/iips-production-market-data'].resolved)
-      .toContain('#f2bb47dc50fc8f16ee8d3354f6f4e8bf995e4bbc');
+      .toContain('#14fdcf00516f891a55fa9d8a209a01433be3bc63');
+  });
+
+  it('resolves the public dhan-server subpath through CommonJS and ESM', async () => {
+    const require = createRequire(import.meta.url);
+    expect(require.resolve('iips-production-market-data/dhan-server')).toBeTruthy();
+
+    const api = await import('iips-production-market-data/dhan-server');
+    expect(typeof api.MarketDataTransportClient).toBe('function');
   });
 
   let peer: Peer;
