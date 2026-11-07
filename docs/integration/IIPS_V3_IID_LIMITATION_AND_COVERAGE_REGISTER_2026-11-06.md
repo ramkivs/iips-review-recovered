@@ -1405,13 +1405,16 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
   equity-accounted interest is recognised in any of them** — no separate balance-sheet caption (Ind AS 1.54(e)), no
   share-of-associates line in profit or loss (Ind AS 1.82(c)), and Note 2.5 decomposing both investment captions
   exhaustively into amortised cost / FVOCI / FVTPL while tying to the filed totals twice in every period. So the
-  remaining gap is not "a number nobody has found": there is no filed amount to ingest, and the bridge still applies a
-  policy zero that the payload does not state. Absence was **not** converted into a nil, no value was estimated, no
-  V2 observation was created, and the 180-day control remains `REVIEW_DUE` on the unchanged `2024-03-31` clock.
+  remaining gap is not "a number nobody has found": there is no filed amount to ingest, and the bridge still applies
+  zero for that term — under the **disclosed** `POLICY_ZERO` treatment, not an unstated one (§17.9). Absence was **not**
+  converted into a nil, no value was estimated, no V2 observation was created, and the 180-day control remains
+  `REVIEW_DUE` on the unchanged `2024-03-31` clock.
 - **Last status update:** 2026-11-06 (opened); 2026-11-06 (VII — disclosure-propagation defect corrected;
   `PARTIALLY RESOLVED`, carrying value still unavailable); 2026-11-06 (IX — V2 can hold the item; status unchanged);
   2026-11-06 (WI-4 — issuer statements examined in full for three periods; no equity-accounted interest exists, nothing
-  ingested, status unchanged).
+  ingested, status unchanged); 2026-11-07 (WI-4 residual — Notes 2.13–2.27 read in both filings; no associate/JV
+  relationship, no carrying value, and the "unstated policy zero" description corrected to the disclosed treatment;
+  status unchanged, §17.9).
 
 ### 17.4 What §17 does not change
 
@@ -1687,7 +1690,8 @@ note, and all three are complete and reconcile to the filed totals. But a relate
 associate would be a reason to keep `L-036` open rather than to close it — and it is kept open.
 
 **Statuses after §17.8:** `L-036` → **`PARTIALLY RESOLVED`** (unchanged status; the residue is now precisely stated:
-there is no filed amount to substitute, and the payload still applies an unstated policy zero). `L-035` → `OPEN`
+there is no filed amount to substitute, and the payload still applies zero under the disclosed `POLICY_ZERO`
+treatment). `L-035` → `OPEN`
 (unchanged; no new nil declaration was made, so the documentary-mapping limitation is untouched). `L-001` … `L-034`
 unchanged; `L-034` remains `RESOLVED`.
 
@@ -1695,3 +1699,92 @@ Evidence: `docs/integration/IIPS_V3_IID_WI4_ASSOCIATES_CARRYING_VALUE_2026-11-06
 `evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/` (nine verbatim extracts with digests, a nine-quote
 provenance record, a machine-readable investigation finding, and a three-period reconciliation), guarded by
 `iips-platform/tests/investment/wi4AssociatesEvidence.test.ts`.
+
+## 17.9 WI-4 residual review — Notes 2.13–2.27 read, and the `POLICY_ZERO` wording reconciled (2026-11-07; evidence and documentation only)
+
+§17.8 recorded two residues of its own. Both are now closed as *investigation*, neither as *status*: the notes WI-4
+could not machine-read have been read, and one sentence WI-4 wrote about the payload has been corrected because the
+implementation it described had already moved on.
+
+### 17.9.1 Notes 2.13–2.27: read, and empty of associates and joint ventures
+
+§17.8 said pages 31–57 could not be read because the extraction available then truncated at 30 pages, and that a
+related-party roster naming a dormant associate would be a reason to keep `L-036` open. Both filings are digitally
+typeset PDFs with a complete text layer — not scans — so the pages were read in full through a full-document reader of
+the *same* PDF, page-anchored to the printed page numbers (`INFY-INDAS-CONSOL-FY24` pp. 31–57;
+`INFY-INDAS-CONSOL-FY23` pp. 37–54, which also carries the FY2022 comparatives). Every note was opened and
+characterised; Notes 2.19 and 2.25 are transcribed in full in the bundle.
+
+| Note | Pages | Associates / JV content |
+|---|---|---|
+| 2.13–2.18 — other financial liabilities, trade payables, other liabilities, provisions, income taxes, revenue | 31–38 | none |
+| **2.19 Other income, net** | 39–40 | **none** — the note in which a share of an associate's result would appear: interest at amortised cost 1,007, FVOCI interest 1,965, FVTPL gains 285, exchange 100 and 87, tax-refund interest, miscellaneous 207; total 4,711 (2,701) |
+| 2.20–2.24 — expenses, leases, employee benefits, EPS, contingent liabilities | 40–49 | none |
+| **2.25 Related party transactions** | 50–54 | **none** — the complete related-party universe is subsidiaries (one list, every row 100%-owned or majority-owned and controlled), trusts (post-employment benefit plans, four controlled trusts, Infosys Foundation as a "Trust jointly controlled by KMPs") and KMP with compensation 130 (127). No associates list, no joint-ventures list, no "entities over which KMP exercise significant influence" list |
+| **Group-structure annexure** (para 2 of the general instructions, after 2.25) | 52–54 | **none** — blocks are Infosys Limited, Indian Subsidiaries, Foreign Subsidiaries, Subtotal 100%, consolidation adjustment, Controlled Trusts, non-controlling interests. No associates block, no joint-ventures block |
+| 2.26–2.27 — segments, function-wise classification | 55–57 | none |
+
+Three distinctions were applied rather than glossed:
+
+1. **A relationship is not a classification.** The only "other related party" named in either year is Infosys
+   Foundation, a trust jointly controlled by KMPs — a related party that is not an investee, equity-accounted or
+   otherwise.
+2. **Dormancy is not a carrying value.** The only dormancy markers are the subsidiary footnotes "(22) Under
+   liquidation", "Liquidated effective July 14, 2023" and "Liquidated effective November 1, 2023". Those entities are
+   already consolidated line by line — the opposite of a dormant associate held outside consolidation — and none carries
+   an equity-method balance.
+3. **"Associated enterprises" is a tax phrase.** The single occurrence of the word anywhere in these notes is Note
+   2.24.1 (p. 48): *"…payments made to associated enterprises held as liable for withholding of taxes, among others."*
+   That is Indian income-tax terminology; it names no entity, asserts no relationship and carries no balance.
+
+**Result: no associate or joint-venture relationship is disclosed, and therefore no recognised carrying value exists to
+establish.** No Dataset V2 observation was created, no nil was declared and no dataset changed. The WI-4 answer stands —
+now on the complete audited pages rather than on the first thirty.
+
+*Limits, stated rather than buried:* the interior movement tables of Notes 2.21 (leases) and 2.22 (employee benefits),
+pp. 41–46, were not re-read; their opening tables and closing pages were. Neither note can present a third-party equity
+interest, and neither is a route by which an equity-accounted investment could be missing from the balance sheet, the
+investments note and the group-structure annexure at once. Recorded in the bundle as a limit.
+
+### 17.9.2 "Unstated policy zero" was wrong, and is corrected
+
+§17.8 ended its residue with *"the bridge still applies a policy zero that the payload does not state"*, and WI-4's
+README and document repeated the claim. **That sentence is inaccurate against the implemented policy.** It was inherited
+from §17.3, which described the **Work Item 3** payload correctly: that payload carries no `equityBridge` member at all,
+which is the defect VII fixed.
+
+What the implementation actually does, unchanged since VII/IX:
+
+| Where | What it says |
+|---|---|
+| `VALUATION_POLICY.associatesTreatment` (`policy.ts`) | `policyVersion: associates-treatment/1.0.0`, `basis: CARRYING_VALUE`, `whenUnavailable: POLICY_ZERO` |
+| `describeEquityBridge()` (`capitalStructure.ts`) | builds `capitalStructure.equityBridge` with `formula`, `note`, `policyVersion`, `substitutedInputs[]` and `treatment` |
+| the composed payload | `treatment: POLICY_ZERO_UNAVAILABLE`; `substitutedInputs[0] = { input: associatesAndJV, presence: NOT_COMPUTABLE, reason: NOT_REPORTED, treatment: POLICY_ZERO }`; the note reads *"…the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil…"* |
+| propagation | the same sentence reaches every derived per-share observation and `limitations[]` — four occurrences of "policy substitution" in the persisted payload |
+
+Measured on committed artifacts, not on prose: `equityBridge` occurs **once** in
+`evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/artifact/assessment-payload-vii.json` and **zero** times in
+`evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json` — which is exactly the
+before/after boundary.
+
+**Corrected wording, now used in §17.8, the WI-4 document and the WI-4 bundle README:**
+
+> The bridge continues to apply the **disclosed** `POLICY_ZERO` treatment (`POLICY_ZERO_UNAVAILABLE`,
+> `associates-treatment/1.0.0`) because no supportable carrying value is available. `L-036` remains
+> **`PARTIALLY RESOLVED`** because the underlying amount is unavailable.
+
+Nothing else moved: no valuation arithmetic, no policy semantics, no confidence policy, no review timing, no schema, no
+stored payload. `perShare`, intrinsic, margin of safety and band are byte-identical, and `ixAuthorizedPolicy.test.ts`
+still rebuilds the committed IX package from committed inputs and requires equality.
+
+### 17.9.3 Statuses after §17.9
+
+`L-036` → **`PARTIALLY RESOLVED`** (unchanged: the amount is still unavailable, and the payload still applies zero —
+now described accurately as a disclosed treatment). `L-035` → `OPEN` (unchanged; no nil declaration). `L-001` … `L-034`
+unchanged; `L-034` remains `RESOLVED`. The 180-day `associates-review/1.0.0` control is unchanged and still due.
+
+Evidence: `evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/` — seven new source extracts (Notes 2.19 and
+2.25 for both filings, both group-structure annexures, and a note-by-note sweep of pp. 31–57), sixteen quotes in
+`source/quotes.json`, and the `residualReview` block in `artifact/investigation.json`; guarded by
+`iips-platform/tests/investment/wi4AssociatesEvidence.test.ts`, which also asserts that the documentation no longer
+contains the superseded "unstated" phrasing and that the payload really does disclose the treatment.

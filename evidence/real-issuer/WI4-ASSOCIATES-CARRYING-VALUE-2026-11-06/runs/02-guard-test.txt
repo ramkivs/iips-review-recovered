@@ -1,149 +1,217 @@
-WI-4 — targeted guard test: tests/investment/wi4AssociatesEvidence.test.ts
-run at: 2026-11-07T03:12:12Z (UTC)
+WI-4 residual — targeted guard test: tests/investment/wi4AssociatesEvidence.test.ts
+run at: 2026-11-07T04:38:30Z (UTC)
 
 TAP version 13
 # Subtest: provenance — every extract is the filing text it claims to be
     # Subtest: the bundle names the line item under test and the two audited filings, for three periods
     ok 1 - the bundle names the line item under test and the two audited filings, for three periods
       ---
-      duration_ms: 1.453284
+      duration_ms: 1.960664
       type: 'test'
       ...
     # Subtest: each extract hashes to the digest recorded in quotes.json
     ok 2 - each extract hashes to the digest recorded in quotes.json
       ---
-      duration_ms: 0.768326
+      duration_ms: 0.959423
       type: 'test'
       ...
     # Subtest: each quote carries a locator, a period, a document and both halves of what it proves
     ok 3 - each quote carries a locator, a period, a document and both halves of what it proves
       ---
-      duration_ms: 0.364526
+      duration_ms: 0.354262
       type: 'test'
       ...
     # Subtest: the extracts quote the filing itself, and mark commentary as commentary
     ok 4 - the extracts quote the filing itself, and mark commentary as commentary
       ---
-      duration_ms: 0.389439
+      duration_ms: 0.582894
       type: 'test'
       ...
     # Subtest: no quote claims to supply a value for the line item
     ok 5 - no quote claims to supply a value for the line item
       ---
-      duration_ms: 0.161914
+      duration_ms: 0.206256
       type: 'test'
       ...
     1..5
 ok 1 - provenance — every extract is the filing text it claims to be
   ---
-  duration_ms: 4.095615
+  duration_ms: 5.080167
   type: 'suite'
   ...
 # Subtest: arithmetic — the note reconciles, so no component can be missing
     # Subtest: each period ties twice: captions to the note total, categories to the note total
     ok 1 - each period ties twice: captions to the note total, categories to the note total
       ---
-      duration_ms: 0.277295
+      duration_ms: 0.21065
       type: 'test'
       ...
     # Subtest: the filed totals are the ones quoted in the extracts, not retyped from memory
     ok 2 - the filed totals are the ones quoted in the extracts, not retyped from memory
       ---
-      duration_ms: 13.489464
+      duration_ms: 14.067187
       type: 'test'
       ...
     # Subtest: the structural tests behind the negative finding are all recorded as negative
     ok 3 - the structural tests behind the negative finding are all recorded as negative
       ---
-      duration_ms: 0.344959
+      duration_ms: 0.342349
       type: 'test'
       ...
     1..3
 ok 2 - arithmetic — the note reconciles, so no component can be missing
   ---
-  duration_ms: 14.483956
+  duration_ms: 15.030571
   type: 'suite'
   ...
 # Subtest: decision — no value, no nil, no dataset
     # Subtest: the investigation answers no and decides not to ingest
     ok 1 - the investigation answers no and decides not to ingest
       ---
-      duration_ms: 0.26721
+      duration_ms: 0.316385
       type: 'test'
       ...
     # Subtest: the omission was not converted into a nil declaration, and the reason says why
     ok 2 - the omission was not converted into a nil declaration, and the reason says why
       ---
-      duration_ms: 1.773758
+      duration_ms: 0.535372
       type: 'test'
       ...
     # Subtest: every near-miss figure is recorded as rejected, with a reason
     ok 3 - every near-miss figure is recorded as rejected, with a reason
       ---
-      duration_ms: 0.218961
+      duration_ms: 0.210154
       type: 'test'
       ...
     # Subtest: the bundle ships no dataset and no payload
     ok 4 - the bundle ships no dataset and no payload
       ---
-      duration_ms: 0.125649
+      duration_ms: 0.132557
       type: 'test'
       ...
     # Subtest: the review control is unchanged and still justified
     ok 5 - the review control is unchanged and still justified
       ---
-      duration_ms: 0.081529
+      duration_ms: 0.083201
       type: 'test'
       ...
     # Subtest: the boundaries of the work item are declared, not implied
     ok 6 - the boundaries of the work item are declared, not implied
       ---
-      duration_ms: 0.124798
+      duration_ms: 0.096462
       type: 'test'
       ...
     1..6
 ok 3 - decision — no value, no nil, no dataset
   ---
-  duration_ms: 2.903205
+  duration_ms: 1.677553
   type: 'suite'
   ...
 # Subtest: the live chain is untouched by the investigation
     # Subtest: the Work Item 3 dataset still has no associates column
     ok 1 - the Work Item 3 dataset still has no associates column
       ---
-      duration_ms: 0.24826
+      duration_ms: 0.306602
       type: 'test'
       ...
     # Subtest: the committed payload still reports the item as not reported, with no substituted value
     ok 2 - the committed payload still reports the item as not reported, with no substituted value
       ---
-      duration_ms: 0.892765
+      duration_ms: 0.646131
       type: 'test'
       ...
     # Subtest: the IX policy record still shows POLICY_ZERO + a due review, and the V2 row is still a demonstration
     ok 3 - the IX policy record still shows POLICY_ZERO + a due review, and the V2 row is still a demonstration
       ---
-      duration_ms: 0.295884
+      duration_ms: 0.334135
       type: 'test'
       ...
     # Subtest: the limitation register keeps L-036 partially resolved and L-035 open
     ok 4 - the limitation register keeps L-036 partially resolved and L-035 open
       ---
-      duration_ms: 0.775328
+      duration_ms: 0.824413
       type: 'test'
       ...
     1..4
 ok 4 - the live chain is untouched by the investigation
   ---
-  duration_ms: 2.355701
+  duration_ms: 2.255045
   type: 'suite'
   ...
-1..4
-# tests 18
-# suites 4
-# pass 18
+# Subtest: the residual review of Notes 2.13-2.27 (2026-11-07)
+    # Subtest: the review is recorded, with the pages it read and the pages it did not
+    ok 1 - the review is recorded, with the pages it read and the pages it did not
+      ---
+      duration_ms: 0.205898
+      type: 'test'
+      ...
+    # Subtest: no associate or joint venture is disclosed, and none of the three substitutes is accepted
+    ok 2 - no associate or joint venture is disclosed, and none of the three substitutes is accepted
+      ---
+      duration_ms: 2.150733
+      type: 'test'
+      ...
+    # Subtest: the "associated enterprises" phrase is recorded as tax terminology, not a relationship
+    ok 3 - the "associated enterprises" phrase is recorded as tax terminology, not a relationship
+      ---
+      duration_ms: 0.175471
+      type: 'test'
+      ...
+    # Subtest: the review changed no observation: no carrying value, no dataset, no nil
+    ok 4 - the review changed no observation: no carrying value, no dataset, no nil
+      ---
+      duration_ms: 0.175593
+      type: 'test'
+      ...
+    # Subtest: the seven new extracts exist, hash correctly and back the claims
+    ok 5 - the seven new extracts exist, hash correctly and back the claims
+      ---
+      duration_ms: 0.755249
+      type: 'test'
+      ...
+    1..5
+ok 5 - the residual review of Notes 2.13-2.27 (2026-11-07)
+  ---
+  duration_ms: 3.755546
+  type: 'suite'
+  ...
+# Subtest: the POLICY_ZERO wording matches the implementation (2026-11-07)
+    # Subtest: the payload discloses the treatment, so "unstated policy zero" is not a true description
+    ok 1 - the payload discloses the treatment, so "unstated policy zero" is not a true description
+      ---
+      duration_ms: 0.180016
+      type: 'test'
+      ...
+    # Subtest: the disclosure is new since VII — the Work Item 3 payload had no bridge block at all
+    ok 2 - the disclosure is new since VII — the Work Item 3 payload had no bridge block at all
+      ---
+      duration_ms: 0.39562
+      type: 'test'
+      ...
+    # Subtest: the operative statements no longer claim the zero is undisclosed
+    ok 3 - the operative statements no longer claim the zero is undisclosed
+      ---
+      duration_ms: 1.307374
+      type: 'test'
+      ...
+    # Subtest: the correction is recorded where a reader of either document will find it
+    ok 4 - the correction is recorded where a reader of either document will find it
+      ---
+      duration_ms: 1.365342
+      type: 'test'
+      ...
+    1..4
+ok 6 - the POLICY_ZERO wording matches the implementation (2026-11-07)
+  ---
+  duration_ms: 3.462057
+  type: 'suite'
+  ...
+1..6
+# tests 27
+# suites 6
+# pass 27
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 192.69462
+# duration_ms 207.890444

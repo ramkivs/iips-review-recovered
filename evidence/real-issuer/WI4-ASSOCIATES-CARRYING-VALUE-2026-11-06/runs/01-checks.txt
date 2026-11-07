@@ -1,36 +1,54 @@
 WI-4 — bundle integrity and reconciliation checks
-run at: 2026-11-07T03:12:08Z (UTC)
+run at: 2026-11-07T04:38:26Z (UTC)
+note: quotes 1-9 are the original pass (2026-11-06); quotes 10-16 are the residual review of Notes 2.13-2.27 (2026-11-07)
 
 == 1. extract digests vs source/quotes.json ==
-  OK   FY24-BS-INVESTMENTS      fy24-balance-sheet-investments.txt         ce95a72c4ffe68ba…
-  OK   FY24-N25-INVESTMENTS     fy24-note-2.5-investments.txt              3475ff8767b2c5a5…
-  OK   FY24-N251-DETAILS        fy24-note-2.5.1-details.txt                bd071da76b95eea6…
-  OK   FY24-N13-BASIS           fy24-note-1.3-basis-of-consolidation.txt   953a905549768ebc…
-  OK   FY24-PL-NO-ASSOCIATES    fy24-pl-no-associates-line.txt             9bdecf7f88d95a29…
-  OK   FY23-BS-INVESTMENTS      fy23-balance-sheet-investments.txt         b0a63a0defe8891e…
-  OK   FY23-N25-INVESTMENTS     fy23-note-2.5-investments.txt              7d937a2c22e1ada3…
-  OK   FY23-N251-DETAILS        fy23-note-2.5.1-details.txt                b4fc721f320297ab…
-  OK   FY23-PL-NO-ASSOCIATES    fy23-pl-no-associates-line.txt             b943049db5e5fe71…
-  -> 9 quotes, all digests match: True
+  OK   FY24-BS-INVESTMENTS        original  fy24-balance-sheet-investments.txt           ce95a72c4ffe68ba…
+  OK   FY24-N25-INVESTMENTS       original  fy24-note-2.5-investments.txt                3475ff8767b2c5a5…
+  OK   FY24-N251-DETAILS          original  fy24-note-2.5.1-details.txt                  bd071da76b95eea6…
+  OK   FY24-N13-BASIS             original  fy24-note-1.3-basis-of-consolidation.txt     953a905549768ebc…
+  OK   FY24-PL-NO-ASSOCIATES      original  fy24-pl-no-associates-line.txt               9bdecf7f88d95a29…
+  OK   FY23-BS-INVESTMENTS        original  fy23-balance-sheet-investments.txt           b0a63a0defe8891e…
+  OK   FY23-N25-INVESTMENTS       original  fy23-note-2.5-investments.txt                7d937a2c22e1ada3…
+  OK   FY23-N251-DETAILS          original  fy23-note-2.5.1-details.txt                  b4fc721f320297ab…
+  OK   FY23-PL-NO-ASSOCIATES      original  fy23-pl-no-associates-line.txt               b943049db5e5fe71…
+  OK   FY24-N219-OTHER-INCOME     residual  fy24-note-2.19-other-income.txt              a0fbe4c6a0cfab5e…
+  OK   FY23-N219-OTHER-INCOME     residual  fy23-note-2.19-other-income.txt              8ae4f4021e93351f…
+  OK   FY24-N225-RELATED-PARTIES  residual  fy24-note-2.25-related-parties.txt           48198bca99701900…
+  OK   FY23-N225-RELATED-PARTIES  residual  fy23-note-2.25-related-parties.txt           17c257fb1657d6be…
+  OK   FY24-N225-CFS-ANNEXURE     residual  fy24-note-2.25-cfs-annexure.txt              46ba552448b35454…
+  OK   FY23-N225-CFS-ANNEXURE     residual  fy23-note-2.25-cfs-annexure.txt              00fc7946f1c883f2…
+  OK   FY24-N213-TO-N227-SWEEP    residual  fy24-notes-2.13-to-2.27-sweep.txt            7acc367dc0f56d95…
+  -> 16 quotes, all digests match: True
 
-== 2. three-period reconciliation, both directions ==
-  FY2024: captions 11,708 + 12,915 = 24,623  vs note total 24,623  -> tie
-  FY2024: categories 1,759 + 19,620 + 3,244 = 24,623  vs note total 24,623  -> tie
-  FY2023: captions 12,569 + 6,909 = 19,478  vs note total 19,478  -> tie
-  FY2023: categories 1,920 + 16,012 + 1,546 = 19,478  vs note total 19,478  -> tie
-  FY2022: captions 13,651 + 6,673 = 20,324  vs note total 20,324  -> tie
-  FY2022: categories 2,122 + 16,007 + 2,195 = 20,324  vs note total 20,324  -> tie
+== 2. three-period reconciliation, both directions (unchanged by the residual review) ==
+  FY2024: captions 11,708 + 12,915 = 24,623 vs note total 24,623 -> tie
+  FY2024: categories 1,759 + 19,620 + 3,244 = 24,623 vs note total 24,623 -> tie
+  FY2023: captions 12,569 + 6,909 = 19,478 vs note total 19,478 -> tie
+  FY2023: categories 1,920 + 16,012 + 1,546 = 19,478 vs note total 19,478 -> tie
+  FY2022: captions 13,651 + 6,673 = 20,324 vs note total 20,324 -> tie
+  FY2022: categories 2,122 + 16,007 + 2,195 = 20,324 vs note total 20,324 -> tie
   -> all periods tie both ways: True
 
-== 3. decision fields ==
-  answer                                  = NO
-  decision                                = NO_SUPPORTABLE_CARRYING_VALUE__INGESTION_NOT_PERFORMED
-  ingestion.performed                     = False
-  ingestion.nilDeclarationCreated          = False
-  ingestion.v1NotBackfilled                = True
-  ingestion.carryingValueAssertedForAnyPeriod = False
-  bridge treatment (unchanged)             = POLICY_ZERO_UNAVAILABLE
-  review status (unchanged)                = REVIEW_DUE
-  candidate figures considered and rejected = 11
-  dataset/ present                          = False
-  payload artifact present                  = False
+== 3. residual review of Notes 2.13-2.27 ==
+  pages read                             = pp. 31-57 of the FY2024 filing; pp. 37-54 of the FY2023 filing
+  not re-read (recorded as a limit)      = the interior movement tables of Notes 2.21 (leases) and 2.22 (employee benefits), pp. 41-46 of the FY2024 filing; their opening tables and closing pages were read
+  notes opened and characterised         = 15  (2.13, 2.14, 2.15, 2.16, 2.17, 2.18, 2.19, 2.20, 2.21, 2.22, 2.23, 2.24, 2.25, 2.26, 2.27)
+  associatesDisclosed                    = False
+  jointVenturesDisclosed                 = False
+  dormantOrInactiveAssociatesDisclosed   = False
+  equityMethodPolicyOrBalanceFound       = False
+  associatesOrJvBlockInAnnexure          = False
+  annexure blocks                        = ['Infosys Limited', 'Indian Subsidiaries', 'Foreign Subsidiaries', 'Subtotal (100%)', 'Adjustment arising out of consolidation', 'Controlled Trusts', 'Non-controlling Interests', 'Total']
+  conclusion                             = NO_ASSOCIATE_OR_JV_RELATIONSHIP_DISCLOSED
+  carrying value established             = False
+  dataset V2                             = unchanged; no observation created, no nil declared
+
+== 4. decision fields (unchanged) ==
+  answer                                 = NO
+  ingestion.performed                    = False
+  ingestion.nilDeclarationCreated         = False
+  bridge treatment (disclosed)            = POLICY_ZERO_UNAVAILABLE
+  review status (unchanged)               = REVIEW_DUE
+  dataset/ present                        = False
+  payload artifact present                = False

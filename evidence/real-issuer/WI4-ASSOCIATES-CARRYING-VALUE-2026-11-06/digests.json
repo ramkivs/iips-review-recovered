@@ -32,31 +32,43 @@
       "url": "https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf"
     }
   ],
-  "fileCount": 15,
+  "fileCount": 22,
   "files": {
     "artifact/investigation.json": {
-      "sha256": "23dd89e9a156aebfa205a505f2693845d0c00ab1c8f2237ffa21c1a5c27fbb3d",
-      "bytes": 12311
+      "sha256": "0111397afd8f587ba876780f8ef563e3a338c854c80ec94afb9fe65f76f8f066",
+      "bytes": 21589
     },
     "runs/01-checks.txt": {
-      "sha256": "098e696803302726ca98ac3e3c78b122708bf9a012ea6fb7531ccf57f8a90837",
-      "bytes": 2245
+      "sha256": "568252a316e5f80d14fc38b1ebd640930407c753f64e0d3fe28dfada024d1432",
+      "bytes": 4230
     },
     "runs/02-guard-test.txt": {
-      "sha256": "b4ab188674cd7f37a900c95d76e50c7f61c2dc071fe619ae71490460bf184628",
-      "bytes": 5179
+      "sha256": "2829b5f545972073047561c7ff360a314afd4c956460f38995df095246316986",
+      "bytes": 7820
     },
     "runs/commands.txt": {
-      "sha256": "8a92228f388e7d13eb4466806731612dbc0d3b2a850ce06207860b5fa420a6e0",
-      "bytes": 3471
+      "sha256": "91d4b43d84c2f2406017e1369d676eb2c95fa1ebb58cc729d126f974264e7de4",
+      "bytes": 5125
     },
     "runs/targeted-tests.txt": {
-      "sha256": "13aec8a3a384a50963ca1c0a29c5e8373d35731ddcb259fe776e3f30667c84e7",
-      "bytes": 491
+      "sha256": "08b80fc2c7c6929e7e89eefc27534df7ad30515ed4bfb0e5784c75a5f50a0c32",
+      "bytes": 500
     },
     "source/fy23-balance-sheet-investments.txt": {
       "sha256": "b0a63a0defe8891e3a5081f72d4f5107cac2ec5da5dfc8e736ebb0e75ded6fc0",
       "bytes": 2167
+    },
+    "source/fy23-note-2.19-other-income.txt": {
+      "sha256": "8ae4f4021e93351f31e582ec653c7673ece480747f08efcdc0619e0d44f4adaf",
+      "bytes": 1649
+    },
+    "source/fy23-note-2.25-cfs-annexure.txt": {
+      "sha256": "00fc7946f1c883f26aaae8ac6ddbd037d4a0ce2056f99d664069c15481b44921",
+      "bytes": 2558
+    },
+    "source/fy23-note-2.25-related-parties.txt": {
+      "sha256": "17c257fb1657d6be44437c6f8c1e52d4540556973a4b46052c237df728483191",
+      "bytes": 4358
     },
     "source/fy23-note-2.5-investments.txt": {
       "sha256": "7d937a2c22e1ada3de5b1eec7a9cbb5563acc1bcf8c46c54d12d74beaaddc868",
@@ -78,6 +90,18 @@
       "sha256": "953a905549768ebcf069e6405f5a6e3d081b05df77a9cdcca9dd7f25660bf691",
       "bytes": 2121
     },
+    "source/fy24-note-2.19-other-income.txt": {
+      "sha256": "a0fbe4c6a0cfab5e2b0cc6ef00ad058ca7f3b50d5e57ea490282602aed5c509c",
+      "bytes": 2890
+    },
+    "source/fy24-note-2.25-cfs-annexure.txt": {
+      "sha256": "46ba552448b354540069502e4a9cfbd74f4bdecdd4ffdd2bf6ebe349942ec8f2",
+      "bytes": 2895
+    },
+    "source/fy24-note-2.25-related-parties.txt": {
+      "sha256": "48198bca997019006743dd71bb4ee26f98a6581fb0e91d18996fa06b5a9d811f",
+      "bytes": 5555
+    },
     "source/fy24-note-2.5-investments.txt": {
       "sha256": "3475ff8767b2c5a55c7e851c484460326e698c1787a3ff78669d1920db1d740e",
       "bytes": 3364
@@ -86,13 +110,33 @@
       "sha256": "bd071da76b95eea64f89bda819bd6d06eda097aa30cb5fc6a4235164982b78a9",
       "bytes": 2682
     },
+    "source/fy24-notes-2.13-to-2.27-sweep.txt": {
+      "sha256": "7acc367dc0f56d955f882c62beb4a9f6457ee29d36cc4fcbb234bfa684df4f16",
+      "bytes": 5932
+    },
     "source/fy24-pl-no-associates-line.txt": {
       "sha256": "9bdecf7f88d95a29d39b6a724edc12449ce83e6b2468cf9eaa313b4458a33b94",
       "bytes": 2233
     },
     "source/quotes.json": {
-      "sha256": "1324ceb92143979140d4f36034d919f6599a167a769ecb135d02dd320900baf3",
-      "bytes": 13029
+      "sha256": "98f1bfd72307849f94e702f2570a09c86865c5e4dfa5b3f732277e97b527a53f",
+      "bytes": 24719
     }
+  },
+  "residualReview": {
+    "completedAt": "2026-11-07",
+    "notesRead": "Notes 2.13-2.27, pp. 31-57 (FY2024 filing) and pp. 37-54 (FY2023 filing)",
+    "conclusion": "no associate or joint-venture relationship disclosed; no carrying value to ingest",
+    "datasetV2": "unchanged",
+    "correction": "the bridge applies the disclosed POLICY_ZERO treatment (POLICY_ZERO_UNAVAILABLE, associates-treatment/1.0.0); the earlier \"unstated policy zero\" phrasing was corrected in the register, the work-item document and README",
+    "newFiles": [
+      "source/fy23-note-2.19-other-income.txt",
+      "source/fy23-note-2.25-cfs-annexure.txt",
+      "source/fy23-note-2.25-related-parties.txt",
+      "source/fy24-note-2.19-other-income.txt",
+      "source/fy24-note-2.25-cfs-annexure.txt",
+      "source/fy24-note-2.25-related-parties.txt",
+      "source/fy24-notes-2.13-to-2.27-sweep.txt"
+    ]
   }
 }

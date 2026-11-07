@@ -1,0 +1,29 @@
+SOURCE EXTRACT — verbatim text layer of Note 2.19 OTHER INCOME, NET (the complete note)
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2023
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+Page     : 39 (Note 2.19), accounting policy continuing onto page 40
+Units    : ₹ crore
+Read via  : full-document reader of the same PDF (all 57 pages); page anchors as printed in the filed text
+Note     : the two columns are FY2023 and FY2022 — this extract is the FY2022 primary evidence for Note 2.19
+
+2.19 OTHER INCOME, NET
+
+Other income for the year ended March 31, 2023 and March 31, 2022 is as follows:
+
+| Particulars | 2023 | 2022 |
+| Interest income on financial assets carried at amortized cost |  |  |
+| Tax free bonds and Government bonds | 149 | 152 |
+| Deposit with Bank and others | 712 | 851 |
+|  | 955 | 642 |
+| Income on investments carried at fair value through profit or loss: |  |  |
+| Gain / (loss) on liquid mutual funds and other investments | 148 | 177 |
+|  | 1 | 1 |
+|  | (647) | 88 |
+|  | 1,062 | 186 |
+| Miscellaneous income, net | 321 | 198 |
+| Total other income | 2,701 | 2,295 |
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+Same composition as FY2024, for FY2023 and FY2022: interest, FVTPL gains, FVOCI interest, exchange gains and
+miscellaneous income. No share of an associate's or joint venture's profit or loss in either year, and no
+share-of-OCI-of-associates line in the OCI section of the statement of profit and loss.

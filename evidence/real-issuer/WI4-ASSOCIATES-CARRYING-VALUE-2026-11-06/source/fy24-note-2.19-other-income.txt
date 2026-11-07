@@ -1,0 +1,41 @@
+SOURCE EXTRACT — verbatim text layer of Note 2.19 OTHER INCOME, NET (the complete note)
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2024
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Page     : 39 (Note 2.19), with the accounting policy continuing onto page 40
+Units    : ₹ crore
+Read via  : full-document reader of the same PDF (all 57 pages); page anchors as printed in the filed text
+
+2.19 OTHER INCOME, NET
+
+Other income for the year ended March 31, 2024 and March 31, 2023 is as follows:
+
+| Particulars | 2024 | 2023 |
+| Interest income on financial assets carried at amortized cost |  |  |
+| Tax free bonds and Government bonds | 131 | 149 |
+| Deposit with Bank and others | 929 | 712 |
+|  | 1,007 | 955 |
+| Interest income on financial assets carried at fair value through other comprehensive income |  |  |
+| Non-convertible debentures, commercial paper, certificates of deposit and government securities | 1,965 | 3 |
+| Income on investments carried at fair value through profit or loss: |  |  |
+| Gain / (loss) on liquid mutual funds and other investments | 285 | 148 |
+|  | 100 | (647) |
+| Exchange gains / (losses) on forward and options contracts | 87 | 1,062 |
+| Exchange gains / (losses) on translation of other assets and liabilities |  |  |
+| Interest on income tax refund |  |  |
+| Miscellaneous income, net | 207 | 318 |
+| Total other income | 4,711 | 2,701 |
+
+Accounting policy — Other income is comprised primarily of interest income, dividend income, gain/loss on investment and
+exchange gain/loss on forward and options contracts and on translation of foreign currency assets and liabilities.
+Interest income is recognized using the effective interest method. Dividend income is recognized when the right to
+receive payment is established.
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+This is the note that would carry a "share of profit/(loss) of associates and joint ventures" credit if any
+equity-accounted interest existed, because Ind AS 28 requires that share to be presented as a separate line item of
+profit or loss (and the note disaggregates the whole of other income). The complete note contains seven components —
+interest at amortised cost, interest at FVOCI, gains on investments at FVTPL, exchange gains on forwards/options,
+exchange gains on translation, interest on income-tax refund, and miscellaneous income — and none of them is a share of
+an associate's or joint venture's result. The two rows whose labels are printed out of order in the filed text layer
+(the ₹100 / ₹(647) row and the blank-labelled exchange rows) belong to those same seven components; the filed total of
+4,711 / 2,701 ties to the statement of profit and loss.

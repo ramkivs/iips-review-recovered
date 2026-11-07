@@ -1,0 +1,65 @@
+SOURCE EXTRACT — verbatim text layer of Note 2.25 RELATED PARTY TRANSACTIONS (entity roster, trusts, KMP)
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2023
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+Pages    : 49–52 (Note 2.25)
+Units    : holdings as %; compensation in ₹ crore
+Read via : full-document reader of the same PDF (all 57 pages); page anchors as printed in the filed text
+Note     : this filing covers FY2023 and, in its comparative columns, FY2022
+
+2.25 RELATED PARTY TRANSACTIONS
+
+List of related parties:
+Name of subsidiaries | Country | Holdings as at March 31, 2023 | March 31, 2022
+
+(the filed list opens with Infosys Technologies (China) Co. Limited, Infosys Technologies S. de R. L. de C. V.,
+Infosys Technologies (Sweden) AB, Infosys Technologies (Shanghai) Company Limited, EdgeVerve Systems Limited,
+Skava Systems Private Limited, Infosys Chile SpA, Infosys Arabia Limited, Infosys Consulting Ltda. … and runs without a
+break through the same group of subsidiaries as the FY2024 list, every row 100%-owned or majority-owned and controlled)
+BASE life science Inc. (50) | U.S. | 100% | -
+BASE life science S.L. (50)(51) | Spain | 100% | -
+Panaya Germany GmbH (6)(52) | Germany | 100% | -
+Infosys Norway (8)(53) | Norway | 100% | -
+
+Footnote markers used in the list, verbatim in part:
+(2) Majority owned and controlled subsidiary of Infosys Limited
+(26) Under liquidation
+(27) Liquidated effective April 27, 2021
+(43) On March 17, 2022, Infosys Limited acquired non-controlling interest of 0.01% of the voting interests in
+     Infosys BPM Limited.
+
+Infosys has provided guarantee for performance of certain contracts entered into by its subsidiaries.
+
+Particulars | Country
+Infosys Limited Employees' Gratuity Fund Trust | India | Post-employment benefit plan of Infosys Limited
+Infosys Limited Employees' Provident Fund Trust | India | Post-employment benefit plan of Infosys Limited
+Infosys Limited Employees' Superannuation Fund Trust | India | Post-employment benefit plan of Infosys Limited
+Infosys BPM Limited Employees' Superannuation Fund Trust | India | Post-employment benefit plan of Infosys BPM Limited
+Infosys BPM Limited Employees' Gratuity Fund Trust | India | Post-employment benefit plan of Infosys BPM Limited
+EdgeVerve Systems Limited Employees' Gratuity Fund Trust | India | Post-employment benefit plan of EdgeVerve
+EdgeVerve Systems Limited Employees' Superannuation Fund Trust | India | Post-employment benefit plan of EdgeVerve
+Infosys Employees Welfare Trust | India | Controlled trust
+Infosys Employee Benefits Trust | India | Controlled trust
+Infosys Science Foundation | India | Controlled trust
+Infosys Expanded Stock Ownership Trust | India | Controlled trust
+Infosys Foundation (1) | India | Trust jointly controlled by KMPs
+
+List of key management personnel
+Whole-time Directors; Non-whole-time Directors (Nandan M. Nilekani, D. Sundaram, Kiran Mazumdar-Shaw, Micheal Gibbs,
+Uri Levine, Bobby Parikh, Chitra Nayak, Govind Iyer); Executive Officers (Nilanjan Roy, Inderpreet Sawhney,
+Shaji Mathew, Krishnamurthy Shankar, Mohit Joshi, Ravi Kumar S); Company Secretary (A.G.S. Manikantha)
+
+Transaction with key management personnel:
+Salaries and other employee benefits to whole-time directors and executive officers (1)(2) | 111 | 134
+Commission and other benefits to non-executive/independent directors | 16 | 11
+Total | 127 | 145
+
+List of other related party | Nature of relationship
+Infosys Foundation (1)(2)
+(1) Total employee stock compensation expense for the year ended March 31, 2023 and March 31, 2022 includes a charge of
+    ₹49 crore and ₹65 crore respectively, towards key management personnel.
+(2) During the year ended March 31, 2023 the Group contributed ₹354 crore towards CSR.
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+The FY2023 note has the same three groups as FY2024 — subsidiaries, trusts and KMP — and the only entry under
+"List of other related party" is Infosys Foundation, the trust jointly controlled by KMPs. No associates list, no joint
+ventures list, no equity-method transaction and no carrying amount, for FY2023 or for the FY2022 comparative year.
