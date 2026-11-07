@@ -254,7 +254,7 @@ evidence about the DCF formula*, not as valuations of this issuer.
 | datasetVersion | `sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab` |
 | chain | valid, 1 version, head v1 |
 | idempotency | a second generate run reported `compare: content and input identical` → `persist: UNCHANGED (no write)` |
-| readback | separate process, `readVersionWithPayload` → recomputed `sha256:4c51f780…d5f7` **equals** the stored digest and the chain head; payload 52,357 bytes |
+| readback | separate process, `readVersionWithPayload` → recomputed `sha256:4f89f0ec…e351` **equals** the stored digest and the chain head; payload 52,357 bytes |
 
 `runs/03-chain-read.txt` is the governed `show-investment-chain` CLI reading the same chain in a third process; it
 reports the same reportId, digests and counts.
@@ -294,8 +294,8 @@ IIPS_NP04_DATABASE_PATH=/tmp/wi8/data/investment/investment.db \
 ```
 
 The ingest is deterministic given `--now`: re-running it over the same input reproduces
-`sha256:564d854e…4103`, and the generate step over that dataset reproduces reportKey `15b68ca5…`, reportId
-`aea42dec-…` and payloadDigest `4c51f780…`. A clean clone of the branch reproduces the same digests
+`sha256:0df73ead…82ab`, and the generate step over that dataset reproduces reportKey `15b68ca5…`, the same
+payloadDigest `4f89f0ec…` and the same inputDigest `sha256:513993f2…`. A clean clone of the branch reproduces the same digests
 (`runs/07-clean-clone.txt`).
 
 ## 15. Verification recorded in this bundle

@@ -2165,7 +2165,7 @@ datasetVersion `sha256:0df73ead…`, `issues.json` `[]`, three periods × 37 rep
 **0 %**, `DCF_FCFF` and `EV_EBITDA` usable and `EV_REVENUE` `WITHHELD` (`MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL`);
 adequacy `SUFFICIENT` (required-field coverage 100 %); assessment `SUFFICIENT` / `MATERIAL_CONCERNS`; confidence
 **0.3199** (data 0.70, model 0.0833, caps `STALE_DATA`, `DILUTION_PROXY`, `POLICY_DEFAULT_WACC`); reportKey
-`15b68ca5…`, payloadDigest `4f89f0ec…`, reportId `73fc9365-…`, chain valid, head v1, second generate run
+`15b68ca5…`, payloadDigest `4f89f0ec…`, reportId `85809cbd-…`, chain valid, head v1, second generate run
 `UNCHANGED (no write)`, and a separate-process readback whose recomputed digest equals the stored digest and the chain
 head. **`grossDebt` is `PRESENT` at ₹5,377.76 crore — the first time in this programme that a real filing closes the
 debt side of the bridge** — while `netDebt` is `MISSING` / `NOT_REPORTED`. `DCF_FCFF` therefore computes an enterprise
