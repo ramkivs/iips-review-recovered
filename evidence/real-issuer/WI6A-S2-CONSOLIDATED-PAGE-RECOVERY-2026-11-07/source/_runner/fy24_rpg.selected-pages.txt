@@ -3106,6 +3106,192 @@ contracts is time and material and/or fixed price.                              
 
 248                                                                                                                                                                                                                                                                249
 
+<<<PDF_PAGE 128 of 168>>>
+Zensar Technologies Limited                                                                                                                                                                              Financial Statements    Integrated Annual Report 2023-24
+
+
+
+
+       adverse remarks in the Companies (Auditor’s Report)                   on reporting under Section 143(3)(b) of the Act and                      shall, whether, directly or indirectly lend                   audit reports of such Holding Company is in
+       Order (CARO) reports of the companies incorporated                    paragraph (i)(vi) below on reporting under Rule 11(g).                   or invest in other persons or entities                        accordance with section 123 of the Act.
+       in India and included in the consolidated financial                                                                                            identified in any manner whatsoever by
+       statements. Accordingly, the requirement to report              (g)   With respect to the adequacy of the internal                             or on behalf of the respective Holding         			            As stated in note 10(a)(ii) to the consolidated
+       on clause 3 (xxi) of the Order is not applicable to the               financial controls with reference to consolidated                        Company or the subsidiary (“Ultimate                          financial statements, the respective Board
+       Holding Company.                                                      financial statements of the Holding Company and                          Beneficiaries”) or provide any guarantee,                     of Directors of the Holding Company
+                                                                             its subsidiary company, incorporated in India, and                       security or the like on behalf of the                         incorporated in India have proposed final
+2.     As required by Section 143(3) of the Act, based on our                the operating effectiveness of such controls, refer                      Ultimate Beneficiaries;                                       dividend for the year which is subject to
+       audit we report, to the extent applicable, that:                      to our separate Report in “Annexure ” to this report;                                                                                  the approval of the members of the Holding
+                                                                                                                                       			       b)   The respective managements of the                             Company at the respective ensuing Annual
+       (a)   We have sought and obtained all the information           (h)   In our opinion, the managerial remuneration for                          Holding Company and its subsidiary                            General Meeting. The dividend declared is in
+             and explanations which to the best of our                       the year ended March 31, 2024 has been paid                              which are companies incorporated                              accordance with section 123 of the Act to the
+             knowledge and belief were necessary for the                     / provided by the Holding Company and its                                in India whose financial statements                           extent it applies to declaration of dividend.
+             purposes of our audit of the aforesaid consolidated             subsidiary incorporated in India to their directors in                   have been audited under the Act
+             financial statements;                                           accordance with the provisions of section 197 read                       have represented to us respectively            		       vi)   The Group has migrated to a new accounting
+                                                                             with Schedule V to the Act;                                              that, to the best of its knowledge and                        software from legacy accounting software
+       (b)   In our opinion, proper books of account as required                                                                                                                                                    during the year. Based on our examination
+                                                                                                                                                      belief, as disclosed in the note 39 to
+             by law relating to preparation of the aforesaid           (i)   With respect to the other matters to be included                                                                                       which included test checks, and as explained
+                                                                                                                                                      the consolidated financial statements,
+             consolidation of the financial statements have                  in the Auditor’s Report in accordance with Rule                                                                                        in note 40(vi) to the consolidated financial
+                                                                                                                                                      no funds have been received by the
+             been kept so far as it appears from our examination             11 of the Companies (Audit and Auditors) Rules,                                                                                        statements, the Holding Company and its
+                                                                                                                                                      respective Holding Company or the
+             of those books, except a ) that with respect to the             2014, as amended, in our opinion and to the                                                                                            subsidiary incorporated in India have used
+                                                                                                                                                      subsidiary from any persons or entities,
+             Holding Company and a subsidiary incorporated                   best of our information and according to the                                                                                           accounting software for maintaining the
+                                                                                                                                                      including foreign entities (“Funding
+             in India, the back-up of books of account was                   explanations given to us:                                                                                                              books of account which has a feature of
+                                                                                                                                                      Parties”), with the understanding, whether
+             kept by the service provider in servers physically                                                                                                                                                     recording audit trail (edit log) facility and
+                                                                      		     i.     The Group has disclosed the impact of                             recorded in writing or otherwise, that
+             located in India at least on a weekly basis for the                                                                                                                                                    the same has operated throughout the year
+                                                                                    pending litigations on its consolidated                           the Holding Company or the subsidiary
+             period beginning October 1, 2023 till March 31,                                                                                                                                                        for all relevant transactions recorded in the
+                                                                                    financial position in its consolidated financial                  shall, whether, directly or indirectly, lend
+             2024 as more fully explained in Note 40(v) to the                                                                                                                                                      software except that, the audit trail did not
+                                                                                    statements – Refer Note 31 to the consolidated                    or invest in other persons or entities
+             consolidated financial statements; and b) for the                                                                                                                                                      operate throughout the year for certain
+                                                                                    financial statements;                                             identified in any manner whatsoever
+             matters stated in the paragraph i(vi) below on                                                                                                                                                         relevant transactions including master data in
+                                                                                                                                                      by or on behalf of the Funding Party
+             reporting under Rule 11(g);                                                                                                                                                                            regard to both the accounting software; and
+                                                                      		     ii.    The Group did not have any material                               (“Ultimate Beneficiaries”) or provide any
+                                                                                    foreseeable losses in long-term contracts                         guarantee, security or the like on behalf                     the underlying database in legacy accounting
+       (c)   The Consolidated Balance Sheet, the Consolidated
+                                                                                    including derivative contracts during the year                    of the Ultimate Beneficiaries; and                            software. Further, in the absence of sufficient
+             Statement of Profit and Loss including the Statement
+                                                                                    ended March 31, 2024;                                                                                                           information relating to underlying database of
+             of Other Comprehensive Income, the Consolidated
+                                                                                                                                       			       c)   Based on the audit procedures that                            new accounting software in the audit report
+             Cash Flow Statement and Consolidated Statement
+                                                                      		     iii.   There has been no delay in transferring                           have been considered reasonable                               provided by the service organisation, we are
+             of Changes in Equity dealt with by this Report are
+                                                                                    amounts, required to be transferred, to the                       and appropriate in the circumstances                          unable to assess whether the audit trail feature
+             in agreement with the books of account maintained
+                                                                                    Investor Education and Protection Fund by                         performed by us on the Holding                                has operated throughout the year.
+             for the purpose of preparation of the consolidated
+                                                                                    the Holding Company and its subsidiary,                           Company and its subsidiary which are
+             financial statements;                                                                                                                                                                   			            Further, during the course of our audit we
+                                                                                    incorporated in India during the year ended                       companies incorporated in India whose
+                                                                                    March 31, 2024;                                                   financial statements have been audited                        did not come across any instance of audit
+       (d)   In our opinion, the aforesaid consolidated financial
+                                                                                                                                                      under the Act, nothing has come to our                        trail feature being tampered with in respect
+             statements comply with the Accounting Standards
+                                                                      		     iv.    a)   The respective managements of the                                                                                          of both the accounting software for the part
+             specified under Section 133 of the Act, read with                                                                                        or other auditor’s notice that has caused
+                                                                                         Holding Company and its subsidiary                                                                                         which was operating throughout the year.
+             Companies (Indian Accounting Standards) Rules,                                                                                           us or the other auditors to believe that the
+                                                                                         which are companies incorporated
+             2015, as amended;                                                                                                                        representations under sub-clause (a) and
+                                                                                         in India whose financial statements
+                                                                                                                                                      (b) contain any material mis-statement.
+       (e)   On the basis of the written representations received                        have been audited under the Act have
+                                                                                                                                                                                                                                          For S R B C & CO LLP
+             from the directors of the Holding Company as on                             represented to us respectively that, to       		   v)   The final dividend paid by the Holding                                                 Chartered Accountants
+             March 31, 2024 taken on record by the Board of                              the best of its knowledge and belief,                   Company incorporated in India during the                     ICAI Firm Registration Number: 324982E/E300003
+             Directors of the Holding Company and the reports                            as disclosed in the note 39 to the                      year in respect of the same declared for the
+             of the statutory auditors who are appointed under                           consolidated financial statements, no                   previous year is in accordance with section                                            per Tridevlal Khandelwal
+             Section 139 of the Act, of its subsidiary company,                          funds have been advanced or loaned or                   123 of the Act to the extent it applies to                                                               Partner
+             none of the directors of the Group’s companies,                             invested (either from borrowed funds or                 payment of dividend.                                                                Membership Number: 501160
+             incorporated in India, is disqualified as on March 31,                      share premium or any other sources or
+                                                                                                                                                                                                                                      UDIN: 24501160BKFVYA8179
+                                                                                         kind of funds) by the Holding Company         			       The interim dividend declared and paid during
+             2024 from being appointed as a director in terms of
+                                                                                         or the subsidiary to or in any other                    the year by the Holding Company incorporated                                          Place of Signature: Mumbai
+             Section 164 (2) of the Act;
+                                                                                         persons or entities, including foreign                  in India and until the date of the respective                                                 Date: April 25, 2024
+       (f)   The modification relating to the maintenance of                             entities (“Intermediaries”), with the
+             accounts and other matters connected therewith                              understanding, whether recorded in
+             are as stated respectively in paragraph (b) above                           writing or otherwise, that the Intermediary
+
+
+
+
+ 252                                                                                                                                                                                                                                                           253
+
+<<<PDF_PAGE 129 of 168>>>
+Zensar Technologies Limited                                                                                                                                                                                      Financial Statements   Integrated Annual Report 2023-24
+
+
+
+
+Annexure to the Independent Auditor’s Report of even date on the                                                                      Inherent Limitations of Internal Financial Controls                   internal financial controls with reference to consolidated
+                                                                                                                                      With Reference to Consolidated Financial Statements                   financial statements were operating effectively as at March
+Consolidated Financial Statements of Zensar Technologies Limted                                                                                                                                             31,2024, based on the internal control over financial reporting
+                                                                                                                                      Because of the inherent limitations of internal financial controls
+                                                                                                                                                                                                            criteria established by the Holding Company considering
+                                                                                                                                      with reference to consolidated financial statements, including
+                                                                                                                                                                                                            the essential components of internal control stated in the
+                                                                                                                                      the possibility of collusion or improper management override
+Report on the Internal Financial Controls under                     to consolidated financial statements was established and                                                                                Guidance Note issued by the ICAI.
+                                                                                                                                      of controls, material misstatements due to error or fraud may
+Clause (i) of Sub-section 3 of Section 143 of the                   maintained and if such controls operated effectively in all
+                                                                                                                                      occur and not be detected. Also, projections of any evaluation
+Companies Act, 2013 (“the Act”)                                     material respects.
+                                                                                                                                      of the internal financial controls with reference to consolidated
+In conjunction with our audit of the consolidated financial         Our audit involves performing procedures to obtain audit          financial statements to future periods are subject to the risk that
+statements of Zensar Technologies Limited (hereinafter              evidence about the adequacy of the internal financial controls    the internal financial controls with reference to consolidated
+referred to as the “Holding Company”) as of and for the                                                                                                                                                                                           For S R B C & CO LLP
+                                                                    with reference to consolidated financial statements and           financial statements may become inadequate because of
+year ended March 31, 2024, we have audited the internal                                                                                                                                                                                         Chartered Accountants
+                                                                    their operating effectiveness. Our audit of internal financial    changes in conditions, or that the degree of compliance with
+financial controls with reference to consolidated financial                                                                                                                                                           ICAI Firm Registration Number: 324982E/E300003
+                                                                    controls with reference to consolidated financial statements      the policies or procedures may deteriorate.
+statements of the Holding Company and its subsidiary which          included obtaining an understanding of internal financial
+                                                                                                                                                                                                                                               per Tridevlal Khandelwal
+are companies incorporated in India, as of that date.               controls with reference to consolidated financial statements,
+                                                                                                                                      Opinion                                                                                                                    Partner
+                                                                    assessing the risk that a material weakness exists, and testing
+                                                                                                                                                                                                                                            Membership Number: 501160
+                                                                                                                                      In our opinion, the Holding Company and its subsidiary,
+Management’s Responsibility for Internal Financial                  and evaluating the design and operating effectiveness of
+                                                                                                                                                                                                                                             UDIN: 24501160BKFVYA8179
+                                                                                                                                      which are companies incorporated in India, have, maintained
+Controls                                                            internal control based on the assessed risk. The procedures
+                                                                    selected depend on the auditor’s judgement, including the         in all material respects, adequate internal financial controls                                          Place of Signature: Mumbai
+The respective Board of Directors of the Holding Company and                                                                          with reference to consolidated financial statements and such                                                    Date: April 25, 2024
+                                                                    assessment of the risks of material misstatement of the
+its subsidiary, which are companies incorporated in India, are
+                                                                    financial statements, whether due to fraud or error.
+responsible for establishing and maintaining internal financial
+controls based on the internal control over financial reporting     We believe that the audit evidence we have obtained is
+criteria established by the Holding Company considering the         sufficient and appropriate to provide a basis for our audit
+essential components of internal control stated in the Guidance     opinion on the internal financial controls with reference to
+Note on Audit of Internal Financial Controls Over Financial         consolidated financial statements.
+Reporting issued by the Institute of Chartered Accountants
+of India (ICAI). These responsibilities include the design,
+implementation and maintenance of adequate internal financial
+                                                                    Meaning of Internal Financial Controls With
+controls that were operating effectively for ensuring the orderly
+                                                                    Reference to Consolidated Financial Statements
+and efficient conduct of its business, including adherence          A company's internal financial control with reference to
+to the respective company’s policies, the safeguarding of its       consolidated financial statements is a process designed to
+assets, the prevention and detection of frauds and errors, the      provide reasonable assurance regarding the reliability of
+accuracy and completeness of the accounting records, and the        financial reporting and the preparation of financial statements
+timely preparation of reliable financial information, as required   for external purposes in accordance with generally accepted
+under the Companies Act, 2013.                                      accounting principles. A company's internal financial
+                                                                    control with reference to consolidated financial statements
+                                                                    includes those policies and procedures that (1) pertain to the
+Auditor’s Responsibility
+                                                                    maintenance of records that, in reasonable detail, accurately
+Our responsibility is to express an opinion on the Holding          and fairly reflect the transactions and dispositions of the
+Company's internal financial controls with reference to             assets of the company; (2) provide reasonable assurance that
+consolidated financial statements based on our audit. We            transactions are recorded as necessary to permit preparation
+conducted our audit in accordance with the Guidance                 of financial statements in accordance with generally accepted
+Note on Audit of Internal Financial Controls Over Financial         accounting principles, and that receipts and expenditures
+Reporting (the “Guidance Note”) and the Standards on                of the company are being made only in accordance with
+Auditing, specified under section 143(10) of the Act, to the        authorisations of management and directors of the company;
+extent applicable to an audit of internal financial controls,       and (3) provide reasonable assurance regarding prevention
+both, issued by ICAI. Those Standards and the Guidance Note         or timely detection of unauthorised acquisition, use, or
+require that we comply with ethical requirements and plan           disposition of the company's assets that could have a material
+and perform the audit to obtain reasonable assurance about          effect on the financial statements.
+whether adequate internal financial controls with reference
+
+
+
+
+ 254                                                                                                                                                                                                                                                                  255
+
 <<<PDF_PAGE 130 of 168>>>
 Zensar Technologies Limited                                                                                                                                                                                                                             Financial Statements       Integrated Annual Report 2023-24
 
@@ -4364,6 +4550,100 @@ as at and for the year ended March 31, 2024
 
  278                                                                                                                                                                                                                                                                                                                                                                                                    279
 
+<<<PDF_PAGE 142 of 168>>>
+Zensar Technologies Limited                                                                                                                                                                                Financial Statements   Integrated Annual Report 2023-24
+
+
+
+
+Notes to the Consolidated Financial Statements                                                                                         Notes to the Consolidated Financial Statements
+as at and for the year ended March 31, 2024					                                                                                       as at and for the year ended March 31, 2024					
+(All amounts in INR Million, unless otherwise stated)		                                                                                (All amounts in INR Million, unless otherwise stated)		
+
+
+4(a) Capital work-in-progress                                                                                                          6   Financial Assets
+
+                                                                                                         As at                 As at
+                                                                                                                                       6 (a) Investments : Non-current
+      Particulars
+                                                                                               March 31, 2024        March 31, 2023
+                                                                                                                                                                                                                                        As at                As at
+      Opening balance                                                                                       0                    12        Particulars
+                                                                                                                                                                                                                              March 31, 2024       March 31, 2023
+      Additions during the year                                                                           143                   307
+                                                                                                                                           Investment carried at fair value through other comprehensive income (FVOCI)
+      Capitalised during the year                                                                          91                   319
+                                                                                                                                           Investment in equity instruments - quoted
+      Closing balance                                                                                      52                     0
+                                                                                                                                           100 (March 31, 2023: 100) Equity Shares of INR 10 each fully paid-up in CFL                      0                    0
+                                                                                                                                           Capital Financial Services Limited
+      For ageing of Capital work-in-progress - refer note 40 (iv)                                                                          Sub Total                                                                                        0                    0
+                                                                                                                                           Investments in equity instruments - unquoted
+5     Other intangible assets                                                                                                              100 (March 31, 2023: 100) Equity Shares of INR 9 each fully paid-up in Spencer                   0                    0
+                                                                                                                                           & Company Limited
+                                                          Softwares                           Non                                          Total                                                                                            0                    0
+                                           Softwares                       Customer                              Customer
+Particulars                                               (Internally                     Compete     Brand                    Total       Quoted investments carried at fair value through profit and loss (FVTPL)
+                                           (Acquired)                    Relationship                            contracts
+                                                         generated)                     Agreements                                         - Mutual funds                                                                                 129                1,082
+Gross block                                                                                                                                - Non convertible debentures (NCD)                                                              98                  103
+As at April 1, 2023                               167            173           3,664          270       386           218    4,878         Quoted Investments carried at Amortised Cost
+                                                                                                                                           - Mutual funds                                                                               1,570                1,570
+Additions                                           0              -                -            -        -             -         0
+                                                                                                                                           - Non convertible debentures (NCD)                                                           2,697                1,072
+Disposals                                        (83)              -                -            -        -             -      (83)
+                                                                                                                                           - Government securities                                                                         81                     -
+Exchange translation differences                   (1)             -               53           4         6             3        65
+                                                                                                                                           Unquoted investments carried at amortised cost
+Gross block as at March 31, 2024                   83            173            3,717         274       392           221    4,860
+                                                                                                                                           - Corporate deposits                                                                        3,002                  650
+Accumulated Amortisation                                                                                                                   Total non-current investments                                                               7,577                4,477
+As at April 1, 2023                              166             156           2,764          229       341           203     3,859
+Amortisation                                       0              20             407            12       34             16      489        Aggregate amount of quoted investments                                                      4,575                3,827
+                                                                                                                                           Market value of quoted investments                                                          4,651                3,829
+Disposals                                        (83)               -              -             -        -              -      (83)
+                                                                                                                                           Aggregate amount of unquoted investments                                                    3,002                  650
+Exchange translation differences                   0              (3)             44             5        7              2        55
+Accumulated amortisation as at                    83             173           3,215          246       382            221    4,320
+March 31, 2024                                                                                                                         6 (b) Investments: current
+Net block as at March 31, 2024                      0                -           502            28        10             -     540
+                                                                                                                                                                                                                                        As at                As at
+                                                                                                                                           Particulars
+                                                                                                                                                                                                                              March 31, 2024       March 31, 2023
+                                                          Softwares                           Non                                          Quoted investments carried at FVTPL
+                                           Softwares                       Customer                              Customer
+Particulars                                               (Internally                     Compete     Brand                    Total       - Mutual funds                                                                               4,292                2,675
+                                          (Acquired)                     Relationship                            contracts
+                                                         generated)                     Agreements                                         - Non convertible debentures (NCD)                                                              56                    -
+Gross block                                                                                                                                Quoted Investments carried at Amortised Cost
+                                                                                                                                           - Non convertible debentures (NCD)                                                            569                  795
+As at April 1, 2022                               277            173          3,420           266       358           202    4,696
+                                                                                                                                           - Commercial papers (CP)                                                                      838                  189
+Additions                                            8              -              -              -       -             -         8        Unquoted investments carried at amortised cost
+Disposals                                        (118)              -              -           (17)       -             -     (135)        - Corporate deposits                                                                           751                 850
+Exchange Difference                                (0)             0            244              21      28            16      309         Total                                                                                       6,506                4,509
+Gross block as at March 31, 2023                  167            173          3,664           270       386           218    4,878
+                                                                                                                                           Aggregate amount of quoted investments                                                       5,755               3,659
+Accumulated Amortisation                                                                                                                   Market value of quoted investments                                                           5,775               3,678
+As at April 1, 2022                               259            96           2,039           209       239           136     2,978        Aggregate amount of unquoted investments                                                       751                 850
+Amortisation                                        25           60             563             20       82            55       805
+Disposals                                        (118)             -               -           (17)        -             -     (135)   6 (c) Trade receivables
+Exchange Difference                                (0)            0              162             17      20             12       211
+                                                                                                                                                                                                                                        As at                As at
+Accumulated amortisation as at                    166           156           2,764           229       341           203     3,859        Particulars
+                                                                                                                                                                                                                              March 31, 2024       March 31, 2023
+March 31, 2023
+                                                                                                                                           (Unsecured, considered good unless otherwise stated)
+Net block as at March 31, 2023                      1               17          900             41       45            15     1,019
+                                                                                                                                           Considered good                                                                             7,320                7,298
+                                                                                                                                           Credit impaired                                                                                234                 233
+                                                                                                                                                                                                                                       7,554                7,531
+                                                                                                                                           Less: Allowance for credit loss                                                              (234)               (233)
+                                                                                                                                           Total                                                                                       7,320                7,298
+                                                                                                                                           For ageing, refer Note 40 (i)
+
+280                                                                                                                                                                                                                                                            281
+
 <<<PDF_PAGE 143 of 168>>>
 Zensar Technologies Limited                                                                                                                                                          Financial Statements   Integrated Annual Report 2023-24
 
@@ -4638,6 +4918,82 @@ Notes to the Consolidated Financial Statements
 
                284                                                                                                                                                                                                                                                                                                                                                                                                                         285
 
+<<<PDF_PAGE 145 of 168>>>
+Zensar Technologies Limited                                                                                                                                                                                     Financial Statements   Integrated Annual Report 2023-24
+
+
+
+
+Notes to the Consolidated Financial Statements                                                                                           Notes to the Consolidated Financial Statements
+as at and for the year ended March 31, 2024					                                                                                         as at and for the year ended March 31, 2024					
+(All amounts in INR Million, unless otherwise stated)		                                                                                  (All amounts in INR Million, unless otherwise stated)		
+
+
+(ii) Terms/rights attached to equity shares
+       The Company has only one class of equity shares having a par value of INR 2 per share. Each holder of equity shares is                                                                                                                As at                As at
+                                                                                                                                         Particulars
+       entitled to one vote per share. The Company declares and pays dividends in Indian rupees. The dividend proposed by the                                                                                                      March 31, 2024       March 31, 2023
+       Board of Directors is subject to the approval of the shareholders in the ensuing Annual General Meeting, except in case of        Balance as at the end of the year                                                                     356                 206
+       Interim Dividend.                                                                                                                 Retained earnings
+                                                                                                                                         Balance as at the beginning of the year                                                            16,693               14,172
+       In the event of liquidation of the Company, the holder of equity shares will be entitled to receive any of the remaining assets   Add: Profit for the year                                                                            6,650               3,276
+       of the Company, after distribution of all preferential amounts. The distribution will be in proportion to the number of equity    Add / (less): Other comprehensive income (net)                                                        (50)                100
+       shares held by the shareholders.                                                                                                  Less: Dividends paid                                                                                1,246                1,132
+                                                                                                                                         Add: Transfer from share based payment reserve on cancellation of stock options                          15                 121
+       The Board of Directors in their meeting held on April 25, 2024 have recommended a final dividend of INR 7 per equity share,       Add: Transfer from equity instruments through other comprehensive income                              (53)                    -
+       subject to the approval of shareholders at the ensuing Annual General Meeting.                                                    Add: Utilisation of special economic zone re-investment reserve                                         40                 156
+                                                                                                                                         Balance as at the end of the year                                                                 22,049               16,693
+(iii) Details of shareholders holding more than 5% of the aggregate shares in the company                                                Securities premium
+                                                                                                                                         Balance as at the beginning of the year                                                               462                  417
+                                                                       As at March 31, 2024               As at March 31, 2023
+       Name of shareholder                                                                                                               Add: Transferred from share based payment reserve on exercise of stock options                         69                   41
+                                                                    % of holding     N0. of shares     % of holding    N0. of shares     Add: Received on exercise of stock options                                                              1                    4
+       Swallow Associates LLP                                             26.73%      60,586,344            26.75%       60,586,344      Balance as at the end of the year                                                                     532                 462
+       Summit Securities Limited                                          11.04%       25,028,127           11.05%        25,028,127     General reserve
+       Instant Holdings Limited                                            8.46%        19,177,651           8.47%        19,177,646     Balance at the beginning and end of the year                                                      10,694               10,694
+                                                                                                                                         Special Economic Zone Re-investment Reserve
+(iv) 	Aggregate number of bonus shares issued, shares issued for consideration other than cash and shares bought back during            Balance as at the beginning of the year                                                               432                 588
+       the period of five years immediately preceeding March 31, 2024 - Nil (March 31, 2023 - Nil)                                       Less: Utilised during the year                                                                         40                 156
+(v)    For details of Employee Stock Option Plan (ESOP), refer note 37                                                                   Balance as at the end of the year                                                                     392                 432
+
+(vi) For shares held by promoters, refer note 40 (iii)
+                                                                                                                                         10 (d) Other components of equity:
+
+10 (b) Reserves and surplus:                                                                                                                                                                                                                 As at                As at
+                                                                                                                                         Particulars
+                                                                                                                                                                                                                                   March 31, 2024       March 31, 2023
+                                                                                                          As at                 As at    Effective portion of cash flow hedges
+Particulars
+                                                                                                March 31, 2024        March 31, 2023     Balance at the beginning of the year                                                                   (17)               (27)
+Capital redemption reserve                                                                                  44                    44     Effective portion of gain/(loss) on Cash Flow Hedge (net)                                               93                  19
+Share based payment reserve                                                                                356                   206     Tax impact                                                                                            (23)                 (9)
+Retained earnings                                                                                      22,049                 16,693     Balance as at the end of the year                                                                       53                (17)
+Securities premium                                                                                         532                   462     Equity instruments through other comprehensive income
+General reserve                                                                                         10,694                10,694     Balance at the beginning of the year                                                                  (59)                (79)
+Special economic zone re-investment reserve                                                                392                   432     Change in fair value of equity instruments                                                               6                  21
+Total reserves and surplus                                                                             34,067                 28,531     Transfer to retained earnings                                                                           53                   -
+                                                                                                                                         Balance as at the end of the year                                                                        -                (59)
+                                                                                                                                         Foreign currency translation reserve
+10 (c) Movement of Reserves and surplus                                                                                                  Balance at the beginning of the year                                                                  854                 384
+                                                                                                                                         Currency translation adjustments (net)                                                                 192                470
+                                                                                                         As at                  As at    Balance as at the end of the year                                                                   1,046                 854
+Particulars
+                                                                                               March 31, 2024         March 31, 2023     Total                                                                                               1,099                 778
+Capital redemption reserve
+Balance at the beginning and end of the year                                                                44                    44     10 (e) Nature and purpose of each reserve within equity:
+Share based payment reserve
+Balance as at the beginning of the year                                                                    206                   225     (i)   Capital redemption reserve:
+Add: Employee share based payment expense (net)                                                            234                   143           This reserve had been created out of general reserve in earlier years, being the nominal value of shares bought back. The
+Less: Transferred to retained earnings on cancellation of stock options                                     15                    121          reserve can be utilised in accordance with the provisions of the Act.
+Less: Transferred to securities premium on exercise of stock options                                        69                     41
+                                                                                                                                         (ii) Share based payment reserve:
+                                                                                                                                               This reserve is used to record the fair value of equity-settled share based payment transactions. The amounts recorded in
+                                                                                                                                               share based payment reserve account are transferred to securities premium upon exercise of stock options.
+
+
+
+ 286                                                                                                                                                                                                                                                                287
+
 <<<PDF_PAGE 146 of 168>>>
 Zensar Technologies Limited                                                                                                                                                                                      Financial Statements    Integrated Annual Report 2023-24
 
@@ -4800,6 +5156,87 @@ Total                                                                           
             As at March 31, 2024                                                     1,532               (1,626)                (94)
 
  290                                                                                                                                                                                                                                                                  291
+
+<<<PDF_PAGE 148 of 168>>>
+Zensar Technologies Limited                                                                                                                                                                                              Financial Statements         Integrated Annual Report 2023-24
+
+
+
+
+Notes to the Consolidated Financial Statements                                                                                      Notes to the Consolidated Financial Statements
+as at and for the year ended March 31, 2024					                                                                                    as at and for the year ended March 31, 2024					
+(All amounts in INR Million, unless otherwise stated)		                                                                             (All amounts in INR Million, unless otherwise stated)		
+
+
+      fa   Sensitivity analysis - the increase / (decrease) in present value of defined benefit obligation to changes in                g d Expense recognised in the Statement of Profit and Loss
+           principal assumptions:
+                                                                                                                                                                                                                                             For the year ended         For the year ended
+                                                                                                                                             Particulars
+                                                                                                      As at                As at                                                                                                                March 31, 2024             March 31, 2023
+           Particulars
+                                                                                            March 31, 2024       March 31, 2023              Current service cost                                                                                               387                       357
+           -     1% increase in discount rate                                                       (5.37%)             (4.00%)              Interest cost                                                                                                      401                       395
+           -     1% decrease in discount rate                                                         5.97%               4.36%              Expected return on plan assets                                                                                   (401)                     (395)
+           -     1% increase in salary escalation rate                                               5.92%                4.33%              Total expenses recognised in the statement of profit and loss                                                     387                        357
+           -     1% decrease in salary escalation rate                                             (5.42%)              (4.04%)
+           -     1% increase in rate of employee turnover                                          (0.46%)              (0.39%)         g e The plan assets have been primarily invested as follows:
+           -     1% decrease in rate of employee turnover                                            0.46%                0.39%
+                                                                                                                                                                                                                                                            As at                     As at
+                                                                                                                                             Category of Assets
+		         The above sensitivity analyses are based on a change in an assumption while holding all other assumptions constant.                                                                                                                    March 31, 2024            March 31, 2023
+           In practice, this is unlikely to occur, and changes in some of the assumptions may be correlated.                                 Central Government of India Assets                                                                                604                       635
+                                                                                                                                             State Government of India Assets                                                                                2,663                     2,218
+      g    Provident fund : The company makes contribution towards provident fund which is administered by the trustees. The                 Special deposits scheme                                                                                            25                        24
+           contributions is accounted for as a defined benefit plan as the Company is liable for any shortfall in the fund assets            Private sector bonds                                                                                            2,704                     2,422
+           based on the government specified minimum rates of return. The Company has obtained an actuarial valuation of                     Equity / mutual funds                                                                                             569                       240
+           the liability according to which there is no deficit as at the Balance Sheet date. The movement of liability and plan             Cash and cash equivalents                                                                                          16                         9
+                                                                                                                                             Others                                                                                                            163                       331
+           assets is as under:
+                                                                                                                                             Total                                                                                                           6,744                     5,879
+      g a Present value of defined benefit obligation
+                                                                                                                                        gf   The principal assumptions used for the purpose of all defined benefit obligations are as follows:
+                                                                                                     As at                As at
+           Particulars                                                                                                                                                                                                                                     As at                      As at
+                                                                                           March 31, 2024       March 31, 2023               Particulars
+           Balance as at the beginning of the year                                                  5,746                 5,166                                                                                                                  March 31, 2024             March 31, 2023
+           Liability transferred                                                                       268                  265              Discount rate *                                                                                        7.15% - 7.19%             7.25% - 7.30%
+           Interest cost                                                                               401                  395              Salary escalation rate **                                                                            7.00% - 9.00%             7.00% - 11.00%
+           Current service cost                                                                        387                  357              Rate of employee turnover
+           Employee contribution                                                                       526                  499              -For services 4 years and below                                                                   12.50% - 20.00%           18.00% - 23.00%
+           Benefits paid                                                                             (799)                    -              -For services 5 years and above                                                                   11.50% - 20.00%           17.00% - 23.00%
+           Actuarial (gains)/losses                                                                      -                (936)              Mortality rate                                                                                      Indian assuerd            Indian assuerd
+           Balance as at the end of the year                                                        6,529                 5,746
+                                                                                                                                                                                                                                                  lives mortality           lives mortality
+                                                                                                                                                                                                                                                         (Urban)                   (Urban)
+      g b Fair value of Plan Assets (Restricted to the extent of present value of obligation)
+                                                                                                                                                                                                                                                     (2012-2014)               (2012-2014)
+                                                                                                     As at                As at     		       * Discount rate is based on the prevailing market yields of Indian Government securities as at the balance sheet date for the estimated term of
+           Particulars                                                                                                                       the obligations.
+                                                                                           March 31, 2024       March 31, 2023
+           Balance as at the beginning of the year                                                   5,879                5,322     		       ** The estimates of future salary increases considered in actuarial valuation takes into account inflation, seniority, promotion and other relevant
+           Expected return on plan assets                                                              401                  395              factors, such as demand and supply in the employment market.
+           Contributions by the Company                                                                913                  856     (ii) Defined contribution plans:
+           Transfer from other Company                                                                 266                  265
+           Benefits paid                                                                             (799)                (936)         The Group has recognised the following amounts in the Statement of Profit and Loss:
+           Return on Plan Assets                                                                        84                  (23)
+           Actuarial gains/(losses)                                                                      -                     -                                                                                                             For the year ended         For the year ended
+                                                                                                                                        Particulars
+           Balance as at the end of the year                                                         6,744                5,879                                                                                                                 March 31, 2024             March 31, 2023
+                                                                                                                                        Contribution to Employees' Provident Fund                                                                               30                         22
+                                                                                                     As at                As at         Contribution to Employees' Family Pension Fund                                                                          94                       103
+      gc       Particulars                                                                                                              Contribution to Employees' Superannuation Fund                                                                            7                         6
+                                                                                           March 31, 2024       March 31, 2023
+               Assets / (liabilities) recognised in the Balance Sheet                                    -                    -         Contribution to Employees' Social Security Fund                                                                        591                       640
+                                                                                                                                        Contribution to Employees' 401(K) Fund                                                                                  181                       162
+                                                                                                                                        Contribution to Central Provident Fund in Singapore                                                                       2                         8
+                                                                                                                                        Contribution to National Insurance of UK                                                                               388                       364
+                                                                                                                                        Contribution to National Pension Schemes                                                                                64                         64
+                                                                                                                                        Contribution to Infonavit Credit                                                                                          4                         3
+                                                                                                                                        Contribution to Medicare Fund                                                                                          123                        141
+
+
+
+292                                                                                                                                                                                                                                                                                       293
 
 <<<PDF_PAGE 149 of 168>>>
 Zensar Technologies Limited                                                                                                                                                                            Financial Statements        Integrated Annual Report 2023-24

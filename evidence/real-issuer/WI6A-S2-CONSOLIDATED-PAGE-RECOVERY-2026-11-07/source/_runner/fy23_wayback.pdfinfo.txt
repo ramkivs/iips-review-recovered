@@ -1,0 +1,20 @@
+Title:           
+Author:          Rushali Mohase
+Creator:         Adobe Acrobat Pro (64-bit) 23.3.20244
+Producer:        Adobe Acrobat Pro (64-bit) 23.3.20244
+CreationDate:    Mon Jul 17 06:10:10 2023 UTC
+ModDate:         Mon Jul 17 06:55:56 2023 UTC
+Custom Metadata: no
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            AcroForm
+JavaScript:      no
+Pages:           180
+Encrypted:       no
+Page size:       595.32 x 841.92 pts (A4)
+Page rot:        0
+File size:       15745097 bytes
+Optimized:       yes
+PDF version:     1.7
