@@ -22324,5 +22324,10 @@ reachability, `R-037-03` absent tooling and `R-037-07` two-up column geometry st
 exists; `R-037-04`, `R-037-06` and `R-037-08` are **resolved**; `R-037-09` (Zensar) remains settled by S2 and was
 re-verified, not reopened. `L-034`/`L-035`/`L-040` remain **`RESOLVED`**, `L-036` **`PARTIALLY RESOLVED`**, `L-038`
 **`OPEN`**, `L-039` and `L-001` … `L-033` untouched. No D-2, IX, valuation, mapping, IPD or IPO Screening change; no new
-persistence mechanism, table, journal or cache; no production scope. Nothing is merged: PR #507, PR #508 and this work
-item's pull request all await the combined closeout. Next free §16.280 / CV-CORR-254 / CHG-2026-11-06-17 / V2149.
+persistence mechanism, table, journal or cache; no production scope. **Corrected 2026-11-07 on publication of this work
+item as its own pull request:** this paragraph originally read *"Nothing is merged: PR #507, PR #508 and this work item's
+pull request all await the combined closeout"*, which was already untrue when it was written — PR #507 merged at
+17:01:39Z that same day. The factual position is that **PR #507 is merged into `main` as `c95c048`**, while this work
+item is published on its own branch and the stacked PR #508 is superseded by the three dedicated pull requests. Nothing
+else in this entry changes: `L-037` is `PARTIALLY RESOLVED` for the reasons stated above, and `L-038` remains `OPEN` in
+its merged §17.18 form. Next free §16.280 / CV-CORR-254 / CHG-2026-11-06-17 / V2149.
