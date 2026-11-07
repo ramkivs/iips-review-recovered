@@ -2334,3 +2334,91 @@ seventh shape: **an absence can itself be established as a fact — exhaustively
 the ones that were found — and still not be a number.** The register gains no new state and no borrowed total: it gains a
 searched, hashed, reproducible record that the caption does not exist, which is what any future owner decision about
 `L-039` should be argued from.
+
+## 17.18 WI-7 / `L-038` — Marico re-read: one component closes, a second blocker appears, and the debt side still refuses (2026-11-07; primary evidence + governed run, no contract change)
+
+**Question.** `L-038` was opened at §17.15 on the finding that Marico's consolidated balance sheet prints one current
+`Borrowings` line, a dash in the non-current row and no current-maturity row. That finding rested on pages read for the
+WI-7 balance sheet and Note 13(a). This work item asked a narrower question that the earlier pass did not: does the
+*complete* set of audited consolidated disclosures across FY2024, FY2023 and FY2022 support a period-aligned breakdown of
+the four components the governed bridge requires — and if one caption was missed rather than absent, does recovering it
+close the bridge?
+
+**What was re-read, and what it found.** Two captions were missed. Note 13(a) **does** carry a current-maturities
+caption — *"I. Within one year (Current maturities of long term debt)"* — on PDF p.191 of the FY2023-24 report and p.149 of
+the FY2022-23 report; the FY2023 amount is `0` (printed zero, PDF p.150), and FY2024 and FY2022 print dashes. A printed
+zero is a qualifying disclosure and maps; a dash still does not. So exactly **one** cell moved: `CURRENT_MATURITIES_OF_LONG_TERM_DEBT`
+is `PRESENT 0 @ 2023-03-31` where WI-7 had `MISSING`. That is a genuine, if narrow, correction to §17.15: the caption
+existed, and the earlier search did not reach the page that prints it. It does **not** close `L-038`, because the component
+set is only complete at one period end: the FY2024 balance sheet prints current borrowings `383` and a non-current dash,
+and the FY2022 column prints the same shape from the FY2023 balance sheet. All four components are simultaneously
+available **only** at 2023-03-31, and the FY2024 cash figure is not from that date. `grossDebtOf()`'s same-`periodEnd` rule
+therefore yields **`NOT_COMPUTABLE` / `PERIOD_MISMATCH`** — not a number, and not a zero.
+
+**Two things the re-read refused, deliberately.** First, the FY2023-24 report prints 528 crore of *total* borrowings nowhere;
+across all 229 numbers walked, neither 528 (a gross-debt figure that would sum the FY2024 components across periods) nor 41
+(the residual a net-debt figure would need) occurs. Second, and more consequential, **preference capital is a second,
+independent blocker.** Note 12(a) does print a preference class — *Preference shares of ₹10/- each 7 / 65* — but only under
+*I Authorised share capital*. *II Issued, subscribed and paid-up* prints equity shares only (1,29,41,01,828 shares, total
+`129 / 129`) with **no preference row and no dash**. Reading zero out of "the issued total equals the equity line" would be
+an inference from a total, which D-2 forbids; nothing in words declares preference capital nil. `PREFERENCE_CAPITAL` stays
+`NOT_REPORTED`, so even a debt side at one date would still meet `MISSING: NOT_REPORTED` in the enterprise-to-equity step.
+`L-038`'s remedy is therefore not a single component but two.
+
+**A net-debt figure exists in the filing, and it is a different measure.** The FY2022-23 report defines one in terms:
+*"Net financial debt is defined as current and non current borrowings"* (Note 29 Capital Management, consolidated, PDF
+p.163). It is **borrowing-only**: it subtracts no cash and carries no leases, so it is not the governed net debt and was not
+used. Only the ratio row survives that page's layout extraction (`Net debt to equity ratio 0.12 / 0.10`); the amounts —
+`Net debt 59 / 95`, `Total equity 3,677 / 3,049`, ratio `0.02 / 0.03` — are printed in the **company** statements' version of
+the same note (PDF p.209), a different reporting entity, and were shipped for context only. The FY2023-24 report carries the
+string on no page. Multiplying the consolidated ratio by consolidated equity would *imply* ≈475 crore for FY2023; it is
+recorded as an observation and used nowhere. This is worth stating precisely because §17.15's recommendation of an *optional
+"total borrowings as filed" component* names exactly this measure: the filing already prints one, and the reason it is not in
+the dataset is that adopting it is a contract decision, not an evidence question.
+
+**Outcome: `L-038` stays `OPEN`, with the evidence narrowed to two named blockers.** datasetVersion moves
+`sha256:04c96303…` → `sha256:433358f3…` on a one-cell correction (`ingest-input/corrections.json` carries the single cell and
+its provenance); the payload is a **superseding** artifact, `1a873047…6d59` (54,705 bytes — byte-length identical to WI-7's
+`3fd27a98…2343`, because only the debt-side values and their diagnostics moved), and **WI-7's payload and bundle are
+byte-identical and still verify**. Before → after: `grossDebt` `MISSING`/`NOT_REPORTED` → `NOT_COMPUTABLE`/`PERIOD_MISMATCH`;
+`netDebt` `NOT_REPORTED` → `NOT_COMPUTABLE`; `currentMaturities` `MISSING` → `PRESENT 0 @ 2023-03-31`; `cashAndInvestments`
+unchanged at 4,870,000,000; the DCF's enterprise value still computes and every per-share leg is still withheld; `EV_EBITDA`
+still `CAPITAL_STRUCTURE_INCOMPLETE`; the sensitivity grid degrades from nine published values (₹107.95–₹187.23) to nine
+`null`s carrying `enterpriseValue` diagnostics and `withheld`; the P/E band is unchanged at **₹181.69 / ₹227.11 / ₹272.54**.
+Leverage stays `NOT_EVALUABLE`. No number was manufactured anywhere in the chain, and no aggregation code, policy constant,
+zero-substitution or persistence mechanism was touched — `capitalStructure.ts` is byte-identical.
+
+**`L-040` is not disturbed, and its finding reaches this bundle.** WI-7's published grid had used the pre-correction
+`NCI = 0` substitution (`(185,191,832,952 − 0) / 1,295,713,036 ≈ 142.93`). The corrected code publishes no per-share cell
+at all, so the WI-7 grid is now superseded for that second reason as well as the debt one. `L-040` stays **`RESOLVED`**;
+`determination-wi7.json` records both supersession reasons and the payload bytes are untouched.
+
+**A contract question this raises, recorded and left undecided — not `L-039`.** The one period at which the component set is
+complete is 2023-03-31. Two honest readings follow, and neither is taken here: (a) compute the bridge on that period end and
+label it — gross debt would be 608 crore and net debt −177 crore against that date's cash — or (b) keep refusing, as the
+governed rule does now. Choosing (a) would be a silent change to period-alignment semantics, which the contract forbids
+without authority; the governed code chooses (b), and the register records the alternative as the open question
+**`DEBT-COMPONENT-PERIOD-ALIGNMENT`** (`UNDECIDED`, undecided-by-design). This is **distinct** from `L-039`, which is a
+cash-side nil-propagation question on a different issuer: `L-039`'s finding is not modified here, and nothing in this work
+item constrains it.
+
+**Statuses after §17.18.** `L-038` stays **`OPEN`** — the completion standard ("resolve only if the required debt components
+are supported and the governed calculation chain is verified") is unmet on two independent components, and the entry now
+names both. `L-039` is **unchanged**, `L-040` stays **`RESOLVED`**, `L-035` stays **`OPEN`**, `L-036` stays **`PARTIALLY
+RESOLVED`**, `L-037` stays **`OPEN`**, `L-034` stays **`RESOLVED`**, `L-001` and `L-002` … `L-033` untouched. No new
+limitation identifier was consumed.
+
+**Boundary this adds.** §17.17 established that an absence can be a fact. This work item adds the correction that has to
+accompany it: **a search that reports an absence is only as good as its captions, and a caption found late is a finding
+about the search, not about the issuer.** One of §17.15's two "missing" components was present all along; recovering it
+closed nothing, because a second blocker was sitting behind it, and the honest output of a re-read is sometimes a better
+description of the refusal rather than the number that was hoped for.
+
+**Evidence.** `evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/` — `README.md`, `determination-l038.json`,
+`source/` (nine verbatim page extracts with provenance, `page-map.json`, `fetch-log.txt`, `caption-search-log.txt`,
+`source-bytes.json`), `ingest-input/` (the single corrected cell and its corrections manifest), `runs/` (01 ingest, 02
+generate, 03 readback, 04 payload diff, 05 tests, 06 typecheck, 07 post-manifest verification, `commands.txt`),
+`artifact/assessment-payload-marico-l038.json`, `digests.json` (27 files) — guarded by
+`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (25 tests). The WI-7 bundle is untouched and its guard
+still passes; the WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2, WI-8 and WI-8/`L-039` bundles are byte-identical and still
+verify.

@@ -1,0 +1,222 @@
+{
+  "bundle": "WI-7 / L-038 — Marico Limited debt-component completeness",
+  "generatedAt": "2026-11-07T09:00:00.000Z",
+  "dataAsOf": "2024-03-31",
+  "scope": "co:IN:CIN:L15140MH1988PLC049208",
+  "reportId": "ffd898c3-fd22-4863-b529-907e8e5783c2",
+  "artifactVersion": 1,
+  "chain": {
+    "versionCount": 1,
+    "headReportId": "ffd898c3-fd22-4863-b529-907e8e5783c2",
+    "headPayloadDigest": "1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59"
+  },
+  "digestMatch": true,
+  "recomputedPayloadDigest": "sha256:1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
+  "storedPayloadDigest": "1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
+  "payloadBytes": 54705,
+  "datasetVersion": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc",
+  "contentDigest": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc",
+  "capitalStructure": {
+    "grossDebt": {
+      "note": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established",
+      "presence": "NOT_COMPUTABLE",
+      "reason": "PERIOD_MISMATCH",
+      "value": null
+    },
+    "netDebt": {
+      "note": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established",
+      "presence": "NOT_COMPUTABLE",
+      "reason": "PERIOD_MISMATCH",
+      "value": null
+    },
+    "cashAndInvestments": {
+      "basis": "DERIVED",
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "capital-structure/1.0.0"
+      },
+      "value": 4870000000
+    },
+    "leaseLiabilities": {
+      "basis": "AS_FILED",
+      "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-06",
+        "kind": "FILING",
+        "ref": "MARICO-INDAS-CONSOL-FY24-AR"
+      },
+      "value": 1450000000
+    },
+    "minorityInterest": {
+      "basis": "AS_FILED",
+      "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+      "periodEnd": "2024-03-31",
+      "presence": "PRESENT",
+      "source": {
+        "filedAt": "2024-05-06",
+        "kind": "FILING",
+        "ref": "MARICO-INDAS-CONSOL-FY24-AR"
+      },
+      "value": 3370000000
+    },
+    "preferenceCapital": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "leaseTreatment": "IND_AS_116_CAPITALISED",
+    "shareCountPeriod": "2024-03-31"
+  },
+  "debtComponents": {
+    "shortTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 3830000000,
+      "periodEnd": "2024-03-31"
+    },
+    "currentMaturities": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 0,
+      "periodEnd": "2023-03-31"
+    },
+    "longTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 20000000,
+      "periodEnd": "2023-03-31"
+    },
+    "leaseLiabilities": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 1450000000,
+      "periodEnd": "2024-03-31"
+    }
+  },
+  "dependentOutputs": {
+    "intrinsic": null,
+    "dcfApplicable": true,
+    "dcfBasis": "FCFF base 13541622333, WACC 10.68%, g 4.00%, 5y horizon",
+    "dcfPerShareMid": {
+      "note": "enterprise-to-equity conversion blocked by netDebt",
+      "presence": "NOT_COMPUTABLE",
+      "reason": "PERIOD_MISMATCH",
+      "value": null
+    },
+    "evEbitda": {
+      "applicable": false,
+      "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+    },
+    "peBand": {
+      "low": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "valuation-methods/1.0.0"
+        },
+        "value": 181.69066666666666
+      },
+      "mid": {
+        "basis": "DERIVED",
+        "periodEnd": "2024-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "valuation-methods/1.0.0"
+        },
+        "value": 227.11333333333332
+      },
+      "high": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "valuation-methods/1.0.0"
+        },
+        "value": 272.53599999999994
+      }
+    },
+    "sensitivity": [
+      {
+        "methodId": "DCF_FCFF",
+        "points": 9,
+        "valuesPresent": 0,
+        "withheld": {
+          "note": "enterprise-to-equity conversion blocked by netDebt",
+          "presence": "NOT_COMPUTABLE",
+          "reason": "PERIOD_MISMATCH"
+        }
+      }
+    ],
+    "marginOfSafety": {
+      "band": null,
+      "bandPolicyVersion": "mos-policy/1.0.0",
+      "mosVsLow": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "mosVsMid": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "price": {
+        "presence": "MISSING",
+        "reason": "PRICE_UNAVAILABLE",
+        "value": null
+      },
+      "priceAsOf": null,
+      "refusal": "NO_PRICE_OBSERVATION"
+    },
+    "netDebtToEbitda": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "financialLeverage": {
+      "category": "FINANCIAL",
+      "dimensionId": "FINANCIAL_LEVERAGE",
+      "factorId": null,
+      "measurement": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "PERIOD_MISMATCH",
+        "value": null
+      },
+      "statement": "Not evaluated: PERIOD_MISMATCH for fundamentals.capitalStructure.netDebt.",
+      "status": "NOT_EVALUABLE",
+      "threshold": "concern at net debt / EBITDA ≥ 3.00×",
+      "unavailableInputs": [
+        "fundamentals.capitalStructure.netDebt"
+      ]
+    },
+    "riskAggregate": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "RISK_EVALUATION_PARTIAL",
+      "value": null
+    },
+    "confidence": {
+      "value": null,
+      "caps": [
+        "POLICY_DEFAULT_WACC",
+        "POLICY_DEFAULT_MULTIPLE"
+      ]
+    }
+  },
+  "zeroSubstitutionControl": {
+    "candidateGrossDebtIfDashesWereNil": 5280000000,
+    "candidateNetDebtIfDashesWereNil": 410000000,
+    "grossDebtPublishedAnywhere": false,
+    "netDebtPublishedAnywhere": false,
+    "numbersWalked": 229
+  }
+}

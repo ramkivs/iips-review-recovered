@@ -3,16 +3,16 @@
   "generatedAt": "2026-11-07",
   "files": {
     "README.md": {
-      "sha256": "9669231277c53fc1f345bf380ef6ea1c7ca2a588fd048898b1cde103bcd0caf6",
-      "bytes": 11234
+      "sha256": "07e607094ef0f8386b9602b9d224186b3fa42e2bc282080040158214ddf3067a",
+      "bytes": 11442
     },
     "artifact/assessment-payload-marico-wi7.json": {
       "sha256": "3fd27a98313d853704e864df6d1228566053be43f49c4d2c011371615ced2343",
       "bytes": 53245
     },
     "determination-wi7.json": {
-      "sha256": "b76f8653a93f338b0383f018e4f7c7f0396c0c0ede4afd273f021daa35e9644e",
-      "bytes": 16550
+      "sha256": "eb1445786ea972c39a24eb78f0299217dfbb34daeb7e34d4bd500d122d4ec230",
+      "bytes": 17818
     },
     "ingest-input/data-extraction.json": {
       "sha256": "9137582f64c840a60287a6cf308e4eff7fd60593fc0952585a21795bb944c837",

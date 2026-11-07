@@ -1,2 +1,0 @@
-fy24.pdf | https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf | http=200 | bytes=21087675 | PDF document, version 1.7 (zip deflate encoded)
-fy23.pdf | https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf | http=200 | bytes=28505144 | PDF document, version 1.7 (zip deflate encoded)

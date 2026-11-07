@@ -1,0 +1,135 @@
+# L-038 — generate -> assess -> compose -> validate -> persist -> verify (2026-11-07)
+# cd frontend
+# IIPS_NP04_DATABASE_PATH=/tmp/l038/data/investment/investment.db npx tsx server/investment/cli/generate-investment-artifacts.ts --issuer IN:CIN:L15140MH1988PLC049208 --data-dir /tmp/l038/data/investment/dataset --identity-dir /tmp/l038/data/investment/identity --db /tmp/l038/data/investment/investment.db --owner-carrier /tmp/l038/owner.json --generated-at 2026-11-07T09:00:00.000Z --out /tmp/l038/cli.json
+{
+  "schemaVersion": 1,
+  "status": "OK",
+  "generatedAt": "2026-11-07T09:00:00.000Z",
+  "steps": [
+    {
+      "step": "snapshot",
+      "status": "OK",
+      "detail": "datasetVersion sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc"
+    },
+    {
+      "step": "identity",
+      "status": "OK",
+      "detail": "RESOLVED via ISIN"
+    },
+    {
+      "step": "assessment",
+      "status": "OK",
+      "detail": "SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3306"
+    },
+    {
+      "step": "compose",
+      "status": "OK",
+      "detail": "reportKey 01af3264e085… payloadDigest 1a873047087d…"
+    },
+    {
+      "step": "validate",
+      "status": "OK",
+      "detail": "scope co:IN:CIN:L15140MH1988PLC049208 (ISSUER)"
+    },
+    {
+      "step": "chain-head",
+      "status": "OK",
+      "detail": "no chain for this scope yet"
+    },
+    {
+      "step": "compare",
+      "status": "SKIPPED",
+      "detail": "no head to compare against"
+    },
+    {
+      "step": "persist",
+      "status": "OK",
+      "detail": "CREATED (wrote)"
+    },
+    {
+      "step": "verify",
+      "status": "OK",
+      "detail": "chain valid: 1 version(s), head v1"
+    }
+  ],
+  "dataset": {
+    "dir": "/tmp/l038/data/investment/dataset",
+    "datasetVersion": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc",
+    "contentDigest": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc",
+    "provider": "operator-file-input",
+    "datasetClass": "APPROVED_LOCAL_INGESTION",
+    "dataAsOf": "2024-03-31",
+    "knownAsOf": "2026-11-07T09:00:00.000Z"
+  },
+  "identity": {
+    "state": "RESOLVED",
+    "issuerId": "IN:CIN:L15140MH1988PLC049208",
+    "securityId": "IN:ISIN:INE196A01026",
+    "listingId": "IN:BSE:531642:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "bindingId": "sha256:facd62a5bb2822d0d9e8227e8f48e25f3a0190a79e83bb7169c24c5cb1227253",
+    "rosterVersion": "sha256:4c76229915d834f4937c8e0c048c6597eacb35721c17041ab717d257bf35a77c",
+    "listingMapVersion": "sha256:4a2708cf8bed8b188ac58992462e852ede6b1929251448b3de9c40572980143f",
+    "corporateActionTableVersion": "sha256:0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819"
+  },
+  "assessment": {
+    "modelVersion": "assessment-engine/1.0.0",
+    "policyVersion": "valuation-policy/1.0.0",
+    "adequacy": "SUFFICIENT",
+    "qualityVerdict": "MATERIAL_CONCERNS",
+    "confidence": 0.3306,
+    "methodCount": 3,
+    "withheldMethodCount": 1,
+    "missingFieldCount": 0,
+    "evidenceCount": 4,
+    "limitationCount": 8
+  },
+  "artifact": {
+    "reportType": "investment.company-assessment",
+    "scopeToken": "co:IN:CIN:L15140MH1988PLC049208",
+    "reportKey": "01af3264e085e79764f6609ab59954da39af6d5fa70ad8ee4ee52b33cbe836df",
+    "payloadDigest": "1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
+    "inputDigest": "sha256:d8e3f12d33383a001a8ee8f1759715c9e7ec2f1ba97284451c61596e46ea6549",
+    "outcome": "CREATED",
+    "wrote": true,
+    "reportId": "ffd898c3-fd22-4863-b529-907e8e5783c2",
+    "artifactVersion": 1,
+    "chainRootReportId": "ffd898c3-fd22-4863-b529-907e8e5783c2",
+    "versionCount": 1
+  },
+  "chain": {
+    "versionCount": 1,
+    "versions": [
+      {
+        "reportId": "ffd898c3-fd22-4863-b529-907e8e5783c2",
+        "artifactVersion": 1,
+        "payloadDigest": "1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59",
+        "inputDigest": "sha256:d8e3f12d33383a001a8ee8f1759715c9e7ec2f1ba97284451c61596e46ea6549",
+        "generatedAt": "2026-11-07T09:00:00.000Z"
+      }
+    ]
+  },
+  "limitations": [
+    "L-001 3 of 13 sectors measured; 10 remain in outstandingSectors (sector-analytics coverage, not this milestone)",
+    "L-002 20 XBRL tags mapped; unmapped tags remain visible gaps",
+    "L-003 closed derivation set = 8 items",
+    "L-004 the reference dataset shipped with the product is synthetic: mechanics only, no company validation. This run read operator-supplied real data (APPROVED_LOCAL_INGESTION) instead, so the limitation attaches to the reference dataset, not to this run",
+    "L-009 no real issuer had been assessed through IID-3 before this work item, and the product still ships no real dataset. This run assessed one real issuer from operator-supplied data (APPROVED_LOCAL_INGESTION); that is one issuer reached through one path, not general real-issuer coverage",
+    "L-010 investment artifact chains are validated by scan; NP-04 exposes no find-by-chain operation",
+    "L-011 two scope namespaces exist: co:/hd:/hc:/icr: chain scope vs the payload subjectScope",
+    "L-012 the chain root reportId stands in for NP-04 chainId, which the canonical artifact shape omits",
+    "L-013 idempotency is decided against the chain HEAD only, not against arbitrary historical versions"
+  ],
+  "failure": null
+}
+OK      snapshot     datasetVersion sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc
+OK      identity     RESOLVED via ISIN
+OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3306
+OK      compose      reportKey 01af3264e085… payloadDigest 1a873047087d…
+OK      validate     scope co:IN:CIN:L15140MH1988PLC049208 (ISSUER)
+OK      chain-head   no chain for this scope yet
+SKIPPED compare      no head to compare against
+OK      persist      CREATED (wrote)
+OK      verify       chain valid: 1 version(s), head v1
+(node:2342) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

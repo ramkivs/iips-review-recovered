@@ -22200,3 +22200,72 @@ absence was searched for exhaustively and recorded so that no governed state can
 `RESOLVED`, `L-036` `PARTIALLY RESOLVED`, `L-038`/`L-035`/`L-037` `OPEN`, `L-034` `RESOLVED`. No D-2 or IX policy change,
 no new persistence mechanism, no new issuer or sector, no IPD write, no production scope, no unrelated refactoring, no
 redefinition of any limitation. Next free §16.276 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.
+
+### 16.276 IID WI-7 / L-038 follow-up — Marico's current-maturities caption recovered (one cell), a second blocker found, the debt side still refuses (`2026-11-07`)
+
+**No IPD act, no IPD change.** This is an IRR-only IID investigation continuing WI-7 (§16.273). It performs no IPD
+modification, so it carries **no** CV-CORR / CHG / V number; the sequence quoted at the end of §16.275
+(`CV-CORR-253` / `CHG-2026-11-06-16` / `V2148`) is **not spent** here and remains the next free IPD act reference. Only
+the tracker section number advances.
+
+**Scope.** `L-038` — opened by WI-7 because the enterprise-to-equity bridge needs long-term borrowings, short-term
+borrowings, current maturities of long-term debt and lease liabilities, each with a number or a quoted nil. The question
+was whether the *complete* audited consolidated disclosures across FY2024, FY2023 and FY2022 support a period-aligned
+breakdown, and whether any caption had been missed rather than truly absent. Explicitly out of scope, and untouched:
+D-2 and IX policy, every other limitation's status and meaning, `L-039`'s cash-side nil-propagation finding, WI-7's
+history and artifacts, new issuers or sectors, IPD, production scope.
+
+**Evidence.** `evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/` — both annual reports re-read as hashed bytes
+(`03cb0db7…7595` 21,087,675 B / 259 pages and `0f41759d…2b0a` 28,505,144 B / 224 pages, in `source/source-bytes.json`),
+**483 pages searched** for the debt and capital captions (`source/caption-search-log.txt`), nine verbatim page extracts
+with per-page provenance (`source/`, `page-map.json`), the one-cell correction and its manifest (`ingest-input/`), the
+governed run and separate-process readback (`runs/01`–`runs/03`), the payload diff against WI-7 (`runs/04`), suite,
+typecheck and post-manifest transcripts (`runs/05`–`runs/07`, `commands.txt`), the machine-readable determination
+(`determination-l038.json`) and a 27-file `digests.json`. Record
+`docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md` §17.18 and
+`docs/integration/IIPS_V3_IID_WI7_CONSUMER_MARICO_2026-11-07.md` §10; guard
+`iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (25 tests).
+
+**Result: one component recovered, a second blocker found, `L-038` stays `OPEN`.** Note 13(a) I **does** print a
+current-maturities caption — *"Within one year (Current maturities of long term debt)"* — at PDF p.191 (FY2024) and p.149
+(FY2023); the FY2023 amount is the printed zero on p.150, and FY2024 and FY2022 print dashes. A printed zero is a
+qualifying disclosure, so `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` moves `MISSING` → **`PRESENT 0 @ 2023-03-31`**, a genuine
+correction to §17.15's "no current-maturity row anywhere". It closes nothing, because the four components coexist only at
+2023-03-31 while the FY2024 balance sheet supplies current borrowings `383` and a non-current dash: `grossDebt` and
+`netDebt` move `MISSING`/`NOT_REPORTED` → **`NOT_COMPUTABLE`/`PERIOD_MISMATCH`**. Behind that sits an independent second
+blocker: Note 12(a) prints a preference class only under *Authorised share capital* (7 / 65 within 165 / 295), while
+*Issued, subscribed and paid-up* is equity only (1,29,41,01,828 shares, `129 / 129`) with no preference row and no dash,
+so `PREFERENCE_CAPITAL` stays `NOT_REPORTED` and the enterprise-to-equity step would refuse even with a closed debt side.
+The filing does print a **"net financial debt"**, defined in the same note as *"current and non current borrowings"*
+(FY2023 PDF p.163) — borrowing-only, no cash subtracted, no leases — so it is not the governed net debt; only its ratio
+row (0.12 / 0.10) survives layout extraction and its amounts are printed at company level (p.209: 59 / 95, equity
+3,677 / 3,049, ratio 0.02 / 0.03), a different reporting entity, shipped for context only. Five candidate mappings were
+refused and recorded, including the ratio-implied ≈475 crore and an issued preference capital of zero read from a total.
+**No zero was substituted and nothing was inferred from totals, ratios, prior periods or arithmetic residuals.**
+
+**Effect on the published figures.** datasetVersion `sha256:04c96303…` → `sha256:433358f3…` (one cell, with its
+provenance in `ingest-input/corrections.json`); a **superseding** payload `1a873047…6d59`, 54,705 bytes — the same byte
+length as WI-7's `3fd27a98…2343`, which stays byte-identical and still passes its own 27-test guard. `cashAndInvestments`
+unchanged at 4,870,000,000; the DCF enterprise value computes and every per-share leg is withheld; `EV_EBITDA`
+`CAPITAL_STRUCTURE_INCOMPLETE`; the sensitivity grid degrades from nine published values (₹107.95–₹187.23) to nine
+`null`s with `enterpriseValue` diagnostics and `withheld`; the P/E band is unchanged at **₹181.69 / ₹227.11 / ₹272.54**;
+`FINANCIAL_LEVERAGE` `NOT_EVALUABLE`. No valuation parameter, policy constant, aggregation rule, zero-substitution or
+persistence mechanism was touched — `capitalStructure.ts` is byte-identical — and no new issuer, sector or dataset was
+added.
+
+**One contract question, recorded and left undecided.** `DEBT-COMPONENT-PERIOD-ALIGNMENT`: should the bridge be allowed to
+run wholly on 2023-03-31 (gross 608 crore, net −177 crore against that date's cash) or keep refusing? The governed code
+keeps refusing; choosing otherwise would silently change period-alignment semantics, so the question is **`UNDECIDED`**
+and is distinct from `L-039`, which is untouched.
+
+**Verification.** Focused and full, local only: `l038MaricoDebtCompleteness.test.ts` **25/25**; the investment suite
+**679/679** in **156** suites; `tsc --noEmit` on the package project exits 0; all **27** digested files re-hash clean with
+0 undigested, and the WI-7 guard still passes **27/27**. Local tests are reported separately from CI; the path-filtered
+`CAP-03 Revision 7 IRR-only static checks` run ids for this pull request are cited in its receipt, and no npm, frontend or
+IPD run is claimed.
+
+**Boundaries held.** `L-038` remains **`OPEN`**, now naming two blockers instead of one; `L-039` **unchanged**,
+`L-040` `RESOLVED`, `L-036` `PARTIALLY RESOLVED`, `L-035`/`L-037` `OPEN`, `L-034` `RESOLVED`, `L-001` … `L-033`
+untouched. No D-2 or IX policy change, no new persistence mechanism, no new issuer or sector, no IPD write, no production
+scope, no unrelated refactoring, no redefinition of any limitation. Next free §16.277 / CV-CORR-253 /
+CHG-2026-11-06-16 / V2148.

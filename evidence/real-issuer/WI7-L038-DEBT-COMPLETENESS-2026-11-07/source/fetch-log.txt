@@ -1,0 +1,7 @@
+# L-038 — what the hosted runner's HTTP layer returned, verbatim (run 42389718189, 2026-11-07)
+# One line per attempt: <target> | <url> | http=<code> | bytes=<size> | <file(1) identification>.
+# The first attempt at the FY2022-23 report on the earlier run 42389412993 returned http=000 (curl could not
+# complete the TLS handshake) and is recorded there rather than hidden; this run returned 200 for both reports.
+# ----------------------------------------------------------------------------------------------
+fy24.pdf | https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf | http=200 | bytes=21087675 | PDF document, version 1.7 (zip deflate encoded)
+fy23.pdf | https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf | http=200 | bytes=28505144 | PDF document, version 1.7 (zip deflate encoded)

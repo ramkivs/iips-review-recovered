@@ -97,6 +97,8 @@ limitation is **`OPEN`**; no grammar change is proposed in this work item.
 ```
 README.md                         this file
 determination-wi7.json            the machine-readable determination (selection, D-2, run results, register status)
+                                  — superseded 2026-11-07 by WI7-L038-DEBT-COMPLETENESS-2026-11-07
+                                  (two reasons recorded in the file; the payload itself is byte-identical)
 source/source-bytes.json          the three PDFs: URL, HTTP status, bytes, sha256, page count, rejected routes
 source/page-map.json              PDF page ↔ printed page, per-cited-page digest
 source/identity-verified.json     identity facts with their filing locators

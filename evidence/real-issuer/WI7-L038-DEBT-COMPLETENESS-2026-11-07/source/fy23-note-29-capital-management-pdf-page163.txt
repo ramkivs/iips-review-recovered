@@ -1,0 +1,86 @@
+# L-038 — Note 29 Capital Management (consolidated): the definition of net financial debt and the net-debt-to-equity ratio
+# source PDF: Marico_Annual_Report_FY23.pdf  bytes=28505144  sha256=0f41759d903f2f9e1185d1bd52228a1653592583ca729abe75edf430b9332b0a  pages=224
+# URL: https://marico.com/investorspdf/Marico_Annual_Report_FY23.pdf
+# PDF page 163 of 224 (the FY2022-23 report does not print a folio in this page's extracted text)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07 (run 42390332715);
+# the page text below is verbatim tool output, including the repeated running header and footer.
+# NOTE (what this page is, and is not): consolidated note; the table's amount rows are not legible in the layout extraction, only its ratio row is, so no amount is cited from it
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this repository's
+#       whitespace policy (`git diff --check` runs on every change): tab characters were expanded to spaces at
+#       eight-column stops and trailing blanks were stripped. No word, number, punctuation mark, column entry or
+#       line break was added, removed or reordered. Re-extracting the cited page reproduces this text up to that
+#       normalisation.
+# ----------------------------------------------------------------------------------------------
+Transformative. Innovative. Purpose-led                                                                              Marico Limited                                                                              Corporate           Statutory            Financial
+                                                                                                                                                                                                                 Overview             Reports            Statements
+
+
+
+
+Notes
+To Consolidated Financial Statements for the year ended 31st March, 2023
+                                                                                                                                      Notes
+                                                                                                                                      To Consolidated Financial Statements for the year ended 31st March, 2023
+
+
+
+29 Capital Management                                                                                                                 Revenue from sale of products to external customers broken down by major product categories :
+                                                                                                                                                                                                                                                            (H in Crore)
+(a) Risk management
+                                                                                                                                      Particulars                                                                                As at                       As at
+      The Group’s capital management is driven by Group’s policy to maintain a sound capital base to support the continued
+                                                                                                                                                                                                                      31st March,2023            31st March, 2022
+      development of its business. The Board of Directors seeks to maintain a prudent balance between different components of
+                                                                                                                                      Edible                                                                                     5,356                       5,593
+      the Group’s capital. The Management monitors the capital structure and the net financial debt by currency. Net financial
+      debt is defined as current and non current borrowings.                                                                           Hair oils                                                                                      2,111                       2,003
+                                                                                                                                      Personal care                                                                                 1,254                       1,031
+      The debt equity ratio highlights the ability of a business to repay its debts.
+                                                                                                                                      Others                                                                                        1,043                         885
+      Refer below for net Debt equity ratio. The Group complies with all statutory requirement as per the extant regulations.                                                                                                       9,764                       9,512
+
+                                                                                                                      (H in Crore)    The Group does not have revenue more than 10% of total revenue from single customer.
+
+ Particulars                                                                                      As at                 As at         The amount of revenue from external customers broken down by location of the customers is shown in the table below:
+                                                                                       31st March,2023      31st March, 2022
+ Opening balance of compensated absences                                                                                   16                                                                                                                               (H in Crore)
+                                                                                                      16
+ Present value of compensated absences (As per actuarial valuation) as at the                                                         Particulars                                                                                As at                       As at
+                                                                                                      16                        16
+ year end                                                                                                                                                                                                             31st March,2023            31st March, 2022
+ Net debt to equity ratio                                                                          0.12                    0.10       India                                                                                      7,351                       7,333
+                                                                                                                                      Bangladesh                                                                                 1,159                       1,139
+(b) Dividends
+                                                                                                                                      Vietnam                                                                                      593                         495
+                                                                                                                      (H in Crore)
+                                                                                                                                      Others                                                                                       661                         545
+Particulars                                                                                       As at                 As at                                                                                                   9,764                       9,512
+                                                                                       31st March,2023      31st March, 2022          Segment results
+Interim dividend for the year                                                                       606                1,217          India                                                                                          1,373                       1,243
+                                                                                                                                      International                                                                                    535                            492
+30 Segment Information                                                                                                                Total segment results                                                                         1,908                       1,735
+                                                                                                                                      Less : (i) Finance costs                                                                           56                            39
+(i)   Operating segments are reported in a manner consistent with the internal reporting provided to the Chief Operating Decision
+      Maker (“CODM”) of the Group. The CODM, who is responsible for allocating resources and assessing performance of                         (ii) Other un-allocable expenditure net of unallocable income                            109                             95
+      the operating segments, has been identified as the Managing Director and CEO of the Group. The CODM examines                    Profit before tax                                                                             1,743                       1,601
+      the Group’s performance from a geographic perspective and has identified two of its following business as identifiable
+      segments :                                                                                                                                                                                                                                            (H in Crore)
+                                                                                                                                      Particulars                                                                                As at                       As at
+      a)   India - this part of the business comprises domestic consumer goods                                                                                                                                        31st March,2023            31st March, 2022
+
+      b)   International                                                                                                              Segment assets
+                                                                                                                                      India                                                                                          3,406                       2,788
+(ii) The amount of the Group’s revenue is shown in the table below.                                                  (H in Crore)
+                                                                                                                                      International                                                                                  1,483                       1,523
+ Particulars                                                                                      As at                 As at         Unallocated                                                                                    2,062                       1,475
+                                                                                       31st March,2023      31st March, 2022          Total segment assets                                                                           6,951                      5,786
+ Segment revenue (sales and other operating income)
+                                                                                                                                      Segment liabilities
+ India                                                                                            7,351                   7,333       India                                                                                          1,165                       1,358
+ International                                                                                    2,413                   2,179       International                                                                                     630                           559
+ Total segment revenue                                                                           9,764                   9,512        Unallocated                                                                                    1,199                            464
+ Less : Inter segment revenue                                                                           -                        -    Total segment liabilities                                                                      2,994                      2,381
+                                                                                                  9,764                  9,512
+
+
+322                 Integrated Annual Report 2022-23                                                                                                                                                                  Integrated Annual Report 2022-23                 323
