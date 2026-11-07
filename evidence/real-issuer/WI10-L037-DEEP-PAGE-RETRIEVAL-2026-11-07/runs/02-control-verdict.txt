@@ -1,5 +1,5 @@
 # verify-retrieval-evidence against the negative control (a fabricated claim)
-# 2026-11-07T17:57:06Z
+# 2026-11-07T18:00:49Z
 $ tsx src/investment/cli/verify-retrieval-evidence.ts ../evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim
 retrieval evidence: ../evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim
 

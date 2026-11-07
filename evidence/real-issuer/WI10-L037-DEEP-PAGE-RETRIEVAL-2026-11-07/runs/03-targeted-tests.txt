@@ -1,5 +1,5 @@
 # targeted tests — L-037 retrieval-evidence contract
-# 2026-11-07T17:58:33Z  v22.22.3
+# 2026-11-07T18:00:49Z  v22.22.3
 $ tsx --test tests/investment/retrieval-evidence.test.ts
 # retrieval evidence: /home/user/iips-review-recovered/evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07
 #   fy24_rpg     RETRIEVED          pages extracted   6 of 167
@@ -7,7 +7,7 @@ $ tsx --test tests/investment/retrieval-evidence.test.ts
 #   documents 2 (retrieved 2), page extracts 11, quotations 2 (read 2)
 # OK — every quotation was read from an extracted page of a retrieved document, and every
 #      extract agrees with the record that cites it (document, page index, printed pages, digest).
-# retrieval evidence: /tmp/l037-cli-brobYT
+# retrieval evidence: /tmp/l037-cli-Nh9XC5
 #   fy24_rpg     RETRIEVED          pages extracted   6 of 167
 #   fy23_bse     RETRIEVED          pages extracted   5 of 180
 #   documents 2 (retrieved 2), page extracts 11, quotations 2 (read 2)
@@ -84,5 +84,5 @@ not ok 7 - L-037 — the WI-10 bundle and the register agree
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 246.100868
+# duration_ms 290.397348
 exit=1
