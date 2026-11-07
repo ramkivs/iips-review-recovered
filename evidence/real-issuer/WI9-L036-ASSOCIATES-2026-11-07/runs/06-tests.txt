@@ -1,0 +1,32 @@
+# WI-9 / L-036 — 2026-11-07 — targeted and full test runs
+
+## 1. the new guard for this work item
+ok 1 - the negative is still the filed text — no caption, and the note still ties
+ok 2 - the committed payload keeps the answer it published
+ok 3 - the 180-day review control is arithmetic, in force, and inert
+ok 4 - the grammar a dataset was built under survives the round trip
+ok 5 - the record is honest about what is and is not resolved
+# tests 17
+# suites 5
+# pass 17
+# fail 0
+
+## 2. the CLI case added with the schema flag
+# tests 6
+# suites 1
+# pass 6
+# fail 0
+
+## 3. the guards this work item relies on
+# tests 73
+# suites 16
+# pass 73
+# fail 0
+
+## 4. the whole investment suite
+# tests 698
+# suites 161
+# pass 698
+# fail 0
+# skipped 0
+# todo 0

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "status": "OK",
+  "generatedAt": "2026-11-06T14:05:00.000Z",
+  "steps": [
+    {
+      "step": "snapshot",
+      "status": "OK",
+      "detail": "datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847"
+    },
+    {
+      "step": "identity",
+      "status": "OK",
+      "detail": "RESOLVED via ISIN"
+    },
+    {
+      "step": "assessment",
+      "status": "OK",
+      "detail": "SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4378"
+    },
+
+reportId 430c6c1f-fed1-4437-8ebb-c814aaf02a9a
+payloadDigest 9e7f621d7737146245bb7a027fe4388e9023e34660ebf6ad26054f25311cb518
+
+# persist wrote one version, and the separate-process readback (runs/03-readback.json) recomputed the same digest
