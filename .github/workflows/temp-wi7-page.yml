@@ -1,0 +1,32 @@
+name: TEMP WI-7 page capture (deleted before merge)
+on:
+  push:
+    branches:
+      - arena/8413763a-iips-review-recovered
+    paths:
+      - '.github/workflows/temp-wi7-page.yml'
+permissions:
+  contents: write
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/8413763a-iips-review-recovered
+      - name: capture page 170
+        env:
+          UA: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+        run: |
+          set -eu
+          B=evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07
+          mkdir -p "$B/_tmp"
+          curl -sSL --max-time 300 --retry 2 -A "$UA" -o /tmp/fy24.pdf https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+          echo "sha256 $(sha256sum /tmp/fy24.pdf | cut -d' ' -f1) bytes $(wc -c </tmp/fy24.pdf)" | tee "$B/_tmp/fetch.txt"
+          pdftotext -layout -f 170 -l 170 /tmp/fy24.pdf "$B/_tmp/p170.txt"
+          wc -c "$B/_tmp/p170.txt"
+          git config user.name "wi7-capture"
+          git config user.email "wi7-capture@users.noreply.github.com"
+          git add -A "$B/_tmp"
+          git commit -m "WI-7: temp capture of FY24 auditor page 170 (deleted before merge)"
+          git push origin HEAD:arena/8413763a-iips-review-recovered
