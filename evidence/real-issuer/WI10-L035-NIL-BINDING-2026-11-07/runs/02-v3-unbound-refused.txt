@@ -1,0 +1,14 @@
+# WI-10 / L-035 — 2026-11-07 — schema V3 refuses an unbound nil (the Work Item 3 input, unchanged)
+
+  $ npx tsx src/investment/cli/ingest.ts --input /tmp/l035/v3-unbound \
+      --dataset-dir /tmp/l035/v3-unbound-dataset --now 2026-11-06T14:05:00.000Z \
+      --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V3
+
+  exit 1        (nothing written)
+  ERROR   NIL_BINDING_REQUIRED_IN_SCHEMA_V3 IN:CIN:L85110KA1981PLC013115#2  "CURRENT_MATURITIES_OF_LONG_TERM_DEBT" is declared nil without a section/class/scope binding; schema V3 requires one so the quoted sentence is tied to the component it fills
+  ERROR   NIL_BINDING_REQUIRED_IN_SCHEMA_V3 IN:CIN:L85110KA1981PLC013115#2  "LONG_TERM_BORROWINGS" is declared nil without a section/class/scope binding; schema V3 requires one so the quoted sentence is tied to the component it fills
+  ERROR   NIL_BINDING_REQUIRED_IN_SCHEMA_V3 IN:CIN:L85110KA1981PLC013115#2  "PREFERENCE_CAPITAL" is declared nil without a section/class/scope binding; schema V3 requires one so the quoted sentence is tied to the component it fills
+  ERROR   NIL_BINDING_REQUIRED_IN_SCHEMA_V3 IN:CIN:L85110KA1981PLC013115#2  "SHORT_TERM_BORROWINGS" is declared nil without a section/class/scope binding; schema V3 requires one so the quoted sentence is tied to the component it fills
+
+Four declarations, four refusals: the Work Item 3 input does not carry bindings, so it is a V1 dataset and stays
+one. Under V1 it still ingests — and reproduces byte-identically (runs/05). V3 is for datasets that declare it.

@@ -1,0 +1,37 @@
+# WI-10 / L-035 — 2026-11-07 — targeted and full test runs
+
+## 1. the guard for this work item
+ok 1 - the class table is total and closed
+ok 2 - the legacy cell is untouched
+ok 3 - a bound declaration
+ok 4 - the mismatched declaration is refused — the exact defect L-035 records
+ok 5 - the review record agrees with the code and with the evidence it cites
+ok 6 - the consequence: a refused declaration cannot become zero debt
+# tests 22
+# suites 6
+# pass 22
+# fail 0
+
+## 2. the suites the change touches
+# tests 42
+# suites 8
+# pass 42
+# fail 0
+
+## 3. the WI-9 / L-036 guard (associates/JV + V2 round trip) and the WI-4 evidence guard
+# tests 45
+# suites 12
+# pass 45
+# fail 0
+
+## 4. the whole investment suite
+# tests 721
+# suites 168
+# pass 721
+# fail 0
+# skipped 0
+# todo 0
+
+## 5. the frontend investment suite (vitest)
+ Test Files  20 passed (20)
+      Tests  247 passed (247)

@@ -38,6 +38,8 @@
  * Invariants INV-1 … INV-4 and INV-7 are enforced in `invariants.ts`; this module only constructs.
  */
 
+import type { NilBinding } from './nilBinding';
+
 /** How a value came to be (or failed to be). Closed. */
 export type Presence =
   | 'PRESENT'
@@ -121,6 +123,12 @@ export interface Observation<T> {
   readonly basis?: Basis;
   readonly filingRef?: string;
   readonly imputation?: Imputation;
+  /**
+   * `L-035` — for a `NIL_BY_DISCLOSURE` only: which statement section and line-item class the quoted sentence is
+   * declared to evidence, and whose statements it speaks for. Absent for a legacy declaration and for every other
+   * presence state. It records the operator's claim; the check that the claim fits the item happens at ingestion.
+   */
+  readonly nilBinding?: NilBinding;
   /** Free text, never used for control flow. */
   readonly note?: string;
 }
@@ -188,6 +196,11 @@ export interface NilDisclosureContext {
   readonly statement: string;
   readonly basis?: Basis;
   readonly filingRef?: string;
+  /**
+   * `L-035` — the declaration's binding: section, class and scope of the quoted sentence, plus `acknowledgedBy`
+   * when the sentence speaks for a different scope than the row. Attached verbatim to the observation.
+   */
+  readonly nilBinding?: NilBinding;
   readonly note?: string;
 }
 
@@ -223,6 +236,8 @@ export function nilByDisclosure(source: SourceRef, context: NilDisclosureContext
     periodEnd: context.periodEnd,
     basis: context.basis ?? 'AS_FILED',
     ...(context.filingRef === undefined ? {} : { filingRef: context.filingRef }),
+    // The binding travels with the nil, so the artefact shows which section and class the quote was offered for.
+    ...(context.nilBinding === undefined ? {} : { nilBinding: context.nilBinding }),
     // The quote travels on `note` so the artefact carries the filer's own words next to the nil.
     note: context.note === undefined ? context.statement : `${context.statement} — ${context.note}`,
   };

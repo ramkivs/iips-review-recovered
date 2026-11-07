@@ -1,0 +1,4 @@
+# WI-9 / L-036 — 2026-11-07 — typecheck
+
+$ npx tsc --noEmit
+exit 0 — no diagnostics

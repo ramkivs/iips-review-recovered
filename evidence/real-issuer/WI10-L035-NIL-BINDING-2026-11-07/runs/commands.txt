@@ -1,0 +1,56 @@
+# WI-10 / L-035 — 2026-11-07 — every command, in the order it was run
+# cwd is the repository root unless a `cd` says otherwise. /tmp paths are scratch space, not evidence.
+
+## baseline
+git fetch origin --prune && git rev-parse origin/main      # c95c0480c96a6e88129785bcf14405a12462ade9
+git rev-parse HEAD                                         # 0ddf5c7624750616fa03024a672a3f82b259e611
+git status --porcelain                                     # clean
+
+## the register entry (§17.2) and the WI-3 evidence it cites
+grep -n "L-035" docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md
+python3 -c "... quotes.json ..."                           # the four declarations, their wording, locators, scope nuance
+
+## reproduce the defect at the commit the work item started from
+git worktree add -q --detach /tmp/l035-prefix 0ddf5c7
+ln -s $PWD/iips-platform/node_modules /tmp/l035-prefix/iips-platform/node_modules
+python3 -c "... copy WI-3 ingest-input, replace ONE cell with a trade-payables sentence ..."   # /tmp/l035/hole
+cd /tmp/l035-prefix/iips-platform
+npx tsx src/investment/cli/ingest.ts --input /tmp/l035/hole --dataset-dir /tmp/l035/hole-dataset-prefix --now 2026-11-07T00:00:00.000Z
+#   -> exit 0, zero ERROR lines, LONG_TERM_BORROWINGS = NIL_BY_DISCLOSURE with a trade-payables note (runs/01)
+
+## implement (see the diff): contracts/nilBinding.ts, lineItems.ts (V3), observation.ts, invariants.ts, ingestion/builder.ts
+cd $OLDPWD/iips-platform
+npm ci                                                     # node_modules does not survive between sessions
+npx tsc --noEmit                                           # exit 0
+
+## the corrected behaviour
+npx tsx src/investment/cli/ingest.ts --input /tmp/l035/v3-unbound  --dataset-dir /tmp/l035/v3-unbound-dataset  --now 2026-11-06T14:05:00.000Z --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V3
+#   -> exit 1, four NIL_BINDING_REQUIRED_IN_SCHEMA_V3 errors, nothing written (runs/02)
+npx tsx src/investment/cli/ingest.ts --input /tmp/l035/v3-mismatch --dataset-dir /tmp/l035/v3-mismatch-dataset --now 2026-11-06T14:05:00.000Z --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V3
+#   -> exit 1, NIL_BINDING_SECTION_MISMATCH x3 + NIL_SCOPE_NUANCE_UNACKNOWLEDGED, nothing written (runs/03)
+npx tsx src/investment/cli/ingest.ts --input /tmp/l035/v3-accepted --dataset-dir /tmp/l035/v3-accepted-dataset --now 2026-11-06T14:05:00.000Z --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V3
+#   -> exit 0, datasetVersion sha256:6afa2793…, the four nils carry their binding (runs/04)
+npx tsx src/investment/cli/ingest.ts --input /tmp/l035/legacy --dataset-dir /tmp/l035/legacy-dataset --now 2026-11-06T14:05:00.000Z --dataset-schema IIPS_INVESTMENT_FUNDAMENTALS_V1
+#   -> exit 0, datasetVersion sha256:21cf2522…, all ten files byte-identical to WI-3 (runs/05)
+
+## persist + readback, for both datasets
+cd ../frontend
+IIPS_NP04_DATABASE_PATH=/tmp/l035/db/investment.db    npx tsx server/investment/cli/generate-investment-artifacts.ts ... --data-dir /tmp/l035/legacy-dataset ...
+#   -> payloadDigest 9e7f621d7737… (unchanged), persist CREATED, verify chain valid v1
+IIPS_NP04_DATABASE_PATH=/tmp/l035/db-v3/investment.db npx tsx server/investment/cli/generate-investment-artifacts.ts ... --data-dir /tmp/l035/v3-accepted-dataset ...
+#   -> payloadDigest f60fc5c8…, same reportKey and confidence; nilBinding published on the four components
+npx tsx tmp-l035-readback.ts <owner carrier> co:IN:CIN:L85110KA1981PLC013115 <reportId> /tmp/l035/readback.json /tmp/l035/payload.json
+#   -> stored == recomputed == 9e7f621d…, 55,573 bytes; the V3 readback was taken the same way
+rm tmp-l035-readback.ts                                     # scratch, never committed
+
+## verification
+cd ../iips-platform
+npx tsx --test tests/investment/nil-binding.test.ts         # 18/18
+npx tsx --test tests/investment/*.test.ts                   # 717/717 in 167 suites
+npx tsc --noEmit                                            # exit 0
+cd ../frontend && npx vitest run server/investment          # 247/247 in 20 files
+
+## this bundle
+python3 (inline) -> source/review-record.json, determination-l035.json, runs/01-06
+python3 (inline) -> digests.json (every file except itself and runs/09-… / runs/10-…) then runs/09 (re-hash, 0 mismatches)
+git worktree remove /tmp/l035-prefix

@@ -1316,7 +1316,10 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 - **Affected contracts / outputs:** `components[*].presence = NIL_BY_DISCLOSURE`, `grossDebt`, `netDebt`, and
   everything downstream of them (`valuation.intrinsic`, `marginOfSafety`, leverage risk dimension, dividend coverage,
   moat).
-- **Status:** `OPEN`.
+- **Status:** **`RESOLVED` (2026-11-07, §17.20).** The grammar exists and schema V3 requires it; the four declarations
+  Work Item 3 made in prose were reviewed and accepted with their section/class/scope recorded; mismatched
+  section/component pairs are refused by acceptance test and by the ingester. The legacy `NIL:` form remains legal
+  under V1 and V2, where it means what it always meant, so no stored dataset was re-digested.
 - **Downstream phases affected:** every future real-issuer declaration, and any IID-4/IID-6 surface that presents a
   declaration to a user as established fact.
 - **Consequence for user-visible results:** the nil is as good as the operator's mapping. The evidence trail makes a
@@ -1328,7 +1331,8 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
 - **Evidence:** `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/quotes.json`;
   `frontend/server/investment/cli/wi3BorrowingsNil.test.ts` (bare-`NIL` refusal);
   `iips-platform` ingestion grammar for `NIL:` cells.
-- **Last status update:** 2026-11-06 (opened).
+- **Last status update:** 2026-11-06 (opened); 2026-11-07 (**`RESOLVED`** by §17.20 — bound nil declarations, schema
+  V3, acceptance tests for mismatched section/component pairs, and a review record for the four historical mappings).
 
 ### 17.3 L-036 — Associates/JV enter the enterprise-to-equity bridge as a policy zero that the payload never states
 
@@ -2448,6 +2452,174 @@ reproduction, 10 net-debt reconciliation, `commands.txt`),
 `iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (26 tests). The WI-7 bundle is untouched and its guard
 still passes; the WI-3, WI-5, WI-6, WI-6A, WI-6A-S1, WI-6A-S2, WI-8 and WI-8/`L-039` bundles are byte-identical and still
 verify.
+
+## 17.19 WI-9 / `L-036` — Infosys associates/JV: the carrying value is not merely unreported, it is not recognised; the 180-day control is verified in force; and the V2 path that could carry the figure was unreachable from the CLI until this work item (2026-11-07; primary evidence + governed run + one ingestion defect corrected)
+
+**Question.** `L-036` was opened at §17.3 with an answer — no carrying value exists — and a declared remedy: add an
+associates/JV line item to the dataset as schema V2, "so the term is a reported number rather than a policy zero". Its
+acceptance criteria are two, and only two: (a) establish the carrying value from primary evidence, and (b) show the
+`POLICY_ZERO` treatment and its 180-day review correctly represented. This work item asked both, and a third question
+that fell out of the first: **can an operator actually declare V2?**
+
+**What the primary evidence says — and it is stronger than §17.3 said.** In the filed text of all three periods there is
+no Ind AS 1 para 54(e) caption, no equity-method row in Note 2.5 or Note 2.5.1, and no share-of-associates line in profit
+or loss or in OCI; Note 2.5 decomposes to the filed investment totals **to the rupee** — 24,623 = 11,708 + 12,915,
+19,478 = 12,569 + 6,909, 20,324 = 13,651 + 6,673 — and Notes 2.19 (other income) and 2.25 (related parties, with the
+group-structure annexure), read in full, carry no associates/JV balance. The only "associated" wording in the statements
+is the income-tax transfer-pricing phrase in Note 2.24.1, which names no entity and carries no balance. §17.3 read that
+as an omission from the extraction; the correct reading is narrower and firmer: **Infosys holds no equity-accounted
+interest in an associate or joint venture in any of the three periods**, so there is no carrying value to map. Nothing
+was inferred — not from ownership percentages, not from associate results, not from the aggregate investment totals, not
+from a residual. Rejected by name: the non-current `Investments` 11,708 and the totals 24,623 / 19,478 / 20,324 (treasury
+and minority holdings, all Ind AS 109 categories), the named holdings 404 / 365 / 377 (fair value, which is incompatible
+with the equity method), Ideaforge's 113 (a listed minority stake at FVOCI, no significant influence asserted), and
+Form AOC-1 (an annexure to the *standalone* statements, absent from the audited consolidated set). An absent caption is
+not a nil, so no `DECLARED_NIL` either: D-2 still requires the filer's own wording, a filing reference and a period.
+
+**The control, verified rather than assumed.** The clock starts at the evidence date, never at the run:
+`clockStart` **2024-03-31** (`clockStartBasis` `DATASET_PERIOD_END`), `reviewAgeDays` **180**, `reviewDueOn`
+**2024-09-27** — 2024-03-31 plus 180 calendar days, checked as arithmetic. The assessment clock is
+**2026-11-06T14:05:00Z**, 950 days after the anchor (the payload publishes the same 950 as `stalenessDays`), so the
+status is **`REVIEW_DUE`** with `reviewRequired` true, `treatment` `POLICY_ZERO` under `associates-treatment/1.0.0` and
+`reviewPolicyVersion` `associates-review/1.0.0`. The boundary is already pinned test-side (179 days not due, exactly 180
+due, 181 due), and the persisted block is **clock-free**: it carries `clockStart`, `clockStartBasis`, `reviewAgeDays`,
+`reviewDueOn`, the policy versions, `reviewRequired`, `status`, `treatment` and `reason`, and neither `elapsedDays` nor
+`asOf`, so a later re-run cannot mint a version by waiting. It is inert in the only sense that matters: `intrinsic` and
+`marginOfSafety` are byte-identical to the Work Item 3 artifact. **No window, anchor, threshold or flag semantic was
+moved** — the entry's prohibition is intact.
+
+**The defect this work item found, and closed.** The declared remedy could not be exercised. `ingest.ts` never passed a
+`datasetSchema`, so every CLI ingest produced V1; `writeDataset` never recorded the content's grammar in the manifest, so
+a V2 build was written to disk under the V1 identifier; `readDataset` never restored it, so even a dataset written as V2
+was read back as V1 — the one case that *refuses* the very line item V2 exists to carry. In other words the line item was
+reachable from the library and from the tests and unreachable from the only production ingestion entry point. The
+correction is three small, contained changes: an optional `--dataset-schema <id>` resolved through
+`assertSupportedDatasetSchema` (absent = V1, unknown = fail closed before anything is read); the manifest recording the
+grammar the content was built under; and the reader restoring it. The V1 path is provably untouched — the Work Item 3
+dataset re-ingests to **all ten files byte-identical**, manifest included, and the V1 payload digest is unchanged at
+`9e7f621d…`. Declaring V2 for the same committed input changes only how the absence is described — `MISSING` where V1
+could only say `NOT_COMPUTABLE` (`11be57e03ead…`) — with the same `POLICY_ZERO_UNAVAILABLE` treatment and the same
+`REVIEW_DUE` review: **no figure is supplied, and none could be.**
+
+**What did not change, measured rather than claimed.** The dataset is unchanged (`sha256:21cf2522…`, same ten files);
+the committed Work Item 3 artifact is untouched and still the pre-IX record it always was (`confidence.combined`
+0.6736, `caps` `STALE_DATA` + `DILUTION_PROXY`); the live payload's **0.4378** differs only because the authorized IX
+assumption caps now apply — additive by category, 0.20 + 0.15, ceiling 0.35, `confidenceFloor: null` — which is IX's change
+recorded at §17.7 and is neither made nor re-opened here. Valuation is unchanged (`FAIR`, `mos-policy/1.0.0`), D-2
+semantics are untouched, no persistence mechanism, table, journal or cache was added, and no unrelated issuer, sector or
+repository was touched.
+
+**Statuses after §17.19.** `L-036` stays **`PARTIALLY RESOLVED`**, and the qualifier now means something precise: the
+**control** criterion is satisfied and verified in force, while the **carrying-value** criterion is not merely unmet but
+unsatisfiable by a number for this issuer — the statements recognise no such asset, and an omission is not a nil. What
+would resolve it is named: an issuer that files an equity-accounted carrying value (V2 now carries one end to end), an
+issuer sentence declaring the balance nil, or a register-owner decision to grade an absent caption. `L-038` stays
+**`OPEN`**, `L-039` **unchanged**, `L-040` **`RESOLVED`**, `L-035`/`L-037` **`OPEN`**, `L-034` **`RESOLVED`**, `L-001` …
+`L-033` untouched. No new limitation identifier was consumed. Next free §17.20 / CV-CORR-253 / CHG-2026-11-06-16 / V2148 —
+none of those references is spent, because this is an IRR-only work item with no IPD act.
+
+**Boundary this adds.** §17.17 established that an absence can be a fact, and §17.18 that a caption found late is a
+finding about the search rather than about the issuer. This entry adds two more: **a remedy can be built and still leave
+a limitation unresolved**, because it was a representational fix and not an evidential one; and **a schema able to hold a
+line item is not the same thing as a path able to deliver it** — which is why the remedy was tested by running the
+operator's command line rather than by reading the contract.
+
+**Evidence.** `evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/` — `README.md`, `determination-l036.json`, `source/`
+(`source-map.json` re-hashing the sixteen WI-4 extracts, `verification-greps.txt` with the filed-text caption scan and the
+Note 2.5 tie-outs), `runs/` (01 ingest rerun and byte-identity, 02 generate and persist, 03 readback, 04 the V2 operator
+path, 05 the review-control arithmetic, 06 tests, 07 typecheck, 08 post-manifest verification, 09 clean clone,
+`commands.txt`), `artifact/assessment-payload-l036.json` (the canonical payload, 55,573 bytes, guard-checked against the
+readback digest), `digests.json` — guarded by `iips-platform/tests/investment/wi9AssociatesResolution.test.ts` (17 tests),
+with the new CLI case in `tests/investment/cli.test.ts`. The WI-3, WI-4, WI-7 and WI-8 bundles are byte-identical and
+their guards still pass.
+
+## 17.20 WI-10 / `L-035` — a nil declaration now names the statement section and line-item class it evidences (2026-11-07; declaration grammar + schema V3 + review record; `L-035` resolved)
+
+**Question.** §17.2 recorded a limit that is unusual for this register: not a missing figure and not a wrong number, but
+an **unfalsifiable mapping**. `NIL_BY_DISCLOSURE` checked that a quote existed, that a `filing_ref` and a period existed
+and that the item was not derived; it never checked that the quote was *about* the item. The entry named the exact
+failure — "a later operator could declare, say, a nil long-term borrowing from a sentence about trade payables, and the
+ingester would accept it" — and named its remedy: "a declaration grammar that binds a nil to a statement section and a
+line-item class (or a review step that records who accepted the mapping), plus acceptance tests for a mismatched
+section/component pair". This work item asked whether that finding is real, and then implemented the remedy.
+
+**Reproduced, at the commit the work item started from.** In a detached worktree at `0ddf5c7`, the Work Item 3 input
+with **one** cell changed — `LONG_TERM_BORROWINGS` on the 2024-03-31 consolidated row quoting *"Trade payables are
+settled within 45 days of the invoice date."* — ingested with **exit 0 and zero errors**, producing
+`NIL_BY_DISCLOSURE / DECLARED_NIL_IN_SOURCE` with that sentence as its note. Because a declared nil is counted as zero
+by the capital-structure aggregation contract, the cell became **zero debt**, and therefore a higher equity value per
+share, on the strength of a sentence about payables. The register's finding was accurate and reproducible, and the
+limitation is a **declaration-grammar** one: the filer's four declarations were all correct; what the system could not
+do was tell a correct mapping from an arbitrary one.
+
+**The grammar.** A cell may now carry a binding before the quote:
+
+`NIL[section=BS;class=BORROWINGS;scope=CONSOLIDATED_GROUP]: <the filing's wording>` — and, where the sentence speaks
+for a different scope than the row, `…;scope=STANDALONE_COMPANY;acceptedBy=<who accepted the mapping>]`.
+
+`section` is one of `BS|PNL|CF` and must equal the item's own statement; `class` is one of fifteen closed classes and
+must equal the item's class in a table that is **total** over the closed line-item table (a test asserts it, so no item
+can be declared without a class to check against); `scope` must be declared, and a cross-scope sentence is legal only
+with `acceptedBy`, which is stored on the observation. Unknown, duplicate, incomplete or empty members are refused
+(`NIL_BINDING_MALFORMED`, `NIL_BINDING_INCOMPLETE`, `NIL_BINDING_UNKNOWN_SECTION|CLASS|SCOPE`). The two checks the entry
+asked for are `NIL_BINDING_SECTION_MISMATCH` and `NIL_BINDING_CLASS_MISMATCH`.
+
+**Fail closed.** On any binding error the cell is **not a nil**: it becomes `MISSING / NOT_REPORTED`, the ingest exits
+non-zero and **nothing is written**. A mismatched mapping therefore cannot reach a dataset, a payload or a persisted
+version — which is the whole difference from the behaviour reproduced above. A valid binding is stored on the
+observation as `nilBinding` and is published in the payload beside the quote, and INV-7 refuses a binding that is empty
+or missing a member.
+
+**Schema V3, not a redefinition of V1/V2.** `IIPS_INVESTMENT_FUNDAMENTALS_V3` is additive over V2 — it adds no line item
+and changes no value rule — and it **requires** the binding on every nil cell. V1 and V2 keep the legacy `NIL: <wording>`
+form and their recorded meaning, so nothing is backfilled, re-versioned or re-digested. The Work Item 3 dataset
+re-ingests under the corrected build to **ten byte-identical files**, manifest included, with `datasetVersion`
+`sha256:21cf2522…` and payload digest `9e7f621d…` — exactly what Work Item 3 published and Work Item 9 re-verified. This
+is the V2 precedent applied to an evidence rule rather than to an item.
+
+**The review branch, for the four historical declarations.** `source/review-record.json` applies the new grammar, after
+the fact, to the declarations Work Item 3 made in prose, citing (never altering) the WI-3 bundle and re-verifying each
+quote's sha256: the three borrowings components are `BS` / `BORROWINGS` / `CONSOLIDATED_GROUP` and are accepted without
+qualification; `PREFERENCE_CAPITAL` is `BS` / `PREFERENCE_SHARE_CAPITAL` / **`STANDALONE_COMPANY`** — the parent-company
+sentence applied to the consolidated block — and is accepted **with a recorded scope nuance**. That is the interpretive
+mapping the entry called out, and under the new grammar it is legal only with an explicit `acceptedBy`: the claim that
+used to live in prose is now a member of the data.
+
+**What changed for the issuer, measured.** With the four declarations bound, `datasetVersion` becomes `sha256:6afa2793…`
+and the payload digest `f60fc5c8…`, while `reportKey` (`ed1e54b03e5e…`), `confidence` (0.4378), gross debt
+(83,590,000,000 — lease liabilities only), net debt (−193,420,000,000) and **every other published figure are identical**
+to the unbound run: the binding adds evidence, not arithmetic. One measured side effect, recorded so it is not mistaken
+for the binding's doing: adopting V2 **or** V3 moves the adequacy denominator from 52 to 53 permitted items, so
+balance-sheet coverage reads 0.6818 rather than 0.7143 — V2, untouched here, already behaves that way.
+
+**What this does not claim.** The grammar does not read English. An operator who declares `class=BORROWINGS` over a
+sentence about payables has made a **false** declaration, not an undetected one: it is recorded next to the quote, and
+`acceptedBy` records who accepted a cross-scope mapping. What changed is that the link from sentence to component is now
+machine-checked for consistency, published beside the quote, and refused when it contradicts itself.
+
+**Statuses after §17.20.** **`L-035` → `RESOLVED`** — both halves of its recorded criterion are satisfied: the grammar
+(required under V3, with the two mismatch tests the entry asked for) and the review step recording who accepted the
+mapping for the four existing declarations. `L-036` stays **`PARTIALLY RESOLVED`**, `L-037` **`OPEN`**, `L-038` **`OPEN`**,
+`L-039` unchanged, `L-040` **`RESOLVED`**, `L-034` **`RESOLVED`**, `L-001` … `L-033` untouched. `L-038`'s debt-component
+findings and `L-039`'s cash-side period/nil-propagation findings are not touched: this work item changes how a nil
+declaration is **evidenced**, never how a nil is **aggregated**, so §17.15/§17.16's arithmetic is exactly as it was. No
+new persistence mechanism, no new issuer or sector, no IPD act — the sequence `CV-CORR-253` / `CHG-2026-11-06-16` /
+`V2148` remains the next free IPD reference. Next free §17.21.
+
+**Boundary this adds.** §17.17 established that an absence can be a fact, and §17.18 that a late caption is a finding
+about the search. §17.19 established that a remedy can be built and leave a limitation unresolved. This entry adds the
+companion case: **a check can guarantee every property of a declaration except the one that matters** — the quote was
+present, the provenance was present, the period was present, and the sentence was about something else. The fix is not a
+stricter version of the same check; it is a different field, so that the claim the operator is making has somewhere to
+live and something to contradict.
+
+**Evidence.** `evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/` — `README.md`, `determination-l035.json`,
+`source/grammar.txt`, `source/review-record.json`, `runs/` (01 reproduction at the pre-fix commit, 02 unbound refusal
+under V3, 03 mismatch refusal with nothing written, 04 bound declarations accepted, 05 ten-file byte identity, 06
+persist/readback and the V1-vs-V3 comparison, 07 tests, 08 typecheck, 09 post-manifest verification, 10 clean clone,
+`commands.txt`), `artifact/assessment-payload-l035-v3.json`, `digests.json` (14 files) — guarded by
+`iips-platform/tests/investment/nil-binding.test.ts` (22 tests). Platform suite 721/721 in 168 suites; frontend
+investment suite 247/247 in 20 files; `tsc --noEmit` exit 0.
 
 ## 17.21 WI-10 — `L-037`: what the class of deep-page retrieval failure actually leaves open, and the half the repository can close (2026-11-07; implementation + negative controls)
 

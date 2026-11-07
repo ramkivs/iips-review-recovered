@@ -142,4 +142,84 @@ describe('ingest CLI', () => {
       rmSync(root, { recursive: true, force: true });
     }
   });
+
+  test('the dataset grammar is declared by the operator, and defaults to the legacy V1 grammar', () => {
+    const root = mkdtempSync(join(tmpdir(), 'iid0-cli6-'));
+    try {
+      // No flag: exactly the behaviour that existed before the flag existed, V1.
+      const input = prepareInputDir(root, { withMetrics: true });
+      const defaultDir = join(root, 'dataset-default');
+      assert.equal(
+        run(['--input', input, '--dataset-dir', defaultDir, '--now', '2026-11-05T00:00:00.000Z', '--allow-errors']),
+        0,
+      );
+      assert.equal(readDataset(defaultDir).manifest.datasetSchema, 'IIPS_INVESTMENT_FUNDAMENTALS_V1');
+
+      // `L-036`: the one item V2 introduces is accepted only when the operator declares V2. Before the flag, the
+      // CLI could not produce a V2 dataset at all, so the grammar IX added to hold an associates/JV carrying value
+      // was reachable from the library and not from the only ingestion entry point.
+      const v2Input = prepareInputDir(join(root, 'v2'), { withMetrics: true });
+      const periods = readFileSync(join(v2Input, 'periods.csv'), 'utf8').trimEnd().split('\n');
+      const header = `${periods[0]},INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES`;
+      const rows = periods.slice(1).map((row) => `${row},`);
+      writeFileSync(join(v2Input, 'periods.csv'), `${header}\n${rows.join('\n')}\n`, 'utf8');
+
+      const v2Dir = join(root, 'dataset-v2');
+      assert.equal(
+        run([
+          '--input', v2Input,
+          '--dataset-dir', v2Dir,
+          '--now', '2026-11-05T00:00:00.000Z',
+          '--allow-errors',
+          '--dataset-schema', 'IIPS_INVESTMENT_FUNDAMENTALS_V2',
+        ]),
+        0,
+      );
+      const v2 = readDataset(v2Dir);
+      assert.equal(v2.manifest.datasetSchema, 'IIPS_INVESTMENT_FUNDAMENTALS_V2');
+      // The column is present and its cell was empty: that is `NOT_REPORTED`, never a zero.
+      const carried = v2.content.periods.filter(
+        (period) => period.values.INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES !== undefined,
+      );
+      assert.ok(carried.length > 0, 'the V2 column was not read at all');
+      for (const period of carried) {
+        const observation = period.values.INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES!;
+        // An empty cell is an absence with its reason, never a zero and never a nil.
+        assert.equal(observation.presence, 'MISSING');
+        assert.equal(observation.value, null);
+        assert.notEqual(observation.presence, 'NIL_BY_DISCLOSURE');
+      }
+
+      // The same V2-bearing input under the default grammar is refused by name, not silently stripped: a filed
+      // carrying value must never become a policy zero because the operator forgot to declare the grammar.
+      const refusedDir = join(root, 'dataset-v1-refused');
+      assert.equal(run(['--input', v2Input, '--dataset-dir', refusedDir, '--now', '2026-11-05T00:00:00.000Z']), 1);
+      assert.equal(existsSync(join(refusedDir, 'manifest.json')), false);
+      assert.equal(
+        run(['--input', v2Input, '--dataset-dir', refusedDir, '--now', '2026-11-05T00:00:00.000Z', '--allow-errors']),
+        0,
+      );
+      const issues = readFileSync(join(refusedDir, 'issues.json'), 'utf8');
+      assert.match(issues, /LINE_ITEM_REQUIRES_DATASET_SCHEMA_V2/);
+      const refused = readDataset(refusedDir);
+      assert.equal(refused.manifest.datasetSchema, 'IIPS_INVESTMENT_FUNDAMENTALS_V1');
+      for (const period of refused.content.periods) {
+        assert.equal(period.values.INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES, undefined);
+      }
+
+      // A grammar this build does not know fails closed before anything is read or written.
+      assert.throws(
+        () =>
+          run([
+            '--input', input,
+            '--dataset-dir', join(root, 'dataset-unknown'),
+            '--dataset-schema', 'IIPS_INVESTMENT_FUNDAMENTALS_V9',
+          ]),
+        /is not supported by this build/,
+      );
+      assert.equal(existsSync(join(root, 'dataset-unknown')), false);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
 });

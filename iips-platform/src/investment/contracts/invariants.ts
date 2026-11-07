@@ -83,6 +83,26 @@ export function checkObservation(observation: Observation<unknown>, path: string
         detail: 'NIL_BY_DISCLOSURE without the source wording that states the item is nil',
       });
     }
+    if (observation.nilBinding !== undefined) {
+      const binding = observation.nilBinding;
+      for (const key of ['section', 'class', 'scope'] as const) {
+        const value = binding[key];
+        if (typeof value !== 'string' || value.trim() === '') {
+          violations.push({
+            invariant: 'INV-7',
+            path,
+            detail: `NIL_BY_DISCLOSURE binding is missing ${key}`,
+          });
+        }
+      }
+      if (binding.acknowledgedBy !== undefined && binding.acknowledgedBy.trim() === '') {
+        violations.push({
+          invariant: 'INV-7',
+          path,
+          detail: 'NIL_BY_DISCLOSURE binding carries an empty acknowledgedBy',
+        });
+      }
+    }
     if (observation.reason !== 'DECLARED_NIL_IN_SOURCE') {
       violations.push({
         invariant: 'INV-7',

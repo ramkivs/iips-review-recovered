@@ -22286,6 +22286,107 @@ untouched. No D-2 or IX policy change, no new persistence mechanism, no new issu
 scope, no unrelated refactoring, no redefinition of any limitation. Next free §16.277 / CV-CORR-253 /
 CHG-2026-11-06-16 / V2148.
 
+### 16.277 IID WI-9 / L-036 — Infosys' associates/JV carrying value is not recognised at all, the 180-day review control verified in force, and the V2 ingestion path made operable (`2026-11-07`)
+
+**No IPD act, no IPD change.** This is an IRR-only IID work item completing the `L-036` investigation opened at §17.3 of
+the limitation register. It performs no IPD modification, so it carries **no** CV-CORR / CHG / V number; the sequence
+quoted at the end of §16.276 (`CV-CORR-253` / `CHG-2026-11-06-16` / `V2148`) is **not spent** here and remains the next free
+IPD act reference. Only the tracker section number advances.
+
+**Scope.** `L-036` — carrying value and review control. Two acceptance criteria: establish an associates/JV carrying
+value from primary evidence, and show the `POLICY_ZERO` treatment with its 180-day review correctly represented.
+Explicitly out of scope and untouched: `L-038` (still `OPEN`, no work resumed), `L-039`, `L-040`, every other limitation,
+the IX policy, D-2 nil semantics, the valuation rules, persistence, and every other issuer, sector and repository.
+
+**Evidence finding — stronger than the register's first reading.** Re-reading the committed audits of the Infosys
+consolidated Ind AS statements for FY2024, FY2023 and FY2022 (filed text only, annotations excluded): no Ind AS 1
+para 54(e) caption, no equity-method row in Note 2.5 or Note 2.5.1, no share-of-associates line in profit or loss or OCI,
+and Note 2.5 decomposing to the filed investment totals to the rupee in every period (24,623 = 11,708 + 12,915;
+19,478 = 12,569 + 6,909; 20,324 = 13,651 + 6,673). Notes 2.19 and 2.25, read in full, carry no such balance, and the only
+"associated" wording is the Note 2.24.1 income-tax phrase. The issuer does not hold an equity-accounted interest, so the
+figure is not *unreported* — it does not exist. Aggregates, named holdings, Ideaforge, Form AOC-1, ownership percentages
+and residuals were all refused by name, and an absent caption was **not** converted into a nil.
+
+**Review control — verified, unchanged, inert.** `clockStart` 2024-03-31 (`DATASET_PERIOD_END`), 180 days,
+`reviewDueOn` 2024-09-27 (checked as arithmetic), assessment clock 2026-11-06T14:05Z = 950 days, `status` `REVIEW_DUE`,
+`reviewRequired` true, treatment `POLICY_ZERO` under `associates-treatment/1.0.0`. The persisted block carries no clock
+(no `elapsedDays`, no `asOf`), so waiting cannot mint a version; and the valuation is byte-identical to the Work Item 3
+artifact, so the flag changes no value. No window, anchor or threshold moved.
+
+**Defect found and corrected — the remedy was unreachable.** The dataset schema V2 that IX declared as the remedy for
+`L-036` could not be exercised by an operator: the ingest CLI never declared a dataset schema, `writeDataset` ignored the
+grammar of the content it was writing, and `readDataset` dropped it — so a dataset written as V2 was read back as V1, the
+one case that refuses the line item. Corrected with an optional `--dataset-schema` (default V1, unknown fails closed
+before any read), grammar propagation in writer and reader, and one new CLI test. The V1 path is provably untouched: the
+Work Item 3 dataset re-ingests to ten byte-identical files and its payload digest stays `9e7f621d…`; declaring V2 for the
+same input changes only the description of the absence (`MISSING` instead of `NOT_COMPUTABLE`, payload `11be57e03ead…`)
+with the same treatment and the same review — no value invented, none available.
+
+**What is not claimed.** The current-code payload captured in this bundle (`9e7f621d…`, 55,573 bytes, `reportId`
+`430c6c1f…`) exists for readback evidence; it does **not** supersede anything. The committed Work Item 3 artifact stays
+byte-identical and remains the historical record. Its `confidence.combined` 0.6736 and the live 0.4378 differ solely
+because the authorized IX assumption caps now apply (additive 0.20 + 0.15, ceiling 0.35, no floor) — IX's change,
+recorded at register §17.7, neither made nor re-opened here.
+
+**Verification.** `698/698` tests in **161** suites, including the new guard `wi9AssociatesResolution.test.ts` (**17/17**)
+and `cli.test.ts` (**6/6**); `tsc --noEmit` exits 0; persist-and-readback in a separate process recomputes the stored
+digest; the bundle's `digests.json` re-hashes clean. Local results are reported separately from CI, and the CI run id for
+this pull request is cited in its receipt; no npm, frontend or IPD run is claimed.
+
+**Boundaries held.** `L-036` remains **`PARTIALLY RESOLVED`** — control satisfied and verified, carrying value not merely
+missing but absent from the statements; `L-038` `OPEN`, `L-039` unchanged, `L-040` `RESOLVED`, `L-035`/`L-037` `OPEN`,
+`L-034` `RESOLVED`, `L-001` … `L-033` untouched. No D-2 or IX policy change, no new persistence mechanism, no new issuer or
+sector, no IPD write, no production scope, no unrelated refactoring, no redefinition of any limitation. Next free §16.278 /
+CV-CORR-253 / CHG-2026-11-06-16 / V2148.
+
+### 16.278 IID WI-10 / L-035 — a nil declaration is bound to a statement section and a line-item class; `L-035` resolved (`2026-11-07`)
+
+**No IPD act, no IPD change.** This is an IRR-only IID work item completing the `L-035` investigation opened at register
+§17.2. It performs no IPD modification, so it carries **no** CV-CORR / CHG / V number; the sequence quoted at the end of
+§16.277 (`CV-CORR-253` / `CHG-2026-11-06-16` / `V2148`) is **not spent** here and remains the next free IPD act reference.
+Only the tracker section number advances.
+
+**Scope.** `L-035` — the nil declaration's link to the component it fills. Out of scope and untouched: `L-036`, `L-037`,
+`L-038`, `L-039`, `L-040` and every other limitation and status; D-2 semantics; the IX policy; the valuation rules; the
+nil-aggregation arithmetic that `L-038` and `L-039` turn on; persistence; every other issuer and sector; IPD.
+
+**Finding, reproduced before it was fixed.** At `0ddf5c7`, the Work Item 3 input with one cell changed —
+`LONG_TERM_BORROWINGS` quoting *"Trade payables are settled within 45 days of the invoice date."* — ingested with **exit
+0 and zero errors** and produced `NIL_BY_DISCLOSURE`. A declared nil is counted as zero by the capital-structure
+aggregation contract, so the cell became zero debt on the strength of a sentence about payables. The register's finding
+was accurate; the limitation is a **declaration-grammar** one, not a missed disclosure or a wrong mapping.
+
+**Resolution — both halves of the recorded criterion.** *Grammar:* a cell may carry
+`NIL[section=…;class=…;scope=…(;acceptedBy=…)]: <quoting>`, where the section must equal the item's own statement, the
+class must equal the item's class in a table total over the closed line-item table, and a scope that differs from the
+row's is legal only with `acceptedBy`, stored on the observation and published beside the quote. Mismatches are
+`NIL_BINDING_SECTION_MISMATCH` / `NIL_BINDING_CLASS_MISMATCH`; unknown, duplicate or missing members are refused. On any
+error the cell becomes `MISSING / NOT_REPORTED`, the ingest exits non-zero and **nothing is written**. Schema
+`IIPS_INVESTMENT_FUNDAMENTALS_V3` requires the binding; V1 and V2 keep the legacy form and their meaning, so no stored
+dataset is re-digested. *Review:* `source/review-record.json` applies the grammar to the four declarations Work Item 3
+made in prose and records the acceptance of each — three borrowings components accepted without qualification, and
+`PREFERENCE_CAPITAL` accepted with a recorded scope nuance (the parent-company sentence applied to the consolidated
+block), which is exactly the interpretive mapping the entry named.
+
+**Measured.** The Work Item 3 dataset re-ingests to **ten byte-identical files** with `datasetVersion`
+`sha256:21cf2522…` and payload digest `9e7f621d…` — unchanged. With the four declarations bound, `datasetVersion`
+becomes `sha256:6afa2793…` and the payload digest `f60fc5c8…`, while `reportKey`, confidence (0.4378), gross debt, net
+debt and every published figure are identical: the binding adds evidence, not arithmetic. Recorded, so it is not
+mistaken for the binding: adopting V2 or V3 moves the adequacy denominator from 52 to 53 permitted items, so
+balance-sheet coverage reads 0.6818 against 0.7143 under V1 — V2 already behaves that way and is untouched here.
+
+**Verification.** Platform suite **721/721** in **168** suites, including the new guard
+`tests/investment/nil-binding.test.ts` (**22**); frontend investment suite **247/247** in **20** files; `tsc --noEmit`
+exits 0; persist and separate-process readback recompute the stored digest; the bundle's `digests.json` re-hashes clean
+(**14** files). Local results are reported separately from CI, and the CI run id for this pull request is cited in its
+receipt; no npm, frontend or IPD run is claimed beyond the suites named.
+
+**Boundaries held.** **`L-035` → `RESOLVED`**; `L-036` remains **`PARTIALLY RESOLVED`**, `L-037`/`L-038` **`OPEN`**,
+`L-039` unchanged, `L-040`/`L-034` **`RESOLVED`**, `L-001` … `L-033` untouched. The WI-3 … WI-9 bundles are
+byte-identical and their guards still pass. No D-2 or IX policy change, no new persistence mechanism or table, no new
+issuer or sector, no IPD write, no production scope, no unrelated refactoring, no redefinition of any limitation. Next
+free §16.279 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.
+
 ### 16.279 WI-10 — `L-037`: deep-page retrieval made checkable, and left `PARTIALLY RESOLVED` where the network and the tooling stop (2026-11-07)
 
 **Work item.** `L-037` — *deep-page retrieval of large Indian issuer annual reports is capped by every available
