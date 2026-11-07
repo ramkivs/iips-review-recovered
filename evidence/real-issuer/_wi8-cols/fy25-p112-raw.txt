@@ -1,0 +1,190 @@
+Integrated Annual Report 2024-25
+220
+KEC International Limited
+` in Crore
+Particulars
+For the year ended
+March 31, 2025
+For the year ended
+March 31, 2024
+C. CASH FLOW FROM FINANCING ACTIVITIES
+Repayment of other than short-term borrowings (331.94) -
+Proceeds from other than short-term borrowings 266.16 169.90
+Proceeds from issue of equity shares (QIP Issue) 870.16 -
+Share issue expenses (19.04) -
+Repayments of short-term borrowings (21.40) 438.05
+Payment of principal of lease liabilities (44.34) (17.04)
+Payment of interest of lease liabilities (16.10) (9.57)
+Finance costs paid (632.83) (648.85)
+Dividend paid (102.79) (77.16)
+NET CASH FLOW USED IN FINANCING ACTIVITIES (C) (32.12) (144.68)
+NET INCREASE/(DECREASE) IN CASH AND CASH
+EQUIVALENTS (A+B+C)
+319.08 (56.59)
+Cash and cash equivalents at the beginning of the year 205.10 281.16
+Effect of exchange differences on restatement of foreign currency
+cash and cash equivalents
+21.51 (19.47)
+Cash and cash equivalents at the end of the year 545.69 205.10
+Supplemental Information
+Non Cash Transactions from Investing and Financing
+Activities:
+Acquisition of Right-of-Use assets 128.20 0.76
+The above consolidated statement of cash flows has been prepared under the “indirect method” as set out in Ind AS 7
+‘statement of cash flows’
+Reconciliation of liabilities arising from financing activities: ` in Crore
+Particulars
+As at
+March 31,
+2024
+Cash flows
+Movement
+in lease
+liabilities
+Foreign
+exchange
+movement
+Interest
+expense
+Interest
+paid
+As at
+March 31,
+2025
+Borrowings 3,802.09 (87.18) - (14.93) 623.33 (622.21) 3,701.10
+Lease liabilities 172.71 (44.34) 128.01 16.10 (16.10) 256.38
+Total liabilities from financing
+activities
+3,974.80 (131.52) 128.01 (14.93) 639.43 (638.31) 3,957.48
+Particulars
+As at
+March 31,
+2023
+Cash flows
+Movement
+in lease
+liabilities
+Foreign
+exchange
+movement
+Interest
+expense
+Interest
+paid
+As at
+March 31,
+2024
+Borrowings 3,191.81 607.94 - 9.92 634.50 (642.08) 3,802.09
+Lease liabilities 188.92 (17.04) 0.76 0.07 9.57 (9.57) 172.71
+Total liabilities from financing
+activities
+3,380.73 590.90 0.76 9.99 644.07 (651.65) 3,974.80
+The above consolidated statement of cash flows should be read in conjunction with the accompanying notes.
+Consolidated Statement of Cash Flows
+for the year ended March 31, 2025
+In terms of our report of even date For and on behalf of the Board of Directors
+For Price Waterhouse Chartered Accountants LLP
+Firm Registration Number: 012754N/N500016
+H.V. GOENKA VIMAL KEJRIWAL
+Chairman Managing Director and CEO
+SUMIT SETH DIN - 00026726 DIN - 00026981
+Partner
+Membership Number : 105869 RAJEEV AGGARWAL SURAJ EKSAMBEKAR
+Chief Financial Officer Company Secretary
+Place : Mumbai Place : Mumbai
+Date : May 26, 2025 Date : May 26, 2025
+CORPORATE OVERVIEW STATUTORY REPORTS FINANCIAL STATEMENTS
+221
+KEC International Limited
+Integrated Annual Report 2024-25
+Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2025
+Consolidated
+1. GENERAL INFORMATION
+KEC International Limited (“the Company”) (CIN:
+L45200MH2005PLC152061) is a public limited company
+incorporated and domiciled in India. Its shares are listed
+on BSE Limited and National Stock Exchange of India
+Limited. The registered office of the Company is located
+at RPG House, 463, Dr. Annie Besant Road, Worli,
+Mumbai- 400 030.
+The Company including its branches, jointly controlled
+operations and its subsidiaries (as detailed in note 3.3) is
+herein after together referred to as the ‘Group’.
+The Group is primarily engaged in Engineering,
+Procurement and Construction business (EPC) relating
+to infrastructure interalia products, projects and systems
+and related activities for power transmission, distribution,
+railway, civil, cable and other EPC businesses.
+The Company’s manufacturing footprint extends across
+three countries in addition to India. The Company has
+several international branch offices enabling diversified
+global footprint.
+2. NEW AND AMENDED STANDARDS ADOPTED BY
+THE GROUP
+The Ministry of Corporate Affairs vide notification dated
+September 9, 2024 and September 28, 2024 notified
+the Companies (Indian Accounting Standards) Second
+AmendmentRules,2024andCompanies(IndianAccounting
+Standards) Third Amendment Rules, 2024, respectively,
+which amended/ notified certain accounting standards
+(see below), and are effective for annual reporting periods
+beginning on or after April 1, 2024:
+• Insurance contracts - Ind AS 117; and
+• Lease Liability in Sale and Leaseback – Amendments
+to Ind AS 116
+These amendments did not have any material impact on the
+amounts recognized in prior periods and are not expected
+to significantly affect the current or future periods.
+3. ACCOUNTING POLICY INFORMATION
+3.1 Statement of compliance
+The consolidated financial statements have been prepared
+in accordance with the provisions of Companies Act,
+2013 and Indian Accounting Standards (Ind AS) notified
+under Section 133 of the Companies Act, 2013 (the Act)
+[Companies (Indian Accounting Standards) Rules, 2015]
+and other relevant provisions of the Act.
+3.2 Basis of preparation and presentation
+The consolidated financial statements have been prepared
+on the historical cost basis except for certain financial
+assets and liabilities (including derivative instruments) and
+plan assets under defined benefit plans that are measured
+at fair values at the end of each reporting period, as
+explained in the accounting policies below.
+Summary of material accounting policies is as under:
+Operating Cycle
+Assets and liabilities other than those relating to long-term
+contracts (i.e. supply or construction contracts) are
+classified as current if it is expected to realize or settle
+within 12 months after the balance sheet date.
+In case of long-term contracts, operating cycle of the Group
+exceeds one year covering the duration of the contract
+including the defect liability period, wherever applicable,
+and extends upto the realisation of receivables (including
+retentionmonies)withinthecreditperiodnormallyapplicable
+to the respective contract. Accordingly, for classification
+of assets and liabilities related to such contracts as
+current, duration of each contract is considered as its
+operating cycle.
+3.3 Basis of consolidation
+The consolidated financial statements incorporate the
+financial statements of the Company and its subsidiaries.
+Control is achieved when the Company:-
+• has power over the investee;
+• is exposed, or has rights, to variable returns from its
+involvement with the investee; and
+• has the ability to use its power to affect its returns.
+The Company reassesses whether or not it controls an
+investee if facts and circumstances indicate that there
+are changes to one or more of the three elements of
+control listed above.
+When the Company has less than a majority of the voting
+rights of an investee, it has power over the investee when
+the voting rights are sufficient to give it the practical ability
+to direct the relevant activities of the investee unilaterally.
+TheCompanyconsidersallrelevantfactsandcircumstances
+in assessing whether or not the Company’s voting rights in
+an investee are sufficient to give it power, including:
+• the size of the Company’s holding of voting rights
+relative to the size and dispersion of holdings of the
+other vote holders;

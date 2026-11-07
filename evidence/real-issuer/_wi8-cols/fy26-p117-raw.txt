@@ -1,0 +1,144 @@
+Consolidated
+FINANCIAL STATEMENTS
+Integrated Annual Report 2025-26 230 231
+KEC International Limited
+Integrated Annual Report 2025-26
+Consolidated Balance Sheet
+as at March 31, 2026
+` in Crore
+Particulars Note No. As at
+March 31, 2026
+As at
+March 31, 2025
+ASSETS
+(1) Non-Current Assets
+(a) Property, plant and equipment 5 1,159.49 1,073.99
+(b) Right-of-use assets 6 305.17 289.57
+(c) Capital work-in-progress 7 113.65 38.52
+(d) Goodwill 8 305.80 278.22
+(e) Intangible assets 9 2.92 4.83
+1,887.03 1,685.13
+(f) Financial assets
+(i) Investments 10 *- *-
+(ii) Trade receivables 11 31.45 214.93
+(iii) Other financial assets 12 65.38 66.07
+96.83 281.00
+(g) Deferred tax assets (net) 28 475.39 452.70
+(h) Non-current tax assets (net) 13 260.75 138.92
+(i) Other non-current assets 14 228.98 235.53
+Total Non-Current Assets 2,948.98 2,793.28
+(2) Current Assets
+(a) Inventories 15 1,532.74 1,140.46
+(b) Financial assets
+(i) Trade receivables 16 6,474.21 5,051.10
+(ii) Cash and cash equivalents 17 411.26 545.69
+(iii) Bank balances other than (ii) above 18 100.67 110.24
+(iv) Other financial assets 19 276.90 144.42
+7,263.04 5,851.45
+(c) Contract assets 20 12,127.56 11,043.51
+(d) Current tax assets (net) 21 26.57 16.70
+(e) Other current assets 22 1,259.17 1,334.52
+Total Current Assets 22,209.08 19,386.64
+Total Assets 25,158.06 22,179.92
+EQUITY AND LIABILITIES
+Equity
+(a) Equity share capital 23 53.24 53.24
+(b) Other equity 24 6,106.45 5,294.21
+Total Equity 6,159.69 5,347.45
+Liabilities
+(1) Non-Current Liabilities
+(a) Financial liabilities
+(i) Borrowings 25 661.37 358.46
+(ii) Lease liabilities 26 220.60 211.48
+881.97 569.94
+(b) Provisions 27 83.58 19.69
+(c) Deferred tax liabilities (net) 28 24.61 15.55
+(d) Other non-current liabilities 29 0.39 0.41
+Total Non-Current Liabilities 990.55 605.59
+(2) Current Liabilities
+(a) Financial liabilities
+(i) Borrowings 30 4,441.86 3,342.64
+(ii) Lease liabilities 31 53.93 44.90
+(iii) Trade payables 32
+-  total outstanding dues of micro and small enterprises 218.20 164.64
+-  total outstanding dues of creditors other than micro and small
+enterprises
+8,485.05 8,831.57
+(iv) Trade acceptances 33 2,120.74 1,507.27
+(v) Other financial liabilities 34 115.68 97.28
+15,435.46 13,988.30
+(b) Contract liabilities 35 1,837.26 1,659.36
+(c) Other current liabilities 36 462.02 305.45
+(d) Provisions 37 101.46 100.87
+(e) Current tax liabilities (net) 38 171.62 172.90
+Total Current Liabilities 18,007.82 16,226.88
+Total Equity and Liabilities 25,158.06 22,179.92
+* less than rounding off norms adopted by the Company.
+The above Consolidated Balance Sheet should be read in conjunction with the accompanying notes.
+In terms of our report of even date
+For Price Waterhouse Chartered Accountants LLP
+Firm Registration Number: 012754N/N500016
+For and on behalf of the Board of Directors
+H.V. GOENKA VIMAL KEJRIWAL
+Chairman Managing Director and CEO
+SUMIT SETH DIN - 00026726 DIN - 00026981
+Partner
+Membership Number : 105869 RAJEEV AGGARWAL SURAJ EKSAMBEKAR
+Chief Financial Officer Company Secretary
+Place : Mumbai Place : Mumbai
+Date : May 16, 2026 Date : May 16, 2026
+Consolidated Statement of Profit and Loss
+for the year ended March 31, 2026
+` in Crore
+Particulars Note No. For the year ended
+March 31, 2026
+For the year ended
+March 31, 2025
+I Revenue from operations 39 23,505.54 21,846.70
+II Other income 40 50.33 70.86
+III Total Income (I+II) 23,555.87 21,917.56
+IV Expenses
+(i) Cost of materials consumed 41 11,571.46 9,912.15
+(ii) Changes in inventories of finished goods and work-in-progress 42 (325.32) 166.52
+(iii) Erection and sub-contracting expenses 43 7,068.41 6,831.64
+(iv) Employee benefits expense 44 1,662.39 1,540.20
+(v) Finance costs 45 663.60 663.59
+(vi) Depreciation and amortisation expense 46 197.38 183.68
+(vii) Other expenses 47 1,870.03 1,892.29
+Total expenses 22,707.95 21,190.07
+V Profit before exceptional items and tax (III-IV) 847.92 727.49
+VI Exceptional items 75 58.78 -
+VII Profit after exceptional items and before tax (V - VI) 789.14 727.49
+VIII Tax expenses 48
+(i) Current tax 180.41 269.96
+(ii) Deferred tax 3.14 (113.21)
+183.55 156.75
+IX Profit for the year (VII - VIII) 605.59 570.74
+X Other Comprehensive Income
+A. Items that will not be reclassified to profit or loss
+(i) Remeasurement of defined benefit obligations 55 (6.02) (0.28)
+(ii) Income tax relating to these items 48.2 0.62 (0.13)
+B. Items that will be reclassified to profit or loss 24
+(i)	 Exchange differences on translation of financial
+statements of foreign operations
+205.44 (6.60)
+(ii) Net gain on cash flow hedges 388.69 60.99
+(iii) Income tax relating to these items 48.2 (98.85) (9.01)
+Total Other Comprehensive Income 489.88 44.97
+XI Total Comprehensive Income for the year (IX+X) 1,095.47 615.71
+XII Earnings per equity share (of ` 2 each)
+(i) Basic (in `) 49 22.75 21.80
+(ii) Diluted (in `) 22.75 21.80
+The above Consolidated Statement of Profit and Loss should be read in conjunction with the accompanying notes.
+In terms of our report of even date
+For Price Waterhouse Chartered Accountants LLP
+Firm Registration Number: 012754N/N500016
+For and on behalf of the Board of Directors
+H.V. GOENKA VIMAL KEJRIWAL
+Chairman Managing Director and CEO
+SUMIT SETH DIN - 00026726 DIN - 00026981
+Partner
+Membership Number : 105869 RAJEEV AGGARWAL SURAJ EKSAMBEKAR
+Chief Financial Officer Company Secretary
+Place : Mumbai Place : Mumbai
+Date : May 16, 2026 Date : May 16, 2026

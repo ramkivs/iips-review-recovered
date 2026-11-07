@@ -1,0 +1,144 @@
+Integrated Annual Report 2024-25
+218
+KEC International Limited
+Consolidated statement of changes in equity
+for the year ended March 31, 2025
+A. EQUITY SHARE CAPITAL ` in Crore
+Particulars
+As at March 31, 2025 As at March 31, 2024
+Nos. ` in crore Nos. ` in crore
+Equity Shares Outstanding at the beginning of the year 257,088,370 51.42 257,088,370 51.42
+Add: Shares issued during the year 9,111,630 1.82 - -
+Equity Shares Outstanding at the end of the year 266,200,000 53.24 257,088,370 51.42
+B. OTHER EQUITY
+Particulars
+Reserves and Surplus
+Other Comprehensive
+Income
+Total
+Capital
+Reserve
+Capital
+Reserve on
+Consolidation
+Securities
+Premium
+Capital
+Redemption
+Reserve
+Statutory
+Reserve
+General
+Reserve
+Retained
+Earnings
+Effective
+portion
+of cash
+flow
+Hedges
+Exchange
+differences
+on translation
+of foreign
+operations
+Balance as at April 01, 2023 84.98 0.04 86.75 14.28 4.44 191.72 3,220.08 0.13 117.59 3,720.01
+Profit for the year - - - - - - 346.78 - - 346.78
+Other Comprehensive Income for the year - - - - - - 1.83 23.22 29.15 54.20
+Total Comprehensive Income for the year - - - - - - 348.61 23.22 29.15 400.98
+Transactions with owners in their capacity as owner
+Increase on account of capital reduction of a subsidiary - - - - - (2.55) 2.55 - - -
+Reduction on account of closure of subsidiary - - - - - - 0.12 - 0.29 0.41
+Transfer to Statutory reserve - - - - 3.18 - (3.18) - - -
+Dividend paid - - - - - - (77.12) - - (77.12)
+Balance as at March 31, 2024 84.98 0.04 86.75 14.28 7.62 189.17 3,491.06 23.35 147.03 4,044.28
+Balance as at April 01, 2024 84.98 0.04 86.75 14.28 7.62 189.17 3,491.06 23.35 147.03 4,044.28
+Profit for the year - - - - - - 570.74 - - 570.74
+Other Comprehensive Income for the year - - - - - - (0.41) 43.53 1.85 44.97
+Total Comprehensive Income for the year - - - - - - 570.33 43.53 1.85 615.71
+Hedging gain/(loss) transferred to inventory (94.07) (94.07)
+Transactions with owners in their capacity as owner
+Transfer to Statutory reserve - - - - 2.87 - (2.87) - - -
+Adjustment on account of common control
+transactions.
+- - - - (0.30) (17.86) - - (18.16)
+Proceeds from issue of equity share, net of expenses - - 849.29 - - - - - - 849.29
+Dividend paid - - - - - - (102.84) - - (102.84)
+Balance as at March 31, 2025 84.98 0.04 936.04 14.28 10.49 188.87 3,937.82 (27.19) 148.88 5,294.21
+The above Consolidated statement of changes in equity should be read in conjunction with the accompanying notes.
+In terms of our report of even date For and on behalf of the Board of Directors
+For Price Waterhouse Chartered Accountants LLP
+Firm Registration Number: 012754N/N500016
+H.V. GOENKA VIMAL KEJRIWAL
+Chairman Managing Director and CEO
+SUMIT SETH DIN - 00026726 DIN - 00026981
+Partner
+Membership Number : 105869 RAJEEV AGGARWAL SURAJ EKSAMBEKAR
+Chief Financial Officer Company Secretary
+Place : Mumbai Place : Mumbai
+Date : May 26, 2025 Date : May 26, 2025
+CORPORATE OVERVIEW STATUTORY REPORTS FINANCIAL STATEMENTS
+219
+KEC International Limited
+Integrated Annual Report 2024-25
+Consolidated
+Consolidated Statement of Cash Flows
+for the year ended March 31, 2025
+` in Crore
+Particulars
+For the year ended
+March 31, 2025
+For the year ended
+March 31, 2024
+A. CASH FLOW FROM OPERATING ACTIVITIES
+PROFIT FOR THE YEAR AFTER TAX 570.74 346.78
+Adjustments for:
+Income tax expense 156.75 79.71
+Depreciation and amortisation expense 183.68 185.36
+Profit on sale of property, plant and equipment (net) and gain on
+derecognition of leased assets
+(8.56) (3.26)
+Loss on property, plant and equipment discarded and intangible
+assets derecognised
+3.32 2.64
+Finance costs 663.59 655.13
+Interest income (55.24) (45.32)
+Bad debts, loans and advances written off/written back (net) 46.97 2.17
+Allowance for expected credit losses (net) 216.70 90.91
+Mark to market loss/(gain) on forward and commodity contracts 9.71 (7.69)
+Net unrealised exchange (gain)/loss (2.09) 47.02
+1,214.82 1,006.67
+1,785.56 1,353.45
+Changes in assets and liabilities
+Changes in working capital:
+Adjustments for (increase)/decrease in operating assets:
+Inventories 72.85 (71.90)
+Trade receivables (992.62) 144.68
+Other financial assets (23.42) 60.14
+Contract assets (2,017.72) (1,645.80)
+Other current assets (221.95) (132.73)
+Other non-current assets (6.56) (9.30)
+(3,189.42) (1,654.91)
+Adjustments for increase / (decrease) in operating liabilities:
+Trade payables 1,244.06 1,384.32
+Trade acceptances (53.52) (576.31)
+Other current liabilities 27.17 83.88
+Contract liabilities 444.81 (25.79)
+Other financial liabilities 3.90 (4.19)
+Provisions (0.68) 2.83
+1,665.74 864.74
+CASH FLOW GENERATED IN OPERATIONS 261.88 563.28
+Refund / (Payment) of taxes (net) 157.19 (252.13)
+NET CASH FLOW GENERATED FROM OPERATING ACTIVITIES (A) 419.07 311.15
+B. CASH FLOW FROM INVESTING ACTIVITIES
+Capital expenditure on property, plant and equipment and
+intangible assets (after adjustment of increase/decrease in capital
+work-in-progress and advances for capital expenditure)
+(182.52) (237.38)
+Proceeds from sale of property, plant and equipment 33.40 3.80
+Proceeds from sale and lease back transactions 70.07 -
+Interest received 53.24 15.70
+Bank balances (including non-current) not considered as cash and
+cash equivalents (net)
+(42.06) (5.18)
+NET CASH FLOW USED IN INVESTING ACTIVITIES (B) (67.87) (223.06)
