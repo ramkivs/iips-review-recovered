@@ -128,8 +128,8 @@ jobs:
               for i, p in enumerate(pages, start=1):
                   if any(k in p.lower() for k in keys):
                       keep.update((i, i + 1))
-              bands = {"fy24_rpg": [(1, 2), (128, 132), (139, 148)],
-                       "fy23_bse": [(1, 2), (136, 141), (147, 158)]}
+              bands = {"fy24_rpg": [(1, 2), (60, 60), (128, 132), (139, 148)],
+                       "fy23_bse": [(1, 2), (66, 66), (136, 141), (147, 158)]}
               for lo, hi in bands.get(base, []):
                   keep.update(range(lo, hi + 1))
               keep = sorted(k for k in keep if 1 <= k <= len(pages))
