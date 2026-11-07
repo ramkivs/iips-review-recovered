@@ -22386,3 +22386,49 @@ receipt; no npm, frontend or IPD run is claimed beyond the suites named.
 byte-identical and their guards still pass. No D-2 or IX policy change, no new persistence mechanism or table, no new
 issuer or sector, no IPD write, no production scope, no unrelated refactoring, no redefinition of any limitation. Next
 free §16.279 / CV-CORR-253 / CHG-2026-11-06-16 / V2148.
+
+### 16.279 WI-10 — `L-037`: deep-page retrieval made checkable, and left `PARTIALLY RESOLVED` where the network and the tooling stop (2026-11-07)
+
+**Work item.** `L-037` — *deep-page retrieval of large Indian issuer annual reports is capped by every available
+reader*, with the standing rule that absence of wording beyond the retrieval cap is not evidence of absence. Register
+§17.12 (origin), §17.13 (generalised), §17.14 (WI-6A-S2 read both Zensar reports end to end and left the entry `OPEN`
+because one issuer is not the class). §17.21 is this work item's entry.
+
+**Finding.** The residual defect is not reachability and not legibility — S2 settled both — it is that the capability was
+**bespoke**. Each deep read so far needed its own out-of-process harness (S2's a temporary GitHub Actions workflow, visible
+in public logs and deleted in the same item) and its own guard test written against that bundle's records. Nothing generic
+stood between a new bundle and a fabricated or drifted deep-page claim.
+
+**What was built (repository-owned, no new persistence).** `retrievalEvidence.ts` — closed vocabularies for retrieval
+status, page evidence and quotation class, with a pure verifier; `retrievalBundle.ts` — a reader for the record format S2
+established, which infers nothing a record does not say; `verify-retrieval-evidence.ts` — a CLI gate, exit 0/1/2, no
+network, no PDF tooling, no writes; `tests/investment/retrieval-evidence.test.ts` — 27 targeted tests, the real bundle,
+eleven poisoned copies made in a temporary directory, and five that hold this bundle and the register to what they say. The rule is mechanical: a READ quotation may not stand on a
+non-`RETRIEVED` document, an unextracted page, or an extract whose header disagrees with the record; `REPORTED_NOT_READ`
+is never counted as read; a bundle of failures reports `retrieved 0` rather than an empty corpus.
+
+**Measured, not assumed.** Five issuer/exchange/archive hosts fail before HTTP exists from this environment — TLS
+`SSL_ERROR_SYSCALL`, `curl` exit 35, no status — while a control host answers `200` in the same shell; no PDF tooling is
+present. Recorded in `access/attempts.json` with its exact commands and an explicit `notClaimed` list: a fetch that did
+not happen is a retrieval failure, never an absence. No retrieval was performed; nothing was fabricated.
+
+**Verification.** The real S2 bundle passes unchanged — 2 documents retrieved, 11 extracts of 347 pages, 2 quotations,
+2 read, **0 violations**; its bundle-local guard and the L-035 nil-binding contract still pass (**36** tests). The negative
+control (`control/fabricated-claim/`: a `COMPLETE` claim over 6 of 167 pages, a refused document still carrying extracts
+and a READ quotation, and a quotation moved to an unextracted page) is refused with **exit 1** and eight named violations.
+`tsc --noEmit` exits 0. Local results are reported separately from CI, and the CI run id for this pull request is cited in
+its receipt; no suite is claimed beyond those run.
+
+**Status.** **`L-037` → `PARTIALLY RESOLVED`**, with the boundary stated in §17.21: `R-037-01` reader cap, `R-037-02`
+reachability, `R-037-03` absent tooling and `R-037-07` two-up column geometry stay **open** and outside this repository;
+`R-037-05` (no reviewable retrieval method) is **partially resolved** and its next step is a committed harness where egress
+exists; `R-037-04`, `R-037-06` and `R-037-08` are **resolved**; `R-037-09` (Zensar) remains settled by S2 and was
+re-verified, not reopened. `L-034`/`L-035`/`L-040` remain **`RESOLVED`**, `L-036` **`PARTIALLY RESOLVED`**, `L-038`
+**`OPEN`**, `L-039` and `L-001` … `L-033` untouched. No D-2, IX, valuation, mapping, IPD or IPO Screening change; no new
+persistence mechanism, table, journal or cache; no production scope. **Corrected 2026-11-07 on publication of this work
+item as its own pull request:** this paragraph originally read *"Nothing is merged: PR #507, PR #508 and this work item's
+pull request all await the combined closeout"*, which was already untrue when it was written — PR #507 merged at
+17:01:39Z that same day. The factual position is that **PR #507 is merged into `main` as `c95c048`**, while this work
+item is published on its own branch and the stacked PR #508 is superseded by the three dedicated pull requests. Nothing
+else in this entry changes: `L-037` is `PARTIALLY RESOLVED` for the reasons stated above, and `L-038` remains `OPEN` in
+its merged §17.18 form. Next free §16.280 / CV-CORR-254 / CHG-2026-11-06-17 / V2149.

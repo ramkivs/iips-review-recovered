@@ -1,0 +1,94 @@
+{
+ "schemaVersion": 1,
+ "note": "Printed-page to PDF-page-index calibration for the two annual reports. Both reports print two printed pages per PDF sheet (a spread), so printed page 304 and 305 sit on one sheet.",
+ "entries": [
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "pdfPageIndex": 154,
+   "pdfPages": 167,
+   "printedPages": "304-305",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-note-27-capital-management.txt",
+   "content": "Consolidated Note 27 Capital management — the sentence that is the D-2 nil"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "pdfPageIndex": 130,
+   "pdfPages": 167,
+   "printedPages": "256-257",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt",
+   "content": "Consolidated balance sheet (no borrowings line for either date) and consolidated statement of profit and loss"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "pdfPageIndex": 146,
+   "pdfPages": 167,
+   "printedPages": "288-289",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-note-11b-lease-liabilities.txt",
+   "content": "Consolidated Note 11(b) Lease liabilities — non-current / current split"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "pdfPageIndex": 156,
+   "pdfPages": 167,
+   "printedPages": "308-309",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-note-33-lease-movement.txt",
+   "content": "Consolidated Note 33 — cash and non-cash movement in lease liabilities (opens with the 31 March 2022 balance)"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "pdfPageIndex": 132,
+   "pdfPages": 167,
+   "printedPages": "260-261",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-statement-of-cash-flows.txt",
+   "content": "Consolidated statement of cash flows for the year ended 31 March 2024 (FY2024 and FY2023 columns)"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2023-24",
+   "pdfPageIndex": 60,
+   "pdfPages": 167,
+   "printedPages": "116-117",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-isin-and-listing-identifiers.txt",
+   "content": "Shareholding / corporate-governance page printing ISIN INE520A01027 and the NSE/BSE identifiers"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23",
+   "pdfPageIndex": 163,
+   "pdfPages": 180,
+   "printedPages": "320-321",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-note-27-capital-management.txt",
+   "content": "Consolidated Note 27 Capital management — the sentence that is the D-2 nil"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23",
+   "pdfPageIndex": 138,
+   "pdfPages": 180,
+   "printedPages": "270-271",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt",
+   "content": "Consolidated balance sheet (no borrowings line for either date) and consolidated statement of profit and loss"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23",
+   "pdfPageIndex": 154,
+   "pdfPages": 180,
+   "printedPages": "302-303",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-note-11b-lease-liabilities.txt",
+   "content": "Consolidated Note 11(b) Lease liabilities — non-current / current split"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23",
+   "pdfPageIndex": 140,
+   "pdfPages": 180,
+   "printedPages": "274-275",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-statement-of-cash-flows.txt",
+   "content": "Consolidated statement of cash flows for the year ended 31 March 2023 (FY2023 and FY2022 columns)"
+  },
+  {
+   "document": "Zensar Technologies Limited — Integrated Annual Report 2022-23",
+   "pdfPageIndex": 66,
+   "pdfPages": 180,
+   "printedPages": "126-127",
+   "file": "../../../WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-isin-and-listing-identifiers.txt",
+   "content": "Shareholding / corporate-governance page printing ISIN INE520A01027 and the NSE/BSE identifiers"
+  }
+ ]
+}

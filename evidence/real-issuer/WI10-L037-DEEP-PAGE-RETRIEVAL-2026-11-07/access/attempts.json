@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "workItem": "WI-10",
+ "item": "L-037",
+ "title": "Issuer-host access measured from this environment — five hosts unreachable, TLS aborted before any HTTP status",
+ "measuredAtUtc": "2026-11-07T17:56:39+00:00",
+ "environment": "Arena sandbox (Linux container), single-user, non-production",
+ "control": {
+  "probe": "control-github",
+  "reading": "The control host answered 200 in the same shell, so the five failures are not a broken curl invocation or a missing CA bundle; they are the sandbox allowlist refusing the connection before HTTP exists."
+ },
+ "attempts": [
+  {
+   "probe": "rpggroup-annual-report-fy24",
+   "url": "https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf",
+   "command": "curl -sS -o /dev/null -w '%{http_code}' --max-time 12 https://www.rpggroup.com/assets/investors/pdfs/zensar-annual-report-fy241743584822.pdf",
+   "curlExitCode": 35,
+   "httpCode": "000",
+   "stderr": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.rpggroup.com:443",
+   "atUtc": "2026-11-07T17:56:38+00:00",
+   "interpretation": "NO_ROUTE"
+  },
+  {
+   "probe": "bseindia-listing",
+   "url": "https://www.bseindia.com/",
+   "command": "curl -sS -o /dev/null -w '%{http_code}' --max-time 12 https://www.bseindia.com/",
+   "curlExitCode": 35,
+   "httpCode": "000",
+   "stderr": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.bseindia.com:443",
+   "atUtc": "2026-11-07T17:56:38+00:00",
+   "interpretation": "NO_ROUTE"
+  },
+  {
+   "probe": "nseindia-archive",
+   "url": "https://nseindia.com/",
+   "command": "curl -sS -o /dev/null -w '%{http_code}' --max-time 12 https://nseindia.com/",
+   "curlExitCode": 35,
+   "httpCode": "000",
+   "stderr": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to nseindia.com:443",
+   "atUtc": "2026-11-07T17:56:38+00:00",
+   "interpretation": "NO_ROUTE"
+  },
+  {
+   "probe": "infosys-annual-report",
+   "url": "https://www.infosys.com/investors/reports-filings/annual-report/",
+   "command": "curl -sS -o /dev/null -w '%{http_code}' --max-time 12 https://www.infosys.com/investors/reports-filings/annual-report/",
+   "curlExitCode": 35,
+   "httpCode": "000",
+   "stderr": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.infosys.com:443",
+   "atUtc": "2026-11-07T17:56:38+00:00",
+   "interpretation": "NO_ROUTE"
+  },
+  {
+   "probe": "web-archive-wayback",
+   "url": "https://web.archive.org/web/2025/https://www.bseindia.com/",
+   "command": "curl -sS -o /dev/null -w '%{http_code}' --max-time 12 https://web.archive.org/web/2025/https://www.bseindia.com/",
+   "curlExitCode": 35,
+   "httpCode": "000",
+   "stderr": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to web.archive.org:443",
+   "atUtc": "2026-11-07T17:56:38+00:00",
+   "interpretation": "NO_ROUTE"
+  },
+  {
+   "probe": "control-github",
+   "url": "https://github.com/",
+   "command": "curl -sS -o /dev/null -w '%{http_code}' --max-time 12 https://github.com/",
+   "curlExitCode": 0,
+   "httpCode": "200",
+   "stderr": null,
+   "atUtc": "2026-11-07T17:56:38+00:00",
+   "interpretation": "REACHED"
+  }
+ ],
+ "pdfTooling": {
+  "pdftotext": null,
+  "pdfinfo": null,
+  "qpdf": null,
+  "mutool": null,
+  "gs": null,
+  "python:pypdf": "absent",
+  "python:fitz": "absent",
+  "python:pdfminer": "absent"
+ },
+ "reading": "A failure to reach a host is not a statement about the filing. Every row here records a retrieval that did not happen, in the closed vocabulary the verifier enforces (NO_ROUTE). No document in this bundle receives a status other than that, and no quotation is drawn from any of them.",
+ "notClaimed": [
+  "that the reports are unavailable to the issuer",
+  "that the filings carry no disclosure",
+  "that the exchange archive has no route for any environment"
+ ]
+}

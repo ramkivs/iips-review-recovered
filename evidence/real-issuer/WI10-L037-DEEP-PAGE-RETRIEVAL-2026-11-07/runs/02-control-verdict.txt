@@ -1,0 +1,29 @@
+# verify-retrieval-evidence against the negative control (a fabricated claim)
+# 2026-11-07T18:00:49Z
+$ tsx src/investment/cli/verify-retrieval-evidence.ts ../evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim
+retrieval evidence: ../evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim
+
+  fy24_rpg     RETRIEVED          pages extracted   6 of 167
+  fy23_bse     REFUSED_BY_HOST    pages extracted   5 of 180
+
+  documents 2 (retrieved 1), page extracts 11, quotations 2 (read 2)
+
+REFUSED — 8 check(s) failed:
+
+  COMPLETE_READ_UNSUPPORTED          documents[fy24_rpg]
+      claims a complete read but 161 of 167 pages have no extract (first: 1)
+  PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse#163]
+      a page extract cannot exist for a REFUSED_BY_HOST document
+  PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse#138]
+      a page extract cannot exist for a REFUSED_BY_HOST document
+  PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse#154]
+      a page extract cannot exist for a REFUSED_BY_HOST document
+  PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse#140]
+      a page extract cannot exist for a REFUSED_BY_HOST document
+  PAGE_WITHOUT_RETRIEVAL             pages[fy23_bse#66]
+      a page extract cannot exist for a REFUSED_BY_HOST document
+  QUOTE_PAGE_NOT_EXTRACTED           quotations[ZENSAR-CONSOL-NOTE27-FY24]
+      page 92 has no extract in this bundle (extracted: 154, 130, 146, 156, 132, 60)
+  QUOTE_FROM_UNRETRIEVED_DOCUMENT    quotations[ZENSAR-CONSOL-NOTE27-FY23]
+      the quotation is marked READ_IN_THIS_RUN but the document is REFUSED_BY_HOST
+exit=1

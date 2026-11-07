@@ -1,0 +1,7 @@
+# existing guards re-run — the S2 bundle guard and the L-035 nil-binding contract
+# 2026-11-07T17:58:09Z
+$ tsx --test tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts tests/investment/nil-binding.test.ts
+# tests 36
+# pass 36
+# fail 0
+exit=0

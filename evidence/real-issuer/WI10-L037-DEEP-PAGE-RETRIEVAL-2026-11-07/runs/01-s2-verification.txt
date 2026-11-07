@@ -1,0 +1,13 @@
+# verify-retrieval-evidence against WI-6A-S2 (the real corpus, unchanged)
+# 2026-11-07T17:58:09Z  v22.22.3
+$ tsx src/investment/cli/verify-retrieval-evidence.ts ../evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07
+retrieval evidence: ../evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07
+
+  fy24_rpg     RETRIEVED          pages extracted   6 of 167
+  fy23_bse     RETRIEVED          pages extracted   5 of 180
+
+  documents 2 (retrieved 2), page extracts 11, quotations 2 (read 2)
+
+OK — every quotation was read from an extracted page of a retrieved document, and every
+     extract agrees with the record that cites it (document, page index, printed pages, digest).
+exit=0

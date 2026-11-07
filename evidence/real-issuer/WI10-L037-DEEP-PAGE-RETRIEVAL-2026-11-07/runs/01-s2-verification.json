@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "violations": [],
+  "summary": {
+    "documents": 2,
+    "retrieved": 2,
+    "pages": 11,
+    "quotations": 2,
+    "quotationsRead": 2,
+    "coverage": [
+      {
+        "documentId": "fy24_rpg",
+        "extracted": 6,
+        "total": 167
+      },
+      {
+        "documentId": "fy23_bse",
+        "extracted": 5,
+        "total": 180
+      }
+    ]
+  }
+}

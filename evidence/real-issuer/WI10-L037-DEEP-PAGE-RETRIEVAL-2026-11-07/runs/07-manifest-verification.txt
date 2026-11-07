@@ -1,0 +1,18 @@
+# manifest verification — re-hash every file listed in digests.json
+# 2026-11-07T18:00:50Z
+$ python3 - <<PY  (re-hash each listed path)
+OK   README.md                                                                  8591 B  b3c82fb7165cafb5562d16158981df0e9701c225fdd749c04caf7cbcd980a0e2
+OK   access/attempts.json                                                       3833 B  1631498ce092d915b63fe7290f429ad37a5c9645b1234f9c2b0755b8d7eb9702
+OK   control/README.md                                                          1534 B  d3e4ddc0d290ce7bd2886baaebe04deb12e1f6b8bf13a3e76aa34a72665bee3f
+OK   control/fabricated-claim/source/page-map.json                              4611 B  5c5026b6983439bbc76e1a5677dec09ae1b36ad8b0bad911d780cb629691924b
+OK   control/fabricated-claim/source/quotes-verified.json                       5472 B  f63daf1c723047e28e7f5b22ffbbdaaced37f68d5c54a37c5af12f590ef27703
+OK   control/fabricated-claim/source/source-bytes.json                          3107 B  f1596528ce00e994773d9793c27ad924d0e3961eb9bc4eb639092240781d987d
+OK   determination.json                                                         8747 B  5d6b8af735962a96308a07ba1488bf4e9bd63d492d814ce5ce03b79f7b186876
+OK   runs/01-s2-verification.json                                                375 B  a988cc15e5fa5fba0b5805035abd05d9680c900264db655a603a92facc9a27e7
+OK   runs/01-s2-verification.txt                                                 709 B  3521a5d567db1958163036dc28d13fc71ce7a7e4337eaa244260742cd2c16c3a
+OK   runs/02-control-verdict.txt                                                1649 B  54772424ae43b766c9e440b77a4ae1e221c1cf9646162cf38e2136303529083c
+OK   runs/04-existing-guards.txt                                                 250 B  2e59c26ed09c25e59c57d65e2a33c8aacf8b98be6179fbb95c098e0508d067fd
+OK   runs/05-typecheck.txt                                                        61 B  fd1410775298b6aa6c8cacd3c880ac9f147a54b071ae92af557e4f8a846d8c6f
+
+12 files checked, 0 mismatch(es)
+exit=0

@@ -1,0 +1,77 @@
+{
+ "schemaVersion": 1,
+ "workItem": "WI-10",
+ "item": "L-037",
+ "bundle": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/",
+ "generatedAtUtc": "2026-11-07T18:02:18Z",
+ "note": "sha256 of every file in this bundle that a later run does not rewrite. Excluded, and named here so the exclusion is not silent: digests.json itself; runs/03-targeted-tests.txt, rewritten by every test run; runs/06-clean-clone.txt, produced from a clone of the commit that contains this manifest; and runs/07-manifest-verification.txt, which re-hashes the files listed here.",
+ "excluded": [
+  "digests.json",
+  "runs/03-targeted-tests.txt",
+  "runs/06-clean-clone.txt",
+  "runs/07-manifest-verification.txt"
+ ],
+ "fileCount": 12,
+ "files": [
+  {
+   "path": "README.md",
+   "bytes": 8591,
+   "sha256": "b3c82fb7165cafb5562d16158981df0e9701c225fdd749c04caf7cbcd980a0e2"
+  },
+  {
+   "path": "access/attempts.json",
+   "bytes": 3833,
+   "sha256": "1631498ce092d915b63fe7290f429ad37a5c9645b1234f9c2b0755b8d7eb9702"
+  },
+  {
+   "path": "control/README.md",
+   "bytes": 1534,
+   "sha256": "d3e4ddc0d290ce7bd2886baaebe04deb12e1f6b8bf13a3e76aa34a72665bee3f"
+  },
+  {
+   "path": "control/fabricated-claim/source/page-map.json",
+   "bytes": 4611,
+   "sha256": "5c5026b6983439bbc76e1a5677dec09ae1b36ad8b0bad911d780cb629691924b"
+  },
+  {
+   "path": "control/fabricated-claim/source/quotes-verified.json",
+   "bytes": 5472,
+   "sha256": "f63daf1c723047e28e7f5b22ffbbdaaced37f68d5c54a37c5af12f590ef27703"
+  },
+  {
+   "path": "control/fabricated-claim/source/source-bytes.json",
+   "bytes": 3107,
+   "sha256": "f1596528ce00e994773d9793c27ad924d0e3961eb9bc4eb639092240781d987d"
+  },
+  {
+   "path": "determination.json",
+   "bytes": 8747,
+   "sha256": "5d6b8af735962a96308a07ba1488bf4e9bd63d492d814ce5ce03b79f7b186876"
+  },
+  {
+   "path": "runs/01-s2-verification.json",
+   "bytes": 375,
+   "sha256": "a988cc15e5fa5fba0b5805035abd05d9680c900264db655a603a92facc9a27e7"
+  },
+  {
+   "path": "runs/01-s2-verification.txt",
+   "bytes": 709,
+   "sha256": "3521a5d567db1958163036dc28d13fc71ce7a7e4337eaa244260742cd2c16c3a"
+  },
+  {
+   "path": "runs/02-control-verdict.txt",
+   "bytes": 1649,
+   "sha256": "54772424ae43b766c9e440b77a4ae1e221c1cf9646162cf38e2136303529083c"
+  },
+  {
+   "path": "runs/04-existing-guards.txt",
+   "bytes": 250,
+   "sha256": "2e59c26ed09c25e59c57d65e2a33c8aacf8b98be6179fbb95c098e0508d067fd"
+  },
+  {
+   "path": "runs/05-typecheck.txt",
+   "bytes": 61,
+   "sha256": "fd1410775298b6aa6c8cacd3c880ac9f147a54b071ae92af557e4f8a846d8c6f"
+  }
+ ]
+}
