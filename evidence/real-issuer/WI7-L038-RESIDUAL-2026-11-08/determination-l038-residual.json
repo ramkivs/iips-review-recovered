@@ -1,0 +1,117 @@
+{
+  "bundle": "WI-7 / L-038 residual — debt-component period alignment, cash-side period alignment, preference capital",
+  "generatedOn": "2026-11-08",
+  "baseline": {
+    "main": "3acb2029d97745e03a166ab89872cf09c8428895",
+    "registerEntry": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md §17.18",
+    "trackerEntry": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md §16.276",
+    "thisEntry": { "register": "§17.22", "tracker": "§16.280" }
+  },
+  "question": "Three residual questions were left open by §17.18: DEBT-COMPONENT-PERIOD-ALIGNMENT, CASH-SIDE-PERIOD-ALIGNMENT and PREFERENCE_CAPITAL. Can any of them be closed by existing primary evidence and current governed contracts, or does each require an explicit register-owner/policy decision?",
+  "notRepeated": [
+    "the caption search over both Marico reports (483 pages; source/caption-search-log.txt) — its result is cited, not re-run",
+    "the Note 13(a) current-maturities recovery and the one-cell dataset correction carried by §17.18",
+    "the WI-7 payload / superseded-payload analysis and the §17.15 arithmetic correction",
+    "the L-039 finding (a different issuer, a different question); it is not touched here"
+  ],
+  "residuals": [
+    {
+      "id": "DEBT-COMPONENT-PERIOD-ALIGNMENT",
+      "kind": "POLICY_DECISION_REQUIRED",
+      "status": "UNDECIDED (unchanged)",
+      "isTheInvariantEssential": true,
+      "invariantEvidence": "capitalStructure.ts header rule 3 and grossDebtOf() line 121: all four debt components must resolve to one period end, and the refusal the payload publishes (NOT_COMPUTABLE / PERIOD_MISMATCH) is that rule doing its job on two instants (ST 383 @2024-03-31, LL 145 @2024-03-31, LT 2 @2023-03-31, CM 0 @2023-03-31).",
+      "isItAnEvidenceQuestion": false,
+      "evidence": "At 2023-03-31 every required input carries a filed number at that one instant: LT 2, ST 473, CM 0 (printed zero), leases 133, cash 207, current investments 578, all from the FY2023-24 report's comparative column (MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE). Driven with only that period, the unmodified contract computes grossDebt 608 crore, cashAndInvestments 785 crore and netDebt −177 crore. Nothing was relaxed, carried forward or substituted for that run.",
+      "refinesRegister": "§17.18 states that −177 crore 'is not a value the governed path can produce; it is a hypothetical'. That is true of the published configuration and untrue of the code: the same code produces it when the block is anchored at that instant. The register sentence is left as written and the refinement recorded in §17.22.",
+      "decisionRequired": {
+        "question": "May the capital-structure block be anchored at an earlier annual instant than the newest one, when that instant is the only one at which the required components are complete — and if so, under what label?",
+        "subQuestions": [
+          "Which instant is chosen when more than one is complete (newest complete instant, or the instant of the valuation's own price/earnings inputs)?",
+          "How is a block anchored earlier than the assessment's data cut labelled in the payload, so that a reader cannot mistake it for the FY2024 position?",
+          "May an enterprise value computed from FY2024 fundamentals be converted to equity with a FY2023 net-debt figure, or must the whole assessment be re-anchored?",
+          "Does the same latitude apply to lease liabilities, whose treatment is period-sensitive (IND AS 116)?"
+        ],
+        "consequencesIfTaken": [
+          "period mixing moves from the component level, where the contract refuses it today, to the block level, where it would then be published",
+          "EV, leverage and every per-share leg inherit the anchor; the numbers would differ by publication rule rather than by evidence",
+          "Marico would publish a net-debt figure at 2023-03-31 while its price and earnings inputs are FY2024/FY2026 — a mixed-date payload"
+        ],
+        "consequencesIfRefused": [
+          "the debt side stays NOT_COMPUTABLE / PERIOD_MISMATCH at the published instant",
+          "the FY2023 figure remains an evidence-backed observation that no governed output publishes"
+        ],
+        "closesL038Alone": false,
+        "whyNotAlone": "even with netDebt present at 2023-03-31 the probe still reports preferenceCapital MISSING / NOT_REPORTED, so the enterprise-to-equity bridge remains blocked.",
+        "owner": "register owner for the capital-structure aggregation contract (R-4.1 / IID-2 lineage), on the IID limitation register; not the investigation, and not a code change."
+      },
+      "evidenceRuns": ["runs/01-probe.txt (A-1, A-2)", "runs/02-published-payload-block.txt"]
+    },
+    {
+      "id": "CASH-SIDE-PERIOD-ALIGNMENT",
+      "kind": "CONTRACT_GAP_REQUIRING_POLICY",
+      "status": "UNDECIDED (unchanged)",
+      "isTheInvariantEssential": true,
+      "isItAnEvidenceQuestion": false,
+      "isItMaricoSpecific": false,
+      "isItDocumentedAsIntentional": false,
+      "mechanism": "capitalStructure.ts line 224 sums cash and current investments with sum(), which checks presence only; line 225 subtracts the sum from grossDebt. No period is compared on the cash side, neither between the two cash components nor against the debt side.",
+      "reachability": "PROVEN BY SYNTHETIC PROBE",
+      "reachabilityEvidence": "A two-instant fixture (debt complete @2024-03-31, cash only @2023-03-31) publishes grossDebt 528 crore, cashAndInvestments 785 crore and netDebt −257 crore — a net-debt number built from two balance sheets (runs/01-probe.txt, B-1). The fixture is synthetic and no Marico figure is taken from it.",
+      "liveInCommittedCorpus": false,
+      "corpusScan": "9 committed datasets: 2 resolve both sides to one instant, 5 have the debt side blocked (so the cash rule is never reached), 2 have an incomplete cash side. 0 would publish cross-period net debt today (runs/03-cash-side-corpus-scan.txt).",
+      "decisionRequired": {
+        "question": "Should the same-instant rule be extended from the four debt components to the cash side — cash against current investments, and the cash side against the debt side — and what should the block publish when they disagree?",
+        "recommendedShapeIfAuthorised": "publish the components as they resolve, refuse netDebt with NOT_COMPUTABLE / PERIOD_MISMATCH and a note naming the two instants; no new value, no substitution, no change to any currently published figure (0 datasets affected)",
+        "consequencesIfTaken": ["the latent cross-period publication is closed", "a future issuer whose cash or investments resolve to a different instant would lose netDebt instead of silently gaining a wrong one"],
+        "consequencesIfRefused": ["the gap stays latent; nothing in the committed corpus publishes a cross-period figure today"],
+        "owner": "register owner for the capital-structure aggregation contract (same owner as above)"
+      },
+      "whyNotImplementedHere": "the work item's authority forbids altering capitalStructure.ts or introducing a new period-alignment rule without explicit authority; a test that pinned today's behaviour would enshrine the defect and a test that forbade it would be the fix.",
+      "evidenceRuns": ["runs/01-probe.txt (B-1)", "runs/03-cash-side-corpus-scan.txt"]
+    },
+    {
+      "id": "PREFERENCE_CAPITAL",
+      "kind": "EVIDENCE_ABSENT",
+      "status": "MISSING / NOT_REPORTED (unchanged)",
+      "newPrimarySourceExamined": false,
+      "whyNoNewSource": "the caption search over both reports (483 pages) is complete for 'preference share' and every hit is the same authorised-capital table; this environment has no egress to the issuer or exchange hosts and no PDF tooling, so no unread page could be retrieved here in any case.",
+      "reread": "FY2023-24 Note 12(a), PDF p.189 (the only extracted share-capital page): the preference class exists ONLY in I Authorised share capital (7 crore shares, ₹65 crore); II Issued, subscribed and paid-up lists equity shares only (1,29,41,01,828 shares, 129 / 129) with no preference row and no dash; the 'Rights, preferences and restrictions attached to equity shares' paragraph enumerates 150 crore equity ₹1 + 8 crore equity ₹10 and does not mention the preference class the table above it prints.",
+      "whyTheEnumerationCannotHelp": "an enumeration that omits a class the same note prints is unusable in either direction: it neither establishes issued preference capital nor declares it nil, and reading nil from the omission is exactly the inference D-2 forbids.",
+      "precedents": [
+        "WI-5 (eClerx) withdrew a preference-capital nil declared on 'The Company has only one class of equity shares having a par value of Rs 10 per share.' — scoped by its heading to equity shares, so it says nothing about preference capital",
+        "the L-035 review record accepted a preference-capital nil (Infosys, 'The Company has only one class of shares referred to as equity shares having a par value of ₹5/-.') only as an explicit cross-scope mapping with acceptedBy recorded; the grammar requires wording, and Marico has no sentence of either shape"
+      ],
+      "decisionRequired": null,
+      "remainingPath": "a filing page that prints an issued/paid-up preference row, or that declares the class nil in words (or in the shape the L-035 grammar can bind with a recorded acceptance). That is a retrieval question, not a policy one.",
+      "evidenceRuns": ["runs/04-preference-capital-re-read.txt", "runs/02-published-payload-block.txt"]
+    }
+  ],
+  "correctionsMade": [
+    {
+      "target": "register §17.18 evidence paragraph",
+      "what": "§17.18 points at 'ingest-input/corrections.json' as the file carrying the single corrected cell. No such file exists; the corrections manifest is the 'corrections' object inside ingest-input/data-extraction.json (keys: supersedes, supersededStatement, whatIsWrong, whatChanges, whatDoesNotChange).",
+      "authority": "documentation accuracy — the pointer names a path a reader cannot open; no finding, figure or status changes",
+      "appliedIn": "§17.22"
+    }
+  ],
+  "changesMade": {
+    "contractOrCode": "none — capitalStructure.ts is byte-identical to 3acb202",
+    "dataset": "none — ingest-input/periods.csv sha256 7ce8844f…a6f9 unchanged",
+    "payloads": "none — WI-7 3fd27a98…2343 (53,245 bytes) and L-038 1a873047…6d59 (54,705 bytes) unchanged",
+    "policy": "none — no period-alignment rule introduced or relaxed, D-2/IX untouched",
+    "register": "§17.22 appended",
+    "tracker": "§16.280 appended"
+  },
+  "preservation": {
+    "bundlesVerified": 18,
+    "filesVerified": "all files listed by every committed digests.json in evidence/ (0 mismatches)",
+    "wi7L038Bundle": "30 files, 0 mismatches",
+    "wi7Bundle": "30 files, 0 mismatches",
+    "run": "runs/07-manifest-and-payload-verification.txt"
+  },
+  "limitationStatus": {
+    "L-034": "RESOLVED", "L-035": "RESOLVED", "L-036": "PARTIALLY RESOLVED", "L-037": "PARTIALLY RESOLVED",
+    "L-038": "OPEN (unchanged)", "L-039": "unchanged", "L-040": "RESOLVED", "L-001…L-033": "untouched"
+  }
+}

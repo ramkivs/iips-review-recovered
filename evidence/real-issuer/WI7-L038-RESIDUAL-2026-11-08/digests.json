@@ -1,0 +1,59 @@
+{
+ "bundle": "WI-7 / L-038 residual — period alignment, cash-side alignment, preference capital",
+ "generatedOn": "2026-11-08",
+ "note": "Every file this bundle carries except this manifest. Verify by re-hashing each path.",
+ "files": {
+  "README.md": {
+   "sha256": "d7670893e1e2fa7e877cc91bc8da59a40ccf3876638af5d0b467cef2eb3c9441",
+   "bytes": 5697
+  },
+  "determination-l038-residual.json": {
+   "sha256": "80d272e596257945d016fd05d937c5ed5a4b613f3f16220784b65dbb51d37e50",
+   "bytes": 11246
+  },
+  "probe/cash-side-scan.py": {
+   "sha256": "4ae83e9df95a0e6af36dde86eb63e3ab16d3115cc6a3b152c7073c9115025a63",
+   "bytes": 4446
+  },
+  "probe/preference-re-read.py": {
+   "sha256": "70279f4a32240e8f48fb2daf12bc60ad1877471f8d94082cb0481bb3839e795e",
+   "bytes": 5254
+  },
+  "probe/probe.ts": {
+   "sha256": "8f2b2714689b3eff7b9a2f0a7f8140f372b395b7aa0f9e562e8c094a9529651e",
+   "bytes": 7237
+  },
+  "runs/01-probe.txt": {
+   "sha256": "e473816e7c16c3a450ae3db924d851750bd3aabdea7acc481dccd5fd1bef79e9",
+   "bytes": 3829
+  },
+  "runs/02-published-payload-block.txt": {
+   "sha256": "76741732e6b9d63d32be66f79c345ad732b40fa8c41e9e4bdfbda50b34a724fc",
+   "bytes": 2866
+  },
+  "runs/03-cash-side-corpus-scan.txt": {
+   "sha256": "29470437d950fe56fa1d5d3c49d850a64357d173a4b3d6deab28c20cbd5c03b4",
+   "bytes": 2521
+  },
+  "runs/04-preference-capital-re-read.txt": {
+   "sha256": "1ebce75a00e420e001833cc7faef26b931498ab671e0ae8b4430418926c09552",
+   "bytes": 4521
+  },
+  "runs/05-targeted-tests.txt": {
+   "sha256": "5e8ebc8022c9ce26b485b8cc9a00e0ea30c9d2a67286db2eb294b8f236158ae6",
+   "bytes": 404
+  },
+  "runs/06-typecheck.txt": {
+   "sha256": "521c2fdd23b77a7f040e3da7d85c5beb2621ca5d11059166a5f1817ac9f0020d",
+   "bytes": 43
+  },
+  "runs/07-manifest-and-payload-verification.txt": {
+   "sha256": "0dae2a66c3adb771a4896d55f28055399ff0cec6c0c5eafd6a159b168912a225",
+   "bytes": 2479
+  },
+  "runs/commands.txt": {
+   "sha256": "52c74c0f537ff51889332c3933c8e7f89cb6f424eff0d0b738dd37a129f4ec4d",
+   "bytes": 2480
+  }
+ }
+}

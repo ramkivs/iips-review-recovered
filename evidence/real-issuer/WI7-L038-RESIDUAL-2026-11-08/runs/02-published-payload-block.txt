@@ -1,0 +1,28 @@
+# L-038 — the capital-structure block exactly as the published payload carries it
+# artifact : evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/artifact/assessment-payload-marico-l038.json
+# sha256   : 1a873047087d9ba40431289ed6705b26a47cf0273edb3055fddf3352d3bc6d59
+# bytes    : 54705
+# datasetVersion: sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc
+# asOf     : {'dataAsOf': '2024-03-31', 'generatedAt': '2026-11-07T09:00:00.000Z', 'knownAsOf': '2026-11-07T09:00:00.000Z', 'staleBeyondPolicy': True, 'stalenessDays': 951}
+
+  grossDebt              presence=NOT_COMPUTABLE   reason=PERIOD_MISMATCH    value=None periodEnd=-
+  netDebt                presence=NOT_COMPUTABLE   reason=PERIOD_MISMATCH    value=None periodEnd=-
+  cashAndInvestments     presence=PRESENT          reason=-                  value=4870000000 periodEnd=-
+  preferenceCapital      presence=MISSING          reason=NOT_REPORTED       value=None periodEnd=-
+  leaseLiabilities       presence=PRESENT          reason=-                  value=1450000000 periodEnd=2024-03-31
+  minorityInterest       presence=PRESENT          reason=-                  value=3370000000 periodEnd=2024-03-31
+  associatesAndJV        presence=NOT_COMPUTABLE   reason=NOT_REPORTED       value=None periodEnd=-
+
+  components (each carries the period it resolved to):
+    associatesAndJV            presence=NOT_COMPUTABLE   reason=NOT_REPORTED         value=None @ -
+    cashAndCashEquivalents     presence=PRESENT          reason=-                    value=2280000000 @ 2024-03-31
+    currentInvestments         presence=PRESENT          reason=-                    value=2590000000 @ 2024-03-31
+    currentMaturities          presence=PRESENT          reason=-                    value=0 @ 2023-03-31
+    leaseLiabilities           presence=PRESENT          reason=-                    value=1450000000 @ 2024-03-31
+    longTermBorrowings         presence=PRESENT          reason=-                    value=20000000 @ 2023-03-31
+    nonControllingInterest     presence=PRESENT          reason=-                    value=3370000000 @ 2024-03-31
+    preferenceCapital          presence=MISSING          reason=NOT_REPORTED         value=None @ -
+    restrictedCash             presence=NOT_COMPUTABLE   reason=NOT_REPORTED         value=None @ -
+    shortTermBorrowings        presence=PRESENT          reason=-                    value=3830000000 @ 2024-03-31
+
+  equityBridge: {"formula": "equityValue = enterpriseValue \u2212 netDebt \u2212 minorityInterest \u2212 preferenceCapital + associatesAndJV", "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil:

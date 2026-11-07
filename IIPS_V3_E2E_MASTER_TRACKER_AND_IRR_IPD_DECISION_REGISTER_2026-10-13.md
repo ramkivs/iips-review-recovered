@@ -22432,3 +22432,52 @@ pull request all await the combined closeout"*, which was already untrue when it
 item is published on its own branch and the stacked PR #508 is superseded by the three dedicated pull requests. Nothing
 else in this entry changes: `L-037` is `PARTIALLY RESOLVED` for the reasons stated above, and `L-038` remains `OPEN` in
 its merged §17.18 form. Next free §16.280 / CV-CORR-254 / CHG-2026-11-06-17 / V2149.
+
+### 16.280 IID WI-7 / L-038 residual — two of the three open questions are decisions, not missing numbers (`2026-11-08`)
+
+**No IPD act, no IPD change.** This is an IRR-only IID determination continuing WI-7 (§16.273, §16.276). It performs no
+IPD modification and spends no IPD act reference: the sequence quoted at the end of §16.279 (`CV-CORR-254` /
+`CHG-2026-11-06-17` / `V2149`) is **not spent** here and remains the next free IPD act reference. Only the tracker section
+number advances. (The superseded reconciliation draft on the closed PR #508 branch styled itself `§16.280` as well; it was
+never merged, so the number was free on `main` and is taken here.)
+
+**Scope.** `L-038` — §17.18 left it `OPEN` with two named blockers (`DEBT-COMPONENT-PERIOD-ALIGNMENT`,
+`PREFERENCE_CAPITAL` `MISSING / NOT_REPORTED`) and one undecided finding (`CASH-SIDE-PERIOD-ALIGNMENT`). The question here
+was narrower than any of them: **can each be closed by existing primary evidence and current governed contracts, or does it
+need an explicit decision?** Out of scope and untouched: D-2 and IX policy, the capital-structure aggregation contract,
+every other limitation's status and meaning, `L-039`, all historical payloads, datasets and manifests, IPD, production.
+
+**Evidence.** `evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/` — `determination-l038-residual.json`, `probe/` (the
+probe over the unmodified `capitalStructure.ts` reading the §17.18 bundle's own dataset input, the nine-dataset
+reachability scan, the restricted preference re-read) and `runs/01`…`08` with `digests.json`. Nothing already established
+was re-run: the 483-page caption search, the Note 13(a) recovery and the one-cell correction are cited from §17.18.
+
+**Determination.** (a) `DEBT-COMPONENT-PERIOD-ALIGNMENT` is **not an evidence question**. The same-instant rule is rule 3
+of the contract's own header and stays strict, and it is what produces the published `PERIOD_MISMATCH`. Driven with only
+2023-03-31 — the one instant at which every required input carries a filed number (2 + 473 + 0 + 133 = 608 crore debt;
+207 + 578 = 785 crore cash, all from the FY2023-24 comparative column) — the *unmodified* contract computes net debt
+**−177 crore**. Publishing that is a period-anchoring decision with four parts (which instant, how it is labelled, whether
+a FY2024 enterprise value may convert with a FY2023 net-debt figure, whether leases follow), and it would still not close
+`L-038`, because preference capital remains absent. Owner: register owner for the capital-structure aggregation contract.
+(b) `CASH-SIDE-PERIOD-ALIGNMENT` is a **real contract gap, reachable and latent**: `sum()` checks presence only, and a
+synthetic two-instant fixture publishes `netDebt` −257 crore across two balance sheets; 0 of 9 committed datasets are in
+that state today. Closing it — extending the same-instant rule to the cash side and to cash-versus-debt, refusing
+`netDebt` with `PERIOD_MISMATCH` while still publishing components — would change no published figure, but it is a
+contract change and was **not** made here. (c) `PREFERENCE_CAPITAL` stays `MISSING / NOT_REPORTED`: no new source exists
+to read, the p.189 re-read adds only the observation that the rights paragraph omits the preference class its own table
+prints, and the WI-5 withdrawal plus the `L-035` accepted cross-scope nil both require wording Marico does not have.
+
+**Also corrected.** §17.18 routes a reader to `ingest-input/corrections.json`; no such file exists — the corrections
+manifest is the `corrections` object inside `ingest-input/data-extraction.json`. Pointer fixed in §17.22.
+
+**What did not change.** `capitalStructure.ts` byte-identical; dataset input `sha256:7ce8844f…a6f9` unchanged; WI-7 payload
+`3fd27a98…2343` and `L-038` payload `1a873047…6d59` byte-identical; all 18 committed bundle manifests verify with 0
+mismatches; D-2, IX policy, valuation and capital-structure arithmetic, persistence and every historical finding untouched.
+
+**Tests and typecheck.** `l038MaricoDebtCompleteness.test.ts` (26) + `assessment-capital.test.ts` (8) = **34/34**, and
+`tsc --noEmit` exit 0, on the unchanged tree; re-run in a clean clone of the branch. CI for this publication is the
+repository's static/evidence validator, reported separately in the pull request.
+
+**Statuses.** `L-038` remains **`OPEN`**; `L-034` **`RESOLVED`**, `L-035` **`RESOLVED`**, `L-036` **`PARTIALLY RESOLVED`**,
+`L-037` **`PARTIALLY RESOLVED`**, `L-039` **unchanged**, `L-040` **`RESOLVED`**, `L-001` … `L-033` untouched. No new
+limitation identifier consumed. Next free §16.281 / `CV-CORR-254` / `CHG-2026-11-06-17` / `V2149`.

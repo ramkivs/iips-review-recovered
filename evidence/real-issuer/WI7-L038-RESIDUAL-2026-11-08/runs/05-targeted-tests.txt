@@ -1,0 +1,13 @@
+# L-038 residual — targeted tests on the current tree (unchanged contract, unchanged dataset)
+# command: npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts tests/investment/assessment-capital.test.ts
+# commit : 3acb2029d97745e03a166ab89872cf09c8428895
+
+# tests 34
+# suites 7
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+
+# capitalStructure.ts unchanged: byte-identical to HEAD
