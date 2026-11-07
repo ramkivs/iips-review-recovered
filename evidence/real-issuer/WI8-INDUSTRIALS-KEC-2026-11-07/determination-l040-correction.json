@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "record": "L-040 valuation-output correction",
+  "date": "2026-11-07",
+  "workItem": "WI-8 (Industrials / KEC International Limited)",
+  "branch": "arena/60fea33a-iips-review-recovered",
+  "pullRequest": 505,
+  "what": "An unavailable enterprise-to-equity input was substituted with zero, and the sensitivity grid published a per-share value built on that zero while the method's own per-share leg refused. The grid now converts only through the governed conversion, withholds every per-share cell when that conversion refuses, and the DCF evidence claim states the refusal.",
+  "governingRule": "Unavailable inputs must remain unavailable. They must never silently become zero and produce an apparently valid valuation or sensitivity result.",
+  "rootCause": {
+    "site": "iips-platform/src/investment/assessment/intrinsic.ts :: buildSensitivity()",
+    "formula": "(EV - (netDebt ?? 0) - (minorityInterest ?? 0) - (preferenceCapital ?? 0) + (associatesAndJV ?? 0)) / dilutedShares",
+    "why": "The grid re-implemented the enterprise-to-equity bridge inline with nullish-coalescing defaults instead of calling the governed conversion used by the DCF method's per-share leg, so an absence the payload published as MISSING/NOT_REPORTED became the number 0 for the purposes of the division.",
+    "secondSite": {
+      "location": "iips-platform/src/investment/assessment/engine.ts :: buildEvidence()",
+      "defect": "The EV-DCF_FCFF claim read 'DCF_FCFF produced a per-share value from N present input(s)' and declared supports = valuation.methods[0].output.perShareMid even when that output was NOT_COMPUTABLE with value null."
+    }
+  },
+  "affectedOutputs": {
+    "sensitivity": {
+      "path": "valuation.sensitivity[0]",
+      "cells": 9,
+      "before": "every cell carried a per-share number derived from enterprise value with net debt, minority interest, preference capital and associates assumed nil",
+      "baseCell": { "waccBps": 1068, "growthBps": 400, "value": 488.3402340852422 }
+    },
+    "evidence": {
+      "path": "evidence[EV-DCF_FCFF].claim",
+      "before": "DCF_FCFF produced a per-share value from 3 present input(s)"
+    },
+    "unaffected": [
+      "valuation.methods[DCF_FCFF].output.enterpriseValue (9,184,155,840) — complete inputs, unchanged",
+      "valuation.methods[DCF_FCFF].output.perShareMid — already NOT_COMPUTABLE, unchanged",
+      "valuation.intrinsic — already null, unchanged",
+      "valuation.marginOfSafety — already NO_PRICE_OBSERVATION, unchanged",
+      "EV_EBITDA / EV_REVENUE — already inapplicable, unchanged",
+      "confidence, quality, risk, moat, dividends, limitations — unchanged"
+    ]
+  },
+  "correction": {
+    "approach": "narrowest: the grid's conversion now runs through the same governed functions the DCF per-share leg uses, and the evidence claim is derived from the per-share output it supports",
+    "functionsReused": [
+      "iips-platform/src/investment/assessment/capitalStructure.ts :: equityValueFromEnterprise()",
+      "iips-platform/src/investment/assessment/capitalStructure.ts :: perShare()"
+    ],
+    "gridBehaviour": {
+      "conversionRefused": "every point: value = null, enterpriseValue = <the discounted enterprise value that did compute>; grid.withheld = { presence: NOT_COMPUTABLE, reason, note }",
+      "conversionSucceeded": "every point: { waccBps, growthBps, value } and no withheld block — byte-identical to the pre-correction shape, so every committed payload digest still reproduces"
+    },
+    "evidenceBehaviour": {
+      "refused": "DCF_FCFF produced no per-share value: NOT_COMPUTABLE (NOT_REPORTED) — enterprise-to-equity conversion blocked by netDebt",
+      "succeeded": "DCF_FCFF produced a per-share value from N present input(s) (unchanged)"
+    },
+    "notDone": [
+      "no replacement per-share number was manufactured",
+      "no D-2 semantics, valuation policy, authorized parameter or unrelated valuation formula was changed",
+      "the enterprise-value column is retained only as diagnostic arithmetic and is labelled '(diagnostic)' in the rendered view; it is never published as a per-share value",
+      "no dataset row, ingest input, source extract or historical payload was rewritten"
+    ]
+  },
+  "supersededEvidence": {
+    "file": "artifact/assessment-payload-kec-wi8.json",
+    "sha256": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+    "bytes": 52357,
+    "payloadDigest": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+    "reportId": "85809cbd-895e-4c9e-b2fc-580fc53fb1c2",
+    "status": "PRESERVED, SUPERSEDED, NOT AUTHORITATIVE",
+    "meaning": "the original WI-8 run of record, kept byte-identical as historical evidence of the defect; its sensitivity per-share cells and its EV-DCF_FCFF claim are invalid and must not be used as a valuation"
+  },
+  "correctedEvidence": {
+    "file": "artifact/assessment-payload-kec-wi8-l040-corrected.json",
+    "sha256": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+    "bytes": 52760,
+    "payloadDigest": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+    "reportId": "c1ffcd56-2f0e-4957-b314-a8731217bfdb",
+    "reportKey": "15b68ca53f900918b1953f53119ac90f1b9ec4b30fc325a4b4d259b71991712e",
+    "inputDigest": "sha256:513993f2eb1de1ab2bf67d17a8e96fc062a971f484d594f4fab54a4e29cdf22b",
+    "datasetVersion": "sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab",
+    "producedBy": "the same ingest input, the same generatedAt and the same datasetVersion as the original run; reproduced twice with the same digest",
+    "reproducible": true
+  },
+  "changedPaths": 20,
+  "changedPathsSummary": "1 evidence claim; 9 sensitivity points (value -> null, enterpriseValue added); 1 grid withheld block",
+  "regressionTests": {
+    "file": "iips-platform/tests/investment/l040ValuationZeroSubstitution.test.ts",
+    "count": 17,
+    "covers": [
+      "missing current investments blocks net debt and withholds the grid",
+      "missing net debt alone withholds every cell",
+      "missing debt component blocks gross debt and withholds",
+      "missing minority interest / preference capital withholds and names the component",
+      "the refused grid agrees with the method's own refused per-share leg",
+      "no published cell equals the zero-substituted number",
+      "the enterprise-value column is quarantined and is not a per-share value",
+      "a healthy grid carries no withheld block and no EV column",
+      "the evidence claim states the refusal, with reason and blocking component",
+      "a converted method keeps the original claim unchanged",
+      "an issuer-reported zero converts",
+      "a declared nil converts as a declared nil",
+      "the same item missing — not declared nil — withholds",
+      "valid grids keep nine monotone cells and the base point at the DCF mid",
+      "a refused grid keeps the enterprise-value arithmetic that did compute"
+    ]
+  },
+  "limitationStatus": {
+    "L-040": "RESOLVED (corrected 2026-11-07; the two defective surfaces are corrected and regression-guarded)",
+    "L-039": "OPEN (unchanged — a balance sheet that prints no current-investments line still blocks the bridge)",
+    "L-035": "OPEN (unchanged)",
+    "L-036": "PARTIALLY RESOLVED (unchanged)",
+    "L-037": "OPEN (unchanged)",
+    "L-038": "OPEN (unchanged)",
+    "L-034": "RESOLVED (unchanged)"
+  }
+}

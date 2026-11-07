@@ -1,0 +1,72 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: MD&A key metrics, including the issuer's own net-debt KPI
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 28 of 215  (printed pages 52-53)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                        CORPORATE OVERVIEW
+                                                                                                          KEC International Limited                                                                                                         Our Business Model
+
+Our Business Model
+                                                                                                                                      WE TRANSFORM LIVES BY BUILDING
+ INPUT CAPITALS                                                    OUR PURPOSE                                                        SUSTAINABLE WORLD CLASS INFRASTRUCTURE                 OUTPUT CAPITALS
+
+         Financial Capital                                         OUR VISION                                                                                                                        Financial Capital
+Total Equity (` Cr)                                       6,160                                                                                                                              Revenue (` Cr)                                            23,506
+Capital Expenditure (` Cr)                                  329                                                                                                                              Order book (` Cr)                                         36,267
+Net Debt (` Cr)                                           4,601                                                                                                                              PAT (` Cr)                                                     606
+                                                                   Unleash Talent                         Outperform                  Touch Lives                  Be Happy                  Interest (% to Revenue)                                       2.8%
+                                                                   Enabling environment for               Sustained and clear         To understand, care          To have fun by creating
+         Manufactured Capital                                      people to unleash their                outperformance relative     and make a meaningful        high energy environment
+No. of Manufacturing Units                                    8
+                                                                   entrepreneurial spirit and             to all our competitors      difference to customers,     with a keen sense of              Manufactured Capital
+                                                                   realise their full potential           and industry on financial   employees, society and       belonging and smiling
+Global manufacturing capacity (Tower, Poles,            4,83,800                                          and non-financial metrics   all stakeholders             faces everywhere          Total Galvanised Steel Structures                       3,23,538
+Hardware, Structures for Railways & Solar) (MTPA)                                                         that matter                                                                        (Towers, Railway, Solar and Poles) (MT)
+Cables & Conductors manufacturing capacity              1,02,430                                                                                                                             Cables manufactured (MT)                                  85,340
+(MTPA)                                                                                                                                                                                       Transmission Lines executed (CKMs)                            3,188
+Project Sites (Nos.)                                        253     ENGINEERING                           CONSTRUCTION                PROCUREMENT                   MANUFACTURING            Substation Bays built (Nos.)                                   341
+Safe Man Hours                                      15,54,84,357                                                                                                                             Water, Oil & Gas Pipeline Laid (KM)                           3,735
+                                                                                                                                                                                             Kavach System Commissioned (RKM)                               197
+
+         Intellectual Capital
+New Products Developed (Cables & Conductors)                 10
+                                                                                                                                                                                                     Intellectual Capital
+Engineering / Design Team (Nos.)                            415                                                                                                                              New Products Commercialised (Cables & Conductors)                5
+Patents/Trademarks awarded                                    4                                                                                                                              Revenue from New Products (` Cr)                               245
+                                                                                                                                                                                             TL Design Cycle Time Reduction                                30%
+
+         Human Capital
+No. of employees                                          7,878
+                                                                                                                                                                                                     Human Capital
+Temporary/ contractual employees/workers (Nos.)          40,158                                                                                                                              Revenue per employee (` Cr)                                     2.9
+Employee Benefit expense (` Cr)                           1,662                                                                                                                              Happiness Quotient (%)                                          85
+Average training (hours per employee per year)             36.0                                                                                                                              Staff with tenure more than 10 years                          1,526
+Diversity (Women employees and                              655                                                                                                                              Lost Time Injury Frequency Rate (LTIFR)                        0.15
+specially abled employees)                                                                                                                                                                   Occupational Disease Frequency Rate                              0
+
+         Natural Capital                                                                                                                                                                             Natural Capital
+Raw Material Consumed (` Cr)                             11,571                                                                                                                              GHG Emission (Tonnes Carbon emission in total           1,04,224
+Renewable Energy Generation (In kWh)                 2,12,60,622                                                                                                                             per annum)
+Energy Consumed (MWh)                                  3,67,353         Power                     Civil           Transportation        Renewables           Oil & Gas         Cables &      Energy Saved (kWh)                                   2,20,31,754
+Water Consumed (KL)                                   14,50,785      Transmission                                                                            Pipelines        Conductors     Water Saved (In KL)                                       25,829
+                                                                     & Distribution                                                                                                          Water Reused (In KL)                                      23,991
+
+         Social and Relationship Capital                           STRATEGIC PILLARS                                                  EXTERNAL FACTORS
+CSR Spend (` Cr)                                             9.2
+                                                                                                                                                                                                     Social and Relationship Capital
+                                                                   • De-risking &                         • Robust Execution          • Geography                   • Project Execution
+Employee Volunteers for CSR                                 492      Diversification                        Capabilities                Concentration                                        Total number of CSR beneficiaries (Nos.)                  41,898
+                                                                                                                                                                    • Legal & Contractual
+Environment related spend (` Cr)                           10.9                                                                                                                              Farmers trained (Nos.)                                        1,500
+                                                                   • Asset-Light                          • Engineering Excellence    • Geopolitical Risks            Risks
+Vendor base (Nos.)                                       42,312                                                                                                                              Students impacted (Nos.)                                  37,710
+                                                                   • Capital Efficiency                   • Sustainable Business      • Commodity Price
+Customer base (Nos.)                                      8,827                                             Operations                  Variations
+
+52    Integrated Annual Report 2025-26                                                                                                                                                                                  Integrated Annual Report 2025-26      53

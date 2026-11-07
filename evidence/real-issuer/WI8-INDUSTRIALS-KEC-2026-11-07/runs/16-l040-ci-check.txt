@@ -1,0 +1,39 @@
+# L-040 correction — 2026-11-07 — hosted CI for this pull request (actual runs, not local tests)
+
+Workflow: `CAP-03 Revision 7 IRR-only static checks` (`.github/workflows/cap03-revision7-irr-static.yml`).
+Trigger: `pull_request`, path-filtered. The WI-8 heads pushed before this correction touched no filtered path, so the
+workflow never ran for them and `gh pr checks` reported none. This correction is the first WI-8 push to touch a filtered
+path — `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` (the §16.274 entry carrying the work
+item) — so the workflow ran on this pull request for the first time.
+
+| head | run id | event | conclusion |
+|---|---|---|---|
+| `c8e08b6` | `42358220694` | `pull_request` (PR #505) | **success** (44 s) |
+| `65e1422` | `42373092259` | `pull_request` (PR #505) | **success** |
+
+Both runs executed the workflow's full step list:
+
+1. `python -m py_compile docs/integration/cap03-p1-f9/validate_windows10_host_profile.py`
+2. `python -m unittest … test_cap03_artifact_classification.py`
+3. `python -m unittest … test_irr_workflow_triggers.py`
+4. `python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py` (Revision 7 source, admitted IRR evidence, tracker)
+5. `python docs/integration/cap03-s2/verify_recovery_release.py` (independent CAP-03 recovery-release asset verification)
+6. changed-file whitespace check — `git diff --check "$BASE_SHA...$HEAD_SHA"`
+
+Read back through the Actions API on 2026-11-07:
+
+```
+gh api repos/ramkivs/iips-review-recovered/actions/runs/42358220694
+  -> status completed, conclusion success, event pull_request, head_sha c8e08b66…, pull_requests [505]
+
+gh api repos/ramkivs/iips-review-recovered/actions/runs/42373092259
+  -> status completed, conclusion success, event pull_request, head_sha 65e1422…, pull_requests [505]
+```
+
+`gh pr checks 505` prints *"no checks reported"* for this head even though the two runs above are attached to PR #505 and
+completed successfully — the checks API and the Actions API disagree here. This bundle cites the **runs by id, read back
+from the Actions API**, and does not use the checks API as evidence of success.
+
+**No npm, frontend or IPD CI runs for these paths, and none is claimed.** Local test, typecheck and clean-clone
+verification are reported separately (`runs/13-l040-tests.txt`, `runs/14-l040-typecheck.txt`,
+`runs/15-l040-clean-clone.txt`) and are never presented as CI.

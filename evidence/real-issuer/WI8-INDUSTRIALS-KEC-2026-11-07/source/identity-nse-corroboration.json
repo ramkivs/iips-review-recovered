@@ -1,0 +1,30 @@
+{
+  "observation": "NSE_EXCHANGE_CORROBORATION",
+  "retrievedAt": "2026-11-07",
+  "url": "https://www.nseindia.com/get-quotes/equity?symbol=KEC",
+  "httpStatus": 200,
+  "bytes": 147213,
+  "matchedStrings": [
+    "symbol: \"KEC\"",
+    "companyName: \"KEC-International-Limited\""
+  ],
+  "whatItSupports": "that NSE routes a quote page for the symbol KEC to KEC International Limited. It supports the NSE trading symbol only.",
+  "whatItDoesNotSupport": "it does not carry the ISIN (searched, absent) and it says nothing about the BSE listing, so the ISIN remains a filing fact (FY2025-26 report PDF p.107) and no BSE record is asserted.",
+  "rawBytesCommitted": false,
+  "rawBytesNote": "the fetched HTML was not committed: it is an exchange page, not a filing, and the strings above are the complete evidentiary content. The request can be repeated from the URL and date recorded here.",
+  "bseAttempts": [
+    {
+      "url": "https://www.bseindia.com/stock-share-price/kec-international-ltd/kec/532714/",
+      "httpStatus": 200,
+      "bytes": 16912,
+      "result": "IDENTICAL_JAVASCRIPT_SHELL \u2014 contains neither '532714' nor 'KEC' nor the ISIN, so it corroborates nothing"
+    },
+    {
+      "url": "https://www.bseindia.com/corporates/ann.html?scrip=532714",
+      "httpStatus": 200,
+      "bytes": 16912,
+      "result": "byte-identical shell; same conclusion"
+    }
+  ],
+  "conclusion": "The NSE symbol is corroborated from the exchange's own page. The BSE scrip code is NOT corroborated by anything fetched inside this work item, so it is omitted from the listing map rather than asserted."
+}

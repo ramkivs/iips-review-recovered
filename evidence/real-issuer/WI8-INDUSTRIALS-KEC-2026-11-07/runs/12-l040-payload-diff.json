@@ -1,0 +1,119 @@
+{
+  "original": {
+    "file": "artifact/assessment-payload-kec-wi8.json",
+    "sha256": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+    "bytes": 52357
+  },
+  "corrected": {
+    "file": "artifact/assessment-payload-kec-wi8-l040-corrected.json",
+    "sha256": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+    "bytes": 52760
+  },
+  "changedPaths": 20,
+  "paths": [
+    {
+      "path": ".evidence[0].claim",
+      "before": "DCF_FCFF produced a per-share value from 3 present input(s)",
+      "after": "DCF_FCFF produced no per-share value: NOT_COMPUTABLE (NOT_REPORTED) \u2014 enterprise-to-equity conversion blocked by netDebt"
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[0].enterpriseValue",
+      "before": "<absent>",
+      "after": 134168309666.93964
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[0].value",
+      "before": 504.0256683437436,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[1].enterpriseValue",
+      "before": "<absent>",
+      "after": 152499910747.68918
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[1].value",
+      "before": 572.891390133577,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[2].enterpriseValue",
+      "before": "<absent>",
+      "after": 178597430408.12576
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[2].value",
+      "before": 670.9310823799701,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[3].enterpriseValue",
+      "before": "<absent>",
+      "after": 116878425982.32823
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[3].value",
+      "before": 439.073331973442,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[4].enterpriseValue",
+      "before": "<absent>",
+      "after": 129992950487.77222
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[4].value",
+      "before": 488.3402340852422,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[5].enterpriseValue",
+      "before": "<absent>",
+      "after": 147671107145.82513
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[5].value",
+      "before": 554.7511827420403,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[6].enterpriseValue",
+      "before": "<absent>",
+      "after": 103570033962.74876
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[6].value",
+      "before": 389.07813415884254,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[7].enterpriseValue",
+      "before": "<absent>",
+      "after": 113340450224.59354
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[7].value",
+      "before": 425.78233501370613,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[8].enterpriseValue",
+      "before": "<absent>",
+      "after": 125991673877.1135
+    },
+    {
+      "path": ".valuation.sensitivity[0].points[8].value",
+      "before": 473.3087700761789,
+      "after": null
+    },
+    {
+      "path": ".valuation.sensitivity[0].withheld",
+      "before": "<absent>",
+      "after": {
+        "note": "enterprise-to-equity conversion blocked by netDebt",
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED"
+      }
+    }
+  ]
+}

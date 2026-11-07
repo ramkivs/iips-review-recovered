@@ -1,0 +1,3 @@
+# L-040 correction — 2026-11-07 — typecheck over the corrected assessment code
+# cd iips-platform && npx tsc --noEmit -p tsconfig.json
+# exit 0, no diagnostics

@@ -1,0 +1,105 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: the auditor's report signature block (firm, FRN, signing partner, membership number, UDIN, place, date) beside the Companies (Accounts) Rules 2014 reporting column
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 115 of 215
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                                FINANCIAL STATEMENTS
+                                                                                                         KEC International Limited                                                                                                                           Consolidated
+
+
+
+                   foreign entities (“Intermediaries”), with the                       sub-clause (i) and (ii) of Rule 11(e) of the     22.     The Holding Company and its 1 subsidiary which is a company incorporated in India have paid/provided for managerial
+                   understanding, whether recorded in writing                          Companies (Audit and Auditors) Rules,                 remuneration in accordance with the requisite approvals mandated by the provisions of Section 197 read with Schedule V to the
+                   or otherwise, that the Intermediary shall,                          2014 contain any material misstatement.               Act. Further, other 2 subsidiaries of the Holding Company, which are companies incorporated in India have not paid/ provided
+                   whether directly or indirectly, lend or invest                                                                            for managerial remuneration during the year.
+                   in other persons or entities identified in any                     v.        The dividend declared and paid by the Holding
+                   manner whatsoever by or on behalf of the                     Company during the year is in compliance with                                                                                       For Price Waterhouse Chartered Accountants LLP
+                   Holding Company or any of the branches                       Section 123 of the Act to the extent it applies                                                                                            Firm Registration Number: 012754N/N500016
+                   or any of such subsidiaries (“Ultimate                       to declaration and payment of dividend until
+                   Beneficiaries”) or provide any guarantee,                    the date of this audit report. The subsidiary
+                                                                                companies incorporated in India have not                                                                                                                                  Sumit Seth
+                   security or the like on behalf of the
+                                                                                declared or paid any dividend during the year.                                                                                                                                Partner
+                   Ultimate Beneficiaries;
+                                                                                                                                        Place: Mumbai                                                                                      Membership Number: 105869
+                                                                                        Further as stated in Note 53 to the consolidated                Date: May 16, 2026                                                                                UDIN: 26105869EWAMYH2371
+                                   (b)  
+                  The respective managements of the
+                  Holding Company and its 3 subsidiaries                financial statements, the Board of Directors
+                  which are companies incorporated in India             of the Holding Company has proposed final
+                  whose financial statements have been                  dividend for the year, which is subject to the
+                  audited under the Act have represented to             approval of the members at the ensuing Annual
+                  us and to the other auditors that, to the best        General Meeting, and is in accordance with
+                  of their knowledge and belief as disclosed            Section 123 of the Act, to the extent applicable.
+                  in the Note 74 of the consolidated financial
+                                                                                      vi.       Based on our examination, which included test
+                  statements, no funds (which are material
+                                                                                 checks and that performed by the respective
+                  either individually or in aggregate) have
+                                                                                 auditors of branches and subsidiaries which
+                  been received by the Holding Company
+                                                                                 are companies incorporated in India whose
+                  or any of the branches or any of such
+                                                                                 financial statements have been audited under
+                  subsidiaries from any persons or entities,
+                                                                                 the Act, the Holding Company, its branches and
+                  including     foreign     entities  (“Funding
+                                                                                 subsidiaries which are companies incorporated
+                  Parties”), with the understanding, whether
+                                                                                 in India have used accounting software for
+                  recorded in writing or otherwise, that the
+                                                                                 maintaining its books of account which has a
+                  Holding Company or any of the branches
+                                                                                 feature of recording audit trail (edit log) facility
+                  or any of such subsidiaries shall, whether
+                                                                                 and that has operated throughout the year for all
+                  directly or indirectly, lend or invest in other
+                                                                                 relevant transactions recorded in the software,
+                  persons or entities identified in any manner
+                                                                                 except that in case of the Holding Company
+                  whatsoever by or on behalf of the Funding
+                                                                                 and 1 subsidiary company, the audit trail is not
+                  Party (“Ultimate Beneficiaries”) or provide
+                                                                                 maintained in case of any changes by users
+                  any guarantee, security or the like on behalf
+                                                                                 with certain privileged access and for any direct
+                  of the Ultimate Beneficiaries; and
+                                                                                 database changes to its accounting software.
+                                                                                 During the course of our audit and basis the
+                                   (c)  
+                  Based on the audit procedures, that
+                                                                                 report of the other auditors of the branches and
+                  has been considered reasonable and
+                                                                                 subsidiaries, which are companies incorporated
+                  appropriate     in   the   circumstances,
+                                                                                 in India, except for the aforesaid instances,
+                  performed by us, those performed
+                                                                                 where the question of our commenting on
+                  by the other auditors of the branches
+                                                                                 whether the audit trail has been tampered
+                  and subsidiaries which are companies
+                                                                                 with does not arise, we or the other auditors
+                  incorporated in India whose financial
+                                                                                 of the branches and subsidiaries, which are
+                  statements have been audited under the
+                                                                                 companies incorporated in India did not notice
+                  Act, nothing has come to our or other
+                                                                                 any instance of audit trail feature being tampered
+                  auditors of the branches and subsidiaries,
+                                                                                 with. Further, the audit trail has been preserved
+                  which are the companies incorporated in                        by the Holding Company, its branches and its
+                  India, notice that has caused us or other                      subsidiaries which are companies incorporated
+                  auditors of the branches and subsidiaries,                     in India as per the statutory requirements for
+                  which are companies incorporated in India                      record retention.
+                  to believe that the representations under
+
+
+
+
+226   Integrated Annual Report 2025-26                                                                                                                                                                                            Integrated Annual Report 2025-26   227

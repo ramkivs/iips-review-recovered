@@ -1,0 +1,102 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Note 1: the Ind AS basis sentence
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 120 of 215  (printed pages 236-237)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                                      FINANCIAL STATEMENTS
+                                                                                                              KEC International Limited                                                                                                                                Consolidated
+
+Notes                                                                                                                                        Notes
+forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026                                            forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026
+
+3.    ACCOUNTING POLICY INFORMATION                                       •     the size of the Company’s holding of voting rights                   The following subsidiaries have been considered in preparation of the consolidated financial statements:
+3.1 Statement of compliance                                                  relative to the size and dispersion of holdings of the
+                                                                             other vote holders;                                                                                                                          Country of       % of ownership interest either
+      The consolidated financial statements have been prepared                                                                                                                                                          Incorporation      directly or through subsidiaries
+      in accordance with the provisions of Companies Act,                 •     potential voting rights held by the Company, other
+                                                                                                                                                                                                                                                    As at                 As at
+      2013 and Indian Accounting Standards (Ind AS) notified                 vote holders or other parties;
+                                                                                                                                                                                                                                           March 31, 2026        March 31, 2025
+      under Section 133 of the Companies Act, 2013 (the Act)
+                                                                          •     rights arising from other contractual arrangements;                  Direct Subsidiaries
+      [Companies (Indian Accounting Standards) Rules, 2015]
+                                                                             and any additional facts and circumstances that
+      and other relevant provisions of the Act.                                                                                                   RPG Transmission Nigeria Limited                                          Nigeria                    100                      100
+                                                                             indicate that the Company has, or does not have, the
+                                                                             current ability to direct the relevant activities at the             KEC Towers LLC                                                             UAE                       100                      100
+3.2 Basis of preparation and presentation
+                                                                             time that decisions need to be made, including voting                KEC Investment Holdings Mauritius                                        Mauritius                   100                      100
+      The consolidated financial statements have been prepared               patterns at previous shareholders’ meetings.                         KEC International (Malaysia) SDN BHD                                     Malaysia                    100                      100
+      on the historical cost basis except for certain financial
+      assets and liabilities (including derivative instruments) and                                                                               KEC Power India Private Limited                                            India                     100                      100
+                                                                          Consolidation of a subsidiary begins when the Company
+      plan assets under defined benefit plans that are measured                                                                                   KEC Spur Infrastructure Private Limited                                    India                     100                      100
+                                                                          obtains control over the subsidiary and ceases when the
+      at fair values at the end of each reporting period, as                                                                                      KEC Asian Cables Limited                                                   India                     100                        -
+                                                                          Company losses control of the subsidiary. Specifically,
+      explained in the accounting policies below.
+                                                                          income and expenses of a subsidiary acquired or disposed                Indirect Subsidiaries
+                                                                          of during the year are included in the Consolidated
+      Summary of material accounting policies is as under:                                                                                        SAE Towers Holdings LLC                                                    USA                       100                      100
+                                                                          Statement of Profit and Loss from the date the Company
+      Operating Cycle                                                     gains control until the date when the Company ceases to                 SAE Towers Brazil Subsidiary Company LLC                                   USA                       100                      100
+      Assets and liabilities other than those relating to long-term       control the subsidiary.                                                 SAE Towers Mexico Subsidiary Holding Company LLC                           USA                       100                      100
+      contracts (i.e. supply or construction contracts) are                                                                                       SAE Towers Mexico S de RL de CV                                           Mexico                     100                      100
+      classified as current if it is expected to realize or settle        Profit or loss and each component’s other comprehensive                 SAE Towers Brazil Torres de Transmission Ltda                             Brazil                     100                      100
+      within 12 months after the balance sheet date.                      income are attributed to the owners of the Company and to
+                                                                                                                                                  SAE Prestadora de Servicios Mexico, S de RL de CV                         Mexico                     100                      100
+                                                                          the non-controlling interests. Total comprehensive income
+      In case of long-term contracts, operating cycle of the Group        of subsidiaries is attributed to the owners of the Company              SAE Towers Ltd                                                             USA                       100                      100
+      exceeds one year covering the duration of the contract              and to the non-controlling interests even if this results in the        SAE Towers Construcao Ltda (formerly known as SAE Engenharia              Brazil                           -                  100
+      including the defect liability period, wherever applicable,         non-controlling interests having a deficit balance.                     E Construcao Ltda)
+      and extends upto the realisation of receivables (including                                                                                  (Liquidated with effect from August 1, 2025)
+      retention monies) within the credit period normally applicable      The financial statements of the Company and its Subsidiary              KEC Engineering & Construction Services, S de RL de CV                    Mexico                     100                      100
+      to the respective contract. Accordingly, for classification         Companies have been consolidated on a line-by-line basis
+      of assets and liabilities related to such contracts as                                                                                      KEC EPC LLC                                                                UAE                       100                      100
+                                                                          by adding together like items of assets, liabilities, income
+      current, duration of each contract is considered as its             and expenses. The financial statements of the subsidiary
+      operating cycle.                                                                                                                       3.4 Revenue recognition                                                    The Group considers the terms of the contract in
+                                                                          companies used in the consolidation are drawn up to the
+                                                                          same reporting date as that of the Company.                             The Group derives revenue principally from following                   determining the transaction price. The transaction
+3.3 Basis of consolidation                                                                                                                        streams:                                                               price is based upon the amount the group expects to
+      The consolidated financial statements incorporate the               When necessary, adjustments are made to the financial                                                                                          be entitled to in exchange for transferring of promised
+      financial statements of the Company and its subsidiaries.                                                                                   •    Sale of products (towers and cables)
+                                                                          statements of subsidiaries to bring their accounting                                                                                           goods and services to the customer. Transaction price
+      Control is achieved when the Company:-                              policies into line with the Group’s accounting policies.                •    Construction contracts                                            excludes taxes and duties collected on behalf of
+                                                                          All intragroup assets and liabilities, equity, income,
+      •      has power over the investee;                                                                                                                                                                                the government. Invoices are issued according to
+                                                                          expenses, and cash flows relating to transactions                       •    Sale of services
+      • is exposed, or has rights, to variable returns from its          between members of the Group are eliminated in full on                                                                                         contractual terms and are usually payable as per the
+                                                                                                                                                  •    Other Operating Revenue
+         involvement with the investee; and                               consolidation. Unrealised gains on transactions between                                                                                        credit period agreed with the customer.
+      •      has the ability to use its power to affect its returns.      group companies are eliminated. Unrealised losses are
+                                                                                                                                                  3.4.1 Sale of products:
+                                                                          also eliminated unless transaction provides evidence of an                                                                                3.4.2 Construction contracts:
+                                                                          impairment of the transferred asset.                                          The Group recognizes revenue in relation to sale of
+      The Company reassesses whether or not it controls an                                                                                                                                                              The Group enters into engineering, procurement
+      investee if facts and circumstances indicate that there                                                                                       tower/cable and ancillary products when it satisfies
+                                                                          Changes in the Group’s ownership interests in subsidiaries                                                                                     and    construction   contracts     (‘EPC’)    which    are
+      are changes to one or more of the three elements of                                                                                           a performance obligation in accordance with the
+                                                                          that do not result in the Group losing control over the                                                                                        fixed price contracts or variable price contracts.
+      control listed above.                                                                                                                         contract with the customer. This is achieved when
+                                                                          subsidiaries are accounted for as equity transactions.                                                                                         Revenue is recognized from engineering, procurement
+                                                                                                                                                    control of the product has been transferred to the
+      When the Company has less than a majority of the voting             The carrying amounts of the Group’s interests and the                                                                                          and construction contracts (‘EPC’) over the period of
+                                                                                                                                                    customer, which is generally determined when legal
+      rights of an investee, it has power over the investee when          non-controlling interests are adjusted to reflect the changes
+                                                                                                                                                    title, physical possession, risk of obsolescence, loss               time, as performance obligations are satisfied over
+      the voting rights are sufficient to give it the practical ability   in their relative interests in the subsidiaries. Any difference
+                                                                                                                                                    and rewards of ownership pass to the customer                        time due to continuous transfer of control to the
+      to direct the relevant activities of the investee unilaterally.     between the amount by which the non-controlling interests
+                                                                          are adjusted and the fair value of the consideration paid or              and the group has the present right to payment, all                  customer. EPC contracts are generally accounted
+      The Company considers all relevant facts and circumstances
+      in assessing whether or not the Company’s voting rights in          received is recognised directly in equity and attributed to               of which occurs at a point in time upon shipment or                  for as a single performance obligation as it involves
+      an investee are sufficient to give it power, including:             owners of the Group.                                                      delivery of the product.                                             complex integration of goods and services.
+
+236       Integrated Annual Report 2025-26                                                                                                                                                                                              Integrated Annual Report 2025-26        237

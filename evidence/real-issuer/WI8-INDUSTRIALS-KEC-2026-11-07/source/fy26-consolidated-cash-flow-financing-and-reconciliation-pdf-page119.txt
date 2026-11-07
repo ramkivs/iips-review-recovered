@@ -1,0 +1,97 @@
+# KEC International Limited — FY2025-26 annual report (consolidated)
+# What this page is: Cash flow section C, CIN, and the financing-liabilities reconciliation
+# source PDF: KEC_Annual_Report_2025-26.pdf  bytes=18566481  sha256=ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820  pages=215
+# URL: https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+# PDF page 119 of 215  (printed pages 234-235)
+# extractor: pdftotext -layout (poppler-utils) on a throwaway GitHub Actions runner, 2026-11-07.
+# NOTE (whitespace): the text below is verbatim apart from whitespace normalisation required by this
+#       repository's whitespace policy (git diff --check runs on every change): tab characters were expanded
+#       to spaces at eight-column stops and trailing blanks were stripped. No word, number, punctuation mark,
+#       column entry or line break was added, removed or reordered.
+# -----------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                                                                              FINANCIAL STATEMENTS
+                                                                                                              KEC International Limited                                                                                                                                    Consolidated
+
+Consolidated Statement of Cash Flows                                                                                                        Notes
+for the year ended March 31, 2026                                                                                                           forming part of the Consolidated Financial Statements as at and for the year ended March 31, 2026
+
+                                                                                                                               ` in Crore
+Particulars                                                                            For the year ended          For the year ended       1.   GENERAL INFORMATION                                                      This new policy did not result in a change in the
+                                                                                           March 31, 2026              March 31, 2025
+                                                                                                                                                 KEC International Limited (“the Company”)                                classification of borrowings. The Group did not make
+C.    CASH FLOW FROM FINANCING ACTIVITIES
+                                                                                                                                                 (CIN: L45200MH2005PLC152061) is a public limited                         retrospective adjustments as a result of adopting the
+      Repayment of other than short-term borrowings                                   (151.88)                    (331.94)
+                                                                                                                                                 company incorporated and domiciled in India. Its shares                  amendments to Ind AS 1.
+      Proceeds from other than short-term borrowings                                   545.01                      266.16
+                                                                                                                                                 are listed on BSE Limited and National Stock Exchange
+      Proceeds from issue of equity shares (QIP Issue)                                        -                    870.16                        of India Limited. The registered office of the Company is          (b)         Supplier Finance Arrangements – Amendments to
+      Share issue expenses                                                                    -                     (19.04)                      located at RPG House, 463, Dr. Annie Besant Road, Worli,                 Ind AS 7 and Ind AS 107
+      Payment of principal of lease liabilities                                         (46.01)                     (44.34)                      Mumbai- 400 030.
+      Payment of interest of lease liabilities                                          (23.25)                     (16.10)                                                                                               As a result of the adoption of the amendments to Ind AS
+      Increase / (decrease) in short-term borrowings (net)                             969.19                       (21.40)                                                                                               7 and Ind AS 107, the Group provided new disclosures for
+                                                                                                                                                 The Company including its branches, jointly controlled
+      Finance costs paid                                                              (635.71)                    (632.83)                       operations and its subsidiaries (as detailed in note 3.3) is             liabilities under supplier finance arrangements in Note 32.
+      Dividend paid                                                                   (146.38)       510.97       (102.79)       (32.12)         herein after together referred to as the ‘Group’.
+      NET CASH FLOW GENERATED FROM/(USED IN) FINANCING                                               510.97                      (32.12)                                                                            (c)         International Tax Reform – Pillar Two Model Rules –
+      ACTIVITIES (C)                                                                                                                             The Group is primarily engaged in Engineering, Procurement               Amendments to Ind AS 12
+      NET (DECREASE)/INCREASE IN CASH AND CASH EQUIVALENTS                                         (144.95)                      319.08          and Construction business (EPC) relating to infrastructure               The Group is within the scope of the OECD Pillar Two
+      (A+B+C)                                                                                                                                    interalia products, projects and systems and related                     Model Rules and has evaluated the potential exposure to
+      Cash and cash equivalents at the beginning of the year (Refer Note 17)                         545.69                      205.10          activities for power transmission, distribution, railway, civil,
+                                                                                                                                                                                                                          global minimum tax. Refer note 3.12.1.
+      Effect of exchange differences on restatement of foreign currency Cash and                      10.52                       21.51          cable and other EPC businesses.
+      cash equivalents
+                                                                                                                                                                                                                    (d)   Lack of Exchangeability – Amendments to Ind AS 21
+      Cash and cash equivalents at the end of the year (Refer Note 17)                               411.26                      545.69          The Company’s manufacturing footprint extends across
+      Supplemental Information                                                                                                                   three countries in addition to India. The Company has                    The amended Ind AS 21 have added requirements to help
+      Non Cash Transactions from Investing and Financing Activities:                                                                             several international branch offices enabling diversified                entities to determine whether a currency is exchangeable
+      Acquisition of Right-of-Use assets                                                              51.97                      128.20          global footprint.                                                        into another currency, and the spot exchange rate to
+The above consolidated statement of cash flows has been prepared under the “indirect method” as set out in Ind AS 7 ‘Statement of                                                                                         use where it is not. These amendments did not have any
+Cash flows’                                                                                                                                 2.  
+                                                                                                                                                NEW AND AMENDED STANDARDS ADOPTED BY                                      material impact on the amounts recognised in prior periods
+                                                                                                                                                THE GROUP                                                                 and are not expected to significantly affect the current or
+Reconciliation of liabilities arising from financing activities:                                                               ` in Crore        The Ministry of Corporate Affairs vide notification dated                future periods.
+Particulars                               As at   Cash flows     Movement         Foreign          Interest      Interest          As at         May 7, 2025 and August 13, 2025 notified the Companies
+                                      March 31,                     in lease    exchange          expense            paid     March 31,
+                                           2025                   liabilities   movement                                            2026         (Indian Accounting Standards) Amendment Rules, 2025                (e)   New standards or amendments not yet adopted
+Borrowings                             3,701.10      1,362.32               -       45.37           630.15       (625.80)      5,113.14          and Companies (Indian Accounting Standards) Second
+                                                                                                                                                                                                                          This amendment also includes specific provisions that
+                                                                                                                                                 Amendment Rules, 2025, respectively, which amended
+Lease liabilities                        256.38        (46.01)         51.97        12.19            23.25         (23.25)        274.53                                                                                  will take effect for reporting periods beginning on or after
+                                                                                                                                                 certain accounting standards (see below), and are
+Total liabilities from financing       3,957.48      1,316.31          51.97        57.56           653.40       (649.05)      5,387.67
+                                                                                                                                                 effective for annual reporting periods beginning on or                   April 1, 2026, as outlined below:
+activities
+                                                                                                                                                 after April 1, 2025:
+                                                                                                                               ` in Crore                                                                                 Under the existing Ind AS 1, where there is a breach of a
+Particulars                               As at     Cash flows Movement        Foreign             Interest      Interest          As at                                                                                  material provision of a long-term loan arrangement on or
+                                                                                                                                            (a)         
+                                                                                                                                                 Classification of Liabilities as Current or Non-
+                                      March 31,                    in lease exchange              expense            paid     March 31,
+                                          2024                   liabilities movement                                               2025         current and Non-current Liabilities with Covenants                       before the end of the reporting period with the effect that
+Borrowings                             3,802.09          (87.18)           -    (14.93)             623.33       (622.21)      3,701.10          – Amendments to Ind AS 1                                                 the liability becomes payable on demand on the reporting
+Lease liabilities                        172.71          (44.34)     128.01           -              16.10         (16.10)        256.38         As a result of the adoption of the amendments to Ind                     date, the entity does not classify the liability as current, if
+Total liabilities from financing       3,974.80        (131.52)      128.01     (14.93)             639.43       (638.31)      3,957.48          AS 1, the group changed its accounting policy for the                    the lender agreed, after the reporting period and before
+activities
+                                                                                                                                                 classification of borrowings:                                            the approval of the financial statements for issue, not to
+The above Consolidated Statement of Cash flows should be read in conjunction with the accompanying notes.
+In terms of our report of even date
+                                                                                                                                                                                                                          demand payment as a consequence of the breach.
+                                                                                                                                                 “Borrowings are classified as current liabilities unless, at
+                                                                                                                                                 the end of the reporting period, the group has a right to
+For Price Waterhouse Chartered Accountants LLP              For and on behalf of the Board of Directors                                                                                                                   However, the amended requirements stipulate that entities
+                                                                                                                                                 defer settlement of the liability for at least 12 months after
+Firm Registration Number: 012754N/N500016                                                                                                                                                                                 will no longer be permitted to consider lender waivers that
+                                                                                                                                                 the reporting period.
+                                                                                                                                                                                                                          are granted after the reporting date but before the financial
+                                                            H.V. GOENKA                               VIMAL KEJRIWAL                                                                                                      statements are approved for the purpose of classification
+                                                            Chairman                                  Managing Director and CEO                  Covenants that the group is required to comply with, on
+SUMIT SETH                                                  DIN - 00026726                            DIN - 00026981                             or before the end of the reporting period, are considered                of loans. This amendment is required to be applied
+Partner                                                                                                                                          in classifying loan arrangements with covenants as current               retrospectively in accordance with Ind AS 8.
+Membership Number : 105869                                  RAJEEV AGGARWAL                           SURAJ EKSAMBEKAR                           or non-current. Covenants that the group is required to
+                                                            Chief Financial Officer                   Company Secretary                                                                                                   The Group does not expect this amendment to have an
+                                                                                                                                                 comply with after the reporting period do not affect the
+Place : Mumbai                                              Place : Mumbai                                                                       classification.”                                                         impact on its operations or financial statements.
+Date : May 16, 2026                                         Date : May 16, 2026
+
+234    Integrated Annual Report 2025-26                                                                                                                                                                                                       Integrated Annual Report 2025-26      235

@@ -1,0 +1,704 @@
+{
+  "bundle": "WI-8 Industrials / KEC International Limited \u2014 where every ingested figure is printed",
+  "scale": "INR crore as printed; ingested with source_scale=CRORE (1 crore = 10,000,000)",
+  "documents": {
+    "FY26": "KEC-FY26-AR (year ended March 31, 2026)",
+    "FY25": "KEC-FY26-AR (comparative column)",
+    "FY24": "KEC-FY25-AR (comparative column)"
+  },
+  "items": {
+    "REVENUE_FROM_OPERATIONS": {
+      "printedLabel": "Revenue from operations",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "23,505.54",
+        "FY25": "21,846.70",
+        "FY24": "19,914.17"
+      },
+      "values": {
+        "FY26": "23505.54",
+        "FY25": "21846.70",
+        "FY24": "19914.17"
+      },
+      "basis": "REPORTED"
+    },
+    "OTHER_INCOME": {
+      "printedLabel": "Other income",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "50.33",
+        "FY25": "70.86",
+        "FY24": "52.41"
+      },
+      "values": {
+        "FY26": "50.33",
+        "FY25": "70.86",
+        "FY24": "52.41"
+      },
+      "basis": "REPORTED"
+    },
+    "TOTAL_INCOME": {
+      "printedLabel": "Total Income (I+II)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "23,555.87",
+        "FY25": "21,917.56",
+        "FY24": "19,966.58"
+      },
+      "values": {
+        "FY26": "23555.87",
+        "FY25": "21917.56",
+        "FY24": "19966.58"
+      },
+      "basis": "REPORTED"
+    },
+    "EMPLOYEE_BENEFIT_EXPENSE": {
+      "printedLabel": "Employee benefits expense",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "1,662.39",
+        "FY25": "1,540.20",
+        "FY24": "1,440.63"
+      },
+      "values": {
+        "FY26": "1662.39",
+        "FY25": "1540.20",
+        "FY24": "1440.63"
+      },
+      "basis": "REPORTED"
+    },
+    "OTHER_EXPENSES": {
+      "printedLabel": "Other expenses",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "1,870.03",
+        "FY25": "1,892.29",
+        "FY24": "1,674.16"
+      },
+      "values": {
+        "FY26": "1870.03",
+        "FY25": "1892.29",
+        "FY24": "1674.16"
+      },
+      "basis": "REPORTED"
+    },
+    "FINANCE_COSTS": {
+      "printedLabel": "Finance costs",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "663.60",
+        "FY25": "663.59",
+        "FY24": "655.13"
+      },
+      "values": {
+        "FY26": "663.60",
+        "FY25": "663.59",
+        "FY24": "655.13"
+      },
+      "basis": "REPORTED"
+    },
+    "DEPRECIATION_AND_AMORTISATION": {
+      "printedLabel": "Depreciation and amortisation expense",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "197.38",
+        "FY25": "183.68",
+        "FY24": "185.36"
+      },
+      "values": {
+        "FY26": "197.38",
+        "FY25": "183.68",
+        "FY24": "185.36"
+      },
+      "basis": "REPORTED"
+    },
+    "PROFIT_BEFORE_TAX": {
+      "printedLabel": "Profit after exceptional items and before tax (V - VI) [FY2025-26] / Profit before tax (III-IV) [FY2024-25]",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "789.14",
+        "FY25": "727.49",
+        "FY24": "426.49"
+      },
+      "values": {
+        "FY26": "789.14",
+        "FY25": "727.49",
+        "FY24": "426.49"
+      },
+      "basis": "REPORTED"
+    },
+    "TAX_EXPENSE": {
+      "printedLabel": "Tax expenses: current tax plus deferred tax",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "183.55",
+        "FY25": "156.75",
+        "FY24": "79.71"
+      },
+      "values": {
+        "FY26": "183.55",
+        "FY25": "156.75",
+        "FY24": "79.71"
+      },
+      "basis": "REPORTED"
+    },
+    "NET_PROFIT": {
+      "printedLabel": "Profit for the year (VII - VIII)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "605.59",
+        "FY25": "570.74",
+        "FY24": "346.78"
+      },
+      "values": {
+        "FY26": "605.59",
+        "FY25": "570.74",
+        "FY24": "346.78"
+      },
+      "basis": "REPORTED"
+    },
+    "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+      "printedLabel": "Profit for the year \u2014 the consolidated statement carries no non-controlling interest line, so the whole profit is attributable to owners",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "605.59",
+        "FY25": "570.74",
+        "FY24": "346.78"
+      },
+      "values": {
+        "FY26": "605.59",
+        "FY25": "570.74",
+        "FY24": "346.78"
+      },
+      "basis": "REPORTED"
+    },
+    "EPS_BASIC": {
+      "printedLabel": "Earnings per equity share \u2014 Basic (in `)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "22.75",
+        "FY25": "21.80",
+        "FY24": "13.49"
+      },
+      "values": {
+        "FY26": "22.75",
+        "FY25": "21.80",
+        "FY24": "13.49"
+      },
+      "basis": "REPORTED"
+    },
+    "EPS_DILUTED": {
+      "printedLabel": "Earnings per equity share \u2014 Diluted (in `)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "22.75",
+        "FY25": "21.80",
+        "FY24": "13.49"
+      },
+      "values": {
+        "FY26": "22.75",
+        "FY25": "21.80",
+        "FY24": "13.49"
+      },
+      "basis": "REPORTED"
+    },
+    "TOTAL_ASSETS": {
+      "printedLabel": "Total Assets",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "25,158.06",
+        "FY25": "22,179.92",
+        "FY24": "19,031.47"
+      },
+      "values": {
+        "FY26": "25158.06",
+        "FY25": "22179.92",
+        "FY24": "19031.47"
+      },
+      "basis": "REPORTED"
+    },
+    "TOTAL_EQUITY": {
+      "printedLabel": "Total Equity",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "6,159.69",
+        "FY25": "5,347.45",
+        "FY24": "4,095.70"
+      },
+      "values": {
+        "FY26": "6159.69",
+        "FY25": "5347.45",
+        "FY24": "4095.70"
+      },
+      "basis": "REPORTED"
+    },
+    "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+      "printedLabel": "Total Equity \u2014 no non-controlling interest line is presented",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "6,159.69",
+        "FY25": "5,347.45",
+        "FY24": "4,095.70"
+      },
+      "values": {
+        "FY26": "6159.69",
+        "FY25": "5347.45",
+        "FY24": "4095.70"
+      },
+      "basis": "REPORTED"
+    },
+    "CASH_AND_CASH_EQUIVALENTS": {
+      "printedLabel": "Cash and cash equivalents",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "411.26",
+        "FY25": "545.69",
+        "FY24": "205.10"
+      },
+      "values": {
+        "FY26": "411.26",
+        "FY25": "545.69",
+        "FY24": "205.10"
+      },
+      "basis": "REPORTED"
+    },
+    "TRADE_RECEIVABLES": {
+      "printedLabel": "Trade receivables (current)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "6,474.21",
+        "FY25": "5,051.10",
+        "FY24": "4,136.62"
+      },
+      "values": {
+        "FY26": "6474.21",
+        "FY25": "5051.10",
+        "FY24": "4136.62"
+      },
+      "basis": "REPORTED"
+    },
+    "PROPERTY_PLANT_AND_EQUIPMENT": {
+      "printedLabel": "Property, plant and equipment",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "1,159.49",
+        "FY25": "1,073.99",
+        "FY24": "1,141.22"
+      },
+      "values": {
+        "FY26": "1159.49",
+        "FY25": "1073.99",
+        "FY24": "1141.22"
+      },
+      "basis": "REPORTED"
+    },
+    "CAPITAL_WORK_IN_PROGRESS": {
+      "printedLabel": "Capital work-in-progress",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "113.65",
+        "FY25": "38.52",
+        "FY24": "13.92"
+      },
+      "values": {
+        "FY26": "113.65",
+        "FY25": "38.52",
+        "FY24": "13.92"
+      },
+      "basis": "REPORTED"
+    },
+    "GOODWILL": {
+      "printedLabel": "Goodwill",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "305.80",
+        "FY25": "278.22",
+        "FY24": "272.13"
+      },
+      "values": {
+        "FY26": "305.80",
+        "FY25": "278.22",
+        "FY24": "272.13"
+      },
+      "basis": "REPORTED"
+    },
+    "INTANGIBLE_ASSETS": {
+      "printedLabel": "Intangible assets",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "2.92",
+        "FY25": "4.83",
+        "FY24": "19.68"
+      },
+      "values": {
+        "FY26": "2.92",
+        "FY25": "4.83",
+        "FY24": "19.68"
+      },
+      "basis": "REPORTED"
+    },
+    "OPERATING_CASH_FLOW": {
+      "printedLabel": "NET CASH FLOW (USED)/GENERATED FROM OPERATING ACTIVITIES (A)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.118, current column",
+        "FY25": "FY2025-26 report, PDF p.118, comparative column",
+        "FY24": "FY2024-25 report, PDF p.111, current column"
+      },
+      "printedAs": {
+        "FY26": "(414.12)",
+        "FY25": "419.07",
+        "FY24": "311.15"
+      },
+      "values": {
+        "FY26": "-414.12",
+        "FY25": "419.07",
+        "FY24": "311.15"
+      },
+      "basis": "REPORTED"
+    },
+    "CAPITAL_EXPENDITURE": {
+      "printedLabel": "Capital expenditure on property, plant and equipment and intangible assets (after adjustment of increase/decrease in capital work-in-progress and advances for capital expenditure) \u2014 reported as an outflow",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.118, current column",
+        "FY25": "FY2025-26 report, PDF p.118, comparative column",
+        "FY24": "FY2024-25 report, PDF p.111, current column"
+      },
+      "printedAs": {
+        "FY26": "(328.68)",
+        "FY25": "(182.52)",
+        "FY24": "(237.38)"
+      },
+      "values": {
+        "FY26": "328.68",
+        "FY25": "182.52",
+        "FY24": "237.38"
+      },
+      "basis": "REPORTED"
+    },
+    "INVESTING_CASH_FLOW": {
+      "printedLabel": "NET CASH FLOW USED IN INVESTING ACTIVITIES (B)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.118, current column",
+        "FY25": "FY2025-26 report, PDF p.118, comparative column",
+        "FY24": "FY2024-25 report, PDF p.111, current column"
+      },
+      "printedAs": {
+        "FY26": "(241.80)",
+        "FY25": "(67.87)",
+        "FY24": "(223.06)"
+      },
+      "values": {
+        "FY26": "-241.80",
+        "FY25": "-67.87",
+        "FY24": "-223.06"
+      },
+      "basis": "REPORTED"
+    },
+    "FINANCING_CASH_FLOW": {
+      "printedLabel": "NET CASH FLOW GENERATED FROM/(USED IN) FINANCING ACTIVITIES (C)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.119 (printed 234-235), current column",
+        "FY25": "FY2025-26 report, PDF p.119 (printed 234-235), comparative column",
+        "FY24": "FY2024-25 report, PDF p.112, current column"
+      },
+      "printedAs": {
+        "FY26": "510.97",
+        "FY25": "(32.12)",
+        "FY24": "(144.68)"
+      },
+      "values": {
+        "FY26": "510.97",
+        "FY25": "-32.12",
+        "FY24": "-144.68"
+      },
+      "basis": "REPORTED"
+    },
+    "DIVIDENDS_PAID": {
+      "printedLabel": "Dividend paid (financing section)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.119 (printed 234-235), current column",
+        "FY25": "FY2025-26 report, PDF p.119 (printed 234-235), comparative column",
+        "FY24": "FY2024-25 report, PDF p.112, current column"
+      },
+      "printedAs": {
+        "FY26": "(146.38)",
+        "FY25": "(102.79)",
+        "FY24": "(77.16)"
+      },
+      "values": {
+        "FY26": "146.38",
+        "FY25": "102.79",
+        "FY24": "77.16"
+      },
+      "basis": "REPORTED"
+    },
+    "INCOME_TAX_PAID": {
+      "printedLabel": "Refund/ (Payment) of taxes (net)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.118, current column",
+        "FY25": "FY2025-26 report, PDF p.118, comparative column",
+        "FY24": "FY2024-25 report, PDF p.111, current column"
+      },
+      "printedAs": {
+        "FY26": "(300.70)",
+        "FY25": "157.19",
+        "FY24": "(252.13)"
+      },
+      "values": {
+        "FY26": "300.70",
+        "FY25": "157.19",
+        "FY24": "252.13"
+      },
+      "basis": "REPORTED"
+    },
+    "NET_CASH_FLOW": {
+      "printedLabel": "NET (DECREASE)/INCREASE IN CASH AND CASH EQUIVALENTS (A+B+C)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.119 (printed 234-235), current column",
+        "FY25": "FY2025-26 report, PDF p.119 (printed 234-235), comparative column",
+        "FY24": "FY2024-25 report, PDF p.112, current column"
+      },
+      "printedAs": {
+        "FY26": "(144.95)",
+        "FY25": "319.08",
+        "FY24": "(56.59)"
+      },
+      "values": {
+        "FY26": "-144.95",
+        "FY25": "319.08",
+        "FY24": "-56.59"
+      },
+      "basis": "REPORTED"
+    },
+    "LONG_TERM_BORROWINGS": {
+      "printedLabel": "Non-current borrowings (Note 25)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231), current column",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231), comparative column",
+        "FY24": "FY2024-25 report, PDF p.110, current column"
+      },
+      "printedAs": {
+        "FY26": "661.37",
+        "FY25": "358.46",
+        "FY24": "236.01"
+      },
+      "values": {
+        "FY26": "661.37",
+        "FY25": "358.46",
+        "FY24": "236.01"
+      },
+      "basis": "REPORTED"
+    },
+    "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+      "printedLabel": "Note 30, section III \u2014 Current Maturities of Long Term Borrowings",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.136 (printed 268-269), current column",
+        "FY25": "FY2025-26 report, PDF p.136 (printed 268-269), comparative column",
+        "FY24": "FY2024-25 report, PDF p.129, current column"
+      },
+      "printedAs": {
+        "FY26": "235.60",
+        "FY25": "120.10",
+        "FY24": "308.33"
+      },
+      "values": {
+        "FY26": "235.60",
+        "FY25": "120.10",
+        "FY24": "308.33"
+      },
+      "basis": "REPORTED",
+      "periodBasis": {
+        "FY26": "REPORTED",
+        "FY25": "REPORTED",
+        "FY24": "DERIVED"
+      },
+      "derivationByPeriod": {
+        "FY24": "108.33 (printed subtotal of the two bank rows of Note 30.3, FY2024-25 report PDF p.129) + 200.00 (printed financial-institution row of the same section) = 308.33; the same column reconciles: 1,625.14 + 1,618.80 + 308.33 = 3,552.27, the balance-sheet current borrowings for that date"
+      }
+    }
+  },
+  "derivedItems": {
+    "TRADE_PAYABLES": {
+      "printedLabel": "Trade payables \u2014 total of the two printed lines (micro and small enterprises plus other creditors)",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231)",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231)",
+        "FY24": "FY2024-25 report, PDF p.110"
+      },
+      "printedAs": {
+        "FY26": "218.20 + 8,485.05",
+        "FY25": "164.64 + 8,831.57",
+        "FY24": "167.62 + 7,502.60"
+      },
+      "values": {
+        "FY26": "8703.25",
+        "FY25": "8996.21",
+        "FY24": "7670.22"
+      },
+      "basis": "DERIVED"
+    },
+    "LEASE_LIABILITIES": {
+      "printedLabel": "Lease liabilities \u2014 non-current plus current, the two lines the balance sheet prints",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.117 (printed 230-231)",
+        "FY25": "FY2025-26 report, PDF p.117 (printed 230-231)",
+        "FY24": "FY2024-25 report, PDF p.110"
+      },
+      "printedAs": {
+        "FY26": "220.60 + 53.93",
+        "FY25": "211.48 + 44.90",
+        "FY24": "148.14 + 24.57"
+      },
+      "values": {
+        "FY26": "274.53",
+        "FY25": "256.38",
+        "FY24": "172.71"
+      },
+      "basis": "DERIVED"
+    },
+    "SHORT_TERM_BORROWINGS": {
+      "printedLabel": "Current borrowings (Note 30) less the current maturities printed inside that same note \u2014 the filing's current borrowings line includes section III, so declaring the total would double count",
+      "locators": {
+        "FY26": "FY2025-26 report, PDF p.136 (printed 268-269)",
+        "FY25": "FY2025-26 report, PDF p.136 (printed 268-269)",
+        "FY24": "FY2024-25 report, PDF p.129"
+      },
+      "printedAs": {
+        "FY26": "4,441.86 \u2212 235.60",
+        "FY25": "3,342.64 \u2212 120.10",
+        "FY24": "3,552.27 \u2212 308.33"
+      },
+      "values": {
+        "FY26": "4206.26",
+        "FY25": "3222.54",
+        "FY24": "3243.94"
+      },
+      "basis": "DERIVED",
+      "derivationByPeriod": {
+        "FY26": "4,441.86 (Note 30 total current borrowings, PDF p.136) \u2212 235.60 (Note 30 section III, same page) = 4,206.26",
+        "FY25": "3,342.64 \u2212 120.10 = 3,222.54 (both printed on PDF p.136)",
+        "FY24": "3,552.27 (FY2024-25 report, PDF p.110) \u2212 308.33 (Note 30.3 components, PDF p.129) = 3,243.94"
+      },
+      "periodBasis": {
+        "FY26": "DERIVED",
+        "FY25": "DERIVED",
+        "FY24": "DERIVED"
+      }
+    },
+    "CURRENT_MATURITIES_OF_LONG_TERM_DEBT_FY24": {
+      "printedLabel": "Note 30, section III for the FY2024 comparative column: the note prints a 108.33 subtotal over its bank rows and a separate 200.00 financial-institution row, so the column total is the sum of the two printed lines, not a single printed figure",
+      "locators": {
+        "FY24": "FY2024-25 report, PDF p.129, comparative column"
+      },
+      "printedAs": {
+        "FY24": "108.33 + 200.00"
+      },
+      "values": {
+        "FY24": "308.33"
+      },
+      "basis": "DERIVED"
+    }
+  },
+  "notReported": {
+    "CURRENT_INVESTMENTS": "The consolidated balance sheet presents no current investments line at all: current assets are inventories, trade receivables, cash and cash equivalents, bank balances other than cash and cash equivalents, other financial assets, contract assets, current tax assets and other current assets (FY2025-26 report, PDF p.117). Note 10 lists only one non-current investment, marked '*' \u2014 and the footnote on the same page defines '*' as 'less than rounding off norms adopted by the Group', which is a sub-rounding positive amount, not a nil. Recorded as NOT_REPORTED for all three periods; nothing is declared nil.",
+    "NON_CONTROLLING_INTEREST": "No non-controlling interest line is presented in the consolidated balance sheet or in the statement of changes in equity (PDF p.117, p.118); note 3.3 lists every subsidiary at 100 per cent. The filing never says the balance is nil, so this is NOT_REPORTED, not a declared nil.",
+    "PREFERENCE_CAPITAL": "No preference share capital line and no preference-capital note. Note 23 states 'The Company has only one class of Equity shares having face value of ` 2 each' (PDF p.133), which describes the classes of equity shares; it is not a declaration that preference capital is nil, and the annual report elsewhere refers to '100% preference shares held by the Company in its wholly owned subsidiary' (PDF p.54), a subsidiary holding. Recorded NOT_REPORTED for all three periods; no nil was manufactured.",
+    "INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES": "Not representable: the dataset is schema V1, which has no such line; the group's joint arrangements are disclosed as a jointly controlled operation and consolidated proportionately (note 3.3), and no associates/JV carrying value is printed as a balance-sheet line."
+  },
+  "notes": [
+    "Every REPORTED value above was extracted from the cited page by pdftotext -layout over the fetched bytes; the verification script in runs/ confirms each printed form appears on its cited page.",
+    "Current borrowings are printed twice: the balance-sheet line carries one number (4,441.86 / 3,342.64 / 3,552.27) and Note 30 decomposes it into section I (loans repayable on demand), section II (other short-term borrowings, including the financial-institution commercial paper) and section III (current maturities of long-term borrowings). The dataset needs the two components separately, so the printed current-borrowings line is recorded as the Note 30 partition: SHORT_TERM_BORROWINGS = sections I + II (every one of them a printed subtotal: 2,638.96 + 1,122.54 + 444.76 = 4,206.26) and CURRENT_MATURITIES_OF_LONG_TERM_DEBT = section III as printed (235.60). The two add back to the printed balance-sheet line to the paisa (4,206.26 + 235.60 = 4,441.86), so gross debt carries no double count and no gap. Declaring the balance-sheet total in SHORT_TERM_BORROWINGS *and* filling section III would count 235.60 twice; declaring the total and leaving section III blank would state that the filing does not print current maturities, which it does.",
+    "Business acceptances (2,120.74 / 1,507.27) are a separate balance-sheet line inside current liabilities and are NOT inside borrowings: Note 30's own total is 4,441.86, which equals the balance-sheet borrowings line and excludes acceptances. They are therefore not counted in gross debt and no line item carries them.",
+    "The issuer's own financing-liabilities reconciliation (PDF p.119) prints lease liabilities of 274.53 at 2026-03-31 and 256.38 at 2025-03-31, which match the sums declared here; it prints total borrowings of 5,113.14 at 2026-03-31 against 5,103.23 derived from the two balance-sheet lines, a difference of 9.91 that the note does not explain, so the reconciliation is cited as a cross-check for leases only and not as a source of borrowings.",
+    "The MD&A prints the issuer's own net-debt KPI (4,601 crore, PDF p.28) and a net-debt-to-equity ratio of 0.79 (note 48, PDF p.198). Neither is a statement line and neither reconciles exactly to the printed balances; they are recorded as issuer KPIs and were not ingested.",
+    "Exceptional items: the FY2026 statement of profit and loss prints an exceptional item of 58.78 (PDF p.117). PROFIT_BEFORE_TAX is taken after that item exactly as printed (789.14), and the derivation of EBITDA by the pipeline therefore inherits it."
+  ]
+}

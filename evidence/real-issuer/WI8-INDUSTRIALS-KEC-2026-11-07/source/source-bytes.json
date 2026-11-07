@@ -1,0 +1,25 @@
+{
+  "documents": {
+    "kec-ar-2025-26": {
+      "file": "KEC_Annual_Report_2025-26.pdf",
+      "bytes": 18566481,
+      "sha256": "ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820",
+      "pages": 215,
+      "url": "https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf",
+      "fy": "FY2025-26"
+    },
+    "kec-ar-2024-25": {
+      "file": "KEC_Annual_Report_2024-25.pdf",
+      "bytes": 14873309,
+      "sha256": "29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6",
+      "pages": 206,
+      "url": "https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf",
+      "fy": "FY2024-25"
+    }
+  },
+  "note": "bytes and hashes as fetched on 2026-11-07; the FY2025-26 report carries the FY2026 and FY2025 columns, the FY2024-25 report the FY2024 comparative",
+  "rejectedRoutes": [
+    "https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2023-24.pdf -> HTTP 404 on 2026-11-07, so the FY2024 column is a comparative column of the two reports that were read"
+  ],
+  "irIndexNote": "https://www.kecrpg.com/investor-relations/annual-reports returned HTTP 200 but exposes only the newest two annual reports, which is why the third year is taken from a comparative column rather than from its own report"
+}

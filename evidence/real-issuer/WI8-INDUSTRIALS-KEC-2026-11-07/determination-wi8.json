@@ -1,0 +1,545 @@
+{
+  "bundle": "WI-8 \u2014 Industrials real-issuer validation (KEC International Limited)",
+  "workItem": "WI-8",
+  "date": "2026-11-07",
+  "scope": "IRR only; no IPD writes, no policy change, no new persistence mechanism, no validator change",
+  "selection": {
+    "sector": "Industrials",
+    "issuer": "KEC International Limited",
+    "issuerId": "IN:CIN:L45200MH2005PLC152061",
+    "sectorRationale": [
+      "Industrials declares DCF_FCFF (PRIMARY), EV_EBITDA (SECONDARY) and EV_REVENUE (CROSS_CHECK with mandatory IN_BOOK_TO_BILL) and no PE_RELATIVE, so it exercises the enterprise-value family end to end.",
+      "It was the next sector in the roadmap after Technology, Consumer, and the Technology re-validations; selecting it required an issuer with a print-level debt decomposition and an order book, which is a harder bar than Consumer's."
+    ],
+    "issuerRationale": [
+      "Three consecutive audited consolidated periods are printed in two documents: FY2025-26 report (FY2026 and FY2025 columns) and FY2024-25 report (FY2024 comparative column).",
+      "Note 30 decomposes current borrowings into demand loans, other short-term borrowings, financial-institution commercial paper and current maturities, so the governed gross-debt sum can be built without inference.",
+      "The consolidated statements carry no non-controlling interest and no preference capital line, and the balance sheet has no current-investments line: a genuine D-2 test in which absence must stay unavailable.",
+      "The auditor is a Big Four firm, the framework is Ind AS, and the statements are signed, so period eligibility and taxonomy compatibility are not in question."
+    ],
+    "rejectedIssuers": {
+      "considered": [
+        "Larsen & Toubro Limited",
+        "Thermax Limited",
+        "ABB India Limited",
+        "Cummins India Limited",
+        "Bharat Forge Limited",
+        "Siemens Limited",
+        "AIA Engineering Limited"
+      ],
+      "Larsen & Toubro Limited": "annual-report URLs tried returned HTTP 404; no primary bytes",
+      "Thermax Limited": "only one annual report reachable, so three consecutive periods could not be established from primary sources",
+      "ABB India Limited": "host unreachable (no HTTP response) from the retrieval environment",
+      "Cummins India Limited": "HTTP 403 on the paths tried",
+      "Bharat Forge Limited": "HTTP 403",
+      "Siemens Limited": "no annual-report links in server-rendered HTML",
+      "AIA Engineering Limited": "no annual-report links in server-rendered HTML"
+    },
+    "notSelectedForNil": true
+  },
+  "identity": {
+    "verdict": "VERIFIED_FROM_FILING (CIN, ISIN) + EXCHANGE_CORROBORATION (NSE symbol); BSE scrip code NOT established and not asserted",
+    "cin": "L45200MH2005PLC152061",
+    "isin": "INE389H01022",
+    "nse": "KEC",
+    "bse": null,
+    "auditor": "Price Waterhouse Chartered Accountants LLP (FRN 012754N/N500016), Sumit Seth M.No. 105869",
+    "basis": "CONSOLIDATED",
+    "taxonomy": "INDAS",
+    "currency": "INR",
+    "scale": "CRORE",
+    "locators": "CIN: FY2025-26 report PDF p.119 Note 1. ISIN + the listing sentence: PDF p.107 (printed 210-211). NSE symbol: nseindia.com get-quotes payload, retrieved 2026-11-07.",
+    "gaps": "Neither report prints a trading symbol or a BSE scrip code in 215/206 pages; the BSE pages fetched on 2026-11-07 returned a JavaScript shell with no company content. The listing map therefore carries the NSE leg only, marked as an operator record."
+  },
+  "coverage": {
+    "periods": [
+      {
+        "fiscalYear": 2026,
+        "periodEnd": "2026-03-31",
+        "source": "KEC-INDAS-CONSOL-FY26-AR",
+        "filedAt": "2026-05-16"
+      },
+      {
+        "fiscalYear": 2025,
+        "periodEnd": "2025-03-31",
+        "source": "KEC-INDAS-CONSOL-FY26-AR-COMPARATIVE",
+        "filedAt": "2026-05-16"
+      },
+      {
+        "fiscalYear": 2024,
+        "periodEnd": "2024-03-31",
+        "source": "KEC-INDAS-CONSOL-FY25-AR-COMPARATIVE",
+        "filedAt": "2025-05-16"
+      }
+    ],
+    "consecutive": true,
+    "audited": "the FY2025-26 report carries an unmodified opinion on the consolidated financial statements (PDF p.111) and the FY2024-25 report carries one for the FY2024 comparative column",
+    "notRead": "the FY2023-24 annual report is not available (HTTP 404), so FY2024 is a comparative column, not a third independent document",
+    "pdfPages": 14,
+    "printedFormsVerified": true
+  },
+  "dataset": {
+    "datasetVersion": "sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab",
+    "issues": [],
+    "lineItemsPerPeriod": 37,
+    "derivedPerPeriod": 6,
+    "sectorMeasurement": {
+      "sector": "Industrials",
+      "stage": "G2_PARTIAL",
+      "usableMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA"
+      ],
+      "withheldMethods": [
+        "EV_REVENUE"
+      ],
+      "withheldReason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL",
+      "statementCoveragePct": 100,
+      "operatingMetricCoveragePct": 0
+    },
+    "sectorsMeasured": 1,
+    "sectorsDeclared": 13,
+    "statementCoverage": {
+      "balanceSheet": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "value": 0.8095238095238095
+      },
+      "cashFlow": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "value": 0.8888888888888888
+      },
+      "pnl": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "value": 0.6818181818181818
+      }
+    },
+    "requiredFieldCoveragePct": 1,
+    "adequacy": "SUFFICIENT",
+    "outstandingSectors": [
+      "Auto",
+      "Banking",
+      "Capital Markets",
+      "Consumer",
+      "Energy",
+      "Healthcare",
+      "Hospitality",
+      "Insurance",
+      "Materials",
+      "Technology",
+      "Telecom",
+      "Utilities"
+    ]
+  },
+  "d2": {
+    "nilCellsInDataset": 0,
+    "statement": "No cell in this dataset is a nil. Nothing on the fifteen pages read declares borrowings, leases, current investments, non-controlling interest or preference capital to be nil.",
+    "currentBorrowingsPartition": {
+      "printed": "balance-sheet line 4,441.86 / 3,342.64 / 3,552.27, decomposed by Note 30",
+      "recorded": {
+        "SHORT_TERM_BORROWINGS": [
+          4206.26,
+          3222.54,
+          3243.94
+        ],
+        "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": [
+          235.6,
+          120.1,
+          308.33
+        ]
+      },
+      "reconciliation": "4,206.26 + 235.60 = 4,441.86; the partition adds back to the printed line, so the governed sum neither double counts nor loses a component"
+    },
+    "absentLine": {
+      "item": "CURRENT_INVESTMENTS",
+      "printed": "the consolidated balance sheet presents no current-investments line; Note 10 lists one non-current investment marked '*', which the same page defines as 'less than rounding off norms'",
+      "treatment": "NOT_REPORTED for all three periods; the sub-rounding mark is not converted into a nil and not into a zero"
+    },
+    "nci": {
+      "item": "NON_CONTROLLING_INTEREST",
+      "treatment": "NOT_REPORTED \u2014 no line in the balance sheet or in the statement of changes in equity; note 3.3 lists every subsidiary at 100 %"
+    },
+    "preference": {
+      "item": "PREFERENCE_CAPITAL",
+      "treatment": "NOT_REPORTED \u2014 no line and no note; note 23's 'only one class of Equity shares' describes equity classes, and the '100 % preference shares' sentence on PDF p.54 is a subsidiary holding"
+    },
+    "acceptances": {
+      "printed": "2,120.74 / 1,507.27 as a separate current-liability line",
+      "treatment": "not inside borrowings \u2014 Note 30's total equals the borrowings line and excludes them; not counted in gross debt"
+    },
+    "materialCostFY24": {
+      "printed": "not read",
+      "treatment": "blank, not derived as a residual"
+    }
+  },
+  "operatingMetrics": {
+    "IN_BOOK_TO_BILL": {
+      "availability": "UNAVAILABLE",
+      "reason": "no book-to-bill ratio is printed and no prior-year order intake is printed, so no ratio can be formed without inference",
+      "printed": {
+        "orderIntakeCrore": 25280,
+        "orderBookCrore": 36267,
+        "locators": [
+          "FY2025-26 report PDF p.6 (printed 8-9)",
+          "MD&A PDF p.28 (printed 52-53)"
+        ],
+        "yearsAvailable": "FY2026 only"
+      }
+    },
+    "issuerKPIsNotIngested": {
+      "netDebtCrore": 4601,
+      "netDebtToEquity": "0.79 (note 48, PDF p.198)",
+      "note": "issuer-stated KPIs, not statement lines; neither reconciles exactly to the printed balances and neither was ingested"
+    }
+  },
+  "capitalStructure": {
+    "shortTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 42062600000
+    },
+    "currentMaturities": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 2356000000
+    },
+    "longTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 6613700000
+    },
+    "leaseLiabilities": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 2745299999.9999995
+    },
+    "grossDebt": {
+      "presence": "PRESENT",
+      "value": 53777600000,
+      "valueCrore": 5377.76
+    },
+    "cashAndCashEquivalents": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 4112600000
+    },
+    "currentInvestments": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "cashAndInvestments": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "netDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "minorityInterest": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "preferenceCapital": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "leaseTreatment": "IND_AS_116_CAPITALISED",
+    "shareCountBasis": "REPORTED_EPS",
+    "dilutedShares": {
+      "presence": "PRESENT",
+      "value": 266193406.5934066
+    },
+    "blockingReason": "cashAndInvestments = sum([cashAndCashEquivalents, currentInvestments]); the issuer prints no current-investments line, so the cash side carries nothing and netDebt cannot be formed. grossDebt is unaffected: all four debt components carry a printed number.",
+    "associatesJVReview": "REVIEW_DUE (clock 2026-03-31, due 2026-09-27)"
+  },
+  "valuation": {
+    "sector": "Industrials",
+    "policyVersion": "valuation-policy/1.0.0",
+    "methodSelection": [
+      {
+        "methodId": "DCF_FCFF",
+        "applicable": true,
+        "notApplicableReason": null,
+        "output": {
+          "basis": "FCFF base 9184155840, WACC 10.68%, g 4.00%, 5y horizon",
+          "perShareHigh": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "value": null
+          },
+          "perShareLow": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "value": null
+          },
+          "perShareMid": {
+            "note": "enterprise-to-equity conversion blocked by netDebt",
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "value": null
+          }
+        }
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "applicable": false,
+        "notApplicableReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+        "output": null
+      },
+      {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "notApplicableReason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL",
+        "output": null
+      }
+    ],
+    "peRelative": "not declared for Industrials: no P/E band can be produced without changing valuation policy",
+    "dcf": {
+      "applicable": true,
+      "assumptions": {
+        "wacc": {
+          "basis": "POLICY_DEFAULT",
+          "components": {
+            "beta": 1,
+            "costOfDebtPostTax": 0.06659870000000001,
+            "costOfEquity": 0.124,
+            "equityRiskPremium": 0.055,
+            "riskFree": 0.069,
+            "weightDebt": 0.3,
+            "weightEquity": 0.7
+          },
+          "value": 0.10677961
+        },
+        "terminalGrowth": 0.04,
+        "horizon": 5
+      },
+      "outputPerShare": "NOT_COMPUTABLE \u2014 'enterprise-to-equity conversion blocked by netDebt'"
+    },
+    "evEbitda": {
+      "applicable": false,
+      "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+    },
+    "evRevenue": {
+      "applicable": false,
+      "reason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+    },
+    "intrinsic": null,
+    "marginOfSafety": {
+      "band": null,
+      "bandPolicyVersion": "mos-policy/1.0.0",
+      "mosVsLow": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "mosVsMid": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "price": {
+        "presence": "MISSING",
+        "reason": "PRICE_UNAVAILABLE",
+        "value": null
+      },
+      "priceAsOf": null,
+      "refusal": "NO_PRICE_OBSERVATION"
+    },
+    "statement": "No intrinsic value and no margin of safety were produced. The enterprise value arithmetic ran; the conversion to equity did not, because the cash side of the bridge is unavailable. No per-share number from this run is published as a valuation.",
+    "payloadBehavioursNotFixed": [
+      {
+        "id": "L-040/a",
+        "what": "the sensitivity grid substitutes 0 for netDebt, minorityInterest, preferenceCapital and associatesAndJV (?? operators in intrinsic.ts) and therefore prints 488.34 at its base point",
+        "why": "a reader would take it for an intrinsic value; it is enterprise value / diluted shares with the bridge terms zeroed",
+        "action": "recorded; the number is not used in this work item's conclusions and is not repaired here"
+      },
+      {
+        "id": "L-040/b",
+        "what": "evidence EV-DCF_FCFF claims 'DCF_FCFF produced a per-share value from 3 present input(s)' and supports valuation.methods[0].output.perShareMid, which is NOT_COMPUTABLE",
+        "why": "the claim outruns the payload",
+        "action": "recorded; no message or grammar change in this work item"
+      }
+    ]
+  },
+  "confidence": {
+    "combined": 0.3199,
+    "dataConfidence": 0.7,
+    "modelConfidence": 0.0833,
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "POLICY_DEFAULT_WACC"
+    ],
+    "assumptionCaps": [
+      {
+        "category": "DISCOUNT_RATE",
+        "penaltyRate": 0.2
+      }
+    ],
+    "formula": "0.6 x 0.70 + 0.4 x 0.0833, then x0.9 (STALE_DATA) x0.98 (DILUTION_PROXY) x0.8 (R-4.3 policy-default WACC), rounded to 4 dp"
+  },
+  "quality": {
+    "flags": [
+      {
+        "code": "CASH_FLOW_EARNINGS_DIVERGENCE",
+        "evidence": "operating cash flow is -68% of attributable profit",
+        "severity": "HIGH"
+      },
+      {
+        "code": "STALE_STATEMENTS",
+        "evidence": "the latest period end is beyond the freshness policy window",
+        "severity": "HIGH"
+      }
+    ],
+    "verdict": "MATERIAL_CONCERNS"
+  },
+  "risk": {
+    "completeness": "PARTIAL",
+    "counts": {
+      "applicable": 4,
+      "concerns": 2,
+      "evaluated": 3,
+      "notApplicable": 1,
+      "notEvaluable": 1,
+      "passed": 1
+    },
+    "dimensions": [
+      {
+        "category": "FINANCIAL",
+        "dimensionId": "FINANCIAL_LEVERAGE",
+        "factorId": null,
+        "measurement": {
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "value": null
+        },
+        "statement": "Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt.",
+        "status": "NOT_EVALUABLE",
+        "threshold": "concern at net debt / EBITDA \u2265 3.00\u00d7",
+        "unavailableInputs": [
+          "fundamentals.capitalStructure.netDebt"
+        ]
+      },
+      {
+        "category": "EARNINGS_QUALITY",
+        "dimensionId": "EARNINGS_QUALITY_CASH_CONVERSION",
+        "factorId": "RISK-EARNINGS-QUALITY-CASH-CONVERSION",
+        "measurement": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "risk-taxonomy/1.1.0"
+          },
+          "value": -0.6838289932132301
+        },
+        "statement": "Operating cash flow covers only -68% of reported profit, so earnings are not converting to cash.",
+        "status": "CONCERN",
+        "threshold": "concern below 80% operating cash flow / net profit (severity 4 below 50%)",
+        "unavailableInputs": []
+      },
+      {
+        "category": "CAPITAL_ALLOCATION",
+        "dimensionId": "CAPITAL_ALLOCATION_CAPEX_INTENSITY",
+        "factorId": null,
+        "measurement": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "risk-taxonomy/1.1.0"
+          },
+          "value": 0.013983086540449613
+        },
+        "statement": "Capital expenditure is 1% of revenue, at or below the 20% policy ceiling.",
+        "status": "PASSED",
+        "threshold": "concern above 20% capital expenditure / revenue (severity 4 above 35%)",
+        "unavailableInputs": []
+      },
+      {
+        "category": "REGULATORY_LEGAL",
+        "dimensionId": "REGULATORY_FRAMEWORK",
+        "factorId": null,
+        "measurement": null,
+        "statement": "Industrials is not a regulated sector, so the regulatory-framework prior does not apply.",
+        "status": "NOT_APPLICABLE",
+        "threshold": "standing concern for a regulated sector",
+        "unavailableInputs": []
+      },
+      {
+        "category": "CYCLICALITY",
+        "dimensionId": "CYCLICALITY",
+        "factorId": "RISK-CYCLICALITY-SECTOR",
+        "measurement": null,
+        "statement": "Industrials demand is cyclical, so a single year's margin is not a sustainable earnings base.",
+        "status": "CONCERN",
+        "threshold": "standing concern for a cyclical sector",
+        "unavailableInputs": []
+      }
+    ],
+    "disposition": "CONCERNS",
+    "note": "3 of 4 applicable risk dimensions were evaluated and 1 could not be. 2 raised a concern; the evaluation is partial, so the absence of a factor elsewhere is not a pass."
+  },
+  "dividends": {
+    "consecutiveYearsPaid": 3,
+    "fcfCoverage": -5.074463724552534,
+    "payoutRatio": 0.24171469145791707,
+    "netDebtToEbitda": "NOT_COMPUTABLE: NOT_REPORTED",
+    "reconciliation": "NOT_COMPARABLE (schema V1 carries no dividend-declaration record)"
+  },
+  "moat": "INSUFFICIENT_EVIDENCE",
+  "persistence": {
+    "scope": "co:IN:CIN:L45200MH2005PLC152061",
+    "reportId": "85809cbd-895e-4c9e-b2fc-580fc53fb1c2",
+    "artifactVersion": 1,
+    "reportKey": "15b68ca53f900918b1953f53119ac90f1b9ec4b30fc325a4b4d259b71991712e",
+    "inputDigest": "sha256:513993f2eb1de1ab2bf67d17a8e96fc062a971f484d594f4fab54a4e29cdf22b",
+    "payloadDigest": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+    "payloadDigestRecomputed": "sha256:4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+    "digestMatch": true,
+    "chainHeadDigest": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+    "chainLength": 1,
+    "payloadBytes": 52357,
+    "separateProcess": true,
+    "idempotentSecondRun": "compare: content and input identical -> persist: UNCHANGED (no write)"
+  },
+  "register": {
+    "section": "17.16",
+    "opened": [
+      "L-039",
+      "L-040"
+    ],
+    "L-038": "OPEN (unchanged; the debt half did not bite here because Note 30 prints the current maturities)",
+    "L-039": "OPEN (new) \u2014 the bridge's cash half requires a CURRENT_INVESTMENTS line a balance sheet need not print",
+    "L-040": "OPEN (new) \u2014 the sensitivity grid and the DCF evidence claim substitute zero for unavailable bridge terms",
+    "L-036": "PARTIALLY RESOLVED (unchanged; REVIEW_DUE fires again)",
+    "L-035": "OPEN (unchanged)",
+    "L-037": "OPEN (unchanged)",
+    "L-001": "UNCHANGED (dataset-scoped coverage fact)"
+  },
+  "boundary": "WI-8 extends the programme's fourth shape of D-2 discipline: a filing that is fully read, fully audited and perfectly legible can supply every component the debt side needs and still fail the cash side \u2014 and the correct answer is a published refusal plus a named blocking component, not a substituted zero."
+}

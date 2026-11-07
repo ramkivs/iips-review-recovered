@@ -9,6 +9,7 @@
 import type { NumericObservation } from '../contracts/observation';
 import { notComputable, present } from '../contracts/observation';
 import type { MethodId } from '../coverage/methodMatrix';
+import { equityValueFromEnterprise, perShare } from './capitalStructure';
 import { blendWeights } from './policy';
 import { discountedCashFlow, type MethodContext } from './methods';
 import type {
@@ -101,6 +102,15 @@ export const SENSITIVITY_OFFSETS_BPS: readonly number[] = Object.freeze([-100, 0
  * Monotonicity is a property of the arithmetic, not an assertion in prose: value falls as WACC rises and
  * rises as terminal growth rises across the declared domain, which the acceptance test checks point by
  * point. Points outside the domain (WACC ≤ g) are `null` — a refused cell, never a clamped number.
+ *
+ * **The enterprise-to-equity step runs through the governed conversion, not a lookalike** (`L-040`). A grid
+ * computed as `(EV − netDebt − minority − preference + associates) / shares` with `?? 0` on each term reads
+ * an unavailable input as a nil: on an issuer whose net debt is `NOT_REPORTED` that publishes a per-share
+ * number that no filing supports. The conversion therefore goes through `equityValueFromEnterprise()` and
+ * `perShare()`, the same two functions the method's own per-share leg uses, so the grid can only produce a
+ * per-share cell where the method itself could. When the conversion refuses, every `value` is `null`, the
+ * grid carries `presence: NOT_COMPUTABLE` with the blocking reason and component, and the enterprise values
+ * stay published as diagnostic arithmetic that is explicitly not a valuation.
  */
 export function buildSensitivity(context: MethodContext): readonly SensitivityGrid[] {
   // The grid is evidence about the DCF arithmetic. When the sector excludes the DCF, or the arithmetic cannot
@@ -108,43 +118,59 @@ export function buildSensitivity(context: MethodContext): readonly SensitivityGr
   if (discountedCashFlow(context, context.wacc, context.growth) === null) return [];
   const baseWaccBps = Math.round(context.wacc * 10_000);
   const baseGrowthBps = Math.round(context.growth * 10_000);
+  // The numerator period the per-share guard compares against `shareCountPeriod` is the newest annual period,
+  // exactly as the method's own per-share leg takes it.
+  const numeratorPeriodEnd = context.series.annual[0]?.periodEnd ?? null;
+  let withheld: { reason: string; note: string | null } | null = null;
   const points: SensitivityPoint[] = [];
   for (const waccOffset of SENSITIVITY_OFFSETS_BPS) {
     for (const growthOffset of SENSITIVITY_OFFSETS_BPS) {
       const waccBps = baseWaccBps + waccOffset;
       const growthBps = baseGrowthBps + growthOffset;
       const enterpriseValue = discountedCashFlow(context, waccBps / 10_000, growthBps / 10_000);
-      const value =
-        enterpriseValue === null ||
-        context.structure.dilutedShares.presence !== 'PRESENT' ||
-        context.structure.dilutedShares.value === null ||
-        context.structure.dilutedShares.value <= 0
-          ? null
-          : {
-              ev: enterpriseValue,
-              shares: context.structure.dilutedShares.value,
-            };
-      points.push({
-        waccBps,
-        growthBps,
-        value:
-          value === null
-            ? null
-            : (value.ev -
-                (context.structure.netDebt.value ?? 0) -
-                (context.structure.minorityInterest.value ?? 0) -
-                (context.structure.preferenceCapital.value ?? 0) +
-                (context.structure.associatesAndJV.value ?? 0)) /
-              value.shares,
-      });
+      if (enterpriseValue === null) {
+        // Out of domain (WACC ≤ terminal growth): the arithmetic refuses the cell, so there is no EV to publish.
+        points.push({ waccBps, growthBps, value: null });
+        continue;
+      }
+      const converted = perShare(
+        equityValueFromEnterprise(present(enterpriseValue, DERIVED, { basis: 'DERIVED' }), context.structure),
+        context.structure,
+        numeratorPeriodEnd,
+      );
+      if (converted.presence !== 'PRESENT' || converted.value === null) {
+        // No information about an input the conversion needs. The cell keeps its enterprise value as
+        // diagnostic arithmetic and publishes NO per-share value; nothing is substituted with a zero.
+        withheld ??= { reason: converted.reason ?? 'POLICY_INPUTS_UNAVAILABLE', note: converted.note ?? null };
+        points.push({ waccBps, growthBps, value: null, enterpriseValue });
+        continue;
+      }
+      points.push({ waccBps, growthBps, value: converted.value });
     }
   }
+  const refused: { reason: string; note: string | null } | null = withheld;
+  // The EV column exists only on a withheld grid, where it is the arithmetic that did run; on a healthy grid the
+  // payload is unchanged, so every previously committed payload digest still reproduces. On a withheld grid every
+  // cell carries the column explicitly — the enterprise value where the arithmetic ran, `null` where the cell is
+  // out of domain — so the shape depends on the grid, never on the order the cells were computed in.
+  const published =
+    refused === null
+      ? points.map((point) => ({ waccBps: point.waccBps, growthBps: point.growthBps, value: point.value }))
+      : points.map((point) => ({
+          waccBps: point.waccBps,
+          growthBps: point.growthBps,
+          value: point.value,
+          enterpriseValue: point.enterpriseValue ?? null,
+        }));
   return [
     {
       methodId: 'DCF_FCFF',
       baseWaccBps,
       baseGrowthBps,
-      points,
+      ...(refused === null
+        ? {}
+        : { withheld: { presence: 'NOT_COMPUTABLE' as const, reason: refused.reason, note: refused.note } }),
+      points: published,
     },
   ];
 }

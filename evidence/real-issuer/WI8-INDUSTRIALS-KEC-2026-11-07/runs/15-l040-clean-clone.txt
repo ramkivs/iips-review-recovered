@@ -1,0 +1,49 @@
+## clean clone of branch arena/60fea33a-iips-review-recovered at c8e08b66bf67ccf7b25d76c17c4433ef406e4e62
+## remote: https://github.com/ramkivs/iips-review-recovered.git
+
+## npm ci in iips-platform
+added 6 packages in 566ms
+
+## manifest re-hash of evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/digests.json
+digested files 53  mismatches []
+artifact/assessment-payload-kec-wi8.json  sha256 4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351
+artifact/assessment-payload-kec-wi8-l040-corrected.json  sha256 fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370
+
+## the earlier real-issuer bundles still verify
+WI7-CONSUMER-MARICO-2026-11-07: 30 files, mismatches []
+WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07: 29 files, mismatches []
+WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07: 7 files, mismatches []
+WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07: 8 files, mismatches []
+WI5-PREFERENCE-CAPITAL-2026-11-07: 24 files, mismatches []
+WI3-BORROWINGS-NIL-2026-11-06: 30 files, mismatches []
+
+## ingest in the clean clone reproduces the dataset version
+datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab
+  Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+
+## typecheck: npx tsc --noEmit -p tsconfig.json
+tsc exit 0, no diagnostics
+
+## investment-platform tests: npx tsx --test tests/investment/*.test.ts
+# tests 636
+# suites 148
+# pass 636
+# fail 0
+
+## the corrected payload regenerated in the clean clone (frontend npm ci: added 190 packages in 31s)
+OK      snapshot     datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab
+OK      identity     RESOLVED via ISIN
+OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3199
+OK      compose      reportKey 15b68ca53f90… payloadDigest fc50c53e0881…
+OK      validate     scope co:IN:CIN:L45200MH2005PLC152061 (ISSUER)
+OK      chain-head   no chain for this scope yet
+SKIPPED compare      no head to compare against
+OK      persist      CREATED (wrote)
+OK      verify       chain valid: 1 version(s), head v1
+payloadDigest fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370
+committed     fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370
+match True
+datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab
+reportKey 15b68ca53f900918b1953f53119ac90f1b9ec4b30fc325a4b4d259b71991712e
+inputDigest sha256:513993f2eb1de1ab2bf67d17a8e96fc062a971f484d594f4fab54a4e29cdf22b
+failure None

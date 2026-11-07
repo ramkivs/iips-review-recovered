@@ -1,0 +1,500 @@
+{
+  "digests": {
+    "datasetVersion": "sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab",
+    "payloadDigest": "sha256:4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+    "inputDigest": "sha256:513993f2eb1de1ab2bf67d17a8e96fc062a971f484d594f4fab54a4e29cdf22b",
+    "reportId": "85809cbd-895e-4c9e-b2fc-580fc53fb1c2",
+    "reportKey": "15b68ca53f900918b1953f53119ac90f1b9ec4b30fc325a4b4d259b71991712e"
+  },
+  "capitalStructure": {
+    "netDebt": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "grossDebt": {
+      "presence": "PRESENT",
+      "value": 53777600000
+    },
+    "cashAndInvestments": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "leaseLiabilities": {
+      "presence": "PRESENT",
+      "value": 2745299999.9999995
+    },
+    "leaseTreatment": "IND_AS_116_CAPITALISED",
+    "minorityInterest": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "preferenceCapital": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "dilutedShares": {
+      "presence": "PRESENT",
+      "value": 266193406.5934066
+    },
+    "shareCountBasis": "REPORTED_EPS"
+  },
+  "components": {
+    "associatesAndJV": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "cashAndCashEquivalents": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 4112600000
+    },
+    "currentInvestments": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "currentMaturities": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 2356000000
+    },
+    "leaseLiabilities": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 2745299999.9999995
+    },
+    "longTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 6613700000
+    },
+    "nonControllingInterest": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "preferenceCapital": {
+      "presence": "MISSING",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "restrictedCash": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "shortTermBorrowings": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 42062600000
+    }
+  },
+  "methods": [
+    {
+      "methodId": "DCF_FCFF",
+      "applicable": true,
+      "notApplicableReason": null,
+      "output": {
+        "basis": "FCFF base 9184155840, WACC 10.68%, g 4.00%, 5y horizon",
+        "perShareHigh": {
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "value": null
+        },
+        "perShareLow": {
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "value": null
+        },
+        "perShareMid": {
+          "note": "enterprise-to-equity conversion blocked by netDebt",
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "value": null
+        }
+      }
+    },
+    {
+      "methodId": "EV_EBITDA",
+      "applicable": false,
+      "notApplicableReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+      "output": null
+    },
+    {
+      "methodId": "EV_REVENUE",
+      "applicable": false,
+      "notApplicableReason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL",
+      "output": null
+    }
+  ],
+  "methodSelection": {
+    "considered": [
+      {
+        "methodId": "DCF_FCFF",
+        "reason": "Free cash flow to firm",
+        "role": "PRIMARY"
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "reason": "EV/EBITDA",
+        "role": "SECONDARY"
+      },
+      {
+        "methodId": "EV_REVENUE",
+        "reason": "Revenue multiple qualified by order momentum",
+        "role": "CROSS_CHECK"
+      }
+    ],
+    "policyVersion": "valuation-policy/1.0.0",
+    "sector": "Industrials"
+  },
+  "intrinsic": null,
+  "mos": {
+    "band": null,
+    "bandPolicyVersion": "mos-policy/1.0.0",
+    "mosVsLow": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "POLICY_INPUTS_UNAVAILABLE",
+      "value": null
+    },
+    "mosVsMid": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "POLICY_INPUTS_UNAVAILABLE",
+      "value": null
+    },
+    "price": {
+      "presence": "MISSING",
+      "reason": "PRICE_UNAVAILABLE",
+      "value": null
+    },
+    "priceAsOf": null,
+    "refusal": "NO_PRICE_OBSERVATION"
+  },
+  "sensitivityBase": {
+    "waccBps": 1068,
+    "growthBps": 400,
+    "points": 9,
+    "valueAtBase": [
+      488.3402340852422
+    ]
+  },
+  "quality": {
+    "flags": [
+      {
+        "code": "CASH_FLOW_EARNINGS_DIVERGENCE",
+        "evidence": "operating cash flow is -68% of attributable profit",
+        "severity": "HIGH"
+      },
+      {
+        "code": "STALE_STATEMENTS",
+        "evidence": "the latest period end is beyond the freshness policy window",
+        "severity": "HIGH"
+      }
+    ],
+    "verdict": "MATERIAL_CONCERNS"
+  },
+  "completeness": {
+    "adequacy": "SUFFICIENT",
+    "adequacyBasis": [
+      "FIELD_COVERAGE_AT_OR_ABOVE_SUFFICIENT_THRESHOLD"
+    ],
+    "missingFields": [],
+    "requiredFieldCoveragePct": 1,
+    "statementCoverage": {
+      "balanceSheet": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "value": 0.8095238095238095
+      },
+      "cashFlow": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "value": 0.8888888888888888
+      },
+      "pnl": {
+        "basis": "DERIVED",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "adequacy/1.0.0"
+        },
+        "value": 0.6818181818181818
+      }
+    }
+  },
+  "confidence": {
+    "assumptionCaps": [
+      {
+        "applied": true,
+        "basis": "POLICY_DEFAULT",
+        "cap": "POLICY_DEFAULT_WACC",
+        "category": "DISCOUNT_RATE",
+        "factor": null,
+        "penaltyRate": 0.2,
+        "reason": null,
+        "triggers": [
+          {
+            "assumption": "discountRate",
+            "methodId": "DCF_FCFF"
+          }
+        ]
+      }
+    ],
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "POLICY_DEFAULT_WACC"
+    ],
+    "combined": 0.3199,
+    "dataConfidence": 0.7,
+    "formula": "combined = 0.6 \u00d7 dataConfidence + 0.4 \u00d7 modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_WACC 0.2) and are capped at one aggregate reduction of 0.35 \u2014 applied once here, 0.2, so \u00d70.8, with no minimum-confidence floor",
+    "modelConfidence": 0.0833
+  },
+  "assumptions": {
+    "wacc": {
+      "basis": "POLICY_DEFAULT",
+      "components": {
+        "beta": 1,
+        "costOfDebtPostTax": 0.06659870000000001,
+        "costOfEquity": 0.124,
+        "equityRiskPremium": 0.055,
+        "riskFree": 0.069,
+        "weightDebt": 0.3,
+        "weightEquity": 0.7
+      },
+      "value": 0.10677961
+    },
+    "terminalGrowth": 0.04,
+    "horizon": 5
+  },
+  "riskEvaluation": {
+    "completeness": "PARTIAL",
+    "counts": {
+      "applicable": 4,
+      "concerns": 2,
+      "evaluated": 3,
+      "notApplicable": 1,
+      "notEvaluable": 1,
+      "passed": 1
+    },
+    "dimensions": [
+      {
+        "category": "FINANCIAL",
+        "dimensionId": "FINANCIAL_LEVERAGE",
+        "factorId": null,
+        "measurement": {
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "value": null
+        },
+        "statement": "Not evaluated: NOT_REPORTED for fundamentals.capitalStructure.netDebt.",
+        "status": "NOT_EVALUABLE",
+        "threshold": "concern at net debt / EBITDA \u2265 3.00\u00d7",
+        "unavailableInputs": [
+          "fundamentals.capitalStructure.netDebt"
+        ]
+      },
+      {
+        "category": "EARNINGS_QUALITY",
+        "dimensionId": "EARNINGS_QUALITY_CASH_CONVERSION",
+        "factorId": "RISK-EARNINGS-QUALITY-CASH-CONVERSION",
+        "measurement": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "risk-taxonomy/1.1.0"
+          },
+          "value": -0.6838289932132301
+        },
+        "statement": "Operating cash flow covers only -68% of reported profit, so earnings are not converting to cash.",
+        "status": "CONCERN",
+        "threshold": "concern below 80% operating cash flow / net profit (severity 4 below 50%)",
+        "unavailableInputs": []
+      },
+      {
+        "category": "CAPITAL_ALLOCATION",
+        "dimensionId": "CAPITAL_ALLOCATION_CAPEX_INTENSITY",
+        "factorId": null,
+        "measurement": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "risk-taxonomy/1.1.0"
+          },
+          "value": 0.013983086540449613
+        },
+        "statement": "Capital expenditure is 1% of revenue, at or below the 20% policy ceiling.",
+        "status": "PASSED",
+        "threshold": "concern above 20% capital expenditure / revenue (severity 4 above 35%)",
+        "unavailableInputs": []
+      },
+      {
+        "category": "REGULATORY_LEGAL",
+        "dimensionId": "REGULATORY_FRAMEWORK",
+        "factorId": null,
+        "measurement": null,
+        "statement": "Industrials is not a regulated sector, so the regulatory-framework prior does not apply.",
+        "status": "NOT_APPLICABLE",
+        "threshold": "standing concern for a regulated sector",
+        "unavailableInputs": []
+      },
+      {
+        "category": "CYCLICALITY",
+        "dimensionId": "CYCLICALITY",
+        "factorId": "RISK-CYCLICALITY-SECTOR",
+        "measurement": null,
+        "statement": "Industrials demand is cyclical, so a single year's margin is not a sustainable earnings base.",
+        "status": "CONCERN",
+        "threshold": "standing concern for a cyclical sector",
+        "unavailableInputs": []
+      }
+    ],
+    "disposition": "CONCERNS",
+    "note": "3 of 4 applicable risk dimensions were evaluated and 1 could not be. 2 raised a concern; the evaluation is partial, so the absence of a factor elsewhere is not a pass."
+  },
+  "dividends": {
+    "consecutiveYearsPaid": 3,
+    "fcfCoverage": {
+      "basis": "DERIVED",
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      },
+      "value": -5.074463724552534
+    },
+    "netDebtToEbitda": {
+      "presence": "NOT_COMPUTABLE",
+      "reason": "NOT_REPORTED",
+      "value": null
+    },
+    "payoutRatio": {
+      "basis": "DERIVED",
+      "presence": "PRESENT",
+      "source": {
+        "kind": "DERIVED",
+        "ref": "dividend-sustainability/1.0.0"
+      },
+      "value": 0.24171469145791707
+    },
+    "conflict": null,
+    "reconciliation": {
+      "deltaPct": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "POLICY_INPUTS_UNAVAILABLE",
+        "value": null
+      },
+      "dpsDeclared": {
+        "note": "dataset schema v1 carries no dividend declaration record; supply one to corroborate the cash-flow figure",
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null
+      },
+      "dpsImplied": {
+        "basis": "DERIVED",
+        "periodEnd": "2026-03-31",
+        "presence": "PRESENT",
+        "source": {
+          "kind": "DERIVED",
+          "ref": "dividend-sustainability/1.0.0"
+        },
+        "value": 5.499009230667614
+      },
+      "reason": "NO_DECLARATION_RECORD: no dividend declaration is available, so the two sources cannot be compared",
+      "status": "NOT_COMPARABLE"
+    }
+  },
+  "moat": {
+    "classification": "INSUFFICIENT_EVIDENCE",
+    "evidence": [
+      {
+        "dimension": "COST_POSITION",
+        "direction": "ABOVE",
+        "evidenceId": "MOAT-COST-POSITION-EBITDA-MARGIN",
+        "metric": "ebitdaMarginStability",
+        "observed": {
+          "basis": "DERIVED",
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "moat/1.0.0"
+          },
+          "value": 0.07020132275199804
+        },
+        "periods": [
+          "2026-03-31",
+          "2025-03-31",
+          "2024-03-31"
+        ],
+        "persists": false,
+        "threshold": 0.15
+      }
+    ],
+    "roicWaccSpread": {
+      "consecutiveYearsPositive": 0,
+      "spread": {
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED",
+        "value": null
+      }
+    },
+    "withheld": {
+      "unmetInputs": [
+        "ROIC_SPREAD_UNAVAILABLE"
+      ]
+    }
+  },
+  "evidence": [
+    {
+      "evidenceId": "EV-DCF_FCFF",
+      "claim": "DCF_FCFF produced a per-share value from 3 present input(s)",
+      "supports": [
+        "valuation.methods[0].output.perShareMid"
+      ]
+    },
+    {
+      "evidenceId": "MOAT-COST-POSITION-EBITDA-MARGIN",
+      "claim": "moat dimension evidenced above its policy threshold",
+      "supports": [
+        "moat.classification"
+      ]
+    },
+    {
+      "evidenceId": "EV-DIVIDEND-RECONCILIATION",
+      "claim": "dividend sources reconciled with status NOT_COMPARABLE",
+      "supports": [
+        "dividends.reconciliation.status"
+      ]
+    }
+  ],
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Net debt could not be derived (NOT_REPORTED), so every enterprise-value method is withheld rather than run on a partial bridge.",
+    "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+    "R-4.3's policy-default penalty is applied: the valuation leans on 1 distinct assumption category(ies) (POLICY_DEFAULT_WACC 0.2) triggered by DCF_FCFF/discountRate. The reductions are additive and capped once at 0.35, so the published confidence carries a 0.2 reduction (\u00d70.8); multiple methods sharing one assumption category carry one penalty, and no minimum-confidence floor exists.",
+    "Associates/JV review required (REVIEW_DUE): The associates/JV carrying value has been unavailable since the evidence date 2026-03-31, and the 180-day treatment review fell due on 2026-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence. A review flag is not a carrying value: no figure has been established, no unavailable input has been converted into a nil, and the flag changes no valuation output.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ]
+}

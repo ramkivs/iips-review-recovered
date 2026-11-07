@@ -1,0 +1,86 @@
+{
+  "status": "OK",
+  "scope": "co:IN:CIN:L45200MH2005PLC152061",
+  "reportId": "85809cbd-895e-4c9e-b2fc-580fc53fb1c2",
+  "artifactVersion": 1,
+  "reportKey": "15b68ca53f900918b1953f53119ac90f1b9ec4b30fc325a4b4d259b71991712e",
+  "payloadDigestStored": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+  "payloadDigestRecomputed": "sha256:4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+  "digestMatch": true,
+  "chainHeadDigest": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+  "chainLength": 1,
+  "payloadBytes": 52357,
+  "payloadKeys": [
+    "artifact",
+    "asOf",
+    "assumptions",
+    "completeness",
+    "confidence",
+    "data",
+    "disclosure",
+    "dividends",
+    "evidence",
+    "fundamentals",
+    "limitations",
+    "moat",
+    "quality",
+    "risk",
+    "schemaVersion",
+    "sectorReferenceView",
+    "subject",
+    "valuation"
+  ],
+  "confidence": {
+    "assumptionCaps": [
+      {
+        "applied": true,
+        "basis": "POLICY_DEFAULT",
+        "cap": "POLICY_DEFAULT_WACC",
+        "category": "DISCOUNT_RATE",
+        "factor": null,
+        "penaltyRate": 0.2,
+        "reason": null,
+        "triggers": [
+          {
+            "assumption": "discountRate",
+            "methodId": "DCF_FCFF"
+          }
+        ]
+      }
+    ],
+    "caps": [
+      "STALE_DATA",
+      "DILUTION_PROXY",
+      "POLICY_DEFAULT_WACC"
+    ],
+    "combined": 0.3199,
+    "dataConfidence": 0.7,
+    "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_WACC 0.2) and are capped at one aggregate reduction of 0.35 — applied once here, 0.2, so ×0.8, with no minimum-confidence floor",
+    "modelConfidence": 0.0833
+  },
+  "quality": {
+    "flags": [
+      {
+        "code": "CASH_FLOW_EARNINGS_DIVERGENCE",
+        "evidence": "operating cash flow is -68% of attributable profit",
+        "severity": "HIGH"
+      },
+      {
+        "code": "STALE_STATEMENTS",
+        "evidence": "the latest period end is beyond the freshness policy window",
+        "severity": "HIGH"
+      }
+    ],
+    "verdict": "MATERIAL_CONCERNS"
+  },
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Net debt could not be derived (NOT_REPORTED), so every enterprise-value method is withheld rather than run on a partial bridge.",
+    "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+    "R-4.3's policy-default penalty is applied: the valuation leans on 1 distinct assumption category(ies) (POLICY_DEFAULT_WACC 0.2) triggered by DCF_FCFF/discountRate. The reductions are additive and capped once at 0.35, so the published confidence carries a 0.2 reduction (×0.8); multiple methods sharing one assumption category carry one penalty, and no minimum-confidence floor exists.",
+    "Associates/JV review required (REVIEW_DUE): The associates/JV carrying value has been unavailable since the evidence date 2026-03-31, and the 180-day treatment review fell due on 2026-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence. A review flag is not a carrying value: no figure has been established, no unavailable input has been converted into a nil, and the flag changes no valuation output.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ]
+}

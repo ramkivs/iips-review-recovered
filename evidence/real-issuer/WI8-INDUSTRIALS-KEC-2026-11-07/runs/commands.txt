@@ -1,0 +1,96 @@
+WI-8 — exact command sequence that produced runs/01-ingest.txt … runs/04-payload-findings.json
+Ran 2026-11-07 from a clean workspace at branch arena/60fea33a-iips-review-recovered.
+
+## 0 — source bytes (fetched in CI because kecrpg.com is not reachable from the sandbox)
+
+    # throwaway workflow .github/workflows/temp-wi8-discover.yml (deleted before the PR) ran, on a GitHub-hosted runner:
+    curl -sS -o KEC_Annual_Report_2025-26.pdf https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf
+    curl -sS -o KEC_Annual_Report_2024-25.pdf https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf
+    # 18,566,481 bytes sha256 ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820 (215 pages)
+    # 14,873,309 bytes sha256 29dfdf83bd8e7915500a7fd9447a0782af651cc0f2ea43bd8e05ee9ea46ce1c6 (206 pages)
+    # KEC_Annual_Report_2023-24.pdf -> HTTP 404, recorded, not used
+    pdftotext -layout -f <page> -l <page> <report>.pdf -   # one call per page in source/page-map.json
+
+## 1 — ingest (schema-level: datasetVersion + sector coverage)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input ../evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input \
+      --dataset-dir /tmp/wi8/data/investment/dataset \
+      --now 2026-11-07T08:30:00.000Z
+    # -> runs/01-ingest.txt
+    # datasetVersion sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab
+    # Industrials G2_PARTIAL  usable 2  withheld 1  stmt 100%  metric 0%
+
+## 2 — identity sources the generator reads (same three files, copied verbatim)
+
+    mkdir -p /tmp/wi8/data/investment/identity
+    cp evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/*.json \
+       /tmp/wi8/data/investment/identity/
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/wi8/owner.json
+
+## 3 — generate -> assess -> compose -> validate -> persist -> verify
+
+    cd frontend
+    npm ci --no-audit --no-fund --strict-ssl=false    # 190 packages; the NP-04 second specifier
+                                                     # (github:ramkivs/iips-production-market-data#2e11fa3b…) must resolve
+    IIPS_NP04_DATABASE_PATH=/tmp/wi8/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer         IN:CIN:L45200MH2005PLC152061 \
+      --data-dir       /tmp/wi8/data/investment/dataset \
+      --identity-dir   /tmp/wi8/data/investment/identity \
+      --db             /tmp/wi8/data/investment/investment.db \
+      --owner-carrier  /tmp/wi8/owner.json \
+      --generated-at   2026-11-07T08:30:00.000Z \
+      --out            runs/cli-wi8.json
+
+    # OK      snapshot     datasetVersion sha256:0df73ead…
+    # OK      identity     RESOLVED via ISIN
+    # OK      assessment   SUFFICIENT / MATERIAL_CONCERNS / confidence 0.3199
+    # OK      compose      reportKey 15b68ca53f90… payloadDigest 4f89f0ec5148…
+    # OK      validate     scope co:IN:CIN:L45200MH2005PLC152061 (ISSUER)
+    # OK      chain-head   no chain for this scope yet
+    # SKIPPED compare      no head to compare against
+    # OK      persist      CREATED (wrote)
+    # OK      verify       chain valid: 1 version(s), head v1
+    # (stdout: runs/02-generate.txt)
+
+## 4 — the same run again: idempotency
+
+    IIPS_NP04_DATABASE_PATH=/tmp/wi8/data/investment/investment.db \
+    IIPS_REPORTS_OWNER_PATH=/tmp/wi8/owner.json \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts … --out runs/cli-wi8-unchanged.json
+    # OK      compare      content and input identical
+    # OK      persist      UNCHANGED (no write)
+    # OK      verify       chain valid: 1 version(s), head v1
+
+## 5 — the governed chain read in a separate process
+
+    IIPS_NP04_DATABASE_PATH=/tmp/wi8/data/investment/investment.db \
+    IIPS_REPORTS_OWNER_PATH=/tmp/wi8/owner.json \
+    npx tsx server/investment/cli/show-investment-chain.ts \
+      --issuer IN:CIN:L45200MH2005PLC152061 --db /tmp/wi8/data/investment/investment.db \
+      --owner-carrier /tmp/wi8/owner.json  > runs/03-chain-read.txt
+
+## 6 — payload re-read in a SEPARATE process
+
+Temporary `frontend/.tmp-wi8-readback.ts` (deleted after use):
+`loadAuthoritativeNp04Persistence` -> `createInvestmentArtifactService` -> `readChain` -> `readVersionWithPayload`,
+re-hashing the payload bytes with `createHash('sha256')` and comparing against the stored digest.
+
+    IIPS_NP04_DATABASE_PATH=/tmp/wi8/data/investment/investment.db \
+    npx tsx .tmp-wi8-readback.ts runs/readback.json artifact/assessment-payload-kec-wi8.json
+    # -> runs/readback.json, runs/readback-stdout.txt
+    # digestMatch true: stored 4f89f0ec… == recomputed sha256:4f89f0ec… == chain head; chainLength 1; 52,357 bytes
+
+## 7 — the payload blocks quoted in the record, extracted from the read-back payload
+
+    python3 …  > runs/04-payload-findings.json
+
+## 8 — verification (see runs/05-…, 06-…, 07-…, 08-…)
+
+    cd iips-platform
+    node --test --test-reporter=spec tests/investment/wi8IndustrialsKec.test.ts     > runs/05-guard-test.txt
+    npx tsc --noEmit -p tsconfig.json                                              > runs/06-typecheck.txt
+    # clean clone of the branch, ingest re-run, digests compared                    > runs/07-clean-clone.txt
+    # configured CI on the pushed branch                                           > runs/08-ci-check.txt

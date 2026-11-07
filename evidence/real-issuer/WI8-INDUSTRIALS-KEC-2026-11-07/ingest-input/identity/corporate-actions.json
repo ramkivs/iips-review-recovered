@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "IIPS_INVESTMENT_IDENTITY_V1",
+  "entries": [],
+  "rosterLabel": "No corporate action is claimed for this issuer in any ingested period",
+  "note": "The FY2025-26 statement of changes in equity records a share issue of 9,111,630 shares during FY2025 (QIP), and no split or bonus in any period ingested; per-share figures in the dataset are those the filings print for each year, so no restatement is required and no corporate action is asserted. This file is present because the generator requires the three identity sources together."
+}
