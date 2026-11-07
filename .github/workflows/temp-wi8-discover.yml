@@ -1,4 +1,4 @@
-name: TEMP WI-8 fetch (deleted before merge)
+name: TEMP WI-8 identity check (deleted before merge)
 on:
   push:
     branches:
@@ -8,34 +8,34 @@ on:
 permissions:
   contents: write
 jobs:
-  fetch:
+  identity:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: arena/60fea33a-iips-review-recovered
-      - name: per-column extraction of the cash-flow and borrowings pages
+      - name: exchange identifier check
         env:
           UA: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
         run: |
           set +e
-          D=evidence/real-issuer/_wi8-cols
+          D=evidence/real-issuer/_wi8-identity
           mkdir -p "$D"
-          if ! command -v pdftotext >/dev/null; then sudo apt-get update -qq; sudo apt-get install -y -qq poppler-utils; fi
-          K=https://www.kecrpg.com/public/media/annualReportMedia
-          curl -sSL --max-time 600 -A "$UA" -o /tmp/fy26.pdf "$K/KEC_Annual_Report_2025-26.pdf"
-          curl -sSL --max-time 600 -A "$UA" -o /tmp/fy25.pdf "$K/KEC_Annual_Report_2024-25.pdf"
-          pdfinfo /tmp/fy26.pdf | grep -E "Pages|Page size"
-          # extract each cited page as raw (content order) and as left/right column crops
-          for spec in "fy26:118:/tmp/fy26.pdf" "fy26:119:/tmp/fy26.pdf" "fy26:117:/tmp/fy26.pdf" "fy26:136:/tmp/fy26.pdf" "fy25:111:/tmp/fy25.pdf" "fy25:112:/tmp/fy25.pdf" "fy25:110:/tmp/fy25.pdf" "fy25:129:/tmp/fy25.pdf"; do
-            tag=${spec%%:*}; rest=${spec#*:}; pg=${rest%%:*}; pdf=${rest#*:}
-            pdftotext -raw -f $pg -l $pg "$pdf" "$D/${tag}-p${pg}-raw.txt"
-            pdftotext -layout -f $pg -l $pg -x 0 -y 0 -W 306 -H 792 "$pdf" "$D/${tag}-p${pg}-left.txt"
-            pdftotext -layout -f $pg -l $pg -x 306 -y 0 -W 306 -H 792 "$pdf" "$D/${tag}-p${pg}-right.txt"
-          done
-          ls -la "$D" | head -30
-          git config user.name "wi8-fetch"
-          git config user.email "wi8-fetch@users.noreply.github.com"
+          probe() {
+            slug="$1"; url="$2"
+            code=$(curl -sSL --max-time 60 -A "$UA" -H "Accept: text/html" -o "$D/$slug.html" -w '%{http_code}' "$url")
+            printf '%s\t%s\t%s\t%s\n' "$slug" "$code" "$(wc -c < "$D/$slug.html" 2>/dev/null)" "$url" >> "$D/status.tsv"
+            [ -s "$D/$slug.html" ] && { echo "### $slug http=$code url=$url"; grep -oiE "(KEC[^<>]{0,60}|532714|INE389H01022|KEC International[^<>]{0,40})" "$D/$slug.html" | sort -u | head -20; } >> "$D/evidence.txt"
+          }
+          probe bse-company "https://www.bseindia.com/stock-share-price/kec-international-ltd/kec/532714/"
+          probe bse-quote "https://www.bseindia.com/stock-share-price/kec-international-ltd/kec/532714"
+          probe nse-quote "https://www.nseindia.com/get-quotes/equity?symbol=KEC"
+          probe nse-home "https://www.nseindia.com/companies-listing/corporate-filings-annual-reports"
+          probe bse-ar-page "https://www.bseindia.com/corporates/ann.html?scrip=532714"
+          cat "$D/status.tsv"
+          head -60 "$D/evidence.txt"
+          git config user.name "wi8-identity"
+          git config user.email "wi8-identity@users.noreply.github.com"
           git add -A "$D"
-          git commit -m "WI-8: temp per-column extraction of cited pages (deleted before merge)" || echo "nothing to commit"
+          git commit -m "WI-8: temp exchange identifier check (deleted before merge)" || echo "nothing to commit"
           git push origin HEAD:arena/60fea33a-iips-review-recovered || echo "push failed"
