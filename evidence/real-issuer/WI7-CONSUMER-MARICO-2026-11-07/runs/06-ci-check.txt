@@ -13,3 +13,7 @@ Python compile · source/evidence/tracker validation	pass	36s	https://github.com
 # routing/classification suites, validate Revision 7 source, admitted IRR evidence and the tracker, fetch and
 # independently verify the pinned recovery-release assets, and run `git diff --check` over the pull-request diff.
 # No npm, frontend or IPD CI runs for these paths, and none is claimed.
+#
+# The check re-runs on every push. Observed results: run 42353056595 (job 128345111486) = success on the preceding
+# head; run 42353279839 (job 128345791007) = success on head d977cf8. The transcript above is the earlier observation;
+# the later one is quoted here so that no head is described by a run it does not own.

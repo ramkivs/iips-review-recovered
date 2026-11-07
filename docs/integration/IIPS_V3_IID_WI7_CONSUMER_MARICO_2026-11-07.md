@@ -267,7 +267,9 @@ were recorded in this register only; §16.273 therefore follows that pattern for
 reinterpreted) rather than reopening earlier entries.
 
 **CI.** One check is configured for the paths this pull request changes — the repository's own `CAP-03 Revision 7
-IRR-only static checks` (`Python compile · source/evidence/tracker validation`, run `42353056595`, job `128345111486`)
+IRR-only static checks` (`Python compile · source/evidence/tracker validation`). It has passed on every head pushed so far — run
+`42353056595` (job `128345111486`) on the preceding head, run `42353279839` (job `128345791007`) on head
+`d977cf8` — and re-runs on each further push
 — and it **passes** on the pull-request head; `runs/06-ci-check.txt` records what GitHub reported. No npm, frontend or
 IPD CI runs for these paths, and none is claimed. Making that check green required two content-neutral adjustments,
 both recorded rather than hidden: the extract file names carried a `-p1NN` token that the CAP-03 validator reads as a

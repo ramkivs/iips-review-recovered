@@ -132,8 +132,8 @@ guard files, **104 tests, 104 pass, 0 fail**. `runs/04-typecheck.txt`: `tsc --no
 digested files clean and recomputes the chain head.
 
 `runs/06-ci-check.txt`: **one** check is configured for the paths this pull request changes — the repository's own
-`CAP-03 Revision 7 IRR-only static checks`, job `Python compile · source/evidence/tracker validation`. It passes on the
-pull-request head. That check is Python-standard-library only: it compiles the CAP-03 validator, runs two routing
+`CAP-03 Revision 7 IRR-only static checks`, job `Python compile · source/evidence/tracker validation`. It has passed on
+every head pushed so far (runs `42353056595` and `42353279839`) and re-runs on each further push. That check is Python-standard-library only: it compiles the CAP-03 validator, runs two routing
 suites, validates Revision 7 source/evidence/tracker, verifies the pinned recovery-release assets and runs
 `git diff --check`. No npm, frontend or IPD CI runs for these paths.
 
