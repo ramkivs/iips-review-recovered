@@ -1,0 +1,22 @@
+# WI-6A-S2 — independent verification from a clean clone (2026-11-07)
+
+clone: git clone --branch arena/09e91125-iips-review-recovered --single-branch https://github.com/ramkivs/iips-review-recovered.git /tmp/s2v
+head:  9b0d88a WI-6A-S2: consolidated pages read — Note 27 nil established and ingested, lease liabilities read for three dates, debt computable, valuation still withheld
+note:  node_modules for iips-platform is symlinked from the working checkout; no source file is shared.
+
+## guard suites
+# tests 50
+# pass 50
+# fail 0
+
+## bundle digests
+WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07: 29 files, mismatches=0
+WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07: 6 files, mismatches=0
+WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07: 7 files, mismatches=0
+WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07: 8 files, mismatches=0
+WI5-PREFERENCE-CAPITAL-2026-11-07: 24 files, mismatches=0
+WI3-BORROWINGS-NIL-2026-11-06: 30 files, mismatches=0
+
+## register statuses as read from the clean clone
+17.14 sections: 1
+record section 10: 1
