@@ -1,7 +1,40 @@
 runner: Linux runnervmwuk1x 7.0.0-1019-azure #20-Ubuntu SMP PREEMPT Mon Oct 19 22:41:16 UTC 2026 x86_64 GNU/Linux
 pdftotext missing
-/home/runner/work/_temp/b9a98a56-e41b-4aa4-b608-85297ef46ae0.sh: line 11: /tmp/fy24.pdf: No such file or directory
-curl_rc=35 http=000 bytes=0
-no file
-/home/runner/work/_temp/b9a98a56-e41b-4aa4-b608-85297ef46ae0.sh: line 14: pdftotext: command not found
-p170_bytes=0
+Selecting previously unselected package poppler-data.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 213197 files and directories currently installed.)
+Preparing to unpack .../poppler-data_0.4.12-1build1_all.deb ...
+Unpacking poppler-data (0.4.12-1build1) ...
+Selecting previously unselected package libgpgmepp7:amd64.
+Preparing to unpack .../libgpgmepp7_2.0.0-2_amd64v3.deb ...
+Unpacking libgpgmepp7:amd64 (2.0.0-2) ...
+Selecting previously unselected package libpoppler156:amd64.
+Preparing to unpack .../libpoppler156_26.01.0-2ubuntu0.3_amd64v3.deb ...
+Unpacking libpoppler156:amd64 (26.01.0-2ubuntu0.3) ...
+Selecting previously unselected package poppler-utils.
+Preparing to unpack .../poppler-utils_26.01.0-2ubuntu0.3_amd64v3.deb ...
+Unpacking poppler-utils (26.01.0-2ubuntu0.3) ...
+Setting up libgpgmepp7:amd64 (2.0.0-2) ...
+Setting up poppler-data (0.4.12-1build1) ...
+Setting up libpoppler156:amd64 (26.01.0-2ubuntu0.3) ...
+Setting up poppler-utils (26.01.0-2ubuntu0.3) ...
+Processing triggers for libc-bin (2.43-2ubuntu2.4) ...
+Processing triggers for man-db (2.13.1-1build1) ...
+Not building database; man-db/auto-update is not 'true'.
+Processing triggers for fontconfig (2.17.1-3ubuntu1) ...
+
+Running kernel seems to be up-to-date.
+
+Restarting services...
+
+Service restarts being deferred:
+ systemctl restart hosted-compute-agent.service
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+/usr/bin/pdftotext
+curl_rc=0 http=200 bytes=21087675
+03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595  /tmp/fy24.pdf
+p170_bytes=20573
