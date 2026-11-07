@@ -135,6 +135,11 @@ jobs:
                      re.search(r'(?i)consolidated\s+statement\s+of\s+cash\s+flow', flat):
                       keep.add((key, page))
 
+          # pages carrying the phrase the search attributes to 'preference share' — kept so the claim about preference
+          # capital can be read rather than assumed
+          for key, page in [('fy24', 189), ('fy24', 233), ('fy24', 254), ('fy23', 146)]:
+              keep.add((key, page))
+
           for key, page in sorted(keep):
               pdf = docs[key][0]
               (out / 'pages' / f'{key}-p{page:03d}.txt').write_text(page_text(pdf, page), encoding='utf-8')
