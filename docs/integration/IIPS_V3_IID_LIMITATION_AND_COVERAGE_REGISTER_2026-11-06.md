@@ -1400,8 +1400,18 @@ recommendation; the payload still declares `decisionSupportOnly` and `noTradeExe
   the magnitude needs now exists and a V2 carrying value flows to the bridge — demonstrated at
   ₹1.6888/share per ₹1,000 crore, with the review control closing. What remains is **the issuer's figure**, which the
   committed filing evidence does not contain. No value was estimated and none is asserted here.
+- **Residue restated after WI-4 (2026-11-06, §17.8) — still `PARTIALLY RESOLVED`, now for a sharper reason:** the
+  carrying value was sought in the audited consolidated Ind AS statements for FY2024, FY2023 and FY2022 and **no
+  equity-accounted interest is recognised in any of them** — no separate balance-sheet caption (Ind AS 1.54(e)), no
+  share-of-associates line in profit or loss (Ind AS 1.82(c)), and Note 2.5 decomposing both investment captions
+  exhaustively into amortised cost / FVOCI / FVTPL while tying to the filed totals twice in every period. So the
+  remaining gap is not "a number nobody has found": there is no filed amount to ingest, and the bridge still applies a
+  policy zero that the payload does not state. Absence was **not** converted into a nil, no value was estimated, no
+  V2 observation was created, and the 180-day control remains `REVIEW_DUE` on the unchanged `2024-03-31` clock.
 - **Last status update:** 2026-11-06 (opened); 2026-11-06 (VII — disclosure-propagation defect corrected;
-  `PARTIALLY RESOLVED`, carrying value still unavailable).
+  `PARTIALLY RESOLVED`, carrying value still unavailable); 2026-11-06 (IX — V2 can hold the item; status unchanged);
+  2026-11-06 (WI-4 — issuer statements examined in full for three periods; no equity-accounted interest exists, nothing
+  ingested, status unchanged).
 
 ### 17.4 What §17 does not change
 
@@ -1605,3 +1615,83 @@ digest; every WI1/WI2/WI3 evidence file.
 Evidence: `docs/integration/IIPS_V3_IID_IX_AUTHORIZED_VALUATION_POLICY_2026-11-06.md`,
 `evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/` (regenerable, guarded by
 `iips-platform/tests/investment/ixAuthorizedPolicy.test.ts`).
+
+## 17.8 WI-4 — the associates/JV carrying value, sought in the audited statements and not found (2026-11-06; primary evidence, no ingestion)
+
+§17.3 left one sentence standing: the bridge substitutes zero for `associatesAndJV` because **the issuer's figure was
+never obtained**, and §17.7 gave the item a home (schema V2). WI-4 went and looked, in the issuer's own audited
+consolidated Ind AS statements, for FY2024, FY2023 and FY2022. It found nothing to report — and, more importantly, it
+found *why*: the Group recognises no equity-accounted interest in the periods examined. **No dataset was written, no
+observation was created and no nil was declared.**
+
+**Documents.** Two audited consolidated Ind AS filings cover the three periods, because each carries a full comparative
+column: `consol-fy24-annual-finstatement.pdf` (`INFY-INDAS-CONSOL-FY24`, FY2024 with FY2023 comparatives, statements
+dated 2024-04-18) and `consol-fy23-annual-finstatement.pdf` (`INFY-INDAS-CONSOL-FY23`, FY2023 with FY2022 comparatives,
+statements dated 2023-04-13). Both audited by Deloitte Haskins & Sells LLP, both in ₹ crore, both from the same issuer
+document family the Work Item 3 nil declarations already rest on, so the evidence chain stays on one basis. Read in
+full: both balance sheets, both profit-and-loss statements, Note 1.3 *basis of consolidation*, **Note 2.5 *Investments*
+and Note 2.5.1 *Details of investments* for all three periods**, and Notes 2.6, 2.7, 2.9, 2.10, 2.11 and 2.12 of the FY2024
+statement.
+
+**Three structural tests, all negative.** An equity-accounted interest cannot be recognised without leaving a mark in
+three places, and none of the three is marked.
+
+| Test | Requirement | Finding |
+|---|---|---|
+| Balance-sheet caption | Ind AS 1 para 54(e): *investments accounted for using the equity method* as a separate line item | **absent** in all three years; the only investment captions are the two `Investments` lines (non-current 11,708 / 12,569 / 13,651; current 12,915 / 6,909 / 6,673), both cross-referenced to Note 2.5 |
+| Note decomposition | the note must reconcile the captions it serves | **reconciles twice, to the rupee, in every period** — captions: 11,708 + 12,915 = 24,623 · 12,569 + 6,909 = 19,478 · 13,651 + 6,673 = 20,324; measurement categories: 1,759 + 19,620 + 3,244 = 24,623 · 1,920 + 16,012 + 1,546 = 19,478 · 2,122 + 16,007 + 2,195 = 20,324. An exhaustive Ind AS 109 decomposition that ties both ways leaves no room for an unreported fifth component |
+| Profit and loss | Ind AS 1 para 82(c) / Ind AS 28: separate *share of profit or loss* and *share of OCI* of associates and joint ventures | **absent** in all three years; the OCI section's five lines are defined-benefit remeasurement, equity instruments at OCI, cash-flow hedges, translation differences and fair-value changes on investments |
+
+Corroborating: Note 1.3 describes consolidation of *the Company, its controlled trusts and its subsidiaries*, line by
+line with intra-group elimination, and points to Note 2.25 for the entity list — no associate, no joint venture, no
+equity method.
+
+**The figures that look like the answer, and are not.** Every one of these is audited and quotable, which is exactly
+why the entry needs them named and refused rather than passed over:
+
+| Candidate | ₹ crore | Why it cannot populate `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` |
+|---|---|---|
+| Non-current `Investments` FY2024 | 11,708 | aggregate government/tax-free bonds, NCDs, government securities, target-maturity and other funds, and minority preference/equity stakes — fully decomposed, no equity-accounted component |
+| Total investments FY2024 / FY2023 / FY2022 | 24,623 / 19,478 / 20,324 | treasury portfolio totals, including current commercial paper, CDs and liquid funds |
+| Named holdings total FY2024 / FY2023 / FY2022 | 404 / 365 / 377 | Note 2.5.1's minority stakes and fund interests (Whoop 60, Nivetti 31, Ideaforge equity 113, Global Innovation & Technology Alliance 2, Stellaris 84, House Fund II 107, House Fund III 7; Airviz, Merasport and Tidalscale at nil value) — all carried at fair value, and **fair-value measurement is incompatible with the equity method** |
+| Ideaforge equity stake FY2024 | 113 | a listed minority holding of 16,47,314 shares at FVOCI; no significant influence asserted |
+| Total assets / total equity FY2024 | 137,814 / 88,461 | issuer-level aggregates |
+| Amortised cost / FVOCI / FVTPL FY2024 | 1,759 / 19,620 / 3,244 | measurement categories cutting across asset classes |
+| Form AOC-1 | — | an annexure to the standalone statements, absent from the audited consolidated statements and barred from this item in any case |
+
+**Why this is not a nil.** Work Item 3 could declare borrowings nil because the filing said so in words — *"The Group has
+no outstanding borrowings."* No such sentence exists here. What exists is an **omission**: a caption that is not there.
+The nil grammar requires the filer's own wording, the filing reference and the period, and this line item is a reported
+(non-derived) item; an absent line cannot satisfy it. The distinction is also substantive, not pedantic: zero is a
+*measurement* of a recognised interest written down to nothing, while "no interest is recognised" is a different fact
+about the balance sheet, and only the filing may convert one into the other.
+
+**What WI-4 changed in the product: nothing.** No dataset, no observation, no nil, no V1 backfill, no schema change, no
+XBRL change, no bridge change, no policy change, no confidence change. `capitalStructure.associatesAndJV` remains
+`NOT_COMPUTABLE: NOT_REPORTED`; `equityBridge.treatment` remains `POLICY_ZERO_UNAVAILABLE`; intrinsic, margin of safety,
+band and every confidence member are byte-identical to §17.7; the committed IX package still regenerates exactly, which
+`ixAuthorizedPolicy.test.ts` enforces.
+
+**The review control stays on, and it should.** `associates-review/1.0.0` is an authorised requirement keyed to the age
+of the source evidence, not a flag that switches off once someone has looked: `status` remains `REVIEW_DUE`,
+`clockStart` remains `2024-03-31`, `reviewAgeDays` remains 180 and `elapsedDaysAtRun` remains 950. WI-4 *is* the look the
+control demands, and its result is now on the record — for this issuer the policy zero happens to coincide with what the
+statements recognise. No implementation defect was found in the control, so there is no basis to move the clock, the
+window or the flag semantics, and none was moved.
+
+**What WI-4 could not read, and why it does not change the answer.** The PDF text extraction available to this work item
+returns the first 30 pages of each filing, through Note 2.12.4. Notes 2.13–2.27 were therefore not machine-read,
+including Note 2.25 *Related party transactions* (p. 50), which lists the Group's entities. The conclusion does not rest
+on them: an equity-accounted interest must appear in the balance sheet, in profit or loss **and** in the investments
+note, and all three are complete and reconcile to the filed totals. But a related-party roster naming a dormant
+associate would be a reason to keep `L-036` open rather than to close it — and it is kept open.
+
+**Statuses after §17.8:** `L-036` → **`PARTIALLY RESOLVED`** (unchanged status; the residue is now precisely stated:
+there is no filed amount to substitute, and the payload still applies an unstated policy zero). `L-035` → `OPEN`
+(unchanged; no new nil declaration was made, so the documentary-mapping limitation is untouched). `L-001` … `L-034`
+unchanged; `L-034` remains `RESOLVED`.
+
+Evidence: `docs/integration/IIPS_V3_IID_WI4_ASSOCIATES_CARRYING_VALUE_2026-11-06.md`,
+`evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/` (nine verbatim extracts with digests, a nine-quote
+provenance record, a machine-readable investigation finding, and a three-period reconciliation), guarded by
+`iips-platform/tests/investment/wi4AssociatesEvidence.test.ts`.

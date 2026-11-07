@@ -1,0 +1,44 @@
+SOURCE EXTRACT — verbatim text layer of Note 2.5.1 DETAILS OF INVESTMENTS
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2024
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Page     : 16 (Note 2.5.1)
+Units    : ₹ crore, except otherwise stated
+
+2.5.1 Details of investments
+
+The details of investments in preference, equity and other instruments at March 31, 2024 and March 31, 2023 are as follows:
+
+| Preference securities |  |  |
+| Airviz, Inc. | - | - |
+| 2,89,695(2,89,695) Series A Preferred Stock, fully paid up, par value USD 0.001 each |  |  |
+| Whoop, Inc. | 60 | 53 |
+| 1,10,59,340 (1,10,59,340) Series B Preferred Stock, fully paid up, par value USD 0.0001 each |  |  |
+| Nivetti Systems Private Limited | 31 | 26 |
+| 2,28,501(2,28,501) Preferred Stock, fully paid up, par value ₹1/- each |  |  |
+| Tidalscale, Inc. | - | - |
+| Nil (36,74,269) Series B Preferred Stock |  |  |
+| Ideaforge Technology Limited | - | 114 |
+| Nil (5,402) Series A compulsorily convertible cumulative Preference shares of ₹10/- each, fully paid up |  |  |
+| Nil (1,787) Series B compulsorily convertible cumulative Preference shares of ₹10/- each, fully paid up |  |  |
+| Total investment in preference securities | 91 | 193 |
+| Equity Instruments |  |  |
+| Merasport Technologies Private Limited | - | - |
+| 2,420 (2,420) equity shares at ₹8,052/- each, fully paid up, par value ₹10/- each |  |  |
+| Global Innovation and Technology Alliance | 2 | 2 |
+| 15,000 (15,000) equity shares at ₹1,000/- each, fully paid up, par value ₹1,000/- each |  |  |
+| Ideaforge Technology Limited | 113 | 1 |
+| 16,47,314 (22,600) equity shares at ₹10/-, fully paid up |  |  |
+| Total investment in equity instruments | 115 | 3 |
+| Others |  |  |
+| Stellaris Venture Partners India | 84 | 82 |
+| The House Fund II, L.P. | 107 | 84 |
+| The House Fund III, L.P. | 7 | 3 |
+| Total investment in others | 198 | 169 |
+| Total | 404 | 365 |
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+This is the note's complete list of named holdings. Every holding is a minority stake in preference shares, equity
+shares or a venture-fund interest, carried at fair value (FVOCI or FVTPL) — the measurement category printed against
+each block. None is described as an associate or a joint venture, and none is measured under the equity method.
+The largest single equity holding is 16,47,314 Ideaforge shares, carried at ₹113 crore within FVOCI; it is a
+financial investment, not an equity-accounted interest.

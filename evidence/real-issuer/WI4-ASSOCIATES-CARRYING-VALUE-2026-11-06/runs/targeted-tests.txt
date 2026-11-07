@@ -1,0 +1,17 @@
+WI-4 — typecheck and the complete investment suite
+run at: 2026-11-07T03:12:12Z (UTC)
+environment note: tsx must be >= 4.20; with tsx 4.7.0 the repository's own script modules fail on __dirname in ESM scope (15 pre-existing module-load failures, unrelated to this change).
+
+== ./node_modules/.bin/tsc --noEmit ==
+  clean (exit 0)
+
+== tsx --test tests/investment/*.test.ts ==
+1..128
+# tests 498
+# suites 128
+# pass 498
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10695.391545

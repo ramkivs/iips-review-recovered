@@ -1,0 +1,42 @@
+SOURCE EXTRACT — verbatim text layer of the audited consolidated balance sheet
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Indian Accounting
+           Standards (Ind AS) for the year ended March 31, 2023
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+Statements dated : April 13, 2023 (auditor: Deloitte Haskins & Sells LLP, FRN 117366W/W-100018)
+Page     : 1 (Consolidated Balance Sheet) — the two columns are the two periods this work item needs
+Units    : ₹ crore
+
+Consolidated Balance Sheets as at | March 31, 2023 | March 31, 2022
+
+Non-current assets
+Property, plant and equipment | 2.2 | 13,346 | 13,075
+Right-of-use assets | 2.21 | 6,882 | 4,823
+Capital work-in-progress | 2.3 | 288 | 416
+Goodwill | 2.4.1 and 2.1 | 7,248 | 6,195
+Other intangible assets | 2.4.2 | 1,749 | 1,707
+Financial assets
+Investments | 2.5 | 12,569 | 13,651
+Loans | 2.6 | 39 | 34
+Other financial assets | 2.7 | 2,798 | 1,460
+Deferred tax assets (net) | 2.17 | 1,245 | 1,212
+Income tax assets (net) | 2.17 | 6,453 | 6,098
+Other non-current assets | 2.10 | 2,318 | 2,029
+Total non-current assets |  | 54,935 | 50,700
+
+Current assets
+Financial assets
+Investments | 2.5 | 6,909 | 6,673
+Trade receivables | 2.8 | 25,424 | 22,698
+Cash and cash equivalents | 2.9 | 12,173 | 17,472
+Loans | 2.6 | 289 | 248
+Other financial assets | 2.7 | 11,604 | 8,727
+Income tax assets (net) | 2.17 | 6 | 54
+Other current assets | 2.10 | 14,476 | 11,313
+Total current assets |  | 70,881 | 67,185
+Total assets |  | 125,816 | 117,885
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+Both asset blocks are complete and agree with the filed totals (54,935 / 70,881 for 2023; 50,700 / 67,185 for 2022).
+There is no "Investments accounted for using the equity method" or "Investments in associates and joint ventures"
+caption in either year. The only investment captions are the two "Investments" lines, both cross-referenced to
+Note 2.5: 12,569 non-current and 6,909 current at 2023-03-31; 13,651 non-current and 6,673 current at 2022-03-31.

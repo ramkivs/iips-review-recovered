@@ -1,0 +1,67 @@
+SOURCE EXTRACT — verbatim text layer of Note 2.5 INVESTMENTS
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2023
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+Page     : 15 (Note 2.5)
+Units    : ₹ crore
+
+2.5 INVESTMENTS
+
+| Particulars | As at March 31, 2023 | As at March 31, 2022 |
+| Non-current Investments |  |  |
+| Unquoted |  |  |
+| Investments carried at fair value through other comprehensive income |  |  |
+| Preference securities | 193 | 192 |
+| Equity instruments | 3 | 2 |
+|  | 196 | 194 |
+| Investments carried at fair value through profit or loss |  |  |
+| Preference securities | — | 24 |
+| Compulsorily convertible debentures | — | 7 |
+| Target maturity fund units | 402 | — |
+| Others (1) | 169 | 152 |
+|  | 571 | 183 |
+| Quoted |  |  |
+| Investments carried at amortized cost |  |  |
+| Government bonds | 28 | — |
+| Tax free bonds | 1,742 | 1,901 |
+|  | 1,770 | 1,901 |
+| Investments carried at fair value through other comprehensive income |  |  |
+| Non convertible debentures | 2,713 | 3,718 |
+| Government securities | 7,319 | 7,655 |
+|  | 10,032 | 11,373 |
+| Total non-current investments | 12,569 | 13,651 |
+| Current Investments |  |  |
+| Unquoted |  |  |
+| Investments carried at fair value through profit or loss |  |  |
+| Liquid mutual fund units | 975 | 2,012 |
+|  | 975 | 2,012 |
+| Investments carried at fair value through other comprehensive income |  |  |
+| Commercial Paper | 742 | — |
+| Certificates of deposit | 3,574 | 3,429 |
+|  | 4,316 | 3,429 |
+| Quoted |  |  |
+| Investments carried at amortized cost |  |  |
+| Government bonds | - | 21 |
+| Tax free bonds | 150 | 200 |
+|  | 150 | 221 |
+| Investments carried at fair value through other comprehensive income |  |  |
+| Non convertible debentures | 1,155 | 495 |
+| Government securities | 313 | 516 |
+|  | 1,468 | 1,011 |
+| Total current investments | 6,909 | 6,673 |
+| Total investments | 19,478 | 20,324 |
+| Aggregate amount of quoted investments | 13,420 | 14,506 |
+| Market value of quoted investments (including interest accrued), current | 1,637 | 1,247 |
+| Market value of quoted investments (including interest accrued), non current | 12,042 | 13,612 |
+| Aggregate amount of unquoted investments | 6,058 | 5,818 |
+| Investments carried at amortized cost | 1,920 | 2,122 |
+| Investments carried at fair value through other comprehensive income | 16,012 | 16,007 |
+| Investments carried at fair value through profit or loss | 1,546 | 2,195 |
+
+(1) Uncalled capital commitments outstanding as at March 31, 2023 and March 31, 2022 was ₹92 crore and ₹28 crore, respectively.
+Refer to Note 2.11 for Accounting policies on Financial Instruments.
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+Same structure as the FY2024 statement, for the two earlier periods: every row is a financial instrument at
+amortized cost, FVOCI or FVTPL. No equity-method row, no associates/joint-venture row. Both reconciliations tie:
+  2023: 12,569 + 6,909 = 19,478; 1,920 + 16,012 + 1,546 = 19,478.
+  2022: 13,651 + 6,673 = 20,324; 2,122 + 16,007 + 2,195 = 20,324.

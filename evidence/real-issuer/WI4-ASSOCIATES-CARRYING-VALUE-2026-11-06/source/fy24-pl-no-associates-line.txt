@@ -1,0 +1,36 @@
+SOURCE EXTRACT — verbatim text layer of the audited consolidated statement of profit and loss
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2024
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Page     : 2 (Consolidated Statement of Profit and Loss)
+Units    : ₹ crore, except equity share and per equity share data
+
+Revenue from operations | 2.18 | 153,670 | 146,767
+Other income, net | 2.19 | 4,711 | 2,701
+Total income |  | 158,381 | 149,468
+Expenses
+Employee benefit expenses | 2.22 | 82,620 | 78,359
+Cost of technical sub-contractors |  | 12,232 | 14,062
+Travel expenses |  | 1,759 | 1,525
+Cost of software packages and others | 2.20 | 13,515 | 10,902
+Communication expenses |  | 677 | 713
+Consultancy and professional charges |  | 1,726 | 1,684
+Depreciation and amortization expenses | 2.2, 2.4.2 and 2.21 | 4,678 | 4,225
+Finance cost |  | 470 | 284
+Other expenses | 2.20 | 4,716 | 4,392
+Total expenses |  | 122,393 | 116,146
+Profit before tax |  | 35,988 | 33,322
+Other comprehensive income
+Items that will not be reclassified subsequently to profit or loss
+Remeasurement of the net defined benefit liability/asset, net | 2.22 | 120 | 8
+Equity instruments through other comprehensive income, net | 2.5 | 19 | (7)
+Items that will be reclassified subsequently to profit or loss
+Fair value changes on derivatives designated as cash flow hedge, net | 2.11 | 11 | (7)
+Exchange differences on translation of foreign operations |  | 226 | 776
+Fair value changes on investments, net | 2.5 | 144 | (256)
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+The statement of profit and loss has no "Share of profit/(loss) from associates and joint ventures" line, and the
+other-comprehensive-income section has no "share of other comprehensive income of associates and joint ventures"
+line. Ind AS 1 (para 82(c)) and Ind AS 28 require both to be presented separately whenever an equity-accounted
+interest exists. Their absence is consistent with the balance sheet: no equity-accounted interest is recognised in
+any of the two years presented.

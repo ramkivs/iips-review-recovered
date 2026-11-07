@@ -1,0 +1,27 @@
+SOURCE EXTRACT — verbatim text layer of Note 1.3 BASIS OF CONSOLIDATION
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2024
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+Page     : 7 (Note 1.3)
+
+1.3 Basis of consolidation
+
+Infosys consolidates entities which it owns or controls. The consolidated financial statements comprise the financial
+statements of the Company, its controlled trusts and its subsidiaries. Control exists when the parent has power over
+the entity, is exposed, or has rights to variable returns from its involvement with the entity and has the ability to
+affect those returns by using its power over the entity. Power is demonstrated through existing rights that give the
+ability to direct relevant activities, those which significantly affect the entity's returns. Subsidiaries are
+consolidated from the date control commences until the date control ceases.
+
+The financial statements of the Group companies are consolidated on a line-by-line basis and intra-group balances and
+transactions including unrealized gain / loss from such transactions are eliminated upon consolidation. These
+financial statements are prepared by applying uniform accounting policies in use at the Group. Non-controlling
+interests which represent part of the net profit or loss and net assets of subsidiaries that are not, directly or
+indirectly, owned or controlled by the Company, are excluded.
+
+Refer to Note 2.25 for the list of subsidiaries and controlled trusts of the Company
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+The consolidation basis names three categories of consolidated entity — the Company, its controlled trusts and its
+subsidiaries — and points to Note 2.25 for the list. It names no associate and no joint venture, and the
+consolidation method described is line-by-line aggregation with intra-group elimination, not the equity method that
+Ind AS 28 requires for associates and joint ventures.

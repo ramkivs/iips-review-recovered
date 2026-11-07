@@ -1,0 +1,60 @@
+WI-4 — reproduction commands
+bundle: evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06
+All paths are relative to the repository root unless stated.
+
+§1 — Prerequisites (iips-platform; node_modules is not committed)
+    cd iips-platform
+    npm install --no-save --strict-ssl=false typescript@5.4.5 tsx@latest @types/node@26
+    # tsx must be >= 4.20: with tsx 4.7.0 the repository's script modules fail to load
+    # (__dirname in ESM scope) — 15 pre-existing module-load failures, unrelated to this work item.
+
+§2 — Bundle integrity and the three-period reconciliation  (writes runs/01-checks.txt)
+    cd evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06
+    # (see runs/01-checks.txt for the exact script; it does three things)
+    #  a. sha256 of each source/*.txt against source/quotes.json
+    #  b. captions -> note total and measurement categories -> note total, for FY2024, FY2023, FY2022
+    #  c. the decision fields of artifact/investigation.json, and the absence of dataset/ and a payload
+    # Expected: 9/9 digests match, 6/6 ties, answer NO, ingestion.performed false, no dataset, no payload.
+
+§3 — Guard test  (writes runs/02-guard-test.txt)
+    cd iips-platform
+    ./node_modules/.bin/tsx --test tests/investment/wi4AssociatesEvidence.test.ts
+    # Expected: 18 tests, 18 pass, 0 fail.
+
+§4 — Typecheck and the complete investment suite  (writes runs/targeted-tests.txt)
+    cd iips-platform
+    ./node_modules/.bin/tsc --noEmit
+    ./node_modules/.bin/tsx --test tests/investment/*.test.ts
+    # Expected: tsc clean; 498 tests, 498 pass, 0 fail.
+    # 480 of those are the pre-existing suite; 18 are this work item's guard test.
+
+§5 — The persisted evidence is unchanged (read back in a separate process)
+    ./node_modules/.bin/tsx --test tests/investment/ixAuthorizedPolicy.test.ts
+    # Rebuilds the committed IX package from the committed Work Item 3 inputs and requires byte equality:
+    # proves the associates/JV policy record, the POLICY_ZERO treatment and the REVIEW_DUE status are exactly
+    # what they were before this work item, and that no V2 carrying value replaced the zero.
+
+§6 — The filing, if the extracts are to be re-read
+    FY2024: https://www.infosys.com/investors/reports-filings/quarterly-results/2023-2024/q4/documents/consolidated/consol-fy24-annual-finstatement.pdf
+      balance sheet p1 · profit and loss p2 · Note 1.3 p7 · Note 2.5 p15 · Note 2.5.1 p16
+    FY2023: https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+      balance sheet p1 · profit and loss p2 · Note 2.5 p15 · Note 2.5.1 p16
+
+§7 — Re-deriving digests.json after any intentional edit
+    python3 - <<'PY'
+    import hashlib, json, os
+    files = {}
+    for root, _, names in os.walk('.'):
+        for name in names:
+            p = os.path.relpath(os.path.join(root, name), '.')
+            if p in ('README.md', 'digests.json') or p.endswith('.pyc'):
+                continue
+            b = open(p, 'rb').read()
+            files[p] = {'sha256': hashlib.sha256(b).hexdigest(), 'bytes': len(b)}
+    doc = json.load(open('digests.json'))
+    doc['files'] = dict(sorted(files.items()))
+    doc['fileCount'] = len(files)
+    open('digests.json', 'w').write(json.dumps(doc, indent=2) + '\n')
+    PY
+
+Note: this bundle contains no dataset, no payload and no chain head, and that is the finding, not an omission.

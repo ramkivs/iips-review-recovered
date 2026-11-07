@@ -1,0 +1,33 @@
+SOURCE EXTRACT — verbatim text layer of the audited consolidated statement of profit and loss
+Document : Infosys Limited and Subsidiaries — Consolidated Financial Statements under Ind AS, year ended March 31, 2023
+URL      : https://www.infosys.com/investors/reports-filings/quarterly-results/2022-2023/q4/documents/consolidated/consol-fy23-annual-finstatement.pdf
+Page     : 2 (Consolidated Statement of Profit and Loss)
+Units    : ₹ crore, except equity share and per equity share data
+
+Revenue from operations | 2.18 | 146,767 | 121,641
+Other income, net | 2.19 | 2,701 | 2,295
+Total income |  | 149,468 | 123,936
+Expenses
+Employee benefit expenses | 2.22 | 78,359 | 63,986
+Cost of technical sub-contractors |  | 14,062 | 12,606
+Travel expenses |  | 1,525 | 827
+Cost of software packages and others | 2.20 | 10,902 | 6,811
+Communication expenses |  | 713 | 611
+Consultancy and professional charges |  | 1,684 | 1,885
+Depreciation and amortization expenses | 2.2, 2.4.2 and 2.21 | 4,225 | 3,476
+Finance cost |  | 284 | 200
+Other expenses | 2.20 | 4,392 | 3,424
+Total expenses |  | 116,146 | 93,826
+Profit before tax |  | 33,322 | 30,110
+Other comprehensive income
+Items that will not be reclassified subsequently to profit or loss
+Remeasurement of the net defined benefit liability/asset, net | 2.22 | 8 | (85)
+Equity instruments through other comprehensive income, net | 2.5 | (7) | 96
+Items that will be reclassified subsequently to profit or loss
+Fair value changes on derivatives designated as cash flow hedge, net | 2.11 | (7) | (8)
+Exchange differences on translation of foreign operations |  | 776 | 228
+Fair value changes on investments, net | 2.5 | (256) | (49)
+
+OBSERVATION RECORDED WITH THE EXTRACT (not part of the filed text)
+No "Share of profit/(loss) from associates and joint ventures" line and no share-of-OCI-of-associates line, for
+either year presented (FY2023 and FY2022). Consistent with the FY2024 statement and with the balance sheet.
