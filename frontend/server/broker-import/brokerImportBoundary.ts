@@ -57,9 +57,28 @@ export const BROKER_IMPORT_EXCHANGES: readonly ('NSE' | 'BSE')[] = ['NSE', 'BSE'
 
 /** Bounded sizes: the IPC request cap (64 KiB) bounds the wire anyway; these bound the DTO first. */
 export const BROKER_IMPORT_MAX_HOLDINGS = 5_000;
-export const BROKER_IMPORT_MAX_SYMBOL_LENGTH = 32;
+export const BROKER_IMPORT_MAX_SYMBOL_LENGTH = 40;
 export const BROKER_IMPORT_MAX_ISIN_LENGTH = 24;
 export const BROKER_IMPORT_MAX_BROKER_LENGTH = 32;
+
+/**
+ * The IPD v1 symbol grammar, adopted verbatim.
+ *
+ * `src/persistence/manualPersonalPortfolio.ts:29` at IPD pin `59fdfd1…`:
+ * `/^[A-Za-z0-9][A-Za-z0-9._&-]{0,39}$/` — one alphanumeric leading character, then up to 39
+ * further characters from alphanumerics and `.` `_` `&` `-`. Total length is therefore 1..40.
+ *
+ * IRR admits this at its own boundary so that an inadmissible symbol is refused **locally, with a
+ * typed field path and static reason**, instead of being forwarded and refused opaquely by IPD as
+ * `400 INVALID_REQUEST`. Adopting the grammar narrows what IRR forwards; it never widens what IPD
+ * accepts, and it is the same predicate IPD applies to the same bytes.
+ *
+ * Scope note: IPD additionally trims and upper-cases the symbol before testing
+ * (`manualPersonalPortfolio.ts:61`). IRR matches the grammar against the bytes it will transmit,
+ * unchanged, which is the stricter reading — IRR never rewrites a broker-observed value.
+ */
+export const BROKER_IMPORT_SYMBOL_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._&-]{0,39}$/;
+
 export const BROKER_IMPORT_MAX_PORTFOLIO_ID_LENGTH = 128;
 
 /** Actual provider digest shape: 64-character lowercase hex SHA-256. */
@@ -146,6 +165,12 @@ function validateHolding(entry: unknown, index: number): { ok: true; holding: Br
   const symbol = entry.symbol;
   if (typeof symbol !== 'string' || symbol.trim().length === 0 || symbol.length > BROKER_IMPORT_MAX_SYMBOL_LENGTH) {
     return { ok: false, refusal: { code: 'INVALID_REQUEST', fieldPath: path('symbol'), reason: 'symbol-required-bounded-string' } };
+  }
+  // IPD v1 grammar (Stage 2): a symbol IPD would refuse is refused here instead, with a typed
+  // refusal instead of an opaque downstream 400. This narrows IRR's outbound set; it never
+  // admits anything IPD would reject.
+  if (!BROKER_IMPORT_SYMBOL_PATTERN.test(symbol)) {
+    return { ok: false, refusal: { code: 'INVALID_REQUEST', fieldPath: path('symbol'), reason: 'symbol-not-admissible-per-v1-grammar' } };
   }
   const isin = entry.isin;
   if (isin !== undefined && (typeof isin !== 'string' || isin.length === 0 || isin.length > BROKER_IMPORT_MAX_ISIN_LENGTH)) {
