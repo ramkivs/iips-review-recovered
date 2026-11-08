@@ -1,0 +1,60 @@
+{
+  "workItem": "WI-12",
+  "limitation": "L-038",
+  "subject": "Marico Limited",
+  "basisOfPreparation": "consolidated",
+  "question": "Does an authoritative audited consolidated annual report published after the FY2023-24 report already in the corpus explicitly establish issued preference share capital — a value, a nil, or a stated absence of preference shares?",
+  "answer": "no",
+  "outcome": "NEGATIVE_DETERMINATION",
+  "classification": {
+    "field": "PREFERENCE_CAPITAL",
+    "status": "MISSING",
+    "reason": "NOT_REPORTED",
+    "changedByThisInvestigation": false,
+    "priorStatus": "MISSING / NOT_REPORTED"
+  },
+  "limitationStatus": {
+    "L-038": "OPEN",
+    "statusChanged": false,
+    "whyStillOpen": "The investigation is complete; the limitation is not. The remaining blocker is a silence in the source — no audited consolidated report states the issued preference amount or that it is nil — and silence cannot be converted into a declaration by further retrieval of the same publisher."
+  },
+  "bridge": {
+    "enterpriseToEquity": "still withheld for this issuer (unknown preference claim cannot be subtracted)",
+    "netDebtGrossDebt": "unchanged; the same-instant safeguards decided in WI-11 are untouched"
+  },
+  "documentsExamined": [
+    {"document": "Integrated Annual Report 2023-24", "sha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595", "pages": 259, "role": "control — identity-matched to the corpus copy, page 190 retrieved for the first time", "qualifyingDisclosure": false},
+    {"document": "Integrated Annual Report 2024-25", "sha256": "74e0f6c239f6b611a1d66f361988a65f52bdfb51956ada929de3f4857b1e3474", "pages": 255, "role": "new — first post-FY24 audited consolidated report", "qualifyingDisclosure": false},
+    {"document": "Integrated Annual Report 2025-26", "sha256": "7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f", "pages": 279, "role": "new — latest audited consolidated report in existence (PDF created 2026-07-08)", "qualifyingDisclosure": false},
+    {"document": "Annual Audited Financial Statements FY2024-25", "sha256": "63c1badce2745ebaab516c98e43eb92570b3764fda326daf6b83e312f8010ae6", "pages": 42, "role": "examined and rejected — carries no share-capital note at all", "qualifyingDisclosure": false}
+  ],
+  "rejectedMappings": [
+    {"id": "R1", "mapping": "zero, inferred from the issued section listing only equity", "reason": "inference from absence — forbidden by the limitation standard and by D-2"},
+    {"id": "R2", "mapping": "nil from the authorised-capital sentence naming only equity classes", "reason": "sentence is scoped to equity-share rights and is contradicted by the authorised table on the same page; cannot enumerate classes"},
+    {"id": "R3", "mapping": "nil from '(v) ... Issued, Subscribed and Paid-up Share Capital includes::'", "reason": "'includes' is non-exhaustive; the same grammar withdrew the eClerx nil in WI-5"},
+    {"id": "R4", "mapping": "nil from the 2002/2004 bonus-and-redemption history rows", "reason": "they record that preference shares existed and were redeemed; they establish the opposite of 'never existed' and say nothing about 2024-2026"},
+    {"id": "R5", "mapping": "nil from the FY2024-25 Annual Audited Financial Statements", "reason": "no share-capital note in that document — silence about everything is not a declaration about preference capital"},
+    {"id": "R6", "mapping": "use authorised Rs 65 crore as the issued value", "reason": "authorised != issued; the amount has been authorised and unissued throughout"},
+    {"id": "R7", "mapping": "zero by arithmetic (issued total equals the equity line)", "reason": "arithmetic residual inference, expressly forbidden"},
+    {"id": "R8", "mapping": "carry the FY24 absence forward to FY26 as unchanged", "reason": "anchoring / latest-complete substitution; an unchanged absence is still an absence"}
+  ],
+  "grammarTests": [
+    {"test": "explicit nil / absence sentence for preference capital", "present": false},
+    {"test": "class statement covering preference shares", "present": false, "detail": "0 hits in FY24 and FY25; FY26's two 'single class' hits concern financial assets and unrelated wording"},
+    {"test": "exhaustive enumeration of issued capital", "present": false, "detail": "the enumeration says 'includes'"},
+    {"test": "authorised-capital sentence usable as a class statement", "present": true, "usable": false, "detail": "equity-scoped and contradicted by its own table"}
+  ],
+  "unchanged": {
+    "d2Policy": true,
+    "ixPolicy": true,
+    "valuation": true,
+    "capitalStructureRules": true,
+    "sameInstantSafeguards": true,
+    "datasets": true,
+    "publishedPayloads": true,
+    "manifests": true
+  },
+  "newIdentifierConsumed": false,
+  "testsRun": "none required — no mapping, dataset, payload or contract changed",
+  "files": "see digests.json"
+}

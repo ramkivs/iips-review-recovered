@@ -1,0 +1,91 @@
+# Marico FY2024-25 — PDF page 252 (statement of changes in equity: historical preference-share rows)
+#
+# Verbatim text extraction, unedited apart from trailing-space trimming and the removal of a uniform
+# two-space gutter indent. Produced on a GitHub Actions runner with `pdftotext -layout -f 252 -l 252`
+# (poppler-utils) directly from the PDF named below; nothing was retyped, reflowed or re-ordered.
+#
+# source document : Marico Annual Report FY2024-25 (Integrated Annual Report 2024-25)
+# source sha256   : 74e0f6c239f6b611a1d66f361988a65f52bdfb51956ada929de3f4857b1e3474
+# source bytes    : 14370556
+# source pages    : 255
+# pdf page        : 252   (1-based, as produced by pdftotext -f/-l)
+# retrieved       : 2026-11-08T05:0xZ (runner)
+# locator log     : runs/03-fy2526-locator-report.txt
+#
+# NOTE: these pages are multi-column. `-layout` preserves columns horizontally, so a single printed line
+# can carry text from two different notes. Columns are never to be re-assembled into one logical row.
+#
+       I n te gr a te d An n ua l R e p or t 2 0 2 4 -2 5                                                                                                                                             • Corporate Overview • Statutory Reports • Financial Statements
+500    Marico Limited
+                                                                                                                                                                                                                                                                         501
+
+
+
+
+Performance Trends                                                                                                          EVA analysis
+
+                                                                                                                                                                                              FY20        FY21           FY22           FY23            FY24             FY25
+
+Consolidated Quarterly Financials                                                                                           Average Capital Employed                                          3,363       3,534          3,775          4,367          5,056             5,670
+                                                                                                             (H in Crore)   Average Debt / Total capital (%)                                   10.2          9.7            9.2            9.4            8.5               6.7
+2024-25                                                                   Three Months Ended                    Annual      Profit After Current Tax (excluding one-offs)                     1,056       1,175          1,258          1,366          1,584             1,636
+Particulars                                                 30-Jun-24    30-Sep-24   31-Dec-24   31-Mar-25        FY25      Add: Interest Post Tax                                               38          27             31             42             57                41
+                                                                                                                            Net Operating Profit After Tax                                    1,094       1,202          1,289          1,408          1,641             1,677
+Revenue from Operations                                          2,643       2,664       2,794       2,730       10,831
+                                                                                                                            Less: Cost of Capital                                               390         357            394            498            549               629
+Total Expenditure                                                2,017       2,142       2,261       2,272        8,692
+                                                                                                                            h) Economic Value Added                                            704         845            894            910          1,092             1,048
+Profit before Finance Cost, Tax, Depreciation                     626         522         533         458        2,139
+and Amortisation
+Other Income                                                       37          82          42          47          208      Sustainable Wealth Creation
+Finance Cost                                                       17          11          13          12           53
+Depreciation and Amortisation                                      41          41          44          52          178      Investment                                         Through                             Shares            Value ( in J)        Indexed Value
+Profit before Share of Profit/(Loss) of Joint                     605         552         518         441        2,116
+                                                                                                                            April 1996 - Original Purchase  IPO                                                       100                  17,500                        100
+Ventures, Exceptional Items and Tax
+                                                                                                                            August 2002                     Bonus (Equity 1:1)                                        200                       -                           -
+Share of Profit/(Loss) of Joint Ventures                             -           -           -           -            -
+                                                                                                                            September 2002                  Bonus (Preference 1:1)                                    200                       -                           -
+Exceptional Items                                                    -           -           -           -            -
+                                                                                                                            May 2004                        Bonus (Equity 1:1)                                        400                       -                           -
+Profit before Tax                                                 605         552         518         441        2,116
+                                                                                                                            February 2007                   Share Split (10:1)                                       4000                       -                           -
+Tax Expense                                                       131         119         112          96          458
+                                                                                                                            December 2015                   Bonus (Equity 1:1)                                       8000                       -                           -
+Profit after Tax                                                  474         433         406         345        1,658
+                                                                                                                            Holdings and Cost as on March 31, 2025                                                  8,000                 17,500                         100
+Minority Interest                                                  10          10           7           2           29
+Net Profit attributable to Owners of the                          464         423         399         343        1,629
+Company
+                                                                                                                            Return                                                      Through                          Shares         Value ( in J)     Indexed Value
+Equity Share Capital                                              129          129         130         130          130
+Earning per Share - (J)                                           3.6          3.3         3.1         2.6         12.6     March 31, 2025                                              Market value                        8000           52,13,200                29,790
+                                                                                                                            March 2004                                                  Redemption proceeds of               200               2,000                    11
+                                                                                                             (H in Crore)                                                               Bonus Preference shares
+                                                                                                                            April 1996 - March 2025                                     Dividend Received*#                               5,67,899                  3,245
+2023-24                                                                   Three Months Ended                    Annual
+                                                                                                                            Gross Returns                                                                                               57,83,099                 33,046
+Particulars                                                 30-Jun-23    30-Sep-23   31-Dec-23   31-Mar-24        FY24
+                                                                                                                            Compounded Annual Return since IPO                                                                               22%                    22%
+Revenue from Operations                                         2,477        2,476       2,422       2,278        9,653
+                                                                                                                            * Dividends are inclusive of those received on Bonus Preference Shares
+Total Expenditure                                               1,903        1,979       1,909       1,836        7,627
+                                                                                                                            #
+                                                                                                                                Subject to taxes as applicable
+Profit before Finance Cost, Tax, Depreciation                    574          497         513         442        2,026
+and Amortisation
+Other Income                                                      46           38          43          15          142
+Finance Cost                                                      17           20          19          17           73
+Depreciation and Amortisation                                     36           39          42          41          158
+Profit before Share of Profit/(Loss) of Joint                    567          476         495         399        1,937
+Ventures, Exceptional Items and Tax
+Share of Profit/(Loss) of Joint Ventures                            -            -           -           -            -
+Exceptional Items                                                   -            -           -           -            -
+Profit before Tax                                                567          476         495         399        1,937
+Tax Expense                                                      131          116         109          79          435
+Profit after Tax                                                 436          360         386         320        1,502
+Minority Interest                                                  9            7           3           2           21
+Net Profit attributable to Owners of the                         427          353         383         318        1,481
+Company
+Equity Share Capital                                              129         129         129          129          129
+Earning per Share - (J)                                           3.3         2.7         3.0          2.5         11.5

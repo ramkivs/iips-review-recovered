@@ -49,7 +49,7 @@ https://marico.com/investorspdf/stock-exchange-intimation-of-notice-of-35th-agm-
   http=200 ct=application/pdf len=0
   attempt1 bytes=21282741/21282741 err=
   OBTAINED bytes=21282741 sha256=7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f pages=279
-  md=CreationDate:    Wed Jul  8 14:38:19 2026 UTC ModDate:         Wed Jul  8 18:17:54 2026 UTC 
+  md=CreationDate:    Wed Jul  8 14:38:19 2026 UTC ModDate:         Wed Jul  8 18:17:54 2026 UTC
 Syntax Warning: Invalid Font Weight
   --- pages mentioning preference ---
 p25:  Changing consumer preferences                     Investment in consumer in-sighting to adapt to changing consumer

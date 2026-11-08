@@ -1,19 +1,19 @@
 ===== SECTION A: FY2024-25 audited financial statements =====
 --- candidate: https://marico.com/investorspdf/Annual_Audited_Financial_Statements_FY_2024_25.pdf
   head content-length=5399768
-  attempt1 rc=0 bytes=5399768 (100%) 
+  attempt1 rc=0 bytes=5399768 (100%)
   OBTAINED from https://marico.com/investorspdf/Annual_Audited_Financial_Statements_FY_2024_25.pdf
   bytes=5399768 sha256=63c1badce2745ebaab516c98e43eb92570b3764fda326daf6b83e312f8010ae6 pages=42
-  md=CreationDate:    Wed May 14 11:20:44 2025 UTC ModDate:         Thu May 15 09:19:42 2025 UTC 
+  md=CreationDate:    Wed May 14 11:20:44 2025 UTC ModDate:         Thu May 15 09:19:42 2025 UTC
 fy2425_statements_obtained=1
 
 ===== SECTION B: FY2024-25 annual report (Marico_Annual_Report_FY25.pdf) =====
 --- candidate: https://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf
   head content-length=14370556
-  attempt1 rc=0 bytes=14370556 (100%) 
+  attempt1 rc=0 bytes=14370556 (100%)
   OBTAINED from https://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf
   bytes=14370556 sha256=74e0f6c239f6b611a1d66f361988a65f52bdfb51956ada929de3f4857b1e3474 pages=255
-  md=Title:            CreationDate:    Fri Jul 11 10:09:14 2025 UTC ModDate:         Thu Jul 24 13:18:36 2025 UTC 
+  md=Title:            CreationDate:    Fri Jul 11 10:09:14 2025 UTC ModDate:         Thu Jul 24 13:18:36 2025 UTC
 fy2425_annual_report_obtained=1
 
 ===== SECTION C: share-capital and preference disclosures in the later documents =====

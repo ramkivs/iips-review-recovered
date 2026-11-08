@@ -1,9 +1,9 @@
 ===== SECTION 0: transport reachability (diagnostic only) =====
 utc=2026-11-08T04:13:21Z
---- marico.com dns: 64.185.181.238  marico.com 
---- www.marico.com dns: 3.7.210.216     marico.com.indusguard.com www.marico.com marico.com.induscdn.com 3.6.71.79       marico.com.indusguard.com www.marico.com marico.com.induscdn.com 
---- web.archive.org dns: 207.241.237.3   web.archive.org 
---- archive.org dns: 207.241.224.2   archive.org 
+--- marico.com dns: 64.185.181.238  marico.com
+--- www.marico.com dns: 3.7.210.216     marico.com.indusguard.com www.marico.com marico.com.induscdn.com 3.6.71.79       marico.com.indusguard.com www.marico.com marico.com.induscdn.com
+--- web.archive.org dns: 207.241.237.3   web.archive.org
+--- archive.org dns: 207.241.224.2   archive.org
 
 ===== SECTION 1: FY2023-24 annual report — identity =====
   transport[] http/rc=200rc=0 bytes=21087675 type=application/pdf err=
@@ -11,7 +11,7 @@ fy24_source=1 (1=issuer host, 2=wayback copy)
 bytes=21087675
 sha256=03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595
 pages=259
-Title:           
+Title:
 Producer:        Adobe PDF Library 17.0
 CreationDate:    Fri Jul 12 10:48:28 2024 UTC
 ModDate:         Fri Aug  2 05:33:12 2024 UTC

@@ -1,0 +1,83 @@
+{
+ "bundle": "WI-12 / L-038 — preference capital across the three most recent audited consolidated annual reports: negative determination",
+ "generatedOn": "2026-11-08",
+ "note": "Every file this bundle carries except this manifest. Verify by re-hashing each path. The four runner locator logs under runs/ are the raw provenance of every extract under source/; README §8 records their pre-trim digests, which equal the blobs the runners committed to .l038-temp/.",
+ "files": {
+  "README.md": {
+   "sha256": "99f128b0f3c46766e2d702ef096afdc75796c6974a739a6875ad56d1b6845c26",
+   "bytes": 17276
+  },
+  "determination.json": {
+   "sha256": "0894fc0bda31026fae6c89751fb18b4056578eea66fe1984f6050359cafed4bd",
+   "bytes": 4910
+  },
+  "runs/01-fy24-locator-report.txt": {
+   "sha256": "766c1f0f1c1cb21bd98657b5be3fa71ce2cdcbdb3dfb490ecfe45a2aa6cdfd51",
+   "bytes": 47351
+  },
+  "runs/02-fy2425-locator-report.txt": {
+   "sha256": "ee4c8f3b2209a3181899fedef8e6315faacd6431044c392b5caf599eb0ab3ffb",
+   "bytes": 221994
+  },
+  "runs/03-fy2526-locator-report.txt": {
+   "sha256": "80cdb9b5025ff94f779e8712c2e5eb284b698dfc3680bcef8fd0f842bf7ac2cf",
+   "bytes": 286080
+  },
+  "runs/04-fy26-standalone-report.txt": {
+   "sha256": "07ba0222c618c4d7e9d62ed7d51821142252053aab8a086b3b48f52aab193099",
+   "bytes": 41574
+  },
+  "source/fy24-page189-tail-note12a-share-capital.txt": {
+   "sha256": "bfe057fc0af5f84a114feb9acc80efd381fa9446d12d2dfbca711f1927adffff",
+   "bytes": 6429
+  },
+  "source/fy24-page190-note12b-reserves-and-surplus.txt": {
+   "sha256": "edfaf8cb0ad815123183bbd200f3857afbb07c27c47fc51d90e804910fdd4229",
+   "bytes": 18101
+  },
+  "source/fy24-page254-statement-of-changes-capital-history.txt": {
+   "sha256": "7f5f5382df377e33bc80bb89a9d18226f4121a30662b13fb5657605e08eb59a6",
+   "bytes": 12918
+  },
+  "source/fy25-page185-note12a-consolidated-equity-share-capital.txt": {
+   "sha256": "197dc45531dd3ab08145a17bb8f7758d3fa369900fdde49abb4c327e8bec0ed8",
+   "bytes": 14099
+  },
+  "source/fy25-page186-note12a-continued.txt": {
+   "sha256": "aea114e3acf2118e43429f548e45875e99bd0251284ed7550e0c5c3a34e5b3d9",
+   "bytes": 17892
+  },
+  "source/fy25-page229-standalone-note12a-share-capital.txt": {
+   "sha256": "3b8507a7a3eccdfabe88e92466e49ae7ab4edf8f742d1ce89dff273ff7535320",
+   "bytes": 14201
+  },
+  "source/fy25-page230-standalone-note12a-continued.txt": {
+   "sha256": "3ec64074d0e6ab3c13667f6e147672524bec3522035014f71b241346a46c3d12",
+   "bytes": 16405
+  },
+  "source/fy25-page252-statement-of-changes-capital-history.txt": {
+   "sha256": "957a33598bdeac174b7d48d867effafb3b35de77bbd9cbd0b5da94246eec8354",
+   "bytes": 12288
+  },
+  "source/fy26-page205-note12a-consolidated-equity-share-capital.txt": {
+   "sha256": "7b54b0eb4178e81cb06177222bfaa153978c0e15587ec88d1c95d8a06fca13cc",
+   "bytes": 14692
+  },
+  "source/fy26-page250-standalone-note12a-share-capital.txt": {
+   "sha256": "88e3da19ffebdb3410b399f432f3d51550d7f35cfab9a74d3eaeff97d564804f",
+   "bytes": 16146
+  },
+  "source/fy26-page251-standalone-note12a-continued.txt": {
+   "sha256": "7f5873b1a2baed321710a7f684b5328055b72f8bc9fac532ffac48fc1dfefd13",
+   "bytes": 16176
+  },
+  "source/fy26-page275-statement-of-changes-capital-history.txt": {
+   "sha256": "2a108b24df076b71596eea354def76da1c6bc58b8025f533756590985d63e065",
+   "bytes": 11800
+  },
+  "source/preference-mention-index.json": {
+   "sha256": "8c6b67c9612af69a5a831b74f0009231baf0b93d18b6486ffd2a6b74a235101e",
+   "bytes": 5405
+  }
+ }
+}

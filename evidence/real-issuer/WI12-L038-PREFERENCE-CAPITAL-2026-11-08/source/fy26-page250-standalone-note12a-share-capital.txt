@@ -1,0 +1,99 @@
+# Marico FY2025-26 STANDALONE notes — PDF page 250 (Note 12(a) of the standalone statements)
+#
+# Verbatim text extraction, unedited apart from trailing-space trimming and the removal of a uniform
+# two-space gutter indent. Produced on a GitHub Actions runner with `pdftotext -layout -f 250 -l 250`
+# (poppler-utils) directly from the PDF named below; nothing was retyped, reflowed or re-ordered.
+#
+# source document : Marico Annual Report FY2025-26 (Integrated Annual Report 2025-26)
+# source sha256   : 7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f
+# source bytes    : 21282741
+# source pages    : 279
+# pdf page        : 250   (1-based, as produced by pdftotext -f/-l)
+# retrieved       : 2026-11-08T05:2xZ (runner)
+# locator log     : runs/04-fy26-standalone-report.txt
+#
+# NOTE: these pages are multi-column. `-layout` preserves columns horizontally, so a single printed line
+# can carry text from two different notes. Columns are never to be re-assembled into one logical row.
+#
+496                                                                                                                                                                                                                                                                      497
+     Marico Limited             Integrated Annual Repor t 2025-26                                                                                                                  Corporate Overview                Statutory Reports                  Financial Statements
+
+
+
+
+Notes to the Standalone financial statements
+for the year ended 31st March, 2026
+                                                                                                                                      Notes to the Standalone financial statements
+                                                                                                                                      for the year ended 31st March, 2026
+
+8    Other Non Current Assets                                                                                                         11 Assets Classified as Held for Sale
+                                                                                                                       (H in Crore)                                                                                                                                (H in Crore)
+                                                                                                                         As at                                                                                                                                       As at
+                                                                                                 As at       31st March, 2025                                                                                                               As at        31st March, 2025
+Particulars                                                                                                                           Particulars
+                                                                                     31st March, 2026               (Restated)                                                                                                  31st March, 2026                (Restated)
+                                                                                                               (Refer Note 39)                                                                                                                             (Refer Note 39)
+Capital advances                                                                                      58                       21     Land and building                                                                                             -                          -
+Deposits with statutory/government authorities                                                        21                       20     Plant and Machinery                                                                                           -                          -
+Prepaid Expenses                                                                                       3                        1     Total                                                                                                         -                          -
+Total                                                                                                 82                       42
+                                                                                                                                      Non-recurring fair value measurements
+                                                                                                                                      i.     During the year ended 31st March, 2025 assets with carrying amount of H 5 crores classified as held for sale along with other
+9    Inventories
+                                                                                                                       (H in Crore)          assets with carrying amount of H 12 crores was sold for a lump sum consideration of H 36 crores. Net gain on sale of H 19 crores
+                                                                                                                         As at               has been recognised in "other income".
+                                                                                                 As at       31st March, 2025
+Particulars                                                                                                                           ii.    The valuation of assets held for sale of the Company, is determined basis the details obtained from "The Ready Reckoner", location
+                                                                                     31st March, 2026               (Restated)
+                                                                                                                                             factor and physical verification of the property.
+                                                                                                               (Refer Note 39)
+Raw materials
+- In stock                                                                                            203                     125
+                                                                                                                                      12(a) Equity Share Capital
+                                                                                                                                                                                                                                                                   (H in Crore)
+Packing materials                                                                                     112                     102
+                                                                                                                                                                                                                                     No. of shares
+Work-in-progress                                                                                      218                     284     Particulars                                                                                                                    Amount
+                                                                                                                                                                                                                                         (in Crore)
+Finished goods
+                                                                                                                                      I     Authorised Capital
+- In stock                                                                                          429                      251
+                                                                                                                                            As at 31st March, 2025
+- In transit                                                                                          0                         -
+                                                                                                                                            Equity shares of Re. 1/- each                                                                        150                      150
+Stock in Trade                                                                                       55                       39
+                                                                                                                                            Equity shares of H 10/- each                                                                           8                       80
+By-product                                                                                            6                        4
+                                                                                                                                            Preference shares of H 10/- each                                                                       7                       65
+Stores and spares                                                                                    14                       13
+                                                                                                                                            Total                                                                                                165                      295
+Total                                                                                             1,037                      818
+                                                                                                                                            As at 31st March, 2026
+Refer note 1(o) for basis of valuation                                                                                                      Equity shares of Re. 1/- each                                                                        150                      150
+                                                                                                                                            Equity shares of H 10/- each                                                                           8                       80
+Amounts recognised in profit or loss                                                                                                                                                                                                               7                       65
+                                                                                                                                            Preference shares of H 10/- each
+During the year an amount of H 34 crores (31st March, 2025: H 33 crores) was charged to the Statement of Profit and Loss on account         Total                                                                                                165                      295
+of damaged and slow moving inventory.                                                                                                 II    Issued, subscribed and paid-up
+                                                                                                                                            As at 31st March, 2025
+10 Other Current Assets                                                                                                                     1,29,54,97,599 equity shares of Re. 1/- each fully paid-up                                           129                      129
+                                                                                                                       (H in Crore)         Total                                                                                                129                      129
+                                                                                                                         As at              As at 31st March, 2026
+                                                                                                 As at       31st March, 2025               1,29,81,48,935 equity shares of Re. 1/- each fully paid-up                                           130                      130
+Particulars
+                                                                                     31st March, 2026               (Restated)              Total                                                                                                130                      130
+                                                                                                               (Refer Note 39)
+                                                                                                                                      (i)    Movements in equity share capital
+Advances to vendors                                                                                   93                     122
+Prepaid expenses                                                                                      11                      14                                                                                                                              Equity Share
+Balances with government authorities                                                                  71                      78             Particulars                                                                                 No of shares
+                                                                                                                                                                                                                                                        capital (par value)
+Input tax credit receivable                                                                          190                     102
+                                                                                                                                             As at 1st April, 2024                                                                  1,29,41,01,828                        129
+Total                                                                                                366                     317
+                                                                                                                                             Increases during the year
+                                                                                                                                             Shares issued during the year - ESOP (refer note 33(a))                                   13,95,771                            0
+                                                                                                                                             As at 31st March, 2025                                                              1,29,54,97,599                           129
+                                                                                                                                             Increases during the year
+                                                                                                                                             Shares issued during the year - ESOP (refer note 33(a))                                   26,51,336                            1
+                                                                                                                                             As at 31st March, 2026                                                              1,29,81,48,935                           130
