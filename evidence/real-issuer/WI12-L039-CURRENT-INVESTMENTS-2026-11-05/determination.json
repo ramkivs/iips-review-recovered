@@ -4,9 +4,12 @@
   "recordedRunnerDate": "2026-11-08",
   "dateDiscrepancy": "Runner timestamps and some announcement rows are later than the session date; no as-of-session-date completeness assertion is made.",
   "period": "2026-03-31",
-  "outcome": "No mapping authorized; machine zero requires fact-context and source-semantics adjudication",
+  "outcome": "C — indeterminate: no mapping authorized; economic interpretation of the rounded machine zero remains unresolved",
   "status": "OPEN",
-  "currentInvestments": {"presence": "MISSING", "reason": "NOT_REPORTED"},
+  "currentInvestments": {
+    "presence": "MISSING",
+    "reason": "NOT_REPORTED"
+  },
   "newEvidence": {
     "xbrlConcept": "in-capmkt:CurrentInvestments",
     "xbrlValue": "0",
@@ -14,11 +17,37 @@
     "xbrlSha256": "133f0cf14a5bbdecf055affc046e5aa73097f8d9793bf423942933b037f19d21",
     "renderedCaption": "Current investments 0.00",
     "renderedSha256": "a9fa546bff8bcfc3dd531da0536370424c25b70a7cacd12373e06a7d7544a71b",
-    "factContextAndPrecisionVerified": false,
+    "factContextAndPrecisionVerified": true,
     "templateDefaultProven": false,
-    "interpretation": "A real reported machine fact, not a missing caption; mapping withheld pending resolution of context and meaning."
+    "interpretation": "A reported, rounded machine fact; neither economic zero nor automatic template default established.",
+    "classification": "C — indeterminate",
+    "qname": "{http://www.sebi.gov.in/xbrl/2026-01-31/in-capmkt}CurrentInvestments",
+    "contextRef": "OneI",
+    "entityIdentifier": "532714",
+    "entityScheme": "http://www.sebi.gov.in/in-capmkt/ScripCode",
+    "instant": "2026-03-31",
+    "explicitDimensions": [],
+    "typedDimensions": [],
+    "unitRef": "INR",
+    "unitMeasure": "iso4217:INR",
+    "decimals": "-7",
+    "precision": "absent",
+    "xsiNil": "absent",
+    "factCount": 1,
+    "taxonomyEntryPointResolved": false,
+    "issuerEconomicZeroEstablished": false
   },
-  "unchanged": {"grossDebtCrore": "5377.76", "cashCrore": "411.26", "cashAndInvestments": "MISSING / NOT_REPORTED", "netDebt": "MISSING / NOT_REPORTED", "codeOrDatasetChanged": false},
-  "reconsider": ["Verify fact context, dimensions, unit and precision; determine whether machine zero is a reported amount rather than an unpopulated or rounded field", "A separately reported same-instant consolidated amount", "Issuer declaration of nil plus owner decision for cash-side nil aggregation"],
+  "unchanged": {
+    "grossDebtCrore": "5377.76",
+    "cashCrore": "411.26",
+    "cashAndInvestments": "MISSING / NOT_REPORTED",
+    "netDebt": "MISSING / NOT_REPORTED",
+    "codeOrDatasetChanged": false
+  },
+  "reconsider": [
+    "Obtain applicable 2026 taxonomy and authoritative issuer/exchange clarification of fact meaning, rounding and population",
+    "A separately reported same-instant consolidated amount",
+    "Issuer declaration of nil plus owner decision for cash-side nil aggregation"
+  ],
   "note": "Source limitations and complete rejected mapping rationale are in README.md."
 }
