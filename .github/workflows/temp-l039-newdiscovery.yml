@@ -1,19 +1,18 @@
-name: temp L-039 new-disclosure retrieval (throwaway — deleted before PR)
+name: temp L-039 filings retrieval (throwaway — deleted before PR)
 
-# THROWAWAY. Retrieval pass for the L-039 KEC current-investments question, on a runner because the working
-# sandbox cannot reach NSE or the issuer host.
+# THROWAWAY. Third pass for the L-039 KEC current-investments question, on a runner (the sandbox cannot reach
+# NSE). Pass 1 found the route; pass 2 confirmed the NSE APIs answer and surfaced the exact attachment names.
 #
-# Already settled (register §17.17, tracker §16.275): both annual reports in the corpus — FY2025-26 (215 pp,
-# sha256 ba638897…c820) and FY2024-25 (206 pp, 29dfdf83…c1c6) — were converted page by page and 421 pages were
-# searched; no page carries a "Current investments" caption. Those two PDFs are NOT re-read here.
+# Already settled and NOT re-read here: the two annual reports in the corpus (FY2025-26 215 pp sha256
+# ba638897…c820; FY2024-25 206 pp 29dfdf83…c1c6) were converted page by page and 421 pages searched — no page
+# carries a "Current investments" caption (register §17.17).
 #
-# This pass fetches only documents that search could not have seen: the audited results filed with the exchange
-# for the year ended 31 March 2026, the limited-review integrated filings for the quarters after it, and the
-# issuer's Q2 FY27 corporate presentation. Each is hashed and searched for a current-investments caption; the
-# pages that mention investments are printed verbatim.
-#
-# Output is committed to a temp path on the same branch and both the workflow and that path are deleted before
-# the PR.
+# This pass reads only documents a page search of those two PDFs could not have covered:
+#   * the audited results filed for the year ended 31 March 2026 (reg 33 outcome + integrated filing);
+#   * the limited-review integrated filings and outcomes for Q1 and Q2 FY2026-27;
+#   * the iXBRL instance documents for those filings, which tag balance-sheet line items explicitly.
+# Each PDF is hashed, its investment lines are printed, and every page that mentions an investment is dumped
+# verbatim. iXBRL is searched for investment element names together with their reported values.
 
 on:
   workflow_dispatch:
@@ -38,69 +37,90 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils curl >/dev/null
 
-      - name: Collect retrieval report into /tmp/l039-report2.txt
+      - name: Collect report into /tmp/l039-report3.txt
         run: |
           set -u
-          REPORT=/tmp/l039-report2.txt
+          REPORT=/tmp/l039-report3.txt
           : > "$REPORT"
           exec 3>&1
           exec >> "$REPORT" 2>&1
           UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
           REF="https://www.nseindia.com/"
           echo "utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
-          nse_get() {
-            curl -sS -A "$UA" -b /tmp/nse.jar -H 'Accept: application/json' -H "Referer: $REF" -o "$2" -w '%{http_code}' --max-time 90 "$1"
-          }
           curl -sS -A "$UA" -c /tmp/nse.jar -o /dev/null --max-time 45 "$REF"
+          curl -sS -A "$UA" -b /tmp/nse.jar -H 'Accept: application/json' -H "Referer: $REF" --max-time 90 -o /tmp/integrated.json "https://www.nseindia.com/api/integrated-filing-results?index=equities&symbol=KEC"
+          echo "integrated bytes=$(stat -c%s /tmp/integrated.json 2>/dev/null || echo 0)"
 
           echo
-          echo "===== SECTION A: NSE annual-results index (audited, by period) ====="
-          echo "http=$(nse_get 'https://www.nseindia.com/api/corporates-financial-results?index=equities&symbol=KEC&period=Annual' /tmp/annual.json) bytes=$(stat -c%s /tmp/annual.json 2>/dev/null || echo 0)"
-          python3 -c "import json;rows=json.load(open('/tmp/annual.json'));print('rows=',len(rows));print('keys=',sorted(rows[0].keys()) if rows else []);[print(' ',r.get('toDate'),'|',r.get('audited'),'|',r.get('consolidated'),'|',r.get('ind_as'),'|',(r.get('attachment') or r.get('xbrl_attachment') or '')[:170]) for r in rows[:14]]" 2>/dev/null || echo "(annual json unreadable)"
+          echo "===== SECTION A: full rows for the 2026 integrated filings ====="
+          python3 -c "import json;d=json.load(open('/tmp/integrated.json'));rows=d.get('data',[]) if isinstance(d,dict) else d;[print('ROW', r.get('qe_Date'), r.get('consolidated'), r.get('audited')) or [print('   ',k,'=',v) for k,v in sorted(r.items())] for r in rows if str(r.get('qe_Date'))[:10] in ('30-SEP-2026','30-JUN-2026','31-MAR-2026')]" 2>/dev/null || echo "(unreadable)"
 
           echo
-          echo "===== SECTION B: NSE integrated filings (post-annual quarters) ====="
-          echo "http=$(nse_get 'https://www.nseindia.com/api/integrated-filing-results?index=equities&symbol=KEC' /tmp/integrated.json) bytes=$(stat -c%s /tmp/integrated.json 2>/dev/null || echo 0)"
-          python3 -c "import json;d=json.load(open('/tmp/integrated.json'));rows=d.get('data',[]) if isinstance(d,dict) else d;print('rows=',len(rows));print('keys=',sorted(rows[0].keys()) if rows else []);[print(' ',r.get('qe_Date') or r.get('broadcast_Date'),'|',r.get('consolidated'),'|',r.get('audited'),'|',(r.get('attachment') or '')[:170]) for r in rows[:10]]" 2>/dev/null || echo "(integrated json unreadable)"
-
-          echo
-          echo "===== SECTION C: NSE corporate announcements — results / investment wording ====="
-          echo "http=$(nse_get 'https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=KEC' /tmp/ann.json) bytes=$(stat -c%s /tmp/ann.json 2>/dev/null || echo 0)"
-          python3 -c "import json;rows=json.load(open('/tmp/ann.json'));print('rows=',len(rows));hits=[r for r in rows if any(k in ((r.get('attchmntText') or '')+(r.get('desc') or '')+(r.get('subject') or '')).lower() for k in ('financial result','investment','net debt'))];print('matching=',len(hits));[print(' ',r.get('an_dt'),'|',((r.get('desc') or r.get('subject') or r.get('attchmntText') or '')[:90]),'|',r.get('attchmntFile') or '') for r in hits[:25]]" 2>/dev/null || echo "(announcements json unreadable)"
-
+          echo "===== SECTION B: PDF analysis helper output ====="
           analyse() {
             f="$1"; label="$2"
-            if ! pdfinfo "$f" >/dev/null 2>&1; then echo "  $label: NOT A PDF"; head -c 200 "$f"; echo; return; fi
+            if ! pdfinfo "$f" >/dev/null 2>&1; then echo "  $label: NOT A PDF (first 120 bytes follow)"; head -c 120 "$f"; echo; return; fi
             echo "  $label: bytes=$(stat -c%s "$f") sha256=$(sha256sum "$f" | cut -d' ' -f1) pages=$(pdfinfo "$f" | awk '/^Pages:/{print $2}')"
             pdftotext -layout "$f" "/tmp/$label.txt"
-            echo "  --- every line mentioning investment / mutual fund (page-tagged) ---"
-            awk -v L="$label" 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {l=tolower($0); if (l ~ /investment|mutual fund|treasury/) printf "  %s p%d: %s\n", L, p, l}' "/tmp/$label.txt" | sed 's/[[:space:]]\+$//' | cut -c1-240 | head -70
-            echo "  --- pages whose text contains 'balance sheet' ---"
-            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {l=tolower($0); if (l ~ /balance sheet/) printf "  p%d\n", p}' "/tmp/$label.txt" | sort -un | head -10
+            echo "  --- page-tagged investment lines ---"
+            awk -v L="$label" 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {l=tolower($0); if (l ~ /investment|mutual fund|treasury|current investment/) printf "  %s p%d: %s\n", L, p, l}' "/tmp/$label.txt" | sed 's/[[:space:]]\+$//' | cut -c1-210 | head -60
+            echo "  --- pages containing 'balance sheet' / 'financial assets' ---"
+            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {l=tolower($0); if (l ~ /balance sheet|financial assets/) printf "  p%d: %s\n", p, l}' "/tmp/$label.txt" | sed 's/[[:space:]]\+$//' | cut -c1-160 | head -20
           }
 
-          echo
-          echo "===== SECTION D: download and analyse the exchange filings ====="
-          python3 -c "import json;a=json.load(open('/tmp/annual.json'));i=json.load(open('/tmp/integrated.json'));rows=i.get('data',[]) if isinstance(i,dict) else i;out=[('annres-fy26',r.get('attachment')) for r in a if (r.get('toDate') or '').strip()=='31-Mar-2026' and r.get('attachment')];out=out+[('integrated-'+(r.get('qe_Date') or r.get('broadcast_Date') or 'x').replace(' ','_').replace(':',''),r.get('attachment')) for r in rows[:6] if r.get('attachment') and 'nsearchives' in (r.get('attachment') or '')];[print(l+chr(9)+u) for l,u in out[:10]]" > /tmp/urls.tsv 2>/dev/null
-          echo "candidate rows: $(wc -l </tmp/urls.tsv)"
-          cut -c1-200 /tmp/urls.tsv
           TAB=$(printf '\t')
-          while IFS="$TAB" read -r LABEL URL; do
-            [ -n "${LABEL:-}" ] || continue
-            echo "--- fetching $LABEL"
+          fetch_pdf() {  # fetch_pdf <label> <url>
+            LABEL="$1"; URL="$2"
+            echo "--- $LABEL"
             echo "    url=$URL"
             CODE=$(curl -sSL -A "$UA" -H "Referer: $REF" -o /tmp/cand.pdf -w '%{http_code}' --max-time 240 "$URL")
             echo "    http=$CODE bytes=$(stat -c%s /tmp/cand.pdf 2>/dev/null || echo 0)"
             analyse /tmp/cand.pdf "$LABEL"
-          done < /tmp/urls.tsv
+          }
 
           echo
-          echo "===== SECTION E: issuer corporate presentation Q2 FY27 ====="
-          PU="https://www.kecrpg.com/public/media/corporatePresentationFilesMedia/Corporate%20Presentation%20Q2%20FY27.pdf"
-          CODE=$(curl -sSL -A "$UA" -o /tmp/pres.pdf -w '%{http_code}' --max-time 240 "$PU")
-          echo "    url=$PU http=$CODE bytes=$(stat -c%s /tmp/pres.pdf 2>/dev/null || echo 0)"
-          analyse /tmp/pres.pdf "corporate-presentation-q2fy27"
+          echo "===== SECTION C: audited results for the year ended 31 March 2026 (reg 33 outcome) ====="
+          fetch_pdf "fy26-audited-results-outcome" "https://nsearchives.nseindia.com/corporate/KEC_16052026215722_SEintimationFinancials.pdf"
+
+          echo
+          echo "===== SECTION D: Q1 FY2026-27 outcome (quarter ended 30 June 2026) ====="
+          fetch_pdf "q1fy27-outcome" "https://nsearchives.nseindia.com/corporate/KEC_10082026183220_SE_intimation_Outcome.pdf"
+
+          echo
+          echo "===== SECTION E: Q2 FY2026-27 outcome (quarter ended 30 September 2026) ====="
+          fetch_pdf "q2fy27-outcome" "https://nsearchives.nseindia.com/corporate/KEC_02112026210430_SE_intimation_BM_outcome_Results.pdf"
+
+          echo
+          echo "===== SECTION F: integrated-filing PDFs and iXBRL for 30-SEP-2026 / 30-JUN-2026 / 31-MAR-2026 ====="
+          python3 -c "import json;d=json.load(open('/tmp/integrated.json'));rows=d.get('data',[]) if isinstance(d,dict) else d;out=[];[out.append((str(r.get('qe_Date'))[:10]+'-'+str(r.get('consolidated'))+'-'+(r.get('pdf_attach') or ''))) for r in rows if str(r.get('qe_Date'))[:10] in ('30-SEP-2026','30-JUN-2026','31-MAR-2026') and r.get('pdf_attach')];[print(x) for x in out]" > /tmp/pdfs.txt 2>/dev/null
+          echo "pdf rows: $(wc -l </tmp/pdfs.txt)"; cut -c1-200 /tmp/pdfs.txt
+          while IFS= read -r LINE; do
+            [ -n "${LINE:-}" ] || continue
+            L="${LINE%%http*}"; U="${LINE#*http}"; U="http$U"
+            U=$(printf '%s' "$U" | tr -d ' ')
+            case "$U" in http*) fetch_pdf "integrated-$(printf '%s' "$L" | tr -d ' ')" "$U" ;; esac
+          done < /tmp/pdfs.txt
+
+          echo
+          echo "===== SECTION G: iXBRL instances — investment elements with values ====="
+          python3 -c "import json;d=json.load(open('/tmp/integrated.json'));rows=d.get('data',[]) if isinstance(d,dict) else d;out=[(str(r.get('qe_Date'))[:10]+'-'+str(r.get('consolidated'))+chr(9)+(r.get('ixbrl') or '')) for r in rows if str(r.get('qe_Date'))[:10] in ('30-SEP-2026','30-JUN-2026','31-MAR-2026') and r.get('ixbrl')];[print(x) for x in out]" > /tmp/ixbrl.tsv 2>/dev/null
+          echo "ixbrl rows: $(wc -l </tmp/ixbrl.tsv)"; cut -c1-200 /tmp/ixbrl.tsv
+          while IFS="$TAB" read -r L U; do
+            [ -n "${L:-}" ] || continue
+            echo "--- iXBRL $L : $U"
+            CODE=$(curl -sSL -A "$UA" -H "Referer: $REF" -o /tmp/inst.xml -w '%{http_code}' --max-time 240 "$U")
+            echo "    http=$CODE bytes=$(stat -c%s /tmp/inst.xml 2>/dev/null || echo 0) sha256=$(sha256sum /tmp/inst.xml 2>/dev/null | cut -d' ' -f1)"
+            python3 -c "import re;t=open('/tmp/inst.xml',errors='ignore').read();print('    ix facts=',len(re.findall(r'<ix:nonFraction',t)));print('    investment element names=',sorted(set(re.findall(r'name=\"([^\"]*[Ii]nvestment[^\"]*)\"',t)))[:20]);[print('    fact:',m.group(1),'=',m.group(2).strip()) for m in re.finditer(r'<ix:nonFraction[^>]*name=\"([^\"]*[Ii]nvestment[^\"]*)\"[^>]*>([^<]*)<',t)];[print('    text:',m.group(0)[:160].replace(chr(10),' ')) for m in list(re.finditer(r'(?is)(current investments?|non-current investments?)',t))[:12]]" 2>/dev/null | head -40
+          done < /tmp/ixbrl.tsv
+
+          echo
+          echo "===== SECTION H: Q2 FY27 corporate presentation (issuer site, both path roots) ====="
+          for P in \
+            "https://www.kecrpg.com/media/corporatePresentationFilesMedia/Corporate%20Presentation%20Q2%20FY27.pdf" \
+            "https://www.kecrpg.com/public/media/corporatePresentationFilesMedia/Corporate%20Presentation%20Q2%20FY27.pdf"
+          do
+            fetch_pdf "presentation-$(basename "$P" | tr ' %' '__' | cut -c1-30)" "$P"
+          done
 
           echo
           echo "===== END OF REPORT ====="
@@ -111,12 +131,12 @@ jobs:
         if: always()
         run: |
           set -u
-          REPORT=/tmp/l039-report2.txt
+          REPORT=/tmp/l039-report3.txt
           [ -s "$REPORT" ] || { echo "no report captured"; exit 0; }
           mkdir -p .l039-temp
-          cp "$REPORT" .l039-temp/retrieval-report.txt
+          cp "$REPORT" .l039-temp/filings-report.txt
           git config user.name "L-039 locator"
           git config user.email "noreply@github.com"
-          git add .l039-temp/retrieval-report.txt
-          git commit -qm "temp: L-039 retrieval report (throwaway, deleted before PR)"
+          git add .l039-temp/filings-report.txt
+          git commit -qm "temp: L-039 filings report (throwaway, deleted before PR)"
           git push origin HEAD:refs/heads/arena/7bc5125b-iips-review-recovered
