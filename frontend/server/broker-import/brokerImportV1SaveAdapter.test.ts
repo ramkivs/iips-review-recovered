@@ -95,7 +95,13 @@ describe('brokerImportV1SaveAdapter — byte-exact v1 payload', () => {
       mode: 'REPLACE',
       holdings: [{ symbol: 'TCS' }],
     });
-    expect(Object.keys(payload).sort()).toEqual(['expectedRevision', 'holdings', 'mode', 'portfolioId']);
+    expect(Object.keys(payload).sort()).toEqual([
+      'expectedRevision',
+      'holdings',
+      'mode',
+      'operation',
+      'portfolioId',
+    ]);
   });
 
   it('serializes only broker-observed holding fields', () => {
@@ -279,5 +285,67 @@ describe('brokerImportV1SaveAdapter — narrow revision read via portfolio.list 
       retried: false,
     });
     expect(callsTimeout).toHaveLength(1);
+  });
+});
+
+/**
+ * Stage 1 — v1 REPLACE semantics.
+ *
+ * IPD v1 derives the write operation only from `options.mode` or `payload.operation`
+ * (`src/ipc/dispatch.ts:217`); it does not read the top-level `mode` field. Before this
+ * correction IRR sent only top-level `mode`, so every REPLACE save was silently applied as
+ * MERGE — a wrong-success, not an error. These tests pin the transmitted operation and prove
+ * MERGE's payload shape is unchanged.
+ */
+describe('brokerImportV1SaveAdapter — Stage 1: REPLACE is transmitted through the v1 channel', () => {
+  it('transmits operation:"REPLACE" for a REPLACE save (the channel IPD v1 actually reads)', async () => {
+    const calls: RecordedCall[] = [];
+    const deps = makeDeps([successFrame(RECEIPT)], calls);
+    await saveBrokerImportHoldingsViaV1(deps, 'DEFAULT_PORTFOLIO', dto({ mode: 'REPLACE' }));
+    expect(calls).toHaveLength(1);
+    const payload = calls[0].payload as Record<string, unknown>;
+    expect(payload.operation).toBe('REPLACE');
+    // The top-level mode is preserved for v1 §6 documentation compatibility.
+    expect(payload.mode).toBe('REPLACE');
+  });
+
+  it('omits operation entirely for a MERGE save — MERGE payload shape is unchanged', async () => {
+    const calls: RecordedCall[] = [];
+    const deps = makeDeps([successFrame(RECEIPT)], calls);
+    await saveBrokerImportHoldingsViaV1(deps, 'DEFAULT_PORTFOLIO', dto({ mode: 'MERGE' }));
+    const payload = calls[0].payload as Record<string, unknown>;
+    expect('operation' in payload).toBe(false);
+    expect(Object.keys(payload).sort()).toEqual(
+      ['broker', 'contentDigest', 'expectedRevision', 'holdings', 'mode', 'portfolioId'].sort(),
+    );
+  });
+
+  it('never sends an options bag — the operation is carried top-level, not as caller options', async () => {
+    const calls: RecordedCall[] = [];
+    const deps = makeDeps([successFrame(RECEIPT)], calls);
+    await saveBrokerImportHoldingsViaV1(deps, 'DEFAULT_PORTFOLIO', dto({ mode: 'REPLACE' }));
+    expect(calls[0].options).toEqual({});
+    expect(JSON.stringify(calls[0].payload)).not.toContain('options');
+  });
+
+  it('derives operation from the validated DTO only — a caller cannot supply it', () => {
+    // `operation` is absent from BROKER_IMPORT_DTO_KEYS, so the boundary refuses an inbound one
+    // before the adapter is ever reached; here we prove the adapter ignores any stray value.
+    const payload = buildV1SavePayload('P-1', {
+      expectedRevision: 1,
+      mode: 'MERGE',
+      holdings: [{ symbol: 'TCS' }],
+      ...({ operation: 'REPLACE' } as unknown as Record<string, unknown>),
+    });
+    expect('operation' in payload).toBe(false);
+  });
+
+  it('keeps REPLACE and MERGE distinct in the same run (no sticky mode)', async () => {
+    const calls: RecordedCall[] = [];
+    const deps = makeDeps([successFrame(RECEIPT)], calls);
+    await saveBrokerImportHoldingsViaV1(deps, 'P-REPLACE', dto({ mode: 'REPLACE' }));
+    await saveBrokerImportHoldingsViaV1(deps, 'P-MERGE', dto({ mode: 'MERGE' }));
+    expect((calls[0].payload as Record<string, unknown>).operation).toBe('REPLACE');
+    expect('operation' in (calls[1].payload as Record<string, unknown>)).toBe(false);
   });
 });

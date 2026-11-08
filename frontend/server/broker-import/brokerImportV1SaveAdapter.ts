@@ -91,6 +91,15 @@ export interface BrokerImportSaveAdapterDeps {
  * `options` bag, no `fileName`, no `importedAt`, no `sourceBroker` and no canonical identity key;
  * the input DTO is already boundary-validated, and `encodeRequestFrame` re-enforces OC-7/C7
  * before any socket is opened.
+ *
+ * REPLACE semantics are carried by `operation`, not by `mode`. IPD v1 derives the write
+ * operation **only** from `options.mode` or `payload.operation` (`src/ipc/dispatch.ts:217`);
+ * a top-level `mode` is preserved because v1 §6 documents it, but it is not a channel IPD v1
+ * reads. Without `operation` a REPLACE save is silently applied as MERGE, which is a
+ * wrong-success rather than an error. `operation` is **derived here from the already-validated
+ * DTO** and is never accepted from the caller: it is absent from `BROKER_IMPORT_DTO_KEYS`, so an
+ * inbound `operation` is already refused by the boundary as `field-outside-v1-save-payload`.
+ * MERGE omits the key entirely so its payload shape is byte-for-byte unchanged.
  */
 export function buildV1SavePayload(
   portfolioId: string,
@@ -100,6 +109,7 @@ export function buildV1SavePayload(
     portfolioId,
     expectedRevision: dto.expectedRevision,
     mode: dto.mode,
+    ...(dto.mode === 'REPLACE' ? { operation: 'REPLACE' as const } : {}),
     holdings: dto.holdings,
     ...(dto.contentDigest !== undefined ? { contentDigest: dto.contentDigest } : {}),
     ...(dto.broker !== undefined ? { broker: dto.broker } : {}),
