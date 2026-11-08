@@ -11,6 +11,9 @@ name: temp L-038 preference-share locator (throwaway — deleted before PR)
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/temp-l038-preference-locate.yml'
 
 permissions:
   contents: read
