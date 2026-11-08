@@ -117,7 +117,7 @@ Committed packet: `evidence/integration/step9-controlled-execution-2026-11-08/`
 | `03-operator-preflight.exit` | Observed operator exit code |
 | `04-blocker-inventory.txt` | UTC timestamp, required-setting presence inventory, loopback TCP probe, socket/process inventory, Git/IPD remote reads, operator hash |
 | `05-operator-help.stdout` | Operator help output confirming the merged CLI surface |
-| `06-build-broker-import.log` | Existing published alias materialization log |
+| `06-build-broker-import.txt` | Existing published alias materialization log |
 | `manifest.json` | Packet manifest with file sizes, SHA-256 digests, baseline, operator hash, command, and blocked-result summary |
 
 The manifest records `portfolioWritesIssued: 0`, `routeAHttpRequestsIssuedByOperator: 0`, `ipcCallsIssuedByOperator: 0`, `operatorEvidenceJournalCreated: false`, `physicalErasureClaimed: false`, and `productionActivity: false`.
