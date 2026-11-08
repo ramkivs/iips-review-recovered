@@ -1,0 +1,193 @@
+name: temp L-039 outstanding-evidence probe (throwaway — deleted before PR)
+
+# THROWAWAY. Runner-side retrieval for the L-039 question that is still open after WI-8/§17.17:
+# KEC International's consolidated CURRENT INVESTMENTS. The two annual reports already read
+# (FY2025-26 sha256 ba638897…c820, 215 pp; FY2024-25 sha256 29dfdf83…c1c6, 206 pp) are NOT re-searched
+# page by page here — that 421-page sweep is already published. This run looks only for documents that
+# have never been read:
+#   1. an annual report for FY2026-27 (probe; it should not exist yet) and an FY2023-24 report (404 before);
+#   2. post-31-March-2026 exchange/issuer financial-results filings, whose balance sheet carries the
+#      31 March 2026 instant a second time — a genuinely independent publication of the same instant;
+#   3. any other issuer PDF that names an investment caption.
+# Access failures are recorded as environment limitations, never as evidence of absence.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/temp-l039-outstanding-probe.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/7bc5125b-iips-review-recovered
+
+      - name: Install poppler-utils
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils curl >/dev/null
+
+      - name: Collect evidence into /tmp/l039-report.txt
+        run: |
+          set -u
+          REPORT=/tmp/l039-report.txt
+          : > "$REPORT"
+          exec 3>&1
+          exec >> "$REPORT" 2>&1
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+
+          grab() {
+            u="$1"; out="$2"; rm -f "$out"
+            LEN=$(curl -sSL -A "$UA" -I --max-time 60 "$u" 2>/dev/null | tr -d '\r' | awk 'tolower($1)=="content-length:"{print $2}' | tail -1)
+            for i in 1 2 3 4 5 6; do
+              curl -sSL -C - -A "$UA" -H 'Accept: application/pdf,*/*' --max-time 240 -o "$out" "$u" 2>/tmp/e
+              sz=$(stat -c%s "$out" 2>/dev/null || echo 0)
+              echo "    attempt$i bytes=$sz${LEN:+/$LEN} $(tr -d '\n' </tmp/e | cut -c1-70)"
+              if pdfinfo "$out" >/dev/null 2>&1; then return 0; fi
+              if [ "$sz" = "0" ]; then return 1; fi
+            done
+            return 1
+          }
+
+          report_pdf() { # $1 = file  $2 = label
+            f="$1"; label="$2"
+            [ -f "$f" ] || { echo "  ($label: no file)"; return; }
+            if ! pdfinfo "$f" >/dev/null 2>&1; then echo "  ($label: not a PDF, $(stat -c%s "$f") bytes)"; return; fi
+            pages=$(pdfinfo "$f" | awk '/^Pages:/{print $2}')
+            echo "  OBTAINED $label"
+            echo "    bytes=$(stat -c%s "$f") sha256=$(sha256sum "$f" | cut -d' ' -f1) pages=$pages"
+            echo "    md=$(pdfinfo "$f" | grep -E '^(Title|CreationDate|ModDate):' | tr '\n' ' ')"
+            pdftotext -layout "$f" "/tmp/$label.txt" 2>/dev/null || true
+            T="/tmp/$label.txt"
+            for term in "current investment" "no current investment" "non-current investment" "investment in mutual" "mutual fund"; do
+              n=$(grep -ic "$term" "$T" 2>/dev/null || echo 0)
+              echo "    occurrences: $term = $n"
+            done
+            echo "    --- pages whose text contains 'current investment' (case-insensitive) ---"
+            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /current investment/) printf "      p%d: %s\n", p, $0}' "$T" | sed 's/[[:space:]]\+$//' | head -30
+            echo "    --- pages containing a balance-sheet-style 'Current investments' row (CURRENT INVESTMENTS as a caption) ---"
+            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if ($0 ~ /^[[:space:]]*(Current investments|CURRENT INVESTMENTS|Investments)[[:space:]]/) printf "      p%d: %s\n", p, $0}' "$T" | sed 's/[[:space:]]\+$//' | head -20
+            echo "    --- pages with 'Investments' as a row label anywhere ---"
+            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /^[[:space:]]*investments[[:space:]]/) printf "      p%d: %s\n", p, $0}' "$T" | sed 's/[[:space:]]\+$//' | head -20
+          }
+
+          echo "===== SECTION 1: transport + archive index ====="
+          echo "utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "dns kecrpg.com: $(getent hosts www.kecrpg.com | head -1)"
+          curl -sS --max-time 150 "https://web.archive.org/cdx/search/cdx?url=kecrpg.com/public/media/*&output=txt&fl=original,timestamp,statuscode,mimetype&collapse=urlkey&limit=8000" -o /tmp/cdx.txt
+          echo "cdx_lines=$(wc -l </tmp/cdx.txt)"
+          echo "--- CDX rows that look like annual reports ---"
+          grep -iE "annual" /tmp/cdx.txt | head -25
+          echo "--- CDX rows that look like results / statements (anything 2026) ---"
+          grep -iE "result|statement|financial" /tmp/cdx.txt | grep -iE "2026|fy27|2025-26|fy26|q1|q2" | head -40
+
+          echo
+          echo "===== SECTION 2: issuer investor-relations pages — link inventory ====="
+          for page in \
+            "https://www.kecrpg.com/investor-relations/annual-reports" \
+            "https://www.kecrpg.com/investor-relations/financial-results" \
+            "https://www.kecrpg.com/investor-relations" \
+            "https://www.kecrpg.com/investors"
+          do
+            code=$(curl -sSL -A "$UA" -o /tmp/page.html -w '%{http_code}' --max-time 90 "$page")
+            echo "--- $page http=$code bytes=$(stat -c%s /tmp/page.html 2>/dev/null || echo 0)"
+            grep -oE 'href="[^"]+\.pdf"' /tmp/page.html 2>/dev/null | sed 's/href="//; s/"$//' | sort -u | head -40
+          done
+
+          echo
+          echo "===== SECTION 3: annual-report probes (documents that were 404 or do not yet exist) ====="
+          for pair in \
+            "https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2026-27.pdf|ar2627" \
+            "https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf|ar2526_control" \
+            "https://www.kecrpg.com/public/media/annualReportMedia/KEC_Annual_Report_2023-24.pdf|ar2324"
+          do
+            url="${pair%%|*}"; label="${pair##*|}"
+            echo "--- $label: $url"
+            if [ "$label" = "ar2526_control" ]; then
+              if grab "$url" /tmp/$label.pdf; then
+                echo "  control identity: bytes=$(stat -c%s /tmp/$label.pdf) sha256=$(sha256sum /tmp/$label.pdf | cut -d' ' -f1) pages=$(pdfinfo /tmp/$label.pdf | awk '/^Pages:/{print $2}') (expect 18566481 / ba638897…c820 / 215)"
+              else
+                echo "  control fetch FAILED (environment, not absence)"
+              fi
+              continue
+            fi
+            code=$(curl -sSL -A "$UA" -o /dev/null -w '%{http_code}' --max-time 60 -I "$url")
+            echo "  http=$code"
+            if [ "$code" = "200" ]; then report_pdf_result=$(grab "$url" /tmp/$label.pdf && report_pdf /tmp/$label.pdf "$label"); else echo "  not available at this path"; fi
+            if [ "$code" != "200" ]; then
+              echo "  trying the Wayback raw copy at any timestamp"
+              if grab "https://web.archive.org/web/2024id_/$url" /tmp/$label.pdf; then report_pdf /tmp/$label.pdf "$label-wayback"; else echo "  no archived copy reachable"; fi
+            fi
+          done
+
+          echo
+          echo "===== SECTION 4: post-31-March-2026 results filings ====="
+          # candidates discovered from the IR pages in section 2 and the standard naming series
+          for pair in \
+            "https://www.kecrpg.com/public/media/resultMedia/KEC_Q1_FY27_Results.pdf|q1fy27_a" \
+            "https://www.kecrpg.com/public/media/financialResultMedia/KEC_Q1_FY27_Results.pdf|q1fy27_b" \
+            "https://www.kecrpg.com/public/media/resultMedia/KEC_Q1_FY2026-27_Results.pdf|q1fy27_c" \
+            "https://www.kecrpg.com/public/media/resultMedia/KEC_Q4_FY26_Results.pdf|q4fy26_a" \
+            "https://www.kecrpg.com/public/media/resultMedia/KEC_Results_Q4_FY26.pdf|q4fy26_b"
+          do
+            url="${pair%%|*}"; label="${pair##*|}"
+            code=$(curl -sSL -A "$UA" -o /dev/null -w '%{http_code}' --max-time 60 -I "$url")
+            echo "--- $label http=$code $url"
+            if [ "$code" = "200" ]; then
+              if grab "$url" /tmp/$label.pdf; then report_pdf /tmp/$label.pdf "$label"; fi
+            fi
+          done
+          echo "--- BSE announcements API probe (scrip 532714) ---"
+          curl -sS -A "$UA" -H 'Accept: application/json' --max-time 60 \
+            "https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w?strCat=-1&strPrevDate=20260401&strScrip=532714&strSearch=P&strToDate=20261105&strType=C" \
+            -o /tmp/bse.json -w '  http=%{http_code} bytes=%{size_download}\n'
+          head -c 400 /tmp/bse.json; echo
+
+          echo
+          echo "===== SECTION 5: which PDFs did the issuer pages actually expose? ====="
+          # re-scan the pages and fetch any PDF that mentions results/statement/financial in its name
+          for page in \
+            "https://www.kecrpg.com/investor-relations/annual-reports" \
+            "https://www.kecrpg.com/investor-relations/financial-results"
+          do
+            curl -sSL -A "$UA" -o /tmp/page.html --max-time 90 "$page" || continue
+            for href in $(grep -oE 'href="[^"]+\.pdf"' /tmp/page.html | sed 's/href="//; s/"$//' | sort -u | head -12); do
+              case "$href" in
+                *result*|*Result*|*statement*|*Statement*|*annual*|*Annual*)
+                  case "$href" in http*) full="$href";; /*) full="https://www.kecrpg.com$href";; *) full="https://www.kecrpg.com/$href";; esac
+                  echo "--- discovered: $full"
+                  code=$(curl -sSL -A "$UA" -o /dev/null -w '%{http_code}' --max-time 60 -I "$full")
+                  echo "    http=$code"
+                  if [ "$code" = "200" ]; then
+                    if grab "$full" /tmp/disc.pdf; then report_pdf /tmp/disc.pdf "disc_$(echo "$href" | tr -c 'A-Za-z0-9' '_' | tail -c 40)"; fi
+                  fi
+                  ;;
+              esac
+            done
+          done
+
+          echo
+          echo "===== END OF REPORT ====="
+          exec >&3 2>&3
+          echo "report bytes=$(stat -c%s "$REPORT")"
+
+      - name: Publish report to the branch (temp path)
+        if: always()
+        run: |
+          set -u
+          REPORT=/tmp/l039-report.txt
+          [ -s "$REPORT" ] || { echo "no report captured"; exit 0; }
+          mkdir -p .l039-temp
+          cp "$REPORT" .l039-temp/outstanding-evidence-report.txt
+          git config user.name "L-039 probe"
+          git config user.email "noreply@github.com"
+          git add .l039-temp/outstanding-evidence-report.txt
+          git commit -qm "temp: L-039 outstanding-evidence probe output (throwaway, deleted before PR)"
+          git push origin HEAD:refs/heads/arena/7bc5125b-iips-review-recovered
