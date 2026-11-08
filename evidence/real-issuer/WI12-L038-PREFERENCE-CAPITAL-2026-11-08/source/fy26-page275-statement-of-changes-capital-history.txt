@@ -1,0 +1,81 @@
+# Marico FY2025-26 — PDF page 275 (statement of changes in equity: historical preference-share rows)
+#
+# Verbatim text extraction, unedited apart from trailing-space trimming and the removal of a uniform
+# two-space gutter indent. Produced on a GitHub Actions runner with `pdftotext -layout -f 275 -l 275`
+# (poppler-utils) directly from the PDF named below; nothing was retyped, reflowed or re-ordered.
+#
+# source document : Marico Annual Report FY2025-26 (Integrated Annual Report 2025-26)
+# source sha256   : 7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f
+# source bytes    : 21282741
+# source pages    : 279
+# pdf page        : 275   (1-based, as produced by pdftotext -f/-l)
+# retrieved       : 2026-11-08T05:2xZ (runner)
+# locator log     : runs/04-fy26-standalone-report.txt
+#
+# NOTE: these pages are multi-column. `-layout` preserves columns horizontally, so a single printed line
+# can carry text from two different notes. Columns are never to be re-assembled into one logical row.
+#
+546                                                                                                                                                                                                                                                                         547
+    Marico Limited       Integrated Annual Repor t 2025-26                                                                                                           Corporate Overview                        Statutory Reports                       Financial Statements
+
+
+
+
+Performance Trends                                                                                                Economic Value Added Analysis
+
+                                                                                                                                                                                    FY21              FY22             FY23             FY24             FY25             FY26
+
+Consolidated Quarterly Financials                                                                                 Average Capital Employed                                          3,534            3,775            4,367            5,056             5,670           6,690
+                                                                                                   (H in Crore)   Average Debt / Total capital (%)                                     9.7              9.2              9.4              8.5               6.7             5.5
+2025-26                                                         Three Months Ended                    Annual      Profit After Current Tax (excluding one-offs)                     1,175            1,258            1,366            1,584             1,636           1,734
+Particulars                                      30-Jun-25     30-Sep-25   31-Dec-25   31-Mar-26        FY26      Add: Interest Post Tax                                               27               31               42               57                41              42
+                                                                                                                  Net Operating Profit After Tax                                    1,202            1,289            1,408            1,641             1,677           1,776
+Revenue from Operations                               3,259        3,482       3,537       3,333       13,611
+                                                                                                                  Less: Cost of Capital                                               357              394              498              549               629             714
+Total Expenditure                                     2,604        2,922       2,945       2,812       11,283
+                                                                                                                  h) Economic Value Added                                            845              894              910            1,092             1,048          1,062*
+Profit before Finance Cost, Tax, Depreciation          655          560         592         521        2,328
+and Amortisation                                                                                                  * In FY26, the Company revalued an obligation to acquire the remaining stake from a prior acquisition and reclassified from Non-Current Liabilities to Current
+Other income                                             56          49          39          60          204      Liabilities in line with the accounting policy. The Economic Value Added (EVA) stated above is adjusted for the liability. Without such adjustment, the EVA
+                                                                                                                  stands at H1,123 Cr.
+Finance cost                                             10          12          14          17           53
+Depreciation and Amortisation                            45          47          50          60          202
+Profit before Share of Profits/(Loss) of Joint          656         550         567         504        2,277      Sustainable Wealth Creation
+Ventures, Exceptional Items and Tax
+Share of Profit/(Loss)of Joint Ventures                    -           -           -           -            -     Investment                                         Through                                    Shares                Value (in J)           Indexed Value
+Exceptional Items                                          -           -           -           -            -     April 1996 - Original Purchase  IPO                                                              100                      17,500                         100
+Profit before tax                                       656         550         567         504        2,277      August 2002                     Bonus (Equity 1:1)                                               200                           -                            -
+Tax expense                                             143         118         107          96          464      September 2002                  Bonus (Preference 1:1)                                           200                           -                            -
+Profit after tax                                        513         432         460         408        1,813      May 2004                        Bonus (Equity 1:1)                                               400                           -                            -
+Minority Interest                                         9          12          13          17           51      February 2007                   Share Split (10:1)                                              4000                           -                            -
+Net profit attributable to Owners of the                504         420         447         391        1,762      December 2015                   Bonus (Equity 1:1)                                              8000                           -                            -
+Company                                                                                                           Holdings and Cost as on March 31, 2026                                                         8,000                     17,500                          100
+Equity Share Capital                                    129          130         130         130          130
+Earning per Share - (J)                                 3.9          3.2         3.5         3.0         13.6
+                                                                                                                  Return                                                      Through                                  Shares            Value (in J)        Indexed Value
+                                                                                                   (H in Crore)
+                                                                                                                  March 31, 2026                                              Market value                                8000             58,87,600                    33,643
+2024-25                                                         Three Months Ended                    Annual
+                                                                                                                  March 2004                                                  Redemption proceeds of                       200                 2,000                        11
+Particulars                                      30-Jun-24     30-Sep-24   31-Dec-24   31-Mar-25        FY25
+                                                                                                                                                                              Bonus Preference shares
+Revenue from Operations                               2,643        2,664       2,794       2,730       10,831     April 1996 - March 2026                                     Dividend Received*#                                          5,99,899                     3,428
+Total Expenditure                                     2,017        2,142       2,261       2,272        8,692     Gross Returns                                                                                                          64,89,499                    37,083
+Profit before Finance Cost, Tax, Depreciation          626          522         533         458        2,139      Compound Annual Return since IPO                                                                                            21%                       21%
+and Amortisation                                                                                                  * Dividends are inclusive of those received on Bonus Preference Shares and the final dividend for FY26 of H 4.00/- per equity share of Re. 1 each, as recommended
+Other Income                                            37           82          42          47          208      by the Board of Directors and subject to approval of shareholders at the ensuing 38th AGM.
+Finance Cost                                            17           11          13          12           53      #
+                                                                                                                      Subject to taxes as applicable
+Depreciation and Amortisation                           41           41          44          52          178
+Profit before Share of Profit/(Loss) of Joint          605          552         518         441        2,116
+Ventures, Exceptional Items and Tax
+Share of Profit/(Loss) of Joint Ventures                  -            -           -           -            -
+Exceptional Items                                         -            -           -           -            -
+Profit before Tax                                      605          552         518         441        2,116
+Tax Expense                                            131          119         112          96          458
+Profit after Tax                                       474          433         406         345        1,658
+Minority Interest                                       10           10           7           2           29
+Net Profit attributable to Owners of the               464          423         399         343        1,629
+Company
+Equity Share Capital                                    129         129         129          129          129
+Earning per Share - (J)                                 3.6         3.3         3.1          2.6         12.6

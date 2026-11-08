@@ -1,0 +1,103 @@
+# Marico FY2023-24 consolidated notes — PDF page 190 (the page §17.24 had recorded as unextracted 'Note 12(b)')
+#
+# Verbatim text extraction, unedited apart from trailing-space trimming and the removal of a uniform
+# two-space gutter indent. Produced on a GitHub Actions runner with `pdftotext -layout -f 190 -l 190`
+# (poppler-utils) directly from the PDF named below; nothing was retyped, reflowed or re-ordered.
+#
+# source document : Marico Annual Report FY2023-24 (Integrated Annual Report 2023-24)
+# source sha256   : 03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595
+# source bytes    : 21087675
+# source pages    : 259
+# pdf page        : 190   (1-based, as produced by pdftotext -f/-l)
+# retrieved       : 2026-11-08T04:13Z (runner)
+# locator log     : runs/01-fy24-locator-report.txt
+#
+# NOTE: these pages are multi-column. `-layout` preserves columns horizontally, so a single printed line
+# can carry text from two different notes. Columns are never to be re-assembled into one logical row.
+#
+           I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                                                • Corporate Overview • Statutory Reports • Financial Statements
+376        Marico Limited
+                                                                                                                                                                                                                                                                                                377
+
+
+
+
+Notes
+to the Consolidated financial statements for the year ended 31st March 2024
+                                                                                                                                                         Notes
+                                                                                                                                                         to the Consolidated financial statements for the year ended 31st March 2024
+
+
+(v)   For the period of preceding five years as on the Balance Sheet date, Issued, Subscribed and Paid-up Share Capital                                  12(b) Reserves & surplus
+      includes::                                                                                                                                                                                                                                                                        (H in crore)
+                                                                                                                                                                                                                                                                     As at                   As at
+      Aggregate of 32,37,430 (31st March, 2023: 22,19,980) Equity shares allotted under the Employee stock option plan schemes as                        Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      consideration for services rendered by employees for which only exercise price has been received in cash.
+                                                                                                                                                         Securities premium                                                                                          540                         496
+      Shares held by Promoters at the end of the year i.e. March 31, 2024                                                                                General reserve                                                                                             299                         299
+                                                                                                                                                         Share based option outstanding account                                                                        69                          43
+                                                                                                                                                         Treasury shares                                                                                             (66)                        (60)
+                                                                                                                                 Difference              Capital reserve                                                                                                0                           0
+                                                                                   % of total                      % of total                    % of
+                                                                No. of shares as                No. of shares as                (i.e. March
+      Sr.                                                                          shares as                       shares as                   change    WEOMA reserve                                                                                               102                           94
+                Promoter Name                                     on March 31,                    on March 31,                  31, 2024 -
+      No.                                                                          on March                        on March                 during the   Retained earnings                                                                                         3,561                       3,526
+                                                                           2024                            2023                  March 31,
+                                                                                   31, 2024                        31, 2023                      year    Adjustment pursuant to the Scheme of Capital Reduction of MCCL                                            (724)                       (724)
+                                                                                                                                      2023)
+                                                                                                                                                         (Refer Note (h) to the statement of changes in equity)
+      1         Harsh C Mariwala with Kishore V Mariwala         14,38,90,750       11.12%       14,38,90,750       11.13%               -    -0.01%     Total reserve & surplus                                                                                   3,782                       3,674
+                for Taurus Family Trust
+      2         Harsh C Mariwala with Kishore V Mariwala         14,38,86,350       11.12%       14,38,86,350       11.13%               -    -0.01%
+                                                                                                                                                         (i)    Securities premium
+                for Gemini Family Trust                                                                                                                                                                                                                                                 (H in crore)
+      3         Harsh C Mariwala with Kishore V Mariwala         14,38,84,950       11.12%       14,38,84,950       11.13%               -    -0.01%
+                                                                                                                                                                                                                                                                     As at                   As at
+                for Valentine Family Trust                                                                                                                      Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      4         Harsh C Mariwala with Kishore V Mariwala         14,38,71,950       11.12%       14,38,71,950       11.13%               -    -0.01%
+                for Aquarius Family Trust                                                                                                                       Opening Balance                                                                                       496                        484
+      5         Rajvi H Mariwala                                  2,84,08,000        2.20%        2,84,08,000        2.20%               -     0.00%
+                                                                                                                                                                Add: Exercise of employee stock options                                                                44                         12
+      6         Harsh C Mariwala                                  2,81,02,900        2.17%        2,81,02,900        2.17%               -     0.00%
+                                                                                                                                                                Closing Balance                                                                                       540                        496
+      7         Rishabh H Mariwala                                2,49,76,500        1.93%        2,49,76,500        1.93%               -     0.00%
+      8         Archana H Mariwala                                1,69,66,600        1.31%        1,69,66,600        1.31%               -     0.00%
+                                                                                                                                                         (ii)   General reserve
+      9         Ravindra K Mariwala                               2,24,23,410        1.73%        2,24,23,410        1.73%               -     0.00%                                                                                                                                    (H in crore)
+      10        Hema K Mariwala                                             -             -                 -             -              -     0.00%
+                                                                                                                                                                                                                                                                     As at                   As at
+      11        Paula R Mariwala                                  1,23,83,470        0.96%        1,23,83,470        0.96%               -     0.00%            Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      12        Anjali R Mariwala                                 1,42,54,440        1.10%        1,42,54,440        1.10%               -     0.00%
+      13        Rishabh Mariwala with Priyanjali Mariwala           54,00,000        0.42%          54,00,000        0.42%               -     0.00%            Opening Balance                                                                                       299                        299
+                For Valley of Light Trust                                                                                                                       Closing Balance                                                                                       299                        299
+      14        Rishabh Mariwala with Priyanjali Mariwala           54,00,000        0.42%          54,00,000        0.42%               -     0.00%
+                For Valour Trust
+                                                                                                                                                         (iii) Share based option outstanding account (Refer Note 35)
+      15        Rajen K Mariwala                                    76,81,400        0.59%          76,81,400        0.59%              -      0.00%                                                                                                                                    (H in crore)
+      16        Kishore V Mariwala                                  25,29,219        0.20%          24,89,220        0.19%         39,999      0.00%
+                                                                                                                                                                                                                                                                     As at                   As at
+      17        Pallavi Jaikishan Panchal                           18,32,000        0.14%          18,32,000        0.14%              -      0.00%            Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      18        Malika Chirayu Amin                                 18,00,000        0.14%          18,00,000        0.14%              -      0.00%
+      19        Kishore V Mariwala for Anandita Trust                   6,700        0.00%              6,700        0.00%              -      0.00%            Opening Balance                                                                                        43                         27
+      20        Kishore V Mariwala for Arnav Trust                      6,700        0.00%              6,700        0.00%              -      0.00%            Exercise of employee stock options                                                                     (9)                        (3)
+      21        Kishore V Mariwala for Vibhav Trust                     6,700        0.00%              6,700        0.00%              -      0.00%
+                                                                                                                                                                Share based payment expense                                                                            35                         19
+      22        Kishore V Mariwala for Taarika Trust                    6,700        0.00%              6,700        0.00%              -      0.00%
+                                                                                                                                                                Closing Balance                                                                                        69                         43
+      23        Sharrp Ventures Capital Private Limited           1,82,97,000        1.41%        1,82,97,000        1.41%              -      0.00%
+                (Formerly The Bombay Oil Private Limited)
+                                                                                                                                                         (iv) Treasury shares
+      24        Vibhav Ravindra Mariwala                                 2,000       0.00%               2,000       0.00%               -     0.00%                                                                                                                                    (H in crore)
+      25        Anandita Arjun Kothari                              10,00,000        0.08%          10,00,000        0.08%               -     0.00%
+                                                                                                                                                                                                                                                                     As at                   As at
+      26        Taarika Rajendra Mariwala                           10,00,000        0.08%          10,00,000        0.08%               -     0.00%            Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      27        Preeti Gautam Shah                                           -            -           4,00,000       0.03%      (4,00,000)    -0.03%
+                Total                                             76,80,17,739      59.35%        76,83,77,740      59.42%      (3,60,001)    -0.07%            Opening Balance                                                                                       (60)                      (58)
+                                                                                                                                                                Add : (Purchase) /sale of treasury shares by the Trust during the year (net)                           (6)                       (2)
+                                                                                                                                                                Closing Balance                                                                                       (66)                      (60)

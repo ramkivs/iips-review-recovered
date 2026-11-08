@@ -1,0 +1,235 @@
+===== FY2025-26 annual report — standalone share-capital note and capital-history rows =====
+bytes=21282741 sha256=7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f pages=279
+expect 21282741 / 7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f / 279
+=== BEGIN FY26 PAGE 250 ===
+496                                                                                                                                                                                                                                                                      497
+     Marico Limited             Integrated Annual Repor t 2025-26                                                                                                                  Corporate Overview                Statutory Reports                  Financial Statements
+
+
+
+
+Notes to the Standalone financial statements
+for the year ended 31st March, 2026
+                                                                                                                                      Notes to the Standalone financial statements
+                                                                                                                                      for the year ended 31st March, 2026
+
+8    Other Non Current Assets                                                                                                         11 Assets Classified as Held for Sale
+                                                                                                                       (H in Crore)                                                                                                                                (H in Crore)
+                                                                                                                         As at                                                                                                                                       As at
+                                                                                                 As at       31st March, 2025                                                                                                               As at        31st March, 2025
+Particulars                                                                                                                           Particulars
+                                                                                     31st March, 2026               (Restated)                                                                                                  31st March, 2026                (Restated)
+                                                                                                               (Refer Note 39)                                                                                                                             (Refer Note 39)
+Capital advances                                                                                      58                       21     Land and building                                                                                             -                          -
+Deposits with statutory/government authorities                                                        21                       20     Plant and Machinery                                                                                           -                          -
+Prepaid Expenses                                                                                       3                        1     Total                                                                                                         -                          -
+Total                                                                                                 82                       42
+                                                                                                                                      Non-recurring fair value measurements
+                                                                                                                                      i.     During the year ended 31st March, 2025 assets with carrying amount of H 5 crores classified as held for sale along with other
+9    Inventories
+                                                                                                                       (H in Crore)          assets with carrying amount of H 12 crores was sold for a lump sum consideration of H 36 crores. Net gain on sale of H 19 crores
+                                                                                                                         As at               has been recognised in "other income".
+                                                                                                 As at       31st March, 2025
+Particulars                                                                                                                           ii.    The valuation of assets held for sale of the Company, is determined basis the details obtained from "The Ready Reckoner", location
+                                                                                     31st March, 2026               (Restated)
+                                                                                                                                             factor and physical verification of the property.
+                                                                                                               (Refer Note 39)
+Raw materials
+- In stock                                                                                            203                     125
+                                                                                                                                      12(a) Equity Share Capital
+                                                                                                                                                                                                                                                                   (H in Crore)
+Packing materials                                                                                     112                     102
+                                                                                                                                                                                                                                     No. of shares
+Work-in-progress                                                                                      218                     284     Particulars                                                                                                                    Amount
+                                                                                                                                                                                                                                         (in Crore)
+Finished goods
+                                                                                                                                      I     Authorised Capital
+- In stock                                                                                          429                      251
+                                                                                                                                            As at 31st March, 2025
+- In transit                                                                                          0                         -
+                                                                                                                                            Equity shares of Re. 1/- each                                                                        150                      150
+Stock in Trade                                                                                       55                       39
+                                                                                                                                            Equity shares of H 10/- each                                                                           8                       80
+By-product                                                                                            6                        4
+                                                                                                                                            Preference shares of H 10/- each                                                                       7                       65
+Stores and spares                                                                                    14                       13
+                                                                                                                                            Total                                                                                                165                      295
+Total                                                                                             1,037                      818
+                                                                                                                                            As at 31st March, 2026
+Refer note 1(o) for basis of valuation                                                                                                      Equity shares of Re. 1/- each                                                                        150                      150
+                                                                                                                                            Equity shares of H 10/- each                                                                           8                       80
+Amounts recognised in profit or loss                                                                                                                                                                                                               7                       65
+                                                                                                                                            Preference shares of H 10/- each
+During the year an amount of H 34 crores (31st March, 2025: H 33 crores) was charged to the Statement of Profit and Loss on account         Total                                                                                                165                      295
+of damaged and slow moving inventory.                                                                                                 II    Issued, subscribed and paid-up
+                                                                                                                                            As at 31st March, 2025
+10 Other Current Assets                                                                                                                     1,29,54,97,599 equity shares of Re. 1/- each fully paid-up                                           129                      129
+                                                                                                                       (H in Crore)         Total                                                                                                129                      129
+                                                                                                                         As at              As at 31st March, 2026
+                                                                                                 As at       31st March, 2025               1,29,81,48,935 equity shares of Re. 1/- each fully paid-up                                           130                      130
+Particulars
+                                                                                     31st March, 2026               (Restated)              Total                                                                                                130                      130
+                                                                                                               (Refer Note 39)
+                                                                                                                                      (i)    Movements in equity share capital
+Advances to vendors                                                                                   93                     122
+Prepaid expenses                                                                                      11                      14                                                                                                                              Equity Share
+Balances with government authorities                                                                  71                      78             Particulars                                                                                 No of shares
+                                                                                                                                                                                                                                                        capital (par value)
+Input tax credit receivable                                                                          190                     102
+                                                                                                                                             As at 1st April, 2024                                                                  1,29,41,01,828                        129
+Total                                                                                                366                     317
+                                                                                                                                             Increases during the year
+                                                                                                                                             Shares issued during the year - ESOP (refer note 33(a))                                   13,95,771                            0
+                                                                                                                                             As at 31st March, 2025                                                              1,29,54,97,599                           129
+                                                                                                                                             Increases during the year
+                                                                                                                                             Shares issued during the year - ESOP (refer note 33(a))                                   26,51,336                            1
+                                                                                                                                             As at 31st March, 2026                                                              1,29,81,48,935                           130
+=== END FY26 PAGE 250 ===
+=== BEGIN FY26 PAGE 251 ===
+498                                                                                                                                                                                                                                                                        499
+     Marico Limited            Integrated Annual Repor t 2025-26                                                                                                                          Corporate Overview               Statutory Reports              Financial Statements
+
+
+
+
+Notes to the Standalone financial statements
+for the year ended 31st March, 2026
+                                                                                                                                            Notes to the Standalone financial statements
+                                                                                                                                            for the year ended 31st March, 2026
+
+(ii) Rights, preferences and restrictions attached to equity shares                                                                         (i)   Securities premium
+                                                                                                                                                                                                                                                                     (H in Crore)
+     Equity Shares: The authorised share capital of the Company comprises of 150 Crores equity share of Re. 1 each and 8 Crores
+                                                                                                                                                                                                                                                                       As at
+     equity shares of H 10 each.
+                                                                                                                                                                                                                                                  As at    31st March, 2025
+                                                                                                                                                  Particulars
+     Each shareholder is eligible for one vote per share held. The dividend proposed by the Board of Directors is subject to the approval                                                                                             31st March, 2026            (Restated)
+     of the shareholders in the ensuing Annual General Meeting, except in case of interim dividend. In the event of liquidation, the                                                                                                                         (Refer Note 39)
+     equity shareholders are eligible to receive the remaining assets of the Company after distribution of all preferential amounts, in           Opening balance                                                                                 435                       367
+     proportion to their shareholding.                                                                                                            Add: Exercise of employee stock options                                                         182                        68
+                                                                                                                                                  Closing balance                                                                                 617                       435
+(iii) Shares reserved for issue under options
+     Information relating to Marico ESOP 2016 including details of options issued, exercised, forfeited and lapsed during the financial     (ii) General reserve
+                                                                                                                                                                                                                                                                     (H in Crore)
+     year and options outstanding at the end of the reporting period, is set out in note 33 (a).
+                                                                                                                                                                                                                                                                       As at
+(iv) Details of shareholders holding more than 5% shares in the Company                                                                                                                                                                           As at    31st March, 2025
+                                                                                                                                                  Particulars
+                                                                                                                                                                                                                                      31st March, 2026            (Restated)
+                                                           As at 31st March, 2026                    As at 31st March, 2025                                                                                                                                  (Refer Note 39)
+     Name of Shareholder                                       No. of                                    No. of                                   Opening balance                                                                                 298                       298
+                                                                             % of Holding                               % of Holding
+                                                          Shares held                               Shares held                                   Closing balance                                                                                 298                       298
+     Equity Shares of Re. 1/- each fully
+     paid-up                                                                                                                                (iii) Share based option outstanding account (refer note 33)
+                                                                                                                                                                                                                                                                     (H in Crore)
+     Harsh C Mariwala with Kishore V Mariwala            14,38,84,950                  11.08       14,38,84,950                  11.11
+                                                                                                                                                                                                                                                                       As at
+     (For Valentine Family Trust)
+                                                                                                                                                                                                                                                  As at    31st March, 2025
+     Harsh C Mariwala with Kishore V Mariwala            14,38,71,950                  11.08       14,38,71,950                  11.11            Particulars
+                                                                                                                                                                                                                                      31st March, 2026            (Restated)
+     (For Aquarius Family Trust)
+     Harsh C Mariwala with Kishore V Mariwala            14,38,90,750                  11.08       14,38,90,750                  11.11                                                                                                                       (Refer Note 39)
+     (For Taurus Family Trust)                                                                                                                    Opening balance                                                                                    88                       68
+     Harsh C Mariwala with Kishore V Mariwala            14,38,86,350                  11.08       14,38,86,350                  11.11            Exercise of employee stock options                                                               (28)                     (23)
+     (For Gemini Family Trust)                                                                                                                    Add : Share based payment expense                                                                  31                       43
+                                                                                                                                                  Closing balance                                                                                   91                       88
+(v) For the period of preceding five years as on the Balance Sheet date, Issued, Subscribed and Paid-
+    up Share Capital includes:                                                                                                              (iv) Treasury shares
+                                                                                                                                                                                                                                                                     (H in Crore)
+     Aggregate of 8,25,267 (31st March, 2025: 44,79,511) Equity shares allotted under the Employee stock option plan schemes as
+                                                                                                                                                                                                                                                                       As at
+     consideration for services rendered by employees for which only exercise price has been received in cash. Additonally, 18,26,069
+                                                                                                                                                                                                                                                  As at    31st March, 2025
+     equity shares were allotted to Welfare of Mariconians Trust for the purpose of implementation of cashless mechanism of exercise.             Particulars
+                                                                                                                                                                                                                                      31st March, 2026            (Restated)
+                                                                                                                                                                                                                                                             (Refer Note 39)
+12(b) Reserves and Surplus                                                                                                                        Opening balance                                                                                  (88)                     (66)
+                                                                                                                            (H in Crore)
+                                                                                                                                                  Add :(Purchase)/sale of treasury shares by the trust during the year (net)                       (72)                     (21)
+                                                                                                                              As at
+                                                                                                                                                  Closing balance                                                                                (160)                     (88)
+                                                                                                     As at        31st March, 2025
+Particulars
+                                                                                         31st March, 2026                (Restated)
+                                                                                                                                            (v) WEOMA reserve
+                                                                                                                    (Refer Note 39)                                                                                                                                  (H in Crore)
+Securities premium                                                                                        617                      435                                                                                                                                 As at
+General reserve                                                                                           298                      298                                                                                                            As at    31st March, 2025
+                                                                                                                                                  Particulars
+Share based option outstanding account                                                                     91                        88                                                                                               31st March, 2026            (Restated)
+Treasury shares                                                                                         (160)                      (88)                                                                                                                      (Refer Note 39)
+WEOMA reserve                                                                                             101                      112            Opening balance                                                                                 112                       102
+Retained earnings                                                                                       5,355                    4,322            Add: Income of the trust for the year                                                           (11)                       10
+Amalgamation adjustment deficit account                                                                 (621)                    (621)            Closing balance                                                                                 101                       112
+Total                                                                                                  5,681                    4,546
+=== END FY26 PAGE 251 ===
+=== BEGIN FY26 PAGE 275 ===
+546                                                                                                                                                                                                                                                                         547
+    Marico Limited       Integrated Annual Repor t 2025-26                                                                                                           Corporate Overview                        Statutory Reports                       Financial Statements
+
+
+
+
+Performance Trends                                                                                                Economic Value Added Analysis
+
+                                                                                                                                                                                    FY21              FY22             FY23             FY24             FY25             FY26
+
+Consolidated Quarterly Financials                                                                                 Average Capital Employed                                          3,534            3,775            4,367            5,056             5,670           6,690
+                                                                                                   (H in Crore)   Average Debt / Total capital (%)                                     9.7              9.2              9.4              8.5               6.7             5.5
+2025-26                                                         Three Months Ended                    Annual      Profit After Current Tax (excluding one-offs)                     1,175            1,258            1,366            1,584             1,636           1,734
+Particulars                                      30-Jun-25     30-Sep-25   31-Dec-25   31-Mar-26        FY26      Add: Interest Post Tax                                               27               31               42               57                41              42
+                                                                                                                  Net Operating Profit After Tax                                    1,202            1,289            1,408            1,641             1,677           1,776
+Revenue from Operations                               3,259        3,482       3,537       3,333       13,611
+                                                                                                                  Less: Cost of Capital                                               357              394              498              549               629             714
+Total Expenditure                                     2,604        2,922       2,945       2,812       11,283
+                                                                                                                  h) Economic Value Added                                            845              894              910            1,092             1,048          1,062*
+Profit before Finance Cost, Tax, Depreciation          655          560         592         521        2,328
+and Amortisation                                                                                                  * In FY26, the Company revalued an obligation to acquire the remaining stake from a prior acquisition and reclassified from Non-Current Liabilities to Current
+Other income                                             56          49          39          60          204      Liabilities in line with the accounting policy. The Economic Value Added (EVA) stated above is adjusted for the liability. Without such adjustment, the EVA
+                                                                                                                  stands at H1,123 Cr.
+Finance cost                                             10          12          14          17           53
+Depreciation and Amortisation                            45          47          50          60          202
+Profit before Share of Profits/(Loss) of Joint          656         550         567         504        2,277      Sustainable Wealth Creation
+Ventures, Exceptional Items and Tax
+Share of Profit/(Loss)of Joint Ventures                    -           -           -           -            -     Investment                                         Through                                    Shares                Value (in J)           Indexed Value
+Exceptional Items                                          -           -           -           -            -     April 1996 - Original Purchase  IPO                                                              100                      17,500                         100
+Profit before tax                                       656         550         567         504        2,277      August 2002                     Bonus (Equity 1:1)                                               200                           -                            -
+Tax expense                                             143         118         107          96          464      September 2002                  Bonus (Preference 1:1)                                           200                           -                            -
+Profit after tax                                        513         432         460         408        1,813      May 2004                        Bonus (Equity 1:1)                                               400                           -                            -
+Minority Interest                                         9          12          13          17           51      February 2007                   Share Split (10:1)                                              4000                           -                            -
+Net profit attributable to Owners of the                504         420         447         391        1,762      December 2015                   Bonus (Equity 1:1)                                              8000                           -                            -
+Company                                                                                                           Holdings and Cost as on March 31, 2026                                                         8,000                     17,500                          100
+Equity Share Capital                                    129          130         130         130          130
+Earning per Share - (J)                                 3.9          3.2         3.5         3.0         13.6
+                                                                                                                  Return                                                      Through                                  Shares            Value (in J)        Indexed Value
+                                                                                                   (H in Crore)
+                                                                                                                  March 31, 2026                                              Market value                                8000             58,87,600                    33,643
+2024-25                                                         Three Months Ended                    Annual
+                                                                                                                  March 2004                                                  Redemption proceeds of                       200                 2,000                        11
+Particulars                                      30-Jun-24     30-Sep-24   31-Dec-24   31-Mar-25        FY25
+                                                                                                                                                                              Bonus Preference shares
+Revenue from Operations                               2,643        2,664       2,794       2,730       10,831     April 1996 - March 2026                                     Dividend Received*#                                          5,99,899                     3,428
+Total Expenditure                                     2,017        2,142       2,261       2,272        8,692     Gross Returns                                                                                                          64,89,499                    37,083
+Profit before Finance Cost, Tax, Depreciation          626          522         533         458        2,139      Compound Annual Return since IPO                                                                                            21%                       21%
+and Amortisation                                                                                                  * Dividends are inclusive of those received on Bonus Preference Shares and the final dividend for FY26 of H 4.00/- per equity share of Re. 1 each, as recommended
+Other Income                                            37           82          42          47          208      by the Board of Directors and subject to approval of shareholders at the ensuing 38th AGM.
+Finance Cost                                            17           11          13          12           53      #
+                                                                                                                      Subject to taxes as applicable
+Depreciation and Amortisation                           41           41          44          52          178
+Profit before Share of Profit/(Loss) of Joint          605          552         518         441        2,116
+Ventures, Exceptional Items and Tax
+Share of Profit/(Loss) of Joint Ventures                  -            -           -           -            -
+Exceptional Items                                         -            -           -           -            -
+Profit before Tax                                      605          552         518         441        2,116
+Tax Expense                                            131          119         112          96          458
+Profit after Tax                                       474          433         406         345        1,658
+Minority Interest                                       10           10           7           2           29
+Net Profit attributable to Owners of the               464          423         399         343        1,629
+Company
+Equity Share Capital                                    129         129         129          129          129
+Earning per Share - (J)                                 3.6         3.3         3.1          2.6         12.6
+=== END FY26 PAGE 275 ===
+===== END OF REPORT =====

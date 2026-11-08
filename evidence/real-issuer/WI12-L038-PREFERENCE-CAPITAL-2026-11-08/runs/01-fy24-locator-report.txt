@@ -1,0 +1,339 @@
+===== SECTION 0: transport reachability (diagnostic only) =====
+utc=2026-11-08T04:13:21Z
+--- marico.com dns: 64.185.181.238  marico.com
+--- www.marico.com dns: 3.7.210.216     marico.com.indusguard.com www.marico.com marico.com.induscdn.com 3.6.71.79       marico.com.indusguard.com www.marico.com marico.com.induscdn.com
+--- web.archive.org dns: 207.241.237.3   web.archive.org
+--- archive.org dns: 207.241.224.2   archive.org
+
+===== SECTION 1: FY2023-24 annual report — identity =====
+  transport[] http/rc=200rc=0 bytes=21087675 type=application/pdf err=
+fy24_source=1 (1=issuer host, 2=wayback copy)
+bytes=21087675
+sha256=03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595
+pages=259
+Title:
+Producer:        Adobe PDF Library 17.0
+CreationDate:    Fri Jul 12 10:48:28 2024 UTC
+ModDate:         Fri Aug  2 05:33:12 2024 UTC
+expected FY24 sha256 (WI7 bundle, issuer host, 2026-11-07) = 03cb0db7...7595 (259 pages, 21087675 bytes)
+
+===== SECTION 2: FY24 — every page mentioning 'preference' =====
+p17:                                                           cross-section of consumers,                preferences, continues to be both an               sector has witnessed growing salience          75% of the business.
+p17:                                                           preferences, continues to                  strengthen our portfolio by upholding              pressures. We believe that the General
+p18: to meet the diverse taste preferences of                      source, we have embraced millets in          basing of our business reflects in the        framework, we are continually driving
+p27:                                                           preferences. Environmental stewardship at each stage
+p30: Changing consumer preferences                                Investment in consumer in-sighting to adapt to changing consumer                   Underperformance of new product launches         Invest in a new product development process with a funnel approach to
+p30:                                                              preferences through market research, consumer surveys, data analytics,                                                              ensure continuous flow of new ideas coupled with rigorous governance
+p30: Consumer tastes, preferences and                             and social listening tools to understand evolving preferences and anticipate       Given that the success rate for new              around scalable ideas.
+p30: preferences has dramatically risen. It is,                                                                                                                                                       in brand building.
+p30:                                                              preferences and invest in innovation to develop new products that align with
+p40:                                                                to provide a unique value proposition to our               Product innovation and reconfiguration centered         Understand the shift in preferences to catalyse product        Call centre/Consumer Cell to track
+p40:                                                                consumers. Our brands differentiate themselves             on consumers' preferences and evolving needs            innovation                                                     insights and feedback
+p44:                                                                                                                         a rich source of fibre and protein. For       preferences across different meal
+p47: protocols, FAQs, SOPs etc. for contact centre.                                                                                           preference in case of New Product launched. The sub-process was christened as
+p47:                                                                                 Crisis management protocols/playbook and holding                  and unstated needs of the consumer,            entire day to day mannerisms, preferences, usage patterns, food
+p47:                                                                                 Rate, AHT, Call Quality, FCR for continuous                       mannerisms, preferences, usage patterns,
+p49:          preferences.
+p102:                                                       with evolving consumer preferences, where ethical and sustainable production
+p108: increasing brand consciousness among consumers.                             and have exhibited a strong preference for branded                     offering wider assortments, home delivery facilities               one-offs in the base and current year.
+p108: in a slower pace of recovery in rural and mass segments, while              increasingly exhibiting a preference for brands with eco-         3.   Integration of Digital Technologies:
+p108: 1.   Evolving Consumer Preferences:                                                                                                                AI-powered systems offer the potential to streamline               Coconut Oil portfolio had a flattish year in the given operating
+p108:                                                                             preference of channels shifted significantly. E-commerce               inventory management to marketing strategies while also            at 63% (Mar 2024 MAT).
+p108:      preference of the working population for convenient foods              Direct-to-Consumer (D2C) Models:                                       companies must remain agile and forward-thinking,                  volume market share for Parachute, presents an opportunity
+p109: short-lived World-Health-Day-enthusiasm, that usually ends up           digit market share in Modern Trade. The brand refreshed with a                                                                               preference scores for Set Wet, while reaching out to the audience
+p109: Understanding the unique taste preferences of Indian consumers                                                                                Over the medium term, we aim to grow the Value-Added Hair
+p109:                                                                                                                                                    strong preference for trusted brands.
+p114: and stakeholder capitalism, we have continued to drive impactful     Disclosure practices are considered as strong tools to share          their activities have an impact on natural   resources, ecosystems and communities.          change. It gives preference to environmental
+p115:       I-8        Website                                                                      : www.marico.com                                                      preferences, ranging from hair nourishment and styling to nutrition, immunity, and healthy snacking. Marico has a large
+p127:                                                                                                                       preferences for innovation                                                                                              - Sharing of best practices
+p136: LI-3.a.       Do you have a preferential procurement policy where you give preference to purchase from suppliers comprising
+p137:                                                                                                                                                                   We believe that consumer opinions, preferences, concerns,               laws? (Yes/No/Not Applicable) If yes, provide details
+p165:   its quest to solve for consumer desires and preferences,         options for our consumers, Saffola products are carefully      in 1 Hair Oil Range was introduced with unique hair care                 Masala Oats was based on an understanding of a rooted
+p189:        Preference shares of H 10/- each                                                                         7                       65          Harsh C Mariwala with Kishore V Mariwala                 14,38,71,950               11.12      14,38,71,950                  11.13
+p189:        Preference shares of H 10/- each                                                                         7                       65          (For Gemini Family Trust)
+p189: (ii)    Rights, preferences and restrictions attached to equity shares
+p233: Finished goods                                                                                                                                      Preference shares of H 10/- each                                                                         7                       65
+p233: Stores and spares                                                                                           12                        12            Preference shares of H 10/- each                                                                         7                       65
+p233:                                                                                               31st March, 2024         31st March, 2023      (ii)    Rights, preferences and restrictions attached to equity shares
+p254:                                                                                                                                     September 2002                                        Bonus (Preference 1:1)                     200                     -                      -
+p254:                                                                                                                                     March 2004                             Redemption proceeds of Bonus Preference shares                    200            2,000                11
+p254: and Amortisation                                                                                                                    * Dividends are inclusive of those received on Bonus Preference Shares
+
+===== SECTION 3: FY24 — every page mentioning 'only one class' / 'one class of' =====
+
+===== SECTION 4: FY24 PDF page 190 verbatim (-layout) =====
+=== BEGIN PAGE 190 ===
+           I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                                                • Corporate Overview • Statutory Reports • Financial Statements
+376        Marico Limited
+                                                                                                                                                                                                                                                                                                377
+
+
+
+
+Notes
+to the Consolidated financial statements for the year ended 31st March 2024
+                                                                                                                                                         Notes
+                                                                                                                                                         to the Consolidated financial statements for the year ended 31st March 2024
+
+
+(v)   For the period of preceding five years as on the Balance Sheet date, Issued, Subscribed and Paid-up Share Capital                                  12(b) Reserves & surplus
+      includes::                                                                                                                                                                                                                                                                        (H in crore)
+                                                                                                                                                                                                                                                                     As at                   As at
+      Aggregate of 32,37,430 (31st March, 2023: 22,19,980) Equity shares allotted under the Employee stock option plan schemes as                        Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      consideration for services rendered by employees for which only exercise price has been received in cash.
+                                                                                                                                                         Securities premium                                                                                          540                         496
+      Shares held by Promoters at the end of the year i.e. March 31, 2024                                                                                General reserve                                                                                             299                         299
+                                                                                                                                                         Share based option outstanding account                                                                        69                          43
+                                                                                                                                                         Treasury shares                                                                                             (66)                        (60)
+                                                                                                                                 Difference              Capital reserve                                                                                                0                           0
+                                                                                   % of total                      % of total                    % of
+                                                                No. of shares as                No. of shares as                (i.e. March
+      Sr.                                                                          shares as                       shares as                   change    WEOMA reserve                                                                                               102                           94
+                Promoter Name                                     on March 31,                    on March 31,                  31, 2024 -
+      No.                                                                          on March                        on March                 during the   Retained earnings                                                                                         3,561                       3,526
+                                                                           2024                            2023                  March 31,
+                                                                                   31, 2024                        31, 2023                      year    Adjustment pursuant to the Scheme of Capital Reduction of MCCL                                            (724)                       (724)
+                                                                                                                                      2023)
+                                                                                                                                                         (Refer Note (h) to the statement of changes in equity)
+      1         Harsh C Mariwala with Kishore V Mariwala         14,38,90,750       11.12%       14,38,90,750       11.13%               -    -0.01%     Total reserve & surplus                                                                                   3,782                       3,674
+                for Taurus Family Trust
+      2         Harsh C Mariwala with Kishore V Mariwala         14,38,86,350       11.12%       14,38,86,350       11.13%               -    -0.01%
+                                                                                                                                                         (i)    Securities premium
+                for Gemini Family Trust                                                                                                                                                                                                                                                 (H in crore)
+      3         Harsh C Mariwala with Kishore V Mariwala         14,38,84,950       11.12%       14,38,84,950       11.13%               -    -0.01%
+                                                                                                                                                                                                                                                                     As at                   As at
+                for Valentine Family Trust                                                                                                                      Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      4         Harsh C Mariwala with Kishore V Mariwala         14,38,71,950       11.12%       14,38,71,950       11.13%               -    -0.01%
+                for Aquarius Family Trust                                                                                                                       Opening Balance                                                                                       496                        484
+      5         Rajvi H Mariwala                                  2,84,08,000        2.20%        2,84,08,000        2.20%               -     0.00%
+                                                                                                                                                                Add: Exercise of employee stock options                                                                44                         12
+      6         Harsh C Mariwala                                  2,81,02,900        2.17%        2,81,02,900        2.17%               -     0.00%
+                                                                                                                                                                Closing Balance                                                                                       540                        496
+      7         Rishabh H Mariwala                                2,49,76,500        1.93%        2,49,76,500        1.93%               -     0.00%
+      8         Archana H Mariwala                                1,69,66,600        1.31%        1,69,66,600        1.31%               -     0.00%
+                                                                                                                                                         (ii)   General reserve
+      9         Ravindra K Mariwala                               2,24,23,410        1.73%        2,24,23,410        1.73%               -     0.00%                                                                                                                                    (H in crore)
+      10        Hema K Mariwala                                             -             -                 -             -              -     0.00%
+                                                                                                                                                                                                                                                                     As at                   As at
+      11        Paula R Mariwala                                  1,23,83,470        0.96%        1,23,83,470        0.96%               -     0.00%            Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      12        Anjali R Mariwala                                 1,42,54,440        1.10%        1,42,54,440        1.10%               -     0.00%
+      13        Rishabh Mariwala with Priyanjali Mariwala           54,00,000        0.42%          54,00,000        0.42%               -     0.00%            Opening Balance                                                                                       299                        299
+                For Valley of Light Trust                                                                                                                       Closing Balance                                                                                       299                        299
+      14        Rishabh Mariwala with Priyanjali Mariwala           54,00,000        0.42%          54,00,000        0.42%               -     0.00%
+                For Valour Trust
+                                                                                                                                                         (iii) Share based option outstanding account (Refer Note 35)
+      15        Rajen K Mariwala                                    76,81,400        0.59%          76,81,400        0.59%              -      0.00%                                                                                                                                    (H in crore)
+      16        Kishore V Mariwala                                  25,29,219        0.20%          24,89,220        0.19%         39,999      0.00%
+                                                                                                                                                                                                                                                                     As at                   As at
+      17        Pallavi Jaikishan Panchal                           18,32,000        0.14%          18,32,000        0.14%              -      0.00%            Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      18        Malika Chirayu Amin                                 18,00,000        0.14%          18,00,000        0.14%              -      0.00%
+      19        Kishore V Mariwala for Anandita Trust                   6,700        0.00%              6,700        0.00%              -      0.00%            Opening Balance                                                                                        43                         27
+      20        Kishore V Mariwala for Arnav Trust                      6,700        0.00%              6,700        0.00%              -      0.00%            Exercise of employee stock options                                                                     (9)                        (3)
+      21        Kishore V Mariwala for Vibhav Trust                     6,700        0.00%              6,700        0.00%              -      0.00%
+                                                                                                                                                                Share based payment expense                                                                            35                         19
+      22        Kishore V Mariwala for Taarika Trust                    6,700        0.00%              6,700        0.00%              -      0.00%
+                                                                                                                                                                Closing Balance                                                                                        69                         43
+      23        Sharrp Ventures Capital Private Limited           1,82,97,000        1.41%        1,82,97,000        1.41%              -      0.00%
+                (Formerly The Bombay Oil Private Limited)
+                                                                                                                                                         (iv) Treasury shares
+      24        Vibhav Ravindra Mariwala                                 2,000       0.00%               2,000       0.00%               -     0.00%                                                                                                                                    (H in crore)
+      25        Anandita Arjun Kothari                              10,00,000        0.08%          10,00,000        0.08%               -     0.00%
+                                                                                                                                                                                                                                                                     As at                   As at
+      26        Taarika Rajendra Mariwala                           10,00,000        0.08%          10,00,000        0.08%               -     0.00%            Particulars
+                                                                                                                                                                                                                                                        31st March, 2024         31st March, 2023
+      27        Preeti Gautam Shah                                           -            -           4,00,000       0.03%      (4,00,000)    -0.03%
+                Total                                             76,80,17,739      59.35%        76,83,77,740      59.42%      (3,60,001)    -0.07%            Opening Balance                                                                                       (60)                      (58)
+                                                                                                                                                                Add : (Purchase) /sale of treasury shares by the Trust during the year (net)                           (6)                       (2)
+                                                                                                                                                                Closing Balance                                                                                       (66)                      (60)
+=== END PAGE 190 ===
+
+===== SECTION 5: FY24 page 189 tail / page 191 head (context) =====
+=== BEGIN PAGE 189 (last 45 lines) ===
+I      Authorised share capital
+       As at 31st March, 2023                                                                                                                       Equity Shares of J 1/- each fully paid-up
+       Equity shares of H 1/- each                                                                            150                      150          Harsh C Mariwala with Kishore V Mariwala                 14,38,84,950               11.12      14,38,84,950                  11.13
+       Equity shares of H 10/- each                                                                             8                       80          (For Valentine Family Trust)
+       Preference shares of H 10/- each                                                                         7                       65          Harsh C Mariwala with Kishore V Mariwala                 14,38,71,950               11.12      14,38,71,950                  11.13
+       Total                                                                                                  165                      295          (For Aquarius Family Trust)
+       As at 31st March, 2024                                                                                                                       Harsh C Mariwala with Kishore V Mariwala                 14,38,90,750               11.12      14,38,90,750                  11.13
+       Equity shares of H 1/- each                                                                            150                      150          (For Taurus Family Trust)
+       Equity shares of H 10/- each                                                                             8                       80          Harsh C Mariwala with Kishore V Mariwala                 14,38,86,350               11.12      14,38,86,350                  11.13
+       Preference shares of H 10/- each                                                                         7                       65          (For Gemini Family Trust)
+       Total                                                                                                  165                      295          First State Investments Services (UK) Ltd                 6,30,87,269                 4.87      8,60,84,065                   6.66
+II     Issued, subscribed and paid-up                                                                                                               (along with Persons acting in concert)
+       As at 31st March, 2023
+       1,29,30,84,378 equity shares of H 1/- each fully paid-up                                               129                      129
+       Total                                                                                                  129                      129
+       As at 31st March, 2024
+       1,29,41,01,828 equity shares of H 1/- each fully paid-up                                               129                      129
+       Total                                                                                                  129                      129
+
+(i)     Movements in equity share capital
+                                                                                                                                (H in crore)
+                                                                                                     No of shares      Equity Share capital
+        Particulars
+                                                                                                        (in crore)              (par value)
+
+        As at 1st April, 2022                                                                                 129                      129
+        Increases during the year
+        Shares issued during the year - ESOP (Refer Note 35)                                                    0                        0
+        As at 31st March, 2023                                                                                129                      129
+        Increases during the year
+        Shares issued during the year - ESOP (Refer Note 35)                                                    0                        0
+        As at 31st March, 2024                                                                                129                      129
+
+(ii)    Rights, preferences and restrictions attached to equity shares
+        Equity Shares: The authorised share capital of the Company comprises of 150 Crores equity share of Re. 1 each and 8 Crores
+        equity shares of H 10 each. .
+
+        Each shareholder is eligible for one vote per share held. The dividend proposed by the Board of Directors is subject to the approval
+        of the shareholders in the ensuing Annual General Meeting, except in case of interim dividend. In the event of liquidation, the
+        equity shareholders are eligible to receive the remaining assets of the Company after distribution of all preferential amounts, in
+        proportion to their shareholding.
+
+(iii) Shares reserved for issue under options
+        Information relating to Marico ESOP 2016, including details of options issued, exercised and lapsed during the financial year and
+        options outstanding at the end of the reporting period, is set out in Note 35.
+=== END PAGE 189 ===
+=== BEGIN PAGE 191 (first 30 lines) ===
+         I n te gr a te d An n ua l R e p or t 2 0 2 3 -2 4                                                                                                                                      • Corporate Overview • Statutory Reports • Financial Statements
+378      Marico Limited
+                                                                                                                                                                                                                                                                   379
+
+
+
+
+Notes
+to the Consolidated financial statements for the year ended 31st March 2024
+                                                                                                                               Notes
+                                                                                                                               to the Consolidated financial statements for the year ended 31st March 2024
+
+
+(v)   WEOMA reserve                                                                                                            Foreign currency translation reserve
+                                                                                                                (H in crore)                                                                                                                                (H in crore)
+                                                                                                  As at               As at                                                                                                              As at                   As at
+      Particulars                                                                                                              Particulars
+                                                                                       31st March, 2024   31st March, 2023                                                                                                  31st March, 2024         31st March, 2023
+
+      Opening Balance                                                                               94                  88     Opening balance                                                                                             (4)                       30
+      Add : Income of the trust for the year                                                         8                   6     Exchange gain/(loss) on translation during the year                                                        (74)                     (34)
+      Closing Balance                                                                              102                  94     Closing Balance                                                                                            (78)                       (4)
+
+(vi) Retained earnings                                                                                                         Non controlling interest (NCI)
+                                                                                                                (H in crore)                                                                                                                                (H in crore)
+                                                                                                  As at               As at                                                                                                              As at                   As at
+      Particulars                                                                                                              Particulars
+                                                                                       31st March, 2024   31st March, 2023                                                                                                  31st March, 2024         31st March, 2023
+      Opening Balance                                                                            3,526              3,072      Opening balance                                                                                            157                        57
+      Net profit attributable to owners                                                          1,481              1,302      Acqusitions through business combinations (refer note no. 42)                                              219                      104
+sed: couldn't flush stdout: Broken pipe
+=== END PAGE 191 ===
+
+===== SECTION 6: Wayback CDX index — issuer annual-report PDFs =====
+cdx_rc=0 cdx_lines=2204
+--- CDX rows whose URL looks like an annual/integrated report (any year) ---
+http://marico.com/investorspdf/18_month_Annual_Report_2009-11.pdf 20140719013643 200 application/pdf
+http://marico.com/investorspdf/18_month_Annual_Report_2009-11_IR.pdf 20140719021521 200 application/pdf
+https://marico.com/investorspdf/2018/Public_Notice_30_Annual_General_Meeting_August_2018.pdf 20210506132556 200 application/pdf
+https://marico.com/investorspdf/agmpdf/Marico_Notice_of_23rd_Annual_General_Meeting.pdf 20210506131550 200 application/pdf
+https://marico.com/investorspdf/agmpdf/Marico_Notice_of_27th_Annual_General_Meeting.pdf 20210506121700 200 application/pdf
+http://marico.com/investorspdf/Annual%20Report%202000-2001.pdf 20160807092810 200 application/pdf
+http://marico.com/investorspdf/annual-general-meeting-27-2011.pdf 20140803125752 200 application/pdf
+http://marico.com/investorspdf/Annual-Report-2013-14.pdf 20150215195740 200 application/pdf
+https://marico.com/investorspdf/Annual-Report-2020.pdf 20220618081706 200 application/pdf
+https://marico.com/investorspdf/Annual-Report-FY-2019-20.pdf 20200930200911 200 application/pdf
+https://marico.com/investorspdf/annual-report-fy-2020-21.pdf 20211108084454 200 application/pdf
+http://marico.com:80/investorspdf/Annual-Report2014-15.pdf 20150813054608 200 application/pdf
+https://marico.com/investorspdf/Annual_Audited_Financial_Statements_FY_2024_25.pdf 20251214014057 200 application/pdf
+http://marico.com/investorspdf/Annual_Report.pdf 20160403131543 200 application/pdf
+http://marico.com:80/investorspdf/Annual_Report2017.pdf 20170808101728 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2007-2008.pdf 20140702073842 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2007-200812.pdf 20140702075307 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2008-09.pdf 20140719020534 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2011-12.pdf 20140719021749 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2011-2012.pdf 20160402170537 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2012-13.pdf 20140719013154 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.10.pdf 20150316200211 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.11.pdf 20150316192735 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.114-130.pdf 20150316193639 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.12.pdf 20150316232828 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.13.pdf 20150316185903 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.181.pdf 20150316231859 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.194.pdf 20150316232801 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.195.pdf 20150316183840 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.38-51.pdf 20150316200352 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.9.pdf 20150316193419 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.99-113.pdf 20150316195318 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013-14.pdf 20150316231547 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_2013.pdf 20160402132207 200 application/pdf
+http://marico.com:80/investorspdf/Annual_Report_2017.pdf 20170713051124 200 application/pdf
+http://marico.com:80/investorspdf/Annual_Report_2018.pdf 20180827084658 200 application/pdf
+https://marico.com/investorspdf/Annual_Report_2021.pdf 20240715153350 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_FY18.pdf 20180815213633 200 application/pdf
+http://marico.com/investorspdf/Annual_Report_FY18.pdf12 20221208012054 404 text/html
+https://marico.com/investorspdf/Annual_Report_FY19.pdf 20191027003245 200 application/pdf
+https://marico.com/investorspdf/Annual_Return_-_MGT_7_FY22.pdf 20221021050801 200 application/pdf
+https://marico.com/investorspdf/Annual_Return_-_MGT_7_FY23.pdf 20240713020517 200 application/pdf
+https://marico.com/investorspdf/Annual_Return_-_MGT_7_FY24.pdf 20241217125350 200 application/pdf
+https://marico.com/investorspdf/Annual_Return_for_the_Financial_year_2019.pdf 20211108084522 200 application/pdf
+https://marico.com/investorspdf/Annual_Return_MGT_7_FY21.pdf 20220706033629 200 application/pdf
+https://marico.com/investorspdf/Annual_Secretarial_Compliance_Report_for_the_financial_year_ended_March_31%2C_2023.pdf 20250422223018 200 application/pdf
+https://marico.com/investorspdf/Annual_Secretarial_Compliance_Report_for_the_financial_year_ended_March_31%2C_2024.pdf 20250422223432 200 application/pdf
+https://marico.com/investorspdf/Annual_Secretarial_Compliance_Report_for_the_financial_year_ended_March_31_2022.pdf 20250422225420 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report200405.pdf 20140702063024 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report2004_05.pdf 20140702073036 200 application/pdf
+https://marico.com/investorspdf/Consol_Annual_Report2004_05.pdf?utm_source=chatgpt.com 20251220062340 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report2004_05_Chairman_Letter.pdf 20140702073924 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report2005_06_(1).pdf 20140702062818 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report2006_07.pdf 20140702064854 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report2006_07_2.pdf 20140702080328 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report_2008-09.pdf 20140702072152 200 application/pdf
+http://marico.com/investorspdf/Consol_Annual_Report_2008-09.pdf-36.pdf 20140702074535 200 application/pdf
+http://marico.com/investorspdf/Consolidated_Annual_Report_2009-10.pdf 20140702080044 200 application/pdf
+https://marico.com/investorspdf/Dividend_Distribution_Policy.pdf26Annual 20250422233313 404 text/html
+https://marico.com/investorspdf/draft-annual-return-mgt-7-FY21.pdf 20211022153435 200 application/pdf
+--- CDX rows for FY24-25 / FY25 / 2024-25 (candidate later reports) ---
+https://marico.com/investorspdf/Audited%20Financial%20Statements%20-%20Q2%202024-25.pdf 20251214014034 200 application/pdf
+https://marico.com/investorspdf/Audited_Financial_Statements_-_Q1_2024-25.pdf 20251214014057 200 application/pdf
+http://marico.com/investorspdf/Corporate%20Governance%20Report%20Q3%20FY25.pdf 20250422231712 301 unk
+https://marico.com/investorspdf/Corporate_Governance_Report_Q1_FY25.pdf 20250422221346 200 application/pdf
+https://marico.com/investorspdf/Corporate_Governance_Report_Q2_FY25.pdf 20250422233743 200 application/pdf
+https://marico.com/investorspdf/Earnings_Presentation_-_Q1FY25.pdf 20250222050206 200 application/pdf
+https://marico.com/investorspdf/Earnings_Presentation_-_Q2FY25.pdf 20241127162317 200 application/pdf
+https://marico.com/investorspdf/Earnings_Presentation_Q3FY26.pdf 20260129105844 200 application/pdf
+https://marico.com/investorspdf/Earnings_Presentation_Q4FY25.pdf 20250528201544 406 text/html
+https://marico.com/investorspdf/Earnings_Presentation_Q4FY26.pdf 20260506035428 200 application/pdf
+https://marico.com/investorspdf/intimation-quarterly-update-q4-fy2024-25.pdf 20250422221102 200 application/pdf
+https://marico.com/investorspdf/Intimation_-_Quarterly_update_%E2%80%93_Q2_FY2024-25.pdf 20250422230958 200 application/pdf
+http://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf 20250715172601 301 unk
+http://marico.com/investorspdf/Marico_Limited_-_Q1FY25_Earnings_Call_Transcript.pdf 20250422225755 301 unk
+http://marico.com/investorspdf/Marico_Limited_-_Q2FY25_Earnings_Call_Transcript.pdf 20250222215640 301 unk
+https://marico.com/investorspdf/Marico_Limited_Q1FY26_Earnings_Call_Transcript.pdf 20250813153706 200 application/pdf
+http://marico.com/investorspdf/Marico_Limited_Q3FY25_Earnings_Call_Transcript.pdf 20250415203855 301 unk
+http://marico.com/investorspdf/Marico_Limited_Q3FY26_Earnings_Call_Transcript.pdf 20260130133625 301 unk
+https://marico.com/investorspdf/Marico_Limited_Q4FY25_Earnings_Call_Transcript.pdf 20250514142054 200 application/pdf
+http://marico.com/investorspdf/Marico_Limited_Q4FY26_Earnings_Call_Transcript.pdf 20260512204123 301 unk
+https://marico.com/investorspdf/Media_Release_Q1FY26.pdf 20250805124240 200 application/pdf
+https://marico.com/investorspdf/Media_Release_Q4FY26.pdf 20260507121921 200 application/pdf
+https://marico.com/investorspdf/PSI%20-%20Q3%202024-25%20Financial%20Results%20 20251214014418 307 unk
+https://marico.com/investorspdf/PSI_-_Q2_2024-25_Financial_Results__Interim_Dividend.pdf 20251214014136 200 application/pdf
+https://marico.com/investorspdf/Quarterly_Update_Q2FY26.pdf 20251207063026 200 application/pdf
+https://marico.com/investorspdf/Statutory_Advertisement_Q4FY25.pdf 20250528201543 406 text/html
+
+===== SECTION 7: later audited annual report — issuer host + archived copies =====
+--- candidate: https://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf
+  transport[] http/rc=200rc=28 bytes=2391293 type=application/pdf err=curl: (28) Operation timed out after 180001 milliseconds with 2391293 out of 14370556 bytes received
+  OBTAINED: bytes=2391293 sha256=0f384588557ed86e1045c2f73ee9359a49fe0368baf7256407c4fcd592324845 pages=
+  title=
+Syntax Error: Couldn't find trailer dictionary
+Syntax Error: Couldn't find trailer dictionary
+Syntax Error: Couldn't read xref table
+  --- pages mentioning preference ---
+awk: cmd. line:1: fatal: cannot open file `/tmp/later.txt' for reading: No such file or directory
+  --- pages mentioning only one class / one class of ---
+awk: cmd. line:1: fatal: cannot open file `/tmp/later.txt' for reading: No such file or directory
+cp: cannot stat '/tmp/later.txt': No such file or directory

@@ -1,0 +1,60 @@
+{
+  "bundle": "WI-12 / L-038 — preference-capital disclosure index across the three most recent audited annual reports",
+  "generatedOn": "2026-11-08",
+  "method": "Case-insensitive substring search over the full `pdftotext -layout` text of each document, performed on a GitHub Actions runner against the PDF identified by the sha256 below. Page numbers are 1-based PDF pages as produced by `pdftotext -f/-l`. Raw evidence: runs/01..04.",
+  "whyThisIndexExists": "To make the negative determination checkable: the claim is not 'we did not find a sentence', it is 'in 793 pages of audited annual reporting the term preference occurs on exactly the pages listed below, and none of them states an issued preference amount, a nil, or an absence'.",
+  "documents": {
+    "marico-annual-report-fy2023-24": {
+      "sha256": "03cb0db78289cdda4ffcd4b4e9f14f3b444a52a4fd64d6265578180fa9857595",
+      "bytes": 21087675,
+      "pages": 259,
+      "preferenceMentionPages": [17, 18, 27, 30, 40, 44, 47, 49, 102, 108, 109, 114, 115, 127, 136, 137, 165, 189, 233, 254],
+      "preferenceMentionPagesFinancialStatements": [189, 233, 254],
+      "preferenceMentionPagesNonFinancial": [17, 18, 27, 30, 40, 44, 47, 49, 102, 108, 109, 114, 115, 127, 136, 137, 165],
+      "classPhrasePages": [],
+      "issuedSubscribedPages": [189, 190],
+      "issuedSubscribedPagesProvenance": "Read directly from the page extracts in source/ (the FY24 run indexed the preference and class phrases across the whole document but not the 'issued, subscribed' phrase).",
+      "note": "PDF p.189 = consolidated Note 12(a) Equity Share Capital (authorised includes preference 7 crore / Rs 65 crore; issued is equity only). PDF p.190 = Note 12(b) Reserves & surplus plus the closing sub-items of 12(a). PDF p.233 = the standalone statement's equivalent note. PDF p.254 = statement of changes in equity, historical preference rows (2002 issue, 2004 redemption)."
+    },
+    "marico-annual-report-fy2024-25": {
+      "sha256": "74e0f6c239f6b611a1d66f361988a65f52bdfb51956ada929de3f4857b1e3474",
+      "bytes": 14370556,
+      "pages": 255,
+      "preferenceMentionPages": [23, 29, 34, 37, 38, 42, 43, 51, 87, 92, 97, 100, 101, 110, 111, 124, 133, 134, 161, 185, 229, 230, 252],
+      "preferenceMentionPagesFinancialStatements": [185, 229, 230, 252],
+      "preferenceMentionPagesNonFinancial": [23, 29, 34, 37, 38, 42, 43, 51, 87, 92, 97, 100, 101, 110, 111, 124, 133, 134, 161],
+      "classPhrasePages": [],
+      "issuedSubscribedPages": [185, 186, 229, 230],
+      "note": "PDF p.185 = consolidated Note 12(a) (authorised 150/150, 8/80, preference 7/65, total 165/295 at both dates; issued equity only, 129/129 at 31-03-2024 and 130/129 at 31-03-2025). p.186 = continuation, including '(v) ... Issued, Subscribed and Paid-up Share Capital includes::'. pp.229-230 = standalone equivalent. p.252 = statement of changes in equity history rows."
+    },
+    "marico-annual-report-fy2025-26": {
+      "sha256": "7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f",
+      "bytes": 21282741,
+      "pages": 279,
+      "pdfCreated": "2026-07-08",
+      "preferenceMentionPages": [25, 36, 45, 54, 55, 58, 72, 106, 116, 117, 126, 128, 130, 140, 149, 151, 180, 205, 250, 251, 275],
+      "preferenceMentionPagesFinancialStatements": [205, 250, 251, 275],
+      "preferenceMentionPagesNonFinancial": [25, 36, 45, 54, 55, 58, 72, 106, 116, 117, 126, 128, 130, 140, 149, 151, 180],
+      "classPhrasePages": [215, 261],
+      "classPhrasePagesDisposition": "Neither is a share-class statement: p.261 reads 'receivables are considered to be a single class of financial assets'; p.215 matches on unrelated wording ('value by Rs 9 crores').",
+      "issuedSubscribedPages": [205],
+      "issuedSubscribedPagesProvenance": "Whole-document index (runs/03); the standalone equivalent on p.250 was captured verbatim in runs/04 but is not part of that page index.",
+      "note": "LATEST audited consolidated annual report available at the time of this investigation. PDF p.205 = consolidated Note 12(a) (authorised preference 7/65 at 31-03-2025 and 31-03-2026; issued equity only, 1,29,54,97,599 = 130 at 31-03-2025 and 1,29,81,48,935 = 130 at 31-03-2026). pp.250-251 = standalone equivalent. p.275 = statement of changes in equity history rows."
+    },
+    "marico-annual-audited-financial-statements-fy2024-25": {
+      "sha256": "63c1badce2745ebaab516c98e43eb92570b3764fda326daf6b83e312f8010ae6",
+      "bytes": 5399768,
+      "pages": 42,
+      "preferenceMentionPages": [],
+      "classPhrasePages": [],
+      "issuedSubscribedPages": [],
+      "note": "Examined and rejected as non-qualifying: the document carries no share-capital note at all, so its silence about preference shares is silence about everything, not a declaration about preference capital."
+    }
+  },
+  "negativeFindings": [
+    "No document in this index contains a sentence stating issued preference share capital, in any amount.",
+    "No document in this index contains a sentence stating that preference share capital is nil or that no preference shares are outstanding.",
+    "No document in this index contains a class enumeration covering preference shares ('only one class of shares' or equivalent).",
+    "Authorised preference capital of 7 crore shares / Rs 65 crore is present and unchanged at every reporting date from 31 March 2023 to 31 March 2026."
+  ]
+}

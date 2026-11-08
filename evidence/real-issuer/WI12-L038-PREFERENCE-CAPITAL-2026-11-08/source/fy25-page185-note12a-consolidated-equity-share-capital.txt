@@ -1,0 +1,90 @@
+# Marico FY2024-25 consolidated notes — PDF page 185 (Note 12(a) Equity Share Capital)
+#
+# Verbatim text extraction, unedited apart from trailing-space trimming and the removal of a uniform
+# two-space gutter indent. Produced on a GitHub Actions runner with `pdftotext -layout -f 185 -l 185`
+# (poppler-utils) directly from the PDF named below; nothing was retyped, reflowed or re-ordered.
+#
+# source document : Marico Annual Report FY2024-25 (Integrated Annual Report 2024-25)
+# source sha256   : 74e0f6c239f6b611a1d66f361988a65f52bdfb51956ada929de3f4857b1e3474
+# source bytes    : 14370556
+# source pages    : 255
+# pdf page        : 185   (1-based, as produced by pdftotext -f/-l)
+# retrieved       : 2026-11-08T05:0xZ (runner)
+# locator log     : runs/03-fy2526-locator-report.txt
+#
+# NOTE: these pages are multi-column. `-layout` preserves columns horizontally, so a single printed line
+# can carry text from two different notes. Columns are never to be re-assembled into one logical row.
+#
+          I n te gr a te d An n ua l R e p or t 2 0 2 4 -2 5                                                                                                                                                    • Corporate Overview • Statutory Reports • Financial Statements
+366       Marico Limited
+                                                                                                                                                                                                                                                                                  367
+
+
+
+
+Notes
+to Consolidated financial statements for the period ended 31st March, 2025.
+                                                                                                                                            Notes
+                                                                                                                                            to Consolidated financial statements for the period ended 31st March, 2025.
+
+
+9 Inventories                                                                                                                               12(a) Equity Share Capital
+                                                                                                                               H in crore                                                                                                                                    H in crore
+                                                                                                        As at                  As at                                                                                                          No. of shares                  Amount
+Particulars                                                                                                                                 Particulars
+                                                                                            31st March, 2025       31st March, 2024                                                                                                               (in Crore)             (J in crore)
+Raw materials:                                                                                                                              I     Authorised share capital
+    In stock                                                                                                288                     553           As at 31st March, 2024
+    In transit                                                                                               27                      16           Equity shares of Re. 1/- each                                                                          150                      150
+Packing materials                                                                                                                                 Equity shares of Rs. 10/- each                                                                           8                       80
+    In stock                                                                                                164                     156           Preference shares of Rs. 10/- each                                                                       7                       65
+    In transit                                                                                                2                       2           Total                                                                                                  165                      295
+    Work-in-progress                                                                                        298                     204           As at 31st March, 2025
+Finished goods:                                                                                                                                   Equity shares of Re. 1/- each                                                                          150                      150
+    In stock                                                                                               393                    343             Equity shares of Rs. 10/- each                                                                           8                       80
+    In transit                                                                                               1                      0             Preference shares of Rs. 10/- each                                                                       7                       65
+Stock in Trade                                                                                              39                     37             Total                                                                                                  165                      295
+By-products                                                                                                  6                     10       II    Issued, subscribed and paid-up
+Stores and spares                                                                                           17                     16             As at 31st March, 2024
+Total                                                                                                    1,235                  1,336             1,29,41,01,828 equity shares of Re. 1/- each fully paid-up                                             129                      129
+                                                                                                                                                  Total                                                                                                  129                      129
+Refer Note 1 (p) for basis for valuation                                                                                                          As at 31st March, 2025
+                                                                                                                                                  1,29,54,97,599 equity shares of Re. 1/- each fully paid-up                                             130                      129
+During the year an amount of Rs. 63 crores (31st March, 2024: Rs. 71 crores) was charged to the Statement of Profit and Loss on
+                                                                                                                                                  Total                                                                                                  130                      129
+account of damaged and slow moving inventory.
+                                                                                                                                            (i)    Movements in equity share capital
+10 Other Current Assets                                                                                                                                                                                                                                                      H in crore
+                                                                                                                               H in crore                                                                                                                         Equity Share
+                                                                                                                                                   Particulars                                                                                No. of shares
+                                                                                                        As at                  As at                                                                                                                        capital (par value)
+Particulars
+                                                                                            31st March, 2025       31st March, 2024                As at 1st April, 2023                                                                     1,29,30,84,378                       129
+Advances to vendors                                                                                        178                     181             Increases during the year
+Balances with government authorities                                                                        89                      68             Shares issued during the year - ESOP (Refer Note 35)                                         10,17,450                           0
+Input tax credit receivable                                                                                119                     104             As at 31st March, 2024                                                                 1,29,41,01,828                          129
+Prepaid expenses                                                                                            27                      25             Increases during the year
+Total                                                                                                      413                     378             Shares issued during the year - ESOP (Refer Note 35)                                         13,95,771                           0
+                                                                                                                                                   As at 31st March, 2025                                                                 1,29,54,97,599                          129
+
+11 Assets classified as held for sale                                                                                                       (ii) Rights, preferences and restrictions attached to equity shares
+                                                                                                                               H in crore
+                                                                                                                                                   Equity Shares: The authorised share capital of the Company comprises of 150 Crores equity share of Re. 1 each and 8 Crores
+                                                                                                        As at                  As at
+Particulars                                                                                                                                        equity shares of Rs. 10 each.
+                                                                                            31st March, 2025       31st March, 2024
+Land and building (refer note below)                                                                           -                       4           Each shareholder is eligible for one vote per share held. The dividend proposed by the Board of Directors is subject to the approval
+Plant and Machinery (refer note below)                                                                         -                       1           of the shareholders in the ensuing Annual General Meeting, except in case of interim dividend. In the event of liquidation, the
+Total                                                                                                          -                       5           equity shareholders are eligible to receive the remaining assets of the Company after distribution of all preferential amounts, in
+                                                                                                                                                   proportion to their shareholding.
+Non-recurring fair value measurements
+                                                                                                                                            (iii) Shares reserved for issue under options
+i.     During the year 31st March, 2025 assets with carrying amount of Rs 5 crores classified as held for sale along with other assets
+       with carrying amount of Rs 12 crores was sold for a lump sum consideration of Rs 36 crores. Net gain on sale of Rs 19 crores                Information relating to Marico ESOP 2016, including details of options issued, exercised and lapsed during the financial year and
+       has been recognised in "other income".                                                                                                      options outstanding at the end of the reporting period, is set out in Note 35.
+
+ii.    During the year 31st March, 2024 Land and building with carrying amount of Rs 2 crores classified as held for sale was sold for
+       a consideration of Rs 16 crores. Net gain on sale of Rs 14 crores has been recognised in "other income".
+
+iii.   The valuation of assets held for sale of the Company, is determined basis the details obtained from "The Ready Reckoner", location
+       factor and physical verification of the property.

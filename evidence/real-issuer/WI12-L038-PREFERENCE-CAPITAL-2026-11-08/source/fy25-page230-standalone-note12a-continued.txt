@@ -1,0 +1,117 @@
+# Marico FY2024-25 STANDALONE notes — PDF page 230 (rest of the standalone Note 12(a))
+#
+# Verbatim text extraction, unedited apart from trailing-space trimming and the removal of a uniform
+# two-space gutter indent. Produced on a GitHub Actions runner with `pdftotext -layout -f 230 -l 230`
+# (poppler-utils) directly from the PDF named below; nothing was retyped, reflowed or re-ordered.
+#
+# source document : Marico Annual Report FY2024-25 (Integrated Annual Report 2024-25)
+# source sha256   : 74e0f6c239f6b611a1d66f361988a65f52bdfb51956ada929de3f4857b1e3474
+# source bytes    : 14370556
+# source pages    : 255
+# pdf page        : 230   (1-based, as produced by pdftotext -f/-l)
+# retrieved       : 2026-11-08T05:0xZ (runner)
+# locator log     : runs/03-fy2526-locator-report.txt
+#
+# NOTE: these pages are multi-column. `-layout` preserves columns horizontally, so a single printed line
+# can carry text from two different notes. Columns are never to be re-assembled into one logical row.
+#
+         I n te gr a te d An n ua l R e p or t 2 0 2 4 -2 5                                                                                                                                                 • Corporate Overview • Statutory Reports • Financial Statements
+456      Marico Limited
+                                                                                                                                                                                                                                                                              457
+
+
+
+
+Notes
+to Standalone Financial Statements for the year ended 31st March, 2025
+                                                                                                                                            Notes
+                                                                                                                                            to Standalone Financial Statements for the year ended 31st March, 2025
+
+
+(ii) Rights, preferences and restrictions attached to equity shares                                                                                                                                                                                                      H in crore
+     Equity Shares: The authorised share capital of the Company comprises of 150 Crores equity share of Re. 1 each and 8 Crores                                                             % of total                       % of total     Difference                    % of
+                                                                                                                                                                              No. of shares                    No. of shares
+     equity shares of Rs. 10 each.                                                                                                               Sr.                                        shares as                        shares as (i.e. March 31                   change
+                                                                                                                                                     Particulars               as on March                      as on March
+                                                                                                                                                 No.                                        on March                         on March 2025 - March                   during the
+     Each shareholder is eligible for one vote per share held. The dividend proposed by the Board of Directors is subject to the approval                                          31 2025                          31 2024
+                                                                                                                                                                                             31 2025                          31 2024        31 2024)                     year
+     of the shareholders in the ensuing Annual General Meeting, except in case of interim dividend. In the event of liquidation, the
+                                                                                                                                                 4     Harsh C Mariwala         14,38,71,950      11.11%         14,38,71,950         11.12%                    -         -0.01%
+     equity shareholders are eligible to receive the remaining assets of the Company after distribution of all preferential amounts, in
+                                                                                                                                                       with Late Kishore
+     proportion to their shareholding.
+                                                                                                                                                       V Mariwala for
+(iii) Shares reserved for issue under options                                                                                                          Aquarius Family
+                                                                                                                                                       Trust
+     Information relating to Marico ESOP 2016 including details of options issued, exercised, forfeited and lapsed during the financial
+                                                                                                                                                 5     Rajvi H Mariwala          2,84,08,000       2.19%          2,84,08,000          2.20%                    -             0.00%
+     year and options outstanding at the end of the reporting period, is set out in note 33 (a).
+                                                                                                                                                 6     Harsh C Mariwala          2,81,02,900       2.17%          2,81,02,900          2.17%                    -             0.00%
+                                                                                                                                                 7     Rishabh H                 2,49,76,500       1.93%          2,49,76,500          1.93%                    -             0.00%
+(iv) Details of shareholders holding more than 5% shares in the Company
+                                                                                                                               H in crore              Mariwala
+                                                                            As at 31st March, 2025       As at 31st March, 2024                  8     Archana H                 1,69,66,600       1.31%          1,69,66,600          1.31%                    -             0.00%
+     Name of Shareholder                                                        No. of                      No. of                                     Mariwala
+                                                                                       % of Holding                       % of Holding           9     Ravindra K                2,24,23,410       1.73%          2,24,23,410          1.73%                    -             0.00%
+                                                                           Shares held                 Shares held
+                                                                                                                                                       Mariwala
+     Equity Shares of Re. 1/- each fully paid-up
+                                                                                                                                                 10    Paula R Mariwala          1,23,83,470       0.96%          1,23,83,470          0.96%                  -            0.00%
+     Harsh C Mariwala with Kishore V Mariwala                              14,38,84,950       11.11    14,38,84,950               11.12
+                                                                                                                                                 11    Anjali R Mariwala         1,16,54,440       0.90%          1,42,54,440          1.10%        (26,00,000)           -0.20%
+     (For Valentine Family Trust)
+                                                                                                                                                 12    Rishabh Mariwala            54,00,000       0.42%            54,00,000          0.42%                  -            0.00%
+     Harsh C Mariwala with Kishore V Mariwala                              14,38,71,950       11.11    14,38,71,950               11.12
+                                                                                                                                                       with Priyanjali
+     (For Aquarius Family Trust)
+                                                                                                                                                       Mariwala For Valley
+     Harsh C Mariwala with Kishore V Mariwala                              14,38,90,750       11.11    14,38,90,750               11.12
+                                                                                                                                                       of Light Trust
+     (For Taurus Family Trust)
+                                                                                                                                                 13    Rishabh Mariwala            54,00,000       0.42%             54,00,000         0.42%                    -             0.00%
+     Harsh C Mariwala with Kishore V Mariwala                              14,38,86,350       11.11    14,38,86,350               11.12
+                                                                                                                                                       with Priyanjali
+     (For Gemini Family Trust)
+                                                                                                                                                       Mariwala For
+                                                                                                                                                       Valour Trust
+(v) For the period of preceding five years as on the Balance Sheet date, Issued, Subscribed and Paid-                                            14    Rajendra K                  72,81,400        0.56%            76,81,400         0.59%          (4,00,000)          -0.03%
+    up Share Capital includes:                                                                                                                         Mariwala
+                                                                                                                                                 15    Late Kishore V              25,29,219        0.20%            25,29,219         0.20%                    -             0.00%
+     Aggregate of 44,79,511 (31st March, 2024: 32,37,430) Equity shares allotted under the Employee stock option plan schemes as
+                                                                                                                                                       Mariwala
+     consideration for services rendered by employees for which only exercise price has been received in cash.
+                                                                                                                                                 16    Pallavi Jaikishan           11,65,334        0.09%            18,32,000         0.14%          (6,66,666)          -0.05%
+(vi) Shares held by Promoters at the end of the year i.e. March 31 2025                                                                                Panchal
+                                                                                                                              H in crore         17    Chaitanya Jaikishan          3,33,334        0.03%                     0        0.00%           3,33,334               0.03%
+                                                              % of total                  % of total     Difference              % of                  Panchal
+                                                No. of shares               No. of shares
+     Sr.                                                      shares as                   shares as (i.e. March 31             change            18    Yogesh Jaikishan             3,33,333        0.03%                     0        0.00%           3,33,333               0.03%
+         Particulars                             as on March                 as on March
+     No.                                                      on March                    on March 2025 - March             during the                 Panchal
+                                                     31 2025                     31 2024
+                                                               31 2025                     31 2024        31 2024)               year            19    Malika Chirayu              17,34,000        0.13%            18,00,000         0.14%            (66,000)          -0.01%
+                                                                                                                                                       Amin
+     1       Harsh C Mariwala                     14,38,90,750   11.11%       14,38,90,750    11.12%                  -         -0.01%
+                                                                                                                                                 20    Inaaya Shaunak                 16,500        0.00%                     0        0.00%             16,500               0.00%
+             with Late Kishore V
+                                                                                                                                                       Amin
+             Mariwala for Taurus
+                                                                                                                                                 21    Naintara Shaunak               16,500        0.00%                     0        0.00%             16,500               0.00%
+             Family Trust
+                                                                                                                                                       Amin
+     2       Harsh C Mariwala                     14,38,86,350   11.11%       14,38,86,350    11.12%                  -         -0.01%
+                                                                                                                                                 22    Pranav Chirayu                 33,000        0.00%                     0        0.00%             33,000               0.00%
+             with Late Kishore
+                                                                                                                                                       Amin with Barkha
+             V Mariwala for
+                                                                                                                                                       Pranav Amin for
+             Gemini Family Trust
+                                                                                                                                                       Gallup Trust
+     3       Harsh C Mariwala                     14,38,84,950   11.11%       14,38,84,950    11.12%                  -         -0.01%
+                                                                                                                                                 23    Late Kishore V                   6,700       0.00%                6,700         0.00%                    -             0.00%
+             with Late Kishore
+                                                                                                                                                       Mariwala for
+             V Mariwala for
+                                                                                                                                                       Anandita Trust
+             Valentine Family Trust

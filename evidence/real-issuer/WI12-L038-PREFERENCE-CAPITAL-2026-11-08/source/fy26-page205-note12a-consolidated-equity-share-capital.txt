@@ -1,0 +1,96 @@
+# Marico FY2025-26 consolidated notes — PDF page 205 (Note 12(a) Equity Share Capital)
+#
+# Verbatim text extraction, unedited apart from trailing-space trimming and the removal of a uniform
+# two-space gutter indent. Produced on a GitHub Actions runner with `pdftotext -layout -f 205 -l 205`
+# (poppler-utils) directly from the PDF named below; nothing was retyped, reflowed or re-ordered.
+#
+# source document : Marico Annual Report FY2025-26 (Integrated Annual Report 2025-26)
+# source sha256   : 7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f
+# source bytes    : 21282741
+# source pages    : 279
+# pdf page        : 205   (1-based, as produced by pdftotext -f/-l)
+# retrieved       : 2026-11-08T04:5xZ (runner)
+# locator log     : runs/03-fy2526-locator-report.txt
+#
+# NOTE: these pages are multi-column. `-layout` preserves columns horizontally, so a single printed line
+# can carry text from two different notes. Columns are never to be re-assembled into one logical row.
+#
+406                                                                                                                                                                                                                                                                              407
+       Marico Limited           Integrated Annual Repor t 2025-26                                                                                                                       Corporate Overview                 Statutory Reports                    Financial Statements
+
+
+
+
+Notes to the Consolidated financial statements
+for the year ended 31st March, 2026
+                                                                                                                                            Notes to the Consolidated financial statements
+                                                                                                                                            for the year ended 31st March, 2026
+
+10. Other Current Assets                                                                                                                    (i)   Movements in equity share capital
+                                                                                                                               H in crore                                                                                                                                    H in crore
+                                                                                                        As at                  As at                                                                                                                                  Equity Share
+Particulars                                                                                                                                       Particulars                                                                                  No. of shares
+                                                                                            31st March, 2026       31st March, 2025                                                                                                                             capital (par value)
+
+Advances to vendors                                                                                        128                     179            As at 1st April, 2024                                                                        1,29,41,01,828                     129
+Balances with government authorities                                                                        91                      83            Increases during the year
+Input tax credit receivable                                                                                245                     119            Shares issued during the year - ESOP (refer note 33(a))                                      13,95,771                           0
+Prepaid expenses                                                                                            24                      26            As at 31st March, 2025                                                                 1,29,54,97,599                          129
+Total                                                                                                      488                     407            Increases during the year
+                                                                                                                                                  Shares issued during the year - ESOP (refer note 33(a))                                      26,51,336                           1
+                                                                                                                                                  As at 31st March, 2026                                                                 1,29,81,48,935                          130
+11 Assets classified as held for sale
+                                                                                                                               H in crore
+                                                                                                        As at                  As at        (ii) Rights, preferences and restrictions attached to equity shares
+Particulars
+                                                                                            31st March, 2026       31st March, 2025               Equity Shares: The authorised share capital of the Company comprises of 150 Crores equity share of H 1 each and 8 Crores equity
+Land and building (refer note below)                                                                           -                       -          shares of H 10 each.
+Plant and Machinery (refer note below)                                                                         -                       -
+Total                                                                                                          -                       -          Each shareholder is eligible for one vote per share held. The dividend proposed by the Board of Directors is subject to the approval
+                                                                                                                                                  of the shareholders in the ensuing Annual General Meeting, except in case of interim dividend. In the event of liquidation, the
+Non-recurring fair value measurements                                                                                                             equity shareholders are eligible to receive the remaining assets of the Company after distribution of all preferential amounts, in
+                                                                                                                                                  proportion to their shareholding.
+i.     During the year 31st March, 2025 assets with carrying amount of Rs 5 crores classified as held for sale along with other assets
+       with carrying amount of Rs 12 crores was sold for a lump sum consideration of Rs 36 crores. Net gain on sale of Rs 19 crores         (iii) Shares reserved for issue under options
+       has been recognised in “other income”.
+                                                                                                                                                  Information relating to Marico ESOP 2016 including details of options issued, exercised, forfeited and lapsed during the financial
+ii.    The valuation of assets held for sale of the Company, is determined basis the details obtained from “The Ready Reckoner”, location         year and options outstanding at the end of the reporting period, is set out in note 33 (a).
+       factor and physical verification of the property.
+                                                                                                                                            (iv) Details of shareholders holding more than 5% shares in the Company
+                                                                                                                                                                                                                                                                             H in crore
+12(a) Equity Share Capital                                                                                                                                                                              As at 31st March, 2026                      As at 31st March, 2025
+                                                                                                                               H in crore
+                                                                                                                                                  Name of Shareholder                               No. of Shares                                No. of Shares
+                                                                                                No. of shares                                                                                                             % of Holding                                 % of Holding
+Particulars                                                                                                                   Amount                                                                         held                                         held
+                                                                                                    (in Crore)
+                                                                                                                                                  Equity Shares of J 1/- each fully
+I     Authorised Capital
+                                                                                                                                                  paid-up
+      As at 31st March, 2025
+                                                                                                                                                  Harsh C Mariwala with Kishore V Mariwala            14,38,84,950                  11.08         14,38,84,950                  11.11
+      Equity shares of H 1/- each                                                                          150                     150
+                                                                                                                                                  (For Valentine Family Trust)
+      Equity shares of H 10/- each                                                                           8                      80
+                                                                                                                                                  Harsh C Mariwala with Kishore V Mariwala            14,38,71,950                  11.08         14,38,71,950                  11.11
+      Preference shares of H 10/- each                                                                       7                      65
+                                                                                                                                                  (For Aquarius Family Trust)
+      Total                                                                                                165                     295
+                                                                                                                                                  Harsh C Mariwala with Kishore V Mariwala            14,38,90,750                  11.08         14,38,90,750                  11.11
+      As at 31st March, 2026
+                                                                                                                                                  (For Taurus Family Trust)
+      Equity shares of H 1/- each                                                                          150                     150
+                                                                                                                                                  Harsh C Mariwala with Kishore V Mariwala            14,38,86,350                  11.08         14,38,86,350                  11.11
+      Equity shares of H 10/- each                                                                           8                      80
+                                                                                                                                                  (For Gemini Family Trust)
+      Preference shares of H 10/- each                                                                       7                      65
+      Total                                                                                                165                     295      (v) For the period of preceding five years as on the Balance Sheet date, Issued, Subscribed and Paid-
+II    Issued, subscribed and paid-up                                                                                                            up Share Capital includes::
+      As at 31st March, 2025
+                                                                                                                                                  Aggregate of 8,25,267 (31st March, 2025: 44,78,091) Equity shares allotted under the Employee stock option plan schemes as
+      1,29,54,97,599 equity shares of H 1/- each fully paid-up                                             130                     129
+                                                                                                                                                  consideration for services rendered by employees for which only exercise price has been received in cash. Additonally, 18,26,069
+      Total                                                                                                130                     129
+      As at 31st March, 2026                                                                                                                      equity shares were allotted to Welfare of Mariconians Trust for the purpose of implementation of cashless mechanism of exercise.
+      1,29,81,48,935 equity shares of H 1/- each fully paid-up                                             130                     130
+      Total                                                                                                130                     130
