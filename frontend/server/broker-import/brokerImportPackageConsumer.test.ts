@@ -33,7 +33,18 @@ import { describe, expect, it } from 'vitest';
 const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
-export const EXPECTED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
+/**
+ * The authoritative IPD dependency pin, advanced from `279d1eed…` to `59fdfd1…`
+ * (IPD PR #140 merge commit) by the isolated Dhan convergence. That commit is the first
+ * commit reachable from IPD `main` that publishes the server-only `./dhan-server` subpath;
+ * at `279d1eed…` the subpath and `src/providers/dhan/**` do not exist in the package.
+ * The `./portfolio-ui`, `./pit`, `./d114-non-production` and `./operator-drop` subpaths all
+ * remain published at the new pin, so the advance is purely additive for existing consumers.
+ */
+export const EXPECTED_IPD_PIN_SHA = '59fdfd157632dbdbc220ae03d9d0b8e047d4ef19';
+
+/** The superseded primary pin, retained so a silent rollback cannot go unnoticed. */
+export const SUPERSEDED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
 
 /**
  * The governed broker-import alias consumption profile. It is the single source of truth shared
@@ -71,6 +82,15 @@ export const REQUIRED_SUBPATHS = [
   './pit',
   './d114-non-production',
 ] as const;
+
+/**
+ * The server-only Dhan provider surface, added by the isolated Dhan convergence.
+ *
+ * Asserted separately from `REQUIRED_SUBPATHS` because it carries an extra `default`
+ * condition and a server-side-only scope restriction that the generic subpath check does
+ * not model. It must never be imported from browser code.
+ */
+export const REQUIRED_DHAN_SERVER_SUBPATH = './dhan-server' as const;
 
 export const REQUIRED_PIT_RUNTIME_EXPORTS = [
   'PitReadService',
@@ -245,6 +265,43 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
 
     expect(depSpec).toBe(`github:ramkivs/iips-production-market-data#${EXPECTED_IPD_PIN_SHA}`);
     expect(lockResolved).toContain(`#${EXPECTED_IPD_PIN_SHA}`);
+  });
+
+  it('publishes the server-only ./dhan-server provider surface at the advanced pin', () => {
+    const depSpec = irrPkg.dependencies?.['iips-production-market-data'] ?? '';
+    const dhanServer = ipdPkg.exports?.[REQUIRED_DHAN_SERVER_SUBPATH];
+
+    // The advance is real: it is not the superseded pin re-declared.
+    expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_PIN_SHA);
+    expect(depSpec).toContain(EXPECTED_IPD_PIN_SHA);
+
+    // The subpath did not exist at the superseded pin, so its presence is the observable
+    // evidence that IRR consumes the newly published surface rather than an older one.
+    expect(dhanServer, `missing export subpath: ${REQUIRED_DHAN_SERVER_SUBPATH}`).toBeDefined();
+    expect(dhanServer?.import).toBe('./dist/package/src/providers/dhan/package.js');
+    expect(dhanServer?.types).toBe('./dist/package/src/providers/dhan/package.d.ts');
+    expect(dhanServer?.default).toBe('./dist/package/src/providers/dhan/package.js');
+
+    // Server-only contract: the published entrypoint must ship built artifacts, and the
+    // raw provider TypeScript sources must NOT be present, so IRR cannot silently compile
+    // vendor sources it was not given.
+    for (const extension of ['.js', '.d.ts']) {
+      const published = resolve(
+        ipdPkgRoot,
+        'dist/package/src/providers/dhan',
+        `package${extension}`,
+      );
+      expect(existsSync(published), `missing published dhan-server artifact: package${extension}`).toBe(true);
+    }
+    expect(existsSync(resolve(ipdPkgRoot, 'src/providers/dhan/package.ts'))).toBe(false);
+  });
+
+  it('keeps every pre-existing subpath published when the pin advances', () => {
+    // The Dhan advance must be additive: advancing the primary pin must not drop a
+    // subpath an existing IRR consumer already relies on.
+    for (const subpath of REQUIRED_SUBPATHS) {
+      expect(ipdPkg.exports?.[subpath], `advanced pin dropped export subpath: ${subpath}`).toBeDefined();
+    }
   });
 
   it('guards the distinct broker-import alias and its required published package build inputs', () => {
