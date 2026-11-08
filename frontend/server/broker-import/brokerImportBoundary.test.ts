@@ -12,6 +12,8 @@
 import { describe, it, expect } from 'vitest';
 import {
   BROKER_IMPORT_MAX_HOLDINGS,
+  BROKER_IMPORT_MAX_SYMBOL_LENGTH,
+  BROKER_IMPORT_SYMBOL_PATTERN,
   validateBrokerImportSaveDto,
   validatePortfolioIdParam,
   type BrokerObservedHoldingInput,
@@ -167,7 +169,7 @@ describe('brokerImportBoundary — broker-observed holding allowlist', () => {
 
   it('refuses bad symbol, isin, exchange and numeric holding values without echoing them', () => {
     expect(validateBrokerImportSaveDto(validBody({ holdings: [{ symbol: '' }] })).ok).toBe(false);
-    expect(validateBrokerImportSaveDto(validBody({ holdings: [{ symbol: 'x'.repeat(33) }] })).ok).toBe(false);
+    expect(validateBrokerImportSaveDto(validBody({ holdings: [{ symbol: 'x'.repeat(41) }] })).ok).toBe(false);
     expect(validateBrokerImportSaveDto(validBody({ holdings: [holding({ isin: 42 } as Partial<BrokerObservedHoldingInput>)] })).ok).toBe(false);
     expect(validateBrokerImportSaveDto(validBody({ holdings: [holding({ exchange: 'NYSE' } as Partial<BrokerObservedHoldingInput>)] })).ok).toBe(false);
     const result = validateBrokerImportSaveDto(validBody({ holdings: [holding({ quantity: -5 } as Partial<BrokerObservedHoldingInput>)] }));
@@ -205,5 +207,96 @@ describe('brokerImportBoundary — opaque route portfolioId', () => {
       expect(refusal, `id ${JSON.stringify(bad)}`).not.toBeNull();
       expect(refusal?.fieldPath).toBe('path.portfolioId');
     }
+  });
+});
+
+/**
+ * Stage 2 — IRR v1 symbol-grammar alignment.
+ *
+ * The authoritative IPD v1 grammar is `/^[A-Za-z0-9][A-Za-z0-9._&-]{0,39}$/`
+ * (`src/persistence/manualPersonalPortfolio.ts:29` at IPD pin `59fdfd1…`). IRR now applies the
+ * same predicate at its own boundary, so an inadmissible symbol is refused locally with a typed
+ * field path and static reason rather than forwarded and refused opaquely by IPD as
+ * `400 INVALID_REQUEST`. This narrows IRR's outbound set; it never widens IPD's.
+ */
+describe('brokerImportBoundary — Stage 2: IPD v1 symbol grammar', () => {
+  const symbolOf = (symbol: unknown): string | null => {
+    const result = validateBrokerImportSaveDto(validBody({ holdings: [{ symbol } as unknown as { symbol: string }] }));
+    return result.ok ? null : result.refusal.reason;
+  };
+
+  it('exposes the exact IPD v1 pattern and a 40-character bound', () => {
+    expect(BROKER_IMPORT_SYMBOL_PATTERN.source).toBe('^[A-Za-z0-9][A-Za-z0-9._&-]{0,39}$');
+    expect(BROKER_IMPORT_MAX_SYMBOL_LENGTH).toBe(40);
+  });
+
+  describe('accepts symbols the IPD v1 grammar admits', () => {
+    for (const symbol of [
+      'RELIANCE',        // ordinary
+      'TCS',             // short
+      '3MINDIA',         // digit-leading (admissible: leading char is alphanumeric)
+      'M&M',             // ampersand
+      'BAJAJ-AUTO',      // hyphen
+      'A_B',             // underscore
+      'DR.REDDY',        // dot
+      'x'.repeat(40),    // exactly the maximum permitted length
+    ]) {
+      it(`accepts ${JSON.stringify(symbol)}`, () => {
+        expect(symbolOf(symbol)).toBeNull();
+      });
+    }
+  });
+
+  describe('refuses symbols the IPD v1 grammar rejects', () => {
+    const cases: Array<[string, unknown]> = [
+      ['empty string', ''],
+      ['whitespace only', '   '],
+      ['leading space', ' RELIANCE'],
+      ['space inside', 'ASK AUTOMOTIVE'],
+      ['leading hyphen', '-BAJAJ'],
+      ['leading dot', '.REDDY'],
+      ['leading underscore', '_X'],
+      ['leading ampersand', '&M'],
+      ['slash', 'M/M'],
+      ['parenthesis', 'M&M(1)'],
+      ['comma', 'A,B'],
+      ['plus', 'A+B'],
+      ['percent', 'A%'],
+      ['non-ASCII', 'RELIANCEÉ'],
+      ['emoji', 'X🙂'],
+      ['length 41 (exceeds limit)', 'x'.repeat(41)],
+      ['non-string number', 42],
+      ['null', null],
+    ];
+    for (const [label, symbol] of cases) {
+      it(`refuses ${label}`, () => {
+        const reason = symbolOf(symbol);
+        expect(reason).not.toBeNull();
+      });
+    }
+  });
+
+  it('reports the grammar refusal with the symbol field path and a static reason', () => {
+    const result = validateBrokerImportSaveDto(validBody({ holdings: [{ symbol: 'ASK AUTOMOTIVE' }] }));
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.refusal.fieldPath).toBe('body.holdings[0].symbol');
+      expect(result.refusal.reason).toBe('symbol-not-admissible-per-v1-grammar');
+      // The refused value is never echoed back (R2 sanitised-error rule).
+      expect(JSON.stringify(result.refusal)).not.toContain('ASK AUTOMOTIVE');
+    }
+  });
+
+  it('still refuses an over-length symbol before the grammar is consulted', () => {
+    // 41 chars trips the length bound first; the reason must remain the bounded-string one.
+    expect(symbolOf('x'.repeat(41))).toBe('symbol-required-bounded-string');
+  });
+
+  it('is a pure matcher: no trim or case rewriting of the value IRR transmits', () => {
+    // `RELIANCE ` (trailing space) is refused rather than silently trimmed — IRR never rewrites a
+    // broker-observed value, and IPD would receive exactly these bytes.
+    expect(symbolOf('RELIANCE ')).not.toBeNull();
+    // Lower case is admissible under the pattern and is passed through unchanged.
+    expect(symbolOf('reliance')).toBeNull();
   });
 });
