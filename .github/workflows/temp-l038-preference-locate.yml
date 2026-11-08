@@ -1,14 +1,14 @@
-name: temp L-038 later-report locator (throwaway — deleted before PR)
+name: temp L-038 latest-report locator (throwaway — deleted before PR)
 
-# THROWAWAY. Part 2 of the L-038 preference-capital retrieval, on a runner (the sandbox has no egress).
-# Part 1 already settled the FY2023-24 document (sha256 03cb0db7...7595, 259 pp; PDF p.190 = "12(b) Reserves &
-# surplus", i.e. Note 12(a) is the whole share-capital note and no later share-capital sub-section exists).
+# THROWAWAY. Part 3 of the L-038 preference-capital retrieval (runner-side; the sandbox has no egress).
+# Already settled: FY2023-24 (sha256 03cb0db7...7595, 259 pp; p.190 = "12(b) Reserves & surplus") and
+# FY2024-25 (sha256 74e0f6c2...3474, 255 pp). Both consolidated Note 12(a) show authorised preference capital
+# of 7 crore shares / Rs. 65 crore and an issued-capital section made up only of equity shares, with no class
+# or nil statement anywhere in either document.
 #
-# Part 2 obtains a POST-FY24 audited consolidated document and prints, verbatim, every place it talks about
-# preference shares / classes of shares, so the D-2 nil-by-disclosure grammar can be applied to real text.
-# Candidates (from the Wayback CDX index of marico.com/investorspdf/*):
-#   - Annual_Audited_Financial_Statements_FY_2024_25.pdf  (archived 20251214014057)
-#   - Marico_Annual_Report_FY25.pdf                       (~14.37 MB; slow from the issuer host)
+# Part 3 answers the remaining question — is a STILL LATER audited consolidated report published (FY2025-26
+# would be due around July 2026)? — and captures the verbatim remainder of the FY25 share-capital note plus the
+# historical preference-share rows, so the record is complete rather than abbreviated.
 # Output is committed to a temp path on the same branch; workflow and temp path are removed before the PR.
 
 on:
@@ -23,6 +23,7 @@ permissions:
 jobs:
   locate:
     runs-on: ubuntu-latest
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,88 +34,89 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils curl >/dev/null
 
-      - name: Collect evidence into /tmp/l038-report2.txt
+      - name: Collect evidence into /tmp/l038-report3.txt
         run: |
           set -u
-          REPORT=/tmp/l038-report2.txt
+          REPORT=/tmp/l038-report3.txt
           : > "$REPORT"
           exec 3>&1
           exec >> "$REPORT" 2>&1
           UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 
-          # grab <url> <out> : HEAD for length, then resumable GET loop; returns 0 iff pdfinfo accepts the file
           grab() {
             u="$1"; out="$2"; rm -f "$out"
             LEN=$(curl -sSL -A "$UA" -I --max-time 60 "$u" 2>/dev/null | tr -d '\r' | awk 'tolower($1)=="content-length:"{print $2}' | tail -1)
-            echo "  head content-length=${LEN:-unknown}"
-            for i in 1 2 3 4 5 6 7 8 9 10; do
+            for i in 1 2 3 4 5 6 7 8; do
               curl -sSL -C - -A "$UA" -H 'Accept: application/pdf,*/*' --max-time 240 -o "$out" "$u" 2>/tmp/e
-              rc=$?
               sz=$(stat -c%s "$out" 2>/dev/null || echo 0)
-              echo "  attempt$i rc=$rc bytes=$sz $( [ -n "${LEN:-}" ] && [ "$LEN" -gt 0 ] && echo "($((sz*100/LEN))%)" ) $(tr -d '\n' </tmp/e | cut -c1-90)"
+              echo "  attempt$i bytes=$sz${LEN:+/$LEN} err=$(tr -d '\n' </tmp/e | cut -c1-80)"
               if pdfinfo "$out" >/dev/null 2>&1; then return 0; fi
-              if [ "$rc" = "0" ] && [ -n "${LEN:-}" ] && [ "$sz" = "$LEN" ]; then return 1; fi
             done
             return 1
           }
+          pref() { awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /preference/) printf "p%d: %s\n", p, $0}' "$1" | sed 's/[[:space:]]\+$//'; }
+          klass() { awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /only one class|one class of|single class/) printf "p%d: %s\n", p, $0}' "$1" | sed 's/[[:space:]]\+$//'; }
 
-          echo "===== SECTION A: FY2024-25 audited financial statements ====="
-          A_OK=0
-          for A in \
-            "https://marico.com/investorspdf/Annual_Audited_Financial_Statements_FY_2024_25.pdf" \
-            "https://web.archive.org/web/20251214014057id_/https://marico.com/investorspdf/Annual_Audited_Financial_Statements_FY_2024_25.pdf"
+          echo "===== SECTION A: CDX index rows for any report newer than FY2024-25 ====="
+          curl -sS --max-time 150 "https://web.archive.org/cdx/search/cdx?url=marico.com/investorspdf/*&output=txt&fl=original,timestamp,statuscode,mimetype&collapse=urlkey&limit=4000" -o /tmp/cdx.txt
+          echo "cdx_lines=$(wc -l </tmp/cdx.txt)"
+          echo "--- rows matching FY26 / FY2025-26 / 2025-26 / 2026 ---"
+          grep -iE "fy26|fy2025-26|2025-26|2026|_26" /tmp/cdx.txt | grep -iE "annual|integrated|financial statement" | head -40
+          echo "--- all rows matching annual|integrated (names only, newest last) ---"
+          grep -iE "annual|integrated" /tmp/cdx.txt | awk '{print $1}' | sort -u | tail -40
+
+          echo
+          echo "===== SECTION B: FY2025-26 audited consolidated report — does one exist? ====="
+          F26=0
+          for C in \
+            "https://marico.com/investorspdf/Marico_Annual_Report_FY26.pdf" \
+            "https://marico.com/investorspdf/Marico_Annual_Report_FY2025-26.pdf" \
+            "https://marico.com/investorspdf/Marico_Integrated_Annual_Report_2025-26.pdf" \
+            "https://marico.com/investorspdf/Marico_Annual_Report_2025-26.pdf" \
+            "https://marico.com/investorspdf/Annual_Audited_Financial_Statements_FY_2025_26.pdf" \
+            "https://marico.com/investorspdf/Annual_Audited_Financial_Statements_FY_2025-2026.pdf" \
+            "https://web.archive.org/web/2026id_/https://marico.com/investorspdf/Marico_Annual_Report_FY26.pdf"
           do
-            echo "--- candidate: $A"
-            if grab "$A" /tmp/afs25.pdf; then
-              echo "  OBTAINED from $A"
-              echo "  bytes=$(stat -c%s /tmp/afs25.pdf) sha256=$(sha256sum /tmp/afs25.pdf | cut -d' ' -f1) pages=$(pdfinfo /tmp/afs25.pdf | awk '/^Pages:/{print $2}')"
-              echo "  md=$(pdfinfo /tmp/afs25.pdf | grep -E '^(Title|CreationDate|ModDate):' | tr '\n' ' ')"
-              A_OK=1; break
+            echo "--- candidate: $C"
+            echo "  http=$(curl -sSL -A "$UA" -o /dev/null -w '%{http_code} ct=%{content_type} len=%{size_download}' --max-time 60 -I "$C" 2>/dev/null)"
+            if grab "$C" /tmp/f26.pdf; then
+              echo "  OBTAINED bytes=$(stat -c%s /tmp/f26.pdf) sha256=$(sha256sum /tmp/f26.pdf | cut -d' ' -f1) pages=$(pdfinfo /tmp/f26.pdf | awk '/^Pages:/{print $2}')"
+              echo "  md=$(pdfinfo /tmp/f26.pdf | grep -E '^(Title|CreationDate|ModDate):' | tr '\n' ' ')"
+              pdftotext -layout /tmp/f26.pdf /tmp/f26.txt || true
+              echo "  --- pages mentioning preference ---"; pref /tmp/f26.txt
+              echo "  --- pages mentioning only one class / one class of / single class ---"; klass /tmp/f26.txt
+              echo "  --- pages with 'Issued, subscribed' ---"
+              awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /issued, subscribed/) printf "p%d\n", p}' /tmp/f26.txt | sort -un
+              for pg in $(awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /share capital/) printf "%d\n", p}' /tmp/f26.txt | sort -un | head -10); do
+                echo "  === BEGIN FY26 PAGE $pg ==="; pdftotext -layout -f "$pg" -l "$pg" /tmp/f26.pdf - | sed 's/[[:space:]]\+$//'; echo "  === END FY26 PAGE $pg ==="
+              done
+              F26=1; break
             fi
             echo "  not obtainable"
           done
-          echo "fy2425_statements_obtained=$A_OK"
+          echo "fy2526_report_obtained=$F26"
 
           echo
-          echo "===== SECTION B: FY2024-25 annual report (Marico_Annual_Report_FY25.pdf) ====="
-          B_OK=0
-          for B in \
-            "https://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf" \
-            "https://web.archive.org/web/20250715172601id_/https://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf"
-          do
-            echo "--- candidate: $B"
-            if grab "$B" /tmp/ar25.pdf; then
-              echo "  OBTAINED from $B"
-              echo "  bytes=$(stat -c%s /tmp/ar25.pdf) sha256=$(sha256sum /tmp/ar25.pdf | cut -d' ' -f1) pages=$(pdfinfo /tmp/ar25.pdf | awk '/^Pages:/{print $2}')"
-              echo "  md=$(pdfinfo /tmp/ar25.pdf | grep -E '^(Title|CreationDate|ModDate):' | tr '\n' ' ')"
-              B_OK=1; break
-            fi
-            echo "  not obtainable"
-          done
-          echo "fy2425_annual_report_obtained=$B_OK"
-
-          echo
-          echo "===== SECTION C: share-capital and preference disclosures in the later documents ====="
-          for f in /tmp/afs25.pdf /tmp/ar25.pdf; do
-            [ -f "$f" ] || continue
-            pdfinfo "$f" >/dev/null 2>&1 || continue
-            echo
-            echo "########## DOCUMENT: $f ##########"
-            pdftotext -layout "$f" "/tmp/$(basename "$f" .pdf).txt" || true
-            T="/tmp/$(basename "$f" .pdf).txt"
-            echo "--- every page mentioning 'preference' ---"
-            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /preference/) printf "p%d: %s\n", p, $0}' "$T" | sed 's/[[:space:]]\+$//'
-            echo "--- every page mentioning 'only one class' / 'one class of' ---"
-            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /only one class|one class of/) printf "p%d: %s\n", p, $0}' "$T" | sed 's/[[:space:]]\+$//'
-            echo "--- pages containing 'Issued, subscribed and paid-up' ---"
-            awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /issued, subscribed/) printf "p%d\n", p}' "$T" | sort -u
-            echo "--- verbatim dump of the share-capital page(s) ---"
-            for pg in $(awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /share capital/) printf "%d\n", p}' "$T" | sort -un | head -12); do
-              echo "=== BEGIN PAGE $pg of $f ==="
-              pdftotext -layout -f "$pg" -l "$pg" "$f" - | sed 's/[[:space:]]\+$//'
-              echo "=== END PAGE $pg of $f ==="
+          echo "===== SECTION C: FY2024-25 annual report — verbatim remainder and history rows ====="
+          if grab "https://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf" /tmp/ar25.pdf; then
+            echo "  bytes=$(stat -c%s /tmp/ar25.pdf) sha256=$(sha256sum /tmp/ar25.pdf | cut -d' ' -f1) pages=$(pdfinfo /tmp/ar25.pdf | awk '/^Pages:/{print $2}') (expect 14370556 / 74e0f6c2...3474 / 255)"
+            for pg in 185 186 229 230 252; do
+              echo "=== BEGIN FY25 PAGE $pg ==="; pdftotext -layout -f "$pg" -l "$pg" /tmp/ar25.pdf - | sed 's/[[:space:]]\+$//'; echo "=== END FY25 PAGE $pg ==="
             done
-          done
+          else
+            echo "  FY25 annual report not re-obtainable"
+          fi
+
+          echo
+          echo "===== SECTION D: FY2023-24 annual report — statement-of-changes history rows ====="
+          if grab "https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf" /tmp/fy24.pdf; then
+            echo "  bytes=$(stat -c%s /tmp/fy24.pdf) sha256=$(sha256sum /tmp/fy24.pdf | cut -d' ' -f1) pages=$(pdfinfo /tmp/fy24.pdf | awk '/^Pages:/{print $2}') (expect 21087675 / 03cb0db7...7595 / 259)"
+            for pg in 233 254; do
+              echo "=== BEGIN FY24 PAGE $pg ==="; pdftotext -layout -f "$pg" -l "$pg" /tmp/fy24.pdf - | sed 's/[[:space:]]\+$//'; echo "=== END FY24 PAGE $pg ==="
+            done
+          else
+            echo "  FY24 annual report not re-obtainable"
+          fi
 
           echo
           echo "===== END OF REPORT ====="
@@ -125,12 +127,12 @@ jobs:
         if: always()
         run: |
           set -u
-          REPORT=/tmp/l038-report2.txt
+          REPORT=/tmp/l038-report3.txt
           [ -s "$REPORT" ] || { echo "no report captured"; exit 0; }
           mkdir -p .l038-temp
-          cp "$REPORT" .l038-temp/later-report-locator-report.txt
+          cp "$REPORT" .l038-temp/latest-report-locator-report.txt
           git config user.name "L-038 locator"
           git config user.email "noreply@github.com"
-          git add .l038-temp/later-report-locator-report.txt
-          git commit -qm "temp: L-038 later-report locator output (throwaway, deleted before PR)"
+          git add .l038-temp/latest-report-locator-report.txt
+          git commit -qm "temp: L-038 latest-report locator output (throwaway, deleted before PR)"
           git push origin HEAD:refs/heads/arena/39e78147-iips-review-recovered
