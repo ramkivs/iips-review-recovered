@@ -1,0 +1,730 @@
+utc=2026-11-08T05:14:27Z
+
+===== SECTION A: every 2026 integrated-filing row, all fields =====
+selected rows= 9
+ROW 30-SEP-2026 Consolidated Un-Audited
+     attFileSize = 0 Bytes
+     audited = Un-Audited
+     broadcast_Date = 02-Nov-2026 21:27:15
+     cmName = KEC International Limited
+     consolidated = Consolidated
+     creation_Date = 02-Nov-2026 21:27:32
+     diff = 00:00:17
+     ixbrl = https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html
+     ixbrlFileSize = 79.69 KB
+     pdf_attach = https://nsearchives.nseindia.com/corporate/null
+     qe_Date = 30-SEP-2026
+     revised_Date = None
+     revision_Remark = None
+     seq_Id = 208531
+     smName = KEC International Limited
+     symbol = KEC
+     type = Integrated Filing- Financials
+     type_Sub = Original
+     xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+     xbrlFileSize = 72.26 KB
+ROW 30-SEP-2026 Standalone Un-Audited
+     attFileSize = 0 Bytes
+     audited = Un-Audited
+     broadcast_Date = 02-Nov-2026 21:26:26
+     cmName = KEC International Limited
+     consolidated = Standalone
+     creation_Date = 02-Nov-2026 21:26:40
+     diff = 00:00:14
+     ixbrl = https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208529_02112026212640_iXBRL_WEB.html
+     ixbrlFileSize = 207.82 KB
+     pdf_attach = https://nsearchives.nseindia.com/corporate/null
+     qe_Date = 30-SEP-2026
+     revised_Date = None
+     revision_Remark = None
+     seq_Id = 208529
+     smName = KEC International Limited
+     symbol = KEC
+     type = Integrated Filing- Financials
+     type_Sub = Original
+     xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+     xbrlFileSize = 481.49 KB
+ROW 30-SEP-2026 None None
+     attFileSize = 0 Bytes
+     audited = None
+     broadcast_Date = 26-Oct-2026 15:45:09
+     cmName = KEC International Limited
+     consolidated = None
+     creation_Date = 26-Oct-2026 15:48:01
+     diff = 00:02:52
+     ixbrl = https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_204177_26102026154800_iXBRL_WEB.html
+     ixbrlFileSize = 68.45 KB
+     pdf_attach = https://nsearchives.nseindia.com/corporate/null
+     qe_Date = 30-SEP-2026
+     revised_Date = None
+     revision_Remark = None
+     seq_Id = 204177
+     smName = KEC International Limited
+     symbol = KEC
+
+===== SECTION B: fetch every URL carried by those rows =====
+url rows: 27
+30-SEP-2026-Consolidated-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html
+30-SEP-2026-Consolidated-pdf_attach	https://nsearchives.nseindia.com/corporate/null
+30-SEP-2026-Consolidated-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+30-SEP-2026-Standalone-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208529_02112026212640_iXBRL_WEB.html
+30-SEP-2026-Standalone-pdf_attach	https://nsearchives.nseindia.com/corporate/null
+30-SEP-2026-Standalone-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+30-SEP-2026-None-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_204177_26102026154800_iXBRL_WEB.html
+30-SEP-2026-None-pdf_attach	https://nsearchives.nseindia.com/corporate/null
+30-SEP-2026-None-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
+30-JUN-2026-Consolidated-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184710_10082026190214_iXBRL_WEB.html
+30-JUN-2026-Consolidated-pdf_attach	https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
+30-JUN-2026-Consolidated-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
+30-JUN-2026-Standalone-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184709_10082026190131_iXBRL_WEB.html
+30-JUN-2026-Standalone-pdf_attach	https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
+30-JUN-2026-Standalone-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
+30-JUN-2026-None-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_180013_29072026182952_iXBRL_WEB.html
+30-JUN-2026-None-pdf_attach	https://nsearchives.nseindia.com/corporate/null
+30-JUN-2026-None-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
+31-MAR-2026-Consolidated-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158430_16052026225416_iXBRL_WEB.html
+31-MAR-2026-Consolidated-pdf_attach	https://nsearchives.nseindia.com/corporate/null
+--- 30-SEP-2026-Consolidated-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html
+    http=200 bytes=81599 sha256=1c371ec6c49ef31376a3e47136300560da020fa764e383da17bbcee54a8c2c79
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+    text: Non-current investments
+    text: Current investments
+--- 30-SEP-2026-Consolidated-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/null
+    http=404 bytes=3540 sha256=edca06f9b18f53dcc8cabff47d57f1cde4638e284c19597a88eec9c357ee9209
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-SEP-2026-Consolidated-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+    http=200 bytes=73996 sha256=59dd7e3bef485535eaec3db6ded52421088662469ba6bcecd315857073eda10c
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-SEP-2026-Standalone-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208529_02112026212640_iXBRL_WEB.html
+    http=200 bytes=212811 sha256=0c8678903a963f88a821c8899e18e26684541b06dc802fb18c5a55db9b123f2b
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+    text: Non-current investments
+    text: Current investments
+--- 30-SEP-2026-Standalone-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/null
+    http=404 bytes=3540 sha256=edca06f9b18f53dcc8cabff47d57f1cde4638e284c19597a88eec9c357ee9209
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-SEP-2026-Standalone-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+    http=200 bytes=493047 sha256=84821b46d67725e50cf13bafc859a6495a5324a2bba06f221a938e314ed3b06a
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-SEP-2026-None-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_204177_26102026154800_iXBRL_WEB.html
+    http=200 bytes=70097 sha256=45621b10f2ce2231752ec6266097ea25cd58a70b1b956ed8f28a23a799a0e140
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-SEP-2026-None-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/null
+    http=404 bytes=3540 sha256=edca06f9b18f53dcc8cabff47d57f1cde4638e284c19597a88eec9c357ee9209
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-SEP-2026-None-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
+    http=200 bytes=105216 sha256=9cf1f87fb047658af8a09195bf7426f4f2db5b65627e7ea21c50818072e45b48
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-JUN-2026-Consolidated-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184710_10082026190214_iXBRL_WEB.html
+    http=200 bytes=39033 sha256=cb6db25d047e1d21174ad3d91b6d93a9d2a6842630a2095c53850582070489f4
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-JUN-2026-Consolidated-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
+    http=200 bytes=7405447 sha256=b2e183cd6ddc17c2b60c034a20ac8cd2d81cb5b4a946b8a36175e084fd31e5ae
+  30-JUN-2026-Consolidated-pdf_attach: bytes=7405447 sha256=b2e183cd6ddc17c2b60c034a20ac8cd2d81cb5b4a946b8a36175e084fd31e5ae pages=14
+  --- investment / treasury lines ---
+  30-JUN-2026-Consolidated-pdf_attach p5:    3      kec investment holdings
+--- 30-JUN-2026-Consolidated-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
+    http=200 bytes=24023 sha256=e985c324925928523f15db94ace21f331447d258a302c9fc856b34132ecada64
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-JUN-2026-Standalone-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184709_10082026190131_iXBRL_WEB.html
+    http=200 bytes=38405 sha256=6607cdad69b5e61f79614dac595c318326e980ebcc669a93dd00c160b94b8c22
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-JUN-2026-Standalone-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
+    http=200 bytes=7405447 sha256=b2e183cd6ddc17c2b60c034a20ac8cd2d81cb5b4a946b8a36175e084fd31e5ae
+  30-JUN-2026-Standalone-pdf_attach: bytes=7405447 sha256=b2e183cd6ddc17c2b60c034a20ac8cd2d81cb5b4a946b8a36175e084fd31e5ae pages=14
+  --- investment / treasury lines ---
+  30-JUN-2026-Standalone-pdf_attach p5:    3      kec investment holdings
+--- 30-JUN-2026-Standalone-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
+    http=200 bytes=15873 sha256=692782858f5fe60c617756bc1b192a2f1d74c30482b4637b3891ced332a46c10
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-JUN-2026-None-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_180013_29072026182952_iXBRL_WEB.html
+    http=200 bytes=58547 sha256=e1ad0fa94288b55385f99c802d75c4a469cdc3887ff8b7d9070bbf82b2f1a493
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-JUN-2026-None-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/null
+    http=404 bytes=3540 sha256=edca06f9b18f53dcc8cabff47d57f1cde4638e284c19597a88eec9c357ee9209
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 30-JUN-2026-None-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
+    http=200 bytes=105152 sha256=6cbaab69af8457d695e67c49dddcd6b8325d331f649ce5038dbcf25baae06079
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 31-MAR-2026-Consolidated-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158430_16052026225416_iXBRL_WEB.html
+    http=200 bytes=83846 sha256=a9fa546bff8bcfc3dd531da0536370424c25b70a7cacd12373e06a7d7544a71b
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+    text: Non-current investments
+    text: Current investments
+--- 31-MAR-2026-Consolidated-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/null
+    http=404 bytes=3540 sha256=edca06f9b18f53dcc8cabff47d57f1cde4638e284c19597a88eec9c357ee9209
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 31-MAR-2026-Consolidated-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668450_16052026105416_WEB.xml
+    http=200 bytes=77918 sha256=133f0cf14a5bbdecf055affc046e5aa73097f8d9793bf423942933b037f19d21
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 31-MAR-2026-Standalone-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158429_16052026225223_iXBRL_WEB.html
+    http=200 bytes=210147 sha256=2e83f5eb759b59a93877bb5547cb874a4242ab9d0e55512e59ddbcd300f3a9a4
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+    text: Non-current investments
+    text: Current investments
+--- 31-MAR-2026-Standalone-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/null
+    http=404 bytes=3540 sha256=edca06f9b18f53dcc8cabff47d57f1cde4638e284c19597a88eec9c357ee9209
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 31-MAR-2026-Standalone-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668449_16052026105222_WEB.xml
+    http=200 bytes=478692 sha256=419e14bccf9707bf2f2be2ee7278105913be8a3ebb5819a37e83f8fe3698fb3a
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 31-MAR-2026-None-ixbrl
+    url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_153959_29042026115748_iXBRL_WEB.html
+    http=200 bytes=86130 sha256=3924e9edee290240b4b7551b71a4ea9f6c106ab3a8940de05aab06fdacfcbfb0
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 31-MAR-2026-None-pdf_attach
+    url=https://nsearchives.nseindia.com/corporate/null
+    http=404 bytes=3540 sha256=edca06f9b18f53dcc8cabff47d57f1cde4638e284c19597a88eec9c357ee9209
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+--- 31-MAR-2026-None-xbrl
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1660831_29042026115748_WEB.xml
+    http=200 bytes=120727 sha256=56d01af177388b9dddcc012e6450d59a94e97c4bc71c90acc8a60b92aae8e4c7
+    (not a PDF — treated as iXBRL/markup)
+    ix facts= 0
+    investment element names= []
+
+===== SECTION C: audited FY2026 results — balance-sheet pages verbatim =====
+  expect sha256 29531ceeea6e72f3ec8278fec2881452fafe2e5077412e795dd3d8886c4e9303 / 23 pages
+  fy26-audited-results: bytes=10047982 sha256=29531ceeea6e72f3ec8278fec2881452fafe2e5077412e795dd3d8886c4e9303 pages=23
+  --- investment / treasury lines ---
+  fy26-audited-results p7:     3      kec investment holdings
+  fy26-audited-results p9:                    (i) investments
+  fy26-audited-results p13:     wholly owned subsidiary, kec investment holdings, mauritius to another wholly owned subsidiary, kec towers llc, for which the consideration will be shares of kec towers
+  fy26-audited-results p20:            (b) investment property                                                                         48.73               -
+  fy26-audited-results p20:                 (i) investments                                                                         1,422.69         1,256.69
+  fy26-audited-results p22:  7 during the year ended march 31, 2026, the company reassessed the recoverable value of its investment in wholly owned subsidiary, kec investment holdings, mauritius. base
+  fy26-audited-results p22:    the increase in recoverable amount as compared to the carrying value of the investment, the company bas reversed the provision for impairment loss of its investment in k
+  fy26-audited-results p22:    investment holdings, mauritius amounting to rs.166 crores.
+  fy26-audited-results p22:    wholly owned subsidiary, kec investment holdings, mauritius to another wholly owned subsidiary, kec towers llc, for which the consideration will be shares of kec towers
+  === fy26-audited-results PAGE 8 (verbatim) ===
+                                                               KEC International Limited
+                                                                    CIN - L45200MH2005PLC152061
+                                                Registered Office : RPG House, 463, Dr. Annie Besant Road, Worli, Mumbai - 400 030
+                                                                                                                                                                  Rs. in Crore
+                                                 Consolidated Financial Results for the Quarter and Year ended March 31, 2026
+                                                                                                     Quarter ended                                     Year ended
+                                                                                    March 31,          December 31,         March 31,          March 31,        March 31,
+                                  Particulars
+                                                                                       2026                2025               2025               2026             2025
+                                                                                   (Refer note 9)       (Unaudited)        (Refer note 9)      (Audited)        (Audited)
+ 1 Revenue from operations                                                                6,389.75            6,001.35           6,872.12         23,505.54         21,846.70
+ 2 Other income                                                                              30.09               10.23              20.20             50.33             70.86
+ 3 Total Income (1+2)                                                                     6,419.84            6,011.58           6,892.32         23,555.87         21,917.56
+ 4 Expenses
+      (i) Cost of materials consumed                                                      3,109.93            2,889.50           3,465.79         11,571.46          9,912.15
+     (ii) Changes in inventories of finished goods, work-in-progress                        (74.14)              38.50              47.09           (325.32)           166.52
+     (iii) Erection and sub-contracting expenses                                          1,986.52            1,730.99           1,878.66          7,068.41          6,831.64
+     (iv) Employee benefits expense                                                         426.46              417.73             386.32          1,662.39          1,540.20
+     (v) Finance costs                                                                      169.85              171.14             170.34            663.60            663.59
+     (vi) Depreciation and amortisation expense                                              50.58               50.37              46.53            197.38            183.68
+   (vii) Other expenses                                                                     492.91              494.64             555.43          1,870.03          1,892.29
+            Total expenses                                                                6,162.11            5,792.87           6,550.16         22,707.95         21,190.07
+5 Profit before exceptional items and tax (3-4)                                             257.73              218.71             342.16            847.92            727.49
+6 Exceptional Items                                                                            -                 58.78                  -             58.78                 -
+7 Profit after exceptional items and before tax (5-6)                                       257.73              159.93               342.16          789.14            727.49
+8 Tax expenses :
+   (i)      Current Tax                                                                      92.08               27.79               143.80          180.41            269.96
+   (ii) Deferred Tax                                                                        (27.14)               4.68               (69.83)           3.14           (113.21)
+            Total Tax Expense                                                                64.94               32.47                73.97          183.55            156.75
+9 Profit for the period (7-8)                                                               192.79              127.46               268.19          605.59            570.74
+10 Other Comprehensive Income/(loss)
+   (i) Items that will not be reclassified to profit or loss                                  (7.92)              3.19                (1.42)          (6.02)            (0.28)
+   (ii) Income tax relating to items that will not be reclassified                             1.24              (1.04)                0.13            0.62             (0.13)
+         to profit or loss
+   (iii) Items that will be reclassified to profit or loss                                  426.45               15.17                93.17          594.14             54.39
+   (iv) Income tax relating to items that will be reclassified to                           (75.57)              (1.36)              (23.65)         (98.85)            (9.01)
+          profit or loss
+ 11 Total Other Comprehensive lncome/(Loss) for the period                                  344.20               15.96                68.23          489.88             44.97
+ 12 Total Comprehensive Income for the period (9+11)                                        536.99              143.42               336.42        1,095.47            615.71
+ 13 Paid-up equity share capital (face value Rs. 2/- each)                                   53.24               53.24                53.24           53.24             53.24
+ 14 Other Equity                                                                                                                                   6,106.45          5,294.21
+ 15 Basic/ Diluted Earnings Per Share (in Rupees) attributable to owners (face                7.24                4.79                10.08           22.75             21.80
+     value Rs. 2/- each) (not annualised except for the year ended March)
+See accompanying notes forming part of the consolidated financial results
+  === END fy26-audited-results PAGE 8 ===
+  === fy26-audited-results PAGE 9 (verbatim) ===
+KEC International Limited
+Consolidated Statement of Assets and Liabilities as at March 31, 2026                                                   Rs. in Crore
+                                                                                                        Asat            As at
+                                                                                                      March 31,       March 31,
+                                             Particulars
+                                                                                                        2026            2025
+                                                                                                      (Audited)       (Audited)
+
+              ASSETS
+      1       Non-Current Assets
+              (a) Property, Plant and Equipment                                                            1,159.49        1,073.99
+              (b) Right-of-use Asset                                                                         305.17          289.57
+              (c) Capital work-in-progress                                                                   113.65           38.52
+              (d) Goodwill                                                                                   305.80          278.22
+              (e) Intangible Assets                                                                            2.92            4.83
+              (I) Financial Assets
+                   (i) Investments
+                   (ii) Trade receivables                                                                         *
+                                                                                                              31.45
+                                                                                                                                *
+                                                                                                                             214.93
+                   (iii) Other financial assets                                                               65.38            66.07
+              (I) Deferred tax assets (net)                                                                  475.39           452.70
+              (g) Non-Current Tax Assets (Net)                                                               260.75          138.92
+              (h) Other Non-Current assets                                                                   228.98          235.53
+              Total Non-Current Assets                                                                     2,948.98         2,793.28
+
+          2   Current Assets
+              (a) Inventories                                                                              1,532.74        1,140.46
+              (b) Financial Assets
+                   (i) Trade receivables                                                                   6,474.21        5,051.10
+                   (ii) Cash and cash equivalents                                                            411.26          545.69
+                   (iii) Bank balances other than (ii) above                                                 100.67          110.24
+                   (iv) Other financial assets                                                               276.90          144.42
+              (c) Contract assets                                                                         12,127.56       11,043.51
+              (d) Current Tax Assets (Net)                                                                    26.57           16.70
+              (e) Other current assets                                                                     1,259.17        1,334.52
+              Total Current Assets                                                                        22,209.08       19,386.64
+
+                                             Total Assets                                                 25,158.06       22,179.92
+
+              EQUITY AND LIABILITIES
+              Equity
+              (a) Equity Share capital                                                                       53.24            53.24
+              (b) Other Equity                                                                            6,106.45         5,294.21
+              Total Equity                                                                                 6,159.69         5,347.45
+
+              Liabilities
+          1   Non-Current liabilities
+              (a) Financial Liabilities
+                   (i) Borrowings                                                                           661.37           358.46
+                   (ii) Lease liabilities                                                                   220.60           211.48
+              (b) Provisions                                                                                 83.58            19.69
+              (c) Deferred tax liabilities (net)                                                             24.61            15.55
+              (d) Other non-current liabilities                                                               0.39              0.41
+              Total Non-Current liabilities                                                                  990.55           605.59
+
+          2  Current liabilities
+             (a) Financial Liabilities
+                  (i) Borrowings                                                                           4,441.86        3,342.64
+                  (ii) Lease liabilities                                                                      53.93           44.90
+                  (iii) Trade payables
+                       - Total outstanding dues of micro and small enterprises                               218.20          164.64
+                       - Total outstanding dues of creditors other than micro and small enterprises        8,485.05        8,831.57
+                  (iv) Trade acceptances                                                                   2,120.73        1,507.27
+                  (v) Other financial liabilities                                                            115.68           97.28
+             (b) Contract Liabilities                                                                      1,837.26        1,659.36
+             (c) Other current liabilities                                                                   462.02          305.45
+             (d) Provisions                                                                                  101.46          100.87
+             (e) Current Tax Liabilities (Net)                                                               171.62          172.90
+             Total current liabilities                                                                    18,007.81       16,226.88
+                                      Total Equity and Liabilities                                        25,158.06       22,179.92
+*   less than roundmg off norms adopted by the Company.
+  === END fy26-audited-results PAGE 9 ===
+  === fy26-audited-results PAGE 10 (verbatim) ===
+KEC International Limited
+Consolidated Statement of Cash Flows for the year ended March 31, 2026                                                                                                           Rs. in Crore
+                                                                                                                                    Year ended                       Year ended
+                                                         Particulars                                                               March 31, 2026                   March 31, 2025
+                                                                                                                                     (Audited)                        (Audited)
+
+A. CASH FLOW FROM OPERATING ACTIVITIES:
+PROFIT FOR THE YEAR AFTER TAX                                                                                                                         605.59                           570.74
+Adjustments for:
+     Income tax expense                                                                                                             183.55                         156.75
+     Depreciation and amortisation expense                                                                                          197.38                         183.68
+     Profit on sale of property, plant and equipment (net) and gain on derecognition of leased assets                                    -                          (8.56)
+     Loss on property, plant and equipment discarded and intangible assets derecognised                                               2.56                           3.32
+     Finance costs                                                                                                                  663.60                         663.59
+     Interest income                                                                                                                (41.72)                        (55.24)
+     Bad debts and loans and advances written off/(written back) (net)                                                               47.08                          46.97
+     Allowance for expected credit losses (net)                                                                                     164.09                         216.70
+     Mark to market (gain)/ loss on forward and commodity contracts                                                                  12.88                           9.71
+     Net unrealised exchange loss/(gain)                                                                                            (58.51)                         (2.09)
+
+Changes in assets and liabilities                                                                                                                    1,170.92                        1,214.82
+Changes in working capital:                                                                                                                          1,776.51                        1,785.56
+  Adjustments for (increase) I decrease in operaiing assets:
+     Inventories                                                                                                                  (355.01)                           72.85
+     Trade receivables                                                                                                          (1,150.38)                         (992.62)
+     Other financial assets                                                                                                         (4.26)                          (23.42)
+     Contract assets                                                                                                            (1,022.11)                       (2,017.72)
+     Other current assets                                                                                                           98.88                          (221.95)
+     Other non-current assets                                                                                                        9.58                            (6.56)
+
+  Adjustments for increase I (decrease) in operating liabilities:                                                                                   (2,423.30)                       (3,189.42)
+     Trade payables                                                                                                               (370.44)                        1,244.06
+     Trade acceptances                                                                                                             613.46                           (53.52)
+     Other current liabilities                                                                                                     102.67                            27.17
+     Contract liabilities                                                                                                          168.88                           444.81
+     Other financial liabilities                                                                                                   (32.04)                            3.90
+     Provisions                                                                                                                     50.83                            (0.68)
+                                                                                                                                                      533.36                         1,665.74
+CASH FLOW (USED IN)/ GENERATED FROM OPERATIONS                                                                                                       (113.43)                          261.88
+Taxes paid (net of refunds and interest on refunds)                                                                                                  (300.70)                          157.19
+NET CASH FLOW (USED IN)/ GENERATED FROM OPERATING ACTIVITIES (A)                                                                                     (414.13)                          419.07
+B. CASH FLOW FROM INVESTING ACTIVITIES
+Capital expenditure on property, plant and equipment and intangible assets (after adjustment of increase/(decrease) in
+capital work-in-progress and advances for capital expenditure)                                                                    (328.68)                        (182.52)
+Proceeds from sale of property, plant and equipment                                                                                  51.51                           33.40
+Proceeds from sale and lease back transactions                                                                                           -                           70.07
+Interest received                                                                                                                    25.81                           53.24
+Bank balances (including non-current) not considered as cash and cash equivalents (net)                                               9.57                          (42.06)
+NET CASH FLOW (USED IN) INVESTING ACTIVITIES (B)                                                                                                     (241.79)                          (67.87)
+C. CASH FLOW FROM FINANCING ACTIVITIES
+Repayments of other than short-term borrowings                                                                                    (151.88)                        (331.94)
+Proceeds from other than short-term borrowings                                                                                     545.01                          266.16
+Proceeds from issue of equity shares (QIP Issue)                                                                                         -                         870.16
+Share issue expenses                                                                                                                     -                         (19.04)
+Repayment of short- term borrowings                                                                                                      -                         (21.40)
+Payment of lease liabilities                                                                                                       (46.01)                         (44.34)
+Payment of interest of lease liabilities                                                                                           (23.25)                         (16.10)
+Increase in short-term borrowings (net)                                                                                            969.19                               -
+Finance costs paid                                                                                                                (635.71)                        (632.83)
+Dividend paid                                                                                                                     (146.38)                        (102.79)
+NET CASH FLOW GENERATED FROM/(USED IN) FINANCING ACTIVITIES (C)                                                                                       510.97                           (32.12)
+NET INCREASE/(DECREASE) IN CASH AND CASH EQUIVALENTS (A+B+C)                                                                                         (144.95)                          319.08
+Cash and cash equivalents at the beginning of the year                                                                                                545.69                           205.10
+Effect of exchange differences on restatement of foreign currency cash and cash equivalents                                                            10.52                            21.51
+CASH AND CASH EQUIVALENTS AT THE END OF THE YEAR                                                                                                      411.26                           545.69
+
+The above consolidated statement of cash flows has been prepared under the "indirect method" as set out in Ind AS 7 'statement of cash flows'
+  === END fy26-audited-results PAGE 10 ===
+
+===== SECTION D: Q1 FY27 — every page that mentions assets or total =====
+  expect sha256 b2e183cd6ddc17c2b60c034a20ac8cd2d81cb5b4a946b8a36175e084fd31e5ae / 14 pages
+  --- pages mentioning 'assets' or 'equity and liabilities' ---
+  p7:            hl total debts to total assets ratio                                                0.22               0.21                0.19             0.21
+  p7:       v) long term debt to working capital ratio= {(long term loans including current maturities+ long term lease liabilities)/ (current assets- current
+  p7:       viii) total debts to total assets ratio= (short-term debt+long-term debt+ interest accrued but not due+ lease liability)/total assets.
+  p14:            h) total debts to total assets ratio                                                  0.21                0.21                 0.19                 0.21
+  p14:       v) long term debt to working capital ratio= {(long term loans including current maturities + long term lease liabilities) / (current assets - current
+  p14:       viii) total debts to total assets ratio= (short-term debt+long-term debt+ interest accrued but not due+ lease liability)/total assets.
+  === q1fy27 PAGE 6 (verbatim) ===
+                                                      KEC International Limited
+                                                           CIN - L45200MH2005PLC152061
+                                       Registered Office • RPG House 463 Dr Annie Besant Road Worli Mumbai - 400 030
+                                                                                                                                               Rs. in Crore
+                                  Statement of Consolidated Unaudited Financial Results for the Quarter ended June 30, 2026
+                                                                                                      Quarter ended                          Year ended
+                                                                                     June 30,           March 31,           June 30,         March 31,
+                                   Particulars
+                                                                                       2026                2026               2025              2026
+                                                                                   (Unaudited)        (Refer note 7)      (Unaudited)         (Audited)
+   1 Revenue from operations                                                              5,023.54           6,389.75           5,022.88         23,505.54
+   2 Other income                                                                             13.94             30.09                5.39            50.33
+   3 Total Income (1+2)                                                                   5,037.48           6,419.84           5,028.27         23,555.87
+   4 Expenses
+        (i) Cost of materials consumed                                                    2,247.46           3,109.93           2,460.81         11,571.46
+       (ii) Changes in inventories of finished goods, work-in-progress                     (154.70)            (74.14)           (215.25)          (325.32)
+      (iii) Erection and sub-contracting expenses                                         1,726.14           1,986.52           1,631.04          7,068.41
+       (iv) Employee benefits expense                                                       430.88             426.46             392.37          1,662.39
+       (v) Finance costs                                                                    164.03             169.85             151.12            663.60
+       (vi) Depreciation and amortisation expense                                            50.82              50.58              45.86            197.38
+     (vii) Other expenses                                                                   482.95             492.91             403.81          1,870.03
+              Total expenses                                                              4,947.58           6,162.11           4,869.76         22,707.95
+  5 Profit before exceptional items and tax (3-4)                                            89.90             257.73             158.51            847.92
+  6 Exceptional Items                                                                          -                  -                  -               58.78
+  7 Profit after exceptional items and before tax (5-6)                                      89.90             257.73             158.51            789.14
+  8 Tax expenses :
+     (i)      Current Tax                                                                    35.00              92.08              22.93            180.41
+     (ii) Deferred Tax                                                                      (17.72)            (27.14)             10.98              3.14
+              Total Tax Expense                                                              17.28              64.94              33.91            183.55
+  9 Profit for the period (7-8)                                                              72.62             192.79             124.60            605.59
+  10 Other Comprehensive Income/(loss)
+     (i) Items that will not be reclassified to profit or loss                                (1.16)             (7.92)             (1.99)           (6.02)
+     (ii) Income tax relating to items that will not be reclassified                           0.14               1.24               0.44             0.62
+           to profit or loss
+     (iii) Items that will be reclassified to profit or loss                                  (9.49)           426.45               63.24           594.14
+     (iv) Income tax relating to items that will be reclassified to                            2.67            (75.57)             (10.90)          (98.85)
+            profit or loss
+   11 Total Other Comprehensive lncome/(Loss) for the period                                  (7.84)         344.20                50.79             489.89
+   12 Total Comprehensive Income for the period (9+11)                                       64.78           536.99              175.39            1,095.48
+   13 Paid-up equity share capital (face value Rs. 2/- each)                                 53.24            53.24                53.24              53.24
+   14 Other Equity                                                                                                                                 6,106.45
+   15 Basic/ Diluted Earnings Per Share (in Rupees) attributable to owners (face               2.73            7.24                 4.68              22.75
+       value Rs. 2/- each) (not annualised except for the year ended March)
+  See accompanying notes forming part of the Consolidated Financial Results
+  Notes:
+1 The above results of KEC International Limited, its branches, jointly controlled operations (the "Company") and its Subsidiaries (together referred to as
+  "Group") were reviewed by the Audit Committee and approved by the Board of Directors at their respective meetings held on August 10, 2026. The Statutory
+  Auditors of the Company have conducted a "Limited Review" of the above Consolidated Unaudited Financial Results for the quarter ended June 30, 2026.
+
+2 The above results of the Group have been prepared in accordance with the recognition and measurement principles laid down in Indian Accounting Standard
+  34 "Interim Financial Reporting" ("Ind AS 34"), prescribed under Section 133 of the Companies Act, 2013, and the other accounting principles generally
+  accepted in India.
+  === END q1fy27 PAGE 6 ===
+  === q1fy27 PAGE 7 (verbatim) ===
+3 Additional disclosures as per Regulation 52(4) of SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015:
+  The Company has unsecured Commercial Papers which are Listed on BSE Limited. Pursuant to SEBI Master Circular No. SEBI/HOIDDHSIDDHS-
+  PoD/P/CIR/2025/0000000137 dated October 15, 2025 , information to the extent applicable to Commercial Papers is given below:
+
+       Sr.                                                                                             Quarter ended
+                                         Particulars                                                                                           Year ended
+       No.
+                                                                                      June 30,          March 31,            June 30,          March 31,
+                                                                                        2026               2026                2025              2026
+                                                                                     (Unaudited)       (Refer note 7)      (Unaudited)         (Audited)
+           a Debt Eauitv Ratio                                                                 0.88               0.87                0.79             0.87
+           b Debt Service Covera2e Ratio                                                       0.86               1.56                1.32             1.56
+           c) Interest Service Covera2e Ratio                                                  1.77               2.43                2.13             2.15
+           dl Current Ratio                                                                    1.23               1.23                1.20             1.23
+           el Lon2 term debt to workin2 capital Ratio                                          0.27               0.27                0.22             0.27
+           f Bad debts to Account receivable Ratio A                                           0.01               0.05                0.00             0.02
+           " Current liabilitv Ratio                                                           0.95               0.95                0.96             0.95
+           hl Total debts to Total assets Ratio                                                0.22               0.21                0.19             0.21
+            il Debtors Turnover Ratio /No. of Davs l                                            109                 93                  98                91
+           il Inventory Turnover Ratio (No. of Days]                                             56                 37                  41                36
+           kl Operatin2 Mar2in excludin2 exceptional item (% l                                  5.79               7.01                6.97              7.06
+            ll Net Profit Mar.,in /%1                                                           1.45               3.02                2.48              2.58
+          ml Capital Redemption Reserve /Rs. in Crorel                                         14.28              14.28               14.28            14.28
+           nl Net Worth /Rs. in Crorel                                                     5 754.67            5 682.05           5.347.46          5 682.05
+           ol Net Profit after Tax (Rs. in Crorel                                            72.62              192.79             124.60            605.59
+             ) Basic Earnings per Share (Rs.) (Not annualised except for the year
+                                                                                                2.73              7.24                4.68              22.75
+           P ended March]
+      A Ratios for the quarter have been annualised.
+
+      Formula used for calculation of ratios in Note 3 is as under:
+      i) Debt Equity Ratio= Total Debt (Short-Term Debt+Long-Term Debt+ Interest Accrued but not due+ Lease Liability)/ Total Equity.
+      ii) Debt Service Coverage Ratio= [(Profit After Tax+ Exceptional item+ Depreciation and amortisations+ Interest+ Loss on sale of Fixed assets)/
+      (Finance Cost+ Repayment long term borrowings & Lease liability)].
+      iii) Interest Service Coverage Ratio= (Profit After Tax+ Exceptional item+ Depreciation and amortisations+ Interest+ Loss on sale of Fixed assets)/
+      Finance Cost.
+      iv) Current Ratio= Current asset/Current liability.
+      v) Long term debt to working capital Ratio= {(Long term loans including current maturities+ Long term lease liabilities)/ (Current Assets- Current
+      Liabilities)}.
+      vi) Bad debts to Account receivable Ratio= Total Bad Debts/Average Accounts Receivables
+      vii) Current liability Ratio = Current Liabilities / Total Liabilities.
+      viii) Total debts to Total assets Ratio= (Short-Term Debt+Long-Term Debt+ Interest Accrued but not due+ Lease Liability)/Total Assets.
+      ix) Debtors Turnover Ratio= (Average Account Receivable/Total Revenue from operations) x No. of Days.
+      x) Inventory Turnover Ratio= [Average Inventory/(Cost of material consumed+ Changes in inventories of finished goods, work-in-progress+ Erection
+      and construction material consumed+Stores consumed)] x No. of Days.
+      xi) Operating Margin= (Profit before Depreciation and Amortisation, finance costs, Tax less Other Income)/fotal Revenue from operations.
+      xii) Net Profit Margin = Profit for the period /Total Revenue from operations.
+      xiii) Net Worth= Share capital+ Other equity (excluding Other Comprehensive Income).
+  === END q1fy27 PAGE 7 ===
+  === q1fy27 PAGE 8 (verbatim) ===
+4.The Chief Operating Decision Maker ("CODM") has identified Engineering, Procurement and Construction business ("EPC") and
+Cables business as the reportable segments as per IND AS 108 "Opertaing segments". These have been disclosed as follows:
+
+(a) Engineering, Procurement and Construction business : It comprises of infrastructure related projects, systems, products and related
+activities for power transmission and distribution, railways track laying, electrification, civil, urban infrastructure, oil and gas pipelines
+laying, etc.
+(b) Others: It comprises mainly cable business.
+
+                                                                             Quarter ended                                   Year ended
+                                                          June 30,              March 31,                June 30,             March 31,
+                   Particulars
+                                                           2026                   2026                    2025                  2026
+                                                        (Unaudited)           (Refer note 7)           (Unaudited)            (Audited)
+(i) Segment revenue (Revenue from
+Operations)
+EPC                                                             4,595.21                5,915.45              4,753.05            21,988.29
+Others                                                            600.67                  753.95                382.78             2,216.70
+Less: Inter-segment revenue                                      (172.34)                (279.65)              (112.95)             (699.45)
+Net Segment Revenue                                             5.023.54                6.389.75              5 022.88            23 505.54
+(ii) Segment Results (before finance cost,
+depreciation and amortisation expense, other
+income and exceptional items)
+EPC                                                               262.85                   389.77               339.35              1,513.01
+Others                                                             27.96                    58.30                10.75                145.56
+Total Segment Results                                             290.81                   448.07               350.10              1,658.57
+Add/(less) :
+Other income                                                       13.94                    30.09                 5.39                 50.33
+Finance cost                                                     (164 03)                 (169 85)             (151.12)              (663.60)
+Depreciation and amortisation expense                             (50.82)                  (50 58)              (45.86)              (197.38)
+Profit before exceptional item and tax                             89.90                   257.73               158.51                847.92
+Exceptional items                                                     -                       -                     -                  58.78
+Profit after exceptional items and before tax                      89.90                  257.73                158.51                789.14
+Less: Tax expense
+ Current tax                                                       35.00                   92.08                 22.93                180.41
+ Deferred tax                                                     (17.72)                 (27.14)                10.98                  3.14
+ Profit for the neriod                                             72.62                  192.79                124.60                605.59
+ (iii) Other segment information:
+ 1. Se2ment assets
+ EPC                                                          23,037.28                23,275.25             21,334.26            23,275.25
+ Others                                                        1,380.98                 1,388.56              1,277.95             1,388.56
+ Unallocated                                                     463.36                   494.25                321.06               494.26
+ Total Se2ment Assets                                         24,881.62                25,158.06             22,933.27            25,158.07
+ 2. Segment liabilities
+ EPC                                                           13,924.63               14,418.02             13,539.50            14,418.02
+ Others                                                         IJ24.07                 IJ43.76                 943.37             IJ43.76
+ Unallocated                                                    3,696.71                3,436.58              2,922.59             3,436.60
+ Total Segment Liabilities                                     18,745.41               18,998.36             17,405.46            18,998.38
+3. Other material expense items:
+(i) Cost of materials consumed
+EPC                                                             1,837.39                2,816.65              2,092.81            10,381.00
+Others                                                            582.41                  572.93                480.95             1,889.91
+Less: lnter-seement cost                                         (172.34)                (279 65)              (112.95)             (699.45)
+Total Cost of materials consumed                                2,247.46                3,109.93              2,460.81            11,571.46
+
+(ii) Erection and sub-contracting expenses
+EPC                                                             1,726.14                 1,986.52              1,631.02             7,068.38
+Others                                                                -                       -                   0.02                  0.03
+Less: lnter-seement cost                                              -                       -                     -                    -
+Total Erection and sub-contracting expenses                     1,726.14                 1,986.52              1,631.04             7,068.41
+  === END q1fy27 PAGE 8 ===
+
+===== SECTION E: Q2 FY27 — balance-sheet page verbatim =====
+  expect sha256 42d826df45b0b561460980fbc7a1f8fab2ff3985ec1196fe42706f0e4097144e / 18 pages
+  q2fy27-outcome: bytes=9260344 sha256=42d826df45b0b561460980fbc7a1f8fab2ff3985ec1196fe42706f0e4097144e pages=18
+  --- investment / treasury lines ---
+  q2fy27-outcome p5:    3      kec investment holdings
+  q2fy27-outcome p7:                   (i) investments
+  q2fy27-outcome p16:            (d) investment property                                                                          48.73               48.73
+  q2fy27-outcome p16:                 (i) investments                                                                          1,422.69            1,422.69
+  === q2fy27-outcome PAGE 7 (verbatim) ===
+Statement of Consolidated Assets and Liabilities as at Seotember 30 2026                                                  Rs in Crore
+Particulars                                                                                               Asat            As at
+                                                                                                      September 30,     March 31,
+                                                                                                          2026            2026
+                                                                                                       (Unaudited)      (Audited)
+
+             ASSETS
+     1       Non-Current Assets
+             (a) Property, Plant and Equipment                                                              1,270.63        1,159.49
+             (b) Right-of-use Asset                                                                           310.32          305.17
+             (c) Capital work-in-progress                                                                      44.00          113.65
+             (d)Goodwill                                                                                      308.74          305.80
+             (e) Intangible Assets                                                                              2.15            2.92
+             (f) Financial Assets
+                  (i) Investments
+                  (ii) Trade receivables
+                                                                                                                 •-               *
+                                                                                                                               31.45
+                  (iii) Other financial assets                                                                  70.60          65.38
+             (g) Deferred Tax Assets (Net)                                                                    484.05          475.39
+             (h) Non-Current Tax Assets (Net)                                                                 297.01          260.75
+             (i) Other Non-Current assets                                                                     208.16          228.98
+             Total Non-Current Assets                                                                       2,995.66        2,948.98
+
+         2    Current Assets
+              (a) Inventories                                                                               1,693.23        1,532.74
+              (b) Financial Assets
+                   (i) Trade receivables                                                                    5,609.55        6,474.21
+                   (ii) Cash and cash equivalents                                                             315.47          411 .26
+                   (iii) Bank balances other than (ii) above                                                   97.36          100.67
+                   (iv) Other financial assets                                                                235.97          276.90
+              (c) Contract Assets                                                                          12,240.23       12,127.56
+              (d) Current Tu Assets (Net)                                                                      43.42           26.57
+              (e) Other current assets                                                                      1,587.37        1,259.17
+              Total Current Assets                                                                         21,822.60       22,209.08
+
+                                             Total Assets                                                  24,818.26       25,158.06
+
+              EQUITY AND LIABILITIES
+              Equity
+              (a) Equity Share capital                                                                         53.24           53.24
+              (b) Other Equity                                                                              6,038.11        6,106.45
+              Total Equity                                                                                  6,091.35        6,159.69
+
+              Liabilities
+         1    Non-Current liabilities
+              (a) Financial Liabilities
+                   (i) Borrowings                                                                             670.13          661.37
+                   (ii) Lease liabilities                                                                     229.39          220.60
+              (b) Provisions                                                                                  106.37           83.58
+              (c) Deferred tax liabilities (Net)                                                               33.15           24.61
+              (c) Other non-current liabilities                                                                 0.38            0.39
+              Total Non-Current liabilities                                                                 1,039.42          990.55
+
+         2Current liabilities
+          (a) Financial Liabilities
+               (i) Borrowings                                                                               5,350.65        4,441.86
+               (ii) Lease liabilities                                                                          54.68           53,93
+               (iii) Trade payables
+                       - Total outstanding dues of micro and small enterprises                                197.51          218.20
+                       - Total outstanding dues of creditors other than micro and small enterprises         7,373.23        8,485.05
+               (iv) Trade acceptances                                                                       2,178.80        2,120.73
+               (v) Other financial liabilities                                                                130.91          115.68
+          (b) Contract Liabilities                                                                          1,757.84        1,837.26
+          (c) Other current liabilities                                                                       337.55          462.02
+          (d) Provisions                                                                                       83.35          101.46
+          (e) Current Tu Liabilities (Net)                                                                    222.97          171.62
+          Total current liabilities                                                                        17,687.49       18,007.81
+                                   Total Equity and Liabilities                                            24,818.26       25,158.06
+• Amount 1s below the roundmg off norms adopted by the Group.
+  === END q2fy27-outcome PAGE 7 ===
+
+===== SECTION F: Q2 FY27 presentation — net debt / cash / treasury wording =====
+  expect sha256 d57dd5069cfb80a6dbd4e6c99463c4b8baffe446f426a69f140926729e18636f / 36 pages
+  p2: contract or commitment or to be relied in connection with an investment decision in relation to the securities of the company therefore any person/ party intending to provide
+  p21:   start of the e-beam process within the            ~1,000 mw of solar capacity across                investments in energy security, creating
+  p22:    • net debt incl. acceptances stand at rs. 7,793 cr as on 30 sep’26; debt levels are elevated owing to below:
+  p22:    •   net debt expected to come down to ~rs. 6,000 cr by the end of the year
+  p30: i) net debt                                                  5,614               4,601             1,013                  4,615           999
+  p30:     net debt incl. acceptances stand at rs. 7,793 cr as on 30 sep’26
+  p30: •    net debt expected to come down to ~rs. 6,000 cr by the end of the year
+  p32:  strong multi-year t&d investment cycle globally                   geopolitical and supply-chain uncertainties in the middle
+  p32:  rising investments in renewables, storage & grid flexibility
+
+===== END OF REPORT =====
