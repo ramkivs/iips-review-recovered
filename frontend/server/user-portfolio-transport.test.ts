@@ -177,3 +177,47 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
     expect(isUserPortfolioPath('/api/user-portfoliosEVIL')).toBe(false);
   });
 });
+
+/**
+ * Stage 1 regression fence — G-2 Route B.
+ *
+ * Stage 1 corrects the CAP-02 broker-import v1 adapter (Route A) to transmit REPLACE through
+ * `payload.operation`. It must not, and does not, widen admission on the G-2 user-portfolio
+ * transport (Route B). This fence asserts Route B's write refusal is unchanged at 503 so that no
+ * future change can smuggle write authority through this route.
+ */
+describe('user-portfolio-transport — Stage 1 fence: Route B write admission unchanged', () => {
+  it('still refuses PUT holdings and POST reset with 503 even when the body carries operation', async () => {
+    const factory = vi.fn(() => recordingPort());
+    const server = http.createServer((req, res) => {
+      void handleUserPortfolioRequest(req, res, { portFactory: factory, env: BOUND });
+    });
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+    const port = (server.address() as AddressInfo).port;
+    try {
+      for (const [path, method] of [
+        ['/api/user-portfolios/pf-1/holdings', 'PUT'],
+        ['/api/user-portfolios/pf-1/reset', 'POST'],
+      ]) {
+        const response = await fetch(`http://127.0.0.1:${port}${path}`, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          // A body that *would* be a valid Stage 1 Route A payload must change nothing here.
+          body: JSON.stringify({
+            portfolioId: 'pf-1',
+            expectedRevision: 1,
+            mode: 'REPLACE',
+            operation: 'REPLACE',
+            holdings: [{ symbol: 'TCS' }],
+          }),
+        });
+        expect(response.status, `${method} ${path}`).toBe(503);
+        expect((await response.json()).error).toBe('operation-not-admitted');
+      }
+      // No port is constructed: the refusal precedes any IPC client.
+      expect(factory).not.toHaveBeenCalled();
+    } finally {
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
+  });
+});
