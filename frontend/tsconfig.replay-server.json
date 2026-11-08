@@ -29,6 +29,8 @@
     "server/product-transport.test.ts",
     "server/screener/screener-transport.test.ts",
     "server/replay/**/*.ts",
-    "server/replay/**/*.tsx"
+    "server/replay/**/*.tsx",
+    "server/broker-import/step9AcceptanceFixtureOperator.ts",
+    "server/broker-import/step9AcceptanceFixtureOperator.test.ts"
   ]
 }
