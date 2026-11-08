@@ -76,19 +76,7 @@ jobs:
             echo "--- $API"
             echo "    http=$CODE bytes=$(stat -c%s /tmp/bse.json 2>/dev/null || echo 0)"
             head -c 600 /tmp/bse.json | tr -d '\000'; echo
-            python3 - <<'PY' 2>/dev/null | head -40
-import json
-try:
-    d=json.load(open('/tmp/bse.json'))
-except Exception as e:
-    print('    (not json:',e,')'); raise SystemExit
-rows = d.get('Table') or d.get('table') or []
-print('    rows=',len(rows))
-for r in rows[:25]:
-    sub=(r.get('NEWSSUB') or r.get('SUBJECT') or '').strip()[:90]
-    att=r.get('ATTACHMENTNAME') or ''
-    print(f"    {r.get('DT_TM') or r.get('NEWS_DT')} | {sub} | {att}")
-PY
+            python3 -c "import json;d=json.load(open('/tmp/bse.json'));rows=d.get('Table') or d.get('table') or [];print('    rows=',len(rows));[print('   ',r.get('DT_TM') or r.get('NEWS_DT'),'|',(r.get('NEWSSUB') or r.get('SUBJECT') or '')[:90],'|',r.get('ATTACHMENTNAME') or '') for r in rows[:25]]" 2>/dev/null || echo "    (json parse failed)"
           done
 
           echo
