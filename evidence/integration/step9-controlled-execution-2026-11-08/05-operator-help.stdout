@@ -1,0 +1,5 @@
+Step 9 fixture operator — implementation does not authorize execution.
+Usage (from frontend): npx tsx server/broker-import/step9AcceptanceFixtureOperator.ts MODE --irr-origin http://127.0.0.1:8787 --evidence PATH
+MODE: --preflight (reads only) | --execute-acceptance (requires Ramki's separate execution authorization) | --recover (existing eligible evidence only)
+No arguments prints this help without I/O. No owner, portfolio ID, holdings, authority override, or retry option exists.
+Read IRR docs/integration/STEP-9-FIXTURE-OPERATOR-IMPLEMENTATION-2026-11-08.md before any run.
