@@ -1,0 +1,90 @@
+utc=2026-11-08T05:09:55Z
+integrated bytes=15094
+
+===== SECTION A: full rows for the 2026 integrated filings =====
+
+===== SECTION B: PDF analysis helper output =====
+
+===== SECTION C: audited results for the year ended 31 March 2026 (reg 33 outcome) =====
+--- fy26-audited-results-outcome
+    url=https://nsearchives.nseindia.com/corporate/KEC_16052026215722_SEintimationFinancials.pdf
+    http=200 bytes=10047982
+  fy26-audited-results-outcome: bytes=10047982 sha256=29531ceeea6e72f3ec8278fec2881452fafe2e5077412e795dd3d8886c4e9303 pages=23
+  --- page-tagged investment lines ---
+  fy26-audited-results-outcome p7:     3      kec investment holdings
+  fy26-audited-results-outcome p9:                    (i) investments
+  fy26-audited-results-outcome p13:     wholly owned subsidiary, kec investment holdings, mauritius to another wholly owned subsidiary, kec towers llc, for which the consideration will be shares of kec towers
+  fy26-audited-results-outcome p20:            (b) investment property                                                                         48.73               -
+  fy26-audited-results-outcome p20:                 (i) investments                                                                         1,422.69         1,256.69
+  fy26-audited-results-outcome p22:  7 during the year ended march 31, 2026, the company reassessed the recoverable value of its investment in wholly owned subsidiary, kec investment holdings, mauritius. based 
+  fy26-audited-results-outcome p22:    the increase in recoverable amount as compared to the carrying value of the investment, the company bas reversed the provision for impairment loss of its investment in kec
+  fy26-audited-results-outcome p22:    investment holdings, mauritius amounting to rs.166 crores.
+  fy26-audited-results-outcome p22:    wholly owned subsidiary, kec investment holdings, mauritius to another wholly owned subsidiary, kec towers llc, for which the consideration will be shares of kec towers
+  --- pages containing 'balance sheet' / 'financial assets' ---
+  p9:               (i) financial assets
+  p9:                    (iii) other financial assets                                                               65.38            66.07
+  p9:               (b) financial assets
+  p9:                    (iv) other financial assets                                                               276.90          144.42
+  p10:      other financial assets                                                                                                         (4.26)               
+  p20:            (t) financial assets
+  p20:                 (iii) other financial assets                                                               65.09            64.93
+  p20:            (b) financial assets
+  p20:                 (iv) other financial assets                                                               215.46           124.62
+  p21:       other financial assets                                                                                                       (17.59)               
+
+===== SECTION D: Q1 FY2026-27 outcome (quarter ended 30 June 2026) =====
+--- q1fy27-outcome
+    url=https://nsearchives.nseindia.com/corporate/KEC_10082026183220_SE_intimation_Outcome.pdf
+    http=200 bytes=7405447
+  q1fy27-outcome: bytes=7405447 sha256=b2e183cd6ddc17c2b60c034a20ac8cd2d81cb5b4a946b8a36175e084fd31e5ae pages=14
+  --- page-tagged investment lines ---
+  q1fy27-outcome p5:    3      kec investment holdings
+  --- pages containing 'balance sheet' / 'financial assets' ---
+
+===== SECTION E: Q2 FY2026-27 outcome (quarter ended 30 September 2026) =====
+--- q2fy27-outcome
+    url=https://nsearchives.nseindia.com/corporate/KEC_02112026210430_SE_intimation_BM_outcome_Results.pdf
+    http=200 bytes=9260344
+  q2fy27-outcome: bytes=9260344 sha256=42d826df45b0b561460980fbc7a1f8fab2ff3985ec1196fe42706f0e4097144e pages=18
+  --- page-tagged investment lines ---
+  q2fy27-outcome p5:    3      kec investment holdings
+  q2fy27-outcome p7:                   (i) investments
+  q2fy27-outcome p16:            (d) investment property                                                                          48.73               48.73
+  q2fy27-outcome p16:                 (i) investments                                                                          1,422.69            1,422.69
+  --- pages containing 'balance sheet' / 'financial assets' ---
+  p7:              (f) financial assets
+  p7:                   (iii) other financial assets                                                                  70.60          65.38
+  p7:               (b) financial assets
+  p7:                    (iv) other financial assets                                                                235.97          276.90
+  p16:            (i) financial assets
+  p16:            (b) financial assets
+  p16:                 (iv) other financial assets                                                                180.08              215.46
+
+===== SECTION F: integrated-filing PDFs and iXBRL for 30-SEP-2026 / 30-JUN-2026 / 31-MAR-2026 =====
+pdf rows: 0
+
+===== SECTION G: iXBRL instances — investment elements with values =====
+ixbrl rows: 0
+
+===== SECTION H: Q2 FY27 corporate presentation (issuer site, both path roots) =====
+--- presentation-Corporate_20Presentation_20Q2_
+    url=https://www.kecrpg.com/media/corporatePresentationFilesMedia/Corporate%20Presentation%20Q2%20FY27.pdf
+    http=200 bytes=9445276
+  presentation-Corporate_20Presentation_20Q2_: bytes=9445276 sha256=d57dd5069cfb80a6dbd4e6c99463c4b8baffe446f426a69f140926729e18636f pages=36
+  --- page-tagged investment lines ---
+  presentation-Corporate_20Presentation_20Q2_ p2: contract or commitment or to be relied in connection with an investment decision in relation to the securities of the company therefore any person/ party intend
+  presentation-Corporate_20Presentation_20Q2_ p21:   start of the e-beam process within the            ~1,000 mw of solar capacity across                investments in energy security, creating
+  presentation-Corporate_20Presentation_20Q2_ p32:  strong multi-year t&d investment cycle globally                   geopolitical and supply-chain uncertainties in the middle
+  presentation-Corporate_20Presentation_20Q2_ p32:  rising investments in renewables, storage & grid flexibility
+  --- pages containing 'balance sheet' / 'financial assets' ---
+--- presentation-Corporate_20Presentation_20Q2_
+    url=https://www.kecrpg.com/public/media/corporatePresentationFilesMedia/Corporate%20Presentation%20Q2%20FY27.pdf
+    http=404 bytes=6609
+  presentation-Corporate_20Presentation_20Q2_: NOT A PDF (first 120 bytes follow)
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=
+
+===== END OF REPORT =====
