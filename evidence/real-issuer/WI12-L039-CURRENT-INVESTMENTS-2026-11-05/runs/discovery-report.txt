@@ -1,0 +1,68 @@
+utc=2026-11-08T05:03:18Z
+
+===== SECTION A: issuer site pages — do they list financial-results PDFs? =====
+--- https://www.kecrpg.com/investors http=200 bytes=72140
+/KEC data/Media Kit/KECBrochure.pdf
+/KEC data/gst/GST Registration Details as on 2.6.171.pdf
+media/corporatePresentationFilesMedia/Corporate Presentation Q2 FY27.pdf
+--- https://www.kecrpg.com/investor-relations http=200 bytes=72140
+/KEC data/Media Kit/KECBrochure.pdf
+/KEC data/gst/GST Registration Details as on 2.6.171.pdf
+media/corporatePresentationFilesMedia/Corporate Presentation Q2 FY27.pdf
+--- https://www.kecrpg.com/financial-results http=200 bytes=72140
+/KEC data/Media Kit/KECBrochure.pdf
+/KEC data/gst/GST Registration Details as on 2.6.171.pdf
+media/corporatePresentationFilesMedia/Corporate Presentation Q2 FY27.pdf
+--- https://www.kecrpg.com/investors/financial-results http=200 bytes=72140
+/KEC data/Media Kit/KECBrochure.pdf
+/KEC data/gst/GST Registration Details as on 2.6.171.pdf
+media/corporatePresentationFilesMedia/Corporate Presentation Q2 FY27.pdf
+--- https://www.kecrpg.com/sitemap.xml http=200 bytes=72140
+/KEC data/Media Kit/KECBrochure.pdf
+/KEC data/gst/GST Registration Details as on 2.6.171.pdf
+media/corporatePresentationFilesMedia/Corporate Presentation Q2 FY27.pdf
+
+===== SECTION B: Wayback CDX — every archived kecrpg.com URL mentioning results/annual/financial =====
+cdx_lines=14
+--- rows matching result|annual|financial|quarter|investor (name only, unique, last 120) ---
+
+===== SECTION C: BSE announcements API (scrip 532714) =====
+--- https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w?strCat=Result&strPrevDate=20260401&strNextDate=20261105&strScrip=532714&strSearch=P&strType=C&strSort=1&strSortBy=0
+    http=403 bytes=413
+<HTML><HEAD>
+<TITLE>Access Denied</TITLE>
+</HEAD><BODY>
+<H1>Access Denied</H1>
+
+You don't have permission to access "http&#58;&#47;&#47;api&#46;bseindia&#46;com&#47;BseIndiaAPI&#47;api&#47;AnnGetData&#47;w&#63;" on this server.<P>
+Reference&#32;&#35;18&#46;2b0c3417&#46;1794114213&#46;e3cc108
+<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;2b0c3417&#46;1794114213&#46;e3cc108</P>
+</BODY>
+</HTML>
+
+    (json parse failed)
+--- https://api.bseindia.com/BseIndiaAPI/api/AnnSubCategoryGetData/w?strCat=Result&strPrevDate=20260401&strNextDate=20261105&strScrip=532714&strSearch=P&strType=C&strSort=1&strSortBy=0
+    http=403 bytes=426
+<HTML><HEAD>
+<TITLE>Access Denied</TITLE>
+</HEAD><BODY>
+<H1>Access Denied</H1>
+
+You don't have permission to access "http&#58;&#47;&#47;api&#46;bseindia&#46;com&#47;BseIndiaAPI&#47;api&#47;AnnSubCategoryGetData&#47;w&#63;" on this server.<P>
+Reference&#32;&#35;18&#46;3a0c3417&#46;1794114213&#46;6d05cba9
+<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;3a0c3417&#46;1794114213&#46;6d05cba9</P>
+</BODY>
+</HTML>
+
+    (json parse failed)
+
+===== SECTION D: NSE APIs (record status; a 401/403 is an access limitation, not absence) =====
+home http=403
+--- https://www.nseindia.com/api/corporates-financial-results?index=equities&symbol=KEC&period=Annual http=200 bytes=26971
+[{"audited":"Audited","bank":"N","broadCastDate":"08-May-2024 12:33:49","companyName":"KEC International Limited","consolidated":"Consolidated","cumulative":"Cumulative","difference":"00:00:19","exchdisstime":"08-May-2024 12:34:08","filingDate":"08-May-2024 12:33","financialYear":"01-Apr-2023 To 31-Mar-2024","format":"New","fromDate":"01-Apr-2023","indAs":"Ind-AS New","industry":"-","isin":"INE389
+--- https://www.nseindia.com/api/integrated-filing-results?index=equities&symbol=KEC http=200 bytes=15094
+{"data":[{"attFileSize":"0 Bytes","audited":"Un-Audited","broadcast_Date":"02-Nov-2026 21:27:15","cmName":"KEC International Limited","consolidated":"Consolidated","creation_Date":"02-Nov-2026 21:27:32","diff":"00:00:17","ixbrl":"https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html","ixbrlFileSize":"79.69 KB","pdf_attach":"https://nsearchive
+--- https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=KEC http=200 bytes=1202079
+[{"an_dt":"07-Nov-2026 14:39:51","attFileSize":"2.21 MB","attchmntFile":"https://nsearchives.nseindia.com/corporate/KEC_07112026143922_SEIntimation_Newspaper.pdf","attchmntText":"KEC International Limited has informed the Exchange about Copy of Newspaper Publication on Notice of Postal Ballot and information related to remote e-voting","bflag":null,"csvName":null,"desc":"Copy of Newspaper Publicat
+
+===== END OF REPORT =====

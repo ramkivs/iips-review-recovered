@@ -1,0 +1,77 @@
+{
+  "bundle": "L-039 current investments follow-up",
+  "files": {
+    "README.md": {
+      "sha256": "5dc7732bf0b1202ee0a3f99bd931724850c87191f95917871b862c754578c47d",
+      "bytes": 15153
+    },
+    "determination.json": {
+      "sha256": "6f33fd8546dc4f3d24b1331c182b9a448d91b597023c5c0f3d9088d31f71b564",
+      "bytes": 2312
+    },
+    "probe/runner-probe.py": {
+      "sha256": "74abf9fd4b32c6001b30034bee5c0124c3b625477976a476bb720e0cb6d8bf54",
+      "bytes": 5846
+    },
+    "probe/test_fact_context.py": {
+      "sha256": "8cf4761cbe136a17cc8c917b919980c8cbec38739e9cd12d5762f7266c911d16",
+      "bytes": 5194
+    },
+    "runs/decisive-report.txt": {
+      "sha256": "29f3960e28693e341351a865f4083aeee90d7ed60a8336e684dfaf14a6f18796",
+      "bytes": 68386
+    },
+    "runs/discovery-report.txt": {
+      "sha256": "4ec0f747f16382dd74735b20db8c26be143921a596e338085c32a55553c308f8",
+      "bytes": 4506
+    },
+    "runs/fact-context-report.txt": {
+      "sha256": "35d98974644fafe9dfaa2e936ceae21960adf974e0a0283ebf4b3b0027ddd713",
+      "bytes": 9885
+    },
+    "runs/filings-report.txt": {
+      "sha256": "3a90094d5671e52cafd117308e9527cf4c45d838c686a53b3543bb401e48c62f",
+      "bytes": 6830
+    },
+    "runs/followup-local-checks.txt": {
+      "sha256": "395858fbf6113a38ed712bcbdd6746dfabe627be7d9166d26e09383da4ffba0b",
+      "bytes": 10079
+    },
+    "runs/local-checks.txt": {
+      "sha256": "ce87bdc10f303fea78a717d6ed8cf9ec5f79e66592c92f09b878fb82a6597cf5",
+      "bytes": 9097
+    },
+    "runs/original-log-hashes.json": {
+      "sha256": "955b977a2a0e6862efdb6bd2753471d85dc77fd01091d26e4819c6e69ae89fca",
+      "bytes": 795
+    },
+    "runs/retrieval-report.txt": {
+      "sha256": "98a410e1f04076117cff4a77c7420043f5ac5ae5b731324a7f9969c857c993fc",
+      "bytes": 6209
+    },
+    "runs/template-report.txt": {
+      "sha256": "7acaaa0dd63543f4a9da24d5a27c9f1db7ed4b1a2e828cc6472fb307ca616bbf",
+      "bytes": 11590
+    },
+    "runs/xbrl-report.txt": {
+      "sha256": "dc2b2dbe45c2573a5058d0f1ef89537bc02dff91f633fb467f7046a9c32534e8",
+      "bytes": 37301
+    },
+    "source/march-consolidated-xbrl.gz": {
+      "sha256": "a7defc017d0d0f50d42e4fd940625be4c7141b9f26fefcf0f64b7adc554301ee",
+      "bytes": 7288
+    },
+    "source/march-rendered.gz": {
+      "sha256": "3f6255634e0e6f151675929f6a4cfebb8a55dd231f582b8ca21a3fd55391d01d",
+      "bytes": 10130
+    },
+    "source/march-standalone-xbrl.gz": {
+      "sha256": "6c5be934a840347f060aa6b9b2b1342103cf64a10149793fa77c3b991b1e3cf1",
+      "bytes": 18217
+    },
+    "source/september-consolidated-xbrl.gz": {
+      "sha256": "ba9e6c15fca2f17bf10a7cf332044d04e95b000c5da0a7ef3ae85c2838b27ae7",
+      "bytes": 6830
+    }
+  }
+}

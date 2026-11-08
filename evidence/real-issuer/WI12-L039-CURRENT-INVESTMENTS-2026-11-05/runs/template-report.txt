@@ -1,0 +1,256 @@
+utc=2026-11-08T05:23:41Z
+ixbrl http=200 bytes=83846
+ixbrl sha256=a9fa546bff8bcfc3dd531da0536370424c25b70a7cacd12373e06a7d7544a71b
+xbrl  http=200 bytes=77918
+xbrl  sha256=133f0cf14a5bbdecf055affc046e5aa73097f8d9793bf423942933b037f19d21
+
+===== SECTION A: rendered Inline-XBRL — the balance-sheet section as the exchange publishes it =====
+Assets
+1
+Non-current assets
+Property, plant and equipment
+1,46,466.00
+Capital work-in-progress
+11,365.00
+Investment property
+0.00
+Goodwill
+30,580.00
+Other intangible assets
+292.00
+Intangible assets under development
+0.00
+Biological assets other than bearer plants
+0.00
+Investments accounted for using equity method
+0.00
+Non-current financial assets
+Non-current investments
+0.00
+Trade receivables, non-current
+3,145.00
+Loans, non-current
+0.00
+Other non-current financial assets
+1
+Other non-current financial assets
+6,538.00
+Total of other non-current financial assets
+6,538.00
+Total non-current financial assets
+9,683.00
+Deferred tax assets (net)
+47,539.00
+Other non-current assets
+1
+Non-Current Tax Assets (Net)
+26,075.00
+2
+Other Non-Current assets
+22,898.00
+Total of other non-current assets
+48,973.00
+Total non-current assets
+2,94,898.00
+2
+Current assets
+Inventories
+1,53,274.00
+Current financial asset
+Current investments
+0.00
+Trade receivables, current
+6,47,421.00
+Cash and cash equivalents
+41,126.00
+Bank balance other than cash and cash equivalents
+10,067.00
+Loans, current
+0.00
+Other current financial assets
+Total of other current financial assets
+12,40,446.00
+Total current financial assets
+19,39,060.00
+Current tax assets (net)
+2,657.00
+Other current assets
+1
+Other current assets
+1,25,917.00
+Total of other current assets
+1,25,917.00
+Total current assets
+22,20,908.00
+3
+Non-current assets classified as held for sale
+0.00
+4
+Regulatory deferral account debit balances and related deferred tax Assets
+0.00
+Total assets
+25,15,806.00
+Equity and liabilities
+1
+Equity
+Equity attributable to owners of parent
+Equity share capital
+5,324.00
+Other equity
+6,10,645.00
+Total equity attributable to owners of parent
+6,15,969.00
+Non controlling interest
+0.00
+Total equity
+6,15,969.00
+2
+Liabilities
+Non-current liabilities
+Non-current financial liabilities
+Borrowings, non-current
+66,137.00
+Trade payables, non-current
+(A) Total outstanding dues of micro enterprises and small enterprises
+0.00
+(B) Total outstanding dues of creditors other than micro enterprises and small enterprises
+0.00
+Total Trade payable
+0.00
+Other non-current financial liabilities
+1
+Lease Liabilities
+22,060.00
+Total of other non-current financial liabilities
+22,060.00
+Total non-current financial liabilities
+88,197.00
+Provisions, non-current
+8,358.00
+Deferred tax liabilities (net)
+2,461.00
+Deferred government grants, Non-current
+0.00
+Other non-current liabilities
+1
+Other non-current liabilities
+39.00
+Total of other non-current liabilities
+39.00
+Total non-current liabilities
+99,055.00
+Current liabilities
+Current financial liabilities
+Borrowings, current
+4,44,186.00
+Trade payables, current
+(A) Total outstanding dues of micro enterprises and small enterprises
+
+===== SECTION B: every investment-related and zero-valued balance-sheet element in the instance =====
+matching elements= 60
+  in-capmkt:WhetherCashFlowStatementIsApplicableOnCompany = true
+  in-capmkt:TypeOfCashFlowStatement = Cash Flow Indirect
+  in-capmkt:ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade = -741400000
+  in-capmkt:ChangesInInventoriesOfFinishedGoodsWorkInProgressAndStockInTrade = -3253200000
+  in-capmkt:InvestmentProperty = 0
+  in-capmkt:InvestmentsAccountedForUsingEquityMethod = 0
+  in-capmkt:NoncurrentInvestments = 0
+  in-capmkt:TradeReceivablesNoncurrent = 314500000
+  in-capmkt:LoansNoncurrent = 0
+  in-capmkt:Inventories = 15327400000
+  in-capmkt:CurrentInvestments = 0
+  in-capmkt:TradeReceivablesCurrent = 64742100000
+  in-capmkt:CashAndCashEquivalents = 4112600000
+  in-capmkt:BankBalanceOtherThanCashAndCashEquivalents = 1006700000
+  in-capmkt:LoansCurrent = 0
+  in-capmkt:AdjustmentsForDecreaseIncreaseInInventories = -3550100000
+  in-capmkt:AdjustmentsForDecreaseIncreaseInTradeReceivablesCurrent = -11503800000
+  in-capmkt:AdjustmentsForDecreaseIncreaseInTradeReceivablesNoncurrent = 0
+  in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow = 0
+  in-capmkt:OtherAdjustmentsForNoncashItems = 1681000000
+  in-capmkt:CashFlowsFromUsedInOperations = -1134400000
+  in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsOperatingActivities = 0
+  in-capmkt:CashFlowsFromUsedInOperatingActivities = -4141400000
+  in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+  in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+  in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+  in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+  in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+  in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+  in-capmkt:CashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships = 0
+  in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships = 0
+  in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 515100000
+  in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 3286800000
+  in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+  in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+  in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+  in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+  in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities = 0
+  in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities = 0
+  in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+  in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+  in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities = 0
+  in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+  in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+  in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+  in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+  in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+  in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+  in-capmkt:DividendsReceivedClassifiedAsInvestingActivities = 0
+  in-capmkt:InterestReceivedClassifiedAsInvestingActivities = 258100000
+  in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities = 0
+  in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities = 95700000
+  in-capmkt:CashFlowsFromUsedInInvestingActivities = -2417900000
+  in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsFinancingActivities = 0
+  in-capmkt:CashFlowsFromUsedInFinancingActivities = 5109700000
+  in-capmkt:IncreaseDecreaseInCashAndCashEquivalentsBeforeEffectOfExchangeRateChanges = -1449600000
+  in-capmkt:EffectOfExchangeRateChangesOnCashAndCashEquivalents = 105300000
+  in-capmkt:IncreaseDecreaseInCashAndCashEquivalents = -1344300000
+  in-capmkt:CashAndCashEquivalentsCashFlowStatement = 5456900000
+  in-capmkt:CashAndCashEquivalentsCashFlowStatement = 4112600000
+
+===== SECTION C: how many distinct balance-sheet elements carry 0, and do those captions print in the audited PDF? =====
+balance-sheet-ish elements= 100  of which zero= 24
+   ZERO CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities
+   ZERO CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities
+   ZERO CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities
+   ZERO CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships
+   ZERO CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities
+   ZERO CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities
+   ZERO CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities
+   ZERO CashReceiptsFromShareOfProfitsOfPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships
+   ZERO CurrentInvestments
+   ZERO InvestmentProperty
+   ZERO InvestmentsAccountedForUsingEquityMethod
+   ZERO LoansCurrent
+   ZERO LoansNoncurrent
+   ZERO NoncurrentAssetsClassifiedAsHeldForSale
+   ZERO NoncurrentInvestments
+   ZERO OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow
+   ZERO OtherAdjustmentsToReconcileProfitLoss
+   ZERO OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities
+   ZERO OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities
+   ZERO OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities
+   ZERO OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities
+   ZERO OtherInflowsOutflowsOfCashClassifiedAsFinancingActivities
+   ZERO OtherInflowsOutflowsOfCashClassifiedAsOperatingActivities
+   ZERO TradePayablesNoncurrent
+
+===== SECTION D: the audited PDF statement — captions actually printed (control) =====
+pdf sha256=29531ceeea6e72f3ec8278fec2881452fafe2e5077412e795dd3d8886c4e9303 pages=23
+17:                   (i) Investments
+18:                   (ii) Trade receivables                                                                         *
+22:                   (iii) Other financial assets                                                               65.38            66.07
+29:              (a) Inventories                                                                              1,532.74        1,140.46
+31:                   (i) Trade receivables                                                                   6,474.21        5,051.10
+32:                   (ii) Cash and cash equivalents                                                            411.26          545.69
+33:                   (iii) Bank balances other than (ii) above                                                 100.67          110.24
+34:                   (iv) Other financial assets                                                               276.90          144.42
+51:                   (i) Borrowings                                                                           661.37           358.46
+52:                   (ii) Lease liabilities                                                                   220.60           211.48
+60:                  (i) Borrowings                                                                           4,441.86        3,342.64
+61:                  (ii) Lease liabilities                                                                      53.93           44.90
+62:                  (iii) Trade payables
+65:                  (iv) Trade acceptances                                                                   2,120.73        1,507.27
+
+===== END OF REPORT =====

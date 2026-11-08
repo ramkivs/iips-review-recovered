@@ -1,0 +1,83 @@
+utc=2026-11-08T05:06:11Z
+
+===== SECTION A: NSE annual-results index (audited, by period) =====
+http=200 bytes=26971
+rows= 36
+keys= ['audited', 'bank', 'broadCastDate', 'companyName', 'consolidated', 'cumulative', 'difference', 'exchdisstime', 'filingDate', 'financialYear', 'format', 'fromDate', 'indAs', 'industry', 'isin', 'oldNewFlag', 'params', 'period', 'reInd', 'relatingTo', 'resultDescription', 'resultDetailedDataLink', 'seqNumber', 'symbol', 'toDate', 'xbrl']
+  31-Mar-2024 | Audited | Consolidated | None |
+  31-Mar-2024 | Audited | Non-Consolidated | None |
+  31-Mar-2023 | Audited | Non-Consolidated | None |
+  31-Mar-2023 | Audited | Consolidated | None |
+  31-Mar-2022 | Audited | Non-Consolidated | None |
+  31-Mar-2022 | Audited | Consolidated | None |
+  31-Mar-2021 | Audited | Consolidated | None |
+  31-Mar-2021 | Audited | Non-Consolidated | None |
+  31-Mar-2020 | Audited | Consolidated | None |
+  31-Mar-2020 | Audited | Non-Consolidated | None |
+  31-Mar-2019 | Audited | Non-Consolidated | None |
+  31-Mar-2019 | Audited | Consolidated | None |
+  31-Mar-2018 | Audited | Consolidated | None |
+  31-Mar-2018 | Audited | Non-Consolidated | None |
+
+===== SECTION B: NSE integrated filings (post-annual quarters) =====
+http=200 bytes=15094
+rows= 20
+keys= ['attFileSize', 'audited', 'broadcast_Date', 'cmName', 'consolidated', 'creation_Date', 'diff', 'ixbrl', 'ixbrlFileSize', 'pdf_attach', 'qe_Date', 'revised_Date', 'revision_Remark', 'seq_Id', 'smName', 'symbol', 'type', 'type_Sub', 'xbrl', 'xbrlFileSize']
+  30-SEP-2026 | Consolidated | Un-Audited |
+  30-SEP-2026 | Standalone | Un-Audited |
+  30-SEP-2026 | None | None |
+  30-JUN-2026 | Consolidated | Un-Audited |
+  30-JUN-2026 | Standalone | Un-Audited |
+  30-JUN-2026 | None | None |
+  31-MAR-2026 | Consolidated | Audited |
+  31-MAR-2026 | Standalone | Audited |
+  31-MAR-2026 | None | None |
+  31-DEC-2025 | Consolidated | Un-Audited |
+
+===== SECTION C: NSE corporate announcements — results / investment wording =====
+http=200 bytes=1202079
+rows= 1610
+matching= 148
+  06-Nov-2026 15:52:03 | Analysts/Institutional Investor Meet/Con. Call Updates | https://nsearchives.nseindia.com/corporate/KEC_06112026155134_SE_Intimation_Transcript.pdf
+  04-Nov-2026 15:23:18 | Copy of Newspaper Publication | https://nsearchives.nseindia.com/corporate/KEC_04112026152248_SEintimation.pdf
+  03-Nov-2026 17:56:02 | Analysts/Institutional Investor Meet/Con. Call Updates | https://nsearchives.nseindia.com/corporate/KEC_03112026175244_SE_Intimation.pdf
+  02-Nov-2026 21:18:22 | Press Release | https://nsearchives.nseindia.com/corporate/KEC_02112026211750_SE_intimation_PressRelease.pdf
+  02-Nov-2026 21:09:59 | Outcome of Board Meeting | https://nsearchives.nseindia.com/corporate/KEC_02112026210430_SE_intimation_BM_outcome_Results.pdf
+  26-Oct-2026 15:35:50 | Analysts/Institutional Investor Meet/Con. Call Updates | https://nsearchives.nseindia.com/corporate/KEC_26102026153531_SE_Intimation_Investors_Call.pdf
+  14-Aug-2026 15:33:47 | Analysts/Institutional Investor Meet/Con. Call Updates | https://nsearchives.nseindia.com/corporate/KEC_14082026153314_SE_Intimation_Transcript.pdf
+  11-Aug-2026 17:20:15 | Analysts/Institutional Investor Meet/Con. Call Updates | https://nsearchives.nseindia.com/corporate/KEC_11082026171929_SE_Intimation.pdf
+  11-Aug-2026 14:14:05 | Copy of Newspaper Publication | https://nsearchives.nseindia.com/corporate/KEC_11082026141254_SEintimation.pdf
+  10-Aug-2026 18:42:42 | Press Release | https://nsearchives.nseindia.com/corporate/KEC_10082026184218_SEintimation_Pressrelease.pdf
+  10-Aug-2026 18:33:56 | Outcome of Board Meeting | https://nsearchives.nseindia.com/corporate/KEC_10082026183220_SE_intimation_Outcome.pdf
+  03-Aug-2026 15:11:30 | Analysts/Institutional Investor Meet/Con. Call Updates | https://nsearchives.nseindia.com/corporate/KEC_03082026151006_SE_Intimation_Investors_Call.pdf
+  18-May-2026 16:52:36 | Copy of Newspaper Publication | https://nsearchives.nseindia.com/corporate/KEC_18052026165217_SEintimationnewspaper.pdf
+  16-May-2026 21:57:35 | Outcome of Board Meeting | https://nsearchives.nseindia.com/corporate/KEC_16052026215722_SEintimationFinancials.pdf
+  30-Jan-2026 16:52:09 | Outcome of Board Meeting | https://nsearchives.nseindia.com/corporate/KEC_30012026165144_ResultsDec25.pdf
+  10-Nov-2025 21:02:10 | Outcome of Board Meeting | https://nsearchives.nseindia.com/corporate/KEC_10112025205913_SEIntimation_Financials.pdf
+  28-Jul-2025 20:12:07 | Outcome of Board Meeting | https://nsearchives.nseindia.com/corporate/KEC_28072025200812_SEIntimationforupload.pdf
+  26-May-2025 22:03:58 | Outcome of Board Meeting | https://nsearchives.nseindia.com/corporate/KEC_26052025220245_OutcomeofBM.pdf
+  03-Feb-2025 19:56:36 | Financial Result Updates | https://nsearchives.nseindia.com/corporate/Outcome_Financial_Results_03022025195636.pdf
+  30-Dec-2024 10:53:27 | General Updates | https://nsearchives.nseindia.com/corporate/KEC_30122024105302_SEIntimation.pdf
+  12-Nov-2024 18:38:00 | Updates | https://nsearchives.nseindia.com/corporate/KEC_12112024183800_Updates.pdf
+  04-Nov-2024 20:52:28 | Financial Result Updates | https://nsearchives.nseindia.com/corporate/BM_Outcome_Financial_Results_Q2FY25_04112024205228.pdf
+  26-Jul-2024 20:54:49 | Financial Result Updates | https://nsearchives.nseindia.com/corporate/SEintimation_Outcome_Results_signed_26072024205449.pdf
+  07-May-2024 20:08:53 | Financial Result Updates | https://nsearchives.nseindia.com/corporate/Boardoutcome_07052024200853.pdf
+  30-Jan-2024 19:37:04 | Financial Result Updates | https://nsearchives.nseindia.com/corporate/OutcomeBM_30012024193704.pdf
+
+===== SECTION D: download and analyse the exchange filings =====
+candidate rows: 0
+
+===== SECTION E: issuer corporate presentation Q2 FY27 =====
+    url=https://www.kecrpg.com/public/media/corporatePresentationFilesMedia/Corporate%20Presentation%20Q2%20FY27.pdf http=404 bytes=6609
+  corporate-presentation-q2fy27: NOT A PDF
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Not Found</title>
+
+        <!--
+
+===== END OF REPORT =====

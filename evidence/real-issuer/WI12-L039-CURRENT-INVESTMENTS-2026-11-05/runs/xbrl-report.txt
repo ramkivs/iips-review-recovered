@@ -1,0 +1,312 @@
+utc=2026-11-08T05:19:26Z
+integrated bytes=15094
+
+===== SECTION A: instance URLs for every period from 31-MAR-2026 =====
+rows= 6
+30-SEP-2026 Consolidated Un-Audited
+    xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+    ixbrl= https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html
+30-SEP-2026 Standalone Un-Audited
+    xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+    ixbrl= https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208529_02112026212640_iXBRL_WEB.html
+30-JUN-2026 Consolidated Un-Audited
+    xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
+    ixbrl= https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184710_10082026190214_iXBRL_WEB.html
+30-JUN-2026 Standalone Un-Audited
+    xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
+    ixbrl= https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184709_10082026190131_iXBRL_WEB.html
+31-MAR-2026 Consolidated Audited
+    xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668450_16052026105416_WEB.xml
+    ixbrl= https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158430_16052026225416_iXBRL_WEB.html
+31-MAR-2026 Standalone Audited
+    xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668449_16052026105222_WEB.xml
+    ixbrl= https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158429_16052026225223_iXBRL_WEB.html
+xbrl rows=9
+30-SEP-2026-Consolidated        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+30-SEP-2026-Standalone  https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+30-SEP-2026-None        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
+30-JUN-2026-Consolidated        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
+30-JUN-2026-Standalone  https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
+30-JUN-2026-None        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
+31-MAR-2026-Consolidated        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668450_16052026105416_WEB.xml
+31-MAR-2026-Standalone  https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668449_16052026105222_WEB.xml
+31-MAR-2026-None        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1660831_29042026115748_WEB.xml
+
+===== SECTION B: fetch each instance and list every investment element with its value =====
+--- 30-SEP-2026-Consolidated
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+    http=200 bytes=73996 sha256=59dd7e3bef485535eaec3db6ded52421088662469ba6bcecd315857073eda10c
+    total tagged elements= 675
+    distinct element names= 264
+    investment element names= ['in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromUsedInInvestingActivities', 'in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships', 'in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CurrentInvestments', 'in-capmkt:DividendsReceivedClassifiedAsInvestingActivities', 'in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities', 'in-capmkt:InterestReceivedClassifiedAsInvestingActivities', 'in-capmkt:NoncurrentInvestments', 'in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow', 'in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']
+    fact: in-capmkt:NoncurrentInvestments = 0
+    fact: in-capmkt:CurrentInvestments = 0
+    fact: in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow = 0
+    fact: in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships = 0
+    fact: in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 115000000
+    fact: in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 1268300000
+    fact: in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:DividendsReceivedClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:InterestReceivedClassifiedAsInvestingActivities = 202900000
+    fact: in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities = 33100000
+    fact: in-capmkt:CashFlowsFromUsedInInvestingActivities = -917300000
+    current-investment mentions in raw text= 4
+--- 30-SEP-2026-Standalone
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+    http=200 bytes=493047 sha256=84821b46d67725e50cf13bafc859a6495a5324a2bba06f221a938e314ed3b06a
+    total tagged elements= 4953
+    distinct element names= 273
+    investment element names= ['in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromUsedInInvestingActivities', 'in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships', 'in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CurrentInvestments', 'in-capmkt:DividendsReceivedClassifiedAsInvestingActivities', 'in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities', 'in-capmkt:InterestReceivedClassifiedAsInvestingActivities', 'in-capmkt:InvestmentProperty', 'in-capmkt:InvestmentsAccountedForUsingEquityMethod', 'in-capmkt:NoncurrentInvestments', 'in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow', 'in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']
+    fact: in-capmkt:InvestmentProperty = 487300000
+    fact: in-capmkt:InvestmentsAccountedForUsingEquityMethod = 0
+    fact: in-capmkt:NoncurrentInvestments = 14226900000
+    fact: in-capmkt:CurrentInvestments = 0
+    fact: in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow = 0
+    fact: in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships = 0
+    fact: in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 103900000
+    fact: in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 761900000
+    fact: in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:DividendsReceivedClassifiedAsInvestingActivities = 851700000
+    fact: in-capmkt:InterestReceivedClassifiedAsInvestingActivities = 170600000
+    fact: in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities = 54500000
+    fact: in-capmkt:CashFlowsFromUsedInInvestingActivities = 418800000
+    current-investment mentions in raw text= 4
+--- 30-SEP-2026-None
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
+    http=200 bytes=105216 sha256=9cf1f87fb047658af8a09195bf7426f4f2db5b65627e7ea21c50818072e45b48
+    total tagged elements= 1072
+    distinct element names= 125
+    investment element names= ['in-capmkt:NoOfInvestorComplaints', 'in-capmkt:NoOfInvestorComplaintsDisposedOffDuringThePeriod', 'in-capmkt:NoOfInvestorComplaintsDuringThePeriod', 'in-capmkt:NoOfInvestorComplaintsReceivedDuringThePeriod', 'in-capmkt:WhetherPartBOfAnnexureIOfTheSEBICircularDated31December2024RelatedToInvestorGrievanceRedressalReportIsApplicableToTheEntity']
+    fact: in-capmkt:WhetherPartBOfAnnexureIOfTheSEBICircularDated31December2024RelatedToInvestorGrievanceRedressalReportIsApplicableToTheEntity = true
+    fact: in-capmkt:NoOfInvestorComplaints = 3
+    fact: in-capmkt:NoOfInvestorComplaintsReceivedDuringThePeriod = 13
+    fact: in-capmkt:NoOfInvestorComplaintsDisposedOffDuringThePeriod = 10
+    fact: in-capmkt:NoOfInvestorComplaints = 6
+    fact: in-capmkt:NoOfInvestorComplaintsDuringThePeriod = 3
+    current-investment mentions in raw text= 0
+--- 30-JUN-2026-Consolidated
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
+    http=200 bytes=24023 sha256=e985c324925928523f15db94ace21f331447d258a302c9fc856b34132ecada64
+    total tagged elements= 254
+    distinct element names= 104
+    investment element names= []
+    current-investment mentions in raw text= 0
+--- 30-JUN-2026-Standalone
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
+    http=200 bytes=15873 sha256=692782858f5fe60c617756bc1b192a2f1d74c30482b4637b3891ced332a46c10
+    total tagged elements= 132
+    distinct element names= 93
+    investment element names= []
+    current-investment mentions in raw text= 0
+--- 30-JUN-2026-None
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
+    http=200 bytes=105152 sha256=6cbaab69af8457d695e67c49dddcd6b8325d331f649ce5038dbcf25baae06079
+    total tagged elements= 1119
+    distinct element names= 113
+    investment element names= ['in-capmkt:NoOfInvestorComplaints', 'in-capmkt:NoOfInvestorComplaintsDisposedOffDuringThePeriod', 'in-capmkt:NoOfInvestorComplaintsDuringThePeriod', 'in-capmkt:NoOfInvestorComplaintsReceivedDuringThePeriod', 'in-capmkt:WhetherPartBOfAnnexureIOfTheSEBICircularDated31December2024RelatedToInvestorGrievanceRedressalReportIsApplicableToTheEntity']
+    fact: in-capmkt:WhetherPartBOfAnnexureIOfTheSEBICircularDated31December2024RelatedToInvestorGrievanceRedressalReportIsApplicableToTheEntity = true
+    fact: in-capmkt:NoOfInvestorComplaints = 6
+    fact: in-capmkt:NoOfInvestorComplaintsReceivedDuringThePeriod = 8
+    fact: in-capmkt:NoOfInvestorComplaintsDisposedOffDuringThePeriod = 11
+    fact: in-capmkt:NoOfInvestorComplaints = 3
+    fact: in-capmkt:NoOfInvestorComplaintsDuringThePeriod = -3
+    current-investment mentions in raw text= 0
+--- 31-MAR-2026-Consolidated
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668450_16052026105416_WEB.xml
+    http=200 bytes=77918 sha256=133f0cf14a5bbdecf055affc046e5aa73097f8d9793bf423942933b037f19d21
+    total tagged elements= 705
+    distinct element names= 282
+    investment element names= ['in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromUsedInInvestingActivities', 'in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships', 'in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CurrentInvestments', 'in-capmkt:DividendsReceivedClassifiedAsInvestingActivities', 'in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities', 'in-capmkt:InterestReceivedClassifiedAsInvestingActivities', 'in-capmkt:InvestmentProperty', 'in-capmkt:InvestmentsAccountedForUsingEquityMethod', 'in-capmkt:NoncurrentInvestments', 'in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow', 'in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']
+    fact: in-capmkt:InvestmentProperty = 0
+    fact: in-capmkt:InvestmentsAccountedForUsingEquityMethod = 0
+    fact: in-capmkt:NoncurrentInvestments = 0
+    fact: in-capmkt:CurrentInvestments = 0
+    fact: in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow = 0
+    fact: in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships = 0
+    fact: in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 515100000
+    fact: in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 3286800000
+    fact: in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:DividendsReceivedClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:InterestReceivedClassifiedAsInvestingActivities = 258100000
+    fact: in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities = 95700000
+    fact: in-capmkt:CashFlowsFromUsedInInvestingActivities = -2417900000
+    current-investment mentions in raw text= 4
+--- 31-MAR-2026-Standalone
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668449_16052026105222_WEB.xml
+    http=200 bytes=478692 sha256=419e14bccf9707bf2f2be2ee7278105913be8a3ebb5819a37e83f8fe3698fb3a
+    total tagged elements= 4795
+    distinct element names= 290
+    investment element names= ['in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashFlowsFromUsedInInvestingActivities', 'in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities', 'in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships', 'in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities', 'in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities', 'in-capmkt:CurrentInvestments', 'in-capmkt:DividendsReceivedClassifiedAsInvestingActivities', 'in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities', 'in-capmkt:InterestReceivedClassifiedAsInvestingActivities', 'in-capmkt:InvestmentProperty', 'in-capmkt:InvestmentsAccountedForUsingEquityMethod', 'in-capmkt:NoncurrentInvestments', 'in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow', 'in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities', 'in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities', 'in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities', 'in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities']
+    fact: in-capmkt:InvestmentProperty = 487300000
+    fact: in-capmkt:InvestmentsAccountedForUsingEquityMethod = 0
+    fact: in-capmkt:NoncurrentInvestments = 14226900000
+    fact: in-capmkt:CurrentInvestments = 0
+    fact: in-capmkt:OtherAdjustmentsForWhichCashEffectsAreInvestingOrFinancingCashFlow = 0
+    fact: in-capmkt:CashFlowsFromLosingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashFlowsUsedInObtainingControlOfSubsidiariesOrOtherBusinessesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireEquityOrDebtInstrumentsOfOtherEntitiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashReceiptsFromSalesOfInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherCashPaymentsToAcquireInterestsInJointVenturesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentForInvestmentInPartnershipFirmOrAssociationOfPersonsOrLimitedLiabilityPartnerships = 0
+    fact: in-capmkt:ProceedsFromSalesOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 473000000
+    fact: in-capmkt:PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities = 1569700000
+    fact: in-capmkt:ProceedsFromSalesOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfInvestmentPropertyClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfIntangibleAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfGoodwillClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfBiologicalAssetsOtherThanBearerPlantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromGovernmentGrantsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:ProceedsFromSalesOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:PurchaseOfOtherLongTermAssetsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromRepaymentOfAdvancesAndLoansMadeToOtherPartiesClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashPaymentsForFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:CashReceiptsFromFutureContractsForwardContractsOptionContractsAndSwapContractsClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:DividendsReceivedClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:InterestReceivedClassifiedAsInvestingActivities = 198300000
+    fact: in-capmkt:IncomeTaxesPaidRefundClassifiedAsInvestingActivities = 0
+    fact: in-capmkt:OtherInflowsOutflowsOfCashClassifiedAsInvestingActivities = 42500000
+    fact: in-capmkt:CashFlowsFromUsedInInvestingActivities = -855900000
+    current-investment mentions in raw text= 4
+--- 31-MAR-2026-None
+    url=https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1660831_29042026115748_WEB.xml
+    http=200 bytes=120727 sha256=56d01af177388b9dddcc012e6450d59a94e97c4bc71c90acc8a60b92aae8e4c7
+    total tagged elements= 1153
+    distinct element names= 228
+    investment element names= ['in-capmkt:ContactInformationOfTheDesignatedOfficialsOfTheListedEntityWhoAreResponsibleForAssistingAndHandlingInvestorGrievances', 'in-capmkt:DisclosureWebLinkOfCompanyAtWhichContactInformationOfTheDesignatedOfficialsOfTheListedEntityWhoAreResponsibleForAssistingAndHandlingInvestorGrievancesIsPlaced', 'in-capmkt:DisclosureWebLinkOfScheduleOfAnalystOrInstitutionalInvestorMeetAndPresentationPreparedByListedEntityForAnalystOrInstitutionalInvestorMeetIsPlaced', 'in-capmkt:NoOfInvestorComplaints', 'in-capmkt:NoOfInvestorComplaintsDisposedOffDuringThePeriod', 'in-capmkt:NoOfInvestorComplaintsDuringThePeriod', 'in-capmkt:NoOfInvestorComplaintsReceivedDuringThePeriod', 'in-capmkt:ScheduleOfAnalystOrInstitutionalInvestorMeetAndPresentationPreparedByListedEntityForAnalystOrInstitutionalInvestorMeet', 'in-capmkt:WhetherPartBOfAnnexureIOfTheSEBICircularDated31December2024RelatedToInvestorGrievanceRedressalReportIsApplicableToTheEntity']
+    fact: in-capmkt:WhetherPartBOfAnnexureIOfTheSEBICircularDated31December2024RelatedToInvestorGrievanceRedressalReportIsApplicableToTheEntity = true
+    fact: in-capmkt:ContactInformationOfTheDesignatedOfficialsOfTheListedEntityWhoAreResponsibleForAssistingAndHandlingInvestorGrievances = Yes
+    fact: in-capmkt:DisclosureWebLinkOfCompanyAtWhichContactInformationOfTheDesignatedOfficialsOfTheListedEntityWhoAreResponsibleForAssistingAndHandlingInvestorGrievancesIsPlaced = https://www.kecrpg.com/disclosures-under-regulation-46-of-lodr
+    fact: in-capmkt:ScheduleOfAnalystOrInstitutionalInvestorMeetAndPresentationPreparedByListedEntityForAnalystOrInstitutionalInvestorMeet = Yes
+    fact: in-capmkt:DisclosureWebLinkOfScheduleOfAnalystOrInstitutionalInvestorMeetAndPresentationPreparedByListedEntityForAnalystOrInstitutionalInvestorMeetIsPlaced = https://www.kecrpg.com/disclosures-under-regulation-46-of-lodr
+    fact: in-capmkt:NoOfInvestorComplaints = 3
+    fact: in-capmkt:NoOfInvestorComplaintsReceivedDuringThePeriod = 9
+    fact: in-capmkt:NoOfInvestorComplaintsDisposedOffDuringThePeriod = 6
+    fact: in-capmkt:NoOfInvestorComplaints = 6
+    fact: in-capmkt:NoOfInvestorComplaintsDuringThePeriod = 3
+    current-investment mentions in raw text= 0
+
+===== SECTION C: same question asked of the Inline XBRL HTML =====
+ixbrl rows=9
+--- ixbrl 30-SEP-2026-Consolidated
+    http=200 bytes=81599 sha256=1c371ec6c49ef31376a3e47136300560da020fa764e383da17bbcee54a8c2c79
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 7
+    ctx: rer plants Investments accounted for using equity method Non-current financial assets Non-current investments 0.00 Trade receivables, non-current 0.00 Loans, non-current 0.00 Other non-current financ
+    ctx: rrent assets 2,99,566.00 2 Current assets Inventories 1,69,323.00 Current financial asset Current investments 0.00 Trade receivables, current 5,60,955.00 Cash and cash equivalents 31,547.00 Bank bala
+--- ixbrl 30-SEP-2026-Standalone
+    http=200 bytes=212811 sha256=0c8678903a963f88a821c8899e18e26684541b06dc802fb18c5a55db9b123f2b
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 23
+    ctx:  0.00 Investments accounted for using equity method 0.00 Non-current financial assets Non-current investments 1,42,269.00 Trade receivables, non-current 0.00 Loans, non-current 0.00 Other non-current
+    ctx: current assets 2,80,839.00 2 Current assets Inventories 69,526.00 Current financial asset Current investments 0.00 Trade receivables, current 4,50,659.00 Cash and cash equivalents 24,614.00 Bank bala
+--- ixbrl 30-SEP-2026-None
+    http=200 bytes=70097 sha256=45621b10f2ce2231752ec6266097ea25cd58a70b1b956ed8f28a23a799a0e140
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 0
+--- ixbrl 30-JUN-2026-Consolidated
+    http=200 bytes=39033 sha256=cb6db25d047e1d21174ad3d91b6d93a9d2a6842630a2095c53850582070489f4
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 0
+--- ixbrl 30-JUN-2026-Standalone
+    http=200 bytes=38405 sha256=6607cdad69b5e61f79614dac595c318326e980ebcc669a93dd00c160b94b8c22
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 0
+--- ixbrl 30-JUN-2026-None
+    http=200 bytes=58547 sha256=e1ad0fa94288b55385f99c802d75c4a469cdc3887ff8b7d9070bbf82b2f1a493
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 0
+--- ixbrl 31-MAR-2026-Consolidated
+    http=200 bytes=83846 sha256=a9fa546bff8bcfc3dd531da0536370424c25b70a7cacd12373e06a7d7544a71b
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 7
+    ctx:  0.00 Investments accounted for using equity method 0.00 Non-current financial assets Non-current investments 0.00 Trade receivables, non-current 3,145.00 Loans, non-current 0.00 Other non-current fi
+    ctx: rrent assets 2,94,898.00 2 Current assets Inventories 1,53,274.00 Current financial asset Current investments 0.00 Trade receivables, current 6,47,421.00 Cash and cash equivalents 41,126.00 Bank bala
+--- ixbrl 31-MAR-2026-Standalone
+    http=200 bytes=210147 sha256=2e83f5eb759b59a93877bb5547cb874a4242ab9d0e55512e59ddbcd300f3a9a4
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 23
+    ctx:  0.00 Investments accounted for using equity method 0.00 Non-current financial assets Non-current investments 1,42,269.00 Trade receivables, non-current 3,145.00 Loans, non-current 0.00 Other non-cur
+    ctx: current assets 2,79,546.00 2 Current assets Inventories 78,536.00 Current financial asset Current investments 0.00 Trade receivables, current 5,59,446.00 Cash and cash equivalents 28,615.00 Bank bala
+--- ixbrl 31-MAR-2026-None
+    http=200 bytes=86130 sha256=3924e9edee290240b4b7551b71a4ea9f6c106ab3a8940de05aab06fdacfcbfb0
+    ix facts= 0
+    investment fact names= []
+    visible text mentions of investments= 0
+
+===== END OF REPORT =====
