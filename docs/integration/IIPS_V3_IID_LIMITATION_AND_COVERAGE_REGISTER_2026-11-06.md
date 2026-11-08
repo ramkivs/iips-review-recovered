@@ -2711,3 +2711,116 @@ closes on its own terms and the bundles it produced can be re-verified without t
 `access/attempts.json`, `control/fabricated-claim/`, `runs/` (S2 verification, control verdict, 27 targeted tests, 36
 existing-guard tests, typecheck, clean clone, manifest verification) and `digests.json`, guarded by
 `iips-platform/tests/investment/retrieval-evidence.test.ts` (**27** tests).
+
+## 17.22 WI-7 / `L-038` residual — one question is evidence, two are decisions (2026-11-08; governed probes, no contract change)
+
+**Question.** §17.18 left `L-038` `OPEN` with two named blockers and one undecided finding — `DEBT-COMPONENT-PERIOD-ALIGNMENT`,
+`CASH-SIDE-PERIOD-ALIGNMENT` and `PREFERENCE_CAPITAL` (`MISSING / NOT_REPORTED`). This work item asked one thing of each:
+can it be closed by existing primary evidence and current governed contracts, or does it need an explicit decision? It is
+a determination, not an eighth re-read: the caption search over both reports (483 pages), the Note 13(a) recovery, the
+one-cell dataset correction and the §17.15 arithmetic correction are cited from §17.18's bundle, not repeated. No code,
+dataset, payload, policy, manifest or historical finding was changed — `capitalStructure.ts` is byte-identical, the
+dataset input is unchanged (`sha256:7ce8844f…a6f9`), and both Marico payloads are byte-identical
+(`3fd27a98…2343`, 53,245 bytes; `1a873047…6d59`, 54,705 bytes).
+
+**A. `DEBT-COMPONENT-PERIOD-ALIGNMENT` — the same-instant rule is essential; the *anchor* is the undecided question.**
+The rule is not an accident of the code: it is stated as rule 3 in the contract's own header and enforced at
+`grossDebtOf`. Driven with the dataset as published, the four components resolve to two instants — short-term borrowings
+383 and leases 145 at 2024-03-31, long-term borrowings 2 and current maturities 0 at 2023-03-31 — and the aggregate
+refuses with `NOT_COMPUTABLE` / `PERIOD_MISMATCH`. That is the rule working, and it must stay strict. What §17.18 calls
+the alternative is a different question and this work item settles its kind: **it is not an evidence question.** At
+2023-03-31 every required input carries a filed number at that one instant — 2 + 473 + 0 + 133 = **608 crore** on the debt
+side, 207 + 578 = **785 crore** on the cash side, all from the FY2023-24 report's comparative column
+(`MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE`) — and driven with only that period, the *unmodified* contract computes both
+sides and **net debt −177 crore**. Nothing was relaxed, carried forward or substituted to get it. §17.18's sentence that
+−177 crore "is not a value the governed path can produce" is therefore true of the published configuration and untrue of
+the code; the sentence is left as written and the refinement is recorded here. Publishing such a figure is a
+period-anchoring decision with four parts — which instant is chosen when more than one is complete, how a block anchored
+earlier than the assessment's data cut is labelled, whether a FY2024 enterprise value may be converted with a FY2023
+net-debt figure, and whether the same latitude reaches lease liabilities — and its consequence is that period mixing moves
+from the component level, where the contract refuses it today, to the block level, where it would then be published.
+**Even granted, it would not close `L-038`:** the anchored probe still reports `preferenceCapital` `MISSING` /
+`NOT_REPORTED`, so the enterprise-to-equity bridge stays blocked. Owner: the register owner for the capital-structure
+aggregation contract (R-4.1 / IID-2 lineage). Undecided here by design; no code or policy change.
+
+**B. `CASH-SIDE-PERIOD-ALIGNMENT` — a real contract gap, reachable, and latent in the committed corpus.**
+The asymmetry §17.18 noticed is reproduced and can now be stated as a property rather than a reading: `sum()` checks
+presence only, so cash and current investments are added without comparing their periods and the total is subtracted from
+`grossDebt` without comparing against the debt periods; nothing in the file's stated rules extends the same-instant rule
+to the cash side or exempts it. Reachability is demonstrated, not asserted: a two-instant fixture — debt complete at
+2024-03-31, cash and investments only at 2023-03-31 — publishes `grossDebt` 528 crore, `cashAndInvestments` 785 crore and
+**`netDebt` −257 crore**, a net-debt number built from two balance sheets. The fixture is synthetic and no Marico figure is
+taken from it. A scan of all nine committed datasets puts the gap in proportion: two resolve both sides to one instant,
+five have the debt side blocked so the cash rule is never reached, two have an incomplete cash side, and **none** would
+publish cross-period net debt today. So this is neither a Marico evidence limitation nor a documented rule: it is a latent
+contract gap whose closure — extend the same-instant rule to cash against current investments and to the cash side against
+the debt side, and refuse `netDebt` with `PERIOD_MISMATCH` while still publishing the components — would change no figure
+currently published. It is not implemented here: the work item's authority forbids altering `capitalStructure.ts` or
+introducing a period-alignment rule without explicit authority, and a test that pinned today's behaviour would enshrine
+the defect while a test that forbade it would be the fix. Same owner as A.
+
+**C. `PREFERENCE_CAPITAL` — still absent, and neither precedent rescues it.** No new primary source was examined because
+the search is complete: `preference\s+share` occurs on four of 483 searched pages and every hit is Note 12(a)'s *authorised*
+table, and this environment has no egress to the issuer or exchange hosts and no PDF tooling, so no unread page could be
+retrieved here in any case. The restricted re-read of the one extracted share-capital page (FY2023-24, PDF p.189) leaves
+the position exactly as §17.18 recorded it and adds one detail worth having on the record: the *Rights, preferences and
+restrictions attached to equity shares* paragraph enumerates authorised capital as 150 crore equity shares of ₹1 plus 8
+crore equity shares of ₹10, and does not mention the 7 crore preference shares of ₹10 that the table above it prints. An
+enumeration that omits a class the same note prints is unusable in either direction — it neither establishes issued
+preference capital nor declares it nil, and reading nil out of the omission is the inference D-2 forbids. The two governed
+precedents point the same way: WI-5 **withdrew** a preference-capital nil declared on *"The Company has only one class of
+equity shares having a par value of Rs 10 per share"* because its heading scopes it to equity shares, and the `L-035`
+review record accepted a preference-capital nil (Infosys: *"The Company has only one class of shares referred to as equity
+shares having a par value of ₹5/-"*) only as an explicit cross-scope mapping with an `acceptedBy` recorded — the grammar
+requires wording, and Marico has no sentence of either shape. `PREFERENCE_CAPITAL` stays `MISSING` / `NOT_REPORTED`. What
+remains is a retrieval question, not a policy one: a page that prints an issued or paid-up preference row, or that declares
+the class nil in words.
+
+**A pointer corrected.** §17.18's evidence paragraph routes a reader to `ingest-input/corrections.json` for the single
+corrected cell. No such file exists: the corrections manifest is the `corrections` object inside
+`ingest-input/data-extraction.json` (`supersedes`, `supersededStatement`, `whatIsWrong`, `whatChanges`,
+`whatDoesNotChange`). The finding and the cell are unaffected; only the pointer was wrong, and this is where it is fixed.
+
+**Statuses after §17.22.** `L-038` stays **`OPEN`**, and the entry now separates its two blockers by kind: one waits for a
+decision (`DEBT-COMPONENT-PERIOD-ALIGNMENT`, with `CASH-SIDE-PERIOD-ALIGNMENT` as the same owner's second question), the
+other waits for a disclosure (`PREFERENCE_CAPITAL`). `L-034` stays **`RESOLVED`**, `L-035` **`RESOLVED`**, `L-036`
+**`PARTIALLY RESOLVED`**, `L-037` **`PARTIALLY RESOLVED`**, `L-039` **unchanged**, `L-040` **`RESOLVED`**, `L-001` …
+`L-033` untouched. No new limitation identifier was consumed. Next free §17.23.
+
+**Boundary this adds.** §17.18 established that a search reporting an absence is only as good as its captions. This work
+item adds the distinction that keeps such an entry honest: **a question that has survived a governed probe is not the
+same as a question awaiting evidence.** Two of `L-038`'s three residuals are waiting for a decision that no amount of
+re-reading will make, and a register that files them under "missing number" has quietly moved the work onto the wrong desk.
+
+**Evidence.** `evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/` — `README.md`,
+`determination-l038-residual.json`, `probe/` (the probe over the unmodified contract, the corpus scan, the restricted
+re-read), `runs/` (01 probe, 02 the published block, 03 the corpus scan, 04 the preference re-read with hashes, 05
+targeted tests 34/34, 06 typecheck, 07 all 18 bundle manifests verified, 08 clean clone, `commands.txt`) and
+`digests.json`, guarded by `iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts` (**26** tests) together
+with `assessment-capital.test.ts` (**8**), both unchanged and passing.
+
+## 17.23 WI-11 / `L-038` — the register owner decides both contract questions, and the cash-side rule is implemented (2026-11-08; owner decision, contract change, no status change)
+
+**What this entry is.** §17.22 left two named questions undecided and said so in as many words: `DEBT-COMPONENT-PERIOD-ALIGNMENT` and `CASH-SIDE-PERIOD-ALIGNMENT` were "waiting for a decision that no amount of re-reading will make". The register owner has now made both decisions. This entry records the decisions, the implementation, and the verification — and is careful to keep those three things, and the publication state, separate.
+
+**The decision owner and the authority exercised.** The designated register owner for the R-4.1/IID-2 capital-structure aggregation contract (Ramki) selected both options explicitly on 2026-11-08, from the prepared docket `IIPS-V3-IID-L038-DECISION-DOCKET-2026-11-08` v1.1. This is an exercised decision, not a recommendation that survived review, and not an inference from the investigation.
+
+**Decision A — `DEBT-COMPONENT-PERIOD-ALIGNMENT`: Option A, the strict same-instant invariant is retained.** All four debt components — long-term borrowings, short-term borrowings, current maturities, lease liabilities — must resolve to the same reporting instant before gross debt is published. Earlier-period anchoring, automatic latest-complete selection, fallback period selection and mixed-period debt aggregation are all **not** authorized. The implementation found nothing to change: `grossDebtOf()` already enforced this rule and still does, and the decision's effect is to confirm existing behaviour rather than to alter it. The cost the docket identified is accepted: Marico's debt side stays `NOT_COMPUTABLE / PERIOD_MISMATCH` at the published instant, and the −177 crore figure remains an evidence-backed observation that no governed output publishes.
+
+**Decision B — `CASH-SIDE-PERIOD-ALIGNMENT`: Option B, alignment is enforced.** Cash and current investments must resolve to one instant before `cashAndInvestments` is published, and the debt side and the cash side must share that instant before `netDebt` is published. A mismatch withholds the affected aggregate with the established `NOT_COMPUTABLE / PERIOD_MISMATCH` semantics and a note naming the instants it refused to mix. Individually valid components keep their values, periods and provenance; blocking inputs are still returned unchanged, so `NOT_REPORTED`, `FILING_UNAVAILABLE` and a declared nil are never overwritten by a period complaint; nothing is zeroed, re-dated or derived as a residual.
+
+**The implementation, and what it deliberately does not touch.** `iips-platform/src/investment/assessment/capitalStructure.ts` only: `sum()` became `sumAtOneInstant(entries)` (the cash side now compares instants, not merely presence), `subtract()` became `subtractAtOneInstant(...)` (net debt is refused across instants), and a `commonPeriod()` helper supplies the instant each side resolved to. The contract's own header now states both decisions. No field was added to any already-published aggregate — the first draft did add one, and the IX package-regeneration guard caught it: the structural digests of an existing authorised-policy artifact moved, which is exactly the "existing compatible outputs and provenance are preserved" boundary. The field was removed and the digest guard is back to passing, which is now negative evidence that the change is confined to the refusal path. No new persistence mechanism, table, journal, cache or data source; no change to D-2 grammar, IX policy, valuation formulas, datasets or issuer evidence.
+
+**Before and after, on the real dataset.** The pre-decision probe from `WI7-L038-RESIDUAL-2026-11-08` was re-run against the changed contract over the committed Marico dataset. The diff against the pre-decision run is **one line**: the synthetic two-instant case (`B-1`, debt complete @2024-03-31, cash only @2023-03-31) published `netDebt −257 crore` and now publishes `NOT_COMPUTABLE: PERIOD_MISMATCH`. The two real configurations are unchanged in every figure — `A-1` as published (`cashAndInvestments` 487 crore, `grossDebt` and `netDebt` `PERIOD_MISMATCH`) and `A-2` anchored at 2023-03-31 (608 / 785 / −177 crore). That is the decision in one line: a number that came from two balance sheets is gone, and no other number moved.
+
+**Verification.** Targeted: 92 tests across five files, **92/92 pass** — the new `l038CashSideAlignment.test.ts` (11 tests: same-instant and mixed-period debt; same-instant and mixed-period cash; same-instant and mixed-period debt-versus-cash; component survival after an aggregate is withheld; absence staying absence rather than becoming zero or a period complaint; the declared-nil path inside gross debt; and the committed Marico and KEC payloads still classifying as they did). The whole investment suite: **759 tests in 178 suites, 0 fail**. `tsc --noEmit`: exit 0. Existing outputs: `ixAuthorizedPolicy.test.ts` regenerates the committed IX package exactly, 11/11. No full backend regression suite was run — no gate required one, and the change is confined to one file.
+
+**Statuses after §17.23 — and why none of them moved.** **`L-038` stays `OPEN`.** The two decisions close the *policy* questions §17.18 and §17.22 recorded; they do not satisfy the limitation's completion standard, because **Marico's preference capital remains `MISSING / NOT_REPORTED`**, an independent blocker to the enterprise-to-equity bridge under every option the docket examined. A register that marked `L-038` `RESOLVED` on the strength of two decisions would be confusing "the rule is settled" with "the number can be computed". **`L-039` is unchanged and independent**: KEC's current investments remain `MISSING / NOT_REPORTED`, absence is still `NOT_REPORTED` rather than `PERIOD_MISMATCH`, and the `L-039` guard still passes. `L-034` `RESOLVED`, `L-035` `RESOLVED`, `L-036` `PARTIALLY RESOLVED`, `L-037` `PARTIALLY RESOLVED`, `L-040` `RESOLVED`, `L-001` … `L-033` untouched. No new limitation identifier consumed.
+
+**What remains undecided, and is not implied by these decisions.** Bridge-wide instant equality — whether minority interest, preference capital and associates/JV must also share the net-debt instant before an equity value is published — was raised as `BRIDGE-INSTANT-EQUALITY` in the docket (§7.3, §12.3) and is **not** authorized or implemented here. With Decision A retaining strict anchoring it is not yet reachable, but a future anchor decision would make it so.
+
+**Evidence.** `evidence/WI11-L038-CONTRACT-DECISION-2026-11-08/` — `README.md`, `decision-owner-authorization.json`, `runs/` (01 the pre-decision probe re-run after the change, 02 its one-line diff, 03 targeted tests 92/92, 04 typecheck, 05 the full investment suite 759/759, 06 the IX package regenerating exactly) and `digests.json`, guarded by `iips-platform/tests/investment/l038CashSideAlignment.test.ts` (11 tests). The decision docket itself is external to the repository (`/home/user/L038-decision-docket-2026-11-08.md`, v1.2) because the fixed session branch heads an unmerged PR; the docket records the owner's selections in §12 and the implementation status in §13.
+
+**Publication — verified, and verified separately from the tests.** The decisions, the implementation and this entry are published on `arena/3f12cf6a-iips-review-recovered` at commit `9473824` (PR #512, base `main` at `3acb202`, 28 files, `MERGEABLE/CLEAN`, **not merged**). Independent checks after the push: the remote branch head equals the local head; the remote blob of `capitalStructure.ts` hashes to `ffa2c8ed…ffea`, identical to the local file; a **fresh clone** of the published branch re-hashes all **21** bundle manifests with 0 mismatches and carries both this section and tracker §16.281; and GitHub Actions run **42408717210** on that head completed `success`. That run is the repository's CAP-03 static gate (changed-file whitespace, source/evidence/tracker validation, Python compile) — **it does not execute the TypeScript tests**, so it corroborates the tree's hygiene, not the 92/92 and 759/759 reported above, which are local results recorded in the bundle.
+
+**Boundary this adds.** §17.22 separated a question awaiting evidence from a question awaiting a decision. This entry adds the next distinction, which is the one that gets lost in a hurry: **a decision is not an implementation, an implementation is not a verification, and a verification is not a publication.** Each is recorded here in its own sentence, and the limitation stays open through all four. Next free §17.24.

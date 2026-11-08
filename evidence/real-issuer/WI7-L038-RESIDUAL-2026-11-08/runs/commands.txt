@@ -1,0 +1,37 @@
+# L-038 residual investigation, 2026-11-08 — every command, in order
+# Baseline: origin/main = 3acb2029d97745e03a166ab89872cf09c8428895 (verified by `git fetch` + `git rev-parse origin/main`)
+
+# 1. read the register entry and the merged evidence (no re-running of completed work)
+git show origin/main:docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md    # §17.18
+git show origin/main:IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md        # §16.276
+
+# 2. the probe over the unmodified contract (from iips-platform/, so its dependencies resolve)
+cd iips-platform && npx tsx ../evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/probe/probe.ts > ../evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/01-probe.txt
+
+# 3. the published block, read straight out of the committed payload
+python3 - <<'PY' > evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/02-published-payload-block.txt
+import json, hashlib, pathlib
+P = pathlib.Path('evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/artifact/assessment-payload-marico-l038.json')
+raw = P.read_bytes(); d = json.loads(raw); cs = d['fundamentals']['capitalStructure']
+print(hashlib.sha256(raw).hexdigest(), len(raw), d['data']['datasetVersion'])
+for k, o in cs.items(): print(k, o)
+PY
+
+# 4. reachability across every committed dataset
+python3 evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/probe/cash-side-scan.py > evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/03-cash-side-corpus-scan.txt
+
+# 5. the restricted preference-capital re-read (committed evidence only)
+python3 evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/probe/preference-re-read.py > evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/04-preference-capital-re-read.txt
+
+# 6. targeted tests and typecheck (unchanged tree)
+cd iips-platform
+npx tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts tests/investment/assessment-capital.test.ts   # 34/34
+npx tsc --noEmit                                                                                                  # exit 0
+
+# 7. preservation: every committed bundle manifest, and both Marico payloads
+cd ..
+python3 - > evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/07-manifest-and-payload-verification.txt <<'PY'
+# (verifies every evidence/**/digests.json against its files; see the run file for the output)
+PY
+
+# 8. clean clone of the published branch — see runs/08-clean-clone.txt for the exact commands used

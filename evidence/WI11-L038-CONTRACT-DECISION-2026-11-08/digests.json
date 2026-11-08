@@ -1,0 +1,39 @@
+{
+ "bundle": "WI-11 / L-038 \u2014 owner decisions recorded and the cash-side alignment rule implemented",
+ "generatedOn": "2026-11-08",
+ "note": "Every file this bundle carries except this manifest. Verify by re-hashing each path.",
+ "files": {
+  "README.md": {
+   "sha256": "e06079adcac5528df8d435339a9668111bc30c036f558ac50e804a36c0e19e2e",
+   "bytes": 6254
+  },
+  "decision-owner-authorization.json": {
+   "sha256": "5eeddd4b8abfe0cdde2c66614ec7be0da7b07cab1cc233f7ca9f33bfec079e9e",
+   "bytes": 4337
+  },
+  "runs/01-probe-after-decision.txt": {
+   "sha256": "9d653be0a5b57e40ee10353981c78bc4d9ff76b7d345bd6a26ef076fbbb2086b",
+   "bytes": 3849
+  },
+  "runs/02-diff-vs-pre-decision-run.txt": {
+   "sha256": "94b9ad8b70e8dff5948106809a1f705acc7782338a0b9d3c96c8d4b050083afe",
+   "bytes": 114
+  },
+  "runs/03-targeted-tests.txt": {
+   "sha256": "b097910815f719cc6bb4582f41f7212ff40973d213798f45455395847b1a0c42",
+   "bytes": 28251
+  },
+  "runs/04-typecheck.txt": {
+   "sha256": "677f0f0578f45f32eb68958a23fdd3080f25c69b0744254b6e5835faa6b1e4ea",
+   "bytes": 34
+  },
+  "runs/05-full-investment-suite.txt": {
+   "sha256": "d6c682d4e5b4d7807def748135549ebea5fc3a65b041945f43d1ff4bc476ac07",
+   "bytes": 230888
+  },
+  "runs/06-existing-outputs-unchanged.txt": {
+   "sha256": "ce47c30fa294684b188d498b3952ff2cddd5a582e8e9595c6369b03f56e5c88f",
+   "bytes": 3590
+  }
+ }
+}

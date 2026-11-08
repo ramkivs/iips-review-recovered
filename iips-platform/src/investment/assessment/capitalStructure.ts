@@ -36,6 +36,29 @@
  *  4. Nothing else becomes zero. Cash, investments and the claims below the enterprise value keep the strict rule
  *     (`PRESENT` only) except where the notes below say otherwise, and `NET_DEBT` in the IID-0 derivation set
  *     stays reported-numbers-only.
+ *
+ * ## One instant, or no aggregate (owner decisions, 2026-11-08)
+ *
+ * Two register-owner decisions fixed the period-alignment rule for this block. They are policy, not convenience,
+ * and a reader should be able to check the code against them:
+ *
+ *  - **`DEBT-COMPONENT-PERIOD-ALIGNMENT` — Option A, the strict same-instant invariant is retained.** All four
+ *    debt components must resolve to one reporting instant before gross debt is published. There is no
+ *    earlier-period anchoring, no automatic latest-complete selection, no fallback period and no mixed-period
+ *    debt total: a component from an older period still blocks the aggregate with `PERIOD_MISMATCH`, exactly as
+ *    rule 3 above says. The decision chose continuity over a published number for `L-038`'s Marico case, whose
+ *    later column is incomplete.
+ *  - **`CASH-SIDE-PERIOD-ALIGNMENT` — Option B, the same invariant is extended to the cash side.** Cash and
+ *    current investments must resolve to one instant before `cashAndInvestments` is published, and the two sides
+ *    must share that instant before `netDebt` is published. A mismatch withholds the affected aggregate with
+ *    `NOT_COMPUTABLE: PERIOD_MISMATCH` and a note naming the instants; components keep their own values, periods
+ *    and reasons, and nothing is zeroed or re-dated to force a total.
+ *
+ * The consequence is deliberate and worth stating: an aggregate that survives this file was built from exactly
+ * one balance-sheet instant, and one that does not is absent rather than approximate. The published aggregates
+ * keep their existing shape — no new field is added — so every already-published payload, and the structural
+ * digests the IX evidence package pins, are unchanged by this rule; the instant travels where it is needed: each
+ * component carries its own `periodEnd`, and a refusal names the instants it refused to mix.
  */
 import type { DatasetSchema } from '../contracts/lineItems';
 import type { LineItemId } from '../contracts/lineItems';
@@ -131,19 +154,69 @@ function grossDebtOf(
   });
 }
 
-function sum(components: readonly NumericObservation[]): NumericObservation {
-  const blocked = components.find((component) => component.presence !== 'PRESENT' || component.value === null);
-  if (blocked !== undefined) return blocked;
-  return present(
-    components.reduce((total, component) => total + (component.value ?? 0), 0),
-    EMPTY_SOURCE,
-    { basis: 'DERIVED' },
-  );
+/** The single reporting instant a component set resolved to, or `null` when it is missing or mixed. */
+function commonPeriod(periods: readonly (string | null)[]): string | null {
+  if (periods.length === 0) return null;
+  const first = periods[0] ?? null;
+  if (first === null) return null;
+  return periods.every((period) => period === first) ? first : null;
 }
 
-function subtract(minuend: NumericObservation, subtrahend: NumericObservation): NumericObservation {
+/**
+ * The cash-side sum, under `CASH-SIDE-PERIOD-ALIGNMENT` (owner decision, 2026-11-08 — Option B).
+ *
+ * The strict component rule is unchanged: cash and current investments must each be `PRESENT` (a declared nil
+ * still blocks here rather than counting as zero), and the blocking observation is published unchanged so its
+ * reason survives. What is added is rule 3's counterpart on this side: the two components must resolve to the
+ * **same reporting period end**. Before this guard existed, `sum()` compared presence only, so a synthetic
+ * two-instant dataset published a cash total built from two balance sheets (proven in
+ * `evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/01-probe.txt`, case B-1).
+ */
+function sumAtOneInstant(
+  entries: readonly { readonly name: string; readonly periodEnd: string | null; readonly observation: NumericObservation }[],
+): NumericObservation {
+  const blocked = entries.find((entry) => entry.observation.presence !== 'PRESENT' || entry.observation.value === null);
+  if (blocked !== undefined) return blocked.observation;
+
+  const periods = new Set(entries.map((entry) => entry.periodEnd));
+  if (periods.size > 1) {
+    const described = entries.map((entry) => `${entry.name}@${entry.periodEnd ?? 'unknown'}`).join(', ');
+    return notComputable('PERIOD_MISMATCH', {
+      note: `cash components resolve to different period ends (${described}), so no single balance-sheet instant is established`,
+    });
+  }
+
+  const total = entries.reduce((total, entry) => total + (entry.observation.value ?? 0), 0);
+  return present(total, EMPTY_SOURCE, { basis: 'DERIVED' });
+}
+
+/**
+ * The net-debt subtraction, under the same decision: both sides must belong to one balance-sheet instant.
+ *
+ * A blocked operand is still returned unchanged (so `MISSING: NOT_REPORTED`, `FILING_UNAVAILABLE` and a declared
+ * nil are never overwritten by a period complaint), and the subtraction only runs when the instant each side
+ * resolved to is the same one. The published aggregates keep their existing shape, so the two instants are passed
+ * in by the caller (`commonPeriod` over each side's components); a side whose instant cannot be established is
+ * refused rather than assumed — the conservative direction, since an unknown instant is exactly the state this
+ * guard exists to prevent.
+ */
+function subtractAtOneInstant(
+  minuend: NumericObservation,
+  minuendPeriod: string | null,
+  minuendSide: string,
+  subtrahend: NumericObservation,
+  subtrahendPeriod: string | null,
+  subtrahendSide: string,
+): NumericObservation {
   if (minuend.presence !== 'PRESENT' || minuend.value === null) return minuend;
   if (subtrahend.presence !== 'PRESENT' || subtrahend.value === null) return subtrahend;
+
+  if (minuendPeriod === null || subtrahendPeriod === null || minuendPeriod !== subtrahendPeriod) {
+    return notComputable('PERIOD_MISMATCH', {
+      note: `net debt would mix two balance-sheet instants (${minuendSide}@${minuendPeriod ?? 'unknown'}, ${subtrahendSide}@${subtrahendPeriod ?? 'unknown'}), so no single instant is established`,
+    });
+  }
+
   return present(minuend.value - subtrahend.value, EMPTY_SOURCE, { basis: 'DERIVED' });
 }
 
@@ -221,8 +294,23 @@ export function buildCapitalStructure(series: SeriesSelection, options: CapitalS
     { name: 'longTermBorrowings', periodEnd: componentPeriods.longTermBorrowings ?? null, observation: longTerm },
     { name: 'leaseLiabilities', periodEnd: componentPeriods.leaseLiabilities ?? null, observation: leases },
   ]);
-  const cashAndInvestments = sum([cash, liquidInvestments]);
-  const netDebt = subtract(grossDebt, cashAndInvestments);
+  const cashAndInvestments = sumAtOneInstant([
+    { name: 'cashAndCashEquivalents', periodEnd: componentPeriods.cashAndCashEquivalents ?? null, observation: cash },
+    { name: 'currentInvestments', periodEnd: componentPeriods.currentInvestments ?? null, observation: liquidInvestments },
+  ]);
+  // The instants the two aggregates resolved to. Gross debt is only PRESENT when its four components share one,
+  // and the cash side only when its two components do, so these are the instants the totals actually describe.
+  const debtPeriod = commonPeriod([
+    componentPeriods.shortTermBorrowings ?? null,
+    componentPeriods.currentMaturities ?? null,
+    componentPeriods.longTermBorrowings ?? null,
+    componentPeriods.leaseLiabilities ?? null,
+  ]);
+  const cashPeriod = commonPeriod([
+    componentPeriods.cashAndCashEquivalents ?? null,
+    componentPeriods.currentInvestments ?? null,
+  ]);
+  const netDebt = subtractAtOneInstant(grossDebt, debtPeriod, 'debt side', cashAndInvestments, cashPeriod, 'cash side');
 
   // A declared nil share count is not a count: only a reported number may produce per-share values.
   const shares = latest(annual, 'DILUTED_SHARES');

@@ -1,0 +1,688 @@
+TAP version 13
+# Subtest: AC-2.4 — a share count belongs to a period
+    # Subtest: a share count from an older period withholds per-share values and keeps the enterprise figure
+    ok 1 - a share count from an older period withholds per-share values and keeps the enterprise figure
+      ---
+      duration_ms: 15.954949
+      type: 'test'
+      ...
+    # Subtest: the matching-period case publishes per-share values
+    ok 2 - the matching-period case publishes per-share values
+      ---
+      duration_ms: 6.375075
+      type: 'test'
+      ...
+    # Subtest: the count is the EPS-implied count and the dilution proxy is disclosed
+    ok 3 - the count is the EPS-implied count and the dilution proxy is disclosed
+      ---
+      duration_ms: 3.105752
+      type: 'test'
+      ...
+    1..3
+ok 1 - AC-2.4 — a share count belongs to a period
+  ---
+  duration_ms: 26.690391
+  type: 'suite'
+  ...
+# Subtest: AC-2.6 — net debt, leases and the other claims on equity
+    # Subtest: net debt is built from named components rather than a single reported figure
+    ok 1 - net debt is built from named components rather than a single reported figure
+      ---
+      duration_ms: 3.130113
+      type: 'test'
+      ...
+    # Subtest: restricted cash is never silently treated as available, and says so when unreported
+    ok 2 - restricted cash is never silently treated as available, and says so when unreported
+      ---
+      duration_ms: 3.185405
+      type: 'test'
+      ...
+    # Subtest: a pre-Ind-AS-116 series is flagged instead of being compared like-for-like
+    ok 3 - a pre-Ind-AS-116 series is flagged instead of being compared like-for-like
+      ---
+      duration_ms: 4.4606
+      type: 'test'
+      ...
+    # Subtest: minority interest and preference capital are carried into the equity bridge
+    ok 4 - minority interest and preference capital are carried into the equity bridge
+      ---
+      duration_ms: 6.107253
+      type: 'test'
+      ...
+    # Subtest: an issuer with no balance sheet publishes an unavailable net debt, not a zero
+    ok 5 - an issuer with no balance sheet publishes an unavailable net debt, not a zero
+      ---
+      duration_ms: 2.402723
+      type: 'test'
+      ...
+    1..5
+ok 2 - AC-2.6 — net debt, leases and the other claims on equity
+  ---
+  duration_ms: 20.116746
+  type: 'suite'
+  ...
+# Subtest: L-038 — Decision A (retained): four debt components, one instant
+    # Subtest: same-instant debt components remain publishable and the total carries its instant
+    ok 1 - same-instant debt components remain publishable and the total carries its instant
+      ---
+      duration_ms: 15.327688
+      type: 'test'
+      ...
+    # Subtest: a debt component from an older period still blocks gross debt — no anchoring, no fallback
+    ok 2 - a debt component from an older period still blocks gross debt — no anchoring, no fallback
+      ---
+      duration_ms: 4.181814
+      type: 'test'
+      ...
+    1..2
+ok 3 - L-038 — Decision A (retained): four debt components, one instant
+  ---
+  duration_ms: 20.606972
+  type: 'suite'
+  ...
+# Subtest: L-038 — Decision B (selected): the cash side must belong to one instant
+    # Subtest: same-instant cash and current investments produce cashAndInvestments, with its instant
+    ok 1 - same-instant cash and current investments produce cashAndInvestments, with its instant
+      ---
+      duration_ms: 2.765956
+      type: 'test'
+      ...
+    # Subtest: cash and current investments from different instants withhold cashAndInvestments
+    ok 2 - cash and current investments from different instants withhold cashAndInvestments
+      ---
+      duration_ms: 4.727545
+      type: 'test'
+      ...
+    # Subtest: same-instant debt and cash aggregates produce net debt
+    ok 3 - same-instant debt and cash aggregates produce net debt
+      ---
+      duration_ms: 3.109115
+      type: 'test'
+      ...
+    # Subtest: debt and cash side from different instants withhold net debt, naming both instants
+    ok 4 - debt and cash side from different instants withhold net debt, naming both instants
+      ---
+      duration_ms: 3.47927
+      type: 'test'
+      ...
+    # Subtest: the synthetic two-instant case that used to publish a number now publishes nothing
+    ok 5 - the synthetic two-instant case that used to publish a number now publishes nothing
+      ---
+      duration_ms: 6.821211
+      type: 'test'
+      ...
+    # Subtest: a missing cash component stays missing — never zero, never a period complaint
+    ok 6 - a missing cash component stays missing — never zero, never a period complaint
+      ---
+      duration_ms: 2.987728
+      type: 'test'
+      ...
+    # Subtest: a declared-nil debt component still counts as zero, and the cash side still refuses to zero anything
+    ok 7 - a declared-nil debt component still counts as zero, and the cash side still refuses to zero anything
+      ---
+      duration_ms: 4.462738
+      type: 'test'
+      ...
+    1..7
+ok 4 - L-038 — Decision B (selected): the cash side must belong to one instant
+  ---
+  duration_ms: 29.30633
+  type: 'suite'
+  ...
+# Subtest: L-038 — existing evidence stays classified as it was
+    # Subtest: Marico: both cash components are 2024-03-31, so the cash side stays same-instant under the new rule
+    ok 1 - Marico: both cash components are 2024-03-31, so the cash side stays same-instant under the new rule
+      ---
+      duration_ms: 1.345835
+      type: 'test'
+      ...
+    # Subtest: KEC: current investments are NOT_REPORTED, which is absence rather than a period mismatch
+    ok 2 - KEC: current investments are NOT_REPORTED, which is absence rather than a period mismatch
+      ---
+      duration_ms: 0.7829
+      type: 'test'
+      ...
+    1..2
+ok 5 - L-038 — existing evidence stays classified as it was
+  ---
+  duration_ms: 2.404421
+  type: 'suite'
+  ...
+# Subtest: L-038 — the caption WI-7 recorded as absent is printed, and what it prints is mostly a dash
+    # Subtest: the FY2023-24 report prints the scheduled-maturity table, with a dash for FY2024 and a zero for FY2023
+    ok 1 - the FY2023-24 report prints the scheduled-maturity table, with a dash for FY2024 and a zero for FY2023
+      ---
+      duration_ms: 1.853851
+      type: 'test'
+      ...
+    # Subtest: the FY2022-23 report prints the same row and the same zero, and its total is a dash
+    ok 2 - the FY2022-23 report prints the same row and the same zero, and its total is a dash
+      ---
+      duration_ms: 1.761828
+      type: 'test'
+      ...
+    # Subtest: the FY2022-23 reconciliation adds nothing for current maturities, and 477 + 0 - 4 = 473
+    ok 3 - the FY2022-23 reconciliation adds nothing for current maturities, and 477 + 0 - 4 = 473
+      ---
+      duration_ms: 0.663496
+      type: 'test'
+      ...
+    # Subtest: the FY2023-24 reconciliation prints 396 / 13 / 383 and carries no "Add: current maturities" line
+    ok 4 - the FY2023-24 reconciliation prints 396 / 13 / 383 and carries no "Add: current maturities" line
+      ---
+      duration_ms: 0.611703
+      type: 'test'
+      ...
+    # Subtest: every extract reproduces WI-7's page byte-for-byte where the two bundles overlap
+    ok 5 - every extract reproduces WI-7's page byte-for-byte where the two bundles overlap
+      ---
+      duration_ms: 1.491666
+      type: 'test'
+      ...
+    # Subtest: every extract names its source bytes, its PDF page and its digest
+    ok 6 - every extract names its source bytes, its PDF page and its digest
+      ---
+      duration_ms: 2.664559
+      type: 'test'
+      ...
+    # Subtest: the search log accounts for every page, and establishes that no net-debt or preference line exists
+    ok 7 - the search log accounts for every page, and establishes that no net-debt or preference line exists
+      ---
+      duration_ms: 0.435077
+      type: 'test'
+      ...
+    1..7
+ok 6 - L-038 — the caption WI-7 recorded as absent is printed, and what it prints is mostly a dash
+  ---
+  duration_ms: 11.178611
+  type: 'suite'
+  ...
+# Subtest: L-038 — the corrected input, and the one cell that changed
+    # Subtest: the corrected input differs from WI-7 in exactly one cell, and WI-7 still carries the blank
+    ok 1 - the corrected input differs from WI-7 in exactly one cell, and WI-7 still carries the blank
+      ---
+      duration_ms: 1.163248
+      type: 'test'
+      ...
+    # Subtest: the extraction note quotes the WI-7 sentence it supersedes and says what does not change
+    ok 2 - the extraction note quotes the WI-7 sentence it supersedes and says what does not change
+      ---
+      duration_ms: 0.753496
+      type: 'test'
+      ...
+    # Subtest: the identity inputs are byte-identical copies of WI-7 (nothing else was touched)
+    ok 3 - the identity inputs are byte-identical copies of WI-7 (nothing else was touched)
+      ---
+      duration_ms: 0.834379
+      type: 'test'
+      ...
+    1..3
+ok 7 - L-038 — the corrected input, and the one cell that changed
+  ---
+  duration_ms: 3.288686
+  type: 'suite'
+  ...
+# Subtest: L-038 — the payload refuses for the true reason, and publishes no debt figure
+    # Subtest: FY2023 current maturities is the printed zero, carried with its own period end
+    ok 1 - FY2023 current maturities is the printed zero, carried with its own period end
+      ---
+      duration_ms: 0.346775
+      type: 'test'
+      ...
+    # Subtest: gross debt and net debt refuse with PERIOD_MISMATCH, and name all four component periods
+    ok 2 - gross debt and net debt refuse with PERIOD_MISMATCH, and name all four component periods
+      ---
+      duration_ms: 0.189977
+      type: 'test'
+      ...
+    # Subtest: the balance-sheet claims are unchanged: cash side present, preference absent, leases and NCI present
+    ok 3 - the balance-sheet claims are unchanged: cash side present, preference absent, leases and NCI present
+      ---
+      duration_ms: 0.16505
+      type: 'test'
+      ...
+    # Subtest: the filing's own 'net debt' is borrowing-only, and is not the governed net debt
+    ok 4 - the filing's own 'net debt' is borrowing-only, and is not the governed net debt
+      ---
+      duration_ms: 1.119354
+      type: 'test'
+      ...
+    # Subtest: the authorised preference line is not issued capital, and the second bridge blocker is recorded
+    ok 5 - the authorised preference line is not issued capital, and the second bridge blocker is recorded
+      ---
+      duration_ms: 0.753163
+      type: 'test'
+      ...
+    # Subtest: every enterprise-to-equity output stays withheld, and the withheld reason is the true one
+    ok 6 - every enterprise-to-equity output stays withheld, and the withheld reason is the true one
+      ---
+      duration_ms: 0.461511
+      type: 'test'
+      ...
+    # Subtest: the two debt figures the dashes would produce appear nowhere in the payload
+    ok 7 - the two debt figures the dashes would produce appear nowhere in the payload
+      ---
+      duration_ms: 0.668025
+      type: 'test'
+      ...
+    # Subtest: the payload on disk is the payload that was read back, by digest
+    ok 8 - the payload on disk is the payload that was read back, by digest
+      ---
+      duration_ms: 3.421628
+      type: 'test'
+      ...
+    # Subtest: the payload diff shows the nine pre-correction cells being withdrawn — the L-040 shape, not a new defect
+    ok 9 - the payload diff shows the nine pre-correction cells being withdrawn — the L-040 shape, not a new defect
+      ---
+      duration_ms: 0.516874
+      type: 'test'
+      ...
+    1..9
+ok 8 - L-038 — the payload refuses for the true reason, and publishes no debt figure
+  ---
+  duration_ms: 8.258437
+  type: 'suite'
+  ...
+# Subtest: L-038 — the superseded artifact is preserved, and the determination says what happened
+    # Subtest: WI-7's payload is byte-identical and still carries its nine pre-correction per-share cells
+    ok 1 - WI-7's payload is byte-identical and still carries its nine pre-correction per-share cells
+      ---
+      duration_ms: 1.051556
+      type: 'test'
+      ...
+    # Subtest: the 608 / -177 / 487 crore figures reconcile, and only at their own period ends
+    ok 2 - the 608 / -177 / 487 crore figures reconcile, and only at their own period ends
+      ---
+      duration_ms: 0.732223
+      type: 'test'
+      ...
+    # Subtest: the determination records the outcome, the correction and the undecided question
+    ok 3 - the determination records the outcome, the correction and the undecided question
+      ---
+      duration_ms: 0.19553
+      type: 'test'
+      ...
+    # Subtest: the manifest digests every shipped file, and nothing drifted
+    ok 4 - the manifest digests every shipped file, and nothing drifted
+      ---
+      duration_ms: 2.108756
+      type: 'test'
+      ...
+    1..4
+ok 9 - L-038 — the superseded artifact is preserved, and the determination says what happened
+  ---
+  duration_ms: 4.328168
+  type: 'suite'
+  ...
+# Subtest: L-038 — the same pipeline closes the bridge when the four components meet at one instant
+    # Subtest: all four present at one period end: gross debt publishes and the bridge converts
+    ok 1 - all four present at one period end: gross debt publishes and the bridge converts
+      ---
+      duration_ms: 15.965849
+      type: 'test'
+      ...
+    # Subtest: one component from an older period reproduces Marico's PERIOD_MISMATCH, and publishes nothing
+    ok 2 - one component from an older period reproduces Marico's PERIOD_MISMATCH, and publishes nothing
+      ---
+      duration_ms: 4.06995
+      type: 'test'
+      ...
+    # Subtest: a component absent everywhere is NOT_REPORTED — the reason WI-7 recorded, and no longer the reason here
+    ok 3 - a component absent everywhere is NOT_REPORTED — the reason WI-7 recorded, and no longer the reason here
+      ---
+      duration_ms: 4.293987
+      type: 'test'
+      ...
+    1..3
+ok 10 - L-038 — the same pipeline closes the bridge when the four components meet at one instant
+  ---
+  duration_ms: 24.568869
+  type: 'suite'
+  ...
+# Subtest: L-039 — the filing prints no current-investments caption (evidence, not inference)
+    # Subtest: the consolidated balance sheet enumerates four current financial-asset captions, none of them investments
+    ok 1 - the consolidated balance sheet enumerates four current financial-asset captions, none of them investments
+      ---
+      duration_ms: 2.05521
+      type: 'test'
+      ...
+    # Subtest: the FY2024-25 report prints the same four captions for FY2025 and FY2024
+    ok 2 - the FY2024-25 report prints the same four captions for FY2025 and FY2024
+      ---
+      duration_ms: 0.760483
+      type: 'test'
+      ...
+    # Subtest: Note 10 is headed "Non-current:" only, and its amount is sub-rounding
+    ok 3 - Note 10 is headed "Non-current:" only, and its amount is sub-rounding
+      ---
+      duration_ms: 0.606363
+      type: 'test'
+      ...
+    # Subtest: Note 18 is bank balances, itemised: earmarked dividend, a 3-to-12-month deposit, and margin money
+    ok 4 - Note 18 is bank balances, itemised: earmarked dividend, a 3-to-12-month deposit, and margin money
+      ---
+      duration_ms: 1.235852
+      type: 'test'
+      ...
+    # Subtest: Note 19 is deposits, accrued interest, insurance claims, derivatives and reimbursables
+    ok 5 - Note 19 is deposits, accrued interest, insurance claims, derivatives and reimbursables
+      ---
+      duration_ms: 2.585229
+      type: 'test'
+      ...
+    # Subtest: the Ind AS 107 classification names exactly one investment line, and it is non-current
+    ok 6 - the Ind AS 107 classification names exactly one investment line, and it is non-current
+      ---
+      duration_ms: 0.649001
+      type: 'test'
+      ...
+    # Subtest: the cash-flow statement has no investment purchase or sale line
+    ok 7 - the cash-flow statement has no investment purchase or sale line
+      ---
+      duration_ms: 1.893469
+      type: 'test'
+      ...
+    # Subtest: the search over all 421 pages is recorded, and explains every "current investment" hit
+    ok 8 - the search over all 421 pages is recorded, and explains every "current investment" hit
+      ---
+      duration_ms: 0.896673
+      type: 'test'
+      ...
+    # Subtest: the determination says no mapping was applied and no dataset moved
+    ok 9 - the determination says no mapping was applied and no dataset moved
+      ---
+      duration_ms: 1.152593
+      type: 'test'
+      ...
+    # Subtest: the source bytes are the two reports, by hash and size, with the absent third recorded
+    ok 10 - the source bytes are the two reports, by hash and size, with the absent third recorded
+      ---
+      duration_ms: 0.703697
+      type: 'test'
+      ...
+    1..10
+ok 11 - L-039 — the filing prints no current-investments caption (evidence, not inference)
+  ---
+  duration_ms: 14.365302
+  type: 'suite'
+  ...
+# Subtest: L-039 — the payload refuses the cash side and publishes no substitute for it
+    # Subtest: gross debt and cash are published; current investments, cash-and-investments and net debt are not
+    ok 1 - gross debt and cash are published; current investments, cash-and-investments and net debt are not
+      ---
+      duration_ms: 0.399668
+      type: 'test'
+      ...
+    # Subtest: gross debt minus cash is published nowhere in the payload
+    ok 2 - gross debt minus cash is published nowhere in the payload
+      ---
+      duration_ms: 0.525205
+      type: 'test'
+      ...
+    # Subtest: every output that depends on the bridge stays withheld
+    ok 3 - every output that depends on the bridge stays withheld
+      ---
+      duration_ms: 0.458151
+      type: 'test'
+      ...
+    # Subtest: the re-run reproduced both digests, and the bundle is internally consistent
+    ok 4 - the re-run reproduced both digests, and the bundle is internally consistent
+      ---
+      duration_ms: 3.173518
+      type: 'test'
+      ...
+    1..4
+ok 12 - L-039 — the payload refuses the cash side and publishes no substitute for it
+  ---
+  duration_ms: 4.842615
+  type: 'suite'
+  ...
+# Subtest: L-039 — reported zero, declared nil and absence are three different things
+    # Subtest: the caption absent: the bridge refuses, exactly as it does for KEC
+    ok 1 - the caption absent: the bridge refuses, exactly as it does for KEC
+      ---
+      duration_ms: 16.142663
+      type: 'test'
+      ...
+    # Subtest: a reported current-investments NUMBER closes the bridge and produces a per-share value
+    ok 2 - a reported current-investments NUMBER closes the bridge and produces a per-share value
+      ---
+      duration_ms: 6.801882
+      type: 'test'
+      ...
+    # Subtest: a reported ZERO closes it too — a zero is information, an absence is not
+    ok 3 - a reported ZERO closes it too — a zero is information, an absence is not
+      ---
+      duration_ms: 3.464739
+      type: 'test'
+      ...
+    # Subtest: a DECLARED NIL is recorded with the filer words, and the cash sum does not yet treat it as zero
+    ok 4 - a DECLARED NIL is recorded with the filer words, and the cash sum does not yet treat it as zero
+      ---
+      duration_ms: 3.042879
+      type: 'test'
+      ...
+    1..4
+ok 13 - L-039 — reported zero, declared nil and absence are three different things
+  ---
+  duration_ms: 29.72818
+  type: 'suite'
+  ...
+# Subtest: A — the six states are distinguishable, and a nil cannot exist without provenance
+    # Subtest: a declared nil carries no value, a positive reason, its source and its period
+    ok 1 - a declared nil carries no value, a positive reason, its source and its period
+      ---
+      duration_ms: 1.316547
+      type: 'test'
+      ...
+    # Subtest: a reported zero and a declared nil are different claims and stay distinguishable
+    ok 2 - a reported zero and a declared nil are different claims and stay distinguishable
+      ---
+      duration_ms: 0.176478
+      type: 'test'
+      ...
+    # Subtest: the three absentee states keep their own spelling
+    ok 3 - the three absentee states keep their own spelling
+      ---
+      duration_ms: 0.35009
+      type: 'test'
+      ...
+    # Subtest: a nil without a period end, with no source, or with no quoted wording is refused at construction (INV-7)
+    ok 4 - a nil without a period end, with no source, or with no quoted wording is refused at construction (INV-7)
+      ---
+      duration_ms: 0.37424
+      type: 'test'
+      ...
+    # Subtest: the invariant checker rejects a hand-built nil that has lost its provenance
+    ok 5 - the invariant checker rejects a hand-built nil that has lost its provenance
+      ---
+      duration_ms: 0.119887
+      type: 'test'
+      ...
+    1..5
+ok 14 - A — the six states are distinguishable, and a nil cannot exist without provenance
+  ---
+  duration_ms: 3.143126
+  type: 'suite'
+  ...
+# Subtest: B — the operator input path keeps NIL, blank and 0 apart
+    # Subtest: the cell grammar accepts NIL and NIL: <what the filing says>, and nothing looser
+    ok 1 - the cell grammar accepts NIL and NIL: <what the filing says>, and nothing looser
+      ---
+      duration_ms: 0.516013
+      type: 'test'
+      ...
+    # Subtest: NIL becomes a provenance-bearing nil; blank stays NOT_REPORTED; 0 stays a reported zero
+    ok 2 - NIL becomes a provenance-bearing nil; blank stays NOT_REPORTED; 0 stays a reported zero
+      ---
+      duration_ms: 2.552153
+      type: 'test'
+      ...
+    # Subtest: [required] a nil cell with no quoted filing wording is refused, so an omitted line cannot become a nil
+    ok 3 - [required] a nil cell with no quoted filing wording is refused, so an omitted line cannot become a nil
+      ---
+      duration_ms: 1.327831
+      type: 'test'
+      ...
+    # Subtest: a nil on a derived item is an error, not a value
+    ok 4 - a nil on a derived item is an error, not a value
+      ---
+      duration_ms: 0.75315
+      type: 'test'
+      ...
+    # Subtest: a nil with no filing reference is refused rather than accepted without provenance
+    ok 5 - a nil with no filing reference is refused rather than accepted without provenance
+      ---
+      duration_ms: 0.706547
+      type: 'test'
+      ...
+    # Subtest: [required] a row that both reports and declares nil for the same item is an error, and neither is used
+    ok 6 - [required] a row that both reports and declares nil for the same item is an error, and neither is used
+      ---
+      duration_ms: 6.891218
+      type: 'test'
+      ...
+    # Subtest: a conflicting dataset blocks the debt position instead of resolving it
+    ok 7 - a conflicting dataset blocks the debt position instead of resolving it
+      ---
+      duration_ms: 8.700142
+      type: 'test'
+      ...
+    1..7
+ok 15 - B — the operator input path keeps NIL, blank and 0 apart
+  ---
+  duration_ms: 21.935697
+  type: 'suite'
+  ...
+# Subtest: C — the four debt components aggregate under one stated permission
+    # Subtest: [required] all four declared nil establishes a complete, zero gross debt with provenance
+    ok 1 - [required] all four declared nil establishes a complete, zero gross debt with provenance
+      ---
+      duration_ms: 6.082027
+      type: 'test'
+      ...
+    # Subtest: [required] four reported zeros are not nils: the aggregate is the same number from different claims
+    ok 2 - [required] four reported zeros are not nils: the aggregate is the same number from different claims
+      ---
+      duration_ms: 2.426224
+      type: 'test'
+      ...
+    # Subtest: [required] a debt-bearing issuer is unchanged: reported borrowings aggregate exactly as before
+    ok 3 - [required] a debt-bearing issuer is unchanged: reported borrowings aggregate exactly as before
+      ---
+      duration_ms: 2.429331
+      type: 'test'
+      ...
+    # Subtest: [required] mixed positive and nil components aggregate, and only the nil ones are named
+    ok 4 - [required] mixed positive and nil components aggregate, and only the nil ones are named
+      ---
+      duration_ms: 10.076665
+      type: 'test'
+      ...
+    # Subtest: [required] one component not reported still blocks the debt position
+    ok 5 - [required] one component not reported still blocks the debt position
+      ---
+      duration_ms: 3.158
+      type: 'test'
+      ...
+    # Subtest: [required] one component whose source is unavailable still blocks the debt position
+    ok 6 - [required] one component whose source is unavailable still blocks the debt position
+      ---
+      duration_ms: 2.89912
+      type: 'test'
+      ...
+    # Subtest: [required] one unmapped component still blocks the debt position
+    ok 7 - [required] one unmapped component still blocks the debt position
+      ---
+      duration_ms: 3.459705
+      type: 'test'
+      ...
+    # Subtest: [required] a conflicting disclosure blocks the debt position instead of being resolved
+    ok 8 - [required] a conflicting disclosure blocks the debt position instead of being resolved
+      ---
+      duration_ms: 4.54849
+      type: 'test'
+      ...
+    # Subtest: [required] components from different reporting periods are refused, never summed silently
+    ok 9 - [required] components from different reporting periods are refused, never summed silently
+      ---
+      duration_ms: 3.131006
+      type: 'test'
+      ...
+    1..9
+ok 16 - C — the four debt components aggregate under one stated permission
+  ---
+  duration_ms: 38.809454
+  type: 'suite'
+  ...
+# Subtest: D — downstream calculations consume the aggregate only when it is qualified
+    # Subtest: [required] a debt-free issuer now reaches the enterprise-to-equity bridge and per-share values
+    ok 1 - [required] a debt-free issuer now reaches the enterprise-to-equity bridge and per-share values
+      ---
+      duration_ms: 4.289996
+      type: 'test'
+      ...
+    # Subtest: the declared-nil debt is disclosed in the payload prose, with its consequence
+    ok 2 - the declared-nil debt is disclosed in the payload prose, with its consequence
+      ---
+      duration_ms: 2.329355
+      type: 'test'
+      ...
+    # Subtest: moat, leverage and dividend cover consume the resolved block rather than a partial bridge
+    ok 3 - moat, leverage and dividend cover consume the resolved block rather than a partial bridge
+      ---
+      duration_ms: 2.292091
+      type: 'test'
+      ...
+    # Subtest: [required] an unreported component keeps every dependent calculation unavailable
+    ok 4 - [required] an unreported component keeps every dependent calculation unavailable
+      ---
+      duration_ms: 2.658569
+      type: 'test'
+      ...
+    # Subtest: [required] a period mismatch withholds rather than blending two balance sheets
+    ok 5 - [required] a period mismatch withholds rather than blending two balance sheets
+      ---
+      duration_ms: 9.635804
+      type: 'test'
+      ...
+    1..5
+ok 17 - D — downstream calculations consume the aggregate only when it is qualified
+  ---
+  duration_ms: 21.553951
+  type: 'suite'
+  ...
+# Subtest: E — the Work Item 1 filing states nothing about borrowings, so the components stay NOT_REPORTED
+    # Subtest: [required] the filed facts are expressible without an inferred zero: borrowings are NOT_REPORTED, leases are reported
+    ok 1 - [required] the filed facts are expressible without an inferred zero: borrowings are NOT_REPORTED, leases are reported
+      ---
+      duration_ms: 13.444937
+      type: 'test'
+      ...
+    # Subtest: [required] the filing cannot be upgraded to a nil by typing NIL: an unquoted declaration is rejected
+    ok 2 - [required] the filing cannot be upgraded to a nil by typing NIL: an unquoted declaration is rejected
+      ---
+      duration_ms: 6.014907
+      type: 'test'
+      ...
+    # Subtest: the difference is a quoted statement, not an absent line: only an asserted nil produces the lease-only gross debt
+    ok 3 - the difference is a quoted statement, not an absent line: only an asserted nil produces the lease-only gross debt
+      ---
+      duration_ms: 3.233212
+      type: 'test'
+      ...
+    1..3
+ok 18 - E — the Work Item 1 filing states nothing about borrowings, so the components stay NOT_REPORTED
+  ---
+  duration_ms: 22.973506
+  type: 'suite'
+  ...
+1..18
+# tests 92
+# suites 18
+# pass 92
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1488.38886

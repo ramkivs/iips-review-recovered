@@ -1,0 +1,47 @@
+# L-038 residual — preference capital: what the committed evidence actually says
+
+## 1. The one extracted share-capital page (FY2023-24 report, PDF p.189)
+   evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy24-note-12a-authorised-and-issued-share-capital-pdf-page189.txt  sha256=d6813584d85c66910e903f7123cbc0a23f418fbfb7184d7b85f3991c155d26bf
+   The sheet carries two printed pages side by side; only the LEFT column is quoted below, cell by cell.
+   line   36 (the preference class, authorised only):
+              Preference shares of H 10/- each │ 7 │ 65
+   line   45 (the issued table: equity shares only):
+              1,29,30,84,378 equity shares of H 1/- each fully paid-up │ 129 │ 129
+   line   66 (the rights paragraph's enumeration):
+              Equity Shares: The authorised share capital of the Company comprises of 150 Crores equity share of Re. 1 each and 8 Crores
+   -- reading: a preference class exists ONLY in I Authorised share capital (7 crore shares, ₹65 crore);
+      II Issued, subscribed and paid-up lists equity shares only and totals 129 / 129; the
+      'Rights, preferences and restrictions' paragraph enumerates 150 crore equity ₹1 + 8 crore equity ₹10
+      and does not mention the preference class the table above it prints.
+
+## 2. The completed caption search (WI-7 bundle), not re-run here
+   evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/caption-search-log.txt  sha256=8a7cb909aabaf98e12100dcb25b116baed5fde669994a7c66264523eac75e719
+   #   * `preference\s+share` occurs on four pages, and every hit is the same table: Note 12(a)'s AUTHORISED share
+   #     preference row — not even a dash. So no issued preference capital exists to map, and nothing states in words that
+   #     total, which D-2 forbids. PREFERENCE_CAPITAL therefore stays NOT_REPORTED.
+   pages carrying the caption: fy24 p189, fy24 p233, fy24 p254, fy23 p146, fy23 p195, fy23 p218
+
+## 3. Precedent A — WI-5 withdrew exactly this kind of inference (eClerx)
+   evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/README.md  sha256=d0b02eab1c76bab8f1ba6ac5a8c0696553f3c1cf7e6ff33b55b3acb25f9835cd
+   # WI-5 — second issuer validation: no qualifying nil-by-disclosure for eClerx Services Limited
+   **Issuer.** eClerx Services Limited — CIN `L72200MH2000PLC125319` (printed in the audited consolidated signature block
+   and on the consolidated balance sheet), NSE `ECLERX`, BSE `532927`, ISIN `INE738I01010` (corroborated from market-data
+   references; not printed in the audited statements — see limitation 1).
+   **Question this bundle answers.** Does the audited consolidated filing declare any governed line item nil?
+   **Answer: no.** After review, the bundle's own earlier nil declaration — `PREFERENCE_CAPITAL` on the sentence *"The
+   Company has only one class of equity shares having a par value of Rs 10 per share."* — **has been withdrawn**. The
+   sentence is scoped by its heading (*"Terms / rights attached to equity shares"*) to equity shares and speaks about
+   classes of equity shares; it says nothing about preference shares. Nothing else in the filing declares preference share
+   capital nil, and presentation completeness is not a declaration.
+
+## 4. Precedent B — the L-035 review record accepted a nil only where wording declared one (Infosys)
+   evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/source/review-record.json  sha256=a7d11e0a3c7860490c7eb50d08bdb11b01319590fed6536d696da8ae8f9ef0d3
+   quoted wording : The Company has only one class of shares referred to as equity shares having a par value of ₹5/-.
+   binding        : BS/PREFERENCE_SHARE_CAPITAL/STANDALONE_COMPANY acceptedBy=WI-10 L-035 review 2026-11-07 (originally mapped by WI-3)
+   acceptance     : Accepted WITH a recorded scope nuance. The sentence speaks of "the Company" — the parent — and is applied to the consolidated capital block. Under the new grammar this mapping is legal only with an explicit acceptedBy, and this is that acceptance: consolidated owners' equity comprises only equity sh
+
+## Conclusion carried into determination-l038-residual.json
+   Marico's page has no sentence of the accepted shape: no 'one class of shares' declaration, no issued
+   preference row, no dash, no wording declaring the class nil. The authorised-capital row is the opposite
+   of a nil, and an enumeration that omits a class the same note prints cannot be read as declaring it nil.
+   PREFERENCE_CAPITAL stays MISSING / NOT_REPORTED.
