@@ -503,8 +503,8 @@ Partner                                                                         
 Membership No. 046476                                                                     [DIN 00210342]                                  [DIN 05251806]
                                                                                                                                                                                               PAWAN AGRAWAL                                                                                                                          VINAY M A
   PAWAN AGRAWAL                                                                                                                           VINAY M A                                           Chief Financial Officer                                                                                                                Company Secretary
-  Chief Financial Officer                                                                                                                 Company Secretary                                 		                                                                                                                                       [Membership No.FCS 11362]
-		                                                                                                                                        [Membership No.FCS 11362]
+  Chief Financial Officer                                                                                                                 Company Secretary                                                                                                                                                                          [Membership No.FCS 11362]
+                                                                                                                                          [Membership No.FCS 11362]
                                                                                                                                                                                             Place : Mumbai                                                                           Place : Mumbai
 Place : Mumbai                                                                            Place : Mumbai                                                                                    Date : May 02, 2025                                                                      Date : May 02, 2025
 Date : May 02, 2025                                                                       Date : May 02, 2025
@@ -635,7 +635,7 @@ Membership No. 046476                                                           
 
 
   Chief Financial Officer                                                                                                                                                                                          Company Secretary
-		                                                                                                                                                                                                                 [Membership No.FCS 11362]
+                                                                                                                                                                                                                   [Membership No.FCS 11362]
 
 Place : Mumbai                                                                                                                             Place : Mumbai                                                                                                                            339
 Date : May 02, 2025                                                                                                                        Date : May 02, 2025
@@ -699,7 +699,7 @@ B CASH FLOW FROM INVESTING ACTIVITIES                                           
   (Purchase) / redemption of Inter-corporate deposits (net)                                          -                 200
   (Investment in) / Redemption of bank deposits (having original maturity more than                343               (232)       PAWAN AGRAWAL                                                                                   VINAY M A
   3 months) (net)                                                                                                                Chief Financial Officer                                                                         Company Secretary
-  Interest received                                                                                70                  66      		                                                                                                [Membership No.FCS 11362]
+  Interest received                                                                                70                  66                                                                                                        [Membership No.FCS 11362]
   Net cash (utilised in)/ generated from investing activities (B)                               (621)                 176
 C CASH FLOW FROM FINANCING ACTIVITIES                                                                                          Place : Mumbai                                             Place : Mumbai
   Proceeds from issuance of share capital                                                           46                  34     Date : May 02, 2025                                        Date : May 02, 2025
@@ -1030,7 +1030,7 @@ iii)   The amount of the Group's profit before tax is shown in the table below. 
            International                                                                                  711                    634           Subsidiary companies:
        Total segment results                                                                           2,261                  2,157            Marico Bangladesh Limited (MBL)                                   Bangladesh                  90               90                 10          10
        Less : (i) Finance costs                                                                            53                     73           Marico Bangladesh Industries Limited (MBLIL)                      Bangladesh                 100              100                  -           -
-       		 (ii) Other un-allocable expenditure net of un-allocable income                                   92                    147           Marico Middle East FZE (MME)                                         UAE                     100              100                  -           -
+          (ii) Other un-allocable expenditure net of un-allocable income                                   92                    147           Marico Middle East FZE (MME)                                         UAE                     100              100                  -           -
        Profit before tax                                                                               2,116                  1,937            Marico Gulf LLC (MLLC)                                               UAE                     100              100                  -           -
                                                                                                                                                Marico Malaysia Sdn. Bhd. (MMSB)                                   Malaysia                  100              100                  -           -
                                                                                                                                                Egyptian American Investment and Industrial                         Egypt                    100              100                  -           -
@@ -1068,74 +1068,74 @@ to Consolidated financial statements for the period ended 31st March, 2025.
                                                                                                                                                                  to Consolidated financial statements for the period ended 31st March, 2025.
 
 
-                                                                                                                                                  H in crore     		         Ms. Apurva Purohit, Independent Director
-                                                                                                                               Ownership interest                		         Ms. Nayantara Bali, Independent Director
+                                                                                                                                                  H in crore                Ms. Apurva Purohit, Independent Director
+                                                                                                                               Ownership interest                           Ms. Nayantara Bali, Independent Director
                                                                                              Ownership interest
                                                                                                                                 held by the non
-                                                                        Place of             held by the Group                                                   		         Mr. Milind Barve, Independent Director
+                                                                        Place of             held by the Group                                                              Mr. Milind Barve, Independent Director
                                                                                                                                controlling interest
                                                                        Business/
-     Name of Entity                                                                                 31st          31st              31st             31st        		         Mr. Rajan Bharti Mittal, Independent Director
+     Name of Entity                                                                                 31st          31st              31st             31st                   Mr. Rajan Bharti Mittal, Independent Director
                                                                        Country of
                                                                                                March,           March,            March,           March,
-                                                                     Incorporation                                                                               		         Mr. Rajeev Vasudeva, Independent Director
+                                                                     Incorporation                                                                                          Mr. Rajeev Vasudeva, Independent Director
                                                                                                 2025             2024              2025             2024
-                                                                                                      %                %                 %                %      		         Mr. Rishabh Mariwala, Non-Executive Director
-     Zed Lifestyle Private Limited (ZED)                                    India                   100              100                -                -       		         Mr. Pawan Agrawal, Chief Financial Officer
+                                                                                                      %                %                 %                %                 Mr. Rishabh Mariwala, Non-Executive Director
+     Zed Lifestyle Private Limited (ZED)                                    India                   100              100                -                -                  Mr. Pawan Agrawal, Chief Financial Officer
      Apcos Naturals Private Limited** (APCOS)                               India                   100               60                -               40
-     HW Wellness Solutions Private Limited (HWW)                            India                 53.98            53.98            46.02            46.02       		         Mr. Vinay M A, Company Secretary & Compliance Officer
+     HW Wellness Solutions Private Limited (HWW)                            India                 53.98            53.98            46.02            46.02                  Mr. Vinay M A, Company Secretary & Compliance Officer
      Satiya Nutraceuticals Private Limited (SNPL) ***                       India                 51.36            51.36            48.64            48.64
                                                                                                                                                                       (c)   Individual holding directly / indirectly an interest in voting power & their relatives (where
      Juizo Advisory Private Limited*** (JAPL) [Wholly-                      India                 51.36            51.36            48.64            48.64
                                                                                                                                                                             transactions have taken place) - Significant Influence:
      owned subsidiary of SNPL]
-     Cocosecrets Consumer Care LLC **** (Cocosecrets)                       USA                     100                  -                -                -     		         Mr. Harsh Mariwala, Chairman and Non Executive Director
+     Cocosecrets Consumer Care LLC **** (Cocosecrets)                       USA                     100                  -                -                -                Mr. Harsh Mariwala, Chairman and Non Executive Director
 
-     * Post regulatory approvals in Vietnam, Beauty X Joint Stock Company merged with Marico South East Asia Corporation (effective date of the merger is July   		         Mr. Rajen Mariwala, Non executive Director
+     * Post regulatory approvals in Vietnam, Beauty X Joint Stock Company merged with Marico South East Asia Corporation (effective date of the merger is July              Mr. Rajen Mariwala, Non executive Director
      28, 2024), and its operations ceased on March 25, 2025. The merger is a common control business combination and has no impact on the Consolidated
      financial statements of the Group.
-                                                                                                                                                                 		         Mr. Rishabh Mariwala, Non-Executive Director and son of Mr. Harsh Mariwala, Chairman and Non-Executive Director
+                                                                                                                                                                            Mr. Rishabh Mariwala, Non-Executive Director and son of Mr. Harsh Mariwala, Chairman and Non-Executive Director
      ** The Company has acquired the remaining stake of 40.00% in Apcos from the existing shareholders, and consequently it has become a wholly-owned
      subsidiary of Marico Limited w.e.f. September 17, 2024.                                                                                                          (d) Post employment benefit controlled trust
      *** The Company acquired 32.84% equity stake in SNPL (equivalent to 32.75% on a fully diluted basis) and requisite majority control over its Board
-                                                                                                                                                                 		         Marico Limited Employees Provident Fund
+                                                                                                                                                                            Marico Limited Employees Provident Fund
      composition/total voting rights on July 26, 2023, and consequently, SNPL became a subsidiary of the Company. JAPL, a wholly owned subsidiary of SNPL
      also became a step-down subsidiary of the Company on account of the aforesaid transaction. Subsequently, the Company acquired additional equity stake
-                                                                                                                                                                 		         Marico Limited Employees Gratuity Fund
+                                                                                                                                                                            Marico Limited Employees Gratuity Fund
      of 18.54% in SNPL during the quarter ended December 31, 2023. The Company holds 51.36% in SNPL (equivalent to 51.24% on a fully diluted basis).
-     **** Cocosecrets was incorporated as a wholly-owned subsidiary of the Company on October 14, 2024.                                                          		         Marico Limited Pension Scheme
+     **** Cocosecrets was incorporated as a wholly-owned subsidiary of the Company on October 14, 2024.                                                                     Marico Limited Pension Scheme
 
      The Marico Innovation Foundation (“MIF”), a company incorporated under Section 25 of the Companies Act, 1956 (being a                                            (e)   Others - Entities in which above (b) and (c) has significant influence and transactions have taken place:
      private company limited by guarantee not having share capital) primarily with an objective of fuelling and promoting innovation
-                                                                                                                                                                 		         Ascent India Foundation
+                                                                                                                                                                            Ascent India Foundation
      in India, is a subsidiary of the Company with effect from 15 March, 2013.
-                                                                                                                                                                 		Kaya Limited
+                                                                                                                                                                   Kaya Limited
      Parachute Kalpavriksha Foundation (“PKF”), a company incorporated under Section 8 of the Companies Act, 2013 (being a
-     private company limited by guarantee not having share capital) primarily with an objective of undertaking/channelizing the                                  		         Mariwala Health Foundation
+     private company limited by guarantee not having share capital) primarily with an objective of undertaking/channelizing the                                             Mariwala Health Foundation
      CSR activities of the Company towards community and ecological sustenance, is a subsidiary of the Company with effect from 27
-     December, 2018.                                                                                                                                             		         Sharrp Ventures Capital Private Limited
+     December, 2018.                                                                                                                                                        Sharrp Ventures Capital Private Limited
 
-                                                                                                                                                                 		         Leap India Private Limited (Ceased w.e.f. September 14, 2023)
+                                                                                                                                                                            Leap India Private Limited (Ceased w.e.f. September 14, 2023)
 32 Related Party Transactions
 I    Name of related parties and nature of relationship:                                                                                                         II   Transactions with related parties
 
      (a) Subsidiaries - Not consolidated                                                                                                                              The following transactions occurred with related parties:
 
-		         Marico Innovation Foundation (MIF)                                                                                                                         Key management personnel compensation
+           Marico Innovation Foundation (MIF)                                                                                                                         Key management personnel compensation
                                                                                                                                                                                                                                                                                                H in crore
-		         Parachute Kalpavriksha Foundation (PKF)                                                                                                                    Particulars                                                                          31st March, 2025        31st March, 2024
+           Parachute Kalpavriksha Foundation (PKF)                                                                                                                    Particulars                                                                          31st March, 2025        31st March, 2024
 
      (b) Key management personnel (KMP):                                                                                                                              Employee share-based payment                                                                          24                        1
                                                                                                                                                                       Short-term employee benefits                                                                          29                       31
-		         Mr. Harsh Mariwala, Chairman and Non-Executive Director                                                                                                    Total compensation                                                                                    52                       32
-		         Mr. Saugata Gupta, Managing Director and CEO                                                                                                               Remuneration / sitting fees to Chairman                                                                1                        1
+           Mr. Harsh Mariwala, Chairman and Non-Executive Director                                                                                                    Total compensation                                                                                    52                       32
+           Mr. Saugata Gupta, Managing Director and CEO                                                                                                               Remuneration / sitting fees to Chairman                                                                1                        1
                                                                                                                                                                       Remuneration / sitting fees to Non-Executive Directors and                                             5                        5
-		         Mr. Ananth Sankaranarayanan, Independent Director                                                                                                          Independent Directors (Excluding the Chairman)
-		         Ms. Hema Ravichandar, Independent Director (Ceased w.e.f. end of day on March 31, 2024)
+           Mr. Ananth Sankaranarayanan, Independent Director                                                                                                          Independent Directors (Excluding the Chairman)
+           Ms. Hema Ravichandar, Independent Director (Ceased w.e.f. end of day on March 31, 2024)
 
-		         Mr. Nikhil Khattau, Non-Independent Director Non-Executive Director
+           Mr. Nikhil Khattau, Non-Independent Director Non-Executive Director
 
-		         Mr. Rajendra Mariwala, Non-Executive Director
+           Mr. Rajendra Mariwala, Non-Executive Director
 === END PAGE 201 of /tmp/ar25.pdf ===
 === BEGIN PAGE 203 of /tmp/ar25.pdf ===
         I n te gr a te d An n ua l R e p or t 2 0 2 4 -2 5                                                                                                                                                                            • Corporate Overview • Statutory Reports • Financial Statements

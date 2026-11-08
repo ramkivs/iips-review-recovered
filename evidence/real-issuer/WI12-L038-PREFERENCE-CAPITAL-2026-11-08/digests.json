@@ -1,11 +1,11 @@
 {
  "bundle": "WI-12 / L-038 — preference capital across the three most recent audited consolidated annual reports: negative determination",
  "generatedOn": "2026-11-08",
- "note": "Every file this bundle carries except this manifest. Verify by re-hashing each path. The four runner locator logs under runs/ are the raw provenance of every extract under source/; README §8 records their pre-trim digests, which equal the blobs the runners committed to .l038-temp/.",
+ "note": "Every file this bundle carries except this manifest. Verify by re-hashing each path. The four runner locator logs under runs/ are the raw provenance of every extract under source/; README §8 records their pre-normalisation digests, which equal the blobs the runners committed to .l038-temp/.",
  "files": {
   "README.md": {
-   "sha256": "99f128b0f3c46766e2d702ef096afdc75796c6974a739a6875ad56d1b6845c26",
-   "bytes": 17276
+   "sha256": "6cd071562ed005d80c88be068274dad41ec61eeeaea2b558a567537bc522064b",
+   "bytes": 17428
   },
   "determination.json": {
    "sha256": "0894fc0bda31026fae6c89751fb18b4056578eea66fe1984f6050359cafed4bd",
@@ -16,11 +16,11 @@
    "bytes": 47351
   },
   "runs/02-fy2425-locator-report.txt": {
-   "sha256": "ee4c8f3b2209a3181899fedef8e6315faacd6431044c392b5caf599eb0ab3ffb",
+   "sha256": "40086d89081e6f018b019b3654cb761a043b42a55637661a63eb0a7fa761f64a",
    "bytes": 221994
   },
   "runs/03-fy2526-locator-report.txt": {
-   "sha256": "80cdb9b5025ff94f779e8712c2e5eb284b698dfc3680bcef8fd0f842bf7ac2cf",
+   "sha256": "d079fb852f946a33cf161e717baf37f2e182135b0af5eb43928a2a22e1ce41fa",
    "bytes": 286080
   },
   "runs/04-fy26-standalone-report.txt": {

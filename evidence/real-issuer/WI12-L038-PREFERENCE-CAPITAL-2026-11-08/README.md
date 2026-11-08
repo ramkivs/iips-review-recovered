@@ -202,11 +202,13 @@ Re-hashing every path against `digests.json` reproduces the bundle. Extraction m
 runners, one page range at a time; multi-column pages keep their horizontal layout, so a printed line may carry text
 from two notes — **columns are never re-assembled into one logical row**, here or in the extracts.
 
-**One normalisation, declared rather than silent.** The runner wrote its logs with trailing spaces on a handful of
-lines. The published copies of those five files have trailing whitespace stripped and a single terminating newline,
-which changes no column position and no character of text. The digests below are of the **published** bytes; the
-digests before that trim are recorded here so the runner output can still be matched byte-for-byte against the
-commits the runners themselves pushed (`.l038-temp/*` in `6ccf1de`, `695085a`, `5c03cbb`, `5630bf4`):
+**Two normalisations, declared rather than silent.** The runner's logs carried trailing spaces on a handful of lines
+and, on a few pages, tab characters that `pdftotext` emits as column separators. In the published copies every tab
+became one space, trailing whitespace was stripped, and each file ends with a single newline; no character of text was
+added, removed or reordered, and no cell was moved into another column. The digests in `digests.json` are of the
+**published** bytes. The digests **before** normalisation are recorded here, so the runner output can still be matched
+byte-for-byte against the blobs the runners themselves pushed (`.l038-temp/*` in `6ccf1de`, `695085a`, `5c03cbb`,
+`5630bf4`):
 
 | File | sha256 before trim (= runner commit blob) | runner commit |
 | --- | --- | --- |

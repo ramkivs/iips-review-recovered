@@ -398,14 +398,14 @@ Not Applicable
 
 For and on behalf of the Board of Directors
 
-HARSH MARIWALA							SAUGATA GUPTA
-Chairman								     Managing Director & CEO
-DIN: 00210342							DIN: 05251806
+HARSH MARIWALA       SAUGATA GUPTA
+Chairman             Managing Director & CEO
+DIN: 00210342       DIN: 05251806
 
-PAWAN AGRAWAL							                                                                      VINAY M A
-Chief Financial Officer						                                                             Company Secretary
+PAWAN AGRAWAL                                                                             VINAY M A
+Chief Financial Officer                                                                   Company Secretary
                                                                                                                                                                                                                                                                                    Financial Statements
-									                                                                                 Membership No. FCS 11362
+                                                                                          Membership No. FCS 11362
 Place: Mumbai
 Date: May 5, 2026
                                                                                                                                                                                                                                                                                                                     365
@@ -926,41 +926,41 @@ for the year ended 31st March, 2026
      Marico Bangladesh Industries Limited (MBLIL)*                      Bangladesh                   NA               100                 -                -      I    Name of related parties and nature of relationship:
      Marico Middle East FZE (MME)                                          UAE                       100              100                 -                -           (a) Subsidiaries - Not consolidated
      Marico Gulf LLC (MLLC)                                                UAE                       100              100                 -                -
-     Marico Malaysia Sdn. Bhd. (MMSB)                                    Malaysia                    100              100                 -                -      		         Marico Innovation Foundation (MIF)
-     Egyptian American Investment and Industrial                          Egypt                      100              100                 -                -      		         Parachute Kalpavriksha Foundation (PKF)
+     Marico Malaysia Sdn. Bhd. (MMSB)                                    Malaysia                    100              100                 -                -                 Marico Innovation Foundation (MIF)
+     Egyptian American Investment and Industrial                          Egypt                      100              100                 -                -                 Parachute Kalpavriksha Foundation (PKF)
      Development Company S.A.E (EAIIDC)
      MEL Consumer Care SAE (MELCC)                                         Egypt                     100              100                   -                -         (b) Key management personnel (KMP):
-     Marico Egypt Industries Company (MEIC)                                Egypt                     100              100                   -                -    		         Mr. Harsh Mariwala, Chairman and Non-Executive Director
+     Marico Egypt Industries Company (MEIC)                                Egypt                     100              100                   -                -               Mr. Harsh Mariwala, Chairman and Non-Executive Director
      Marico for Consumer Care Products SAE                                 Egypt                     100              100                   -                -
-     Marico South Africa Consumer Care (Pty) Limited                    South Africa                 100              100                   -                -    		         Mr. Saugata Gupta, Managing Director and CEO
-     (MSACC)                                                                                                                                                      		         Mr. Ananth Sankaranarayanan, Independent Director
+     Marico South Africa Consumer Care (Pty) Limited                    South Africa                 100              100                   -                -               Mr. Saugata Gupta, Managing Director and CEO
+     (MSACC)                                                                                                                                                                 Mr. Ananth Sankaranarayanan, Independent Director
      Marico South Africa (Pty) Limited (MSA)                            South Africa                 100              100                   -               -
-     Marico South East Asia Corporation (MSEA)                            Vietnam                    100              100                   -               -     		         Mr. Nikhil Khattau, Non-Independent Director Non-Executive Director
-     Beauty X Joint stock Company** (BX)                                  Vietnam                    NA               NA                    -               -     		         Mr. Rajendra Mariwala, Non-Executive Director
+     Marico South East Asia Corporation (MSEA)                            Vietnam                    100              100                   -               -                Mr. Nikhil Khattau, Non-Independent Director Non-Executive Director
+     Beauty X Joint stock Company** (BX)                                  Vietnam                    NA               NA                    -               -                Mr. Rajendra Mariwala, Non-Executive Director
      Marico Lanka (Private) Limited                                      Sri Lanka                   100              100                   -               -
-     Marico Innovation Foundation (MIF)                                    India                     NA               NA                    -               -     		         Ms. Apurva Purohit, Independent Director
-     Parachute Kalpavriksha Foundation (PKF)                               India                     NA               NA                    -               -     		         Ms. Nayantara Bali, Independent Director
+     Marico Innovation Foundation (MIF)                                    India                     NA               NA                    -               -                Ms. Apurva Purohit, Independent Director
+     Parachute Kalpavriksha Foundation (PKF)                               India                     NA               NA                    -               -                Ms. Nayantara Bali, Independent Director
      Zed Lifestyle Private Limited (ZED) ***                               India                     100              100                   -               -
-     Apcos Naturals Private Limited (APCOS) (under                         India                     NA               100                   -               0     		         Mr. Milind Barve, Lead Independent Director
-     liquidation)                                                                                                                                                 		         Mr. Rajan Bharti Mittal, Independent Director
+     Apcos Naturals Private Limited (APCOS) (under                         India                     NA               100                   -               0                Mr. Milind Barve, Lead Independent Director
+     liquidation)                                                                                                                                                            Mr. Rajan Bharti Mittal, Independent Director
      HW Wellness Solutions Private Limited (HWW) ****                       India                    100            53.98                 0           46.02
-     Satiya Nutraceuticals Private Limited (SNPL) *****                     India                     60            51.36                40           48.64       		         Mr. Rajeev Vasudeva, Independent Director
-     Juizo Advisory Private Limited (JAPL) [Wholly-                         India                     60            51.36                40           48.64       		         Mr. Rishabh Mariwala, Non-Executive Director
+     Satiya Nutraceuticals Private Limited (SNPL) *****                     India                     60            51.36                40           48.64                  Mr. Rajeev Vasudeva, Independent Director
+     Juizo Advisory Private Limited (JAPL) [Wholly-                         India                     60            51.36                40           48.64                  Mr. Rishabh Mariwala, Non-Executive Director
      owned subsidiary of SNPL]
-     Cocosecrets Consumer Care LLC****** (Cocosecrets)                      USA                    100                100                 -                  -    		         Mr. Bhaskar Bhat, Independent Director (wef 1 October, 2025)
-     Zea Maize Private Limited (ZMPL) #                                     India                 94.02                 -              5.98                  -    		         Mr. Pawan Agrawal, Chief Financial Officer
+     Cocosecrets Consumer Care LLC****** (Cocosecrets)                      USA                    100                100                 -                  -               Mr. Bhaskar Bhat, Independent Director (wef 1 October, 2025)
+     Zea Maize Private Limited (ZMPL) #                                     India                 94.02                 -              5.98                  -               Mr. Pawan Agrawal, Chief Financial Officer
      Cosmix Wellness Private Limited (Cosmix) ##                            India                    60                 -                40                  -
-                                                                                                                                                                  		         Mr. Vinay M A, Company Secretary & Compliance Officer
+                                                                                                                                                                             Mr. Vinay M A, Company Secretary & Compliance Officer
      *MBL Industries Limited, a wholly-owned subsidiary of Marico Middle East FZE, which in turn is a wholly owned subsidiary of the Company, was voluntarily
      liquidated and ceased to be a step-down wholly owned subsidiary of the Company with effect from September 18, 2025
                                                                                                                                                                        (c)   Individual holding directly / indirectly an interest in voting power & their relatives (where
      ** Post regulatory approvals in Vietnam, Beauty X Joint Stock Company merged with Marico South East Asia Corporation (effective date of the merger is July
                                                                                                                                                                              transactions have taken place) - Significant Influence:
      28, 2024), and its operations ceased on March 25, 2025.
-     ***Under Voluntary liquidation.                                                                                                                              		         Mr. Harsh Mariwala, Chairman and Non Executive Director
-     **** The Company completed acquisition of balance equity stake of 46.02% in HWW w.e.f. October 17, 2025, consequent to which HWW has become a                		         Mr. Rajen Mariwala, Non executive Director
+     ***Under Voluntary liquidation.                                                                                                                                         Mr. Harsh Mariwala, Chairman and Non Executive Director
+     **** The Company completed acquisition of balance equity stake of 46.02% in HWW w.e.f. October 17, 2025, consequent to which HWW has become a                           Mr. Rajen Mariwala, Non executive Director
      wholly owned subsidiary of the Company.
-     *****The Company acquired additional equity stake of 8.80% on May 31, 2025, in SNPL, thereby increasing its aggregate equity stake in SNPL to 60% on         		         Mr. Rishabh Mariwala, Non-Executive Director and son of Mr. Harsh Mariwala, Chairman and Non-Executive Director
+     *****The Company acquired additional equity stake of 8.80% on May 31, 2025, in SNPL, thereby increasing its aggregate equity stake in SNPL to 60% on                    Mr. Rishabh Mariwala, Non-Executive Director and son of Mr. Harsh Mariwala, Chairman and Non-Executive Director
      a fully diluted basis.
      ****** Cocosecrets was incorporated as a wholly-owned subsidiary of the Company on October 14, 2024.
   === END FY26 PAGE 220 ===
@@ -977,21 +977,21 @@ for the year ended 31st March, 2026
                                                                                                                                          for the year ended 31st March, 2026
                                                                                                                                                                                                                                                                     H in crore
      (d) Post employment benefit controlled trust                                                                                                                                                               Subsidiaries                          Others
-		         Marico Limited Employees Provident Fund                                                                                            (a) Transaction during the period with related              (Referred in I (a) above)           (Referred in I (e) above)
+           Marico Limited Employees Provident Fund                                                                                            (a) Transaction during the period with related              (Referred in I (a) above)           (Referred in I (e) above)
                                                                                                                                                   parties                                                        31st            31st                31st             31st
-		         Marico Limited Employees Gratuity Fund
+           Marico Limited Employees Gratuity Fund
                                                                                                                                                                                                          March, 2026     March, 2025         March, 2026      March, 2025
-		         Marico Limited Pension Scheme                                                                                                      Aqua Centric Private Limited                                          -                  -                 0                     -
+           Marico Limited Pension Scheme                                                                                                      Aqua Centric Private Limited                                          -                  -                 0                     -
                                                                                                                                               Lease Rental Income                                                  -                  -                  1                    1
      (e)   Others - Entities in which above (b) and (c) has significant influence and transactions have taken place:
                                                                                                                                               Kaya Limited                                                          -                  -                 1                    1
-		         Ascent India Foundation                                                                                                            Ascent India Foundation                                               -                  -                 0                    0
-		Kaya Limited                                                                                                                                Mariwala Health Foundation                                            -                  -                 0                    0
+           Ascent India Foundation                                                                                                            Ascent India Foundation                                               -                  -                 0                    0
+  Kaya Limited                                                                                                                                Mariwala Health Foundation                                            -                  -                 0                    0
                                                                                                                                               Sharp ventures                                                        -                  -                 0                    0
-		         Mariwala Health Foundation                                                                                                         Aqua Centric Private Limited                                          -                  -                 0                     -
-		         Sharrp Ventures Capital Private Limited                                                                                            Donation Given / CSR Activities                                     10                 15                  -                    -
+           Mariwala Health Foundation                                                                                                         Aqua Centric Private Limited                                          -                  -                 0                     -
+           Sharrp Ventures Capital Private Limited                                                                                            Donation Given / CSR Activities                                     10                 15                  -                    -
                                                                                                                                               Marico Innovation Foundation                                         1                  5                   -                    -
-		         Aqua Centric Private Limited                                                                                                       Parachute Kalpavriksha Foundation                                    9                  9                   -                    -
+           Aqua Centric Private Limited                                                                                                       Parachute Kalpavriksha Foundation                                    9                  9                   -                    -
 II   Transactions with related parties                                                                                                        Royalty expense                                                      -                  -                  0                    0
                                                                                                                                               Kaya Limited                                                          -                  -                 0                    0
       The following transactions occurred with related parties:                                                                               Purchase of goods                                                    -                  -                  1                    6
