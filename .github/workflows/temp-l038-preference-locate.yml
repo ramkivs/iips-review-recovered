@@ -27,18 +27,37 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils curl >/dev/null
 
+      - name: Fetch diagnostics (DNS, plain HEAD, UA variants)
+        run: |
+          set -uo pipefail
+          URL="https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf"
+          echo "--- dns ---"; getent hosts marico.com || echo "dns: FAIL"
+          echo "--- plain HEAD, default curl UA ---"
+          curl -sS -o /dev/null -D /tmp/h1.txt -w 'http=%{http_code} ct=%{content_type} size=%{size_download}\n' --max-time 60 -I "$URL" || echo "curl_rc=$?"
+          head -12 /tmp/h1.txt 2>/dev/null
+          for UA in "curl/8" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"; do
+            echo "--- GET ua=$UA ---"
+            CODE=$(curl -sSL -A "$UA" -H 'Accept: application/pdf,*/*' -o /tmp/probe.bin -w '%{http_code}|%{content_type}|%{size_download}|%{url_effective}' --max-time 120 "$URL")
+            echo "curl_rc=$? result=$CODE"
+            echo "file=$(file -b /tmp/probe.bin 2>/dev/null)"
+            echo "head:"; head -c 200 /tmp/probe.bin | tr -d '\000' | head -5
+          done
+
       - name: FY2023-24 report — identity and every page that mentions "preference"
         run: |
-          set -euo pipefail
+          set -uo pipefail
           URL="https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf"
-          curl -sSL --max-time 180 -o /tmp/fy24.pdf "$URL"
-          echo "url=$URL"
-          echo "bytes=$(stat -c%s /tmp/fy24.pdf)"
-          echo "sha256=$(sha256sum /tmp/fy24.pdf | cut -d' ' -f1)"
-          echo "pages=$(pdfinfo /tmp/fy24.pdf | awk '/^Pages:/{print $2}')"
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          curl -sSL -A "$UA" -H 'Accept: application/pdf,*/*' -o /tmp/fy24.pdf "$URL"; RC=$?
+          echo "url=$URL curl_rc=$RC"
+          echo "bytes=$(stat -c%s /tmp/fy24.pdf 2>/dev/null || echo 0)"
+          echo "sha256=$(sha256sum /tmp/fy24.pdf 2>/dev/null | cut -d' ' -f1)"
+          pdfinfo /tmp/fy24.pdf 2>/dev/null | awk '/^(Pages|Title|Producer):/{print}' || true
+          echo "pages=$(pdfinfo /tmp/fy24.pdf 2>/dev/null | awk '/^Pages:/{print $2}')"
+          if ! pdfinfo /tmp/fy24.pdf >/dev/null 2>&1; then echo "NOT A PDF — aborting content steps"; exit 0; fi
           pdftotext -layout /tmp/fy24.pdf /tmp/fy24.txt
           echo "----- pages mentioning preference (case-insensitive) -----"
-          awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /preference/) printf "p%d: %s\n", p, $0}' /tmp/fy24.txt | sed 's/[[:space:]]\+$//' | head -80
+          awk 'BEGIN{p=1} {if (index($0,"\f")>0) p++} {if (tolower($0) ~ /preference/) printf "p%d: %s\n", p, $0}' /tmp/fy24.txt | sed 's/[[:space:]]\+$//' | head -100
           echo "----- PDF page 190 of 259, verbatim -layout -----"
           echo "=== BEGIN PAGE 190 ==="
           pdftotext -layout -f 190 -l 190 /tmp/fy24.pdf - | sed 's/[[:space:]]\+$//'
@@ -54,13 +73,14 @@ jobs:
       - name: Later audited annual report — is one published?
         run: |
           set -uo pipefail
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
           for URL in \
             "https://marico.com/investorspdf/Marico_Annual_Report_FY25.pdf" \
             "https://marico.com/investorspdf/Marico_Annual_Report_FY2024-25.pdf" \
             "https://marico.com/investorspdf/Marico_Integrated_Annual_Report_2024-25.pdf" \
             "https://marico.com/investorspdf/Marico_Annual_Report_2024-25.pdf"
           do
-            CODE=$(curl -sSL -o /tmp/candidate.pdf -w '%{http_code}' --max-time 180 "$URL" || echo "000")
+            CODE=$(curl -sSL -A "$UA" -H 'Accept: application/pdf,*/*' -o /tmp/candidate.pdf -w '%{http_code}' --max-time 120 "$URL" || echo "000")
             SIZE=$(stat -c%s /tmp/candidate.pdf 2>/dev/null || echo 0)
             TYPE=$(file -b --mime-type /tmp/candidate.pdf 2>/dev/null || echo unknown)
             echo "url=$URL http=$CODE bytes=$SIZE type=$TYPE"
