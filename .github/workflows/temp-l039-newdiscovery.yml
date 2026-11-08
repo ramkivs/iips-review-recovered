@@ -1,18 +1,15 @@
-name: temp L-039 xbrl facts (throwaway — deleted before PR)
+name: temp L-039 template-zero evidence (throwaway — deleted before PR)
 
-# THROWAWAY. Fifth and final retrieval pass for the L-039 KEC current-investments question, on a runner.
+# THROWAWAY. Final evidence pass for L-039, on a runner.
 #
-# Settled and NOT re-read: the two annual reports in the corpus (FY2025-26 215 pp ba638897…c820; FY2024-25 206 pp
-# 29dfdf83…c1c6) — 421 pages searched, no "Current investments" caption (register §17.17).
-#
-# Read in pass 4 and consistent with that: the audited reg-33 results for FY2025-26 (sha256 29531cee…9303, 23 pp)
-# and the limited-review Q2 FY2026-27 outcome (sha256 42d826df…144e, 18 pp) both print the same four current
-# financial-asset captions — trade receivables, cash and cash equivalents, bank balances other than cash, other
-# financial assets — and no fifth caption.
-#
-# This pass reads the exchange's machine-readable XBRL / Inline-XBRL instance for each audited and limited-review
-# period from 31-MAR-2026 onward. XBRL tags balance-sheet line items by element name, so it can settle whether a
-# CurrentInvestments element is reported, and with what value, without human reading of a page image.
+# Pass 5 found that the NSE XBRL instance for the AUDITED period ended 31-MAR-2026 (consolidated) tags
+# in-capmkt:CurrentInvestments = 0, and that the rendered Inline-XBRL prints "Current investments 0.00" — while
+# the audited PDF statement of the same filing prints no such caption at all (four current financial-asset
+# captions only). This pass establishes whether that zero is an affirmative disclosure or the taxonomy template
+# completing a caption the issuer does not present, by printing, from the same audited instance:
+#   * the complete rendered balance-sheet section,
+#   * every balance-sheet element with its value,
+#   * which of those captions appear in the audited PDF and which do not.
 
 on:
   workflow_dispatch:
@@ -24,57 +21,53 @@ permissions:
   contents: write
 
 jobs:
-  xbrl:
+  template:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
           ref: arena/7bc5125b-iips-review-recovered
 
-      - name: Collect report into /tmp/l039-report5.txt
+      - name: Install poppler-utils
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils curl >/dev/null
+
+      - name: Collect report into /tmp/l039-report6.txt
         run: |
           set -u
-          REPORT=/tmp/l039-report5.txt
+          REPORT=/tmp/l039-report6.txt
           : > "$REPORT"
           exec 3>&1
           exec >> "$REPORT" 2>&1
           UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
           REF="https://www.nseindia.com/"
+          IX="https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158430_16052026225416_iXBRL_WEB.html"
+          XB="https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668450_16052026105416_WEB.xml"
           echo "utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          curl -sS -A "$UA" -c /tmp/nse.jar -o /dev/null --max-time 45 "$REF"
-          curl -sS -A "$UA" -b /tmp/nse.jar -H 'Accept: application/json' -H "Referer: $REF" --max-time 90 -o /tmp/integrated.json "https://www.nseindia.com/api/integrated-filing-results?index=equities&symbol=KEC"
-          echo "integrated bytes=$(stat -c%s /tmp/integrated.json 2>/dev/null || echo 0)"
+          curl -sS -A "$UA" -o /tmp/ix.html -w 'ixbrl http=%{http_code} bytes=%{size_download}\n' --max-time 180 "$IX"
+          echo "ixbrl sha256=$(sha256sum /tmp/ix.html | cut -d' ' -f1)"
+          curl -sS -A "$UA" -o /tmp/inst.xml -w 'xbrl  http=%{http_code} bytes=%{size_download}\n' --max-time 180 "$XB"
+          echo "xbrl  sha256=$(sha256sum /tmp/inst.xml | cut -d' ' -f1)"
 
           echo
-          echo "===== SECTION A: instance URLs for every period from 31-MAR-2026 ====="
-          python3 -c "import json;d=json.load(open('/tmp/integrated.json'));rows=d.get('data',[]) if isinstance(d,dict) else d;sel=[r for r in rows if any(x in str(r.get('qe_Date')) for x in ('31-MAR-2026','30-JUN-2026','30-SEP-2026')) and r.get('consolidated') in ('Consolidated','Standalone')];print('rows=',len(sel));[(print(str(r.get('qe_Date')),r.get('consolidated'),r.get('audited')),print('    xbrl =',r.get('xbrl')),print('    ixbrl=',r.get('ixbrl'))) for r in sel]" 2>&1 | head -40
-          python3 -c "import json;d=json.load(open('/tmp/integrated.json'));rows=d.get('data',[]) if isinstance(d,dict) else d;out=[];[out.append((str(r.get('qe_Date'))+'-'+str(r.get('consolidated'))+chr(9)+(r.get('xbrl') or ''))) for r in rows if any(x in str(r.get('qe_Date')) for x in ('31-MAR-2026','30-JUN-2026','30-SEP-2026')) and (r.get('xbrl') or '').startswith('http')];[print(x) for x in out]" > /tmp/xbrl.tsv 2>/dev/null
-          echo "xbrl rows=$(wc -l </tmp/xbrl.tsv)"; cut -c1-170 /tmp/xbrl.tsv
+          echo "===== SECTION A: rendered Inline-XBRL — the balance-sheet section as the exchange publishes it ====="
+          python3 -c "import re;t=open('/tmp/ix.html',errors='ignore').read();txt=re.sub(r'<script.*?</script>',' ',t,flags=re.S);txt=re.sub(r'<[^>]+>','\n',txt);lines=[re.sub(r'\s+',' ',l).strip() for l in txt.split('\n')];lines=[l for l in lines if l];s=[i for i,l in enumerate(lines) if 'ASSETS'==l.upper() or l.upper().startswith('ASSETS')];e=[i for i,l in enumerate(lines) if 'Total Equity and Liabilities' in l];start=s[0] if s else 0;end=(e[-1] if e else min(len(lines),start+400));print('\n'.join(lines[start:end+2]))" 2>/dev/null | head -140
 
           echo
-          echo "===== SECTION B: fetch each instance and list every investment element with its value ====="
-          TAB=$(printf '\t')
-          while IFS="$TAB" read -r L U; do
-            [ -n "${L:-}" ] || continue
-            echo "--- $L"
-            echo "    url=$U"
-            CODE=$(curl -sSL -A "$UA" -H "Referer: $REF" -o /tmp/inst.xml -w '%{http_code}' --max-time 180 "$U")
-            echo "    http=$CODE bytes=$(stat -c%s /tmp/inst.xml 2>/dev/null || echo 0) sha256=$(sha256sum /tmp/inst.xml 2>/dev/null | cut -d' ' -f1)"
-            python3 -c "import re;t=open('/tmp/inst.xml',errors='ignore').read();tags=re.findall(r'<([A-Za-z][A-Za-z0-9_:.\-]*)[ >/]',t);print('    total tagged elements=',len(tags));print('    distinct element names=',len(set(tags)));inv=sorted(set(x for x in tags if 'nvest' in x));print('    investment element names=',inv);[print('    fact:',m.group(1),'=',m.group(2).strip()) for m in re.finditer(r'<([A-Za-z][A-Za-z0-9_:.\-]*[Ii]nvest[^ >/]*)[^>]*>([^<]*)<',t)];print('    current-investment mentions in raw text=',len(re.findall(r'(?i)currentinvestment',t)))" 2>/dev/null | head -40
-          done < /tmp/xbrl.tsv
+          echo "===== SECTION B: every investment-related and zero-valued balance-sheet element in the instance ====="
+          python3 -c "import re;t=open('/tmp/inst.xml',errors='ignore').read();facts=[(m.group(1),m.group(2).strip(),(m.group(0)[:160])) for m in re.finditer(r'<([A-Za-z][A-Za-z0-9_:.\-]*)[^>]*>([^<]*)<',t)];inv=[f for f in facts if re.search(r'(?i)invest|loans|receivables|inventor|cash',f[0])];print('matching elements=',len(inv));[print(' ',n,'=',v) for n,v,_ in inv[:60]]" 2>/dev/null
 
           echo
-          echo "===== SECTION C: same question asked of the Inline XBRL HTML ====="
-          python3 -c "import json;d=json.load(open('/tmp/integrated.json'));rows=d.get('data',[]) if isinstance(d,dict) else d;out=[(str(r.get('qe_Date'))+'-'+str(r.get('consolidated'))+chr(9)+(r.get('ixbrl') or '')) for r in rows if any(x in str(r.get('qe_Date')) for x in ('31-MAR-2026','30-JUN-2026','30-SEP-2026')) and (r.get('ixbrl') or '').startswith('http')];[print(x) for x in out]" > /tmp/ix.tsv 2>/dev/null
-          echo "ixbrl rows=$(wc -l </tmp/ix.tsv)"
-          while IFS="$TAB" read -r L U; do
-            [ -n "${L:-}" ] || continue
-            echo "--- ixbrl $L"
-            CODE=$(curl -sSL -A "$UA" -H "Referer: $REF" -o /tmp/ix.html -w '%{http_code}' --max-time 180 "$U")
-            echo "    http=$CODE bytes=$(stat -c%s /tmp/ix.html 2>/dev/null || echo 0) sha256=$(sha256sum /tmp/ix.html 2>/dev/null | cut -d' ' -f1)"
-            python3 -c "import re;t=open('/tmp/ix.html',errors='ignore').read();print('    ix facts=',len(re.findall(r'(?i)<ix:nonfraction',t)));names=sorted(set(re.findall(r'name=\"([^\"]*[Ii]nvest[^\"]*)\"',t)));print('    investment fact names=',names);txt=re.sub(r'<[^>]+>',' ',t);txt=re.sub(r'\s+',' ',txt);print('    visible text mentions of investments=',len(re.findall(r'(?i)investments?',txt)));[print('    ctx:',txt[max(0,m.start()-90):m.end()+90]) for m in list(re.finditer(r'(?i)current investments?',txt))[:6]]" 2>/dev/null | head -30
-          done < /tmp/ix.tsv
+          echo "===== SECTION C: how many distinct balance-sheet elements carry 0, and do those captions print in the audited PDF? ====="
+          python3 -c "import re;t=open('/tmp/inst.xml',errors='ignore').read();facts=[(m.group(1).split(':')[-1],m.group(2).strip()) for m in re.finditer(r'<([A-Za-z][A-Za-z0-9_:.\-]*)[^>]*>([^<]*)<',t)];bs=[(n,v) for n,v in facts if re.match(r'(?i)(current|noncurrent|trade|loans|cash|bank|inventor|investment|other)',n)];zeros=[(n,v) for n,v in bs if v in ('0','0.0','0.00')];print('balance-sheet-ish elements=',len(bs),' of which zero=',len(zeros));[print('   ZERO',n) for n,_ in sorted(zeros)[:40]]" 2>/dev/null
+
+          echo
+          echo "===== SECTION D: the audited PDF statement — captions actually printed (control) ====="
+          curl -sSL -A "$UA" -H "Referer: $REF" -o /tmp/fy26.pdf --max-time 240 "https://nsearchives.nseindia.com/corporate/KEC_16052026215722_SEintimationFinancials.pdf"
+          echo "pdf sha256=$(sha256sum /tmp/fy26.pdf | cut -d' ' -f1) pages=$(pdfinfo /tmp/fy26.pdf | awk '/^Pages:/{print $2}')"
+          pdftotext -layout -f 9 -l 9 /tmp/fy26.pdf - | grep -nE "\(i\)|\(ii\)|\(iii\)|\(iv\)|Investments|Loans|Trade receivables|Cash|Bank|Inventories" | cut -c1-150
 
           echo
           echo "===== END OF REPORT ====="
@@ -85,12 +78,12 @@ jobs:
         if: always()
         run: |
           set -u
-          REPORT=/tmp/l039-report5.txt
+          REPORT=/tmp/l039-report6.txt
           [ -s "$REPORT" ] || { echo "no report captured"; exit 0; }
           mkdir -p .l039-temp
-          cp "$REPORT" .l039-temp/xbrl-report.txt
+          cp "$REPORT" .l039-temp/template-report.txt
           git config user.name "L-039 locator"
           git config user.email "noreply@github.com"
-          git add .l039-temp/xbrl-report.txt
-          git commit -qm "temp: L-039 xbrl report (throwaway, deleted before PR)"
+          git add .l039-temp/template-report.txt
+          git commit -qm "temp: L-039 template-zero report (throwaway, deleted before PR)"
           git push origin HEAD:refs/heads/arena/7bc5125b-iips-review-recovered
