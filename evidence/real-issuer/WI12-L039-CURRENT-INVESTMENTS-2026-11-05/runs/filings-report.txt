@@ -16,7 +16,7 @@ integrated bytes=15094
   fy26-audited-results-outcome p13:     wholly owned subsidiary, kec investment holdings, mauritius to another wholly owned subsidiary, kec towers llc, for which the consideration will be shares of kec towers
   fy26-audited-results-outcome p20:            (b) investment property                                                                         48.73               -
   fy26-audited-results-outcome p20:                 (i) investments                                                                         1,422.69         1,256.69
-  fy26-audited-results-outcome p22:  7 during the year ended march 31, 2026, the company reassessed the recoverable value of its investment in wholly owned subsidiary, kec investment holdings, mauritius. based 
+  fy26-audited-results-outcome p22:  7 during the year ended march 31, 2026, the company reassessed the recoverable value of its investment in wholly owned subsidiary, kec investment holdings, mauritius. based
   fy26-audited-results-outcome p22:    the increase in recoverable amount as compared to the carrying value of the investment, the company bas reversed the provision for impairment loss of its investment in kec
   fy26-audited-results-outcome p22:    investment holdings, mauritius amounting to rs.166 crores.
   fy26-audited-results-outcome p22:    wholly owned subsidiary, kec investment holdings, mauritius to another wholly owned subsidiary, kec towers llc, for which the consideration will be shares of kec towers
@@ -25,12 +25,12 @@ integrated bytes=15094
   p9:                    (iii) other financial assets                                                               65.38            66.07
   p9:               (b) financial assets
   p9:                    (iv) other financial assets                                                               276.90          144.42
-  p10:      other financial assets                                                                                                         (4.26)               
+  p10:      other financial assets                                                                                                         (4.26)
   p20:            (t) financial assets
   p20:                 (iii) other financial assets                                                               65.09            64.93
   p20:            (b) financial assets
   p20:                 (iv) other financial assets                                                               215.46           124.62
-  p21:       other financial assets                                                                                                       (17.59)               
+  p21:       other financial assets                                                                                                       (17.59)
 
 ===== SECTION D: Q1 FY2026-27 outcome (quarter ended 30 June 2026) =====
 --- q1fy27-outcome

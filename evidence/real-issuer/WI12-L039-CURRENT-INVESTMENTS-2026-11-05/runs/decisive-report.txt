@@ -64,26 +64,26 @@ ROW 30-SEP-2026 None None
 
 ===== SECTION B: fetch every URL carried by those rows =====
 url rows: 27
-30-SEP-2026-Consolidated-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html
-30-SEP-2026-Consolidated-pdf_attach	https://nsearchives.nseindia.com/corporate/null
-30-SEP-2026-Consolidated-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
-30-SEP-2026-Standalone-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208529_02112026212640_iXBRL_WEB.html
-30-SEP-2026-Standalone-pdf_attach	https://nsearchives.nseindia.com/corporate/null
-30-SEP-2026-Standalone-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
-30-SEP-2026-None-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_204177_26102026154800_iXBRL_WEB.html
-30-SEP-2026-None-pdf_attach	https://nsearchives.nseindia.com/corporate/null
-30-SEP-2026-None-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
-30-JUN-2026-Consolidated-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184710_10082026190214_iXBRL_WEB.html
-30-JUN-2026-Consolidated-pdf_attach	https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
-30-JUN-2026-Consolidated-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
-30-JUN-2026-Standalone-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184709_10082026190131_iXBRL_WEB.html
-30-JUN-2026-Standalone-pdf_attach	https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
-30-JUN-2026-Standalone-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
-30-JUN-2026-None-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_180013_29072026182952_iXBRL_WEB.html
-30-JUN-2026-None-pdf_attach	https://nsearchives.nseindia.com/corporate/null
-30-JUN-2026-None-xbrl	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
-31-MAR-2026-Consolidated-ixbrl	https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158430_16052026225416_iXBRL_WEB.html
-31-MAR-2026-Consolidated-pdf_attach	https://nsearchives.nseindia.com/corporate/null
+30-SEP-2026-Consolidated-ixbrl  https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html
+30-SEP-2026-Consolidated-pdf_attach     https://nsearchives.nseindia.com/corporate/null
+30-SEP-2026-Consolidated-xbrl   https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+30-SEP-2026-Standalone-ixbrl    https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208529_02112026212640_iXBRL_WEB.html
+30-SEP-2026-Standalone-pdf_attach       https://nsearchives.nseindia.com/corporate/null
+30-SEP-2026-Standalone-xbrl     https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+30-SEP-2026-None-ixbrl  https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_204177_26102026154800_iXBRL_WEB.html
+30-SEP-2026-None-pdf_attach     https://nsearchives.nseindia.com/corporate/null
+30-SEP-2026-None-xbrl   https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
+30-JUN-2026-Consolidated-ixbrl  https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184710_10082026190214_iXBRL_WEB.html
+30-JUN-2026-Consolidated-pdf_attach     https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
+30-JUN-2026-Consolidated-xbrl   https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
+30-JUN-2026-Standalone-ixbrl    https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_184709_10082026190131_iXBRL_WEB.html
+30-JUN-2026-Standalone-pdf_attach       https://nsearchives.nseindia.com/corporate/KEC_10082026185948_SE_intimation_Outcome10082026.pdf
+30-JUN-2026-Standalone-xbrl     https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
+30-JUN-2026-None-ixbrl  https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_GOVERNANCE_180013_29072026182952_iXBRL_WEB.html
+30-JUN-2026-None-pdf_attach     https://nsearchives.nseindia.com/corporate/null
+30-JUN-2026-None-xbrl   https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
+31-MAR-2026-Consolidated-ixbrl  https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158430_16052026225416_iXBRL_WEB.html
+31-MAR-2026-Consolidated-pdf_attach     https://nsearchives.nseindia.com/corporate/null
 --- 30-SEP-2026-Consolidated-ixbrl
     url=https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_208531_02112026212732_iXBRL_WEB.html
     http=200 bytes=81599 sha256=1c371ec6c49ef31376a3e47136300560da020fa764e383da17bbcee54a8c2c79

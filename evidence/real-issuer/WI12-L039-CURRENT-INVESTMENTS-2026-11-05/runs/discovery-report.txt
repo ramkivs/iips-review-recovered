@@ -33,7 +33,7 @@ cdx_lines=14
 <TITLE>Access Denied</TITLE>
 </HEAD><BODY>
 <H1>Access Denied</H1>
- 
+
 You don't have permission to access "http&#58;&#47;&#47;api&#46;bseindia&#46;com&#47;BseIndiaAPI&#47;api&#47;AnnGetData&#47;w&#63;" on this server.<P>
 Reference&#32;&#35;18&#46;2b0c3417&#46;1794114213&#46;e3cc108
 <P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;2b0c3417&#46;1794114213&#46;e3cc108</P>
@@ -47,7 +47,7 @@ Reference&#32;&#35;18&#46;2b0c3417&#46;1794114213&#46;e3cc108
 <TITLE>Access Denied</TITLE>
 </HEAD><BODY>
 <H1>Access Denied</H1>
- 
+
 You don't have permission to access "http&#58;&#47;&#47;api&#46;bseindia&#46;com&#47;BseIndiaAPI&#47;api&#47;AnnSubCategoryGetData&#47;w&#63;" on this server.<P>
 Reference&#32;&#35;18&#46;3a0c3417&#46;1794114213&#46;6d05cba9
 <P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;3a0c3417&#46;1794114213&#46;6d05cba9</P>

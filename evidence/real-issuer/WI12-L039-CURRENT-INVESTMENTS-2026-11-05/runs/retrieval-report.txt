@@ -4,35 +4,35 @@ utc=2026-11-08T05:06:11Z
 http=200 bytes=26971
 rows= 36
 keys= ['audited', 'bank', 'broadCastDate', 'companyName', 'consolidated', 'cumulative', 'difference', 'exchdisstime', 'filingDate', 'financialYear', 'format', 'fromDate', 'indAs', 'industry', 'isin', 'oldNewFlag', 'params', 'period', 'reInd', 'relatingTo', 'resultDescription', 'resultDetailedDataLink', 'seqNumber', 'symbol', 'toDate', 'xbrl']
-  31-Mar-2024 | Audited | Consolidated | None | 
-  31-Mar-2024 | Audited | Non-Consolidated | None | 
-  31-Mar-2023 | Audited | Non-Consolidated | None | 
-  31-Mar-2023 | Audited | Consolidated | None | 
-  31-Mar-2022 | Audited | Non-Consolidated | None | 
-  31-Mar-2022 | Audited | Consolidated | None | 
-  31-Mar-2021 | Audited | Consolidated | None | 
-  31-Mar-2021 | Audited | Non-Consolidated | None | 
-  31-Mar-2020 | Audited | Consolidated | None | 
-  31-Mar-2020 | Audited | Non-Consolidated | None | 
-  31-Mar-2019 | Audited | Non-Consolidated | None | 
-  31-Mar-2019 | Audited | Consolidated | None | 
-  31-Mar-2018 | Audited | Consolidated | None | 
-  31-Mar-2018 | Audited | Non-Consolidated | None | 
+  31-Mar-2024 | Audited | Consolidated | None |
+  31-Mar-2024 | Audited | Non-Consolidated | None |
+  31-Mar-2023 | Audited | Non-Consolidated | None |
+  31-Mar-2023 | Audited | Consolidated | None |
+  31-Mar-2022 | Audited | Non-Consolidated | None |
+  31-Mar-2022 | Audited | Consolidated | None |
+  31-Mar-2021 | Audited | Consolidated | None |
+  31-Mar-2021 | Audited | Non-Consolidated | None |
+  31-Mar-2020 | Audited | Consolidated | None |
+  31-Mar-2020 | Audited | Non-Consolidated | None |
+  31-Mar-2019 | Audited | Non-Consolidated | None |
+  31-Mar-2019 | Audited | Consolidated | None |
+  31-Mar-2018 | Audited | Consolidated | None |
+  31-Mar-2018 | Audited | Non-Consolidated | None |
 
 ===== SECTION B: NSE integrated filings (post-annual quarters) =====
 http=200 bytes=15094
 rows= 20
 keys= ['attFileSize', 'audited', 'broadcast_Date', 'cmName', 'consolidated', 'creation_Date', 'diff', 'ixbrl', 'ixbrlFileSize', 'pdf_attach', 'qe_Date', 'revised_Date', 'revision_Remark', 'seq_Id', 'smName', 'symbol', 'type', 'type_Sub', 'xbrl', 'xbrlFileSize']
-  30-SEP-2026 | Consolidated | Un-Audited | 
-  30-SEP-2026 | Standalone | Un-Audited | 
-  30-SEP-2026 | None | None | 
-  30-JUN-2026 | Consolidated | Un-Audited | 
-  30-JUN-2026 | Standalone | Un-Audited | 
-  30-JUN-2026 | None | None | 
-  31-MAR-2026 | Consolidated | Audited | 
-  31-MAR-2026 | Standalone | Audited | 
-  31-MAR-2026 | None | None | 
-  31-DEC-2025 | Consolidated | Un-Audited | 
+  30-SEP-2026 | Consolidated | Un-Audited |
+  30-SEP-2026 | Standalone | Un-Audited |
+  30-SEP-2026 | None | None |
+  30-JUN-2026 | Consolidated | Un-Audited |
+  30-JUN-2026 | Standalone | Un-Audited |
+  30-JUN-2026 | None | None |
+  31-MAR-2026 | Consolidated | Audited |
+  31-MAR-2026 | Standalone | Audited |
+  31-MAR-2026 | None | None |
+  31-DEC-2025 | Consolidated | Un-Audited |
 
 ===== SECTION C: NSE corporate announcements — results / investment wording =====
 http=200 bytes=1202079
@@ -78,6 +78,6 @@ candidate rows: 0
 
         <title>Not Found</title>
 
-        <!-- 
+        <!--
 
 ===== END OF REPORT =====

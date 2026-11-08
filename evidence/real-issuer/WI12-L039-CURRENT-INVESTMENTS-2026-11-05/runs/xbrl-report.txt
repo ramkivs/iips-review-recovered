@@ -22,15 +22,15 @@ rows= 6
     xbrl = https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668449_16052026105222_WEB.xml
     ixbrl= https://nsearchives.nseindia.com/corporate/ixbrl/INTEGRATED_FILING_INDAS_158429_16052026225223_iXBRL_WEB.html
 xbrl rows=9
-30-SEP-2026-Consolidated	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
-30-SEP-2026-Standalone	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
-30-SEP-2026-None	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
-30-JUN-2026-Consolidated	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
-30-JUN-2026-Standalone	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
-30-JUN-2026-None	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
-31-MAR-2026-Consolidated	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668450_16052026105416_WEB.xml
-31-MAR-2026-Standalone	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668449_16052026105222_WEB.xml
-31-MAR-2026-None	https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1660831_29042026115748_WEB.xml
+30-SEP-2026-Consolidated        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751525_02112026092732_WEB.xml
+30-SEP-2026-Standalone  https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1751523_02112026092640_WEB.xml
+30-SEP-2026-None        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1745795_26102026034800_WEB.xml
+30-JUN-2026-Consolidated        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711271_10082026070214_WEB.xml
+30-JUN-2026-Standalone  https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1711270_10082026070130_WEB.xml
+30-JUN-2026-None        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1704334_29072026062952_WEB.xml
+31-MAR-2026-Consolidated        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668450_16052026105416_WEB.xml
+31-MAR-2026-Standalone  https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_INDAS_1668449_16052026105222_WEB.xml
+31-MAR-2026-None        https://nsearchives.nseindia.com/corporate/xbrl/INTEGRATED_FILING_GOVERNANCE_1660831_29042026115748_WEB.xml
 
 ===== SECTION B: fetch each instance and list every investment element with its value =====
 --- 30-SEP-2026-Consolidated

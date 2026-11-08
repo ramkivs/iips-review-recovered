@@ -1,0 +1,26 @@
+{
+  "decisive-report.txt": {
+    "sha256": "8870b251e07d2c68fbbf3b01935927e9f7a776123662b55b12893540499a97e0",
+    "bytes": 68327
+  },
+  "discovery-report.txt": {
+    "sha256": "e3e42fdd68b3e7fb862b6969679eb76de1c217defb877dc93a51750c82d3532d",
+    "bytes": 4508
+  },
+  "filings-report.txt": {
+    "sha256": "3c2f4f2d32474714af12ea1cc1f68783b50378d8f4317022ee14bd576352fc83",
+    "bytes": 6861
+  },
+  "retrieval-report.txt": {
+    "sha256": "12404b3ae0cf4a33fd96eb95a4b23c00c578b9924dcd22a3a507d7a962b23d33",
+    "bytes": 6234
+  },
+  "template-report.txt": {
+    "sha256": "7acaaa0dd63543f4a9da24d5a27c9f1db7ed4b1a2e828cc6472fb307ca616bbf",
+    "bytes": 11590
+  },
+  "xbrl-report.txt": {
+    "sha256": "b4a821dffc7834552a26c7ed8b18794aef82e5138d2c12bf0d370573e2f0de21",
+    "bytes": 37256
+  }
+}

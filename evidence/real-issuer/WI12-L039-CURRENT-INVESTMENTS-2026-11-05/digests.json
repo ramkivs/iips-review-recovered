@@ -1,0 +1,45 @@
+{
+  "bundle": "L-039 current investments follow-up",
+  "files": {
+    "README.md": {
+      "sha256": "f11291e52025df5e45381eec16beb41574528a2c6a56d98e7c4eebc1bc17e9c8",
+      "bytes": 8643
+    },
+    "determination.json": {
+      "sha256": "17d620a40a3eb66940197f6502fa3df90811ed760165e5128068f9445d5ac218",
+      "bytes": 1703
+    },
+    "runs/decisive-report.txt": {
+      "sha256": "29f3960e28693e341351a865f4083aeee90d7ed60a8336e684dfaf14a6f18796",
+      "bytes": 68386
+    },
+    "runs/discovery-report.txt": {
+      "sha256": "4ec0f747f16382dd74735b20db8c26be143921a596e338085c32a55553c308f8",
+      "bytes": 4506
+    },
+    "runs/filings-report.txt": {
+      "sha256": "3a90094d5671e52cafd117308e9527cf4c45d838c686a53b3543bb401e48c62f",
+      "bytes": 6830
+    },
+    "runs/local-checks.txt": {
+      "sha256": "ce87bdc10f303fea78a717d6ed8cf9ec5f79e66592c92f09b878fb82a6597cf5",
+      "bytes": 9097
+    },
+    "runs/original-log-hashes.json": {
+      "sha256": "955b977a2a0e6862efdb6bd2753471d85dc77fd01091d26e4819c6e69ae89fca",
+      "bytes": 795
+    },
+    "runs/retrieval-report.txt": {
+      "sha256": "98a410e1f04076117cff4a77c7420043f5ac5ae5b731324a7f9969c857c993fc",
+      "bytes": 6209
+    },
+    "runs/template-report.txt": {
+      "sha256": "7acaaa0dd63543f4a9da24d5a27c9f1db7ed4b1a2e828cc6472fb307ca616bbf",
+      "bytes": 11590
+    },
+    "runs/xbrl-report.txt": {
+      "sha256": "dc2b2dbe45c2573a5058d0f1ef89537bc02dff91f633fb467f7046a9c32534e8",
+      "bytes": 37301
+    }
+  }
+}

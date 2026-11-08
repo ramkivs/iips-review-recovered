@@ -1,0 +1,231 @@
+$ npx tsx --test tests/investment/l039CashSideEvidence.test.ts tests/investment/l038CashSideAlignment.test.ts
+TAP version 13
+# Subtest: L-038 — Decision A (retained): four debt components, one instant
+    # Subtest: same-instant debt components remain publishable and the total carries its instant
+    ok 1 - same-instant debt components remain publishable and the total carries its instant
+      ---
+      duration_ms: 21.912585
+      type: 'test'
+      ...
+    # Subtest: a debt component from an older period still blocks gross debt — no anchoring, no fallback
+    ok 2 - a debt component from an older period still blocks gross debt — no anchoring, no fallback
+      ---
+      duration_ms: 6.371965
+      type: 'test'
+      ...
+    1..2
+ok 1 - L-038 — Decision A (retained): four debt components, one instant
+  ---
+  duration_ms: 29.887408
+  type: 'suite'
+  ...
+# Subtest: L-038 — Decision B (selected): the cash side must belong to one instant
+    # Subtest: same-instant cash and current investments produce cashAndInvestments, with its instant
+    ok 1 - same-instant cash and current investments produce cashAndInvestments, with its instant
+      ---
+      duration_ms: 5.119049
+      type: 'test'
+      ...
+    # Subtest: cash and current investments from different instants withhold cashAndInvestments
+    ok 2 - cash and current investments from different instants withhold cashAndInvestments
+      ---
+      duration_ms: 7.600173
+      type: 'test'
+      ...
+    # Subtest: same-instant debt and cash aggregates produce net debt
+    ok 3 - same-instant debt and cash aggregates produce net debt
+      ---
+      duration_ms: 7.822805
+      type: 'test'
+      ...
+    # Subtest: debt and cash side from different instants withhold net debt, naming both instants
+    ok 4 - debt and cash side from different instants withhold net debt, naming both instants
+      ---
+      duration_ms: 9.177503
+      type: 'test'
+      ...
+    # Subtest: the synthetic two-instant case that used to publish a number now publishes nothing
+    ok 5 - the synthetic two-instant case that used to publish a number now publishes nothing
+      ---
+      duration_ms: 11.981877
+      type: 'test'
+      ...
+    # Subtest: a missing cash component stays missing — never zero, never a period complaint
+    ok 6 - a missing cash component stays missing — never zero, never a period complaint
+      ---
+      duration_ms: 6.381584
+      type: 'test'
+      ...
+    # Subtest: a declared-nil debt component still counts as zero, and the cash side still refuses to zero anything
+    ok 7 - a declared-nil debt component still counts as zero, and the cash side still refuses to zero anything
+      ---
+      duration_ms: 10.74244
+      type: 'test'
+      ...
+    1..7
+ok 2 - L-038 — Decision B (selected): the cash side must belong to one instant
+  ---
+  duration_ms: 60.413638
+  type: 'suite'
+  ...
+# Subtest: L-038 — existing evidence stays classified as it was
+    # Subtest: Marico: both cash components are 2024-03-31, so the cash side stays same-instant under the new rule
+    ok 1 - Marico: both cash components are 2024-03-31, so the cash side stays same-instant under the new rule
+      ---
+      duration_ms: 1.930194
+      type: 'test'
+      ...
+    # Subtest: KEC: current investments are NOT_REPORTED, which is absence rather than a period mismatch
+    ok 2 - KEC: current investments are NOT_REPORTED, which is absence rather than a period mismatch
+      ---
+      duration_ms: 2.286093
+      type: 'test'
+      ...
+    1..2
+ok 3 - L-038 — existing evidence stays classified as it was
+  ---
+  duration_ms: 4.568616
+  type: 'suite'
+  ...
+# Subtest: L-039 — the filing prints no current-investments caption (evidence, not inference)
+    # Subtest: the consolidated balance sheet enumerates four current financial-asset captions, none of them investments
+    ok 1 - the consolidated balance sheet enumerates four current financial-asset captions, none of them investments
+      ---
+      duration_ms: 2.526763
+      type: 'test'
+      ...
+    # Subtest: the FY2024-25 report prints the same four captions for FY2025 and FY2024
+    ok 2 - the FY2024-25 report prints the same four captions for FY2025 and FY2024
+      ---
+      duration_ms: 0.97833
+      type: 'test'
+      ...
+    # Subtest: Note 10 is headed "Non-current:" only, and its amount is sub-rounding
+    ok 3 - Note 10 is headed "Non-current:" only, and its amount is sub-rounding
+      ---
+      duration_ms: 0.815762
+      type: 'test'
+      ...
+    # Subtest: Note 18 is bank balances, itemised: earmarked dividend, a 3-to-12-month deposit, and margin money
+    ok 4 - Note 18 is bank balances, itemised: earmarked dividend, a 3-to-12-month deposit, and margin money
+      ---
+      duration_ms: 1.441619
+      type: 'test'
+      ...
+    # Subtest: Note 19 is deposits, accrued interest, insurance claims, derivatives and reimbursables
+    ok 5 - Note 19 is deposits, accrued interest, insurance claims, derivatives and reimbursables
+      ---
+      duration_ms: 0.794941
+      type: 'test'
+      ...
+    # Subtest: the Ind AS 107 classification names exactly one investment line, and it is non-current
+    ok 6 - the Ind AS 107 classification names exactly one investment line, and it is non-current
+      ---
+      duration_ms: 0.700519
+      type: 'test'
+      ...
+    # Subtest: the cash-flow statement has no investment purchase or sale line
+    ok 7 - the cash-flow statement has no investment purchase or sale line
+      ---
+      duration_ms: 11.019127
+      type: 'test'
+      ...
+    # Subtest: the search over all 421 pages is recorded, and explains every "current investment" hit
+    ok 8 - the search over all 421 pages is recorded, and explains every "current investment" hit
+      ---
+      duration_ms: 1.242007
+      type: 'test'
+      ...
+    # Subtest: the determination says no mapping was applied and no dataset moved
+    ok 9 - the determination says no mapping was applied and no dataset moved
+      ---
+      duration_ms: 1.732959
+      type: 'test'
+      ...
+    # Subtest: the source bytes are the two reports, by hash and size, with the absent third recorded
+    ok 10 - the source bytes are the two reports, by hash and size, with the absent third recorded
+      ---
+      duration_ms: 0.813499
+      type: 'test'
+      ...
+    1..10
+ok 4 - L-039 — the filing prints no current-investments caption (evidence, not inference)
+  ---
+  duration_ms: 24.224622
+  type: 'suite'
+  ...
+# Subtest: L-039 — the payload refuses the cash side and publishes no substitute for it
+    # Subtest: gross debt and cash are published; current investments, cash-and-investments and net debt are not
+    ok 1 - gross debt and cash are published; current investments, cash-and-investments and net debt are not
+      ---
+      duration_ms: 0.436425
+      type: 'test'
+      ...
+    # Subtest: gross debt minus cash is published nowhere in the payload
+    ok 2 - gross debt minus cash is published nowhere in the payload
+      ---
+      duration_ms: 0.736686
+      type: 'test'
+      ...
+    # Subtest: every output that depends on the bridge stays withheld
+    ok 3 - every output that depends on the bridge stays withheld
+      ---
+      duration_ms: 0.462171
+      type: 'test'
+      ...
+    # Subtest: the re-run reproduced both digests, and the bundle is internally consistent
+    ok 4 - the re-run reproduced both digests, and the bundle is internally consistent
+      ---
+      duration_ms: 5.900253
+      type: 'test'
+      ...
+    1..4
+ok 5 - L-039 — the payload refuses the cash side and publishes no substitute for it
+  ---
+  duration_ms: 7.9818
+  type: 'suite'
+  ...
+# Subtest: L-039 — reported zero, declared nil and absence are three different things
+    # Subtest: the caption absent: the bridge refuses, exactly as it does for KEC
+    ok 1 - the caption absent: the bridge refuses, exactly as it does for KEC
+      ---
+      duration_ms: 22.622494
+      type: 'test'
+      ...
+    # Subtest: a reported current-investments NUMBER closes the bridge and produces a per-share value
+    ok 2 - a reported current-investments NUMBER closes the bridge and produces a per-share value
+      ---
+      duration_ms: 12.663463
+      type: 'test'
+      ...
+    # Subtest: a reported ZERO closes it too — a zero is information, an absence is not
+    ok 3 - a reported ZERO closes it too — a zero is information, an absence is not
+      ---
+      duration_ms: 5.117904
+      type: 'test'
+      ...
+    # Subtest: a DECLARED NIL is recorded with the filer words, and the cash sum does not yet treat it as zero
+    ok 4 - a DECLARED NIL is recorded with the filer words, and the cash sum does not yet treat it as zero
+      ---
+      duration_ms: 5.748887
+      type: 'test'
+      ...
+    1..4
+ok 6 - L-039 — reported zero, declared nil and absence are three different things
+  ---
+  duration_ms: 46.569833
+  type: 'suite'
+  ...
+1..6
+# tests 29
+# suites 6
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 915.216996
+$ npm run typecheck
+
+> @iips/platform@0.1.0 typecheck
+> tsc --noEmit
