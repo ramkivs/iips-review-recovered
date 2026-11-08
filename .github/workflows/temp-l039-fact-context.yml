@@ -1,0 +1,23 @@
+name: Temporary L-039 context evidence probe
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-l039-fact-context.yml'
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve and inspect specific identified filing instances
+        run: python3 .l039-probe/probe.py
+      - name: Preserve raw sources and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: l039-fact-context
+          path: l039-output/
+          if-no-files-found: error
+          retention-days: 7
