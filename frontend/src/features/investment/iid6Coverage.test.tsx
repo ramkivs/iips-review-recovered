@@ -119,6 +119,19 @@ describe('a failed coverage read is sanitized', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(/identity sources are unavailable/);
     expect(container.textContent).toContain('MISSING_COLUMN');
     // The page explains that it will not classify anything without the sources.
-    expect(container.textContent).toMatch(/No identity can be established without the eligible roster/);
+    expect(container.textContent).toMatch(/Coverage requires the eligible roster/);
   });
+});
+
+
+it('distinguishes an unavailable observation source from missing identity files', async () => {
+  stub(() => new Response(JSON.stringify({
+    error: 'observation-sources-unavailable',
+    issues: [{ file: 'eligible-roster.json', code: 'OBSERVATION_SOURCE_UNAVAILABLE',
+      subject: 'holdings/broker-preview/watchlist', detail: 'holdings unavailable' }],
+  }), { status: 503 }));
+  const { container } = renderPage();
+  expect(await screen.findByText('OBSERVATION_SOURCE_UNAVAILABLE')).toBeInTheDocument();
+  expect(container.textContent).toContain('readable observation sources');
+  expect(container.textContent).not.toContain('No identity can be established without the eligible roster');
 });

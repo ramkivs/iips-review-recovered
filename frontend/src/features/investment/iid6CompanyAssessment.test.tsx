@@ -365,3 +365,33 @@ describe('L-034/L-036 — the assessment surface shows what the valuation rests 
     expect(within(confidence).getByText(/No unapplied cap is declared on this version/)).toBeInTheDocument();
   });
 });
+
+describe('valuation wire contract', () => {
+  it('renders stored low, mid and high observations and numeric sensitivity cells', async () => {
+    stub(() => jsonOk(ASSESSMENT_ENVELOPE));
+    renderAt(`/investment/company/${encodeURIComponent(ISSUER)}`);
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const valuation = document.getElementById('valuation') as HTMLElement;
+    expect(within(valuation).getByText(/per share low 2,380 · mid 2,640 · high 2,900/)).toBeInTheDocument();
+    expect(within(valuation).getByText('2,790')).toBeInTheDocument();
+  });
+
+  it('does not present withheld conversion results or diagnostic enterprise values as per-share values', async () => {
+    const envelope = structuredClone(ASSESSMENT_ENVELOPE) as unknown as any;
+    envelope.assessment.valuation.methods[0].output.perShareMid = { value: null, presence: 'NOT_COMPUTABLE', reason: 'NOT_REPORTED' };
+    envelope.assessment.valuation.sensitivity = [{
+      methodId: 'DCF_FCFF', baseWaccBps: 1068, baseGrowthBps: 400,
+      withheld: { presence: 'NOT_COMPUTABLE', reason: 'NOT_REPORTED', note: 'bridge unavailable' },
+      points: [{ waccBps: 1000, growthBps: 400, value: 1234567, enterpriseValue: 987654321 }],
+    }];
+    stub(() => jsonOk(envelope));
+    renderAt(`/investment/company/${encodeURIComponent(ISSUER)}`);
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const valuation = document.getElementById('valuation') as HTMLElement;
+    expect(within(valuation).getByText(/mid not available — NOT_REPORTED/)).toBeInTheDocument();
+    expect(within(valuation).getByText(/withheld: NOT_REPORTED — bridge unavailable/)).toBeInTheDocument();
+    expect(within(valuation).getByText('not available — withheld — NOT_REPORTED')).toBeInTheDocument();
+    expect(valuation.textContent).not.toContain('987654321');
+    expect(valuation.textContent).not.toContain('12,34,567');
+  });
+});

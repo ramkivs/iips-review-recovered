@@ -153,7 +153,7 @@ export interface CompanyAssessmentView {
       readonly role: string;
       readonly applicable: boolean;
       readonly notApplicableReason: string | null;
-      readonly output: { readonly perShare: number | null } | null;
+      readonly output: { readonly perShareLow: NumericObservationView; readonly perShareMid: NumericObservationView; readonly perShareHigh: NumericObservationView; readonly basis: string } | null;
     }[];
     readonly intrinsic: {
       readonly currency: string;
@@ -177,10 +177,12 @@ export interface CompanyAssessmentView {
       readonly methodId: string;
       readonly baseWaccBps: number;
       readonly baseGrowthBps: number;
+      readonly withheld?: { readonly presence: string; readonly reason: string; readonly note: string | null };
       readonly points: readonly {
         readonly waccBps: number;
         readonly growthBps: number;
-        readonly value: NumericObservationView;
+        readonly value: number | null;
+        readonly enterpriseValue?: number | null;
       }[];
     }[];
   };
