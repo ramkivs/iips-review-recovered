@@ -41,6 +41,8 @@ export interface DispositionPanelProps {
   /** Required for `held`; optional context for `candidate`. */
   readonly portfolioId?: string;
   readonly heading?: string;
+  /** Assessment currently displayed alongside this independent disposition read. */
+  readonly displayedAssessment?: { readonly issuerId: string; readonly reportId: string };
 }
 
 function verbTone(verb: string | null): string {
@@ -261,7 +263,7 @@ function ImplicationBlock({ payload }: { readonly payload: DispositionPayloadVie
   );
 }
 
-export function DispositionPanel({ kind, securityId, portfolioId, heading }: DispositionPanelProps): JSX.Element {
+export function DispositionPanel({ kind, securityId, portfolioId, heading, displayedAssessment }: DispositionPanelProps): JSX.Element {
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
 
   useEffect(() => {
@@ -340,6 +342,16 @@ export function DispositionPanel({ kind, securityId, portfolioId, heading }: Dis
           {payload.disposition.adequacy}
         </p>
       </header>
+
+      {displayedAssessment !== undefined &&
+      (payload.subject.issuerId !== displayedAssessment.issuerId ||
+        payload.companyAssessmentRef.reportId !== displayedAssessment.reportId) ? (
+        <p role="alert">
+          This disposition does not cite the company assessment currently displayed. It belongs to issuer{' '}
+          <code>{payload.subject.issuerId}</code> and the assessment report identified above; do not interpret it as a
+          decision for the displayed version.
+        </p>
+      ) : null}
 
       {withheld !== null ? (
         <div role="note">
@@ -456,7 +468,7 @@ export function DispositionPanel({ kind, securityId, portfolioId, heading }: Dis
       {kind === 'candidate' && payload.subject.issuerId.length > 0 ? (
         <p>
           <Link to={`/investment/company/${encodeURIComponent(payload.subject.issuerId)}`}>
-            Open the company assessment this candidate rests on →
+            Open the current company assessment (which may differ from the cited version) →
           </Link>
         </p>
       ) : null}

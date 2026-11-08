@@ -810,7 +810,8 @@ export default function CompanyAssessmentPage(): JSX.Element {
       )}
 
       {portfolioId !== null && securityId !== null ? (
-        <DispositionPanel kind="held" portfolioId={portfolioId} securityId={securityId} heading="Disposition" />
+        <DispositionPanel kind="held" portfolioId={portfolioId} securityId={securityId} heading="Disposition"
+          displayedAssessment={{ issuerId: assessment.subject.issuerId, reportId: version.reportId }} />
       ) : (
         <SurfaceSection
           id="disposition"

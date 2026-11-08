@@ -225,3 +225,28 @@ describe('the company page carries the holding disposition when the URL supplies
     );
   });
 });
+
+describe('assessment linkage alongside a disposition', () => {
+  it('warns when a displayed historical report differs from the cited assessment', async () => {
+    stub(() => jsonOk(DISPOSITION_ENVELOPE));
+    renderPanel(<DispositionPanel kind="held" portfolioId={PORTFOLIO} securityId={SECURITY}
+      displayedAssessment={{ issuerId: ISSUER, reportId: 'r-1' }} />);
+    expect(await screen.findByRole('alert')).toHaveTextContent('does not cite the company assessment currently displayed');
+    expect(screen.getByText('r-2')).toBeInTheDocument();
+  });
+
+  it('also warns for a different issuer, even when report ids match', async () => {
+    stub(() => jsonOk(DISPOSITION_ENVELOPE));
+    renderPanel(<DispositionPanel kind="held" portfolioId={PORTFOLIO} securityId={SECURITY}
+      displayedAssessment={{ issuerId: 'different-issuer', reportId: 'r-2' }} />);
+    expect(await screen.findByRole('alert')).toHaveTextContent('does not cite the company assessment currently displayed');
+  });
+
+  it('does not warn for the cited report and issuer', async () => {
+    stub(() => jsonOk(DISPOSITION_ENVELOPE));
+    renderPanel(<DispositionPanel kind="held" portfolioId={PORTFOLIO} securityId={SECURITY}
+      displayedAssessment={{ issuerId: ISSUER, reportId: 'r-2' }} />);
+    await screen.findByText('HELD POSITION');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+});
