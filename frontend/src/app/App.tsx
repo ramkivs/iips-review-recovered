@@ -6,6 +6,7 @@ import { FeatureNotImplemented } from '../components/shell/ShellStates';
 import { ExecutiveDashboard } from '../features/executive/ExecutiveDashboard';
 import { PortfolioWorkspace } from '../features/portfolio/PortfolioWorkspace';
 import { BrokerHoldingsPreview } from '../features/broker-holdings/BrokerHoldingsPreview';
+import { PersonalPortfolio } from '../features/personal-portfolio/PersonalPortfolio';
 import { UserPortfolioList } from '../features/user-portfolios/UserPortfolioList';
 import { UserPortfolioDetail } from '../features/user-portfolios/UserPortfolioDetail';
 import { BrokerImportSurface } from '../features/portfolio-import/BrokerImportSurface';
@@ -46,6 +47,9 @@ export function App() {
         <Route path="/portfolio/*" element={<PortfolioWorkspace />} />
         <Route path="/broker-holdings" element={<BrokerHoldingsPreview />} />
         <Route path="/user-portfolios" element={<UserPortfolioList />} />
+        {/* Local single-user personal path (Program Authority, 2026-11-08): durable manual
+            portfolio editor. Distinct from the certified read-only user-portfolios views. */}
+        <Route path="/personal-portfolio" element={<PersonalPortfolio />} />
         <Route path="/user-portfolios/import" element={<BrokerImportSurface />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />

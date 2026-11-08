@@ -154,6 +154,137 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
     }
   });
 
+  describe('personal-use write mode (IIPS_LOCAL_PERSONAL_USE=1)', () => {
+    const PERSONAL = { ...BOUND, IIPS_LOCAL_PERSONAL_USE: '1' } as NodeJS.ProcessEnv;
+    const HOLDINGS = [{ symbol: 'RELIANCE', quantity: 10, averageBuyPrice: 2400, currentPrice: 2500 }];
+    const RECEIPT = {
+      success: true,
+      isDuplicate: false,
+      disposition: 'MERGED_INTO_EXISTING' as const,
+      revision: 2,
+      holdingsSavedCount: 1,
+      totalMarketValue: 25000,
+      weightSumPercentage: 100,
+      savedAt: '2026-11-08T00:00:00.000Z',
+      provenanceDigest: 'd'.repeat(64),
+      portfolio: VIEW,
+    };
+
+    it('creates a portfolio with the first holdings batch (201) and forwards no identity', async () => {
+      const port = recordingPort();
+      port.createPortfolio.mockResolvedValue(VIEW);
+      const result = await request('/api/user-portfolios', 'POST', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ portfolioName: 'Mine', holdings: HOLDINGS }),
+      });
+      expect(result).toMatchObject({ status: 201, body: { portfolio: VIEW } });
+      expect(port.createPortfolio).toHaveBeenCalledWith({ scope: {}, portfolioName: 'Mine', holdings: expect.any(Array) });
+      const sent = port.createPortfolio.mock.calls[0][0];
+      expect(JSON.stringify(sent)).not.toContain('tenantHint');
+      expect(JSON.stringify(sent)).not.toContain('companyId');
+    });
+
+    it('create refuses an empty batch before reaching the port', async () => {
+      const port = recordingPort();
+      const result = await request('/api/user-portfolios', 'POST', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ holdings: [] }),
+      });
+      expect(result.status).toBe(400);
+      expect(port.createPortfolio).not.toHaveBeenCalled();
+    });
+
+    it('saves holdings with the required optimistic-concurrency guard (200)', async () => {
+      const port = recordingPort();
+      port.saveHoldings.mockResolvedValue(RECEIPT);
+      const result = await request('/api/user-portfolios/pf-1/holdings', 'PUT', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ holdings: HOLDINGS, expectedRevision: 1, options: { mode: 'REPLACE' } }),
+      });
+      expect(result).toMatchObject({ status: 200, body: { success: true, revision: 2, disposition: 'MERGED_INTO_EXISTING' } });
+      expect(port.saveHoldings).toHaveBeenCalledWith({
+        scope: {},
+        portfolioId: 'pf-1',
+        holdings: expect.any(Array),
+        options: { mode: 'REPLACE' },
+        expectedRevision: 1,
+      });
+    });
+
+    it('refuses a save without expectedRevision before reaching the port (400)', async () => {
+      const port = recordingPort();
+      const result = await request('/api/user-portfolios/pf-1/holdings', 'PUT', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ holdings: HOLDINGS }),
+      });
+      expect(result.status).toBe(400);
+      expect(port.saveHoldings).not.toHaveBeenCalled();
+    });
+
+    it('maps a REVISION_CONFLICT from the port onto 409', async () => {
+      const port = recordingPort();
+      port.saveHoldings.mockRejectedValue(new G2Error('REVISION_CONFLICT', 'detail not disclosed'));
+      const result = await request('/api/user-portfolios/pf-1/holdings', 'PUT', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ holdings: HOLDINGS, expectedRevision: 99 }),
+      });
+      expect(result).toMatchObject({ status: 409, body: { error: 'revision-conflict' } });
+    });
+
+    it('deletes with the required guard (200)', async () => {
+      const port = recordingPort();
+      port.deletePortfolio.mockResolvedValue({ portfolioId: 'pf-1', deletedAt: '2026-11-08T00:00:00.000Z' });
+      const result = await request('/api/user-portfolios/pf-1', 'DELETE', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ expectedRevision: 3 }),
+      });
+      expect(result).toMatchObject({ status: 200, body: { portfolioId: 'pf-1' } });
+      expect(port.deletePortfolio).toHaveBeenCalledWith({ scope: {}, portfolioId: 'pf-1', expectedRevision: 3 });
+    });
+
+    it('under the gate, missing binding precondition still fails closed (503), port not constructed', async () => {
+      const factory = vi.fn(() => recordingPort());
+      const server = http.createServer((req, res) => {
+        void handleUserPortfolioRequest(req, res, {
+          portFactory: factory,
+          env: { IIPS_LOCAL_PERSONAL_USE: '1' } as NodeJS.ProcessEnv,
+        });
+      });
+      await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+      const serverPort = (server.address() as AddressInfo).port;
+      try {
+        const response = await fetch(`http://127.0.0.1:${serverPort}/api/user-portfolios`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ holdings: HOLDINGS }),
+        });
+        expect(response.status).toBe(503);
+        expect(((await response.json()) as { error: string }).error).toBe('owner-context-unavailable');
+        expect(factory).not.toHaveBeenCalled();
+      } finally {
+        await new Promise<void>((resolve) => server.close(() => resolve()));
+      }
+    });
+
+    it('reset stays refused in every mode (503)', async () => {
+      const port = recordingPort();
+      const result = await request('/api/user-portfolios/pf-1/reset', 'POST', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ holdings: HOLDINGS, expectedRevision: 1 }),
+      });
+      expect(result.status).toBe(503);
+      expect((result.body as { error?: string }).error).toBe('operation-not-admitted');
+      expect(port.resetPortfolio).not.toHaveBeenCalled();
+    });
+  });
+
   it('maps closed port refusals to non-disclosing HTTP statuses', async () => {
     const port = {
       listPortfolios: vi.fn(async () => { throw new G2Error('UPSTREAM_UNAVAILABLE', 'private transport detail'); }),

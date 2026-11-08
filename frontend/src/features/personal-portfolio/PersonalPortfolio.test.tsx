@@ -1,0 +1,136 @@
+/**
+ * Personal Portfolio — editor surface tests (local single-user path only).
+ *
+ * The transport/IPC boundary is mocked at the fetch boundary exactly like the
+ * certified workspace tests; the server-owned values (revision, totals, digests)
+ * are taken from the mocked responses, never computed here.
+ */
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
+import { PersonalPortfolio } from './PersonalPortfolio';
+import type { UserPortfolioView } from '../../api/userPortfolios';
+
+const VIEW: UserPortfolioView = {
+  portfolioId: 'DEFAULT_PORTFOLIO',
+  portfolioName: 'My Portfolio',
+  revision: 7,
+  holdings: [
+    {
+      symbol: 'RELIANCE',
+      companyId: 'MANUAL:RELIANCE',
+      quantity: 10,
+      averageBuyPrice: 2400,
+      currentPrice: 2500,
+      marketValue: 25000,
+      weightPercentage: 100,
+      active: true,
+      sourceBroker: 'manual-personal',
+      lineageDigest: 'a'.repeat(64),
+      identityStatus: 'UNRESOLVED',
+      resolutionDisposition: 'NON_PRODUCTION_OPERATOR_BYPASS',
+    },
+  ],
+  totalMarketValue: 25000,
+  totalHoldingsCount: 1,
+  weightSumPercentage: 100,
+  lastUpdated: '2026-11-08T00:00:00.000Z',
+  provenanceDigest: 'b'.repeat(64),
+  isSaved: true,
+  contributions: [],
+};
+
+function mockSequence(steps: Array<{ ok: boolean; status: number; body: unknown }>) {
+  const queue = [...steps];
+  const fetchMock = vi.fn().mockImplementation(async () => {
+    const next = queue.shift();
+    if (!next) throw new Error('unexpected fetch call');
+    return { ok: next.ok, status: next.status, json: async () => next.body };
+  });
+  globalThis.fetch = fetchMock as never;
+  return fetchMock;
+}
+
+const renderPage = () =>
+  render(
+    <MemoryRouter initialEntries={['/personal-portfolio']}>
+      <PersonalPortfolio />
+    </MemoryRouter>,
+  );
+
+beforeEach(() => {
+  vi.restoreAllMocks();
+});
+
+describe('Personal Portfolio (local single-user editor)', () => {
+  it('loads the durable portfolio and prefills the rows', async () => {
+    mockSequence([{ ok: true, status: 200, body: { portfolio: VIEW } }]);
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    expect(screen.getByTestId('pp-revision')).toHaveTextContent('7');
+    expect(screen.getByTestId('pp-save')).toHaveTextContent('Save changes');
+  });
+
+  it('creates the portfolio on first save when none exists', async () => {
+    const fetchMock = mockSequence([
+      { ok: false, status: 404, body: { error: 'not-found' } }, // initial GET
+      { ok: true, status: 201, body: { portfolio: { ...VIEW, revision: 1 } } }, // POST create
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    const symbol = await screen.findByLabelText('Symbol');
+    await user.type(symbol, 'INFY');
+    await user.type(screen.getByLabelText('Quantity'), '25');
+    await user.type(screen.getByLabelText('Average buy price'), '1500');
+    await user.type(screen.getByLabelText('Current price'), '1400');
+    await user.click(screen.getByTestId('pp-save'));
+    await waitFor(() => expect(screen.getByTestId('pp-saved')).toBeInTheDocument());
+    const createCall = fetchMock.mock.calls[1] as [string, RequestInit];
+    expect(createCall[0]).toBe('/api/user-portfolios');
+    expect(createCall[1].method).toBe('POST');
+    expect(screen.getByTestId('pp-revision')).toHaveTextContent('1');
+  });
+
+  it('surfaces 409 on save as an explicit conflict — never a silent merge', async () => {
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      { ok: false, status: 409, body: { error: 'revision-conflict' } },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    await user.click(screen.getByTestId('pp-save'));
+    expect(await screen.findByTestId('pp-conflict')).toBeInTheDocument();
+  });
+
+  it('fails closed with the local-persistence unavailable message on 503', async () => {
+    mockSequence([{ ok: false, status: 503, body: { error: 'upstream-unavailable' } }]);
+    renderPage();
+    expect(await screen.findByTestId('pp-unavailable')).toBeInTheDocument();
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+  });
+
+  it('deletes the portfolio after explicit confirmation and returns to the empty editor', async () => {
+    vi.stubGlobal('confirm', vi.fn(() => true));
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      { ok: true, status: 200, body: { portfolioId: 'DEFAULT_PORTFOLIO', deletedAt: '2026-11-08T02:00:00.000Z' } },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    await user.click(screen.getByTestId('pp-delete'));
+    await waitFor(() => expect(screen.queryByDisplayValue('RELIANCE')).not.toBeInTheDocument());
+    expect(screen.getByTestId('pp-save')).toHaveTextContent('Create portfolio');
+  });
+
+  it('rejects an invalid row client-side before any request is made', async () => {
+    const fetchMock = mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
+    renderPage();
+    await screen.findByLabelText('Symbol');
+    // The single blank row: the save button must stay disabled until the row is valid.
+    expect(screen.getByTestId('pp-save')).toBeDisabled();
+    expect(fetchMock).toHaveBeenCalledTimes(1); // only the initial load
+  });
+});
