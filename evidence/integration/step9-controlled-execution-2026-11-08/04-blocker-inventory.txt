@@ -1,0 +1,24 @@
+--- UTC timestamp ---
+2026-11-08T20:30:11Z
+--- Required local runtime settings: presence only, values withheld ---
+NODE_ENV: absent
+IIPS_LOCAL_PERSONAL_USE: absent
+IIPS_G3_IPC_BINDING_PROVISIONED: absent
+IIPS_G2_IPC_ENDPOINT: absent
+IIPS_G3_LOCAL_STATE_DIR: absent
+--- Loopback IRR port 8787 TCP probe (read-only connect attempt) ---
+127.0.0.1:8787: ECONNREFUSED
+--- Listening TCP sockets ---
+State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess
+LISTEN 0      4096         0.0.0.0:111        0.0.0.0:*
+LISTEN 0      4096               *:49983            *:*
+LISTEN 0      4096               *:22               *:*
+LISTEN 0      4096            [::]:111           [::]:*
+--- Relevant process names ---
+--- Git baseline ---
+9152df51384921e1e18940a6c4010608328117e6
+9152df51384921e1e18940a6c4010608328117e6	refs/heads/main
+--- IPD remote main ---
+de8756de1d7d4082e8e144dadf3fb53373b711c6	refs/heads/main
+--- Operator SHA-256 ---
+434a48147af4aefa6668c6d2abc420d6ac2eaaf2d233844a67a3d1063fd5fc87  frontend/server/broker-import/step9AcceptanceFixtureOperator.ts
