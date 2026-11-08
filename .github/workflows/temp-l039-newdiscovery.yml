@@ -1,0 +1,124 @@
+name: temp L-039 new-disclosure discovery (throwaway — deleted before PR)
+
+# THROWAWAY. Discovery pass for the L-039 KEC current-investments question, on a runner because the working
+# sandbox cannot reach the issuer or exchange hosts.
+#
+# What is already settled (register §17.17, tracker §16.275, evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07):
+# both annual reports the corpus holds — FY2025-26 (215 pp, sha256 ba638897…c820) and FY2024-25 (206 pp,
+# 29dfdf83…c1c6) — were converted page by page and 421 pages searched: no page carries a "Current investments"
+# caption. So this pass does NOT re-read those two PDFs. It looks only for documents that did not exist in that
+# search: audited results filings for the year ended 31 March 2026, later limited-review results (Q1/Q2 FY2026-27),
+# and any post-annual-report issuer or exchange document that prints a current-investments line.
+#
+# Output is committed to a temp path on the same branch (run logs are not reachable from the sandbox) and the
+# workflow plus that temp path are deleted before the PR.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/temp-l039-newdiscovery.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/7bc5125b-iips-review-recovered
+
+      - name: Collect discovery report into /tmp/l039-report.txt
+        run: |
+          set -u
+          REPORT=/tmp/l039-report.txt
+          : > "$REPORT"
+          exec 3>&1
+          exec >> "$REPORT" 2>&1
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+          echo "utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+          echo
+          echo "===== SECTION A: issuer site pages — do they list financial-results PDFs? ====="
+          for U in \
+            "https://www.kecrpg.com/investors" \
+            "https://www.kecrpg.com/investor-relations" \
+            "https://www.kecrpg.com/financial-results" \
+            "https://www.kecrpg.com/investors/financial-results" \
+            "https://www.kecrpg.com/sitemap.xml"
+          do
+            CODE=$(curl -sSL -A "$UA" -o /tmp/page.out -w '%{http_code}' --max-time 60 "$U")
+            SZ=$(stat -c%s /tmp/page.out 2>/dev/null || echo 0)
+            echo "--- $U http=$CODE bytes=$SZ"
+            if [ "$CODE" = "200" ]; then
+              grep -oiE 'href="[^"]+\.pdf"' /tmp/page.out | sed 's/href="//;s/"$//' | sort -u | head -40
+              grep -oiE 'https?://[^"<> ]+\.pdf' /tmp/page.out | sort -u | head -40
+            fi
+          done
+
+          echo
+          echo "===== SECTION B: Wayback CDX — every archived kecrpg.com URL mentioning results/annual/financial ====="
+          curl -sS --max-time 150 "https://web.archive.org/cdx/search/cdx?url=kecrpg.com*&output=txt&fl=original,timestamp,statuscode,mimetype&collapse=urlkey&limit=20000" -o /tmp/cdx.txt
+          echo "cdx_lines=$(wc -l </tmp/cdx.txt)"
+          echo "--- rows matching result|annual|financial|quarter|investor (name only, unique, last 120) ---"
+          grep -iE "result|annual|financial|quarter|investor" /tmp/cdx.txt | awk '{print $1" "$2" "$3}' | sort -u | tail -120
+
+          echo
+          echo "===== SECTION C: BSE announcements API (scrip 532714) ====="
+          for API in \
+            "https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w?strCat=Result&strPrevDate=20260401&strNextDate=20261105&strScrip=532714&strSearch=P&strType=C&strSort=1&strSortBy=0" \
+            "https://api.bseindia.com/BseIndiaAPI/api/AnnSubCategoryGetData/w?strCat=Result&strPrevDate=20260401&strNextDate=20261105&strScrip=532714&strSearch=P&strType=C&strSort=1&strSortBy=0"
+          do
+            CODE=$(curl -sS -A "$UA" -H 'Accept: application/json' -H 'Referer: https://www.bseindia.com/' -H 'Origin: https://www.bseindia.com' -o /tmp/bse.json -w '%{http_code}' --max-time 60 "$API")
+            echo "--- $API"
+            echo "    http=$CODE bytes=$(stat -c%s /tmp/bse.json 2>/dev/null || echo 0)"
+            head -c 600 /tmp/bse.json | tr -d '\000'; echo
+            python3 - <<'PY' 2>/dev/null | head -40
+import json
+try:
+    d=json.load(open('/tmp/bse.json'))
+except Exception as e:
+    print('    (not json:',e,')'); raise SystemExit
+rows = d.get('Table') or d.get('table') or []
+print('    rows=',len(rows))
+for r in rows[:25]:
+    sub=(r.get('NEWSSUB') or r.get('SUBJECT') or '').strip()[:90]
+    att=r.get('ATTACHMENTNAME') or ''
+    print(f"    {r.get('DT_TM') or r.get('NEWS_DT')} | {sub} | {att}")
+PY
+          done
+
+          echo
+          echo "===== SECTION D: NSE APIs (record status; a 401/403 is an access limitation, not absence) ====="
+          curl -sS -A "$UA" -c /tmp/nse.jar -o /dev/null -w 'home http=%{http_code}\n' --max-time 45 "https://www.nseindia.com/"
+          for API in \
+            "https://www.nseindia.com/api/corporates-financial-results?index=equities&symbol=KEC&period=Annual" \
+            "https://www.nseindia.com/api/integrated-filing-results?index=equities&symbol=KEC" \
+            "https://www.nseindia.com/api/corporate-announcements?index=equities&symbol=KEC"
+          do
+            CODE=$(curl -sS -A "$UA" -b /tmp/nse.jar -H 'Accept: application/json' -H 'Referer: https://www.nseindia.com/' -o /tmp/nse.json -w '%{http_code}' --max-time 60 "$API")
+            echo "--- $API http=$CODE bytes=$(stat -c%s /tmp/nse.json 2>/dev/null || echo 0)"
+            head -c 400 /tmp/nse.json | tr -d '\000'; echo
+          done
+
+          echo
+          echo "===== END OF REPORT ====="
+          exec >&3 2>&3
+          echo "report bytes=$(stat -c%s "$REPORT")"
+
+      - name: Publish report to the branch (temp path)
+        if: always()
+        run: |
+          set -u
+          REPORT=/tmp/l039-report.txt
+          [ -s "$REPORT" ] || { echo "no report captured"; exit 0; }
+          mkdir -p .l039-temp
+          cp "$REPORT" .l039-temp/discovery-report.txt
+          git config user.name "L-039 locator"
+          git config user.email "noreply@github.com"
+          git add .l039-temp/discovery-report.txt
+          git commit -qm "temp: L-039 discovery report (throwaway, deleted before PR)"
+          git push origin HEAD:refs/heads/arena/7bc5125b-iips-review-recovered
