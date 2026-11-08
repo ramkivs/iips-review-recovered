@@ -1,0 +1,4 @@
+===== SECTION 1: FY2023-24 identity =====
+utc=2026-11-08T04:08:44Z
+url=https://marico.com/investorspdf/Marico_Annual_Report_FY24.pdf
+curl: (35) TLS connect error: error:0A000126:SSL routines::unexpected eof while reading
