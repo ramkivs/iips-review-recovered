@@ -94,7 +94,11 @@ async function startPeer(): Promise<Peer> {
 
 describe('Direct P1 IRR HTTP-to-IPC integration', () => {
   it('pins the public IPD package and lockfile to the exact merged Direct P1 commit', () => {
-    const expected = 'github:ramkivs/iips-production-market-data#279d1eed184f5e23bbabe5c6411085e120ce9e41';
+    // The primary pin is where the Direct P1 surface landed; it is re-expressed here as
+    // the current authoritative commit so this guard tracks the pin rather than freezing
+    // it. Advanced `279d1eed…` -> `59fdfd1…` (IPD PR #140 merge) by the isolated Dhan
+    // convergence. The Direct P1 HTTP-to-IPC behaviour asserted below is unchanged.
+    const expected = 'github:ramkivs/iips-production-market-data#59fdfd157632dbdbc220ae03d9d0b8e047d4ef19';
     const manifest = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
       dependencies: Record<string, string>;
     };
@@ -104,7 +108,7 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     expect(manifest.dependencies['iips-production-market-data']).toBe(expected);
     expect(lock.packages[''].dependencies?.['iips-production-market-data']).toBe(expected);
     expect(lock.packages['node_modules/iips-production-market-data'].resolved)
-      .toContain('#279d1eed184f5e23bbabe5c6411085e120ce9e41');
+      .toContain('#59fdfd157632dbdbc220ae03d9d0b8e047d4ef19');
   });
 
   let peer: Peer;
