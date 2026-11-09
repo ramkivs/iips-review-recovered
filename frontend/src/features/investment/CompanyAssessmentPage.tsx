@@ -41,7 +41,7 @@ type LoadState =
 /** Render a number, or `not available — <reason>`. Never "0" and never an empty cell. */
 function numeric(observation: NumericObservationView | null | undefined, unit = ''): string {
   if (observation === null || observation === undefined) return notAvailable('not reported in this version');
-  if (observation.value === null) return notAvailable(observation.reason ?? observation.presence);
+  if (observation.value === null || observation.value === undefined) return notAvailable(observation.reason ?? observation.presence);
   return `${formatNumber(observation.value)}${unit}`;
 }
 
@@ -699,7 +699,7 @@ export default function CompanyAssessmentPage(): JSX.Element {
                 <td>
                   {method.output === null
                     ? `withheld${method.notApplicableReason === null ? '' : `: ${method.notApplicableReason}`}`
-                    : `per share ${numeric({ value: method.output.perShare, presence: 'PRESENT' })}`}
+                    : `per share low ${numeric(method.output.perShareLow)} · mid ${numeric(method.output.perShareMid)} · high ${numeric(method.output.perShareHigh)}`}
                 </td>
               </tr>
             ))}
@@ -728,6 +728,7 @@ export default function CompanyAssessmentPage(): JSX.Element {
             <table key={grid.methodId}>
               <caption>
                 {grid.methodId} · base WACC {grid.baseWaccBps}bps · base growth {grid.baseGrowthBps}bps
+                {grid.withheld ? ` · withheld: ${grid.withheld.reason}${grid.withheld.note ? ` — ${grid.withheld.note}` : ''}` : ''}
               </caption>
               <thead>
                 <tr>
@@ -741,7 +742,7 @@ export default function CompanyAssessmentPage(): JSX.Element {
                   <tr key={`${point.waccBps}-${point.growthBps}`}>
                     <td>{point.waccBps}</td>
                     <td>{point.growthBps}</td>
-                    <td>{numeric(point.value)}</td>
+                    <td>{grid.withheld ? notAvailable(`withheld — ${grid.withheld.reason}`) : point.value === null ? notAvailable('outside the calculation domain') : formatNumber(point.value)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -810,7 +811,8 @@ export default function CompanyAssessmentPage(): JSX.Element {
       )}
 
       {portfolioId !== null && securityId !== null ? (
-        <DispositionPanel kind="held" portfolioId={portfolioId} securityId={securityId} heading="Disposition" />
+        <DispositionPanel kind="held" portfolioId={portfolioId} securityId={securityId} heading="Disposition"
+          displayedAssessment={{ issuerId: assessment.subject.issuerId, reportId: version.reportId }} />
       ) : (
         <SurfaceSection
           id="disposition"

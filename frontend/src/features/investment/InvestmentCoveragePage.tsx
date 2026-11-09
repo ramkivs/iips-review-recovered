@@ -137,8 +137,8 @@ export default function InvestmentCoveragePage(): JSX.Element {
         <h1>Identity coverage is unavailable</h1>
         <p role="alert">{state.message}</p>
         <p className="muted">
-          No identity can be established without the eligible roster, listing map and corporate-action
-          table, so no row is classified. Nothing is guessed and no substitute roster is used.
+          Coverage requires the eligible roster, listing map and corporate-action table, as well as readable
+          observation sources. No partial coverage report is shown. Nothing is guessed and no substitute roster is used.
         </p>
         <table>
           <thead>
