@@ -31,6 +31,10 @@
     "server/replay/**/*.ts",
     "server/replay/**/*.tsx",
     "server/broker-import/step9AcceptanceFixtureOperator.ts",
-    "server/broker-import/step9AcceptanceFixtureOperator.test.ts"
+    "server/broker-import/step9AcceptanceFixtureOperator.test.ts",
+    "server/market-data/marketDataTransportConfig.ts",
+    "server/market-data/marketDataTransportConfig.test.ts",
+    "server/market-data/dhanIdentityTransport.ts",
+    "server/market-data/dhanIdentityTransport.test.ts"
   ]
 }

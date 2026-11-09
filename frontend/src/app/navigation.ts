@@ -37,6 +37,7 @@ export const NAV: NavItem[] = [
   // Personal, durable, single-user portfolio (local personal-use path; Program Authority 2026-11-08).
   { label: 'Personal Portfolio', path: '/personal-portfolio' },
   { label: 'Watchlists', path: '/watchlists' },
+  { label: 'DHAN Instrument Search', path: ROUTES.dhanInstrumentSearch },
   // IID-1: identity coverage over holdings, broker-preview rows and watchlists. Read-only; it renders the
   // resolution state of every observed row and never substitutes a sector reference for an identity.
   { label: 'Identity Coverage', path: ROUTES.identityCoverage },
