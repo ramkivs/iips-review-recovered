@@ -743,6 +743,41 @@ const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
   }
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
+  // DHAN-P2 — credential-free status only; this does not contact the daemon or vendor.
+  if ((req.url ?? '').split('?')[0] === '/api/dhan/health') {
+    void (async () => {
+      try {
+        const health = await import('./market-data/dhanHealthTransport');
+        await health.handleDhanHealthRequest(req, res, { env: process.env });
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(JSON.stringify({ error: 'dhan-health-transport-error' }));
+        }
+      }
+    })();
+    return;
+  }
+  // DHAN-P4 — provider-side instrument search and identity evidence. The browser calls only
+  // these IRR routes; the IPD bearer token and daemon URL are read by the server transport.
+  if (req.url?.split('?')[0] && [
+    '/api/dhan/instruments/search',
+    '/api/dhan/identity/resolve',
+    '/api/dhan/identity/qualify',
+  ].includes(req.url.split('?')[0]!)) {
+    void (async () => {
+      try {
+        const identity = await import('./market-data/dhanIdentityTransport');
+        await identity.handleDhanIdentityRequest(req, res);
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(JSON.stringify({ error: { code: 'TRANSPORT_UNAVAILABLE', message: 'The IRR identity service is unavailable.' } }));
+        }
+      }
+    })();
+    return;
+  }
   // AI Explanation is a direct, credential-free, read-only advisory over certified results.
   if (req.url?.startsWith('/api/ai-advisory/')) {
     void (async () => {

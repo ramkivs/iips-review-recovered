@@ -29,6 +29,7 @@
     "server/product-transport.test.ts",
     "server/screener/screener-transport.test.ts",
     "server/replay/**/*.ts",
-    "server/replay/**/*.tsx"
+    "server/replay/**/*.tsx",
+    "server/market-data/**/*.ts"
   ]
 }

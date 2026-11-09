@@ -13,6 +13,8 @@ export const ROUTES = {
   portfolioDetail: '/portfolio/:id',
   portfolioHoldings: '/portfolio/:id/holdings',
   watchlists: '/watchlists',
+  dhanInstrumentSearch: '/dhan/instruments',
+  dhanConnectionStatus: '/dhan/connection-status',
   /**
    * IID-1 — investment identity coverage. The SPA surface; the server also renders the same report at
    * `/investment/coverage` for a credential-free, JS-free view. Both read the same endpoint and neither

@@ -23,6 +23,8 @@ import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
 import { Screener } from '../features/screener/Screener';
 import { Watchlists } from '../features/watchlists/Watchlists';
+import { DhanInstrumentSearch } from '../features/dhan/DhanInstrumentSearch';
+import { DhanConnectionStatus } from '../features/dhan/DhanConnectionStatus';
 import InvestmentCoveragePage from '../features/investment/InvestmentCoveragePage';
 import CompanyAssessmentPage from '../features/investment/CompanyAssessmentPage';
 import { Collaboration } from '../features/collaboration/Collaboration';
@@ -48,6 +50,8 @@ export function App() {
         <Route path="/user-portfolios/import" element={<BrokerImportSurface />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
+        <Route path={ROUTES.dhanInstrumentSearch} element={<DhanInstrumentSearch />} />
+        <Route path={ROUTES.dhanConnectionStatus} element={<DhanConnectionStatus />} />
         {/* IID-1 — investment identity coverage (read-only; identity resolution is server-side). */}
         <Route path={ROUTES.identityCoverage} element={<InvestmentCoveragePage />} />
         {/* IID-3 — persisted company assessment (GET-only; the server owns persistence). */}
