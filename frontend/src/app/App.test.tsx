@@ -120,7 +120,14 @@ describe('Application Shell', () => {
 
   it('shows roleless navigation for the available product surfaces', () => {
     renderAt('/executive');
-    for (const name of ['Executive', 'Watchlists', 'Collaboration', 'User Portfolios', 'Settings']) {
+    for (const name of [
+      'Executive', 'Watchlists', 'Collaboration', 'User Portfolios', 'Settings',
+      // IID WI-1 P1: the capability group and all three capabilities are global navigation entries.
+      'Investment Intelligence',
+      'IID-01 — Stock Intelligence',
+      'IID-02 — Investment & Holding Decisions',
+      'IID-03 — Historical Change Intelligence',
+    ]) {
       expect(screen.getByRole('link', { name })).toBeInTheDocument();
     }
     expect(screen.queryByRole('link', { name: 'Administration' })).not.toBeInTheDocument();

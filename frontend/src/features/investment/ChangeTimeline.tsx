@@ -17,6 +17,7 @@
  * browser affordance, and this component has no button that could pretend otherwise.
  */
 import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   CHANGE_CATEGORIES,
@@ -34,6 +35,7 @@ import {
 import type { AssessmentVersionView } from '../../api/investment';
 import { AbsentValue, MaterialityBadge, DirectionBadge, PriorityBadge, SurfaceSection, UnavailableNotice } from './InvestmentStates';
 import { ATTRIBUTION_COPY, CLASSIFICATION_COPY, formatNumber, notAvailable } from './investmentCopy';
+import { companyAssessmentHref, type InvestmentContext } from './investmentContext';
 
 type LoadState =
   | { readonly kind: 'loading' }
@@ -44,6 +46,12 @@ export interface ChangeTimelineProps {
   readonly issuerId: string;
   /** Every version of the same chain, from the assessment envelope. Supplies the as-of/model columns. */
   readonly versions: readonly AssessmentVersionView[];
+  /**
+   * IID WI-1 (P4): the holding context the surrounding company page was opened with. Comparison links carry it so
+   * opening a compared version does not silently discard the portfolio and security the reader came from. Absent
+   * when the timeline is rendered without a holding (its own tests do exactly that).
+   */
+  readonly context?: InvestmentContext;
 }
 
 function itemValues(item: ChangeItemView): { readonly from: string; readonly to: string; readonly extra: string | null } {
@@ -253,7 +261,7 @@ function BoundaryCoverage({ boundaries }: { readonly boundaries: BoundariesEnvel
   );
 }
 
-export function ChangeTimeline({ issuerId, versions }: ChangeTimelineProps): JSX.Element {
+export function ChangeTimeline({ issuerId, versions, context = {} }: ChangeTimelineProps): JSX.Element {
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
   const [selected, setSelected] = useState(0);
 
@@ -336,6 +344,7 @@ export function ChangeTimeline({ issuerId, versions }: ChangeTimelineProps): JSX
                 <th scope="col">Items</th>
                 <th scope="col">Review</th>
                 <th scope="col">Show</th>
+                <th scope="col">Open stored version</th>
               </tr>
             </thead>
             <tbody>
@@ -368,6 +377,25 @@ export function ChangeTimeline({ issuerId, versions }: ChangeTimelineProps): JSX
                       >
                         {previousIndex === selected ? `Showing v${comparison.from.artifactVersion} → v${comparison.to.artifactVersion}` : `Compare v${comparison.from.artifactVersion} → v${comparison.to.artifactVersion}`}
                       </button>
+                    </td>
+                    <td>
+                      {/*
+                        IID WI-1 (P4): each side of the pair is a stored version the read API can address
+                        (`GET /api/investment/company/:issuerId/versions/:reportId`), so the link selects that
+                        exact report on the company route and keeps the holding context. These are links, not
+                        buttons: the compare control changes which pair is shown, this reads that version as
+                        the assessment.
+                      */}
+                      <Link
+                        to={companyAssessmentHref(issuerId, { ...context, reportId: comparison.from.reportId })}
+                      >
+                        Open v{comparison.from.artifactVersion}
+                      </Link>{' '}
+                      <Link
+                        to={companyAssessmentHref(issuerId, { ...context, reportId: comparison.to.reportId })}
+                      >
+                        Open v{comparison.to.artifactVersion}
+                      </Link>
                     </td>
                   </tr>
                 );

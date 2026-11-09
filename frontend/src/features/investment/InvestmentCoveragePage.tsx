@@ -9,6 +9,7 @@
  */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { candidateAssessmentHref, changeHistoryHref, companyAssessmentHref } from './investmentContext';
 
 import {
   CoverageUnavailableError,
@@ -38,6 +39,18 @@ function tone(state: string): string {
 }
 
 /**
+ * IID WI-1 (P4): the holding context a coverage row can legitimately carry. `portfolioId` is the portfolio the
+ * server observed the row in (null for a watchlist or broker-preview row) and `securityId` is the resolved
+ * binding's own security. A null stays absent: no portfolio is assumed and no security is constructed.
+ */
+function rowContext(item: CoverageItemView): { portfolioId?: string; securityId?: string } {
+  return {
+    ...(item.portfolioId === null ? {} : { portfolioId: item.portfolioId }),
+    ...(item.binding.securityId === null ? {} : { securityId: item.binding.securityId }),
+  };
+}
+
+/**
  * IID-6: an identity that is known becomes a way IN, and an identity that is not known offers nothing to click.
  *
  * The links are the only reason this cell knows about routing: `RESOLVED` + `assessable` opens the stored company
@@ -55,12 +68,20 @@ function IdentityCell({ item }: { readonly item: CoverageItemView }): JSX.Elemen
         <span className="muted">via {binding.resolutionBasis === 'ISIN' ? 'ISIN' : 'exchange symbol'}</span>
         {binding.issuerId !== null && binding.assessable ? (
           <span>
-            <Link to={`/investment/company/${encodeURIComponent(binding.issuerId)}`}>Company assessment →</Link>
+            {/*
+              IID WI-1 (P4): a coverage row knows which portfolio observed it. Carrying that portfolio and the
+              row's security means the company page can render THIS holding's disposition instead of reporting
+              that no context was supplied. Both come from the server's binding — neither is derived here.
+            */}
+            <Link to={companyAssessmentHref(binding.issuerId, rowContext(item))}>Company assessment →</Link>{' '}
+            <Link to={changeHistoryHref(binding.issuerId, rowContext(item))}>Change history →</Link>
           </span>
         ) : null}
         {binding.securityId !== null ? (
           <span>
-            <Link to={`/investment/candidate/${encodeURIComponent(binding.securityId)}`}>Candidate view →</Link>
+            <Link to={candidateAssessmentHref(binding.securityId, item.portfolioId ?? undefined)}>
+              Candidate view →
+            </Link>
           </span>
         ) : null}
       </div>
@@ -72,7 +93,7 @@ function IdentityCell({ item }: { readonly item: CoverageItemView }): JSX.Elemen
         <code>{binding.issuerId}</code>
         <span className="muted">identity known, not assessed</span>
         <span>
-          <Link to={`/investment/company/${encodeURIComponent(binding.issuerId)}`}>Company assessment →</Link>
+          <Link to={companyAssessmentHref(binding.issuerId, rowContext(item))}>Company assessment →</Link>
         </span>
       </div>
     );
