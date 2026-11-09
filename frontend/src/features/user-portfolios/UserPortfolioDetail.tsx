@@ -17,6 +17,11 @@ import {
   fetchPortfolioDispositions,
   type PortfolioDispositionEntry,
 } from '../../api/investmentDisposition';
+import {
+  fetchPortfolioHoldingIdentities,
+  type HoldingIdentity,
+} from '../../api/investmentDiscovery';
+import { changeHistoryHref, companyAssessmentHref } from '../investment/investmentContext';
 import { formatRatio4, notAvailable } from '../investment/investmentCopy';
 import {
   fetchUserPortfolio,
@@ -82,41 +87,66 @@ function DispositionCell({
   );
 }
 
+/**
+ * IID WI-2 (P3) — company / history / candidate entry points for one holding.
+ *
+ * THE CORRECTION. This cell previously read `entry?.issuerId ?? null` from the DISPOSITION list, so a holding
+ * with no recorded verb — or a disposition read that failed — lost its company and history links. Whether a
+ * company can be assessed is independent of whether a disposition exists.
+ *
+ * Identity now comes from `/api/investment/portfolio/:id/identities`, which resolves each holding against the
+ * governed roster and does not read dispositions at all. The issuer id is the server's; nothing is derived here.
+ * An unresolved holding gets an honest reason and no company link, rather than a misleading one.
+ */
 function LinksCell({
   portfolioId,
   holding,
-  entry,
+  identity,
+  identitiesRead,
 }: {
   readonly portfolioId: string | undefined;
   readonly holding: UserPortfolioHolding;
-  readonly entry: PortfolioDispositionEntry | null;
+  readonly identity: HoldingIdentity | null;
+  readonly identitiesRead: boolean;
 }): JSX.Element {
-  const issuerId = entry?.issuerId ?? null;
-  const securityId = holding.isin === undefined ? null : `IN:ISIN:${holding.isin}`;
-  if (issuerId === null && securityId === null) {
-    return <span className="muted">{notAvailable('no resolved identity to link')}</span>;
+  const issuerId = identity?.issuerId ?? null;
+  // Prefer the server's resolved security id. The fallback below is the pre-existing candidate behaviour, kept
+  // so a failed identity read does not remove the candidate entry point that worked before this change.
+  const securityId = identity?.securityId ?? (holding.isin === undefined ? null : `IN:ISIN:${holding.isin}`);
+
+  if (!identitiesRead) {
+    return (
+      <span>
+        <span className="muted">{notAvailable('holding identity could not be read')}</span>{' '}
+        {securityId === null ? null : (
+          <Link to={`/investment/candidate/${encodeURIComponent(securityId)}`}>Candidate view →</Link>
+        )}
+      </span>
+    );
   }
-  /**
-   * The company link carries the portfolio and security context so the company page can render THAT holding's
-   * disposition beside the assessment. Without the context the company page says so explicitly rather than showing
-   * a disposition it cannot address.
-   */
-  const companyHref =
-    issuerId === null
-      ? null
-      : `/investment/company/${encodeURIComponent(issuerId)}${
-          portfolioId === undefined || securityId === null
-            ? ''
-            : `?portfolioId=${encodeURIComponent(portfolioId)}&securityId=${encodeURIComponent(securityId)}`
-        }`;
+
+  if (issuerId === null) {
+    return (
+      <span>
+        <span className="muted">
+          {notAvailable(identity?.reasonText ?? 'no governed company identity for this holding')}
+        </span>{' '}
+        {securityId === null ? null : (
+          <Link to={`/investment/candidate/${encodeURIComponent(securityId)}`}>Candidate view →</Link>
+        )}
+      </span>
+    );
+  }
+
+  // Carry the portfolio and holding context so the company page can address THIS position, and so P4
+  // preservation and the P5 history anchor keep working from this entry point.
+  const context =
+    portfolioId === undefined || securityId === null ? {} : { portfolioId, securityId };
+  const companyHref = companyAssessmentHref(issuerId, context);
   return (
     <span>
-      {companyHref === null ? null : (
-        <>
-          <Link to={companyHref}>Company assessment →</Link>{' '}
-          <Link to={`${companyHref}#change-timeline`}>Change history →</Link>{' '}
-        </>
-      )}
+      <Link to={companyHref}>Company assessment →</Link>{' '}
+      <Link to={changeHistoryHref(issuerId, context)}>Change history →</Link>{' '}
       {securityId === null ? null : (
         <Link to={`/investment/candidate/${encodeURIComponent(securityId)}`}>Candidate view →</Link>
       )}
@@ -129,6 +159,8 @@ export function UserPortfolioDetail() {
   const [view, setView] = useState<UserPortfolioView | null>(null);
   const [error, setError] = useState<UserPortfolioApiError | null>(null);
   const [dispositions, setDispositions] = useState<readonly PortfolioDispositionEntry[] | null>(null);
+  // IID WI-2 (P3): a SEPARATE read, so a disposition failure cannot suppress company/history navigation.
+  const [identities, setIdentities] = useState<readonly HoldingIdentity[] | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -152,6 +184,15 @@ export function UserPortfolioDetail() {
       })
       .catch(() => {
         if (!cancelled) setDispositions(null);
+      });
+    // Independent of the disposition read above: this is what keeps company/history links available when no
+    // disposition exists or that read fails. A failure here degrades only the identity-derived links.
+    fetchPortfolioHoldingIdentities(portfolioId)
+      .then((list) => {
+        if (!cancelled) setIdentities(list.identities);
+      })
+      .catch(() => {
+        if (!cancelled) setIdentities(null);
       });
     return () => {
       cancelled = true;
@@ -179,6 +220,19 @@ export function UserPortfolioDetail() {
         <LoadingState />
       </section>
     );
+  }
+
+  /**
+   * IID WI-2 (P3): join each rendered row to its resolved identity by the row's own position in the view.
+   * A Map keyed by the row object is used instead of `indexOf`, which would map duplicate rows to the first
+   * occurrence. The server returns `holdingIndex` against this same ordered holdings array.
+   */
+  const identityByRow = new Map<UserPortfolioHolding, HoldingIdentity>();
+  if (identities !== null) {
+    view.holdings.forEach((holding, index) => {
+      const identity = identities.find((item) => item.holdingIndex === index);
+      if (identity !== undefined) identityByRow.set(holding, identity);
+    });
   }
 
   const holdingColumns: readonly Column<UserPortfolioHolding>[] = [
@@ -211,7 +265,12 @@ export function UserPortfolioDetail() {
       key: 'investmentLinks',
       header: 'Company, candidate and history',
       render: (row) => (
-        <LinksCell portfolioId={portfolioId} holding={row} entry={dispositionFor(row, dispositions ?? [])} />
+        <LinksCell
+          portfolioId={portfolioId}
+          holding={row}
+          identity={identityByRow.get(row) ?? null}
+          identitiesRead={identities !== null}
+        />
       ),
     },
   ];

@@ -15,15 +15,19 @@
  * fail with it. Coverage and User Portfolios are offered as *where to find an identifier*, never as substitutes for
  * the capabilities themselves.
  *
- * NO SEARCH, NO CLASSIFICATION. There is no company-search API in this work item, so entry is by the opaque
- * identifier the operator already holds. The id is passed through verbatim: this page never derives an issuer from
- * a security, never guesses a listing, and never invents a portfolio. The destination surface reports honestly if
- * no stored assessment exists for the id it was given.
+ * DISCOVERY (IID WI-2 / P2). `CompanyDiscoveryPanel` searches the governed eligible roster server-side, so a
+ * reader can FIND a company by name or identifier instead of already holding an opaque id. The opaque-identifier
+ * forms below remain as an additional, precise entry method.
+ *
+ * NO CLIENT-SIDE CLASSIFICATION. Every issuer id this page navigates to came from the server — either resolved
+ * from the roster by the discovery endpoint, or typed verbatim by the operator. This page never derives an issuer
+ * from a security, never turns a display name into an identity, and never invents a portfolio.
  */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { ReadOnlyDisclosure, SurfaceSection } from './InvestmentStates';
+import CompanyDiscoveryPanel from './CompanyDiscoveryPanel';
 import {
   candidateAssessmentHref,
   changeHistoryHref,
@@ -69,6 +73,9 @@ export default function InvestmentLandingPage(): JSX.Element {
           reporting periods, valuation methods, risk factors, evidence and limitations; a missing value is shown
           with its reason and never as zero.
         </p>
+        {/* IID WI-2 (P2): find a company first. This reads the discovery endpoint only, never Coverage. */}
+        <CompanyDiscoveryPanel />
+        <h3>Or open an identifier you already hold</h3>
         <form
           aria-label="Open a company assessment"
           onSubmit={(event) => {
@@ -202,8 +209,9 @@ export default function InvestmentLandingPage(): JSX.Element {
           </li>
         </ul>
         <p className="muted">
-          This landing page reads nothing, so the three capabilities stay discoverable even when coverage,
-          portfolios or the owner context are unavailable.
+          The three capabilities are named on this page without any read, so they stay discoverable even when
+          coverage, portfolios or the owner context are unavailable. Company discovery reads the governed
+          identity files directly and does not depend on Investment Coverage succeeding.
         </p>
       </SurfaceSection>
     </section>

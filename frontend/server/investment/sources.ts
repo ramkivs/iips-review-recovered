@@ -141,6 +141,28 @@ export function createHoldingsProvider(options: CoverageSourceOptions = {}) {
   };
 }
 
+/**
+ * IID WI-2 (P3) — read-only holdings for ONE portfolio, through the SAME IPC path and the SAME server-owned
+ * binding precondition the coverage holdings provider uses.
+ *
+ * This exists so holding identity can be resolved without reading dispositions. It does not widen access: an
+ * unestablished owner context throws before the port is constructed, and the scope stays empty so IPD resolves
+ * the owner from its own active binding. No write capability is used.
+ */
+export function createPortfolioHoldingsProvider(options: CoverageSourceOptions = {}) {
+  return async (portfolioId: string): Promise<readonly G2HoldingView[]> => {
+    const env = options.env ?? process.env;
+    const precondition = readBindingPrecondition(env);
+    if (!isOwnerContextEstablished(ownerContextFromBinding(precondition, env))) {
+      throw new Error('owner context not established: the server-owned binding carrier is not configured');
+    }
+    const port = options.portFactory?.() ?? new IpcUserPortfolioPort({ precondition });
+    const scope: G2Scope = {};
+    const view = await port.getPortfolio({ scope, portfolioId });
+    return view.holdings;
+  };
+}
+
 /** Read-only watchlist items via the existing watchlists service. */
 export function createWatchlistProvider(options: CoverageSourceOptions = {}) {
   return async (): Promise<readonly IdentityObservation[]> => {
