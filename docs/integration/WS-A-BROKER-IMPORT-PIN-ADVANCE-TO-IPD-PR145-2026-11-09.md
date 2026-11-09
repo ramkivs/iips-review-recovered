@@ -71,7 +71,10 @@ subpaths with an **identical export map** to the previous pin.
 The **only** change to the IRR-consumed broker-import surface is
 `src/identity/governed_fixture_master.ts`. No consumed module was removed or renamed, so the
 18-module / 36-required-artifact profile and both runtime entrypoints are unchanged. The
-`files: ["dist/package"]` contract and the four-subpath export map are unchanged.
+`files: ["dist/package"]` contract and the **five**-subpath export map are unchanged (`./portfolio-ui`,
+`./pit`, `./d114-non-production`, `./operator-drop`, `./dhan-server`; the earlier `four-subpath`
+wording in this paragraph described the pre-DHAN-P3 pin `58fc8fb`, and is corrected here additively —
+the dated statement above it is left as published).
 
 IPD's own `broker_observation_resolver` execution-stage guard is re-pinned **by IPD**
 (record count 2,390; the replacement act reference). IRR neither reimplements nor weakens it.
@@ -88,7 +91,7 @@ were enumerated from IRR's own sources and confirmed present in the `709fd13` ex
 | Integration point | Change or preserved role |
 |---|---|
 | `frontend/package.json` | `iips-broker-import` advances `58fc8fb…` → `709fd13…`; `iips-production-market-data` advances `73768fa…` → `709fd13…`. `iips-np04-governed-persistence` (`2e11fa3b…`) **unchanged** — it is a separate NP-04 branch, outside this scope. |
-| `frontend/package-lock.json` | Exactly **4 lines**: the two root alias specifiers and the two `node_modules/…` `resolved` Git URLs. **No unrelated dependency movement** — a full `npm install` regeneration was explicitly rejected because it pulled newer transitive versions (1,293 changed lines). |
+| `frontend/package-lock.json` | Exactly **5 lines**: the two root alias specifiers, the two `node_modules/…` `resolved` Git URLs, and the `iips-broker-import` `integrity` value. **No unrelated dependency movement** — a full `npm install` regeneration was explicitly rejected because it pulled newer transitive versions (1,293 changed lines). The `integrity` correction is recorded in the PR #146 reconciliation (see `WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR146-2026-11-09.md` §2/§7): the `iips-broker-import` entry still carried `sha512-Kum3z9…`, the SRI of the retired `58fc8fb` archive, although both aliases pack the byte-identical d5 archive whose SRI is `sha512-GwA4k…`. |
 | `frontend/broker-import-package-profile.json` | Matching `aliasCommit` / `aliasSpecifier` / provenance and the compatibility rationale. Required modules and runtime entrypoints **unchanged**. |
 | `frontend/broker-import-publication-manifest.json` | Regenerated from the **actually installed** bytes at the new pin: 204 published files (was 152), `packageJsonSha256` `af7d0d49fb016733492bb9d238332df6ab11f5811ec2d48d0fff24c0f065de2c`, `publishedInventorySha256` `77ad687518447552b4fe030baa447458634b541cb20bf24027ef3de22f640ea7`. The digest definition is unchanged (SHA-256 of the compact, key-sorted, path-sorted JSON array). |
 | `frontend/scripts/materialize-broker-import.mjs` | **UNCHANGED** fail-closed exact-pin checker and published-byte copier. |

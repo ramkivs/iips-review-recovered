@@ -3,7 +3,8 @@
  *
  * These tests qualify IRR's OWN consumption of the IPD `./dhan-server` subpath at the
  * authoritative dependency commit `d5e20c15059267a3f824b015e37d652084de5a01` (IPD `main`,
- * merge commit of IPD PR #145). They are pre-access, offline and synthetic: no Dhan
+ * merge commit of IPD PR #146, whose `./dhan-server` closure is byte-identical to the IPD PR
+ * #145 merge `709fd13`). They are pre-access, offline and synthetic: no Dhan
  * credential is read, no socket is opened and no vendor endpoint is contacted.
  *
  * PIN ADVANCE (DHAN-P3): the pin moved forward from

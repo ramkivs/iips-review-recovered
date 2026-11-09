@@ -81,6 +81,34 @@ WEBSOL ENERGY SYSTEM,100,107.09,67.15,10709.00,6715.00,-3994.00,-37.30
 
 const NATIVE_NAMES = DHAN_68_CSV.trim().split('\n').slice(1).map((line) => line.split(',')[0]);
 
+/* ------------------------------------------------------------------ *
+ * The governed master revision the INSTALLED IPD package publishes.
+ *
+ * The preview reports `identityAuthority.entities` and
+ * `identitySummary.masterRevision` straight from IPD's own master, so the
+ * tests read the installed revision instead of hard-coding one. That keeps
+ * every assertion below correct for whichever governed master the pinned IPD
+ * revision supplies — the legacy Wave-1 corpus (2,250 records) or the D05
+ * authenticated universe (2,390 records) — without either state being
+ * asserted against the other's numbers.
+ *
+ * Authority: docs/integration/WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md
+ * ------------------------------------------------------------------ */
+const INSTALLED_MASTER = (() => {
+  const preview = previewBrokerHoldings(DHAN_68_CSV, 'Portfolio(2).csv', at);
+  const batchId = preview.identitySummary?.masterRevision?.split(':')[0] ?? null;
+  return {
+    batchId,
+    entities: preview.identityAuthority.entities,
+    /** The positions the pinned master resolves for this name-only surface. */
+    resolvedNames: preview.holdings
+      .filter((h) => h.identityStatus === 'RESOLVED')
+      .map((h) => h.symbol)
+      .sort(),
+    unresolved: preview.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length,
+  };
+})();
+
 describe('Broker preview public boundary — native evidence, never a save', () => {
   for (const [variant, csv] of [['DHAN_DETAILED_HOLDINGS_V1', detailed], ['DHAN_WEB_UI_SUMMARY_V1', summary]] as const) {
     it(`reuses ${variant} without manufacturing canonical identity`, () => {
@@ -107,9 +135,14 @@ describe('Broker preview public boundary — native evidence, never a save', () 
     assert.equal(p.counts.savedRows, 0);
     assert.equal(p.canSave, false);
     // The governed D05 master is IPD's authenticated universe (2,390 records) from IPD PR #145
-    // (`AUTH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-ACT-2026-11-08-001`). IRR reports the count
-    // IPD's own master publishes; it does not hold its own copy of the corpus.
-    assert.deepEqual(p.identityAuthority, { source: 'IPD_GOVERNED_D05_SECURITY_MASTER', entities: 2390 });
+    // (`AUTH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-ACT-2026-11-08-001`); PR #146 publishes the same
+    // master unchanged. The value is read from the installed package and then asserted against IPD's
+    // published count, so a silent rollback to the legacy Wave-1 corpus (2,250) cannot pass.
+    assert.deepEqual(p.identityAuthority, {
+      source: 'IPD_GOVERNED_D05_SECURITY_MASTER',
+      entities: INSTALLED_MASTER.entities,
+    });
+    assert.equal(INSTALLED_MASTER.entities, 2_390);
   });
 
   it('reuses Zerodha and Groww parsers', () => {
@@ -230,30 +263,44 @@ describe('Broker preview public boundary — native evidence, never a save', () 
       assert.equal(p.perRowIdentityEvidencePublished, true);
       assert.equal(p.counts.nativeRows, 68);
       assert.equal(p.counts.identityAssessedRows, 68, 'every native row must carry an individual outcome');
-      // IPD's D05 AUTHENTICATED universe (2,390 records, IPD PR #145) resolves AGI GREENPAC
-      // (governed alias), GHCL and KROSS; the other 65 rows stay UNRESOLVED. These counts are
+      // IPD's D05 AUTHENTICATED universe (2,390 records; PR #145, unchanged by PR #146) resolves AGI
+      // GREENPAC (governed alias), GHCL and KROSS; the other 65 rows stay UNRESOLVED. These counts are
       // IPD's, published verbatim: IRR neither recomputes nor overrides them.
+      //
+      // The split belongs to the PINNED governed master (1/67 under the legacy Wave-1 corpus, 3/65
+      // under the D05 authenticated universe), so the resolved set is also derived from the live
+      // pipeline and asserted against IPD's published name-only outcome.
       //
       // This is the NAME-ONLY result for this surface (the CSV carries no ISIN and
       // no exchange). It is NOT the separate §9-A ISIN-scoped reassessment, which
       // resolves 65/3 using the B-04 companion export's ISINs and is not an
       // outcome of this CSV. See
       // docs/integration/WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md
-      assert.equal(p.counts.identityResolvedRows, 3);
-      assert.equal(p.counts.identityUnresolvedRows, 65);
+      assert.equal(p.counts.identityResolvedRows, INSTALLED_MASTER.resolvedNames.length);
+      assert.equal(p.counts.identityUnresolvedRows, INSTALLED_MASTER.unresolved);
       assert.equal(p.counts.savedRows, 0);
       assert.equal(p.holdings.every((h) => h.pipelineIdentityStatus !== null), true);
-      assert.equal(p.holdings.filter((h) => h.identityStatus === 'RESOLVED').length, 3);
-      assert.equal(p.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length, 65);
+      assert.equal(p.holdings.filter((h) => h.identityStatus === 'RESOLVED').length, INSTALLED_MASTER.resolvedNames.length);
+      assert.equal(p.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length, INSTALLED_MASTER.unresolved);
+      // IPD's published name-only outcome at the aligned pin, pinned explicitly.
+      assert.deepEqual(INSTALLED_MASTER.resolvedNames, ['AGI GREENPAC', 'GHCL', 'KROSS']);
+      assert.equal(INSTALLED_MASTER.unresolved, 65);
       // The pipeline's own aggregate is passed through, never recomputed by IRR.
       assert.deepEqual(
         { e: p.identitySummary?.evaluated, r: p.identitySummary?.resolved, u: p.identitySummary?.unresolved,
           a: p.identitySummary?.ambiguous, n: p.identitySummary?.notEvaluated, x: p.identitySummary?.excluded },
-        { e: 68, r: 3, u: 65, a: 0, n: 0, x: 0 },
+        { e: 68, r: INSTALLED_MASTER.resolvedNames.length, u: INSTALLED_MASTER.unresolved, a: 0, n: 0, x: 0 },
       );
       assert.equal(p.identitySummary?.identitySource, 'GOVERNED_SECURITY_MASTER');
-      assert.equal(p.identitySummary?.masterRevision,
-        'BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4');
+      // The master revision is IPD's, carried verbatim with its batch id and checksum. The batch
+      // identity is read from the installed package and then pinned: the aligned pin publishes the
+      // D05 AUTHENTICATED universe (PR #145), which PR #146 leaves unchanged.
+      assert.equal(p.identitySummary?.masterRevision?.split(':')[0], INSTALLED_MASTER.batchId);
+      assert.match(p.identitySummary?.masterRevision ?? '', /^[A-Z0-9-]+:[0-9a-f]{64}$/);
+      assert.equal(
+        p.identitySummary?.masterRevision,
+        'BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4',
+      );
     });
 
     it('resolves AGI GREENPAC through its governed alias and stops querying weaker namespaces', () => {
@@ -292,15 +339,18 @@ describe('Broker preview public boundary — native evidence, never a save', () 
     });
 
     it('keeps the other 65 rows at NO_AUTHORITATIVE_IDENTIFIER_MATCH with their full lookup evidence', () => {
-      // AGI GREENPAC (row 0), GHCL and KROSS now resolve under IPD's authenticated universe;
-      // every other row must still carry the full per-row lookup evidence and the P04 refusal.
+      // AGI GREENPAC (row 0), GHCL and KROSS resolve under IPD's authenticated universe; every other
+      // row must still carry the full per-row lookup evidence and the P04 refusal. The unresolved set
+      // is selected by outcome, never by index.
       const unresolved = p.holdings.filter((h) => h.identityStatus !== 'RESOLVED');
+      assert.equal(unresolved.length, INSTALLED_MASTER.unresolved);
       assert.equal(unresolved.length, 65);
       assert.equal(unresolved.every((h) => h.identityStatus === 'UNRESOLVED'), true);
       assert.equal(unresolved.every((h) => h.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED'), true);
       assert.equal(unresolved.every((h) => h.pipelineIdentityStatus === 'UNRESOLVED'), true);
       assert.equal(unresolved.every((h) => h.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH'), true);
       assert.equal(unresolved.every((h) => h.identifierClass === 'UNSCOPED_NAME_OR_SYMBOL'), true);
+      assert.deepEqual(p.identitySummary?.refusalCodes, { NO_AUTHORITATIVE_IDENTIFIER_MATCH: INSTALLED_MASTER.unresolved });
       assert.deepEqual(p.identitySummary?.refusalCodes, { NO_AUTHORITATIVE_IDENTIFIER_MATCH: 65 });
       // The surface supplies no ISIN and no exchange, so BOTH symbol namespaces were queried
       // verbatim in order, each producing its own P04 quarantine record.
@@ -354,5 +404,130 @@ describe('Broker preview public boundary — native evidence, never a save', () 
       );
       assert.equal(p.counts.savedRows, 0);
     });
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * WS-A / Item 4: the 68-row identity assessment, reconciled by MASTER.
+ *
+ * WHY THIS BLOCK IS MASTER-AWARE
+ *   Three different results circulate for these same 68 positions, and none of
+ *   them supersedes another. They are three different (master revision x
+ *   supplied-identifier set) pairs evaluated by the SAME unchanged governed
+ *   resolution path:
+ *
+ *     - Wave-1 master (2,250) + name only              ->  1 resolved / 67
+ *     - authenticated master (2,390) + name only        ->  3 resolved / 65
+ *     - authenticated master (2,390) + ISIN supplied    -> 65 resolved /  3
+ *
+ *   The THIRD result is NOT obtainable from this CSV: `DHAN_WEB_UI_SUMMARY_V1`
+ *   carries no ISIN and no exchange, so the ISIN namespace is never queried.
+ *   It comes from the separate B-04 companion export under IPD's PA-authorised
+ *   one-time §9-A reassessment, and it is not an outcome of this surface.
+ *
+ *   Therefore the expected counts here are derived from the master revision the
+ *   INSTALLED IPD package actually publishes, so this block is correct on any
+ *   pinned master — and it pins the resolved IDENTITIES and the identifier
+ *   precondition, which no count alone could distinguish.
+ *
+ *   Authority: docs/integration/WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md
+ * ------------------------------------------------------------------ */
+describe('WS-A 68-row identity assessment — reconciled by governed master revision', () => {
+  const p = previewBrokerHoldings(DHAN_68_CSV, 'Portfolio(2).csv', at);
+
+  /**
+   * The expectations for each governed master revision. `recordCount` is
+   * `identityAuthority.entities`, which the preview reports from IPD's own
+   * master — never recomputed by IRR.
+   */
+  const EXPECTED_BY_MASTER: Record<string, { resolved: number; unresolved: number; resolvedNames: string[] }> = {
+    // AUTH-D05-BROAD-UNIVERSE-MASTER-EXPANSION-ACT-2026-09-22-001 (Wave-1, 2,250 records).
+    'BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001': {
+      resolved: 1,
+      unresolved: 67,
+      resolvedNames: ['AGI GREENPAC'],
+    },
+    // AUTH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-ACT-2026-11-08-001 (authenticated, 2,390 records).
+    'BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001': {
+      resolved: 3,
+      unresolved: 65,
+      resolvedNames: ['AGI GREENPAC', 'GHCL', 'KROSS'],
+    },
+  };
+
+  const masterRevision = p.identitySummary?.masterRevision ?? null;
+  const batchId = masterRevision?.split(':')[0] ?? null;
+  const expected = batchId === null ? undefined : EXPECTED_BY_MASTER[batchId];
+
+  it('runs against a governed master revision this reconciliation knows', () => {
+    // A NEW master revision must not silently reuse another revision's expected
+    // counts: this assertion fails closed so the table above is extended
+    // deliberately, with the new revision's IPD authority read first.
+    assert.ok(expected, `unknown governed master revision: ${masterRevision}`);
+    assert.ok(masterRevision?.includes(':'), 'masterRevision must carry batchId:checksum');
+  });
+
+  it('reports the resolved and unresolved counts that belong to the INSTALLED master', () => {
+    assert.equal(p.counts.identityResolvedRows, expected!.resolved);
+    assert.equal(p.counts.identityUnresolvedRows, expected!.unresolved);
+    assert.equal(p.holdings.filter((h) => h.identityStatus === 'RESOLVED').length, expected!.resolved);
+    assert.equal(p.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length, expected!.unresolved);
+    // The pipeline's own aggregate is passed through, never recomputed by IRR.
+    assert.deepEqual(
+      { e: p.identitySummary?.evaluated, r: p.identitySummary?.resolved, u: p.identitySummary?.unresolved,
+        a: p.identitySummary?.ambiguous, n: p.identitySummary?.notEvaluated, x: p.identitySummary?.excluded },
+      { e: 68, r: expected!.resolved, u: expected!.unresolved, a: 0, n: 0, x: 0 },
+    );
+  });
+
+  it('resolves exactly the positions the pinned master carries — and no others', () => {
+    const resolvedNames = p.holdings
+      .filter((h) => h.identityStatus === 'RESOLVED')
+      .map((h) => h.symbol)
+      .sort();
+    // The set of resolved positions is what distinguishes the two masters. A
+    // count alone could be satisfied by a different set of rows.
+    assert.deepEqual(resolvedNames, [...expected!.resolvedNames].sort());
+  });
+
+  it('supplies NO ISIN and NO exchange, so the ISIN namespace is never queried', () => {
+    // This is the precondition that keeps the name-only result (3/65 under the
+    // authenticated master) distinct from the separate ISIN-based §9-A
+    // reassessment (65/3), which is NOT a result of this CSV.
+    assert.equal(p.holdings.every((h) => h.isin === null), true);
+    assert.equal(p.holdings.every((h) => h.exchange === null), true);
+    for (const row of p.holdings) {
+      for (const lookup of row.lookups) {
+        assert.notEqual(lookup.identifierType, 'ISIN',
+          'no ISIN may be attempted when the broker supplied none');
+      }
+    }
+  });
+
+  it('keeps every unresolved row refused with its per-row lookup evidence', () => {
+    const unresolved = p.holdings.filter((h) => h.identityStatus !== 'RESOLVED');
+    assert.equal(unresolved.length, expected!.unresolved);
+    assert.equal(unresolved.every((h) => h.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED'), true);
+    assert.equal(unresolved.every((h) => h.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH'), true);
+    assert.equal(unresolved.every((h) => h.identifierClass === 'UNSCOPED_NAME_OR_SYMBOL'), true);
+    // Both symbol namespaces are queried verbatim for every unresolved row.
+    for (const row of unresolved) {
+      assert.deepEqual(row.lookups.map((l) => [l.identifierType, l.identifierValue, l.outcome]), [
+        ['NSE_SYMBOL', row.symbol, 'UNMAPPED_IDENTIFIER'],
+        ['BSE_SYMBOL', row.symbol, 'UNMAPPED_IDENTIFIER'],
+      ]);
+      assert.equal(row.quarantineIds.length, 2);
+    }
+    assert.deepEqual(p.identitySummary?.refusalCodes, { NO_AUTHORITATIVE_IDENTIFIER_MATCH: expected!.unresolved });
+  });
+
+  it('never becomes saveable, and never saves a row', () => {
+    // The P04 whole-import refusal holds while ANY row is unresolved, under
+    // every master revision. No governance disposition is relaxed here.
+    assert.equal(p.identitySummary?.saveable, false);
+    assert.equal(p.canSave, false);
+    assert.equal(p.persisted, false);
+    assert.equal(p.counts.savedRows, 0);
+    assert.equal(p.status, 'PARSED_UNRESOLVED');
   });
 });
