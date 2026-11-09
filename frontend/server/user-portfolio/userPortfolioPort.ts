@@ -39,10 +39,20 @@ export interface G2Scope {
   readonly tenantHint?: string;
 }
 
-/** Create-portfolio parameters. Instance identity is assigned upstream. */
+/**
+ * Create-portfolio parameters. Instance identity is assigned upstream.
+ *
+ * `holdings` is an AUTHORIZED ADDITION for the local single-user personal path
+ * (Program Authority, 2026-11-08): the personal application creates its
+ * portfolio with its first batch of manual holdings in ONE operation (the
+ * durable store requires at least one holding per revision, so a create-then-
+ * save pair would be impossible). Every other consumer omits it and transmits
+ * nothing beyond the name — existing wire behavior is unchanged.
+ */
 export interface G2CreateParams {
   readonly scope: G2Scope;
   readonly portfolioName?: string;
+  readonly holdings?: readonly G2HoldingInput[];
 }
 
 /** Read/list/history parameters. */

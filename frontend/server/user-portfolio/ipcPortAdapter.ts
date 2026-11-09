@@ -44,6 +44,7 @@
  */
 import {
   G2Error,
+  G2_DISPOSITIONS,
   G2_OPERATIONS,
   G2_UNRESOLVED_WRITE_MESSAGE,
   isNonBlankString,
@@ -198,6 +199,17 @@ export interface IpcPortAdapterOptions {
   readonly timeoutMs?: number;
   /** Overrides the IRR-local binding precondition (tests only). */
   readonly precondition?: BindingPrecondition;
+  /**
+   * Server-owned environment used to resolve the same-host IPC endpoint.
+   *
+   * The IRR server's transport owns the environment that the whole call chain
+   * must read from (never a request). Threading it here keeps the endpoint
+   * resolution on the SAME server-owned source as the binding precondition:
+   * without it the adapter would silently fall back to `process.env` and the
+   * effective endpoint could differ from the one the transport admitted.
+   * Defaults to `process.env`, which is the production posture.
+   */
+  readonly env?: NodeJS.ProcessEnv;
   /** Injects the transport (tests only). Defaults to `callIpc`. */
   readonly transport?: (op: IpcOperation, payload?: Record<string, unknown>) => Promise<IpcCallResult>;
 }
@@ -256,9 +268,17 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
   public async createPortfolio(params: G2CreateParams): Promise<G2PortfolioView> {
     const payload: Record<string, unknown> = {};
     if (params.portfolioName !== undefined) payload.portfolioName = params.portfolioName;
+    // Optional, personal-path addition (Program Authority, 2026-11-08): the first
+    // batch of manual holdings rides the create in one transaction. Wire holdings
+    // carry broker-observed fields only (toWireHolding); identity stays IPD-derived.
+    if (params.holdings !== undefined) payload.holdings = params.holdings.map((holding) => toWireHolding(holding));
     this.assertScopeNotTransmitted(params.scope, payload);
     const result = await this.call('portfolio.create', payload, params.scope);
-    return this.toG2View(this.requireSuccess(result, 'portfolio.create'));
+    const value = this.requireSuccess(result, 'portfolio.create');
+    // The personal path returns the shared save-receipt envelope (`{disposition,
+    // …, portfolio}`); a bare detail (contract v1 Portfolios-POST 201 shape) is
+    // still accepted if an upstream ever emits it. Both fail closed otherwise.
+    return this.toG2View(unwrapReceiptPortfolio(value, 'portfolio.create'));
   }
 
   public async saveHoldings(params: G2SaveParams): Promise<G2SaveResult> {
@@ -281,20 +301,8 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     }
     this.assertScopeNotTransmitted(params.scope, payload);
     const result = await this.call('portfolio.save', payload, params.scope);
-    // A refusal is mapped and thrown here; only a success reaches the gap below.
-    this.requireSuccess(result, 'portfolio.save');
-    // `G2SaveResult` requires the full portfolio view plus per-save counters that
-    // v1's save result (`disposition, revision, durability, durable`) does not carry.
-    // Refuse rather than fabricate.
-    throw envelopeGapError('portfolio.save', [
-      'isSaved',
-      'holdingsSavedCount',
-      'totalMarketValue',
-      'weightSumPercentage',
-      'savedAt',
-      'provenanceDigest',
-      'portfolio',
-    ]);
+    // A refusal is mapped and thrown here; only a success reaches the mapping below.
+    return this.toG2SaveResult(this.requireSuccess(result, 'portfolio.save'), params.portfolioId);
   }
 
   public async resetPortfolio(params: G2LifecycleParams): Promise<G2PortfolioView> {
@@ -302,7 +310,8 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     if (params.expectedRevision !== undefined) payload.expectedRevision = params.expectedRevision;
     this.assertScopeNotTransmitted(params.scope, payload);
     const result = await this.call('portfolio.reset', payload, params.scope);
-    return this.toG2View(this.requireSuccess(result, 'portfolio.reset'));
+    const value = this.requireSuccess(result, 'portfolio.reset');
+    return this.toG2View(unwrapReceiptPortfolio(value, 'portfolio.reset'));
   }
 
   public async deletePortfolio(params: G2LifecycleParams): Promise<G2DeleteResult> {
@@ -366,8 +375,10 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     const transport = this.options.transport;
     if (transport) return transport(op, payload);
 
-    // Read the endpoint per call (OC-5); never cached.
-    const target = this.options.target ?? resolveIpcEndpoint();
+    // Read the endpoint per call (OC-5); never cached. The server-owned
+    // environment is the same source the transport used for the binding
+    // precondition, so the endpoint and the precondition cannot disagree.
+    const target = this.options.target ?? resolveIpcEndpoint(this.options.env ?? process.env);
     return callIpc(op, payload, {
       target,
       ...(this.options.timeoutMs !== undefined ? { timeoutMs: this.options.timeoutMs } : {}),
@@ -500,6 +511,72 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     };
   }
 
+  /**
+   * Maps the v1 save receipt (`{disposition, revision, isDuplicate,
+   * holdingsSavedCount, totalMarketValue, weightSumPercentage, savedAt,
+   * provenanceDigest, portfolio}`) onto the frozen `G2SaveResult`. Any missing
+   * or non-conforming field refuses as a contract-envelope violation — the
+   * receipt is never partially passed through. The embedded portfolio view is
+   * mapped with exactly the `toG2View` rules (verified: contributions empty,
+   * no durability claims), and its id echo is checked against the requested id.
+   */
+  private toG2SaveResult(value: unknown, expectedPortfolioId: string): G2SaveResult {
+    const record = asRecord(value);
+    const missing: string[] = [];
+    if (typeof record.isDuplicate !== 'boolean') missing.push('isDuplicate');
+    if (
+      typeof record.disposition !== 'string'
+      || !(G2_DISPOSITIONS as readonly unknown[]).includes(record.disposition)
+    ) {
+      missing.push('disposition');
+    }
+    if (!Number.isInteger(record.revision) || (record.revision as number) < 0) missing.push('revision');
+    if (typeof record.holdingsSavedCount !== 'number' || !Number.isFinite(record.holdingsSavedCount)) {
+      missing.push('holdingsSavedCount');
+    }
+    if (typeof record.totalMarketValue !== 'number' || !Number.isFinite(record.totalMarketValue)) {
+      missing.push('totalMarketValue');
+    }
+    if (typeof record.weightSumPercentage !== 'number' || !Number.isFinite(record.weightSumPercentage)) {
+      missing.push('weightSumPercentage');
+    }
+    if (!isNonBlankString(record.savedAt)) missing.push('savedAt');
+    if (!isNonBlankString(record.provenanceDigest)) missing.push('provenanceDigest');
+
+    let portfolio: G2PortfolioView | undefined;
+    if (record.portfolio && typeof record.portfolio === 'object' && !Array.isArray(record.portfolio)) {
+      const embedded = record.portfolio as Record<string, unknown>;
+      if (embedded.portfolioId !== expectedPortfolioId) {
+        throw new G2Error(
+          'UPSTREAM_UNAVAILABLE',
+          'The save answered for a portfolio that was not requested (contract-envelope violation).',
+        );
+      }
+      try {
+        portfolio = this.toG2View(embedded);
+      } catch {
+        portfolio = undefined;
+      }
+    }
+    if (portfolio === undefined) missing.push('portfolio');
+
+    if (missing.length > 0 || portfolio === undefined) {
+      throw envelopeGapError('portfolio.save', missing.length > 0 ? missing : ['portfolio']);
+    }
+    return {
+      success: true,
+      isDuplicate: record.isDuplicate as boolean,
+      disposition: record.disposition as G2SaveResult['disposition'],
+      revision: record.revision as number,
+      holdingsSavedCount: record.holdingsSavedCount as number,
+      totalMarketValue: record.totalMarketValue as number,
+      weightSumPercentage: record.weightSumPercentage as number,
+      savedAt: record.savedAt as string,
+      provenanceDigest: record.provenanceDigest as string,
+      portfolio,
+    };
+  }
+
   private toG2DeleteResult(value: unknown): G2DeleteResult {
     const record = asRecord(value);
     requireStrings(record, ['portfolioId', 'deletedAt'], 'portfolio.delete');
@@ -514,6 +591,25 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
 /* ------------------------------------------------------------------ *
  * Small pure helpers
  * ------------------------------------------------------------------ */
+
+/**
+ * v1 write receipts produced by the personal path carry an embedded full detail
+ * under `portfolio`. A bare v1 detail (the documented create/get response shape)
+ * is returned unchanged. Anything else fails closed with a contract-envelope
+ * violation — never with a fabricated or partial view.
+ */
+function unwrapReceiptPortfolio(value: unknown, shape: string): unknown {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return value;
+  const record = value as Record<string, unknown>;
+  const receiptMarkers = typeof record.disposition === 'string' && record.revision !== undefined;
+  if (receiptMarkers) {
+    if (record.portfolio && typeof record.portfolio === 'object' && !Array.isArray(record.portfolio)) {
+      return record.portfolio;
+    }
+    throw new G2Error('UPSTREAM_UNAVAILABLE', `The ${shape} receipt carries no portfolio detail (contract-envelope violation).`);
+  }
+  return value;
+}
 
 function asRecord(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
