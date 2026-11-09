@@ -212,8 +212,11 @@ The operator's import is identified in
 
 That report already records these as **operator-supplied and UNVERIFIED**, and states that
 *"None of these values is committed anywhere in the repository … they are operator-supplied and
-UNVERIFIED."* Re-verified in this work item: the import ID occurs **exactly once** in the whole
-tree (that report row) and the digest **not at all**.
+UNVERIFIED."* Re-verified in this work item: **neither value is committed as an artifact** — no
+retained evidence record, journal, receipt or read-back in the tree carries either value. Both
+strings do occur, but only as transcriptions in that report's own §4 table (the import ID once, the
+receipt digest once), which is the precise sense in which no occurrence outside the operator's own
+statement exists.
 
 **Actual retention of that import cannot be confirmed from this repository or this host.** The
 exact missing artifacts and identifiers are:

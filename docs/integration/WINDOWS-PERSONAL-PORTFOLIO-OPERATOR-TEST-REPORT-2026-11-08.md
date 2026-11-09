@@ -92,8 +92,15 @@ the full tree for both strings and found **zero** occurrences. They are operator
 
 Re-verified on 2026-11-09 against the authoritative IPD `main` and the IRR tree. The **status
 above is unchanged and is not upgraded**: these two values are still operator-supplied and
-unverified. The import ID occurs **exactly once** in the whole repository (the row above) and the
-receipt digest occurs **not at all**.
+unverified.
+
+A precision note on the §4 wording above. It states that neither value is *"committed anywhere in
+the repository"* because a full-tree grep found zero occurrences. Re-run on 2026-11-09, the literal
+reading is not exact: **both strings do occur, but only as transcriptions in this report's own §4
+table** — the import ID once, the receipt digest once. Neither is committed **as an artifact**: no
+retained evidence record, journal, receipt or read-back anywhere in the tree carries either value,
+so neither can be independently confirmed or re-derived. That is the substance of the original
+claim, and it is unchanged. The §4 sentence is left exactly as written above.
 
 **Actual retention of this specific import cannot be confirmed.** The artifacts required are
 unavailable, and each is unavailable for a stated, non-recoverable reason:
