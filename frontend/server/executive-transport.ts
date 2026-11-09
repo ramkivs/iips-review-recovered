@@ -857,6 +857,47 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // IID WI-2 (P2) — governed company discovery (GET/HEAD only, IRR-owned).
+  // Mounted before the IID-3 assessment surface because `/api/investment/companies` shares its prefix and
+  // IID-3's parser would reject it as a malformed issuer segment. Reads only the versioned identity files, so
+  // discovery does not depend on Investment Coverage succeeding. The catch is non-disclosing.
+  if (req.url === '/api/investment/companies' || req.url?.startsWith('/api/investment/companies?')) {
+    void (async () => {
+      try {
+        const discovery = await import('./investment/discovery-transport');
+        await discovery.handleDiscoveryRequest(req, res);
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(JSON.stringify({ error: 'identity-sources-unavailable' }));
+        }
+      }
+    })();
+    return;
+  }
+
+  // IID WI-2 (P3) — portfolio holding identity, independent of dispositions (GET/HEAD only, IRR-owned).
+  // Mounted BEFORE the IID-4 disposition surface because its path lives under
+  // `/api/investment/portfolio/:portfolioId/identities`, which IID-4's parser would otherwise reject. This is
+  // what lets company/history links survive an absent or failed disposition read. The catch is non-disclosing.
+  if (typeof req.url === 'string' && /^\/api\/investment\/portfolio\/[^/?#]+\/identities(?:[?#]|$)/.test(req.url)) {
+    void (async () => {
+      try {
+        const identity = await import('./investment/holding-identity-transport');
+        const sources = await import('./investment/sources');
+        await identity.handleHoldingIdentityRequest(req, res, {
+          holdings: sources.createPortfolioHoldingsProvider(),
+        });
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+          res.end(JSON.stringify({ error: 'holdings-unavailable' }));
+        }
+      }
+    })();
+    return;
+  }
+
   // IID-4 — holding disposition read transport (GET/HEAD only, IRR-owned).
   // Dispositions live on their own chains (`hd:` for a held position, `hc:` for a candidate) and are mounted
   // separately from the assessment surface so the two report types cannot be confused by path. Read-only for

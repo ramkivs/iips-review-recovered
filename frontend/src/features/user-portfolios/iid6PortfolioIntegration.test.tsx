@@ -91,6 +91,42 @@ const DISPOSITION_LIST = {
   limitations: ['L-004'],
 };
 
+/**
+ * IID WI-2 (P3): the governed holding-identity read, which is INDEPENDENT of the disposition list.
+ * Row 0 resolves to the same issuer the disposition happens to cite; row 1 does not resolve at all.
+ */
+const HOLDING_IDENTITIES = {
+  status: 'OK',
+  portfolioId: PORTFOLIO,
+  count: 2,
+  identities: [
+    {
+      holdingIndex: 0,
+      symbol: 'AARAVSYN',
+      isin: ISIN,
+      state: 'RESOLVED',
+      issuerId: ISSUER,
+      securityId: SECURITY,
+      resolutionBasis: 'ISIN',
+      reason: null,
+      reasonText: null,
+      assessable: true,
+    },
+    {
+      holdingIndex: 1,
+      symbol: 'UNKNOWNCO',
+      isin: null,
+      state: 'UNMATCHED',
+      issuerId: null,
+      securityId: null,
+      resolutionBasis: null,
+      reason: 'NO_IDENTIFIER_PROVIDED',
+      reasonText: 'The row carries neither an ISIN nor an exchange symbol, so nothing can be resolved.',
+      assessable: false,
+    },
+  ],
+};
+
 type Route = (url: string) => Response | null;
 
 function stub(routes: Route) {
@@ -123,6 +159,7 @@ function standardRoutes(overrides: Route = () => null): Route {
     const override = overrides(url);
     if (override !== null) return override;
     if (url.endsWith(`/api/user-portfolios/${encodeURIComponent(PORTFOLIO)}`)) return jsonOk({ portfolio: VIEW });
+    if (url.includes('/identities')) return jsonOk(HOLDING_IDENTITIES);
     if (url.includes('/dispositions')) return jsonOk(DISPOSITION_LIST);
     return null;
   };
@@ -170,6 +207,10 @@ describe('what cannot be resolved is not invented', () => {
     expect(screen.getByText(/not available — identity unresolved, so no disposition is keyed/)).toBeInTheDocument();
     // Only one holding is resolvable, so exactly one company link exists.
     expect(screen.getAllByRole('link', { name: 'Company assessment →' })).toHaveLength(1);
+    // IID WI-2 (P3): the unresolvable row states the governed reason instead of offering a misleading link.
+    expect(
+      screen.getByText(/not available — The row carries neither an ISIN nor an exchange symbol/),
+    ).toBeInTheDocument();
     expect(container.textContent).not.toMatch(/\bACCUMULATE\b|\bWATCH\b/);
   });
 
@@ -195,6 +236,12 @@ describe('what cannot be resolved is not invented', () => {
     expect(await screen.findByText(/IID-6 demonstration portfolio/)).toBeInTheDocument();
     expect(screen.getAllByText(/not available — disposition read unavailable/).length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: 'Candidate view →' })).toBeInTheDocument();
+    // IID WI-2 (P3): the failed DISPOSITION read must not suppress company or history navigation.
+    expect(screen.getByRole('link', { name: 'Company assessment →' })).toHaveAttribute(
+      'href',
+      `/investment/company/${encodeURIComponent(ISSUER)}?portfolioId=${PORTFOLIO}&securityId=${encodeURIComponent(SECURITY)}`,
+    );
+    expect(screen.getByRole('link', { name: 'Change history →' })).toBeInTheDocument();
   });
 });
 
