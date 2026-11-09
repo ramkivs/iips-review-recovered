@@ -787,3 +787,78 @@ first failure are `SKIP` — so the FIRST failing gate is the thing that was act
   appends a version even with identical evidence; the input digest is what stays equal (`L-014`, `L-026`).
 - **Do not repair a disposition chain by hand.** Same rule as §14.5: a tampered or scope-drifted chain fails closed
   with 503 and no partial history.
+
+## 16. IID runtime readiness (P6-A) — ask before you start
+
+Sections 2, 3.2, 3.3, 14 and 15 each configure one dependency. This section answers the prior question:
+**which IID dependency is missing, who owns it, and what exactly must be done?** It adds a read-only
+diagnostic over the resolvers those sections already use. It introduces no new store, carrier, identity
+source or startup path.
+
+### 16.1 Run it
+
+From `frontend`, with the already-installed locked dependencies:
+
+```sh
+npx tsx server/investment/cli/iid-readiness.ts              # human-readable
+npx tsx server/investment/cli/iid-readiness.ts --json       # machine-readable
+npx tsx server/investment/cli/iid-readiness.ts --strict     # exit 1 if a read dependency is outstanding
+npx tsx server/investment/cli/iid-readiness.ts --data-dir /absolute/data-domain
+```
+
+Windows PowerShell, same command:
+
+```powershell
+npx tsx server/investment/cli/iid-readiness.ts --json
+```
+
+Exit codes: `0` report produced (default, even when dependencies are outstanding — this is an inventory,
+not an operation); `1` a read-path dependency is outstanding **and** `--strict` was given; `2` bad invocation.
+
+**It is safe to run at any time.** It opens no database, creates no directory or file, contacts no IPC
+peer, writes nothing and changes no environment. This is deliberate: `loadAuthoritativeNp04Persistence()`
+opens the configured database with `createDirectory: true, migrate: true`, so a diagnostic that called it
+would *create and migrate a database as a side effect of asking a question*. Readiness therefore reports
+the configured path and whether the file already exists, and nothing more.
+
+**Output is paste-safe.** It prints setting *names*, bounded reason codes, counts and booleans. It never
+prints a setting value, an owner/tenant pair, a carrier digest, a filesystem path or a stack trace.
+
+### 16.2 What each finding means, and who must act
+
+| Finding | Gates | Owner of the next action |
+| --- | --- | --- |
+| `identity-files` | IID-01/02/03 | **User host** — place the three governed JSON files in `<IIPS_DATA_DIR>/investment/identity/` (§14.2). Validated by the platform's own loader, so "valid" means the resolver accepts the whole set. |
+| `reports-owner-context` | IID-01/03 | **User host** — materialise the byte-exact Reports carrier (§3.2) and point `IIPS_REPORTS_OWNER_PATH` at the **file**. |
+| `np04-assessment-store` | IID-01/03 | **User host** — choose the absolute `IIPS_NP04_DATABASE_PATH` (§3.2, §14.2). Opening it creates/migrates the database; do that deliberately, not through this diagnostic. |
+| `owner-context-carrier` | IID-02 | **User host** — the F-3 carrier for watchlists/collaboration (§2). A different file and pair from the Reports carrier; aliasing them fails closed by design. |
+| `ipd-binding-precondition` | IID-02 | **IPD** — IPD must provision the active binding through its own governed procedure. Only then may the operator set `IIPS_G3_IPC_BINDING_PROVISIONED=true`. IRR cannot establish it. |
+| `ipc-endpoint` | IID-02 | **IPD** must be listening; **user host** sets `IIPS_G2_IPC_ENDPOINT` (§2.1). Resolution is validated, but no connection is attempted. |
+| `fundamentals-dataset` | IID-01/03 | **User host** — import an operator dataset into `<IIPS_DATA_DIR>/investment/dataset` (§14.3). Needed to *mint* an assessment; already-stored assessments read without it. |
+| `local-personal-use-enablement` | IID-02 (write path) | **User host** — `IIPS_LOCAL_PERSONAL_USE=1` for the local personal application. A condition, never authority; excluded from read-path readiness. |
+
+### 16.3 What a green finding does NOT prove
+
+- **A configured or present database is not a populated one.** `DATABASE_FILE_PRESENT_CONTENT_UNVERIFIED`
+  means exactly that. Confirm stored versions with the existing read-only CLI (§14.4):
+  `npx tsx server/investment/cli/show-investment-chain.ts --issuer <issuerId>`.
+- **A declared binding is not a verified binding.** IPD adjudicates ownership per request; the declaration
+  only stops IRR failing closed before the call.
+- **A resolved endpoint is not a live peer.** Socket presence is not a successful IPC call.
+- **`/api/health` is not a readiness check.** It answers a static `ok` and says nothing about any dependency
+  above. Use this diagnostic instead.
+- **An absent setting here is not a fact about another host.** The report describes only the process it ran
+  in. A missing variable in a Linux sandbox establishes nothing about the operator's Windows machine.
+- **No finding is HTTP, browser or real-issuer evidence.** Each finding declares the strongest level it
+  actually reached (`static` or `configured-runtime`). Real-issuer browser acceptance is P6-B, not this.
+
+### 16.4 Ordering that works
+
+1. Run the diagnostic; read the `action (OWNER)` lines.
+2. Complete the **user-host** items (§2, §3.2, §14.2). Restart the transport after changing any variable —
+   `Retry` cannot change a running process's environment.
+3. Ask **IPD** to provision the binding and run the peer. IRR cannot do this and must not assert it.
+4. Mint at least one assessment (§14.3) and read it back in a separate process (§14.4). Until a version
+   exists, IID-01 answers `404 investment-artifact-not-found` and IID-03 answers `404 change-not-found` —
+   correct refusals, not faults.
+5. Re-run with `--strict`. Only then consider P6-B real-issuer browser acceptance.
