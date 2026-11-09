@@ -37,6 +37,20 @@ function record() {
   return buildBrokerImportEvidence({ ...scope(), preview: previewBrokerHoldings(CSV, 'Portfolio(2).csv', AT) });
 }
 
+/**
+ * The resolved/unresolved split the PINNED governed master produces for this
+ * name-only 68-row surface: 1/67 under the legacy Wave-1 corpus (2,250 records),
+ * 3/65 under the D05 authenticated universe (2,390 records). The retained
+ * evidence must carry IPD's per-row outcomes verbatim under either master.
+ *
+ * The ISIN-based 65/3 §9-A reassessment is NOT an outcome of this CSV: the
+ * Web UI Summary surface supplies no ISIN and no exchange.
+ * See docs/integration/WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md.
+ */
+const PINNED = previewBrokerHoldings(CSV, 'Portfolio(2).csv', AT);
+const PINNED_RESOLVED = PINNED.counts.identityResolvedRows;
+const PINNED_UNRESOLVED = PINNED.counts.identityUnresolvedRows;
+
 describe('WS-A broker-import evidence retention', () => {
   let dataDir: string;
 
@@ -72,11 +86,14 @@ describe('WS-A broker-import evidence retention', () => {
     expect(read.pipelineRefusals[0].details).toMatch(/UNMAPPED_IDENTIFIER/);
     // Pin advance to IPD PR #127 (7bcae35): the pipeline now assesses EVERY native row before the
     // single whole-import P04 refusal, so the retained counts record real per-row outcomes.
+    // The split itself belongs to the PINNED governed master (1/67 under Wave-1,
+    // 3/65 under the authenticated universe); the retention leg carries IPD's
+    // outcomes verbatim in either case.
     expect(read.counts).toEqual({
       nativeRows: 68,
       identityAssessedRows: 68,
-      identityResolvedRows: 1,
-      identityUnresolvedRows: 67,
+      identityResolvedRows: PINNED_RESOLVED,
+      identityUnresolvedRows: PINNED_UNRESOLVED,
       savedRows: 0,
     });
     // P04 quarantine evidence for the unresolved identities is retained per row.
@@ -84,14 +101,17 @@ describe('WS-A broker-import evidence retention', () => {
     expect(read.rows[0].identityBasis).toBe('PIPELINE_RESOLVED');
     expect(read.rows[0].identityRefusalCode).toBeNull();
     expect(read.rows[0].quarantineIds).toEqual([]);
-    const unresolved = read.rows.slice(1);
-    expect(unresolved).toHaveLength(67);
+    const unresolved = read.rows.filter((r) => r.identityStatus !== 'RESOLVED');
+    expect(unresolved).toHaveLength(PINNED_UNRESOLVED);
     expect(unresolved.every((r) => r.identityStatus === 'UNRESOLVED')).toBe(true);
     expect(unresolved.every((r) => r.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED')).toBe(true);
     expect(unresolved.every((r) => r.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH')).toBe(true);
     expect(unresolved.every((r) => r.quarantineIds.length === 2)).toBe(true);
     expect(unresolved.every((r) => r.quarantineIds.every((id) => typeof id === 'string' && id.length > 0))).toBe(true);
-    expect(new Set(read.rows.flatMap((r) => r.quarantineIds)).size).toBe(134);
+    // Two P04 quarantine records per unresolved row, so the inventory follows the
+    // pinned master's unresolved count (134 under Wave-1, 130 under the
+    // authenticated universe).
+    expect(new Set(read.rows.flatMap((r) => r.quarantineIds)).size).toBe(PINNED_UNRESOLVED * 2);
     expect(read.limitations.some((l) => /Per-row refusal codes and P04 quarantine ids/.test(l))).toBe(true);
     expect(read.validation.performed).toBe(false);
     expect(read.saveAuthorization.authorized).toBe(false);

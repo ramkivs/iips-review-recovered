@@ -17,6 +17,7 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { previewBrokerHoldings } from '../../src/api/brokerHoldingsPreview';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FRONTEND_ROOT = path.resolve(HERE, '..', '..');
@@ -29,6 +30,25 @@ const TENANT = 'tenant-ws-a-restart';
 const OWNER = 'owner-ws-a-restart';
 const CHILD_TIMEOUT_MS = 180_000;
 const OBSERVED_DIGEST = '468441dfd0264fddc1e8a7160ebc7c3e5239fa97d13c7545743d1500eb6264b1';
+
+/**
+ * The resolved/unresolved split produced by the PINNED governed master for the
+ * name-only 68-row surface (1/67 under the legacy Wave-1 corpus, 3/65 under the
+ * D05 authenticated universe). Derived here from the same preview the writer
+ * process uses, so the restart equality is checked against the live pipeline's
+ * own outcome rather than a hard-coded number from another master revision.
+ *
+ * The ISIN-based 65/3 §9-A reassessment is NOT an outcome of this CSV — the Web
+ * UI Summary surface supplies no ISIN and no exchange.
+ * See docs/integration/WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md.
+ */
+const expectedCounts = (() => {
+  const preview = previewBrokerHoldings(fs.readFileSync(CSV, 'utf8'), 'Portfolio(2).csv', '2026-11-05T07:50:49.090Z');
+  return {
+    identityResolvedRows: preview.counts.identityResolvedRows,
+    identityUnresolvedRows: preview.counts.identityUnresolvedRows,
+  };
+})();
 
 interface WriterEvidence {
   role: 'writer';
@@ -107,12 +127,17 @@ describe('WS-A durable import evidence — separate-process restart', () => {
     expect(recovered.recordDigest).toBe(written.recordDigest);
     expect(recovered.rows).toBe(68);
     // Pin advance to IPD PR #127 (7bcae35): all 68 rows are individually assessed, AGI GREENPAC
-    // resolves through its governed alias, and the other 67 stay unresolved.
+    // resolves through its governed alias, and the remaining rows stay unresolved.
+    // The split belongs to the PINNED governed master (1/67 under the Wave-1
+    // corpus, 3/65 under the D05 authenticated universe). The recovered record
+    // must be byte-identical to what the live pipeline produced before the
+    // restart — that equality is the point of this test, not the specific
+    // split.
     expect(recovered.counts).toEqual({
       nativeRows: 68,
       identityAssessedRows: 68,
-      identityResolvedRows: 1,
-      identityUnresolvedRows: 67,
+      identityResolvedRows: expectedCounts.identityResolvedRows,
+      identityUnresolvedRows: expectedCounts.identityUnresolvedRows,
       savedRows: 0,
     });
     expect(recovered.status).toBe('PARSED_UNRESOLVED');
