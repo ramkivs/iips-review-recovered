@@ -24,9 +24,9 @@ import {
 import { changeHistoryHref, companyAssessmentHref } from '../investment/investmentContext';
 import { formatRatio4, notAvailable } from '../investment/investmentCopy';
 import {
-  fetchUserPortfolio,
+  fetchUserPortfolioRead,
   UserPortfolioApiError,
-  type UserPortfolioView,
+  type UserPortfolioRead,
 } from '../../api/userPortfolios';
 import { LoadingState, EmptyState } from '../../components/state/StateComponents';
 import {
@@ -156,7 +156,9 @@ function LinksCell({
 
 export function UserPortfolioDetail() {
   const { portfolioId } = useParams<{ portfolioId: string }>();
-  const [view, setView] = useState<UserPortfolioView | null>(null);
+  // IID WI-2A (Correction B): the read carries admissible records plus their ORIGINAL upstream indices,
+  // so a malformed record can be excluded without mis-joining the P3 identities of the surviving rows.
+  const [read, setRead] = useState<UserPortfolioRead | null>(null);
   const [error, setError] = useState<UserPortfolioApiError | null>(null);
   const [dispositions, setDispositions] = useState<readonly PortfolioDispositionEntry[] | null>(null);
   // IID WI-2 (P3): a SEPARATE read, so a disposition failure cannot suppress company/history navigation.
@@ -168,9 +170,9 @@ export function UserPortfolioDetail() {
       setError(new UserPortfolioApiError(404, 'User portfolio not found (404)'));
       return;
     }
-    fetchUserPortfolio(portfolioId)
-      .then((portfolio) => {
-        if (!cancelled) setView(portfolio);
+    fetchUserPortfolioRead(portfolioId)
+      .then((read) => {
+        if (!cancelled) setRead(read);
       })
       .catch((e: unknown) => {
         if (!cancelled) {
@@ -210,7 +212,9 @@ export function UserPortfolioDetail() {
       </section>
     );
   }
-  if (view === null) {
+  const view = read === null ? null : read.portfolio;
+
+  if (view === null || read === null) {
     return (
       <section aria-label="User portfolio detail">
         <p style={{ fontSize: 13 }}>
@@ -223,14 +227,20 @@ export function UserPortfolioDetail() {
   }
 
   /**
-   * IID WI-2 (P3): join each rendered row to its resolved identity by the row's own position in the view.
+   * IID WI-2 (P3): join each rendered row to its resolved identity by the row's ORIGINAL upstream index.
    * A Map keyed by the row object is used instead of `indexOf`, which would map duplicate rows to the first
-   * occurrence. The server returns `holdingIndex` against this same ordered holdings array.
+   * occurrence. The server returns `holdingIndex` against the upstream holdings array.
+   *
+   * IID WI-2A (Correction B): malformed records are excluded from `view.holdings`, so the rendered position
+   * is no longer the upstream position. `holdingSourceIndices` restores the original index; joining by the
+   * filtered position would attach another holding's issuer links to this row.
    */
   const identityByRow = new Map<UserPortfolioHolding, HoldingIdentity>();
   if (identities !== null) {
-    view.holdings.forEach((holding, index) => {
-      const identity = identities.find((item) => item.holdingIndex === index);
+    view.holdings.forEach((holding, position) => {
+      const sourceIndex = read.holdingSourceIndices[position];
+      if (sourceIndex === undefined) return;
+      const identity = identities.find((item) => item.holdingIndex === sourceIndex);
       if (identity !== undefined) identityByRow.set(holding, identity);
     });
   }
@@ -302,11 +312,33 @@ export function UserPortfolioDetail() {
         Updated {view.lastUpdated}. Provenance {shortDigest(view.provenanceDigest)}.
       </p>
 
+      {/* IID WI-2A (Correction B): a malformed record is disclosed, never rendered as a holding and never
+          silently dropped. Upstream totals are shown verbatim and are not recomputed from the subset. */}
+      {read.rejectedHoldings > 0 ? (
+        <p role="status" data-testid="malformed-holdings-notice" style={{ fontSize: 13 }}>
+          {notAvailable(
+            `${String(read.rejectedHoldings)} holding record(s) could not be read and are not shown. ` +
+              'Totals below are the recorded portfolio totals and include those records.',
+          )}
+        </p>
+      ) : null}
+      {read.rejectedContributions > 0 ? (
+        <p role="status" data-testid="malformed-contributions-notice" style={{ fontSize: 13 }}>
+          {notAvailable(
+            `${String(read.rejectedContributions)} import contribution record(s) could not be read and are not shown.`,
+          )}
+        </p>
+      ) : null}
+
       <h3 style={{ marginTop: 16, fontSize: 14 }}>Holdings</h3>
       <DataTable
         columns={holdingColumns}
         rows={view.holdings}
-        emptyLabel="No holdings on this portfolio."
+        emptyLabel={
+          read.rejectedHoldings > 0
+            ? 'No readable holding records. Unreadable records are not shown as holdings.'
+            : 'No holdings on this portfolio.'
+        }
       />
 
       <h3 style={{ marginTop: 16, fontSize: 14 }}>Import contributions</h3>
