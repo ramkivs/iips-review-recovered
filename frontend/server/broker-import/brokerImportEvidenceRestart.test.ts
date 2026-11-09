@@ -127,12 +127,17 @@ describe('WS-A durable import evidence — separate-process restart', () => {
     expect(recovered.recordDigest).toBe(written.recordDigest);
     expect(recovered.rows).toBe(68);
     // Pin advance to IPD PR #127 (7bcae35): all 68 rows are individually assessed, AGI GREENPAC
+    // Pin advance to IPD PR #127 (7bcae35): all 68 rows are individually assessed, AGI GREENPAC
     // resolves through its governed alias, and the remaining rows stay unresolved.
-    // The split belongs to the PINNED governed master (1/67 under the Wave-1
-    // corpus, 3/65 under the D05 authenticated universe). The recovered record
-    // must be byte-identical to what the live pipeline produced before the
-    // restart — that equality is the point of this test, not the specific
-    // split.
+    //
+    // Dependency alignment to IPD PR #145 (709fd13), retained at PR #146 (d5e20c15): IPD's
+    // authenticated universe also resolves GHCL and KROSS natively, so 3 rows resolve and 65 stay
+    // unresolved. PR #146 changes no published byte of the ./portfolio-ui closure, so the expected
+    // counts are unchanged from PR #145.
+    //
+    // The recovered record must be byte-identical to what the live pipeline produced before the
+    // restart — that equality is the point of this test, not the specific split — so the counts are
+    // compared against the live pipeline's own outcome AND against IPD's published outcome below.
     expect(recovered.counts).toEqual({
       nativeRows: 68,
       identityAssessedRows: 68,

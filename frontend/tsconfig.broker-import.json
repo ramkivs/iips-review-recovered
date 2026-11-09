@@ -1,4 +1,4 @@
-// WS-A pin advance — IPD PR #131 merge commit 58fc8fb7f033650f40d61078d70e951f21dd033f.
+// WS-A pin advance — IPD PR #146 merge commit d5e20c15059267a3f824b015e37d652084de5a01.
 //
 // This project no longer COMPILES the alias's raw TypeScript sources. The merged IPD manifest
 // declares `files: ["dist/package"]`, so the installed `iips-broker-import` alias publishes only

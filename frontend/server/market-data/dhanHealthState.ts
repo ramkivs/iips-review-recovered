@@ -2,8 +2,10 @@
  * IRR DHAN health/readiness STATE MODEL (DHAN-P2, synthetic / pre-access phase).
  *
  * Authority:
- *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `73768fa83c331de1bd9f51af0a6b26e5ad489ba2`
- *     (merge commit of IPD PR #144), consumed through the server-only `./dhan-server` subpath.
+ *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `d5e20c15059267a3f824b015e37d652084de5a01`
+ *     (merge commit of IPD PR #146; the value is unchanged from the IPD PR #145 merge `709fd13`
+ *     because PR #146 adds no byte to the published `./dhan-server` closure), consumed through the
+ *     server-only `./dhan-server` subpath.
  *     The pin advanced from `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19` (IPD PR #140) in
  *     DHAN-P3 so the transport boundary inherits IPD's timeout, loopback pinning, production
  *     guard and typed failure outcomes. The `ServiceHealth` contract is unchanged by it.

@@ -2,8 +2,10 @@
  * IRR server-side consumption boundary for the IPD Dhan market-data provider.
  *
  * Authority for this surface:
- *   - Authoritative IPD dependency commit `73768fa83c331de1bd9f51af0a6b26e5ad489ba2`
- *     (`ramkivs/iips-production-market-data` `main`, merge commit of IPD PR #144).
+ *   - Authoritative IPD dependency commit `d5e20c15059267a3f824b015e37d652084de5a01`
+ *     (`ramkivs/iips-production-market-data` `main`, merge commit of IPD PR #146). The published
+ *     `./dhan-server` closure is byte-identical to the IPD PR #145 merge `709fd13`; only the
+ *     dependency revision moved.
  *   - That commit publishes the server-only `./dhan-server` subpath. It is the FIRST
  *     commit reachable from IPD `main` that does so; at the previously pinned primary
  *     commit `279d1eed…` and at the broker-import alias pin `58fc8fb7…` the subpath does
