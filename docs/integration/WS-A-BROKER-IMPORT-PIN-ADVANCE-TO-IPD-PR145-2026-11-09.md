@@ -113,6 +113,21 @@ match that record exactly. IRR continues to publish IPD's per-row outcomes and a
 it does not resolve identity, rank candidates, widen a namespace, infer mappings from name
 similarity, or fabricate an identifier.
 
+> **READ WITH:** `WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md` (Item 4), which
+> separates this **3 resolved / 65 unresolved** result from two other results for the same 68
+> positions, and explains why they must not be conflated:
+>
+> | Result | Master | Identifiers supplied | Authority |
+> |---|---|---|---|
+> | **1 resolved / 67 unresolved** | legacy Wave-1 (2,250) | name only | IPD `GOVERNED_B_06_WAVE1_MASTER` run |
+> | **3 resolved / 65 unresolved** *(this record)* | D05 authenticated (2,390) | name only | IPD `GOVERNED_AUTHENTICATED_MASTER_2026-11-08` run |
+> | **65 resolved / 3 unresolved** | D05 authenticated (2,390) | **ISIN**, from the B-04 companion export | IPD §9-A PA-authorised reassessment |
+>
+> The third result is **not** an outcome of the `DHAN_WEB_UI_SUMMARY_V1` CSV: that surface supplies
+> no ISIN and no exchange, so the ISIN namespace is never queried on it. The three residual rows
+> under §9-A are universe-scope exclusions that correctly fail closed `UNMAPPED_IDENTIFIER`; no
+> identity was invented, mapped or bypassed, and their governance dispositions are unchanged.
+
 ## 6. Validation
 
 - `npm ci` (lockfile-exact) — PASS. The lockfile installs cleanly at the new pin.

@@ -233,6 +233,12 @@ describe('Broker preview public boundary — native evidence, never a save', () 
       // IPD's D05 AUTHENTICATED universe (2,390 records, IPD PR #145) resolves AGI GREENPAC
       // (governed alias), GHCL and KROSS; the other 65 rows stay UNRESOLVED. These counts are
       // IPD's, published verbatim: IRR neither recomputes nor overrides them.
+      //
+      // This is the NAME-ONLY result for this surface (the CSV carries no ISIN and
+      // no exchange). It is NOT the separate §9-A ISIN-scoped reassessment, which
+      // resolves 65/3 using the B-04 companion export's ISINs and is not an
+      // outcome of this CSV. See
+      // docs/integration/WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md
       assert.equal(p.counts.identityResolvedRows, 3);
       assert.equal(p.counts.identityUnresolvedRows, 65);
       assert.equal(p.counts.savedRows, 0);
