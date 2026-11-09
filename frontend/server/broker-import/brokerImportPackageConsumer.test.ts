@@ -9,8 +9,8 @@
  * Guards that IRR's IPD dependency pins:
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
- *      `709fd13c77e90df05900859d23ba57d1004197a0`, and the deliberately distinct DB-C1
- *      broker-import alias `709fd13c77e90df05900859d23ba57d1004197a0` (the merge commit of IPD
+ *      `d5e20c15059267a3f824b015e37d652084de5a01`, and the deliberately distinct DB-C1
+ *      broker-import alias `d5e20c15059267a3f824b015e37d652084de5a01` (the merge commit of IPD
  *      PR #145, which carries the D05 authenticated universe and the Stage 4 identity
  *      qualification implementation; advanced from #131 `58fc8fb7f033650f40d61078d70e951f21dd033f`).
  *      The alias is deliberately NOT the same alias as the primary package: it is a distinct npm
@@ -41,8 +41,9 @@ const frontendRoot = resolve(here, '..', '..');
  * The authoritative IPD dependency pin, advanced from `279d1eed…` to `59fdfd1…`
  * (IPD PR #140 merge commit) by the isolated Dhan convergence, then to `ae393aa…`
  * (IPD PR #144 merge commit) by DHAN-P3, then to `73768fa…` (IPD PR #145 merge
- * commit) by DHAN-P5, and finally to `709fd13…` (the merged IPD PR #145) by the
- * Broker Import dependency alignment.
+ * commit) by DHAN-P5, then to `709fd13…` (the merged IPD PR #145) by the Broker Import
+ * dependency alignment, and finally to `d5e20c15…` (the merged IPD PR #146, the current
+ * authoritative IPD `main`) by the Stage 4D composition-root alignment.
  *
  * `59fdfd1…` is the first commit reachable from IPD `main` that publishes the server-only
  * `./dhan-server` subpath; at `279d1eed…` the subpath and `src/providers/dhan/**` do not
@@ -57,15 +58,26 @@ const frontendRoot = resolve(here, '..', '..');
  * `./dhan-server` as `SecurityIdentityQualificationResult` / `HoldingIdentityInput` /
  * `SecurityIdentityQualified` / `SecurityIdentityUnresolved`) and the D05 authenticated
  * universe. `73768fa…` was PR #145's head commit and is the parent of the merge, so
- * advancing to the merge commit changes no consumed byte — it only adopts the revision the
- * IPD repository itself publishes as `main`.
+ * advancing to that merge commit changed no consumed byte — it only adopted the revision the
+ * IPD repository itself published as `main`.
+ *
+ * `d5e20c15…` is the merge commit of IPD PR #146 (head `566a99b…`) and is the current
+ * authoritative IPD `main`. It is the first `main` revision that carries the Stage 4D
+ * composition-root wiring (`src/ipc/brokerImportComposition.ts`, composed at
+ * `src/ipc/entrypoint.ts`) and the explicit local single-user durable-write authorization
+ * (`src/persistence/localSingleUserAuthorization.ts`, `src/ui/brokerImportApplicationPath.ts`).
+ * None of those modules is reachable from the `./portfolio-ui` closure, so the published
+ * `dist/package` tree is BYTE-IDENTICAL to `709fd13…`: the same 102 modules, the same 204
+ * publication-manifest entries, and the same npm tarball SHA-256. Advancing the pin therefore
+ * changes no consumed byte while adopting the revision IPD publishes as `main` — and it is the
+ * revision that actually contains Stage 4 composition, which `709fd13…` does NOT.
  *
  * Every advance is PURELY ADDITIVE for existing consumers: the `./portfolio-ui`, `./pit`,
  * `./d114-non-production`, `./operator-drop` and `./dhan-server` subpaths all remain
  * published, IRR's consumed `./dhan-server` exports are unchanged, and IPD's
  * `MarketDataTransportClient` class is byte-identical across the last two advances.
  */
-export const EXPECTED_IPD_PIN_SHA = '709fd13c77e90df05900859d23ba57d1004197a0';
+export const EXPECTED_IPD_PIN_SHA = 'd5e20c15059267a3f824b015e37d652084de5a01';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
@@ -91,6 +103,17 @@ export const SUPERSEDED_IPD_DHAN_P3_PIN_SHA = 'ae393aafdb35869bd039e1354b988e423
  * commit changes no consumed behaviour.
  */
 export const SUPERSEDED_IPD_DHAN_P5_PIN_SHA = '73768fa83c331de1bd9f51af0a6b26e5ad489ba2';
+
+/**
+ * The PR #145 merge pin, retained so a rollback to the pre-Stage-4D pin cannot go unnoticed.
+ *
+ * `709fd13…` is the IPD PR #145 merge commit. It carries the D05 authenticated universe and the
+ * Stage 4 identity-qualification service, but its `entrypoint.ts` still called
+ * `createBrokerImportConsumer(db)` WITHOUT the governed identity dependencies and without the
+ * local single-user authorization context — the exact gap Stage 4D closes. It is superseded by
+ * `d5e20c15…` (IPD PR #146).
+ */
+export const SUPERSEDED_IPD_PR145_PIN_SHA = '709fd13c77e90df05900859d23ba57d1004197a0';
 
 /** The superseded primary pin, retained so a silent rollback cannot go unnoticed. */
 export const SUPERSEDED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
@@ -376,6 +399,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_SERVER_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P3_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P5_PIN_SHA);
+    expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_PR145_PIN_SHA);
     expect(depSpec).toContain(EXPECTED_IPD_PIN_SHA);
 
     // The subpath did not exist at the superseded pin, so its presence is the observable

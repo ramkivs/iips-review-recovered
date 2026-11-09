@@ -10,7 +10,7 @@
  *   identity basis with `identityAssessedRows: 0`.
  *
  *   The `iips-broker-import` alias is now pinned to IPD PR #145's merge commit
- *   `709fd13c77e90df05900859d23ba57d1004197a0`, whose mapper assesses EVERY native row before it
+ *   `d5e20c15059267a3f824b015e37d652084de5a01`, whose mapper assesses EVERY native row before it
  *   raises the single whole-import P04 refusal, and publishes that evidence as
  *   `identityAssessments` / `identitySummary` on both the success and the refusal result. This
  *   module consumes that published evidence verbatim. Identity authority stays with IPD: IRR never

@@ -2,7 +2,7 @@
  * IRR server-side IPD market-data transport configuration (DHAN-P3).
  *
  * Authority:
- *   - IPD `ramkivs/iips-production-market-data` @ `709fd13c77e90df05900859d23ba57d1004197a0`
+ *   - IPD `ramkivs/iips-production-market-data` @ `d5e20c15059267a3f824b015e37d652084de5a01`
  *     (`main`, merge commit of IPD PR #145), consumed through the server-only `./dhan-server`
  *     subpath.
  *   - The transport credential env name is IPD's own: `MARKET_DATA_TRANSPORT_TOKEN_ENV` =

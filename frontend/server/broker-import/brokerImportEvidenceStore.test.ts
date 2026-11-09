@@ -72,9 +72,10 @@ describe('WS-A broker-import evidence retention', () => {
     expect(read.pipelineRefusals[0].details).toMatch(/UNMAPPED_IDENTIFIER/);
     // Pin advance to IPD PR #127 (7bcae35): the pipeline now assesses EVERY native row before the
     // single whole-import P04 refusal, so the retained counts record real per-row outcomes.
-    // Dependency alignment to IPD PR #145 (709fd13): the governed D05 master is now IPD's
-    // authenticated universe (2,390 records), which resolves AGI GREENPAC, GHCL and KROSS; the
-    // retained counts carry IPD's per-row outcomes verbatim.
+    // Dependency alignment to IPD PR #145 (709fd13), retained at PR #146 (d5e20c15): the governed
+    // D05 master is IPD's authenticated universe (2,390 records), which resolves AGI GREENPAC, GHCL
+    // and KROSS; the retained counts carry IPD's per-row outcomes verbatim. PR #146 changes no
+    // published byte of the ./portfolio-ui closure, so these expectations are unchanged.
     expect(read.counts).toEqual({
       nativeRows: 68,
       identityAssessedRows: 68,

@@ -108,9 +108,11 @@ describe('WS-A durable import evidence — separate-process restart', () => {
     expect(recovered.rows).toBe(68);
     // Pin advance to IPD PR #127 (7bcae35): all 68 rows are individually assessed, AGI GREENPAC
     // resolves through its governed alias, and the other 67 stay unresolved.
-    // Dependency alignment to IPD PR #145 (709fd13): IPD's authenticated universe also resolves
-    // GHCL and KROSS natively, so 3 rows resolve and 65 stay unresolved. The recovered counts
-    // must be byte-identical to what the live pipeline produced before the restart.
+    // Dependency alignment to IPD PR #145 (709fd13), retained at PR #146 (d5e20c15): IPD's
+    // authenticated universe also resolves GHCL and KROSS natively, so 3 rows resolve and 65 stay
+    // unresolved. The recovered counts must be byte-identical to what the live pipeline produced
+    // before the restart. PR #146 changes no published byte of the ./portfolio-ui closure, so the
+    // expected counts are unchanged.
     expect(recovered.counts).toEqual({
       nativeRows: 68,
       identityAssessedRows: 68,
