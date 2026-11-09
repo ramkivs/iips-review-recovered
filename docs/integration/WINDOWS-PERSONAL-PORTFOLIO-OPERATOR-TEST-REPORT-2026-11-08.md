@@ -88,6 +88,51 @@ the full tree for both strings and found **zero** occurrences. They are operator
 | Retained Dhan import ID | `87abe0fe3db23b6bbdb19898bb939eebdcc2393c0cdd3bcecd86ad11896a22f0` |
 | Receipt / record digest | `61d9c8b4aa5e3fd8145f328e1f50550cd3428daff8c93430e6c0aa9c34d20803` |
 
+#### 4.1 Addendum (2026-11-09) — retention of THIS import remains UNVERIFIED
+
+Re-verified on 2026-11-09 against the authoritative IPD `main` and the IRR tree. The **status
+above is unchanged and is not upgraded**: these two values are still operator-supplied and
+unverified.
+
+A precision note on the §4 wording above. It states that neither value is *"committed anywhere in
+the repository"* because a full-tree grep found zero occurrences. Re-run on 2026-11-09, the literal
+reading is not exact: **both strings do occur, but only as transcriptions in this report's own §4
+table** — the import ID once, the receipt digest once. Neither is committed **as an artifact**: no
+retained evidence record, journal, receipt or read-back anywhere in the tree carries either value,
+so neither can be independently confirmed or re-derived. That is the substance of the original
+claim, and it is unchanged. The §4 sentence is left exactly as written above.
+
+**Actual retention of this specific import cannot be confirmed.** The artifacts required are
+unavailable, and each is unavailable for a stated, non-recoverable reason:
+
+| Missing | Why it is required | Why it cannot be recovered here |
+| :-- | :-- | :-- |
+| The operator's original CSV bytes (or their SHA-256) | `contentDigest` is `sha256(raw bytes)`, and the import ID is derived from it | Raw bytes are never retained by design (`docs/OPERATOR_RUNBOOK.md` §10.2). IRR holds only a **reconstructed** fixture whose digest (`c44e3cdb…`) **differs** from the operator's observed digest (`468441df…`) |
+| The operator's `readAt` wall-clock timestamp | Third input to the import ID; not derivable | The browser clock at file selection. Recomputing with the IPD `asOf` (`2026-11-08T05:49:40.000Z`) or the fixture `asOf` (`2026-11-05T07:50:49.090Z`) yields `2a6a84c5…`, `d3097726…`, `79695627…`, `5f4adb0e…` — **none** equals `87abe0fe…` |
+| The operator host's `journal.ndjson` (or the retained record) | The artifact the receipt digest `61d9c8b4…` was computed over | Host-local only; no copy is in the repository |
+| The operator host's owner carrier and IPD binding | Owner scope is required to read the record at all | Host-local; the runbook's §3.3 re-materialisation is deterministic but was not performed for that host |
+| The responding endpoint for the run | Whether the operator's UI reached IRR or IPD is recorded as **UNKNOWN** | The operator did not capture it; this record does not infer it |
+
+**The UI's "Evidence retention unconfirmed" status is NOT a defect and is not resolved by this
+addendum.** That string is the `UNCONFIRMED` state — *no outcome was established* — and it is
+explicitly **not** proof that no append occurred, because an append may have succeeded before an
+acknowledgement was lost. The implementation behind it was traced and verified: the browser and the
+server derive the import identifier identically
+(`sha256(broker ‖ 0x00 ‖ contentDigest ‖ 0x00 ‖ readAt)`), the POST and GET routes resolve the
+owner scope through the same act-fixed carrier, and the record digest is re-verified on every read.
+Real cross-process retention is demonstrated by the existing
+`server/broker-import/brokerImportLiveEvidence.test.ts` (real HTTP POST → SIGKILL → second OS
+process GET, matching digests). **That is proof of the mechanism; it is not proof that THIS
+import was retained.** No substitute evidence was created.
+
+One boundary is worth stating for the operator: the UI's "Check retained evidence" control
+recomputes the import identifier from the **in-memory snapshot of the current selection**, so it can
+re-check only an import made in the same browser session. Recovering a **known** import identifier
+after browser loss is not reachable through the UI — `docs/OPERATOR_RUNBOOK.md` §11.2 states this
+("Copy the displayed import ID if recovery after browser loss is needed … there is no enumeration
+endpoint"). The operator's Step 11 ambiguity in §4.3 above is therefore structural, not a defect,
+and its disposition there is unchanged.
+
 Other operator statements, recorded as supplied:
 
 - Portfolio **revision 2** survived a restart of all three services and was then deleted as Step 14 requires.
@@ -213,6 +258,46 @@ difference in the host's working tree.
 **This record preserves the discrepancy as UNRESOLVED. It is not reconciled, not averaged, and not
 attributed to a benign cause.** Step 10's operator PASS is recorded as the operator's result on their
 own host; it does **not** reproduce against committed evidence, and that tension is the finding.
+
+### 8.1 Addendum (2026-11-09) — the discrepancy is now reconciled; the text above is preserved verbatim
+
+**The finding above was correct to leave the cause open at the time, and the cause is now
+established.** The reconciliation is recorded in full in
+`docs/integration/WS-A-68-ROW-IDENTITY-ASSESSMENT-RECONCILIATION-2026-11-09.md`; this addendum
+records only the closure and does not alter any statement above.
+
+The cause is the **governed master revision on the operator's host**, and nothing else:
+
+| | IRR `main` at the time | Operator host |
+|---|---|---|
+| IRR's IPD pin | `58fc8fb7…` (Wave-1 corpus) | `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19` |
+| IPD revision observed | — | `de8756de1d7d4082e8e144dadf3fb53373b711c6` |
+| D05 corpus carried | Wave-1, **2,250** records | **authenticated**, 2,390 records |
+| 68-row result | 1 resolved / 67 unresolved | **3 resolved / 65 unresolved** |
+
+`de8756de…` contains `src/identity/d05_authenticated_universe_data.ts` — the D05 authenticated
+universe — and is a descendant of IPD commit `60cad83` ("D05 one-time replacement: authenticated
+runtime activation + full test re-pin"). The authenticated corpus carries **GHCL** and **KROSS**
+natively in addition to the governed **AGI GREENPAC** alias, which is exactly the operator's
+**+2 resolved / −2 unresolved** delta. IPD's own commit message records the same outcome: *"68-row
+Dhan intake: resolves AGI GREENPAC (governed alias) + GHCL + KROSS; 65 stay UNRESOLVED."*
+
+**Therefore the operator's 3/65 was correct for the master their host was running, and IRR `main`'s
+1/67 was correct for the master IRR was pinned to. Neither number was wrong, and no defect,
+malconfiguration, format difference or working-tree difference is involved.** The divergence was
+**not** benign by assumption — it is benign by identified cause.
+
+The three results for these 68 positions are now separated by their
+`(master revision × supplied-identifier set)` coordinates. In particular, the separate
+PA-authorised **§9-A ISIN-scoped reassessment (65 resolved / 3 unresolved)** is **not** an outcome of
+this CSV: `DHAN_WEB_UI_SUMMARY_V1` supplies no ISIN and no exchange, so the ISIN namespace is never
+queried on this surface. That result comes from the B-04 companion export and is recorded by IPD
+in `evidence/integration/ws-a-dhan-68-row/identity-outcomes-reassessment-2026-11-08.json`.
+
+**Closure:** the discrepancy is **RECONCILED** with its cause identified. The three residual rows
+unresolved under the §9-A reassessment (rows 44 `INE721I01024`, 51 `INE583V01021`, 63
+`INE562X01013`) are **universe-scope exclusions** that correctly fail closed `UNMAPPED_IDENTIFIER`;
+their governance dispositions are unchanged and no identity was invented, mapped or bypassed.
 
 ## 9. Launcher identity — recorded, not adopted
 
