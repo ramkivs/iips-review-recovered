@@ -13,7 +13,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import InvestmentCoveragePage from './InvestmentCoveragePage';
-import { COVERAGE_REPORT, ISSUER, SECURITY } from './iid6Fixtures';
+import { COVERAGE_REPORT, ISSUER, PORTFOLIO, SECURITY } from './iid6Fixtures';
 
 function stub(handler: () => Response) {
   const mock = vi.fn(async () => handler());
@@ -59,10 +59,26 @@ describe('rows link out only when an identity is known', () => {
 
     await screen.findByRole('heading', { name: /Investment coverage/i });
     const links = screen.getAllByRole('link', { name: /Company assessment/ });
-    expect(links[0]).toHaveAttribute('href', `/investment/company/${encodeURIComponent(ISSUER)}`);
+    // IID WI-1 (P4): this row was observed in a portfolio, so the link now carries that portfolio and the row's
+    // own security. Previously the href dropped both and the company page could only report "no context supplied".
+    expect(links[0]).toHaveAttribute(
+      'href',
+      `/investment/company/${encodeURIComponent(ISSUER)}?portfolioId=${PORTFOLIO}&securityId=${encodeURIComponent(SECURITY)}`,
+    );
     expect(screen.getAllByRole('link', { name: /Candidate view/ })[0]).toHaveAttribute(
       'href',
-      `/investment/candidate/${encodeURIComponent(SECURITY)}`,
+      `/investment/candidate/${encodeURIComponent(SECURITY)}?portfolio=${PORTFOLIO}`,
+    );
+  });
+
+  it('offers the change history of a resolved issuer, carrying the same holding context (IID WI-1 P4)', async () => {
+    stub(() => new Response(JSON.stringify(COVERAGE_REPORT), { status: 200 }));
+    renderPage();
+
+    await screen.findByRole('heading', { name: /Investment coverage/i });
+    expect(screen.getAllByRole('link', { name: /Change history/ })[0]).toHaveAttribute(
+      'href',
+      `/investment/company/${encodeURIComponent(ISSUER)}?portfolioId=${PORTFOLIO}&securityId=${encodeURIComponent(SECURITY)}#change-timeline`,
     );
   });
 

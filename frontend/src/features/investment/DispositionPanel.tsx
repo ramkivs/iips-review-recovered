@@ -17,6 +17,7 @@
  */
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { candidateAssessmentHref, companyAssessmentHref, userPortfolioHref } from './investmentContext';
 
 import {
   DISPOSITION_UNAVAILABLE_COPY,
@@ -165,7 +166,9 @@ function ImplicationBlock({ payload }: { readonly payload: DispositionPayloadVie
   const context = payload.portfolioContext;
   const isCandidate = payload.subject.kind === 'CANDIDATE';
   return (
-    <>
+    // IID WI-1 (P4/P5): the portfolio-impact stage of the workflow gets its own anchor so a stage link can reach
+    // it directly. It wraps the existing block unchanged — no value, reason or table is added or altered.
+    <div id="portfolio-impact">
       {isCandidate ? (
         <p role="note" className="muted">
           A candidate has no position, so no quantity, no portfolio weight and no projected weight exists. The band
@@ -259,7 +262,7 @@ function ImplicationBlock({ payload }: { readonly payload: DispositionPayloadVie
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 
@@ -465,10 +468,33 @@ export function DispositionPanel({ kind, securityId, portfolioId, heading, displ
         Prose lives in the limitation register.
       </p>
       <ReadOnlyDisclosure />
+      {/*
+        IID WI-1 (P4): the return links keep the context this panel was opened with. A candidate carries its
+        optional portfolio and its own security into the company assessment, so the reader arrives at the same
+        subject instead of an uncontextualised page. The issuer id is the one the SERVER put in the payload —
+        it is never derived here from the security id.
+      */}
+      {portfolioId === undefined ? null : (
+        <p>
+          <Link to={userPortfolioHref(portfolioId)}>← Back to portfolio {portfolioId}</Link>
+        </p>
+      )}
       {kind === 'candidate' && payload.subject.issuerId.length > 0 ? (
         <p>
-          <Link to={`/investment/company/${encodeURIComponent(payload.subject.issuerId)}`}>
+          <Link
+            to={companyAssessmentHref(payload.subject.issuerId, {
+              ...(portfolioId === undefined ? {} : { portfolioId }),
+              securityId,
+            })}
+          >
             Open the current company assessment (which may differ from the cited version) →
+          </Link>
+        </p>
+      ) : null}
+      {kind === 'held' && payload.subject.issuerId.length > 0 ? (
+        <p>
+          <Link to={candidateAssessmentHref(securityId, portfolioId)}>
+            Read this security as a candidate (no position) →
           </Link>
         </p>
       ) : null}

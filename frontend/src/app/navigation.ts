@@ -40,6 +40,24 @@ export const NAV: NavItem[] = [
   // IID-1: identity coverage over holdings, broker-preview rows and watchlists. Read-only; it renders the
   // resolution state of every observed row and never substitutes a sector reference for an identity.
   { label: 'Identity Coverage', path: ROUTES.identityCoverage },
+  /**
+   * IID WI-1 (P1) — Investment Intelligence as an identifiable group naming the three capabilities.
+   *
+   * The parent is a real link because `/investment` is a built landing surface, not a placeholder. The children
+   * address its three capability sections: the company, candidate and disposition routes all require an identifier
+   * and so cannot be global destinations. Each child therefore lands on a real, implemented section that carries
+   * the way into the existing IID-6 surfaces. Coverage stays a separate entry below — it reports identity
+   * resolution, and is not one of the three capabilities.
+   */
+  {
+    label: 'Investment Intelligence',
+    path: ROUTES.investmentIntelligence,
+    children: [
+      { label: 'IID-01 — Stock Intelligence', path: `${ROUTES.investmentIntelligence}#iid-01` },
+      { label: 'IID-02 — Investment & Holding Decisions', path: `${ROUTES.investmentIntelligence}#iid-02` },
+      { label: 'IID-03 — Historical Change Intelligence', path: `${ROUTES.investmentIntelligence}#iid-03` },
+    ],
+  },
   // IID-6: the coverage panel at its authoritative path, beside the company assessment view it links to.
   { label: 'Investment Coverage', path: ROUTES.investmentCoverage },
   { label: 'Collaboration', path: '/collaboration' },
@@ -93,6 +111,11 @@ export const NAV: NavItem[] = [
 
 /** Concrete, implemented destinations available as global child links. */
 export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
+  // IID WI-1 (P1): concrete sections of the built `/investment` landing surface. Parameter-free, so they are
+  // admissible global links; each resolves to a real rendered section rather than an identifier-bearing route.
+  `${ROUTES.investmentIntelligence}#iid-01`,
+  `${ROUTES.investmentIntelligence}#iid-02`,
+  `${ROUTES.investmentIntelligence}#iid-03`,
   ROUTES.researchCrossSector,
   '/research/engines',
   ROUTES.researchMacro,

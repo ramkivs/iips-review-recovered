@@ -24,6 +24,7 @@ import { ReplayExplorer } from '../features/replay/ReplayExplorer';
 import { EngineRegistry } from '../features/engines/EngineRegistry';
 import { Screener } from '../features/screener/Screener';
 import { Watchlists } from '../features/watchlists/Watchlists';
+import InvestmentLandingPage from '../features/investment/InvestmentLandingPage';
 import InvestmentCoveragePage from '../features/investment/InvestmentCoveragePage';
 import CompanyAssessmentPage from '../features/investment/CompanyAssessmentPage';
 import CandidateAssessmentPage from '../features/investment/CandidateAssessmentPage';
@@ -57,6 +58,8 @@ export function App() {
         <Route path={ROUTES.identityCoverage} element={<InvestmentCoveragePage />} />
         {/* IID-3 — persisted company assessment (GET-only; the server owns persistence). */}
         <Route path={ROUTES.companyAssessment} element={<CompanyAssessmentPage />} />
+        {/* IID WI-1 (P1) — the concrete Investment Intelligence landing surface naming IID-01/02/03. */}
+        <Route path={ROUTES.investmentIntelligence} element={<InvestmentLandingPage />} />
         {/* IID-6 — coverage at its authoritative path, and the candidate flow (no portfolio required). */}
         <Route path={ROUTES.investmentCoverage} element={<InvestmentCoveragePage />} />
         <Route path={ROUTES.candidateAssessment} element={<CandidateAssessmentPage />} />

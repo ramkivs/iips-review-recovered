@@ -25,6 +25,12 @@ export const ROUTES = {
    */
   companyAssessment: '/investment/company/:issuerId',
   /**
+   * IID WI-1 (P1) — the Investment Intelligence landing surface. A concrete, parameter-free path so the three
+   * capabilities can be named in global navigation: the company and candidate routes below take an identifier and
+   * therefore cannot be sidebar destinations. This page reads nothing, so discovery does not depend on coverage.
+   */
+  investmentIntelligence: '/investment',
+  /**
    * IID-6 — the product surface routes.
    *
    * `investmentCoverage` is the authoritative IID-6 path from the roadmap's task 7. The IID-1 SPA surface keeps its

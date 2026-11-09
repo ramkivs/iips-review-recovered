@@ -1,10 +1,14 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
+import { useHashScroll } from '../features/investment/useHashScroll';
 import './AppShell.css';
 
 export function AppShell() {
   const pathname = useLocation().pathname;
+  // IID WI-1 (P5): scroll to a URL fragment once its target has actually rendered. Mounted in the shell so every
+  // route gets it, including `#change-timeline` on the asynchronously loaded company assessment.
+  useHashScroll();
   const isMacroRoute = pathname.replace(/\/+$/, '') === '/research/macro';
   // CV-51: Reports shares the narrow-viewport shell treatment so long report identifiers
   // and tables never clip the shell at <=640px / <=320px.

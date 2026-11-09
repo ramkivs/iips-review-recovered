@@ -31,6 +31,13 @@ import DispositionPanel from './DispositionPanel';
 import SectorReferenceDisclosure from './SectorReferenceDisclosure';
 import { AbsentValue, Badge, ReadOnlyDisclosure, SurfaceSection } from './InvestmentStates';
 import { formatNumber, formatPercent, formatRatio4, notAvailable, observed } from './investmentCopy';
+import {
+  changeHistoryHref,
+  companyAssessmentHref,
+  readInvestmentContext,
+  userPortfolioHref,
+  type InvestmentContext,
+} from './investmentContext';
 
 type LoadState =
   | { readonly kind: 'loading' }
@@ -491,11 +498,25 @@ function AssumptionsSection({ assessment }: { readonly assessment: AssessmentEnv
 
 export default function CompanyAssessmentPage(): JSX.Element {
   const { issuerId = '' } = useParams<{ issuerId: string }>();
-  const [searchParams] = useSearchParams();
-  const portfolioId = searchParams.get('portfolioId');
-  const securityId = searchParams.get('securityId');
+  const [searchParams, setSearchParams] = useSearchParams();
+  /**
+   * IID WI-1 (P4): the URL is the single source of truth for which stored version is displayed, and for the
+   * holding context. Previously the selected version lived in component state, so a reload, a shared link or a
+   * back/forward step silently returned the reader to the chain head. Reading it from the query string makes the
+   * selection addressable and restores it on reload and on POP navigation without any extra history bookkeeping.
+   */
+  const { portfolioId, securityId, reportId: selectedReportId } = readInvestmentContext(searchParams);
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
-  const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
+
+  /**
+   * Select a stored version by writing `reportId` into the query string, preserving every other parameter. A push
+   * (not a replace) is deliberate: back/forward must walk the versions the reader actually visited.
+   */
+  const selectReport = (reportId: string): void => {
+    const next = new URLSearchParams(searchParams);
+    next.set('reportId', reportId);
+    setSearchParams(next);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -538,6 +559,16 @@ export default function CompanyAssessmentPage(): JSX.Element {
 
   const { envelope } = state;
   const { assessment, version, versions, scope } = envelope;
+  // IID WI-1 (P4): the holding context this page was opened with, handed to the timeline so a comparison link
+  // returns to the same holding. Absent members stay absent — nothing is defaulted or inferred.
+  const workflowContext: InvestmentContext = {
+    ...(portfolioId === undefined ? {} : { portfolioId }),
+    ...(securityId === undefined ? {} : { securityId }),
+  };
+  // The stage links address the version actually displayed, so jumping to a section never resets the reader to
+  // the chain head. `version.reportId` is the server's own id for the payload on screen.
+  const displayedContext: InvestmentContext = { ...workflowContext, reportId: version.reportId };
+  const displayedHref = companyAssessmentHref(issuerId, displayedContext);
   // `L-036` — absent on versions composed before the disclosure existed, which is why it is read defensively and
   // rendered as an absent value rather than silently omitted.
   const bridge = assessment.fundamentals?.capitalStructure?.equityBridge;
@@ -586,6 +617,26 @@ export default function CompanyAssessmentPage(): JSX.Element {
           {assessment.subject.identity.corporateActionTableVersion.slice(0, 12)}…
         </p>
         <ReadOnlyDisclosure />
+        {/*
+          IID WI-1 (P4): the workflow stays continuous. The stage links are in-page anchors on this one route, so
+          they cannot drop the query string; the portfolio return link is rendered only when a portfolio context
+          actually exists, and addresses that exact portfolio rather than the list.
+        */}
+        <nav aria-label="Investment workflow">
+          {portfolioId === undefined ? null : (
+            <Link to={userPortfolioHref(portfolioId)}>← Back to portfolio {portfolioId}</Link>
+          )}{' '}
+          <Link to={`${displayedHref}#fundamentals`}>Fundamentals</Link>{' '}
+          <Link to={`${displayedHref}#valuation`}>Valuation</Link>{' '}
+          <Link to={`${displayedHref}#risk`}>Risk</Link>{' '}
+          <Link to={`${displayedHref}#disposition`}>Disposition</Link>{' '}
+          {/* Portfolio impact is rendered by the held disposition panel, so the jump is offered only when that
+              panel is actually mounted. Without a holding there is no impact to show and no dead anchor. */}
+          {portfolioId !== undefined && securityId !== undefined ? (
+            <Link to={`${displayedHref}#portfolio-impact`}>Portfolio impact</Link>
+          ) : null}{' '}
+          <Link to={changeHistoryHref(issuerId, displayedContext)}>Historical changes</Link>
+        </nav>
       </header>
 
       <SurfaceSection
@@ -596,7 +647,7 @@ export default function CompanyAssessmentPage(): JSX.Element {
         <VersionSelector
           versions={versions}
           selected={version.reportId}
-          onSelect={(reportId) => setSelectedReportId(reportId)}
+          onSelect={selectReport}
         />
         <p className="muted">
           Viewing v{version.artifactVersion} · reportId <code>{version.reportId}</code> · payload digest{' '}
@@ -810,7 +861,7 @@ export default function CompanyAssessmentPage(): JSX.Element {
         <SectorReferenceDisclosure view={assessment.sectorReferenceView} sector={assessment.subject.sector} />
       )}
 
-      {portfolioId !== null && securityId !== null ? (
+      {portfolioId !== undefined && securityId !== undefined ? (
         <DispositionPanel kind="held" portfolioId={portfolioId} securityId={securityId} heading="Disposition"
           displayedAssessment={{ issuerId: assessment.subject.issuerId, reportId: version.reportId }} />
       ) : (
@@ -828,12 +879,13 @@ export default function CompanyAssessmentPage(): JSX.Element {
           </p>
           <p>
             <Link to="/user-portfolios">User portfolios →</Link>{' '}
+            <Link to="/investment">Investment Intelligence →</Link>{' '}
             <Link to={`/investment/coverage`}>Identity coverage →</Link>
           </p>
         </SurfaceSection>
       )}
 
-      <ChangeTimeline issuerId={issuerId} versions={versions} />
+      <ChangeTimeline issuerId={issuerId} versions={versions} context={workflowContext} />
 
       <SurfaceSection id="limitations" title="Limitations and disclosures">
         <p className="muted">

@@ -42,6 +42,8 @@ describe('the IID-6 routes exist at the documented paths', () => {
     expect(ROUTES.companyAssessment).toBe('/investment/company/:issuerId');
     expect(ROUTES.investmentCoverage).toBe('/investment/coverage');
     expect(ROUTES.candidateAssessment).toBe('/investment/candidate/:securityId');
+    // IID WI-1 P1: a concrete, parameter-free landing route for the capability group.
+    expect(ROUTES.investmentIntelligence).toBe('/investment');
     // The IID-1 path is retained as an alias rather than moved.
     expect(ROUTES.identityCoverage).toBe('/identity-coverage');
   });
@@ -85,6 +87,17 @@ describe('no investment route writes', () => {
     expect(container.querySelectorAll('input, select, textarea, form')).toHaveLength(0);
     expect(screen.queryAllByRole('button')).toHaveLength(0);
     expect(container.textContent).not.toContain('investment.db');
+  });
+
+  it('mounts the /investment landing route as a real surface and issues no request at all', async () => {
+    // IID WI-1 P1: capability discovery must not depend on Investment Coverage — or any other read — succeeding.
+    const calls = stubAllDegraded(503, { error: 'investment-persistence-unavailable' });
+    renderAt('/investment');
+
+    expect(await screen.findByRole('heading', { name: 'Investment Intelligence' })).toBeInTheDocument();
+    expect(screen.queryByTestId('shell-feature-unavailable')).not.toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(calls).toHaveLength(0);
   });
 
   it('keeps the coverage alias rendering the same read model', async () => {
