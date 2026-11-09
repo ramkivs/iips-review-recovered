@@ -255,14 +255,14 @@ describe('ipcPortAdapter — end-to-end over the real ipcClient and a contract-v
     }
   });
 
-  it('refuses a v1 view missing isSaved and an ok:true save result with the 7-field gap', async () => {
+  it('refuses a v1 view missing isSaved and a save result missing the receipt fields', async () => {
     let peer = await startPeer((request, socket) => {
       const op = String(request?.op);
       if (op === 'portfolio.get') {
         const { isSaved: _s, ...legacyView } = wireView();
         socket.write(frameOf({ v: 1, ok: true, op, result: legacyView }));
       } else {
-        // A genuine v1 save success: disposition/revision/durability only.
+        // A pre-personal-path v1 save success: an unknown disposition and only a revision.
         socket.write(frameOf({ v: 1, ok: true, op, result: { disposition: 'SAVED', revision: 5 } }));
       }
       socket.end();
@@ -273,12 +273,45 @@ describe('ipcPortAdapter — end-to-end over the real ipcClient and a contract-v
       expect(viewError.message).toContain('isSaved');
       expect(viewError.message).toContain('missing or non-conforming');
 
+      // The personal path now accepts a full save receipt (see the test below); a receipt
+      // missing the authorized counters/portfolio still fails closed — never partially passed through.
       const saveError = await expectG2Error(() =>
         port.saveHoldings({ scope: SCOPE, portfolioId: 'p-1', holdings: [], expectedRevision: 4 }),
       );
-      for (const field of ['isSaved', 'holdingsSavedCount', 'totalMarketValue', 'weightSumPercentage', 'savedAt', 'provenanceDigest', 'portfolio']) {
+      for (const field of ['isDuplicate', 'disposition', 'holdingsSavedCount', 'totalMarketValue', 'weightSumPercentage', 'savedAt', 'provenanceDigest', 'portfolio']) {
         expect(saveError.message).toContain(field);
       }
+    } finally {
+      await peer.close();
+    }
+  });
+
+  it('maps a full personal-path save receipt onto G2SaveResult over the real socket', async () => {
+    const receipt = {
+      disposition: 'MERGED_INTO_EXISTING',
+      revision: 4,
+      isDuplicate: false,
+      holdingsSavedCount: 1,
+      totalMarketValue: 25000,
+      weightSumPercentage: 100,
+      savedAt: '2026-11-08T00:00:00.000Z',
+      provenanceDigest: 'd'.repeat(64),
+      portfolio: wireView({ portfolioId: 'p-1', revision: 4, totalMarketValue: 25000, holdingsCount: 1, weightSumPercentage: 100, provenanceDigest: 'd'.repeat(64), isSaved: true }),
+    };
+    const peer = await startPeer((request, socket) => {
+      const op = String(request?.op);
+      socket.write(frameOf({ v: 1, ok: true, op, result: receipt }));
+      socket.end();
+    });
+    try {
+      const port = portOver(peer);
+      const result = await port.saveHoldings({ scope: SCOPE, portfolioId: 'p-1', holdings: [], expectedRevision: 3 });
+      expect(result.success).toBe(true);
+      expect(result.revision).toBe(4);
+      expect(result.disposition).toBe('MERGED_INTO_EXISTING');
+      expect(result.holdingsSavedCount).toBe(1);
+      expect(result.portfolio.portfolioId).toBe('p-1');
+      expect(result.portfolio.weightSumPercentage).toBe(100);
     } finally {
       await peer.close();
     }

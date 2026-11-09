@@ -1,0 +1,24 @@
+PASS  7. write denied when IIPS_LOCAL_PERSONAL_USE is not 1
+PASS  7b. IPD W-1 default-deny is upstream of IRR (503 operation-not-admitted)
+PASS  1. read before creation → 404 (not found / indistinguishable)
+PASS  2. create → 201 with revision 1 and 2 holdings
+PASS  2b. create: weight sum is exactly 100 (IPD-computed)  — weightSum=100
+PASS  2c. create: manual identity sentinel is IPD-owned (MANUAL:<SYMBOL>)  — ["MANUAL:INFY","MANUAL:RELIANCE"]
+PASS  3. retrieval returns the same durable view
+PASS  3b. list returns the durable portfolio
+PASS  3. holdings replacement (REPLACE mode) → 200, revision 2, one holding
+PASS  4. revision incremented 1 → 2  — revision=2
+PASS  6. stale expectedRevision → 409 revision-conflict
+PASS  5. duplicate/no-op save → 200, revision unchanged at 2, isDuplicate true
+PASS  6b. invalid payload → 400 invalid-request, no partial state
+PASS  6c. state unchanged after the invalid save (revision still 2)  — revision=2
+PASS  3c. revision history exposes INITIAL then REPLACE
+PASS  10a. after an IPD restart the durable portfolio is still listed
+PASS  10b. the portfolio reads back with its holdings and revision intact after the restart
+PASS  10c. a write on the restarted IPD succeeds and increments the revision → 3
+PASS  9a. delete with a stale guard → 409
+PASS  9b. delete with the correct guard → 200 with deletedAt
+PASS  9c. retrieval after delete → 404 (indistinguishable from foreign)
+PASS  9d. a tombstoned id is not silently reusable (IPD refuses the re-create)
+PASS  audit chain verifies after the whole sequence
+23/23 checks passed

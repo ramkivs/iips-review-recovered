@@ -160,6 +160,10 @@ export async function fetchUserPortfolioSummaries(baseUrl = ''): Promise<readonl
     throw new UserPortfolioApiError(0, 'Network error contacting the user-portfolio transport');
   }
   if (!res.ok) throw await toApiError(res);
+  // Fail closed on an unreadable or malformed success envelope: an invalid
+  // envelope is a transport fault, not an empty portfolio list. (Preserved
+  // from current `main` — the personal-use write client below must not weaken
+  // the certified read-only surface.)
   let body: { portfolios?: unknown } | null;
   try {
     body = (await res.json()) as { portfolios?: unknown } | null;
@@ -194,4 +198,160 @@ export async function fetchUserPortfolio(portfolioId: string, baseUrl = ''): Pro
     throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
   }
   return body.portfolio;
+}
+
+/* ------------------------------------------------------------------ *
+ * Personal-use write client — local single-user path only.
+ *
+ * These functions exist ONLY for the owner's local personal application
+ * (Program Authority, 2026-11-08). They are admitted over HTTP exclusively
+ * when the IRR server runs with the server-owned `IIPS_LOCAL_PERSONAL_USE=1`;
+ * otherwise the transport answers 503 `operation-not-admitted` and these fail
+ * closed like any other error. No identity field ever leaves this client; the
+ * server resolves the owner from IPD's binding, and all arithmetic, weights,
+ * revisions and digests are IPD-owned values.
+ * ------------------------------------------------------------------ */
+
+/** Holding input sent by the personal application (broker-observed fields only). */
+export interface UserPortfolioHoldingInput {
+  readonly symbol: string;
+  readonly quantity: number;
+  readonly averageBuyPrice: number;
+  readonly currentPrice: number;
+  readonly active?: boolean;
+}
+
+/** Save receipt shape served by the transport (frozen G-2 disposition vocabulary). */
+export type UserPortfolioSaveDisposition =
+  | 'SAVED_NEW_BATCH'
+  | 'MERGED_INTO_EXISTING'
+  | 'ALREADY_IMPORTED_NO_OP'
+  | 'REJECTED';
+
+export interface UserPortfolioSaveResult {
+  readonly success: true;
+  readonly isDuplicate: boolean;
+  readonly disposition: UserPortfolioSaveDisposition;
+  readonly revision: number;
+  readonly holdingsSavedCount: number;
+  readonly totalMarketValue: number;
+  readonly weightSumPercentage: number;
+  readonly savedAt: string;
+  readonly provenanceDigest: string;
+  readonly portfolio: UserPortfolioView;
+}
+
+function holdingInputBody(holdings: readonly UserPortfolioHoldingInput[]) {
+  return holdings.map((holding) => ({
+    symbol: holding.symbol,
+    quantity: holding.quantity,
+    averageBuyPrice: holding.averageBuyPrice,
+    currentPrice: holding.currentPrice,
+    ...(holding.active === undefined ? {} : { active: holding.active }),
+  }));
+}
+
+async function parseJsonBody(res: Response): Promise<Record<string, unknown>> {
+  try {
+    const body = (await res.json()) as Record<string, unknown> | null;
+    return body && typeof body === 'object' ? body : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Creates the durable portfolio with its first batch of manual holdings in one
+ * transaction (POST /api/user-portfolios → 201). Requires at least one holding —
+ * the durable store has no empty-revision mode.
+ */
+export async function createUserPortfolio(
+  input: { readonly portfolioName?: string; readonly holdings: readonly UserPortfolioHoldingInput[] },
+  baseUrl = '',
+): Promise<UserPortfolioView> {
+  let res: Response;
+  try {
+    res = await noAuthFetch(`${baseUrl}/api/user-portfolios`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...(input.portfolioName !== undefined ? { portfolioName: input.portfolioName } : {}),
+        holdings: holdingInputBody(input.holdings),
+      }),
+    });
+  } catch {
+    throw new UserPortfolioApiError(0, 'Network error contacting the user-portfolio transport');
+  }
+  if (!res.ok) throw await toApiError(res);
+  const body = await parseJsonBody(res);
+  if (!body.portfolio || typeof body.portfolio !== 'object') {
+    throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
+  }
+  return body.portfolio as UserPortfolioView;
+}
+
+/**
+ * Saves the complete holdings set as one optimistic-concurrency transaction
+ * (PUT /api/user-portfolios/:id/holdings → 200). `expectedRevision` is REQUIRED;
+ * a stale value fails with 409 (the caller must reload and retry deliberately).
+ * The personal application always sends `mode: 'REPLACE'` — the request carries
+ * the complete desired portfolio, so MERGE would leave removed symbols intact.
+ */
+export async function saveUserPortfolioHoldings(
+  portfolioId: string,
+  args: {
+    readonly holdings: readonly UserPortfolioHoldingInput[];
+    readonly expectedRevision: number;
+    readonly mode?: 'MERGE' | 'REPLACE';
+  },
+  baseUrl = '',
+): Promise<UserPortfolioSaveResult> {
+  let res: Response;
+  try {
+    res = await noAuthFetch(`${baseUrl}/api/user-portfolios/${encodeURIComponent(portfolioId)}/holdings`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        holdings: holdingInputBody(args.holdings),
+        expectedRevision: args.expectedRevision,
+        options: { mode: args.mode ?? 'REPLACE' },
+      }),
+    });
+  } catch {
+    throw new UserPortfolioApiError(0, 'Network error contacting the user-portfolio transport');
+  }
+  if (!res.ok) throw await toApiError(res);
+  const body = await parseJsonBody(res);
+  if (body.success !== true || typeof body.revision !== 'number' || !body.portfolio || typeof body.portfolio !== 'object') {
+    throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid save receipt');
+  }
+  return body as unknown as UserPortfolioSaveResult;
+}
+
+/**
+ * Tombstones the portfolio (DELETE /api/user-portfolios/:id → 200). Guard
+ * required; a subsequent read is indistinguishable from a foreign portfolio.
+ * This is the only way to remove the portfolio entirely; the server never recreates it.
+ */
+export async function deleteUserPortfolio(
+  portfolioId: string,
+  expectedRevision: number,
+  baseUrl = '',
+): Promise<{ readonly portfolioId: string; readonly deletedAt: string }> {
+  let res: Response;
+  try {
+    res = await noAuthFetch(`${baseUrl}/api/user-portfolios/${encodeURIComponent(portfolioId)}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ expectedRevision }),
+    });
+  } catch {
+    throw new UserPortfolioApiError(0, 'Network error contacting the user-portfolio transport');
+  }
+  if (!res.ok) throw await toApiError(res);
+  const body = await parseJsonBody(res);
+  if (typeof body.portfolioId !== 'string' || typeof body.deletedAt !== 'string') {
+    throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid delete receipt');
+  }
+  return { portfolioId: body.portfolioId, deletedAt: body.deletedAt };
 }

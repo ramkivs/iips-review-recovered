@@ -34,6 +34,8 @@ export const NAV: NavItem[] = [
   // fabricated or inferred owner — whenever that context cannot be established.
   { label: 'Broker Holdings', path: '/broker-holdings' },
   { label: 'User Portfolios', path: '/user-portfolios' },
+  // Personal, durable, single-user portfolio (local personal-use path; Program Authority 2026-11-08).
+  { label: 'Personal Portfolio', path: '/personal-portfolio' },
   { label: 'Watchlists', path: '/watchlists' },
   // IID-1: identity coverage over holdings, broker-preview rows and watchlists. Read-only; it renders the
   // resolution state of every observed row and never substitutes a sector reference for an identity.
