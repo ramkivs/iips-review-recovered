@@ -1,0 +1,2298 @@
+{
+  "assessmentId": "dhan-detailed-assessment-1794247440024",
+  "sourceRepository": "ramkivs/iips-review-recovered",
+  "sourceBranch": "evidence/publish-dhan-zerodha-holdings-20261109",
+  "sourceCommit": "2c2ee10cd025173d942f49d747095259703d417f",
+  "sourceFile": "evidence/broker-import/operator-supplied/dhan-holdings-withisin.csv",
+  "ipdRepository": "ramkivs/iips-production-market-data",
+  "ipdCommit": "ae393aafdb35869bd039e1354b988e4232b26f7c",
+  "masterRevision": {
+    "batchId": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001",
+    "fileChecksumSha256": "b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+    "recordCount": 2390,
+    "authorizationRef": "AUTH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-ACT-2026-11-08-001",
+    "operatingMode": "OFFLINE_BOOTSTRAP"
+  },
+  "asOf": "2026-11-09T18:03:59.972Z",
+  "contentDigest": "355acf73f6decb4a49b11b8aa3a0722fba032e59075b2db2ca47e405776291c7",
+  "csvRowCount": 68,
+  "pipelineResult": {
+    "success": false,
+    "disposition": "REJECTED",
+    "stageReached": "NORMALIZE",
+    "qualificationStatus": "QUALIFIED"
+  },
+  "identitySummary": {
+    "evaluated": 68,
+    "resolved": 29,
+    "unresolved": 39,
+    "ambiguous": 0,
+    "notEvaluated": 0,
+    "excluded": 0,
+    "identitySource": "GOVERNED_SECURITY_MASTER",
+    "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+    "saveable": false,
+    "refusalCodes": {
+      "UNMAPPED_IDENTIFIER": 39
+    }
+  },
+  "mappingSummary": null,
+  "rejections": [
+    {
+      "reason": "UNMAPPED_IDENTITY",
+      "details": "P04 Identity Ambiguity Quarantine: Identity ambiguity detected for 'INE006O01015': UNMAPPED_IDENTIFIER (No active mapping found for ISIN:INE006O01015 at asOf 2026-11-09T18:03:59.972Z)",
+      "stage": "NORMALIZE"
+    }
+  ],
+  "identityAssessments": [
+    {
+      "rowIndex": 1,
+      "suppliedIdentifier": "AGI",
+      "suppliedIsin": "INE415A01038",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE415A01038",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_AGI_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_AGI_IN"
+    },
+    {
+      "rowIndex": 2,
+      "suppliedIdentifier": "ASKAUTOLTD",
+      "suppliedIsin": "INE491J01022",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE491J01022",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_ASKAUTOLTD_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_ASKAUTOLTD_IN"
+    },
+    {
+      "rowIndex": 3,
+      "suppliedIdentifier": "AJAX",
+      "suppliedIsin": "INE274Y01021",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE274Y01021",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_AJAXENGG_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_AJAXENGG_IN"
+    },
+    {
+      "rowIndex": 4,
+      "suppliedIdentifier": "ARIHANTCAP",
+      "suppliedIsin": "INE420B01036",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE420B01036",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_ARIHANTCAP_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_ARIHANTCAP_IN"
+    },
+    {
+      "rowIndex": 5,
+      "suppliedIdentifier": "ARKADE",
+      "suppliedIsin": "INE006O01015",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE006O01015",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439988-a7v5p",
+          "details": "No active mapping found for ISIN:INE006O01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439988-a7v5p",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE006O01015",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.988Z",
+          "details": "No active mapping found for ISIN:INE006O01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439988-a7v5p",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE006O01015",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.988Z",
+        "details": "No active mapping found for ISIN:INE006O01015 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 6,
+      "suppliedIdentifier": "ARROWGREEN",
+      "suppliedIsin": "INE570D01018",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE570D01018",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_ARROWGREEN_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_ARROWGREEN_IN"
+    },
+    {
+      "rowIndex": 7,
+      "suppliedIdentifier": "ASHOKA",
+      "suppliedIsin": "INE442H01029",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE442H01029",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_ASHOKA_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_ASHOKA_IN"
+    },
+    {
+      "rowIndex": 8,
+      "suppliedIdentifier": "BANKBARODA",
+      "suppliedIsin": "INE028A01039",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE028A01039",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_BANKBARODA_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_BANKBARODA_IN"
+    },
+    {
+      "rowIndex": 9,
+      "suppliedIdentifier": "BCCL",
+      "suppliedIsin": "INE0O3G01018",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0O3G01018",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439989-aabrh",
+          "details": "No active mapping found for ISIN:INE0O3G01018 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439989-aabrh",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE0O3G01018",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.989Z",
+          "details": "No active mapping found for ISIN:INE0O3G01018 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439989-aabrh",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE0O3G01018",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.989Z",
+        "details": "No active mapping found for ISIN:INE0O3G01018 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 10,
+      "suppliedIdentifier": "BLUEJET",
+      "suppliedIsin": "INE0BCP01013",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0BCP01013",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439990-r8hsk",
+          "details": "No active mapping found for ISIN:INE0BCP01013 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439990-r8hsk",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE0BCP01013",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.990Z",
+          "details": "No active mapping found for ISIN:INE0BCP01013 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439990-r8hsk",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE0BCP01013",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.990Z",
+        "details": "No active mapping found for ISIN:INE0BCP01013 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 11,
+      "suppliedIdentifier": "CANARAROBECO",
+      "suppliedIsin": "INE0V7G01014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0V7G01014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439990-5zw4w",
+          "details": "No active mapping found for ISIN:INE0V7G01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439990-5zw4w",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE0V7G01014",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.990Z",
+          "details": "No active mapping found for ISIN:INE0V7G01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439990-5zw4w",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE0V7G01014",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.990Z",
+        "details": "No active mapping found for ISIN:INE0V7G01014 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 12,
+      "suppliedIdentifier": "CREDO",
+      "suppliedIsin": "INE888Y01019",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE888Y01019",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439990-tgpx4",
+          "details": "No active mapping found for ISIN:INE888Y01019 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439990-tgpx4",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE888Y01019",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.990Z",
+          "details": "No active mapping found for ISIN:INE888Y01019 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439990-tgpx4",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE888Y01019",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.990Z",
+        "details": "No active mapping found for ISIN:INE888Y01019 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 13,
+      "suppliedIdentifier": "DAMCAPITAL",
+      "suppliedIsin": "INE081U01012",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE081U01012",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439991-18ctf",
+          "details": "No active mapping found for ISIN:INE081U01012 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439991-18ctf",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE081U01012",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.991Z",
+          "details": "No active mapping found for ISIN:INE081U01012 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439991-18ctf",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE081U01012",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.991Z",
+        "details": "No active mapping found for ISIN:INE081U01012 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 14,
+      "suppliedIdentifier": "ECOSMOBILITY",
+      "suppliedIsin": "INE0F9E01010",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0F9E01010",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439991-x0tuz",
+          "details": "No active mapping found for ISIN:INE0F9E01010 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439991-x0tuz",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE0F9E01010",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.991Z",
+          "details": "No active mapping found for ISIN:INE0F9E01010 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439991-x0tuz",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE0F9E01010",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.991Z",
+        "details": "No active mapping found for ISIN:INE0F9E01010 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 15,
+      "suppliedIdentifier": "EMS",
+      "suppliedIsin": "INE0B6801012",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0B6801012",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439991-9mcjs",
+          "details": "No active mapping found for ISIN:INE0B6801012 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439991-9mcjs",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE0B6801012",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.991Z",
+          "details": "No active mapping found for ISIN:INE0B6801012 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439991-9mcjs",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE0B6801012",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.991Z",
+        "details": "No active mapping found for ISIN:INE0B6801012 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 16,
+      "suppliedIdentifier": "EPACK",
+      "suppliedIsin": "INE067701014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE067701014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439992-jcslj",
+          "details": "No active mapping found for ISIN:INE067701014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439992-jcslj",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE067701014",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.992Z",
+          "details": "No active mapping found for ISIN:INE067701014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439992-jcslj",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE067701014",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.992Z",
+        "details": "No active mapping found for ISIN:INE067701014 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 17,
+      "suppliedIdentifier": "ELECON",
+      "suppliedIsin": "INE205B01023",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE205B01023",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439992-n3393",
+          "details": "No active mapping found for ISIN:INE205B01023 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439992-n3393",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE205B01023",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.992Z",
+          "details": "No active mapping found for ISIN:INE205B01023 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439992-n3393",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE205B01023",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.992Z",
+        "details": "No active mapping found for ISIN:INE205B01023 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 18,
+      "suppliedIdentifier": "EMAMILTD",
+      "suppliedIsin": "INE548C01032",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE548C01032",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_EMAMILTD_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_EMAMILTD_IN"
+    },
+    {
+      "rowIndex": 19,
+      "suppliedIdentifier": "ENGINERSIN",
+      "suppliedIsin": "INE242A01010",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE242A01010",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_IOC_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_IOC_IN"
+    },
+    {
+      "rowIndex": 20,
+      "suppliedIdentifier": "FINEORG",
+      "suppliedIsin": "INE045J01026",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE045J01026",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439993-enk3s",
+          "details": "No active mapping found for ISIN:INE045J01026 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439993-enk3s",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE045J01026",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.993Z",
+          "details": "No active mapping found for ISIN:INE045J01026 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439993-enk3s",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE045J01026",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.993Z",
+        "details": "No active mapping found for ISIN:INE045J01026 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 21,
+      "suppliedIdentifier": "GHCL",
+      "suppliedIsin": "INE539A01019",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE539A01019",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_GHCL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_GHCL_IN"
+    },
+    {
+      "rowIndex": 22,
+      "suppliedIdentifier": "GMRPUI",
+      "suppliedIsin": "INE08B801016",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE08B801016",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439994-uwty9",
+          "details": "No active mapping found for ISIN:INE08B801016 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439994-uwty9",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE08B801016",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.994Z",
+          "details": "No active mapping found for ISIN:INE08B801016 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439994-uwty9",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE08B801016",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.994Z",
+        "details": "No active mapping found for ISIN:INE08B801016 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 23,
+      "suppliedIdentifier": "GATEWAY",
+      "suppliedIsin": "INE079J01017",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE079J01017",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_GATEWAY_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_GATEWAY_IN"
+    },
+    {
+      "rowIndex": 24,
+      "suppliedIdentifier": "GEEKAYWIRE",
+      "suppliedIsin": "INE910T01010",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE910T01010",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439994-1lrz7",
+          "details": "No active mapping found for ISIN:INE910T01010 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439994-1lrz7",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE910T01010",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.994Z",
+          "details": "No active mapping found for ISIN:INE910T01010 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439994-1lrz7",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE910T01010",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.994Z",
+        "details": "No active mapping found for ISIN:INE910T01010 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 25,
+      "suppliedIdentifier": "GENUSPOWER",
+      "suppliedIsin": "INE955D01029",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE955D01029",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_GENUSPOWER_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_GENUSPOWER_IN"
+    },
+    {
+      "rowIndex": 26,
+      "suppliedIdentifier": "GRAUWEIL",
+      "suppliedIsin": "INE266D01021",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE266D01021",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_GRAUWEIL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_GRAUWEIL_IN"
+    },
+    {
+      "rowIndex": 27,
+      "suppliedIdentifier": "GPPL",
+      "suppliedIsin": "INE517F01014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE517F01014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_GPPL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_GPPL_IN"
+    },
+    {
+      "rowIndex": 28,
+      "suppliedIdentifier": "HSCL",
+      "suppliedIsin": "INE019C01026",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE019C01026",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_HSCL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_HSCL_IN"
+    },
+    {
+      "rowIndex": 29,
+      "suppliedIdentifier": "IDFCFIRSTB",
+      "suppliedIsin": "INE092T01019",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE092T01019",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_IDFCFIRSTB_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_IDFCFIRSTB_IN"
+    },
+    {
+      "rowIndex": 30,
+      "suppliedIdentifier": "IIFLCAP",
+      "suppliedIsin": "INE489L01022",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE489L01022",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_IIFLCAPS_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_IIFLCAPS_IN"
+    },
+    {
+      "rowIndex": 31,
+      "suppliedIdentifier": "INDRAMEDCO",
+      "suppliedIsin": "INE681B01015",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE681B01015",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439996-tcix5",
+          "details": "No active mapping found for ISIN:INE681B01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439996-tcix5",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE681B01015",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.996Z",
+          "details": "No active mapping found for ISIN:INE681B01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439996-tcix5",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE681B01015",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.996Z",
+        "details": "No active mapping found for ISIN:INE681B01015 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 32,
+      "suppliedIdentifier": "INTLCONV",
+      "suppliedIsin": "INE575C01027",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE575C01027",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_INTLCONV_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_INTLCONV_IN"
+    },
+    {
+      "rowIndex": 33,
+      "suppliedIdentifier": "IGI",
+      "suppliedIsin": "INE0SVO01010",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0SVO01010",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439997-lveif",
+          "details": "No active mapping found for ISIN:INE0SVO01010 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439997-lveif",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE0SVO01010",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.997Z",
+          "details": "No active mapping found for ISIN:INE0SVO01010 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439997-lveif",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE0SVO01010",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.997Z",
+        "details": "No active mapping found for ISIN:INE0SVO01010 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 34,
+      "suppliedIdentifier": "JKIL",
+      "suppliedIsin": "INE926I01015",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE926I01015",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439997-2pr8k",
+          "details": "No active mapping found for ISIN:INE926I01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439997-2pr8k",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE926I01015",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.997Z",
+          "details": "No active mapping found for ISIN:INE926I01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439997-2pr8k",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE926I01015",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.997Z",
+        "details": "No active mapping found for ISIN:INE926I01015 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 35,
+      "suppliedIdentifier": "JAIBALAJI",
+      "suppliedIsin": "INE091D01014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE091D01014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439997-21vka",
+          "details": "No active mapping found for ISIN:INE091D01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439997-21vka",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE091D01014",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.997Z",
+          "details": "No active mapping found for ISIN:INE091D01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439997-21vka",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE091D01014",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.997Z",
+        "details": "No active mapping found for ISIN:INE091D01014 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 36,
+      "suppliedIdentifier": "JAMNAAUTO",
+      "suppliedIsin": "INE039C01024",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE039C01024",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439998-3hkpc",
+          "details": "No active mapping found for ISIN:INE039C01024 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439998-3hkpc",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE039C01024",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.998Z",
+          "details": "No active mapping found for ISIN:INE039C01024 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439998-3hkpc",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE039C01024",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.998Z",
+        "details": "No active mapping found for ISIN:INE039C01024 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 37,
+      "suppliedIdentifier": "JIOPLATFORMS",
+      "suppliedIsin": "INE019A01038",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE019A01038",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_JSWSTEEL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_JSWSTEEL_IN"
+    },
+    {
+      "rowIndex": 38,
+      "suppliedIdentifier": "KMSUGAR",
+      "suppliedIsin": "INE157H01014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE157H01014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439998-o1vx1",
+          "details": "No active mapping found for ISIN:INE157H01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439998-o1vx1",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE157H01014",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.998Z",
+          "details": "No active mapping found for ISIN:INE157H01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439998-o1vx1",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE157H01014",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.998Z",
+        "details": "No active mapping found for ISIN:INE157H01014 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 39,
+      "suppliedIdentifier": "KPENERGY",
+      "suppliedIsin": "INE530T01028",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE530T01028",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439998-y7ou8",
+          "details": "No active mapping found for ISIN:INE530T01028 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439998-y7ou8",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE530T01028",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.998Z",
+          "details": "No active mapping found for ISIN:INE530T01028 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439998-y7ou8",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE530T01028",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.998Z",
+        "details": "No active mapping found for ISIN:INE530T01028 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 40,
+      "suppliedIdentifier": "KROSS",
+      "suppliedIsin": "INE05N501015",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE05N501015",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439999-9re3g",
+          "details": "No active mapping found for ISIN:INE05N501015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439999-9re3g",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE05N501015",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.999Z",
+          "details": "No active mapping found for ISIN:INE05N501015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439999-9re3g",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE05N501015",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.999Z",
+        "details": "No active mapping found for ISIN:INE05N501015 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 41,
+      "suppliedIdentifier": "LANDMARK",
+      "suppliedIsin": "INE559X01021",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE559X01021",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247439999-tdfbq",
+          "details": "No active mapping found for ISIN:INE559X01021 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247439999-tdfbq",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE559X01021",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:03:59.999Z",
+          "details": "No active mapping found for ISIN:INE559X01021 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247439999-tdfbq",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE559X01021",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:03:59.999Z",
+        "details": "No active mapping found for ISIN:INE559X01021 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 42,
+      "suppliedIdentifier": "MATRIMONY",
+      "suppliedIsin": "INE866R01028",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE866R01028",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_MATRIMONY_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_MATRIMONY_IN"
+    },
+    {
+      "rowIndex": 43,
+      "suppliedIdentifier": "MONARCH",
+      "suppliedIsin": "INE905K01014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE905K01014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440000-3kh9i",
+          "details": "No active mapping found for ISIN:INE905K01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440000-3kh9i",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE905K01014",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.000Z",
+          "details": "No active mapping found for ISIN:INE905K01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440000-3kh9i",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE905K01014",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.000Z",
+        "details": "No active mapping found for ISIN:INE905K01014 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 44,
+      "suppliedIdentifier": "NSE",
+      "suppliedIsin": "INE104D01011",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE104D01011",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440000-tfekd",
+          "details": "No active mapping found for ISIN:INE104D01011 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440000-tfekd",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE104D01011",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.000Z",
+          "details": "No active mapping found for ISIN:INE104D01011 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440000-tfekd",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE104D01011",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.000Z",
+        "details": "No active mapping found for ISIN:INE104D01011 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 45,
+      "suppliedIdentifier": "OSWALPUMPS",
+      "suppliedIsin": "INE0TQU01011",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0TQU01011",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440000-11ju9",
+          "details": "No active mapping found for ISIN:INE0TQU01011 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440000-11ju9",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE0TQU01011",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.000Z",
+          "details": "No active mapping found for ISIN:INE0TQU01011 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440000-11ju9",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE0TQU01011",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.000Z",
+        "details": "No active mapping found for ISIN:INE0TQU01011 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 46,
+      "suppliedIdentifier": "PANAMAPET",
+      "suppliedIsin": "INE305C01029",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE305C01029",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_PANAMAPET_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_PANAMAPET_IN"
+    },
+    {
+      "rowIndex": 47,
+      "suppliedIdentifier": "PARADEEP",
+      "suppliedIsin": "INE088Z01015",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE088Z01015",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440001-0vatb",
+          "details": "No active mapping found for ISIN:INE088Z01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440001-0vatb",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE088Z01015",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.001Z",
+          "details": "No active mapping found for ISIN:INE088Z01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440001-0vatb",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE088Z01015",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.001Z",
+        "details": "No active mapping found for ISIN:INE088Z01015 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 48,
+      "suppliedIdentifier": "PRECWIRE",
+      "suppliedIsin": "INE372C01029",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE372C01029",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440001-ke5d8",
+          "details": "No active mapping found for ISIN:INE372C01029 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440001-ke5d8",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE372C01029",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.001Z",
+          "details": "No active mapping found for ISIN:INE372C01029 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440001-ke5d8",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE372C01029",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.001Z",
+        "details": "No active mapping found for ISIN:INE372C01029 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 49,
+      "suppliedIdentifier": "PREMIERPOL",
+      "suppliedIsin": "INE812A01025",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE812A01025",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440001-h5de7",
+          "details": "No active mapping found for ISIN:INE812A01025 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440001-h5de7",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE812A01025",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.001Z",
+          "details": "No active mapping found for ISIN:INE812A01025 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440001-h5de7",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE812A01025",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.001Z",
+        "details": "No active mapping found for ISIN:INE812A01025 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 50,
+      "suppliedIdentifier": "PUDUMJEE",
+      "suppliedIsin": "INE119U01013",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE119U01013",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440002-agx2v",
+          "details": "No active mapping found for ISIN:INE119U01013 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440002-agx2v",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE119U01013",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.002Z",
+          "details": "No active mapping found for ISIN:INE119U01013 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440002-agx2v",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE119U01013",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.002Z",
+        "details": "No active mapping found for ISIN:INE119U01013 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 51,
+      "suppliedIdentifier": "RADHIKA",
+      "suppliedIsin": "INE583V01021",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE583V01021",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440002-pb08y",
+          "details": "No active mapping found for ISIN:INE583V01021 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440002-pb08y",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE583V01021",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.002Z",
+          "details": "No active mapping found for ISIN:INE583V01021 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440002-pb08y",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE583V01021",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.002Z",
+        "details": "No active mapping found for ISIN:INE583V01021 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 52,
+      "suppliedIdentifier": "RAJOOENG",
+      "suppliedIsin": "INE535D01029",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE535D01029",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440002-3bulz",
+          "details": "No active mapping found for ISIN:INE535D01029 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440002-3bulz",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE535D01029",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.002Z",
+          "details": "No active mapping found for ISIN:INE535D01029 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440002-3bulz",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE535D01029",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.002Z",
+        "details": "No active mapping found for ISIN:INE535D01029 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 53,
+      "suppliedIdentifier": "RATEGAIN",
+      "suppliedIsin": "INE0CLI01024",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE0CLI01024",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_RATEGAIN_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_RATEGAIN_IN"
+    },
+    {
+      "rowIndex": 54,
+      "suppliedIdentifier": "SALASAR",
+      "suppliedIsin": "INE170V01027",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE170V01027",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_SALASAR_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_SALASAR_IN"
+    },
+    {
+      "rowIndex": 55,
+      "suppliedIdentifier": "SHAKTIPUMP",
+      "suppliedIsin": "INE908D01010",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE908D01010",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_SHAKTIPUMP_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_SHAKTIPUMP_IN"
+    },
+    {
+      "rowIndex": 56,
+      "suppliedIdentifier": "SHARDAMOTR",
+      "suppliedIsin": "INE937A01017",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE937A01017",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440003-mm089",
+          "details": "No active mapping found for ISIN:INE937A01017 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440003-mm089",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE937A01017",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.003Z",
+          "details": "No active mapping found for ISIN:INE937A01017 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440003-mm089",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE937A01017",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.003Z",
+        "details": "No active mapping found for ISIN:INE937A01017 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 57,
+      "suppliedIdentifier": "SIGMASOLVE",
+      "suppliedIsin": "INE010V01014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE010V01014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440004-3g7fa",
+          "details": "No active mapping found for ISIN:INE010V01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440004-3g7fa",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE010V01014",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.004Z",
+          "details": "No active mapping found for ISIN:INE010V01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440004-3g7fa",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE010V01014",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.004Z",
+        "details": "No active mapping found for ISIN:INE010V01014 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 58,
+      "suppliedIdentifier": "SIYARAMSIL",
+      "suppliedIsin": "INE076B01028",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE076B01028",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_SIYSIL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_SIYSIL_IN"
+    },
+    {
+      "rowIndex": 59,
+      "suppliedIdentifier": "STEELCAST",
+      "suppliedIsin": "INE124E01020",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE124E01020",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440004-cj8t6",
+          "details": "No active mapping found for ISIN:INE124E01020 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440004-cj8t6",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE124E01020",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.004Z",
+          "details": "No active mapping found for ISIN:INE124E01020 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440004-cj8t6",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE124E01020",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.004Z",
+        "details": "No active mapping found for ISIN:INE124E01020 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 60,
+      "suppliedIdentifier": "SUZLON",
+      "suppliedIsin": "INE043D01016",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE043D01016",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440005-i5if0",
+          "details": "No active mapping found for ISIN:INE043D01016 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440005-i5if0",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE043D01016",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.005Z",
+          "details": "No active mapping found for ISIN:INE043D01016 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440005-i5if0",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE043D01016",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.005Z",
+        "details": "No active mapping found for ISIN:INE043D01016 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 61,
+      "suppliedIdentifier": "THYROCARE",
+      "suppliedIsin": "INE594H01019",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE594H01019",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_THYROCARE_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_THYROCARE_IN"
+    },
+    {
+      "rowIndex": 62,
+      "suppliedIdentifier": "TITAGARH",
+      "suppliedIsin": "INE615H01020",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE615H01020",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_TITAGARH_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_TITAGARH_IN"
+    },
+    {
+      "rowIndex": 63,
+      "suppliedIdentifier": "UNIVASTU",
+      "suppliedIsin": "INE562X01013",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE562X01013",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440006-8v3mf",
+          "details": "No active mapping found for ISIN:INE562X01013 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440006-8v3mf",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE562X01013",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.006Z",
+          "details": "No active mapping found for ISIN:INE562X01013 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440006-8v3mf",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE562X01013",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.006Z",
+        "details": "No active mapping found for ISIN:INE562X01013 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 64,
+      "suppliedIdentifier": "VSSL",
+      "suppliedIsin": "INE050M01012",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE050M01012",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_VSSL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_VSSL_IN"
+    },
+    {
+      "rowIndex": 65,
+      "suppliedIdentifier": "VISHALMEGA",
+      "suppliedIsin": "INE088Z01019",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE088Z01019",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440006-53t07",
+          "details": "No active mapping found for ISIN:INE088Z01019 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440006-53t07",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE088Z01019",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.006Z",
+          "details": "No active mapping found for ISIN:INE088Z01019 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440006-53t07",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE088Z01019",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.006Z",
+        "details": "No active mapping found for ISIN:INE088Z01019 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 66,
+      "suppliedIdentifier": "VISHNU",
+      "suppliedIsin": "INE270I01014",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE270I01014",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440006-yqb4e",
+          "details": "No active mapping found for ISIN:INE270I01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440006-yqb4e",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE270I01014",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.006Z",
+          "details": "No active mapping found for ISIN:INE270I01014 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440006-yqb4e",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE270I01014",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.006Z",
+        "details": "No active mapping found for ISIN:INE270I01014 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    },
+    {
+      "rowIndex": 67,
+      "suppliedIdentifier": "WAAREERTL",
+      "suppliedIsin": "INE299N01021",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE299N01021",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "RESOLVED",
+          "companyId": "EQ_WAAREERTL_IN"
+        }
+      ],
+      "quarantineRecords": [],
+      "status": "RESOLVED",
+      "companyId": "EQ_WAAREERTL_IN"
+    },
+    {
+      "rowIndex": 68,
+      "suppliedIdentifier": "WEBELSOLAR",
+      "suppliedIsin": "INE855C01015",
+      "suppliedExchange": "NSE",
+      "identifierClass": "ISIN",
+      "identitySource": "GOVERNED_SECURITY_MASTER",
+      "masterRevision": "BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4",
+      "lookups": [
+        {
+          "identifierType": "ISIN",
+          "identifierValue": "INE855C01015",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "outcome": "UNMAPPED_IDENTIFIER",
+          "quarantineRecordId": "ident-quar-1794247440007-n3w0w",
+          "details": "No active mapping found for ISIN:INE855C01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "quarantineRecords": [
+        {
+          "quarantineId": "ident-quar-1794247440007-n3w0w",
+          "identifierType": "ISIN",
+          "rawIdentifier": "INE855C01015",
+          "reason": "UNMAPPED_IDENTIFIER",
+          "asOf": "2026-11-09T18:03:59.972Z",
+          "receivedAt": "2026-11-09T18:04:00.007Z",
+          "details": "No active mapping found for ISIN:INE855C01015 at asOf 2026-11-09T18:03:59.972Z"
+        }
+      ],
+      "status": "UNRESOLVED",
+      "refusalCode": "UNMAPPED_IDENTIFIER",
+      "quarantineRecord": {
+        "quarantineId": "ident-quar-1794247440007-n3w0w",
+        "identifierType": "ISIN",
+        "rawIdentifier": "INE855C01015",
+        "reason": "UNMAPPED_IDENTIFIER",
+        "asOf": "2026-11-09T18:03:59.972Z",
+        "receivedAt": "2026-11-09T18:04:00.007Z",
+        "details": "No active mapping found for ISIN:INE855C01015 at asOf 2026-11-09T18:03:59.972Z"
+      },
+      "missingEvidence": "The supplied ISIN is not registered in the governed security master; an authoritative mapping (governed deposition) is required."
+    }
+  ],
+  "userHoldingsCount": 0,
+  "qualificationOutcome": "REFUSED_P04_UNRESOLVED_IDENTITY"
+}
