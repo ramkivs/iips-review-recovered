@@ -107,7 +107,7 @@ const ENVELOPE = {
         considered: [{ methodId: 'DCF_FCFF', role: 'NOT_APPLICABLE', reason: 'banking sector excludes FCFF' }],
       },
       methods: [
-        { methodId: 'JUSTIFIED_PB', role: 'PRIMARY', applicable: true, notApplicableReason: null, output: { perShare: 74.29 } },
+        { methodId: 'JUSTIFIED_PB', role: 'PRIMARY', applicable: true, notApplicableReason: null, output: { perShareLow: observation(63.14), perShareMid: observation(74.29), perShareHigh: observation(85.43), basis: 'synthetic' } },
         {
           methodId: 'DIVIDEND_DISCOUNT',
           role: 'SECONDARY',
@@ -136,8 +136,8 @@ const ENVELOPE = {
           baseWaccBps: 1200,
           baseGrowthBps: 500,
           points: [
-            { waccBps: 1100, growthBps: 500, value: observation(80.1) },
-            { waccBps: 1200, growthBps: 500, value: observation(74.29) },
+            { waccBps: 1100, growthBps: 500, value: 80.1 },
+            { waccBps: 1200, growthBps: 500, value: 74.29 },
           ],
         },
       ],

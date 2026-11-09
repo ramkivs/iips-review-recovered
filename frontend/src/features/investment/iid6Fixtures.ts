@@ -127,7 +127,7 @@ export const ASSESSMENT_ENVELOPE = {
         considered: [{ methodId: 'DCF_FCFF', role: 'PRIMARY', reason: 'Free cash flow to firm' }],
       },
       methods: [
-        { methodId: 'DCF_FCFF', role: 'PRIMARY', applicable: true, notApplicableReason: null, output: { perShare: 2640 } },
+        { methodId: 'DCF_FCFF', role: 'PRIMARY', applicable: true, notApplicableReason: null, output: { perShareLow: obs(2380), perShareMid: obs(2640), perShareHigh: obs(2900), basis: 'synthetic' } },
         {
           methodId: 'EV_EBITDA',
           role: 'CROSS_CHECK',
@@ -155,7 +155,7 @@ export const ASSESSMENT_ENVELOPE = {
           methodId: 'DCF_FCFF',
           baseWaccBps: 1068,
           baseGrowthBps: 400,
-          points: [{ waccBps: 1000, growthBps: 400, value: obs(2790) }],
+          points: [{ waccBps: 1000, growthBps: 400, value: 2790 }],
         },
       ],
     },

@@ -177,6 +177,26 @@ describe('User Portfolio list (G-2 read-only consumer)', () => {
     );
   });
 
+  it('does not turn an invalid success envelope into an empty portfolio list', async () => {
+    (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: async () => ({ unexpected: [] }),
+    });
+    render(<MemoryRouter><UserPortfolioList /></MemoryRouter>);
+    expect(await screen.findByTestId('state-error')).toHaveTextContent('invalid envelope');
+    expect(screen.queryByTestId('state-empty')).not.toBeInTheDocument();
+  });
+
+  it('does not turn unreadable success JSON into an empty portfolio list', async () => {
+    (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      json: async () => { throw new SyntaxError('bad JSON'); },
+    });
+    render(<MemoryRouter><UserPortfolioList /></MemoryRouter>);
+    expect(await screen.findByTestId('state-error')).toHaveTextContent('invalid envelope');
+    expect(screen.queryByTestId('state-empty')).not.toBeInTheDocument();
+  });
+
   it('renders the empty state when the user has no durable portfolios', async () => {
     (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: true,

@@ -160,8 +160,16 @@ export async function fetchUserPortfolioSummaries(baseUrl = ''): Promise<readonl
     throw new UserPortfolioApiError(0, 'Network error contacting the user-portfolio transport');
   }
   if (!res.ok) throw await toApiError(res);
-  const body = (await res.json()) as { portfolios?: unknown };
-  return Array.isArray(body?.portfolios) ? (body.portfolios as UserPortfolioSummary[]) : [];
+  let body: { portfolios?: unknown } | null;
+  try {
+    body = (await res.json()) as { portfolios?: unknown } | null;
+  } catch {
+    throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
+  }
+  if (!Array.isArray(body?.portfolios)) {
+    throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
+  }
+  return body.portfolios as UserPortfolioSummary[];
 }
 
 /**
