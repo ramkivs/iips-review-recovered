@@ -9,9 +9,13 @@
  * Guards that IRR's IPD dependency pins:
  *   1. Use exact 40-hex immutable commit SHAs on `ramkivs/iips-production-market-data` in both
  *      `package.json` and `package-lock.json`: primary
- *      `279d1eed184f5e23bbabe5c6411085e120ce9e41`, and the deliberately distinct DB-C1
- *      broker-import alias `58fc8fb7f033650f40d61078d70e951f21dd033f` (the merge commit of IPD
- *      PR #131, includes PRs #129/#130; advanced from #128 `07e86a4f2c105651f3097a96cb519f8611945e30`).
+ *      `709fd13c77e90df05900859d23ba57d1004197a0`, and the deliberately distinct DB-C1
+ *      broker-import alias `709fd13c77e90df05900859d23ba57d1004197a0` (the merge commit of IPD
+ *      PR #145, which carries the D05 authenticated universe and the Stage 4 identity
+ *      qualification implementation; advanced from #131 `58fc8fb7f033650f40d61078d70e951f21dd033f`).
+ *      The alias is deliberately NOT the same alias as the primary package: it is a distinct npm
+ *      alias name pointing at the same authoritative IPD revision, so IRR keeps two independently
+ *      materializable dependency roots without two different IPD revisions in play.
  *   2. Simultaneously expose `./portfolio-ui`, `./pit`, and `./d114-non-production` from the
  *      primary package with built runtime `.js` and declaration `.d.ts` artifacts.
  *   3. Provide all runtime symbols and TypeScript declaration symbols required by IRR's five
@@ -36,24 +40,32 @@ const frontendRoot = resolve(here, '..', '..');
 /**
  * The authoritative IPD dependency pin, advanced from `279d1eed…` to `59fdfd1…`
  * (IPD PR #140 merge commit) by the isolated Dhan convergence, then to `ae393aa…`
- * (IPD PR #144 merge commit) by DHAN-P3, and then to `73768fa…` (IPD PR #145 merge
- * commit) by DHAN-P5.
+ * (IPD PR #144 merge commit) by DHAN-P3, then to `73768fa…` (IPD PR #145 merge
+ * commit) by DHAN-P5, and finally to `709fd13…` (the merged IPD PR #145) by the
+ * Broker Import dependency alignment.
  *
  * `59fdfd1…` is the first commit reachable from IPD `main` that publishes the server-only
  * `./dhan-server` subpath; at `279d1eed…` the subpath and `src/providers/dhan/**` do not
  * exist in the package. `ae393aa…` advanced it again because `59fdfd1…`'s
  * `MarketDataTransportClient` has no request timeout, no loopback pinning, no production
  * guard and no typed failure outcomes — none of which DHAN-P3's transport boundary may
- * forgo. `73768fa…` advances it once more to publish IPD's read-only freshness status
+ * forgo. `73768fa…` advanced it once more to publish IPD's read-only freshness status
  * (`GET /v1/freshness`) and its `FreshnessStatus` / `RefreshStatus` / `FreshnessDomain`
- * types, which DHAN-P5 consumes.
+ * types, which DHAN-P5 consumes. `709fd13…` is the merge commit of IPD PR #145 and is the
+ * authoritative IPD `main` revision that carries BOTH the Stage 4 identity-qualification
+ * implementation (`src/providers/dhan/dhan_security_identity_service.ts`, exposed through
+ * `./dhan-server` as `SecurityIdentityQualificationResult` / `HoldingIdentityInput` /
+ * `SecurityIdentityQualified` / `SecurityIdentityUnresolved`) and the D05 authenticated
+ * universe. `73768fa…` was PR #145's head commit and is the parent of the merge, so
+ * advancing to the merge commit changes no consumed byte — it only adopts the revision the
+ * IPD repository itself publishes as `main`.
  *
  * Every advance is PURELY ADDITIVE for existing consumers: the `./portfolio-ui`, `./pit`,
  * `./d114-non-production`, `./operator-drop` and `./dhan-server` subpaths all remain
  * published, IRR's consumed `./dhan-server` exports are unchanged, and IPD's
  * `MarketDataTransportClient` class is byte-identical across the last two advances.
  */
-export const EXPECTED_IPD_PIN_SHA = '73768fa83c331de1bd9f51af0a6b26e5ad489ba2';
+export const EXPECTED_IPD_PIN_SHA = '709fd13c77e90df05900859d23ba57d1004197a0';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
@@ -70,6 +82,15 @@ export const SUPERSEDED_IPD_DHAN_SERVER_PIN_SHA = '59fdfd157632dbdbc220ae03d9d0b
  * The DHAN-P3 pin, retained so a rollback to the pre-freshness pin cannot go unnoticed.
  */
 export const SUPERSEDED_IPD_DHAN_P3_PIN_SHA = 'ae393aafdb35869bd039e1354b988e4232b26f7c';
+
+/**
+ * The DHAN-P5 pin, retained so a rollback to the pre-merge-commit pin cannot go unnoticed.
+ *
+ * `73768fa…` is IPD PR #145's head commit and the direct parent of the `709fd13…` merge
+ * commit. The two are byte-identical for every module IRR consumes, so adopting the merge
+ * commit changes no consumed behaviour.
+ */
+export const SUPERSEDED_IPD_DHAN_P5_PIN_SHA = '73768fa83c331de1bd9f51af0a6b26e5ad489ba2';
 
 /** The superseded primary pin, retained so a silent rollback cannot go unnoticed. */
 export const SUPERSEDED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
@@ -354,6 +375,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_SERVER_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P3_PIN_SHA);
+    expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P5_PIN_SHA);
     expect(depSpec).toContain(EXPECTED_IPD_PIN_SHA);
 
     // The subpath did not exist at the superseded pin, so its presence is the observable
@@ -394,7 +416,15 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
       files?: readonly string[];
     };
 
-    expect(EXPECTED_BROKER_IMPORT_ALIAS_SHA).not.toBe(EXPECTED_IPD_PIN_SHA);
+    // The broker-import alias is a DISTINCT npm dependency ROOT (`iips-broker-import`), not a
+    // distinct IPD revision: from the dependency-alignment advance it is pinned to the same
+    // authoritative IPD revision as the primary package, so that IRR holds exactly one IPD
+    // revision in play. The alias must remain independently materializable and must never be
+    // the retired raw-source baseline.
+    expect(irrPkg.dependencies?.['iips-broker-import']).toBeDefined();
+    expect(aliasRoot).not.toBe(ipdPkgRoot);
+    expect(existsSync(resolve(aliasRoot, 'package.json'))).toBe(true);
+    expect(existsSync(resolve(ipdPkgRoot, 'package.json'))).toBe(true);
     expect(EXPECTED_BROKER_IMPORT_ALIAS_SHA).not.toBe(RETIRED_BROKER_IMPORT_SOURCE_BASELINE_SHA);
     expect(BROKER_IMPORT_PACKAGE_PROFILE.aliasSpecifier).toBe(
       `github:${BROKER_IMPORT_PACKAGE_PROFILE.aliasRepository}#${EXPECTED_BROKER_IMPORT_ALIAS_SHA}`,

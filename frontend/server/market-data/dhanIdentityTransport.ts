@@ -1,7 +1,7 @@
 /**
  * IRR-side consumer for IPD P4's published identity HTTP contract.
  *
- * Contract source: IPD PR #145, head 73768fa83c331de1bd9f51af0a6b26e5ad489ba2,
+ * Contract source: IPD PR #145, merge commit 709fd13c77e90df05900859d23ba57d1004197a0,
  * `docs/IPD-P4-IDENTITY-HTTP.md`. This module forwards only the three documented
  * operations and validates response coherence; it does not own or reproduce a
  * provider identity registry, resolver, or qualification algorithm. It reuses

@@ -106,7 +106,10 @@ describe('Broker preview public boundary — native evidence, never a save', () 
     assert.equal(p.counts.identityResolvedRows, 1);
     assert.equal(p.counts.savedRows, 0);
     assert.equal(p.canSave, false);
-    assert.deepEqual(p.identityAuthority, { source: 'IPD_GOVERNED_D05_SECURITY_MASTER', entities: 2250 });
+    // The governed D05 master is IPD's authenticated universe (2,390 records) from IPD PR #145
+    // (`AUTH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-ACT-2026-11-08-001`). IRR reports the count
+    // IPD's own master publishes; it does not hold its own copy of the corpus.
+    assert.deepEqual(p.identityAuthority, { source: 'IPD_GOVERNED_D05_SECURITY_MASTER', entities: 2390 });
   });
 
   it('reuses Zerodha and Groww parsers', () => {
@@ -227,21 +230,24 @@ describe('Broker preview public boundary — native evidence, never a save', () 
       assert.equal(p.perRowIdentityEvidencePublished, true);
       assert.equal(p.counts.nativeRows, 68);
       assert.equal(p.counts.identityAssessedRows, 68, 'every native row must carry an individual outcome');
-      assert.equal(p.counts.identityResolvedRows, 1);
-      assert.equal(p.counts.identityUnresolvedRows, 67);
+      // IPD's D05 AUTHENTICATED universe (2,390 records, IPD PR #145) resolves AGI GREENPAC
+      // (governed alias), GHCL and KROSS; the other 65 rows stay UNRESOLVED. These counts are
+      // IPD's, published verbatim: IRR neither recomputes nor overrides them.
+      assert.equal(p.counts.identityResolvedRows, 3);
+      assert.equal(p.counts.identityUnresolvedRows, 65);
       assert.equal(p.counts.savedRows, 0);
       assert.equal(p.holdings.every((h) => h.pipelineIdentityStatus !== null), true);
-      assert.equal(p.holdings.filter((h) => h.identityStatus === 'RESOLVED').length, 1);
-      assert.equal(p.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length, 67);
+      assert.equal(p.holdings.filter((h) => h.identityStatus === 'RESOLVED').length, 3);
+      assert.equal(p.holdings.filter((h) => h.identityStatus === 'UNRESOLVED').length, 65);
       // The pipeline's own aggregate is passed through, never recomputed by IRR.
       assert.deepEqual(
         { e: p.identitySummary?.evaluated, r: p.identitySummary?.resolved, u: p.identitySummary?.unresolved,
           a: p.identitySummary?.ambiguous, n: p.identitySummary?.notEvaluated, x: p.identitySummary?.excluded },
-        { e: 68, r: 1, u: 67, a: 0, n: 0, x: 0 },
+        { e: 68, r: 3, u: 65, a: 0, n: 0, x: 0 },
       );
       assert.equal(p.identitySummary?.identitySource, 'GOVERNED_SECURITY_MASTER');
       assert.equal(p.identitySummary?.masterRevision,
-        'BATCH-D05-TIER2-BROAD-UNIVERSE-2026-09-22-001:7f53540b6532e7718e3a03a729766c12c73cc2549e450e3c2f356aa64a2b74b5');
+        'BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001:b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4');
     });
 
     it('resolves AGI GREENPAC through its governed alias and stops querying weaker namespaces', () => {
@@ -260,15 +266,36 @@ describe('Broker preview public boundary — native evidence, never a save', () 
       assert.match(row.lookups[1].details ?? '', /Not queried: the row was already resolved by NSE_SYMBOL/);
     });
 
-    it('keeps the other 67 rows at NO_AUTHORITATIVE_IDENTIFIER_MATCH with their full lookup evidence', () => {
-      const unresolved = p.holdings.slice(1);
-      assert.equal(unresolved.length, 67);
+    it('resolves GHCL and KROSS natively under IPD\'s authenticated universe', () => {
+      // IPD's D05 authenticated universe (2,390 records) natively carries GHCL and KROSS, which
+      // the legacy Wave-1 corpus could not resolve. IRR reports IPD's verdict verbatim.
+      for (const symbol of ['GHCL', 'KROSS']) {
+        const row = p.holdings.find((h) => h.symbol === symbol);
+        assert.ok(row, `the 68-row surface must carry ${symbol}`);
+        assert.equal(row.identityStatus, 'RESOLVED');
+        assert.equal(row.identityBasis, 'PIPELINE_RESOLVED');
+        assert.equal(row.pipelineIdentityStatus, 'RESOLVED');
+        assert.equal(row.identityRefusalCode, null);
+        assert.equal(row.quarantineIds.length, 0);
+        assert.deepEqual(row.lookups.map((l) => [l.identifierType, l.identifierValue, l.outcome]), [
+          ['NSE_SYMBOL', symbol, 'RESOLVED'],
+          ['BSE_SYMBOL', symbol, 'UNMAPPED_IDENTIFIER'],
+        ]);
+        assert.match(row.lookups[1].details ?? '', /Not queried: the row was already resolved by NSE_SYMBOL/);
+      }
+    });
+
+    it('keeps the other 65 rows at NO_AUTHORITATIVE_IDENTIFIER_MATCH with their full lookup evidence', () => {
+      // AGI GREENPAC (row 0), GHCL and KROSS now resolve under IPD's authenticated universe;
+      // every other row must still carry the full per-row lookup evidence and the P04 refusal.
+      const unresolved = p.holdings.filter((h) => h.identityStatus !== 'RESOLVED');
+      assert.equal(unresolved.length, 65);
       assert.equal(unresolved.every((h) => h.identityStatus === 'UNRESOLVED'), true);
       assert.equal(unresolved.every((h) => h.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED'), true);
       assert.equal(unresolved.every((h) => h.pipelineIdentityStatus === 'UNRESOLVED'), true);
       assert.equal(unresolved.every((h) => h.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH'), true);
       assert.equal(unresolved.every((h) => h.identifierClass === 'UNSCOPED_NAME_OR_SYMBOL'), true);
-      assert.deepEqual(p.identitySummary?.refusalCodes, { NO_AUTHORITATIVE_IDENTIFIER_MATCH: 67 });
+      assert.deepEqual(p.identitySummary?.refusalCodes, { NO_AUTHORITATIVE_IDENTIFIER_MATCH: 65 });
       // The surface supplies no ISIN and no exchange, so BOTH symbol namespaces were queried
       // verbatim in order, each producing its own P04 quarantine record.
       for (const row of unresolved) {

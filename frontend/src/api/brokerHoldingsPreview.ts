@@ -9,8 +9,8 @@
  *   alias pin `70b24f0` predated per-row identity evidence — it could only report a FILE-LEVEL
  *   identity basis with `identityAssessedRows: 0`.
  *
- *   The `iips-broker-import` alias is now pinned to IPD PR #131's merge commit
- *   `58fc8fb7f033650f40d61078d70e951f21dd033f`, whose mapper assesses EVERY native row before it
+ *   The `iips-broker-import` alias is now pinned to IPD PR #145's merge commit
+ *   `709fd13c77e90df05900859d23ba57d1004197a0`, whose mapper assesses EVERY native row before it
  *   raises the single whole-import P04 refusal, and publishes that evidence as
  *   `identityAssessments` / `identitySummary` on both the success and the refusal result. This
  *   module consumes that published evidence verbatim. Identity authority stays with IPD: IRR never

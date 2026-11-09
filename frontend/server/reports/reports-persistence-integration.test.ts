@@ -85,7 +85,7 @@ describe('R3-Option B dependency surface', () => {
     // client. Both advances are additive; every subpath this guard's consumers rely on is
     // still published at the new commit.
     expect(manifest.dependencies['iips-production-market-data']).toBe(
-      'github:ramkivs/iips-production-market-data#73768fa83c331de1bd9f51af0a6b26e5ad489ba2',
+      'github:ramkivs/iips-production-market-data#709fd13c77e90df05900859d23ba57d1004197a0',
     );
     // The broker-import alias is guarded by `broker-import-package-profile.json`, the single source
     // of truth shared with `scripts/materialize-broker-import.mjs` and the CAP-02 B-1R guard.

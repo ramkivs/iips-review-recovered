@@ -72,26 +72,31 @@ describe('WS-A broker-import evidence retention', () => {
     expect(read.pipelineRefusals[0].details).toMatch(/UNMAPPED_IDENTIFIER/);
     // Pin advance to IPD PR #127 (7bcae35): the pipeline now assesses EVERY native row before the
     // single whole-import P04 refusal, so the retained counts record real per-row outcomes.
+    // Dependency alignment to IPD PR #145 (709fd13): the governed D05 master is now IPD's
+    // authenticated universe (2,390 records), which resolves AGI GREENPAC, GHCL and KROSS; the
+    // retained counts carry IPD's per-row outcomes verbatim.
     expect(read.counts).toEqual({
       nativeRows: 68,
       identityAssessedRows: 68,
-      identityResolvedRows: 1,
-      identityUnresolvedRows: 67,
+      identityResolvedRows: 3,
+      identityUnresolvedRows: 65,
       savedRows: 0,
     });
     // P04 quarantine evidence for the unresolved identities is retained per row.
+    // Under IPD's authenticated universe (IPD PR #145) AGI GREENPAC, GHCL and KROSS resolve
+    // natively; every other row still carries its two P04 quarantine records.
     expect(read.rows[0].identityStatus).toBe('RESOLVED');
     expect(read.rows[0].identityBasis).toBe('PIPELINE_RESOLVED');
     expect(read.rows[0].identityRefusalCode).toBeNull();
     expect(read.rows[0].quarantineIds).toEqual([]);
-    const unresolved = read.rows.slice(1);
-    expect(unresolved).toHaveLength(67);
+    const unresolved = read.rows.filter((r) => r.identityStatus !== 'RESOLVED');
+    expect(unresolved).toHaveLength(65);
     expect(unresolved.every((r) => r.identityStatus === 'UNRESOLVED')).toBe(true);
     expect(unresolved.every((r) => r.identityBasis === 'PIPELINE_ASSESSED_UNRESOLVED')).toBe(true);
     expect(unresolved.every((r) => r.identityRefusalCode === 'NO_AUTHORITATIVE_IDENTIFIER_MATCH')).toBe(true);
     expect(unresolved.every((r) => r.quarantineIds.length === 2)).toBe(true);
     expect(unresolved.every((r) => r.quarantineIds.every((id) => typeof id === 'string' && id.length > 0))).toBe(true);
-    expect(new Set(read.rows.flatMap((r) => r.quarantineIds)).size).toBe(134);
+    expect(new Set(read.rows.flatMap((r) => r.quarantineIds)).size).toBe(130);
     expect(read.limitations.some((l) => /Per-row refusal codes and P04 quarantine ids/.test(l))).toBe(true);
     expect(read.validation.performed).toBe(false);
     expect(read.saveAuthorization.authorized).toBe(false);
