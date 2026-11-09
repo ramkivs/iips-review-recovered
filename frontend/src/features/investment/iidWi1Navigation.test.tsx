@@ -330,13 +330,39 @@ describe('P4 — holding context survives the workflow', () => {
     await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
 
     const nav = screen.getByRole('navigation', { name: 'Investment workflow' });
-    for (const name of ['Fundamentals', 'Valuation', 'Risk', 'Disposition', 'Historical changes']) {
+    for (const name of ['Fundamentals', 'Valuation', 'Risk', 'Disposition', 'Portfolio impact', 'Historical changes']) {
       const href = within(nav).getByRole('link', { name }).getAttribute('href') ?? '';
       expect(href).toContain(`portfolioId=${PORTFOLIO}`);
       expect(href).toContain(`securityId=${encodeURIComponent(SECURITY)}`);
       expect(href).toContain('reportId=');
       expect(href).toContain('#');
     }
+  });
+
+  it('addresses the portfolio-impact stage, and offers no dead anchor when there is no holding', async () => {
+    stubReads();
+    const user = userEvent.setup();
+    // The real App, because the scroll hook is mounted by AppShell — a bare Routes harness would not exercise it.
+    const { unmount } = renderAppAt(WITH_HOLDING);
+
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const nav = screen.getByRole('navigation', { name: 'Investment workflow' });
+    await user.click(within(nav).getByRole('link', { name: 'Portfolio impact' }));
+
+    // The held disposition loads asynchronously, so the anchor appears after the stage link is followed.
+    await waitFor(() => {
+      const target = document.getElementById('portfolio-impact');
+      expect(target).not.toBeNull();
+      expect(scrollSpy.mock.contexts[scrollSpy.mock.contexts.length - 1]).toBe(target);
+    });
+    unmount();
+
+    scrollSpy.mockClear();
+    renderAppAt(COMPANY);
+    await screen.findByRole('heading', { name: /Aarav Systems Limited/ });
+    const withoutHolding = screen.getByRole('navigation', { name: 'Investment workflow' });
+    expect(within(withoutHolding).queryByRole('link', { name: 'Portfolio impact' })).toBeNull();
+    expect(document.getElementById('portfolio-impact')).toBeNull();
   });
 
   it('carries the originating portfolio and security on the candidate-to-company back-link', async () => {

@@ -630,6 +630,11 @@ export default function CompanyAssessmentPage(): JSX.Element {
           <Link to={`${displayedHref}#valuation`}>Valuation</Link>{' '}
           <Link to={`${displayedHref}#risk`}>Risk</Link>{' '}
           <Link to={`${displayedHref}#disposition`}>Disposition</Link>{' '}
+          {/* Portfolio impact is rendered by the held disposition panel, so the jump is offered only when that
+              panel is actually mounted. Without a holding there is no impact to show and no dead anchor. */}
+          {portfolioId !== undefined && securityId !== undefined ? (
+            <Link to={`${displayedHref}#portfolio-impact`}>Portfolio impact</Link>
+          ) : null}{' '}
           <Link to={changeHistoryHref(issuerId, displayedContext)}>Historical changes</Link>
         </nav>
       </header>

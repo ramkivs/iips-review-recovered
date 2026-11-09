@@ -166,7 +166,9 @@ function ImplicationBlock({ payload }: { readonly payload: DispositionPayloadVie
   const context = payload.portfolioContext;
   const isCandidate = payload.subject.kind === 'CANDIDATE';
   return (
-    <>
+    // IID WI-1 (P4/P5): the portfolio-impact stage of the workflow gets its own anchor so a stage link can reach
+    // it directly. It wraps the existing block unchanged — no value, reason or table is added or altered.
+    <div id="portfolio-impact">
       {isCandidate ? (
         <p role="note" className="muted">
           A candidate has no position, so no quantity, no portfolio weight and no projected weight exists. The band
@@ -260,7 +262,7 @@ function ImplicationBlock({ payload }: { readonly payload: DispositionPayloadVie
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 
