@@ -7,7 +7,10 @@
  *
  * Pre-access, offline and synthetic: no Dhan credential is read, no socket is opened and no
  * vendor endpoint is contacted. Every expected value below was measured against the pinned
- * IPD contract at `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19`, not assumed.
+ * IPD contract at `ae393aafdb35869bd039e1354b988e4232b26f7c`, not assumed.
+ *
+ * DHAN-P3 added the NOT-ATTEMPTED distinction: a transport that was never tried is not
+ * "disconnected". The five-state vocabulary is preserved.
  */
 import { describe, expect, it } from 'vitest';
 
@@ -36,7 +39,12 @@ const PRE_ACCESS_EVIDENCE: DhanHealthEvidence = {
   transportReachable: false,
 };
 
-/** Credential references configured, but the local transport did not answer. */
+/**
+ * Credential references configured, and a transport connection was ATTEMPTED and failed.
+ *
+ * This is the only shape that may be reported as `DISCONNECTED`. A transport that was never
+ * attempted is NOT disconnected — see `CONFIGURED_NOT_ATTEMPTED_EVIDENCE`.
+ */
 const CONFIGURED_DISCONNECTED_EVIDENCE: DhanHealthEvidence = {
   service: 'UP',
   providerConfiguration: 'CONFIGURED',
@@ -47,6 +55,17 @@ const CONFIGURED_DISCONNECTED_EVIDENCE: DhanHealthEvidence = {
   configurationResolved: true,
   missingKeys: [],
   transportReachable: false,
+  connectionAttempted: true,
+};
+
+/**
+ * Credential references configured, but the transport was NEVER ATTEMPTED.
+ *
+ * This must NOT be reported as `DISCONNECTED`: nothing was tried, so nothing was lost.
+ */
+const CONFIGURED_NOT_ATTEMPTED_EVIDENCE: DhanHealthEvidence = {
+  ...CONFIGURED_DISCONNECTED_EVIDENCE,
+  connectionAttempted: false,
 };
 
 describe('DHAN-P2 health state model — the five governed states', () => {
@@ -79,8 +98,32 @@ describe('DHAN-P2 health state model — conservative classification', () => {
     ).toBe('PRE_ACCESS');
   });
 
-  it('reports DISCONNECTED when the provider is configured but the transport did not answer', () => {
+  it('reports DISCONNECTED when a connection was attempted and failed', () => {
     expect(classifyDhanHealth(CONFIGURED_DISCONNECTED_EVIDENCE)).toBe('DISCONNECTED');
+  });
+
+  it('does NOT report DISCONNECTED when no connection was ever attempted', () => {
+    // THE NOT-ATTEMPTED CORRECTION (DHAN-P3): a transport that was never tried has not
+    // "lost" a connection. Reporting DISCONNECTED here would describe an untouched
+    // workstation as one that had lost a connection.
+    const state = classifyDhanHealth(CONFIGURED_NOT_ATTEMPTED_EVIDENCE);
+    expect(state).not.toBe('DISCONNECTED');
+    expect(state).not.toBe('AUTHENTICATED');
+    expect(state).not.toBe('OPERATIONAL');
+  });
+
+  it('states explicitly that no connection was attempted when none was', () => {
+    const reasons = explainDhanHealth('PRE_ACCESS', {
+      ...PRE_ACCESS_EVIDENCE,
+      connectionAttempted: false,
+    }).join(' ');
+    expect(reasons).toContain('No local transport connection was attempted');
+    expect(reasons).toContain('not connected rather than disconnected');
+  });
+
+  it('states that a connection was attempted when one was', () => {
+    const reasons = explainDhanHealth('DISCONNECTED', CONFIGURED_DISCONNECTED_EVIDENCE).join(' ');
+    expect(reasons).toContain('was attempted and did not succeed');
   });
 
   it('reports UNAVAILABLE when nothing can be established', () => {
@@ -173,7 +216,7 @@ describe('DHAN-P2 health state model — reasons and summary', () => {
     expect(preAccess.join(' ')).toContain('no Dhan endpoint was contacted');
 
     const disconnected = explainDhanHealth('DISCONNECTED', CONFIGURED_DISCONNECTED_EVIDENCE);
-    expect(disconnected.join(' ')).toContain('did not answer');
+    expect(disconnected.join(' ')).toContain('was attempted and did not succeed');
 
     const unavailable = explainDhanHealth('UNAVAILABLE', { failureCode: 'TRANSPORT_FAILURE' });
     expect(unavailable.join(' ')).toContain('TRANSPORT_FAILURE');

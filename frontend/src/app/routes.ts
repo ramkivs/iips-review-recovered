@@ -51,6 +51,16 @@ export const ROUTES = {
    * never claims live connectivity or production readiness.
    */
   dhanConnectionStatus: '/dhan/connection-status',
+  /**
+   * DHAN-P3 — the DHAN quote surface. Read-only over the IPD market-data transport; IPD
+   * remains the market-data authority and the browser never computes a price.
+   */
+  dhanQuotes: '/dhan/quotes',
+  /**
+   * DHAN-P3 — the DHAN historical OHLCV surface. Read-only over the IPD market-data
+   * transport; the inclusive range semantics and the maximum window are IPD's.
+   */
+  dhanHistorical: '/dhan/historical',
   research: '/research',
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',

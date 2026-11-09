@@ -45,6 +45,11 @@ import {
   type DhanHealthEvidence,
   type DhanHealthReport,
 } from './dhanHealthState';
+import {
+  createIpdMarketDataTransportClient,
+  resolveIpdMarketDataTransportConfig,
+  type IpdTransportConfigResolution,
+} from './dhanMarketDataTransport';
 import type { DhanEnvSource } from 'iips-production-market-data/dhan-server';
 
 /** The single route this transport serves. */
@@ -92,6 +97,11 @@ export interface DhanHealthRouteDeps {
    * process environment at the COMPOSITION site, never inside this module.
    */
   readonly env?: DhanEnvSource;
+  /**
+   * A pre-resolved transport configuration. When supplied, it is used verbatim — this is the
+   * seam the synthetic fixtures use to inject a controlled transport.
+   */
+  readonly transport?: IpdTransportConfigResolution;
 }
 
 /**
@@ -113,40 +123,128 @@ function secretRefPointersOf(readiness: DhanProviderReadiness): readonly string[
 }
 
 /**
- * Builds the observed evidence for the health classification.
+ * The observed result of a transport probe.
  *
- * The transport reachability is explicitly FALSE in this phase: this route does not perform the
- * P1 live transport integration, so the local IPD daemon is not contacted and its
- * unreachability is reported honestly rather than assumed.
+ * `attempted` distinguishes "the daemon was never contacted" from "the daemon was contacted
+ * and did not answer". `reachable` is only meaningful when `attempted` is true.
  */
-export function collectDhanHealthEvidence(
-  readiness: DhanProviderReadiness,
-  transportReachable = false,
-): DhanHealthEvidence {
-  return {
-    service: 'UP',
-    providerConfiguration:
-      readiness.configurationResolved ? 'CONFIGURED' : 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE',
-    liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
-    providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
-    readiness: readiness.readiness,
-    failureCode: readiness.failureCode,
-    configurationResolved: readiness.configurationResolved,
-    missingKeys: readiness.missingKeys,
-    transportReachable,
+export interface DhanTransportProbe {
+  /** Whether a connection was actually attempted. */
+  readonly attempted: boolean;
+  /** Whether the transport answered. Meaningful only when `attempted` is true. */
+  readonly reachable: boolean;
+  /** IPD's authoritative `ServiceHealth`, when the transport answered with a valid payload. */
+  readonly serviceHealth?: {
+    readonly service: 'UP' | 'DOWN';
+    readonly providerConfiguration: 'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE';
+    readonly liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS';
+    readonly providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED';
   };
 }
 
 /**
- * Produces the full health report for a given environment map.
+ * Builds the observed evidence for the health classification.
  *
- * This is the single composition point: IPD resolves the provider configuration, IRR maps it
- * onto one state, and nothing else is consulted.
+ * The transport probe carries the DISTINCTION that matters: a transport that was never
+ * attempted is not a connection failure. When no probe has been performed, `connectionAttempted`
+ * is false and the classifier reports the state as "not connected" rather than
+ * "disconnected".
+ */
+export function collectDhanHealthEvidence(
+  readiness: DhanProviderReadiness,
+  probe?: DhanTransportProbe,
+): DhanHealthEvidence {
+  const attempted = probe?.attempted === true;
+  const reachable = probe?.reachable === true;
+  const serviceHealth = probe?.serviceHealth;
+
+  return {
+    // IPD's own service health is authoritative when the transport answered. Until then the
+    // local provider configuration is the only evidence available, and it is stated as such.
+    service: serviceHealth?.service ?? 'UP',
+    providerConfiguration:
+      serviceHealth?.providerConfiguration ??
+      (readiness.configurationResolved ? 'CONFIGURED' : 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE'),
+    liveProviderConnectivity: serviceHealth?.liveProviderConnectivity ?? 'NOT_CHECKED_PRE_ACCESS',
+    providerQualification: serviceHealth?.providerQualification ?? 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+    readiness: readiness.readiness,
+    failureCode: readiness.failureCode,
+    configurationResolved: readiness.configurationResolved,
+    missingKeys: readiness.missingKeys,
+    transportReachable: reachable,
+    connectionAttempted: attempted,
+  };
+}
+
+/**
+ * Produces the full health report for a given environment map, without a transport probe.
+ *
+ * This is the composition point used when the transport is not configured or not probed: IPD
+ * resolves the provider configuration, IRR maps it onto one state, and nothing else is
+ * consulted.
  */
 export function buildDhanHealthReportForEnv(env: DhanEnvSource = {}): DhanHealthReport {
   const readiness = describeDhanProviderReadiness(env);
   const evidence = collectDhanHealthEvidence(readiness);
   return buildDhanHealthReport(evidence, secretRefPointersOf(readiness));
+}
+
+/**
+ * Produces the full health report WITH a transport probe.
+ *
+ * When the transport is configured, IRR asks IPD's own client for its health. IPD's answer
+ * is authoritative for the provider-side fields; IRR adds only the transport-reachability
+ * observation, which IPD cannot make on IRR's behalf.
+ */
+export async function buildDhanHealthReportWithProbe(
+  env: DhanEnvSource = {},
+  deps: DhanHealthProbeDeps = {},
+): Promise<DhanHealthReport> {
+  const readiness = describeDhanProviderReadiness(env);
+  const probe = await probeDhanTransport(env, deps);
+  const evidence = collectDhanHealthEvidence(readiness, probe);
+  return buildDhanHealthReport(evidence, secretRefPointersOf(readiness));
+}
+
+/** Dependencies for the transport probe. */
+export interface DhanHealthProbeDeps {
+  /** A pre-resolved transport configuration. Injected by the synthetic test seam. */
+  readonly transport?: IpdTransportConfigResolution;
+}
+
+/**
+ * Probes the local IPD market-data transport for its authoritative health.
+ *
+ * The probe is performed ONLY when the transport is configured. An unconfigured transport is
+ * NOT probed, and is reported as "not attempted" rather than as a failure — the workstation
+ * has simply not been set up for the transport.
+ */
+export async function probeDhanTransport(
+  env: DhanEnvSource = {},
+  deps: DhanHealthProbeDeps = {},
+): Promise<DhanTransportProbe> {
+  const resolution = deps.transport ?? resolveIpdMarketDataTransportConfig(env as Record<string, string | undefined>);
+  if (!resolution.ok) {
+    // Not configured: no connection was attempted, so nothing failed.
+    return { attempted: false, reachable: false };
+  }
+
+  const client = createIpdMarketDataTransportClient(resolution.config);
+  const outcome = await client.health();
+  if (!outcome.ok) {
+    // The connection WAS attempted and did not succeed. This is a genuine connection failure.
+    return { attempted: true, reachable: false };
+  }
+  return {
+    attempted: true,
+    reachable: true,
+    serviceHealth: {
+      service: outcome.service,
+      providerConfiguration: outcome.providerConfiguration,
+      liveProviderConnectivity: outcome.liveProviderConnectivity,
+      providerQualification: outcome.providerQualification,
+    },
+  };
 }
 
 /**
@@ -173,7 +271,11 @@ export async function handleDhanHealthRequest(
   }
 
   try {
-    const report = buildDhanHealthReportForEnv(deps.env ?? {});
+    // The transport probe is performed when the transport is configured, so the report can
+    // distinguish a genuine connection failure from a transport that was never attempted.
+    const report = await buildDhanHealthReportWithProbe(deps.env ?? {}, {
+      transport: deps.transport,
+    });
     sendJson(res, 200, { data: report, provenance: DHAN_HEALTH_PROVENANCE });
   } catch {
     // Fail closed: a failed assessment is reported as UNAVAILABLE by the caller, and a

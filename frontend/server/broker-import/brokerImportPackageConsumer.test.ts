@@ -35,13 +35,31 @@ const frontendRoot = resolve(here, '..', '..');
 
 /**
  * The authoritative IPD dependency pin, advanced from `279d1eed…` to `59fdfd1…`
- * (IPD PR #140 merge commit) by the isolated Dhan convergence. That commit is the first
- * commit reachable from IPD `main` that publishes the server-only `./dhan-server` subpath;
- * at `279d1eed…` the subpath and `src/providers/dhan/**` do not exist in the package.
- * The `./portfolio-ui`, `./pit`, `./d114-non-production` and `./operator-drop` subpaths all
- * remain published at the new pin, so the advance is purely additive for existing consumers.
+ * (IPD PR #140 merge commit) by the isolated Dhan convergence, and then to `ae393aa…`
+ * (IPD PR #144 merge commit) by DHAN-P3.
+ *
+ * `59fdfd1…` is the first commit reachable from IPD `main` that publishes the server-only
+ * `./dhan-server` subpath; at `279d1eed…` the subpath and `src/providers/dhan/**` do not
+ * exist in the package. `ae393aa…` advances the pin again because `59fdfd1…`'s
+ * `MarketDataTransportClient` has no request timeout, no loopback pinning, no production
+ * guard and no typed failure outcomes — none of which DHAN-P3's transport boundary may
+ * forgo. The `./portfolio-ui`, `./pit`, `./d114-non-production`, `./operator-drop` and
+ * `./dhan-server` subpaths all remain published at the new pin, and IRR's consumed
+ * `./dhan-server` exports are unchanged, so both advances are purely additive for existing
+ * consumers.
  */
-export const EXPECTED_IPD_PIN_SHA = '59fdfd157632dbdbc220ae03d9d0b8e047d4ef19';
+export const EXPECTED_IPD_PIN_SHA = 'ae393aafdb35869bd039e1354b988e4232b26f7c';
+
+/**
+ * The prior primary pin, retained so a silent rollback cannot go unnoticed.
+ *
+ * `59fdfd15…` published the `./dhan-server` subpath but its `MarketDataTransportClient` had
+ * no request timeout, no loopback pinning, no production guard and no typed failure
+ * outcomes. DHAN-P3 needs those guarantees at the transport boundary, so the primary pin
+ * advanced to `ae393aa…` (IPD PR #144). The advance is purely additive: every export IRR
+ * consumes — including the whole `./dhan-server` surface — survives unchanged.
+ */
+export const SUPERSEDED_IPD_DHAN_SERVER_PIN_SHA = '59fdfd157632dbdbc220ae03d9d0b8e047d4ef19';
 
 /** The superseded primary pin, retained so a silent rollback cannot go unnoticed. */
 export const SUPERSEDED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
@@ -267,12 +285,40 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     expect(lockResolved).toContain(`#${EXPECTED_IPD_PIN_SHA}`);
   });
 
+  it('preserves every ./dhan-server export IRR consumes across the DHAN-P3 pin advance', () => {
+    // The DHAN-P3 advance from `59fdfd1…` to `ae393aa…` was made because the earlier
+    // pin's transport client lacked a timeout, loopback pinning, a production guard and
+    // typed failure outcomes. Such an advance is only acceptable if it is BACKWARD
+    // COMPATIBLE for every export IRR already consumes, so that is asserted here rather
+    // than assumed.
+    const dhanServerTypes = resolve(
+      ipdPkgRoot,
+      'dist/package/src/providers/dhan/package.d.ts',
+    );
+    expect(existsSync(dhanServerTypes), 'missing published ./dhan-server type surface').toBe(true);
+    const declarations = readFileSync(dhanServerTypes, 'utf8');
+
+    // The exports the DHAN-P2 and DHAN-P3 server code depends on.
+    for (const symbol of [
+      'MarketDataTransportClient',
+      'MARKET_DATA_ROUTES',
+      'MARKET_DATA_TRANSPORT_TOKEN_ENV',
+      'DhanMarketDataService',
+      'DhanHistoricalAdapter',
+      'normalizeDhanHistoricalToCandles',
+      'DHAN_SUPPORTED_HISTORICAL_INTERVALS',
+    ]) {
+      expect(declarations, `missing ./dhan-server export: ${symbol}`).toContain(symbol);
+    }
+  });
+
   it('publishes the server-only ./dhan-server provider surface at the advanced pin', () => {
     const depSpec = irrPkg.dependencies?.['iips-production-market-data'] ?? '';
     const dhanServer = ipdPkg.exports?.[REQUIRED_DHAN_SERVER_SUBPATH];
 
     // The advance is real: it is not the superseded pin re-declared.
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_PIN_SHA);
+    expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_SERVER_PIN_SHA);
     expect(depSpec).toContain(EXPECTED_IPD_PIN_SHA);
 
     // The subpath did not exist at the superseded pin, so its presence is the observable

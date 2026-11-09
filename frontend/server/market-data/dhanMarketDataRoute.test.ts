@@ -2,9 +2,18 @@
  * IRR Dhan provider consumption boundary — qualification tests.
  *
  * These tests qualify IRR's OWN consumption of the IPD `./dhan-server` subpath at the
- * authoritative dependency commit `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19`. They are
- * pre-access, offline and synthetic: no Dhan credential is read, no socket is opened and
- * no vendor endpoint is contacted.
+ * authoritative dependency commit `ae393aafdb35869bd039e1354b988e4232b26f7c` (IPD `main`,
+ * merge commit of IPD PR #144). They are pre-access, offline and synthetic: no Dhan
+ * credential is read, no socket is opened and no vendor endpoint is contacted.
+ *
+ * PIN ADVANCE (DHAN-P3): the pin moved forward from
+ * `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19` (IPD PR #140) to `ae393aaf…` because the
+ * pinned `MarketDataTransportClient` at `59fdfd15` had no timeout, no loopback pinning, no
+ * production guard and no typed failure outcomes, and therefore could not satisfy the
+ * transport requirements DHAN-P3 places on this boundary. The advance is backward
+ * compatible for everything this file asserts: the Stage-1 admission record guarantees
+ * "Existing symbol exports on `./dhan-server` remain intact in Stage 1" (`D3D-05`), and the
+ * measured values below are unchanged across the advance.
  *
  * Every expected value below was MEASURED against the installed package at that commit
  * rather than assumed. Where the measurement is a refusal, the test asserts the refusal:
@@ -24,7 +33,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
 /** The authoritative IPD dependency commit this boundary was qualified against. */
-const EXPECTED_IPD_COMMIT = '59fdfd157632dbdbc220ae03d9d0b8e047d4ef19';
+const EXPECTED_IPD_COMMIT = 'ae393aafdb35869bd039e1354b988e4232b26f7c';
 
 /** SecretRef pointers only. These are key paths, never secret values. */
 const CONFIGURED_ENV = {

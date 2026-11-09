@@ -2,8 +2,11 @@
  * IRR DHAN health/readiness STATE MODEL (DHAN-P2, synthetic / pre-access phase).
  *
  * Authority:
- *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19`
- *     (merge commit of IPD PR #140), consumed through the server-only `./dhan-server` subpath.
+ *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `ae393aafdb35869bd039e1354b988e4232b26f7c`
+ *     (merge commit of IPD PR #144), consumed through the server-only `./dhan-server` subpath.
+ *     The pin advanced from `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19` (IPD PR #140) in
+ *     DHAN-P3 so the transport boundary inherits IPD's timeout, loopback pinning, production
+ *     guard and typed failure outcomes. The `ServiceHealth` contract is unchanged by it.
  *     - `ServiceHealth` (IPD `src/providers/dhan/dhan_market_data_service.ts`):
  *         service:                 'UP' | 'DOWN'
  *         providerConfiguration:    'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE'
@@ -123,8 +126,23 @@ export interface DhanHealthEvidence {
   readonly configurationResolved?: boolean;
   /** Configuration keys that were absent. Names only; never values. */
   readonly missingKeys?: readonly string[];
-  /** Whether the local IPD market-data transport answered. False in this phase by design. */
+  /**
+   * Whether the local IPD market-data transport answered.
+   *
+   * `undefined` means the transport was NEVER ATTEMPTED — "not connected", which is NOT the
+   * same as "disconnected". `false` means a connection WAS attempted and failed.
+   */
   readonly transportReachable?: boolean;
+  /**
+   * Whether a transport connection was actually ATTEMPTED for this assessment.
+   *
+   * This is what distinguishes "the transport was never tried" from "the transport was tried
+   * and failed". The P2 phase initially reported `DISCONNECTED` whenever the transport was
+   * unreachable, which conflated the two: a workstation that had simply never contacted the
+   * daemon was described as if a connection had been tried and lost. The distinction is
+   * explicit now.
+   */
+  readonly connectionAttempted?: boolean;
 }
 
 /**
@@ -140,8 +158,15 @@ export interface DhanHealthReport {
   readonly readiness: DhanCredentialReadiness | string;
   /** Whether the provider configuration resolved without a credential failure. */
   readonly configurationResolved: boolean;
-  /** Whether the local IPD transport answered. Always false in this synthetic phase. */
+  /** Whether the local IPD transport answered. */
   readonly transportReachable: boolean;
+  /**
+   * Whether a transport connection was actually ATTEMPTED.
+   *
+   * This is what distinguishes "the transport was never tried" from "the transport was tried
+   * and failed". Only the latter may be reported as `DISCONNECTED`.
+   */
+  readonly connectionAttempted: boolean;
   /** Whether a live vendor call was performed by this assessment. Always false. */
   readonly liveProviderContacted: boolean;
   /**
@@ -202,8 +227,8 @@ export function isLiveConnectedEvidence(evidence: DhanHealthEvidence): boolean {
   return evidence.liveProviderConnectivity === DHAN_LIVE_CONNECTIVITY;
 }
 
-/**
- * Classifies the observed evidence into exactly one state.
+  /**
+   * Classifies the observed evidence into exactly one state.
  *
  * The ordering is deliberate and conservative: the most capable state is only reached when
  * every weaker precondition also holds, and no state is ever inferred from the absence of a
@@ -211,10 +236,18 @@ export function isLiveConnectedEvidence(evidence: DhanHealthEvidence): boolean {
  *
  * 1. `OPERATIONAL`  — live connectivity AND live qualification are both asserted.
  * 2. `AUTHENTICATED` — live connectivity is asserted (authentication accepted by the vendor).
- * 3. `DISCONNECTED` — the provider side is configured, but the local transport did not answer.
+ * 3. `DISCONNECTED` — a transport connection was ATTEMPTED and FAILED. The provider side is
+ *                     configured, but an observed connection failure occurred.
  * 4. `PRE_ACCESS`   — credential references are not configured; the provider is in its
  *                     governed pre-access mode.
  * 5. `UNAVAILABLE`  — the evidence is missing, malformed or self-contradictory.
+ *
+ * THE NOT-ATTEMPTED CORRECTION (DHAN-P3): `DISCONNECTED` is reported ONLY when a connection
+ * was actually attempted and failed (`connectionAttempted === true` and the transport did not
+ * answer). A transport that was never attempted is NOT "disconnected" — the state is
+ * `PRE_ACCESS` when the provider is still in pre-access, and the report states explicitly
+ * that no connection was attempted. This prevents the surface from describing an untouched
+ * workstation as one that had lost a connection.
  */
 export function classifyDhanHealth(evidence: DhanHealthEvidence): DhanHealthState {
   // Contradiction guard: a service that reports itself DOWN while also claiming live
@@ -231,10 +264,13 @@ export function classifyDhanHealth(evidence: DhanHealthEvidence): DhanHealthStat
     return 'AUTHENTICATED';
   }
 
-  // The provider is configured (its own configuration resolved and credential references are
-  // present), but the local transport did not answer: the provider side is ready while the
-  // transport side is not connected.
-  if (evidence.configurationResolved === true && evidence.transportReachable === false) {
+  // The provider is configured AND a connection was actually attempted and failed. Only then
+  // is the system "disconnected" — never merely because no connection has been established.
+  if (
+    evidence.configurationResolved === true &&
+    evidence.connectionAttempted === true &&
+    evidence.transportReachable === false
+  ) {
     return 'DISCONNECTED';
   }
 
@@ -244,6 +280,14 @@ export function classifyDhanHealth(evidence: DhanHealthEvidence): DhanHealthStat
     evidence.readiness === 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE' ||
     evidence.providerConfiguration === 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE'
   ) {
+    return 'PRE_ACCESS';
+  }
+
+  // The provider configuration resolved, but NO transport connection was attempted and none
+  // was established. The provider is therefore configured and connected to nothing: it is in
+  // the same pre-access posture as an unconfigured provider — no live capability exists —
+  // but its configuration is present. It is NOT "disconnected", because nothing was tried.
+  if (evidence.configurationResolved === true && evidence.connectionAttempted !== true) {
     return 'PRE_ACCESS';
   }
 
@@ -275,17 +319,32 @@ export function explainDhanHealth(state: DhanHealthState, evidence: DhanHealthEv
 
     case 'DISCONNECTED':
       reasons.push('The provider configuration resolved and its credential references are present.');
-      reasons.push('The local IPD market-data transport did not answer, so no provider round trip occurred.');
+      reasons.push(
+        'A connection to the local IPD market-data transport was attempted and did not succeed, so no provider round trip occurred.',
+      );
       reasons.push(
         `Provider qualification is '${qualification}' and provider connectivity is '${connectivity}'.`,
       );
       break;
 
     case 'PRE_ACCESS':
-      reasons.push(
-        `Credential references are not configured (readiness '${readiness}'), so the provider remains in its governed pre-access mode.`,
-      );
+      if (evidence.configurationResolved === true) {
+        reasons.push(
+          'The provider configuration resolved, but no live transport connection has been established.',
+        );
+      } else {
+        reasons.push(
+          `Credential references are not configured (readiness '${readiness}'), so the provider remains in its governed pre-access mode.`,
+        );
+      }
       reasons.push('No credential was resolved and no Dhan endpoint was contacted.');
+      if (evidence.connectionAttempted === true) {
+        reasons.push('A local transport connection was attempted and did not succeed.');
+      } else {
+        reasons.push(
+          'No local transport connection was attempted, so the transport is not connected rather than disconnected.',
+        );
+      }
       reasons.push(
         `Provider qualification is '${qualification}' and provider connectivity is '${connectivity}'.`,
       );
@@ -341,6 +400,7 @@ export function buildDhanHealthReport(
     readiness: evidence.readiness ?? 'UNKNOWN',
     configurationResolved: evidence.configurationResolved === true,
     transportReachable: evidence.transportReachable === true,
+    connectionAttempted: evidence.connectionAttempted === true,
     liveProviderContacted: false,
     liveQualified: isLiveQualifiedEvidence(evidence),
     failureCode: evidence.failureCode ?? null,

@@ -23,8 +23,11 @@ import {
   collectDhanHealthEvidence,
   handleDhanHealthRequest,
   isDhanHealthPath,
+  probeDhanTransport,
 } from './dhanHealthTransport';
 import { describeDhanProviderReadiness } from './dhanMarketDataRoute';
+import { classifyDhanHealth } from './dhanHealthState';
+import { resolveIpdMarketDataTransportConfig } from './dhanMarketDataTransport';
 
 /** SecretRef POINTERS only. These are key paths, never secret values. */
 const CONFIGURED_ENV = {
@@ -89,7 +92,11 @@ describe('DHAN-P2 health route — the published envelope', () => {
     expect(body.provenance.transportSemantics).toBe(DHAN_HEALTH_TRANSPORT_SEMANTICS);
     expect(body.provenance.authority).toBe('IPD');
 
-    expect(body.data.state).toBe('DISCONNECTED');
+    // The provider configuration resolved, but the transport was never attempted: the
+    // system is NOT connected — it is not "disconnected". (DHAN-P3 correction.)
+    expect(body.data.state).toBe('PRE_ACCESS');
+    expect(body.data.state).not.toBe('DISCONNECTED');
+    expect(body.data.connectionAttempted).toBe(false);
     expect(body.data.providerId).toBe('DHAN_PROVIDER');
     expect(body.data.readiness).toBe('CREDENTIAL_REFERENCES_CONFIGURED');
     expect(body.data.configurationResolved).toBe(true);
@@ -217,7 +224,88 @@ describe('DHAN-P2 health route — scope refusals', () => {
   it('does not construct a provider client, a credential resolver or a market-data service', () => {
     expect(transportSource).not.toMatch(/new\s+DhanApiClient\s*\(/);
     expect(transportSource).not.toMatch(/DhanMarketDataService/);
-    expect(transportSource).not.toMatch(/MarketDataTransportClient/);
     expect(transportSource).not.toMatch(/LocalHostVaultDhanCredentialResolver/);
+    // The health route does not construct the transport client either: it delegates to the
+    // shared composition module, which owns the single construction site.
+    expect(transportSource).not.toMatch(/new\s+MarketDataTransportClient\s*\(/);
   });
 });
+
+describe('DHAN-P2 health route — the transport probe (DHAN-P3 clarification)', () => {
+  it('reports a reachable transport with IPD own authoritative service health', async () => {
+    const probe = await probeDhanTransport(
+      {},
+      {
+        transport: {
+          ok: true,
+          config: {
+            baseUrl: await startHealthTransport({
+              service: 'UP',
+              providerConfiguration: 'CONFIGURED',
+              liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+              providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+            }),
+            token: 'synthetic-token',
+            timeoutMs: 2000,
+            configured: true,
+          },
+        },
+      },
+    );
+
+    expect(probe.attempted).toBe(true);
+    expect(probe.reachable).toBe(true);
+    expect(probe.serviceHealth?.service).toBe('UP');
+    expect(probe.serviceHealth?.providerQualification).toBe('SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED');
+  });
+
+  it('reports an attempted-but-failed transport as attempted', async () => {
+    const probe = await probeDhanTransport(
+      {},
+      {
+        transport: {
+          ok: true,
+          config: {
+            // A port nothing is listening on: the connection is attempted and fails.
+            baseUrl: 'http://127.0.0.1:1',
+            token: 'synthetic-token',
+            timeoutMs: 500,
+            configured: true,
+          },
+        },
+      },
+    );
+
+    expect(probe.attempted).toBe(true);
+    expect(probe.reachable).toBe(false);
+    expect(probe.serviceHealth).toBeUndefined();
+  });
+
+  it('reports an unconfigured transport as NOT attempted', async () => {
+    const probe = await probeDhanTransport({}, { transport: resolveIpdMarketDataTransportConfig({}) });
+    expect(probe.attempted).toBe(false);
+    expect(probe.reachable).toBe(false);
+  });
+
+  it('classifies an attempted failure as DISCONNECTED and a never-attempted transport as not disconnected', async () => {
+    const readiness = describeDhanProviderReadiness(CONFIGURED_ENV);
+
+    const attempted = collectDhanHealthEvidence(readiness, { attempted: true, reachable: false });
+    expect(classifyDhanHealth(attempted)).toBe('DISCONNECTED');
+
+    const notAttempted = collectDhanHealthEvidence(readiness, { attempted: false, reachable: false });
+    expect(classifyDhanHealth(notAttempted)).not.toBe('DISCONNECTED');
+  });
+});
+
+/** Starts a synthetic IPD health endpoint and returns its base URL. */
+async function startHealthTransport(body: Record<string, unknown>): Promise<string> {
+  const server = http.createServer((_req, res) => {
+    const text = JSON.stringify(body);
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(text);
+  });
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const port = (server.address() as AddressInfo).port;
+  return `http://127.0.0.1:${port}`;
+}

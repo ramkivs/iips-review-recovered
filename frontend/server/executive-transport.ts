@@ -986,9 +986,10 @@ const server = http.createServer(async (req, res) => {
   // DHAN-P2 (synthetic / pre-access phase): read-only, credential-free provider status. The
   // provider configuration and readiness are resolved by IPD's own `resolveDhanProviderConfig`
   // through the existing IRR consumption boundary; this route maps them onto one of five
-  // states and publishes no credential, no bearer token and no SecretRef value. It contacts
-  // neither the IPD market-data daemon nor the Dhan vendor — the live transport integration
-  // (P1) is NOT part of this phase. Purely additive: no existing route is touched.
+  // states and publishes no credential, no bearer token and no SecretRef value. When the local
+  // IPD transport is configured, the route also asks IPD for its authoritative health, so a
+  // genuine connection failure is distinguishable from a transport that was never attempted.
+  // Purely additive: no existing route is touched.
   if (req.url === '/api/dhan/health') {
     void (async () => {
       try {
@@ -996,6 +997,27 @@ const server = http.createServer(async (req, res) => {
         await dhanHealth.handleDhanHealthRequest(req, res, { env: process.env });
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'dhan health transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // DHAN-P3: the canonical quote and historical-data surfaces. IPD remains the market-data
+  // authority: these routes forward the canonical request to IPD's own transport client and
+  // project IPD's canonical envelope onto IRR's presentation vocabulary. No quote is computed,
+  // no historical series is normalized and no cache, rate limiter or refresh engine exists in
+  // IRR. The transport bearer token and the daemon address are read from the server-side
+  // environment and never reach the browser.
+  if (req.url === '/api/dhan/quotes' || req.url === '/api/dhan/historical') {
+    void (async () => {
+      try {
+        const dhanMarketData = await import('./market-data/dhanMarketDataRoutes');
+        if (req.url === '/api/dhan/quotes') {
+          await dhanMarketData.handleDhanQuotesRequest(req, res, { env: process.env });
+        } else {
+          await dhanMarketData.handleDhanHistoricalRequest(req, res, { env: process.env });
+        }
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'dhan market data transport error', detail: String(e) }));
       }
     })();
     return;

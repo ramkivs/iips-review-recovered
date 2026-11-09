@@ -80,10 +80,12 @@ describe('R3-Option B dependency surface', () => {
     );
     // Reconciled by the isolated Dhan convergence: the primary pin advanced from
     // `279d1eed…` to `59fdfd1…` (IPD PR #140 merge commit) so IRR can consume the newly
-    // published server-only `./dhan-server` subpath. The advance is additive; every
-    // subpath this guard's consumers rely on is still published at the new commit.
+    // published server-only `./dhan-server` subpath, and then to `ae393aa…` (IPD PR #144)
+    // by DHAN-P3, which requires the guarded, timeout-bounded, typed-outcome transport
+    // client. Both advances are additive; every subpath this guard's consumers rely on is
+    // still published at the new commit.
     expect(manifest.dependencies['iips-production-market-data']).toBe(
-      'github:ramkivs/iips-production-market-data#59fdfd157632dbdbc220ae03d9d0b8e047d4ef19',
+      'github:ramkivs/iips-production-market-data#ae393aafdb35869bd039e1354b988e4232b26f7c',
     );
     // The broker-import alias is guarded by `broker-import-package-profile.json`, the single source
     // of truth shared with `scripts/materialize-broker-import.mjs` and the CAP-02 B-1R guard.

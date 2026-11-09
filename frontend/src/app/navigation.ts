@@ -65,6 +65,10 @@ export const NAV: NavItem[] = [
   // state IRR can prove from the local IPD provider configuration; it never implies live
   // provider connectivity or production readiness.
   { label: 'DHAN Status', path: ROUTES.dhanConnectionStatus },
+  // DHAN-P3: the quote and historical OHLCV surfaces. Read-only over the IPD market-data
+  // transport; IPD remains the market-data authority and the browser never computes a price.
+  { label: 'DHAN Quotes', path: ROUTES.dhanQuotes },
+  { label: 'DHAN History', path: ROUTES.dhanHistorical },
   {
     label: 'Research',
     path: '/research',
