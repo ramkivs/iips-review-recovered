@@ -45,6 +45,12 @@ export const ROUTES = {
   candidateAssessment: '/investment/candidate/:securityId',
   collaboration: '/collaboration',
   settings: '/settings',
+  /**
+   * DHAN-P2 — the DHAN provider connection-status surface. Read-only and credential-free: it
+   * reports the connection state IRR can prove from the local IPD provider configuration, and
+   * never claims live connectivity or production readiness.
+   */
+  dhanConnectionStatus: '/dhan/connection-status',
   research: '/research',
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',

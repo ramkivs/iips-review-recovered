@@ -983,6 +983,23 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // DHAN-P2 (synthetic / pre-access phase): read-only, credential-free provider status. The
+  // provider configuration and readiness are resolved by IPD's own `resolveDhanProviderConfig`
+  // through the existing IRR consumption boundary; this route maps them onto one of five
+  // states and publishes no credential, no bearer token and no SecretRef value. It contacts
+  // neither the IPD market-data daemon nor the Dhan vendor — the live transport integration
+  // (P1) is NOT part of this phase. Purely additive: no existing route is touched.
+  if (req.url === '/api/dhan/health') {
+    void (async () => {
+      try {
+        const dhanHealth = await import('./market-data/dhanHealthTransport');
+        await dhanHealth.handleDhanHealthRequest(req, res, { env: process.env });
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'dhan health transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   // UI07 Watchlists: owner-scoped boundary. The owner context is established server-side by the
   // governed owner-context resolver; the governed universe (item values) is composed here.
   if (req.url?.startsWith('/api/watchlists')) {
