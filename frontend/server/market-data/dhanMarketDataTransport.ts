@@ -2,7 +2,7 @@
  * IRR server-side IPD market-data transport configuration (DHAN-P3).
  *
  * Authority:
- *   - IPD `ramkivs/iips-production-market-data` @ `ae393aafdb35869bd039e1354b988e4232b26f7c`
+ *   - IPD `ramkivs/iips-production-market-data` @ `73768fa83c331de1bd9f51af0a6b26e5ad489ba2`
  *     (`main`, merge commit of IPD PR #144), consumed through the server-only `./dhan-server`
  *     subpath.
  *   - The transport credential env name is IPD's own: `MARKET_DATA_TRANSPORT_TOKEN_ENV` =
@@ -228,4 +228,208 @@ export function createIpdMarketDataTransportClient(
   return new MarketDataTransportClient(config.baseUrl, config.token, {
     timeoutMs: config.timeoutMs,
   });
+}
+
+/**
+ * The IPD freshness route, exactly as IPD publishes it in `MARKET_DATA_ROUTES`.
+ *
+ * The route is a READ-ONLY status lookup: it never starts a refresh, calls the provider,
+ * mutates the cache or schedules work.
+ */
+export const IPD_FRESHNESS_PATH = '/v1/freshness';
+
+/**
+ * The outcome of a freshness read.
+ *
+ * `ok: false` means the STATUS could not be read at all. `ok: true` means IPD answered with
+ * a freshness status, INCLUDING a status that says the evidence is unavailable or unknown.
+ * Those two are different outcomes and are never collapsed: an unreadable status is a
+ * transport failure, while an unavailable status is IPD's authoritative answer.
+ */
+export type IpdFreshnessReadOutcome =
+  | { readonly ok: true; readonly status: IpdFreshnessStatus }
+  | {
+      readonly ok: false;
+      readonly code: string;
+      readonly message: string;
+      readonly httpStatus: number | null;
+    };
+
+/**
+ * IPD's freshness status shape, mirrored as a structural type.
+ *
+ * It is declared structurally rather than imported so the server boundary stays explicit
+ * about exactly which IPD fields it consumes, and so a missing or malformed field is
+ * detected at the projection boundary rather than silently trusted.
+ */
+export interface IpdFreshnessStatus {
+  readonly domain: string;
+  readonly cacheState: string;
+  readonly asOf: string | null;
+  readonly timestampEvidence: string;
+  readonly receivedAt: string | null;
+  readonly evaluatedAt: string;
+  readonly observationEvaluatedAt: string | null;
+  readonly thresholdSeconds: number;
+  readonly ageSeconds: number | null;
+  readonly verdict: string;
+  readonly staleConcessionActive: boolean;
+  readonly suppressExecution: boolean;
+  readonly eligibleForUse: boolean;
+  readonly lastRefresh: {
+    readonly outcome: string;
+    readonly lastFailure: { readonly code: string; readonly priorPreserved: boolean } | null;
+  };
+}
+
+/**
+ * Reads IPD's read-only freshness status.
+ *
+ * WHY THIS EXISTS SEPARATELY FROM `MarketDataTransportClient`
+ *   IPD P5 publishes `GET /v1/freshness` on the market-data HTTP server, but the typed
+ *   `MarketDataTransportClient` exposes only `getQuote`, `getHistorical` and `health` — it
+ *   has no `getFreshness`. IRR therefore performs the read itself, at the same loopback
+ *   boundary, with the SAME bearer credential and the SAME timeout, and applies the SAME
+ *   guards IPD's client applies (loopback-only, `http:` only, no credentials embedded in
+ *   the URL, non-empty token, bounded request).
+ *
+ *   IRR does NOT re-implement IPD's freshness evaluation: the verdict, the threshold, the
+ *   stale concession and the suppression decision all come from IPD and are published
+ *   verbatim. This function only carries the request and validates the response shape.
+ */
+export async function readIpdFreshnessStatus(
+  config: IpdMarketDataTransportConfig,
+  query: Readonly<Record<string, string>>,
+  fetchImpl: typeof fetch = fetch,
+): Promise<IpdFreshnessReadOutcome> {
+  // The SAME guards IPD's own client enforces, re-asserted so IRR cannot widen the
+  // boundary by using a different call path.
+  if (!config.token.trim()) {
+    return { ok: false, code: 'UNAUTHENTICATED', message: 'missing or empty transport credential', httpStatus: null };
+  }
+  let parsed: URL;
+  try {
+    parsed = new URL(config.baseUrl);
+  } catch {
+    return { ok: false, code: 'TRANSPORT_FAILURE', message: 'market-data transport baseUrl is malformed', httpStatus: null };
+  }
+  if (
+    parsed.protocol !== 'http:' ||
+    !LOOPBACK_HOSTS.has(parsed.hostname.toLowerCase()) ||
+    parsed.username !== '' ||
+    parsed.password !== '' ||
+    parsed.search !== ''
+  ) {
+    return {
+      ok: false,
+      code: 'TRANSPORT_FAILURE',
+      message: 'market-data transport is restricted to local loopback http:// server-to-server endpoints',
+      httpStatus: null,
+    };
+  }
+
+  const url = new URL(`${config.baseUrl.replace(/\/+$/, '')}${IPD_FRESHNESS_PATH}`);
+  for (const [key, value] of Object.entries(query)) {
+    url.searchParams.set(key, value);
+  }
+
+  let response: Response;
+  try {
+    response = await fetchImpl(url.toString(), {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        authorization: `Bearer ${config.token}`,
+      },
+      redirect: 'error',
+      signal: AbortSignal.timeout(config.timeoutMs),
+    });
+  } catch (err: unknown) {
+    const name = (err as { name?: unknown } | null)?.name;
+    if (name === 'TimeoutError' || name === 'AbortError') {
+      return { ok: false, code: 'REQUEST_TIMEOUT', message: 'market-data transport request timed out', httpStatus: 504 };
+    }
+    return { ok: false, code: 'TRANSPORT_FAILURE', message: 'market-data transport request failed', httpStatus: 502 };
+  }
+
+  let payload: unknown;
+  try {
+    payload = await response.json();
+  } catch {
+    return { ok: false, code: 'MALFORMED_RESPONSE', message: 'market-data transport response is not valid JSON', httpStatus: response.status };
+  }
+
+  if (response.status < 200 || response.status >= 300) {
+    const error = (payload as { error?: { code?: unknown; message?: unknown } } | null)?.error;
+    return {
+      ok: false,
+      code: typeof error?.code === 'string' ? error.code : 'TRANSPORT_FAILURE',
+      message: typeof error?.message === 'string' ? error.message : 'market-data transport request failed',
+      httpStatus: response.status,
+    };
+  }
+
+  const status = parseIpdFreshnessStatus(payload);
+  if (status === null) {
+    return {
+      ok: false,
+      code: 'MALFORMED_RESPONSE',
+      message: 'market-data transport returned a malformed freshness status',
+      httpStatus: response.status,
+    };
+  }
+  return { ok: true, status };
+}
+
+/**
+ * Validates IPD's freshness payload shape.
+ *
+ * A payload that does not carry the required fields is REJECTED rather than projected with
+ * invented values. A null return means "this is not a freshness status".
+ */
+function parseIpdFreshnessStatus(payload: unknown): IpdFreshnessStatus | null {
+  const record = (payload ?? {}) as Record<string, unknown>;
+  if (typeof record.domain !== 'string') return null;
+  if (typeof record.cacheState !== 'string') return null;
+  if (typeof record.timestampEvidence !== 'string') return null;
+  if (typeof record.evaluatedAt !== 'string') return null;
+  if (typeof record.verdict !== 'string') return null;
+  if (typeof record.thresholdSeconds !== 'number' || !Number.isFinite(record.thresholdSeconds)) return null;
+  if (typeof record.staleConcessionActive !== 'boolean') return null;
+  if (typeof record.suppressExecution !== 'boolean') return null;
+  if (typeof record.eligibleForUse !== 'boolean') return null;
+
+  const lastRefresh = (record.lastRefresh ?? {}) as Record<string, unknown>;
+  if (typeof lastRefresh.outcome !== 'string') return null;
+  const rawFailure = lastRefresh.lastFailure;
+  let failure: { readonly code: string; readonly priorPreserved: boolean } | null = null;
+  if (rawFailure !== null && rawFailure !== undefined) {
+    const failureRecord = rawFailure as Record<string, unknown>;
+    if (typeof failureRecord.code !== 'string' || typeof failureRecord.priorPreserved !== 'boolean') {
+      return null;
+    }
+    failure = { code: failureRecord.code, priorPreserved: failureRecord.priorPreserved };
+  }
+
+  const nullableString = (value: unknown): string | null =>
+    typeof value === 'string' && value.trim() !== '' ? value : null;
+  const nullableNumber = (value: unknown): number | null =>
+    typeof value === 'number' && Number.isFinite(value) ? value : null;
+
+  return {
+    domain: record.domain,
+    cacheState: record.cacheState,
+    asOf: nullableString(record.asOf),
+    timestampEvidence: record.timestampEvidence,
+    receivedAt: nullableString(record.receivedAt),
+    evaluatedAt: record.evaluatedAt,
+    observationEvaluatedAt: nullableString(record.observationEvaluatedAt),
+    thresholdSeconds: record.thresholdSeconds,
+    ageSeconds: nullableNumber(record.ageSeconds),
+    verdict: record.verdict,
+    staleConcessionActive: record.staleConcessionActive,
+    suppressExecution: record.suppressExecution,
+    eligibleForUse: record.eligibleForUse,
+    lastRefresh: { outcome: lastRefresh.outcome, lastFailure: failure },
+  };
 }

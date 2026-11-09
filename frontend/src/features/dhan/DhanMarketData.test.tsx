@@ -283,6 +283,53 @@ describe('DHAN-P3 quote surface', () => {
       expect(key.toLowerCase()).not.toBe('authorization');
     }
   });
+
+  it('embeds the provider freshness status in the quote view', async () => {
+    vi.stubGlobal('fetch', okFetch(quoteBody({
+      freshnessStatus: {
+        domain: 'D01_QUOTES',
+        freshness: 'SNAPSHOT',
+        verdict: 'GOOD',
+        cacheState: 'CURRENT',
+        asOf: '2026-11-06T10:15:00.000Z',
+        receivedAt: '2026-11-06T10:15:00.120Z',
+        evaluatedAt: '2026-11-06T10:15:00.121Z',
+        observationEvaluatedAt: '2026-11-06T10:15:00.121Z',
+        timestampEvidence: 'VALID',
+        thresholdSeconds: 900,
+        ageSeconds: 120,
+        staleConcessionActive: false,
+        suppressExecution: false,
+        eligibleForUse: true,
+        lastRefresh: { outcome: 'SUCCESS', lastFailure: null },
+        evidenceAvailable: true,
+        explanation: "Cache state is 'CURRENT'.",
+      },
+      freshnessStatusFailure: null,
+    })));
+    render(<DhanQuotes />);
+    await submitQuote();
+
+    await waitFor(() => expect(screen.getByTestId('dhan-freshness-panel')).toBeTruthy());
+    expect(screen.getByTestId('dhan-freshness-verdict').textContent).toBe('GOOD');
+    expect(screen.getByTestId('dhan-freshness-threshold').textContent).toBe('900 s');
+    expect(screen.getByTestId('dhan-freshness-last-refresh').textContent).toBe('SUCCESS');
+  });
+
+  it('states that the freshness evidence is unknown when it could not be read', async () => {
+    vi.stubGlobal('fetch', okFetch(quoteBody({
+      freshnessStatus: null,
+      freshnessStatusFailure: { code: 'TRANSPORT_FAILURE', message: 'market-data transport request failed' },
+    })));
+    render(<DhanQuotes />);
+    await submitQuote();
+
+    await waitFor(() => expect(screen.getByTestId('dhan-freshness-panel')).toBeTruthy());
+    expect(screen.getByTestId('dhan-freshness-failure-code').textContent).toBe('TRANSPORT_FAILURE');
+    expect(screen.getByTestId('dhan-freshness-unknown-notice').textContent).toContain(
+      'not a statement that the data is current',
+    );
+  });
 });
 
 describe('DHAN-P3 historical surface', () => {
@@ -385,6 +432,43 @@ describe('DHAN-P3 historical surface', () => {
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-failure')).toBeTruthy());
     expect(screen.getByTestId('dhan-historical-failure-kind').textContent).toBe('Transport unavailable');
+  });
+
+  it('carries the D02 freshness limitation into the historical view', async () => {
+    vi.stubGlobal('fetch', okFetch(historicalBody({
+      freshnessStatus: {
+        domain: 'D02_OHLCV',
+        freshness: 'UNAVAILABLE',
+        verdict: 'UNKNOWN',
+        cacheState: 'NOT_AVAILABLE',
+        asOf: null,
+        receivedAt: null,
+        evaluatedAt: '2026-11-06T10:15:00.121Z',
+        observationEvaluatedAt: null,
+        timestampEvidence: 'NOT_AVAILABLE',
+        thresholdSeconds: 86400,
+        ageSeconds: null,
+        staleConcessionActive: false,
+        suppressExecution: true,
+        eligibleForUse: false,
+        lastRefresh: { outcome: 'UNKNOWN', lastFailure: null },
+        evidenceAvailable: false,
+        explanation: 'No cache or refresh evidence is available for this domain.',
+      },
+      freshnessStatusFailure: null,
+    })));
+    render(<DhanHistorical />);
+
+    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
+    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+
+    await waitFor(() => expect(screen.getByTestId('dhan-freshness-panel')).toBeTruthy());
+    // The D02 limitation is stated, not inferred.
+    expect(screen.getByTestId('dhan-freshness-d02-limitation')).toBeTruthy();
+    expect(screen.getByTestId('dhan-freshness-verdict').textContent).toBe('UNKNOWN');
+    expect(screen.getByTestId('dhan-freshness-as-of').textContent).toBe('unavailable');
+    // The threshold is still published even though the evidence is not.
+    expect(screen.getByTestId('dhan-freshness-threshold').textContent).toBe('86400 s');
   });
 });
 

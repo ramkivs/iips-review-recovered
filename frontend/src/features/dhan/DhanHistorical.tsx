@@ -27,6 +27,7 @@ import {
 import { DataTable, type Column } from '../../components/data/DataComponents';
 import { FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
 import { LoadingState, UnavailableState } from '../../components/state/StateComponents';
+import { DhanFreshnessPanel } from './DhanFreshnessStatus';
 
 /** IPD's supported historical intervals. */
 const INTERVALS = ['1m', '5m', '15m', '1h', '1D'] as const;
@@ -275,6 +276,15 @@ export function DhanHistorical() {
               {result.providerQualification ?? 'unavailable'}
             </dd>
           </dl>
+
+          {/* The D02 freshness status. IPD reports that no cache or refresh evidence
+              exists for this domain, and this panel carries that limitation unchanged
+              rather than inferring a freshness verdict from the candles. */}
+          <DhanFreshnessPanel
+            status={result.freshnessStatus ?? null}
+            failure={result.freshnessStatusFailure ?? null}
+            heading="Provider freshness (D02_OHLCV)"
+          />
 
           {result.candles.length === 0 ? (
             <div style={{ marginTop: 16 }}>

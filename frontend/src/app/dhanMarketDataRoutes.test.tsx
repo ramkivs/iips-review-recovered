@@ -94,6 +94,28 @@ const HEALTH_FIXTURE = {
   },
 };
 
+const FRESHNESS_FIXTURE = {
+  data: {
+    domain: 'D01_QUOTES',
+    freshness: 'SNAPSHOT',
+    verdict: 'GOOD',
+    cacheState: 'CURRENT',
+    asOf: '2026-11-06T10:15:00.000Z',
+    receivedAt: '2026-11-06T10:15:00.120Z',
+    evaluatedAt: '2026-11-06T10:15:00.121Z',
+    observationEvaluatedAt: '2026-11-06T10:15:00.121Z',
+    timestampEvidence: 'VALID',
+    thresholdSeconds: 900,
+    ageSeconds: 120,
+    staleConcessionActive: false,
+    suppressExecution: false,
+    eligibleForUse: true,
+    lastRefresh: { outcome: 'SUCCESS', lastFailure: null },
+    evidenceAvailable: true,
+    explanation: "Cache state is 'CURRENT'.",
+  },
+};
+
 beforeEach(() => {
   requests = [];
   globalThis.fetch = vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
@@ -103,9 +125,11 @@ beforeEach(() => {
       ? QUOTE_FIXTURE
       : url.startsWith('/api/dhan/historical')
         ? HISTORICAL_FIXTURE
-        : url.startsWith('/api/dhan/health')
-          ? HEALTH_FIXTURE
-          : {};
+        : url.startsWith('/api/dhan/freshness')
+          ? FRESHNESS_FIXTURE
+          : url.startsWith('/api/dhan/health')
+            ? HEALTH_FIXTURE
+            : {};
     return Promise.resolve({ ok: true, status: 200, json: async () => body } as Response);
   }) as typeof fetch;
 });
@@ -128,10 +152,15 @@ describe('DHAN-P3 route registration', () => {
     expect(ROUTES.dhanHistorical).toBe('/dhan/historical');
   });
 
-  it('lists both surfaces in the visible navigation', () => {
+  it('registers the freshness route', () => {
+    expect(ROUTES.dhanFreshness).toBe('/dhan/freshness');
+  });
+
+  it('lists every DHAN surface in the visible navigation', () => {
     const labels = NAV.map((entry) => entry.label);
     expect(labels).toContain('DHAN Quotes');
     expect(labels).toContain('DHAN History');
+    expect(labels).toContain('DHAN Freshness');
   });
 
   it('keeps the DHAN-P2 status surface in the navigation', () => {
@@ -149,6 +178,12 @@ describe('DHAN-P3 route registration', () => {
     renderAt(ROUTES.dhanHistorical);
     expect(screen.getByTestId('dhan-historical-surface')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-form')).toBeTruthy();
+  });
+
+  it('mounts the freshness surface at its route', () => {
+    renderAt(ROUTES.dhanFreshness);
+    expect(screen.getByTestId('dhan-freshness-surface')).toBeTruthy();
+    expect(screen.getByTestId('dhan-freshness-form')).toBeTruthy();
   });
 
   it('mounts the P2 status surface at its route', async () => {

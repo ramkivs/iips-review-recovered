@@ -69,6 +69,9 @@ export const NAV: NavItem[] = [
   // transport; IPD remains the market-data authority and the browser never computes a price.
   { label: 'DHAN Quotes', path: ROUTES.dhanQuotes },
   { label: 'DHAN History', path: ROUTES.dhanHistorical },
+  // DHAN-P5: the read-only provider-side freshness/status surface. IPD owns the verdict,
+  // the cache state, the threshold and the refresh outcome; the browser never computes one.
+  { label: 'DHAN Freshness', path: ROUTES.dhanFreshness },
   {
     label: 'Research',
     path: '/research',

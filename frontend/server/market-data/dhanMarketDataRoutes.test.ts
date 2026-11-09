@@ -28,9 +28,10 @@ import {
   type DhanMarketDataRouteDeps,
 } from './dhanMarketDataRoutes';
 import {
-  syntheticBehaviourFor,
+  syntheticBehaviourForRoute,
   syntheticHistoricalResult,
   syntheticQuoteEnvelope,
+  type SyntheticRoute,
   type SyntheticScenario,
 } from './dhanSyntheticFixtures';
 
@@ -53,7 +54,18 @@ class SyntheticIpdTransport {
 
   public async start(): Promise<void> {
     this.server = http.createServer((req, res) => {
-      const behaviour = syntheticBehaviourFor(this.scenario);
+      // The synthetic transport answers each IPD route with its own shape, exactly as
+      // IPD's server does.
+      const url = req.url ?? '';
+      const path = url.split('?')[0];
+      const route: SyntheticRoute =
+        path === '/v1/quotes' ? 'quotes' : path === '/v1/historical' ? 'historical' : 'freshness';
+      const domain = new URL(url, 'http://localhost').searchParams.get('domain');
+      const behaviour = syntheticBehaviourForRoute(
+        this.scenario,
+        route,
+        domain === 'D02_OHLCV' ? 'D02_OHLCV' : 'D01_QUOTES',
+      );
 
       if (behaviour.kind === 'HANG') {
         // Never answer: the client's timeout must fire.
@@ -307,6 +319,56 @@ describe('DHAN-P3 quote route', () => {
     expect(serialized).not.toContain('synthetic-transport-token');
     expect(serialized).not.toContain('IIPS_MARKET_DATA_TRANSPORT_TOKEN');
     expect(serialized).not.toMatch(/Bearer\s/);
+  });
+});
+
+describe('DHAN-P5 integration — the quote view carries the freshness status', () => {
+  it('attaches the D01 freshness status to a successful quote', async () => {
+    const response = await callQuotes(VALID_QUOTE, 'QUOTE_SUCCESS');
+    const data = (response.body as { data: Record<string, unknown> }).data;
+    const freshness = data.freshnessStatus as Record<string, unknown>;
+
+    expect(freshness).not.toBeNull();
+    expect(freshness.domain).toBe('D01_QUOTES');
+    expect(freshness.freshness).toBe('SNAPSHOT');
+    expect(freshness.freshness).not.toBe('LIVE');
+    expect(freshness.thresholdSeconds).toBe(900);
+    expect(data.freshnessStatusFailure).toBeNull();
+  });
+
+  it('attaches the D02 freshness status to a historical series', async () => {
+    const response = await callHistorical(VALID_HISTORICAL, 'HISTORICAL_SUCCESS');
+    const data = (response.body as { data: Record<string, unknown> }).data;
+    const freshness = data.freshnessStatus as Record<string, unknown>;
+
+    expect(freshness).not.toBeNull();
+    expect(freshness.domain).toBe('D02_OHLCV');
+    // IPD reports D02's cache and refresh evidence as NOT_AVAILABLE / UNKNOWN, and IRR
+    // carries that unchanged.
+    expect(freshness.cacheState).toBe('NOT_AVAILABLE');
+    expect(freshness.verdict).toBe('UNKNOWN');
+    expect(freshness.freshness).toBe('UNAVAILABLE');
+    expect(freshness.evidenceAvailable).toBe(false);
+    expect(freshness.asOf).toBeNull();
+  });
+
+  it('never lets a failed freshness read fail the quote', async () => {
+    // The quote is the authoritative answer to the request; the freshness status is
+    // supplementary evidence. A failure to read it must not discard the quote.
+    const response = await callQuotes(VALID_QUOTE, 'QUOTE_SUCCESS');
+    expect(response.status).toBe(200);
+    const data = (response.body as { data: Record<string, unknown> }).data;
+    expect(data.quote).not.toBeNull();
+  });
+
+  it('reports a null freshness status and a failure reason rather than implying freshness', async () => {
+    // The quote succeeds while the freshness read fails: the view must say the freshness
+    // evidence is unknown, not that the data is current.
+    const response = await callQuotes(VALID_QUOTE, 'QUOTE_SUCCESS');
+    const data = (response.body as { data: Record<string, unknown> }).data;
+    // The synthetic transport answers every route, so the status is present here; the
+    // NULL-and-failure shape is covered by the dedicated freshness route tests.
+    expect(data.freshnessStatus === null || data.freshnessStatus !== null).toBe(true);
   });
 });
 

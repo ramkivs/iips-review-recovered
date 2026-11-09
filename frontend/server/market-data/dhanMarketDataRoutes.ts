@@ -38,8 +38,13 @@ import { sendJson } from '../owner-scoped-http';
 import {
   resolveIpdMarketDataTransportConfig,
   createIpdMarketDataTransportClient,
+  readIpdFreshnessStatus,
   type IpdTransportConfigResolution,
 } from './dhanMarketDataTransport';
+import {
+  projectIpdFreshnessStatus,
+  type DhanFreshnessView,
+} from './dhanFreshnessRoutes';
 
 /**
  * IRR's existing freshness vocabulary, mirrored here as a SERVER-SIDE type.
@@ -169,6 +174,21 @@ export interface DhanQuoteView {
   } | null;
   /** The provider's own qualification verdict, echoed verbatim. Never upgraded. */
   readonly providerQualification: string | null;
+  /**
+   * The provider-side freshness status for the D01 quote scope, when it could be read.
+   *
+   * It is null when the status read failed or was not attempted. A null here NEVER means
+   * "fresh" and NEVER means "the quote is current": it means the freshness evidence is
+   * unknown, and the UI reports it as such.
+   */
+  readonly freshnessStatus: DhanFreshnessView | null;
+  /**
+   * Why the freshness status could not be read, when it could not be read.
+   *
+   * The failure is reported separately from the data so a reader is never left to assume
+   * the absence of a status means freshness.
+   */
+  readonly freshnessStatusFailure: { readonly code: string; readonly message: string } | null;
 }
 
 /** The IRR-facing historical view. */
@@ -198,6 +218,17 @@ export interface DhanHistoricalView {
   readonly coverageClaim: string | null;
   /** The provider qualification, for the same reason as on a quote view. */
   readonly providerQualification: string;
+  /**
+   * The provider-side freshness status for the D02 historical domain, when it could be read.
+   *
+   * IPD reports D02's cache and refresh evidence as `NOT_AVAILABLE` / `UNKNOWN` because its
+   * composed D02 service does not wire the historical cache or the refresh orchestrator.
+   * IRR carries that limitation unchanged: it never infers an observation timestamp from a
+   * candle and never upgrades the unknown verdict.
+   */
+  readonly freshnessStatus: DhanFreshnessView | null;
+  /** Why the freshness status could not be read, when it could not be read. */
+  readonly freshnessStatusFailure: { readonly code: string; readonly message: string } | null;
 }
 
 /** The IRR-facing error view. */
@@ -479,6 +510,8 @@ export function validateDhanHistoricalRequest(body: unknown): DhanHistoricalRequ
 export function projectIpdQuoteEnvelope(
   envelope: unknown,
   transportFreshness: 'CURRENT' | 'STALE' | undefined,
+  freshnessStatus: DhanFreshnessView | null = null,
+  freshnessStatusFailure: { readonly code: string; readonly message: string } | null = null,
 ): DhanQuoteView {
   const record = (envelope ?? {}) as Record<string, unknown>;
   const payload = (record.payload ?? {}) as Record<string, unknown>;
@@ -520,13 +553,19 @@ export function projectIpdQuoteEnvelope(
       vendorTier: typeof provenance.vendorTier === 'string' ? provenance.vendorTier : null,
     },
     providerQualification: IRR_PROVIDER_QUALIFICATION,
+    freshnessStatus,
+    freshnessStatusFailure,
   };
 }
 
 /**
  * Projects IPD's canonical historical result onto the IRR historical view.
  */
-export function projectIpdHistoricalResult(result: unknown): DhanHistoricalView {
+export function projectIpdHistoricalResult(
+  result: unknown,
+  freshnessStatus: DhanFreshnessView | null = null,
+  freshnessStatusFailure: { readonly code: string; readonly message: string } | null = null,
+): DhanHistoricalView {
   const record = (result ?? {}) as Record<string, unknown>;
   const rawCandles = Array.isArray(record.candles) ? record.candles : [];
   const candles = rawCandles.map((entry) => {
@@ -559,6 +598,8 @@ export function projectIpdHistoricalResult(result: unknown): DhanHistoricalView 
     requestedToDate: String(record.requestedToDate ?? ''),
     coverageClaim: typeof record.coverageClaim === 'string' ? record.coverageClaim : null,
     providerQualification: IRR_PROVIDER_QUALIFICATION,
+    freshnessStatus,
+    freshnessStatusFailure,
   };
 }
 
@@ -571,6 +612,8 @@ export interface DhanMarketDataRouteDeps {
    * seam the synthetic fixtures use to inject a controlled transport.
    */
   readonly transport?: IpdTransportConfigResolution;
+  /** An injected fetch implementation, used by the synthetic transport fixtures. */
+  readonly fetchImpl?: typeof fetch;
 }
 
 /**
@@ -587,6 +630,40 @@ function resolveTransport(
     };
   }
   return { ok: true, client: createIpdMarketDataTransportClient(resolution.config) };
+}
+
+/**
+ * Reads the provider-side freshness status for a scope, if it can be read.
+ *
+ * THE FRESHNESS READ NEVER FAILS THE PRIMARY OPERATION.
+ *   A quote or a historical series is the authoritative answer to the request; the freshness
+ *   status is supplementary evidence about the provider-side machinery. If the status cannot
+ *   be read, the DATA is still returned and the status failure is reported alongside it. The
+ *   UI then says the freshness evidence is unknown — which is the truth — rather than
+ *   silently implying the data is current.
+ *
+ *   The freshness read also never triggers a refresh: IPD's endpoint is a read-only status
+ *   lookup.
+ */
+async function readFreshnessForScope(
+  deps: DhanMarketDataRouteDeps,
+  query: Record<string, string>,
+): Promise<{
+  status: DhanFreshnessView | null;
+  failure: { readonly code: string; readonly message: string } | null;
+}> {
+  const resolution = deps.transport ?? resolveIpdMarketDataTransportConfig(deps.env ?? {});
+  if (!resolution.ok) {
+    return {
+      status: null,
+      failure: { code: resolution.code, message: resolution.message },
+    };
+  }
+  const outcome = await readIpdFreshnessStatus(resolution.config, query, deps.fetchImpl);
+  if (!outcome.ok) {
+    return { status: null, failure: { code: outcome.code, message: outcome.message } };
+  }
+  return { status: projectIpdFreshnessStatus(outcome.status), failure: null };
 }
 
 /**
@@ -657,8 +734,23 @@ export async function handleDhanQuotesRequest(
     return;
   }
 
+  // The freshness status is read alongside the quote. It is supplementary: if it cannot be
+  // read the quote is still returned, with the status failure reported alongside it.
+  const exchangeSegment = validation.exchangeSegment ?? 'NSE_EQ';
+  const freshness = await readFreshnessForScope(deps, {
+    domain: 'D01_QUOTES',
+    companyId: validation.companyId!,
+    exchangeSegment,
+    securityId: validation.securityId!,
+  });
+
   sendJson(res, 200, {
-    data: projectIpdQuoteEnvelope(outcome.envelope, outcome.freshness),
+    data: projectIpdQuoteEnvelope(
+      outcome.envelope,
+      outcome.freshness,
+      freshness.status,
+      freshness.failure,
+    ),
   });
 }
 
@@ -731,8 +823,12 @@ export async function handleDhanHistoricalRequest(
     return;
   }
 
+  // The D02 freshness status is read alongside the series. IPD reports D02's cache and
+  // refresh evidence as NOT_AVAILABLE / UNKNOWN, and IRR carries that unchanged.
+  const freshness = await readFreshnessForScope(deps, { domain: 'D02_OHLCV' });
+
   sendJson(res, 200, {
-    data: projectIpdHistoricalResult(outcome.result),
+    data: projectIpdHistoricalResult(outcome.result, freshness.status, freshness.failure),
   });
 }
 

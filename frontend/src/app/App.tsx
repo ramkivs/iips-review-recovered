@@ -33,6 +33,7 @@ import { Settings } from '../features/settings/Settings';
 import { DhanConnectionStatus } from '../features/dhan/DhanConnectionStatus';
 import { DhanQuotes } from '../features/dhan/DhanQuotes';
 import { DhanHistorical } from '../features/dhan/DhanHistorical';
+import { DhanFreshnessStatus } from '../features/dhan/DhanFreshnessStatus';
 import { SectorIntelligence } from '../features/sector/SectorIntelligence';
 import { ReportsWorkspace } from '../features/reports/ReportsWorkspace';
 import { ReportDetail } from '../features/reports/ReportDetail';
@@ -71,6 +72,7 @@ export function App() {
         <Route path={ROUTES.dhanConnectionStatus} element={<DhanConnectionStatus />} />
         <Route path={ROUTES.dhanQuotes} element={<DhanQuotes />} />
         <Route path={ROUTES.dhanHistorical} element={<DhanHistorical />} />
+        <Route path={ROUTES.dhanFreshness} element={<DhanFreshnessStatus />} />
         <Route path="/research" element={<FeaturePlaceholder surface="Research" />} />
         <Route path="/research/company/:id" element={<CompanyIntelligence />} />
         <Route path="/research/sector/:id" element={<SectorIntelligence />} />

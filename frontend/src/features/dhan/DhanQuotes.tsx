@@ -28,6 +28,7 @@ import {
 import { MetricCard, MetricGroup } from '../../components/data/DataComponents';
 import { FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
 import { LoadingState, UnavailableState } from '../../components/state/StateComponents';
+import { DhanFreshnessPanel } from './DhanFreshnessStatus';
 
 /** The canonical identity grammar, mirrored for the client-side input affordance only. */
 const D114_SECURITY_ID_PATTERN = /^ISIN:[A-Za-z0-9]{12}:[^:\s]+$/;
@@ -252,6 +253,15 @@ export function DhanQuotes() {
               {quote.providerQualification ?? 'unavailable'}
             </dd>
           </dl>
+
+          {/* The provider-side freshness verdict for this exact quote scope. It is the
+              authoritative statement about how fresh the observation is, and it is shown
+              next to the quote's own freshness badge rather than replacing it. */}
+          <DhanFreshnessPanel
+            status={quote.freshnessStatus ?? null}
+            failure={quote.freshnessStatusFailure ?? null}
+            heading="Provider freshness (D01_QUOTES)"
+          />
         </div>
       )}
     </section>

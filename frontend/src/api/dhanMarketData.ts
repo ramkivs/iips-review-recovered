@@ -25,6 +25,63 @@ export const DHAN_QUOTES_PATH = '/api/dhan/quotes';
 /** The historical route. */
 export const DHAN_HISTORICAL_PATH = '/api/dhan/historical';
 
+/** The read-only freshness/status route. */
+export const DHAN_FRESHNESS_PATH = '/api/dhan/freshness';
+
+/**
+ * The freshness status, exactly as the server publishes it.
+ *
+ * IPD is the freshness authority: the verdict, the threshold, the cache state, the stale
+ * concession and suppression decisions and the last refresh outcome all come from IPD and
+ * are echoed verbatim. The `freshness` field is IRR's own vocabulary applied to IPD's
+ * verdict — it is never `LIVE`.
+ */
+export interface DhanFreshnessStatusDto {
+  /** The governed domain IPD reported: `D01_QUOTES` or `D02_OHLCV`. */
+  readonly domain: string;
+  /** IRR's freshness vocabulary applied to IPD's verdict. */
+  readonly freshness: Freshness;
+  /** IPD's verdict, echoed verbatim: GOOD, STALE, UNAVAILABLE or UNKNOWN. */
+  readonly verdict: string;
+  /** IPD's cache state, echoed verbatim. */
+  readonly cacheState: string;
+  /** The provider observation timestamp, when IPD has one. */
+  readonly asOf: string | null;
+  /** The receipt timestamp, when IPD has one. */
+  readonly receivedAt: string | null;
+  /** The evaluation timestamp of THIS read. */
+  readonly evaluatedAt: string;
+  /** The original observation's evaluation timestamp, when distinct. */
+  readonly observationEvaluatedAt: string | null;
+  /** IPD's timestamp evidence classification. */
+  readonly timestampEvidence: string;
+  /** IPD's governed domain threshold, in seconds. */
+  readonly thresholdSeconds: number;
+  /** The observation age in seconds, when it can be computed. */
+  readonly ageSeconds: number | null;
+  /** Whether IPD's stale concession is active. */
+  readonly staleConcessionActive: boolean;
+  /** Whether IPD suppresses this observation from execution. */
+  readonly suppressExecution: boolean;
+  /** Whether IPD considers this observation eligible for use. */
+  readonly eligibleForUse: boolean;
+  /** The last refresh outcome and its sanitized failure detail. */
+  readonly lastRefresh: {
+    readonly outcome: string;
+    readonly lastFailure: { readonly code: string; readonly priorPreserved: boolean } | null;
+  };
+  /**
+   * Whether this domain's cache and refresh evidence is available at all.
+   *
+   * False for D02: IPD's composed D02 service does not wire the observation cache or the
+   * refresh orchestrator, so it reports `NOT_AVAILABLE` / `UNKNOWN` regardless of what has
+   * been served.
+   */
+  readonly evidenceAvailable: boolean;
+  /** A plain-language explanation of what the status does and does not establish. */
+  readonly explanation: string;
+}
+
 /** The canonical quote fields, exactly as the server publishes them. */
 export interface DhanQuoteDto {
   readonly freshness: Freshness;
@@ -59,6 +116,15 @@ export interface DhanQuoteDto {
     readonly vendorTier: string | null;
   } | null;
   readonly providerQualification: string | null;
+  /**
+   * The provider-side freshness status for the D01 scope, when it could be read.
+   *
+   * Null means the freshness evidence is UNKNOWN. It never means "fresh" and never means
+   * "current": the UI reports it as explicitly unknown.
+   */
+  readonly freshnessStatus: DhanFreshnessStatusDto | null;
+  /** Why the freshness status could not be read, when it could not be read. */
+  readonly freshnessStatusFailure: { readonly code: string; readonly message: string } | null;
 }
 
 /** The historical view, exactly as the server publishes it. */
@@ -83,6 +149,15 @@ export interface DhanHistoricalDto {
   readonly coverageClaim: string | null;
   /** The provider qualification. Never a live-qualification claim. */
   readonly providerQualification: string;
+  /**
+   * The provider-side freshness status for the D02 domain, when it could be read.
+   *
+   * IPD reports D02's cache and refresh evidence as `NOT_AVAILABLE` / `UNKNOWN`; IRR
+   * carries that limitation unchanged.
+   */
+  readonly freshnessStatus: DhanFreshnessStatusDto | null;
+  /** Why the freshness status could not be read, when it could not be read. */
+  readonly freshnessStatusFailure: { readonly code: string; readonly message: string } | null;
 }
 
 /** The server's error view. */
@@ -222,4 +297,76 @@ export async function fetchDhanHistorical(
   baseUrl = '',
 ): Promise<DhanHistoricalDto> {
   return postJson<DhanHistoricalDto>(DHAN_HISTORICAL_PATH, request, baseUrl);
+}
+
+/** The request for a freshness status read. */
+export interface DhanFreshnessRequest {
+  /** The governed domain. */
+  readonly domain: 'D01_QUOTES' | 'D02_OHLCV';
+  /** The exact quote scope. Required for D01 and absent for D02. */
+  readonly companyId?: string;
+  readonly exchangeSegment?: 'NSE_EQ' | 'BSE_EQ';
+  readonly securityId?: string;
+}
+
+/**
+ * Reads the provider-side freshness/status.
+ *
+ * The read is READ-ONLY: it never triggers a refresh, never calls the provider and never
+ * mutates the cache. It reports the state of the provider-side freshness machinery, which
+ * is a process-level fact rather than a user's private data.
+ */
+export async function fetchDhanFreshness(
+  request: DhanFreshnessRequest,
+  baseUrl = '',
+): Promise<DhanFreshnessStatusDto> {
+  const params = new URLSearchParams();
+  params.set('domain', request.domain);
+  if (request.domain === 'D01_QUOTES') {
+    if (request.companyId !== undefined) params.set('companyId', request.companyId);
+    if (request.exchangeSegment !== undefined) params.set('exchangeSegment', request.exchangeSegment);
+    if (request.securityId !== undefined) params.set('securityId', request.securityId);
+  }
+
+  let res: Response;
+  try {
+    res = await noAuthFetch(`${baseUrl}${DHAN_FRESHNESS_PATH}?${params.toString()}`, {
+      method: 'GET',
+    });
+  } catch (e) {
+    throw new DhanMarketDataApiError(
+      `dhan freshness request failed: ${String(e)}`,
+      'transport',
+      null,
+      null,
+    );
+  }
+
+  let payload: unknown;
+  try {
+    payload = await res.json();
+  } catch {
+    payload = null;
+  }
+
+  if (!res.ok) {
+    const detail = (payload as { error?: DhanMarketDataErrorDto } | null)?.error ?? null;
+    throw new DhanMarketDataApiError(
+      detail?.message ?? `dhan freshness request failed: ${res.status}`,
+      'transport',
+      res.status,
+      detail,
+    );
+  }
+
+  const data = (payload as { data?: DhanFreshnessStatusDto } | null)?.data;
+  if (data === undefined || data === null) {
+    throw new DhanMarketDataApiError(
+      'dhan freshness response contract violation: missing data envelope',
+      'transport',
+      res.status,
+      null,
+    );
+  }
+  return data;
 }

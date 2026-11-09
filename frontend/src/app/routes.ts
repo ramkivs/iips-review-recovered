@@ -61,6 +61,11 @@ export const ROUTES = {
    * transport; the inclusive range semantics and the maximum window are IPD's.
    */
   dhanHistorical: '/dhan/historical',
+  /**
+   * DHAN-P5 — the DHAN freshness/status surface. Read-only over IPD's own
+   * `GET /v1/freshness`; IPD remains the freshness authority.
+   */
+  dhanFreshness: '/dhan/freshness',
   research: '/research',
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',

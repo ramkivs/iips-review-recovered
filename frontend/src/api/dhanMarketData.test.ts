@@ -9,6 +9,7 @@
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import {
+  fetchDhanFreshness,
   fetchDhanHistorical,
   fetchDhanQuote,
   DhanMarketDataApiError,
@@ -78,6 +79,31 @@ function historicalBody(overrides: Record<string, unknown> = {}) {
       requestedToDate: '2026-11-03',
       coverageClaim: 'ACCESS_PENDING_UNVERIFIED',
       providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+      ...overrides,
+    },
+  };
+}
+
+function freshnessBody(overrides: Record<string, unknown> = {}) {
+  return {
+    data: {
+      domain: 'D01_QUOTES',
+      freshness: 'SNAPSHOT',
+      verdict: 'GOOD',
+      cacheState: 'CURRENT',
+      asOf: '2026-11-06T10:15:00.000Z',
+      receivedAt: '2026-11-06T10:15:00.120Z',
+      evaluatedAt: '2026-11-06T10:15:00.121Z',
+      observationEvaluatedAt: '2026-11-06T10:15:00.121Z',
+      timestampEvidence: 'VALID',
+      thresholdSeconds: 900,
+      ageSeconds: 120,
+      staleConcessionActive: false,
+      suppressExecution: false,
+      eligibleForUse: true,
+      lastRefresh: { outcome: 'SUCCESS', lastFailure: null },
+      evidenceAvailable: true,
+      explanation: "Cache state is 'CURRENT'.",
       ...overrides,
     },
   };
@@ -204,6 +230,81 @@ describe('DHAN-P3 quote client', () => {
   it('fails closed when the response omits the data envelope', async () => {
     vi.stubGlobal('fetch', okFetch({ nothing: true }));
     const error = await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' }).catch((e) => e);
+    expect(error).toBeInstanceOf(DhanMarketDataApiError);
+    expect(error.kind).toBe('transport');
+  });
+});
+
+describe('DHAN-P5 freshness client', () => {
+  it('calls the freshness route with the D01 scope', async () => {
+    const fetchMock = okFetch(freshnessBody());
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await fetchDhanFreshness({
+      domain: 'D01_QUOTES',
+      companyId: 'SYNTHETIC:COMPANY',
+      exchangeSegment: 'NSE_EQ',
+      securityId: 'ISIN:INE002A01018:EQ',
+    });
+
+    const url = String(fetchMock.mock.calls[0]?.[0]);
+    expect(url).toContain('/api/dhan/freshness?');
+    expect(url).toContain('domain=D01_QUOTES');
+    expect(url).toContain('companyId=SYNTHETIC%3ACOMPANY');
+    expect(url).toContain('exchangeSegment=NSE_EQ');
+    expect(url).toContain('securityId=ISIN%3AINE002A01018%3AEQ');
+    expect(fetchMock.mock.calls[0]?.[1]?.method).toBe('GET');
+
+    expect(result.freshness).toBe('SNAPSHOT');
+    expect(result.freshness).not.toBe('LIVE');
+    expect(result.verdict).toBe('GOOD');
+    expect(result.cacheState).toBe('CURRENT');
+    expect(result.thresholdSeconds).toBe(900);
+  });
+
+  it('calls the freshness route with only the domain for D02', async () => {
+    const fetchMock = okFetch(freshnessBody({ domain: 'D02_OHLCV', cacheState: 'NOT_AVAILABLE', verdict: 'UNKNOWN' }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    await fetchDhanFreshness({ domain: 'D02_OHLCV' });
+
+    const url = String(fetchMock.mock.calls[0]?.[0]);
+    expect(url).toContain('domain=D02_OHLCV');
+    expect(url).not.toContain('companyId=');
+    expect(url).not.toContain('securityId=');
+  });
+
+  it('never sends an Authorization header', async () => {
+    const fetchMock = okFetch(freshnessBody());
+    vi.stubGlobal('fetch', fetchMock);
+
+    await fetchDhanFreshness({ domain: 'D02_OHLCV' });
+
+    const init = fetchMock.mock.calls[0]?.[1];
+    const headers = (init?.headers ?? {}) as Record<string, string>;
+    for (const key of Object.keys(headers)) {
+      expect(key.toLowerCase()).not.toBe('authorization');
+    }
+    expect(init?.credentials).toBe('omit');
+  });
+
+  it('classifies a transport failure as a transport failure', async () => {
+    vi.stubGlobal('fetch', errFetch(502, {
+      code: 'TRANSPORT_FAILURE',
+      message: 'market-data transport request failed',
+      identityFailure: false,
+      connectionAttempted: true,
+    }));
+
+    const error = await fetchDhanFreshness({ domain: 'D02_OHLCV' }).catch((e) => e);
+    expect(error).toBeInstanceOf(DhanMarketDataApiError);
+    expect(error.kind).toBe('transport');
+    expect(error.status).toBe(502);
+  });
+
+  it('fails closed when the response omits the data envelope', async () => {
+    vi.stubGlobal('fetch', okFetch({ nothing: true }));
+    const error = await fetchDhanFreshness({ domain: 'D02_OHLCV' }).catch((e) => e);
     expect(error).toBeInstanceOf(DhanMarketDataApiError);
     expect(error.kind).toBe('transport');
   });

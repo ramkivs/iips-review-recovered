@@ -2,7 +2,7 @@
  * IRR Dhan provider consumption boundary — qualification tests.
  *
  * These tests qualify IRR's OWN consumption of the IPD `./dhan-server` subpath at the
- * authoritative dependency commit `ae393aafdb35869bd039e1354b988e4232b26f7c` (IPD `main`,
+ * authoritative dependency commit `73768fa83c331de1bd9f51af0a6b26e5ad489ba2` (IPD `main`,
  * merge commit of IPD PR #144). They are pre-access, offline and synthetic: no Dhan
  * credential is read, no socket is opened and no vendor endpoint is contacted.
  *
@@ -33,7 +33,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
 /** The authoritative IPD dependency commit this boundary was qualified against. */
-const EXPECTED_IPD_COMMIT = 'ae393aafdb35869bd039e1354b988e4232b26f7c';
+const EXPECTED_IPD_COMMIT = '73768fa83c331de1bd9f51af0a6b26e5ad489ba2';
 
 /** SecretRef pointers only. These are key paths, never secret values. */
 const CONFIGURED_ENV = {

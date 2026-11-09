@@ -35,20 +35,25 @@ const frontendRoot = resolve(here, '..', '..');
 
 /**
  * The authoritative IPD dependency pin, advanced from `279d1eed…` to `59fdfd1…`
- * (IPD PR #140 merge commit) by the isolated Dhan convergence, and then to `ae393aa…`
- * (IPD PR #144 merge commit) by DHAN-P3.
+ * (IPD PR #140 merge commit) by the isolated Dhan convergence, then to `ae393aa…`
+ * (IPD PR #144 merge commit) by DHAN-P3, and then to `73768fa…` (IPD PR #145 merge
+ * commit) by DHAN-P5.
  *
  * `59fdfd1…` is the first commit reachable from IPD `main` that publishes the server-only
  * `./dhan-server` subpath; at `279d1eed…` the subpath and `src/providers/dhan/**` do not
- * exist in the package. `ae393aa…` advances the pin again because `59fdfd1…`'s
+ * exist in the package. `ae393aa…` advanced it again because `59fdfd1…`'s
  * `MarketDataTransportClient` has no request timeout, no loopback pinning, no production
  * guard and no typed failure outcomes — none of which DHAN-P3's transport boundary may
- * forgo. The `./portfolio-ui`, `./pit`, `./d114-non-production`, `./operator-drop` and
- * `./dhan-server` subpaths all remain published at the new pin, and IRR's consumed
- * `./dhan-server` exports are unchanged, so both advances are purely additive for existing
- * consumers.
+ * forgo. `73768fa…` advances it once more to publish IPD's read-only freshness status
+ * (`GET /v1/freshness`) and its `FreshnessStatus` / `RefreshStatus` / `FreshnessDomain`
+ * types, which DHAN-P5 consumes.
+ *
+ * Every advance is PURELY ADDITIVE for existing consumers: the `./portfolio-ui`, `./pit`,
+ * `./d114-non-production`, `./operator-drop` and `./dhan-server` subpaths all remain
+ * published, IRR's consumed `./dhan-server` exports are unchanged, and IPD's
+ * `MarketDataTransportClient` class is byte-identical across the last two advances.
  */
-export const EXPECTED_IPD_PIN_SHA = 'ae393aafdb35869bd039e1354b988e4232b26f7c';
+export const EXPECTED_IPD_PIN_SHA = '73768fa83c331de1bd9f51af0a6b26e5ad489ba2';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
@@ -60,6 +65,11 @@ export const EXPECTED_IPD_PIN_SHA = 'ae393aafdb35869bd039e1354b988e4232b26f7c';
  * consumes — including the whole `./dhan-server` surface — survives unchanged.
  */
 export const SUPERSEDED_IPD_DHAN_SERVER_PIN_SHA = '59fdfd157632dbdbc220ae03d9d0b8e047d4ef19';
+
+/**
+ * The DHAN-P3 pin, retained so a rollback to the pre-freshness pin cannot go unnoticed.
+ */
+export const SUPERSEDED_IPD_DHAN_P3_PIN_SHA = 'ae393aafdb35869bd039e1354b988e4232b26f7c';
 
 /** The superseded primary pin, retained so a silent rollback cannot go unnoticed. */
 export const SUPERSEDED_IPD_PIN_SHA = '279d1eed184f5e23bbabe5c6411085e120ce9e41';
@@ -298,7 +308,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     expect(existsSync(dhanServerTypes), 'missing published ./dhan-server type surface').toBe(true);
     const declarations = readFileSync(dhanServerTypes, 'utf8');
 
-    // The exports the DHAN-P2 and DHAN-P3 server code depends on.
+    // The exports the DHAN-P2, DHAN-P3 and DHAN-P5 server code depends on.
     for (const symbol of [
       'MarketDataTransportClient',
       'MARKET_DATA_ROUTES',
@@ -307,9 +317,33 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
       'DhanHistoricalAdapter',
       'normalizeDhanHistoricalToCandles',
       'DHAN_SUPPORTED_HISTORICAL_INTERVALS',
+      // DHAN-P5: IPD's read-only freshness status types.
+      'FreshnessStatus',
+      'RefreshStatus',
+      'FreshnessDomain',
     ]) {
       expect(declarations, `missing ./dhan-server export: ${symbol}`).toContain(symbol);
     }
+  });
+
+  it('publishes the read-only freshness route at the DHAN-P5 pin', () => {
+    // The DHAN-P5 advance to `73768fa…` is justified by exactly one thing: IPD must
+    // publish the read-only freshness endpoint and its types. This asserts that the
+    // endpoint IRR consumes is actually present at the pinned commit.
+    const dhanServerTypes = resolve(
+      ipdPkgRoot,
+      'dist/package/src/providers/dhan/package.d.ts',
+    );
+    const declarations = readFileSync(dhanServerTypes, 'utf8');
+    expect(declarations).toContain('FreshnessStatus');
+
+    const httpTypes = resolve(
+      ipdPkgRoot,
+      'dist/package/src/providers/dhan/dhan_market_data_http.d.ts',
+    );
+    const httpDeclarations = readFileSync(httpTypes, 'utf8');
+    // The route IPD publishes and IRR reads.
+    expect(httpDeclarations).toContain('/v1/freshness');
   });
 
   it('publishes the server-only ./dhan-server provider surface at the advanced pin', () => {
@@ -319,6 +353,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     // The advance is real: it is not the superseded pin re-declared.
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_SERVER_PIN_SHA);
+    expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P3_PIN_SHA);
     expect(depSpec).toContain(EXPECTED_IPD_PIN_SHA);
 
     // The subpath did not exist at the superseded pin, so its presence is the observable

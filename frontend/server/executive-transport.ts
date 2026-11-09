@@ -1022,6 +1022,22 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // DHAN-P5: the read-only freshness/status surface. IPD remains the freshness authority:
+  // IRR asks IPD's own `GET /v1/freshness` for the cache state, the verdict, the threshold,
+  // the stale-concession and suppression decisions and the last refresh outcome, and
+  // publishes them in IRR's freshness vocabulary. The read never triggers a refresh, never
+  // calls the provider and never mutates the cache.
+  if ((req.url ?? '').split('?')[0] === '/api/dhan/freshness') {
+    void (async () => {
+      try {
+        const dhanFreshness = await import('./market-data/dhanFreshnessRoutes');
+        await dhanFreshness.handleDhanFreshnessRequest(req, res, { env: process.env });
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'dhan freshness transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   // UI07 Watchlists: owner-scoped boundary. The owner context is established server-side by the
   // governed owner-context resolver; the governed universe (item values) is composed here.
   if (req.url?.startsWith('/api/watchlists')) {

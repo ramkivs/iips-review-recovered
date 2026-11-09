@@ -40,6 +40,8 @@
     "server/market-data/dhanMarketDataTransport.test.ts",
     "server/market-data/dhanMarketDataRoutes.ts",
     "server/market-data/dhanMarketDataRoutes.test.ts",
-    "server/market-data/dhanSyntheticFixtures.ts"
+    "server/market-data/dhanSyntheticFixtures.ts",
+    "server/market-data/dhanFreshnessRoutes.ts",
+    "server/market-data/dhanFreshnessRoutes.test.ts"
   ]
 }

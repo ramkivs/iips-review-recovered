@@ -149,7 +149,16 @@ export type SyntheticScenario =
   | 'TRANSPORT_TIMEOUT'
   | 'TRANSPORT_UNAUTHENTICATED'
   | 'IDENTITY_UNRESOLVED'
-  | 'RATE_LIMITED';
+  | 'RATE_LIMITED'
+  // DHAN-P5 freshness scenarios.
+  | 'FRESHNESS_D01_CURRENT'
+  | 'FRESHNESS_D01_STALE'
+  | 'FRESHNESS_D01_SUPPRESSED'
+  | 'FRESHNESS_D01_MISS'
+  | 'FRESHNESS_D01_INVALID_TIMESTAMP'
+  | 'FRESHNESS_D02_NOT_AVAILABLE'
+  | 'FRESHNESS_REFRESH_FAILED'
+  | 'FRESHNESS_MALFORMED_RESPONSE';
 
 /**
  * The synthetic transport's server-side behaviour for one scenario.
@@ -164,6 +173,73 @@ export interface SyntheticTransportBehaviour {
   readonly status?: number;
   readonly body?: unknown;
 }
+
+/**
+ * The D01 quote freshness threshold, in seconds. IPD's `DEFAULT_FRESHNESS_CONFIG` sets
+ * `D01_QUOTES: 15 * 60`.
+ */
+export const SYNTHETIC_D01_THRESHOLD_SECONDS = 900;
+
+/** The D02 historical freshness threshold, in seconds. IPD sets `D02_OHLCV: 24 * 60 * 60`. */
+export const SYNTHETIC_D02_THRESHOLD_SECONDS = 86_400;
+
+/**
+ * Builds a synthetic IPD freshness status.
+ *
+ * The shape is exactly IPD's `FreshnessStatus`. Every field is a fixed literal, so the
+ * synthetic status is deterministic and self-identifying.
+ */
+export function syntheticFreshnessStatus(options: {
+  readonly domain?: 'D01_QUOTES' | 'D02_OHLCV';
+  readonly cacheState?: string;
+  readonly asOf?: string | null;
+  readonly timestampEvidence?: string;
+  readonly receivedAt?: string | null;
+  readonly evaluatedAt?: string;
+  readonly observationEvaluatedAt?: string | null;
+  readonly thresholdSeconds?: number;
+  readonly ageSeconds?: number | null;
+  readonly verdict?: string;
+  readonly staleConcessionActive?: boolean;
+  readonly suppressExecution?: boolean;
+  readonly eligibleForUse?: boolean;
+  readonly lastRefreshOutcome?: string;
+  readonly lastFailure?: { readonly code: string; readonly priorPreserved: boolean } | null;
+} = {}): Record<string, unknown> {
+  const domain = options.domain ?? 'D01_QUOTES';
+  return {
+    domain,
+    cacheState: options.cacheState ?? 'CURRENT',
+    asOf: options.asOf === undefined ? SYNTHETIC_AS_OF : options.asOf,
+    timestampEvidence: options.timestampEvidence ?? 'VALID',
+    receivedAt: options.receivedAt === undefined ? SYNTHETIC_RECEIVED_AT : options.receivedAt,
+    evaluatedAt: options.evaluatedAt ?? SYNTHETIC_EVALUATED_AT,
+    observationEvaluatedAt:
+      options.observationEvaluatedAt === undefined ? SYNTHETIC_EVALUATED_AT : options.observationEvaluatedAt,
+    thresholdSeconds:
+      options.thresholdSeconds ??
+      (domain === 'D01_QUOTES' ? SYNTHETIC_D01_THRESHOLD_SECONDS : SYNTHETIC_D02_THRESHOLD_SECONDS),
+    ageSeconds: options.ageSeconds === undefined ? 120 : options.ageSeconds,
+    verdict: options.verdict ?? 'GOOD',
+    staleConcessionActive: options.staleConcessionActive ?? false,
+    suppressExecution: options.suppressExecution ?? false,
+    eligibleForUse: options.eligibleForUse ?? true,
+    lastRefresh: {
+      outcome: options.lastRefreshOutcome ?? 'SUCCESS',
+      lastFailure: options.lastFailure ?? null,
+    },
+  };
+}
+
+/**
+ * The route a synthetic transport request targets.
+ *
+ * The synthetic transport serves the SAME routes IPD serves, and answers each with the
+ * matching shape: a quote request gets a quote envelope, a freshness request gets a
+ * freshness status. This is what lets the IRR boundary be exercised end to end against the
+ * real contract.
+ */
+export type SyntheticRoute = 'quotes' | 'historical' | 'freshness';
 
 /**
  * Resolves the behaviour for a scenario.
@@ -261,7 +337,185 @@ export function syntheticBehaviourFor(
         body: { error: { code: 'RATE_LIMITED', message: 'provider request budget exhausted' } },
       };
 
+    // DHAN-P5 freshness scenarios. The D01 scope is a synthetic quote-cache lookup and the
+    // D02 scope is the exact status IPD reports for a domain whose service does not wire
+    // the observation cache or the refresh orchestrator.
+    case 'FRESHNESS_D01_CURRENT':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        body: syntheticFreshnessStatus({ cacheState: 'CURRENT', verdict: 'GOOD', ageSeconds: 120 }),
+      };
+
+    case 'FRESHNESS_D01_STALE':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        body: syntheticFreshnessStatus({
+          cacheState: 'STALE',
+          verdict: 'STALE',
+          ageSeconds: SYNTHETIC_D01_THRESHOLD_SECONDS + 60,
+          staleConcessionActive: true,
+          suppressExecution: false,
+          eligibleForUse: true,
+          lastRefreshOutcome: 'SKIPPED_FRESH',
+        }),
+      };
+
+    case 'FRESHNESS_D01_SUPPRESSED':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        body: syntheticFreshnessStatus({
+          cacheState: 'UNAVAILABLE',
+          verdict: 'UNAVAILABLE',
+          ageSeconds: SYNTHETIC_D01_THRESHOLD_SECONDS * 2 + 60,
+          staleConcessionActive: false,
+          suppressExecution: true,
+          eligibleForUse: false,
+          lastRefreshOutcome: 'FAILURE',
+          lastFailure: { code: 'REFRESH_FAILED', priorPreserved: true },
+        }),
+      };
+
+    case 'FRESHNESS_D01_MISS':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        body: syntheticFreshnessStatus({
+          cacheState: 'MISS',
+          verdict: 'UNKNOWN',
+          asOf: null,
+          receivedAt: null,
+          observationEvaluatedAt: null,
+          timestampEvidence: 'NOT_AVAILABLE',
+          ageSeconds: null,
+          staleConcessionActive: false,
+          suppressExecution: true,
+          eligibleForUse: false,
+          lastRefreshOutcome: 'UNKNOWN',
+        }),
+      };
+
+    case 'FRESHNESS_D01_INVALID_TIMESTAMP':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        body: syntheticFreshnessStatus({
+          cacheState: 'UNAVAILABLE',
+          verdict: 'UNAVAILABLE',
+          asOf: null,
+          receivedAt: null,
+          observationEvaluatedAt: null,
+          timestampEvidence: 'INVALID',
+          ageSeconds: null,
+          staleConcessionActive: false,
+          suppressExecution: true,
+          eligibleForUse: false,
+          lastRefreshOutcome: 'UNKNOWN',
+        }),
+      };
+
+    case 'FRESHNESS_D02_NOT_AVAILABLE':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        body: syntheticFreshnessStatus({
+          domain: 'D02_OHLCV',
+          cacheState: 'NOT_AVAILABLE',
+          verdict: 'UNKNOWN',
+          asOf: null,
+          receivedAt: null,
+          observationEvaluatedAt: null,
+          timestampEvidence: 'NOT_AVAILABLE',
+          ageSeconds: null,
+          staleConcessionActive: false,
+          suppressExecution: true,
+          eligibleForUse: false,
+          lastRefreshOutcome: 'UNKNOWN',
+        }),
+      };
+
+    case 'FRESHNESS_REFRESH_FAILED':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        body: syntheticFreshnessStatus({
+          cacheState: 'STALE',
+          verdict: 'STALE',
+          ageSeconds: SYNTHETIC_D01_THRESHOLD_SECONDS + 60,
+          staleConcessionActive: true,
+          suppressExecution: false,
+          eligibleForUse: true,
+          lastRefreshOutcome: 'FAILURE',
+          lastFailure: { code: 'REFRESH_FAILED', priorPreserved: false },
+        }),
+      };
+
+    case 'FRESHNESS_MALFORMED_RESPONSE':
+      return {
+        kind: 'RESPOND',
+        status: 200,
+        // A payload that is not a freshness status: IRR must reject it rather than
+        // project it with invented values.
+        body: { notAFreshnessStatus: true },
+      };
+
     default:
       return { kind: 'RESPOND', status: 200, body: { ok: true } };
+  }
+}
+
+/**
+ * Resolves the behaviour for a scenario ON A SPECIFIC ROUTE.
+ *
+ * The DHAN-P5 freshness scenarios only describe what the FRESHNESS route does. When the
+ * same scenario is used on a quote or historical route, the route's own behaviour applies
+ * instead, so one scenario can drive a whole end-to-end flow without the freshness
+ * behaviour leaking into the quote envelope.
+ */
+export function syntheticBehaviourForRoute(
+  scenario: SyntheticScenario,
+  route: SyntheticRoute,
+  domain?: 'D01_QUOTES' | 'D02_OHLCV',
+): SyntheticTransportBehaviour {
+  // The freshness route ALWAYS serves a freshness status, whichever scenario is driving
+  // the data routes: IPD's freshness endpoint has its own contract, and a data-route
+  // scenario must not make the freshness endpoint answer with a quote envelope.
+  if (route === 'freshness') {
+    if (scenario.startsWith('FRESHNESS_')) {
+      return syntheticBehaviourFor(scenario);
+    }
+    // A transport-level failure applies to EVERY route, including the freshness route:
+    // an unreachable daemon does not answer one route and answer another.
+    if (
+      scenario === 'TRANSPORT_UNAVAILABLE' ||
+      scenario === 'TRANSPORT_TIMEOUT' ||
+      scenario === 'TRANSPORT_UNAUTHENTICATED' ||
+      scenario === 'RATE_LIMITED'
+    ) {
+      return syntheticBehaviourFor(scenario);
+    }
+    // The default status for the data-route scenarios, in the requested domain.
+    if (domain === 'D02_OHLCV') {
+      // IPD's composed D02 service does not wire the observation cache or the refresh
+      // orchestrator, so D02 always reports NOT_AVAILABLE / UNKNOWN.
+      return syntheticBehaviourFor('FRESHNESS_D02_NOT_AVAILABLE');
+    }
+    return syntheticBehaviourFor('FRESHNESS_D01_CURRENT');
+  }
+
+  const isFreshnessScenario = scenario.startsWith('FRESHNESS_');
+  if (!isFreshnessScenario) {
+    return syntheticBehaviourFor(scenario);
+  }
+  // A freshness-only scenario on a data route: the data route's own behaviour applies.
+  switch (route) {
+    case 'quotes':
+      return syntheticBehaviourFor('QUOTE_SUCCESS');
+    case 'historical':
+      return syntheticBehaviourFor('HISTORICAL_SUCCESS');
+    default:
+      return syntheticBehaviourFor(scenario);
   }
 }
