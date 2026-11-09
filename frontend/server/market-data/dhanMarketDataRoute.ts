@@ -2,12 +2,17 @@
  * IRR server-side consumption boundary for the IPD Dhan market-data provider.
  *
  * Authority for this surface:
- *   - Authoritative IPD dependency commit `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19`
- *     (`ramkivs/iips-production-market-data`, merge commit of IPD PR #140).
+ *   - Authoritative IPD dependency commit `73768fa83c331de1bd9f51af0a6b26e5ad489ba2`
+ *     (`ramkivs/iips-production-market-data` `main`, merge commit of IPD PR #144).
  *   - That commit publishes the server-only `./dhan-server` subpath. It is the FIRST
  *     commit reachable from IPD `main` that does so; at the previously pinned primary
  *     commit `279d1eed…` and at the broker-import alias pin `58fc8fb7…` the subpath does
  *     not exist and `src/providers/dhan/**` is absent from the published package.
+ *   - The pin advanced here from `59fdfd15` (IPD PR #140) for DHAN-P3: the pinned
+ *     `MarketDataTransportClient` at `59fdfd15` carried no timeout, no loopback pinning,
+ *     no production guard and no typed failure outcomes, and could not satisfy the
+ *     transport requirements of the P3 boundary. The advance is backward compatible for
+ *     every symbol this module consumes (Stage-1 `D3D-05`).
  *
  * WHY THIS MODULE EXISTS
  *   IRR already consumes IPD through three pinned surfaces: the primary package

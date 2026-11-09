@@ -31,6 +31,17 @@
     "server/replay/**/*.ts",
     "server/replay/**/*.tsx",
     "server/broker-import/step9AcceptanceFixtureOperator.ts",
-    "server/broker-import/step9AcceptanceFixtureOperator.test.ts"
+    "server/broker-import/step9AcceptanceFixtureOperator.test.ts",
+    "server/market-data/dhanHealthState.ts",
+    "server/market-data/dhanHealthState.test.ts",
+    "server/market-data/dhanHealthTransport.ts",
+    "server/market-data/dhanHealthTransport.test.ts",
+    "server/market-data/dhanMarketDataTransport.ts",
+    "server/market-data/dhanMarketDataTransport.test.ts",
+    "server/market-data/dhanMarketDataRoutes.ts",
+    "server/market-data/dhanMarketDataRoutes.test.ts",
+    "server/market-data/dhanSyntheticFixtures.ts",
+    "server/market-data/dhanFreshnessRoutes.ts",
+    "server/market-data/dhanFreshnessRoutes.test.ts"
   ]
 }

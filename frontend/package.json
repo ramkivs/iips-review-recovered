@@ -25,7 +25,7 @@
   "dependencies": {
     "iips-broker-import": "github:ramkivs/iips-production-market-data#58fc8fb7f033650f40d61078d70e951f21dd033f",
     "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
-    "iips-production-market-data": "github:ramkivs/iips-production-market-data#59fdfd157632dbdbc220ae03d9d0b8e047d4ef19",
+    "iips-production-market-data": "github:ramkivs/iips-production-market-data#73768fa83c331de1bd9f51af0a6b26e5ad489ba2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",

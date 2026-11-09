@@ -983,6 +983,61 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // DHAN-P2 (synthetic / pre-access phase): read-only, credential-free provider status. The
+  // provider configuration and readiness are resolved by IPD's own `resolveDhanProviderConfig`
+  // through the existing IRR consumption boundary; this route maps them onto one of five
+  // states and publishes no credential, no bearer token and no SecretRef value. When the local
+  // IPD transport is configured, the route also asks IPD for its authoritative health, so a
+  // genuine connection failure is distinguishable from a transport that was never attempted.
+  // Purely additive: no existing route is touched.
+  if (req.url === '/api/dhan/health') {
+    void (async () => {
+      try {
+        const dhanHealth = await import('./market-data/dhanHealthTransport');
+        await dhanHealth.handleDhanHealthRequest(req, res, { env: process.env });
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'dhan health transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // DHAN-P3: the canonical quote and historical-data surfaces. IPD remains the market-data
+  // authority: these routes forward the canonical request to IPD's own transport client and
+  // project IPD's canonical envelope onto IRR's presentation vocabulary. No quote is computed,
+  // no historical series is normalized and no cache, rate limiter or refresh engine exists in
+  // IRR. The transport bearer token and the daemon address are read from the server-side
+  // environment and never reach the browser.
+  if (req.url === '/api/dhan/quotes' || req.url === '/api/dhan/historical') {
+    void (async () => {
+      try {
+        const dhanMarketData = await import('./market-data/dhanMarketDataRoutes');
+        if (req.url === '/api/dhan/quotes') {
+          await dhanMarketData.handleDhanQuotesRequest(req, res, { env: process.env });
+        } else {
+          await dhanMarketData.handleDhanHistoricalRequest(req, res, { env: process.env });
+        }
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'dhan market data transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
+  // DHAN-P5: the read-only freshness/status surface. IPD remains the freshness authority:
+  // IRR asks IPD's own `GET /v1/freshness` for the cache state, the verdict, the threshold,
+  // the stale-concession and suppression decisions and the last refresh outcome, and
+  // publishes them in IRR's freshness vocabulary. The read never triggers a refresh, never
+  // calls the provider and never mutates the cache.
+  if ((req.url ?? '').split('?')[0] === '/api/dhan/freshness') {
+    void (async () => {
+      try {
+        const dhanFreshness = await import('./market-data/dhanFreshnessRoutes');
+        await dhanFreshness.handleDhanFreshnessRequest(req, res, { env: process.env });
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'dhan freshness transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   // UI07 Watchlists: owner-scoped boundary. The owner context is established server-side by the
   // governed owner-context resolver; the governed universe (item values) is composed here.
   if (req.url?.startsWith('/api/watchlists')) {

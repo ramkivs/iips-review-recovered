@@ -45,6 +45,27 @@ export const ROUTES = {
   candidateAssessment: '/investment/candidate/:securityId',
   collaboration: '/collaboration',
   settings: '/settings',
+  /**
+   * DHAN-P2 — the DHAN provider connection-status surface. Read-only and credential-free: it
+   * reports the connection state IRR can prove from the local IPD provider configuration, and
+   * never claims live connectivity or production readiness.
+   */
+  dhanConnectionStatus: '/dhan/connection-status',
+  /**
+   * DHAN-P3 — the DHAN quote surface. Read-only over the IPD market-data transport; IPD
+   * remains the market-data authority and the browser never computes a price.
+   */
+  dhanQuotes: '/dhan/quotes',
+  /**
+   * DHAN-P3 — the DHAN historical OHLCV surface. Read-only over the IPD market-data
+   * transport; the inclusive range semantics and the maximum window are IPD's.
+   */
+  dhanHistorical: '/dhan/historical',
+  /**
+   * DHAN-P5 — the DHAN freshness/status surface. Read-only over IPD's own
+   * `GET /v1/freshness`; IPD remains the freshness authority.
+   */
+  dhanFreshness: '/dhan/freshness',
   research: '/research',
   researchCompany: '/research/company/:id',
   researchSector: '/research/sector/:id',

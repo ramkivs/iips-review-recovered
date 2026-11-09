@@ -61,6 +61,17 @@ export const NAV: NavItem[] = [
   // IID-6: the coverage panel at its authoritative path, beside the company assessment view it links to.
   { label: 'Investment Coverage', path: ROUTES.investmentCoverage },
   { label: 'Collaboration', path: '/collaboration' },
+  // DHAN-P2: read-only, credential-free DHAN provider status. Reports only the connection
+  // state IRR can prove from the local IPD provider configuration; it never implies live
+  // provider connectivity or production readiness.
+  { label: 'DHAN Status', path: ROUTES.dhanConnectionStatus },
+  // DHAN-P3: the quote and historical OHLCV surfaces. Read-only over the IPD market-data
+  // transport; IPD remains the market-data authority and the browser never computes a price.
+  { label: 'DHAN Quotes', path: ROUTES.dhanQuotes },
+  { label: 'DHAN History', path: ROUTES.dhanHistorical },
+  // DHAN-P5: the read-only provider-side freshness/status surface. IPD owns the verdict,
+  // the cache state, the threshold and the refresh outcome; the browser never computes one.
+  { label: 'DHAN Freshness', path: ROUTES.dhanFreshness },
   {
     label: 'Research',
     path: '/research',
