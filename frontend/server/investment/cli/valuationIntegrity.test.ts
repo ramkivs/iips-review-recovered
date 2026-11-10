@@ -116,7 +116,7 @@ function persistedThroughTheStore(): Persisted {
     payload: engineResult.payload,
     inputDigest: engineResult.inputDigest,
     generatedAt: AS_OF,
-    datasetClass: 'APPROVED_LOCAL_INGESTION',
+    datasetClass: 'OPERATOR_SUPPLIED',
   });
   const dbPath = join(root, `store-${Math.random().toString(36).slice(2)}.db`);
   const database = openDatabase({ path: dbPath, createDirectory: true, migrate: true });

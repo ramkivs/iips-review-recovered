@@ -146,6 +146,19 @@ export function run(argv: readonly string[]): number {
     licence: 'operator-supplied; not redistributable',
     now: args.now,
     importRunId: `run-${args.now}`,
+    /**
+     * The operator is ingesting their OWN files, so the rights state is the operator's own
+     * attestation and its basis is the input directory they pointed at.
+     *
+     * This is an ATTESTATION, not a verification: nothing here checked a third party's terms, and
+     * the recorded basis says exactly what was relied on. An operator whose source needs a
+     * rights-holder permission must obtain it and record THAT basis here instead.
+     */
+    sourceRights: {
+      state: 'OPERATOR_ASSERTED',
+      basis: `operator-supplied input files read from ${args.inputDir}`,
+      note: 'operator attestation over the operator’s own input files; not an independent verification of any third party’s terms',
+    },
   });
 
   const report = measureCoverage(content, { datasetVersion: written.manifest.datasetVersion, generatedAt: args.now });

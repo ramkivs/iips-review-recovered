@@ -232,6 +232,14 @@ export function writeM1Dataset(dir: string, content: DatasetContent, now: string
     licence: 'synthetic reference data; not redistributable',
     now,
     importRunId: `iid3-m1-${content.periods.length}-periods`,
+    // The M1 dataset IS synthetic, and it says so. The rights state is declared rather than
+    // inferred from the provider label, so the dataset class that reaches the assessment is
+    // `SYNTHETIC_REFERENCE` on the strength of this declaration and not of a string comparison.
+    sourceRights: {
+      state: 'SYNTHETIC',
+      basis: '',
+      note: 'the shipped M1 reference dataset; synthetic content, no real-world source',
+    },
   });
   return readDataset(dir);
 }

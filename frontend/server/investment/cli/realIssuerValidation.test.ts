@@ -7,7 +7,7 @@
  *   1. Operator-supplied real disclosures reach the assessment engine unchanged. The evidence files under
  *      `evidence/real-issuer/REL-1-INFOSYS-2026-11-06/` are ingested through IID-0's own builder, so the test
  *      fails if the filed figures, the derivation set or the ingestion contract drift.
- *   2. A run over `APPROVED_LOCAL_INGESTION` data does not publish "the reference dataset is synthetic" about
+ *   2. A run over `OPERATOR_SUPPLIED` data does not publish "the reference dataset is synthetic" about
  *      itself. Both limitation lines keep their identifiers; only the sentence that would otherwise be false
  *      about the run in hand is restated. The synthetic wording is asserted unchanged in the same test, so the
  *      restatement cannot quietly become the only wording.
@@ -73,6 +73,14 @@ function realDatasetDir(): string {
     licence: 'operator-supplied; not redistributable',
     now: GENERATED_AT,
     importRunId: 'wi1-real-issuer-regression',
+    // The operator is supplying their own filing extracts. The rights state is their attestation
+    // and the basis is those files — not a provider label and not a claim that any third party's
+    // terms were checked.
+    sourceRights: {
+      state: 'OPERATOR_ASSERTED',
+      basis: 'operator-supplied issuer disclosure extracts supplied with this regression',
+      note: 'operator attestation over the operator’s own disclosure extracts',
+    },
   });
   return dir;
 }
@@ -130,7 +138,10 @@ describe('a real-data run reports itself honestly', () => {
     ]);
     expect(exitCode).toBe(0);
     expect(summary.status).toBe('OK');
-    expect(summary.dataset).toMatchObject({ datasetClass: 'APPROVED_LOCAL_INGESTION', dataAsOf: '2024-03-31' });
+    // The class follows the dataset's DECLARED RIGHTS EVIDENCE. This dataset declares
+    // `OPERATOR_ASSERTED` — the operator supplied their own disclosure extracts and said so — so it
+    // is `OPERATOR_SUPPLIED`. The class is no longer inferred from the provider label.
+    expect(summary.dataset).toMatchObject({ datasetClass: 'OPERATOR_SUPPLIED', dataAsOf: '2024-03-31' });
     expect(summary.identity).toMatchObject({ state: 'RESOLVED', issuerId: ISSUER_ID });
 
     // The engine's own judgement on this data: adequate inputs, but the statements are stale at the run date.
@@ -163,7 +174,7 @@ describe('a real-data run reports itself honestly', () => {
     const l004 = real.find((entry) => entry.startsWith('L-004'))!;
     const l009 = real.find((entry) => entry.startsWith('L-009'))!;
     expect(l004).not.toBe('L-004 the reference dataset is synthetic: mechanics only, no company validation');
-    expect(l004).toContain('APPROVED_LOCAL_INGESTION');
+    expect(l004).toContain('OPERATOR_SUPPLIED');
     expect(l009).toContain('one issuer reached through one path');
 
     // The synthetic sentences are still what a synthetic run gets, verbatim: the limitation is restated, not closed.
