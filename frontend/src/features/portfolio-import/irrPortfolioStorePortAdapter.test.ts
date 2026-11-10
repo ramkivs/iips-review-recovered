@@ -242,7 +242,7 @@ describe('IrrBrokerImportStorePortAdapter — PortfolioStorePort contract (U7 & 
     },
   );
 
-  it('maps transport failure and 503 OUTCOME_UNKNOWN to ok: "unknown" with zero automatic retries, and reconciles via GET /revision only', async () => {
+  it('maps transport failure and 503 OUTCOME_UNKNOWN to ok: "unknown"; a GET /revision observes but cannot reconcile the write', async () => {
     const calls: FetchCall[] = [];
     const adapter = new IrrBrokerImportStorePortAdapter({
       fetchImpl: createFetchStub((call, idx) => {
@@ -279,19 +279,75 @@ describe('IrrBrokerImportStorePortAdapter — PortfolioStorePort contract (U7 & 
     expect(calls).toHaveLength(2);
     expect(httpUnknownOutcome.ok).toBe('unknown');
 
-    // Reconcile via GET /api/broker-import/DEFAULT_PORTFOLIO/revision — never resends POST.
+    // Observe via GET /api/broker-import/DEFAULT_PORTFOLIO/revision — never resends POST.
     const reconciled = await adapter.reconcileOutcomeUnknown(3);
     expect(calls).toHaveLength(3);
     expect(calls[2].method).toBe('GET');
     expect(calls[2].url).toBe('/api/broker-import/DEFAULT_PORTFOLIO/revision');
     expect(reconciled).toEqual({
-      reconciled: true,
+      revisionRead: true,
       status: 200,
       portfolioId: 'DEFAULT_PORTFOLIO',
       revision: 4,
-      committedSincePrior: true,
+      revisionAdvancedSincePrior: true,
+      reconciliationRequired: true,
     });
     expect(adapter.getLastKnownRevision()).toBe(4);
+  });
+
+  it('reports an unchanged revision as unchanged and still requires reconciliation — never as a proven failure', async () => {
+    const calls: FetchCall[] = [];
+    const adapter = new IrrBrokerImportStorePortAdapter({
+      fetchImpl: createFetchStub((call) => {
+        expect(call.method).toBe('GET');
+        expect(call.url).toBe('/api/broker-import/DEFAULT_PORTFOLIO/revision');
+        // Same revision as before the unknown write: consistent with a duplicate no-op,
+        // NOT proof that the write failed.
+        return jsonResponse(200, { portfolioId: 'DEFAULT_PORTFOLIO', revision: 3 });
+      }, calls),
+    });
+
+    const reconciled = await adapter.reconcileOutcomeUnknown(3);
+    expect(calls).toHaveLength(1);
+    expect(reconciled).toEqual({
+      revisionRead: true,
+      status: 200,
+      portfolioId: 'DEFAULT_PORTFOLIO',
+      revision: 3,
+      revisionAdvancedSincePrior: false,
+      reconciliationRequired: true,
+    });
+    expect(adapter.getLastKnownRevision()).toBe(3);
+  });
+
+  it('omits the comparison when no prior revision is supplied, and reports an unreadable revision without inventing one', async () => {
+    const calls: FetchCall[] = [];
+    const adapter = new IrrBrokerImportStorePortAdapter({
+      fetchImpl: createFetchStub(() => jsonResponse(503, { outcome: 'UNAVAILABLE' }), calls),
+    });
+
+    const unreadable = await adapter.reconcileOutcomeUnknown();
+    expect(calls).toHaveLength(1);
+    expect(unreadable).toEqual({
+      revisionRead: false,
+      status: 503,
+      outcome: 'UNAVAILABLE',
+      portfolioId: 'DEFAULT_PORTFOLIO',
+      reconciliationRequired: true,
+    });
+    // No revision was observed, so no revision may be cached or later reported as known.
+    expect(adapter.getLastKnownRevision()).toBeUndefined();
+
+    const observed = new IrrBrokerImportStorePortAdapter({
+      fetchImpl: createFetchStub(() => jsonResponse(200, { portfolioId: 'DEFAULT_PORTFOLIO', revision: 7 }), calls),
+    });
+    expect(await observed.reconcileOutcomeUnknown()).toEqual({
+      revisionRead: true,
+      status: 200,
+      portfolioId: 'DEFAULT_PORTFOLIO',
+      revision: 7,
+      reconciliationRequired: true,
+    });
   });
 
   it('supports getRevision and acquireRevisionBeforeSave via GET /api/broker-import/DEFAULT_PORTFOLIO/revision', async () => {

@@ -203,7 +203,9 @@ describe('AMEND-02 live evidence submission and A-9 composition', () => {
     const bytes = fs.readFileSync(journal(), 'utf8');
     const recovered = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, true, fetchVia(h.base));
     expect(recovered.state).toBe('VERIFIED');
-    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetchVia(h.base)))).toEqual(recovered);
+    // The retry must preserve the verified record and additionally report the
+    // server's explicit duplicate acknowledgement rather than hiding it.
+    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetchVia(h.base)))).toEqual({ ...recovered, duplicate: true });
     expect(fs.readFileSync(journal(), 'utf8')).toBe(bytes);
   });
 

@@ -56,7 +56,7 @@ export function App() {
         {/* Local single-user personal path (Program Authority, 2026-11-08): durable manual
             portfolio editor. Distinct from the certified read-only user-portfolios views. */}
         <Route path="/personal-portfolio" element={<PersonalPortfolio />} />
-        <Route path="/user-portfolios/import" element={<BrokerImportSurface />} />
+        <Route path="/user-portfolios/import" element={<BrokerImportSurface initialModalOpen={false} />} />
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
         <Route path={ROUTES.dhanInstrumentSearch} element={<DhanInstrumentSearch />} />

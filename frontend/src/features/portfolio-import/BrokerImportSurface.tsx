@@ -6,16 +6,17 @@
  *   - `IIPS-V3-CAP02-BROKER-IMPORT-UI-PLACEMENT-DECISION-EFFECTIVE-2026-10-23-01` §4.1 (P2)
  *   - `IIPS-V3-CAP02-U7-READ-RESULT-CONTRACT-DECISION-EFFECTIVE-2026-10-23-01` §§1.4, 2–4
  *
- * Mounts the IPD-authored `BrokerImportModal` (`iips-production-market-data/portfolio-ui`)
- * wired to IRR's `IrrBrokerImportStorePortAdapter` over the admitted CAP-02 HTTP routes:
- *   - `POST /api/broker-import/DEFAULT_PORTFOLIO/holdings` (save attempt; zero retries)
- *   - `GET /api/broker-import/DEFAULT_PORTFOLIO/revision` (explicit revision read / reconciliation)
+ * The normal workflow shares one IPD ingress result between preview, frozen evidence and
+ * the guarded Stage 4 `portfolio.importBroker` operation, over the admitted CAP-02 route.
+ * The older IPD-authored modal remains available for review; its legacy manual-save DTO
+ * remains fail-closed and its revision read cannot resolve an unknown write.
  *
  * Does not modify `PortfolioWorkspace` (`/portfolio` remains certified read-only D09) and does
  * not modify `UserPortfolioList` (`/user-portfolios` remains G-2 read-only).
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
+import { BrokerHoldingsPreview } from '../broker-holdings/BrokerHoldingsPreview';
 import {
   BrokerImportModal,
   DEFAULT_ALLOW_NON_PRODUCTION_BYPASS,
@@ -104,11 +105,9 @@ export const BrokerImportSurface: React.FC<BrokerImportSurfaceProps> = ({
       prior,
       DEFAULT_BROKER_IMPORT_PORTFOLIO_ID,
     );
+    // A revision observation cannot attribute the write to this import (nor rule
+    // out a duplicate no-op). Keep the original unknown banner and token intact.
     setReconciliationResult(result);
-    if (result.reconciled) {
-      setExpectedRevision(result.revision);
-      setOutcomeUnknownInfo(null);
-    }
   }, [defaultAdapter, expectedRevision, outcomeUnknownInfo]);
 
   const handleCommitReceipt = useCallback((receipt: PortfolioCommitReceipt) => {
@@ -138,23 +137,22 @@ export const BrokerImportSurface: React.FC<BrokerImportSurfaceProps> = ({
     <section aria-label="CAP-02 Broker Statement Import" data-testid="cap02-broker-import-surface">
       <header>
         <h1>Broker Statement Import</h1>
-        <p>
-          Governed user-portfolio broker statement ingress (<code>/user-portfolios/import</code>)
-          consuming <code>BrokerImportModal</code> from{' '}
-          <code>iips-production-market-data/portfolio-ui</code> over IRR&apos;s{' '}
-          <code>PortfolioStorePort</code> adapter (<code>IrrBrokerImportStorePortAdapter</code>).
-        </p>
-        <p data-testid="cap02-provenance-disclosure">
-          <strong>Contract v1 provenance notice:</strong> File detection, CSV parsing, and DP-2
-          Option 2F canonical P04 identity checks run in-browser. Only broker-observed holding
-          fields and top-level <code>expectedRevision</code>, <code>mode</code>,{' '}
-          <code>contentDigest</code>, and <code>broker</code> are sent to{' '}
-          <code>POST /api/broker-import/DEFAULT_PORTFOLIO/holdings</code>;{' '}
-          <code>fileName</code> and <code>importedAt</code> are preview-only and are not
-          transmitted in Contract v1 (documented C-1/U2 limitation).
-        </p>
+        <p>Review one broker CSV, check its retained evidence and explicitly commit qualified
+          holdings to a selected personal portfolio. The durable path uses IPD&apos;s Stage 4
+          import; it independently rechecks identity and authorization.</p>
+        <p><strong>Stage 4 provenance:</strong> the commit sends broker-observed holdings,
+          content digest, file name and import time. It sends neither raw CSV bytes nor
+          browser-supplied canonical identity or owner claims.</p>
       </header>
 
+      {/* The existing evidence preview and the Stage 4 commit now share one upload
+          and frozen snapshot. The historical modal remains available below; its
+          incomplete legacy portfolio.save DTO remains fail-closed. */}
+      <BrokerHoldingsPreview allowCommit />
+
+      <h2>Legacy import modal</h2>
+      <p>The legacy modal remains available for review; its older manual-save route is blocked. Use the Broker Holdings workflow above for guarded Stage 4 commitment.</p>
+      <p data-testid="cap02-provenance-disclosure">For the <strong>legacy modal only</strong>, fileName and importedAt are preview-only and are not transmitted in Contract v1&apos;s older manual-save DTO. The Stage 4 workflow above does transmit them.</p>
       <div data-testid="cap02-revision-controls">
         <span data-testid="cap02-expected-revision">
           Expected revision token: <code>{expectedRevision}</code>
@@ -212,21 +210,22 @@ export const BrokerImportSurface: React.FC<BrokerImportSurfaceProps> = ({
               void handleReconcileUnknownOutcome();
             }}
           >
-            Reconcile Revision via GET /api/broker-import/DEFAULT_PORTFOLIO/revision
+            Observe Revision via GET /api/broker-import/DEFAULT_PORTFOLIO/revision
           </button>
         </div>
       )}
 
       {reconciliationResult && (
         <div role="status" data-testid="cap02-reconciliation-status">
-          {reconciliationResult.reconciled ? (
+          {reconciliationResult.revisionRead ? (
             <span>
-              Reconciled <code>{reconciliationResult.portfolioId}</code> at revision{' '}
+              Observed <code>{reconciliationResult.portfolioId}</code> at revision{' '}
               <code>{reconciliationResult.revision}</code> (
-              {reconciliationResult.committedSincePrior
-                ? 'prior save committed a new revision'
-                : 'no new revision committed since prior token'}
-              ).
+              {reconciliationResult.revisionAdvancedSincePrior
+                ? 'revision advanced since the prior token'
+                : 'revision did not advance since the prior token'}
+              ). A revision alone cannot prove whether this import committed or was a duplicate;
+              its outcome remains unknown. Do not retry automatically.
             </span>
           ) : (
             <span>

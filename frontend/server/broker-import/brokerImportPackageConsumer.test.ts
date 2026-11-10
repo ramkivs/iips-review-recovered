@@ -77,7 +77,7 @@ const frontendRoot = resolve(here, '..', '..');
  * published, IRR's consumed `./dhan-server` exports are unchanged, and IPD's
  * `MarketDataTransportClient` class is byte-identical across the last two advances.
  */
-export const EXPECTED_IPD_PIN_SHA = 'd5e20c15059267a3f824b015e37d652084de5a01';
+export const EXPECTED_IPD_PIN_SHA = '1aee57fe093b4fb15eaf3a9ac67532ee40262fe2';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
@@ -235,6 +235,10 @@ export const REQUIRED_PORTFOLIO_UI_DECLARATION_SYMBOLS = [
   'RESOURCE_UNAVAILABLE',
   'UserHoldingInput',
   'BrokerImportModalProps',
+  'BrokerImportIpcRequest',
+  'BrokerImportIpcResponse',
+  'BrokerImportRequest',
+  'BrokerImportOutcome',
 ] as const;
 
 export const DIRECT_PIT_D114_IMPORTER_FILES = [
@@ -319,6 +323,7 @@ export function validateIpdPackagePinDescriptor(descriptor: PackagePinDescriptor
   return { ok: errors.length === 0, errors };
 }
 
+// IPD PR #148 adds the Stage 4 IPC operation and type-only contract after the PR #146 pin.
 describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
   const irrPkg = JSON.parse(readFileSync(resolve(frontendRoot, 'package.json'), 'utf8')) as {
     dependencies?: Record<string, string>;

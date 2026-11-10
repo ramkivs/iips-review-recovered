@@ -172,7 +172,7 @@ describe('ipcClient — contract v1 constants', () => {
     expect(IPC_ENDPOINT_SETTING).toBe('IIPS_G2_IPC_ENDPOINT');
   });
 
-  it('fixes the closed operation set: three reads, four writes, one reserved', () => {
+  it('fixes the closed operation set: three reads, five writes, one reserved', () => {
     expect([...IPC_READ_OPERATIONS].sort()).toEqual([
       'portfolio.get',
       'portfolio.list',
@@ -181,10 +181,11 @@ describe('ipcClient — contract v1 constants', () => {
     expect([...IPC_WRITE_OPERATIONS].sort()).toEqual([
       'portfolio.create',
       'portfolio.delete',
+      'portfolio.importBroker',
       'portfolio.reset',
       'portfolio.save',
     ]);
-    expect(IPC_OPERATIONS).toHaveLength(7);
+    expect(IPC_OPERATIONS).toHaveLength(8);
     expect([...IPC_RESERVED_OPERATIONS]).toEqual(['portfolio.analytics']);
     expect(IPC_OPERATIONS).not.toContain('portfolio.analytics');
     for (const op of IPC_WRITE_OPERATIONS) expect(isWriteOperation(op)).toBe(true);

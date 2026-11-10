@@ -70,18 +70,16 @@ export interface IrrBrokerImportStorePortAdapterOptions {
 
 export type BrokerImportReconciliationOutcome =
   | {
-      readonly reconciled: true;
+      readonly revisionRead: true;
       readonly status: 200;
       readonly portfolioId: string;
       readonly revision: number;
-      /**
-       * When `priorExpectedRevision` was supplied, indicates whether the authoritative revision
-       * advanced past `priorExpectedRevision` (meaning the prior unknown save committed).
-       */
-      readonly committedSincePrior?: boolean;
+      /** A revision comparison only. It does not attribute a write to this import. */
+      readonly revisionAdvancedSincePrior?: boolean;
+      readonly reconciliationRequired: true;
     }
   | {
-      readonly reconciled: false;
+      readonly revisionRead: false;
       readonly status: number;
       readonly outcome: string;
       readonly portfolioId: string;
@@ -142,7 +140,7 @@ function describeRefusalMessage(code: PortfolioPortRefusalCode, rawOutcome: stri
     case 'REFUSED_UNRESOLVED_IDENTITY':
       return 'REFUSED_UNRESOLVED_IDENTITY: Unresolved or ambiguous holdings cannot be persisted (DP-2 Option 2F).';
     case 'REFUSED_STORE_GUARD':
-      return 'REFUSED_STORE_GUARD: The portfolio store guard refused the holding vector. The governed whole-import identity gate (Gate E W-6 / DP-2 2F) is not applied on the only commit path available to this host, so no broker-observed holding was written and no identity was assigned.';
+      return 'REFUSED_STORE_GUARD: The governed whole-import identity gate is not applied on this legacy manual-save path, so no broker-observed holding was written. Use the Stage 4 workflow instead.';
     case 'UNAVAILABLE':
     default:
       return rawOutcome === 'OWNER_CONTEXT_UNAVAILABLE'
@@ -195,8 +193,9 @@ export class IrrBrokerImportStorePortAdapter implements PortfolioStorePort {
   }
 
   /**
-   * Narrow read-only reconciliation for `OUTCOME_UNKNOWN` (U7 §1.4 / §3).
-   * Issues ONE `GET /api/broker-import/:portfolioId/revision` request and NEVER resends `POST`.
+   * Observe a revision after `OUTCOME_UNKNOWN` (U7 §1.4 / §3). Issues ONE GET and
+   * never resends POST. A revision change may belong to another write, and an unchanged
+   * revision is consistent with a duplicate no-op, so neither proves this import's outcome.
    */
   public async reconcileOutcomeUnknown(
     priorExpectedRevision?: number,
@@ -206,17 +205,18 @@ export class IrrBrokerImportStorePortAdapter implements PortfolioStorePort {
     if (res.ok) {
       this.knownRevisions.set(portfolioId, res.revision);
       return {
-        reconciled: true,
+        revisionRead: true,
         status: 200,
         portfolioId: res.portfolioId,
         revision: res.revision,
         ...(typeof priorExpectedRevision === 'number'
-          ? { committedSincePrior: res.revision > priorExpectedRevision }
+          ? { revisionAdvancedSincePrior: res.revision > priorExpectedRevision }
           : {}),
+        reconciliationRequired: true,
       };
     }
     return {
-      reconciled: false,
+      revisionRead: false,
       status: res.status,
       outcome: res.outcome,
       portfolioId,

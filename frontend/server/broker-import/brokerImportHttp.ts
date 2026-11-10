@@ -20,20 +20,20 @@
  *   3. IRR-local binding precondition — absent ⇒ 503 owner-context-unavailable BEFORE any port,
  *      adapter or connection is constructed (fail closed);
  *   4. bounded body read (existing owner-scoped helper; 64 KiB cap);
- *   5. strict DTO validation (brokerImportBoundary) — typed refusal before any socket;
- *   6. identity-qualification gate (brokerImportIdentityQualification) — a broker-observed
- *      write is admitted only when the governed whole-import identity gate is actually applied
- *      on the commit path this host reaches; refusal is 422 REFUSED_STORE_GUARD with zero store
- *      effect, before any socket is opened;
- *   7. ONE callIpc('portfolio.save', exact-top-level-payload) — zero automatic retries;
- *   8. response mapping below.
+ *   5. strict DTO validation — typed refusal before any socket;
+ *   6. the new provenance-bearing DTO makes ONE callIpc('portfolio.importBroker', payload),
+ *      where IPD's independently authorized Stage 4 consumer re-resolves all raw identifiers;
+ *      the legacy DTO is still refused by the identity-qualification gate before its manual
+ *      `portfolio.save` mapping can reach a socket;
+ *   7. response mapping below, with zero automatic retries.
  *   No step may be reordered, skipped or made lazy. The evidence route follows the same order with
  *   its own steps 4–6: request-shape validation (query string refused, opaque params validated)
  *   BEFORE ANY I/O, then the owner-carrier resolution, then exactly ONE scoped journal read. It
  *   performs no IPC call at all — it never touches a portfolio store.
  *
  * RESPONSE MAPPING (effective U1 act §2.2)
- *   v1 receipt            → 200, receipt relayed verbatim (disposition/revision/durability/durable)
+ *   Stage 4 result.ok     → 200, BrokerImportSuccess relayed (actual revision/count/disposition)
+ *   legacy v1 receipt     → 200 only if its guarded adapter were admitted (minimal receipt)
  *   WRITE_NOT_AUTHORIZED  → 503 {outcome, storeEffect:'NONE'}   (W-1 refusal — the correct result
  *                           while the gate conjunction is unmet; zero store effect)
  *   REVISION_CONFLICT     → 409 (no current revision guessed or cached)
@@ -95,6 +95,7 @@ import {
   type BrokerImportEvidenceStorageUsage,
 } from './brokerImportEvidenceStore.js';
 import { resolveBrokerEvidenceOwnerContext } from './brokerImportEvidenceOwnerResolver.js';
+import { isStage4Body, validateStage4Request, importBrokerViaIpc, type Stage4TransportOutcome } from './brokerImportStage4.js';
 import {
   evaluateBrokerImportIdentityQualification,
   type BrokerImportIdentityQualificationEvaluator,
@@ -268,6 +269,35 @@ function respondToOutcome(res: http.ServerResponse, outcome: BrokerImportSaveTra
       sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', retried: false });
       return;
   }
+}
+
+/** Map IPD's nested Stage 4 outcome without treating dispatch as persistence. */
+function respondToStage4Outcome(res: http.ServerResponse, outcome: Stage4TransportOutcome): void {
+  if (outcome.kind === 'SUCCESS') {
+    // This is IPD's actual BrokerImportSuccess, including its persisted count and revision.
+    sendJson(res, 200, outcome.result);
+    return;
+  }
+  if (outcome.kind === 'CLASS_P') {
+    respondOwnerContextUnavailable(res);
+    return;
+  }
+  if (outcome.kind === 'UNKNOWN') {
+    sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', retried: false });
+    return;
+  }
+  const status: Record<string, number> = {
+    WRITE_NOT_AUTHORIZED: 503, REVISION_CONFLICT: 409, RESOURCE_UNAVAILABLE: 404,
+    INVALID_REQUEST: 400, REFUSED_UNRESOLVED_IDENTITY: 422, REFUSED_STORE_GUARD: 422,
+    UNAVAILABLE: 503,
+  };
+  sendJson(res, status[outcome.code] ?? 503, {
+    outcome: status[outcome.code] ? outcome.code : 'UNAVAILABLE',
+    // A generic dispatcher UNAVAILABLE does not include a store-effect guarantee.
+    // Do not invent one for an unexpected upstream error.
+    ...(outcome.code !== 'UNAVAILABLE' ? { storeEffect: 'NONE' } : {}),
+    ...(outcome.refusedCount !== undefined ? { refusedCount: outcome.refusedCount } : {}),
+  });
 }
 
 /** Maps a revision-read transport outcome to the fixed HTTP response. */
@@ -584,7 +614,28 @@ export async function handleBrokerImportRequest(
     return;
   }
 
-  // Strict DTO validation — typed refusal BEFORE any socket.
+  // PR #148 publishes a distinct, provenance-bearing Stage 4 request. Its ONLY write
+  // path is portfolio.importBroker, whose IPD consumer independently requalifies every
+  // holding and enforces the durable authorization guard. Never route this shape to
+  // the manual portfolio.save operation. Legacy DTOs continue through the old gate.
+  if (isStage4Body(body.value)) {
+    const request = validateStage4Request(route.portfolioId, body.value);
+    if (!request) {
+      sendJson(res, 400, { outcome: 'INVALID_REQUEST', storeEffect: 'NONE' });
+      return;
+    }
+    try {
+      const result = await importBrokerViaIpc(request, deps.saveAdapterDeps?.callIpc);
+      respondToStage4Outcome(res, result);
+    } catch {
+      // A local pre-send exception (invalid endpoint, oversize, authority key) sends
+      // no request; preserve the existing non-disclosing owner-context response.
+      respondOwnerContextUnavailable(res);
+    }
+    return;
+  }
+
+  // Strict legacy DTO validation — typed refusal BEFORE any socket.
   const validated = validateBrokerImportSaveDto(body.value);
   if (!validated.ok) {
     sendJson(res, 400, { error: 'invalid-request', field: validated.refusal.fieldPath, reason: validated.refusal.reason });
@@ -594,9 +645,9 @@ export async function handleBrokerImportRequest(
 
   // Identity-qualification gate (IRR side), evaluated AFTER the DTO is admitted and BEFORE
   // any socket is opened. A broker-observed write is admitted only when the governed
-  // whole-import identity gate (Gate E W-6 / DP-2 2F) is actually applied on the commit path
-  // this host reaches. The only IPC write operation available to IRR is `portfolio.save`,
-  // which on the IPD side is the MANUAL personal-holdings path: it stamps every row
+  // whole-import identity gate (Gate E W-6 / DP-2 2F) is actually applied on this legacy
+  // DTO's commit path. That adapter uses `portfolio.save`, which on the IPD side is the
+  // MANUAL personal-holdings path: it stamps every row
   // `identityStatus: 'UNRESOLVED'` with a synthetic `MANUAL:<SYMBOL>` company id, resolves no
   // governed identity and applies no whole-import refusal. Sending broker-observed holdings
   // there would persist unresolved rows — exactly what IRR's own
