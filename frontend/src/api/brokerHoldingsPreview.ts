@@ -36,6 +36,7 @@
  */
 import { BrokerImportIngressOrchestrator } from '../../.cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.js';
 import { getGovernedBroadSecurityMaster } from '../../.cache/broker-import/src/identity/governed_fixture_master.js';
+import type { BrokerIngressResult } from 'iips-production-market-data/portfolio-ui';
 
 export type BrokerRowIdentityBasis =
   /** The pipeline resolved this row's canonical identity through the governed master. */
@@ -168,7 +169,12 @@ interface PipelineAssessment {
   readonly quarantineRecords?: readonly { readonly quarantineId: string }[];
 }
 
-export function previewBrokerHoldings(content: string, fileName: string, asOf: string): BrokerHoldingsPreview {
+export function previewBrokerHoldings(
+  content: string,
+  fileName: string,
+  asOf: string,
+  onIngress?: (result: BrokerIngressResult) => void,
+): BrokerHoldingsPreview {
   if (typeof content !== 'string' || typeof fileName !== 'string' || typeof asOf !== 'string'
       || !Number.isFinite(Date.parse(asOf))) {
     throw new Error('Preview requires CSV text, a filename and a valid observation timestamp.');
@@ -186,6 +192,9 @@ export function previewBrokerHoldings(content: string, fileName: string, asOf: s
     allowPartialRejection: false,
     executionEnvironment: 'NON_PRODUCTION',
   });
+  // Optional in-memory handoff to the commit UI. It is not part of, and does not
+  // modify, the frozen evidence snapshot returned below.
+  onIngress?.(result);
   const parsed = result.parseResult;
   const nativeRows = parsed?.holdings ?? [];
 

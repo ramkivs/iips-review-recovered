@@ -9,6 +9,12 @@ IPD pin in IRR at this commit: `d5e20c15059267a3f824b015e37d652084de5a01` (`iips
 what is still not implemented, and what is blocked on another repository. It replaces any
 impression that the workflow can commit broker holdings today.
 
+> **Update, 2026-11-10.** The §6 blocker below is closed on the IPD side: IPD PR #148 dispatches
+> the governed broker-import consumer as the real v1 IPC operation `portfolio.importBroker`, and IRR
+> now commits through it. The commit-path statements in this record (§1, §6) are superseded by
+> `WS-A-BROKER-IMPORT-STAGE4-IPC-COMMIT-IMPLEMENTATION-2026-11-10.md`. Everything else here —
+> evidence retention, the eight outcomes, the legacy DTO's fail-closed gate — remains accurate.
+
 ---
 
 ## 1. Summary

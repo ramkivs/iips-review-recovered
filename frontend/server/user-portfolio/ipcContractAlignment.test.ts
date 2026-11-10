@@ -69,11 +69,11 @@ describe('IRR speaks the IPD v1 wire channel', () => {
     expect(IPC_PROTOCOL_VERSION).toBe(1);
   });
 
-  it('addresses the four v1 write operations, including reset and delete', () => {
+  it('addresses the five v1 write operations, including reset, delete and the guarded broker import', () => {
     // `portfolio.reset` and `portfolio.delete` exist ONLY in v1
     // (`IPC_V2_OPERATIONS` in IPD deliberately omits both).
     expect([...IPC_WRITE_OPERATIONS].sort()).toEqual(
-      ['portfolio.create', 'portfolio.delete', 'portfolio.reset', 'portfolio.save'],
+      ['portfolio.create', 'portfolio.delete', 'portfolio.importBroker', 'portfolio.reset', 'portfolio.save'],
     );
   });
 });

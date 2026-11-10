@@ -1,9 +1,9 @@
 {
   "schema": "IIPS_BROKER_IMPORT_PUBLICATION_VERIFICATION_V1",
-  "commit": "d5e20c15059267a3f824b015e37d652084de5a01",
-  "fileCount": 204,
+  "commit": "1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
+  "fileCount": 206,
   "packageJsonSha256": "af7d0d49fb016733492bb9d238332df6ab11f5811ec2d48d0fff24c0f065de2c",
-  "publishedInventorySha256": "77ad687518447552b4fe030baa447458634b541cb20bf24027ef3de22f640ea7",
+  "publishedInventorySha256": "e01818a368451d80305bbdbd58ff2cce481d17c4ef0cd69f947f6b6c48f0840f",
   "inventoryDigestDefinition": "SHA256 of UTF-8 JSON array with sorted keys,compact separators,paths sorted lexically; not npm tarball SRI",
   "exports": {
     "./portfolio-ui": {
@@ -208,6 +208,16 @@
       "path": "frontend/src/features/portfolio/portfolioStorePort.js",
       "bytes": 13106,
       "sha256": "7b31a9a029b55ceb66336a0cfa18efcc29f8b05f26b5e622b9b2bc1c18d21e74"
+    },
+    {
+      "path": "src/contracts/broker_import_ipc.d.ts",
+      "bytes": 3696,
+      "sha256": "b9243c9584acca84ab1f3a9dcf6e807c4f661e909d350999ef9ea6d8419b59b0"
+    },
+    {
+      "path": "src/contracts/broker_import_ipc.js",
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
     },
     {
       "path": "src/contracts/d01_quotes.d.ts",
@@ -756,8 +766,8 @@
     },
     {
       "path": "src/providers/dhan/dhan_identity_api.js",
-      "bytes": 3055,
-      "sha256": "fb95e44934c6aaa0f79ada7b99c49ae79b145d3432970fda20aad51b4e869859"
+      "bytes": 3721,
+      "sha256": "58f4ad318863c7a398477be46d0bfc24cf1c2298da5312cad6dd626a41bd7fd2"
     },
     {
       "path": "src/providers/dhan/dhan_instrument_map.d.ts",
@@ -1021,13 +1031,13 @@
     },
     {
       "path": "src/ui/portfolio_ui_package.d.ts",
-      "bytes": 6435,
-      "sha256": "05c74c56db9c78117a083f53cc90d5c13c82abc166a46fadcf134f1a5507f371"
+      "bytes": 6771,
+      "sha256": "cd5b7f254fcbd176a61f8699802530be7224aeecec8c9f81310b9fbb57a2b3fc"
     },
     {
       "path": "src/ui/portfolio_ui_package.js",
-      "bytes": 5849,
-      "sha256": "98498d3f36b569cdeeb6f827a3cb49e48e6f2d798a2cd0d55de4a9e6c492084a"
+      "bytes": 5867,
+      "sha256": "7737811e4fcd2a7c2599a7b034d3166ab87f899e82fd8260f6097bbf43031825"
     },
     {
       "path": "src/ui/responsive_engine.d.ts",

@@ -426,7 +426,7 @@ describe('ipcPortAdapter — no mutation on refusal', () => {
  * ------------------------------------------------------------------ */
 
 describe('ipcPortAdapter — the scope never reaches the wire', () => {
-  it('sends no tenant hint, owner, scope or principal field for any operation', async () => {
+  it('sends no tenant hint, owner, scope or principal field for every operation the portfolio port exposes', async () => {
     const { port, calls } = adapter(classP);
     const invocations = [
       () => port.listPortfolios({ scope: SCOPE }),
@@ -441,7 +441,11 @@ describe('ipcPortAdapter — the scope never reaches the wire', () => {
       await expect(invoke()).rejects.toBeInstanceOf(G2Error);
     }
     expect(calls).toHaveLength(7);
-    expect(calls.map((call) => call.op).sort()).toEqual([...IPC_OPERATIONS].sort());
+    // Broker import has its own Stage 4 adapter, not a method on this manual
+    // portfolio port; its authority-free request is asserted in its own tests.
+    expect(calls.map((call) => call.op).sort()).toEqual(
+      IPC_OPERATIONS.filter(op => op !== 'portfolio.importBroker').sort(),
+    );
 
     for (const call of calls) {
       const wire = JSON.stringify(call.payload ?? {});
@@ -508,7 +512,7 @@ describe('ipcPortAdapter — the revisions operation', () => {
   it('closes the named off-main gap: revisions is a first-class operation, not a get side-effect', () => {
     expect(IPC_OPERATIONS).toContain('portfolio.revisions');
     // It is a read, so it is not gated by W-1.
-    expect(IPC_OPERATIONS.filter((op) => !op.includes('revisions')).length).toBe(6);
+    expect(IPC_OPERATIONS.filter((op) => !op.includes('revisions')).length).toBe(7);
   });
 
   it('maps a revisions refusal onto NOT_FOUND without disclosing which case applied', async () => {
@@ -797,7 +801,7 @@ describe('ipcPortAdapter — V5 contract supersession', () => {
     expect(IPC_REQUEST_MAX_BYTES).toBe(64 * 1024);
     expect(IPC_RESPONSE_MAX_BYTES).toBe(256 * 1024);
     expect(IPC_TIMEOUT_MS).toBe(5_000);
-    expect(IPC_OPERATIONS).toHaveLength(7);
+    expect(IPC_OPERATIONS).toHaveLength(8);
     // The HTTP-era route table is NOT the IPC transport, and the IPC path uses no
     // HTTP route and no tenant header at all.
     const clientSource = sourceOf('./ipcClient.ts');

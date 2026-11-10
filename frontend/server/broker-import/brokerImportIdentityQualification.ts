@@ -12,8 +12,8 @@
  *   resolve identity, mint an identifier, score a match, or compare a name. It never
  *   duplicates IPD's business logic.
  *
- * WHY IT EXISTS — THE MEASURED DEFECT
- *   IRR's broker-import route sends broker-observed holdings to the IPC operation
+ * WHY IT EXISTS — THE MEASURED DEFECT IN THE LEGACY DTO
+ *   The legacy broker-import DTO would send broker-observed holdings to the IPC operation
  *   `portfolio.save`. On the IPD side that operation is the MANUAL personal-holdings path
  *   (`src/ipc/dispatch.ts` → `mapManualRequest` in `src/persistence/manualPersonalPortfolio.ts`).
  *   `mapManualRequest` stamps every row it accepts with:
@@ -29,13 +29,10 @@
  *   `src/persistence/brokerImportPersistence.ts`, reached through
  *   `createBrokerImportConsumer` — DOES apply the governed resolver and the whole-import
  *   refusal (`REFUSED_UNRESOLVED_IDENTITY`), creates the portfolio when it is absent, and
- *   writes the real broker provenance. But it is constructed by IPD's `startIpcServer` and
- *   returned as an in-process function on the startup outcome. It is NOT dispatched as an IPC
- *   operation: IPD's protocol admits exactly seven v1 operations and five v2 operations
- *   (`src/ipc/protocol.ts`) and none of them is the broker-import operation. It is also NOT
- *   exported from the `./portfolio-ui` package subpath that IRR consumes — the shipped
- *   package at the pinned commit exports 22 symbols and none of them is the Stage 4 CSV
- *   application path (`parseBrokerCsvUpload`, `brokerImportPreview`, `executeBrokerCsvImport`).
+ *   writes the real broker provenance. When this guard was added that consumer was not dispatched
+ *   over IPC. IPD PR #148 subsequently added `portfolio.importBroker`: IRR now routes a distinct,
+ *   complete provenance-bearing DTO to that guarded operation. That does NOT make the older
+ *   `portfolio.save` mapping safe; this guard remains permanently closed for the legacy DTO.
  *
  *   The consequence, verified against a real IPD IPC server over a real socket: a broker
  *   import sent through IRR's route writes holdings whose identity is UNRESOLVED with a
@@ -49,10 +46,9 @@
  *     untouched and still decides every write that is actually attempted.
  *   - It does not invent a mapping, infer an identity, or reuse a name/symbol similarity.
  *   - It does not change IPD, the governed master, or any mapping store.
- *   - It does not claim the governed path is unavailable forever. It refuses only while the
- *     governed path is genuinely unreachable, and the reachability is a single explicit
- *     operator-visible switch with a named reason, so an operator who has confirmed the wire
- *     can turn it on without editing business logic.
+ *   - It does not govern the new `portfolio.importBroker` route, whose downstream consumer
+ *     applies the actual Stage 4 qualification. This guard protects only the older DTO and
+ *     cannot be turned on merely because the new operation exists.
  *
  * FAIL CLOSED
  *   The refusal is emitted BEFORE any socket is opened, so it costs nothing, writes nothing,
@@ -63,13 +59,10 @@
  */
 
 /**
- * The single, explicit switch that says the governed broker-import commit path IS reachable
- * over the wire and has been wired into the transport.
- *
- * It is `false` by default: the fail-closed posture is the resting state, and a write is not
- * admitted merely because a configuration file exists. An operator flips it only after the
- * governed operation has actually been dispatched by the IPD process this host talks to and
- * verified end-to-end.
+ * Legacy path only: `portfolio.save` does not apply the broker identity gate, and this
+ * switch remains false even when `portfolio.importBroker` is reachable. The new route
+ * bypasses neither this decision nor its manual adapter; it uses the separate governed
+ * IPC operation and its own strict DTO.
  */
 export const BROKER_IMPORT_IDENTITY_QUALIFIED_PATH_REACHABLE = false;
 
@@ -78,7 +71,7 @@ export const BROKER_IMPORT_IDENTITY_QUALIFIED_PATH_REACHABLE = false;
  * disclosing an internal path, a stack, or an identity.
  */
 export const BROKER_IMPORT_IDENTITY_QUALIFICATION_REFUSAL_REASON =
-  'The governed whole-import identity gate is not applied on the commit path available to this host; '
+  'The governed whole-import identity gate is not applied on this legacy manual-save path; '
   + 'no broker-observed holding was written and no identity was assigned.';
 
 /**

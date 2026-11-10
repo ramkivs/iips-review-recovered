@@ -36,7 +36,15 @@ export type RetentionState =
   | 'TAMPERED'
   | 'REFUSED'
   | 'UNAVAILABLE';
-export interface RetentionResult { state: RetentionState; importId?: string; recordDigest?: string }
+export type RetentionReason = 'TRANSPORT_FAILURE' | 'OWNER_CONTEXT_UNAVAILABLE' | 'SERVER_FAILURE' | 'DIGEST_MISMATCH' | 'SNAPSHOT_UNAVAILABLE';
+export interface RetentionResult {
+  state: RetentionState;
+  importId?: string;
+  recordDigest?: string;
+  reason?: RetentionReason;
+  /** Present only when the server acknowledged a POST. */
+  duplicate?: boolean;
+}
 const hex = (v: unknown): v is string => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v);
 const plain = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v);
 function canonical(value: unknown): string {
@@ -97,16 +105,23 @@ export function retentionStateForResponse(status: number, body: unknown): Retent
   if (status === 503) return 'UNAVAILABLE';
   return 'UNCONFIRMED';
 }
+function responseReason(status: number, body: unknown): RetentionReason | undefined {
+  if (plain(body) && body.error === 'owner-context-unavailable') return 'OWNER_CONTEXT_UNAVAILABLE';
+  if (status >= 500) return 'SERVER_FAILURE';
+  return undefined;
+}
 export async function retainAndVerifyEvidence(
   portfolio: string, dto: EvidenceSubmission, lookupOnly = false,
   fetcher: typeof fetch = fetch,
   progress: (state: RetentionState) => void = () => undefined,
+  expectedRecordDigest?: string,
 ): Promise<RetentionResult> {
   let importId: string;
-  try { importId = await evidenceImportId(dto); } catch { return { state: 'NOT_RETAINED' }; }
+  try { importId = await evidenceImportId(dto); } catch { return { state: 'UNCONFIRMED', reason: 'SNAPSHOT_UNAVAILABLE' }; }
   const path = `/api/broker-import/${encodeURIComponent(portfolio)}/evidence`;
   let digest: string | undefined;
   let acknowledged = false;
+  let duplicate: boolean | undefined;
   if (!lookupOnly) {
     progress('SUBMITTING');
     try {
@@ -117,24 +132,29 @@ export async function retainAndVerifyEvidence(
         // refusal is never reported as an undifferentiated "unconfirmed".
         let body: unknown = null;
         try { body = await response.json(); } catch { body = null; }
-        return { state: retentionStateForResponse(response.status, body), importId };
+        return { state: retentionStateForResponse(response.status, body), importId, reason: responseReason(response.status, body) };
       }
-      const ack: unknown = await response.json();
+      let ack: unknown;
+      try { ack = await response.json(); } catch { return { state: 'UNCONFIRMED', importId, reason: 'SERVER_FAILURE' }; }
       if (!plain(ack) || ack.outcome !== 'EVIDENCE_RETAINED' || ack.importId !== importId || !hex(ack.recordDigest)
         || ack.provenance !== 'BROWSER_PIPELINE_SNAPSHOT' || ack.holdingsSaved !== false
         || ack.retrievalPath !== `${path}/${importId}` || ack.duplicate !== (response.status === 200)
         || Object.keys(ack).sort().join(',') !== 'duplicate,holdingsSaved,importId,outcome,provenance,recordDigest,retrievalPath') {
-        return { state: 'UNCONFIRMED', importId };
+        return { state: 'UNCONFIRMED', importId, reason: 'SERVER_FAILURE' };
       }
       digest = ack.recordDigest;
+      duplicate = ack.duplicate === true ? true : undefined;
       acknowledged = true;
+      if (expectedRecordDigest && digest !== expectedRecordDigest) {
+        return { state: 'ACKNOWLEDGED_UNVERIFIED', importId, recordDigest: digest, reason: 'DIGEST_MISMATCH', duplicate };
+      }
     } catch {
       // A transport fault on the POST leaves the WRITE's outcome genuinely unknown: the
       // request may have reached the store and committed, or it may not have. This is
       // different from the server reporting `UNAVAILABLE`, and it is different from the
       // server reporting the record absent. The operator must re-check by lookup rather
       // than assume either way, so the state is UNCONFIRMED and never VERIFIED.
-      return { state: 'UNCONFIRMED', importId };
+      return { state: 'UNCONFIRMED', importId, reason: 'TRANSPORT_FAILURE' };
     }
   }
   progress('VERIFYING');
@@ -152,27 +172,32 @@ export async function retainAndVerifyEvidence(
       //     "not retained": the store said it wrote the record, so the browser reports
       //     the write as acknowledged and the read as unverified, and never claims
       //     either verified retention or absence.
-      if (acknowledged && state !== 'TAMPERED') return { state: 'ACKNOWLEDGED_UNVERIFIED', importId };
-      return { state, importId };
+      const reason = state === 'TAMPERED' ? 'DIGEST_MISMATCH' : responseReason(response.status, body);
+      if (acknowledged && state !== 'TAMPERED') return { state: 'ACKNOWLEDGED_UNVERIFIED', importId, recordDigest: digest, reason, duplicate };
+      return { state, importId, recordDigest: digest, reason, duplicate };
     }
-    const record: unknown = await response.json();
+    let record: unknown;
+    try { record = await response.json(); } catch {
+      return { state: acknowledged ? 'ACKNOWLEDGED_UNVERIFIED' : 'UNCONFIRMED', importId, recordDigest: digest, reason: 'SERVER_FAILURE', duplicate };
+    }
     // A-9 re-verifies the complete stored digest server-side; scope keys are intentionally withheld.
     // This projection cannot be rehashed locally. Compare to the original POST acknowledgement.
     if (!plain(record) || record.schema !== 'IIPS_BROKER_IMPORT_EVIDENCE_V1' || record.importId !== importId
       || record.contentDigest !== dto.preview.contentDigest || record.readAt !== dto.preview.asOf
       || record.portfolioSlot !== portfolio || record.fileName !== dto.fileName || !hex(record.recordDigest)
       || !matchesSnapshot(record, dto)
-      || (digest !== undefined && record.recordDigest !== digest)) {
-      // The store answered, but the record does not match the acknowledged snapshot.
-      // Retention is not claimed as verified in either direction.
-      return { state: acknowledged ? 'ACKNOWLEDGED_UNVERIFIED' : 'UNCONFIRMED', importId };
+      || (digest !== undefined && record.recordDigest !== digest)
+      || (expectedRecordDigest !== undefined && record.recordDigest !== expectedRecordDigest)) {
+      // The store answered, but the record does not match the original snapshot or
+      // its previously acknowledged digest. Never claim verified retrieval.
+      return { state: acknowledged ? 'ACKNOWLEDGED_UNVERIFIED' : 'UNCONFIRMED', importId, recordDigest: digest, reason: 'DIGEST_MISMATCH', duplicate };
     }
-    return { state: 'VERIFIED', importId, recordDigest: record.recordDigest };
+    return { state: 'VERIFIED', importId, recordDigest: record.recordDigest, duplicate };
   } catch {
     // A transport fault leaves the retrieval outcome unknown; the write, if it was
     // acknowledged, stays acknowledged and is never upgraded to VERIFIED. When nothing was
     // acknowledged, the outcome of the whole operation is unknown: the record may be
     // retained even though the read never reached the store, so absence is never claimed.
-    return { state: acknowledged ? 'ACKNOWLEDGED_UNVERIFIED' : 'UNCONFIRMED', importId };
+    return { state: acknowledged ? 'ACKNOWLEDGED_UNVERIFIED' : 'UNCONFIRMED', importId, recordDigest: digest, reason: 'TRANSPORT_FAILURE', duplicate };
   }
 }

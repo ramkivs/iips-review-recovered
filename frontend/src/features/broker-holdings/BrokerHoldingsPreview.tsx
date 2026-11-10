@@ -8,19 +8,38 @@ import { useRef, useState } from 'react';
 import { freezeEvidenceSubmission, type EvidenceSubmission } from '../../api/brokerEvidenceSubmission';
 import { retainAndVerifyEvidence, type RetentionResult } from '../../api/brokerEvidenceRetention';
 import { previewBrokerHoldings, type BrokerHoldingsPreview as Preview } from '../../api/brokerHoldingsPreview';
+import { prepareBrokerImport, type PreparedBrokerImport } from '../../api/brokerImportStage4';
+import type { BrokerImportSuccess } from 'iips-production-market-data/portfolio-ui';
+import { BrokerImportCommit } from './BrokerImportCommit';
 
-export function BrokerHoldingsPreview() {
+/** The standalone Broker Holdings route stays preview-only; the Broker Import host opts in. */
+export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowCommit?: boolean } = {}) {
   const [preview, setPreview] = useState<Preview | null>(null);
   const [error, setError] = useState('');
   const [snapshot, setSnapshot] = useState<EvidenceSubmission | null>(null);
   const [retention, setRetention] = useState<RetentionResult>({ state: 'NOT_RETAINED' });
+  const [prepared, setPrepared] = useState<PreparedBrokerImport | null>(null);
+  const [committed, setCommitted] = useState<BrokerImportSuccess | null>(null);
+  const [committing, setCommitting] = useState(false);
+  // Retain the first acknowledged/verified record digest separately from transient UI states.
+  const originalRecordDigest = useRef<string | undefined>(undefined);
   const retaining = retention.state === 'SUBMITTING' || retention.state === 'VERIFYING';
 
   async function retain(dto: EvidenceSubmission, current: number, lookup = false) {
     const result = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', dto, lookup, fetch, state => {
       if (current === sequence.current) setRetention({ state });
-    });
-    if (current === sequence.current) setRetention(result);
+    }, originalRecordDigest.current);
+    if (current === sequence.current) {
+      if (!originalRecordDigest.current && result.recordDigest) originalRecordDigest.current = result.recordDigest;
+      // A later check that returns no digest (a lost or unusable response) must not erase the
+      // digest the operator already saw acknowledged: it stays visible next to a state that
+      // plainly says retrieval is not verified. It is never labelled "verified" that way, and
+      // it is never injected into a state that asserts absence or non-retention, where showing
+      // a digest would contradict the state itself.
+      const keepsAcknowledgedDigest = result.recordDigest === undefined && originalRecordDigest.current !== undefined
+        && (result.state === 'UNCONFIRMED' || result.state === 'UNAVAILABLE' || result.state === 'ACKNOWLEDGED_UNVERIFIED');
+      setRetention(keepsAcknowledgedDigest ? { ...result, recordDigest: originalRecordDigest.current } : result);
+    }
   }
   const [busy, setBusy] = useState(false);
   const sequence = useRef(0);
@@ -30,6 +49,9 @@ export function BrokerHoldingsPreview() {
     sequence.current++;
     setPreview(null);
     setSnapshot(null);
+    setPrepared(null);
+    setCommitted(null);
+    originalRecordDigest.current = undefined;
     setRetention({ state: 'NOT_RETAINED' });
     setError('');
     setBusy(false);
@@ -40,6 +62,9 @@ export function BrokerHoldingsPreview() {
     const current = ++sequence.current;
     setPreview(null);
     setSnapshot(null);
+    setPrepared(null);
+    setCommitted(null);
+    originalRecordDigest.current = undefined;
     setRetention({ state: 'NOT_RETAINED' });
     setError('');
     setBusy(false);
@@ -51,15 +76,19 @@ export function BrokerHoldingsPreview() {
       const content = await file.text();
       // A clear or newer selection must not restore a stale personal-financial-data preview.
       if (current !== sequence.current) return;
-      const result = previewBrokerHoldings(content, file.name, new Date().toISOString());
+      let commitPayload: PreparedBrokerImport | null = null;
+      const result = previewBrokerHoldings(content, file.name, new Date().toISOString(), ingress => {
+        if (allowCommit) commitPayload = prepareBrokerImport(ingress);
+      });
       setPreview(result);
+      setPrepared(commitPayload);
       if (result.status.startsWith('PARSED_') && result.holdings.length) {
         try {
           const dto = freezeEvidenceSubmission(file.name, result);
           setSnapshot(dto);
           await retain(dto, current);
         } catch {
-          if (current === sequence.current) setRetention({ state: 'NOT_RETAINED' });
+          if (current === sequence.current) setRetention({ state: 'UNCONFIRMED', reason: 'SNAPSHOT_UNAVAILABLE' });
         }
       }
     } catch {
@@ -77,12 +106,15 @@ export function BrokerHoldingsPreview() {
         not normalized or validated portfolio holdings. Parser price defaults may apply. Canonical identity is
         assigned only where the IPD-owned governed security master resolves the row; nothing is inferred from
         company-name similarity, and an unresolved row stays unresolved.</p>
-      <p><strong>Preview only — not saved.</strong> Nothing on this screen is written to the
+      {allowCommit ? <p><strong>Preview is not a save.</strong> Review the parsed evidence below;
+        a separate explicit commit can send a fully qualified import to IPD's independently
+        guarded portfolio store. This is separate from the certified reference portfolio.</p>
+        : <p><strong>Preview only — not saved.</strong> Nothing on this screen is written to the
         portfolio store. This screen parses a CSV in the browser and retains the parsed
         evidence; it has no save path at all. The separate <em>Broker Import</em> screen is the
         one that can commit holdings, and it commits only through the governed whole-import
         identity gate — which is applied on the store side, never here. This is separate from
-        the certified reference portfolio and its analytics.</p>
+        the certified reference portfolio and its analytics.</p>}
       {/*
         * Retention disclosure reconciled per IIPS-V3-CAP02-U1-AMEND-01 §8.4(18), rendering the PA's
         * Decision 6 of 2026-11-05. Clause 18(1) named the contradiction this block removes: the copy
@@ -110,27 +142,37 @@ export function BrokerHoldingsPreview() {
             <strong> no route enumerates</strong> evidence records — one record is retrievable only by its
             own import identifier, and there is no list endpoint.</li>
           <li>Retention of evidence is <strong>not a save</strong>, not a validation, not an authorization
-            and not durability of holdings: <code>savedRows</code> stays 0. Retaining evidence never
-            commits a holding, and a retained record never implies that a portfolio write was
-            authorized or performed.</li>
+            and not durability of holdings: the preview snapshot's <code>savedRows</code> is 0 at capture time.
+            Retaining evidence never commits a holding, and a retained record never implies that a portfolio write was
+            authorized or performed. A later successful commit is reported separately from this immutable snapshot.</li>
         </ul>
       </section>
       <label htmlFor="broker-csv">Broker CSV (maximum 1 MiB)</label>{' '}
-      <input id="broker-csv" ref={input} type="file" accept=".csv,text/csv"
+      <input id="broker-csv" ref={input} type="file" accept=".csv,text/csv" disabled={committing}
         onChange={e => { void select(e.target.files?.[0]); }} />{' '}
-      <button type="button" onClick={clear}>Clear preview</button>
+      <button type="button" onClick={clear} disabled={committing}>Clear preview</button>
       <p>Evidence is a browser pipeline snapshot, not server-authenticated identity. Raw content digests cannot be rechecked without the raw file. Single-writer operation is required; no cross-process lock, explicit fsync or power-loss guarantee is provided.</p>
+      {allowCommit && <p>Parsed evidence is retained in the <code>DEFAULT_PORTFOLIO</code> evidence slot; the portfolio commit destination selected below is separate. Evidence retention alone is not proof of a commit.</p>}
       <div aria-live="polite">
         {preview && <p role="status">{({
           NOT_RETAINED: 'Evidence not retained.', SUBMITTING: 'Submitting parsed evidence…', VERIFYING: 'Verifying evidence through A-9…',
-          VERIFIED: 'Evidence retained and retrievable. Holdings not saved.',
+          VERIFIED: committed ? 'Evidence retained and retrievable. Portfolio commitment is reported separately below.' : 'Evidence retained and retrievable. Holdings not saved.',
           UNCONFIRMED: 'Evidence retention unconfirmed. Check retained evidence or explicitly retry the original snapshot.',
           ACKNOWLEDGED_UNVERIFIED: 'Retention acknowledged; retrieval not verified.',
           CONFLICT: 'Evidence conflict: the original record was preserved. This snapshot was not accepted.',
           TAMPERED: 'The retained record failed its own integrity check and was not served. It is not reported as absent and must not be edited or replaced in place.',
-          REFUSED: 'Evidence retention was refused by the application. No evidence was retained under this import.',
+          REFUSED: 'The evidence request was refused by the application. It did not retain a new record.',
           UNAVAILABLE: 'Evidence storage was unavailable. The retention outcome is unknown: nothing is claimed retained or absent.',
-        })[retention.state]}{retention.importId && <> Import ID: <code>{retention.importId}</code></>}</p>}
+        })[retention.state]}{retention.importId && <> Import ID: <code>{retention.importId}</code></>}
+          {retention.recordDigest && <> {retention.state === 'VERIFIED' ? 'Verified record digest' : 'Acknowledged record digest'}: <code>{retention.recordDigest}</code></>}
+          {retention.duplicate === true && retention.state === 'VERIFIED' && <> Duplicate retry: the original record and digest were preserved.</>}
+          {retention.duplicate === true && retention.state !== 'VERIFIED' && <> Duplicate was acknowledged, but retrieval is not verified.</>}
+          {retention.reason === 'TRANSPORT_FAILURE' && <> Transport failure: the request did not receive a usable response; evidence is not reported absent or retrieved.</>}
+          {retention.reason === 'OWNER_CONTEXT_UNAVAILABLE' && <> Owner context unavailable: the evidence request was refused; no conclusion about previously retained evidence can be drawn.</>}
+          {retention.reason === 'SERVER_FAILURE' && <> The evidence server reported a failure; retrieval is not confirmed.</>}
+          {retention.reason === 'DIGEST_MISMATCH' && <> Evidence integrity or snapshot digest mismatch; retrieval was not verified.</>}
+          {retention.reason === 'SNAPSHOT_UNAVAILABLE' && <> Original snapshot or its identifier is unavailable; no replacement was submitted.</>}
+        </p>}
         {/*
           * The action row is rendered whenever a snapshot exists and no retention attempt is
           * in flight. It is NOT hidden once retention reaches VERIFIED: a verified snapshot
@@ -142,15 +184,18 @@ export function BrokerHoldingsPreview() {
           */}
         {snapshot && !retaining && <>
           <button type="button" onClick={() => { void retain(snapshot, sequence.current, true); }}>Check retained evidence</button>{' '}
-          {retention.state !== 'VERIFIED' && <button type="button" onClick={() => { void retain(snapshot, sequence.current); }}>Retry original evidence snapshot</button>}
+          {(allowCommit || retention.state !== 'VERIFIED') && <button type="button" onClick={() => { void retain(snapshot, sequence.current); }}>Retry original evidence snapshot</button>}
         </>}
+        {allowCommit && !snapshot && <p>Original evidence snapshot unavailable: retry is unavailable until a CSV has been selected in this session. Selecting a CSV creates a new snapshot, not a retry of an old one.</p>}
         {busy && <p>Reading CSV…</p>}
         {error && <p role="alert">{error}</p>}
         {preview && <>
           <h3>{preview.broker} — {preview.status}</h3>
           {preview.variant && <p>Format: {preview.variant}</p>}
           <p>{preview.counts.nativeRows} native rows · {preview.counts.identityAssessedRows} individually assessed ·
-            {' '}{preview.counts.identityResolvedRows} resolved · {preview.counts.savedRows} saved.</p>
+            {' '}{preview.counts.identityResolvedRows} resolved · {committed
+              ? `${committed.holdingsPersisted} holdings reported by the last acknowledged portfolio receipt`
+              : `${preview.counts.savedRows} saved`}.</p>
           <p>{preview.counts.identityUnresolvedRows} unresolved ·
             {' '}{preview.perRowIdentityEvidencePublished
               ? 'every row carries its own identity outcome'
@@ -166,7 +211,7 @@ export function BrokerHoldingsPreview() {
             Parsing does not validate values, authorize a save or persist anything.</p>
           <p>Read at: {preview.asOf}. Content digest: <code>{preview.contentDigest}</code></p>
           {preview.holdings.length > 0 && <table>
-            <caption>Native broker evidence — unresolved, not saved</caption>
+            <caption>Native broker evidence — the preview snapshot, not a portfolio read</caption>
             <thead><tr><th>Symbol / name</th><th>ISIN</th><th>Exchange</th><th>Quantity</th><th>Average price</th><th>Current price</th><th>Identity</th><th>Identity evidence</th></tr></thead>
             <tbody>{preview.holdings.map((h, i) => <tr key={i}>
               <td>{h.symbol}</td><td>{h.isin ?? '—'}</td><td>{h.exchange ?? '—'}</td>
@@ -182,6 +227,8 @@ export function BrokerHoldingsPreview() {
               identity evidence in the table: every row above was individually assessed.</p>
             <ul>{preview.errors.map((v, i) => <li key={i}>{v}</li>)}</ul></>}
           {preview.warnings.length > 0 && <><h3>Warnings</h3><ul>{preview.warnings.map((v, i) => <li key={i}>{v}</li>)}</ul></>}
+          {allowCommit && <BrokerImportCommit key={`${preview.contentDigest}-${preview.asOf}`}
+            prepared={prepared} onSuccess={setCommitted} onBusyChange={setCommitting} />}
         </>}
       </div>
     </section>

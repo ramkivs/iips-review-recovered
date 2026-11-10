@@ -240,3 +240,116 @@ describe('AMEND-02 evidence reference and import identifier', () => {
       .toBe('ACKNOWLEDGED_UNVERIFIED');
   });
 });
+
+/* ------------------------------------------------------------------ *
+ * Retry, duplication and malformed responses.
+ *
+ * A retry must never silently rewrite what the operator already saw. The FIRST
+ * acknowledged record digest is carried into the retry, so a store that answers
+ * with a different record is reported as a mismatch rather than being adopted as
+ * the new truth. A malformed body is a SERVER failure (the store answered), which
+ * is a different operator situation from a transport fault (no usable response).
+ * ------------------------------------------------------------------ */
+describe('AMEND-02 retry, duplicate acknowledgement and malformed responses', () => {
+  function ackBody(id: string, digest: string, duplicate: boolean) {
+    return {
+      outcome: 'EVIDENCE_RETAINED', importId: id, recordDigest: digest, duplicate,
+      retrievalPath: `/api/broker-import/DEFAULT_PORTFOLIO/evidence/${id}`,
+      provenance: 'BROWSER_PIPELINE_SNAPSHOT', holdingsSaved: false,
+    };
+  }
+  function recordBody(frozen: ReturnType<typeof dto>, id: string, digest: string) {
+    return {
+      schema: 'IIPS_BROKER_IMPORT_EVIDENCE_V1', importId: id,
+      contentDigest: frozen.preview.contentDigest, recordDigest: digest,
+      readAt: frozen.preview.asOf, portfolioSlot: 'DEFAULT_PORTFOLIO', fileName: frozen.fileName,
+      rows: frozen.preview.holdings.map((h, i) => ({
+        rowIndex: i + 1, symbol: h.symbol, isin: h.isin, exchange: h.exchange,
+        quantity: h.quantity, averagePrice: h.averagePrice, currentPrice: h.currentPrice,
+        identityStatus: h.identityStatus, identityBasis: h.identityBasis,
+        identityRefusalCode: h.identityRefusalCode,
+      })),
+      counts: frozen.preview.counts, warnings: frozen.preview.warnings,
+      status: frozen.preview.status, identityAuthority: frozen.preview.identityAuthority,
+      pipelineRefusals: frozen.preview.rejections.map(({ reason, details, stage }) => ({ reason, details, stage })),
+    };
+  }
+
+  it('keeps the first acknowledged digest on a verified duplicate retry and never reports a new record', async () => {
+    const frozen = dto();
+    const id = await evidenceImportId(frozen);
+    const first = 'f'.repeat(64);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify(ackBody(id, first, false)), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(recordBody(frozen, id, first)), { status: 200 }));
+    const firstResult = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher);
+    expect(firstResult).toEqual({ state: 'VERIFIED', importId: id, recordDigest: first });
+
+    // The retry re-submits the same snapshot; the store answers 200/duplicate with the
+    // SAME record digest, and retrieval re-confirms it. Only then is preservation claimed.
+    const retry = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify(ackBody(id, first, true)), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(recordBody(frozen, id, first)), { status: 200 }));
+    const retried = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, retry, () => undefined, firstResult.recordDigest);
+    expect(retried).toEqual({ state: 'VERIFIED', importId: id, recordDigest: first, duplicate: true });
+  });
+
+  it('reports a changed record digest on retry as a mismatch rather than adopting it', async () => {
+    const frozen = dto();
+    const id = await evidenceImportId(frozen);
+    const first = 'a'.repeat(64);
+    const different = 'b'.repeat(64);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify(ackBody(id, different, true)), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify(recordBody(frozen, id, different)), { status: 200 }));
+    const result = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher, () => undefined, first);
+    expect(result.state).toBe('ACKNOWLEDGED_UNVERIFIED');
+    expect(result.reason).toBe('DIGEST_MISMATCH');
+    expect(result.recordDigest).toBe(different);
+    // The original digest is what the operator saw; it is not overwritten here.
+    expect(first).not.toBe(different);
+  });
+
+  it('does not claim duplicate preservation before retrieval verifies it', async () => {
+    const frozen = dto();
+    const id = await evidenceImportId(frozen);
+    const digest = 'c'.repeat(64);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify(ackBody(id, digest, true)), { status: 200 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ outcome: 'UNAVAILABLE' }), { status: 503 }));
+    const result = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher, () => undefined, digest);
+    expect(result.state).toBe('ACKNOWLEDGED_UNVERIFIED');
+    expect(result.duplicate).toBe(true);
+    expect(result.recordDigest).toBe(digest);
+    // Nothing claims the original record was preserved: retrieval never verified it.
+    expect(result.state).not.toBe('VERIFIED');
+  });
+
+  it('distinguishes a malformed acknowledgement body from a transport fault', async () => {
+    const frozen = dto();
+    // The store answered, but not with a usable body: a server-side failure, not a lost request.
+    const malformedAck = vi.fn<typeof fetch>().mockResolvedValue(new Response('<html>oops</html>', { status: 201 }));
+    const ackResult = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, malformedAck);
+    expect(ackResult.state).toBe('UNCONFIRMED');
+    expect(ackResult.reason).toBe('SERVER_FAILURE');
+
+    // No usable response at all: the write's outcome is genuinely unknown.
+    const transport = vi.fn<typeof fetch>().mockRejectedValue(new TypeError('socket hang up'));
+    const transportResult = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, transport);
+    expect(transportResult.state).toBe('UNCONFIRMED');
+    expect(transportResult.reason).toBe('TRANSPORT_FAILURE');
+  });
+
+  it('reports a malformed retrieval as unverified after an acknowledgement, not as verified retention', async () => {
+    const frozen = dto();
+    const id = await evidenceImportId(frozen);
+    const digest = 'd'.repeat(64);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify(ackBody(id, digest, false)), { status: 201 }))
+      .mockResolvedValueOnce(new Response('not-json', { status: 200 }));
+    const result = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher);
+    expect(result.state).toBe('ACKNOWLEDGED_UNVERIFIED');
+    expect(result.reason).toBe('SERVER_FAILURE');
+    expect(result.recordDigest).toBe(digest);
+  });
+});

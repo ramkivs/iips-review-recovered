@@ -49,7 +49,7 @@ afterEach(() => {
 
 describe('CAP-02 Level 2 — Public-package BrokerImportModal + IrrBrokerImportStorePortAdapter integration', () => {
   it('mounts BrokerImportModal from iips-production-market-data/portfolio-ui at /user-portfolios/import without modifying /portfolio or /user-portfolios', async () => {
-    const fetchSpy = vi.fn();
+    const fetchSpy = vi.spyOn(globalThis, 'fetch');
     render(
       <MemoryRouter initialEntries={['/user-portfolios/import']}>
         <App />
@@ -57,6 +57,9 @@ describe('CAP-02 Level 2 — Public-package BrokerImportModal + IrrBrokerImportS
     );
 
     expect(screen.getByTestId('cap02-broker-import-surface')).toBeInTheDocument();
+    expect(screen.getByLabelText('Broker Holdings preview')).toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Open Import Modal' }));
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByText('Select Broker CSV')).toBeInTheDocument();
     expect(screen.getByTestId('cap02-provenance-disclosure')).toHaveTextContent(
@@ -184,7 +187,7 @@ describe('CAP-02 Level 2 — Public-package BrokerImportModal + IrrBrokerImportS
     }
   });
 
-  it('handles OUTCOME_UNKNOWN with zero automatic retries and reconciles via GET /api/broker-import/DEFAULT_PORTFOLIO/revision without re-POSTing', async () => {
+  it('preserves OUTCOME_UNKNOWN after a revision observation and never re-POSTs', async () => {
     const calls: Array<{ url: string; method: string }> = [];
     const fetchImpl = (async (url: RequestInfo | URL, init?: RequestInit) => {
       const method = (init?.method ?? 'GET').toUpperCase();
@@ -214,19 +217,21 @@ describe('CAP-02 Level 2 — Public-package BrokerImportModal + IrrBrokerImportS
     ]);
     expect(screen.getByTestId('cap02-outcome-unknown-reconcile-banner')).toBeInTheDocument();
 
-    // Trigger explicit read-only reconciliation via GET /revision.
+    // A revision observation cannot attribute the write to this import.
     fireEvent.click(screen.getByTestId('cap02-btn-reconcile-unknown'));
 
     await waitFor(() => {
       expect(screen.getByTestId('cap02-reconciliation-status')).toHaveTextContent(
-        'Reconciled DEFAULT_PORTFOLIO at revision 4 (prior save committed a new revision).',
+        'Observed DEFAULT_PORTFOLIO at revision 4 (revision advanced since the prior token).',
       );
     });
+    expect(screen.getByTestId('cap02-reconciliation-status')).toHaveTextContent('outcome remains unknown');
+    expect(screen.getByTestId('cap02-outcome-unknown-reconcile-banner')).toBeInTheDocument();
     expect(calls).toEqual([
       { url: '/api/broker-import/DEFAULT_PORTFOLIO/holdings', method: 'POST' },
       { url: '/api/broker-import/DEFAULT_PORTFOLIO/revision', method: 'GET' },
     ]);
-    expect(screen.getByTestId('cap02-expected-revision')).toHaveTextContent('4');
+    expect(screen.getByTestId('cap02-expected-revision')).toHaveTextContent('3');
   });
 
   it('surfaces REVISION_CONFLICT and refreshes expectedRevision via Read Current Revision (GET /revision)', async () => {

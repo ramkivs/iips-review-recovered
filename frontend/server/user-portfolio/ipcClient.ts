@@ -96,7 +96,8 @@ export type IpcOperation =
   | 'portfolio.create'
   | 'portfolio.save'
   | 'portfolio.reset'
-  | 'portfolio.delete';
+  | 'portfolio.delete'
+  | 'portfolio.importBroker';
 
 /** The three reads. */
 export const IPC_READ_OPERATIONS: readonly IpcOperation[] = [
@@ -106,14 +107,16 @@ export const IPC_READ_OPERATIONS: readonly IpcOperation[] = [
 ];
 
 /**
- * The four writes. **Defined but not authorized**: IPD refuses every one with zero
- * store effect while the W-1 conjunction is unmet.
+ * IPD v1 writes, including PR #148's guarded broker-import operation. Merely naming
+ * an operation confers no authority: IPD independently resolves its active binding
+ * and checks the write guard, including for broker import.
  */
 export const IPC_WRITE_OPERATIONS: readonly IpcOperation[] = [
   'portfolio.create',
   'portfolio.save',
   'portfolio.reset',
   'portfolio.delete',
+  'portfolio.importBroker',
 ];
 
 export const IPC_OPERATIONS: readonly IpcOperation[] = [
