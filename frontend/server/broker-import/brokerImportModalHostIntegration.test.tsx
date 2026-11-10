@@ -122,6 +122,11 @@ describe('CAP-02 Level 3 — Composed IRR HTTP host + BrokerImportModal end-to-e
     const boundServer = http.createServer((req, res) => {
       void handleBrokerImportRequest(req, res, {
         env: { IIPS_G3_IPC_BINDING_PROVISIONED: 'true' } as NodeJS.ProcessEnv,
+        // This test exercises the modal's own composition over real HTTP against simulated
+        // IPC outcomes, so the identity-qualification gate is admitted here and the write
+        // reaches the simulated store. The gate's own refusal is exercised separately, in
+        // brokerImportHttp.test.ts and brokerImportIdentityQualification.test.ts.
+        identityQualification: () => ({ admitted: true }),
         saveAdapterDeps: {
           callIpc: (async (op: IpcOperation, payload?: Record<string, unknown>) => {
             ipcCalls.push({ op, payload });

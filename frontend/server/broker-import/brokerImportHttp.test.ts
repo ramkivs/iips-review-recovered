@@ -49,10 +49,18 @@ async function callHandler(
   init: RequestInit & { headers?: Record<string, string> },
   env: NodeJS.ProcessEnv,
   ipcResult?: IpcCallResult | Error,
+  options: { readonly admitIdentityQualification?: boolean } = {},
 ): Promise<{ status: number; body: string; headers: Record<string, string>; calls: number }> {
   let calls = 0;
   const deps = {
     env,
+    // These tests exercise the RESPONSE MAPPING of a transport outcome, so the
+    // identity-qualification gate is admitted here. The gate itself is tested separately
+    // against the real production decision, in brokerImportIdentityQualification.test.ts
+    // and in the dedicated refusal test below.
+    ...(options.admitIdentityQualification === false
+      ? {}
+      : { identityQualification: () => ({ admitted: true as const }) }),
     ...(ipcResult !== undefined
       ? {
           saveAdapterDeps: {
@@ -425,5 +433,54 @@ describe('brokerImportHttp — real composed host (route admission + fence prese
     const portfolio = await fetch(`${baseUrl}/api/portfolio`);
     expect(portfolio.status).toBe(200);
     expect(portfolio.headers.get('access-control-allow-origin')).toBe('*');
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * The identity-qualification gate.
+ *
+ * A broker-observed write is admitted only when the governed whole-import
+ * identity gate (Gate E W-6 / DP-2 2F) is actually applied on the commit path
+ * this host reaches. The only IPC write operation available to IRR is
+ * `portfolio.save`, which on the IPD side is the MANUAL personal-holdings
+ * path: it resolves no governed identity and applies no whole-import refusal.
+ *
+ * The refusal is fail-closed: 422 REFUSED_STORE_GUARD, zero store effect, and
+ * it happens BEFORE any socket is opened.
+ * ------------------------------------------------------------------ */
+describe('brokerImportHttp — identity-qualification gate', () => {
+  it('refuses a broker-observed write with zero store effect when the governed gate is unreachable', async () => {
+    let calls = 0;
+    const result = await callHandler('/api/broker-import/DEFAULT_PORTFOLIO/holdings', 'POST', {
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(VALID_BODY),
+    }, BINDING_ENV, successReceipt(), { admitIdentityQualification: false });
+    expect(result.status).toBe(422);
+    const body = JSON.parse(result.body);
+    expect(body.outcome).toBe('REFUSED_STORE_GUARD');
+    expect(body.storeEffect).toBe('NONE');
+    // No socket was opened: the transport was never reached.
+    expect(result.calls).toBe(0);
+  });
+
+  it('never reports a durable commit when the gate refuses', async () => {
+    const result = await callHandler('/api/broker-import/DEFAULT_PORTFOLIO/holdings', 'POST', {
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(VALID_BODY),
+    }, BINDING_ENV, successReceipt(), { admitIdentityQualification: false });
+    const body = JSON.parse(result.body);
+    expect(body.durable).toBeUndefined();
+    expect(body.revision).toBeUndefined();
+    expect(body.disposition).toBeUndefined();
+  });
+
+  it('refuses before the DTO reaches the store, and the refusal names no identity', async () => {
+    const result = await callHandler('/api/broker-import/DEFAULT_PORTFOLIO/holdings', 'POST', {
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(VALID_BODY),
+    }, BINDING_ENV, successReceipt(), { admitIdentityQualification: false });
+    const body = JSON.parse(result.body);
+    // No company id, no symbol list, no internal path and no stack is disclosed.
+    expect(JSON.stringify(body)).not.toMatch(/RELIANCE|companyId|at .*\.ts:/);
   });
 });

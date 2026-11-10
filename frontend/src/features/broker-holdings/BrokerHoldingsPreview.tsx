@@ -77,8 +77,12 @@ export function BrokerHoldingsPreview() {
         not normalized or validated portfolio holdings. Parser price defaults may apply. Canonical identity is
         assigned only where the IPD-owned governed security master resolves the row; nothing is inferred from
         company-name similarity, and an unresolved row stays unresolved.</p>
-      <p><strong>Preview only — not saved.</strong> Durable portfolio saving remains unavailable.
-        This is separate from the certified reference portfolio and its analytics.</p>
+      <p><strong>Preview only — not saved.</strong> Nothing on this screen is written to the
+        portfolio store. This screen parses a CSV in the browser and retains the parsed
+        evidence; it has no save path at all. The separate <em>Broker Import</em> screen is the
+        one that can commit holdings, and it commits only through the governed whole-import
+        identity gate — which is applied on the store side, never here. This is separate from
+        the certified reference portfolio and its analytics.</p>
       {/*
         * Retention disclosure reconciled per IIPS-V3-CAP02-U1-AMEND-01 §8.4(18), rendering the PA's
         * Decision 6 of 2026-11-05. Clause 18(1) named the contradiction this block removes: the copy
@@ -106,8 +110,9 @@ export function BrokerHoldingsPreview() {
             <strong> no route enumerates</strong> evidence records — one record is retrievable only by its
             own import identifier, and there is no list endpoint.</li>
           <li>Retention of evidence is <strong>not a save</strong>, not a validation, not an authorization
-            and not durability of holdings: <code>savedRows</code> stays 0 and
-            <code>WRITE_NOT_AUTHORIZED</code> is unchanged.</li>
+            and not durability of holdings: <code>savedRows</code> stays 0. Retaining evidence never
+            commits a holding, and a retained record never implies that a portfolio write was
+            authorized or performed.</li>
         </ul>
       </section>
       <label htmlFor="broker-csv">Broker CSV (maximum 1 MiB)</label>{' '}
@@ -122,10 +127,22 @@ export function BrokerHoldingsPreview() {
           UNCONFIRMED: 'Evidence retention unconfirmed. Check retained evidence or explicitly retry the original snapshot.',
           ACKNOWLEDGED_UNVERIFIED: 'Retention acknowledged; retrieval not verified.',
           CONFLICT: 'Evidence conflict: the original record was preserved. This snapshot was not accepted.',
+          TAMPERED: 'The retained record failed its own integrity check and was not served. It is not reported as absent and must not be edited or replaced in place.',
+          REFUSED: 'Evidence retention was refused by the application. No evidence was retained under this import.',
+          UNAVAILABLE: 'Evidence storage was unavailable. The retention outcome is unknown: nothing is claimed retained or absent.',
         })[retention.state]}{retention.importId && <> Import ID: <code>{retention.importId}</code></>}</p>}
-        {snapshot && !retaining && retention.state !== 'VERIFIED' && <>
+        {/*
+          * The action row is rendered whenever a snapshot exists and no retention attempt is
+          * in flight. It is NOT hidden once retention reaches VERIFIED: a verified snapshot
+          * still has a reachable "Check retained evidence" action, and every distinct
+          * non-verified state (not retained, tampered, refused, unavailable, conflict,
+          * acknowledged-but-unverified) keeps the explicit retry available. Hiding the row
+          * on VERIFIED previously left the operator with a terminal label and no action,
+          * which is how a retention attempt became indistinguishable from a dead end.
+          */}
+        {snapshot && !retaining && <>
           <button type="button" onClick={() => { void retain(snapshot, sequence.current, true); }}>Check retained evidence</button>{' '}
-          <button type="button" onClick={() => { void retain(snapshot, sequence.current); }}>Retry original evidence snapshot</button>
+          {retention.state !== 'VERIFIED' && <button type="button" onClick={() => { void retain(snapshot, sequence.current); }}>Retry original evidence snapshot</button>}
         </>}
         {busy && <p>Reading CSV…</p>}
         {error && <p role="alert">{error}</p>}

@@ -142,7 +142,7 @@ function describeRefusalMessage(code: PortfolioPortRefusalCode, rawOutcome: stri
     case 'REFUSED_UNRESOLVED_IDENTITY':
       return 'REFUSED_UNRESOLVED_IDENTITY: Unresolved or ambiguous holdings cannot be persisted (DP-2 Option 2F).';
     case 'REFUSED_STORE_GUARD':
-      return 'REFUSED_STORE_GUARD: The portfolio store guard refused the holding vector.';
+      return 'REFUSED_STORE_GUARD: The portfolio store guard refused the holding vector. The governed whole-import identity gate (Gate E W-6 / DP-2 2F) is not applied on the only commit path available to this host, so no broker-observed holding was written and no identity was assigned.';
     case 'UNAVAILABLE':
     default:
       return rawOutcome === 'OWNER_CONTEXT_UNAVAILABLE'
