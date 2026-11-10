@@ -205,3 +205,62 @@ describe('Personal Portfolio (local single-user editor)', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1); // only the initial load
   });
 });
+
+/**
+ * WS-A — the 503 banner names what is missing, and an absent portfolio is not an error.
+ */
+describe('Personal Portfolio — unavailable is diagnosable, absent is editable', () => {
+  it('shows the missing server settings for a binding diagnosis', async () => {
+    mockSequence([{
+      ok: false,
+      status: 503,
+      body: {
+        error: 'owner-context-unavailable',
+        detail: {
+          reason: 'No non-authentication ownership source has been established.',
+          unavailableReason: 'binding-precondition-absent',
+          requiredSettings: ['IIPS_G3_IPC_BINDING_PROVISIONED', 'IIPS_G2_IPC_ENDPOINT'],
+        },
+      },
+    }]);
+    renderPage();
+    const banner = await screen.findByTestId('pp-unavailable');
+    expect(banner).toHaveTextContent('owner-binding precondition is absent');
+    const settings = screen.getByTestId('pp-required-settings');
+    expect(settings).toHaveTextContent('IIPS_G3_IPC_BINDING_PROVISIONED');
+    expect(settings).toHaveTextContent('IIPS_G2_IPC_ENDPOINT');
+    // It must not read as if the portfolio is empty or lost.
+    expect(banner).toHaveTextContent('not an empty portfolio');
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+  });
+
+  it('distinguishes an unreachable IPD service from an unconfigured one', async () => {
+    mockSequence([{
+      ok: false,
+      status: 503,
+      body: {
+        error: 'upstream-unavailable',
+        detail: { unavailableReason: 'ipc-endpoint-unreachable', requiredSettings: ['IIPS_G2_IPC_ENDPOINT'] },
+      },
+    }]);
+    renderPage();
+    expect(await screen.findByTestId('pp-unavailable')).toHaveTextContent('did not answer');
+  });
+
+  it('keeps the generic banner when the transport publishes no diagnosis', async () => {
+    mockSequence([{ ok: false, status: 503, body: { error: 'upstream-unavailable' } }]);
+    renderPage();
+    expect(await screen.findByTestId('pp-unavailable')).toBeInTheDocument();
+    expect(screen.queryByTestId('pp-required-settings')).not.toBeInTheDocument();
+  });
+
+  it('an absent portfolio is a create form, never the unavailable banner', async () => {
+    mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
+    renderPage();
+    expect(await screen.findByTestId('pp-save')).toHaveTextContent('Create portfolio');
+    expect(screen.queryByTestId('pp-unavailable')).not.toBeInTheDocument();
+    // No invented holdings: exactly one blank row.
+    expect(screen.getAllByLabelText('Symbol')).toHaveLength(1);
+    expect((screen.getByLabelText('Symbol') as HTMLInputElement).value).toBe('');
+  });
+});

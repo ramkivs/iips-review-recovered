@@ -5,7 +5,7 @@ import {
   PermissionDeniedState,
   UnavailableState,
 } from '../../components/state/StateComponents';
-import type { UserPortfolioApiError } from '../../api/userPortfolios';
+import type { ReadUnavailableReason, UserPortfolioApiError } from '../../api/userPortfolios';
 
 /** 404 remains indistinguishable across missing, foreign, tenant-mismatched, or tombstoned IDs. */
 export function UserPortfolioNotFoundState() {
@@ -24,6 +24,46 @@ export function UserPortfolioNotFoundState() {
   );
 }
 
+/**
+ * Human-readable expansion of a fail-closed diagnosis.
+ *
+ * These state the *local* startup condition only. They never name an owner, tenant, principal or
+ * path, and never suggest that data was lost — an unreachable service is not an empty portfolio.
+ */
+const DIAGNOSIS_TEXT: Readonly<Record<ReadUnavailableReason, string>> = Object.freeze({
+  'binding-precondition-absent':
+    'The IRR server is not configured to read durable portfolios: the owner-binding precondition is absent.',
+  'ipc-endpoint-not-configured':
+    'The IRR server has no IPD user-portfolio endpoint configured, so no portfolio can be read.',
+  'ipc-endpoint-unreachable':
+    'The IPD user-portfolio service is configured but did not answer. Start IPD and check its endpoint.',
+});
+
+/** The settings an operator must set for the read path to come up. */
+export function ReadUnavailableDetail({ error }: { error: UserPortfolioApiError }) {
+  const diagnosis = error.diagnosis;
+  if (diagnosis === undefined) return null;
+  return (
+    <div data-testid="read-unavailable-diagnosis" style={{ marginTop: 8, fontSize: 13 }}>
+      <p style={{ margin: 0 }}>{DIAGNOSIS_TEXT[diagnosis.reason]}</p>
+      {diagnosis.requiredSettings.length > 0 ? (
+        <p style={{ margin: '4px 0 0' }}>
+          Required server settings:{' '}
+          {diagnosis.requiredSettings.map((setting, index) => (
+            <span key={setting}>
+              {index > 0 ? ', ' : ''}
+              <code>{setting}</code>
+            </span>
+          ))}
+        </p>
+      ) : null}
+      <p style={{ margin: '4px 0 0', color: 'var(--color-ink-secondary)' }}>
+        This is a configuration state, not an empty portfolio. No data was read, so none is shown.
+      </p>
+    </div>
+  );
+}
+
 /** Maps transport status onto existing application states without an authentication prompt. */
 export function UserPortfolioErrorState({ error }: { error: UserPortfolioApiError }) {
   if (error.status === 401) return <ErrorState message={error.message} />;
@@ -33,6 +73,7 @@ export function UserPortfolioErrorState({ error }: { error: UserPortfolioApiErro
     return (
       <div>
         <UnavailableState reason="User portfolio service unavailable" />
+        <ReadUnavailableDetail error={error} />
         {error.blocker !== undefined ? (
           <p data-testid="g2-boundary-detail" style={{ marginTop: 8, fontSize: 13, color: 'var(--color-ink-secondary)' }}>
             <strong>Availability detail:</strong> {error.blocker}
