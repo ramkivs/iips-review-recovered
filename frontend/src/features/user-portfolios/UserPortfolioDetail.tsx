@@ -11,7 +11,7 @@
  * as opaque values — carried verbatim, never hashed, recomputed, compared, or
  * adjudicated client-side.
  */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   fetchPortfolioDispositions,
@@ -29,14 +29,10 @@ import {
   type UserPortfolioRead,
 } from '../../api/userPortfolios';
 import { LoadingState, EmptyState } from '../../components/state/StateComponents';
-import {
-  DataTable,
-  MetricCard,
-  MetricGroup,
-  type Column,
-} from '../../components/data/DataComponents';
+import { DataTable, type Column } from '../../components/data/DataComponents';
 import type { UserPortfolioHolding, UserPortfolioContribution } from '../../api/userPortfolios';
 import { UserPortfolioErrorState, formatInr, formatPct, shortDigest } from './UserPortfolioStates';
+import { PortfolioStatusSummary } from './PortfolioStatusSummary';
 
 /**
  * IID-6 — one holding's disposition, as the portfolio list reports it.
@@ -163,6 +159,12 @@ export function UserPortfolioDetail() {
   const [dispositions, setDispositions] = useState<readonly PortfolioDispositionEntry[] | null>(null);
   // IID WI-2 (P3): a SEPARATE read, so a disposition failure cannot suppress company/history navigation.
   const [identities, setIdentities] = useState<readonly HoldingIdentity[] | null>(null);
+  // Bumping the token re-issues every read on this surface; the summary's Refresh uses it,
+  // so one action re-observes the portfolio read and the revision history together.
+  const [reloadToken, setReloadToken] = useState(0);
+  const reload = useCallback(() => {
+    setReloadToken((token) => token + 1);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -199,7 +201,7 @@ export function UserPortfolioDetail() {
     return () => {
       cancelled = true;
     };
-  }, [portfolioId]);
+  }, [portfolioId, reloadToken]);
 
   if (error !== null) {
     return (
@@ -301,16 +303,14 @@ export function UserPortfolioDetail() {
         <Link to="/user-portfolios">← All user portfolios</Link>
       </p>
       <h2>{view.portfolioName}</h2>
-      <MetricGroup label="Portfolio">
-        <MetricCard label="Total value" value={view.totalMarketValue} unit="INR" direction={null} />
-        <MetricCard label="Holdings" value={view.totalHoldingsCount} direction={null} />
-        <MetricCard label="Weight sum" value={view.weightSumPercentage} unit="%" direction={null} />
-        <MetricCard label="Revision" value={view.revision} direction={null} />
-      </MetricGroup>
-      <p style={{ fontSize: 13, color: 'var(--color-ink-secondary)' }} data-testid="user-portfolio-status">
-        {view.isSaved ? 'Committed to the durable store.' : 'Not committed to the durable store.'}{' '}
-        Updated {view.lastUpdated}. Provenance {shortDigest(view.provenanceDigest)}.
-      </p>
+      {/*
+        The status summary replaces the former metric row and the `isSaved` line.
+        `isSaved` alone is not a persistence verdict: IPD derives it from the current
+        revision's operation, so an INITIAL revision that already carries persisted
+        holdings reports isSaved=false. The summary derives the state from the stored
+        operation and the revision's holdings count instead.
+      */}
+      <PortfolioStatusSummary portfolioId={portfolioId ?? ''} read={read} onRefresh={reload} />
 
       {/* IID WI-2A (Correction B): a malformed record is disclosed, never rendered as a holding and never
           silently dropped. Upstream totals are shown verbatim and are not recomputed from the subset. */}

@@ -113,6 +113,27 @@ function stubTransport(options: {
           { status: options.status ?? 200, headers: { 'content-type': 'application/json' } },
         );
       }
+      if (url.endsWith('/revisions')) {
+        // Mirrors the detail body's revision facts so this suite keeps exercising the
+        // WI-2A payload-resilience paths rather than the summary's own diagnosis.
+        const body = (options.body ?? {}) as { portfolio?: Record<string, unknown> };
+        const view = body.portfolio ?? {};
+        const revision = typeof view.revision === 'number' ? view.revision : 1;
+        const holdingsCount = typeof view.totalHoldingsCount === 'number' ? view.totalHoldingsCount : 0;
+        return new Response(
+          JSON.stringify({
+            revisions: [{
+              revision,
+              operation: 'INITIAL',
+              totalMarketValue: typeof view.totalMarketValue === 'number' ? view.totalMarketValue : 0,
+              provenanceDigest: typeof view.provenanceDigest === 'string' ? view.provenanceDigest : '',
+              holdingsCount,
+              createdAt: typeof view.lastUpdated === 'string' ? view.lastUpdated : '2026-11-08T00:00:00.000Z',
+            }],
+          }),
+          { status: 200, headers: { 'content-type': 'application/json' } },
+        );
+      }
       if (url.endsWith('/identities')) {
         return new Response(
           JSON.stringify({
@@ -418,7 +439,10 @@ describe('B — payload resilience does not weaken the P3 identity contract', ()
     stubTransport({ body: { portfolio: viewOf({ holdings: [{ symbol: 'BROKEN' }, holdingOf()] }) } });
     renderDetail();
     await screen.findByRole('heading', { name: 'Resilience Portfolio' });
-    expect(screen.queryByRole('button')).toBeNull();
+    // The only control on this surface is the summary's Refresh, which re-issues the
+    // same read-only reads; no control changes data.
+    const controls = screen.queryAllByRole('button');
+    expect(controls.map((node) => node.getAttribute('data-testid'))).toEqual(['summary-refresh']);
     expect(screen.queryByRole('textbox')).toBeNull();
     expect(screen.queryByRole('form')).toBeNull();
   });

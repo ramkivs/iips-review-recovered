@@ -66,19 +66,36 @@ const VIEW: UserPortfolioView = {
   ],
 };
 
+function jsonOk(body: unknown): Response {
+  return new Response(JSON.stringify(body), { status: 200, headers: { 'content-type': 'application/json' } });
+}
+
+/** The stored revision entry behind VIEW, so the status summary reads a coherent pair. */
+const REVISION = {
+  revision: VIEW.revision,
+  operation: 'MERGE',
+  totalMarketValue: VIEW.totalMarketValue,
+  provenanceDigest: VIEW.provenanceDigest,
+  holdingsCount: VIEW.totalHoldingsCount,
+  createdAt: VIEW.lastUpdated,
+};
+
 beforeEach(() => {
-  globalThis.fetch = vi.fn().mockResolvedValue({
-    ok: true,
-    json: async () => ({ portfolio: VIEW }),
+  globalThis.fetch = vi.fn(async (input: string) => {
+    const url = String(input);
+    if (url.endsWith('/revisions')) return jsonOk({ revisions: [REVISION] });
+    if (url.endsWith('/identities')) {
+      return jsonOk({ status: 'OK', portfolioId: VIEW.portfolioId, count: 0, identities: [] });
+    }
+    if (url.endsWith('/dispositions')) {
+      return jsonOk({ status: 'OK', portfolioId: VIEW.portfolioId, count: 0, dispositions: [], limitations: [] });
+    }
+    return jsonOk({ portfolio: VIEW });
   }) as never;
 });
 
 function mockStatus(status: number, body: unknown): void {
-  (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
-    ok: false,
-    status,
-    json: async () => body,
-  });
+  globalThis.fetch = vi.fn(async () => new Response(JSON.stringify(body), { status })) as never;
 }
 
 function renderDetail(portfolioId = 'pf-alpha'): void {
@@ -96,8 +113,12 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
     renderDetail();
     expect(await screen.findByRole('heading', { name: 'Primary Portfolio' })).toBeInTheDocument();
     // Metrics render transport values verbatim (no recomputation).
-    expect(screen.getAllByTestId('metric-value')[0]).toHaveTextContent('48102.5 INR');
-    expect(screen.getByTestId('user-portfolio-status')).toHaveTextContent('Committed to the durable store.');
+    // Persistence is derived from the stored operation of the current revision, not from
+    // `isSaved`: revision 3 is a MERGE, so the portfolio was updated.
+    expect(await screen.findByTestId('summary-persistence-status')).toHaveTextContent('UPDATED');
+    expect(screen.getByTestId('summary-total-value')).toHaveTextContent('₹48,102.50');
+    expect(screen.getByTestId('summary-weight-sum')).toHaveTextContent('99.8000%');
+    expect(screen.getByTestId('summary-digest')).toHaveTextContent('eeeeeeeeeeee…');
     // Holdings table renders every holding symbol (symbol and company share the text here).
     expect(screen.getAllByText('TCS').length).toBeGreaterThan(0);
     expect(screen.getAllByText('INFY').length).toBeGreaterThan(0);
@@ -168,7 +189,10 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
     renderDetail();
     await screen.findByRole('heading', { name: 'Primary Portfolio' });
     // No save/edit/delete/reset/import/upload/revision control; no form/input surface.
-    expect(screen.queryByRole('button')).toBeNull();
+    // The one control that exists is the status summary's Refresh, which re-issues the
+    // same read-only reads — it sends no mutation and offers no data-entry surface.
+    const controls = screen.queryAllByRole('button');
+    expect(controls.map((node) => node.getAttribute('data-testid'))).toEqual(['summary-refresh']);
     expect(screen.queryByRole('form')).toBeNull();
     expect(screen.queryByRole('textbox')).toBeNull();
     expect(screen.queryByText(/import more/i)).toBeNull();

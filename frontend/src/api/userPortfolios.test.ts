@@ -8,6 +8,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   createUserPortfolio,
+  fetchUserPortfolioRevisions,
   fetchUserPortfolioSummaries,
   saveUserPortfolioHoldings,
   deleteUserPortfolio,
@@ -274,5 +275,89 @@ describe('read-path diagnosis on a fail-closed 503', () => {
   it('an empty 200 list stays a successful empty result, never an unavailable error', async () => {
     mockFetch(200, { portfolios: [] });
     await expect(fetchUserPortfolioSummaries()).resolves.toEqual([]);
+  });
+});
+
+/**
+ * The revision-history read client.
+ *
+ * It uses the existing admitted route and adds no IPC operation. The persistence
+ * status is derived from what this returns, so an unreadable or malformed history
+ * MUST fail closed: an empty history read as "no revisions" would let a portfolio
+ * with persisted holdings be presented as empty or unpersisted.
+ */
+describe('fetchUserPortfolioRevisions', () => {
+  const ENTRY = {
+    revision: 2,
+    operation: 'MERGE',
+    totalMarketValue: 48102.5,
+    provenanceDigest: 'e'.repeat(64),
+    holdingsCount: 2,
+    createdAt: '2026-10-01T10:00:00.000Z',
+  };
+
+  it('GETs the admitted revisions route with the identifier encoded and no credentials', async () => {
+    mockFetch(200, { revisions: [ENTRY] });
+    const result = await fetchUserPortfolioRevisions('pf alpha');
+    const [url, init] = lastFetchCall();
+    expect(url).toBe('/api/user-portfolios/pf%20alpha/revisions');
+    expect(init.method).toBeUndefined();
+    expect(init.credentials).toBe('omit');
+    expect(new Headers(init.headers).has('authorization')).toBe(false);
+    expect(result).toEqual({ revisions: [ENTRY], rejectedRevisions: 0 });
+  });
+
+  it('returns the admissible entries and counts the refused ones instead of dropping them', async () => {
+    mockFetch(200, {
+      revisions: [
+        ENTRY,
+        { ...ENTRY, revision: 1, operation: 'INITIAL' },
+        { revision: 3, operation: 'MERGE' }, // missing required fields
+        { ...ENTRY, revision: -1 }, // negative revision
+        { ...ENTRY, revision: 4, operation: 'SOMETHING_ELSE' }, // outside the closed vocabulary
+        { ...ENTRY, revision: 5, totalMarketValue: 'lots' }, // non-finite value
+        { ...ENTRY, revision: 6, createdAt: '   ' }, // blank commit instant
+        'not-an-object',
+      ],
+    });
+    const result = await fetchUserPortfolioRevisions('pf-alpha');
+    expect(result.revisions).toEqual([ENTRY, { ...ENTRY, revision: 1, operation: 'INITIAL' }]);
+    expect(result.rejectedRevisions).toBe(6);
+  });
+
+  it('accepts an optional content digest and refuses a non-string one', async () => {
+    mockFetch(200, { revisions: [{ ...ENTRY, contentDigest: 'f'.repeat(64) }] });
+    await expect(fetchUserPortfolioRevisions('pf-alpha')).resolves
+      .toEqual({ revisions: [{ ...ENTRY, contentDigest: 'f'.repeat(64) }], rejectedRevisions: 0 });
+    mockFetch(200, { revisions: [{ ...ENTRY, contentDigest: 42 }] });
+    await expect(fetchUserPortfolioRevisions('pf-alpha')).resolves
+      .toEqual({ revisions: [], rejectedRevisions: 1 });
+  });
+
+  it('fails closed on a malformed envelope rather than reporting an empty history', async () => {
+    for (const body of [{}, { revisions: 'nope' }, { revisions: {} }, null]) {
+      mockFetch(200, body);
+      await expect(fetchUserPortfolioRevisions('pf-alpha'), JSON.stringify(body)).rejects.toMatchObject({ status: 500 });
+    }
+    mockFetch(200, '{not-json');
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => { throw new Error('bad json'); } }) as never;
+    await expect(fetchUserPortfolioRevisions('pf-alpha')).rejects.toMatchObject({ status: 500 });
+  });
+
+  it('maps a missing portfolio and an unavailable service onto their typed errors', async () => {
+    mockFetch(404, { error: 'not found' });
+    await expect(fetchUserPortfolioRevisions('pf-alpha')).rejects.toMatchObject({ status: 404 });
+    mockFetch(503, {
+      error: 'owner-context-unavailable',
+      detail: { unavailableReason: 'ipc-endpoint-unreachable', requiredSettings: ['IIPS_G2_IPC_ENDPOINT'] },
+    });
+    const error = (await fetchUserPortfolioRevisions('pf-alpha').catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error.status).toBe(503);
+    expect(error.diagnosis).toEqual({ reason: 'ipc-endpoint-unreachable', requiredSettings: ['IIPS_G2_IPC_ENDPOINT'] });
+  });
+
+  it('a transport fault is an error, never an empty history', async () => {
+    globalThis.fetch = vi.fn().mockRejectedValue(new Error('socket hang up')) as never;
+    await expect(fetchUserPortfolioRevisions('pf-alpha')).rejects.toMatchObject({ status: 0 });
   });
 });
