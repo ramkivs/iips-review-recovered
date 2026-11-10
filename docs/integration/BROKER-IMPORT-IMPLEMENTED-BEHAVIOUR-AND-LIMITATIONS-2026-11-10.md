@@ -15,7 +15,7 @@ impression that the workflow can commit broker holdings today.
 
 | Area | Before | After |
 |---|---|---|
-| Evidence-action outcomes | every distinct server outcome collapsed into one `UNCONFIRMED` | five distinct, separately rendered outcomes |
+| Evidence-action outcomes | every distinct server outcome collapsed into one `UNCONFIRMED` | eight distinct, separately rendered outcomes |
 | Evidence action row | hidden once retention reached `VERIFIED`, leaving a terminal label with no action | stays reachable; the explicit retry is offered in every non-verified state |
 | Browser POSTs through the documented Vite proxy | refused `403 cross-site-request-refused` for **every** browser write, including the product's own | accepted when the authority is the same loopback host; a third-party origin is still refused |
 | Broker-observed commit | wrote holdings with `identityStatus: 'UNRESOLVED'` and a synthetic `MANUAL:<SYMBOL>` company id, and applied **no** whole-import identity refusal | refused fail-closed with `422 REFUSED_STORE_GUARD`, zero store effect, before any socket is opened |
@@ -48,7 +48,7 @@ The **commit** surface. It mounts IPD's `BrokerImportModal` (exported from
 
 ---
 
-## 3. Evidence retention: five distinct outcomes
+## 3. Evidence retention: eight distinct outcomes
 
 `frontend/src/api/brokerEvidenceRetention.ts` previously mapped every failure to `UNCONFIRMED`.
 The server already distinguished them, and the browser discarded the distinction. The client
