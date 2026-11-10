@@ -736,6 +736,19 @@ export function isOwnerScopedApiPath(url: string | undefined): boolean {
 // Shared across requests in THIS process only. No durable/multi-worker history or owner state.
 const governedScreenReplay = new GovernedScreenReplayService(new ScreenCaptureStore());
 
+/**
+ * DHAN-P4 identity: the one place an IRR-internal identity fault is recorded.
+ *
+ * A fault here means this server failed — a module that would not load, a request stream that
+ * broke, or an unexpected throw from the transport — not that IPD refused the request. The
+ * browser gets an opaque 503 either way; the operator needs the cause, so it goes to the
+ * server log. No configured value is ever logged: the transport passes fixed phrases or the
+ * fault's own message, and the token/URL never appear in an exception raised by this path.
+ */
+function reportIdentityFault(fault: { readonly stage: string; readonly message: string }): void {
+  console.error(`[dhan-identity] IRR-side fault during ${fault.stage}: ${fault.message}`);
+}
+
 const server = http.createServer(async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   // C8: no wildcard cross-origin grant on an owner-scoped route.
@@ -753,8 +766,14 @@ const server = http.createServer(async (req, res) => {
     void (async () => {
       try {
         const identity = await import('./market-data/dhanIdentityTransport');
-        await identity.handleDhanIdentityRequest(req, res);
-      } catch {
+        await identity.handleDhanIdentityRequest(req, res, { failure: reportIdentityFault });
+      } catch (fault) {
+        // The response says only that this server failed. The diagnosis goes to the server log,
+        // where the operator can act on it — the same split /api/dhan/health already uses.
+        reportIdentityFault({
+          stage: 'transport',
+          message: fault instanceof Error ? `${fault.name}: ${fault.message}` : String(fault),
+        });
         if (!res.headersSent && !res.destroyed) {
           res.writeHead(503, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
           res.end(JSON.stringify({ error: { code: 'TRANSPORT_UNAVAILABLE', message: 'The IRR identity service is unavailable.' } }));

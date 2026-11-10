@@ -98,6 +98,99 @@ describe('DHAN identity server transport', () => {
     expect(source).toContain("import('./market-data/dhanIdentityTransport')");
   });
 
+  it('names the missing settings, but never their values, when the transport is unconfigured', async () => {
+    // The symptom this pins: an INFY search against an unconfigured server used to answer
+    // "The server-side IPD transport is not configured." with no way to act on it.
+    const outcome = await requestDhanIdentity(DHAN_IDENTITY_ROUTES.search, { query: 'INFY' }, { env: {} });
+    expect(outcome).toMatchObject({
+      ok: false,
+      status: 503,
+      body: {
+        error: {
+          code: 'TRANSPORT_NOT_CONFIGURED',
+          requiredSettings: ['IIPS_MARKET_DATA_TRANSPORT_URL', 'IIPS_MARKET_DATA_TRANSPORT_TOKEN'],
+        },
+      },
+    });
+    expect(JSON.stringify(outcome)).toContain('IIPS_MARKET_DATA_TRANSPORT_URL');
+
+    // An invalid configured URL is a different operator action, and still leaks no value.
+    const invalid = await requestDhanIdentity(
+      DHAN_IDENTITY_ROUTES.search,
+      { query: 'INFY' },
+      { env: { IIPS_MARKET_DATA_TRANSPORT_URL: 'http://example.com:9099', IIPS_MARKET_DATA_TRANSPORT_TOKEN: TOKEN } },
+    );
+    expect(invalid).toMatchObject({ ok: false, status: 503, body: { error: { code: 'TRANSPORT_NOT_CONFIGURED' } } });
+    const serialized = JSON.stringify(invalid);
+    expect(serialized).not.toContain('example.com');
+    expect(serialized).not.toContain(TOKEN);
+  });
+
+  it('separates an unconfigured server from an unreachable IPD so the two are not conflated', async () => {
+    const unconfigured = await requestDhanIdentity(DHAN_IDENTITY_ROUTES.search, { query: 'INFY' }, { env: {} });
+    const unreachable = await requestDhanIdentity(
+      DHAN_IDENTITY_ROUTES.search,
+      { query: 'INFY' },
+      { env: ENV, fetchImpl: vi.fn(async () => { throw new Error('connect ECONNREFUSED 127.0.0.1:8791'); }) },
+    );
+    expect(unconfigured.ok).toBe(false);
+    expect(unreachable.ok).toBe(false);
+    if (unconfigured.ok || unreachable.ok) throw new Error('both failures expected');
+    expect(unconfigured.body.error.code).toBe('TRANSPORT_NOT_CONFIGURED');
+    expect(unreachable.body.error.code).toBe('TRANSPORT_UNAVAILABLE');
+    // Only the IRR-side message says "IRR"; an IPD-side message names IPD.
+    expect(unreachable.body.error.message).toContain('IPD');
+    expect(unreachable.body.error.message).not.toContain('IRR');
+    expect(unreachable.body.error.requiredSettings).toBeUndefined();
+    expect(JSON.stringify(unreachable)).not.toContain('ECONNREFUSED');
+  });
+
+  it('reports an IRR-internal fault to the operator hook and answers with a classified body', async () => {
+    const faults: string[] = [];
+    const server = http.createServer((req, res) => {
+      void handleDhanIdentityRequest(req, res, {
+        env: ENV,
+        failure: (fault) => faults.push(`${fault.stage}:${fault.message}`),
+        fetchImpl: vi.fn(async () => { throw new Error('IRR transport bug: unexpected throw'); }),
+      });
+    });
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+    const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    try {
+      // A throwing fetch is classified by the transport itself; no IRR fault is recorded, and
+      // the reason never reaches the browser.
+      const resp = await fetch(`${base}${DHAN_IDENTITY_API_ROUTES.search}`, {
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ query: 'INFY' }),
+      });
+      expect(resp.status).toBe(503);
+      const body = (await resp.json()) as { error: { code: string; message: string } };
+      expect(body.error.code).toBe('TRANSPORT_UNAVAILABLE');
+      expect(JSON.stringify(body)).not.toContain('IRR transport bug');
+      expect(faults).toEqual([]);
+    } finally { server.closeAllConnections(); await new Promise<void>((resolve) => server.close(() => resolve())); }
+  });
+
+  it('records an aborted request stream as an IRR-side fault instead of a client contract violation', async () => {
+    const faults: string[] = [];
+    const server = http.createServer((req, res) => {
+      void handleDhanIdentityRequest(req, res, { env: ENV, failure: (fault) => faults.push(fault.stage) });
+    });
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+    const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    try {
+      // Announce more bytes than are sent, then destroy the connection mid-body.
+      await fetch(`${base}${DHAN_IDENTITY_API_ROUTES.search}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'content-length': '100' },
+        body: '{"query":"INFY"',
+      }).catch(() => undefined);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      // Either the stream failed (recorded) or the truncated body parsed as invalid JSON (400,
+      // not recorded). Both are correct; what must never happen is silent flattening.
+      expect(faults.every((stage) => stage === 'request-body')).toBe(true);
+    } finally { server.closeAllConnections(); await new Promise<void>((resolve) => server.close(() => resolve())); }
+  });
+
   it('does not import or write IRR identity-roster state or Personal Portfolio valuation modules', () => {
     const source = readFileSync('server/market-data/dhanIdentityTransport.ts', 'utf8');
     expect(source).not.toMatch(/SecurityMaster|security_master|identityRoster|writeIdentity|persistIdentity/);

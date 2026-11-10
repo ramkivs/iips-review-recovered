@@ -56,6 +56,38 @@ describe('DHAN instrument search and identity UI', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('The IPD service could not be reached.');
   });
 
+  it('turns an unconfigured-server failure on INFY into an actionable message naming the settings', async () => {
+    // Regression for "The IRR identity service is unavailable." on an INFY search: the user
+    // must learn what the server is missing, not just that something is unavailable.
+    vi.mocked(api.searchDhanInstruments).mockRejectedValueOnce(new api.DhanIdentityApiError(
+      'TRANSPORT_NOT_CONFIGURED',
+      'The server-side IPD identity transport is not configured; no request was sent to IPD.',
+      503,
+      ['IIPS_MARKET_DATA_TRANSPORT_URL', 'IIPS_MARKET_DATA_TRANSPORT_TOKEN'],
+    ));
+    render(<DhanInstrumentSearch />);
+    fireEvent.change(screen.getByLabelText('Symbol or ISIN'), { target: { value: 'INFY' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Search instruments' }));
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent('Configure IIPS_MARKET_DATA_TRANSPORT_URL and IIPS_MARKET_DATA_TRANSPORT_TOKEN on the IRR server.');
+    // Names are shown; no configuration value is ever rendered.
+    expect(alert.textContent).not.toMatch(/Bearer|http:\/\/|token=/i);
+  });
+
+  it('leaves a plain transport failure message unchanged when the server names no settings', async () => {
+    vi.mocked(api.searchDhanInstruments).mockRejectedValueOnce(new api.DhanIdentityApiError(
+      'TRANSPORT_UNAVAILABLE',
+      'The IPD identity service could not be reached.',
+      503,
+    ));
+    render(<DhanInstrumentSearch />);
+    fireEvent.change(screen.getByLabelText('Symbol or ISIN'), { target: { value: 'INFY' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Search instruments' }));
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent('The IPD identity service could not be reached.');
+    expect(alert.textContent).not.toContain('Configure');
+  });
+
   it('submits qualification inputs as supplied and renders the exact typed unresolved outcome', async () => {
     vi.mocked(api.qualifyDhanIdentity).mockResolvedValue(unresolved);
     render(<DhanInstrumentSearch />);

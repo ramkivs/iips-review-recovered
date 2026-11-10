@@ -276,6 +276,22 @@ The governed MoSPI / e-Sankhyiki read surface serves **exactly** `NAS`, `CPI`, `
 
 **The Macro screen is a read-only disclosure surface, and nothing more.** The D89 UI-disclosure implementation gate (`CV-53-D89-MACRO-UI-DISCLOSURE-IMPLEMENTATION-AUTHORITY-DECISION-ACT-01`) authorizes the display contract only, so `frontend/src/features/research/MacroResearch.tsx` is mounted at **`/research/macro`** (sidebar → Research → Macro) and renders `MacroSourceDisclosure` (the `DT-1…DT-8`, `DT-13` product-transparency disclosure) adjacent to the observations returned by the governed read. It shows only what the read returned: a failed or partial retrieval is rendered as a refusal, nothing is cached or synthesized, no period/base year/freshness/citation is invented, and no licence, rights or endorsement language appears. What it does **not** change: entitlement stays `B — PARTIALLY ESTABLISHED`, formal Category-A attribution stays `NOT DETERMINED`, `M-3` stays `NOT ESTABLISHED`, and production stays `NOT AUTHORIZED`. No dataset outside `NAS`/`CPI`/`IIP` is addressable. Separately, the built Intelligence routes are `/intelligence/opportunities`, `/intelligence/risks`, `/intelligence/rankings`, and `/intelligence/decision-matrix`; the `/intelligence` sidebar parent remains a non-clickable group heading, and unmatched `/intelligence/*` paths remain honest `FeatureNotImplemented` placeholders. This route inventory does not change the Macro disclosure boundary.
 
+### 5.2 DHAN instrument search and identity evidence (`/api/dhan/*`)
+
+IRR forwards three operations to the IPD P4 offline identity HTTP contract (`docs/IPD-P4-IDENTITY-HTTP.md` at IPD `d5e20c15`) and validates response coherence; it does not keep its own identity registry. The IPD bearer token and daemon URL are read **only** from the server environment, so the browser never holds a credential.
+
+| Request | Status | Note |
+|---|---|---|
+| `POST /api/dhan/instruments/search` `{"query":"INFY"}` | `200` | `{data:{results:[…]},provenance:{authority:"IPD",mode:"SNAPSHOT"}}`; each row carries its own `QUALIFIED`/`UNRESOLVED`/`AMBIGUOUS` outcome, and a candidate row is **not** a qualified identity |
+| `POST /api/dhan/identity/resolve` `{"companyId","exchange","securityId":"ISIN:<isin>:<series>"}` | `200` | exact identity only; no partial fallback |
+| `POST /api/dhan/identity/qualify` `{"exchange":"NSE","isin"?,"symbol"?}` | `200` | omitting `isin` returns the typed `MISSING_ISIN` outcome rather than an error |
+| any of the three, `IIPS_MARKET_DATA_TRANSPORT_URL`/`_TOKEN` unset or the URL non-loopback | `503` | `{"error":{"code":"TRANSPORT_NOT_CONFIGURED","message":…,"requiredSettings":["IIPS_MARKET_DATA_TRANSPORT_URL","IIPS_MARKET_DATA_TRANSPORT_TOKEN"]}}` — names only, never a value; no request is sent to IPD |
+| any of the three, IPD not answering | `503` | `TRANSPORT_UNAVAILABLE` — *“The IPD identity service could not be reached.”* |
+| any of the three, IPD rejects the bearer token | `502` | `TRANSPORT_AUTHENTICATION_FAILED` |
+| any of the three, IRR itself fails to serve the route | `503` | `TRANSPORT_UNAVAILABLE` — *“The IRR identity service is unavailable.”* The cause is **not** in the body; it is logged by the transport as `[dhan-identity] IRR-side fault during …`. See §9 |
+
+The distinction between the last three is the wording, and it matters: only the IRR-level message starts with *“The IRR identity service…”*. Everything else either names IPD or names the setting to configure.
+
 ## 6. Prove durability (Class-C journal), 2 minutes
 
 ```bash
@@ -324,6 +340,10 @@ Expected at the verified current baseline: typecheck exit `0`; vitest **108 file
 | Every screen shows an error state | is the transport on `8787`? `curl localhost:8787/api/health` | Vite proxy target mismatch |
 | Owner-scoped screens `503` with a carrier present | `sha256sum` vs `OWNER_CONTEXT_CARRIER_SHA256`; is `IIPS_OWNER_CONTEXT_PATH` the **file**, not the directory | byte-exact carrier contract |
 | Watchlists empty after a restart | `IIPS_DATA_DIR` identical on both starts | different data home ⇒ different journal |
+| DHAN instrument search (`INFY`) says *“The IRR identity service is unavailable.”* | the API transport's own log, `[dhan-identity] IRR-side fault during …` | this server failed to serve the route (a module would not load, a request stream broke, an unexpected throw). It is **not** an IPD refusal — restart `npm run server:dev` and read the logged cause. The message is deliberately opaque to the browser; the cause is only in the server log |
+| DHAN instrument search says *“The server-side IPD identity transport is not configured”* | `IIPS_MARKET_DATA_TRANSPORT_URL` and `IIPS_MARKET_DATA_TRANSPORT_TOKEN` in the **server** environment (`.env.example`, and §5.2 below) | an unconfigured server. The response's `requiredSettings` names exactly what is missing; no request reached IPD. Restart the transport after setting them |
+| DHAN instrument search says *“The IPD identity service could not be reached.”* | is the IPD daemon actually listening on `IIPS_MARKET_DATA_TRANSPORT_URL`? | IRR is configured and IPD is not answering; an IPD-side fault |
+| DHAN instrument search says *“The IPD service rejected server authentication.”* | does `IIPS_MARKET_DATA_TRANSPORT_TOKEN` match the daemon's token? | credential mismatch between IRR and IPD; rotate on the IPD side, then restart IRR |
 | Reports shows “owner context unavailable” or “persistence store unavailable” | §3.2: is `IIPS_REPORTS_OWNER_PATH` the carrier **file** (not the directory) and byte-exact? Is `IIPS_NP04_DATABASE_PATH` an absolute path? Was the API transport restarted after either variable changed? | `Retry` re-attempts resolution but cannot change a running process's environment; restart `npm run server:dev` after configuration changes |
 | `/api/macro/*` `502 RETRY_BUDGET_EXHAUSTED` | outbound TLS to `api.mospi.gov.in:443` (e.g. `curl -sv --max-time 10 https://api.mospi.gov.in/api/cpi/getCPIIndex?limit=1`) | upstream reachability, not the app; a `502` with `code: INDICATOR_NOT_GOVERNED` instead is a governance refusal, which is also correct |
 | A Macro value shown in the UI | none can be | no Macro view exists or is authorized (`DT-15`); use the route responses above |

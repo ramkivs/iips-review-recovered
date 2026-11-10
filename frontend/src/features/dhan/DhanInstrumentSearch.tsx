@@ -9,6 +9,18 @@ import {
   type InstrumentSearchResult,
 } from '../../api/dhanIdentity';
 
+/**
+ * The operator-facing half of a failed identity call. The server names the settings it lacks;
+ * repeating those names is the difference between "unavailable" and an actionable message.
+ * Only NAMES cross this boundary — the server holds the values and never sends them.
+ */
+function describeIdentityFailure(cause: unknown, fallback: string): string {
+  if (!(cause instanceof DhanIdentityApiError)) return fallback;
+  return cause.requiredSettings.length > 0
+    ? `${cause.message} Configure ${cause.requiredSettings.join(' and ')} on the IRR server.`
+    : cause.message;
+}
+
 function Outcome({ outcome, label }: { outcome: IdentityOutcome; label?: string }) {
   return <section aria-label={label ?? `${outcome.status} identity outcome`} data-identity-status={outcome.status}>
     <h4>{outcome.status}</h4>
@@ -33,7 +45,7 @@ function SearchRow({ row, onResolve }: { row: InstrumentSearchResult; onResolve:
     try {
       const result = await resolveDhanIdentity({ companyId: row.result.companyId, exchange: row.exchange, securityId: row.result.securityIdentity.securityId });
       onResolve(result);
-    } catch (cause) { setError(cause instanceof DhanIdentityApiError ? cause.message : 'Unable to resolve this exact identity.'); }
+    } catch (cause) { setError(describeIdentityFailure(cause, 'Unable to resolve this exact identity.')); }
     finally { setBusy(false); }
   }
   return <article aria-label={`${row.symbol} ${row.exchange} search result`}>
@@ -69,21 +81,21 @@ export function DhanInstrumentSearch() {
     try {
       const response = await searchDhanInstruments(query);
       setResults(response.results);
-    } catch (cause) { setSearchError(cause instanceof DhanIdentityApiError ? cause.message : 'Instrument search is unavailable.'); }
+    } catch (cause) { setSearchError(describeIdentityFailure(cause, 'Instrument search is unavailable.')); }
     finally { setSearchBusy(false); }
   }
   async function submitExactResolution(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setManualResolveBusy(true); setManualResolveError(''); setResolved(null);
     try {
       setResolved(await resolveDhanIdentity({ companyId: companyId.trim(), exchange: resolveExchange, securityId: securityId.trim() }));
-    } catch (cause) { setManualResolveError(cause instanceof DhanIdentityApiError ? cause.message : 'Exact identity resolution is unavailable.'); }
+    } catch (cause) { setManualResolveError(describeIdentityFailure(cause, 'Exact identity resolution is unavailable.')); }
     finally { setManualResolveBusy(false); }
   }
   async function submitQualification(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setQualifyBusy(true); setQualifyError(''); setQualified(null);
     try {
       setQualified(await qualifyDhanIdentity({ ...(isin.trim() ? { isin: isin.trim() } : {}), exchange, ...(symbol.trim() ? { symbol: symbol.trim() } : {}) }));
-    } catch (cause) { setQualifyError(cause instanceof DhanIdentityApiError ? cause.message : 'Identity qualification is unavailable.'); }
+    } catch (cause) { setQualifyError(describeIdentityFailure(cause, 'Identity qualification is unavailable.')); }
     finally { setQualifyBusy(false); }
   }
 

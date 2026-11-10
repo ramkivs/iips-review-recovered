@@ -78,7 +78,16 @@ function isSearchResponse(value: unknown): value is InstrumentSearchResponse {
 }
 
 export class DhanIdentityApiError extends Error {
-  constructor(readonly code: string, message: string, readonly status: number) { super(message); this.name = 'DhanIdentityApiError'; }
+  constructor(
+    readonly code: string,
+    message: string,
+    readonly status: number,
+    /**
+     * Setting NAMES the server reports as missing. Names only — the server never sends a
+     * value, and the browser never had one to send.
+     */
+    readonly requiredSettings: readonly string[] = [],
+  ) { super(message); this.name = 'DhanIdentityApiError'; }
 }
 async function call<T>(path: string, body: unknown, validate: (value: unknown) => value is T): Promise<T> {
   let response: Response;
@@ -92,8 +101,11 @@ async function call<T>(path: string, body: unknown, validate: (value: unknown) =
   catch { throw new DhanIdentityApiError('INVALID_RESPONSE', 'The identity service returned invalid JSON.', response.status); }
   if (!response.ok) {
     const error = isRecord(decoded) && isRecord(decoded.error) ? decoded.error : null;
+    const required = Array.isArray(error?.requiredSettings)
+      ? error.requiredSettings.filter((name): name is string => typeof name === 'string' && /^[A-Z][A-Z0-9_]*$/.test(name))
+      : [];
     throw new DhanIdentityApiError(typeof error?.code === 'string' ? error.code : 'REQUEST_FAILED',
-      typeof error?.message === 'string' ? error.message : 'The identity request failed.', response.status);
+      typeof error?.message === 'string' ? error.message : 'The identity request failed.', response.status, required);
   }
   if (!isRecord(decoded) || !validate(decoded.data) || !isRecord(decoded.provenance) || decoded.provenance.authority !== 'IPD' || decoded.provenance.mode !== 'SNAPSHOT' || typeof decoded.provenance.dataVersion !== 'string') {
     throw new DhanIdentityApiError('INVALID_RESPONSE', 'The identity service returned incomplete or contradictory evidence.', response.status);

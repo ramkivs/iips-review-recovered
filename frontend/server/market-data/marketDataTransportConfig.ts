@@ -17,6 +17,12 @@
 import { MARKET_DATA_TRANSPORT_TOKEN_ENV } from 'iips-production-market-data/dhan-server';
 
 export const MARKET_DATA_TRANSPORT_URL_ENV = 'IIPS_MARKET_DATA_TRANSPORT_URL';
+/**
+ * Re-exported so every IRR server consumer of this configuration names the credential
+ * setting from one place. This is the setting NAME only; the value is never returned to a
+ * caller, logged, or placed in a response body.
+ */
+export { MARKET_DATA_TRANSPORT_TOKEN_ENV };
 
 export interface MarketDataTransportConfiguration {
   readonly ok: true;

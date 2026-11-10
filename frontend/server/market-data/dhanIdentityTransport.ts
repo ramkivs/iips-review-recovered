@@ -10,7 +10,11 @@
  * token on this server boundary.
  */
 import type http from 'node:http';
-import { readMarketDataTransportConfiguration } from './marketDataTransportConfig.js';
+import {
+  MARKET_DATA_TRANSPORT_TOKEN_ENV,
+  MARKET_DATA_TRANSPORT_URL_ENV,
+  readMarketDataTransportConfiguration,
+} from './marketDataTransportConfig.js';
 
 export const DHAN_IDENTITY_ROUTES = Object.freeze({
   search: '/v1/instruments/search',
@@ -35,20 +39,39 @@ export type DhanIdentityErrorCode =
   | 'MALFORMED_IPD_RESPONSE';
 
 export interface DhanIdentitySafeError {
-  readonly error: { readonly code: DhanIdentityErrorCode; readonly message: string };
+  readonly error: {
+    readonly code: DhanIdentityErrorCode;
+    readonly message: string;
+    /**
+     * Setting NAMES this server needs but has not been given. NAMES only — never a value.
+     * Present solely on `TRANSPORT_NOT_CONFIGURED`, where the operator must supply them.
+     */
+    readonly requiredSettings?: readonly string[];
+  };
 }
 
 export interface DhanIdentityTransportOptions {
   readonly env?: NodeJS.ProcessEnv;
   readonly fetchImpl?: typeof fetch;
   readonly timeoutMs?: number;
+  /**
+   * Receives IRR-internal faults this transport cannot classify — a malformed request body
+   * stream or an unexpected throw. The message is either a fixed phrase or the fault's own
+   * message, never request content or a configured value. The caller decides where it goes;
+   * it must not be returned to the browser.
+   */
+  readonly failure?: (fault: { readonly stage: 'request-body' | 'transport'; readonly message: string }) => void;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
-function safeError(code: DhanIdentityErrorCode, message: string): DhanIdentitySafeError {
-  return { error: { code, message } };
+function safeError(
+  code: DhanIdentityErrorCode,
+  message: string,
+  requiredSettings?: readonly string[],
+): DhanIdentitySafeError {
+  return { error: { code, message, ...(requiredSettings === undefined ? {} : { requiredSettings }) } };
 }
 function isExchange(value: unknown): value is 'NSE' | 'BSE' {
   return value === 'NSE' || value === 'BSE';
@@ -156,7 +179,21 @@ export async function requestDhanIdentity(
   if (validation) return { ok: false, status: 400, body: safeError('INVALID_REQUEST', validation) };
 
   const config = readMarketDataTransportConfiguration(options.env ?? process.env);
-  if (!config.ok) return { ok: false, status: 503, body: safeError('TRANSPORT_NOT_CONFIGURED', 'The server-side IPD transport is not configured.') };
+  if (!config.ok) {
+    // Naming the settings is what turns an opaque 503 into an operator action. The failure
+    // reason is a fixed phrase per code, so no environment value can reach the response.
+    return {
+      ok: false,
+      status: 503,
+      body: safeError(
+        'TRANSPORT_NOT_CONFIGURED',
+        config.code === 'TRANSPORT_URL_INVALID'
+          ? 'The server-side IPD transport URL is invalid; it must target a loopback host over HTTP or HTTPS.'
+          : 'The server-side IPD identity transport is not configured; no request was sent to IPD.',
+        [MARKET_DATA_TRANSPORT_URL_ENV, MARKET_DATA_TRANSPORT_TOKEN_ENV],
+      ),
+    };
+  }
   const fetchImpl = options.fetchImpl ?? fetch;
   const timeoutMs = options.timeoutMs ?? DHAN_IDENTITY_TIMEOUT_MS;
   let response: Response;
@@ -238,6 +275,12 @@ export async function handleDhanIdentityRequest(
   try { body = await readBody(req); }
   catch (error) {
     const tooLarge = error instanceof Error && error.message === 'too-large';
+    // An aborted or broken request stream is an IRR-side fault, not a client contract
+    // violation; it is reported to the operator instead of being flattened into the
+    // client-facing 400. `too-large` and invalid JSON stay ordinary 4xx responses.
+    if (!tooLarge && !(error instanceof Error && error.message === 'invalid-json')) {
+      options.failure?.({ stage: 'request-body', message: error instanceof Error ? error.message : 'Request stream failed.' });
+    }
     sendJson(
       res,
       tooLarge ? 413 : 400,
@@ -248,7 +291,17 @@ export async function handleDhanIdentityRequest(
   }
   const upstreamPath = path === DHAN_IDENTITY_API_ROUTES.search ? DHAN_IDENTITY_ROUTES.search :
     path === DHAN_IDENTITY_API_ROUTES.resolve ? DHAN_IDENTITY_ROUTES.resolve : DHAN_IDENTITY_ROUTES.qualify;
-  const outcome = await requestDhanIdentity(upstreamPath, body, options);
+  let outcome: Awaited<ReturnType<typeof requestDhanIdentity>>;
+  try {
+    outcome = await requestDhanIdentity(upstreamPath, body, options);
+  } catch (error) {
+    // The transport classifies its own IPD failures; reaching here means this server is
+    // faulty. Record it, then answer with the classified shape instead of letting the
+    // entrypoint's outer catch report an unclassifiable "unavailable".
+    options.failure?.({ stage: 'transport', message: error instanceof Error ? error.message : 'Identity transport failed.' });
+    sendJson(res, 503, safeError('TRANSPORT_UNAVAILABLE', 'The IRR identity transport failed; no identity evidence was returned.'));
+    return;
+  }
   if (!outcome.ok) { sendJson(res, outcome.status, outcome.body); return; }
   sendJson(res, 200, { data: outcome.data, provenance: { authority: 'IPD', mode: 'SNAPSHOT', dataVersion: 'ipd-p4-identity-http' } });
 }
