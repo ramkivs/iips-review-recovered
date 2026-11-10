@@ -256,3 +256,72 @@ describe('User Portfolio list (G-2 read-only consumer)', () => {
     expect(new Headers((detailCall?.[1] as RequestInit).headers).has('authorization')).toBe(false);
   });
 });
+
+/**
+ * WS-A — "unavailable service" must never be rendered as "no portfolios".
+ *
+ * The reported discrepancy was that one surface showed a 503 while another showed "No data", making a
+ * configuration failure look like an empty account. These pin the separation and the diagnosis.
+ */
+describe('User Portfolio list — unavailable vs genuinely empty', () => {
+  const renderList = () =>
+    render(
+      <MemoryRouter>
+        <UserPortfolioList />
+      </MemoryRouter>,
+    );
+
+  it('an empty 200 list shows the empty state and NOT the unavailable state', async () => {
+    // A real successful empty response: ok:true is what makes this "empty", not "unavailable".
+    (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({ portfolios: [] }),
+    });
+    renderList();
+    expect(await screen.findByTestId('state-empty')).toBeInTheDocument();
+    expect(screen.queryByTestId('state-unavailable')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('read-unavailable-diagnosis')).not.toBeInTheDocument();
+  });
+
+  it('a 503 with a diagnosis shows unavailable + the missing settings, never the empty state', async () => {
+    mockStatus(503, {
+      error: 'owner-context-unavailable',
+      detail: {
+        reason: 'No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.',
+        unavailableReason: 'binding-precondition-absent',
+        requiredSettings: ['IIPS_G3_IPC_BINDING_PROVISIONED', 'IIPS_G2_IPC_ENDPOINT'],
+      },
+    });
+    renderList();
+    expect(await screen.findByTestId('state-unavailable')).toBeInTheDocument();
+    expect(screen.queryByTestId('state-empty')).not.toBeInTheDocument();
+    const diagnosis = screen.getByTestId('read-unavailable-diagnosis');
+    expect(diagnosis).toHaveTextContent('owner-binding precondition is absent');
+    expect(diagnosis).toHaveTextContent('IIPS_G3_IPC_BINDING_PROVISIONED');
+    expect(diagnosis).toHaveTextContent('IIPS_G2_IPC_ENDPOINT');
+    expect(diagnosis).toHaveTextContent('not an empty portfolio');
+  });
+
+  it('an unreachable endpoint is distinguished from an unconfigured one', async () => {
+    mockStatus(503, {
+      error: 'upstream-unavailable',
+      detail: {
+        reason: 'The user-portfolio read could not be completed against IPD.',
+        unavailableReason: 'ipc-endpoint-unreachable',
+        requiredSettings: ['IIPS_G2_IPC_ENDPOINT'],
+      },
+    });
+    renderList();
+    expect(await screen.findByTestId('state-unavailable')).toBeInTheDocument();
+    expect(screen.getByTestId('read-unavailable-diagnosis')).toHaveTextContent('did not answer');
+  });
+
+  it('a 503 without a recognised diagnosis still shows unavailable and renders no invented detail', async () => {
+    mockStatus(503, { error: 'owner-context-unavailable', detail: { reason: 'x' } });
+    renderList();
+    expect(await screen.findByTestId('state-unavailable')).toBeInTheDocument();
+    expect(screen.queryByTestId('read-unavailable-diagnosis')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('state-empty')).not.toBeInTheDocument();
+  });
+});

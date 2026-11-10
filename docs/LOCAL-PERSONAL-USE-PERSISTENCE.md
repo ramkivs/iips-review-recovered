@@ -71,13 +71,57 @@ read-only user-portfolio surfaces. Behavior:
   in the editor must remove the holding upstream. The response (revision,
   totals, weight sum, digest) is displayed verbatim.
 - On **409** the page stops and requires an explicit Reload (never a silent
-  merge). On **503** it says the local persistence service is unavailable and
-  lists the required settings.
+  merge). On **503** it says the local persistence service is unavailable, names
+  the missing setting(s) and states that this is a configuration state rather
+  than an empty portfolio (§2A).
 - **Delete** tombstones after a native confirm; the portfolio is then
   indistinguishable from foreign (404).
 - Client-side checks are UX only and mirror the IPD-side rules (positive
   quantity, non-negative finite prices, no duplicate symbols); IPD re-validates
   authoritatively and rolls back on any violation.
+
+## 2A. Unavailable vs empty — the states must never be confused (2026-11-09)
+
+Both surfaces consume the same transport, and until 2026-11-09 a fail-closed read was
+indistinguishable from an empty account at the point where it mattered most: the
+page. `/personal-portfolio` said `Local persistence unavailable` while
+`/user-portfolios` said `No data` — the second sentence is false when nothing
+could be read, and it invites the conclusion that the portfolio is gone. The
+reported discrepancy was exactly this.
+
+There are three genuinely different states and they now render differently on
+**both** surfaces:
+
+| State | Transport | Personal Portfolio | User Portfolios |
+|---|---|---|---|
+| Readable, no portfolio yet | `404` on the fixed id, or `200 {"portfolios":[]}` | create form, one blank row, `Create portfolio` | `No durable portfolios yet` empty state |
+| Unavailable (fail closed) | `503` + `detail.unavailableReason` | banner naming the missing setting(s) | unavailable state + the same diagnosis |
+| Populated | `200` | rows from the durable view | the portfolio row |
+
+The 503 body now carries two additive fields beside the unchanged `error` and
+`detail.reason`:
+
+- `detail.unavailableReason` — one of `binding-precondition-absent`,
+  `ipc-endpoint-not-configured`, `ipc-endpoint-unreachable`.
+- `detail.requiredSettings` — the setting **names** to set.
+
+The closed vocabulary is a **disclosure of IRR's own configuration only**. It
+carries no owner, tenant, principal, credential, path, socket or stack, and the
+client discards any value outside the three. Default-deny is unchanged: a
+binding refusal still returns `503` and still constructs no port.
+
+`binding-precondition-absent` is emitted whenever the gate refuses, because the
+gate *is* the binding precondition and it is checked before anything else — the
+endpoint is the next thing to fix, never the reported cause. The other two come
+from the upstream-failure path, where the transport's own pure endpoint resolver
+distinguishes "no usable endpoint" from "an endpoint that did not answer".
+
+**Starting the stack correctly.** `npm run server:dev` loads `.env.local` when
+present (non-fatally), so the two required settings can live in
+`<repo>/.env.local` — gitignored, with a commented template in `<repo>/.env.example`.
+`:8787` must be restarted for a change there to take effect. This changes only
+*how the server is started*; it grants nothing, and every authorization rule in
+§1 and §3 is unchanged.
 
 ## 3. The canonical IPC contract (audit item: "IPC contract mismatch")
 

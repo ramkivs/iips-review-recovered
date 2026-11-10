@@ -419,3 +419,111 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
     expect(isUserPortfolioPath('/api/user-portfoliosEVIL')).toBe(false);
   });
 });
+
+/**
+ * WS-A diagnosis — the fail-closed read now names WHICH server-owned precondition is absent.
+ *
+ * These pin the property that makes the 503 diagnosable without weakening it: the status stays 503,
+ * the port is still never constructed for a binding refusal, and no value a caller can influence
+ * (owner, tenant, principal, path, stack) appears in the body. Only setting NAMES are disclosed.
+ */
+describe('fail-closed read diagnosis (readable unavailable vs genuinely empty)', () => {
+  const SETTINGS = ['IIPS_G3_IPC_BINDING_PROVISIONED', 'IIPS_G2_IPC_ENDPOINT'];
+
+  it('names the absent binding precondition, keeps 503, and never constructs a port', async () => {
+    const factory = vi.fn(() => recordingPort());
+    const body = await requestWithFactory({}, factory);
+    expect(body.status).toBe(503);
+    expect(body.body).toMatchObject({
+      error: 'owner-context-unavailable',
+      detail: { unavailableReason: 'binding-precondition-absent', requiredSettings: SETTINGS },
+    });
+    // The original fixed reason is preserved verbatim.
+    expect((body.body.detail as { reason: string }).reason).toContain('No non-authentication ownership source');
+    expect(factory).not.toHaveBeenCalled();
+  });
+
+  it('only an affirmative binding value passes the gate; anything else names the precondition', async () => {
+    // Non-affirmative: the gate refuses and the diagnosis names the precondition.
+    for (const value of ['', '0', 'false', 'no', 'provisioned']) {
+      const body = await requestWithFactory({ IIPS_G3_IPC_BINDING_PROVISIONED: value }, vi.fn(() => recordingPort()));
+      expect(body.status).toBe(503);
+      expect(body.body).toMatchObject({ detail: { unavailableReason: 'binding-precondition-absent' } });
+    }
+    // Affirmative (case-insensitive, trimmed): the gate opens, so no binding diagnosis is emitted.
+    for (const value of ['true', '1', 'yes', ' TRUE ']) {
+      const body = await requestWithFactory({ IIPS_G3_IPC_BINDING_PROVISIONED: value }, vi.fn(() => recordingPort()));
+      expect(body.status).toBe(200);
+      expect(JSON.stringify(body.body)).not.toContain('binding-precondition-absent');
+    }
+  });
+
+  it('distinguishes a missing/unusable endpoint from an unreachable one', async () => {
+    // The endpoint failure surfaces INSIDE the call (the adapter resolves the target per call), so the
+    // port is what faults here — that is the real shape, not a throwing factory.
+    for (const endpoint of [undefined, 'http://ipd.invalid/socket', '127.0.0.1:9999']) {
+      const env: NodeJS.ProcessEnv = { IIPS_G3_IPC_BINDING_PROVISIONED: 'true' };
+      if (endpoint !== undefined) env.IIPS_G2_IPC_ENDPOINT = endpoint;
+      const body = await requestWithFactory(env, () => unavailablePort());
+      expect(body.status).toBe(503);
+      expect(body.body).toMatchObject({ detail: { unavailableReason: 'ipc-endpoint-not-configured' } });
+    }
+    // A configured absolute socket path that does not answer is NOT a configuration error.
+    const unreachable = await requestWithFactory(
+      { IIPS_G3_IPC_BINDING_PROVISIONED: 'true', IIPS_G2_IPC_ENDPOINT: '/tmp/does-not-exist-ipd.sock' },
+      () => unavailablePort(),
+    );
+    expect(unreachable.body).toMatchObject({ detail: { unavailableReason: 'ipc-endpoint-unreachable' } });
+  });
+
+  it('discloses no identity value, path or stack — only the setting names', async () => {
+    for (const env of [
+      {},
+      { IIPS_G3_IPC_BINDING_PROVISIONED: 'true' },
+      { IIPS_G3_IPC_BINDING_PROVISIONED: 'true', IIPS_G2_IPC_ENDPOINT: '/private/secret/ipd.sock' },
+    ]) {
+      const body = await requestWithFactory(env, () => unavailablePort('/srv/app/secret.ts:1 boom'));
+      const serialized = JSON.stringify(body.body).toLowerCase();
+      // No transport fault, source path, socket path or credential material may appear.
+      for (const forbidden of ['/private', '/srv', 'secret', 'boom', 'bearer', 'authorization', 'cookie']) {
+        expect(serialized).not.toContain(forbidden);
+      }
+      // The disclosed diagnosis is exactly the closed vocabulary plus the two setting NAMES.
+      const detail = (body.body as { detail?: Record<string, unknown> }).detail ?? {};
+      expect(['binding-precondition-absent', 'ipc-endpoint-not-configured', 'ipc-endpoint-unreachable'])
+        .toContain(detail.unavailableReason);
+      expect(detail.requiredSettings).toEqual(SETTINGS);
+    }
+  });
+});
+
+/** A port whose list read fails exactly as a broken IPC transport does. */
+function unavailablePort(privateDetail = 'connect failed'): UserPortfolioPort {
+  return {
+    listPortfolios: vi.fn(async () => { throw new G2Error('UPSTREAM_UNAVAILABLE', privateDetail); }),
+    getPortfolio: vi.fn(async () => { throw new G2Error('UPSTREAM_UNAVAILABLE', privateDetail); }),
+    revisionHistory: vi.fn(async () => { throw new G2Error('UPSTREAM_UNAVAILABLE', privateDetail); }),
+  } as unknown as UserPortfolioPort;
+}
+
+/** Same harness as `request`, exposing the injected factory so the no-port assertion is possible. */
+async function requestWithFactory(
+  env: NodeJS.ProcessEnv,
+  factory: () => UserPortfolioPort,
+): Promise<{ status: number; body: Record<string, unknown> }> {
+  const server = http.createServer((req, res) => {
+    // A throwing factory is a deliberate fault injection; surface it, never let it hang the request.
+    void handleUserPortfolioRequest(req, res, { portFactory: factory, env }).catch(() => {
+      if (!res.headersSent) res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'harness-fault' }));
+    });
+  });
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const port = (server.address() as AddressInfo).port;
+  try {
+    const response = await fetch(`http://127.0.0.1:${port}/api/user-portfolios`);
+    return { status: response.status, body: (await response.json().catch(() => ({}))) as Record<string, unknown> };
+  } finally {
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
+}

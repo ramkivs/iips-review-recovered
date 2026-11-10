@@ -8,6 +8,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   createUserPortfolio,
+  fetchUserPortfolioSummaries,
   saveUserPortfolioHoldings,
   deleteUserPortfolio,
   UserPortfolioApiError,
@@ -203,5 +204,75 @@ describe('deleteUserPortfolio', () => {
   it('fails closed on a malformed delete receipt', async () => {
     mockFetch(200, { portfolioId: 'DEFAULT_PORTFOLIO' });
     await expect(deleteUserPortfolio('DEFAULT_PORTFOLIO', 2)).rejects.toMatchObject({ status: 500 });
+  });
+});
+
+/**
+ * The read-path diagnosis: a fail-closed 503 must be distinguishable from a genuinely empty list.
+ *
+ * `fetchUserPortfolioSummaries` throwing 503 and returning `[]` are two different states, and the UI
+ * renders them differently. These pin the parsing, including the closed vocabulary and the fact that
+ * nothing recognisable is invented when the transport says something unexpected.
+ */
+describe('read-path diagnosis on a fail-closed 503', () => {
+  const failBody = (detail: Record<string, unknown>) => ({
+    error: 'owner-context-unavailable',
+    detail: {
+      reason: 'No non-authentication ownership source has been established. No owner is inferred; no data is read or changed.',
+      ...detail,
+    },
+  });
+
+  it('carries the binding diagnosis and the required setting names', async () => {
+    mockFetch(503, failBody({
+      unavailableReason: 'binding-precondition-absent',
+      requiredSettings: ['IIPS_G3_IPC_BINDING_PROVISIONED', 'IIPS_G2_IPC_ENDPOINT'],
+    }));
+    const error = await fetchUserPortfolioSummaries().catch((e: unknown) => e);
+    expect(error).toBeInstanceOf(UserPortfolioApiError);
+    const apiError = error as UserPortfolioApiError;
+    expect(apiError.status).toBe(503);
+    expect(apiError.diagnosis).toEqual({
+      reason: 'binding-precondition-absent',
+      requiredSettings: ['IIPS_G3_IPC_BINDING_PROVISIONED', 'IIPS_G2_IPC_ENDPOINT'],
+    });
+    // The pre-existing disclosure field is unchanged.
+    expect(apiError.blocker).toContain('No non-authentication ownership source');
+  });
+
+  it('accepts every reason in the closed vocabulary', async () => {
+    for (const reason of ['binding-precondition-absent', 'ipc-endpoint-not-configured', 'ipc-endpoint-unreachable']) {
+      mockFetch(503, failBody({ unavailableReason: reason, requiredSettings: ['IIPS_G2_IPC_ENDPOINT'] }));
+      const error = (await fetchUserPortfolioSummaries().catch((e: unknown) => e)) as UserPortfolioApiError;
+      expect(error.diagnosis?.reason).toBe(reason);
+    }
+  });
+
+  it('invents no diagnosis for an unrecognised or absent reason', async () => {
+    for (const body of [
+      failBody({ unavailableReason: 'some-future-reason' }),
+      failBody({}),
+      { error: 'owner-context-unavailable' },
+      {},
+    ]) {
+      mockFetch(503, body);
+      const error = (await fetchUserPortfolioSummaries().catch((e: unknown) => e)) as UserPortfolioApiError;
+      expect(error.status).toBe(503);
+      expect(error.diagnosis).toBeUndefined();
+    }
+  });
+
+  it('ignores malformed setting entries but keeps the diagnosis', async () => {
+    mockFetch(503, failBody({
+      unavailableReason: 'ipc-endpoint-not-configured',
+      requiredSettings: ['IIPS_G2_IPC_ENDPOINT', 42, '', null, 'x'.repeat(200)],
+    }));
+    const error = (await fetchUserPortfolioSummaries().catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error.diagnosis).toEqual({ reason: 'ipc-endpoint-not-configured', requiredSettings: ['IIPS_G2_IPC_ENDPOINT'] });
+  });
+
+  it('an empty 200 list stays a successful empty result, never an unavailable error', async () => {
+    mockFetch(200, { portfolios: [] });
+    await expect(fetchUserPortfolioSummaries()).resolves.toEqual([]);
   });
 });

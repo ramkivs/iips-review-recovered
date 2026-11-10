@@ -99,7 +99,19 @@ $env:EXEC_TRANSPORT_PORT = '8787'
 npm run server:dev
 ```
 
-The tenant hint is optional and is never transmitted; do not add owner, tenant, principal, or credentials to requests. Without `IIPS_G3_IPC_BINDING_PROVISIONED=true`, read routes fail closed with `503 owner-context-unavailable`. A configured endpoint that is absent or unavailable also fails closed. Context discovery and create/save/reset/delete HTTP operations return `503 operation-not-admitted`; no write is forwarded, and IPD's independent Gate E W-1 refusal remains in force. This does not enable Watchlists, Collaboration, Settings, or any other owner-scoped route.
+The tenant hint is optional and is never transmitted; do not add owner, tenant, principal, or credentials to requests. Without `IIPS_G3_IPC_BINDING_PROVISIONED=true`, read routes fail closed with `503 owner-context-unavailable`. A configured endpoint that is absent or unavailable also fails closed. Context discovery and create/save/reset/delete HTTP operations return `503 operation-not-admitted` **when `IIPS_LOCAL_PERSONAL_USE` is not `1`**; no write is forwarded, and IPD's independent Gate E W-1 refusal remains in force. This does not enable Watchlists, Collaboration, Settings, or any other owner-scoped route.
+
+**Diagnosing a 503 (recorded 2026-11-09).** A fail-closed read now names *which* server-owned precondition is absent, so a startup error is not mistaken for an empty portfolio. The status stays `503`, the `error` value stays `owner-context-unavailable` for a binding refusal, and no owner, tenant, principal, path or stack is disclosed. The additional `detail` fields are:
+
+| `detail.unavailableReason` | Meaning | Action |
+|---|---|---|
+| `binding-precondition-absent` | `IIPS_G3_IPC_BINDING_PROVISIONED` is absent or not affirmative. The gate refuses before any port is constructed. | Set it in the API process, not in a request. |
+| `ipc-endpoint-not-configured` | The binding is established but `IIPS_G2_IPC_ENDPOINT` is absent, a URL, or a host:port (both refused by design). | Set a local socket path or named pipe. |
+| `ipc-endpoint-unreachable` | The endpoint is configured but IPD did not answer. | Start IPD's provider; confirm the path. |
+
+`detail.requiredSettings` lists the setting **names** to set. Both the Personal Portfolio and User Portfolios surfaces render this, and both say explicitly that the state is a configuration state rather than an empty portfolio. An empty store is a different, successful answer: `200 {"portfolios":[]}` with the "No durable portfolios yet" empty state.
+
+**Configuration source.** `npm run server:dev` loads `.env.local` when it exists, so the settings above can live in `<repo>/.env.local` (gitignored; template in `<repo>/.env.example`) instead of the shell. A missing file is not an error. A file inside `frontend/` is also honoured. Editing a `.env` file does **not** reload a running server: restart the API process. No setting in that file confers authority — IPD still resolves the owner binding and enforces W-1 per request.
 
 The operator-reported Direct P1 database execution and the exact IPD source pin are recorded in [`IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md`](integration/IIPS_V3_DIRECT_P1_IRR_CONSUMPTION_RECORD_2026-11-01.md). That Windows evidence is user-provided, not an Arena observation. No P1-F reprovisioning is required or documented here.
 
@@ -285,7 +297,7 @@ Observed on 2026-10-14: `201 / 201 / 404`, journal `1140 bytes / 3 lines` with `
 
 | Surface | Answer at `main` + `CV-CORR-04` (all four probes executed 2026-10-14) | Why this is correct behaviour |
 |---|---|---|
-| Historical pre-Direct-P1 `/api/user-portfolios*` behavior (observed 2026-10-14) | All recognized operations returned `503 owner-context-unavailable` | Historical fence record only. Current read-only list/detail/revision behavior is defined in §3.1 and the 2026-11-01 integration record; writes and context discovery remain unadmitted. |
+| Historical pre-Direct-P1 `/api/user-portfolios*` behavior (observed 2026-10-14) | All recognized operations returned `503 owner-context-unavailable` | Historical fence record only. Current read-only list/detail/revision behavior is defined in §3.1 and the 2026-11-01 integration record; writes and context discovery remain unadmitted unless `IIPS_LOCAL_PERSONAL_USE=1` and the binding is established. Since 2026-11-09 the 503 carries a diagnosis (§3.1). |
 | `GET`+`POST /api/reports/artifacts` | `503` — the **same** `owner-context-unavailable` payload | The Reports surface is route-valid but owner-scoped, so it fails closed on the identical carrier contract. *(Current `main` adds the second, independent precondition documented in §3.2: with owner context available but persistence unavailable, artifact routes answer `503 persistence-unavailable`, while `/api/reports/context` stays `200`.)* |
 | `GET`/`POST /api/reports`, `/api/reports/`, `/api/reports/artifacts/` | `404` `{"error":"not found"}` | `reports-transport.ts` is the ratified fence: it keeps exact route/method validation and never enables the deferred Reports capability — an unknown shape is not “temporarily unavailable”. |
 | `POST /api/pit/market-data?…` | `405` (`found:false`, `reason: INVALID_IDENTITY`) | the PIT seam is read-only; a write attempt is refused at the boundary, not silently accepted. |

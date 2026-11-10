@@ -30,6 +30,7 @@ import {
   saveUserPortfolioHoldings,
   UserPortfolioApiError,
   type UserPortfolioHoldingInput,
+  type ReadUnavailableDiagnosis,
   type UserPortfolioView,
 } from '../../api/userPortfolios';
 import { LoadingState, ErrorState } from '../../components/state/StateComponents';
@@ -54,7 +55,12 @@ type Status =
   | { readonly kind: 'saved'; readonly savedAt: string }
   | { readonly kind: 'deleting' }
   | { readonly kind: 'conflict' }
-  | { readonly kind: 'unavailable'; readonly message: string }
+  | {
+      readonly kind: 'unavailable';
+      readonly message: string;
+      /** IRR-owned diagnosis of which server precondition is absent, when published. */
+      readonly diagnosis?: ReadUnavailableDiagnosis;
+    }
   | { readonly kind: 'error'; readonly message: string };
 
 let nextRowKey = 1;
@@ -132,10 +138,18 @@ export function PersonalPortfolio() {
       if (error instanceof UserPortfolioApiError && error.status === 503) {
         setView(null);
         setExists(null);
+        const diagnosis = error.diagnosis;
         setStatus({
           kind: 'unavailable',
+          diagnosis,
           message:
-            'The local persistence service is not available. Start the IPD service and the IRR server with IIPS_LOCAL_PERSONAL_USE=1 (see the local-personal-use documentation), then reload.',
+            diagnosis?.reason === 'binding-precondition-absent'
+              ? 'The IRR server is not configured to read durable portfolios: the owner-binding precondition is absent.'
+              : diagnosis?.reason === 'ipc-endpoint-not-configured'
+                ? 'The IRR server has no IPD user-portfolio endpoint configured, so no portfolio can be read.'
+                : diagnosis?.reason === 'ipc-endpoint-unreachable'
+                  ? 'The IPD user-portfolio service is configured but did not answer. Start IPD and check its endpoint.'
+                  : 'The local persistence service is not available.',
         });
         return;
       }
@@ -254,6 +268,23 @@ export function PersonalPortfolio() {
         <div role="alert" data-testid="pp-unavailable" style={{ margin: '12px 0', padding: 12, border: '1px solid var(--color-border, #ccc)', borderRadius: 6 }}>
           <strong>Local persistence unavailable.</strong>
           <p style={{ margin: '6px 0 0' }}>{status.message}</p>
+          {status.diagnosis && status.diagnosis.requiredSettings.length > 0 ? (
+            <p style={{ margin: '6px 0 0' }} data-testid="pp-required-settings">
+              Required server settings:{' '}
+              {status.diagnosis.requiredSettings.map((setting, index) => (
+                <span key={setting}>
+                  {index > 0 ? ', ' : ''}
+                  <code>{setting}</code>
+                </span>
+              ))}
+              . Start the IPD user-portfolio service and this server with them set (see
+              docs/LOCAL-PERSONAL-USE-PERSISTENCE.md), then Reload.
+            </p>
+          ) : null}
+          <p style={{ margin: '6px 0 0', fontSize: 13, color: 'var(--color-ink-secondary)' }}>
+            Your saved portfolio has not been changed or deleted. This is a configuration state,
+            not an empty portfolio.
+          </p>
         </div>
       ) : null}
 

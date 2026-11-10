@@ -107,6 +107,11 @@ export class UserPortfolioApiError extends Error {
     readonly status: number,
     message: string,
     readonly blocker?: string,
+    /**
+     * Server-owned diagnosis of a fail-closed read (503 only). `undefined` when the transport
+     * published no recognised diagnosis — callers must then fall back to the generic state.
+     */
+    readonly diagnosis?: ReadUnavailableDiagnosis,
   ) {
     super(message);
     this.name = 'UserPortfolioApiError';
@@ -117,20 +122,60 @@ export class UserPortfolioApiError extends Error {
 interface UnavailableDetail {
   readonly reason?: unknown;
   readonly blocker?: unknown;
+  /** IRR-owned diagnosis: which server-owned precondition is absent. Never an owner or path. */
+  readonly unavailableReason?: unknown;
+  readonly requiredSettings?: unknown;
+}
+
+/** The fail-closed diagnoses the transport publishes. Anything else is treated as undefined. */
+export type ReadUnavailableReason =
+  | 'binding-precondition-absent'
+  | 'ipc-endpoint-not-configured'
+  | 'ipc-endpoint-unreachable';
+
+const READ_UNAVAILABLE_REASONS: readonly ReadUnavailableReason[] = [
+  'binding-precondition-absent',
+  'ipc-endpoint-not-configured',
+  'ipc-endpoint-unreachable',
+];
+
+/** A typed read-path diagnosis, safe to render. Carries setting NAMES only. */
+export interface ReadUnavailableDiagnosis {
+  readonly reason: ReadUnavailableReason;
+  readonly requiredSettings: readonly string[];
 }
 
 /**
- * Reads a safe reason/blocker from an unavailable response. Never interprets other fields.
+ * Reads the safe parts of a 503 unavailable response **once** (a Response body cannot be read
+ * twice) and returns both the human-readable disclosure and the IRR-owned diagnosis.
+ *
+ * Never interprets any other field. An unparseable body yields no blocker and no diagnosis, so the
+ * status alone still fails closed.
  */
-async function readBlocker(res: Response): Promise<string | undefined> {
+async function readUnavailable(res: Response): Promise<{
+  blocker?: string;
+  diagnosis?: ReadUnavailableDiagnosis;
+}> {
+  let body: { detail?: UnavailableDetail } | null = null;
   try {
-    const body = (await res.json()) as { detail?: UnavailableDetail } | null;
-    const detail = body?.detail;
-    const value = detail?.blocker ?? detail?.reason;
-    return typeof value === 'string' && value.length > 0 ? value : undefined;
+    body = (await res.json()) as { detail?: UnavailableDetail } | null;
   } catch {
-    return undefined; // body unparseable — the status alone still fails closed
+    return {}; // body unparseable — the status alone still fails closed
   }
+  const detail = body?.detail;
+  const blockerValue = detail?.blocker ?? detail?.reason;
+  const blocker = typeof blockerValue === 'string' && blockerValue.length > 0 ? blockerValue : undefined;
+
+  const reason = detail?.unavailableReason;
+  if (typeof reason !== 'string' || !(READ_UNAVAILABLE_REASONS as readonly string[]).includes(reason)) {
+    return { blocker };
+  }
+  const requiredSettings = Array.isArray(detail?.requiredSettings)
+    ? (detail.requiredSettings as unknown[]).filter(
+        (v): v is string => typeof v === 'string' && v.length > 0 && v.length <= 64,
+      )
+    : [];
+  return { blocker, diagnosis: { reason: reason as ReadUnavailableReason, requiredSettings } };
 }
 
 /** Maps a non-OK response onto the typed client error (fail closed, never fabricated). */
@@ -139,11 +184,8 @@ async function toApiError(res: Response): Promise<UserPortfolioApiError> {
   if (res.status === 403) return new UserPortfolioApiError(403, 'Request forbidden (403)');
   if (res.status === 404) return new UserPortfolioApiError(404, 'User portfolio not found (404)');
   if (res.status === 503) {
-    return new UserPortfolioApiError(
-      503,
-      'User portfolio data unavailable (503)',
-      await readBlocker(res),
-    );
+    const { blocker, diagnosis } = await readUnavailable(res);
+    return new UserPortfolioApiError(503, 'User portfolio data unavailable (503)', blocker, diagnosis);
   }
   return new UserPortfolioApiError(res.status, `user-portfolio transport returned ${res.status}`);
 }

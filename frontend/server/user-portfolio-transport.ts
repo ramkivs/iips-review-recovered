@@ -36,6 +36,7 @@ import {
   type G2RevisionEntry,
 } from './user-portfolio/userPortfolioContract.js';
 import { IpcUserPortfolioPort } from './user-portfolio/ipcPortAdapter.js';
+import { IPC_ENDPOINT_SETTING, resolveIpcEndpoint } from './user-portfolio/ipcClient.js';
 import {
   isOwnerContextEstablished,
   ownerContextFromBinding,
@@ -63,6 +64,84 @@ const MAX_BODY_BYTES = 256 * 1024;
 
 function isLocalPersonalUseEnabled(env: NodeJS.ProcessEnv): boolean {
   return env[LOCAL_PERSONAL_USE_SETTING] === '1';
+}
+
+/**
+ * The fail-closed diagnosis vocabulary for the read path.
+ *
+ * This discloses only **which server-owned precondition is absent** — never an owner, tenant,
+ * principal, credential, path, socket or stack. Every value describes IRR's own process
+ * configuration, so it reveals nothing about any other user and nothing a caller could act on
+ * except by fixing their own local startup.
+ *
+ * It exists because the previous body was a single opaque string for several different causes. With
+ * that string an operator cannot tell "IPD was never configured" (a startup problem) from "IPD is
+ * configured but unreachable" — and a page-level 503 is easily mistaken for an empty portfolio.
+ * Naming the missing setting is the difference between a diagnosable fail-closed and an unexplained
+ * one. Default-deny is unchanged: the response is still 503 and still no port is constructed for a
+ * binding refusal.
+ *
+ * Authority: `docs/LOCAL-PERSONAL-USE-PERSISTENCE.md`; the fail-closed and no-owner rules are
+ * untouched. This adds no field a caller can supply or influence — every value is derived only from
+ * the server's own environment.
+ */
+export type ReadUnavailableReason =
+  /** `IIPS_G3_IPC_BINDING_PROVISIONED` is absent or not affirmative. Checked FIRST. */
+  | 'binding-precondition-absent'
+  /** The binding is established but `IIPS_G2_IPC_ENDPOINT` is absent, a URL, or a host:port. */
+  | 'ipc-endpoint-not-configured'
+  /** The binding and endpoint are configured, but the call could not reach IPD's local peer. */
+  | 'ipc-endpoint-unreachable';
+
+/**
+ * The settings an operator must set to bring the read path up, in the order they are checked.
+ * Names only — no value from the environment is ever echoed, not even a path.
+ */
+const READ_REQUIRED_SETTINGS = Object.freeze([
+  'IIPS_G3_IPC_BINDING_PROVISIONED',
+  IPC_ENDPOINT_SETTING,
+] as const);
+
+/**
+ * Why the owner-context gate refused. Only one cause exists: the binding precondition is the gate,
+ * and it is checked before anything else, so when it fails it *is* the reason. The endpoint is the
+ * next thing to fix, never the cause of this refusal.
+ */
+function ownerContextUnavailableBody() {
+  return {
+    ...OWNER_CONTEXT_UNAVAILABLE,
+    detail: {
+      ...OWNER_CONTEXT_UNAVAILABLE.detail,
+      unavailableReason: 'binding-precondition-absent' as ReadUnavailableReason,
+      requiredSettings: READ_REQUIRED_SETTINGS,
+    },
+  };
+}
+
+/**
+ * Why an upstream call failed after the gate was satisfied: either there is no usable endpoint yet,
+ * or there is one and IPD did not answer. `resolveIpcEndpoint` is the pure resolver the IPC client
+ * itself uses; calling it performs no I/O and opens no socket, so a diagnosis cannot reach IPD.
+ */
+function upstreamUnavailableBody(env: NodeJS.ProcessEnv) {
+  let endpointConfigured = true;
+  try {
+    resolveIpcEndpoint(env);
+  } catch {
+    endpointConfigured = false;
+  }
+  const reason: ReadUnavailableReason = endpointConfigured
+    ? 'ipc-endpoint-unreachable'
+    : 'ipc-endpoint-not-configured';
+  return {
+    error: 'upstream-unavailable',
+    detail: {
+      reason:
+        'The user-portfolio read could not be completed against IPD. No owner is inferred; no data is read, changed or fabricated.',
+      unavailableReason: reason,
+      requiredSettings: READ_REQUIRED_SETTINGS,
+    },
+  };
 }
 
 interface MatchedRoute {
@@ -207,7 +286,7 @@ async function handlePersonalWrite(
 ): Promise<void> {
   const context = ownerContextFromBinding(readBindingPrecondition(env), env);
   if (!isOwnerContextEstablished(context)) {
-    sendJson(res, 503, OWNER_CONTEXT_UNAVAILABLE, head);
+    sendJson(res, 503, ownerContextUnavailableBody(), head);
     return;
   }
   const scope = {}; // empty scope — IPD resolves the owner from its own binding per call
@@ -316,7 +395,7 @@ export async function handleUserPortfolioRequest(
 
   const context = ownerContextFromBinding(readBindingPrecondition(env), env);
   if (!isOwnerContextEstablished(context)) {
-    sendJson(res, 503, OWNER_CONTEXT_UNAVAILABLE, head);
+    sendJson(res, 503, ownerContextUnavailableBody(), head);
     return;
   }
 
@@ -354,10 +433,16 @@ export async function handleUserPortfolioRequest(
     sendJson(res, 200, { revisions }, head);
   } catch (error) {
     if (error instanceof G2Error) {
+      if (error.reason === 'UPSTREAM_UNAVAILABLE') {
+        // Keep local paths, socket details and implementation errors out of the response, but say
+        // whether the endpoint is missing or merely unreachable: those need different operator action.
+        sendJson(res, 503, upstreamUnavailableBody(env), head);
+        return;
+      }
       sendJson(res, httpStatusFor(error), { error: safeErrorCode(error) }, head);
     } else {
       // Keep local paths, socket details and implementation errors out of the HTTP response.
-      sendJson(res, 503, { error: 'upstream-unavailable' }, head);
+      sendJson(res, 503, upstreamUnavailableBody(env), head);
     }
   }
 }
