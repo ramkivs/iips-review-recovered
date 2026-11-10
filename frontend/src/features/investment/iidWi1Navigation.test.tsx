@@ -122,6 +122,23 @@ describe('P1 — the three IID capabilities are discoverable from global navigat
     ]);
   });
 
+  it('gives every capability child its OWN route, not an anchor on the overview', () => {
+    const group = visibleNav().find((item) => item.label === 'Investment Intelligence');
+    const children = visibleChildren(group as NonNullable<typeof group>);
+
+    // Each capability is an INDEPENDENT, directly-navigable destination. An anchor (`/investment#iid-01`)
+    // would merely scroll the overview and would fail this assertion.
+    expect(children.map((child) => child.path)).toEqual([
+      '/investment/stock-intelligence',
+      '/investment/holding-decisions',
+      '/investment/change-intelligence',
+    ]);
+    for (const child of children) {
+      expect(child.path).not.toContain('#');
+      expect(child.path.startsWith('/investment/')).toBe(true);
+    }
+  });
+
   it('uses only concrete, parameter-free destinations for the group and its children', () => {
     const group = visibleNav().find((item) => item.label === 'Investment Intelligence');
     for (const path of [group?.path ?? '', ...visibleChildren(group as NonNullable<typeof group>).map((c) => c.path)]) {

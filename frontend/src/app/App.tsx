@@ -26,6 +26,9 @@ import { Screener } from '../features/screener/Screener';
 import { Watchlists } from '../features/watchlists/Watchlists';
 import { DhanInstrumentSearch } from '../features/dhan/DhanInstrumentSearch';
 import InvestmentLandingPage from '../features/investment/InvestmentLandingPage';
+import StockIntelligencePage from '../features/investment/StockIntelligencePage';
+import HoldingDecisionsPage from '../features/investment/HoldingDecisionsPage';
+import ChangeIntelligencePage from '../features/investment/ChangeIntelligencePage';
 import IdentityCoveragePage from '../features/investment/IdentityCoveragePage';
 import InvestmentCoveragePage from '../features/investment/InvestmentCoveragePage';
 import CompanyAssessmentPage from '../features/investment/CompanyAssessmentPage';
@@ -84,6 +87,17 @@ export function App() {
           identity error.
         */}
         <Route path={ROUTES.investmentCoverage} element={<InvestmentCoveragePage />} />
+        {/*
+          IID — the three INDEPENDENT capability workspaces.
+
+          Each capability is its own application route with its own state, workflow and URL. They
+          were previously anchors on `/investment` (`#iid-01`, `#iid-02`, `#iid-03`), which gave
+          discoverability but not three independently accessible working areas. The landing page
+          remains the overview; these are the working destinations.
+        */}
+        <Route path={ROUTES.stockIntelligence} element={<StockIntelligencePage />} />
+        <Route path={ROUTES.holdingDecisions} element={<HoldingDecisionsPage />} />
+        <Route path={ROUTES.changeIntelligence} element={<ChangeIntelligencePage />} />
         <Route path={ROUTES.candidateAssessment} element={<CandidateAssessmentPage />} />
         <Route path="/collaboration" element={<Collaboration />} />
         <Route path="/settings" element={<Settings />} />

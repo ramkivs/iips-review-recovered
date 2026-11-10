@@ -496,8 +496,22 @@ function AssumptionsSection({ assessment }: { readonly assessment: AssessmentEnv
   );
 }
 
-export default function CompanyAssessmentPage(): JSX.Element {
-  const { issuerId = '' } = useParams<{ issuerId: string }>();
+/**
+ * IID — the company assessment surface.
+ *
+ * `issuerId` may be supplied as a PROP by the Stock Intelligence workspace, which selects a company
+ * itself and then renders this surface for it. When it is absent the issuer is read from the route
+ * parameter, which is how `/investment/company/:issuerId` addresses it. The rendering, the states
+ * and every rule below are identical either way: there is one implementation of the assessment
+ * renderer, not two.
+ */
+export default function CompanyAssessmentPage({
+  issuerId: issuerIdProp,
+}: {
+  readonly issuerId?: string;
+} = {}): JSX.Element {
+  const routeParams = useParams<{ issuerId: string }>();
+  const issuerId = issuerIdProp ?? routeParams.issuerId ?? '';
   const [searchParams, setSearchParams] = useSearchParams();
   /**
    * IID WI-1 (P4): the URL is the single source of truth for which stored version is displayed, and for the

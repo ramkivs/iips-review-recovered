@@ -82,3 +82,86 @@ export function candidateAssessmentHref(securityId: string, portfolioId?: string
 export function userPortfolioHref(portfolioId: string): string {
   return `/user-portfolios/${encodeURIComponent(portfolioId)}`;
 }
+
+/**
+ * The three independent IID capability workspaces.
+ *
+ * Each is a real application route with its own state and workflow. The landing page `/investment`
+ * remains the overview that names them; these are the working destinations.
+ *
+ * The context travels in the query string, so a capability opened from another capability keeps the
+ * issuer, portfolio, security and assessment version the reader was working with. Absent members stay
+ * absent — nothing is defaulted or inferred.
+ */
+export const CAPABILITY_ROUTES = Object.freeze({
+  /** IID-01 — Stock Intelligence: the company assessment workflow. */
+  stockIntelligence: '/investment/stock-intelligence',
+  /** IID-02 — Investment & Holding Decisions: candidate and held dispositions. */
+  holdingDecisions: '/investment/holding-decisions',
+  /** IID-03 — Historical Change Intelligence: version history and comparisons. */
+  changeIntelligence: '/investment/change-intelligence',
+});
+
+/**
+ * IID-01 — Stock Intelligence, carrying whatever context applies.
+ *
+ * `issuerId` is carried when there is one, because IID-01 is addressed by ISSUER: a reader who
+ * arrives from IID-03 with a company selected lands on that company, not on an empty workspace.
+ */
+export function stockIntelligenceHref(
+  context: InvestmentContext = {},
+  issuerId?: string | null,
+): string {
+  const issuer = issuerId === null || issuerId === undefined ? null : issuerId.trim();
+  const params = new URLSearchParams();
+  if (issuer !== null && issuer.length > 0) params.set('issuerId', issuer);
+  for (const key of ['portfolioId', 'securityId', 'reportId'] as const) {
+    const value = context[key];
+    if (value !== undefined && value.length > 0) params.set(key, value);
+  }
+  const query = params.toString();
+  return `${CAPABILITY_ROUTES.stockIntelligence}${query.length === 0 ? '' : `?${query}`}`;
+}
+
+/**
+ * IID-02 — Investment & Holding Decisions, carrying whatever context applies.
+ *
+ * `issuerId` is carried when there is one for the same reason: the subject the reader was working
+ * with must not be lost by moving between capabilities. IID-02 itself is addressed by portfolio and
+ * security, so the issuer is context there rather than the address.
+ */
+export function holdingDecisionsHref(
+  context: InvestmentContext = {},
+  issuerId?: string | null,
+): string {
+  const issuer = issuerId === null || issuerId === undefined ? null : issuerId.trim();
+  const params = new URLSearchParams();
+  if (issuer !== null && issuer.length > 0) params.set('issuerId', issuer);
+  for (const key of ['portfolioId', 'securityId', 'reportId'] as const) {
+    const value = context[key];
+    if (value !== undefined && value.length > 0) params.set(key, value);
+  }
+  const query = params.toString();
+  return `${CAPABILITY_ROUTES.holdingDecisions}${query.length === 0 ? '' : `?${query}`}`;
+}
+
+/**
+ * IID-03 — Historical Change Intelligence, carrying whatever context applies.
+ *
+ * `issuerId` is carried as `issuerId` because this capability is addressed by ISSUER (a change
+ * history belongs to a company), while the other two are addressed by holding or candidate.
+ */
+export function changeIntelligenceHref(
+  issuerId: string | null | undefined,
+  context: InvestmentContext = {},
+): string {
+  const issuer = issuerId === null || issuerId === undefined ? null : issuerId.trim();
+  const params = new URLSearchParams();
+  if (issuer !== null && issuer.length > 0) params.set('issuerId', issuer);
+  for (const key of ['portfolioId', 'securityId', 'reportId'] as const) {
+    const value = context[key];
+    if (value !== undefined && value.length > 0) params.set(key, value);
+  }
+  const query = params.toString();
+  return `${CAPABILITY_ROUTES.changeIntelligence}${query.length === 0 ? '' : `?${query}`}`;
+}
