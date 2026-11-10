@@ -33,6 +33,18 @@ export const NAV: NavItem[] = [
   // established by the server-owned owner context (F-3) and report unavailable — never a
   // fabricated or inferred owner — whenever that context cannot be established.
   { label: 'Broker Holdings', path: '/broker-holdings' },
+  /**
+   * CAP-02 — the Broker Statement Import surface, mounted at `/user-portfolios/import`.
+   *
+   * This entry is the application's route to the governed Stage 4 commit control
+   * (Save / Commit Holdings) and to the AMEND-02 evidence actions on a screen that can
+   * act on them. `Broker Holdings` above mounts the SAME preview component in
+   * preview-only mode, which by design renders no commit control at all; without this
+   * entry the committed capability existed in code but could not be reached from the
+   * running application. The gate is unchanged: the import still commits only through
+   * IPD's whole-import identity qualification.
+   */
+  { label: 'Broker Import', path: '/user-portfolios/import' },
   { label: 'User Portfolios', path: '/user-portfolios' },
   // Personal, durable, single-user portfolio (local personal-use path; Program Authority 2026-11-08).
   { label: 'Personal Portfolio', path: '/personal-portfolio' },

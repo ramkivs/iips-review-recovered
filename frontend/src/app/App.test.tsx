@@ -217,6 +217,40 @@ describe('Application Shell', () => {
     expect(screen.getByTestId('shell-feature-unavailable')).toBeInTheDocument();
   });
 
+  /**
+   * CAP-02 Broker Import — the committed Stage 4 capability must be REACHABLE.
+   *
+   * The governed commit control (Save / Commit Holdings) and the AMEND-02 evidence actions
+   * live on the Broker Import surface, mounted at `/user-portfolios/import`. `Broker
+   * Holdings` mounts the SAME preview component in preview-only mode, which by design
+   * renders no commit control at all, so a navigation entry for this surface is the only
+   * way the running application can reach the capability.
+   */
+  it('exposes a navigation entry for the Broker Import surface that carries the commit control', () => {
+    renderAt('/executive');
+    const link = screen.getByRole('link', { name: 'Broker Import' });
+    expect(link).toHaveAttribute('href', '/user-portfolios/import');
+  });
+
+  it('resolves /user-portfolios/import to the CAP-02 surface, never to a portfolio detail read', async () => {
+    renderAt('/user-portfolios/import');
+    expect(await screen.findByTestId('cap02-broker-import-surface')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Broker Statement Import' })).toBeInTheDocument();
+    // The static route must win over `/user-portfolios/:portfolioId`; a portfolio detail
+    // read would render its own back-link and no import surface.
+    expect(screen.queryByText('← All user portfolios')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('shell-feature-unavailable')).not.toBeInTheDocument();
+  });
+
+  it('keeps the Broker Holdings route preview-only and points it at the commit-capable surface', async () => {
+    renderAt('/broker-holdings');
+    expect(await screen.findByText(/Preview only — not saved/)).toBeInTheDocument();
+    // No commit control on the preview-only instance: the placement decision is preserved.
+    expect(screen.queryByTestId('broker-commit')).not.toBeInTheDocument();
+    const preview = screen.getByLabelText('Broker Holdings preview');
+    expect(preview.querySelector('a[href="/user-portfolios/import"]')).not.toBeNull();
+  });
+
   for (const [path, title, marker] of [
     ['/intelligence/opportunities', 'Opportunities', 'opportunities-framing'],
     ['/intelligence/risks', 'Risks', 'risks-framing'],
