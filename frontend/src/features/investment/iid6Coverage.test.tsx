@@ -1,6 +1,11 @@
 /**
- * IID-6 — the coverage surface at `/investment/coverage` (identity resolution plus the freshness and boundary
+ * IID-6 — the IDENTITY coverage surface at `/identity-coverage` (identity resolution plus the freshness and boundary
  * statements the page now makes).
+ *
+ * IID SEPARATION: this file now covers the IDENTITY surface. It previously rendered the single shared coverage
+ * component at both `/identity-coverage` and `/investment/coverage`, so its assertions proved nothing about which
+ * page a reader was on. The identity page keeps every behaviour asserted below, including its fail-closed
+ * unavailable state — that behaviour is the governed identity-source requirement and is unchanged.
  *
  * The rule the page must keep: it classifies nothing and totals nothing it did not receive. A row whose identity is
  * unresolved gets NO company link and NO assessment value; counts are the report's counts, and boundary coverage is
@@ -12,7 +17,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import InvestmentCoveragePage from './InvestmentCoveragePage';
+import IdentityCoveragePage from './IdentityCoveragePage';
 import { COVERAGE_REPORT, ISSUER, PORTFOLIO, SECURITY } from './iid6Fixtures';
 
 function stub(handler: () => Response) {
@@ -24,7 +29,7 @@ function stub(handler: () => Response) {
 function renderPage() {
   return render(
     <MemoryRouter>
-      <InvestmentCoveragePage />
+      <IdentityCoveragePage />
     </MemoryRouter>,
   );
 }
@@ -38,7 +43,7 @@ describe('a valid report renders (the assertReport regression)', () => {
     stub(() => new Response(JSON.stringify(COVERAGE_REPORT), { status: 200 }));
     renderPage();
 
-    expect(await screen.findByRole('heading', { name: /Investment coverage/i })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /^Identity coverage$/i })).toBeInTheDocument();
     expect(screen.getByText(COVERAGE_REPORT.statusLine)).toBeInTheDocument();
     expect(screen.getByText('AMBIGUOUS')).toBeInTheDocument();
     expect(screen.getByText('REJECTED_MALFORMED_ISIN')).toBeInTheDocument();
@@ -57,7 +62,7 @@ describe('rows link out only when an identity is known', () => {
     stub(() => new Response(JSON.stringify(COVERAGE_REPORT), { status: 200 }));
     renderPage();
 
-    await screen.findByRole('heading', { name: /Investment coverage/i });
+    await screen.findByRole('heading', { name: /^Identity coverage$/i });
     const links = screen.getAllByRole('link', { name: /Company assessment/ });
     // IID WI-1 (P4): this row was observed in a portfolio, so the link now carries that portfolio and the row's
     // own security. Previously the href dropped both and the company page could only report "no context supplied".
@@ -75,7 +80,7 @@ describe('rows link out only when an identity is known', () => {
     stub(() => new Response(JSON.stringify(COVERAGE_REPORT), { status: 200 }));
     renderPage();
 
-    await screen.findByRole('heading', { name: /Investment coverage/i });
+    await screen.findByRole('heading', { name: /^Identity coverage$/i });
     expect(screen.getAllByRole('link', { name: /Change history/ })[0]).toHaveAttribute(
       'href',
       `/investment/company/${encodeURIComponent(ISSUER)}?portfolioId=${PORTFOLIO}&securityId=${encodeURIComponent(SECURITY)}#change-timeline`,
@@ -86,7 +91,7 @@ describe('rows link out only when an identity is known', () => {
     stub(() => new Response(JSON.stringify(COVERAGE_REPORT), { status: 200 }));
     const { container } = renderPage();
 
-    await screen.findByRole('heading', { name: /Investment coverage/i });
+    await screen.findByRole('heading', { name: /^Identity coverage$/i });
     const unresolvedRow = container.querySelector('[data-state="UNMATCHED"]') as HTMLElement;
     expect(unresolvedRow).not.toBeNull();
     expect(unresolvedRow.querySelectorAll('a')).toHaveLength(0);
@@ -99,7 +104,7 @@ describe('freshness and boundary coverage are stated, not estimated', () => {
     stub(() => new Response(JSON.stringify(COVERAGE_REPORT), { status: 200 }));
     renderPage();
 
-    await screen.findByRole('heading', { name: /Investment coverage/i });
+    await screen.findByRole('heading', { name: /^Identity coverage$/i });
     expect(screen.getByText('Coverage as of')).toBeInTheDocument();
     expect(screen.getByText('2026-11-06')).toBeInTheDocument();
     expect(screen.getByText('Report generated at')).toBeInTheDocument();
@@ -110,7 +115,7 @@ describe('freshness and boundary coverage are stated, not estimated', () => {
     stub(() => new Response(JSON.stringify(COVERAGE_REPORT), { status: 200 }));
     renderPage();
 
-    await screen.findByRole('heading', { name: /Investment coverage/i });
+    await screen.findByRole('heading', { name: /^Identity coverage$/i });
     expect(screen.getByRole('heading', { name: /Boundary coverage and missing explanations/ })).toBeInTheDocument();
     expect(screen.getByText(/no overall total is computed here|does not total it/)).toBeInTheDocument();
     expect(screen.getByText(/ChangeService\.reconcile/)).toBeInTheDocument();

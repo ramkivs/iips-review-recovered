@@ -26,6 +26,7 @@ import { Screener } from '../features/screener/Screener';
 import { Watchlists } from '../features/watchlists/Watchlists';
 import { DhanInstrumentSearch } from '../features/dhan/DhanInstrumentSearch';
 import InvestmentLandingPage from '../features/investment/InvestmentLandingPage';
+import IdentityCoveragePage from '../features/investment/IdentityCoveragePage';
 import InvestmentCoveragePage from '../features/investment/InvestmentCoveragePage';
 import CompanyAssessmentPage from '../features/investment/CompanyAssessmentPage';
 import CandidateAssessmentPage from '../features/investment/CandidateAssessmentPage';
@@ -60,13 +61,28 @@ export function App() {
         <Route path="/user-portfolios/:portfolioId" element={<UserPortfolioDetail />} />
         <Route path="/watchlists" element={<Watchlists />} />
         <Route path={ROUTES.dhanInstrumentSearch} element={<DhanInstrumentSearch />} />
-        {/* IID-1 — investment identity coverage (read-only; identity resolution is server-side). */}
-        <Route path={ROUTES.identityCoverage} element={<InvestmentCoveragePage />} />
+        {/*
+          IID-1 — IDENTITY coverage (read-only; identity resolution is server-side).
+
+          IID SEPARATION: this route serves the IDENTITY surface only. It fails closed when the
+          eligible roster, listing map or corporate-action table cannot be loaded, and classifies no
+          row in that state. It previously shared one component with Investment Coverage, so an
+          identity-source failure also erased the investment-coverage page.
+        */}
+        <Route path={ROUTES.identityCoverage} element={<IdentityCoveragePage />} />
         {/* IID-3 — persisted company assessment (GET-only; the server owns persistence). */}
         <Route path={ROUTES.companyAssessment} element={<CompanyAssessmentPage />} />
         {/* IID WI-1 (P1) — the concrete Investment Intelligence landing surface naming IID-01/02/03. */}
         <Route path={ROUTES.investmentIntelligence} element={<InvestmentLandingPage />} />
-        {/* IID-6 — coverage at its authoritative path, and the candidate flow (no portfolio required). */}
+        {/*
+          IID-6 — INVESTMENT coverage at its authoritative path, and the candidate flow (no portfolio
+          required).
+
+          IID SEPARATION: this route serves the INVESTMENT surface, which reads the dataset's own
+          coverage and is unaffected by the identity sources. An identity-source absence is
+          disclosed on that page and on each affected row; it never replaces this page with an
+          identity error.
+        */}
         <Route path={ROUTES.investmentCoverage} element={<InvestmentCoveragePage />} />
         <Route path={ROUTES.candidateAssessment} element={<CandidateAssessmentPage />} />
         <Route path="/collaboration" element={<Collaboration />} />

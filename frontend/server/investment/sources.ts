@@ -25,6 +25,7 @@ import { resolveOwnerContext } from '../owner-context-resolver.js';
 // One import into IRR: the platform own its file layout and exposes only these adapters.
 import {
   financialCoverageFromLocalDataset,
+  investmentCoverageFromLocalDataset,
   loadRuntimeIdentitySources,
 } from '../../../iips-platform/src/investment/identity/runtime';
 import { parseSecurityId } from '../../../iips-platform/src/investment/contracts/ids';
@@ -198,6 +199,7 @@ export function createCoverageProviders(options: CoverageSourceOptions = {}): Co
     watchlist: createWatchlistProvider(options),
     loadSources: () => loadRuntimeIdentitySources(options.dataRoot),
     financialCoverage: createFinancialCoverageProvider(options),
+    readInvestmentCoverage: (asOf) => investmentCoverageFromLocalDataset(asOf, options.dataRoot),
     dataRoot: options.dataRoot,
   };
 }

@@ -15,9 +15,13 @@ export const ROUTES = {
   watchlists: '/watchlists',
   dhanInstrumentSearch: '/dhan/instruments',
   /**
-   * IID-1 — investment identity coverage. The SPA surface; the server also renders the same report at
+   * IID-1 — IDENTITY coverage. The SPA surface; the server also renders the same report at
    * `/investment/coverage` for a credential-free, JS-free view. Both read the same endpoint and neither
    * can classify a row: identity is resolved by IRR.
+   *
+   * IID SEPARATION: this path serves the identity surface ONLY. It fails closed when the eligible
+   * roster, listing map or corporate-action table cannot be loaded. Its sibling `investmentCoverage`
+   * is a different capability with a different read model — the two are no longer the same page.
    */
   identityCoverage: '/identity-coverage',
   /**
@@ -34,9 +38,15 @@ export const ROUTES = {
   /**
    * IID-6 — the product surface routes.
    *
-   * `investmentCoverage` is the authoritative IID-6 path from the roadmap's task 7. The IID-1 SPA surface keeps its
-   * own path (`identityCoverage`) so existing navigation keeps working; both render the same read model, and neither
-   * classifies a row.
+   * `investmentCoverage` is the authoritative IID-6 path from the roadmap's task 7. It serves the
+   * INVESTMENT coverage surface: the served dataset's own coverage, read from the local snapshot
+   * store and the sector measurement.
+   *
+   * IID SEPARATION: this path and `identityCoverage` were previously the same component reading the
+   * same endpoint, so an identity-source failure replaced this page with "Identity coverage is
+   * unavailable". They are now independent: separate components, separate endpoints, separate
+   * contracts and separate failure states. An identity-source absence is disclosed here and on each
+   * affected issuer row; it never becomes a page-level failure here.
    */
   investmentCoverage: '/investment/coverage',
   /**

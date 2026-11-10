@@ -24,8 +24,17 @@ import {
   handlePreviewEvaluationRequest,
   type CoverageDependencies,
 } from '../../../iips-platform/src/investment/identity/coverageEndpoint';
-import { loadRuntimeIdentitySources } from '../../../iips-platform/src/investment/identity/runtime';
+import {
+  handleInvestmentCoverageRequest as handleInvestmentCoverageEndpoint,
+  INVESTMENT_COVERAGE_ROUTES,
+  type InvestmentCoverageDependencies,
+} from '../../../iips-platform/src/investment/coverage/investmentCoverageEndpoint';
+import {
+  investmentCoverageFromLocalDataset,
+  loadRuntimeIdentitySources,
+} from '../../../iips-platform/src/investment/identity/runtime';
 import type { FinancialCoverageDisclosure } from '../../../iips-platform/src/investment/identity/coverage';
+import type { InvestmentCoverageReport } from '../../../iips-platform/src/investment/coverage/investmentCoverage';
 import type { SourceLoadResult } from '../../../iips-platform/src/investment/identity/sources';
 import type { IdentityObservation } from '../../../iips-platform/src/investment/identity/types';
 
@@ -42,6 +51,14 @@ export interface CoverageTransportProviders {
   readonly dataRoot?: string;
   /** Bounds the preview body read. */
   readonly maxPreviewBytes?: number;
+  /**
+   * The INVESTMENT coverage read. Defaults to the local dataset, which does not depend on the
+   * identity sources. A provider may be injected to test the investment-coverage failure mode
+   * separately from the identity-source failure mode.
+   */
+  readonly readInvestmentCoverage?: (
+    asOf: string,
+  ) => Promise<InvestmentCoverageReport> | InvestmentCoverageReport;
 }
 
 const DEFAULT_MAX_PREVIEW_BYTES = 2 * 1024 * 1024;
@@ -103,6 +120,30 @@ export async function handleInvestmentCoverageRequest(
 ): Promise<boolean> {
   const url = request.url ?? '/';
   const dependencies = coverageDependencies(providers);
+
+  /*
+   * IID — INVESTMENT COVERAGE, SERVED INDEPENDENTLY OF IDENTITY.
+   *
+   * The route is matched BEFORE the identity coverage route, because the identity handler matches
+   * `/api/investment/coverage` exactly and would otherwise swallow it. The investment read never
+   * consults the identity sources for anything but disclosure, so an absent identity roster cannot
+   * turn this into an identity error.
+   */
+  if (url === INVESTMENT_COVERAGE_ROUTES.json || url.startsWith(`${INVESTMENT_COVERAGE_ROUTES.json}?`)) {
+    const investmentDependencies: InvestmentCoverageDependencies = {
+      readInvestmentCoverage: (asOf) =>
+        providers.readInvestmentCoverage?.(asOf) ?? investmentCoverageFromLocalDataset(asOf, providers.dataRoot),
+      today: providers.today ?? defaultToday,
+    };
+    const result = await handleInvestmentCoverageEndpoint(
+      { method: request.method ?? 'GET', url },
+      investmentDependencies,
+    );
+    if (result === null) return false;
+    response.writeHead(result.status, { ...result.headers });
+    response.end(request.method?.toUpperCase() === 'HEAD' ? '' : result.body);
+    return true;
+  }
 
   if (url === COVERAGE_ROUTES.previewEvaluation || url.startsWith(`${COVERAGE_ROUTES.previewEvaluation}?`)) {
     let body = '';

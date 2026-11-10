@@ -823,9 +823,16 @@ const server = http.createServer(async (req, res) => {
   // table; holdings arrive through the existing IPC read path and watchlist entries through the existing
   // watchlists service. Nothing is written: no NP-04 artefact, no new store, no IPD write. A missing or
   // invalid roster answers 503 with the file-level issues rather than a guessed classification.
+  //
+  // IID SEPARATION: `/api/investment/coverage/investment` is the INVESTMENT coverage read. It is
+  // matched here so the request reaches the coverage transport, and it answers from the dataset
+  // independently of the identity sources — an absent identity roster is disclosed on that report
+  // and on each affected issuer row, never rendered as an identity error.
   if (
     req.url === '/api/investment/coverage' ||
     req.url?.startsWith('/api/investment/coverage?') ||
+    req.url === '/api/investment/coverage/investment' ||
+    req.url?.startsWith('/api/investment/coverage/investment?') ||
     req.url === '/api/investment/coverage/preview' ||
     req.url?.startsWith('/api/investment/coverage/preview?') ||
     req.url === '/investment/coverage' ||
