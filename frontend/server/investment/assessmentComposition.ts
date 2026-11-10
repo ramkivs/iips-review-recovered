@@ -43,6 +43,10 @@ import {
   type ReportProvenance,
 } from '../reports/artifact.js';
 import { canonicalizePayload, type CanonicalParameterValue } from '../reports/canonical.js';
+import {
+  DATASET_CLASSES,
+  type DatasetClass,
+} from '../../../iips-platform/src/investment/fundamentals/datasetClass';
 import { composeReportContent } from '../reports/composition.js';
 import {
   ASSESSMENT_SUBSTANTIVE_GRAMMAR,
@@ -61,14 +65,15 @@ export const ASSESSMENT_REPORT_TYPE = 'investment.company-assessment' as const;
 /** Composition grammar version. A change here is a change of persisted meaning, not a refactor. */
 export const ASSESSMENT_COMPOSITION_VERSION = 1;
 
-/** How a dataset was produced. Recorded in provenance so a synthetic demo is never mistaken for real. */
-export type DatasetClass = 'SYNTHETIC_REFERENCE' | 'APPROVED_LOCAL_INGESTION' | 'UNKNOWN';
-
-export const DATASET_CLASSES: readonly DatasetClass[] = Object.freeze([
-  'SYNTHETIC_REFERENCE',
-  'APPROVED_LOCAL_INGESTION',
-  'UNKNOWN',
-]);
+/**
+ * How a dataset was produced. Recorded in provenance so a synthetic demo is never mistaken for real.
+ *
+ * The definition lives in the platform so the assessment path, the disposition path and the
+ * ingestion path cannot disagree about what a class MEANS — in particular about whether a class
+ * asserts rights. See `fundamentals/datasetClass.ts`.
+ */
+export { DATASET_CLASSES };
+export type { DatasetClass };
 
 export interface ComposeAssessmentInput {
   /** The IID-2 payload. Consumed read-only; never mutated, never re-derived. */

@@ -46,6 +46,42 @@ export interface DatasetCoverage {
   readonly prices: number;
 }
 
+/**
+ * HOW THE OPERATOR ASSERTED THE RIGHTS TO THIS DATASET.
+ *
+ * A dataset is not permitted merely because it exists on the disk. `licence` is free text a
+ * caller writes; `provider` is a label; neither is evidence of a right to use, retain or
+ * redistribute the data. So the rights state is DECLARED EXPLICITLY and carries its own basis.
+ *
+ * The three states are deliberately unequal:
+ *
+ * - `SYNTHETIC` — the content is not real-world data. No rights question arises.
+ * - `OPERATOR_ASSERTED` — the operator has stated that the use is within their authority, and
+ *   has given the basis for that statement. This is the operator's own attestation, recorded so
+ *   it can be audited; it is NOT an independent verification and it does not assert that any
+ *   third party's rights were checked.
+ * - `UNKNOWN` — no rights evidence was supplied. The dataset may be real and permitted, or real
+ *   and not; nothing here says which. This is the DEFAULT, and it is the fail-closed state.
+ *
+ * `OPERATOR_ASSERTED` is deliberately not named "approved": an approval is a review somebody
+ * performed, and no such review is recorded by the ingestion path.
+ */
+export const SOURCE_RIGHTS_STATES = ['SYNTHETIC', 'OPERATOR_ASSERTED', 'UNKNOWN'] as const;
+export type SourceRightsState = (typeof SOURCE_RIGHTS_STATES)[number];
+
+/**
+ * The declaration itself. `basis` names where the operator's statement comes from (for example a
+ * terms URL or a named agreement). An empty basis is not a statement of rights: it is the same
+ * as `UNKNOWN`, and is rejected by `assertSourceRights`.
+ */
+export interface SourceRightsDeclaration {
+  readonly state: SourceRightsState;
+  /** Why the operator holds the right. Required and non-empty for `OPERATOR_ASSERTED`. */
+  readonly basis: string;
+  /** Free-text note, for example the exact terms consulted. Empty is fine. */
+  readonly note: string;
+}
+
 export interface DatasetManifest {
   readonly datasetSchema: DatasetSchema;
   /** Identity. Equal to `contentDigest`; carries no timestamp. */
@@ -53,6 +89,14 @@ export interface DatasetManifest {
   readonly contentDigest: string;
   readonly provider: string;
   readonly licence: string;
+  /**
+   * The operator's rights declaration for this dataset.
+   *
+   * OPTIONAL on the wire, so a dataset written before this field existed still reads. It is
+   * ABSENT-equals-`UNKNOWN`: an older manifest carries no rights evidence, and an older manifest
+   * is therefore not permitted evidence of anything.
+   */
+  readonly sourceRights?: SourceRightsDeclaration;
   readonly dataAsOf: string | null;
   readonly knownAsOf: string | null;
   /** Recorded for audit only — NOT part of identity. */
@@ -75,6 +119,42 @@ export interface DigestableContent {
   readonly corporateActions: readonly unknown[];
   readonly operatingMetrics: readonly unknown[];
   readonly issues: readonly unknown[];
+}
+
+/**
+ * Validate a rights declaration. A declaration that claims `OPERATOR_ASSERTED` without a basis
+ * is REFUSED rather than downgraded, because silently downgrading it would hide a malformed
+ * declaration behind a plausible-looking one.
+ *
+ * An absent declaration is `UNKNOWN`. That is the whole point: a dataset that says nothing about
+ * its rights says nothing, and nothing is not permission.
+ */
+export function assertSourceRights(declaration: SourceRightsDeclaration | undefined | null): SourceRightsDeclaration {
+  if (declaration === undefined || declaration === null) {
+    return { state: 'UNKNOWN', basis: '', note: 'no rights declaration was supplied with this dataset' };
+  }
+  const state = declaration.state;
+  if (!SOURCE_RIGHTS_STATES.includes(state)) {
+    throw new Error(
+      `source rights state must be one of ${SOURCE_RIGHTS_STATES.join(', ')}, received "${String(state)}"`,
+    );
+  }
+  const basis = typeof declaration.basis === 'string' ? declaration.basis.trim() : '';
+  if (state === 'OPERATOR_ASSERTED' && basis.length === 0) {
+    throw new Error(
+      'a source rights declaration of OPERATOR_ASSERTED must state the basis on which the operator holds the right',
+    );
+  }
+  return {
+    state,
+    basis: state === 'OPERATOR_ASSERTED' ? basis : '',
+    note: typeof declaration.note === 'string' ? declaration.note : '',
+  };
+}
+
+/** The rights declaration of a manifest, defaulted to `UNKNOWN` when absent. */
+export function sourceRightsOf(manifest: Pick<DatasetManifest, 'sourceRights'>): SourceRightsDeclaration {
+  return assertSourceRights(manifest.sourceRights);
 }
 
 /** Content digest over the included members only. Deterministic and order-insensitive per member set. */
@@ -103,6 +183,11 @@ export function buildManifest(
     readonly quality?: DatasetManifest['quality'];
     /** Declared dataset schema for this build. Defaults to the legacy V1 identifier, so existing datasets do not move. */
     readonly datasetSchema?: DatasetSchema;
+    /**
+     * The operator's rights declaration. Omitted means `UNKNOWN` — a dataset written without it
+     * carries no rights evidence, and the classification downstream reflects exactly that.
+     */
+    readonly sourceRights?: SourceRightsDeclaration;
   },
 ): DatasetManifest {
   const contentDigest = computeContentDigest(content);
@@ -133,6 +218,9 @@ export function buildManifest(
     contentDigest,
     provider: options.provider,
     licence: options.licence,
+    // The rights declaration is validated, never inferred: an invalid declaration throws here
+    // rather than reaching a reader as a plausible-looking class.
+    sourceRights: assertSourceRights(options.sourceRights),
     dataAsOf,
     knownAsOf,
     lastImportAt: options.now,

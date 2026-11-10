@@ -78,6 +78,9 @@ export function writeTempDataset(
     licence: 'synthetic; not redistributable',
     now: options.now ?? '2026-11-05T00:00:00.000Z',
     importRunId: `run-${options.now ?? 'fixed'}`,
+    // The fixture is synthetic, and declares it. The dataset class that reaches the assessment is
+    // therefore `SYNTHETIC_REFERENCE` on the strength of this declaration.
+    sourceRights: { state: 'SYNTHETIC', basis: '', note: 'synthetic test fixture' },
   });
   return {
     dir,

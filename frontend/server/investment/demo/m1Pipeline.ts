@@ -17,6 +17,7 @@ import type { SectorName } from '../../../../iips-platform/src/investment/contra
 import { buildBinding, resolveIdentity } from '../../../../iips-platform/src/investment/identity/resolver';
 import { loadIdentitySources, IDENTITY_FILE_NAMES } from '../../../../iips-platform/src/investment/identity/sources';
 import { readDataset } from '../../../../iips-platform/src/investment/ingestion/writer';
+import { classifyDataset } from '../../../../iips-platform/src/investment/fundamentals/datasetClass';
 import { CANONICAL_REPORTS_CARRIER_TEXT } from '../../reports-owner-carrier.js';
 import { composeAssessmentArtifact, type ComposedAssessment, type DatasetClass } from '../assessmentComposition.js';
 import {
@@ -130,8 +131,14 @@ export function assembleAssessment(options: {
 }): M1Assembly {
   const datasetRead = readDataset(options.datasetDir);
   const manifest = datasetRead.manifest;
-  const datasetClass: DatasetClass =
-    manifest.provider === M1_DATASET_PROVIDER ? 'SYNTHETIC_REFERENCE' : 'APPROVED_LOCAL_INGESTION';
+  /**
+   * Classified from the dataset's DECLARED RIGHTS EVIDENCE, not from its provider label.
+   *
+   * The M1 demonstration ships a synthetic dataset, whose manifest declares its rights state as
+   * `SYNTHETIC`; a dataset that declares nothing is `UNKNOWN`, and is reported as such rather
+   * than being promoted to operator-supplied by a provider-string comparison.
+   */
+  const datasetClass: DatasetClass = classifyDataset(manifest);
 
   const sources = m1Sources(options.identityDir);
   const asOf = options.generatedAt.slice(0, 10);

@@ -36,6 +36,7 @@ import type {
   IdentitySources,
 } from '../../../../iips-platform/src/investment/identity/types';
 import { readDataset } from '../../../../iips-platform/src/investment/ingestion/writer';
+import { classifyDataset } from '../../../../iips-platform/src/investment/fundamentals/datasetClass';
 import { assertScopeToken } from '../../../../iips-platform/src/investment/artifacts/scopeToken';
 import { NP04_DATABASE_PATH_ENV, loadAuthoritativeNp04Persistence } from '../../reports/persistence-port.js';
 import {
@@ -269,26 +270,35 @@ function summarise(chain: InvestmentChainView | null): CliSummary['chain'] {
  * The limitation lines this CLI publishes in its summary.
  *
  * L-004 and L-009 describe the *shipped reference dataset* and the historical absence of a real-issuer run. When
- * this CLI is pointed at operator-supplied real data (`APPROVED_LOCAL_INGESTION`) those two sentences would be
- * false about the run in hand, so they are restated for that data class. Neither limitation is closed or
- * renumbered: the identifiers, the subject and the direction of both limitations are unchanged, and the shipped
- * reference dataset stays synthetic either way. See `LIMITATION_AND_COVERAGE_REGISTER` for the dated entry.
+ * this CLI is pointed at operator-supplied real data (`OPERATOR_SUPPLIED`) those two sentences would be false
+ * about the run in hand, so they are restated for that data class. Neither limitation is closed or renumbered: the
+ * identifiers, the subject and the direction of both limitations are unchanged, and the shipped reference dataset
+ * stays synthetic either way. See `LIMITATION_AND_COVERAGE_REGISTER` for the dated entry.
  *
  * `datasetClass === null` means no dataset was read yet (a run that fails before the snapshot step): the
  * historical wording is kept so a broken run never claims more than it knows.
+ *
+ * `datasetClass === 'UNKNOWN'` means a dataset WAS read but its rights evidence was not supplied. The run is then
+ * described as an UNKNOWN-class dataset rather than as operator-supplied: the data may well be real and permitted,
+ * but nothing in the evidence says so, and this summary must not assert it.
  */
 export function limitationsForDatasetClass(datasetClass: DatasetClass | null): readonly string[] {
-  const real = datasetClass === 'APPROVED_LOCAL_INGESTION';
+  const real = datasetClass === 'OPERATOR_SUPPLIED';
+  const unknown = datasetClass === 'UNKNOWN';
   return [
     'L-001 3 of 13 sectors measured; 10 remain in outstandingSectors (sector-analytics coverage, not this milestone)',
     'L-002 20 XBRL tags mapped; unmapped tags remain visible gaps',
     'L-003 closed derivation set = 8 items',
-    real
-      ? 'L-004 the reference dataset shipped with the product is synthetic: mechanics only, no company validation. This run read operator-supplied real data (APPROVED_LOCAL_INGESTION) instead, so the limitation attaches to the reference dataset, not to this run'
-      : 'L-004 the reference dataset is synthetic: mechanics only, no company validation',
-    real
-      ? 'L-009 no real issuer had been assessed through IID-3 before this work item, and the product still ships no real dataset. This run assessed one real issuer from operator-supplied data (APPROVED_LOCAL_INGESTION); that is one issuer reached through one path, not general real-issuer coverage'
-      : 'L-009 no real issuer has been assessed through IID-3; M-1 uses synthetic reference data',
+    unknown
+      ? 'L-004 the reference dataset shipped with the product is synthetic: mechanics only, no company validation. This run read a dataset whose rights evidence was not supplied, so its permitted use is not established and it is not described here as operator-supplied real data'
+      : real
+        ? 'L-004 the reference dataset shipped with the product is synthetic: mechanics only, no company validation. This run read operator-supplied real data (OPERATOR_SUPPLIED) instead, so the limitation attaches to the reference dataset, not to this run'
+        : 'L-004 the reference dataset is synthetic: mechanics only, no company validation',
+    unknown
+      ? 'L-009 no real issuer had been assessed through IID-3 before this work item, and the product still ships no real dataset. This run assessed one issuer from a dataset of unknown rights status; that is one issuer reached through one path, not general real-issuer coverage'
+      : real
+        ? 'L-009 no real issuer had been assessed through IID-3 before this work item, and the product still ships no real dataset. This run assessed one real issuer from operator-supplied data (OPERATOR_SUPPLIED); that is one issuer reached through one path, not general real-issuer coverage'
+        : 'L-009 no real issuer has been assessed through IID-3; M-1 uses synthetic reference data',
     'L-010 investment artifact chains are validated by scan; NP-04 exposes no find-by-chain operation',
     'L-011 two scope namespaces exist: co:/hd:/hc:/icr: chain scope vs the payload subjectScope',
     'L-012 the chain root reportId stands in for NP-04 chainId, which the canonical artifact shape omits',
@@ -332,10 +342,16 @@ export async function runCli(
       throw new CliFailure('DATASET_UNAVAILABLE', cause instanceof Error ? cause.message : String(cause));
     }
     const manifest = datasetRead.manifest;
-    const datasetClass: DatasetClass =
-      manifest.provider.includes('synthetic') || manifest.provider.includes('fixture')
-        ? 'SYNTHETIC_REFERENCE'
-        : 'APPROVED_LOCAL_INGESTION';
+    /**
+     * Classified from the dataset's DECLARED RIGHTS EVIDENCE, not from its provider label.
+     *
+     * The previous test (`provider` does not contain "synthetic"/"fixture" -> "APPROVED") asserted a
+     * rights state that nothing had verified, using a free-text label the same operator wrote. A
+     * source is not permitted merely because it exists locally, and a provider string is not proof.
+     * The class is now `UNKNOWN` unless the dataset carries a rights declaration, which is the
+     * fail-closed outcome.
+     */
+    const datasetClass: DatasetClass = classifyDataset(manifest);
     limitations = limitationsForDatasetClass(datasetClass);
     dataset = {
       dir: datasetRead.dir,

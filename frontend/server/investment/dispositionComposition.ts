@@ -35,6 +35,7 @@ import {
   substantiveDigestOfPayload,
 } from './substantiveIdentity.js';
 import { validateReportTypeForScope, type ScopeTokenAccepted } from '../../../iips-platform/src/investment/artifacts/scopeToken.js';
+import { type DatasetClass } from '../../../iips-platform/src/investment/fundamentals/datasetClass';
 
 /** The one report type this module composes. The registry is the authority; this is the binding. */
 export const DISPOSITION_REPORT_TYPE = 'investment.holding-disposition' as const;
@@ -42,7 +43,11 @@ export const DISPOSITION_REPORT_TYPE = 'investment.holding-disposition' as const
 /** Composition grammar version. A change here is a change of persisted meaning, not a refactor. */
 export const DISPOSITION_COMPOSITION_VERSION = 1;
 
-export type DatasetClass = 'SYNTHETIC_REFERENCE' | 'APPROVED_LOCAL_INGESTION' | 'UNKNOWN';
+/**
+ * How a dataset was produced. The definition lives in the platform so the assessment path, the
+ * disposition path and the ingestion path cannot disagree about what a class MEANS.
+ */
+export type { DatasetClass };
 
 export interface ComposeDispositionInput {
   /** The IID-4 payload. Consumed read-only; never mutated, never re-derived. */

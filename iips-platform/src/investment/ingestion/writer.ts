@@ -13,7 +13,12 @@ import { join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 
 import { canonicalize } from '../fundamentals/canonical';
-import { buildManifest, verifyManifest, type DatasetManifest } from '../fundamentals/manifest';
+import {
+  buildManifest,
+  verifyManifest,
+  type DatasetManifest,
+  type SourceRightsDeclaration,
+} from '../fundamentals/manifest';
 import { DatasetIntegrityError, DatasetMissingError } from '../fundamentals/errors';
 import type { DatasetContent } from '../fundamentals/types';
 
@@ -58,6 +63,13 @@ export interface WriteOptions {
   readonly licence: string;
   readonly now: string;
   readonly importRunId: string;
+  /**
+   * The operator's rights declaration for this dataset.
+   *
+   * Omitted means `UNKNOWN`. A writer that wants to record a permitted source must say so
+   * explicitly and give the basis; nothing here is inferred from `provider` or `licence`.
+   */
+  readonly sourceRights?: SourceRightsDeclaration;
 }
 
 export interface WriteResult {
@@ -84,6 +96,7 @@ export function writeDataset(options: WriteOptions): WriteResult {
     now: options.now,
     importRunId: options.importRunId,
     files,
+    ...(options.sourceRights === undefined ? {} : { sourceRights: options.sourceRights }),
     // The grammar the content was built under is a property of the dataset, not of the writer's default. Reading
     // it from the content is what keeps a written V2 dataset from claiming V1 on disk (`L-036`).
     ...(options.content.datasetSchema === undefined ? {} : { datasetSchema: options.content.datasetSchema }),

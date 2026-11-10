@@ -79,6 +79,15 @@ function activeAt(entry: ListingMapEntry, asOf: string): boolean {
   return true;
 }
 
+/**
+ * Choose one listing from a set that is already consistent with the observation.
+ *
+ * The `EQ` preference is a tie-break among listings that are otherwise equally consistent — it
+ * expresses which of several listings of one security is the ordinary equity listing. It is NOT a
+ * substitute for an explicitly supplied series: when the observation declares a series, the
+ * candidate set has already been narrowed to that series, so this preference cannot cross series
+ * boundaries.
+ */
 function preferListing(entries: readonly ListingMapEntry[]): ListingMapEntry | null {
   if (entries.length === 0) return null;
   return [...entries].sort(
@@ -280,7 +289,40 @@ export function resolveIdentity(rawInput: IdentityInput, context: ResolveContext
       );
     }
 
-    const active = listings.filter((entry) => activeAt(entry, asOf));
+    /**
+     * THE ACTIVE LISTINGS FOR THIS SECURITY, NARROWED BY THE OBSERVATION'S OWN EVIDENCE.
+     *
+     * A series is a real discriminator: one ISIN can carry several listings (an equity listing and
+     * a warrants listing, say), and a holding that says `series=BE` is not the `EQ` listing even
+     * though both belong to the same security. The observed symbol and exchange are discriminators
+     * too, and they were already consulted for a CONFLICT below — but they were not consulted when
+     * the final listing was CHOSEN, so a security with two `BE` listings could be resolved to
+     * whichever one happened to sort first.
+     *
+     * So the candidate set is narrowed by series, then by symbol and exchange, and each narrowing
+     * that would leave nothing is REPORTED rather than silently ignored. An explicitly supplied
+     * series is never overridden by a preference rule.
+     */
+    const activeAll = listings.filter((entry) => activeAt(entry, asOf));
+    const seriesCandidates =
+      input.series === null ? activeAll : activeAll.filter((entry) => entry.series === input.series);
+    if (input.series !== null && seriesCandidates.length === 0 && activeAll.length > 0) {
+      // The security is listed and active, but not in the series the observation names.
+      const available = [...new Set(activeAll.map((entry) => entry.series))].sort();
+      return withObservationId(
+        failure(
+          'AMBIGUOUS_LISTING',
+          'MULTIPLE_SECURITIES_SHARE_LISTING',
+          `security ${security.securityId} is listed in series ${available.join(', ')} at ${asOf}, not in the series ${input.series} the observation declares`,
+          [security.securityId],
+        ),
+        input.observationId,
+      );
+    }
+    const symbolCandidates =
+      input.symbol === null || input.exchange === null
+        ? seriesCandidates
+        : seriesCandidates.filter((entry) => entry.symbol === input.symbol && entry.exchange === input.exchange);
     if (input.symbol !== null && input.exchange !== null) {
       const exact = listings.filter((entry) => entry.symbol === input.symbol && entry.exchange === input.exchange);
       if (exact.length > 0 && exact.every((entry) => !activeAt(entry, asOf))) {
@@ -315,6 +357,26 @@ export function resolveIdentity(rawInput: IdentityInput, context: ResolveContext
         }
       }
     }
+
+    if (symbolCandidates.length === 0 && seriesCandidates.length > 0) {
+      // The observation names a symbol/exchange this security is not listed under, and that symbol
+      // does not belong to any other active security either. The listing the security DOES have is
+      // not a substitute for the one that was observed.
+      //
+      // This is checked AFTER the reused-symbol diagnosis above, because "this symbol now belongs
+      // to a different security" is the more specific finding and names a different remedy.
+      const observed = seriesCandidates.map((entry) => `${entry.exchange}:${entry.symbol}:${entry.series}`);
+      return withObservationId(
+        failure(
+          'AMBIGUOUS_LISTING',
+          'MULTIPLE_SECURITIES_SHARE_LISTING',
+          `security ${security.securityId} is listed under ${observed.join(', ')} at ${asOf}, not under the observed ${input.exchange}:${input.symbol}`,
+          [security.securityId],
+        ),
+        input.observationId,
+      );
+    }
+    const active = symbolCandidates;
 
     if (active.length === 0) {
       const earliest = listings.reduce((min, entry) => (entry.effectiveFrom < min ? entry.effectiveFrom : min), listings[0]!.effectiveFrom);
