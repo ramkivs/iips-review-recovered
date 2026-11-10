@@ -283,6 +283,95 @@ function isAdmissibleContribution(entry: unknown): entry is UserPortfolioContrib
 }
 
 /**
+ * Revision-history entry (mirror of `G2RevisionEntry`, 6 fields).
+ *
+ * Every value belongs to THIS historical revision: `createdAt` is the stored
+ * `committed_at` of that revision row (the contract's `committedAt` rename is
+ * applied at the IRR adapter boundary), and `operation` is the stored
+ * operation vocabulary `INITIAL | MERGE | REPLACE | RESET | DELETE`. The digest
+ * is opaque and is never recomputed, compared or adjudicated client-side.
+ */
+export interface UserPortfolioRevision {
+  readonly revision: number;
+  readonly operation: 'INITIAL' | 'MERGE' | 'REPLACE' | 'RESET' | 'DELETE';
+  readonly totalMarketValue: number;
+  readonly provenanceDigest: string;
+  readonly holdingsCount: number;
+  /** The stored commit instant of this revision. */
+  readonly createdAt: string;
+  /** Present only when this revision row stored one; SQL NULL is preserved as absent. */
+  readonly contentDigest?: string;
+}
+
+/**
+ * The result of a revision-history read: admissible entries plus the number of
+ * entries that were refused, so an unreadable row is disclosed and never
+ * silently dropped and never coerced into a state.
+ */
+export interface UserPortfolioRevisionRead {
+  readonly revisions: readonly UserPortfolioRevision[];
+  readonly rejectedRevisions: number;
+}
+
+/**
+ * Admissibility for one history entry — the same field rules the server contract
+ * applies (`G2RevisionEntry`), mirrored here. A malformed entry is refused rather
+ * than defaulted: the persistence status is never derived from a partial row.
+ */
+function isAdmissibleRevision(entry: unknown): entry is UserPortfolioRevision {
+  if (!isRecordValue(entry)) return false;
+  if (typeof entry.revision !== 'number' || !Number.isInteger(entry.revision) || entry.revision < 0) return false;
+  if (entry.operation !== 'INITIAL' && entry.operation !== 'MERGE' && entry.operation !== 'REPLACE'
+    && entry.operation !== 'RESET' && entry.operation !== 'DELETE') return false;
+  if (typeof entry.totalMarketValue !== 'number' || !Number.isFinite(entry.totalMarketValue)) return false;
+  if (typeof entry.provenanceDigest !== 'string') return false;
+  if (typeof entry.holdingsCount !== 'number' || !Number.isInteger(entry.holdingsCount) || entry.holdingsCount < 0) return false;
+  if (typeof entry.createdAt !== 'string' || entry.createdAt.trim().length === 0) return false;
+  if (entry.contentDigest !== undefined && typeof entry.contentDigest !== 'string') return false;
+  return true;
+}
+
+/**
+ * Reads the revision history of one durable portfolio
+ * (GET /api/user-portfolios/:portfolioId/revisions → { revisions: […] }).
+ *
+ * Uses the existing admitted IRR route — no new route and no new IPC operation.
+ * Fails closed exactly like the other read surfaces: a transport fault, a
+ * refused read or a malformed envelope is an error, never an empty history and
+ * never a fabricated revision.
+ */
+export async function fetchUserPortfolioRevisions(
+  portfolioId: string,
+  baseUrl = '',
+): Promise<UserPortfolioRevisionRead> {
+  let res: Response;
+  try {
+    res = await noAuthFetch(`${baseUrl}/api/user-portfolios/${encodeURIComponent(portfolioId)}/revisions`);
+  } catch {
+    throw new UserPortfolioApiError(0, 'Network error contacting the user-portfolio transport');
+  }
+  if (!res.ok) throw await toApiError(res);
+  let body: { revisions?: unknown } | null;
+  try {
+    body = (await res.json()) as { revisions?: unknown } | null;
+  } catch {
+    throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
+  }
+  if (!Array.isArray(body?.revisions)) {
+    // A malformed success envelope is a transport fault, not "no revisions":
+    // an empty history would otherwise be read as an unpersisted portfolio.
+    throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
+  }
+  const revisions: UserPortfolioRevision[] = [];
+  let rejectedRevisions = 0;
+  for (const entry of body.revisions) {
+    if (isAdmissibleRevision(entry)) revisions.push(entry);
+    else rejectedRevisions += 1;
+  }
+  return { revisions, rejectedRevisions };
+}
+
+/**
  * IID WI-2A (Correction B) — the result of a portfolio detail read.
  *
  * `portfolio.holdings` contains ONLY admissible records. `holdingSourceIndices` is parallel to it and

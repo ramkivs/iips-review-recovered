@@ -114,6 +114,18 @@ function stub(scenario: Scenario) {
     const url = String(input);
     calls.push(url);
     if (url.endsWith(`/api/user-portfolios/${PORTFOLIO}`)) return jsonOk({ portfolio: VIEW });
+    if (url.endsWith('/revisions')) {
+      return jsonOk({
+        revisions: [{
+          revision: VIEW.revision,
+          operation: 'INITIAL',
+          totalMarketValue: VIEW.totalMarketValue,
+          provenanceDigest: VIEW.provenanceDigest,
+          holdingsCount: VIEW.totalHoldingsCount,
+          createdAt: VIEW.lastUpdated,
+        }],
+      });
+    }
     if (url.includes('/identities')) {
       if (scenario.identitiesFail === true) {
         return new Response(JSON.stringify({ error: 'holdings-unavailable' }), { status: 503 });
@@ -275,6 +287,10 @@ describe('P3 — company and history links do not depend on dispositions', () =>
 
     await screen.findByText(/WI-2 link independence portfolio/);
     await screen.findByRole('link', { name: 'Company assessment →' });
-    expect(container.querySelectorAll('input, select, textarea, form, button')).toHaveLength(0);
+    // No input surface, no form, and no control that changes data. The single button on
+    // this surface is the summary's Refresh, which re-issues the same read-only reads.
+    expect(container.querySelectorAll('input, select, textarea, form')).toHaveLength(0);
+    const controls = Array.from(container.querySelectorAll('button'));
+    expect(controls.map((node) => node.getAttribute('data-testid'))).toEqual(['summary-refresh']);
   });
 });

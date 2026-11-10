@@ -99,6 +99,17 @@ export function formatPct(value: number): string {
   return `${value.toFixed(2)}%`;
 }
 
+/**
+ * Formats a weight-allocation percentage with four decimals.
+ *
+ * The summary must never round an allocation up to a tidy 100%: the stored value
+ * is the authoritative one, and four decimals preserve an incomplete allocation
+ * exactly as IPD stored it.
+ */
+export function formatPct4(value: number): string {
+  return `${value.toFixed(4)}%`;
+}
+
 /** Displays an opaque digest truncated, with the full value preserved in `title`. Never recomputed. */
 export function shortDigest(digest: string): ReactNode {
   const shown = digest.length > 12 ? `${digest.slice(0, 12)}…` : digest;
