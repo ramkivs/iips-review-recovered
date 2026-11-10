@@ -527,3 +527,66 @@ async function requestWithFactory(
     await new Promise<void>((resolve) => server.close(() => resolve()));
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * 400 diagnostics (2026-11-10): a refused personal write must say WHY.
+ * ------------------------------------------------------------------ */
+describe('user-portfolio transport — 400 diagnostics', () => {
+  const PERSONAL = { ...BOUND, IIPS_LOCAL_PERSONAL_USE: '1' } as NodeJS.ProcessEnv;
+  const HOLDINGS = [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500 }];
+
+  it('an INVALID_REQUEST from the port is answered 400 with a bounded detail.reason', async () => {
+    const port = recordingPort();
+    port.saveHoldings.mockRejectedValue(new G2Error('INVALID_REQUEST', 'The upstream refused portfolio.save with outcome INVALID_REQUEST.'));
+    const result = await request('/api/user-portfolios/pf-1/holdings', 'PUT', {
+      port,
+      env: PERSONAL,
+      body: JSON.stringify({ holdings: HOLDINGS, expectedRevision: 2 }),
+    });
+    expect(result.status).toBe(400);
+    expect(result.body.error).toBe('invalid-request');
+    expect(result.body.detail).toEqual({
+      reason: 'The upstream refused portfolio.save with outcome INVALID_REQUEST.',
+    });
+  });
+
+  it('the reason is sanitized before it reaches the client: control characters collapse, length is capped', async () => {
+    const port = recordingPort();
+    const noisy = `holdings[0]\nquantity\rmust be\tfinite   number.${'X'.repeat(500)}`;
+    port.saveHoldings.mockRejectedValue(new G2Error('INVALID_REQUEST', noisy));
+    const result = await request('/api/user-portfolios/pf-1/holdings', 'PUT', {
+      port,
+      env: PERSONAL,
+      body: JSON.stringify({ holdings: HOLDINGS, expectedRevision: 2 }),
+    });
+    expect(result.status).toBe(400);
+    const reason = (result.body.detail as { reason: string }).reason;
+    expect(reason).not.toMatch(/[\r\n\t]/);
+    expect(reason).not.toMatch(/\s{2,}/);
+    expect(reason.length).toBeLessThanOrEqual(200);
+    expect(reason.startsWith('holdings[0] quantity must be finite number.')).toBe(true);
+  });
+
+  it('create-on-existing is the reproduced 400 and now names the refusing operation', async () => {
+    const port = recordingPort();
+    port.createPortfolio.mockRejectedValue(new G2Error('INVALID_REQUEST', 'The upstream refused portfolio.create with outcome INVALID_REQUEST.'));
+    const result = await request('/api/user-portfolios', 'POST', {
+      port,
+      env: PERSONAL,
+      body: JSON.stringify({ holdings: HOLDINGS }),
+    });
+    expect(result.status).toBe(400);
+    expect(result.body).toEqual({
+      error: 'invalid-request',
+      detail: { reason: 'The upstream refused portfolio.create with outcome INVALID_REQUEST.' },
+    });
+  });
+
+  it('a transport-internal failure that is NOT a G2Error does not leak internals onto the wire', async () => {
+    const port = recordingPort();
+    port.listPortfolios.mockRejectedValue(new Error('/home/user/iips-peer.sock boom'));
+    const result = await request('/api/user-portfolios', 'GET', { port, env: BOUND });
+    expect(result.status).toBe(503);
+    expect(JSON.stringify(result.body)).not.toContain('iips-peer');
+  });
+});

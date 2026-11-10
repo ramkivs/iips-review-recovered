@@ -209,6 +209,23 @@ function safeErrorCode(error: G2Error): string {
   return error.reason.toLowerCase().replace(/_/g, '-');
 }
 
+/**
+ * A bounded, single-line rendering of a boundary diagnostic.
+ *
+ * The messages carried by `G2Error` on these paths are authored failures:
+ * closed-vocabulary outcome names and field-path diagnostics such as
+ * `holdings[0].quantity must be a finite number.` — never a caller-supplied
+ * value, never a path, never a stack. This sanitizer is defense in depth, not
+ * the only guarantee: control characters are collapsed and the length is
+ * capped so an error can never smuggle a payload into a client-rendered line.
+ */
+const MAX_REASON_LENGTH = 200;
+
+function safeReason(message: string): string {
+  const collapsed = message.replace(/[\u0000-\u001f\u007f]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  return collapsed.length > MAX_REASON_LENGTH ? collapsed.slice(0, MAX_REASON_LENGTH) : collapsed;
+}
+
 function parsePortfolioId(encoded: string): string | null {
   try {
     const decoded = decodeURIComponent(encoded);
@@ -345,6 +362,15 @@ async function handlePersonalWrite(
     sendNotAdmitted(res, head);
   } catch (error) {
     if (error instanceof G2Error) {
+      // A 400 additionally carries the authored boundary diagnostic (closed-code
+      // outcome names and field-path diagnostics such as `holdings[0].quantity
+      // must be a finite number.` — never a caller value, path or stack). Every
+      // other status keeps the pre-existing non-disclosing body: G2Error.message
+      // is not a sanitised channel, so it is never echoed for 401/403/404/405/409.
+      if (error.reason === 'INVALID_REQUEST') {
+        sendJson(res, 400, { error: 'invalid-request', detail: { reason: safeReason(error.message) } }, head);
+        return;
+      }
       sendJson(res, httpStatusFor(error), { error: safeErrorCode(error) }, head);
       return;
     }
@@ -437,6 +463,12 @@ export async function handleUserPortfolioRequest(
         // Keep local paths, socket details and implementation errors out of the response, but say
         // whether the endpoint is missing or merely unreachable: those need different operator action.
         sendJson(res, 503, upstreamUnavailableBody(env), head);
+        return;
+      }
+      if (error.reason === 'INVALID_REQUEST') {
+        // Same safe diagnostic channel as the personal-write path: authored
+        // closed-vocabulary reasons only, never a caller value.
+        sendJson(res, 400, { error: 'invalid-request', detail: { reason: safeReason(error.message) } }, head);
         return;
       }
       sendJson(res, httpStatusFor(error), { error: safeErrorCode(error) }, head);

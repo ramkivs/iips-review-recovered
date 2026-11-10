@@ -46,6 +46,21 @@ export interface UserPortfolioSummary {
   readonly isSaved: boolean;
 }
 
+/**
+ * `MANUAL_PERSONAL_ENTRY` (2026-11-10): IPD's local single-user personal-use
+ * mapper stamps every manually entered holding with it (`sourceBroker`
+ * `manual-personal`, `companyId` `MANUAL:<SYMBOL>`, `identityStatus`
+ * `UNRESOLVED`). It is IPD-owned stored data, not a canonical identity, and
+ * this client never transmits it (the write path strips it and IPD refuses it
+ * on the wire). Refusing it here — as an earlier revision of this mirror did —
+ * made every manually persisted portfolio render as empty, silently discarding
+ * the owner's own holdings. It is admitted for READ only.
+ */
+export type UserPortfolioResolutionDisposition =
+  | 'CANONICAL_P04'
+  | 'NON_PRODUCTION_OPERATOR_BYPASS'
+  | 'MANUAL_PERSONAL_ENTRY';
+
 /** Holding as returned on the full view (mirror of `G2HoldingView`, 15 fields). */
 export interface UserPortfolioHolding {
   readonly symbol: string;
@@ -61,7 +76,7 @@ export interface UserPortfolioHolding {
   readonly sourceBroker: string;
   readonly lineageDigest: string;
   readonly identityStatus?: 'RESOLVED' | 'UNRESOLVED';
-  readonly resolutionDisposition?: 'CANONICAL_P04' | 'NON_PRODUCTION_OPERATOR_BYPASS';
+  readonly resolutionDisposition?: UserPortfolioResolutionDisposition;
 }
 
 /** Contribution record as returned on the full view (mirror of `G2Contribution`, 7 fields). */
@@ -112,6 +127,14 @@ export class UserPortfolioApiError extends Error {
      * published no recognised diagnosis — callers must then fall back to the generic state.
      */
     readonly diagnosis?: ReadUnavailableDiagnosis,
+    /**
+     * The transport's closed error code (`{error}` in the body), when it published one and
+     * it passed the bounded-code check. Diagnostic only; never branch logic on it beyond
+     * presentation, and never render it where it could carry a payload.
+     */
+    readonly serverCode?: string,
+    /** The transport's safe, authored reason (`detail.reason`), bounded and control-free. */
+    readonly serverDetail?: string,
   ) {
     super(message);
     this.name = 'UserPortfolioApiError';
@@ -178,6 +201,46 @@ async function readUnavailable(res: Response): Promise<{
   return { blocker, diagnosis: { reason: reason as ReadUnavailableReason, requiredSettings } };
 }
 
+/**
+ * Reads the safe parts of a non-OK error envelope **once** (a Response body cannot be
+ * read twice) and returns the transport's closed code plus its authored reason.
+ *
+ * Anything unexpected yields `{}`: an unparseable body still fails closed on the status
+ * alone, exactly as before. The code is accepted only in the closed kebab/lower form the
+ * transport publishes; the reason is collapsed to a single control-free line capped at
+ * 200 characters. No caller value, path or stack can ride along.
+ */
+const MAX_SERVER_REASON_LENGTH = 200;
+
+function sanitizeServerReason(value: unknown): string | undefined {
+  if (typeof value !== 'string' || value.length === 0) return undefined;
+  const collapsed = value.replace(/[\u0000-\u001f\u007f]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  if (collapsed.length === 0) return undefined;
+  return collapsed.length > MAX_SERVER_REASON_LENGTH
+    ? collapsed.slice(0, MAX_SERVER_REASON_LENGTH)
+    : collapsed;
+}
+
+async function readErrorEnvelope(res: Response): Promise<{ code?: string; detail?: string }> {
+  let body: unknown;
+  try {
+    body = await res.json();
+  } catch {
+    return {}; // body unparseable — the status alone still fails closed
+  }
+  if (!isRecordValue(body)) return {};
+  const codeValue = body.error;
+  const code = typeof codeValue === 'string' && /^[a-z0-9][a-z0-9-]{0,63}$/i.test(codeValue)
+    ? codeValue
+    : undefined;
+  const detailRecord = isRecordValue(body.detail) ? body.detail : undefined;
+  const detail = detailRecord === undefined ? undefined : sanitizeServerReason(detailRecord.reason);
+  return {
+    ...(code !== undefined ? { code } : {}),
+    ...(detail !== undefined ? { detail } : {}),
+  };
+}
+
 /** Maps a non-OK response onto the typed client error (fail closed, never fabricated). */
 async function toApiError(res: Response): Promise<UserPortfolioApiError> {
   if (res.status === 401) return new UserPortfolioApiError(401, 'Request rejected with HTTP 401');
@@ -187,7 +250,17 @@ async function toApiError(res: Response): Promise<UserPortfolioApiError> {
     const { blocker, diagnosis } = await readUnavailable(res);
     return new UserPortfolioApiError(503, 'User portfolio data unavailable (503)', blocker, diagnosis);
   }
-  return new UserPortfolioApiError(res.status, `user-portfolio transport returned ${res.status}`);
+  const { code, detail } = await readErrorEnvelope(res);
+  const codeSuffix = code !== undefined ? ` (${code})` : '';
+  const detailSuffix = detail !== undefined ? ` — ${detail}` : '';
+  return new UserPortfolioApiError(
+    res.status,
+    `user-portfolio transport returned ${res.status}${codeSuffix}${detailSuffix}`,
+    undefined,
+    undefined,
+    code,
+    detail,
+  );
 }
 
 /**
@@ -222,8 +295,10 @@ export async function fetchUserPortfolioSummaries(baseUrl = ''): Promise<readonl
  * IID WI-2A (Correction B) — admissibility rules for a READ holding/contribution record.
  *
  * These mirror the governed `validateHoldingShape` rules in
- * `frontend/server/user-portfolio/userPortfolioContract.ts` (same field rules, same closed
- * enumerations); they do not replace or relax them. The server contract remains authoritative.
+ * `frontend/server/user-portfolio/userPortfolioContract.ts` (same field rules; the
+ * disposition enumeration additionally admits IPD's stored `MANUAL_PERSONAL_ENTRY`,
+ * which IPD's local personal-use mapper persists and this mirror must not refuse);
+ * they do not replace or relax them. The server contract remains authoritative.
  * The read view (`G2HoldingView`) declares more fields as REQUIRED than the write input does, so
  * the checks below additionally require those fields to be present and correctly typed — the
  * detail surface renders every one of them, and rendering `undefined` is what used to crash.
@@ -264,7 +339,8 @@ function isAdmissibleHolding(entry: unknown): entry is UserPortfolioHolding {
   if (
     entry.resolutionDisposition !== undefined &&
     entry.resolutionDisposition !== 'CANONICAL_P04' &&
-    entry.resolutionDisposition !== 'NON_PRODUCTION_OPERATOR_BYPASS'
+    entry.resolutionDisposition !== 'NON_PRODUCTION_OPERATOR_BYPASS' &&
+    entry.resolutionDisposition !== 'MANUAL_PERSONAL_ENTRY'
   ) {
     return false;
   }

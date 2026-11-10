@@ -1170,3 +1170,51 @@ describe('C9 firstPartySignal — the operator-local Vite proxy topology', () =>
     expect(withoutOrigin.signals.originConsistent).toBeNull();
   });
 });
+
+/* ------------------------------------------------------------------ *
+ * IPD manual personal-use rows (2026-11-10)
+ * ------------------------------------------------------------------ */
+
+describe('ipcPortAdapter — manual personal-use rows pass through verbatim', () => {
+  // IPD's local personal-use mapper (Program Authority, 2026-11-08) stamps every
+  // manually entered holding with `MANUAL_PERSONAL_ENTRY` + `MANUAL:<SYMBOL>` +
+  // UNRESOLVED identity. These are the exact rows the owner's durable personal
+  // portfolio serves. IRR must carry them through byte-for-byte: rewriting,
+  // dropping or refusing them silently empties the owner's own portfolio.
+  const MANUAL_VIEW = wireView({
+    portfolioId: 'DEFAULT_PORTFOLIO',
+    portfolioName: 'My Portfolio',
+    revision: 2,
+    holdingsCount: 2,
+    totalMarketValue: 23000,
+    weightSumPercentage: 100,
+    provenanceDigest: 'stored-manual-digest',
+    isSaved: true,
+    lastUpdated: '2026-11-10T00:00:00.000Z',
+    holdings: [
+      { symbol: 'INFY', companyId: 'MANUAL:INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, marketValue: 5000, weightPercentage: 21.74, active: true, sourceBroker: 'manual-personal', lineageDigest: '1'.repeat(64), identityStatus: 'UNRESOLVED', resolutionDisposition: 'MANUAL_PERSONAL_ENTRY' },
+      { symbol: 'TCS', companyId: 'MANUAL:TCS', quantity: 3, averageBuyPrice: 1500, currentPrice: 6000, marketValue: 18000, weightPercentage: 78.26, active: true, sourceBroker: 'manual-personal', lineageDigest: '2'.repeat(64), identityStatus: 'UNRESOLVED', resolutionDisposition: 'MANUAL_PERSONAL_ENTRY' },
+    ],
+    contributions: [],
+  });
+
+  it('maps the manual-personal view onto the frozen G2 view with holdings byte-for-byte', async () => {
+    const { port } = adapter(success(MANUAL_VIEW, 'portfolio.get'));
+    const view = await port.getPortfolio({ scope: SCOPE, portfolioId: 'DEFAULT_PORTFOLIO' });
+
+    expect(view.portfolioId).toBe('DEFAULT_PORTFOLIO');
+    expect(view.revision).toBe(2);
+    expect(view.isSaved).toBe(true);
+    expect(view.totalHoldingsCount).toBe(2);
+    expect(view.totalMarketValue).toBe(23000);
+    expect(view.holdings).toEqual(MANUAL_VIEW.holdings);
+  });
+
+  it('still refuses a durability claim riding on a manual-personal row (fail closed)', async () => {
+    const forbidden = { ...MANUAL_VIEW, durability: 'DURABLE' };
+    const { port } = adapter(success(forbidden, 'portfolio.get'));
+    await expect(
+      port.getPortfolio({ scope: SCOPE, portfolioId: 'DEFAULT_PORTFOLIO' }),
+    ).rejects.toMatchObject({ reason: 'UPSTREAM_UNAVAILABLE' });
+  });
+});

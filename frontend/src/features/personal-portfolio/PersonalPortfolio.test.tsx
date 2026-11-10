@@ -264,3 +264,109 @@ describe('Personal Portfolio — unavailable is diagnosable, absent is editable'
     expect((screen.getByLabelText('Symbol') as HTMLInputElement).value).toBe('');
   });
 });
+
+/**
+ * 400 handling (2026-11-10) — actionable diagnostics, rows retained.
+ *
+ * A 400 from the personal-use transport carries `{error, detail.reason}` where the
+ * reason is the authored boundary diagnostic. The editor previously rendered that
+ * as a bare "user-portfolio transport returned 400", giving the owner no indication
+ * of which rule failed and no reassurance that their rows were untouched.
+ */
+describe('Personal Portfolio — HTTP 400 surfaces the server reason and keeps the rows', () => {
+  it('create refused with 400: the banner names the refusing operation and the typed rows are retained', async () => {
+    mockSequence([
+      { ok: false, status: 404, body: { error: 'not-found' } }, // initial GET: nothing stored yet
+      {
+        ok: false,
+        status: 400,
+        body: {
+          error: 'invalid-request',
+          detail: { reason: 'The upstream refused portfolio.create with outcome INVALID_REQUEST.' },
+        },
+      },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    const symbol = await screen.findByLabelText('Symbol');
+    await user.type(symbol, 'INFY');
+    await user.type(screen.getByLabelText('Quantity'), '25');
+    await user.type(screen.getByLabelText('Average buy price'), '1500');
+    await user.type(screen.getByLabelText('Current price'), '1400');
+    await user.click(screen.getByTestId('pp-save'));
+
+    const banner = await screen.findByTestId('state-error');
+    expect(banner).toHaveTextContent('The portfolio was not created (HTTP 400).');
+    expect(banner).toHaveTextContent('portfolio.create');
+    expect(banner).toHaveTextContent('Nothing was changed');
+    // The rows the owner typed are still on screen — nothing was discarded.
+    expect(screen.getByLabelText('Symbol')).toHaveValue('INFY');
+    expect(screen.getByLabelText('Quantity')).toHaveValue('25');
+  });
+
+  it('save refused with 400 on an existing portfolio: banner names the rule, rows retained', async () => {
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      {
+        ok: false,
+        status: 400,
+        body: {
+          error: 'invalid-request',
+          detail: { reason: 'expectedRevision must be a non-negative integer.' },
+        },
+      },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    await user.click(screen.getByTestId('pp-save'));
+
+    const banner = await screen.findByTestId('state-error');
+    expect(banner).toHaveTextContent('Your changes were NOT saved (HTTP 400).');
+    expect(banner).toHaveTextContent('expectedRevision must be a non-negative integer.');
+    expect(banner).toHaveTextContent('The portfolio was not changed');
+    expect(screen.getByDisplayValue('RELIANCE')).toBeInTheDocument();
+    expect(screen.getByTestId('pp-revision')).toHaveTextContent('7');
+  });
+
+  it('delete refused with 400: banner names the failure, the portfolio stays loaded', async () => {
+    vi.stubGlobal('confirm', vi.fn(() => true));
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      {
+        ok: false,
+        status: 400,
+        body: {
+          error: 'invalid-request',
+          detail: { reason: 'The upstream refused portfolio.delete with outcome INVALID_REQUEST.' },
+        },
+      },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    await user.click(screen.getByTestId('pp-delete'));
+
+    const banner = await screen.findByTestId('state-error');
+    expect(banner).toHaveTextContent('The portfolio was not deleted (HTTP 400).');
+    expect(banner).toHaveTextContent('portfolio.delete');
+    // The loaded portfolio is still on screen — a failed delete never blanks it.
+    expect(screen.getByDisplayValue('RELIANCE')).toBeInTheDocument();
+    expect(screen.getByTestId('pp-save')).toHaveTextContent('Save changes');
+  });
+
+  it('a 400 with no parseable detail still fails closed with status and keeps the rows', async () => {
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      { ok: false, status: 400, body: {} },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    await user.click(screen.getByTestId('pp-save'));
+
+    const banner = await screen.findByTestId('state-error');
+    expect(banner).toHaveTextContent('Your changes were NOT saved (HTTP 400).');
+    expect(screen.getByDisplayValue('RELIANCE')).toBeInTheDocument();
+  });
+});

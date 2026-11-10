@@ -157,3 +157,6 @@ frontend/.vitest-report.json
 # Python bytecode from the evidence generators
 __pycache__/
 *.pyc
+
+# Personal Portfolio diagnostic reports (machine-local; may contain paths and portfolio metadata)
+tools/windows/diagnostics/

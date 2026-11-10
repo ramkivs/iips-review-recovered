@@ -275,7 +275,15 @@ export interface G2HoldingView {
   readonly sourceBroker: string;
   readonly lineageDigest: string;
   readonly identityStatus?: 'RESOLVED' | 'UNRESOLVED';
-  readonly resolutionDisposition?: 'CANONICAL_P04' | 'NON_PRODUCTION_OPERATOR_BYPASS';
+  /**
+   * `MANUAL_PERSONAL_ENTRY` (2026-11-10): the value IPD's explicitly authorized
+   * local personal-use manual mapper persists for hand-entered holdings
+   * (`sourceBroker` `manual-personal`). IPD-owned stored data, read-side only;
+   * IRR never transmits it (`toWireHolding` strips it and the inbound C7 re-scan
+   * covers the envelope, not these domain fields). Additive mirror extension:
+   * the pinned lineage and the write shape are unchanged.
+   */
+  readonly resolutionDisposition?: 'CANONICAL_P04' | 'NON_PRODUCTION_OPERATOR_BYPASS' | 'MANUAL_PERSONAL_ENTRY';
 }
 
 /** Contribution record as returned by G24 (mirror of `BrokerContributionRecord`). */

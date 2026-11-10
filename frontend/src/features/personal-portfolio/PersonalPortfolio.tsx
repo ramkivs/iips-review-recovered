@@ -182,9 +182,10 @@ export function PersonalPortfolio() {
       setStatus({ kind: 'error', message: parsedNow.error ?? 'The rows are not valid.' });
       return;
     }
+    const creating = !exists;
     setStatus({ kind: 'saving' });
     try {
-      if (!exists) {
+      if (creating) {
         const created = await createUserPortfolio(
           { portfolioName: PERSONAL_PORTFOLIO_NAME, holdings: parsedNow.holdings },
         );
@@ -206,6 +207,16 @@ export function PersonalPortfolio() {
     } catch (error) {
       if (error instanceof UserPortfolioApiError && error.status === 409) {
         setStatus({ kind: 'conflict' });
+        return;
+      }
+      if (error instanceof UserPortfolioApiError && error.status === 400) {
+        const detail = error.serverDetail !== undefined ? ` ${error.serverDetail}` : '';
+        setStatus({
+          kind: 'error',
+          message: creating
+            ? `The portfolio was not created (HTTP 400).${detail} An existing portfolio with this identifier may already be present — a previously removed one is never reusable. Nothing was changed. Reload to see the current state before trying again.`
+            : `Your changes were NOT saved (HTTP 400).${detail} The portfolio was not changed. Reload to see the current state, then re-apply your changes.`,
+        });
         return;
       }
       setStatus({
@@ -231,6 +242,14 @@ export function PersonalPortfolio() {
     } catch (error) {
       if (error instanceof UserPortfolioApiError && error.status === 409) {
         setStatus({ kind: 'conflict' });
+        return;
+      }
+      if (error instanceof UserPortfolioApiError && error.status === 400) {
+        const detail = error.serverDetail !== undefined ? ` ${error.serverDetail}` : '';
+        setStatus({
+          kind: 'error',
+          message: `The portfolio was not deleted (HTTP 400).${detail} It was not changed. Reload to see the current state.`,
+        });
         return;
       }
       setStatus({
