@@ -11,6 +11,10 @@ describe('AMEND-02 client failure and explicit retry semantics', () => {
     const frozen = dto();
     const calls: RequestInit[] = [];
     const failing: typeof fetch = async (_url, init) => { calls.push(init!); throw new Error('lost acknowledgement'); };
+    // A transport fault leaves the retention outcome unknown: the request may have
+    // reached the store and committed, or it may not have. Neither retention nor absence
+    // is claimed, and the operator must re-check by lookup. It is distinct from a server
+    // refusal and from a server-reported absence.
     expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, failing)).state).toBe('UNCONFIRMED');
     expect(calls).toHaveLength(1);
     await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, failing);
@@ -35,8 +39,106 @@ describe('AMEND-02 client failure and explicit retry semantics', () => {
     expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', dto(), false, fetcher)).state).toBe('CONFLICT');
     expect(fetcher).toHaveBeenCalledTimes(1);
     const lookup = vi.fn<typeof fetch>().mockResolvedValue(new Response('{}', { status: 503 }));
-    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', dto(), true, lookup)).state).toBe('UNCONFIRMED');
+    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', dto(), true, lookup)).state).toBe('UNAVAILABLE');
     expect(lookup.mock.calls[0][1]?.method).toBe('GET');
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * Distinct retention outcomes.
+ *
+ * The operator must be able to tell apart the five situations that look alike
+ * on the wire but demand different actions:
+ *
+ *   1. retained and verified          — VERIFIED
+ *   2. not retained (absent)          — NOT_RETAINED
+ *   3. retained but failed integrity  — TAMPERED
+ *   4. acknowledged, read not verified — ACKNOWLEDGED_UNVERIFIED
+ *   5. refused / unavailable          — REFUSED / UNAVAILABLE
+ *
+ * Collapsing these into a single "unconfirmed" state is what made a retention
+ * attempt indistinguishable from a dead end.
+ * ------------------------------------------------------------------ */
+describe('AMEND-02 distinct retention outcomes', () => {
+  const frozen = dto();
+
+  it('reports NOT_RETAINED when the server states the import is absent', async () => {
+    const lookup = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ outcome: 'RESOURCE_UNAVAILABLE' }), { status: 404 }),
+    );
+    const result = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, true, lookup);
+    expect(result.state).toBe('NOT_RETAINED');
+    expect(result.importId).toBe(await evidenceImportId(frozen));
+  });
+
+  it('reports TAMPERED — never absent — when the server fails the record integrity check', async () => {
+    const lookup = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ outcome: 'EVIDENCE_TAMPERED' }), { status: 503 }),
+    );
+    const result = await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, true, lookup);
+    expect(result.state).toBe('TAMPERED');
+    expect(result.state).not.toBe('NOT_RETAINED');
+  });
+
+  it('reports TAMPERED even when the POST had already been acknowledged', async () => {
+    const id = await evidenceImportId(frozen);
+    const digest = 'b'.repeat(64);
+    const ack = {
+      outcome: 'EVIDENCE_RETAINED', importId: id, recordDigest: digest, duplicate: false,
+      retrievalPath: `/api/broker-import/DEFAULT_PORTFOLIO/evidence/${id}`,
+      provenance: 'BROWSER_PIPELINE_SNAPSHOT', holdingsSaved: false,
+    };
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify(ack), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ outcome: 'EVIDENCE_TAMPERED' }), { status: 503 }));
+    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher)).state).toBe('TAMPERED');
+  });
+
+  it('reports REFUSED when the server refuses the request and retains nothing', async () => {
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ error: 'cross-site-request-refused' }), { status: 403 }),
+    );
+    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher)).state).toBe('REFUSED');
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+
+  it('reports UNAVAILABLE when the server reports storage unavailable', async () => {
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ outcome: 'UNAVAILABLE' }), { status: 503 }),
+    );
+    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher)).state).toBe('UNAVAILABLE');
+  });
+
+  it('never reports VERIFIED for a refused or unavailable store', async () => {
+    for (const [status, body] of [
+      [403, { error: 'cross-site-request-refused' }],
+      [503, { outcome: 'UNAVAILABLE' }],
+      [404, { outcome: 'RESOURCE_UNAVAILABLE' }],
+    ] as const) {
+      const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
+        new Response(JSON.stringify(body), { status }),
+      );
+      const state = (await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher)).state;
+      expect(state).not.toBe('VERIFIED');
+    }
+  });
+
+  it('keeps the acknowledged write distinguishable from a server-reported absence', async () => {
+    const id = await evidenceImportId(frozen);
+    const digest = 'b'.repeat(64);
+    const ack = {
+      outcome: 'EVIDENCE_RETAINED', importId: id, recordDigest: digest, duplicate: false,
+      retrievalPath: `/api/broker-import/DEFAULT_PORTFOLIO/evidence/${id}`,
+      provenance: 'BROWSER_PIPELINE_SNAPSHOT', holdingsSaved: false,
+    };
+    // The store acknowledged the write, then the read reports the record absent. The
+    // browser must not claim absence (the store said it wrote) and must not claim
+    // verified retention (the read did not confirm it).
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response(JSON.stringify(ack), { status: 201 }))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ outcome: 'RESOURCE_UNAVAILABLE' }), { status: 404 }));
+    expect((await retainAndVerifyEvidence('DEFAULT_PORTFOLIO', frozen, false, fetcher)).state)
+      .toBe('ACKNOWLEDGED_UNVERIFIED');
   });
 });
 

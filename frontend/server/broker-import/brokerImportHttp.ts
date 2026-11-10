@@ -21,8 +21,12 @@
  *      adapter or connection is constructed (fail closed);
  *   4. bounded body read (existing owner-scoped helper; 64 KiB cap);
  *   5. strict DTO validation (brokerImportBoundary) — typed refusal before any socket;
- *   6. ONE callIpc('portfolio.save', exact-top-level-payload) — zero automatic retries;
- *   7. response mapping below.
+ *   6. identity-qualification gate (brokerImportIdentityQualification) — a broker-observed
+ *      write is admitted only when the governed whole-import identity gate is actually applied
+ *      on the commit path this host reaches; refusal is 422 REFUSED_STORE_GUARD with zero store
+ *      effect, before any socket is opened;
+ *   7. ONE callIpc('portfolio.save', exact-top-level-payload) — zero automatic retries;
+ *   8. response mapping below.
  *   No step may be reordered, skipped or made lazy. The evidence route follows the same order with
  *   its own steps 4–6: request-shape validation (query string refused, opaque params validated)
  *   BEFORE ANY I/O, then the owner-carrier resolution, then exactly ONE scoped journal read. It
@@ -36,6 +40,7 @@
  *   RESOURCE_UNAVAILABLE  → 404 (missing ≡ foreign ≡ tombstoned; no distinction disclosed)
  *   INVALID_REQUEST       → 400
  *   REFUSED_UNRESOLVED_IDENTITY / REFUSED_STORE_GUARD → 422 (non-2xx 2F refusal)
+ *   identity-qualification gate refusal → 422 {outcome:'REFUSED_STORE_GUARD', storeEffect:'NONE'}
  *   UNAVAILABLE           → 503
  *   Class P (zero bytes)  → 503 owner-context-unavailable, indistinguishable from config-absent
  *   Timeout / fault       → 503 {outcome:'OUTCOME_UNKNOWN', retried:false} — distinct, no resend
@@ -91,6 +96,10 @@ import {
 } from './brokerImportEvidenceStore.js';
 import { resolveBrokerEvidenceOwnerContext } from './brokerImportEvidenceOwnerResolver.js';
 import {
+  evaluateBrokerImportIdentityQualification,
+  type BrokerImportIdentityQualificationEvaluator,
+} from './brokerImportIdentityQualification.js';
+import {
   defaultBrokerImportSaveDeps,
   readBrokerImportRevisionViaV1,
   saveBrokerImportHoldingsViaV1,
@@ -110,6 +119,13 @@ export interface BrokerImportRouteDeps extends EvidenceSubmissionDeps {
   readonly saveAdapterDeps?: BrokerImportSaveAdapterDeps;
   readonly evidenceReader?: BrokerImportEvidenceReader;
   readonly env?: NodeJS.ProcessEnv;
+  /**
+   * The identity-qualification gate. Production omits it and the route uses the real
+   * decision from `brokerImportIdentityQualification`. A test that exercises the RESPONSE
+   * MAPPING of a transport outcome injects an admitted decision, so that it tests the mapping
+   * it names rather than the gate; the gate is tested separately against the real decision.
+   */
+  readonly identityQualification?: BrokerImportIdentityQualificationEvaluator;
 }
 
 /**
@@ -575,6 +591,24 @@ export async function handleBrokerImportRequest(
     return;
   }
   const dto: BrokerImportSaveDto = validated.dto;
+
+  // Identity-qualification gate (IRR side), evaluated AFTER the DTO is admitted and BEFORE
+  // any socket is opened. A broker-observed write is admitted only when the governed
+  // whole-import identity gate (Gate E W-6 / DP-2 2F) is actually applied on the commit path
+  // this host reaches. The only IPC write operation available to IRR is `portfolio.save`,
+  // which on the IPD side is the MANUAL personal-holdings path: it stamps every row
+  // `identityStatus: 'UNRESOLVED'` with a synthetic `MANUAL:<SYMBOL>` company id, resolves no
+  // governed identity and applies no whole-import refusal. Sending broker-observed holdings
+  // there would persist unresolved rows — exactly what IRR's own
+  // `refuseUnresolvedPortfolioWrite` policy forbids on every other write surface.
+  //
+  // Zero store effect, no identity invented, nothing written. The refusal uses the
+  // IPD-admitted code `REFUSED_STORE_GUARD`, so no new outcome code is introduced.
+  const qualification = (deps.identityQualification ?? evaluateBrokerImportIdentityQualification)();
+  if (!qualification.admitted) {
+    sendJson(res, 422, { outcome: qualification.code, storeEffect: 'NONE', reason: qualification.reason });
+    return;
+  }
 
   // ONE IPC call, zero retries. Default deps use the real callIpc. A locally thrown
   // `IpcClientError` (endpoint absent/invalid, oversize frame, refused authority key) is a

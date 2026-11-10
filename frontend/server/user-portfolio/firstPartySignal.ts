@@ -121,6 +121,126 @@ export const AUTHENTICATION_SHAPED_HEADERS: readonly string[] = [
 /** A minimal header map, so no `node:http` type is needed. */
 export type HeaderMap = Readonly<Record<string, string | string[] | undefined>>;
 
+/**
+ * The `Origin` authority, when the request was forwarded by the operator-local Vite proxy.
+ *
+ * WHY THIS EXISTS
+ *   The Vite dev proxy forwards `/api` to the executive transport with `changeOrigin: true`,
+ *   so the transport sees `Host: localhost:8787` — the TRANSPORT's authority — while the
+ *   browser's `Origin` still names the authority the BROWSER addressed (`http://127.0.0.1:5173`).
+ *   A plain `Origin`↔`Host` comparison therefore fails for every browser POST that travels
+ *   through the proxy, and the request is refused as cross-site even though it is
+ *   first-party. That is the documented deployment topology (OPERATOR_RUNBOOK §4), so the
+ *   refusal would refuse the product's own browser.
+ *
+ *   The proxy does not forward an `X-Forwarded-Host` header, so the browser's authority
+ *   cannot be recovered from a forwarding header. What IS recoverable is the `Origin`
+ *   itself, together with the fact that the transport binds `127.0.0.1` ONLY: a request
+ *   that reached this process came from the same machine, so the browser's own origin and
+ *   the request are same-host by construction.
+ *
+ * THE BOUND
+ *   The acceptance is deliberately narrow and is a property of the CODE, not of a
+ *   configuration value:
+ *     - the transport's own `Host` must be a LOOPBACK authority (`localhost`, `127.0.0.0/8`
+ *       or `[::1]`), with or without a port; and
+ *     - the `Origin` must be a LOOPBACK authority too, and must differ from the transport's
+ *       `Host` only in the port — i.e. it is the SAME loopback host, served on the proxy's
+ *       port.
+ *
+ *   A cross-site request from a third-party origin names a NON-loopback authority, so it
+ *   can never satisfy this bound. A DNS-rebinding attempt that resolves to a loopback
+ *   literal is still a same-machine origin and is out of scope for this signal, which is
+ *   explicitly NOT authentication and NOT authorization.
+ *
+ * WHAT IT DOES NOT DO
+ *   - It does not weaken the `Sec-Fetch-Site` signal: a request that says
+ *     `cross-site` is still refused by rule 1, before this comparison is consulted.
+ *   - It does not accept a non-simple request without a consistent indicator: rule 3
+ *     (a simple request is refused) and rule 4 (a consistent indicator is required) still
+ *     apply unchanged.
+ *   - It does not grant access, establish an owner context, or authenticate anything.
+ *   - It does not accept an `Origin` that names a non-loopback authority, however it is
+ *     spelled.
+ */
+export interface ProxiedOriginEvidence {
+  /** True when the transport's `Host` is a loopback authority. */
+  readonly hostIsLoopback: boolean;
+  /** True when the `Origin` names a loopback authority. */
+  readonly originIsLoopback: boolean;
+  /** True when both name the SAME loopback host (ignoring the port). */
+  readonly sameLoopbackHost: boolean;
+}
+
+/**
+ * Extracts the proxied-origin evidence from the already-collected headers.
+ *
+ * Returns `null` when either the `Origin` or the `Host` is absent, so absence is never
+ * treated as evidence.
+ */
+export function extractProxiedOriginEvidence(
+  origin: string | null,
+  host: string | null,
+): ProxiedOriginEvidence | null {
+  if (origin === null || host === null) return null;
+  const originAuthority = parseAuthority(origin);
+  const hostAuthority = parseAuthority(`http://${host}`);
+  if (originAuthority === null || hostAuthority === null) return null;
+  return {
+    hostIsLoopback: isLoopbackAuthority(hostAuthority),
+    originIsLoopback: isLoopbackAuthority(originAuthority),
+    sameLoopbackHost: isSameLoopbackHost(originAuthority.hostname, hostAuthority.hostname),
+  };
+}
+
+/**
+ * True when two hostnames name the same loopback interface.
+ *
+ * `localhost` and `127.0.0.1` are the same machine, so a proxy that rewrites `Host` to
+ * one of them while the browser addresses the other is the same-host case. Every other
+ * pair — including two different loopback literals such as `127.0.0.1` and `127.0.0.2` —
+ * is NOT the same host.
+ */
+function isSameLoopbackHost(a: string, b: string): boolean {
+  if (a === b) return true;
+  return LOOPBACK_HOST_ALIASES.has(a) && LOOPBACK_HOST_ALIASES.has(b);
+}
+
+/** The hostnames that all name the loopback interface of this machine. */
+const LOOPBACK_HOST_ALIASES: ReadonlySet<string> = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
+
+/** A parsed authority: hostname plus optional port. */
+interface Authority {
+  readonly hostname: string;
+  readonly port: string;
+}
+
+function parseAuthority(value: string): Authority | null {
+  try {
+    const parsed = new URL(value.includes('://') ? value : `http://${value}`);
+    return { hostname: parsed.hostname.toLowerCase(), port: parsed.port };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * True when the authority names the loopback interface.
+ *
+ * `localhost`, `127.0.0.0/8` and `[::1]` are the only accepted names. A hostname that
+ * merely resolves to loopback is NOT accepted: this is a syntactic test, so it cannot be
+ * influenced by a DNS answer.
+ */
+export function isLoopbackAuthority(authority: Authority): boolean {
+  const host = authority.hostname;
+  if (host === 'localhost' || host === '[::1]' || host === '::1') return true;
+  const ipv4 = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(host);
+  if (ipv4 === null) return false;
+  const octets = ipv4.slice(1).map((part) => Number(part));
+  if (octets.some((octet) => !Number.isInteger(octet) || octet < 0 || octet > 255)) return false;
+  return octets[0] === 127;
+}
+
 export interface FirstPartyEvidence {
   readonly method: string;
   readonly contentType: string | null;
@@ -137,6 +257,11 @@ export interface FirstPartyEvidence {
   readonly secFetchDest: string | null;
   /** True when `Origin` and `Host` name the same authority. */
   readonly originMatchesHost: boolean | null;
+  /**
+   * The proxied-origin evidence, or `null` when either side is absent. See
+   * {@link extractProxiedOriginEvidence}.
+   */
+  readonly proxiedOrigin: ProxiedOriginEvidence | null;
 }
 
 function headerValue(headers: HeaderMap, name: string): string | null {
@@ -195,6 +320,7 @@ export function extractFirstPartyEvidence(
     secFetchMode: relevant['sec-fetch-mode'] ?? null,
     secFetchDest: relevant['sec-fetch-dest'] ?? null,
     originMatchesHost: compareOriginToHost(origin, host),
+    proxiedOrigin: extractProxiedOriginEvidence(origin, host),
   };
 }
 
@@ -278,8 +404,20 @@ export function evaluateFirstPartySignal(evidence: FirstPartyEvidence): FirstPar
       ? null
       : FIRST_PARTY_SEC_FETCH_SITES.includes(evidence.secFetchSite.toLowerCase());
 
+  // The browser's authority is consistent when it names the SAME authority the request was
+  // addressed to, OR when it names the same LOOPBACK host on a different port — which is
+  // exactly the operator-local Vite proxy topology (the transport sees its own `Host`,
+  // the browser's `Origin` names the proxy's port on the same loopback host).
+  const proxiedOriginConsistent =
+    evidence.proxiedOrigin !== null
+    && evidence.proxiedOrigin.hostIsLoopback
+    && evidence.proxiedOrigin.originIsLoopback
+    && evidence.proxiedOrigin.sameLoopbackHost;
+
   const originConsistent =
-    evidence.origin === null ? null : evidence.originMatchesHost === true;
+    evidence.origin === null
+      ? null
+      : evidence.originMatchesHost === true || proxiedOriginConsistent;
 
   const signals = {
     nonSimple: evidence.nonSimple,

@@ -129,10 +129,21 @@ afterEach(async () => {
   while (tempDirs.length) rmSync(tempDirs.pop()!, { recursive: true, force: true });
 });
 let sequence = 0;
-async function harness() {
+async function harness(options: { readonly admitIdentityQualification?: boolean } = {}) {
   const ipd = new IpdDouble();
   const evidence = new MemoryEvidence();
-  const server = http.createServer((req, res) => { void handleBrokerImportRequest(req, res, { env: env(), saveAdapterDeps: { callIpc: ipd.call } }); });
+  const server = http.createServer((req, res) => {
+    void handleBrokerImportRequest(req, res, {
+      env: env(),
+      saveAdapterDeps: { callIpc: ipd.call },
+      // These tests exercise the operator's F1–F7 lifecycle against a stand-in IPD, so the
+      // identity-qualification gate is admitted here and the write reaches the fake store.
+      // The gate's own refusal is tested separately, below.
+      ...(options.admitIdentityQualification === false
+        ? {}
+        : { identityQualification: () => ({ admitted: true as const }) }),
+    });
+  });
   await new Promise<void>((resolveListen) => server.listen(0, '127.0.0.1', resolveListen));
   closers.push(() => new Promise<void>((resolveClose) => { server.close(() => resolveClose()); server.closeAllConnections(); }));
   const origin = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
@@ -479,5 +490,29 @@ describe('Step 9 operator — F6/F7 refusals never become acceptance', () => {
     expect(JSON.parse(readFileSync(path, 'utf8')).schema).toBe(STEP9_EVIDENCE_SCHEMA);
     expect(() => fileStep9EvidenceStore.create(path, result)).toThrow();
     expect(JSON.parse(readFileSync(path, 'utf8')).status).toBe('CONFLICT_OBSERVED');
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * The operator under the real (refusing) identity-qualification gate.
+ *
+ * With the gate at its production posture, the conflicting write is refused
+ * before any socket is opened. The operator must record that refusal as what
+ * it is — NOT as a revision conflict it did not observe, and NOT as an
+ * acceptance — and the authoritative state must stay untouched.
+ * ------------------------------------------------------------------ */
+describe('Step 9 operator — under the refusing identity-qualification gate', () => {
+  it('records the gate refusal, claims no revision conflict, and leaves the store untouched', async () => {
+    const h = await harness({ admitIdentityQualification: false });
+    const result = await runStep9Operator(h.config, h.deps);
+    // The conflicting write is refused with zero store effect; the lifecycle still
+    // completes and the fixture is cleaned up.
+    expect(result.status).toBe('CONFLICT_OBSERVED');
+    expect(result.refusal).toBe('REFUSED_STORE_GUARD');
+    // It never claims a revision conflict it did not observe.
+    expect(result.refusal).not.toBe('REVISION_CONFLICT');
+    // No broker-import write reached the store.
+    expect(ops(h.ipd, 'portfolio.save')).toHaveLength(0);
+    expect(h.ipd.rows.get(FIXTURE_ID)?.status).toBe('TOMBSTONED');
   });
 });

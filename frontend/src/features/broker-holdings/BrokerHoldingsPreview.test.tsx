@@ -1,6 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrokerHoldingsPreview } from './BrokerHoldingsPreview';
+import { previewBrokerHoldings } from '../../api/brokerHoldingsPreview';
+import { freezeEvidenceSubmission } from '../../api/brokerEvidenceSubmission';
+import { evidenceImportId } from '../../api/brokerEvidenceRetention';
 
 const csv = 'Name,Quantity,Avg Price,Last Traded,Investment,Current Value,P&L,P&L %\nRELIANCE,2,100,120,200,240,40,20';
 function file(name = 'dhan.csv', content = csv) {
@@ -148,7 +151,11 @@ describe('Broker Holdings — evidence retention disclosure (AMEND-01 §8.4(18))
     const text = disclosure();
     expect(text).toMatch(/not a save/);
     expect(text).toMatch(/savedRows/);
-    expect(text).toMatch(/WRITE_NOT_AUTHORIZED/);
+    // The disclosure states what retention never implies. It names the boundary that
+    // actually decides a portfolio write — the governed whole-import identity gate — and
+    // does not claim a write-gate outcome code that this screen never observes.
+    expect(text).toMatch(/never implies that a portfolio write was/i);
+    expect(text).toMatch(/authorized or performed/i);
   });
 
   it('no longer tells the owner that nothing is stored, and keeps the half that was true', () => {
@@ -171,4 +178,102 @@ it('clearing while retention is pending prevents a late acknowledgement from res
   await waitFor(() => expect(screen.queryByText(/Evidence retention unconfirmed/)).not.toBeInTheDocument());
   expect(screen.queryByText('RELIANCE')).not.toBeInTheDocument();
   expect(network).toHaveBeenCalledTimes(1);
+});
+
+/* ------------------------------------------------------------------ *
+ * The evidence action row must stay reachable.
+ *
+ * The action row used to be hidden once retention reached VERIFIED, which
+ * left the operator with a terminal label and no way to re-check the
+ * retained evidence. Every distinct non-verified state must also keep its
+ * explicit retry available, and the distinct server outcomes must be
+ * rendered as distinct states rather than one undifferentiated label.
+ * ------------------------------------------------------------------ */
+describe('Broker Holdings — evidence actions stay reachable and outcomes stay distinct', () => {
+  /**
+   * Builds the stored record the server would return for the snapshot the browser
+   * actually submitted: the same rows, counts, warnings, status, identity authority
+   * and pipeline refusals, so the browser's read-back comparison can succeed.
+   */
+  const retainedRecord = (importId: string, digest: string, submitted: { preview: ReturnType<typeof previewBrokerHoldings>; fileName: string }) => ({
+    schema: 'IIPS_BROKER_IMPORT_EVIDENCE_V1',
+    importId,
+    contentDigest: submitted.preview.contentDigest,
+    recordDigest: digest,
+    readAt: submitted.preview.asOf,
+    portfolioSlot: 'DEFAULT_PORTFOLIO',
+    fileName: submitted.fileName,
+    broker: submitted.preview.broker,
+    status: submitted.preview.status,
+    rows: submitted.preview.holdings.map((h, index) => ({
+      rowIndex: index + 1, symbol: h.symbol, isin: h.isin, exchange: h.exchange,
+      quantity: h.quantity, averagePrice: h.averagePrice, currentPrice: h.currentPrice,
+      identityStatus: h.identityStatus, identityBasis: h.identityBasis,
+      identityRefusalCode: h.identityRefusalCode,
+    })),
+    counts: submitted.preview.counts,
+    warnings: submitted.preview.warnings,
+    identityAuthority: submitted.preview.identityAuthority,
+    pipelineRefusals: submitted.preview.rejections.map(({ reason, details, stage }) => ({ reason, details, stage })),
+  });
+
+  it('keeps "Check retained evidence" available after retention is VERIFIED', async () => {
+    const digest = 'b'.repeat(64);
+    let submitted: { preview: ReturnType<typeof previewBrokerHoldings>; fileName: string } | null = null;
+    const network = vi.fn<typeof fetch>(async (url, init) => {
+      if (String(url).endsWith('/evidence') && init?.method === 'POST') {
+        const body = JSON.parse(String(init.body)) as { preview: ReturnType<typeof previewBrokerHoldings>; fileName: string };
+        submitted = body;
+        const importId = await evidenceImportId(freezeEvidenceSubmission(body.fileName, body.preview));
+        return new Response(JSON.stringify({
+          outcome: 'EVIDENCE_RETAINED', importId, recordDigest: digest, duplicate: false,
+          retrievalPath: `/api/broker-import/DEFAULT_PORTFOLIO/evidence/${importId}`,
+          provenance: 'BROWSER_PIPELINE_SNAPSHOT', holdingsSaved: false,
+        }), { status: 201 });
+      }
+      const importId = await evidenceImportId(freezeEvidenceSubmission(submitted!.fileName, submitted!.preview));
+      return new Response(JSON.stringify(retainedRecord(importId, digest, submitted!)), { status: 200 });
+    });
+    vi.stubGlobal('fetch', network);
+    render(<BrokerHoldingsPreview />);
+    select(file());
+    await waitFor(() => expect(screen.getByText(/Evidence retained and retrievable/)).toBeInTheDocument());
+    // The row is still rendered: the operator can re-check the retained evidence.
+    expect(screen.getByRole('button', { name: 'Check retained evidence' })).toBeInTheDocument();
+    // The explicit retry of the original snapshot is not offered once the evidence is verified.
+    expect(screen.queryByRole('button', { name: 'Retry original evidence snapshot' })).not.toBeInTheDocument();
+  });
+
+  it('renders a tampered record as tampered, never as absent', async () => {
+    const network = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ outcome: 'EVIDENCE_TAMPERED' }), { status: 503 }),
+    );
+    vi.stubGlobal('fetch', network);
+    render(<BrokerHoldingsPreview />);
+    select(file());
+    await waitFor(() => expect(screen.getByText(/failed its own integrity check/)).toBeInTheDocument());
+    expect(screen.queryByText(/Evidence not retained\./)).not.toBeInTheDocument();
+  });
+
+  it('renders an absent record as not retained and keeps the explicit retry available', async () => {
+    const network = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ outcome: 'RESOURCE_UNAVAILABLE' }), { status: 404 }),
+    );
+    vi.stubGlobal('fetch', network);
+    render(<BrokerHoldingsPreview />);
+    select(file());
+    await waitFor(() => expect(screen.getByText(/Evidence not retained\./)).toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Retry original evidence snapshot' })).toBeInTheDocument();
+  });
+
+  it('renders an unavailable store as unknown-outcome, never as retained', async () => {
+    const network = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ outcome: 'UNAVAILABLE' }), { status: 503 }),
+    );
+    vi.stubGlobal('fetch', network);
+    render(<BrokerHoldingsPreview />);
+    select(file());
+    await waitFor(() => expect(screen.getByText(/Evidence storage was unavailable/)).toBeInTheDocument());
+    expect(screen.queryByText(/Evidence retained and retrievable/)).not.toBeInTheDocument();
+  });
 });

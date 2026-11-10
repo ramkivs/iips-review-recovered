@@ -1054,3 +1054,115 @@ describe('C9 firstPartySignal — NEVER authentication (§5.1 item 4)', () => {
     }
   });
 });
+
+/* ------------------------------------------------------------------ *
+ * C9 — the operator-local Vite proxy topology.
+ *
+ * The Vite dev proxy forwards `/api` to the transport with `changeOrigin: true`,
+ * so the transport sees `Host: localhost:8787` while the browser's `Origin` names
+ * `http://127.0.0.1:5173`. Without a bounded accommodation, EVERY browser POST that
+ * travels through the proxy is refused as cross-site — including the product's own
+ * browser, in the documented deployment (OPERATOR_RUNBOOK §4).
+ *
+ * The accommodation is narrow and syntactic:
+ *   - the transport's Host must be a LOOPBACK authority, and
+ *   - the Origin must name the SAME loopback host.
+ * A third-party origin names a non-loopback authority and is still refused.
+ * ------------------------------------------------------------------ */
+describe('C9 firstPartySignal — the operator-local Vite proxy topology', () => {
+  const proxied = {
+    'content-type': 'application/json',
+    origin: 'http://127.0.0.1:5173',
+    host: 'localhost:8787',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+  };
+
+  it('accepts the browser authority when the proxy rewrote Host to the transport', () => {
+    const evaluation = evaluateRequestFirstPartySignal(proxied, 'POST');
+    expect(evaluation.decision).toBe('FIRST_PARTY');
+    expect(evaluation.allowed).toBe(true);
+  });
+
+  it('accepts the localhost form of the same topology', () => {
+    const evaluation = evaluateRequestFirstPartySignal(
+      { ...proxied, origin: 'http://localhost:5173', host: '127.0.0.1:8787' },
+      'POST',
+    );
+    expect(evaluation.decision).toBe('FIRST_PARTY');
+  });
+
+  it('still refuses a third-party origin through the same proxy', () => {
+    const evaluation = evaluateRequestFirstPartySignal(
+      { ...proxied, origin: 'https://attacker.example' },
+      'POST',
+    );
+    expect(evaluation.decision).toBe('NOT_FIRST_PARTY');
+    expect(evaluation.allowed).toBe(false);
+  });
+
+  it('still refuses an explicit cross-site Sec-Fetch-Site through the proxy', () => {
+    const evaluation = evaluateRequestFirstPartySignal(
+      { ...proxied, 'sec-fetch-site': 'cross-site' },
+      'POST',
+    );
+    expect(evaluation.decision).toBe('NOT_FIRST_PARTY');
+  });
+
+  it('still refuses a SIMPLE request through the proxy', () => {
+    const evaluation = evaluateRequestFirstPartySignal(
+      { ...proxied, 'content-type': 'application/x-www-form-urlencoded' },
+      'POST',
+    );
+    expect(evaluation.decision).toBe('INDETERMINATE');
+    expect(evaluation.allowed).toBe(false);
+  });
+
+  it('refuses when the transport Host is NOT loopback, whatever the Origin says', () => {
+    // The accommodation depends on the transport being loopback-only. A transport
+    // reachable from the network must compare Origin to Host exactly.
+    const evaluation = evaluateRequestFirstPartySignal(
+      { ...proxied, host: 'transport.example.com:8787' },
+      'POST',
+    );
+    expect(evaluation.decision).toBe('NOT_FIRST_PARTY');
+  });
+
+  it('refuses when the Origin names a DIFFERENT loopback host', () => {
+    const evaluation = evaluateRequestFirstPartySignal(
+      { ...proxied, origin: 'http://127.0.0.2:5173' },
+      'POST',
+    );
+    expect(evaluation.decision).toBe('NOT_FIRST_PARTY');
+  });
+
+  it('treats a non-loopback name that resolves to loopback as non-loopback', () => {
+    // The test is syntactic, so a DNS answer cannot influence it.
+    const evaluation = evaluateRequestFirstPartySignal(
+      { ...proxied, origin: 'http://localhost.attacker.example:5173' },
+      'POST',
+    );
+    expect(evaluation.decision).toBe('NOT_FIRST_PARTY');
+  });
+
+  it('is unaffected by a missing Origin or Host', () => {
+    // The accommodation requires BOTH a Host and an Origin to compare. With the Host
+    // absent there is nothing to compare the Origin against, so the request falls back
+    // to the pre-existing C9 rules rather than to the accommodation.
+    const withoutHost = evaluateRequestFirstPartySignal(
+      { 'content-type': 'application/json', origin: 'http://127.0.0.1:5173' },
+      'POST',
+    );
+    expect(withoutHost.decision).toBe('NOT_FIRST_PARTY');
+    expect(withoutHost.allowed).toBe(false);
+
+    // A missing Origin is the pre-existing C9 behaviour (rule 4: an older client that
+    // sends no Origin is accepted). It is unchanged by the accommodation.
+    const withoutOrigin = evaluateRequestFirstPartySignal(
+      { 'content-type': 'application/json', host: 'localhost:8787' },
+      'POST',
+    );
+    expect(withoutOrigin.signals.originConsistent).toBeNull();
+  });
+});

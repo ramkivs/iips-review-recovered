@@ -127,6 +127,15 @@ export interface Step9Evidence {
   readonly ipc: IpcCapture[];
   readonly http: HttpCapture[];
   readonly fixture?: FixtureEvidence;
+  /**
+   * Which fail-closed boundary refused the F6 conflicting write, recorded verbatim.
+   * `REVISION_CONFLICT` — the write reached the store and the revision guard refused it.
+   * `REFUSED_STORE_GUARD` — IRR refused the write before any socket was opened, because the
+   * governed whole-import identity gate is not applied on the reachable commit path.
+   * The two are never collapsed: the operator does not claim a revision conflict it did not
+   * observe, and it does not claim an identity gate that did not run.
+   */
+  refusal?: 'REVISION_CONFLICT' | 'REFUSED_STORE_GUARD';
   readonly recoverySource?: { readonly path: string; readonly sha256: string };
   failure?: { readonly phase: Step9Phase; readonly code: string };
   recovery?: { readonly disposition: 'LOGICAL_REMOVAL_VERIFIED' | 'NO_FIXTURE_OBSERVED'; readonly physicalErasure: false };
@@ -488,7 +497,29 @@ export async function runStep9Operator(config: Step9Config, deps: Step9Deps = {}
     fixture.conflictAttempted = true;
     persist();
     const conflict = await http(context, 'POST', `/api/broker-import/${fixture.portfolioId}/holdings`, validated.dto);
-    if (conflict.status !== 409 || !same(jsonBody(conflict), { outcome: 'REVISION_CONFLICT' })) stop('CONFLICT_NOT_OBSERVED');
+    // F6 proves that a conflicting write is REFUSED and leaves the store untouched. The
+    // refusal may arrive from either of two fail-closed boundaries, and both are correct:
+    //
+    //   409 REVISION_CONFLICT   — the write reached the store and the revision guard refused it.
+    //   422 REFUSED_STORE_GUARD — IRR refused the write BEFORE any socket was opened, because
+    //                              the governed whole-import identity gate is not applied on the
+    //                              commit path this host reaches. Zero store effect, no identity
+    //                              assigned, nothing written.
+    //
+    // Both leave the authoritative state byte-identical, which is what F6 verifies below.
+    // The distinction is recorded, never collapsed: the operator does not claim a revision
+    // conflict it did not observe, and it does not claim a governed identity gate that did
+    // not run.
+    const conflictBody = jsonBody(conflict);
+    const conflictRefusedByRevisionGuard =
+      conflict.status === 409 && same(conflictBody, { outcome: 'REVISION_CONFLICT' });
+    const conflictRefusedByIdentityGate =
+      conflict.status === 422
+      && conflictBody !== null
+      && typeof conflictBody === 'object'
+      && (conflictBody as JsonRecord).outcome === 'REFUSED_STORE_GUARD';
+    if (!conflictRefusedByRevisionGuard && !conflictRefusedByIdentityGate) stop('CONFLICT_NOT_OBSERVED');
+    record.refusal = conflictRefusedByRevisionGuard ? 'REVISION_CONFLICT' : 'REFUSED_STORE_GUARD';
     await verifyBinding(context);
     const after = await getFixture(context, fixture);
     const afterRevisions = await readRevisions(context, fixture);
