@@ -6,6 +6,12 @@
  * Nothing in the product named them, so a reader could not tell the capabilities existed. This page names all
  * three, says what each one reads, and gives each a real way in.
  *
+ * IT IS THE OVERVIEW, NOT THE ONLY DESTINATION. The three capabilities each have their own application route with
+ * their own state and workflow (`/investment/stock-intelligence`, `/investment/holding-decisions`,
+ * `/investment/change-intelligence`). They were previously anchors on this page, which gave discoverability but
+ * took the reader to the same page and merely scrolled it. This page now links to each workspace directly, and
+ * keeps the detailed entry forms below for a reader who wants to open a specific subject immediately.
+ *
  * IT REBUILDS NOTHING. Every destination is an existing IID-6 surface: `CompanyAssessmentPage` (which already
  * renders fundamentals, valuation, risk, evidence, the held `DispositionPanel` and `ChangeTimeline`) and
  * `CandidateAssessmentPage` (which already renders the candidate `DispositionPanel`). This page only routes to them.
@@ -31,7 +37,10 @@ import CompanyDiscoveryPanel from './CompanyDiscoveryPanel';
 import {
   candidateAssessmentHref,
   changeHistoryHref,
+  changeIntelligenceHref,
   companyAssessmentHref,
+  holdingDecisionsHref,
+  stockIntelligenceHref,
 } from './investmentContext';
 
 /** Trimmed, or null when the operator supplied nothing. Never a fabricated identifier. */
@@ -60,6 +69,24 @@ export default function InvestmentLandingPage(): JSX.Element {
           valuation → risk → disposition → portfolio impact → historical changes — and each stage keeps the company,
           assessment and holding context it was opened with.
         </p>
+        <p className="muted">
+          This page is the <strong>overview</strong>. Each capability has its own workspace with its own state and
+          URL, so it can be opened directly, refreshed, bookmarked or shared:
+        </p>
+        <ul>
+          <li>
+            <Link to={stockIntelligenceHref()}>IID-01 — Stock Intelligence →</Link> — company assessment: fundamentals,
+            valuation, risk, evidence and limitations.
+          </li>
+          <li>
+            <Link to={holdingDecisionsHref()}>IID-02 — Investment &amp; Holding Decisions →</Link> — candidate and held
+            dispositions with their rationale, gates, limits and portfolio impact.
+          </li>
+          <li>
+            <Link to={changeIntelligenceHref(issuer)}>IID-03 — Historical Change Intelligence →</Link> — version history,
+            comparisons, material changes and review triggers.
+          </li>
+        </ul>
         <ReadOnlyDisclosure />
       </header>
 
@@ -72,6 +99,11 @@ export default function InvestmentLandingPage(): JSX.Element {
           Opens the stored company assessment for an issuer. The assessment states its own identity binding,
           reporting periods, valuation methods, risk factors, evidence and limitations; a missing value is shown
           with its reason and never as zero.
+        </p>
+        <p>
+          <Link to={stockIntelligenceHref()}>
+            Open the Stock Intelligence workspace →
+          </Link>
         </p>
         {/* IID WI-2 (P2): find a company first. This reads the discovery endpoint only, never Coverage. */}
         <CompanyDiscoveryPanel />
@@ -118,6 +150,11 @@ export default function InvestmentLandingPage(): JSX.Element {
           A <strong>held</strong> decision is keyed by a portfolio and a security and is read beside the company
           assessment. A <strong>candidate</strong> is a security that is not held: it has no position, no quantity
           and no portfolio weight, and it is reachable without any portfolio.
+        </p>
+        <p>
+          <Link to={holdingDecisionsHref()}>
+            Open the Investment &amp; Holding Decisions workspace →
+          </Link>
         </p>
         <form
           aria-label="Open a candidate decision"
@@ -167,6 +204,11 @@ export default function InvestmentLandingPage(): JSX.Element {
         <p>
           Opens the same company assessment scrolled to its change history. Comparisons are computed on read from
           two or more stored versions; each pair can be opened at the exact stored version it compares.
+        </p>
+        <p>
+          <Link to={changeIntelligenceHref(issuer)}>
+            Open the Historical Change Intelligence workspace →
+          </Link>
         </p>
         <form
           aria-label="Open historical changes"

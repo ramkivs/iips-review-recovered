@@ -36,6 +36,21 @@ export const ROUTES = {
    */
   investmentIntelligence: '/investment',
   /**
+   * IID — the three independent capability workspaces.
+   *
+   * The landing page above names the three capabilities, but each of them is now its OWN application
+   * route with its own state, its own workflow and its own URL. They were previously anchors on
+   * `/investment` (`#iid-01`, `#iid-02`, `#iid-03`), which gave discoverability but not three
+   * independently accessible working areas: every entry scrolled the same page.
+   *
+   * Each route is parameter-free so it can be a global navigation destination; the workflow context
+   * (issuer, portfolio, security, assessment version) travels in the query string, so a capability can
+   * be opened directly, refreshed, bookmarked or shared and still address what the reader was looking at.
+   */
+  stockIntelligence: '/investment/stock-intelligence',
+  holdingDecisions: '/investment/holding-decisions',
+  changeIntelligence: '/investment/change-intelligence',
+  /**
    * IID-6 — the product surface routes.
    *
    * `investmentCoverage` is the authoritative IID-6 path from the roadmap's task 7. It serves the

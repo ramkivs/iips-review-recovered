@@ -44,19 +44,24 @@ export const NAV: NavItem[] = [
   /**
    * IID WI-1 (P1) — Investment Intelligence as an identifiable group naming the three capabilities.
    *
-   * The parent is a real link because `/investment` is a built landing surface, not a placeholder. The children
-   * address its three capability sections: the company, candidate and disposition routes all require an identifier
-   * and so cannot be global destinations. Each child therefore lands on a real, implemented section that carries
-   * the way into the existing IID-6 surfaces. Coverage stays a separate entry below — it reports identity
-   * resolution, and is not one of the three capabilities.
+   * The parent is a real link because `/investment` is a built landing surface, not a placeholder.
+   *
+   * IID — INDEPENDENT CAPABILITY WORKSPACES. Each child is now its OWN application route with its own
+   * state, workflow and URL, not an anchor on the parent. They were `#iid-01`, `#iid-02` and `#iid-03`
+   * on `/investment`, which gave discoverability but took the reader to the same page and merely
+   * scrolled it. Each child is parameter-free so it can be a global destination; the workflow
+   * context (issuer, portfolio, security, assessment version) travels in the query string, so a
+   * capability can be opened directly, refreshed or shared and still address what the reader was
+   * looking at. Coverage stays a separate entry below — it reports identity resolution, and is not
+   * one of the three capabilities.
    */
   {
     label: 'Investment Intelligence',
     path: ROUTES.investmentIntelligence,
     children: [
-      { label: 'IID-01 — Stock Intelligence', path: `${ROUTES.investmentIntelligence}#iid-01` },
-      { label: 'IID-02 — Investment & Holding Decisions', path: `${ROUTES.investmentIntelligence}#iid-02` },
-      { label: 'IID-03 — Historical Change Intelligence', path: `${ROUTES.investmentIntelligence}#iid-03` },
+      { label: 'IID-01 — Stock Intelligence', path: ROUTES.stockIntelligence },
+      { label: 'IID-02 — Investment & Holding Decisions', path: ROUTES.holdingDecisions },
+      { label: 'IID-03 — Historical Change Intelligence', path: ROUTES.changeIntelligence },
     ],
   },
   // IID-6: the coverage panel at its authoritative path, beside the company assessment view it links to.
@@ -123,11 +128,12 @@ export const NAV: NavItem[] = [
 
 /** Concrete, implemented destinations available as global child links. */
 export const AVAILABLE_CHILD_PATHS: ReadonlySet<string> = new Set<string>([
-  // IID WI-1 (P1): concrete sections of the built `/investment` landing surface. Parameter-free, so they are
-  // admissible global links; each resolves to a real rendered section rather than an identifier-bearing route.
-  `${ROUTES.investmentIntelligence}#iid-01`,
-  `${ROUTES.investmentIntelligence}#iid-02`,
-  `${ROUTES.investmentIntelligence}#iid-03`,
+  // IID — the three INDEPENDENT capability workspaces. Each is a real application route with its own state and
+  // workflow, not an anchor on the overview: parameter-free, so admissible as a global link, and each resolves to
+  // a built surface that the reader can open directly, refresh or share.
+  ROUTES.stockIntelligence,
+  ROUTES.holdingDecisions,
+  ROUTES.changeIntelligence,
   ROUTES.researchCrossSector,
   '/research/engines',
   ROUTES.researchMacro,
