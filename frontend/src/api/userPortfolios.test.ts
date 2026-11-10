@@ -8,6 +8,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   createUserPortfolio,
+  fetchUserPortfolioRead,
   fetchUserPortfolioRevisions,
   fetchUserPortfolioSummaries,
   saveUserPortfolioHoldings,
@@ -359,5 +360,182 @@ describe('fetchUserPortfolioRevisions', () => {
   it('a transport fault is an error, never an empty history', async () => {
     globalThis.fetch = vi.fn().mockRejectedValue(new Error('socket hang up')) as never;
     await expect(fetchUserPortfolioRevisions('pf-alpha')).rejects.toMatchObject({ status: 0 });
+  });
+});
+
+/**
+ * Diagnostic enrichment of a fail-closed 400 (2026-11-10).
+ *
+ * The transport now answers every G2Error 4xx with `{error, detail:{reason}}`
+ * where the reason is the authored boundary diagnostic (closed vocabulary,
+ * never a caller value). This client must surface that reason on the error —
+ * "user-portfolio transport returned 400" with no indication of which rule
+ * failed is not actionable for an operator sitting in front of the UI.
+ */
+describe('400 diagnostics from the transport', () => {
+  it('create-on-existing: status, server code and authored reason are all surfaced', async () => {
+    mockFetch(400, {
+      error: 'invalid-request',
+      detail: { reason: 'The upstream refused portfolio.create with outcome INVALID_REQUEST.' },
+    });
+    const error = (await createUserPortfolio({
+      holdings: [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, active: true }],
+    }).catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error).toBeInstanceOf(UserPortfolioApiError);
+    expect(error.status).toBe(400);
+    expect(error.serverCode).toBe('invalid-request');
+    expect(error.serverDetail).toBe('The upstream refused portfolio.create with outcome INVALID_REQUEST.');
+    expect(error.message).toBe(
+      'user-portfolio transport returned 400 (invalid-request) — The upstream refused portfolio.create with outcome INVALID_REQUEST.',
+    );
+  });
+
+  it('save: the same enrichment applies, expectedRevision losses included', async () => {
+    mockFetch(400, {
+      error: 'invalid-request',
+      detail: { reason: 'expectedRevision must be a non-negative integer.' },
+    });
+    const error = (await saveUserPortfolioHoldings('DEFAULT_PORTFOLIO', {
+      expectedRevision: 2.5 as never,
+      holdings: [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, active: true }],
+    }).catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error.status).toBe(400);
+    expect(error.serverDetail).toBe('expectedRevision must be a non-negative integer.');
+    expect(error.message).toContain('expectedRevision must be a non-negative integer.');
+  });
+
+  it('a 400 with an unparseable or malformed envelope fails closed on status alone', async () => {
+    const bodies: unknown[] = [{}, { error: 'not a valid code!!' }, { error: 42 }];
+    for (const body of bodies) {
+      mockFetch(400, body);
+      const error = (await createUserPortfolio({
+        holdings: [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, active: true }],
+      }).catch((e: unknown) => e)) as UserPortfolioApiError;
+      expect(error.status).toBe(400);
+      expect(error.serverCode).toBeUndefined();
+      expect(error.serverDetail).toBeUndefined();
+      expect(error.message).toMatch(/^user-portfolio transport returned 400$/);
+    }
+
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 400,
+      json: async () => { throw new Error('not JSON'); },
+    }) as never;
+    const error = (await createUserPortfolio({
+      holdings: [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, active: true }],
+    }).catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error.serverCode).toBeUndefined();
+    expect(error.message).toMatch(/^user-portfolio transport returned 400$/);
+  });
+
+  it('a valid code without a detail still surfaces the code, with no invented reason', async () => {
+    mockFetch(400, { error: 'invalid-request' });
+    const error = (await createUserPortfolio({
+      holdings: [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, active: true }],
+    }).catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error.serverCode).toBe('invalid-request');
+    expect(error.serverDetail).toBeUndefined();
+    expect(error.message).toBe('user-portfolio transport returned 400 (invalid-request)');
+  });
+
+  it('the server-provided reason is sanitized: control characters collapse, length is capped', async () => {
+    mockFetch(400, {
+      error: 'invalid-request',
+      detail: { reason: `line one\nline two\r\n\ttab   run${'X'.repeat(400)}` },
+    });
+    const error = (await createUserPortfolio({
+      holdings: [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, active: true }],
+    }).catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error.serverDetail).not.toMatch(/[\r\n\t]/);
+    expect(error.serverDetail).not.toMatch(/\s{2,}/);
+    expect((error.serverDetail as string).length).toBeLessThanOrEqual(200);
+    expect(error.serverDetail?.startsWith('line one line two tab run')).toBe(true);
+  });
+
+  it('a non-string detail.reason is ignored rather than rendered', async () => {
+    mockFetch(400, { error: 'invalid-request', detail: { reason: { nested: 'nope' } } });
+    const error = (await createUserPortfolio({
+      holdings: [{ symbol: 'INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, active: true }],
+    }).catch((e: unknown) => e)) as UserPortfolioApiError;
+    expect(error.serverCode).toBe('invalid-request');
+    expect(error.serverDetail).toBeUndefined();
+  });
+});
+
+/**
+ * Manual personal-entry rows (2026-11-10).
+ *
+ * IPD's local personal-use mapper stamps every manually entered holding with
+ * `MANUAL_PERSONAL_ENTRY` + `MANUAL:<SYMBOL>` + UNRESOLVED identity. Before the
+ * fix, this client's read mirror refused that disposition, so every durable
+ * manual row was excluded from the detail view — the owner saw an empty
+ * portfolio or a reduced one with counted rejections while the store held
+ * their data. The write mirror is deliberately unchanged: identity is
+ * IPD-derived and never asserted from IRR.
+ */
+describe('fetchUserPortfolioRead — manual personal-entry rows', () => {
+  const MANUAL_VIEW = {
+    portfolioId: 'DEFAULT_PORTFOLIO',
+    portfolioName: 'My Portfolio',
+    revision: 2,
+    holdings: [
+      { symbol: 'INFY', companyId: 'MANUAL:INFY', quantity: 2, averageBuyPrice: 1000, currentPrice: 2500, marketValue: 5000, weightPercentage: 21.74, active: true, sourceBroker: 'manual-personal', lineageDigest: '1'.repeat(64), identityStatus: 'UNRESOLVED', resolutionDisposition: 'MANUAL_PERSONAL_ENTRY' },
+      { symbol: 'TCS', companyId: 'MANUAL:TCS', quantity: 3, averageBuyPrice: 1500, currentPrice: 6000, marketValue: 18000, weightPercentage: 78.26, active: true, sourceBroker: 'manual-personal', lineageDigest: '2'.repeat(64), identityStatus: 'UNRESOLVED', resolutionDisposition: 'MANUAL_PERSONAL_ENTRY' },
+    ],
+    totalMarketValue: 23000,
+    totalHoldingsCount: 2,
+    weightSumPercentage: 100,
+    lastUpdated: '2026-11-10T00:00:00.000Z',
+    provenanceDigest: 'c'.repeat(64),
+    isSaved: true,
+    contributions: [],
+  };
+
+  it('admits MANUAL_PERSONAL_ENTRY holdings end-to-end and rejects nothing', async () => {
+    mockFetch(200, { portfolio: MANUAL_VIEW });
+    const read = await fetchUserPortfolioRead('DEFAULT_PORTFOLIO');
+
+    expect(read.portfolio.holdings.map((h) => h.symbol)).toEqual(['INFY', 'TCS']);
+    expect(read.portfolio.holdings.map((h) => h.resolutionDisposition))
+      .toEqual(['MANUAL_PERSONAL_ENTRY', 'MANUAL_PERSONAL_ENTRY']);
+    expect(read.portfolio.holdings.map((h) => h.companyId)).toEqual(['MANUAL:INFY', 'MANUAL:TCS']);
+    expect(read.rejectedHoldings).toBe(0);
+    expect(read.holdingSourceIndices).toEqual([0, 1]);
+    expect(read.portfolio.totalMarketValue).toBe(23000);
+    expect(read.portfolio.revision).toBe(2);
+  });
+
+  it('a mixed payload keeps the manual rows and counts the genuinely inadmissible ones', async () => {
+    mockFetch(200, {
+      portfolio: {
+        ...MANUAL_VIEW,
+        holdings: [
+          MANUAL_VIEW.holdings[0],
+          { symbol: 'BROKEN', companyId: 42 }, // malformed record
+          MANUAL_VIEW.holdings[1],
+        ],
+      },
+    });
+    const read = await fetchUserPortfolioRead('DEFAULT_PORTFOLIO');
+
+    expect(read.portfolio.holdings.map((h) => h.symbol)).toEqual(['INFY', 'TCS']);
+    expect(read.rejectedHoldings).toBe(1);
+    expect(read.holdingSourceIndices).toEqual([0, 2]);
+  });
+
+  it('an unknown disposition is still refused — the gate admits a named contract, not anything', async () => {
+    mockFetch(200, {
+      portfolio: {
+        ...MANUAL_VIEW,
+        holdings: [
+          { ...MANUAL_VIEW.holdings[0], resolutionDisposition: 'SELF_DECLARED_ANYTHING' },
+        ],
+      },
+    });
+    const read = await fetchUserPortfolioRead('DEFAULT_PORTFOLIO');
+
+    expect(read.portfolio.holdings).toEqual([]);
+    expect(read.rejectedHoldings).toBe(1);
   });
 });
