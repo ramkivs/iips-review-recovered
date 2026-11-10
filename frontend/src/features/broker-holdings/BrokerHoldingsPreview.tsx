@@ -111,7 +111,13 @@ export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowC
         guarded portfolio store. This is separate from the certified reference portfolio.</p>
         : <p><strong>Preview only — not saved.</strong> Nothing on this screen is written to the
         portfolio store. This screen parses a CSV in the browser and retains the parsed
-        evidence; it has no save path at all. The separate <em>Broker Import</em> screen is the
+        evidence; it has no save path at all. The separate{' '}
+        {/* This screen is the one the application's Broker Holdings entry opens, and it
+            deliberately offers no commit control. Pointing at the commit-capable surface
+            keeps the capability reachable without weakening anything: the destination runs
+            the same pipeline and the same IPD whole-import identity gate. A plain anchor
+            keeps this component mountable outside a router, which its own tests do. */}
+        <a href="/user-portfolios/import">Broker Import</a>{' '}screen is the
         one that can commit holdings, and it commits only through the governed whole-import
         identity gate — which is applied on the store side, never here. This is separate from
         the certified reference portfolio and its analytics.</p>}
