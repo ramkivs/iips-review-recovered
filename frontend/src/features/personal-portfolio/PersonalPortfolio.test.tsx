@@ -6,7 +6,8 @@
  * are taken from the mocked responses, never computed here.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { StrictMode } from 'react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { PersonalPortfolio } from './PersonalPortfolio';
@@ -72,24 +73,12 @@ describe('Personal Portfolio (local single-user editor)', () => {
     expect(screen.getByTestId('pp-save')).toHaveTextContent('Save changes');
   });
 
-  it('creates the portfolio on first save when none exists', async () => {
-    const fetchMock = mockSequence([
-      { ok: false, status: 404, body: { error: 'not-found' } }, // initial GET
-      { ok: true, status: 201, body: { portfolio: { ...VIEW, revision: 1 } } }, // POST create
-    ]);
-    const user = userEvent.setup();
+  it('does not treat a 404 as authority to create', async () => {
+    const fetchMock = mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
     renderPage();
-    const symbol = await screen.findByLabelText('Symbol');
-    await user.type(symbol, 'INFY');
-    await user.type(screen.getByLabelText('Quantity'), '25');
-    await user.type(screen.getByLabelText('Average buy price'), '1500');
-    await user.type(screen.getByLabelText('Current price'), '1400');
-    await user.click(screen.getByTestId('pp-save'));
-    await waitFor(() => expect(screen.getByTestId('pp-saved')).toBeInTheDocument());
-    const createCall = fetchMock.mock.calls[1] as [string, RequestInit];
-    expect(createCall[0]).toBe('/api/user-portfolios');
-    expect(createCall[1].method).toBe('POST');
-    expect(screen.getByTestId('pp-revision')).toHaveTextContent('1');
+    expect(await screen.findByTestId('pp-not-found')).toHaveTextContent('Creation is unavailable');
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('surfaces 409 on save as an explicit conflict — never a silent merge', async () => {
@@ -182,7 +171,7 @@ describe('Personal Portfolio (local single-user editor)', () => {
     expect(screen.getByTestId('pp-revision')).toHaveTextContent('7');
   });
 
-  it('deletes the portfolio after explicit confirmation and returns to the empty editor', async () => {
+  it('deletes after explicit confirmation and does not offer recreation', async () => {
     vi.stubGlobal('confirm', vi.fn(() => true));
     mockSequence([
       { ok: true, status: 200, body: { portfolio: VIEW } },
@@ -193,17 +182,20 @@ describe('Personal Portfolio (local single-user editor)', () => {
     expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
     await user.click(screen.getByTestId('pp-delete'));
     await waitFor(() => expect(screen.queryByDisplayValue('RELIANCE')).not.toBeInTheDocument());
-    expect(screen.getByTestId('pp-save')).toHaveTextContent('Create portfolio');
+    expect(screen.getByTestId('pp-not-found')).toHaveTextContent('must not be silently recreated');
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
   });
 
-  it('rejects an invalid row client-side before any request is made', async () => {
-    const fetchMock = mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
+  it('rejects an invalid row client-side before any mutation', async () => {
+    const fetchMock = mockSequence([{ ok: true, status: 200, body: { portfolio: VIEW } }]);
+    const user = userEvent.setup();
     renderPage();
-    await screen.findByLabelText('Symbol');
-    // The single blank row: the save button must stay disabled until the row is valid.
+    await screen.findByDisplayValue('RELIANCE');
+    await user.clear(screen.getByLabelText('Quantity'));
     expect(screen.getByTestId('pp-save')).toBeDisabled();
-    expect(fetchMock).toHaveBeenCalledTimes(1); // only the initial load
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
+
 });
 
 /**
@@ -254,15 +246,14 @@ describe('Personal Portfolio — unavailable is diagnosable, absent is editable'
     expect(screen.queryByTestId('pp-required-settings')).not.toBeInTheDocument();
   });
 
-  it('an absent portfolio is a create form, never the unavailable banner', async () => {
+  it('a 404 never opens an editor or asserts absence', async () => {
     mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
     renderPage();
-    expect(await screen.findByTestId('pp-save')).toHaveTextContent('Create portfolio');
-    expect(screen.queryByTestId('pp-unavailable')).not.toBeInTheDocument();
-    // No invented holdings: exactly one blank row.
-    expect(screen.getAllByLabelText('Symbol')).toHaveLength(1);
-    expect((screen.getByLabelText('Symbol') as HTMLInputElement).value).toBe('');
+    expect(await screen.findByTestId('pp-not-found')).toHaveTextContent('does not distinguish');
+    expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
   });
+
 });
 
 /**
@@ -274,36 +265,6 @@ describe('Personal Portfolio — unavailable is diagnosable, absent is editable'
  * of which rule failed and no reassurance that their rows were untouched.
  */
 describe('Personal Portfolio — HTTP 400 surfaces the server reason and keeps the rows', () => {
-  it('create refused with 400: the banner names the refusing operation and the typed rows are retained', async () => {
-    mockSequence([
-      { ok: false, status: 404, body: { error: 'not-found' } }, // initial GET: nothing stored yet
-      {
-        ok: false,
-        status: 400,
-        body: {
-          error: 'invalid-request',
-          detail: { reason: 'The upstream refused portfolio.create with outcome INVALID_REQUEST.' },
-        },
-      },
-    ]);
-    const user = userEvent.setup();
-    renderPage();
-    const symbol = await screen.findByLabelText('Symbol');
-    await user.type(symbol, 'INFY');
-    await user.type(screen.getByLabelText('Quantity'), '25');
-    await user.type(screen.getByLabelText('Average buy price'), '1500');
-    await user.type(screen.getByLabelText('Current price'), '1400');
-    await user.click(screen.getByTestId('pp-save'));
-
-    const banner = await screen.findByTestId('state-error');
-    expect(banner).toHaveTextContent('The portfolio was not created (HTTP 400).');
-    expect(banner).toHaveTextContent('portfolio.create');
-    expect(banner).toHaveTextContent('Nothing was changed');
-    // The rows the owner typed are still on screen — nothing was discarded.
-    expect(screen.getByLabelText('Symbol')).toHaveValue('INFY');
-    expect(screen.getByLabelText('Quantity')).toHaveValue('25');
-  });
-
   it('save refused with 400 on an existing portfolio: banner names the rule, rows retained', async () => {
     mockSequence([
       { ok: true, status: 200, body: { portfolio: VIEW } },
@@ -369,4 +330,197 @@ describe('Personal Portfolio — HTTP 400 surfaces the server reason and keeps t
     expect(banner).toHaveTextContent('Your changes were NOT saved (HTTP 400).');
     expect(screen.getByDisplayValue('RELIANCE')).toBeInTheDocument();
   });
+});
+
+
+describe('Personal Portfolio — safe initialization and mutation gates', () => {
+  const response = (status: number, body: unknown) => ({ ok: status >= 200 && status < 300, status, json: async () => body });
+  const deferred = <T,>() => {
+    let resolve!: (value: T) => void;
+    const promise = new Promise<T>(r => { resolve = r; });
+    return { promise, resolve };
+  };
+
+  it('loads revision 6 on mount, reload and remount without creating', async () => {
+    const v6 = { ...VIEW, revision: 6, isSaved: true, portfolioName: 'Restored portfolio' };
+    const fetchMock = vi.fn(async (_input: RequestInfo | URL, _init?: RequestInit) => response(200, { portfolio: v6 }));
+    globalThis.fetch = fetchMock as never;
+    const user = userEvent.setup();
+    const page = renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    expect(screen.getByTestId('pp-revision')).toHaveTextContent('6');
+    await user.click(screen.getByTestId('pp-reload'));
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    page.unmount();
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    expect(screen.getByTestId('pp-revision')).toHaveTextContent('6');
+    expect(fetchMock.mock.calls.every(call => !call[1] || (call[1] as RequestInit).method === undefined)).toBe(true);
+  });
+
+  it('ignores a late 404 from a superseded StrictMode initialization', async () => {
+    const first = deferred<ReturnType<typeof response>>();
+    const second = deferred<ReturnType<typeof response>>();
+    const fetchMock = vi.fn().mockReturnValueOnce(first.promise).mockReturnValueOnce(second.promise);
+    globalThis.fetch = fetchMock as never;
+    render(<StrictMode><MemoryRouter><PersonalPortfolio /></MemoryRouter></StrictMode>);
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+    await act(async () => { second.resolve(response(200, { portfolio: { ...VIEW, revision: 6 } })); });
+    expect(await screen.findByTestId('pp-revision')).toHaveTextContent('6');
+    await act(async () => { first.resolve(response(404, {})); });
+    expect(screen.getByTestId('pp-revision')).toHaveTextContent('6');
+    expect(screen.queryByTestId('pp-not-found')).not.toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it.each([401, 403, 404, 500, 503])('a reload failure (%i) cannot leave an editable stale view', async status => {
+    const fetchMock = mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      { ok: false, status, body: {} },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByDisplayValue('RELIANCE');
+    await user.click(screen.getByTestId('pp-reload'));
+    await waitFor(() => expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument());
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it.each(['holdings', 'contributions'] as const)('refuses a filtered %s snapshot for REPLACE', async key => {
+    const bad = { ...VIEW, [key]: [...VIEW[key], { invalid: true }] };
+    const fetchMock = mockSequence([{ ok: true, status: 200, body: { portfolio: bad } }]);
+    renderPage();
+    expect(await screen.findByTestId('state-error')).toHaveTextContent('incomplete or invalid');
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('prevents duplicate save requests synchronously', async () => {
+    const pending = deferred<ReturnType<typeof response>>();
+    const fetchMock = vi.fn().mockResolvedValueOnce(response(200, { portfolio: VIEW })).mockReturnValueOnce(pending.promise);
+    globalThis.fetch = fetchMock as never;
+    renderPage();
+    await screen.findByDisplayValue('RELIANCE');
+    const button = screen.getByTestId('pp-save');
+    act(() => { fireEvent.click(button); fireEvent.click(button); });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    await act(async () => { pending.resolve(response(409, {})); });
+    expect(await screen.findByTestId('pp-conflict')).toBeInTheDocument();
+  });
+
+  it('preserves add/edit/remove and sends one complete REPLACE with the read revision', async () => {
+    const fetchMock = mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      { ok: true, status: 200, body: { success: true, revision: 8, savedAt: VIEW.lastUpdated, portfolio: { ...VIEW, revision: 8 } } },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByDisplayValue('RELIANCE');
+    await user.click(screen.getByText('Add row'));
+    const symbols = screen.getAllByLabelText('Symbol');
+    await user.type(symbols[1]!, 'INFY');
+    await user.type(screen.getAllByLabelText('Quantity')[1]!, '2');
+    await user.type(screen.getAllByLabelText('Average buy price')[1]!, '10');
+    await user.type(screen.getAllByLabelText('Current price')[1]!, '12');
+    await user.click(screen.getAllByLabelText('Remove row')[0]!);
+    await user.click(screen.getByTestId('pp-save'));
+    await screen.findByTestId('pp-saved');
+    const body = JSON.parse(String((fetchMock.mock.calls[1] as [string, RequestInit])[1].body));
+    expect(body).toMatchObject({ expectedRevision: 7, options: { mode: 'REPLACE' }, holdings: [{ symbol: 'INFY', quantity: 2 }] });
+  });
+  it.each([false, true])('preserves optional observed identifiers only for the original symbol (changed: %s)', async changed => {
+    const withMetadata = { ...VIEW, holdings: [{ ...VIEW.holdings[0]!, isin: 'INE009A01021', exchange: 'NSE' as const }] };
+    const fetchMock = mockSequence([
+      { ok: true, status: 200, body: { portfolio: withMetadata } },
+      { ok: true, status: 200, body: { success: true, revision: 8, savedAt: VIEW.lastUpdated, portfolio: { ...withMetadata, revision: 8 } } },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    const symbol = await screen.findByDisplayValue('RELIANCE');
+    if (changed) {
+      await user.clear(symbol);
+      await user.type(symbol, 'INFY');
+    }
+    await user.click(screen.getByTestId('pp-save'));
+    await screen.findByTestId('pp-saved');
+    const body = JSON.parse(String((fetchMock.mock.calls[1] as [string, RequestInit])[1].body));
+    expect(body.holdings[0].symbol).toBe(changed ? 'INFY' : 'RELIANCE');
+    if (changed) {
+      expect(body.holdings[0]).not.toHaveProperty('isin');
+      expect(body.holdings[0]).not.toHaveProperty('exchange');
+    } else {
+      expect(body.holdings[0]).toMatchObject({ isin: 'INE009A01021', exchange: 'NSE' });
+    }
+    expect(body.holdings[0]).not.toHaveProperty('companyId');
+    expect(body.holdings[0]).not.toHaveProperty('lineageDigest');
+  });
+
+  it('locks writes when a reload and save are requested in the same event turn', async () => {
+    const pending = deferred<ReturnType<typeof response>>();
+    const fetchMock = vi.fn().mockResolvedValueOnce(response(200, { portfolio: VIEW })).mockReturnValueOnce(pending.promise);
+    globalThis.fetch = fetchMock as never;
+    renderPage();
+    await screen.findByDisplayValue('RELIANCE');
+    const reload = screen.getByTestId('pp-reload');
+    const save = screen.getByTestId('pp-save');
+    act(() => { fireEvent.click(reload); fireEvent.click(save); });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(String(fetchMock.mock.calls[1][0])).toBe('/api/user-portfolios/DEFAULT_PORTFOLIO');
+    await act(async () => { pending.resolve(response(200, { portfolio: VIEW })); });
+  });
+
+  it('prevents a duplicate delete synchronously', async () => {
+    vi.stubGlobal('confirm', vi.fn(() => true));
+    const pending = deferred<ReturnType<typeof response>>();
+    const fetchMock = vi.fn().mockResolvedValueOnce(response(200, { portfolio: VIEW })).mockReturnValueOnce(pending.promise);
+    globalThis.fetch = fetchMock as never;
+    renderPage();
+    await screen.findByDisplayValue('RELIANCE');
+    const button = screen.getByTestId('pp-delete');
+    act(() => { fireEvent.click(button); fireEvent.click(button); });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(window.confirm).toHaveBeenCalledTimes(1);
+    await act(async () => { pending.resolve(response(200, { portfolioId: 'DEFAULT_PORTFOLIO', deletedAt: '2026-11-08' })); });
+    expect(await screen.findByTestId('pp-not-found')).toHaveTextContent('deleted');
+  });
+
+  it('a network failure does not expose the editor or create', async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new Error('offline'));
+    globalThis.fetch = fetchMock as never;
+    renderPage();
+    expect(await screen.findByTestId('state-error')).toHaveTextContent('Network error');
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('an unknown save outcome locks editing until a fresh read', async () => {
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      { ok: false, status: 503, body: {} },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByDisplayValue('RELIANCE');
+    await user.click(screen.getByTestId('pp-save'));
+    expect(await screen.findByTestId('state-error')).toHaveTextContent('outcome could not be verified');
+    expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+  });
+
+  it('rejects an incomplete save receipt rather than making it the next REPLACE baseline', async () => {
+    const bad = { ...VIEW, holdings: [...VIEW.holdings, { symbol: 'bad' }] };
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      { ok: true, status: 200, body: { success: true, revision: 8, portfolio: bad } },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByDisplayValue('RELIANCE');
+    await user.click(screen.getByTestId('pp-save'));
+    expect(await screen.findByTestId('state-error')).toHaveTextContent('outcome could not be verified');
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+  });
+
 });

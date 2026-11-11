@@ -539,3 +539,16 @@ describe('fetchUserPortfolioRead — manual personal-entry rows', () => {
     expect(read.rejectedHoldings).toBe(1);
   });
 });
+
+
+describe('complete personal portfolio read evidence', () => {
+  it('preserves revision, saved state and holding metadata in a revision-6 view', async () => {
+    const v6: UserPortfolioView = { ...VIEW, revision: 6, isSaved: true, portfolioName: 'Restored',
+      holdings: [{ ...VIEW.holdings[0]!, isin: 'INE009A01021', exchange: 'NSE', resolutionDisposition: 'MANUAL_PERSONAL_ENTRY' }] };
+    mockFetch(200, { portfolio: v6 });
+    const read = await fetchUserPortfolioRead('DEFAULT_PORTFOLIO');
+    expect(read.portfolio).toEqual(v6);
+    expect(read.rejectedHoldings).toBe(0);
+    expect(read.rejectedContributions).toBe(0);
+  });
+});
