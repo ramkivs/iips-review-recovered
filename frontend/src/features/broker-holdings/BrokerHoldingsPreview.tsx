@@ -230,25 +230,27 @@ export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowC
 
   const retentionChip = RETENTION_PRESENTATION[retention.state] ?? RETENTION_PRESENTATION.NOT_RETAINED;
 
-  /* ---------------------------------------------------------------- *
-   * The retention disclosure. Every clause below is an operational
-   * statement the PA requires the owner to see; none of it is styling.
-   *
-   * Retention disclosure reconciled per IIPS-V3-CAP02-U1-AMEND-01 §8.4(18), rendering
-   * the PA's Decision 6 of 2026-11-05. Clause 18(1) named the contradiction this block
-   * removes: the copy once said files are "not uploaded or stored" while parsed evidence
-   * IS retained. Both statements are now true and consistent — the raw file bytes are not
-   * retained, the parsed equivalent is. This is a DISCLOSURE obligation, not a
-   * request-time consent gate: the route reads no identity from a request (§8.2(10)), so
-   * no consent token, header or checkbox is accepted or required here, and none may be
-   * added without a further act.
-   *
-   * The restyle changed only the container: this remains a top-level panel rather than a
-   * collapsed detail, because an obligation the PA requires the owner to see is not
-   * optional reading.
-   * ---------------------------------------------------------------- */
+  /* Every clause in the panel below is an operational statement the owner must see. */
   const retentionPanel = (
     <section aria-label="Evidence retention">
+      {/*
+        * Retention disclosure reconciled per IIPS-V3-CAP02-U1-AMEND-01 §8.4(18), rendering the
+        * PA's Decision 6 of 2026-11-05. Clause 18(1) named the contradiction this block removes:
+        * the copy once said files are "not uploaded or stored" while parsed evidence IS retained.
+        * Both statements are now true and consistent — the raw file bytes are not retained, the
+        * parsed equivalent is. This is a DISCLOSURE obligation, not a request-time consent gate:
+        * the route reads no identity from a request (§8.2(10)), so no consent token, header or
+        * checkbox is accepted or required here, and none may be added without a further act.
+        *
+        * This stays a JSX comment, as it was before the restyle. The §8.4(18) copy guard in
+        * `brokerImportEvidenceRoute.test.ts` strips JSX comments before asserting on rendered
+        * copy, because this explanation necessarily quotes the superseded wording; a plain JS
+        * block comment would not be stripped and would trip the guard on a quoted phrase.
+        *
+        * The restyle changed only the container: this remains a top-level panel rather than a
+        * collapsed detail, because an obligation the PA requires the owner to see is not
+        * optional reading.
+        */}
       <BrokerPanel
         eyebrow="Before you import"
         title="What this application retains"
