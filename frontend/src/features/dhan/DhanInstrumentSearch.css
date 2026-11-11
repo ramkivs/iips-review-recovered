@@ -1,0 +1,679 @@
+/*
+ * DHAN Instrument Search — visual presentation.
+ *
+ * WHY A STYLESHEET AND NOT INLINE STYLES
+ *   The rest of the application styles with inline `style={{…}}` objects. Inline
+ *   styles cannot express `:hover`, `:focus-visible`, `:disabled`, `::placeholder`
+ *   or `@media`, and this screen requires all of them (loading, hover, disabled
+ *   and focus states, plus a responsive layout). A co-located stylesheet imported
+ *   by its component is already the repository's convention for CSS that inline
+ *   styles cannot carry (`AppShell.css`, `core/theme/global.css`).
+ *
+ * DESIGN SYSTEM
+ *   Every value below resolves through the frozen semantic tokens in
+ *   `src/core/tokens` (exposed as CSS variables by `applyTheme` in
+ *   `src/core/theme/theme.ts`). No raw colour, radius, shadow or control size is
+ *   invented here, so the screen stays correct in both light and dark themes and
+ *   no parallel design system is introduced.
+ *
+ * SCOPE
+ *   Every selector is namespaced `dhanid-`; nothing here can reach another screen.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Page
+ * ------------------------------------------------------------------ */
+
+.dhanid {
+  /* Cap the measure on very wide displays so the content does not stretch
+     into an unreadable line length; centre inside the shell's content area. */
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.dhanid__header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dhanid__title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* 22px matches the sibling DHAN Connection Status page title. */
+.dhanid__title {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin: 0;
+  min-width: 0;
+}
+
+.dhanid__lede {
+  margin: 0;
+  max-width: 82ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+}
+
+/* OFFLINE SNAPSHOT is a fact about the data source, not a health warning:
+   it uses the informational (blue) token, never a negative or warning colour. */
+.dhanid__snapshot-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border: 1px solid var(--color-status-informational);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-0);
+  color: var(--color-status-informational);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dhanid__snapshot-flag-glyph {
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* ------------------------------------------------------------------ *
+ * Cards
+ * ------------------------------------------------------------------ */
+
+.dhanid-card {
+  min-width: 0;
+  padding: 20px 24px 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-0);
+  box-shadow: var(--elev-1);
+}
+
+.dhanid-card__head {
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dhanid-card__eyebrow {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-card__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+.dhanid-card__hint {
+  margin: 6px 0 0;
+  max-width: 78ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+}
+
+/* Two columns while there is room for two; one column below it. The auto-fit
+   minimum keeps this correct inside the shell's content area without relying
+   on a viewport media query alone. */
+.dhanid-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.dhanid-columns > .dhanid-card {
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Fields
+ * ------------------------------------------------------------------ */
+
+.dhanid-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dhanid-field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.dhanid-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* Label and its required/optional qualifier sit on one row, but the qualifier
+   is a SIBLING of the label so the control's accessible name stays exactly the
+   label text. */
+.dhanid-field__label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dhanid-field__label {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-field__qualifier {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-field__qualifier--required {
+  color: var(--color-status-negative);
+}
+
+/* 32px = the frozen `control.md` token height. */
+.dhanid-field__control {
+  width: 100%;
+  min-width: 0;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-0);
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+/* The hero search row is deliberately one size up (control.lg = 40px) so the
+   input matches the height of the primary button beside it. */
+.dhanid-searchbar .dhanid-field__control {
+  height: 40px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.dhanid-field__control::placeholder {
+  color: var(--color-ink-secondary);
+  opacity: 1;
+}
+
+.dhanid-field__control:hover:not(:disabled) {
+  border-color: var(--color-ink-muted);
+}
+
+.dhanid-field__control:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 1px;
+  border-color: var(--color-focus);
+}
+
+.dhanid-field__control:disabled {
+  background: var(--color-surface-2);
+  color: var(--color-ink-secondary);
+  cursor: not-allowed;
+}
+
+/* Remove the native select affordance so the control matches the inputs; the
+   caret is drawn from the same token set. */
+select.dhanid-field__control {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 30px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-ink-secondary) 50%),
+    linear-gradient(135deg, var(--color-ink-secondary) 50%, transparent 50%);
+  background-position: calc(100% - 16px) 14px, calc(100% - 11px) 14px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.dhanid-field__note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+}
+
+/* ------------------------------------------------------------------ *
+ * Actions
+ * ------------------------------------------------------------------ */
+
+.dhanid-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* 40px = the frozen `control.lg` token height. */
+.dhanid-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--color-focus);
+  border-radius: var(--radius-md);
+  background: var(--color-focus);
+  /* TOKEN GAP (documented, not silently invented): the frozen token set defines no
+     "text on a filled accent surface" token. White is used here because it is the
+     only value that clears AA (4.63:1) against --color-focus in BOTH themes — the
+     dark palette does not override --color-focus, so a surface token would invert
+     and drop to ~1.5:1. Propose an `--color-on-accent` token as an amendment. */
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+/* --color-focus and --color-status-informational resolve to the same value in the
+   light theme, so a background swap on hover would be invisible. The hover
+   affordance is carried by elevation and the border instead, both token-driven. */
+.dhanid-btn:hover:not(:disabled) {
+  border-color: var(--color-ink);
+  box-shadow: var(--elev-2);
+}
+
+.dhanid-btn:active:not(:disabled) {
+  box-shadow: none;
+}
+
+.dhanid-btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.dhanid-btn:disabled {
+  background: var(--color-surface-2);
+  border-color: var(--color-border);
+  color: var(--color-ink-secondary);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.dhanid-btn--block {
+  width: 100%;
+}
+
+/* A compact action used inside a search-result card. */
+.dhanid-btn--compact {
+  height: 32px;
+  padding: 0 14px;
+  font-size: 12px;
+}
+
+.dhanid-spinner {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: dhanid-spin 640ms linear infinite;
+}
+
+@keyframes dhanid-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Search bar
+ * ------------------------------------------------------------------ */
+
+.dhanid-searchbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dhanid-searchbar__field {
+  flex: 1 1 280px;
+  min-width: 0;
+  max-width: 460px;
+}
+
+.dhanid-searchbar__action {
+  flex: 0 0 auto;
+}
+
+/* ------------------------------------------------------------------ *
+ * Messages (loading / empty / error)
+ * ------------------------------------------------------------------ */
+
+.dhanid-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-1);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.dhanid-message__glyph {
+  flex: 0 0 auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.dhanid-message--error {
+  border-color: var(--color-status-negative);
+  background: var(--color-surface-1);
+  color: var(--color-status-negative);
+}
+
+.dhanid-message--empty {
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-message--loading {
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-count {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-secondary);
+}
+
+/* ------------------------------------------------------------------ *
+ * Search results
+ * ------------------------------------------------------------------ */
+
+.dhanid-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.dhanid-result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-1);
+}
+
+.dhanid-result__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.dhanid-result__symbol {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+
+.dhanid-result__exchange {
+  flex: 0 0 auto;
+  padding: 2px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-0);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-result__action {
+  margin-top: auto;
+}
+
+/* ------------------------------------------------------------------ *
+ * Identity outcome
+ * ------------------------------------------------------------------ */
+
+.dhanid-outcome {
+  min-width: 0;
+}
+
+.dhanid-outcome__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  padding: 2px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-0);
+  color: var(--color-ink);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* The border carries the semantic status colour; the label text stays on
+   --color-ink so it is always readable. QUALIFIED is green, and both
+   UNRESOLVED and AMBIGUOUS are amber — neither is ever green. */
+.dhanid-outcome[data-identity-status='QUALIFIED'] .dhanid-outcome__status {
+  border-color: var(--color-status-positive);
+}
+
+.dhanid-outcome[data-identity-status='UNRESOLVED'] .dhanid-outcome__status,
+.dhanid-outcome[data-identity-status='AMBIGUOUS'] .dhanid-outcome__status {
+  border-color: var(--color-status-warning);
+}
+
+.dhanid-outcome__facts {
+  display: grid;
+  grid-template-columns: minmax(96px, auto) minmax(0, 1fr);
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.dhanid-outcome__facts dt {
+  color: var(--color-ink-secondary);
+  white-space: nowrap;
+}
+
+.dhanid-outcome__facts dd {
+  margin: 0;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+
+.dhanid-outcome__details {
+  margin-top: 10px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 8px;
+}
+
+.dhanid-outcome__summary {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-secondary);
+  cursor: pointer;
+}
+
+.dhanid-outcome__summary:hover {
+  color: var(--color-ink);
+}
+
+.dhanid-outcome__json {
+  margin: 8px 0 0;
+  padding: 10px;
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-0);
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------------------ *
+ * Governance panel — informational, never error styling
+ * ------------------------------------------------------------------ */
+
+.dhanid-governance {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  margin-top: 4px;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-status-informational);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-1);
+}
+
+.dhanid-governance__glyph {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-status-informational);
+  border-radius: 50%;
+  background: var(--color-surface-0);
+  color: var(--color-status-informational);
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.dhanid-governance__body {
+  min-width: 0;
+}
+
+.dhanid-governance__title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.dhanid-governance__text {
+  margin: 0;
+  max-width: 84ch;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-governance__list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  max-width: 84ch;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+}
+
+.dhanid-governance__list li + li {
+  margin-top: 4px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Responsive
+ * ------------------------------------------------------------------ */
+
+@media (max-width: 720px) {
+  .dhanid-card {
+    padding: 16px;
+  }
+
+  .dhanid__header {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* The action spans the row so the button is never squeezed beside the field. */
+  .dhanid-searchbar__action {
+    flex: 1 1 100%;
+  }
+
+  .dhanid-searchbar__action .dhanid-btn {
+    width: 100%;
+  }
+
+  .dhanid-results,
+  .dhanid-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dhanid-outcome__facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .dhanid-outcome__facts dd {
+    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dhanid-card {
+    padding: 14px;
+  }
+
+  .dhanid__title {
+    font-size: 20px;
+  }
+}
