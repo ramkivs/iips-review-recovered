@@ -260,6 +260,8 @@ function respondToOutcome(res: http.ServerResponse, outcome: BrokerImportSaveTra
       }
     case 'CLASS_P_REFUSAL':
       // Indistinguishable from configuration-absent, by design (IRR-2); no reason invented.
+      // Recorded for the operator, who otherwise cannot tell this from a host setting.
+      reportBrokerImportOwnerContext('legacy-commit', { cause: 'ipc-class-p-refusal' });
       respondOwnerContextUnavailable(res);
       return;
     case 'OUTCOME_UNKNOWN':
@@ -693,7 +695,11 @@ export async function handleBrokerImportRequest(
   let outcome: BrokerImportSaveTransportOutcome;
   try {
     outcome = await saveBrokerImportHoldingsViaV1(deps.saveAdapterDeps ?? defaultBrokerImportSaveDeps, route.portfolioId, dto);
-  } catch {
+  } catch (error) {
+    reportBrokerImportOwnerContext('legacy-commit', {
+      cause: 'ipc-local-refusal',
+      localCode: classifyLocalIpcRefusal(error),
+    });
     respondOwnerContextUnavailable(res);
     return;
   }

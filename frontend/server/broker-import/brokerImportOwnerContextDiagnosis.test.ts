@@ -163,6 +163,37 @@ function expectOpaqueOwnerContext(handled: Handled): void {
   expect(handled.json).toEqual(OWNER_CONTEXT_UNAVAILABLE);
 }
 
+/** Drives the legacy `portfolio.save` adapter branch of the same route. */
+async function callLegacy(options: {
+  readonly ipc?: IpcCallResult | Error;
+  readonly env?: NodeJS.ProcessEnv;
+} = {}): Promise<Handled> {
+  return call(
+    HOLDINGS_PATH,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', origin: 'http://127.0.0.1', 'sec-fetch-site': 'same-origin' },
+      // No `fileName` / `sourceBroker` / `importedAt`: `isStage4Body` routes this
+      // to the legacy `portfolio.save` adapter, and the legacy DTO key set admits
+      // no provenance field at all.
+      body: JSON.stringify({
+        expectedRevision: 0,
+        mode: 'MERGE',
+        holdings: [{
+          symbol: 'RELIANCE',
+          isin: 'INE002A01018',
+          exchange: 'NSE',
+          quantity: 10,
+          averageBuyPrice: 1400,
+          currentPrice: 1500,
+          marketValue: 15000,
+        }],
+      }),
+    },
+    options,
+  );
+}
+
 /* ------------------------------------------------------------------ *
  * 1. The happy path — a valid owner context reaches IPD dispatch
  * ------------------------------------------------------------------ */
@@ -317,6 +348,30 @@ describe('non-disclosure is preserved', () => {
  * 6. Windows endpoint and payload size — two local causes that CAN be
  *    eliminated in the sandbox without the operator's host.
  * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * 7. The legacy `portfolio.save` adapter path is classified too.
+ *    It is refused by the identity-qualification gate before it can carry a
+ *    broker-observed write, but it still emits the same opaque 503 on a local
+ *    refusal or an IPD Class P. The stage name keeps the operator from being
+ *    told a Stage-4 cause for a legacy-path response.
+ * ------------------------------------------------------------------ */
+
+describe('the legacy portfolio.save adapter path is classified as its own stage', () => {
+  it('a local refusal on the legacy path is logged as stage=legacy-commit', async () => {
+    const handled = await callLegacy({ ipc: new IpcClientError('ENDPOINT_NOT_CONFIGURED', 'no endpoint') });
+    expectOpaqueOwnerContext(handled);
+    expect(handled.log.join('\n')).toContain('stage=legacy-commit');
+    expect(handled.log.join('\n')).toContain('local-refusal=ENDPOINT_NOT_CONFIGURED');
+  });
+
+  it('Class P on the legacy path is logged as stage=legacy-commit, cause=ipc-class-p-refusal', async () => {
+    const handled = await callLegacy({ ipc: classP() });
+    expectOpaqueOwnerContext(handled);
+    expect(handled.log.join('\n')).toContain('stage=legacy-commit');
+    expect(handled.log.join('\n')).toContain('cause=ipc-class-p-refusal');
+  });
+});
 
 describe('Windows named-pipe endpoint resolution (simulated win32)', () => {
   /**
