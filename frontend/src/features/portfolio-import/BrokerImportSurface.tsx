@@ -13,6 +13,12 @@
  *
  * Does not modify `PortfolioWorkspace` (`/portfolio` remains certified read-only D09) and does
  * not modify `UserPortfolioList` (`/user-portfolios` remains G-2 read-only).
+ *
+ * PRESENTATION
+ *   This surface and `Broker Holdings` are two views of one pipeline, so both render through
+ *   the shared broker-workspace primitives in `components/broker/BrokerWorkspace`: the same
+ *   page header, panels, summary figures, chips, notices and table treatment. Nothing below
+ *   changes what is transmitted, retained, authorized or persisted — only how it is presented.
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
@@ -36,6 +42,17 @@ import {
   IrrBrokerImportStorePortAdapter,
   type BrokerImportReconciliationOutcome,
 } from './irrPortfolioStorePortAdapter';
+import {
+  BrokerChip,
+  BrokerDisclosure,
+  BrokerFacts,
+  BrokerFact,
+  BrokerNotice,
+  BrokerPageHeader,
+  BrokerPanel,
+  BrokerSteps,
+  BrokerStep,
+} from '../../components/broker/BrokerWorkspace';
 
 export interface BrokerImportSurfaceProps {
   readonly storePort?: PortfolioStorePort;
@@ -134,116 +151,179 @@ export const BrokerImportSurface: React.FC<BrokerImportSurfaceProps> = ({
   }, []);
 
   return (
-    <section aria-label="CAP-02 Broker Statement Import" data-testid="cap02-broker-import-surface">
-      <header>
-        <h1>Broker Statement Import</h1>
-        <p>Review one broker CSV, check its retained evidence and explicitly commit qualified
-          holdings to a selected personal portfolio. The durable path uses IPD&apos;s Stage 4
-          import; it independently rechecks identity and authorization.</p>
+    <section aria-label="CAP-02 Broker Statement Import" data-testid="cap02-broker-import-surface" className="bw-page">
+      <BrokerPageHeader
+        eyebrow="Import workspace"
+        title="Broker Statement Import"
+        lede="Review one broker CSV, check its retained evidence and explicitly commit qualified holdings to a selected personal portfolio. The durable path uses IPD's Stage 4 import; it independently rechecks identity and authorization."
+        meta={[
+          <BrokerChip key="stage" label="STAGE 4 PROVENANCE" tone="informational" glyph="◆" />,
+          <BrokerChip key="gate" label="WHOLE-IMPORT IDENTITY GATE" tone="neutral" glyph="◉" />,
+          <BrokerChip key="dest" label={`DESTINATION SLOT ${DEFAULT_BROKER_IMPORT_PORTFOLIO_ID}`} tone="neutral" glyph="◇" />,
+        ]}
+      />
+
+      {/* 2 — Compact Stage 4 provenance. */}
+      <BrokerPanel
+        eyebrow="Stage 4 provenance"
+        title="What the commit transmits"
+        hint="The commit carries broker observations only. It carries no identity assertion, no owner claim and no file bytes."
+        secondary
+        tight
+      >
         <p><strong>Stage 4 provenance:</strong> the commit sends broker-observed holdings,
           content digest, file name and import time. It sends neither raw CSV bytes nor
           browser-supplied canonical identity or owner claims.</p>
-      </header>
+        <BrokerDisclosure summary="What is refused on the wire, and why">
+          <p>A holding carrying <code>companyId</code>, <code>runtimeCompanyId</code>,
+            <code>identityStatus</code> or <code>resolutionDisposition</code> would be the caller
+            asserting a canonical identity. Identity is resolved by IPD (Gate E W-6), so those keys
+            are refused before a socket is opened rather than stripped and sent anyway.</p>
+          <p>The same refusal covers owner, tenant, principal, credential, scope and session keys.
+            Configuration supplies an endpoint location only; it authorizes nothing.</p>
+        </BrokerDisclosure>
+      </BrokerPanel>
 
-      {/* The existing evidence preview and the Stage 4 commit now share one upload
-          and frozen snapshot. The historical modal remains available below; its
-          incomplete legacy portfolio.save DTO remains fail-closed. */}
+      {/* 3 — the workflow at a glance. */}
+      <BrokerPanel title="How an import is committed" secondary tight>
+        <BrokerSteps>
+          <BrokerStep title="Select" hint="A broker CSV is parsed in this browser. No file bytes are uploaded." />
+          <BrokerStep title="Qualify" hint="The governed security master resolves every row. One unresolved row refuses the whole import." />
+          <BrokerStep title="Retain" hint="Parsed evidence is retained locally and verified by retrieval. Retention is not a save." />
+          <BrokerStep title="Commit" hint="You choose the destination and submit explicitly. IPD re-checks identity and authorization." />
+        </BrokerSteps>
+      </BrokerPanel>
+
+      {/* 3–8 — the dominant workspace: formats, upload, parsed holdings, evidence and
+          the explicit commit controls all live in the shared preview component. */}
       <BrokerHoldingsPreview allowCommit />
 
-      <h2>Legacy import modal</h2>
-      <p>The legacy modal remains available for review; its older manual-save route is blocked. Use the Broker Holdings workflow above for guarded Stage 4 commitment.</p>
-      <p data-testid="cap02-provenance-disclosure">For the <strong>legacy modal only</strong>, fileName and importedAt are preview-only and are not transmitted in Contract v1&apos;s older manual-save DTO. The Stage 4 workflow above does transmit them.</p>
-      <div data-testid="cap02-revision-controls">
-        <span data-testid="cap02-expected-revision">
-          Expected revision token: <code>{expectedRevision}</code>
-        </span>{' '}
-        <button
-          type="button"
-          data-testid="cap02-btn-read-revision"
-          onClick={() => {
-            void handleReadRevision();
-          }}
-        >
-          Read Current Revision
-        </button>{' '}
-        <button
-          type="button"
-          data-testid="cap02-btn-toggle-modal"
-          onClick={() => setIsModalOpen((prev) => !prev)}
-        >
-          {isModalOpen ? 'Close Import Modal' : 'Open Import Modal'}
-        </button>
-      </div>
-
-      {revisionReadStatus && (
-        <div role="status" data-testid="cap02-revision-read-status">
-          {revisionReadStatus.ok ? (
-            <span>
-              Revision read succeeded for <code>{revisionReadStatus.portfolioId}</code>: revision{' '}
-              <code>{revisionReadStatus.revision}</code> (HTTP 200).
-            </span>
-          ) : (
-            <span>
-              Revision read refused/unavailable: <code>{revisionReadStatus.outcome}</code> (HTTP{' '}
-              {revisionReadStatus.status}).
-            </span>
-          )}
-        </div>
-      )}
-
-      {revisionConflictMessage && (
-        <div role="alert" data-testid="cap02-revision-conflict-banner">
-          {revisionConflictMessage}
-        </div>
-      )}
-
-      {outcomeUnknownInfo && (
-        <div role="alert" data-testid="cap02-outcome-unknown-reconcile-banner">
-          <p>
-            <strong>Commit Outcome Unknown ({outcomeUnknownInfo.portfolioId}):</strong>{' '}
-            {outcomeUnknownInfo.message}
-          </p>
+      {/* 10 — evidence availability, revision and retry status. */}
+      <BrokerPanel
+        eyebrow="Commit governance"
+        title="Revision token and outcome reconciliation"
+        hint="The expected revision token is the optimistic-concurrency value this surface will send. It is read from IPD, never derived from a receipt."
+        aside={<BrokerChip label={`REVISION ${expectedRevision}`} tone="neutral" glyph="# " />}
+      >
+        <div data-testid="cap02-revision-controls" className="bw-actions">
+          <span className="bw-retention__status" data-testid="cap02-expected-revision">
+            Expected revision token: <code>{expectedRevision}</code>
+          </span>{' '}
           <button
             type="button"
-            data-testid="cap02-btn-reconcile-unknown"
+            className="bw-btn"
+            data-testid="cap02-btn-read-revision"
             onClick={() => {
-              void handleReconcileUnknownOutcome();
+              void handleReadRevision();
             }}
           >
-            Observe Revision via GET /api/broker-import/DEFAULT_PORTFOLIO/revision
+            Read Current Revision
           </button>
         </div>
-      )}
 
-      {reconciliationResult && (
-        <div role="status" data-testid="cap02-reconciliation-status">
-          {reconciliationResult.revisionRead ? (
-            <span>
-              Observed <code>{reconciliationResult.portfolioId}</code> at revision{' '}
-              <code>{reconciliationResult.revision}</code> (
-              {reconciliationResult.revisionAdvancedSincePrior
-                ? 'revision advanced since the prior token'
-                : 'revision did not advance since the prior token'}
-              ). A revision alone cannot prove whether this import committed or was a duplicate;
-              its outcome remains unknown. Do not retry automatically.
-            </span>
-          ) : (
-            <span>
-              Reconciliation read inconclusive: <code>{reconciliationResult.outcome}</code> (HTTP{' '}
-              {reconciliationResult.status}); commit outcome remains unknown.
-            </span>
-          )}
-        </div>
-      )}
+        <BrokerFacts>
+          <BrokerFact label="Destination slot">
+            <code>{DEFAULT_BROKER_IMPORT_PORTFOLIO_ID}</code>
+          </BrokerFact>
+          <BrokerFact label="Revision token source">
+            <code>GET /api/broker-import/{DEFAULT_BROKER_IMPORT_PORTFOLIO_ID}/revision</code>
+          </BrokerFact>
+        </BrokerFacts>
 
-      {lastCommitReceipt && (
-        <div role="status" data-testid="cap02-host-commit-receipt">
-          Minimal v1 receipt: disposition <code>{lastCommitReceipt.disposition}</code>, revision{' '}
-          <code>{lastCommitReceipt.revision}</code>, durability{' '}
-          <code>{lastCommitReceipt.durability}</code>, durable{' '}
-          <code>{String(lastCommitReceipt.durable)}</code>.
+        {revisionReadStatus && (
+          <div role="status" data-testid="cap02-revision-read-status" className="bw-retention__status">
+            {revisionReadStatus.ok ? (
+              <span>
+                Revision read succeeded for <code>{revisionReadStatus.portfolioId}</code>: revision{' '}
+                <code>{revisionReadStatus.revision}</code> (HTTP 200).
+              </span>
+            ) : (
+              <span>
+                Revision read refused/unavailable: <code>{revisionReadStatus.outcome}</code> (HTTP{' '}
+                {revisionReadStatus.status}).
+              </span>
+            )}
+          </div>
+        )}
+
+        {revisionConflictMessage && (
+          <BrokerNotice tone="critical" alert title="Revision conflict">
+            <div data-testid="cap02-revision-conflict-banner">{revisionConflictMessage}</div>
+          </BrokerNotice>
+        )}
+
+        {outcomeUnknownInfo && (
+          <BrokerNotice tone="critical" alert title={`Commit Outcome Unknown (${outcomeUnknownInfo.portfolioId})`}>
+            <div data-testid="cap02-outcome-unknown-reconcile-banner">
+              <p>
+                <strong>Commit Outcome Unknown ({outcomeUnknownInfo.portfolioId}):</strong>{' '}
+                {outcomeUnknownInfo.message}
+              </p>
+              <button
+                type="button"
+                className="bw-btn"
+                data-testid="cap02-btn-reconcile-unknown"
+                onClick={() => {
+                  void handleReconcileUnknownOutcome();
+                }}
+              >
+                Observe Revision via GET /api/broker-import/DEFAULT_PORTFOLIO/revision
+              </button>
+            </div>
+          </BrokerNotice>
+        )}
+
+        {reconciliationResult && (
+          <div role="status" data-testid="cap02-reconciliation-status" className="bw-retention__status">
+            {reconciliationResult.revisionRead ? (
+              <span>
+                Observed <code>{reconciliationResult.portfolioId}</code> at revision{' '}
+                <code>{reconciliationResult.revision}</code> (
+                {reconciliationResult.revisionAdvancedSincePrior
+                  ? 'revision advanced since the prior token'
+                  : 'revision did not advance since the prior token'}
+                ). A revision alone cannot prove whether this import committed or was a duplicate;
+                its outcome remains unknown. Do not retry automatically.
+              </span>
+            ) : (
+              <span>
+                Reconciliation read inconclusive: <code>{reconciliationResult.outcome}</code> (HTTP{' '}
+                {reconciliationResult.status}); commit outcome remains unknown.
+              </span>
+            )}
+          </div>
+        )}
+
+        {lastCommitReceipt && (
+          <div role="status" data-testid="cap02-host-commit-receipt" className="bw-retention__status">
+            Minimal v1 receipt: disposition <code>{lastCommitReceipt.disposition}</code>, revision{' '}
+            <code>{lastCommitReceipt.revision}</code>, durability{' '}
+            <code>{lastCommitReceipt.durability}</code>, durable{' '}
+            <code>{String(lastCommitReceipt.durable)}</code>.
+          </div>
+        )}
+      </BrokerPanel>
+
+      {/* 11 — the legacy IPD-authored modal, deliberately visually secondary. */}
+      <BrokerPanel
+        eyebrow="Retained for review"
+        title="Legacy import modal"
+        hint="The legacy modal remains available for review; its older manual-save route is blocked. Use the Broker Holdings workflow above for guarded Stage 4 commitment."
+        secondary
+        tight
+      >
+        <p data-testid="cap02-provenance-disclosure">For the <strong>legacy modal only</strong>, fileName and importedAt are preview-only and are not transmitted in Contract v1&apos;s older manual-save DTO. The Stage 4 workflow above does transmit them.</p>
+        <div className="bw-actions">
+          <button
+            type="button"
+            className="bw-btn"
+            data-testid="cap02-btn-toggle-modal"
+            onClick={() => setIsModalOpen((prev) => !prev)}
+          >
+            {isModalOpen ? 'Close Import Modal' : 'Open Import Modal'}
+          </button>
         </div>
-      )}
+      </BrokerPanel>
 
       <BrokerImportModal
         isOpen={isModalOpen}

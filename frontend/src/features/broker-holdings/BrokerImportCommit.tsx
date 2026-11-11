@@ -2,6 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import type { BrokerImportSuccess } from 'iips-production-market-data/portfolio-ui';
 import { commitBrokerImport, type PreparedBrokerImport } from '../../api/brokerImportStage4';
 import { fetchUserPortfolioRead, fetchUserPortfolioSummaries, type UserPortfolioRead, type UserPortfolioSummary } from '../../api/userPortfolios';
+import {
+  BrokerChip,
+  BrokerNotice,
+  BrokerPanel,
+  BrokerSpinner,
+  BrokerSummary,
+  BrokerSummaryItem,
+} from '../../components/broker/BrokerWorkspace';
 
 const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 
@@ -17,6 +25,20 @@ const messages: Record<string, string> = {
   UNAVAILABLE: 'Commit service unavailable. The import was not confirmed; do not assume it failed or retry it automatically.',
   OUTCOME_UNKNOWN: 'Commit outcome unknown: the response was lost or invalid. Do not resubmit automatically; reconcile the original import with the durable evidence before retrying.',
 };
+
+/**
+ * Refusal codes that are decided, not ambiguous. Only these leave the destination
+ * selectable for a reviewed, operator-initiated retry; an unknown outcome locks it.
+ */
+const DECIDED_REFUSALS: readonly string[] = [
+  'WRITE_NOT_AUTHORIZED',
+  'REFUSED_UNRESOLVED_IDENTITY',
+  'REFUSED_STORE_GUARD',
+  'REVISION_CONFLICT',
+  'RESOURCE_UNAVAILABLE',
+  'INVALID_REQUEST',
+  'REQUEST_REFUSED',
+];
 
 interface Props {
   readonly prepared: PreparedBrokerImport | null;
@@ -117,37 +139,95 @@ export function BrokerImportCommit({ prepared, onSuccess, onBusyChange }: Props)
     && readback.portfolio.holdings.length === prepared.holdings.length
     && prepared.holdings.every(h => readback.portfolio.holdings.some(saved => saved.symbol === h.symbol && saved.quantity === h.quantity));
 
+  const resolvedExpectedRevision = portfolios?.find(p => p.portfolioId === portfolioId)?.revision ?? 0;
+  const canCommit = !!prepared && !!portfolios && ID_PATTERN.test(portfolioId) && !busy && !unknown;
+
   return <section aria-label="Commit broker holdings" data-testid="broker-commit">
-    <h3>Save to Portfolio / Commit Holdings</h3>
-    <p>Qualification is checked by the IPD ingress and again on the durable commit path. IPD independently decides authorization; a preview or an available destination does not grant it.</p>
-    {prepared ? <p data-testid="qualified-count">Qualified holdings: <strong>{prepared.holdings.length}</strong>.</p>
-      : <p role="status">The complete import is not qualified for commitment. Any unresolved, rejected or unassessed row blocks the entire import (P04).</p>}
-    {listError && <p role="alert">{listError}</p>}
-    <button type="button" onClick={() => { void loadPortfolios(); }} disabled={busy}>Refresh destinations</button>{' '}
-    <label htmlFor="broker-destination">Destination portfolio</label>{' '}
-    <select id="broker-destination" value={selection} disabled={busy || unknown} onChange={e => { setSelection(e.target.value); setRefusal(''); }}>
-      <option value="__new__">New or named portfolio</option>
-      {portfolios?.map(p => <option key={p.portfolioId} value={p.portfolioId}>{p.portfolioId} (revision {p.revision})</option>)}
-    </select>{' '}
-    {selection === '__new__' && <><label htmlFor="broker-destination-id">Portfolio ID</label>{' '}
-      <input id="broker-destination-id" value={newId} disabled={busy || unknown} onChange={e => { setNewId(e.target.value); setRefusal(''); }} /></>}
-    <p>Destination: <code data-testid="commit-destination">{portfolioId || 'not selected'}</code>
-      {portfolios && ID_PATTERN.test(portfolioId) && <> · expected revision {portfolios.find(p => p.portfolioId === portfolioId)?.revision ?? 0}</>}.</p>
-    <button type="button" data-testid="commit-holdings" disabled={!prepared || !portfolios || !ID_PATTERN.test(portfolioId) || busy || unknown}
-      onClick={() => { void commit(); }}>{busy ? 'Committing…' : outcome ? 'Submit same import again (duplicate check)' : 'Commit Holdings'}</button>
-    {refusal && <p role="alert" data-testid="commit-refusal">{refusal}</p>}
-    {outcome && <div role="status" data-testid="commit-receipt">
-      {outcome.noOp ? <p>Already imported: duplicate submission was a no-op; no new revision was created. Existing holdings reported: {outcome.holdingsPersisted}.</p>
-        : <p>Portfolio commit succeeded. Saved holdings: <strong>{outcome.holdingsPersisted}</strong>.</p>}
-      <p>Destination <code>{lastDestination}</code> · persisted revision <strong>{outcome.revision}</strong> · {outcome.disposition} · store effect {outcome.storeEffect}.</p>
-    </div>}
-    {outcome && <button type="button" disabled={busy} onClick={() => { void retrieve(lastDestination, outcome.revision); }}>Retrieve committed portfolio</button>}
-    {readError && <p role="alert">{readError}</p>}
-    {readback && <div role="status" data-testid="commit-readback">
-      <p>Retrieved portfolio <code>{readback.portfolio.portfolioId}</code> at revision <strong>{readback.portfolio.revision}</strong> with {readback.portfolio.holdings.length} stored holdings.</p>
-      <p>{exactFirstBatch ? 'Readback confirms the submitted holdings and quantities.' : containsSubmitted ? 'Readback contains every submitted symbol; inspect the stored quantities below.' : 'Readback does not contain every submitted symbol; review the portfolio before claiming confirmation.'}</p>
-      <table><caption>Retrieved persisted holdings</caption><thead><tr><th>Symbol</th><th>Quantity</th><th>Source</th><th>Identity status</th></tr></thead>
-        <tbody>{readback.portfolio.holdings.map((h, i) => <tr key={`${h.symbol}-${i}`}><td>{h.symbol}</td><td>{h.quantity}</td><td>{h.sourceBroker}</td><td>{h.identityStatus ?? 'not reported'}</td></tr>)}</tbody></table>
-    </div>}
+    <BrokerPanel
+      eyebrow="Step 4 — explicit"
+      title="Save to Portfolio / Commit Holdings"
+      hint="Qualification is checked by the IPD ingress and again on the durable commit path. IPD independently decides authorization; a preview or an available destination does not grant it."
+      aside={prepared !== null
+        ? <BrokerChip label={`QUALIFIED ${prepared.holdings.length}`} tone="positive" glyph="✓" />
+        : <BrokerChip label="NOT QUALIFIED" tone="warning" glyph="▲" />}
+    >
+      {prepared ? <p data-testid="qualified-count">Qualified holdings: <strong>{prepared.holdings.length}</strong>.</p>
+        : <p role="status">The complete import is not qualified for commitment. Any unresolved, rejected or unassessed row blocks the entire import (P04).</p>}
+      {listError && <p role="alert">{listError}</p>}
+
+      <div className="bw-actions">
+        <button type="button" className="bw-btn bw-btn--sm" onClick={() => { void loadPortfolios(); }} disabled={busy}>Refresh destinations</button>
+      </div>
+
+      <div className="bw-field">
+        <label className="bw-label" htmlFor="broker-destination">Destination portfolio</label>
+        <select id="broker-destination" className="bw-control" value={selection} disabled={busy || unknown}
+          onChange={e => { setSelection(e.target.value); setRefusal(''); }}>
+          <option value="__new__">New or named portfolio</option>
+          {portfolios?.map(p => <option key={p.portfolioId} value={p.portfolioId}>{p.portfolioId} (revision {p.revision})</option>)}
+        </select>
+      </div>
+
+      {selection === '__new__' && (
+        <div className="bw-field">
+          <label className="bw-label" htmlFor="broker-destination-id">Portfolio ID</label>
+          <input id="broker-destination-id" className="bw-control" value={newId} disabled={busy || unknown}
+            onChange={e => { setNewId(e.target.value); setRefusal(''); }} />
+        </div>
+      )}
+
+      <BrokerSummary>
+        <BrokerSummaryItem label="Destination" value={<code>{portfolioId || 'not selected'}</code>} />
+        <BrokerSummaryItem label="Expected revision" value={resolvedExpectedRevision} sub="read from IPD, never from a receipt" />
+        <BrokerSummaryItem label="Mode" value={prepared?.mode ?? '—'} sub="submitted with the request" />
+      </BrokerSummary>
+
+      <p data-testid="commit-destination-detail">Destination: <code data-testid="commit-destination">{portfolioId || 'not selected'}</code>
+        {portfolios && ID_PATTERN.test(portfolioId) && <> · expected revision {portfolios.find(p => p.portfolioId === portfolioId)?.revision ?? 0}</>}.</p>
+
+      <div className="bw-actions">
+        <button type="button" className="bw-btn bw-btn--primary" data-testid="commit-holdings"
+          disabled={!canCommit}
+          onClick={() => { void commit(); }}>{busy ? 'Committing…' : outcome ? 'Submit same import again (duplicate check)' : 'Commit Holdings'}</button>
+        {busy ? <BrokerSpinner label="Committing to IPD…" /> : null}
+      </div>
+
+      {refusal && <BrokerNotice tone="critical" alert title="Commit refused">
+        <div data-testid="commit-refusal">{refusal}</div>
+      </BrokerNotice>}
+
+      {refusal && DECIDED_REFUSALS.length > 0 && unknown ? (
+        <BrokerNotice tone="warning" title="This outcome is unknown, not refused">
+          <p>An unknown outcome cannot be retried automatically: a retry could duplicate a commit
+            that may already have landed. Reconcile against the retained evidence first.</p>
+        </BrokerNotice>
+      ) : null}
+
+      {outcome && <div role="status" data-testid="commit-receipt" className="bw-retention__status">
+        {outcome.noOp ? <p>Already imported: duplicate submission was a no-op; no new revision was created. Existing holdings reported: {outcome.holdingsPersisted}.</p>
+          : <p>Portfolio commit succeeded. Saved holdings: <strong>{outcome.holdingsPersisted}</strong>.</p>}
+        <p>Destination <code>{lastDestination}</code> · persisted revision <strong>{outcome.revision}</strong> · {outcome.disposition} · store effect {outcome.storeEffect}.</p>
+      </div>}
+
+      {outcome && <div className="bw-actions">
+        <button type="button" className="bw-btn" disabled={busy} onClick={() => { void retrieve(lastDestination, outcome.revision); }}>Retrieve committed portfolio</button>
+      </div>}
+
+      {readError && <BrokerNotice tone="critical" alert title="Readback unavailable">
+        <div>{readError}</div>
+      </BrokerNotice>}
+
+      {readback && <div role="status" data-testid="commit-readback">
+        <p>Retrieved portfolio <code>{readback.portfolio.portfolioId}</code> at revision <strong>{readback.portfolio.revision}</strong> with {readback.portfolio.holdings.length} stored holdings.</p>
+        <p>{exactFirstBatch ? 'Readback confirms the submitted holdings and quantities.' : containsSubmitted ? 'Readback contains every submitted symbol; inspect the stored quantities below.' : 'Readback does not contain every submitted symbol; review the portfolio before claiming confirmation.'}</p>
+        <div className="bw-table-wrap">
+          <table className="bw-table">
+            <caption>Retrieved persisted holdings</caption>
+            <thead><tr><th scope="col">Symbol</th><th scope="col" className="bw-num">Quantity</th><th scope="col">Source</th><th scope="col">Identity status</th></tr></thead>
+            <tbody>{readback.portfolio.holdings.map((h, i) => <tr key={`${h.symbol}-${i}`}><td>{h.symbol}</td><td className="bw-num">{h.quantity}</td><td>{h.sourceBroker}</td><td>{h.identityStatus ?? 'not reported'}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </div>}
+    </BrokerPanel>
   </section>;
 }
