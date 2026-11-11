@@ -94,6 +94,10 @@ import {
   type BrokerImportEvidenceRecord,
   type BrokerImportEvidenceStorageUsage,
 } from './brokerImportEvidenceStore.js';
+import {
+  classifyLocalIpcRefusal,
+  reportBrokerImportOwnerContext,
+} from './brokerImportOwnerContextDiagnosis.js';
 import { resolveBrokerEvidenceOwnerContext } from './brokerImportEvidenceOwnerResolver.js';
 import { isStage4Body, validateStage4Request, importBrokerViaIpc, type Stage4TransportOutcome } from './brokerImportStage4.js';
 import {
@@ -279,6 +283,10 @@ function respondToStage4Outcome(res: http.ServerResponse, outcome: Stage4Transpo
     return;
   }
   if (outcome.kind === 'CLASS_P') {
+    // IPD connected and closed with zero bytes: its non-disclosing pre-authorization
+    // refusal (C6). Indistinguishable to the browser by design; recorded here so the
+    // operator knows this cannot be fixed by IRR configuration.
+    reportBrokerImportOwnerContext('commit', { cause: 'ipc-class-p-refusal' });
     respondOwnerContextUnavailable(res);
     return;
   }
@@ -326,6 +334,9 @@ function respondToRevisionOutcome(
           return;
       }
     case 'CLASS_P_REFUSAL':
+      // Same condition as the commit path: IPD connected and answered with zero
+      // bytes. Opaque to the browser, classified for the operator.
+      reportBrokerImportOwnerContext('revision-read', { cause: 'ipc-class-p-refusal' });
       respondOwnerContextUnavailable(res);
       return;
     case 'OUTCOME_UNKNOWN':
@@ -549,6 +560,7 @@ export async function handleBrokerImportRequest(
     const env = deps.env ?? process.env;
     const ownerContext = ownerContextFromBinding(readBindingPrecondition(env), env);
     if (ownerContext.state !== 'IPD_BINDING_RESOLVED' || !ownerContext.established) {
+      reportBrokerImportOwnerContext('revision-read', { cause: 'owner-precondition-not-established' });
       respondOwnerContextUnavailable(res);
       return;
     }
@@ -570,7 +582,11 @@ export async function handleBrokerImportRequest(
         deps.saveAdapterDeps ?? defaultBrokerImportSaveDeps,
         route.portfolioId,
       );
-    } catch {
+    } catch (error) {
+      reportBrokerImportOwnerContext('revision-read', {
+        cause: 'ipc-local-refusal',
+        localCode: classifyLocalIpcRefusal(error),
+      });
       respondOwnerContextUnavailable(res);
       return;
     }
@@ -596,6 +612,9 @@ export async function handleBrokerImportRequest(
   const env = deps.env ?? process.env;
   const ownerContext = ownerContextFromBinding(readBindingPrecondition(env), env);
   if (ownerContext.state !== 'IPD_BINDING_RESOLVED' || !ownerContext.established) {
+    // The one condition that really IS the owner context: IRR's own binding
+    // precondition was not established, so no IPC call is justified.
+    reportBrokerImportOwnerContext('commit', { cause: 'owner-precondition-not-established' });
     respondOwnerContextUnavailable(res);
     return;
   }
@@ -627,9 +646,15 @@ export async function handleBrokerImportRequest(
     try {
       const result = await importBrokerViaIpc(request, deps.saveAdapterDeps?.callIpc);
       respondToStage4Outcome(res, result);
-    } catch {
+    } catch (error) {
       // A local pre-send exception (invalid endpoint, oversize, authority key) sends
       // no request; preserve the existing non-disclosing owner-context response.
+      // The browser learns nothing new; the operator's log records that this was a
+      // LOCAL refusal and not an owner-context or IPD condition.
+      reportBrokerImportOwnerContext('commit', {
+        cause: 'ipc-local-refusal',
+        localCode: classifyLocalIpcRefusal(error),
+      });
       respondOwnerContextUnavailable(res);
     }
     return;
