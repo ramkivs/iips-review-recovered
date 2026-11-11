@@ -103,9 +103,16 @@ export function classifyLocalIpcRefusal(error: unknown): BrokerImportLocalRefusa
  * The browser receives the same opaque response as before. The operator receives
  * the condition they must act on. `stage` is a fixed label naming where in the
  * route the condition was observed.
+ *
+ * `legacy-commit` is the pre-Stage-4 `portfolio.save` adapter path, which is
+ * refused by the identity-qualification gate before it can be used for a
+ * broker-observed write; it is named here so the operator is never told a
+ * Stage-4 cause for a legacy-path response.
  */
+export type BrokerImportOwnerContextStage = 'commit' | 'revision-read' | 'legacy-commit';
+
 export function reportBrokerImportOwnerContext(
-  stage: 'commit' | 'revision-read',
+  stage: BrokerImportOwnerContextStage,
   diagnosis: BrokerImportOwnerContextDiagnosis,
 ): void {
   const detail = diagnosis.localCode === undefined ? '' : ` local-refusal=${diagnosis.localCode}`;
