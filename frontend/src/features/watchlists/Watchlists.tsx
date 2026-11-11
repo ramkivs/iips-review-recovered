@@ -132,10 +132,14 @@ export function Watchlists() {
           <div style={{ marginTop: 8, display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
             <input
               data-testid={`watchlist-add-id-${list.watchlistId}`}
-              placeholder="canonicalSecurityId"
+              placeholder="certified reference identifier (e.g. Technology)"
               value={itemId}
               onChange={(e) => setItemId(e.target.value)}
+              aria-label="Certified reference identifier"
             />
+            <p data-testid={`watchlist-add-help-${list.watchlistId}`} style={{ flexBasis: '100%', fontSize: 12, margin: '2px 0 0', color: 'var(--color-ink-secondary)' }}>
+              Membership is the host's certified reference universe (sector reference identifiers such as “Technology”) — not an issuer ticker or ISIN.
+            </p>
             <label style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 4 }}>
               <input
                 type="checkbox"

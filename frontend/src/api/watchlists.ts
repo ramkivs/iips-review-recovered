@@ -79,18 +79,37 @@ export interface WatchlistsEnvelope {
   readonly provenance: WatchlistsProvenance;
 }
 
+/**
+ * The transport's authored reason, bounded the same way the server bounds it: a single
+ * control-free line capped at 200 characters. Anything unexpected is discarded and the
+ * status alone remains the failure signal. No caller value, path or record rides along.
+ */
+const MAX_REASON_LENGTH = 200;
+
+function sanitizeReason(value: unknown): string | undefined {
+  if (typeof value !== 'string' || value.length === 0) return undefined;
+  const collapsed = value.replace(/[\u0000-\u001f\u007f]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  if (collapsed.length === 0) return undefined;
+  return collapsed.length > MAX_REASON_LENGTH ? collapsed.slice(0, MAX_REASON_LENGTH) : collapsed;
+}
+
 async function requestError(res: Response, action: string): Promise<Error> {
   let code = '';
-  let reason = '';
+  let reason: string | undefined;
   try {
     const body = (await res.json()) as { error?: string; detail?: { reason?: string } };
-    code = body.error ?? '';
-    reason = body.detail?.reason ?? '';
+    code = typeof body.error === 'string' ? body.error : '';
+    reason = sanitizeReason(body.detail?.reason);
   } catch {
     // Status remains the failure signal if the response envelope is malformed.
   }
   if (code === 'owner-context-unavailable') {
     return new Error(`Owner-scoped watchlists unavailable: ${reason || 'no non-authentication owner source is established.'}`);
+  }
+  // An authored reason (e.g. why governed-row-not-found refused the identifier) is surfaced
+  // verbatim — it is the difference between a dead end and an explanation.
+  if (reason !== undefined) {
+    return new Error(`${action}: ${res.status}${code ? ` (${code})` : ''} - ${reason}`);
   }
   return new Error(`${action}: ${res.status}${code ? ` (${code})` : ''}`);
 }

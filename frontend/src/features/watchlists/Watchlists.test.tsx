@@ -159,3 +159,51 @@ describe('UI07 — Watchlists surface', () => {
     expect(screen.queryByTestId('watchlists-surface')).not.toBeInTheDocument();
   });
 });
+
+/**
+ * The reported security-addition failure (2026-11-10): an issuer identifier refused with
+ * `governed-row-not-found` must surface the server-authored explanation, and the add row must
+ * disclose the served identifier space — the owner should never have to guess between a
+ * ticker and a certified reference identifier.
+ */
+describe('Watchlists — the refused membership is explained, not opaque', () => {
+  it('shows the server-authored reason when the identifier is refused', async () => {
+    const f = vi.fn((_url: string, init?: { method?: string; body?: string }) => {
+      if (init?.method === 'POST') {
+        return Promise.resolve({
+          ok: false,
+          status: 404,
+          json: () => Promise.resolve({
+            error: 'governed-row-not-found',
+            detail: {
+              reason:
+                "Not a member of the governed reference universe served by this host (certified-v2.0-reference-universe; sector reference identifiers such as 'Technology').",
+            },
+          }),
+        } as Response);
+      }
+      return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(envelope()) } as Response);
+    });
+    vi.stubGlobal('fetch', f);
+    renderComponent();
+    await waitFor(() => expect(screen.getByTestId('watchlist-add-wl-1')).toBeInTheDocument());
+
+    fireEvent.change(screen.getByTestId('watchlist-add-id-wl-1'), { target: { value: 'TCS' } });
+    fireEvent.click(screen.getByTestId('watchlist-add-wl-1'));
+
+    await waitFor(() =>
+      expect(screen.getByTestId('watchlists-error')).toHaveTextContent('certified-v2.0-reference-universe'),
+    );
+  });
+
+  it('discloses the served identifier space next to the add control', async () => {
+    vi.stubGlobal('fetch', mockFetch(envelope()));
+    renderComponent();
+    await waitFor(() => expect(screen.getByTestId('watchlist-add-help-wl-1')).toBeInTheDocument());
+    expect(screen.getByTestId('watchlist-add-help-wl-1')).toHaveTextContent('certified reference universe');
+    expect(screen.getByTestId('watchlist-add-id-wl-1')).toHaveAttribute(
+      'placeholder',
+      'certified reference identifier (e.g. Technology)',
+    );
+  });
+});
