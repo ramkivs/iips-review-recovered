@@ -252,11 +252,20 @@ foreach ($c in @($cmdLookup)) {
     $cmd = [string]$c.CommandLine
     if ($cmd -eq '') { continue }
     $role = 'unrecognised node process'
-    if ($cmd -match 'executive-transport') { $role = 'IRR executive transport' }
-    if ($cmd -match 'iips-production-market-data') { $role = 'IPD (candidate)' }
-    if ($cmd -match 'ipc-provider|ipcProvider|user-portfolio-v1') { $role = 'IPD IPC provider (candidate)' }
+    # FIRST MATCH WINS, most specific first. Each later test is guarded so an
+    # already-classified process is never relabelled: an IRR transport and an
+    # IPD process are never the same process, and only a process running IPD's
+    # IPC entrypoint can serve \\.\pipe\<name>.
+    if ($cmd -match '[\\/]ipc[\\/]entrypoint\.js') { $role = 'IPD IPC provider (pipe-server candidate)' }
+    if ($role -eq 'unrecognised node process') { if ($cmd -match 'executive-transport') { $role = 'IRR executive transport' } }
+    if ($role -eq 'unrecognised node process') { if ($cmd -match '[\\/][^\\/]*_daemon\.js') { $role = 'IPD provider daemon (not the IPC provider)' } }
+    if ($role -eq 'unrecognised node process') { if ($cmd -match 'vite') { $role = 'vite dev server' } }
+    if ($role -eq 'unrecognised node process') { if ($cmd -match 'iips-production-market-data') { $role = 'IPD repo process (not the IPC provider)' } }
     if ($role -eq 'IRR executive transport') { $transportPid = $c.ProcessId }
-    if ($role -ne 'unrecognised node process') { $ipdPids += ($c.ProcessId) }
+    # Only the entrypoint process can serve the pipe. Collecting every process that
+    # merely lives in the IPD tree previously reported both IRR transports as IPD
+    # provider candidates.
+    if ($role -eq 'IPD IPC provider (pipe-server candidate)') { $ipdPids += ($c.ProcessId) }
     $shown = $cmd
     if ($shown.Length -gt 150) { $shown = $shown.Substring(0, 150) + '...' }
     Add-Result -Id 'P2.cmd' -Title ('  PID ' + $c.ProcessId + ' -> ' + $role) -Status 'INFO' -Detail $shown
@@ -395,12 +404,12 @@ $probeText = Get-BranchText -Ok $probeOk -WhenTrue 'a server accepted the connec
 Add-Result -Id 'N2' -Title 'Named pipe connect probe (0 bytes written)' -Status (Get-Status -Ok $probeOk) -Detail $probeText
 }
 
-Add-Result -Id 'N3' -Title 'Pipe server PID' -Status 'INCONCLUSIVE' -Detail 'Windows does not expose the owning PID of a named pipe; correlate the IPD provider PID (21568) with section 1'
+Add-Result -Id 'N3' -Title 'Pipe server PID' -Status 'INCONCLUSIVE' -Detail 'Windows does not expose the owning PID of a named pipe; section 1 lists the node process whose command line is IPD''s IPC entrypoint - that process is the pipe-server candidate, and it is the only node process running it'
 if ($ipdPids.Count -gt 0) {
-    Add-Result -Id 'N4' -Title 'IPD provider PID candidates' -Status 'INFO' -Detail ($ipdPids -join ', ')
+    Add-Result -Id 'N4' -Title 'IPD IPC provider PID candidates' -Status 'INFO' -Detail (($ipdPids -join ', ') + '  (command line contains ipc\\entrypoint.js - the only node process that can serve the pipe)')
 }
 if ($ipdPids.Count -eq 0) {
-    Add-Result -Id 'N4' -Title 'IPD provider PID candidates' -Status 'INCONCLUSIVE' -Detail 'no node command line matched an IPD provider; verify PID 21568 manually'
+    Add-Result -Id 'N4' -Title 'IPD IPC provider PID candidates' -Status 'INCONCLUSIVE' -Detail 'no node command line ran IPD''s ipc\\entrypoint.js; the named pipe has no visible server - a Class P refusal is then impossible and the cause would be local'
 }
 
 # ---------------------------------------------------------------------------
