@@ -16,6 +16,7 @@ import type { DatasetManifest } from '../fundamentals/manifest';
 import type { CoverageReport as SectorCoverageReport } from '../coverage/measure';
 import { reconcileSuccessors, type SuccessorReconciliation } from './corporateActions';
 import { buildBinding, reasonText, resolveIdentity, identityInputOf, type ResolveContext } from './resolver';
+import { classifyObservationOutcome, type ObservationOutcomeClass } from './d114Projection';
 import {
   REASON_TEXT,
   RESOLUTION_STATES,
@@ -45,6 +46,7 @@ export interface CoverageItem {
   readonly source: ObservationSource;
   readonly portfolioId: string | null;
   readonly state: ResolutionState;
+  readonly outcomeClass: ObservationOutcomeClass;
   readonly reason: string | null;
   readonly reasonText: string | null;
   readonly detail: string | null;
@@ -76,6 +78,11 @@ export interface IdentityCoverageReport {
     readonly corporateActionTableVersion: string;
     readonly rosterLabel: string;
     readonly rosterDataClass: IdentitySources['rosterDataClass'];
+    readonly issuerCount: number;
+    readonly securityCount: number;
+    readonly listingCount: number;
+    readonly corporateActionCount: number;
+    readonly corporateActionsEmpty: boolean;
   };
   readonly counts: StateCounts;
   readonly bySource: Readonly<Record<ObservationSource, SourceCounts>>;
@@ -151,13 +158,15 @@ export function computeIdentityCoverage(options: ComputeCoverageOptions): Identi
     .map((observation) => {
       const resolution = resolveIdentity(identityInputOf(observation), context);
       const binding = buildBinding(observation, resolution, context);
+      const reason = resolution.failure === null ? null : resolution.failure.reason;
       return {
         observationId: observation.observationId,
         source: observation.source,
         portfolioId: observation.portfolioId,
         state: resolution.state,
-        reason: resolution.failure === null ? null : resolution.failure.reason,
-        reasonText: reasonText(resolution.failure === null ? null : resolution.failure.reason),
+        outcomeClass: classifyObservationOutcome(resolution.state, reason),
+        reason,
+        reasonText: reasonText(reason),
         detail: resolution.failure === null ? null : resolution.failure.detail,
         candidates: resolution.failure === null ? [] : resolution.failure.candidates,
         binding,
@@ -212,10 +221,14 @@ export function computeIdentityCoverage(options: ComputeCoverageOptions): Identi
     .sort((a, b) => a.state.localeCompare(b.state) || a.observationId.localeCompare(b.observationId));
 
   const statusLine = buildStatusLine(options.observations, items);
+  const corporateActionsEmpty = options.sources.corporateActionTable.actions.length === 0;
   const notes = [
     'Resolution uses identity fields only (ISIN, exchange, symbol, series, CIN, company reference). Company names are never read by the resolver.',
     'A resolved identity is not a valuation: IID-2 onwards would produce an assessment, and is not started.',
     'Rows resolved through EXCHANGE_SYMBOL are labelled as such; a symbol is weaker evidence than an ISIN and is never presented as equivalent.',
+    ...(corporateActionsEmpty
+      ? ['The corporate-action table is valid and genuinely empty (0 recorded corporate actions).']
+      : []),
     ...(options.sources.rosterDataClass === 'SYNTHETIC_FIXTURE'
       ? ['The roster in use is a synthetic fixture: the mechanics are verified, real-company identity coverage is not.']
       : []),
@@ -231,6 +244,11 @@ export function computeIdentityCoverage(options: ComputeCoverageOptions): Identi
       corporateActionTableVersion: options.sources.versions.corporateActionTableVersion,
       rosterLabel: options.sources.roster.rosterLabel,
       rosterDataClass: options.sources.rosterDataClass,
+      issuerCount: options.sources.roster.issuers.length,
+      securityCount: options.sources.roster.securities.length,
+      listingCount: options.sources.listingMap.entries.length,
+      corporateActionCount: options.sources.corporateActionTable.actions.length,
+      corporateActionsEmpty,
     },
     counts: { observed: items.length, assessable, ...counts },
     bySource,

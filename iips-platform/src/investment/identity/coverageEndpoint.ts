@@ -14,6 +14,7 @@
  */
 import { buildFinancialCoverageDisclosure, computeIdentityCoverage, type FinancialCoverageDisclosure, type IdentityCoverageReport } from './coverage';
 import { renderCoverageHtml, renderUnavailableHtml } from './coverageView';
+import { projectD114SecurityIdentity } from './d114Projection';
 import type { SourceIssue, SourceLoadResult } from './sources';
 import type { IdentityObservation } from './types';
 
@@ -34,6 +35,8 @@ export interface PreviewRowInput {
   readonly symbol?: unknown;
   readonly isin?: unknown;
   readonly exchange?: unknown;
+  readonly series?: unknown;
+  readonly securityIdentity?: unknown;
   readonly quantity?: unknown;
   readonly identityStatus?: unknown;
 }
@@ -256,28 +259,48 @@ export async function handlePreviewEvaluationRequest(
 
   const broker = previewString(root.broker) ?? 'unknown-broker';
   const observations: IdentityObservation[] = rows.map((raw, index) => {
-    const row = typeof raw === 'object' && raw !== null ? (raw as Record<string, unknown>) : {};
+    const row =
+      typeof raw === 'object' && raw !== null && !Array.isArray(raw) ? (raw as Record<string, unknown>) : {};
     const symbol = previewString(row.symbol);
-    const isin = previewString(row.isin);
+    const flatIsin = previewString(row.isin);
+    const flatSeries = previewString(row.series);
     const exchange = previewString(row.exchange);
     const identityStatus = previewString(row.identityStatus);
+    const projected = projectD114SecurityIdentity({
+      securityIdentity: row.securityIdentity,
+      flatIsin,
+      flatSeries,
+    });
     const rawFields: Record<string, string | number | boolean | null> = {
       symbol,
-      isin,
+      isin: projected.isin ?? flatIsin,
       exchange,
       identityStatus,
     };
+    if (projected.series !== null) rawFields.series = projected.series;
+    if (projected.kind === 'populated' && projected.securityIdentity) {
+      rawFields['securityIdentity.securityId'] = projected.securityIdentity.securityId;
+      rawFields['securityIdentity.isin'] = projected.securityIdentity.isin;
+      rawFields['securityIdentity.series'] = projected.securityIdentity.series;
+      rawFields['securityIdentity.isinAuthority'] = projected.securityIdentity.isinAuthority;
+    } else if (projected.kind === 'unresolved_null') {
+      rawFields.securityIdentity = null;
+    } else if (projected.kind === 'rejected') {
+      rawFields.securityIdentityMalformed = true;
+    }
     if (typeof row.quantity === 'number' && Number.isFinite(row.quantity)) rawFields.quantity = row.quantity;
     return {
       observationId: `preview:${broker}:${String(index + 1).padStart(4, '0')}`,
       source: 'BROKER_PREVIEW',
       portfolioId: null,
-      isin,
+      isin: projected.isin,
       symbol,
       exchange,
-      series: null,
+      series: projected.series,
       cin: null,
       companyIdHint: null,
+      ...(projected.rejection !== null ? { securityIdentityRejection: projected.rejection } : {}),
+      ...(projected.securityIdentity !== undefined ? { securityIdentity: projected.securityIdentity } : {}),
       displayName: null,
       quantity: typeof row.quantity === 'number' && Number.isFinite(row.quantity) ? row.quantity : null,
       upstreamStatus: identityStatus,

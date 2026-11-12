@@ -75,6 +75,11 @@ export interface DirectoryDisclosure {
   readonly rosterVersion: string;
   readonly rosterDigest: string;
   readonly rosterDataClass: IdentitySources['rosterDataClass'];
+  readonly issuerCount: number;
+  readonly securityCount: number;
+  readonly listingCount: number;
+  readonly corporateActionCount: number;
+  readonly corporateActionsEmpty: boolean;
   /** Why availability is UNKNOWN, when it is. Null when the store answered. */
   readonly assessmentAvailabilityUnavailableReason: string | null;
 }
@@ -288,6 +293,11 @@ export function directoryDisclosure(
     rosterVersion: sources.versions.rosterVersion,
     rosterDigest: sources.versions.rosterDigest,
     rosterDataClass: sources.rosterDataClass,
+    issuerCount: sources.roster.issuers.length,
+    securityCount: sources.roster.securities.length,
+    listingCount: sources.listingMap.entries.length,
+    corporateActionCount: sources.corporateActionTable.actions.length,
+    corporateActionsEmpty: sources.corporateActionTable.actions.length === 0,
     assessmentAvailabilityUnavailableReason:
       inventory === null
         ? 'The governed assessment store or owner context was unavailable, so assessment availability was not observed.'

@@ -41,12 +41,17 @@ import { PortfolioStatusSummary } from './PortfolioStatusSummary';
  * read, which is rendered as unavailable — never as a neutral verdict and never as "no disposition" if the entry
  * exists.
  */
+function holdingIsin(holding: UserPortfolioHolding): string | undefined {
+  return holding.securityIdentity?.isin ?? holding.isin;
+}
+
 function dispositionFor(
   holding: UserPortfolioHolding,
   entries: readonly PortfolioDispositionEntry[],
 ): PortfolioDispositionEntry | null {
-  if (holding.isin === undefined) return null;
-  const securityId = `IN:ISIN:${holding.isin}`;
+  const isin = holdingIsin(holding);
+  if (isin === undefined) return null;
+  const securityId = `IN:ISIN:${isin}`;
   return entries.find((entry) => entry.securityId === securityId) ?? null;
 }
 
@@ -106,9 +111,10 @@ function LinksCell({
   readonly identitiesRead: boolean;
 }): JSX.Element {
   const issuerId = identity?.issuerId ?? null;
+  const fallbackIsin = holdingIsin(holding);
   // Prefer the server's resolved security id. The fallback below is the pre-existing candidate behaviour, kept
   // so a failed identity read does not remove the candidate entry point that worked before this change.
-  const securityId = identity?.securityId ?? (holding.isin === undefined ? null : `IN:ISIN:${holding.isin}`);
+  const securityId = identity?.securityId ?? (fallbackIsin === undefined ? null : `IN:ISIN:${fallbackIsin}`);
 
   if (!identitiesRead) {
     return (
