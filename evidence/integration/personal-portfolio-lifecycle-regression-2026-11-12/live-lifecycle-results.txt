@@ -1,19 +1,19 @@
 
  RUN  v2.1.9 /home/user/iips-review-recovered/frontend
 
-stderr | ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 1. creates a genuinely new portfolio through the editor and adopts the provider revision
+stderr | ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 1. creates two portfolios through the UI under distinct fresh identifiers
 
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 1. creates a genuinely new portfolio through the editor and adopts the provider revision 404ms
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 2. the existing portfolio loads with its revision and holdings intact
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 3. editing and saving increments the revision and preserves the holdings
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 4. a reload re-reads the saved revision rather than a stale baseline
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 5. adding and removing rows round-trip through the provider
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 6. deleting tombstones the identifier: creation is no longer offered
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 7. the provider does not silently re-create the tombstoned identifier
- ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 8. an inaccessible service offers no creation at all
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 1. creates two portfolios through the UI under distinct fresh identifiers 1092ms
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 2. excludes the broker-import sibling and reports it as untouched
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 3. saving one portfolio leaves the other untouched
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 4. a reload re-reads both portfolios with their revisions preserved
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 5. deleting one portfolio is isolated and retires its identifier
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 6. a new portfolio is created after the delete, under a fresh identifier 414ms
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 7. the provider still refuses the retired identifier
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live multi-portfolio lifecycle (real IPD + real transport) > 8. the broker-import sibling is unchanged by every operation above
 
  Test Files  1 passed (1)
       Tests  8 passed (8)
-   Start at  07:47:24
-   Duration  1.95s (transform 247ms, setup 132ms, collect 314ms, tests 932ms, environment 366ms, prepare 58ms)
+   Start at  09:01:03
+   Duration  3.85s (transform 358ms, setup 225ms, collect 500ms, tests 2.43s, environment 436ms, prepare 86ms)
 

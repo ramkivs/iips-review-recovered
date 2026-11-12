@@ -324,8 +324,25 @@ async function handlePersonalWrite(
         throw new G2Error('INVALID_REQUEST', 'At least one holding is required to create the portfolio.');
       }
       const portfolioName = optionalPortfolioName(payload.portfolioName);
+      // Optional caller-proposed identifier, admitted only in the exact shape the
+      // personal path already accepts for every other route. A rejected identifier is a
+      // 400 here rather than a silent fallback to the upstream default, so a caller can
+      // never believe it created a distinct portfolio when it did not.
+      const proposedId = payload.portfolioId;
+      let portfolioId: string | undefined;
+      if (proposedId !== undefined) {
+        if (typeof proposedId !== 'string') {
+          throw new G2Error('INVALID_REQUEST', 'portfolioId must be a string when supplied.');
+        }
+        const parsed = parsePortfolioId(encodeURIComponent(proposedId));
+        if (parsed === null) {
+          throw new G2Error('INVALID_REQUEST', 'portfolioId is not admissible.');
+        }
+        portfolioId = parsed;
+      }
       const portfolio = await port.createPortfolio({
         scope,
+        ...(portfolioId !== undefined ? { portfolioId } : {}),
         ...(portfolioName !== undefined ? { portfolioName } : {}),
         holdings,
       });

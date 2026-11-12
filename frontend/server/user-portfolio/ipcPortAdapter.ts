@@ -267,6 +267,10 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
 
   public async createPortfolio(params: G2CreateParams): Promise<G2PortfolioView> {
     const payload: Record<string, unknown> = {};
+    // Multi-portfolio support: the identifier is forwarded verbatim when the caller
+    // proposes one. Omitted, the upstream personal path falls back to its own default
+    // id — which is exactly the single-portfolio behaviour this adapter always had.
+    if (params.portfolioId !== undefined) payload.portfolioId = params.portfolioId;
     if (params.portfolioName !== undefined) payload.portfolioName = params.portfolioName;
     // Optional, personal-path addition (Program Authority, 2026-11-08): the first
     // batch of manual holdings rides the create in one transaction. Wire holdings

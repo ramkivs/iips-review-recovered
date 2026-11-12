@@ -132,6 +132,147 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Multi-portfolio layout
+ * ------------------------------------------------------------------ */
+
+/*
+ * Two columns: the portfolio list on the left, the editor for the selected portfolio on
+ * the right. `minmax(0, …)` on both tracks is load-bearing — without it a grid item's
+ * automatic minimum size is its content's, so a long portfolio name or the holdings
+ * table's own min-width would push the layout wider than the page and scroll it sideways.
+ */
+.pp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.pp-main {
+  display: block;
+  min-width: 0;
+}
+
+/* The list is a set of whole-row targets, not a prose list: no bullets, no markers. */
+.pp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pp-list-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-0);
+  overflow: hidden;
+}
+
+.pp-list-item--active {
+  border-color: var(--color-focus);
+  background: var(--color-surface-1);
+}
+
+/*
+ * The whole row is the control, so it is a real button: keyboard reachable, announced as
+ * a button, and its name is the portfolio's. It fills the item so there is no dead zone.
+ */
+.pp-list-select {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pp-list-select:disabled {
+  cursor: not-allowed;
+}
+
+.pp-list-select:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.pp-list-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+  /* Names are owner-supplied and unbounded in width; truncate rather than reflow. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pp-list-meta {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--color-ink-secondary);
+}
+
+.pp-list-id {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  color: var(--color-ink-secondary);
+}
+
+.pp-empty {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+}
+
+.pp-note {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* The create form's name field. */
+.pp-field {
+  margin-bottom: 12px;
+}
+
+.pp-field > label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+
+.pp-field--static {
+  font-size: 12px;
+}
+
+.pp-field--static code {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  word-break: break-all;
+}
+
+/* Below the desktop breakpoint the list stacks above the editor: selection is a
+   precursor to editing, not something to keep beside it on a narrow screen. */
+@media (max-width: 960px) {
+  .pp-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Stacked rows for narrow viewports
  * ------------------------------------------------------------------ */
 

@@ -51,6 +51,13 @@ export interface G2Scope {
  */
 export interface G2CreateParams {
   readonly scope: G2Scope;
+  /**
+   * Optional caller-proposed identifier. Omitted, the upstream personal path falls back
+   * to its own default id, which is why a multi-portfolio caller MUST supply one. The
+   * upstream decides admissibility and refuses an identifier that already exists or has
+   * been removed; nothing here generates, rewrites or reuses an identifier.
+   */
+  readonly portfolioId?: string;
   readonly portfolioName?: string;
   readonly holdings?: readonly G2HoldingInput[];
 }

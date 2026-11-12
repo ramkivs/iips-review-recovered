@@ -185,6 +185,53 @@ describe('Direct P1 user-portfolio HTTP composition', () => {
       expect(JSON.stringify(sent)).not.toContain('companyId');
     });
 
+    it('forwards a caller-proposed portfolioId to the port (multi-portfolio create)', async () => {
+      const port = recordingPort();
+      port.createPortfolio.mockResolvedValue(VIEW);
+      const result = await request('/api/user-portfolios', 'POST', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ portfolioId: 'PERSONAL-abc-123', portfolioName: 'Mine', holdings: HOLDINGS }),
+      });
+      expect(result.status).toBe(201);
+      expect(port.createPortfolio).toHaveBeenCalledWith({
+        scope: {},
+        portfolioId: 'PERSONAL-abc-123',
+        portfolioName: 'Mine',
+        holdings: expect.any(Array),
+      });
+    });
+
+    it('still creates without a portfolioId (the provider decides the identifier)', async () => {
+      const port = recordingPort();
+      port.createPortfolio.mockResolvedValue(VIEW);
+      await request('/api/user-portfolios', 'POST', {
+        port,
+        env: PERSONAL,
+        body: JSON.stringify({ portfolioName: 'Mine', holdings: HOLDINGS }),
+      });
+      const sent = port.createPortfolio.mock.calls[0][0] as Record<string, unknown>;
+      expect(sent.portfolioId).toBeUndefined();
+    });
+
+    it('refuses an inadmissible portfolioId rather than creating a different portfolio', async () => {
+      // The same shape check every other route applies (non-blank, trimmed, no path
+      // segment) plus a type check. Anything that passes is forwarded verbatim and left
+      // to the provider, which owns the authoritative identifier rules.
+      const port = recordingPort();
+      const bad: unknown[] = ['../escape', '', '   ', ' spaced ', 42, null, { id: 1 }, true];
+      for (const portfolioId of bad) {
+        port.createPortfolio.mockClear();
+        const result = await request('/api/user-portfolios', 'POST', {
+          port,
+          env: PERSONAL,
+          body: JSON.stringify({ portfolioId, portfolioName: 'Mine', holdings: HOLDINGS }),
+        });
+        expect(result.status).toBe(400);
+        expect(port.createPortfolio).not.toHaveBeenCalled();
+      }
+    });
+
     it('create refuses an empty batch before reaching the port', async () => {
       const port = recordingPort();
       const result = await request('/api/user-portfolios', 'POST', {

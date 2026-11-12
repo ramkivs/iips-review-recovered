@@ -603,8 +603,21 @@ async function parseJsonBody(res: Response): Promise<Record<string, unknown>> {
  * transaction (POST /api/user-portfolios → 201). Requires at least one holding —
  * the durable store has no empty-revision mode.
  */
+/**
+ * Creates one durable portfolio (POST /api/user-portfolios → 201).
+ *
+ * `portfolioId` is an optional caller-PROPOSED identifier. It is a proposal only: the
+ * server admits its shape and the provider accepts or refuses it. Omitted, the provider
+ * falls back to its own default id, so a multi-portfolio caller must always supply a
+ * fresh one. An identifier that already exists or has been removed is refused upstream
+ * (HTTP 400) and is never reused or recreated here.
+ */
 export async function createUserPortfolio(
-  input: { readonly portfolioName?: string; readonly holdings: readonly UserPortfolioHoldingInput[] },
+  input: {
+    readonly portfolioId?: string;
+    readonly portfolioName?: string;
+    readonly holdings: readonly UserPortfolioHoldingInput[];
+  },
   baseUrl = '',
 ): Promise<UserPortfolioView> {
   let res: Response;
@@ -613,6 +626,7 @@ export async function createUserPortfolio(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        ...(input.portfolioId !== undefined ? { portfolioId: input.portfolioId } : {}),
         ...(input.portfolioName !== undefined ? { portfolioName: input.portfolioName } : {}),
         holdings: holdingInputBody(input.holdings),
       }),
