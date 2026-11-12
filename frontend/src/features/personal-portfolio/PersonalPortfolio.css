@@ -1,0 +1,211 @@
+/**
+ * Personal Portfolio editor — page-specific layout for the editable holdings grid.
+ *
+ * This stylesheet is deliberately narrow. Everything shared — page shell, panels, summary
+ * figures, chips, notices, buttons, form-control chrome, surfaces, borders and elevations —
+ * comes from the shared broker-workspace layer (`components/broker/BrokerWorkspace.css`),
+ * which this file is loaded after so it can adjust without restating it.
+ *
+ * What is genuinely specific to this page is the holdings editor: a fixed-layout grid whose
+ * columns must stay aligned across an arbitrary number of rows, a checkbox aligned to its
+ * row's inputs, and a stacked fallback for narrow viewports. That is all this file defines.
+ *
+ * Every colour, radius and elevation resolves through the semantic tokens emitted by
+ * `core/theme`. No literal colour appears here, so the light and dark palettes are inherited.
+ */
+
+/* ------------------------------------------------------------------ *
+ * The editable holdings grid
+ * ------------------------------------------------------------------ */
+
+/*
+ * `table-layout: fixed` is what makes alignment structural rather than incidental: with it,
+ * column widths come from the colgroup alone, so every row lands on the same grid no matter
+ * how much text an input holds. Without it, a long symbol would reflow the whole table.
+ */
+.pp-table {
+  table-layout: fixed;
+}
+
+/*
+ * Shares of the row, not pixel widths: the grid stays proportional at every viewport and
+ * every row lands on the same columns. Quantity is given enough share to hold a four-figure
+ * price with its padding, which the previous fixed pixel widths did not guarantee.
+ */
+.pp-col-symbol { width: 24%; }
+.pp-col-quantity { width: 15%; }
+.pp-col-average { width: 18%; }
+.pp-col-current { width: 18%; }
+.pp-col-active { width: 8%; }
+.pp-col-actions { width: 17%; }
+
+/* A floor, so the columns can never be squeezed below a usable control. The wrapper
+   scrolls inside the panel before the page ever scrolls horizontally. */
+.pp-table {
+  min-width: 520px;
+}
+
+/* Overrides the shared table's top alignment: in an editable row every control must sit on
+   one baseline, so the row's contents centre against each other. */
+.pp-table tbody td {
+  vertical-align: middle;
+}
+
+.pp-table tbody tr:focus-within {
+  background: var(--color-surface-1);
+}
+
+.pp-input {
+  /* Fills its cell; the column, not the control, decides the width. */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* The symbol is an identifier: uppercase presentation only, never a value change. */
+.pp-input--symbol {
+  text-transform: uppercase;
+}
+
+.pp-input--symbol::placeholder {
+  text-transform: none;
+  font-weight: 400;
+}
+
+.pp-cell-active {
+  text-align: center;
+}
+
+.pp-check {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  /* Tokens, not literals: the native control takes its accent from the governed palette. */
+  accent-color: var(--color-focus);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.pp-check:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.pp-check:disabled {
+  cursor: not-allowed;
+}
+
+.pp-cell-actions {
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Action row and feedback
+ * ------------------------------------------------------------------ */
+
+.pp-actions {
+  /*
+   * Hierarchy: the additive action first, the primary commit action after it, and the
+   * destructive action last. On narrow viewports the group wraps and the order is kept.
+   */
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Save confirmation. Secondary to the ledger, so it reads as a receipt rather than an alert. */
+.pp-saved {
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-status-positive);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-1);
+  font-size: 13px;
+  color: var(--color-ink);
+}
+
+.pp-actions__feedback {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+}
+
+/* ------------------------------------------------------------------ *
+ * Stacked rows for narrow viewports
+ * ------------------------------------------------------------------ */
+
+/*
+ * Below this width the six columns cannot each hold a comfortably usable control, so each
+ * holding
+ * becomes its own labelled block. The column headers are hidden and each cell renders its
+ * own label from `data-label`, keeping every field named — the alignment guarantee moves
+ * from "columns line up" to "every field is labelled".
+ */
+@media (max-width: 960px) {
+  .pp-table,
+  .pp-table tbody,
+  .pp-table tr,
+  .pp-table td {
+    display: block;
+    width: 100%;
+  }
+
+  /* The desktop column floor must not survive the switch to stacked rows, or the block
+     table would keep its 520px minimum and scroll sideways inside the panel for no reason. */
+  .pp-table {
+    min-width: 0;
+  }
+
+  .pp-table thead {
+    display: none;
+  }
+
+  .pp-table tbody tr {
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    background: var(--color-surface-0);
+  }
+
+  .pp-table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .pp-table tbody td {
+    padding: 6px 0;
+    border-bottom: 0;
+  }
+
+  /* Two fields share a line where they fit; each keeps its own label. */
+  .pp-table tbody td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-ink-secondary);
+  }
+
+  .pp-cell-active {
+    text-align: left;
+  }
+
+  .pp-cell-active::before {
+    margin-bottom: 6px;
+  }
+
+  .pp-cell-actions {
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 4px;
+  }
+
+  /* The stacked block is not a hover target in the way a table row is. */
+  .pp-table tbody tr:hover {
+    background: var(--color-surface-0);
+  }
+}

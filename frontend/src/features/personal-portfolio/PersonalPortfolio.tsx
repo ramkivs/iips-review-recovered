@@ -21,6 +21,16 @@
  *   - Delete is deliberate: a confirm prompt tombstones the portfolio on IPD.
  *   - Manual entries are personal bookkeeping, not broker observations; identity
  *     is unresolved by construction and is never asserted here.
+ *
+ * PRESENTATION
+ *   This page renders through the same shared workspace layer as Broker Statement Import
+ *   and Broker Holdings, so the three read as one application: identical page header,
+ *   panels, summary figures, chips, notices, buttons and table treatment. The only
+ *   page-specific styling is the editable holdings grid in `PersonalPortfolio.css`.
+ *
+ *   Nothing below changes what is transmitted, validated or persisted. The field values,
+ *   the parse rules, the validation messages and the save/delete/reload semantics are
+ *   exactly as they were; only their presentation changed.
  */
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -34,7 +44,18 @@ import {
   type UserPortfolioView,
 } from '../../api/userPortfolios';
 import { LoadingState, ErrorState } from '../../components/state/StateComponents';
+import {
+  BrokerButton,
+  BrokerChip,
+  BrokerNotice,
+  BrokerPage,
+  BrokerPageHeader,
+  BrokerPanel,
+  BrokerSummary,
+  BrokerSummaryItem,
+} from '../../components/broker/BrokerWorkspace';
 import { formatInr, formatPct, shortDigest } from '../user-portfolios/UserPortfolioStates';
+import './PersonalPortfolio.css';
 
 const PERSONAL_PORTFOLIO_ID = 'DEFAULT_PORTFOLIO';
 const PERSONAL_PORTFOLIO_NAME = 'My Portfolio';
@@ -111,6 +132,15 @@ function parseRows(rows: readonly EditableRow[]): { holdings?: UserPortfolioHold
   }
   if (holdings.length === 0) return { error: 'Add at least one holding — a portfolio needs one row.' };
   return { holdings };
+}
+
+/** The one row-level action, aligned in its own column so it reads as part of the row. */
+function RowActions({ onRemove, disabled }: { readonly onRemove: () => void; readonly disabled: boolean }) {
+  return (
+    <BrokerButton variant="ghost" size="sm" aria-label="Remove row" onClick={onRemove} disabled={disabled}>
+      Remove
+    </BrokerButton>
+  );
 }
 
 export function PersonalPortfolio() {
@@ -259,125 +289,235 @@ export function PersonalPortfolio() {
     }
   };
 
-  if (status.kind === 'loading' && exists === null) {
-    return (
-      <section aria-label="Personal portfolio">
-        <h2>Personal Portfolio</h2>
-        <LoadingState />
-      </section>
-    );
-  }
-
   const saving = status.kind === 'saving' || status.kind === 'deleting';
   const fieldError = parsed.error;
 
-  return (
-    <section aria-label="Personal portfolio" data-testid="personal-portfolio">
-      <header style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
-        <h2 style={{ marginBottom: 4 }}>Personal Portfolio</h2>
-        <span style={{ fontSize: 13, color: 'var(--color-ink-secondary)' }}>
-          Durable, local, single-user. Manual entries are your own records — not broker statements.
-        </span>
-        <button type="button" onClick={() => void load()} disabled={saving} data-testid="pp-reload">
+  // The header is identical on every state of the page, so the Reload utility stays
+  // reachable and the page never loses its identity while data is in flight.
+  const header = (
+    <BrokerPageHeader
+      eyebrow="Manual records"
+      title="Personal Portfolio"
+      lede="Durable, local and single-user. Manual entries are your own records — not broker statements, and never resolved against the governed security master."
+      meta={[
+        <BrokerChip key="manual" label="MANUAL ENTRY" tone="informational" glyph="◇" />,
+        <BrokerChip key="identity" label="IDENTITY UNRESOLVED" tone="neutral" glyph="◆" />,
+        <BrokerButton key="reload" size="sm" data-testid="pp-reload" onClick={() => void load()} disabled={saving}>
           Reload
-        </button>
-      </header>
+        </BrokerButton>,
+      ]}
+    />
+  );
 
-      {status.kind === 'unavailable' ? (
-        <div role="alert" data-testid="pp-unavailable" style={{ margin: '12px 0', padding: 12, border: '1px solid var(--color-border, #ccc)', borderRadius: 6 }}>
-          <strong>Local persistence unavailable.</strong>
-          <p style={{ margin: '6px 0 0' }}>{status.message}</p>
-          {status.diagnosis && status.diagnosis.requiredSettings.length > 0 ? (
-            <p style={{ margin: '6px 0 0' }} data-testid="pp-required-settings">
-              Required server settings:{' '}
-              {status.diagnosis.requiredSettings.map((setting, index) => (
-                <span key={setting}>
-                  {index > 0 ? ', ' : ''}
-                  <code>{setting}</code>
-                </span>
-              ))}
-              . Start the IPD user-portfolio service and this server with them set (see
-              docs/LOCAL-PERSONAL-USE-PERSISTENCE.md), then Reload.
-            </p>
-          ) : null}
-          <p style={{ margin: '6px 0 0', fontSize: 13, color: 'var(--color-ink-secondary)' }}>
-            Your saved portfolio has not been changed or deleted. This is a configuration state,
-            not an empty portfolio.
+  if (status.kind === 'loading' && exists === null) {
+    return (
+      <BrokerPage>
+        <section aria-label="Personal portfolio" data-testid="personal-portfolio">
+          {header}
+          <BrokerPanel title="Holdings" hint="Reading the durable portfolio from IPD.">
+            <LoadingState />
+          </BrokerPanel>
+        </section>
+      </BrokerPage>
+    );
+  }
+
+  return (
+    <BrokerPage>
+      <section aria-label="Personal portfolio" data-testid="personal-portfolio">
+        {header}
+
+        {status.kind === 'unavailable' ? (
+          <BrokerNotice tone="critical" alert title="Local persistence unavailable">
+            <div data-testid="pp-unavailable">
+              <p>{status.message}</p>
+              {status.diagnosis && status.diagnosis.requiredSettings.length > 0 ? (
+                <p data-testid="pp-required-settings">
+                  Required server settings:{' '}
+                  {status.diagnosis.requiredSettings.map((setting, index) => (
+                    <span key={setting}>
+                      {index > 0 ? ', ' : ''}
+                      <code>{setting}</code>
+                    </span>
+                  ))}
+                  . Start the IPD user-portfolio service and this server with them set (see
+                  docs/LOCAL-PERSONAL-USE-PERSISTENCE.md), then Reload.
+                </p>
+              ) : null}
+              <p className="bw-muted">
+                Your saved portfolio has not been changed or deleted. This is a configuration state,
+                not an empty portfolio.
+              </p>
+            </div>
+          </BrokerNotice>
+        ) : null}
+
+        {status.kind === 'conflict' ? (
+          <BrokerNotice tone="critical" alert title="Portfolio changed elsewhere">
+            <div data-testid="pp-conflict">
+              <p>Your edits were NOT saved. Reload to fetch the current portfolio, then re-apply your changes.</p>
+              <div className="bw-actions">
+                <BrokerButton size="sm" onClick={() => void load()}>Reload</BrokerButton>
+              </div>
+            </div>
+          </BrokerNotice>
+        ) : null}
+
+        {status.kind === 'error' ? <ErrorState message={status.message} /> : null}
+
+        {status.kind === 'saved' ? (
+          <p role="status" data-testid="pp-saved" className="pp-saved">
+            Saved at {new Date(status.savedAt).toLocaleString()} — revision {view?.revision}.
           </p>
-        </div>
-      ) : null}
+        ) : null}
 
-      {status.kind === 'conflict' ? (
-        <div role="alert" data-testid="pp-conflict" style={{ margin: '12px 0', padding: 12, border: '1px solid #b3261e', borderRadius: 6 }}>
-          <strong>Portfolio changed elsewhere.</strong>
-          <p style={{ margin: '6px 0' }}>Your edits were NOT saved. Reload to fetch the current portfolio, then re-apply your changes.</p>
-          <button type="button" onClick={() => void load()}>Reload</button>
-        </div>
-      ) : null}
-
-      {status.kind === 'error' ? <ErrorState message={status.message} /> : null}
-      {status.kind === 'saved' ? (
-        <p role="status" data-testid="pp-saved" style={{ margin: '8px 0', color: 'var(--color-ink-secondary)' }}>
-          Saved at {new Date(status.savedAt).toLocaleString()} — revision {view?.revision}.
-        </p>
-      ) : null}
-
-      {exists !== null ? (
-        <>
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 8 }}>
-            <thead>
-              <tr>
-                <th align="left">Symbol</th>
-                <th align="right">Quantity</th>
-                <th align="right">Avg. buy (₹)</th>
-                <th align="right">Current (₹)</th>
-                <th align="center">Active</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.key}>
-                  <td><input aria-label="Symbol" style={{ width: 120 }} value={row.symbol} onChange={(e) => updateRow(row.key, { symbol: e.target.value })} placeholder="RELIANCE" /></td>
-                  <td><input aria-label="Quantity" style={{ width: 90, textAlign: 'right' }} inputMode="decimal" value={row.quantity} onChange={(e) => updateRow(row.key, { quantity: e.target.value })} /></td>
-                  <td><input aria-label="Average buy price" style={{ width: 110, textAlign: 'right' }} inputMode="decimal" value={row.averageBuyPrice} onChange={(e) => updateRow(row.key, { averageBuyPrice: e.target.value })} /></td>
-                  <td><input aria-label="Current price" style={{ width: 110, textAlign: 'right' }} inputMode="decimal" value={row.currentPrice} onChange={(e) => updateRow(row.key, { currentPrice: e.target.value })} /></td>
-                  <td align="center"><input aria-label="Active" type="checkbox" checked={row.active} onChange={(e) => updateRow(row.key, { active: e.target.checked })} /></td>
-                  <td><button type="button" aria-label="Remove row" onClick={() => removeRow(row.key)} disabled={rows.length <= 1 || saving}>Remove</button></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 10, flexWrap: 'wrap' }}>
-            <button type="button" onClick={addRow} disabled={saving}>Add row</button>
-            <button
-              type="button"
-              onClick={() => void onSave()}
-              disabled={saving || fieldError !== undefined}
-              data-testid="pp-save"
+        {exists !== null ? (
+          <>
+            <BrokerPanel
+              eyebrow="Editor"
+              title="Holdings"
+              hint="Every row is one holding you entered yourself. Quantity, average buy price and current price are your own figures — nothing here is validated against a broker statement or a market feed."
+              aside={<BrokerChip label={`${rows.length} ${rows.length === 1 ? 'ROW' : 'ROWS'}`} tone="neutral" glyph="#" />}
+              tight
             >
-              {status.kind === 'saving' ? 'Saving…' : exists ? 'Save changes' : 'Create portfolio'}
-            </button>
-            {exists ? (
-              <button type="button" onClick={() => void onDelete()} disabled={saving} data-testid="pp-delete">Delete portfolio…</button>
-            ) : null}
-            {fieldError !== undefined ? (
-              <span role="note" style={{ fontSize: 13, color: '#b3261e' }}>{fieldError}</span>
-            ) : null}
-          </div>
+              <div className="bw-table-wrap">
+                <table className="bw-table pp-table">
+                  <caption>
+                    Holdings — symbol, quantity, average buy price, current price, active state and row actions
+                  </caption>
+                  <colgroup>
+                    <col className="pp-col-symbol" />
+                    <col className="pp-col-quantity" />
+                    <col className="pp-col-average" />
+                    <col className="pp-col-current" />
+                    <col className="pp-col-active" />
+                    <col className="pp-col-actions" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">Symbol</th>
+                      <th scope="col" className="bw-num">Quantity</th>
+                      <th scope="col" className="bw-num">Average buy price</th>
+                      <th scope="col" className="bw-num">Current price</th>
+                      <th scope="col" className="pp-cell-active">Active</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((row) => (
+                      <tr key={row.key} data-pp-row>
+                        <td data-label="Symbol">
+                          <input
+                            className="bw-control pp-input pp-input--symbol"
+                            aria-label="Symbol"
+                            value={row.symbol}
+                            placeholder="RELIANCE"
+                            disabled={saving}
+                            onChange={(e) => updateRow(row.key, { symbol: e.target.value })}
+                          />
+                        </td>
+                        <td data-label="Quantity">
+                          <input
+                            className="bw-control pp-input bw-num"
+                            aria-label="Quantity"
+                            inputMode="decimal"
+                            value={row.quantity}
+                            disabled={saving}
+                            onChange={(e) => updateRow(row.key, { quantity: e.target.value })}
+                          />
+                        </td>
+                        <td data-label="Average buy price">
+                          <input
+                            className="bw-control pp-input bw-num"
+                            aria-label="Average buy price"
+                            inputMode="decimal"
+                            value={row.averageBuyPrice}
+                            disabled={saving}
+                            onChange={(e) => updateRow(row.key, { averageBuyPrice: e.target.value })}
+                          />
+                        </td>
+                        <td data-label="Current price">
+                          <input
+                            className="bw-control pp-input bw-num"
+                            aria-label="Current price"
+                            inputMode="decimal"
+                            value={row.currentPrice}
+                            disabled={saving}
+                            onChange={(e) => updateRow(row.key, { currentPrice: e.target.value })}
+                          />
+                        </td>
+                        <td data-label="Active" className="pp-cell-active">
+                          <input
+                            className="pp-check"
+                            aria-label="Active"
+                            type="checkbox"
+                            checked={row.active}
+                            disabled={saving}
+                            onChange={(e) => updateRow(row.key, { active: e.target.checked })}
+                          />
+                        </td>
+                        <td data-label="Actions" className="pp-cell-actions">
+                          <RowActions onRemove={() => removeRow(row.key)} disabled={rows.length <= 1 || saving} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-          {view !== null ? (
-            <dl data-testid="pp-summary" style={{ display: 'flex', gap: 24, flexWrap: 'wrap', marginTop: 16 }}>
-              <div><dt style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>Total value</dt><dd style={{ margin: 0 }}>{formatInr(view.totalMarketValue)}</dd></div>
-              <div><dt style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>Holdings</dt><dd style={{ margin: 0 }}>{view.totalHoldingsCount}</dd></div>
-              <div><dt style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>Weights</dt><dd style={{ margin: 0 }}>{formatPct(view.weightSumPercentage)}</dd></div>
-              <div><dt style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>Revision</dt><dd style={{ margin: 0 }} data-testid="pp-revision">{view.revision}</dd></div>
-              <div><dt style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>Provenance</dt><dd style={{ margin: 0 }}>{shortDigest(view.provenanceDigest)}</dd></div>
-            </dl>
-          ) : null}
-        </>
-      ) : null}
-    </section>
+              {/*
+                * Client-side validation. Deliberately not a live region: it is derived from the
+                * rows on every keystroke, so announcing it would interrupt the owner on each
+                * character. It sits directly above the action it blocks, and the blocked control
+                * carries the same state through `disabled`.
+                */}
+              {fieldError !== undefined ? (
+                <BrokerNotice tone="warning" title="This portfolio cannot be saved yet">
+                  <p data-testid="pp-validation">{fieldError}</p>
+                </BrokerNotice>
+              ) : null}
+
+              <div className="bw-actions pp-actions">
+                <BrokerButton onClick={addRow} disabled={saving}>Add row</BrokerButton>
+                <BrokerButton
+                  variant="primary"
+                  onClick={() => void onSave()}
+                  disabled={saving || fieldError !== undefined}
+                  data-testid="pp-save"
+                >
+                  {status.kind === 'saving' ? 'Saving…' : exists ? 'Save changes' : 'Create portfolio'}
+                </BrokerButton>
+                {exists ? (
+                  <BrokerButton onClick={() => void onDelete()} disabled={saving} data-testid="pp-delete">
+                    Delete portfolio…
+                  </BrokerButton>
+                ) : null}
+                {fieldError !== undefined ? (
+                  <p className="pp-actions__feedback">
+                    Saving is disabled until the rows above are valid.
+                  </p>
+                ) : null}
+              </div>
+            </BrokerPanel>
+
+            {view !== null ? (
+              <BrokerPanel eyebrow="Portfolio" title="Summary" hint="Read back from IPD after the last save." secondary tight>
+                {/* The testid the summary strip has always carried, kept on a wrapper so the
+                    shared summary component stays generic. */}
+                <div data-testid="pp-summary">
+                  <BrokerSummary>
+                    <BrokerSummaryItem label="Total value" value={formatInr(view.totalMarketValue)} sub="as computed by IPD" />
+                    <BrokerSummaryItem label="Holdings" value={view.totalHoldingsCount} sub="stored rows" />
+                    <BrokerSummaryItem label="Weights" value={formatPct(view.weightSumPercentage)} sub="of total value" />
+                    <BrokerSummaryItem label="Revision" value={<span data-testid="pp-revision">{view.revision}</span>} sub="optimistic-concurrency guard" />
+                    <BrokerSummaryItem label="Provenance" value={shortDigest(view.provenanceDigest)} sub="content digest" />
+                  </BrokerSummary>
+                </div>
+              </BrokerPanel>
+            ) : null}
+          </>
+        ) : null}
+      </section>
+    </BrokerPage>
   );
 }
