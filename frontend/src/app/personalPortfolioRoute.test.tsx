@@ -14,7 +14,7 @@ import { App } from './App';
 import { NAV } from './navigation';
 
 const PORTFOLIO_FIXTURE = {
-  portfolioId: 'DEFAULT_PORTFOLIO',
+  portfolioId: 'PERSONAL-11111111-2222-3333-4444-555555555555',
   portfolioName: 'My Portfolio',
   revision: 1,
   holdings: [
@@ -45,9 +45,23 @@ const PORTFOLIO_FIXTURE = {
 beforeEach(() => {
   globalThis.fetch = vi.fn((input: RequestInfo | URL) => {
     const url = String(input);
-    const body = url.startsWith('/api/user-portfolios')
-      ? { portfolio: PORTFOLIO_FIXTURE }
-      : { portfolios: [] };
+    // The list is the entry point; the detail read is keyed to whatever the list holds,
+    // never to a hard-coded identifier.
+    const body = url === '/api/user-portfolios'
+      ? {
+          portfolios: [{
+            portfolioId: PORTFOLIO_FIXTURE.portfolioId,
+            portfolioName: PORTFOLIO_FIXTURE.portfolioName,
+            revision: PORTFOLIO_FIXTURE.revision,
+            totalMarketValue: PORTFOLIO_FIXTURE.totalMarketValue,
+            totalHoldingsCount: PORTFOLIO_FIXTURE.totalHoldingsCount,
+            weightSumPercentage: PORTFOLIO_FIXTURE.weightSumPercentage,
+            lastUpdated: PORTFOLIO_FIXTURE.lastUpdated,
+            provenanceDigest: PORTFOLIO_FIXTURE.provenanceDigest,
+            isSaved: PORTFOLIO_FIXTURE.isSaved,
+          }],
+        }
+      : { portfolio: PORTFOLIO_FIXTURE };
     return Promise.resolve({ ok: true, status: 200, json: async () => body } as Response);
   }) as typeof fetch;
 });
@@ -93,12 +107,17 @@ describe('Personal Portfolio route and navigation', () => {
     expect(screen.getByRole('heading', { name: 'Personal Portfolio' })).toBeInTheDocument();
   });
 
-  it('reads the durable portfolio from the server on open (no client-side default)', async () => {
+  it('reads the portfolio list, then the selected portfolio from the server (no client-side default)', async () => {
     renderAt('/personal-portfolio');
-    await screen.findByTestId('personal-portfolio');
+    // Wait for the selected portfolio's holdings: the detail read is what proves the
+    // page is driven by the list rather than by a hard-coded identifier.
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
     const calls = (globalThis.fetch as unknown as ReturnType<typeof vi.fn>).mock.calls;
     const urls = calls.map((call) => String(call[0]));
-    expect(urls).toContain('/api/user-portfolios/DEFAULT_PORTFOLIO');
+    expect(urls).toContain('/api/user-portfolios');
+    expect(urls).toContain(`/api/user-portfolios/${PORTFOLIO_FIXTURE.portfolioId}`);
+    // The retired fixed identifier is never addressed.
+    expect(urls).not.toContain('/api/user-portfolios/DEFAULT_PORTFOLIO');
   });
 
   it('does not disturb the certified read-only user-portfolio route', async () => {

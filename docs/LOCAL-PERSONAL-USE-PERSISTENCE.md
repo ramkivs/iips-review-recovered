@@ -26,7 +26,7 @@ When set, the existing `/api/user-portfolios*` transport additionally admits:
 
 | Route | Method | Body | Result |
 |---|---|---|---|
-| `/api/user-portfolios` | POST | `{ portfolioName?, holdings: [1..200] }` | `201 { portfolio }` |
+| `/api/user-portfolios` | POST | `{ portfolioId?, portfolioName?, holdings: [1..200] }` | `201 { portfolio }` |
 | `/api/user-portfolios/:portfolioId/holdings` | PUT | `{ holdings: [1..200], expectedRevision (required, integer ≥ 0), options?: { mode?: 'MERGE'\|'REPLACE' } }` | `200 G2SaveResult` |
 | `/api/user-portfolios/:portfolioId` | DELETE | `{ expectedRevision (required) }` | `200 { portfolioId, deletedAt }` |
 
@@ -65,27 +65,38 @@ Route `/personal-portfolio` (`src/features/personal-portfolio/PersonalPortfolio.
 nav label **Personal Portfolio**. Deliberately separate from the certified
 read-only user-portfolio surfaces. Behavior:
 
-**Creation is explicit and provider-arbitrated.** A detail 404 deliberately conflates
-missing, foreign, tenant-mismatched and tombstoned records; an empty active-only list is
-no proof that the identifier has never existed. A 404 therefore authorises nothing, and
-the editor never creates a portfolio automatically — but it is also not a dead end. While
-the identifier is unresolved the owner is offered an explicit **Create portfolio** action.
-Creation is arbitrated by the provider, not guessed at by the client:
+**Multiple independent portfolios.** The surface is no longer built around one fixed
+identifier. Any number of manual portfolios coexist; each is created with a fresh,
+caller-**proposed** identifier of the form `PERSONAL-<uuid>`, because the provider's
+personal create path falls back to its own default id when none is supplied — the
+behaviour that made a single hard-coded portfolio the only possible outcome. Each
+portfolio carries its own holdings, its own revision history and its own ownership,
+resolved by IPD from the binding.
 
-- the editor re-reads immediately before creating and **adopts** any portfolio that
-  answers, so an existing portfolio is never overwritten;
-- the provider independently refuses a duplicate or tombstoned identifier (HTTP 400),
-  and that refusal is obeyed and recorded as a known tombstone — the offer is then
-  withdrawn for the lifetime of the page;
-- after a delete performed by this page the identifier is known-removed, and no creation
-  is offered at all;
-- an unavailable service (HTTP 503) is a configuration state, never an empty portfolio,
-  and offers no creation.
+**Identifier space and broker-import separation.** Personal portfolios own the
+`PERSONAL-` prefix. Portfolios created by other channels — broker import in particular
+(`DHAN_PORTFOLIO` and its siblings) — do not carry it, so the manager never lists,
+opens, edits or deletes them; it reports how many such portfolios exist on the binding
+and leaves them untouched. The separation is therefore by identifier, without this page
+having to open portfolios it does not own.
 
-Do not recreate or restore an existing identifier to work around a 404. If a portfolio
-you saved comes back as not found, treat it as a read/configuration problem first: check
-the persistence directory (`IIPS_DATA_DIR`, or `.iips-data` under the server's working
-directory) and the IPD owner binding.
+**The retired `DEFAULT_PORTFOLIO`.** It is never created, never addressed and never
+reused. It was removed, and the provider refuses to re-create a removed identifier.
+
+**Creation is explicit and provider-arbitrated.** A create proposes a fresh identifier
+and lets the provider decide: a duplicate or removed identifier is refused with HTTP 400
+and the refusal is obeyed and surfaced, never retried against the same identifier.
+Creating after a delete therefore works without weakening tombstone protection — the
+removed identifier stays refused forever, and the new portfolio proposes one that has
+never existed. Deleting one portfolio never disturbs another.
+
+> **Endpoint constraint (IPD C5.4).** The IPC endpoint admits **one connection at a
+> time**; a second connection opened while another is being served is dropped before the
+> server sees it, and the transport reports it as `503` — indistinguishable from a
+> genuinely unavailable service. Two portfolio reads (list and detail) naturally
+> coincide, so every provider call from this surface is chained through a single queue.
+> Any future caller that issues overlapping IPC calls will see spurious 503s; serialise
+> at the caller, do not raise the provider's limit.
 
 A full, admissible detail read is required before editing or REPLACE. Rejected holdings
 or contributions block the editor; stale reads are ignored and writes are single-flight.
@@ -123,8 +134,8 @@ There are three genuinely different states and they now render differently on
 
 | State | Transport | Personal Portfolio | User Portfolios |
 |---|---|---|---|
-| Not found / inaccessible / tombstoned | `404` on the fixed id (indistinguishable) | reported as unresolved; explicit **Create portfolio** offered and arbitrated by the provider | `No durable portfolios yet` may describe an empty active list, not lifecycle history |
-| Known removed | `400` on create, or a delete by this page | creation withdrawn; the identifier is never recreated | — |
+| Selected portfolio not found | `404` on the selected id | selection dropped, list re-read; nothing is edited against a portfolio that no longer exists | `No durable portfolios yet` may describe an empty active list, not lifecycle history |
+| Create refused (duplicate or removed id) | `400` on create | the provider's refusal is surfaced verbatim; the identifier is not retried | — |
 | Unavailable (fail closed) | `503` + `detail.unavailableReason` | banner naming the missing setting(s) | unavailable state + the same diagnosis |
 | Populated | `200` | rows from the durable view | the portfolio row |
 
