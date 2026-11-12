@@ -1,0 +1,19 @@
+
+ RUN  v2.1.9 /home/user/iips-review-recovered/frontend
+
+stderr | ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 1. creates a genuinely new portfolio through the editor and adopts the provider revision
+
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 1. creates a genuinely new portfolio through the editor and adopts the provider revision 404ms
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 2. the existing portfolio loads with its revision and holdings intact
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 3. editing and saving increments the revision and preserves the holdings
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 4. a reload re-reads the saved revision rather than a stale baseline
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 5. adding and removing rows round-trip through the provider
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 6. deleting tombstones the identifier: creation is no longer offered
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 7. the provider does not silently re-create the tombstoned identifier
+ ✓ ../evidence/integration/personal-portfolio-lifecycle-regression-2026-11-12/liveLifecycle.e2e.test.tsx > Personal Portfolio — live provider lifecycle (real IPD + real transport) > 8. an inaccessible service offers no creation at all
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  07:47:24
+   Duration  1.95s (transform 247ms, setup 132ms, collect 314ms, tests 932ms, environment 366ms, prepare 58ms)
+
