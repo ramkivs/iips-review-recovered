@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 2,
+  "bundle": "HEAD-REVALIDATION-INFOSYS-2026-11-12",
+  "workItem": "WI-13",
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "securityId": "IN:ISIN:INE009A01021",
+  "baseCommit": "a835d4af019ab4f677ab238ec42d44326f06a771",
+  "digestAlgorithm": "sha256",
+  "excluded": [
+    "README.md",
+    "digests.json"
+  ],
+  "chain": [
+    {
+      "artifactVersion": 1,
+      "reportId": "d9e2212a-ae7e-4df4-a47c-cf8c54aa82b0",
+      "payloadDigest": "18f5ccb60533535de5b9c8be034a7d16499a3b60d5899f672d4320317dbdc85d",
+      "payloadFile": "artifact/assessment-payload-head.json",
+      "inputDigest": "sha256:db46d36c5b0ef92717d35118b4003e7e43fa55267808d41cf006193d20e9a4ef",
+      "reportKey": "ed1e54b03e5eb5872f3e77bc467859a4e73bfb14a62417a51d7357604e78a681"
+    }
+  ],
+  "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+  "revalidation": {
+    "runs": [
+      {
+        "name": "head-clock",
+        "generatedAt": "2026-11-12T09:00:00.000Z",
+        "listingId": "IN:NSE:INFY:EQ:EQUITY",
+        "bindingId": "sha256:63180b5983b320b3a656f003b31465f71102bf5360c062caae095cee4b39b5b2",
+        "confidence": 0.4378,
+        "limitationCount": 8,
+        "payloadDigest": "18f5ccb60533535de5b9c8be034a7d16499a3b60d5899f672d4320317dbdc85d",
+        "payloadBytes": 55573
+      },
+      {
+        "name": "same-instant",
+        "generatedAt": "2026-11-06T14:05:00.000Z",
+        "listingId": "IN:NSE:INFY:EQ:EQUITY",
+        "bindingId": "sha256:e6f80fa2aced01c1efaae36285e730c47cfbf2e15a8bec13e430d67658dbb781",
+        "confidence": 0.4378,
+        "limitationCount": 8,
+        "payloadDigest": "c7ae0ba3741f48bde0af71bbb1c2c7b6ce58f6d52d68732beb9a3565cab35e6c"
+      },
+      {
+        "name": "wi3-recorded",
+        "baseCommit": "accf9c1",
+        "listingId": "IN:BSE:500209:EQ:EQUITY",
+        "bindingId": "sha256:865fab31da57638feb2c1f5571d2f7ec…",
+        "confidence": 0.6736,
+        "limitationCount": 5,
+        "payloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+        "payloadBytes": 51196
+      }
+    ],
+    "independentRecomputation": {
+      "datasetReproduced": true,
+      "intrinsicPerShare": [
+        875.34,
+        1088.97,
+        1399.81
+      ],
+      "marginOfSafety": -0.08418738213693565,
+      "band": "FAIR",
+      "price": 1180.65,
+      "confidence": 0.4378,
+      "confidenceDerivation": "0.6736 × 0.65 (L-034 authorised aggregate reduction 0.35)"
+    },
+    "diffVsWi3": {
+      "changedPaths": 14,
+      "unattributed": 0,
+      "causes": [
+        "RUN_CLOCK",
+        "IDENTITY_LISTING_NARROWING",
+        "IX_AUTHORIZED_POLICY",
+        "ASSOCIATES_JV_DISCLOSURE",
+        "combinations"
+      ]
+    },
+    "bindingIdIsolation": "head vs same-instant differ ONLY by run clock; same-instant vs WI-3 differ ONLY by the a54591e listing-narrowing (BSE→NSE leg)"
+  },
+  "defects": {
+    "A": {
+      "id": "L-002/L-003 notice",
+      "disposition": "CORRECTED (narrow, digest-neutral)",
+      "detail": "reader-facing count derived from code; register §2 prose '20' flagged for owner, not edited"
+    },
+    "B": {
+      "id": "L-041",
+      "disposition": "OPEN (recorded, not corrected)",
+      "detail": "two dataset classifiers disagree; contract decision for read-model owner"
+    },
+    "C": {
+      "id": "L-042",
+      "disposition": "OPEN (demonstrated, reverted, recorded)",
+      "detail": "EV basis label names only net debt; correcting it re-baselines L-014 C1–C5 + AC-L14"
+    }
+  },
+  "baselines": {
+    "platformTsc": 0,
+    "platformTestIid": "807/807",
+    "frontendTypecheck": 0,
+    "frontendInvestmentServerTypecheck": 0,
+    "frontendVitestServerInvestment": "359/359",
+    "acX2ZeroSocketAttempts": 0
+  },
+  "inputs": {
+    "note": "RE-VALIDATION consumed these committed bytes in place (runs/01 ingests from WI-3/ingest-input; runs/commands.txt §2 copies WI-3/identity and REL-1 owner-carrier). They are pinned here, not duplicated, so the bundle cannot drift from the committed evidence. Every path is git-tracked at the base commit (runs/07-input-integrity.txt).",
+    "ingestInput": {
+      "periods.csv": {
+        "sha256": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c",
+        "bytes": 2035,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/periods.csv"
+      },
+      "prices.json": {
+        "sha256": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c",
+        "bytes": 341,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/prices.json"
+      },
+      "roster.json": {
+        "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+        "bytes": 1157,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/roster.json"
+      }
+    },
+    "identity": {
+      "corporate-actions.json": {
+        "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+        "bytes": 70,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/identity/corporate-actions.json"
+      },
+      "eligible-roster.json": {
+        "sha256": "f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065",
+        "bytes": 755,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/identity/eligible-roster.json"
+      },
+      "listing-map.json": {
+        "sha256": "5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507",
+        "bytes": 948,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/identity/listing-map.json"
+      }
+    },
+    "ownerCarrier": {
+      "sha256": "b1b78809d1c8d05800b338f73082b4269e6c9fa65b8f35192f4736d6f1a98640",
+      "bytes": 384,
+      "committedAt": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json"
+    },
+    "datasetContentFiles": {
+      "corporateActions.json": {
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 3,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/corporateActions.json"
+      },
+      "issuers.json": {
+        "sha256": "a5c964c83a3c74b482165000fa0f5d4d5aaa6ee186beba4f27d0d581fa82fa34",
+        "bytes": 238,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/issuers.json"
+      },
+      "issues.json": {
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 3,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/issues.json"
+      },
+      "listings.json": {
+        "sha256": "515bae232bdfbbd7b5637aa1ced8253ea44a4318e2e3d6f9a633e010ca25eaa2",
+        "bytes": 601,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/listings.json"
+      },
+      "operatingMetrics.json": {
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "bytes": 3,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/operatingMetrics.json"
+      },
+      "periods.json": {
+        "sha256": "11d4787bd21d4812488b5514028091edc6f209be21b9bcdfe654ccd04576d7ab",
+        "bytes": 44584,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/periods.json"
+      },
+      "prices.json": {
+        "sha256": "a72eb0fd30d7874ba7e0842d8b8dc97bac76acbc336257094916610054c6b3ef",
+        "bytes": 303,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/prices.json"
+      },
+      "securities.json": {
+        "sha256": "2722930e81b7c89931409d456bf25182de68aad554004af6ccb4b9b63af1db5c",
+        "bytes": 187,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/securities.json"
+      },
+      "coverage-report.json": {
+        "sha256": "ce97789e45ee4fdae3ce81671de12a634f9231def573898cb589af0bbe7b0452",
+        "bytes": 19447,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/coverage-report.json"
+      }
+    },
+    "datasetManifestNote": "WI-3 committed dataset/manifest.json sha256 c8d0e3665ea4cbf36f79768b06084a8dbb60f555e7ac9d101ee70ea24635412d ; the re-ingested manifest differs only by an out-of-digestScope sourceRights block (sandbox abs path), so datasetVersion 21cf2522… is unchanged. The re-ingested manifest is recorded in runs/07 and left in /tmp/riv2, not committed.",
+    "sourceExtracts": {
+      "consol-fy24-note-2.11-liquidity-risk.txt": {
+        "sha256": "8f06dd15c98f08a88d0be6b403547b207a05076af8efc0866fad53f6683cfa08",
+        "bytes": 2174,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/consol-fy24-note-2.11-liquidity-risk.txt"
+      },
+      "consol-fy24-note-2.12-equity-share-capital.txt": {
+        "sha256": "7745be8092e3d0e75869dcdbf7b46293b8f187ff97d00cd0a1566f224e82d277",
+        "bytes": 3021,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/consol-fy24-note-2.12-equity-share-capital.txt"
+      },
+      "consol-fy24-note-2.9-cash-restricted.txt": {
+        "sha256": "9f5b035873efe0a7beee97d1b3daad911bfa914fe4564e5c532e78dd58756a37",
+        "bytes": 1143,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/consol-fy24-note-2.9-cash-restricted.txt"
+      },
+      "quotes.json": {
+        "sha256": "364aa0a1d5b022046755b2d7c771ae23a3b558c2af4c558085e6d65014ae6c33",
+        "bytes": 11384,
+        "committedAt": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/quotes.json"
+      }
+    }
+  },
+  "fileCount": 18,
+  "files": {
+    "artifact/assessment-payload-head.json": {
+      "sha256": "18f5ccb60533535de5b9c8be034a7d16499a3b60d5899f672d4320317dbdc85d",
+      "bytes": 55573
+    },
+    "artifact/payload-diff-vs-wi3.json": {
+      "sha256": "a24be9470f50fca51d1825c9c7c69a4ee1315ea962170ee1ab6ddf4628ad3e26",
+      "bytes": 11562
+    },
+    "findings/A-STALE-LIMITATION-COUNTS.md": {
+      "sha256": "ffe219ce78fc28cf734738dd06f8466883c7a79f167b8db40b8237a0730aa363",
+      "bytes": 5049
+    },
+    "findings/B-DATASET-CLASS-DIVERGENCE.md": {
+      "sha256": "8f820af19aa3d40e20cabc929fe4ea0d117c8c7293da76243419cbda710d93f2",
+      "bytes": 4313
+    },
+    "findings/C-EV-BASIS-BRIDGE.md": {
+      "sha256": "a344c1551eff103edbec3b7291e5bfe8343955ad6bbab57bf7b56657c3d69a62",
+      "bytes": 6841
+    },
+    "runs/01-ingest.txt": {
+      "sha256": "112466537601f509591a8942415ae601bb9d7428723c9bbf060634f3b890e090",
+      "bytes": 1922
+    },
+    "runs/02-generate-head-clock.txt": {
+      "sha256": "4d2a07d1bc741c6959c45ac92032f4165bd4b83334d34dc9d30f85cc75991d30",
+      "bytes": 6309
+    },
+    "runs/03-generate-sameclock.txt": {
+      "sha256": "03205ed774605dcb778ffa6c3f86ce859bde7d698ee259c2fb65cddd3c82fe66",
+      "bytes": 6860
+    },
+    "runs/04-read-back-head.txt": {
+      "sha256": "032c422c3ca69695d40906c1f1df73dad0a42694016a80dd3407cd6eb453de76",
+      "bytes": 1567
+    },
+    "runs/05-riv-generator.txt": {
+      "sha256": "8b009173819369af6865d470117fa9cf34d25c54cd146e96a83148f9ec370410",
+      "bytes": 2230
+    },
+    "runs/06-baselines.txt": {
+      "sha256": "54dc813c073c48505e4a6063cc77eba008af0e8d1825bb7a247297962298382b",
+      "bytes": 1505
+    },
+    "runs/07-input-integrity.txt": {
+      "sha256": "38d7a7da51b68806954f6c20199b2ed8ccc46bc72a7527cd1473af14f4214c33",
+      "bytes": 5036
+    },
+    "runs/cli-head-sameclock.json": {
+      "sha256": "a4a59c05fcd98528596b99a19f000591b88ef01686e47ce30b84793c25a34c8e",
+      "bytes": 4802
+    },
+    "runs/cli-head.json": {
+      "sha256": "0d11dec0f4aafc3498a010d2a9d7fb8be6006d9c9941c3d14fff3af6f841a477",
+      "bytes": 4802
+    },
+    "runs/commands.txt": {
+      "sha256": "e64c9393d07d446919c534f438af13d324bfce3eb3d7d1d323ef03fb9a0ea61b",
+      "bytes": 7498
+    },
+    "verification/dataset-class-divergence.json": {
+      "sha256": "ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477",
+      "bytes": 2257
+    },
+    "verification/independent-recomputation.json": {
+      "sha256": "ca6a1e8d51aa2119c01def4f8b28c2604e1a87f63672bfff376297d38e6b9f8d",
+      "bytes": 25653
+    },
+    "verification/mapping-census.json": {
+      "sha256": "c084c30a9fe287cdd1d4cadfd56ac4c6f34fbefa7b7c6c2323a9de3a16c2d3e6",
+      "bytes": 3496
+    }
+  }
+}

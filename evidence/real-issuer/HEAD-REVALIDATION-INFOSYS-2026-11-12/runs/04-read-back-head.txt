@@ -1,0 +1,20 @@
+# RIV head re-validation — 04 independent read-back of the persisted head payload
+# Reads the canonical payload a separate generate process persisted, writes it verbatim, and proves the bytes
+# still hash to the digest recorded on the version. This is the payload the RIV generator recomputes against.
+$ IIPS_NP04_DATABASE_PATH=/tmp/riv2/data/investment/investment.db npx tsx server/investment/cli/read-investment-payload.ts \
+    --issuer IN:CIN:L85110KA1981PLC013115 --db /tmp/riv2/data/investment/investment.db \
+    --owner-carrier /tmp/riv2/owner.json --out ../evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/artifact/assessment-payload-head.json
+
+OK  read-back  scope co:IN:CIN:L85110KA1981PLC013115  version d9e2212a-ae7e-4df4-a47c-cf8c54aa82b0
+  versionCount   1
+  reportType     investment.company-assessment
+  payloadBytes   55573
+  recordedDigest 18f5ccb60533535de5b9c8be034a7d16499a3b60d5899f672d4320317dbdc85d
+  recomputed     18f5ccb60533535de5b9c8be034a7d16499a3b60d5899f672d4320317dbdc85d
+  out            ../evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/artifact/assessment-payload-head.json
+exit=0
+
+# the EV_EBITDA basis string as persisted (defect C recorded OPEN — still names only net debt; the full bridge
+# is published in capitalStructure.equityBridge, NOT narrowed into this label — see findings/C-EV-BASIS-BRIDGE.md):
+  EV_EBITDA basis: mid-cycle EBITDA 375843333333 × 12 − net debt
+  equityBridge formula: equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV

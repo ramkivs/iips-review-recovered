@@ -1,0 +1,30 @@
+# RIV head re-validation — 06 the five baselines at this head (working tree carries the defect-A correction)
+# base commit: a835d4af019ab4f677ab238ec42d44326f06a771
+# These are the repository's own gates. A green suite is necessary but NOT sufficient for the validation
+# conclusion; the substantive proof is the independent recomputation in verification/ and the attributed diff.
+
+## 1/5 platform typecheck (iips-platform: npx tsc --noEmit)
+exit=0
+
+## 2/5 platform IID suite (iips-platform: npm run test:iid)
+# tests 807
+# suites 190
+# pass 807
+# fail 0
+# cancelled 0
+# skipped 0
+exit=0
+
+## 3/5 frontend typecheck (frontend: npm run typecheck)
+exit=0
+
+## 4/5 frontend investment-server typecheck (frontend: npm run typecheck:investment-server)
+exit=0
+
+## 5/5 frontend investment server suite (frontend: npx vitest run server/investment)
+attempts: total 0 · external 0 · loopback 0 · listen 0 · ipc 0 · local-socket 0 · unresolved 0
+socket-fd census: before 4 · after 4 · new 0 — no new socket descriptor appeared during the cycle
+instrumented channels: net.connect, net.createConnection, net.Socket.prototype.connect, net.Server.listen, tls.connect, http.request, http.get, https.request, https.get, dns.lookup, dns.resolve, dns.resolve4, dns.resolve6, dns.resolveAny, dns.resolveSrv, dns.resolveTxt, dns.promises.lookup, dns.promises.resolve, dns.promises.resolve4, dns.promises.resolve6, dgram.createSocket, globalThis.fetch
+ Test Files  26 passed (26)
+      Tests  359 passed (359)
+exit=0

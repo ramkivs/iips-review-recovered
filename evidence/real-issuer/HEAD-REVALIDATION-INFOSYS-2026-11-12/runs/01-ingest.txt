@@ -1,0 +1,30 @@
+# RIV head re-validation — 01 ingest
+# base commit: a835d4af019ab4f677ab238ec42d44326f06a771   date: 2026-11-12T16:58:59Z
+$ cd iips-platform && npx tsx src/investment/cli/ingest.ts \
+    --input ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input \
+    --dataset-dir /tmp/riv2/data/investment/dataset --now 2026-11-06T14:05:00.000Z
+
+
+datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V1
+datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+dataset        /tmp/riv2/data/investment/dataset
+coverage       /tmp/riv2/data/investment/dataset/coverage-report.json
+
+dataset          sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+completed        1/13 sectors measured
+  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Consumer         UNMEASURED   usable 0  withheld 3  stmt 0%  metric 100%
+  Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Industrials      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Technology       G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+  Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+outstanding      Auto, Banking, Capital Markets, Consumer, Energy, Healthcare, Hospitality, Industrials, Insurance, Materials, Telecom, Utilities
+methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53
+exit=0
