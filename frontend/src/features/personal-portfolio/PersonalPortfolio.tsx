@@ -10,15 +10,25 @@
  * persists nothing itself.
  *
  * Behavior:
- *   - On open, it reads the durable portfolio back from IPD. Nothing is served
- *     from a browser cache; "Reload" discards local edits and re-reads.
- *   - Save is one optimistic-concurrency transaction (required expectedRevision).
- *     The personal application always sends the complete holdings set as REPLACE.
- *   - On 409 the page stops and asks the owner to Reload — it never merges
- *     silently.
- *   - If the server or IPD is unavailable the page says so; it never renders a
- *     fabricated portfolio.
- *   - Delete is deliberate: a confirm prompt tombstones the portfolio on IPD.
+ *   - On open, it reads the durable portfolio back through the read envelope, which
+ *     reports rejected-record counts instead of discarding them. A filtered or
+ *     unverified snapshot is never used as a REPLACE baseline: the read is refused
+ *     and the editor is not offered.
+ *   - It never creates. A 404 does not distinguish an absent, inaccessible or deleted
+ *     portfolio, so it is never treated as authority to create one; the identifier
+ *     must not be silently recreated after a delete.
+ *   - Save is one optimistic-concurrency transaction (required expectedRevision), sent
+ *     as a complete REPLACE. The revision sent is the one this page last read, and the
+ *     receipt is verified before it is adopted as the next baseline.
+ *   - On 409 the page stops and asks the owner to Reload — it never merges silently.
+ *     An outcome that cannot be verified locks editing until a fresh read succeeds.
+ *   - A superseded read (a remount, a reload, or StrictMode's second mount) can never
+ *     overwrite a newer one: responses are attributed to a generation, and stale ones
+ *     are dropped.
+ *   - Reload discards local edits and re-reads; a failed reload leaves no editable
+ *     stale view behind.
+ *   - Mutations are single-flight: a duplicate save or delete is refused synchronously
+ *     rather than racing the network, and no mutation starts while a read is pending.
  *   - Manual entries are personal bookkeeping, not broker observations; identity
  *     is unresolved by construction and is never asserted here.
  *
@@ -28,15 +38,15 @@
  *   panels, summary figures, chips, notices, buttons and table treatment. The only
  *   page-specific styling is the editable holdings grid in `PersonalPortfolio.css`.
  *
- *   Nothing below changes what is transmitted, validated or persisted. The field values,
- *   the parse rules, the validation messages and the save/delete/reload semantics are
- *   exactly as they were; only their presentation changed.
+ *   The presentation adds no behaviour. Every value rendered below is one the transport
+ *   or the server already produced, and every gate described above is enforced before
+ *   any request is made — not by what is or is not rendered.
  */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  createUserPortfolio,
   deleteUserPortfolio,
-  fetchUserPortfolio,
+  fetchUserPortfolioRead,
+  inspectUserPortfolioView,
   saveUserPortfolioHoldings,
   UserPortfolioApiError,
   type UserPortfolioHoldingInput,
@@ -58,7 +68,6 @@ import { formatInr, formatPct, shortDigest } from '../user-portfolios/UserPortfo
 import './PersonalPortfolio.css';
 
 const PERSONAL_PORTFOLIO_ID = 'DEFAULT_PORTFOLIO';
-const PERSONAL_PORTFOLIO_NAME = 'My Portfolio';
 
 interface EditableRow {
   readonly key: number;
@@ -67,6 +76,9 @@ interface EditableRow {
   averageBuyPrice: string;
   currentPrice: string;
   active: boolean;
+  originalSymbol?: string;
+  isin?: string;
+  exchange?: 'NSE' | 'BSE';
 }
 
 type Status =
@@ -76,6 +88,9 @@ type Status =
   | { readonly kind: 'saved'; readonly savedAt: string }
   | { readonly kind: 'deleting' }
   | { readonly kind: 'conflict' }
+  | { readonly kind: 'read-error'; readonly message: string }
+  | { readonly kind: 'not-found'; readonly message: string }
+  | { readonly kind: 'mutation-unknown'; readonly message: string }
   | {
       readonly kind: 'unavailable';
       readonly message: string;
@@ -102,6 +117,9 @@ function rowsFromView(view: UserPortfolioView): EditableRow[] {
     averageBuyPrice: String(holding.averageBuyPrice),
     currentPrice: String(holding.currentPrice),
     active: holding.active,
+    originalSymbol: holding.symbol.trim().toUpperCase(),
+    isin: holding.isin,
+    exchange: holding.exchange,
   }));
 }
 
@@ -128,70 +146,85 @@ function parseRows(rows: readonly EditableRow[]): { holdings?: UserPortfolioHold
     if (!Number.isFinite(currentPrice) || currentPrice < 0) {
       return { error: `Row ${index + 1} (${symbol}): current price must be zero or more.` };
     }
-    holdings.push({ symbol, quantity, averageBuyPrice, currentPrice, active: row.active });
+    // Optional observed identifiers belong to the original symbol, not a replacement.
+    const sameHolding = symbol === row.originalSymbol;
+    holdings.push({ symbol, quantity, averageBuyPrice, currentPrice, active: row.active,
+      ...(sameHolding && row.isin !== undefined ? { isin: row.isin } : {}),
+      ...(sameHolding && row.exchange !== undefined ? { exchange: row.exchange } : {}),
+    });
   }
   if (holdings.length === 0) return { error: 'Add at least one holding — a portfolio needs one row.' };
   return { holdings };
 }
 
-/** The one row-level action, aligned in its own column so it reads as part of the row. */
-function RowActions({ onRemove, disabled }: { readonly onRemove: () => void; readonly disabled: boolean }) {
-  return (
-    <BrokerButton variant="ghost" size="sm" aria-label="Remove row" onClick={onRemove} disabled={disabled}>
-      Remove
-    </BrokerButton>
-  );
+/** A REPLACE editor must never operate on a filtered or unverified snapshot. */
+function requireCompletePersonalView(read: ReturnType<typeof inspectUserPortfolioView>): UserPortfolioView {
+  const portfolio = read.portfolio;
+  if (read.rejectedHoldings !== 0 || read.rejectedContributions !== 0 ||
+      portfolio.portfolioId !== PERSONAL_PORTFOLIO_ID ||
+      !Number.isInteger(portfolio.revision) || portfolio.revision < 0 ||
+      typeof portfolio.portfolioName !== 'string' || typeof portfolio.isSaved !== 'boolean' ||
+      typeof portfolio.lastUpdated !== 'string' || typeof portfolio.provenanceDigest !== 'string' ||
+      !Number.isFinite(portfolio.totalMarketValue) || !Number.isFinite(portfolio.totalHoldingsCount) ||
+      !Number.isFinite(portfolio.weightSumPercentage)) {
+    throw new UserPortfolioApiError(500, 'The portfolio read is incomplete or invalid. Reload before editing; no changes were sent.');
+  }
+  return portfolio;
 }
 
 export function PersonalPortfolio() {
   const [view, setView] = useState<UserPortfolioView | null>(null);
-  const [exists, setExists] = useState<boolean | null>(null); // null = not loaded yet
   const [rows, setRows] = useState<EditableRow[]>([blankRow()]);
   const [status, setStatus] = useState<Status>({ kind: 'loading' });
+  const generation = useRef(0);
+  const mounted = useRef(false);
+  const mutationInFlight = useRef(false);
+  const readPending = useRef(false);
 
   const load = useCallback(async () => {
+    if (mutationInFlight.current) return;
+    const current = ++generation.current;
+    readPending.current = true;
+    const isCurrent = () => mounted.current && generation.current === current;
     setStatus({ kind: 'loading' });
     try {
-      const portfolio = await fetchUserPortfolio(PERSONAL_PORTFOLIO_ID);
+      const read = await fetchUserPortfolioRead(PERSONAL_PORTFOLIO_ID);
+      if (!isCurrent()) return;
+      const portfolio = requireCompletePersonalView(read);
       setView(portfolio);
-      setExists(true);
       setRows(rowsFromView(portfolio));
       setStatus({ kind: 'idle' });
     } catch (error) {
+      if (!isCurrent()) return;
+      setView(null);
       if (error instanceof UserPortfolioApiError && error.status === 404) {
-        setView(null);
-        setExists(false);
-        setRows([blankRow()]);
-        setStatus({ kind: 'idle' });
+        setStatus({ kind: 'not-found', message: 'The portfolio could not be found. This response does not distinguish an absent, inaccessible, or deleted portfolio. Creation is unavailable until the provider can establish that this identifier may be created.' });
         return;
       }
       if (error instanceof UserPortfolioApiError && error.status === 503) {
-        setView(null);
-        setExists(null);
         const diagnosis = error.diagnosis;
         setStatus({
-          kind: 'unavailable',
-          diagnosis,
-          message:
-            diagnosis?.reason === 'binding-precondition-absent'
-              ? 'The IRR server is not configured to read durable portfolios: the owner-binding precondition is absent.'
-              : diagnosis?.reason === 'ipc-endpoint-not-configured'
-                ? 'The IRR server has no IPD user-portfolio endpoint configured, so no portfolio can be read.'
-                : diagnosis?.reason === 'ipc-endpoint-unreachable'
-                  ? 'The IPD user-portfolio service is configured but did not answer. Start IPD and check its endpoint.'
-                  : 'The local persistence service is not available.',
+          kind: 'unavailable', diagnosis,
+          message: diagnosis?.reason === 'binding-precondition-absent'
+            ? 'The IRR server is not configured to read durable portfolios: the owner-binding precondition is absent.'
+            : diagnosis?.reason === 'ipc-endpoint-not-configured'
+              ? 'The IRR server has no IPD user-portfolio endpoint configured, so no portfolio can be read.'
+              : diagnosis?.reason === 'ipc-endpoint-unreachable'
+                ? 'The IPD user-portfolio service is configured but did not answer. Start IPD and check its endpoint.'
+                : 'The local persistence service is not available.',
         });
         return;
       }
-      setStatus({
-        kind: 'error',
-        message: error instanceof Error ? error.message : 'The portfolio could not be loaded.',
-      });
+      setStatus({ kind: 'read-error', message: error instanceof Error ? error.message : 'The portfolio could not be loaded.' });
+    } finally {
+      if (isCurrent()) readPending.current = false;
     }
   }, []);
 
   useEffect(() => {
+    mounted.current = true;
     void load();
+    return () => { mounted.current = false; generation.current += 1; };
   }, [load]);
 
   const parsed = useMemo(() => parseRows(rows), [rows]);
@@ -207,93 +240,72 @@ export function PersonalPortfolio() {
     setRows((current) => (current.length <= 1 ? current : current.filter((row) => row.key !== key)));
 
   const onSave = async () => {
+    if (mutationInFlight.current || readPending.current || !view || !['idle', 'saved', 'error'].includes(status.kind)) return;
     const parsedNow = parseRows(rows);
     if (parsedNow.error || !parsedNow.holdings) {
       setStatus({ kind: 'error', message: parsedNow.error ?? 'The rows are not valid.' });
       return;
     }
-    const creating = !exists;
+    mutationInFlight.current = true;
+    const current = ++generation.current;
     setStatus({ kind: 'saving' });
     try {
-      if (creating) {
-        const created = await createUserPortfolio(
-          { portfolioName: PERSONAL_PORTFOLIO_NAME, holdings: parsedNow.holdings },
-        );
-        setView(created);
-        setExists(true);
-        setRows(rowsFromView(created));
-        setStatus({ kind: 'saved', savedAt: created.lastUpdated });
-        return;
-      }
-      const expectedRevision = view?.revision ?? 0;
       const result = await saveUserPortfolioHoldings(
         PERSONAL_PORTFOLIO_ID,
-        { holdings: parsedNow.holdings, expectedRevision, mode: 'REPLACE' },
+        { holdings: parsedNow.holdings, expectedRevision: view.revision, mode: 'REPLACE' },
       );
-      setView(result.portfolio);
-      setExists(true);
-      setRows(rowsFromView(result.portfolio));
+      if (!mounted.current || generation.current !== current) return;
+      const saved = requireCompletePersonalView(inspectUserPortfolioView(result.portfolio));
+      if (saved.revision !== result.revision || typeof result.savedAt !== 'string' || Number.isNaN(Date.parse(result.savedAt))) {
+        throw new UserPortfolioApiError(500, 'Invalid save receipt');
+      }
+      setView(saved);
+      setRows(rowsFromView(saved));
       setStatus({ kind: 'saved', savedAt: result.savedAt });
     } catch (error) {
+      if (!mounted.current || generation.current !== current) return;
       if (error instanceof UserPortfolioApiError && error.status === 409) {
         setStatus({ kind: 'conflict' });
-        return;
-      }
-      if (error instanceof UserPortfolioApiError && error.status === 400) {
+      } else if (error instanceof UserPortfolioApiError && error.status === 400) {
         const detail = error.serverDetail !== undefined ? ` ${error.serverDetail}` : '';
-        setStatus({
-          kind: 'error',
-          message: creating
-            ? `The portfolio was not created (HTTP 400).${detail} An existing portfolio with this identifier may already be present — a previously removed one is never reusable. Nothing was changed. Reload to see the current state before trying again.`
-            : `Your changes were NOT saved (HTTP 400).${detail} The portfolio was not changed. Reload to see the current state, then re-apply your changes.`,
-        });
-        return;
+        setStatus({ kind: 'error', message: `Your changes were NOT saved (HTTP 400).${detail} The portfolio was not changed. Reload to see the current state, then re-apply your changes.` });
+      } else {
+        setStatus({ kind: 'mutation-unknown', message: 'The save outcome could not be verified. Reload before making further changes; do not retry automatically.' });
       }
-      setStatus({
-        kind: 'error',
-        message: error instanceof Error ? error.message : 'The save did not complete.',
-      });
-    }
+    } finally { mutationInFlight.current = false; }
   };
 
   const onDelete = async () => {
-    if (!view) return;
-    const confirmed = window.confirm(
-      'Delete the local portfolio? The holdings will be removed and cannot be recovered.',
-    );
-    if (!confirmed) return;
+    if (mutationInFlight.current || readPending.current || !view || !['idle', 'saved', 'error'].includes(status.kind)) return;
+    mutationInFlight.current = true;
+    const confirmed = window.confirm('Delete the local portfolio? The holdings will be removed and cannot be recovered.');
+    if (!confirmed) { mutationInFlight.current = false; return; }
+    const current = ++generation.current;
     setStatus({ kind: 'deleting' });
     try {
       await deleteUserPortfolio(PERSONAL_PORTFOLIO_ID, view.revision);
+      if (!mounted.current || generation.current !== current) return;
       setView(null);
-      setExists(false);
-      setRows([blankRow()]);
-      setStatus({ kind: 'idle' });
+      setStatus({ kind: 'not-found', message: 'The portfolio was deleted. This identifier must not be silently recreated.' });
     } catch (error) {
+      if (!mounted.current || generation.current !== current) return;
       if (error instanceof UserPortfolioApiError && error.status === 409) {
         setStatus({ kind: 'conflict' });
-        return;
-      }
-      if (error instanceof UserPortfolioApiError && error.status === 400) {
+      } else if (error instanceof UserPortfolioApiError && error.status === 400) {
         const detail = error.serverDetail !== undefined ? ` ${error.serverDetail}` : '';
-        setStatus({
-          kind: 'error',
-          message: `The portfolio was not deleted (HTTP 400).${detail} It was not changed. Reload to see the current state.`,
-        });
-        return;
+        setStatus({ kind: 'error', message: `The portfolio was not deleted (HTTP 400).${detail} It was not changed. Reload to see the current state.` });
+      } else {
+        setStatus({ kind: 'mutation-unknown', message: 'The delete outcome could not be verified. Reload before making further changes; do not retry automatically.' });
       }
-      setStatus({
-        kind: 'error',
-        message: error instanceof Error ? error.message : 'The delete did not complete.',
-      });
-    }
+    } finally { mutationInFlight.current = false; }
   };
 
   const saving = status.kind === 'saving' || status.kind === 'deleting';
   const fieldError = parsed.error;
+  const editable = view !== null && ['idle', 'saved', 'error', 'saving', 'deleting'].includes(status.kind);
 
-  // The header is identical on every state of the page, so the Reload utility stays
-  // reachable and the page never loses its identity while data is in flight.
+  // The header is identical in every state, so the Reload utility stays reachable and the
+  // page never loses its identity while data is in flight.
   const header = (
     <BrokerPageHeader
       eyebrow="Manual records"
@@ -309,7 +321,7 @@ export function PersonalPortfolio() {
     />
   );
 
-  if (status.kind === 'loading' && exists === null) {
+  if (status.kind === 'loading' && view === null) {
     return (
       <BrokerPage>
         <section aria-label="Personal portfolio" data-testid="personal-portfolio">
@@ -363,7 +375,22 @@ export function PersonalPortfolio() {
           </BrokerNotice>
         ) : null}
 
-        {status.kind === 'error' ? <ErrorState message={status.message} /> : null}
+        {status.kind === 'loading' ? <LoadingState /> : null}
+
+        {/*
+          * Absent, inaccessible and deleted are indistinguishable to this client, so none of
+          * them opens an editor. This is the state in which first-time creation would be an
+          * unsafe guess, and it is deliberately not offered.
+          */}
+        {status.kind === 'not-found' ? (
+          <BrokerNotice tone="critical" alert title="No editable portfolio">
+            <p data-testid="pp-not-found">{status.message}</p>
+          </BrokerNotice>
+        ) : null}
+
+        {status.kind === 'error' || status.kind === 'read-error' || status.kind === 'mutation-unknown'
+          ? <ErrorState message={status.message} />
+          : null}
 
         {status.kind === 'saved' ? (
           <p role="status" data-testid="pp-saved" className="pp-saved">
@@ -371,12 +398,12 @@ export function PersonalPortfolio() {
           </p>
         ) : null}
 
-        {exists !== null ? (
+        {editable ? (
           <>
             <BrokerPanel
               eyebrow="Editor"
               title="Holdings"
-              hint="Every row is one holding you entered yourself. Quantity, average buy price and current price are your own figures — nothing here is validated against a broker statement or a market feed."
+              hint="Every row is one holding you entered yourself. Quantity, average buy price and current price are your own figures — nothing here is validated against a broker statement or a market feed. Saving replaces the whole set at the revision you last read."
               aside={<BrokerChip label={`${rows.length} ${rows.length === 1 ? 'ROW' : 'ROWS'}`} tone="neutral" glyph="#" />}
               tight
             >
@@ -457,7 +484,15 @@ export function PersonalPortfolio() {
                           />
                         </td>
                         <td data-label="Actions" className="pp-cell-actions">
-                          <RowActions onRemove={() => removeRow(row.key)} disabled={rows.length <= 1 || saving} />
+                          <BrokerButton
+                            variant="ghost"
+                            size="sm"
+                            aria-label="Remove row"
+                            onClick={() => removeRow(row.key)}
+                            disabled={rows.length <= 1 || saving}
+                          >
+                            Remove
+                          </BrokerButton>
                         </td>
                       </tr>
                     ))}
@@ -479,15 +514,20 @@ export function PersonalPortfolio() {
 
               <div className="bw-actions pp-actions">
                 <BrokerButton onClick={addRow} disabled={saving}>Add row</BrokerButton>
+                {/*
+                  * Always "Save changes". There is no create action: this page never creates a
+                  * portfolio, because a 404 cannot distinguish absent from inaccessible or
+                  * deleted, and a deleted identifier must not be silently recreated.
+                  */}
                 <BrokerButton
                   variant="primary"
                   onClick={() => void onSave()}
                   disabled={saving || fieldError !== undefined}
                   data-testid="pp-save"
                 >
-                  {status.kind === 'saving' ? 'Saving…' : exists ? 'Save changes' : 'Create portfolio'}
+                  {status.kind === 'saving' ? 'Saving…' : 'Save changes'}
                 </BrokerButton>
-                {exists ? (
+                {view !== null ? (
                   <BrokerButton onClick={() => void onDelete()} disabled={saving} data-testid="pp-delete">
                     Delete portfolio…
                   </BrokerButton>

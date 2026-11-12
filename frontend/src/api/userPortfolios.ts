@@ -487,11 +487,16 @@ export async function fetchUserPortfolioRead(portfolioId: string, baseUrl = ''):
   } catch {
     throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
   }
-  if (!isRecordValue(body) || !isRecordValue(body.portfolio)) {
+  if (!isRecordValue(body)) throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
+  return inspectUserPortfolioView(body.portfolio);
+}
+
+/** Inspect a read or mutation view without discarding rejected-record counts. */
+export function inspectUserPortfolioView(portfolio: unknown): UserPortfolioRead {
+  if (!isRecordValue(portfolio)) {
     // Envelope violation — fail closed rather than fabricating a view.
     throw new UserPortfolioApiError(500, 'user-portfolio transport returned an invalid envelope');
   }
-  const portfolio = body.portfolio;
   if (!Array.isArray(portfolio.holdings) || !Array.isArray(portfolio.contributions)) {
     // Mirrors `verifyPortfolioEnvelope`: a non-collection is a MALFORMED payload, not an empty
     // portfolio and not an unavailable service. Previously this reached the renderer and threw.
@@ -544,6 +549,8 @@ export async function fetchUserPortfolio(portfolioId: string, baseUrl = ''): Pro
 /** Holding input sent by the personal application (broker-observed fields only). */
 export interface UserPortfolioHoldingInput {
   readonly symbol: string;
+  readonly isin?: string;
+  readonly exchange?: 'NSE' | 'BSE';
   readonly quantity: number;
   readonly averageBuyPrice: number;
   readonly currentPrice: number;
@@ -573,6 +580,8 @@ export interface UserPortfolioSaveResult {
 function holdingInputBody(holdings: readonly UserPortfolioHoldingInput[]) {
   return holdings.map((holding) => ({
     symbol: holding.symbol,
+    ...(holding.isin === undefined ? {} : { isin: holding.isin }),
+    ...(holding.exchange === undefined ? {} : { exchange: holding.exchange }),
     quantity: holding.quantity,
     averageBuyPrice: holding.averageBuyPrice,
     currentPrice: holding.currentPrice,
