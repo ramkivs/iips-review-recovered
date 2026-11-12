@@ -1,0 +1,57 @@
+# WI-13 head re-validation — 07 input integrity (the committed inputs this re-validation consumed)
+# base commit: a835d4af019ab4f677ab238ec42d44326f06a771   date: 2026-11-12
+#
+# This is a RE-VALIDATION, not a re-acquisition: it consumed the committed WI-3 / REL-1 inputs in place (runs/01
+# ingests directly from WI3-BORROWINGS-NIL-2026-11-06/ingest-input). The bundle therefore REFERENCES those inputs
+# and pins each by sha256 rather than duplicating ~140 KB of byte-identical, already-committed evidence that could
+# only drift. Every file below is git-tracked at the base commit; 'tracked' = present in 'git ls-files'.
+#
+# Re-ingesting these exact bytes reproduces datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847
+# (runs/01-ingest.txt), which is the dataset the head payload 18f5ccb6… was composed from.
+
+## ingest-input  (read by runs/01 ingest.ts --input)
+  4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c  ingest-input/periods.csv   2035 B  tracked
+  d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c  ingest-input/prices.json    341 B  tracked
+  426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4  ingest-input/roster.json   1157 B  tracked
+
+## identity  (copied to /tmp/riv2 by runs/commands.txt §2; byte-identical to WI-1/WI-2/WI-3)
+  d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd  identity/corporate-actions.json     70 B  tracked
+  f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065  identity/eligible-roster.json    755 B  tracked
+  5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507  identity/listing-map.json     948 B  tracked
+
+## owner carrier  (copied to /tmp/riv2/owner.json by runs/commands.txt §2)
+  b1b78809d1c8d05800b338f73082b4269e6c9fa65b8f35192f4736d6f1a98640  REL-1/runs/owner-carrier.json               384 B  tracked
+
+## dataset content files  (the re-ingested dataset is byte-identical to these committed WI-3 files;
+##  only manifest.json differs, by an out-of-digestScope sourceRights block — see note below)
+  37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570  dataset/corporateActions.json       3 B  tracked
+  a5c964c83a3c74b482165000fa0f5d4d5aaa6ee186beba4f27d0d581fa82fa34  dataset/issuers.json              238 B  tracked
+  37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570  dataset/issues.json                 3 B  tracked
+  515bae232bdfbbd7b5637aa1ced8253ea44a4318e2e3d6f9a633e010ca25eaa2  dataset/listings.json             601 B  tracked
+  37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570  dataset/operatingMetrics.json       3 B  tracked
+  11d4787bd21d4812488b5514028091edc6f209be21b9bcdfe654ccd04576d7ab  dataset/periods.json            44584 B  tracked
+  a72eb0fd30d7874ba7e0842d8b8dc97bac76acbc336257094916610054c6b3ef  dataset/prices.json               303 B  tracked
+  2722930e81b7c89931409d456bf25182de68aad554004af6ccb4b9b63af1db5c  dataset/securities.json           187 B  tracked
+  ce97789e45ee4fdae3ce81671de12a634f9231def573898cb589af0bbe7b0452  dataset/coverage-report.json    19447 B  tracked
+
+## source  (the primary statement extracts + provenance behind the WI-3 nil declarations; not re-read by WI-13)
+  8f06dd15c98f08a88d0be6b403547b207a05076af8efc0866fad53f6683cfa08  source/consol-fy24-note-2.11-liquidity-risk.txt   2174 B  tracked
+  7745be8092e3d0e75869dcdbf7b46293b8f187ff97d00cd0a1566f224e82d277  source/consol-fy24-note-2.12-equity-share-capital.txt   3021 B  tracked
+  9f5b035873efe0a7beee97d1b3daad911bfa914fe4564e5c532e78dd58756a37  source/consol-fy24-note-2.9-cash-restricted.txt   1143 B  tracked
+  364aa0a1d5b022046755b2d7c771ae23a3b558c2af4c558085e6d65014ae6c33  source/quotes.json                              11384 B  tracked
+
+## manifest.json — the one input that does NOT byte-match, and why that is expected
+  WI-3 committed manifest.json:    c8d0e3665ea4cbf36f79768b06084a8dbb60f555e7ac9d101ee70ea24635412d  (1930 B)
+  re-ingested manifest.json:       ddb977e2250fb1210572b92bf71ffdba9d354a24c685743f015d94ee69868e74  (2277 B)
+  The re-ingested manifest adds a 'sourceRights' block (state OPERATOR_ASSERTED) whose 'basis' string carries the
+  ingest run's absolute input path. 'sourceRights' is NOT in manifest.digestScope.included, so it does not enter
+  datasetVersion — both manifests compute sha256:21cf2522… over the same eight content files. The abs path is a
+  sandbox artifact of THIS run, which is exactly why the re-ingested manifest is recorded here by digest and left
+  in /tmp/riv2 rather than committed: committing it would pin a non-portable path and imply a dataset difference
+  where the digestScope says there is none.
+
+## bundle cleanliness (no scratch, no database, no node_modules inside the evidence bundle)
+  find $BUNDLE -type d -name '.scratch-dataset' -o -name '*.sqlite*' -o -name '*.db*' -o -name node_modules:
+    matches: 0   (expected 0 — the RIV generator's scratch dataset is mkdtempSync(tmpdir()/riv-rebuild-) + rmSync)
+
+exit=0

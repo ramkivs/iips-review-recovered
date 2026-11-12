@@ -36,6 +36,8 @@ import type {
   IdentitySources,
 } from '../../../../iips-platform/src/investment/identity/types';
 import { readDataset } from '../../../../iips-platform/src/investment/ingestion/writer';
+import { XBRL_TAG_MAP } from '../../../../iips-platform/src/investment/ingestion/xbrl';
+import { DERIVATIONS } from '../../../../iips-platform/src/investment/fundamentals/derive';
 import { classifyDataset } from '../../../../iips-platform/src/investment/fundamentals/datasetClass';
 import { assertScopeToken } from '../../../../iips-platform/src/investment/artifacts/scopeToken';
 import { NP04_DATABASE_PATH_ENV, loadAuthoritativeNp04Persistence } from '../../reports/persistence-port.js';
@@ -281,14 +283,24 @@ function summarise(chain: InvestmentChainView | null): CliSummary['chain'] {
  * `datasetClass === 'UNKNOWN'` means a dataset WAS read but its rights evidence was not supplied. The run is then
  * described as an UNKNOWN-class dataset rather than as operator-supplied: the data may well be real and permitted,
  * but nothing in the evidence says so, and this summary must not assert it.
+ *
+ * **The counts in L-002 and L-003 are read from the code, not typed here.** They were literals, and a literal
+ * went stale: the V2 associates/JV work added two tags to `XBRL_TAG_MAP` (20 → 22) and this notice kept saying
+ * 20, while the same product published 22 through `identity/coverage.ts` (`xbrlMappedTags`), through
+ * `INVESTMENT_COVERAGE_TAG_MAP_SIZE` and in the coverage note's own sentence. One product, two reader-visible
+ * counts, one of them false — defect A in
+ * `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/A-STALE-LIMITATION-COUNTS.md`, found by running a
+ * real issuer at head. Deriving them makes the drift impossible rather than merely corrected, and
+ * `rivHeadRevalidation.test.ts` fails if either side moves alone. The register's own prose for `L-002` still
+ * reads "20 XBRL tags"; that is the register owner's to reconcile, and nothing here edits it.
  */
 export function limitationsForDatasetClass(datasetClass: DatasetClass | null): readonly string[] {
   const real = datasetClass === 'OPERATOR_SUPPLIED';
   const unknown = datasetClass === 'UNKNOWN';
   return [
     'L-001 3 of 13 sectors measured; 10 remain in outstandingSectors (sector-analytics coverage, not this milestone)',
-    'L-002 20 XBRL tags mapped; unmapped tags remain visible gaps',
-    'L-003 closed derivation set = 8 items',
+    `L-002 ${Object.keys(XBRL_TAG_MAP).length} XBRL tags mapped; unmapped tags remain visible gaps`,
+    `L-003 closed derivation set = ${DERIVATIONS.length} items`,
     unknown
       ? 'L-004 the reference dataset shipped with the product is synthetic: mechanics only, no company validation. This run read a dataset whose rights evidence was not supplied, so its permitted use is not established and it is not described here as operator-supplied real data'
       : real

@@ -1,0 +1,25 @@
+# RIV head re-validation — 05 independent recomputation + attributed diff + census + class divergence
+# Re-derives every published figure from the committed WI-3 filing cells, independent of the engine, and refuses
+# to publish if any recomputed value disagrees, if a moved payload path carries no attribution, or if the two
+# dataset classifiers stop disagreeing (L-041). Writes four artifacts into the bundle. Scratch rebuild dataset is
+# built in the OS temp dir, never inside the bundle.
+$ npx tsx scripts/riv-head-revalidation.ts <bundle> \
+    --head-payload <bundle>/artifact/assessment-payload-head.json \
+    --head-summary <bundle>/runs/cli-head.json
+
+RIV head re-validation — PUBLISHED
+  dataset identity   sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847 (reproduced: true)
+  head payload       18f5ccb60533535de5b9c8be034a7d16499a3b60d5899f672d4320317dbdc85d (55573 B)
+  persisted == fresh analysis of the same committed input: true
+  intrinsic          875.34 / 1088.97 / 1399.81 (unchanged since WI-3)
+  margin of safety   -0.08418738213693565 vs mid, band FAIR
+  confidence         0.4378 (WI-3 0.6736 × 0.65)
+  diff vs WI-3       14 changed path(s), 0 unattributed
+  XBRL tags mapped   22 (defect A — the L-002 notice now reads this count from XBRL_TAG_MAP; it said 20)
+  EV basis bridge    defect C — OPEN (L-042): the EV_EBITDA/EV_REVENUE basis names only "− net debt"; the full bridge is published in capitalStructure.equityBridge. Correcting the label moves the substantive digest of every EV-publishing assessment (L-014 C1–C5, AC-L14), so it is recorded, not narrowed here
+  L-041 (defect B)   3 committed real-issuer manifest(s) classified two different ways — OPEN, a contract decision
+  wrote verification/independent-recomputation.json sha256:ca6a1e8d51aa2119c01def4f8b28c2604e1a87f63672bfff376297d38e6b9f8d
+  wrote artifact/payload-diff-vs-wi3.json sha256:a24be9470f50fca51d1825c9c7c69a4ee1315ea962170ee1ab6ddf4628ad3e26
+  wrote verification/mapping-census.json sha256:c084c30a9fe287cdd1d4cadfd56ac4c6f34fbefa7b7c6c2323a9de3a16c2d3e6
+  wrote verification/dataset-class-divergence.json sha256:ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477
+exit=0
