@@ -65,14 +65,27 @@ Route `/personal-portfolio` (`src/features/personal-portfolio/PersonalPortfolio.
 nav label **Personal Portfolio**. Deliberately separate from the certified
 read-only user-portfolio surfaces. Behavior:
 
-**Creation discovery limitation:** the editor no longer creates `DEFAULT_PORTFOLIO`.
-A detail 404 deliberately conflates missing, foreign, tenant-mismatched and tombstoned
-records; an empty active-only list is no proof that the identifier has never existed.
-Neither response authorizes creation. No existing admitted read capability establishes
-that this identifier is safe to create. Explicit first-time creation remains blocked
-until a separately authorized provider contract supplies that distinction while preserving
-owner isolation and tombstone rules. The existing POST transport is unchanged, but is not
-called by this editor. Do not recreate or restore an existing identifier to work around a 404.
+**Creation is explicit and provider-arbitrated.** A detail 404 deliberately conflates
+missing, foreign, tenant-mismatched and tombstoned records; an empty active-only list is
+no proof that the identifier has never existed. A 404 therefore authorises nothing, and
+the editor never creates a portfolio automatically — but it is also not a dead end. While
+the identifier is unresolved the owner is offered an explicit **Create portfolio** action.
+Creation is arbitrated by the provider, not guessed at by the client:
+
+- the editor re-reads immediately before creating and **adopts** any portfolio that
+  answers, so an existing portfolio is never overwritten;
+- the provider independently refuses a duplicate or tombstoned identifier (HTTP 400),
+  and that refusal is obeyed and recorded as a known tombstone — the offer is then
+  withdrawn for the lifetime of the page;
+- after a delete performed by this page the identifier is known-removed, and no creation
+  is offered at all;
+- an unavailable service (HTTP 503) is a configuration state, never an empty portfolio,
+  and offers no creation.
+
+Do not recreate or restore an existing identifier to work around a 404. If a portfolio
+you saved comes back as not found, treat it as a read/configuration problem first: check
+the persistence directory (`IIPS_DATA_DIR`, or `.iips-data` under the server's working
+directory) and the IPD owner binding.
 
 A full, admissible detail read is required before editing or REPLACE. Rejected holdings
 or contributions block the editor; stale reads are ignored and writes are single-flight.
@@ -110,7 +123,8 @@ There are three genuinely different states and they now render differently on
 
 | State | Transport | Personal Portfolio | User Portfolios |
 |---|---|---|---|
-| Not found / inaccessible / tombstoned | `404` on the fixed id (indistinguishable) | unavailable for creation; reload or investigate the provider | `No durable portfolios yet` may describe an empty active list, not lifecycle history |
+| Not found / inaccessible / tombstoned | `404` on the fixed id (indistinguishable) | reported as unresolved; explicit **Create portfolio** offered and arbitrated by the provider | `No durable portfolios yet` may describe an empty active list, not lifecycle history |
+| Known removed | `400` on create, or a delete by this page | creation withdrawn; the identifier is never recreated | — |
 | Unavailable (fail closed) | `503` + `detail.unavailableReason` | banner naming the missing setting(s) | unavailable state + the same diagnosis |
 | Populated | `200` | rows from the durable view | the portfolio row |
 

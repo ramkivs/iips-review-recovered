@@ -73,12 +73,15 @@ describe('Personal Portfolio (local single-user editor)', () => {
     expect(screen.getByTestId('pp-save')).toHaveTextContent('Save changes');
   });
 
-  it('does not treat a 404 as authority to create', async () => {
+  it('does not treat a 404 as authority to create automatically', async () => {
     const fetchMock = mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
     renderPage();
-    expect(await screen.findByTestId('pp-not-found')).toHaveTextContent('Creation is unavailable');
-    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    expect(await screen.findByTestId('pp-not-found')).toHaveTextContent('does not distinguish');
+    // A 404 authorises nothing by itself: exactly one read has happened and no write
+    // has been issued. Creation is offered to the owner, never performed for them.
     expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    expect(screen.getByTestId('pp-create')).toBeInTheDocument();
   });
 
   it('surfaces 409 on save as an explicit conflict — never a silent merge', async () => {
@@ -184,6 +187,9 @@ describe('Personal Portfolio (local single-user editor)', () => {
     await waitFor(() => expect(screen.queryByDisplayValue('RELIANCE')).not.toBeInTheDocument());
     expect(screen.getByTestId('pp-not-found')).toHaveTextContent('must not be silently recreated');
     expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    // Known tombstone: this page deleted it, so no creation is offered at all.
+    expect(screen.queryByTestId('pp-create')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument();
   });
 
   it('rejects an invalid row client-side before any mutation', async () => {
@@ -246,12 +252,15 @@ describe('Personal Portfolio — unavailable is diagnosable, absent is editable'
     expect(screen.queryByTestId('pp-required-settings')).not.toBeInTheDocument();
   });
 
-  it('a 404 never opens an editor or asserts absence', async () => {
-    mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
+  it('a 404 never asserts absence, and offers creation without claiming the id is free', async () => {
+    const fetchMock = mockSequence([{ ok: false, status: 404, body: { error: 'not-found' } }]);
     renderPage();
     expect(await screen.findByTestId('pp-not-found')).toHaveTextContent('does not distinguish');
-    expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    // The notice states the limitation; the editor is available so a first-time
+    // portfolio can be entered. Nothing has been created.
+    expect(screen.getByLabelText('Symbol')).toBeInTheDocument();
+    expect(screen.getByTestId('pp-create')).toHaveTextContent('Create portfolio');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
 });
@@ -383,8 +392,17 @@ describe('Personal Portfolio — safe initialization and mutation gates', () => 
     renderPage();
     await screen.findByDisplayValue('RELIANCE');
     await user.click(screen.getByTestId('pp-reload'));
-    await waitFor(() => expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument());
+
+    // The safety property is that no STALE view survives: the previously saved rows are
+    // gone and nothing can be saved into a portfolio this page can no longer see.
+    await waitFor(() => expect(screen.queryByDisplayValue('RELIANCE')).not.toBeInTheDocument());
     expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
+    if (status === 404) {
+      // A 404 may offer a blank create editor, but never one carrying the stale rows.
+      expect(screen.getByLabelText('Symbol')).toHaveValue('');
+    } else {
+      expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument();
+    }
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
@@ -523,4 +541,180 @@ describe('Personal Portfolio — safe initialization and mutation gates', () => 
     expect(screen.queryByTestId('pp-save')).not.toBeInTheDocument();
   });
 
+});
+
+/**
+ * Regression (2026-11-12) — the portfolio lifecycle must survive a 404.
+ *
+ * A 404 conflates absent, inaccessible and tombstoned, so it must not be a terminal
+ * wall; but it is not authority to create either. Creation here is explicit and
+ * provider-arbitrated: the page re-reads immediately before creating and adopts any
+ * portfolio that answers, and the server independently refuses a duplicate or removed
+ * identifier with HTTP 400 — a refusal this page obeys. An existing portfolio is
+ * therefore never overwritten and a removed one is never recreated.
+ */
+describe('Personal Portfolio — creation is explicit and provider-arbitrated', () => {
+  const fillFirstRow = async (user: ReturnType<typeof userEvent.setup>, symbol = 'INFY') => {
+    await user.type(screen.getByLabelText('Symbol'), symbol);
+    await user.type(screen.getByLabelText('Quantity'), '25');
+    await user.type(screen.getByLabelText('Average buy price'), '1500');
+    await user.type(screen.getByLabelText('Current price'), '1400');
+  };
+
+  const CREATED: UserPortfolioView = {
+    ...VIEW,
+    revision: 1,
+    isSaved: false,
+    lastUpdated: '2026-11-12T00:00:00.000Z',
+    holdings: [
+      {
+        ...VIEW.holdings[0],
+        symbol: 'INFY',
+        companyId: 'MANUAL:INFY',
+        quantity: 25,
+        averageBuyPrice: 1500,
+        currentPrice: 1400,
+        marketValue: 35000,
+      },
+    ],
+    totalMarketValue: 35000,
+  };
+
+  it('creates a genuinely new portfolio and adopts the provider-owned revision', async () => {
+    const fetchMock = mockSequence([
+      { ok: false, status: 404, body: { error: 'not-found' } }, // initial read
+      { ok: false, status: 404, body: { error: 'not-found' } }, // guard re-read
+      { ok: true, status: 201, body: { portfolio: CREATED } },  // create
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByTestId('pp-create');
+    await fillFirstRow(user);
+    await user.click(screen.getByTestId('pp-create'));
+
+    expect(await screen.findByTestId('pp-revision')).toHaveTextContent('1');
+    expect(screen.getByDisplayValue('INFY')).toBeInTheDocument();
+    // The page has moved from "unresolved" to "editing an existing portfolio".
+    expect(screen.queryByTestId('pp-create')).not.toBeInTheDocument();
+    expect(screen.getByTestId('pp-save')).toHaveTextContent('Save changes');
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+
+    // The create went to the real provider endpoint as a POST, not a local guess.
+    const [url, init] = fetchMock.mock.calls[2] as [string, RequestInit];
+    expect(url).toBe('/api/user-portfolios');
+    expect(init.method).toBe('POST');
+  });
+
+  it('never issues a create for an identifier that already exists — the guard re-read adopts it', async () => {
+    const fetchMock = mockSequence([
+      { ok: false, status: 404, body: { error: 'not-found' } }, // initial read
+      { ok: true, status: 200, body: { portfolio: VIEW } },     // guard re-read: it exists
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByTestId('pp-create');
+    await fillFirstRow(user, 'INFY');
+    await user.click(screen.getByTestId('pp-create'));
+
+    // The persisted portfolio is adopted, not overwritten: revision 7 and the stored
+    // holding are intact, and no create was ever issued.
+    expect(await screen.findByTestId('pp-revision')).toHaveTextContent('7');
+    expect(screen.getByDisplayValue('RELIANCE')).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls.some(([, init]) => (init as RequestInit | undefined)?.method === 'POST')).toBe(false);
+  });
+
+  it('obeys a provider refusal for a removed identifier and withdraws the offer', async () => {
+    mockSequence([
+      { ok: false, status: 404, body: { error: 'not-found' } },
+      { ok: false, status: 404, body: { error: 'not-found' } },
+      {
+        ok: false,
+        status: 400,
+        body: {
+          error: 'invalid-request',
+          detail: { reason: 'The upstream refused portfolio.create with outcome INVALID_REQUEST.' },
+        },
+      },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByTestId('pp-create');
+    await fillFirstRow(user, 'INFY');
+    await user.click(screen.getByTestId('pp-create'));
+
+    expect(await screen.findByTestId('pp-not-found')).toHaveTextContent('The portfolio was not created (HTTP 400).');
+    expect(screen.getByTestId('pp-not-found')).toHaveTextContent('will not be recreated');
+    // Known-removed: no editor and no create action remain.
+    expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('pp-create')).not.toBeInTheDocument();
+  });
+
+  it('offers no creation while the persistence service is unavailable', async () => {
+    mockSequence([{ ok: false, status: 503, body: { error: 'upstream-unavailable' } }]);
+    renderPage();
+    expect(await screen.findByTestId('pp-unavailable')).toBeInTheDocument();
+    expect(screen.queryByTestId('pp-create')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Symbol')).not.toBeInTheDocument();
+  });
+
+  it('re-reads before creating and refuses to create when the re-read is not a clean 404', async () => {
+    mockSequence([
+      { ok: false, status: 404, body: { error: 'not-found' } },
+      { ok: false, status: 503, body: { error: 'upstream-unavailable' } },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    await screen.findByTestId('pp-create');
+    await fillFirstRow(user, 'INFY');
+    await user.click(screen.getByTestId('pp-create'));
+
+    // The service went away between the press and the create, so nothing was created
+    // and the owner is told the outcome is unknown rather than left with a silent no-op.
+    expect(await screen.findByTestId('state-error')).toHaveTextContent('could not be verified');
+    expect(screen.queryByTestId('pp-create')).not.toBeInTheDocument();
+  });
+
+  it('edited holdings save and the new revision survives a reload', async () => {
+    const SAVED: UserPortfolioView = {
+      ...VIEW,
+      revision: 8,
+      totalMarketValue: 50000,
+      holdings: [{ ...VIEW.holdings[0], quantity: 20, marketValue: 50000 }],
+    };
+    mockSequence([
+      { ok: true, status: 200, body: { portfolio: VIEW } },
+      {
+        ok: true,
+        status: 200,
+        body: {
+          success: true,
+          isDuplicate: false,
+          disposition: 'MERGED_INTO_EXISTING',
+          revision: 8,
+          holdingsSavedCount: 1,
+          totalMarketValue: 50000,
+          weightSumPercentage: 100,
+          savedAt: '2026-11-12T00:00:00.000Z',
+          provenanceDigest: 'c'.repeat(64),
+          portfolio: SAVED,
+        },
+      },
+      { ok: true, status: 200, body: { portfolio: SAVED } },
+    ]);
+    const user = userEvent.setup();
+    renderPage();
+    expect(await screen.findByDisplayValue('RELIANCE')).toBeInTheDocument();
+    await user.clear(screen.getByLabelText('Quantity'));
+    await user.type(screen.getByLabelText('Quantity'), '20');
+    await user.click(screen.getByTestId('pp-save'));
+
+    expect(await screen.findByTestId('pp-saved')).toBeInTheDocument();
+    expect(screen.getByTestId('pp-revision')).toHaveTextContent('8');
+
+    // Reload re-reads the saved revision rather than resetting to the stale value.
+    await user.click(screen.getByTestId('pp-reload'));
+    expect(await screen.findByTestId('pp-revision')).toHaveTextContent('8');
+    expect(screen.getByDisplayValue('20')).toBeInTheDocument();
+  });
 });

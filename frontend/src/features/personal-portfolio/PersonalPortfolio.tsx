@@ -14,9 +14,16 @@
  *     reports rejected-record counts instead of discarding them. A filtered or
  *     unverified snapshot is never used as a REPLACE baseline: the read is refused
  *     and the editor is not offered.
- *   - It never creates. A 404 does not distinguish an absent, inaccessible or deleted
- *     portfolio, so it is never treated as authority to create one; the identifier
- *     must not be silently recreated after a delete.
+ *   - A 404 never asserts absence: it does not distinguish an absent, inaccessible or
+ *     deleted portfolio, so the page reports it as unresolved rather than as proof that
+ *     the identifier is unused, and it offers an explicit, owner-initiated
+ *     "Create portfolio" action. Creation is never automatic and never a guess — it is
+ *     arbitrated by the provider. The page re-reads immediately before creating and
+ *     adopts any portfolio that answers instead of issuing the create, and the server
+ *     independently refuses a duplicate or tombstoned identifier (HTTP 400). A refusal
+ *     is obeyed and stops the offer, so a deleted identifier is never silently recreated
+ *     and an existing portfolio is never overwritten. After a delete performed by this
+ *     page the identifier is known-tombstoned, and no creation is offered at all.
  *   - Save is one optimistic-concurrency transaction (required expectedRevision), sent
  *     as a complete REPLACE. The revision sent is the one this page last read, and the
  *     receipt is verified before it is adopted as the next baseline.
@@ -44,6 +51,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  createUserPortfolio,
   deleteUserPortfolio,
   fetchUserPortfolioRead,
   inspectUserPortfolioView,
@@ -68,6 +76,7 @@ import { formatInr, formatPct, shortDigest } from '../user-portfolios/UserPortfo
 import './PersonalPortfolio.css';
 
 const PERSONAL_PORTFOLIO_ID = 'DEFAULT_PORTFOLIO';
+const PERSONAL_PORTFOLIO_NAME = 'My Portfolio';
 
 interface EditableRow {
   readonly key: number;
@@ -85,11 +94,17 @@ type Status =
   | { readonly kind: 'loading' }
   | { readonly kind: 'idle' }
   | { readonly kind: 'saving' }
+  | { readonly kind: 'creating' }
   | { readonly kind: 'saved'; readonly savedAt: string }
   | { readonly kind: 'deleting' }
   | { readonly kind: 'conflict' }
   | { readonly kind: 'read-error'; readonly message: string }
-  | { readonly kind: 'not-found'; readonly message: string }
+  /**
+   * A 404. `tombstoneKnown` is true only when this page itself deleted the
+   * identifier, or when the provider has already refused to create it — the two
+   * cases in which creation is known to be forbidden rather than merely unproven.
+   */
+  | { readonly kind: 'not-found'; readonly message: string; readonly tombstoneKnown: boolean }
   | { readonly kind: 'mutation-unknown'; readonly message: string }
   | {
       readonly kind: 'unavailable';
@@ -198,7 +213,12 @@ export function PersonalPortfolio() {
       if (!isCurrent()) return;
       setView(null);
       if (error instanceof UserPortfolioApiError && error.status === 404) {
-        setStatus({ kind: 'not-found', message: 'The portfolio could not be found. This response does not distinguish an absent, inaccessible, or deleted portfolio. Creation is unavailable until the provider can establish that this identifier may be created.' });
+        setRows([blankRow()]);
+        setStatus({
+          kind: 'not-found',
+          tombstoneKnown: false,
+          message: 'The portfolio could not be found. This response does not distinguish an absent, inaccessible, or deleted portfolio, so it is not treated as proof of either. You may create it below: the request is arbitrated by the provider, which refuses an identifier that already exists or has been removed.',
+        });
         return;
       }
       if (error instanceof UserPortfolioApiError && error.status === 503) {
@@ -275,6 +295,78 @@ export function PersonalPortfolio() {
     } finally { mutationInFlight.current = false; }
   };
 
+  /**
+   * First-time creation, deliberately explicit and provider-arbitrated.
+   *
+   * A 404 is not authority to create, so the create is never automatic: it runs only
+   * when the owner presses the button, and it is preceded by a fresh read so that a
+   * portfolio which answers is adopted rather than overwritten. The server refuses a
+   * duplicate or tombstoned identifier with HTTP 400 independently of this guard; such
+   * a refusal is obeyed, recorded as a known tombstone, and stops the offer.
+   */
+  const onCreate = async () => {
+    if (mutationInFlight.current || readPending.current || view !== null) return;
+    if (status.kind !== 'not-found' || status.tombstoneKnown) return;
+    const parsedNow = parseRows(rows);
+    if (parsedNow.error || !parsedNow.holdings) {
+      setStatus({ kind: 'error', message: parsedNow.error ?? 'The rows are not valid.' });
+      return;
+    }
+    mutationInFlight.current = true;
+    const current = ++generation.current;
+    setStatus({ kind: 'creating' });
+    try {
+      // Guard against clobbering: an existing portfolio is adopted, never overwritten.
+      try {
+        const recheck = await fetchUserPortfolioRead(PERSONAL_PORTFOLIO_ID);
+        if (mounted.current && generation.current === current) {
+          const existing = requireCompletePersonalView(recheck);
+          setView(existing);
+          setRows(rowsFromView(existing));
+          setStatus({ kind: 'idle' });
+          mutationInFlight.current = false;
+          return;
+        }
+      } catch (recheckError) {
+        // Only a still-absent identifier may proceed. Anything else (503, a malformed
+        // envelope, a network fault) is a real condition and must surface, not create.
+        if (!(recheckError instanceof UserPortfolioApiError) || recheckError.status !== 404) {
+          throw recheckError;
+        }
+      }
+      const created = await createUserPortfolio({
+        portfolioName: PERSONAL_PORTFOLIO_NAME,
+        holdings: parsedNow.holdings,
+      });
+      if (!mounted.current || generation.current !== current) return;
+      const adopted = requireCompletePersonalView(inspectUserPortfolioView(created));
+      setView(adopted);
+      setRows(rowsFromView(adopted));
+      setStatus({ kind: 'saved', savedAt: adopted.lastUpdated });
+    } catch (error) {
+      if (!mounted.current || generation.current !== current) return;
+      if (error instanceof UserPortfolioApiError && error.status === 409) {
+        setStatus({ kind: 'conflict' });
+      } else if (error instanceof UserPortfolioApiError && error.status === 400) {
+        // The provider refused creation. This is the existence/tombstone answer this
+        // client cannot derive on its own, so it is obeyed rather than retried.
+        const detail = error.serverDetail !== undefined ? ` ${error.serverDetail}` : '';
+        setStatus({
+          kind: 'not-found',
+          tombstoneKnown: true,
+          message: `The portfolio was not created (HTTP 400).${detail} The provider refused this identifier — it already exists, or it was removed and is not reusable. Nothing was changed, and it will not be recreated here. Reload to see the current state.`,
+        });
+      } else {
+        setStatus({
+          kind: 'mutation-unknown',
+          message: 'The create outcome could not be verified. Reload before trying again; do not retry automatically.',
+        });
+      }
+    } finally {
+      mutationInFlight.current = false;
+    }
+  };
+
   const onDelete = async () => {
     if (mutationInFlight.current || readPending.current || !view || !['idle', 'saved', 'error'].includes(status.kind)) return;
     mutationInFlight.current = true;
@@ -286,7 +378,12 @@ export function PersonalPortfolio() {
       await deleteUserPortfolio(PERSONAL_PORTFOLIO_ID, view.revision);
       if (!mounted.current || generation.current !== current) return;
       setView(null);
-      setStatus({ kind: 'not-found', message: 'The portfolio was deleted. This identifier must not be silently recreated.' });
+      setRows([blankRow()]);
+      setStatus({
+        kind: 'not-found',
+        tombstoneKnown: true,
+        message: 'The portfolio was deleted. This identifier is now known to be removed: it must not be silently recreated, and creation is no longer offered.',
+      });
     } catch (error) {
       if (!mounted.current || generation.current !== current) return;
       if (error instanceof UserPortfolioApiError && error.status === 409) {
@@ -300,9 +397,22 @@ export function PersonalPortfolio() {
     } finally { mutationInFlight.current = false; }
   };
 
-  const saving = status.kind === 'saving' || status.kind === 'deleting';
+  const saving = status.kind === 'saving' || status.kind === 'deleting' || status.kind === 'creating';
   const fieldError = parsed.error;
-  const editable = view !== null && ['idle', 'saved', 'error', 'saving', 'deleting'].includes(status.kind);
+  /**
+   * A 404 is unresolved, not absent, so the editor is offered and creation is available
+   * unless the tombstone is known. Every other gate below is unchanged: an existing
+   * portfolio is still edited only from a complete, admissible read.
+   */
+  /**
+   * Whether the create action is the page's primary action. Keyed off the identifier's
+   * resolution state rather than `status.kind` alone, so the control keeps its identity
+   * while the create is in flight instead of flipping to "Save changes" mid-request.
+   */
+  const unresolved = status.kind === 'not-found' ? !status.tombstoneKnown : status.kind === 'creating';
+  const showCreate = view === null && unresolved;
+  const editable = (view !== null || showCreate) &&
+    ['idle', 'saved', 'error', 'saving', 'deleting', 'creating', 'not-found'].includes(status.kind);
 
   // The header is identical in every state, so the Reload utility stays reachable and the
   // page never loses its identity while data is in flight.
@@ -378,13 +488,26 @@ export function PersonalPortfolio() {
         {status.kind === 'loading' ? <LoadingState /> : null}
 
         {/*
-          * Absent, inaccessible and deleted are indistinguishable to this client, so none of
-          * them opens an editor. This is the state in which first-time creation would be an
-          * unsafe guess, and it is deliberately not offered.
+          * Absent, inaccessible and deleted are indistinguishable to this client, so the 404
+          * is reported as unresolved rather than as proof of absence. While the tombstone is
+          * unknown the owner may create the portfolio explicitly; the create is arbitrated by
+          * the provider and refused for an identifier that exists or was removed. Once the
+          * tombstone is known — this page deleted it, or the provider refused the create —
+          * the offer is withdrawn and nothing here recreates the identifier.
           */}
         {status.kind === 'not-found' ? (
-          <BrokerNotice tone="critical" alert title="No editable portfolio">
-            <p data-testid="pp-not-found">{status.message}</p>
+          <BrokerNotice tone={status.tombstoneKnown ? 'critical' : 'warning'} alert title="No editable portfolio">
+            <div data-testid="pp-not-found">
+              <p>{status.message}</p>
+              {status.tombstoneKnown ? null : (
+                <p className="bw-muted">
+                  Identifier <code>{PERSONAL_PORTFOLIO_ID}</code>. If a portfolio you saved is
+                  missing, it is a read or configuration problem — check the persistence
+                  directory and the IPD owner binding before creating, because a new portfolio
+                  starts a fresh revision history.
+                </p>
+              )}
+            </div>
           </BrokerNotice>
         ) : null}
 
@@ -515,18 +638,30 @@ export function PersonalPortfolio() {
               <div className="bw-actions pp-actions">
                 <BrokerButton onClick={addRow} disabled={saving}>Add row</BrokerButton>
                 {/*
-                  * Always "Save changes". There is no create action: this page never creates a
-                  * portfolio, because a 404 cannot distinguish absent from inaccessible or
-                  * deleted, and a deleted identifier must not be silently recreated.
+                  * "Create portfolio" replaces "Save changes" while the identifier is unresolved:
+                  * there is nothing to save until the provider has admitted a portfolio. The
+                  * action is explicit and single-flight, and the provider decides whether the
+                  * identifier may be created.
                   */}
-                <BrokerButton
-                  variant="primary"
-                  onClick={() => void onSave()}
-                  disabled={saving || fieldError !== undefined}
-                  data-testid="pp-save"
-                >
-                  {status.kind === 'saving' ? 'Saving…' : 'Save changes'}
-                </BrokerButton>
+                {showCreate ? (
+                  <BrokerButton
+                    variant="primary"
+                    onClick={() => void onCreate()}
+                    disabled={saving || fieldError !== undefined}
+                    data-testid="pp-create"
+                  >
+                    {status.kind === 'creating' ? 'Creating…' : 'Create portfolio'}
+                  </BrokerButton>
+                ) : (
+                  <BrokerButton
+                    variant="primary"
+                    onClick={() => void onSave()}
+                    disabled={saving || fieldError !== undefined}
+                    data-testid="pp-save"
+                  >
+                    {status.kind === 'saving' ? 'Saving…' : 'Save changes'}
+                  </BrokerButton>
+                )}
                 {view !== null ? (
                   <BrokerButton onClick={() => void onDelete()} disabled={saving} data-testid="pp-delete">
                     Delete portfolio…
