@@ -65,6 +65,22 @@ Route `/personal-portfolio` (`src/features/personal-portfolio/PersonalPortfolio.
 nav label **Personal Portfolio**. Deliberately separate from the certified
 read-only user-portfolio surfaces. Behavior:
 
+**Creation discovery limitation:** the editor no longer creates `DEFAULT_PORTFOLIO`.
+A detail 404 deliberately conflates missing, foreign, tenant-mismatched and tombstoned
+records; an empty active-only list is no proof that the identifier has never existed.
+Neither response authorizes creation. No existing admitted read capability establishes
+that this identifier is safe to create. Explicit first-time creation remains blocked
+until a separately authorized provider contract supplies that distinction while preserving
+owner isolation and tombstone rules. The existing POST transport is unchanged, but is not
+called by this editor. Do not recreate or restore an existing identifier to work around a 404.
+
+A full, admissible detail read is required before editing or REPLACE. Rejected holdings
+or contributions block the editor; stale reads are ignored and writes are single-flight.
+An unknown mutation outcome requires reload, not an automatic retry. Optional ISIN and
+exchange are carried through for an unchanged symbol; changing a symbol drops those
+identifiers rather than attaching them to a different holding. Provider-owned identity,
+lineage and calculated fields remain read-only and are never sent back.
+
 - On open it re-reads the durable portfolio from IPD (no client cache of
   record); **Reload** discards local edits and re-reads.
 - **Save** sends `mode: 'REPLACE'` with the complete holdings set — a removal
@@ -94,7 +110,7 @@ There are three genuinely different states and they now render differently on
 
 | State | Transport | Personal Portfolio | User Portfolios |
 |---|---|---|---|
-| Readable, no portfolio yet | `404` on the fixed id, or `200 {"portfolios":[]}` | create form, one blank row, `Create portfolio` | `No durable portfolios yet` empty state |
+| Not found / inaccessible / tombstoned | `404` on the fixed id (indistinguishable) | unavailable for creation; reload or investigate the provider | `No durable portfolios yet` may describe an empty active list, not lifecycle history |
 | Unavailable (fail closed) | `503` + `detail.unavailableReason` | banner naming the missing setting(s) | unavailable state + the same diagnosis |
 | Populated | `200` | rows from the durable view | the portfolio row |
 
