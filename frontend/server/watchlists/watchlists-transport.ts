@@ -242,7 +242,23 @@ async function dispatch(
     const row =
       typeof canonicalSecurityId === 'string' ? index.get(canonicalSecurityId) : undefined;
     if (row === undefined) {
-      sendJson(res, 404, { error: 'governed-row-not-found' });
+      // Honest, actionable refusal. The identifier space is the server-owned snapshot this
+      // host actually serves (the certified-v2.0-reference-universe: sector reference
+      // identifiers such as 'Technology'). Issuer tickers and ISINs are not members of that
+      // snapshot and no security master is composed for this surface, so they cannot be
+      // resolved no matter how they are spelled. The reason carries no caller-supplied
+      // value, path or record; membership is never extended from the client.
+      sendJson(res, 404, {
+        error: 'governed-row-not-found',
+        detail: {
+          reason:
+            'Not a member of the governed reference universe served by this host '
+            + '(certified-v2.0-reference-universe; sector reference identifiers such as '
+            + "'Technology'). Issuer tickers and ISIN-style identifiers are not admitted: "
+            + 'no security master is composed for this surface. Membership comes from the '
+            + 'server-owned snapshot and cannot be added from the client.',
+        },
+      });
       return;
     }
     const list = addItem(tenantId, ownerUserId, watchlistId, row, input.triggers);

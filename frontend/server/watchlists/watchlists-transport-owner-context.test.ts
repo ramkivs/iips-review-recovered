@@ -377,3 +377,39 @@ describe('NP-09 — fail-closed and composition-failure behaviour', () => {
     expect(carrier.startsWith(process.cwd())).toBe(false);
   });
 });
+
+/**
+ * The reported security-addition failure (2026-11-10): `TCS` and
+ * `ISIN:INE467B01029:EQ` both answer `404 governed-row-not-found`.
+ *
+ * Root cause pinned by these tests:
+ *   - the served universe carries the certified-v2.0-reference-universe rows
+ *     (sector reference identifiers) — an issuer ticker / ISIN is not a member;
+ *   - the refusal is actionable: the body names WHICH universe refused and why,
+ *     while still leaking no caller value and extending no membership;
+ *   - membership matching stays exact and case-sensitive — this test documents
+ *     that boundary rather than silently widening it.
+ */
+describe('NP-09 — the reported governed-row-not-found for issuer identifiers', () => {
+  it('refuses TCS and ISIN:INE467B01029:EQ with 404 and an actionable authored reason', async () => {
+    for (const canonicalSecurityId of ['TCS', 'ISIN:INE467B01029:EQ']) {
+      const { status, body } = await request('/api/watchlists/wl-1/items', 'POST', { canonicalSecurityId });
+      expect(status).toBe(404);
+      expect(body.error).toBe('governed-row-not-found');
+      const detail = body.detail as { reason?: string } | undefined;
+      expect(typeof detail?.reason).toBe('string');
+      expect(detail?.reason).toContain('certified-v2.0-reference-universe');
+      expect(detail?.reason).not.toContain(canonicalSecurityId); // never echoes the caller value
+    }
+  });
+
+  it('keeps membership matching exact — the boundary is documented, not widened', async () => {
+    // 'banking' is a case-variant of a certified member; the resolver does not
+    // normalise on this surface, and these tests pin that fact deliberately.
+    const wrongCase = await request('/api/watchlists/wl-1/items', 'POST', { canonicalSecurityId: 'banking' });
+    expect(wrongCase.status).toBe(404);
+    // The certified member itself still resolves.
+    const member = await request('/api/watchlists/wl-1/items', 'POST', { canonicalSecurityId: 'Banking' });
+    expect(member.status).toBe(201);
+  });
+});
