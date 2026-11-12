@@ -11,6 +11,7 @@
  * so in its own fields rather than in a footnote.
  */
 import { DERIVATIONS } from '../fundamentals/derive';
+import { classifyDataset } from '../fundamentals/datasetClass';
 import { XBRL_TAG_MAP } from '../ingestion/xbrl';
 import type { DatasetManifest } from '../fundamentals/manifest';
 import type { CoverageReport as SectorCoverageReport } from '../coverage/measure';
@@ -37,7 +38,7 @@ export interface FinancialCoverageDisclosure {
   readonly xbrlMappedTags: number;
   readonly derivationItems: number;
   readonly unmappedTagsObserved: readonly string[];
-  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
   readonly note: string;
 }
 
@@ -112,9 +113,15 @@ function emptyCounts(): Record<ResolutionState, number> {
 
 function financialClass(manifest: DatasetManifest | null): FinancialCoverageDisclosure['datasetClass'] {
   if (manifest === null) return 'NONE';
-  return /synthetic|test-fixture|fixture/i.test(`${manifest.provider} ${manifest.licence}`)
-    ? 'SYNTHETIC_FIXTURE'
-    : 'OPERATOR_SUPPLIED';
+  const classified = classifyDataset(manifest);
+  switch (classified) {
+    case 'SYNTHETIC_REFERENCE':
+      return 'SYNTHETIC_FIXTURE';
+    case 'OPERATOR_SUPPLIED':
+      return 'OPERATOR_SUPPLIED';
+    case 'UNKNOWN':
+      return 'UNKNOWN';
+  }
 }
 
 /**

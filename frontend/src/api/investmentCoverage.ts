@@ -72,7 +72,7 @@ export interface FinancialCoverageView {
   readonly xbrlMappedTags: number;
   readonly derivationItems: number;
   readonly unmappedTagsObserved: readonly string[];
-  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
   readonly note: string;
 }
 
