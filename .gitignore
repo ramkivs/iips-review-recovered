@@ -160,3 +160,10 @@ __pycache__/
 
 # Personal Portfolio diagnostic reports (machine-local; may contain paths and portfolio metadata)
 tools/windows/diagnostics/
+
+# W11 acceptance dependency 1 capture: the exact owner-bound portfolio capture is LOCAL-ONLY and must
+# never be committed. The capture CLI already refuses an output root inside a git working tree; these
+# entries are the second barrier, for a run directory that someone copies into a checkout by hand.
+LOCAL-ONLY-DO-NOT-PUBLISH/
+exact-owner-bound-portfolio-capture.json
+portfolio-candidates.json
