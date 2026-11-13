@@ -25,6 +25,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join, resolve } from 'node:path';
 
 import { buildDatasetContent, type DatasetInputs, type TextFile, type XbrlFileInput } from '../ingestion/builder';
+import { assertValidIssuerSectors } from '../ingestion/sectorValidation';
 import { assertSupportedDatasetSchema, type DatasetSchema } from '../contracts/lineItems';
 import { COVERAGE_FILE_NAME, writeDataset } from '../ingestion/writer';
 import { canonicalize } from '../fundamentals/canonical';
@@ -87,6 +88,22 @@ export function loadInputs(inputDir: string, datasetSchema?: DatasetSchema): Dat
   const rosterPath = join(inputDir, 'roster.json');
   if (!existsSync(rosterPath)) throw new Error(`roster.json is required in ${inputDir}`);
   const roster = readJson<{ issuers: IssuerRecord[]; securities: SecurityRecord[]; listings: ListingRecord[] }>(rosterPath);
+  /**
+   * `S3-D1` — validate the sector vocabulary HERE, before anything is built or written.
+   *
+   * The cast on the line above is an assertion, not a validation: `readJson` is
+   * `JSON.parse(...) as T`, so `roster.issuers` is typed `IssuerRecord[]` whether or not the file
+   * actually held canonical sectors. `IssuerRecord.sector` is the closed `SectorName` union, but a type
+   * is erased at runtime and coverage measurement selects issuers by string equality, so an off-
+   * vocabulary sector used to make its issuer match no sector at all — an ingestion that exited `0`,
+   * recorded no issue, and measured zero sectors.
+   *
+   * Validating before `buildDatasetContent` is also what makes the failure non-destructive: `writeDataset`
+   * replaces a dataset directory file by file, so a roster this build cannot interpret must never reach
+   * it. Throwing here means an existing valid dataset is left untouched. Not bypassable by
+   * `--allow-errors`, which accepts ingestion issues, not uninterpretable input.
+   */
+  assertValidIssuerSectors(roster.issuers, rosterPath);
 
   const optional = (name: string): string | null => {
     const path = join(inputDir, name);

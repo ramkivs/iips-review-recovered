@@ -23,6 +23,52 @@ export type SectorName =
   | 'Auto'
   | 'Materials';
 
+/**
+ * The same thirteen sectors, as a runtime list.
+ *
+ * WHY THIS EXISTS (`S3-D1`). The `SectorName` union above is compile-time only: it is erased at runtime,
+ * so a roster read from JSON can carry any string at all while still being *typed* `SectorName` by the
+ * cast that read it. Sector membership is then decided by string equality in `measureCoverage`
+ * (`coverage/measure.ts` filters `issuer.sector === sector`), so an issuer whose sector is misspelled,
+ * miscased or padded matches no sector and silently disappears from every measurement — an ingestion
+ * that exits `0`, records no issue, and measures zero sectors. This list is the runtime authority that
+ * makes membership checkable at the point where untrusted data actually enters.
+ *
+ * The members are exactly the union's, in the union's order. The regression test
+ * `SECTOR_NAMES is pinned to the coverage method matrix` cross-checks this list against
+ * `Object.keys(SECTOR_METHODS)`, which TypeScript already forces to hold exactly one key per
+ * `SectorName`; a sector added to one and not the other therefore fails typecheck or that test rather
+ * than quietly escaping validation.
+ */
+export const SECTOR_NAMES: readonly SectorName[] = Object.freeze([
+  'Banking',
+  'Insurance',
+  'Capital Markets',
+  'Healthcare',
+  'Hospitality',
+  'Energy',
+  'Utilities',
+  'Consumer',
+  'Industrials',
+  'Technology',
+  'Telecom',
+  'Auto',
+  'Materials',
+]);
+
+/**
+ * Whether `value` is exactly one of the thirteen canonical sector names.
+ *
+ * The comparison is exact: case-sensitive, with no trimming and no normalisation. A value that would
+ * match only after such a transformation is **not** a sector name, and is reported as invalid by
+ * `assertValidIssuerSectors` rather than silently repaired — the same fail-closed posture the rest of
+ * the ingestion path takes (`xbrl-filings.json` is required because issuer and period are never
+ * inferred; an unsupported `--dataset-schema` is rejected before anything is read).
+ */
+export function isSectorName(value: unknown): value is SectorName {
+  return typeof value === 'string' && (SECTOR_NAMES as readonly string[]).includes(value);
+}
+
 export type MetricSourceClass = 'COMPUTED_FROM_STATEMENTS' | 'OPERATOR_ENTERED' | 'VENDOR';
 export type MetricUnit = 'PERCENT' | 'RATIO' | 'COUNT' | 'INR' | 'INR_CRORE' | 'INDEX' | 'DAYS' | 'YEARS' | 'TIMES';
 
