@@ -691,6 +691,7 @@ narrow, declared, and do not bear on the presence of a committed document.
 | `mergeable` | `MERGEABLE` | at both observations | recomputed by GitHub after each head advance |
 | `mergeStateStatus` | `CLEAN` | at head `cd4e3c3fd7a320c1d51189511ae1ca561e587fd5`, before either correction | CI-derived: the single required check `Typecheck · Test · Build` was `completed / success` at that commit |
 | `mergeStateStatus` | `UNSTABLE` | at head `4e4b4ca2cb1c9646a7392d739cfe1955c91e2914`, immediately after correction 1 was pushed | the same check was `in_progress` (started `2026-11-13T06:38:09Z`); `UNSTABLE` means *checks still running*, not *conflict* and not *blocked* |
+| `mergeStateStatus` | `CLEAN` | at head `38c6f278c55ba6b576321aee70354fa7fbe014be`, observed `2026-11-13T06:52:29Z` before correction 3 | CI had settled: `Typecheck · Test · Build` reported `completed / success` at that head — which confirms the explanation given for the `UNSTABLE` reading above |
 
   `mergeStateStatus` is not a compliance fact and is not under this session's control — it settles when CI finishes,
   and each new head retriggers CI. An earlier draft of this bullet asserted `mergeStateStatus = CLEAN` without
@@ -701,9 +702,8 @@ narrow, declared, and do not bear on the presence of a committed document.
   The accurate statement of what happened to the PR is threefold, and the three must not be conflated:
 
   1. **No new pull request was created.** Exactly one open PR exists for this branch: #562.
-  2. **The existing PR's head branch was advanced** by commits 4, 5 and 6 in the table below — commit 4 carries this
-     historical-discovery record, commit 5 carries the first §12.2 correction (commit count and PR wording), and
-     commit 6 carries the second (binding the volatile fields above to their observation instants). Advancing the
+  2. **The existing PR's head branch was advanced** by the commits listed in rows 4–7 of the table below — row 4
+     carries this historical-discovery record and rows 5, 6 and 7 carry its three §12.2 corrections. Advancing the
      head branch changes the set of commits the PR records, and therefore changes the PR's head SHA and commit
      count.
   3. **The PR's own metadata was not edited** — no title, body, base, head, label, milestone, assignee, draft-state
@@ -719,26 +719,42 @@ narrow, declared, and do not bear on the presence of a committed document.
 | 3 | `431a5f5ad5c0c00bb23675ec47e928d157349fb1` | 2026-11-12T20:00:07Z | docs(integration): CPII-01 v2 - correct the baseline-availability finding |
 | 4 | `cd4e3c3fd7a320c1d51189511ae1ca561e587fd5` | 2026-11-13T06:16:06Z | docs(integration): CPII master roadmap — historical and associated evidence discovery — **the commit that published this record** |
 | 5 | `4e4b4ca2cb1c9646a7392d739cfe1955c91e2914` | 2026-11-13T06:38:00Z | docs(integration): correct the stale PR publication metadata in §12.2 |
-| 6 | this second correction — see the self-reference note below | 2026-11-13 | docs(integration): bind the volatile PR fields in §12.2 to their observation instants |
+| 6 | `38c6f278c55ba6b576321aee70354fa7fbe014be` | 2026-11-13T06:41:23Z | docs(integration): bind the volatile PR fields in §12.2 to their observation instants |
+| 7 | not embeddable — see the observation-boundary note below | 2026-11-13 | docs(integration): withdraw the post-publication verification claim in §12.2 |
 
   **PR state and commit count at each verification instant.** Each value below is bound to the moment it was
-  measured, because the count moves with every push to this branch:
+  measured, because the count moves with every push to this branch. **The table closes at the last observation made
+  before this revision was committed**; it makes no claim about any later state, for the reason given in the
+  observation-boundary note that follows:
 
 | Verification instant | PR head SHA | Commit count | Note |
 |---|---|---|---|
 | while the historical investigation was being authored | `431a5f5ad5c0c00bb23675ec47e928d157349fb1` | **3** | commits 1–3; this is the state the original §12.2 wording described |
 | before correction 1 was authored | `cd4e3c3fd7a320c1d51189511ae1ca561e587fd5` | **4** | commit 4 published this record; confirmed present at that head as blob `26513bc227c29e783003e0b6d116b394e84ab43c`, 55,327 bytes |
 | before correction 2 was authored | `4e4b4ca2cb1c9646a7392d739cfe1955c91e2914` | **5** | commit 5 carried correction 1 |
-| after correction 2 is pushed | commit 6 (this commit) | **6** | commit 6 becomes the PR head; verified independently after the push |
+| before correction 3 was authored, observed `2026-11-13T06:52:29Z` | `38c6f278c55ba6b576321aee70354fa7fbe014be` | **6** | **the last state this document can legitimately assert.** Commit 6 carried correction 2; this row was measured before correction 3 existed. Recorded as a historical observation, not as a standing current-state claim |
 
-  > **Self-reference note.** A commit cannot embed its own SHA, so the table above can never print the SHA of the
-  > commit that contains it. The convention adopted here is that **each correction fills in its predecessor's SHA**:
-  > correction 1 (commit 5) could not name itself, and correction 2 (commit 6) supplies `4e4b4ca2…` in row 5.
-  > Commit 6's own SHA is therefore recorded outside the file — in the execution report for this work item — and the
-  > authoritative list is always reproducible with
+  > **Observation-boundary note.** Every value in the two tables above was observed **before this revision was
+  > committed**, and that is the only class of value this document can legitimately assert about the pull request.
+  > Two consequences follow, and they are why the tables stop where they do:
+  >
+  > 1. **This revision's own commit SHA cannot appear in this file.** A commit SHA is computed over the commit's
+  >    contents, and those contents include this file; embedding the SHA would alter the contents and therefore
+  >    alter the SHA. Row 7 is left unnamed by necessity, not by oversight, and no later revision can supply it
+  >    without becoming the row-8 case in its turn.
+  > 2. **No post-publication state can be "verified" from inside this file.** A claim that the PR head, the commit
+  >    count or the CI status was verified *after* this revision was pushed cannot be true of text that was fixed
+  >    *before* that push. The earlier wording of the final table row made precisely that claim. It is withdrawn
+  >    here and replaced by a timestamped pre-publication observation.
+  >
+  > The convention is therefore: **each revision fills in its predecessor's SHA and records only what it observed
+  > before being committed.** Correction 3 (row 7) supplies `38c6f278…` in row 6. The resulting SHA of this
+  > revision, and the PR head SHA and commit count observed *after* publication, are reported in the Arena execution
+  > response for this work item — outside this file, where they can be genuinely observed — and the authoritative
+  > commit list is always reproducible with
   > `gh api repos/ramkivs/iips-review-recovered/pulls/562/commits`.
 
-  **Nature of the two corrections.** *Correction 1* (commit 5) addressed the original defect. The bullet then read
+  **Nature of the three corrections.** *Correction 1* (commit 5) addressed the original defect. The bullet then read
   *"No merge performed. No PR opened or changed. PR #562 remains OPEN with exactly **3** commits (`3a818b5`,
   `ec0aa26`, `431a5f5`) — unchanged by this work item."* The three-commit count was true of the PR **as it stood
   while the historical investigation was being authored**, since commits 1–3 were the whole PR at that moment; it
@@ -746,15 +762,30 @@ narrow, declared, and do not bear on the presence of a committed document.
   opened or changed"* was also imprecise: no PR was **opened**, and no PR field was **edited**, but the PR's recorded
   commits, head SHA and count did change when its head branch was advanced.
 
-  *Correction 2* (this commit) addressed a defect correction 1 introduced. Having replaced a stale count with a
+  *Correction 2* (commit 6) addressed a defect correction 1 introduced. Having replaced a stale count with a
   snapshot of PR fields, correction 1 asserted `mergeStateStatus = CLEAN` as a standing fact; CI had settled at the
   then-head, so the value was accurate when read and inaccurate one push later. It also left row 5 of the commit
   table unnamed, and described the branch as "pushed twice" when a third push was already required. Correction 2
   separates durable from volatile fields, binds every volatile value to its observation instant, fills in commit 5's
   SHA, and states the push count by reference to the table rather than by a number that each correction invalidates.
 
-  **No historical finding, search count, classification, limitation or governance statement is affected by either
-  correction** — both touch publication and verification metadata only.
+  *Correction 3* (this commit, row 7) addressed a defect correction 2 introduced. Correction 2 closed its
+  verification-instant table with the row *"after correction 2 is pushed | commit 6 (this commit) | 6 | commit 6
+  becomes the PR head; verified independently after the push."* That row asserted a **post-publication** state, and
+  asserted that it had been verified, from inside the very document whose contents were fixed *before* the push it
+  referred to — so the verification it claimed could not have occurred when the claim was written. Correction 3
+  withdraws that row, replaces it with the timestamped pre-publication observation made at `2026-11-13T06:52:29Z`,
+  fills in commit 6's SHA `38c6f278…` in row 6, and states the boundary explicitly in the observation-boundary note.
+
+  One point of accuracy about correction 3's own scope: it was directed at a suspected self-reference in which this
+  report would embed the SHA of the commit containing it. **That literal defect was not present** — the previous
+  revision was checked and contained **zero** occurrences of `38c6f278`, and no 40-hex SHA in it equalled its own
+  head, because correction 2 had correctly kept its self-SHA out of the file. The real defect at that location was
+  the post-publication verification claim described above, and that is what is corrected. This is recorded so that
+  the correction is not mistaken for a fix to a problem the file had.
+
+  **No historical finding, search count, classification, limitation or governance statement is affected by any of the
+  three corrections** — all three touch publication and verification metadata only.
 - **The 11 November assessment was NOT merged.** It remains only on `arena/iid-coverage-readiness-report-2026-11-11`
   at `31a9b01e`, blob `e6f756238089c6795c8568b37321f3e55ba60cb2`. It was read from fetched objects; the branch was
   never checked out.
@@ -770,8 +801,8 @@ narrow, declared, and do not bear on the presence of a committed document.
 - **`origin/main` unchanged** at `a835d4af019ab4f677ab238ec42d44326f06a771` in IRR. **No IPD write of any kind**:
   IPD was cloned read-only into `/tmp` and queried through read-only API calls.
 - **Working tree clean**; branch still `arena/94a53bb3-iips-review-recovered`. No branch was created, switched,
-  renamed or deleted. The branch was pushed once per commit listed in rows 4–6 of the table above — this record and
-  each of the two corrections — and every push went to this same existing branch. No push targeted `main` or any
+  renamed or deleted. The branch was pushed once per commit listed in rows 4–7 of the table above — this record and
+  each of its three corrections — and every push went to this same existing branch. No push targeted `main` or any
   other branch.
 - All mirror clones, scratch corpora and downloaded artefacts were written to `/tmp`, outside the repository.
 
