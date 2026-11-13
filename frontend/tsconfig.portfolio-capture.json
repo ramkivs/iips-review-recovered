@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.replay-server.json",
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["server/user-portfolio/capture/**/*.ts"]
+}
