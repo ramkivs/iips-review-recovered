@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.replay-server.json",
+  "include": ["server/reports/inventory/**/*.ts"]
+}

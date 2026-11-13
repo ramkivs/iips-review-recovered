@@ -58,6 +58,41 @@ that requires a captured revision, which requires host access. **No count, count
 **Dependency:** B02 — usable non-production host access under its owner controls. This record does not assume
 the host is absent or that startup has failed.
 
+### 2.1 Update 2026-11-13 — W03 status after the host capture and the Reports collector
+
+This subsection is additive. The text above is the 2026-11-10 record and is unchanged.
+
+**Status: PARTIAL. Portfolio half supported by a host capture; Reports half has a read-only collector, host
+inventory NOT yet collected.**
+
+| W03 half | State on 2026-11-13 | Evidence |
+|---|---|---|
+| Actual portfolio revision | A consistent host capture of one broker-import portfolio at **revision 1 with 64 holdings** was reported by the operator. | `iips-production-market-data`, `docs/integration/IIPS-W11-DEP1-CAPTURE-EVIDENCE-DISPOSITION-2026-11-13.md`. The exact capture is local to the host. |
+| Actual report inventory | **Not collected.** An earlier attempt returned `UNKNOWN / UNKNOWN / []`. | — |
+
+Why the earlier attempt could not succeed, and what replaces it, is recorded in
+`docs/integration/W03-REPORTS-INVENTORY-UTILITY-2026-11-13.md`. In short:
+
+- Every Reports read path listed in the table above reaches NP-04 through `loadAuthoritativeNp04Persistence()`
+  (`persistence-port.ts`), which opens the store with `createDirectory: true, migrate: true`; NP-04's
+  `openDatabase` also sets `journal_mode = WAL` on every open. None of them is a read-only operation.
+- A read-only SQLite connection to a WAL database still creates `-shm`/`-wal` beside it, and an `immutable`
+  open ignores the WAL and can miss committed artifacts. There is no safe SQLite open of the live store.
+- The collector `tools/windows/collect-reports-inventory.ps1` therefore reads the database and WAL files as
+  plain bytes, verifies that they held still, and lets SQLite open a private copy. It distinguishes persisted,
+  transient, unavailable and unreadable, records versions, and classifies each artifact's linkage to the
+  captured portfolio and revision using only the scope's portfolio component and
+  `provenance.portfolioRevision`.
+
+**What the persisted model can and cannot link (repository finding, no host data):** only
+`investment.holding-disposition` records a portfolio revision; the CSIP reports record none and are scoped to
+the certified reference portfolio; no artifact field carries the IPD provenance digest. Reconciliation to the
+captured revision can therefore be exact for dispositions and is otherwise "no portfolio reference" or "other
+portfolio", never an inference.
+
+**Remaining for W03:** run the collector on the Windows host, review the sanitized inventory, and record it.
+Until then no artifact count, count proxy or reconciliation result is claimed, and W03 is not complete.
+
 ---
 
 ## 3. W05 — Financial coverage and source rights

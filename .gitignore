@@ -167,3 +167,11 @@ tools/windows/diagnostics/
 LOCAL-ONLY-DO-NOT-PUBLISH/
 exact-owner-bound-portfolio-capture.json
 portfolio-candidates.json
+
+# W03 Reports inventory: the per-artifact detail and the private NP-04 copy are LOCAL-ONLY. The
+# inventory CLI refuses an output root inside a git working tree and removes the copy itself; these
+# entries are the second barrier (the LOCAL-ONLY-DO-NOT-PUBLISH/ entry above already covers the run
+# directory layout).
+reports-inventory-detail.json
+np04-private-copy/
+np04-snapshot.db*
