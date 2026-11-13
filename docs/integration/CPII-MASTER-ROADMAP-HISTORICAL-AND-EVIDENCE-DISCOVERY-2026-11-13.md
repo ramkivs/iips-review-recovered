@@ -676,8 +676,51 @@ narrow, declared, and do not bear on the presence of a committed document.
   operationalisation stage re-sequenced. The baseline's Stage 1–6 and IPD's W01–W20 are reported **as found**, by
   reference, with no reordering and no substitution.
 - **No implementation change, no provisioning, no configuration change, no dependency-pin change.**
-- **No merge performed. No PR opened or changed.** PR #562 remains **OPEN** with exactly **3** commits
-  (`3a818b5`, `ec0aa26`, `431a5f5`) — unchanged by this work item.
+- **No merge performed. No new PR created. No PR metadata changed.** PR #562 — base `main`, head
+  `arena/94a53bb3-iips-review-recovered` — is **OPEN**, not draft, `mergeable = MERGEABLE`,
+  `mergeStateStatus = CLEAN`, titled *"WI-13: head re-validation of Infosys — record L-041 + L-042, correct the
+  L-002 notice count"*, with 0 labels, no milestone and no assignees. **All of those fields are unchanged** by this
+  record and by the correction in this section. Verified against the GitHub API at
+  `https://github.com/ramkivs/iips-review-recovered/pull/562`.
+
+  The accurate statement of what happened to the PR is threefold, and the three must not be conflated:
+
+  1. **No new pull request was created.** Exactly one open PR exists for this branch: #562.
+  2. **The existing PR's head branch was advanced** by commits 4 and 5 in the table below — commit 4 carries this
+     historical-discovery record, commit 5 carries this §12.2 correction. Advancing the head branch changes the set
+     of commits the PR records, and therefore changes the PR's head SHA and commit count.
+  3. **The PR's own metadata was not edited** — no title, body, base, head, label, milestone, assignee, draft-state
+     or state change was made, and no merge or close was performed.
+
+  The ordered commit list of PR #562, retrieved from
+  `GET /repos/ramkivs/iips-review-recovered/pulls/562/commits` and reproduced with full SHAs:
+
+| # | Full commit SHA | Committer date (UTC) | Subject |
+|---|---|---|---|
+| 1 | `3a818b5d0e1fcea6acc6d908d9256703b51b321d` | 2026-11-12T18:04:55Z | WI-13: re-validate Infosys at head a835d4a; record L-041 + L-042, correct the L-002 notice count |
+| 2 | `ec0aa264373f0d4a211f50484206399b54b47834` | 2026-11-12T19:46:59Z | docs(integration): CPII-01 runtime topology and readiness boundary |
+| 3 | `431a5f5ad5c0c00bb23675ec47e928d157349fb1` | 2026-11-12T20:00:07Z | docs(integration): CPII-01 v2 - correct the baseline-availability finding |
+| 4 | `cd4e3c3fd7a320c1d51189511ae1ca561e587fd5` | 2026-11-13T06:16:06Z | docs(integration): CPII master roadmap — historical and associated evidence discovery — **the commit that published this record** |
+| 5 | this correction — see the self-reference note below | 2026-11-13 | docs(integration): correct the stale PR publication metadata in §12.2 |
+
+  **PR state and commit count at verification time.** Before this correction was authored, PR #562 stood at head
+  `cd4e3c3fd7a320c1d51189511ae1ca561e587fd5` with **4 commits**, and this record was confirmed present at that head
+  (blob `26513bc227c29e783003e0b6d116b394e84ab43c`, 55,327 bytes). Committing this correction makes the count **5**
+  and makes commit 5 the PR head.
+
+  > **Self-reference note.** A commit cannot embed its own SHA, so commit 5's SHA is not printed in the table it
+  > appears in. It is the branch head at post-push verification; its full SHA, and the re-verified PR head SHA,
+  > state and commit count, are recorded in the execution report for this correction and can be reproduced with
+  > `gh api repos/ramkivs/iips-review-recovered/pulls/562/commits`.
+
+  **Nature of this correction.** The bullet previously read *"No merge performed. No PR opened or changed. PR #562
+  remains OPEN with exactly **3** commits (`3a818b5`, `ec0aa26`, `431a5f5`) — unchanged by this work item."* The
+  three-commit count was true of the PR **as it stood while the historical investigation was being authored**, since
+  commits 1–3 were the whole PR at that moment; it became stale the instant commit 4 was pushed, because this record
+  is itself the fourth commit. The phrase *"No PR opened or changed"* was also imprecise: no PR was **opened**, and no
+  PR field was **edited**, but the PR's recorded commits, head SHA and count did change when its head branch was
+  advanced. Both defects are corrected here against the verified remote state. **No historical finding, search count,
+  classification or governance statement is affected by this correction** — it touches publication metadata only.
 - **The 11 November assessment was NOT merged.** It remains only on `arena/iid-coverage-readiness-report-2026-11-11`
   at `31a9b01e`, blob `e6f756238089c6795c8568b37321f3e55ba60cb2`. It was read from fetched objects; the branch was
   never checked out.
@@ -692,8 +735,9 @@ narrow, declared, and do not bear on the presence of a committed document.
 
 - **`origin/main` unchanged** at `a835d4af019ab4f677ab238ec42d44326f06a771` in IRR. **No IPD write of any kind**:
   IPD was cloned read-only into `/tmp` and queried through read-only API calls.
-- **Working tree clean**; branch still `arena/94a53bb3-iips-review-recovered`; no branch created, switched, renamed,
-  pushed or deleted other than the single documentation commit described below.
+- **Working tree clean**; branch still `arena/94a53bb3-iips-review-recovered`. No branch was created, switched,
+  renamed or deleted. The branch was pushed twice from this session's documentation work: once carrying commit 4
+  (this record) and once carrying commit 5 (this §12.2 correction), both listed in the table above.
 - All mirror clones, scratch corpora and downloaded artefacts were written to `/tmp`, outside the repository.
 
 ---
