@@ -31,7 +31,7 @@
  *
  * No network calls of any kind. Nothing outside the given directories is read or written.
  */
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
 
 import { buildDatasetContent, type DatasetInputs, type TextFile, type XbrlFileInput } from '../ingestion/builder';
@@ -43,9 +43,14 @@ import {
 } from '../ingestion/multiInput';
 import { assertValidIssuerSectors } from '../ingestion/sectorValidation';
 import { assertSupportedDatasetSchema, type DatasetSchema } from '../contracts/lineItems';
-import { COVERAGE_FILE_NAME, writeDataset } from '../ingestion/writer';
-import { canonicalize, sha256Hex } from '../fundamentals/canonical';
-import type { DatasetInputFile } from '../fundamentals/manifest';
+import {
+  COVERAGE_FILE_NAME,
+  recoverInterruptedPublication,
+  serializeDatasetFile,
+  writeDataset,
+} from '../ingestion/writer';
+import { sha256Hex } from '../fundamentals/canonical';
+import { computeContentDigest, type DatasetInputFile } from '../fundamentals/manifest';
 import { measureCoverage, renderCoverageSummary } from '../coverage/measure';
 import type { CorporateActionRecord, IssuerRecord, ListingRecord, PriceRecord, SecurityRecord } from '../fundamentals/types';
 
@@ -163,13 +168,14 @@ export function loadInputBundle(inputDir: string, datasetSchema?: DatasetSchema)
    * measurement selects issuers by string equality, so an off-vocabulary sector used to make its issuer match no
    * sector at all — an ingestion that exited `0`, recorded no issue, and measured zero sectors.
    *
-   * Validating before `buildDatasetContent` is also what makes the failure non-destructive: `writeDataset`
-   * replaces a dataset directory file by file, so a roster this build cannot interpret must never reach
-   * it. Throwing here means an existing valid dataset is left untouched. Not bypassable by
-   * `--allow-errors`, which accepts ingestion issues, not uninterpretable input.
+   * Validating before `buildDatasetContent` is also what makes the failure non-destructive: a roster this build
+   * cannot interpret must never reach the writer at all. Throwing here means an existing valid dataset is left
+   * untouched. Not bypassable by `--allow-errors`, which accepts ingestion issues, not uninterpretable input.
    *
    * `S3-D2` does not relax this: every bundle of a multi-input run is loaded through here, so each one is
-   * sector-validated on its own before the set is merged.
+   * sector-validated on its own before the set is merged. The writer now publishes as one unit and would not
+   * partially overwrite a dataset either, but that is a second line of defence, not a licence to hand it input
+   * this build cannot interpret.
    */
   assertValidIssuerSectors(roster.issuers, rosterPath);
 
@@ -236,6 +242,21 @@ export function run(argv: readonly string[]): number {
   const bundles = args.inputDirs.map((dir) => loadInputBundle(dir, args.datasetSchema));
   const merged = mergeInputBundles(bundles);
 
+  /**
+   * Resolve an interrupted publication BEFORE reading the destination (`S3-D2`, publication safety).
+   *
+   * A previous run that was killed between the two renames of the swap leaves the dataset either absent from
+   * its path or sitting beside it under a marker. Reading the destination in that state would answer the wrong
+   * question — the guard below would see no dataset at all and allow anything — so the markers are resolved
+   * first, deterministically. This is a no-op with no marker present, which is why an ordinary run's output is
+   * unchanged; when it does act, every action is reported, because silently moving the operator's dataset
+   * directories would be worse than the interruption that caused it.
+   */
+  const recovery = recoverInterruptedPublication(args.datasetDir);
+  for (const action of recovery.actions) {
+    process.stdout.write(`recovery       ${action}\n`);
+  }
+
   // Refuse a run that would silently drop issuers or recorded sources from the dataset already at the destination
   // — the S3-D2 failure mode, guarded rather than merely made unnecessary. Throws before anything is written.
   assertNoSilentSourceLoss(
@@ -254,6 +275,15 @@ export function run(argv: readonly string[]): number {
     process.stderr.write(`\n${errors.length} ingestion error(s); nothing was written. Re-run with --allow-errors to write a partial dataset that records them.\n`);
     return 1;
   }
+
+  /**
+   * The coverage report is derived from the content, so its version is the content digest — the same value the
+   * manifest it is published beside will carry. Computing it here is what lets the report be published IN THE
+   * SAME UNIT as the dataset instead of being written into the destination afterwards, where a failure left a
+   * dataset that verified while its coverage report still described the previous version.
+   */
+  const datasetVersion = computeContentDigest(content);
+  const report = measureCoverage(content, { datasetVersion, generatedAt: args.now });
 
   const written = writeDataset({
     dir: args.datasetDir,
@@ -283,11 +313,18 @@ export function run(argv: readonly string[]): number {
      * change what it says.
      */
     inputProvenance: manifestProvenance(merged.provenance),
+    /**
+     * The coverage report travels with the dataset. Bytes are unchanged — same canonical form, same name — and
+     * it is still outside `manifest.files` and outside `datasetVersion`, exactly as when the CLI wrote it
+     * itself. What changes is that it can no longer be left behind by a failed publication.
+     */
+    derivedFiles: () => ({ [COVERAGE_FILE_NAME]: serializeDatasetFile(report) }),
   });
 
-  const report = measureCoverage(content, { datasetVersion: written.manifest.datasetVersion, generatedAt: args.now });
   const coveragePath = join(args.datasetDir, COVERAGE_FILE_NAME);
-  writeFileSync(coveragePath, `${JSON.stringify(JSON.parse(canonicalize(report)), null, 2)}\n`, 'utf8');
+  for (const marker of written.deferredCleanup) {
+    process.stdout.write(`recovery       the superseded dataset at ${marker} could not be discarded now; the next run will remove it\n`);
+  }
 
   if (merged.provenance.length > 1) {
     // Operator-visible for a multi-input run only, so a single-bundle run's output is unchanged. Naming every
