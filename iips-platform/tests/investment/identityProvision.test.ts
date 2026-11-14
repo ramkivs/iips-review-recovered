@@ -12,7 +12,7 @@
 import { test, describe, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
@@ -293,6 +293,38 @@ describe('IID Stage 2 — execution publishes and protects', () => {
     const report = preflightReport(['--execute']);
     assert.equal(report.plan!.wouldChange, false);
     assert.deepEqual(report.plan!.files.map((file) => file.action), ['UNCHANGED', 'UNCHANGED', 'UNCHANGED']);
+  });
+
+  test('an idempotent EXECUTE re-publishes identical bytes through the real path, and says so truthfully', () => {
+    // MEASURED, NOT ASSUMED. An all-UNCHANGED plan does NOT short-circuit: EXECUTE stages three fresh files and
+    // renames them over the published ones, so the inodes are replaced even though the bytes are identical.
+    // `stat -c %Y` cannot see this (second granularity) — the inode can. Pinning it matters because the report's
+    // claims are only honest if the behaviour underneath is known: `published true`, `replacedExisting true` and
+    // the WRITES_PERFORMED attestation are all TRUE here, because writes really were performed. A future change
+    // that made EXECUTE skip an identical candidate would have to change those three claims with it.
+    const argv = [...ADMITTED_SOURCES.flatMap((dir) => ['--source', dir]), '--data-root', dataRoot, '--execute'];
+    assert.equal(run(argv), 0);
+    const beforeBytes = publishedTexts();
+    const beforeInodes = FILE_NAMES.map((name) => statSync(join(target, name)).ino);
+
+    const report = planRun(parseArgs(argv));
+    const afterBytes = publishedTexts();
+    const afterInodes = FILE_NAMES.map((name) => statSync(join(target, name)).ino);
+
+    assert.equal(report.ok, true);
+    assert.equal(report.plan!.wouldChange, false, 'nothing about the content would change');
+    assert.deepEqual(afterBytes, beforeBytes, 'the bytes must be identical');
+    assert.notDeepEqual(afterInodes, beforeInodes,
+      'but the files were replaced, not skipped — this is what makes the attestation below truthful');
+    assert.equal(report.publication!.published, true);
+    assert.equal(report.publication!.replacedExisting, true);
+    assert.equal(report.publication!.rolledBack, false);
+    assert.equal(report.attestationClass, 'WRITES_PERFORMED');
+    // The rename path is used, so no marker may survive an idempotent re-publish either.
+    assert.deepEqual(readdirSync(target).filter((name) => name.includes('.iips-')), []);
+    assert.deepEqual(readdirSync(target).sort(), [...FILE_NAMES].sort());
+    // And the published set must still load through the existing loader afterwards.
+    assert.equal(loadIdentitySourcesFromDir(target).available, true);
   });
 
   test('a valid published set is restored when publication is interrupted after the first swap', () => {
