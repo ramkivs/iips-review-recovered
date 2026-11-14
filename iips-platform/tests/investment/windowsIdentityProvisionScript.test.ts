@@ -391,3 +391,231 @@ describe('IID Stage 2 script — the product interfaces it depends on still exis
     assert.equal(module.includes("'TARGET_OUTSIDE_GOVERNED_IDENTITY_DIR'"), true);
   });
 });
+
+/**
+ * THE HOST CENSUS, PINNED.
+ *
+ * The operator ran this script on a Windows host at `da4d145b` and supplied four RESULT blocks
+ * (`IID-STAGE2-WINDOWS-HOST-PROVISION-EVIDENCE-2026-11-14.md` §2–§5). Each reports
+ * `checks: N passed, N failed, N informational`. Those twelve numbers are not decorative: each is the sum of a
+ * different subset of this script's `Add-Check` emission sites, under that mode's gates and loop multiplicities.
+ *
+ * All four reconcile EXACTLY against the census below. That is what makes "0 failed" mean *every reachable hard
+ * check passed* rather than *some checks were never evaluated*, and it is what ties the host transcript to this
+ * exact script version. If a check is added, removed, reclassified or re-gated, one of these totals moves and
+ * this test fails — forcing the census, and the evidence record's arithmetic, to be re-derived rather than left
+ * silently wrong.
+ *
+ * The table is verified against the source in the test that follows it, so it cannot rot into fiction.
+ */
+type Mode = 'PREFLIGHT' | 'EXECUTE' | 'VERIFY_ONLY';
+
+interface CensusRow {
+  /** The `-Id` passed to Add-Check, or a prefix for loop-emitted ids. */
+  readonly id: string;
+  /** How many times the site emits, per mode. 0 means the site is gated off in that mode. */
+  readonly emit: Readonly<Record<Mode, number>>;
+  /** The class the emission carries, per mode. `$script:PostClass` is 'info' in PREFLIGHT and 'check' otherwise. */
+  readonly klass: Readonly<Record<Mode, 'check' | 'info'>>;
+  /** A fragment that must appear on the site's logical statement, so the row is tied to real source. */
+  readonly witness: string;
+  /**
+   * 'pre' = emitted before the preflight gate at `:428`; 'post' = emitted after it. A run that REFUSES at the
+   * gate never reaches the 'post' sites at all, which is why run 1's total is not run 2's total minus two.
+   */
+  readonly stage: 'pre' | 'post';
+}
+
+const CENSUS: readonly CensusRow[] = [
+  { id: 'mode-unambiguous', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "Add-Check -Id 'mode-unambiguous' -Ok $true -Class 'info'" , stage: 'pre' },
+  { id: 'repo-root', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'repo-root'" , stage: 'pre' },
+  { id: 'provisioner-cli-present', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'provisioner-cli-present'" , stage: 'pre' },
+  { id: 'tsx-runner-present', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'tsx-runner-present'" , stage: 'pre' },
+  { id: 'node-available', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'node-available'" , stage: 'pre' },
+  { id: 'data-root', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'data-root'" , stage: 'pre' },
+  { id: 'target-is-governed-identity-dir', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'target-is-governed-identity-dir'" , stage: 'pre' },
+  { id: 'dataset-not-targeted', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'dataset-not-targeted'" , stage: 'pre' },
+  { id: 'portfolio-store-not-targeted', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'portfolio-store-not-targeted'" , stage: 'pre' },
+  { id: 'evidence-root', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'evidence-root'" , stage: 'pre' },
+  { id: 'source-origin', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'source-origin'" , stage: 'pre' },
+  // Gated at `:340` — `if ($script:Mode -ne 'VERIFY_ONLY')`. Three source sets on the host.
+  { id: 'source-complete', emit: { PREFLIGHT: 3, EXECUTE: 3, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "Add-Check -Id ('source-complete '" , stage: 'pre' },
+  { id: 'source-count-check', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "Add-Check -Id 'source-count' -Ok ($script:SourceDirs.Count -gt 0)" , stage: 'pre' },
+  { id: 'source-count-info', emit: { PREFLIGHT: 0, EXECUTE: 0, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "Add-Check -Id 'source-count' -Ok $true -Class 'info'" , stage: 'pre' },
+  { id: 'existing-published-set', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'existing-published-set'" , stage: 'pre' },
+  // Nothing published before run 1/2/3; three files published before run 4.
+  { id: 'existing-file', emit: { PREFLIGHT: 0, EXECUTE: 0, VERIFY_ONLY: 3 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "Add-Check -Id ('existing ' + $existing.Name)" , stage: 'pre' },
+  { id: 'no-preexisting-publication-markers', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'no-preexisting-publication-markers'" , stage: 'pre' },
+  { id: 'preflight', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "Add-Check -Id 'preflight'" , stage: 'pre' },
+  // EXECUTE only, and only when the typed phrase matched.
+  { id: 'confirmation', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'confirmation'" , stage: 'post' },
+  { id: 'cli-machine-trailer-present', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'cli-machine-trailer-present'" , stage: 'post' },
+  { id: 'cli-result-line-present', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'cli-result-line-present'" , stage: 'post' },
+  { id: 'cli-exit-code', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'cli-exit-code'" , stage: 'post' },
+  { id: 'cli-mode-agrees', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'cli-mode-agrees'" , stage: 'post' },
+  { id: 'cli-target-agrees', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'cli-target-agrees'" , stage: 'post' },
+  { id: 'cli-governed', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'cli-governed'" , stage: 'post' },
+  { id: 'no-refusals', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'no-refusals'" , stage: 'post' },
+  // Gated on mode ≠ VERIFY_ONLY: verify-only reads no source directory.
+  { id: 'cli-reported-every-source-digest', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'cli-reported-every-source-digest'" , stage: 'post' },
+  { id: 'source-digest', emit: { PREFLIGHT: 9, EXECUTE: 9, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: 'foreach ($line in $sourceDigestLines)' , stage: 'post' },
+  { id: 'candidate-digest', emit: { PREFLIGHT: 3, EXECUTE: 3, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: 'foreach ($line in $candidateLines)' , stage: 'post' },
+  { id: 'published-digest', emit: { PREFLIGHT: 0, EXECUTE: 3, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: 'foreach ($line in $publishedLines)' , stage: 'post' },
+  { id: 'layer1-published-rehash', emit: { PREFLIGHT: 0, EXECUTE: 3, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: 'foreach ($published in $script:Layer1PublishedDigests)' , stage: 'post' },
+  { id: 'digest-cross-check', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'digest-cross-check'" , stage: 'post' },
+  // Gated at `:602` — `if ($script:Mode -ne 'VERIFY_ONLY')`.
+  { id: 'merged-issuers', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'merged-issuers'" , stage: 'post' },
+  { id: 'merged-securities', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'merged-securities'" , stage: 'post' },
+  { id: 'plan-action', emit: { PREFLIGHT: 3, EXECUTE: 3, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: 'foreach ($line in $planActions)' , stage: 'post' },
+  { id: 'publication-published', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'publication-published'" , stage: 'post' },
+  { id: 'publication-not-rolled-back', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'publication-not-rolled-back'" , stage: 'post' },
+  { id: 'published-three-files', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'published-three-files'" , stage: 'post' },
+  // PostClass: 'info' in PREFLIGHT, 'check' in EXECUTE and VERIFY_ONLY.
+  { id: 'existing-loader-accepts-published-set', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'existing-loader-accepts-published-set'" , stage: 'post' },
+  // Gated on `verified -eq 'true'`: nothing verified in PREFLIGHT over an empty target.
+  { id: 'verified-record-counts', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'verified-record-counts'" , stage: 'post' },
+  { id: 'data-class-is-operator-supplied', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'data-class-is-operator-supplied'" , stage: 'post' },
+  { id: 'source-versions', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'source-versions'" , stage: 'post' },
+  { id: 'listing-map-version', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'listing-map-version'" , stage: 'post' },
+  { id: 'corporate-action-table-version', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: "-Id 'corporate-action-table-version'" , stage: 'post' },
+  { id: 'resolution-probed', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'resolution-probed'" , stage: 'post' },
+  { id: 'counts-reconcile', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'counts-reconcile'" , stage: 'post' },
+  { id: 'everything-declared-resolves', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'everything-declared-resolves'" , stage: 'post' },
+  { id: 'no-issuer-key-conflict', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'no-issuer-key-conflict'" , stage: 'post' },
+  { id: 'both-resolution-paths-exercised', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'both-resolution-paths-exercised'" , stage: 'post' },
+  { id: 'every-probe-item-resolved', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'info', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'every-probe-item-resolved'" , stage: 'post' },
+  // Eight probe items: 3 roster securities + 5 listing entries. Zero in PREFLIGHT — no published set to probe.
+  { id: 'probe-item', emit: { PREFLIGHT: 0, EXECUTE: 8, VERIFY_ONLY: 8 }, klass: { PREFLIGHT: 'info', EXECUTE: 'info', VERIFY_ONLY: 'info' }, witness: 'foreach ($line in $probeItems)' , stage: 'post' },
+  { id: 'no-publication-markers-after', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'no-publication-markers-after'" , stage: 'post' },
+  { id: 'target-holds-exactly-three-files', emit: { PREFLIGHT: 0, EXECUTE: 1, VERIFY_ONLY: 0 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'target-holds-exactly-three-files'" , stage: 'post' },
+  { id: 'attestation-matches-outcome', emit: { PREFLIGHT: 1, EXECUTE: 1, VERIFY_ONLY: 1 }, klass: { PREFLIGHT: 'check', EXECUTE: 'check', VERIFY_ONLY: 'check' }, witness: "-Id 'attestation-matches-outcome'" , stage: 'post' },
+];
+
+/**
+ * Sum the census for one mode. `reached` limits it to the sites a run actually got to: a run that REFUSES at the
+ * preflight gate emits only the 'pre' rows, so its total is not the full-mode total minus its failures.
+ */
+function tally(
+  mode: Mode,
+  options: { readonly failed?: number; readonly reached?: 'pre' | 'all' } = {},
+): { passed: number; failed: number; info: number } {
+  const failed = options.failed ?? 0;
+  const reached = options.reached ?? 'all';
+  let passed = 0;
+  let info = 0;
+  for (const row of CENSUS) {
+    if (reached === 'pre' && row.stage !== 'pre') continue;
+    const n = row.emit[mode];
+    if (row.klass[mode] === 'info') info += n;
+    else passed += n;
+  }
+  return { passed: passed - failed, failed, info };
+}
+
+describe('IID Stage 2 script — the Windows host census reconciles exactly', () => {
+  /** The four RESULT blocks the operator supplied, verbatim from the host. */
+  const HOST = {
+    refusedPreflight: { passed: 12, failed: 2, info: 4 },
+    preflight: { passed: 34, failed: 0, info: 18 },
+    execute: { passed: 53, failed: 0, info: 24 },
+    verifyOnly: { passed: 27, failed: 0, info: 20 },
+  } as const;
+
+  test('run 1 — REFUSED-PRECONDITIONS: 12 passed, 2 failed, 4 informational', () => {
+    // The gate at `:431` short-circuits before the authorised block at `:464`, so ONLY the pre-gate sites were
+    // emitted: 14 checks and 4 informational. The two failures are `tsx-runner-present` (the root cause) and
+    // `preflight` (its roll-up at `:428`), so the tally subtracts 2 from the pre-gate total rather than dropping
+    // the post-gate rows from the full-mode total, which would have given 32 passed.
+    assert.deepEqual(tally('PREFLIGHT', { failed: 2, reached: 'pre' }), HOST.refusedPreflight);
+    assert.equal(tally('PREFLIGHT', { reached: 'pre' }).passed, 14, 'the pre-gate total is 14 checks');
+    assert.equal(tally('PREFLIGHT', { reached: 'pre' }).info, 4);
+  });
+
+  test('run 2 — PREFLIGHT-PUBLISHABLE: 34 passed, 0 failed, 18 informational', () => {
+    assert.deepEqual(tally('PREFLIGHT'), HOST.preflight);
+  });
+
+  test('run 3 — PUBLISHED: 53 passed, 0 failed, 24 informational', () => {
+    assert.deepEqual(tally('EXECUTE'), HOST.execute);
+  });
+
+  test('run 4 — VERIFY-PASS: 27 passed, 0 failed, 20 informational', () => {
+    assert.deepEqual(tally('VERIFY_ONLY'), HOST.verifyOnly);
+  });
+
+  test('the informational total forces the probe to have observed exactly eight items', () => {
+    // `probe.item` is the only emission whose multiplicity is a fact about the host's DATA rather than its mode.
+    // Subtracting it from the EXECUTE informational total must leave a fixed remainder, so 24 is reachable only
+    // at exactly 8: 7 would give 23 and 9 would give 25.
+    const withoutProbe = tally('EXECUTE').info - CENSUS.find((r) => r.id === 'probe-item')!.emit.EXECUTE;
+    assert.equal(withoutProbe, 16);
+    assert.equal(HOST.execute.info - withoutProbe, 8);
+    assert.equal(HOST.verifyOnly.info - (tally('VERIFY_ONLY').info - 8), 8);
+    // And PREFLIGHT emits none, because there was no published set to probe.
+    assert.equal(CENSUS.find((r) => r.id === 'probe-item')!.emit.PREFLIGHT, 0);
+  });
+
+  test('the VERIFY_ONLY total forces three already-published files and a live digest cross-check', () => {
+    // `existing <name>`×3 is required to reach 20 informational; and `digest-cross-check` must be emitted in
+    // VERIFY_ONLY, since omitting it would give 26 checks rather than the host's 27.
+    assert.equal(CENSUS.find((r) => r.id === 'existing-file')!.emit.VERIFY_ONLY, 3);
+    assert.equal(CENSUS.find((r) => r.id === 'digest-cross-check')!.emit.VERIFY_ONLY, 1);
+    assert.equal(tally('VERIFY_ONLY').passed - 1, 26, 'without digest-cross-check the total would be 26, not 27');
+  });
+
+  test('every census row is witnessed by a real Add-Check site in the script', () => {
+    // Guards the table against rot: each row must correspond to source that exists.
+    for (const row of CENSUS) {
+      assert.ok(CODE.includes(row.witness), `no site in the script witnesses census row "${row.id}": ${row.witness}`);
+    }
+  });
+
+  test('every Add-Check id in the script is accounted for by the census', () => {
+    // The converse guard: no emission site may be missing from the table, or the totals would be understated
+    // and a check could vanish without any test noticing.
+    const censusIds = new Set(CENSUS.map((row) => row.id));
+    const scriptIds = new Set<string>();
+    for (const match of CODE.matchAll(/Add-Check\s+-Id\s+'([^']+)'/g)) scriptIds.add(match[1]!);
+    for (const match of CODE.matchAll(/Add-Check\s+-Id\s+\(\s*'([^']*) ?'/g)) scriptIds.add(match[1]!.trim());
+    // Loop-emitted ids are dynamic; map them to the census row that covers them.
+    // The script builds eight ids dynamically (`Add-Check -Id ('<prefix> ' + …)`), so the prefix maps to the
+    // census row that covers it. `source-count` is emitted from two sites with two classes, hence the -info row.
+    const alias: Record<string, string> = {
+      'source-complete': 'source-complete',
+      'existing': 'existing-file',
+      'source-count': 'source-count-check',
+      'crosscheck source': 'source-digest',
+      'crosscheck published': 'published-digest',
+      'candidate': 'candidate-digest',
+      'published-equals-candidate': 'layer1-published-rehash',
+      'plan': 'plan-action',
+      'probe': 'probe-item',
+    };
+    const unaccounted = [...scriptIds].filter((id) => {
+      const mapped = alias[id] ?? id;
+      return !censusIds.has(mapped) && !censusIds.has(id) && !censusIds.has(`${id}-check`)
+        && !censusIds.has(`${id}-info`);
+    });
+    assert.deepEqual(unaccounted, [], 'every Add-Check id must appear in the census, or a total is understated');
+  });
+
+  test('PostClass is check in EXECUTE and VERIFY_ONLY, and info only in PREFLIGHT', () => {
+    // This is what makes run 4's `0 failed` decisive: the eight post-publication facts were HARD requirements.
+    assert.equal(CODE.includes("$script:PostClass = 'check'"), true);
+    assert.ok(
+      /if \(\$script:Mode -eq 'PREFLIGHT'\) \{\s*\$script:PostClass = 'info'/s.test(CODE),
+      'PostClass may be downgraded to info in PREFLIGHT only',
+    );
+    const postRows = CENSUS.filter((row) => row.klass.PREFLIGHT === 'info' && row.klass.VERIFY_ONLY === 'check');
+    assert.equal(postRows.length, 8, 'exactly eight facts change class between PREFLIGHT and VERIFY_ONLY');
+    assert.deepEqual(
+      postRows.map((row) => row.id).sort(),
+      [
+        'both-resolution-paths-exercised', 'counts-reconcile', 'data-class-is-operator-supplied',
+        // `every-probe-item-resolved` sorts before `everything-declared-resolves`: '-' (0x2D) < 't' (0x74).
+        'every-probe-item-resolved', 'everything-declared-resolves', 'existing-loader-accepts-published-set',
+        'no-issuer-key-conflict', 'resolution-probed',
+      ],
+    );
+  });
+});
