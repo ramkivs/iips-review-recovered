@@ -25,6 +25,7 @@
  * READ-ONLY. No write, no store, no cache, no persistence.
  */
 import { measureCoverage, type CoverageReport, type SectorMeasurement } from './measure';
+import type { InvalidSectorReason } from '../ingestion/sectorValidation';
 import {
   buildFinancialCoverageDisclosure,
   type FinancialCoverageDisclosure,
@@ -87,6 +88,24 @@ export interface InvestmentCoverageIssuerRow {
   readonly identityDependencyDetail: string | null;
 }
 
+/**
+ * One issuer whose `sector` is not a canonical `SectorName` and therefore matched no sector measurement.
+ *
+ * The served form of `CoverageReport.offVocabularyIssuers`. The roster `index` is dropped here because it
+ * is a position in an input file the served surface never saw; the value, the reason and the canonical
+ * correction are kept because those are what an operator acts on.
+ */
+export interface OffVocabularySectorIssuer {
+  readonly issuerId: string;
+  readonly legalName: string;
+  /** The value as written, rendered so `null`, padding and non-strings are unambiguous. */
+  readonly sectorAsWritten: string;
+  readonly reason: InvalidSectorReason;
+  /** The canonical sector when a near miss is worth naming; `null` when no transformation would fix it. */
+  readonly canonicalSector: string | null;
+  readonly correction: string | null;
+}
+
 /** The whole investment-coverage read model. */
 export interface InvestmentCoverageReport {
   readonly reportVersion: 1;
@@ -121,6 +140,17 @@ export interface InvestmentCoverageReport {
   readonly measuredSectors: number;
   readonly totalSectors: number;
   readonly outstandingSectors: readonly string[];
+  /**
+   * Issuers excluded from every sector measurement because their `sector` is off-vocabulary (`G-7`).
+   *
+   * Empty for a canonical dataset, and `measuredSectors` above is then the dataset's real position.
+   * NON-EMPTY MEANS `measuredSectors` UNDERSTATES the dataset: those issuers are present, have financials,
+   * and are counted nowhere, while their sector reports `UNMEASURED` exactly as a sector with no issuers
+   * does. This is disclosure rather than a gate — it never fails the surface, changes a row's state, or
+   * repairs a value, because a report that silently rewrote a sector would differ from the dataset it
+   * claims to describe.
+   */
+  readonly offVocabularyIssuers: readonly OffVocabularySectorIssuer[];
   /** Per-issuer rows, sorted by issuer id. */
   readonly issuers: readonly InvestmentCoverageIssuerRow[];
   readonly counts: Readonly<Record<InvestmentCoverageState | 'observed', number>>;
@@ -335,6 +365,17 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
       .map((issue) => /tag "([^"]+)"/.exec(issue.detail)?.[1] ?? issue.detail),
   });
 
+  const offVocabularyIssuers: readonly OffVocabularySectorIssuer[] = sectorReport.offVocabularyIssuers.map(
+    (entry) => ({
+      issuerId: entry.issuerId,
+      legalName: entry.legalName,
+      sectorAsWritten: entry.received,
+      reason: entry.reason,
+      canonicalSector: entry.suggestion?.sector ?? null,
+      correction: entry.suggestion?.correction ?? null,
+    }),
+  );
+
   const statusLine = buildInvestmentCoverageStatusLine(rows, counts, sectorReport, datasetClass);
 
   const notes: string[] = [
@@ -348,6 +389,15 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
   }
   if (datasetClass === 'NONE') {
     notes.push('No investment dataset is installed, so there is nothing to cover. This is a disclosed position, not a failure of this surface.');
+  }
+  if (offVocabularyIssuers.length > 0) {
+    notes.push(
+      `${offVocabularyIssuers.length} issuer(s) carry a sector that is not one of the ${sectorReport.sectors.length} canonical sector ` +
+        `names, so they matched no sector and are excluded from every measurement: ` +
+        `${offVocabularyIssuers.map((e) => `${e.legalName} (${e.sectorAsWritten})`).join(', ')}. ` +
+        `The measured-sector count above therefore UNDERSTATES this dataset. Sector names are exact and case-sensitive and are never ` +
+        `trimmed, case-folded or otherwise normalised here; correct the sector at source and re-ingest.`,
+    );
   }
 
   return {
@@ -381,6 +431,7 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
     measuredSectors: sectorReport.completedMeasurements.length,
     totalSectors: sectorReport.sectors.length,
     outstandingSectors: [...sectorReport.outstandingSectors],
+    offVocabularyIssuers,
     issuers: rows,
     counts,
     issues: issues.map((issue) => ({
@@ -411,7 +462,10 @@ function buildInvestmentCoverageStatusLine(
     `${counts.COVERED} of ${counts.observed} issuer(s) covered; ` +
     `${counts.NO_FINANCIALS} without financials, ${counts.SECTOR_NOT_MEASURED} in an unmeasured sector, ` +
     `${counts.ISSUED_DATA} carrying an ingestion issue. ` +
-    `${sectorReport.completedMeasurements.length} of ${sectorReport.sectors.length} sector(s) measured.`
+    `${sectorReport.completedMeasurements.length} of ${sectorReport.sectors.length} sector(s) measured.` +
+    (sectorReport.offVocabularyIssuers.length === 0
+      ? ''
+      : ` ${sectorReport.offVocabularyIssuers.length} issuer(s) excluded from measurement by an off-vocabulary sector.`)
   );
 }
 

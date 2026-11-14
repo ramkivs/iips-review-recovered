@@ -79,6 +79,39 @@ export interface DatasetInputs {
   readonly periodCsv: TextFile | null;
   readonly xbrlFiles: readonly XbrlFileInput[];
   readonly operatingMetricsCsv: TextFile | null;
+  /**
+   * Further period CSVs, from further input bundles (`S3-D2`). Optional and additive: a single-bundle caller
+   * supplies only `periodCsv` and is unaffected.
+   *
+   * WHY A LIST OF FILES AND NOT ONE MERGED FILE. Each CSV is parsed under **its own header**, which is the whole
+   * point. Bundles do not share a column set — the Infosys bundle declares 44 columns while the Marico and KEC
+   * bundles declare 48 — and an empty cell is not "no column": `parsePeriodCsv` turns it into an explicit
+   * `missing('NOT_REPORTED')` observation. So rewriting three CSVs into one union-header CSV would add four
+   * `NOT_REPORTED` observations to every Infosys period, changing that issuer's content and its contribution to
+   * the digest. Parsing each file separately keeps every bundle's own reporting semantics exactly as they are.
+   *
+   * Files are parsed in the order given (`periodCsv` first). Order cannot change `datasetVersion`, which sorts
+   * each member set before digesting, but it does fix the row order of the pass-through arrays.
+   */
+  readonly periodCsvs?: readonly TextFile[];
+  /** Further operating-metric CSVs, parsed under their own headers. Same contract as `periodCsvs`. */
+  readonly operatingMetricsCsvs?: readonly TextFile[];
+}
+
+/**
+ * Every period CSV to parse, primary first. Keeps `periodCsv` authoritative for existing callers while letting a
+ * multi-bundle run add further files without disturbing them.
+ */
+export function periodCsvFiles(inputs: DatasetInputs): readonly TextFile[] {
+  return [...(inputs.periodCsv === null ? [] : [inputs.periodCsv]), ...(inputs.periodCsvs ?? [])];
+}
+
+/** Every operating-metric CSV to parse, primary first. */
+export function operatingMetricCsvFiles(inputs: DatasetInputs): readonly TextFile[] {
+  return [
+    ...(inputs.operatingMetricsCsv === null ? [] : [inputs.operatingMetricsCsv]),
+    ...(inputs.operatingMetricsCsvs ?? []),
+  ];
 }
 
 const PERIOD_REQUIRED_COLUMNS = [
@@ -552,9 +585,15 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
   const securityIds = new Set(inputs.securities.map((security) => security.securityId));
 
   let periods: NormalizedPeriod[] = [];
-  if (inputs.periodCsv !== null) {
-    const parsed = parsePeriodCsv(inputs.periodCsv, datasetSchema);
-    periods = parsed.periods;
+  // NOTE ON MULTI-FILE PARSING (`S3-D2`). `parsePeriodCsv` resolves a nil-versus-value contradiction for the whole
+  // file at once, never per row, and that resolution state is per file. Parsing several files therefore cannot see a
+  // contradiction spanning two of them. That is sound only because the multi-input contract refuses to merge two
+  // bundles that claim the same issuer (`assertMergeableInputBundles`): with each issuer claimed by exactly one
+  // bundle, no two files can hold rows for the same (issuer, period, scope, item), so there is no cross-file
+  // contradiction to miss.
+  for (const file of periodCsvFiles(inputs)) {
+    const parsed = parsePeriodCsv(file, datasetSchema);
+    periods.push(...parsed.periods);
     issues.push(...parsed.issues);
   }
   for (const file of inputs.xbrlFiles) {
@@ -615,9 +654,9 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
   }
 
   let operatingMetrics: OperatingMetricRecord[] = [];
-  if (inputs.operatingMetricsCsv !== null) {
-    const parsed = parseOperatingMetricsCsv(inputs.operatingMetricsCsv);
-    operatingMetrics = parsed.records;
+  for (const file of operatingMetricCsvFiles(inputs)) {
+    const parsed = parseOperatingMetricsCsv(file);
+    operatingMetrics.push(...parsed.records);
     issues.push(...parsed.issues);
   }
   for (const record of operatingMetrics) {
