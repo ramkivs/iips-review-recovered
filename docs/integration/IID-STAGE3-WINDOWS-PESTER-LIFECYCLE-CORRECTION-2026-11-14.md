@@ -437,3 +437,56 @@ plus this record.
 | `/tmp/pscheck/e13…e24` | `test:iid` 973, `npm test` 678, typechecks, frontend CI steps, final suite runs |
 
 **Scratch artefacts live in `/tmp` and are not committed.**
+
+---
+
+## 10. ADDENDUM 2026-11-14 — host execution performed; the prediction is confirmed
+
+**This addendum is additive. §§1–9 above are unchanged and remain the record of the correction as it stood at
+`a218099d`, including §6.1's explicit statement that Windows-host execution had NOT been performed in Arena.
+That statement was true when written and is superseded only by the operator's own host run.**
+
+The operator executed the corrected suite on the Windows host on **2026-11-14**, in the separate worktree
+`C:\tmp\iips-review-recovered-iid-stage3-a218099d`, with **Windows PowerShell 5.1.26100.9818 (Desktop)** and
+**Pester 5.7.1**:
+
+```
+Invoke-Pester -Path .\tools\windows\IID-STAGE3-WINDOWS-VERIFY.Tests.ps1 -Output Detailed
+
+Tests completed in 2.8s
+Tests Passed: 29, Failed: 0, Skipped: 1, Inconclusive: 0, NotRun: 0
+```
+
+| Measure | Defective version (`2c491bc5`), host | **Corrected version (`a218099d`), host** | §2/§6.2 prediction |
+|---|---|---|---|
+| Discovered | 30 | **30** | 30 |
+| Passed | 0 | **29** | — |
+| Failed | **29** | **0** | 0 scope failures |
+| Skipped | 1 | **1** | 1 (test 18) |
+
+**The prediction held exactly, including which test skipped.** §2's static model of Pester 5's phase split
+reproduced the defective run as 30/29/1 with all five failure categories matching in count, and predicted for
+the corrected file *"no scope failure in any of the 29 executed tests"* with the same single skip. The skip is
+`on PowerShell 7 the same construct enumerates, which is why the defect is invisible there` — correct on a
+Windows PowerShell 5.1 host. The five tests that pin Windows PowerShell 5.1 collection-wrapping semantics
+**ran and passed**, which is the direct host confirmation of the semantics the `2c491bc5` product correction
+depends on; until now those semantics were modelled in Arena and evidenced only by the operator's failure
+output.
+
+The corrected expectation of §3 also passed: `$malformed.Count | Should -Be 3`, with all seven elements of the
+real defect string asserted malformed. The three installed-dataset tests ran (a dataset is present) and passed,
+including `both independent layers pass, which is the acceptance condition` — which is where the host fixed
+`$layer1.Count` at exactly **24** and `Result` at **`PASS`** — and `leaves the dataset exactly as it found it`,
+which re-hashed every file before and after a verifier run and found them identical.
+
+**§8 items 1 and 2 are thereby discharged**; item 3 (`S3-B3`) is recorded in
+`IID-STAGE-3-READINESS-REASSESSMENT-2026-11-14.md` §5, with its residual captures re-registered as R-1 and R-2.
+Items 4, 5 and 6 stand unchanged: `identitySourcesAvailable` remains `false` (now **host-observed**:
+`eligible-roster.json: IDENTITY_SOURCE_MISSING`), 3/13 sector coverage is confirmed as expected, and Task 11's
+overall IID readiness remains **not READY** — Stage 3 resolved one of eight findings.
+
+Full host evidence: **`IID-STAGE3-WINDOWS-HOST-ACCEPTANCE-EVIDENCE-2026-11-14.md`**.
+
+No file was modified to obtain this result. The suite executed is byte-identical to the one this record
+published (511 lines, `sha256:9f9ebe4ed8adb487…`), the published verifier and installer are unchanged, and the
+installed dataset was not written. PR #562 remains **OPEN and UNMERGED**.
