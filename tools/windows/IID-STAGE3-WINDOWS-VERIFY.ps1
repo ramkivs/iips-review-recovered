@@ -255,7 +255,25 @@ try {
       -Detail ($subDirs.Count.ToString() + ' subdirector(y/ies) inside the dataset') -Layer 'ps'
 
     # Population, read directly - not through the product's reader.
-    $issuers = @(Get-Content -LiteralPath (Join-Path $script:TargetFull 'issuers.json') -Raw | ConvertFrom-Json)
+    #
+    # HOW A TOP-LEVEL JSON ARRAY MUST BE READ, and how it must not. `@(Get-Content -Raw | ConvertFrom-Json)`
+    # is NOT a flat collection of the document's elements. Measured on a real Windows PowerShell 5.1 host
+    # against the installed three-bundle dataset, ConvertFrom-Json emits a top-level JSON array as ONE object,
+    # so the array subexpression collects a ONE-ELEMENT array whose single element is the entire collection.
+    # `.Count` then reported 1 issuer for three, and 1 period for nine, and 1 issue for an empty `issues.json`;
+    # meanwhile the checks that ENUMERATE the same variable still found all three issuers, because that single
+    # element member-enumerates. Right answers for the wrong reason, beside three contradictory failures.
+    #
+    # The correction assigns the parse result and enumerates it with `foreach`, which yields 0 iterations for
+    # $null, 1 for a scalar and N for a collection. That is correct under either pipeline semantics, and
+    # correct for `[]` whether 5.1 returns an empty collection or $null - which `@($parsed)` would still get
+    # wrong, because `@($null)` holds one element. Every construct used here is one this script already used
+    # correctly in the very run that exposed the defect: `foreach ($entry in $inputs)` enumerated three
+    # provenance entries, `foreach ($check in $parsed.checks)` enumerated 32 harness checks, an ArrayList built
+    # with `.Add()` enumerated into `Where-Object`, and `$harnessArgs += @(...)` built a 41-element argv.
+    $issuerJson = Get-Content -LiteralPath (Join-Path $script:TargetFull 'issuers.json') -Raw | ConvertFrom-Json
+    $issuers = @()
+    foreach ($issuer in $issuerJson) { $issuers += $issuer }
     Add-Check -Id 'issuer-count' -Ok ($issuers.Count -eq $ExpectedIssuers) `
       -Detail ($issuers.Count.ToString() + ' issuer(s); expected ' + $ExpectedIssuers.ToString()) -Layer 'ps'
 
@@ -272,9 +290,20 @@ try {
       -Detail ($foundSectors.Count.ToString() + ' distinct sector(s): ' + ($foundSectors -join ', ') + '; missing ' + ($missingSectors -join ', ')) -Layer 'ps'
 
     $pairs = @($issuers | ForEach-Object { $_.legalName + ' -> ' + $_.sector })
-    Add-Check -Id 'issuer-sector-assignment' -Ok ($issuers.Count -gt 0) -Detail ($pairs -join '; ') -Layer 'ps'
+    # STRENGTHENED, not weakened, by the incident. This check used to assert only `$issuers.Count -gt 0`, so it
+    # reported PASS while its own detail proved the parse was broken: `+` between two member-enumerated
+    # collections CONCATENATES arrays, which printed three legal names, then a bare ' -> ', then three sectors.
+    # It now asserts the pairing itself - one pair per issuer, and every pair naming both sides - so that
+    # malformed output can never again pass as a satisfied check.
+    $unpaired = @($pairs | Where-Object { $_ -notmatch '^.+ -> .+$' })
+    Add-Check -Id 'issuer-sector-assignment' `
+      -Ok ($issuers.Count -gt 0 -and $pairs.Count -eq $issuers.Count -and $unpaired.Count -eq 0) `
+      -Detail (($pairs -join '; ') + '; ' + $pairs.Count.ToString() `
+        + ' pair(s), one per issuer, each naming both sides; malformed: ' + $unpaired.Count.ToString()) -Layer 'ps'
 
-    $periods = @(Get-Content -LiteralPath (Join-Path $script:TargetFull 'periods.json') -Raw | ConvertFrom-Json)
+    $periodJson = Get-Content -LiteralPath (Join-Path $script:TargetFull 'periods.json') -Raw | ConvertFrom-Json
+    $periods = @()
+    foreach ($period in $periodJson) { $periods += $period }
     $annual = @($periods | Where-Object { $_.period.periodType -ceq 'ANNUAL' })
     $quarter = @($periods | Where-Object { $_.period.periodType -ceq 'QUARTER' })
     Add-Check -Id 'nine-annual-periods' -Ok ($annual.Count -eq $ExpectedAnnualPeriods) `
@@ -282,9 +311,29 @@ try {
     Add-Check -Id 'no-quarterly-periods' -Ok ($quarter.Count -eq $ExpectedQuarterlyPeriods) `
       -Detail ($quarter.Count.ToString() + ' QUARTER period(s); expected ' + $ExpectedQuarterlyPeriods.ToString() + '. Annual-only evidence is stated, never disguised as complete.') -Layer 'ps'
 
-    $issues = @(Get-Content -LiteralPath (Join-Path $script:TargetFull 'issues.json') -Raw | ConvertFrom-Json)
+    # An empty `issues.json` is the sharpest case: `[]` must count as ZERO. Under the defective pattern it
+    # counted as one, because a wrapped empty collection is still one element - and so is `@($null)`, which is
+    # what `ConvertFrom-Json '[]'` may hand back. `foreach` gives 0 iterations for both.
+    $issueJson = Get-Content -LiteralPath (Join-Path $script:TargetFull 'issues.json') -Raw | ConvertFrom-Json
+    $issues = @()
+    foreach ($issue in $issueJson) { $issues += $issue }
     Add-Check -Id 'dataset-issues-empty' -Ok ($issues.Count -eq 0) `
       -Detail ($issues.Count.ToString() + ' ingestion issue(s) recorded in the dataset') -Layer 'ps'
+
+    # Regression guard for the defect above, added because it stayed invisible for so long: a wrapped
+    # collection reports a plausible `.Count` AND still member-enumerates, so neighbouring checks can look
+    # correct while the counts are wrong. This asserts the shape directly - every element of every parsed
+    # collection is a record, never another collection - so a future change in the writer's document shape or
+    # in PowerShell's own conversion behaviour is NAMED as a shape failure instead of being mis-counted.
+    $wrapped = @()
+    foreach ($element in $issuers) { if ($element -is [System.Array]) { $wrapped += 'issuers.json' } }
+    foreach ($element in $periods) { if ($element -is [System.Array]) { $wrapped += 'periods.json' } }
+    foreach ($element in $issues) { if ($element -is [System.Array]) { $wrapped += 'issues.json' } }
+    $wrappedNames = @($wrapped | Sort-Object -Unique)
+    Add-Check -Id 'parsed-collection-shape' -Ok ($wrapped.Count -eq 0) `
+      -Detail ('elements parsed: issuers=' + $issuers.Count.ToString() + ', periods=' + $periods.Count.ToString() `
+        + ', issues=' + $issues.Count.ToString() + '; wrapped in another collection: ' `
+        + ($wrappedNames -join ', ')) -Layer 'ps'
 
     # Provenance: the recorded inputDir leaf is conventionally 'ingest-input', so the BUNDLE name is its parent.
     $inputs = @($script:Manifest.inputs)
