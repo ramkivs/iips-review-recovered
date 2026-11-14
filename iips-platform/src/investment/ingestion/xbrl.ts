@@ -13,6 +13,7 @@ import {
   LEGACY_DATASET_SCHEMA,
   LINE_ITEMS,
   isLineItemId,
+  itemsPermittedBy,
   type DatasetSchema,
   type LineItemId,
 } from '../contracts/lineItems';
@@ -25,6 +26,7 @@ export interface XbrlContext {
   readonly startDate: string | null;
   readonly endDate: string | null;
   readonly instant: string | null;
+  readonly dimensional?: boolean;
 }
 
 export interface XbrlFact {
@@ -33,6 +35,7 @@ export interface XbrlFact {
   readonly contextRef: string | null;
   readonly unitRef: string | null;
   readonly value: string;
+  readonly nil?: boolean;
 }
 
 export interface XbrlInstance {
@@ -86,6 +89,12 @@ export function parseXbrlInstance(text: string): XbrlInstance {
   const contexts: XbrlContext[] = [];
   for (const element of findAll(document, 'context')) {
     const id = element.attributes.id ?? '';
+    const entity = element.children.find((child) => localName(child.name) === 'entity');
+    const segment = entity?.children.find((child) => localName(child.name) === 'segment');
+    const scenario = element.children.find((child) => localName(child.name) === 'scenario');
+    const dimensional =
+      (segment !== undefined && segment.children.length > 0) ||
+      (scenario !== undefined && scenario.children.length > 0);
     const period = element.children.find((child) => localName(child.name) === 'period');
     const start = period?.children.find((child) => localName(child.name) === 'startDate');
     const end = period?.children.find((child) => localName(child.name) === 'endDate');
@@ -95,6 +104,7 @@ export function parseXbrlInstance(text: string): XbrlInstance {
       startDate: start === undefined ? null : start.text.trim(),
       endDate: end === undefined ? null : end.text.trim(),
       instant: instant === undefined ? null : instant.text.trim(),
+      ...(dimensional ? { dimensional: true } : {}),
     });
   }
 
@@ -109,12 +119,16 @@ export function parseXbrlInstance(text: string): XbrlInstance {
     for (const child of node.children) walk(child);
     const contextRef = node.attributes.contextRef;
     if (contextRef === undefined) return;
+    const isNil = Object.entries(node.attributes).some(
+      ([attr, raw]) => localName(attr) === 'nil' && raw.trim().toLowerCase() === 'true',
+    );
     facts.push({
       name: node.name,
       localName: localName(node.name),
       contextRef,
       unitRef: node.attributes.unitRef ?? null,
       value: node.text.trim(),
+      ...(isNil ? { nil: true } : {}),
     });
   };
   walk(document);
@@ -129,6 +143,12 @@ export interface XbrlExtractionOptions {
    * for an item V1 cannot hold, or every V1 dataset read from a filing would carry a V2 member it cannot represent.
    */
   readonly datasetSchema?: DatasetSchema;
+  /**
+   * Optional duration start date (YYYY-MM-DD). When supplied, duration facts must match both `periodStart` and
+   * `periodEnd`, preventing quarterly sub-periods sharing the same `endDate` (such as Q4 `FourD` vs annual `OneD`
+   * in SEBI `in-capmkt` filings) from shadowing full-year figures.
+   */
+  readonly periodStart?: string;
   readonly periodEnd: string;
   readonly statementScope: 'CONSOLIDATED' | 'STANDALONE';
   readonly filingRef: string;
@@ -156,6 +176,7 @@ export function extractPeriodValues(
   options: XbrlExtractionOptions,
 ): XbrlExtraction {
   const datasetSchema = options.datasetSchema ?? LEGACY_DATASET_SCHEMA;
+  const permittedItems = new Set<LineItemId>(itemsPermittedBy(datasetSchema));
   const issues: IngestionIssue[] = [];
   const values: Partial<Record<LineItemId, NumericObservation>> = {};
   const unknown = new Set<string>();
@@ -170,8 +191,8 @@ export function extractPeriodValues(
       continue;
     }
     // A V1 build cannot hold a V2 item: refuse the fact by name rather than read it and record a schema the
-    // dataset cannot represent.
-    if (datasetSchema !== 'IIPS_INVESTMENT_FUNDAMENTALS_V2' && ITEMS_INTRODUCED_BY_V2.includes(lineItem)) {
+    // dataset cannot represent. Schemas that permit V2 items (V2, V3) accept it cleanly.
+    if (!permittedItems.has(lineItem) && ITEMS_INTRODUCED_BY_V2.includes(lineItem)) {
       issues.push({
         severity: 'ERROR',
         code: 'LINE_ITEM_REQUIRES_DATASET_SCHEMA_V2',
@@ -190,6 +211,9 @@ export function extractPeriodValues(
       });
       continue;
     }
+    if (context.dimensional === true) {
+      continue;
+    }
     const isInstant = context.instant !== null;
     const expectedInstant = LINE_ITEMS[lineItem].duration === 'INSTANT';
     if (isInstant !== expectedInstant) {
@@ -205,13 +229,29 @@ export function extractPeriodValues(
     if (contextDate !== options.periodEnd) {
       continue;
     }
+    if (!isInstant && options.periodStart !== undefined && context.startDate !== options.periodStart) {
+      continue;
+    }
     const unit = fact.unitRef === null ? '' : (instance.units[fact.unitRef] ?? '');
-    if (!isInstant && unit.length > 0 && !unit.toUpperCase().includes('INR')) {
+    const expectsInrMeasure = LINE_ITEMS[lineItem].unit === 'INR' || LINE_ITEMS[lineItem].unit === 'INR_PER_SHARE';
+    if (expectsInrMeasure && unit.length > 0 && !unit.toUpperCase().includes('INR')) {
       issues.push({
         severity: 'WARNING',
         code: 'UNIT_NOT_INR',
         subject: `${options.issuerId}/${lineItem}`,
         detail: `unit "${unit}" is not INR`,
+      });
+      continue;
+    }
+    if (fact.nil === true || fact.value.length === 0) {
+      issues.push({
+        severity: 'WARNING',
+        code: 'EMPTY_OR_NIL_FACT',
+        subject: `${options.issuerId}/${lineItem}`,
+        detail:
+          fact.nil === true
+            ? `tag "${fact.localName}" is marked xsi:nil="true" and is not coerced to zero`
+            : `tag "${fact.localName}" has an empty fact value and is not coerced to zero`,
       });
       continue;
     }
@@ -268,9 +308,9 @@ export function extractPeriodValues(
   for (const id of Object.keys(LINE_ITEMS) as LineItemId[]) {
     if (values[id] !== undefined) continue;
     if (!LINE_ITEMS[id].reported) continue;
-    // A V1 dataset has no member for a V2 item: not even a MISSING placeholder, which would make the dataset
-    // claim a schema it cannot represent (and refuse itself downstream).
-    if (datasetSchema !== 'IIPS_INVESTMENT_FUNDAMENTALS_V2' && ITEMS_INTRODUCED_BY_V2.includes(id)) continue;
+    // A dataset has no member for an item outside its declared schema (for example V2 items under V1):
+    // not even a MISSING placeholder, which would make the dataset claim a schema it cannot represent.
+    if (!permittedItems.has(id)) continue;
     values[id] = missing(isLineItemId(id) ? 'NOT_TAGGED_IN_FILING' : 'NOT_REPORTED', {
       periodEnd: options.periodEnd,
     });

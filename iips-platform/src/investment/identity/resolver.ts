@@ -209,6 +209,22 @@ export function resolveIdentity(rawInput: IdentityInput, context: ResolveContext
     );
   }
 
+  // Nested D114 `securityIdentity` envelope failure: a malformed or conflicting D114 envelope is
+  // rejected fail-closed and never falls back to `symbol + exchange` (AC-1.2).
+  if (input.securityIdentityRejection !== undefined && input.securityIdentityRejection !== null) {
+    const { kind, detail } = input.securityIdentityRejection;
+    if (kind === 'CONFLICT') {
+      return withObservationId(
+        failure('ISSUER_KEY_CONFLICT', 'ISSUER_KEY_CONFLICT', detail),
+        input.observationId,
+      );
+    }
+    return withObservationId(
+      failure('REJECTED_MALFORMED_ISIN', 'SECURITY_IDENTITY_MALFORMED', detail),
+      input.observationId,
+    );
+  }
+
   const issuerById = new Map(sources.roster.issuers.map((issuer) => [issuer.issuerId, issuer]));
   const securityById = new Map(sources.roster.securities.map((security) => [security.securityId, security]));
   const securityByIsin = new Map(sources.roster.securities.map((security) => [security.isin, security]));
@@ -501,6 +517,9 @@ export function identityInputOf(observation: IdentityObservation): IdentityInput
     series: observation.series,
     cin: observation.cin,
     companyIdHint: observation.companyIdHint,
+    ...(observation.securityIdentityRejection !== undefined
+      ? { securityIdentityRejection: observation.securityIdentityRejection }
+      : {}),
   };
 }
 

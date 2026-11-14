@@ -30,8 +30,13 @@ import {
   type FinancialCoverageDisclosure,
 } from '../identity/coverage';
 import { DERIVATIONS } from '../fundamentals/derive';
+import { classifyDataset, datasetClassStatement } from '../fundamentals/datasetClass';
 import { XBRL_TAG_MAP } from '../ingestion/xbrl';
-import type { DatasetManifest } from '../fundamentals/manifest';
+import {
+  sourceRightsOf,
+  type DatasetManifest,
+  type SourceRightsDeclaration,
+} from '../fundamentals/manifest';
 import type {
   IngestionIssue,
   IssuerRecord,
@@ -104,7 +109,8 @@ export interface InvestmentCoverageReport {
     readonly importRunId: string;
     readonly quality: 'good' | 'stale' | 'partial' | 'unavailable';
     readonly completenessPct: number;
-    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
+    readonly sourceRights?: SourceRightsDeclaration | null;
     readonly issuers: number;
     readonly securities: number;
     readonly listings: number;
@@ -162,14 +168,22 @@ export interface InvestmentCoverageInput {
   readonly issuerIdentityState?: ReadonlyMap<string, 'RESOLVED' | 'UNRESOLVED'> | null;
 }
 
-function financialClass(manifest: DatasetManifest | null): 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE' {
+function financialClass(
+  manifest: DatasetManifest | null,
+): 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE' {
   if (manifest === null) return 'NONE';
-  return /synthetic|test-fixture|fixture/i.test(`${manifest.provider} ${manifest.licence}`)
-    ? 'SYNTHETIC_FIXTURE'
-    : 'OPERATOR_SUPPLIED';
+  const classified = classifyDataset(manifest);
+  switch (classified) {
+    case 'SYNTHETIC_REFERENCE':
+      return 'SYNTHETIC_FIXTURE';
+    case 'OPERATOR_SUPPLIED':
+      return 'OPERATOR_SUPPLIED';
+    case 'UNKNOWN':
+      return 'UNKNOWN';
+  }
 }
 
-function periodTypeOf(period: NormalizedPeriod): 'ANNUAL' | 'QUARTERLY' | string {
+function periodTypeOf(period: NormalizedPeriod): 'ANNUAL' | 'QUARTER' | 'QUARTERLY' | string {
   return period.period.periodType;
 }
 
@@ -250,7 +264,9 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
     .map((issuer) => {
       const issuerPeriods = periods.filter((period) => period.issuerId === issuer.issuerId);
       const annualPeriods = issuerPeriods.filter((period) => periodTypeOf(period) === 'ANNUAL').length;
-      const quarterlyPeriods = issuerPeriods.filter((period) => periodTypeOf(period) === 'QUARTERLY').length;
+      const quarterlyPeriods = issuerPeriods.filter(
+        (period) => periodTypeOf(period) === 'QUARTER' || periodTypeOf(period) === 'QUARTERLY',
+      ).length;
       const issuerSecurities = securitiesByIssuer.get(issuer.issuerId) ?? [];
       const priceCount = issuerSecurities.reduce(
         (total, security) => total + (pricesBySecurity.get(security.securityId) ?? 0),
@@ -327,6 +343,7 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
   for (const row of rows) counts[row.state] += 1;
 
   const datasetClass = financialClass(manifestRef);
+  const sourceRights = manifestRef === null ? null : sourceRightsOf(manifestRef);
   const financialCoverage = buildFinancialCoverageDisclosure({
     sectorReport,
     manifest: manifestRef,
@@ -348,6 +365,12 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
   }
   if (datasetClass === 'NONE') {
     notes.push('No investment dataset is installed, so there is nothing to cover. This is a disclosed position, not a failure of this surface.');
+  } else if (datasetClass === 'SYNTHETIC_FIXTURE') {
+    notes.push(datasetClassStatement('SYNTHETIC_REFERENCE'));
+  } else if (datasetClass === 'UNKNOWN') {
+    notes.push(datasetClassStatement('UNKNOWN'));
+  } else if (datasetClass === 'OPERATOR_SUPPLIED') {
+    notes.push(datasetClassStatement('OPERATOR_SUPPLIED'));
   }
 
   return {
@@ -366,6 +389,7 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
       quality: manifestRef?.quality ?? 'unavailable',
       completenessPct: manifestRef?.completenessPct ?? 0,
       datasetClass,
+      sourceRights,
       issuers: coverage?.issuers ?? issuers.length,
       securities: coverage?.securities ?? securities.length,
       listings: coverage?.listings ?? 0,
@@ -400,7 +424,7 @@ function buildInvestmentCoverageStatusLine(
   rows: readonly InvestmentCoverageIssuerRow[],
   counts: Readonly<Record<InvestmentCoverageState | 'observed', number>>,
   sectorReport: CoverageReport,
-  datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE',
+  datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE',
 ): string {
   if (rows.length === 0) {
     return datasetClass === 'NONE'

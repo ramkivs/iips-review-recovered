@@ -29,6 +29,7 @@ import {
   loadRuntimeIdentitySources,
 } from '../../../iips-platform/src/investment/identity/runtime';
 import { parseSecurityId } from '../../../iips-platform/src/investment/contracts/ids';
+import { projectD114SecurityIdentity } from '../../../iips-platform/src/investment/identity/d114Projection';
 import type { IdentityObservation } from '../../../iips-platform/src/investment/identity/types';
 import type { FinancialCoverageDisclosure } from '../../../iips-platform/src/investment/identity/coverage';
 import type { CoverageTransportProviders } from './coverage-transport.js';
@@ -37,12 +38,29 @@ export interface SerialisedRaw {
   readonly [key: string]: string | number | boolean | null;
 }
 
+/**
+ * Extract the effective ISIN from a G2 holding view without fabricating defaults or resolving conflicts.
+ * Returns `null` when absent, explicitly unresolved (`securityIdentity === null`), or rejected as malformed/conflicting.
+ */
+export function effectiveHoldingIsin(holding: G2HoldingView): string | null {
+  const projected = projectD114SecurityIdentity({
+    securityIdentity: holding.securityIdentity,
+    flatIsin: holding.isin,
+  });
+  return projected.isin;
+}
+
 /** A G3 holding row becomes an observation. Nothing is inferred: empty fields stay null. */
 export function toHoldingObservation(
   portfolioId: string,
   holding: G2HoldingView,
   index: number,
 ): IdentityObservation {
+  const projected = projectD114SecurityIdentity({
+    securityIdentity: holding.securityIdentity,
+    flatIsin: holding.isin,
+  });
+
   const raw: Record<string, string | number | boolean | null> = {
     symbol: holding.symbol,
     companyId: holding.companyId,
@@ -54,18 +72,30 @@ export function toHoldingObservation(
   if (holding.exchange !== undefined) raw.exchange = holding.exchange;
   if (holding.identityStatus !== undefined) raw.identityStatus = holding.identityStatus;
   if (holding.resolutionDisposition !== undefined) raw.resolutionDisposition = holding.resolutionDisposition;
+  if (projected.kind === 'populated' && projected.securityIdentity) {
+    raw['securityIdentity.securityId'] = projected.securityIdentity.securityId;
+    raw['securityIdentity.isin'] = projected.securityIdentity.isin;
+    raw['securityIdentity.series'] = projected.securityIdentity.series;
+    raw['securityIdentity.isinAuthority'] = projected.securityIdentity.isinAuthority;
+  } else if (projected.kind === 'unresolved_null') {
+    raw.securityIdentity = null;
+  } else if (projected.kind === 'rejected') {
+    raw.securityIdentityMalformed = true;
+  }
 
   return {
     observationId: `holding:${portfolioId}:${String(index + 1).padStart(4, '0')}`,
     source: 'HOLDING',
     portfolioId,
-    isin: holding.isin ?? null,
+    isin: projected.isin,
     symbol: holding.symbol === '' ? null : holding.symbol,
     exchange: holding.exchange ?? null,
-    series: null,
+    series: projected.series,
     cin: null,
     // IPD's companyId is a lookup hint at most; the resolver never treats it as proof of identity.
-    companyIdHint: holding.companyId,
+    companyIdHint: holding.companyId === '' ? null : holding.companyId,
+    ...(projected.rejection !== null ? { securityIdentityRejection: projected.rejection } : {}),
+    ...(projected.securityIdentity !== undefined ? { securityIdentity: projected.securityIdentity } : {}),
     displayName: null,
     quantity: Number.isFinite(holding.quantity) ? holding.quantity : null,
     upstreamStatus: holding.identityStatus ?? null,
