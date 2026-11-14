@@ -366,3 +366,65 @@ in the same run: **CONFORMANCE RESULT: PASS, 0 rule failures across 3 files.**
 4. **`identitySourcesAvailable` remains `false`** — disclosed by both layers as a disclosure, never a gate.
 5. **The 3/13 sector coverage is expected** for this deliberately limited three-bundle dataset and is not an
    installation failure; 10 unmeasured sectors are listed explicitly by the coverage read.
+
+---
+
+## 9. ADDENDUM 2026-11-14 — the host execution this record named as outstanding **has been performed**
+
+**This addendum is additive. §§1–8 above are unchanged and remain the record of the correction as it stood at
+`2c491bc5`, including what was then unexecuted. What follows discharges the outstanding items.**
+
+The operator executed the corrected verification script on the Windows host on **2026-11-14**, against the
+installed dataset at `C:\iips-data\investment\dataset`, in the separate worktree
+`C:\tmp\iips-review-recovered-iid-stage3-a218099d`. Full evidence:
+**`IID-STAGE3-WINDOWS-HOST-ACCEPTANCE-EVIDENCE-2026-11-14.md`**. Readiness consequence:
+**`IID-STAGE-3-READINESS-REASSESSMENT-2026-11-14.md`**.
+
+### 9.1 §8 items 1 and 2 — discharged, and the prediction held
+
+| §8 item | Expected by this record | **Actual host result** | Verdict |
+|---|---|---|---|
+| 1. Run the corrected script on the host | `RESULT PASS`, Layer 1 24/24, Layer 2 32/32, harness exit 0, version `sha256:3ad82918…` | **`RESULT PASS`, 62 passed, 0 failed**; Layer 1 **24/24**; harness **32/32**, **exit code 0**; `datasetVersion` = `contentDigest` = **`sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83`** | **DISCHARGED — exactly as predicted** |
+| 2. Run the Pester suite on the host | 30 tests pinning the 5.1 behaviour and re-checking the published source | **30 discovered, 29 passed, 0 failed, 1 skipped** (Pester 5.7.1, Windows PowerShell 5.1.26100.9818) | **DISCHARGED** — after the separate lifecycle correction in `a218099d`, recorded in its own record |
+
+The three checks this correction exists for all report correctly on the host now: `issuer-count` **3**,
+`nine-annual-periods` **9 ANNUAL of 9 total**, `dataset-issues-empty` **0** — against **1 / 1 / 1** on the same
+host and the same dataset before it. The new `parsed-collection-shape` guard passes, and the strengthened
+`issuer-sector-assignment` passes on a well-formed `Infosys Limited -> Technology` pairing rather than on the
+concatenated array fragments the defect produced.
+
+**One precision on the totals.** The host reported **62** checks. This record's §8 expected "Layer 1 24/24 and
+Layer 2 32/32", which sums to 56 because the 32 is the **harness's own** count. The verifier's Layer 2 also
+adds six product-side checks of its own (`harness-present`, `tsx-runner-present`, `node-available`,
+`harness-exit-code`, `harness-report-parsed`, `harness-read-only-attestation`) and re-adds each of the
+harness's 32 individually as `harness:<id>`, so Layer 2 is **38** and the total is **24 + 38 = 62**. Both
+statements are true at their own level of description; the evidence record §3.1 reconciles them and anchors the
+split with an assertion the host itself evaluated (`$layer1.Count | Should -Be 24`, which passed).
+
+### 9.2 §5 execution-status table — superseded
+
+Every row of §5 that read **NOT PERFORMED** for Windows PowerShell 5.1 runtime execution is superseded: the
+script **has** now been executed by Windows PowerShell **5.1.26100.9818 (Desktop)** on the operator's host,
+against the installed dataset, and the acceptance condition — **both layers passing against the installed
+dataset** — is **MET**. The Arena-side validations in §§4 and 6 remain valid as what they were always labelled:
+Linux static and mirror-based validation, not Windows execution.
+
+### 9.3 §8 items 3, 4 and 5
+
+3. **`S3-B3` is no longer open on the ground that host verification was unrecorded** — it is now recorded. Its
+   residual evidence captures are re-registered precisely as **R-1** (`iid-readiness` stdout from the host
+   process) and **R-2** (served-surface capture) in the 2026-11-14 reassessment §7.
+4. **`identitySourcesAvailable` remains `false` — and is now host-observed rather than inferred:**
+   `eligible-roster.json: IDENTITY_SOURCE_MISSING`. Still a disclosure, never a gate: the run returned
+   `RESULT PASS` with 0 failures and the check carrying it passed by disclosing correctly.
+5. **3/13 sector coverage confirmed on the host**, with the ten unmeasured sectors explicitly listed and the
+   runtime sector stages Consumer `G1_ENABLED`, Industrials `G2_PARTIAL`, Technology `G2_PARTIAL`.
+
+### 9.4 What the addendum does not change
+
+No implementation file was modified to obtain this result; the corrected script is byte-identical to the one
+this record published. The installed dataset was **read, verified and left exactly as it was** — the host run
+attests *"nothing created, removed or modified under `C:\iips-data\investment` between the first read and the
+last"*. `identitySourcesAvailable`, `OPERATOR_ASSERTED` source rights, and `L-041`/`L-042` (both **OPEN**,
+owner's to adjudicate) are unchanged. Overall IID readiness remains **not READY**: this resolved one of eight
+findings. PR #562 remains **OPEN and UNMERGED**.
