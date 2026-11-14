@@ -467,6 +467,7 @@ Every one of these survives the host result. The host evidence **confirms** item
 ## 11. Validation performed for this change, and its platform
 
 Documentation plus one test addition. **No implementation, script, bundle, manifest or evidence file changed.**
+Every row below was measured at this head (`8562925b`) except where the row says otherwise.
 
 | Gate | Result | Platform |
 |---|---|---|
@@ -474,7 +475,9 @@ Documentation plus one test addition. **No implementation, script, bundle, manif
 | `iips-platform` `npm test` | **678 passed, 0 failed** | Linux |
 | `iips-platform` `npm run typecheck` | exit **0** | Linux |
 | `frontend` `npx tsc --noEmit` | exit **0** | Linux |
-| `frontend` full Vitest suite | **2836 passed, 1 skipped** (198 files) | Linux |
+| `frontend` full Vitest suite | **2836 passed, 1 skipped** (198 files) — measured at `da4d145b` and **not
+  re-run for this commit**: no `frontend/` file changed, and this commit's only executable addition is a
+  platform test. Carried forward as the standing result, labelled as such rather than re-asserted. | Linux |
 | New: the host census, pinned | **9 tests** in the `windowsIdentityProvisionScript.test.ts` suite *"the Windows host census reconciles exactly"* (that file: **36 passed, 0 failed**, 6 suites) — all four host triples, both forced-multiplicity corollaries, and the bidirectional id reconciliation | Linux, against the `.ps1` source |
 | PowerShell conformance R1–R8 | **PASS, 0 rule failures** across the four governed `.ps1` files | Linux, tree-sitter |
 | Document-evidence validator | **PASS (0 failures)** over **161 assertions** — the 69 that guard the Stage 3
@@ -482,7 +485,7 @@ Documentation plus one test addition. **No implementation, script, bundle, manif
   host triples, every check id named, 20 cited code positions, the D1 derivation, the served-surface findings,
   the diff-level prohibition proof, and 13 required distinctions | Linux |
 | IID-0 static boundary | **6 passed** — both new `src/investment` files are inside it | Linux |
-| Committed evidence after the full frontend suite | Restored with `git checkout -- evidence/` and verified clean: the suite rewrites two AC-X2 zero-socket files with fresh timestamps, PIDs and ephemeral ports. **0 evidence files changed by this branch** | Linux |
+| Working tree and evidence integrity | `git status --porcelain` **empty** after every gate. `git diff --name-only 8562925b~1..8562925b -- evidence/` returns **0 files**, and so does `214ebc65..HEAD` (Task 16 + Task 17 together). Across the whole branch the only `evidence/` changes are the **20 additions** from the authorized WI-13 re-validation commit `3a818b5d`; `git diff --name-status a835d4af..HEAD -- evidence/` reports status `A` for all 20 and `M` for none, so **no pre-existing evidence file was modified anywhere on this branch**. (Had the full frontend suite been re-run it would have rewritten two AC-X2 zero-socket files with fresh timestamps, PIDs and ephemeral ports, requiring `git checkout -- evidence/`; it was not re-run, so nothing needed restoring.) | Linux |
 
 The document-evidence validator is the same cross-checking harness used for the Stage 3 records: it reads both
 new documents and asserts their claims against `IID-STAGE2-IDENTITY-PROVISION.ps1`, `runtimeReadiness.ts`,
