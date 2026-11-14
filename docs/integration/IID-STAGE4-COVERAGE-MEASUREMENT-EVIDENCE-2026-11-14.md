@@ -618,32 +618,148 @@ only with golden-fixture discipline (L-002)" is not activated by this data, and 
 
 ## 10. The §23 ten-scenario demo, scenario by scenario
 
-Honest accounting. Six scenarios are demonstrated **on installed data**; four cannot be, because they require
-populations that are not admitted — and admitting them is outside this stage's authority (the scope ban on
-"unrequested identity/issuer populations"). Where a scenario is exercised elsewhere, that is named.
+> ### CORRECTION — this section supersedes the accounting first published at head `a771290d`
+>
+> The first version reported **"six scenarios demonstrated on installed data, one partial, four not
+> demonstrable"** in prose while its own table showed **three YES, one PARTIAL, six NO**. The statements were
+> mutually inconsistent, and 6 + 1 + 4 does not equal 10. All three were wrong, and the reason matters more
+> than the arithmetic:
+>
+> §23 assigns **every scenario its own data class in its own preamble** — *"(S) = synthetic fixture only;
+> (R) = real evidence bundle; (––) = cannot run today."* Scenarios **2, 3, 4 and 7 are marked (S)**: a
+> synthetic fixture is the *designated* medium for them, not a fallback for absent real data. Judging those
+> four "not demonstrable" because the admitted population cannot show them applied a **stricter requirement
+> than the baseline states**, and then reported that invented requirement as a blocker awaiting an owner
+> population decision. Scenario 8 is marked *"fully demonstrable in fixtures; Marico/KEC show the
+> Consumer/Industrials analogue on real data"* — both limbs, and both were available. Scenarios 5 and 10 carry
+> their own "Today:" notes naming **IPD binding** as the blocked limb, and scenario 1's assessment chain needs
+> a minted assessment. Those are Stage 5 dependencies, and Stage 4 is explicitly *"Independent: of IPD"*.
+>
+> The corrected accounting below is now a **committed, executable artefact** rather than a table in a
+> document: `iips-platform/tests/investment/iidStage4ScenarioMatrix.test.ts` (**39 tests / 11 suites**) walks
+> all ten scenarios, asserts each acceptance condition against real code, labels each scenario's data class,
+> and asserts the accounting itself — so the counts can no longer drift away from the demonstrations.
 
-| # | Scenario | On installed data | Evidence |
-|---|---|---|---|
-| 1 | Infosys `RESOLVED`/`COVERED` | **YES** | §6 canonical row: HTTP 200, `COVERED` 3, `identitySourcesAvailable true`, identity resolved through the published set |
-| 2 | adequacy `PARTIAL`/`INSUFFICIENT` with a per-row reason | **NO — all three are `SUFFICIENT`** (§8) | The ladder itself is exercised by the assessment-engine tests on `SYNTHETIC_FIXTURE` data; the installed population does not reach those rungs. Not fabricated to make the demo pass |
-| 3 | `UNMATCHED`/`ISIN_NOT_IN_ROSTER`, no assessment link | **NO — every admitted identifier resolves** | `identity-resolver.test.ts`, `w08SecurityToIssuerBridge.test.ts`, `iidWi2aIdentifierResolution.test.ts` on fixtures |
-| 4 | candidates listed, excluded from assessable totals | **NO — no duplicate candidates in this population** | `identity-coverage.test.ts`, `identity-resolver.test.ts` on fixtures |
-| 5 | preview `UNMATCHED` → `RESOLVED` with zero code change | **PARTIAL** | The mechanism is demonstrated: the real provisioner published three issuers and five listings with `refusal.count 0`, and the served route resolved them with no code change. A *transition* from unmatched to matched was not replayed, because nothing was unmatched to begin with |
-| 6 | `SECTOR_REFERENCE_NOT_AN_IDENTITY` | **NO — no sector reference is admitted** | `identity-resolver.test.ts` on fixtures |
-| 7 | successor ratios reconcile to 1, or the whole file is rejected | **NO — no successor data exists** (`L-031`) | Absent by design; nothing to demonstrate |
-| 8 | Banking/Insurance/Capital Markets/Telecom `WITHHELD` naming missing metrics, stage `G3_WITHHELD`, never approximated | **NO on installed data** — those four sectors have zero admitted issuers, so all four are `UNMEASURED` (§3), which is a different fact | **Demonstrated in §5** on the reference fixture, now tested: `G3_WITHHELD` reached, `BM_CET1`/`BM_GNPA`/`BM_NIM` named, `Insurance` held distinct as `UNMEASURED`/`NO_FINANCIALS`, nothing approximated |
-| 9 | KEC debt-side `NOT_REPORTED`/`NOT_COMPUTABLE`, bridge refuses, `STALE_DATA` caps | **YES** | §8.2: KEC `CURRENT_INVESTMENTS` `MISSING: NOT_REPORTED`, `netDebt` `MISSING: NOT_REPORTED`, `EV_EBITDA` not applicable; §8.1: `STALE_STATEMENTS` at 228 days against a 200-day window |
-| 10 | counts split `COVERED`/`NO_FINANCIALS`/`SECTOR_NOT_MEASURED`, totals add up | **YES** | §6: `observed 3 = COVERED 3 + 0 + 0 + 0`; under respelling `3 = 2 + 0 + 1 + 0`. §5: the same partition on the fixture, `5 = 3 + 1 + 1 + 0` |
+### 10.1 The reconstructed matrix
 
-Labelling, as §23 requires: the reference fixture is `SYNTHETIC_FIXTURE` (its issuer names carry
-`(synthetic)`); the three evidence bundles are `OPERATOR_SUPPLIED` and the served report names the bundle
-set. The served `datasetClass` is `OPERATOR_SUPPLIED`.
+| # | §23 data class | Acceptance condition (§23's own words, condensed) | Verdict | Labels | Residual limb, and its exact prerequisite |
+|---|---|---|---|---|---|
+| 1 | **(R, Infosys)** | observation resolves `RESOLVED`; dataset reports the issuer `COVERED`; assessment endpoint returns the chain **once minted** | **PARTIAL** | `OPERATOR_SUPPLIED REL-1-INFOSYS-2026-11-06` | the minted chain: **D2** (NP-04 store, unconfigured) and **G-11**; UI limbs **G-10**/**G-11** |
+| 2 | **(S or any 2-period issuer)** | adequacy `PARTIAL`/`INSUFFICIENT`; `NO_FINANCIALS` only when truly empty; per-row reason visible | **DEMONSTRATED** | `SYNTHETIC_FIXTURE` | — |
+| 3 | **(S)** | dataset `COVERED`; identity `UNMATCHED`/`ISIN_NOT_IN_ROSTER` (roster deliberately lacking one security); no assessment link | **DEMONSTRATED** | `SYNTHETIC_FIXTURE` | — |
+| 4 | **(S)** | `UNMATCHED` or `AMBIGUOUS` with candidates listed; totals exclude it from assessable | **DEMONSTRATED** | `SYNTHETIC_FIXTURE` | — |
+| 5 | unmarked — *"preview path works; portfolio path blocked on IPD binding"* | pre-provisioning `UNMATCHED`; after roster edit flips `RESOLVED` with **zero code change** | **PARTIAL** | `SYNTHETIC_FIXTURE` | holding persistence: **D5** (IPD binding) + **D6** (IPC endpoint) |
+| 6 | unmarked | resolves `SECTOR_REFERENCE_NOT_AN_IDENTITY` — *not* "unresolved security"; no company link | **DEMONSTRATED** | `SYNTHETIC_FIXTURE` | — |
+| 7 | **(S)** | MERGER/DEMERGER successor reconciliation; ratios reconcile to 1 **or the file is rejected wholesale** | **DEMONSTRATED** | `SYNTHETIC_FIXTURE` | — ; a *real* demo needs a transcribed corporate action (**G-8**/**L-031** = S4-R8) |
+| 8 | unmarked — *"fully demonstrable in fixtures; Marico/KEC … on real data"* | methods `WITHHELD` naming `BM_NIM`/`GNPA`/`CET1` even with full statements; stage `G3_WITHHELD`; never approximated; no borrowed Banking verdicts | **DEMONSTRATED** (both limbs) | `SYNTHETIC_FIXTURE`, `OPERATOR_SUPPLIED WI7-CONSUMER-MARICO-2026-11-07`, `OPERATOR_SUPPLIED WI8-INDUSTRIALS-KEC-2026-11-07` | — |
+| 9 | **(R, KEC debt-side)** | `NOT_REPORTED`/`NOT_COMPUTABLE` components; net debt unresolved ⇒ **bridge refuses**; adequacy `PARTIAL`; confidence caps `STALE_DATA` | **PARTIAL** | `OPERATOR_SUPPLIED WI8-INDUSTRIALS-KEC-2026-11-07` | §23 *predicts* adequacy `PARTIAL`; **measured `SUFFICIENT`** — a recorded divergence (§10.3), not a missing input |
+| 10 | unmarked — *"needs Stages 2–3 + binding for real holdings"* | counts split `COVERED`/`NO_FINANCIALS`/`SECTOR_NOT_MEASURED`; identity counted separately; watchlist disclosed as sector refs; totals add up; nothing promoted | **PARTIAL** | both classes | a real-holdings portfolio page: **D5** + **D6** |
 
-**Demo-limb verdict: 4 of 10 scenarios cannot be demonstrated on the admitted population**, and one more only
-partially. They are not demonstrated by inventing issuers, widening a resolver, or fabricating an observation.
-This is the reason the companion record's verdict is **partially complete** rather than complete.
+**Accounting: 6 DEMONSTRATED (2, 3, 4, 6, 7, 8) + 4 PARTIALLY DEMONSTRATED (1, 5, 9, 10) + 0 undemonstrable
+= 10.**
 
----
+**No scenario's residual limb is a population decision.** Every one is a Stage 5 dependency (D2, D5, D6, G-10,
+G-11) or a measured divergence from a value §23 predicted. The matrix test asserts that mechanically: each
+residual must match `/D2|D5|D6|G-10|G-11/` or `/divergence/`, and must **not** match
+`/admit|population|more issuers|new issuer/i`.
+
+### 10.2 What each demonstration actually asserts, measured
+
+* **1 (R).** An observation carrying the admitted ISIN `INE009A01021`, resolved against the **real published**
+  identity set (3 issuers / 3 securities / 5 listings), yields `RESOLVED`, `resolutionBasis ISIN`,
+  `issuerId IN:CIN:L85110KA1981PLC013115`, `assessable true`. The same issuer's dataset row is `COVERED` with
+  `annualPeriods 3` and Technology `measured: true`, on `datasetVersion sha256:3ad82918…76de2d83`. The
+  observation **row** is test-constructed and labelled as such: the lanes that supply real rows (holdings,
+  broker, watchlist) are **G-3/D5**-blocked. The identifiers in it were read out of the published roster, not
+  written down.
+* **2 (S).** The committed fixture's 2-period issuer → adequacy `PARTIAL`, basis `ANNUAL_PERIODS_2_LT_3`; its
+  1-period issuer → `INSUFFICIENT`, basis `ANNUAL_PERIODS_1_LT_3`, 5 missing fields each with a reason; its
+  0-period issuer → `INSUFFICIENT`, basis `NO_ANNUAL_PERIOD`, and **only** that one gets the coverage state
+  `NO_FINANCIALS` while the sparse-but-present issuer stays `COVERED`. That is §23's "`NO_FINANCIALS` excluded
+  states only when truly empty", exactly.
+* **3 (S).** Fixture observation `B-03` carries ISIN `IN0000000029` — which the roster deliberately lacks —
+  together with the symbol `AARAV`, a company the fixture dataset **does** cover (2 annual periods, `COVERED`).
+  Measured: `UNMATCHED` / `ISIN_NOT_IN_ROSTER`, `issuerId null`, `assessable false`. The resolver does **not**
+  fall back to the symbol, so the two positions sit side by side without being reconciled by guessing.
+  **Also measured while building this:** the case cannot be manufactured by deleting a security from a roster.
+  Removing the security whose ISIN an issuer declares as its `equityIsin` rejects the **entire** source set
+  with `ISSUER_KEY_CONFLICT: declares equity ISIN IN0000000029 but no security with that ISIN belongs to it`.
+  Loading is fail-closed, which is why the fixture carries a deliberately unrostered ISIN instead.
+* **4 (S).** `H-04` → `AMBIGUOUS` / `DUPLICATE_ACTIVE_SYMBOL` with **2 candidates listed**, `issuerId null`,
+  `assessable false`. `B-04` → `AMBIGUOUS_LISTING` / `MULTIPLE_SECURITIES_SHARE_LISTING`, also 2 candidates.
+  Across all **18** fixture observations exactly **4** are assessable (`H-01`, `H-02`, `B-02`, `W-01`), all
+  `RESOLVED`; every excluded one carries a non-null reason.
+* **5.** A test-constructed imported `BROKER_PREVIEW` row (ISIN `IN0000000201`, symbol `NEWCO`) is `UNMATCHED`
+  / `ISIN_NOT_IN_ROSTER` against the committed fixture; after an **in-memory** roster+listing edit it is
+  `RESOLVED` / `basis ISIN` / `assessable true` — the same `resolveIdentity` function, only the source text
+  differs. **Measured guard:** adding the security while the observation keeps another security's symbol does
+  *not* resolve — it returns `AMBIGUOUS` / `SYMBOL_REUSED_BY_OTHER_SECURITY` with `issuerId null`. So the flip
+  is a property of a *consistent* roster edit, not of any edit, and nothing is promoted.
+* **6.** `W-03` (source `WATCHLIST`) and `H-05` both resolve `UNMATCHED` /
+  `SECTOR_REFERENCE_NOT_AN_IDENTITY`, with `issuerId`, `securityId` and `listingId` all `null` and
+  `assessable false`. Asserted *not* equal to `ISIN_NOT_IN_ROSTER`, `NO_LISTING_FOR_SECURITY` or
+  `SECURITY_NOT_LISTED` — the specific class is named, not a generic "unresolved security".
+* **7 (S).** The committed fixture table's `DEMERGER` successors are `[0.6, 0.4]`, summing to **1**, and its
+  `MERGER` is `[1]`; `validateCorporateActionTable` accepts it with zero issues. Perturbing one weight to `0.3`
+  (sum `0.8999999999999999` in binary floating point) returns `table: null` — **the whole file is rejected, not
+  a filtered table with the bad row dropped** — with `SUCCESSOR_WEIGHTS_DO_NOT_RECONCILE` and the detail
+  `ratios sum to 0.8999999999999999, expected 1`. The installed dataset's `corporateActions` is `0`, so the
+  real-data demo stays pending a transcribed action (G-8/L-031 = S4-R8), exactly as §23's own note says.
+* **8.** Fixture limb: Banking driven to `G3_WITHHELD` — statements present (`measured: true`, 1 annual
+  period), `usableMethods []`, `RESIDUAL_INCOME` withheld `MANDATORY_METRIC_MISSING` naming `BM_CET1`,
+  `BM_GNPA` and `BM_NIM`, every method WITHHELD with a non-null reason. Real limb: Consumer `G1_ENABLED` with
+  no withheld method, Industrials `G2_PARTIAL` with `EV_REVENUE` withheld on `["IN_BOOK_TO_BILL"]`. Borrowing
+  check: across all 13 sectors and all 38 methods, no sector is ever withheld on another sector's metric
+  prefix, and Banking — with no issuers — is `UNMEASURED` with `usableMethods []` rather than being lent
+  Technology's `G2_PARTIAL`.
+* **9 (R).** At KEC's latest annual period `CURRENT_INVESTMENTS` is `presence MISSING`, `reason NOT_REPORTED`,
+  `value null` — never zero. `capitalStructure.netDebt` is `MISSING`/`NOT_REPORTED`, and
+  `equityValueFromEnterprise` on a present enterprise value returns `presence NOT_COMPUTABLE` with the note
+  `enterprise-to-equity conversion blocked by netDebt` and `value null`: **the bridge refuses**. Confidence
+  caps include `STALE_DATA` (with `combined 0.3199`) and the quality block carries `STALE_STATEMENTS`.
+  Adequacy is the one divergence — §10.3.
+* **10.** On the fixture with Banking's inputs removed, all three coverage states appear at once
+  (`COVERED` 3, `NO_FINANCIALS` 1, `SECTOR_NOT_MEASURED` 1, `ISSUED_DATA` 0), the four states partition
+  `observed` exactly, and each count equals its own row count. On the admitted dataset: `observed 3`,
+  `COVERED 3`, the rest 0, partitioning exactly, with `dataset.datasetClass` = `OPERATOR_SUPPLIED`. Identity is
+  counted **separately per source** — `HOLDING`, `BROKER_PREVIEW`, `WATCHLIST` — with the watchlist sector
+  reference disclosed as `SECTOR_REFERENCE_NOT_AN_IDENTITY`, and 4 assessable of 18.
+
+### 10.3 Scenario 9's divergence: §23 predicted adequacy `PARTIAL`, the admitted data says `SUFFICIENT`
+
+Measured: KEC's adequacy is **`SUFFICIENT`** with `requiredFieldCoveragePct 1` and `missingFields []`. The
+cause is exact and is not a defect in either layer: `assessment/adequacy.ts:24` defines `REQUIRED_ITEMS` as
+nine statement fields — `REVENUE_FROM_OPERATIONS`, `EBITDA`, `NET_PROFIT`,
+`NET_PROFIT_ATTRIBUTABLE_TO_OWNERS`, `TOTAL_EQUITY`, `TOTAL_ASSETS`, `OPERATING_CASH_FLOW`,
+`CAPITAL_EXPENDITURE`, `EPS_DILUTED` — and **none of the debt-side components is among them**. KEC therefore
+covers 100% of the required fields while its capital structure is incomplete.
+
+The incompleteness §23 was pointing at is real and is demonstrated (`NOT_REPORTED` components, a refused
+bridge, a `STALE_DATA` cap); it simply does not reach the adequacy ladder. This is recorded as a **divergence
+between a baseline prediction and measured truth** — which is what §23's "current truth" column exists for —
+and the matrix test pins it, including the assertion that none of the four debt-side items is in
+`REQUIRED_ITEMS`. Adding them would be a valuation-policy decision, not a Stage 4 demonstration act, and
+relaxing the scenario to match the measurement would be weakening an acceptance criterion. Neither was done.
+
+### 10.4 Labelling, enforced mechanically rather than in prose
+
+§23 line 699: *"Fixture-vs-real labelling in any demo shown to the owner: fixtures = `SYNTHETIC_FIXTURE` chip;
+evidence bundles = `OPERATOR_SUPPLIED` with bundle name. **No synthetic figure is to be cited as coverage.**"*
+
+The matrix test enforces all three clauses:
+
+1. **Label form.** Every scenario carries at least one label, and every label is either exactly
+   `SYNTHETIC_FIXTURE` or `OPERATOR_SUPPLIED <bundle>` for one of the three admitted bundle names. A scenario
+   marked `(S)` must carry *only* the synthetic label; one marked `(R)` must carry only operator-supplied ones.
+2. **No synthetic figure cited as coverage.** The installed dataset's issuer set is asserted to be **exactly**
+   the three admitted CINs; none of the fixture's issuers appears in it; its `datasetVersion` is the
+   host-verified value; and its manifest declares `sourceRights.state OPERATOR_ASSERTED`.
+3. **The classes are visibly distinct.** Every fixture issuer's legal name ends in `(synthetic)` and no
+   admitted issuer's name contains it. And the served report labels **itself**: passing the admitted manifest
+   yields `dataset.datasetClass OPERATOR_SUPPLIED`, passing a fixture manifest (provider `test-fixture`,
+   licence `synthetic; not redistributable`, `sourceRights.state SYNTHETIC`) yields `SYNTHETIC_FIXTURE`, and
+   passing no manifest yields `NONE` — never a guess, and never `OPERATOR_SUPPLIED`.
+
 
 ## 11. Tests, typechecks and validators — exact counts
 
@@ -652,7 +768,7 @@ a real run, not a transcription from an earlier record.
 
 | Gate | Command | Result | Baseline at `316da977` |
 |---|---|---|---|
-| Platform IID suite | `npm run test:iid` | **1103 tests / 241 suites / 1103 pass / 0 fail** | 1061 / 233 |
+| Platform IID suite | `npm run test:iid` | **1103 tests / 241 suites / 1103 pass / 0 fail** *(superseded by §11.2: 1142 / 252 after the S4-R1 matrix suite)* | 1061 / 233 |
 | Platform full suite | `npm test` | **678 tests / 678 pass / 0 fail** | 678 / 678 |
 | Platform typecheck | `npm run typecheck` | **exit 0** | exit 0 |
 | IID-0 constraints | `npx tsx --test tests/investment/constraints.test.ts` | **6 tests / 6 pass / 0 fail** | 6 / 6 |
@@ -662,6 +778,35 @@ a real run, not a transcription from an earlier record.
 | Frontend full suite | `npx vitest run` | see §11.1 | 2836 tests / 198 files |
 | PowerShell conformance | `ps-conformance.py` over the four governed `IID-STAGE*` scripts | **PASS — 0 rule failures across 4 files** (nodes 21374) | PASS |
 | Document-evidence validator | `doc-evidence-validate.py` | **PASS (0 failures), 234 assertions** | PASS, 161 |
+
+### 11.2 S4-R1 correction: every gate re-run, not transcribed
+
+The §10 correction changed a committed test surface, so all gates were re-run from scratch at the corrected
+head. **No number below is carried over from §11.**
+
+| Gate | Command | Result |
+|---|---|---|
+| Platform IID suite | `npm run test:iid` | **1142 tests / 252 suites / 1142 pass / 0 fail** |
+| Platform full suite | `npm test` | **678 tests / 678 pass / 0 fail** |
+| Platform typecheck | `npm run typecheck` | **exit 0** |
+| IID-0 constraints | `npx tsx --test tests/investment/constraints.test.ts` | **6 tests / 6 pass / 0 fail** |
+| **NEW** §23 scenario matrix | `npx tsx --test tests/investment/iidStage4ScenarioMatrix.test.ts` | **39 tests / 11 suites / 39 pass / 0 fail** |
+| Vocabulary read path | `npx tsx --test tests/investment/sectorVocabularyReadPath.test.ts` | **42 tests / 8 suites / 42 pass / 0 fail** |
+| Frontend typecheck | `npx tsc --noEmit` | **exit 0** |
+| Frontend full suite | `npx vitest run` | **2847 passed \| 1 skipped (2848), 199 files passed \| 1 skipped (200)** — 243.94 s |
+| PowerShell conformance | `ps-conformance.py` over the four governed `IID-STAGE*` scripts | **PASS — 0 rule failures across 4 files** |
+| Document-evidence validator | `doc-evidence-validate.py` | **PASS (0 failures)** |
+
+Platform IID grew by exactly the new suite's **39 tests / 11 suites** (1103→1142, 241→252) and by nothing else,
+which is itself a check: no existing test was edited, skipped or relaxed to make room.
+
+Two hygiene notes, both measured rather than assumed. The frontend suite again rewrote the two committed
+`evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-{control,test}.json` files; both were restored with
+`git checkout -- evidence/` and `git status --porcelain evidence/` was verified empty before committing, so
+**this change touches no file under `evidence/`**. And the four governed PowerShell scripts are
+`IID-STAGE2-IDENTITY-PROVISION.ps1`, `IID-STAGE3-WINDOWS-INSTALL.ps1`, `IID-STAGE3-WINDOWS-VERIFY.ps1` and
+`IID-STAGE3-WINDOWS-VERIFY.Tests.ps1`; the two `diagnose-*.ps1` scripts fail that checker for pre-existing
+reasons unrelated to this work and were deliberately left out of scope and untouched.
 
 Changed and added files:
 

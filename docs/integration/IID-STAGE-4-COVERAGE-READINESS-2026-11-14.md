@@ -34,7 +34,8 @@
 | **Gap closure G-14** (two sector vocabularies, no lint) | **SUBSTANTIALLY CLOSED** — one vocabulary authority now reaches the read path; a lint over hand-authored rosters is still absent (**S4-R7**) |
 | **Gap closure G-4** (zero operating-metric records) | **OPEN — correctly disclosed, and not closable by repository work.** Needs operating-metric data, an operator/owner transcription decision (**S4-R6**) |
 | **Gap closure G-6** (no quarterly periods) | **OPEN — correctly disclosed, and not closable by repository work.** Needs quarterly data (**S4-R3**) |
-| **Demo limb** — the §23 ten-scenario demo passing | **NOT MET.** 6 of 10 scenarios are demonstrated on installed data, 1 partially, and **4 cannot be**, because they require populations that are not admitted and admitting them is outside this stage's authority (evidence §10). This is the binding reason the verdict is partial |
+| **Demo limb** — the §23 ten-scenario demo passing | **SUBSTANTIALLY MET — corrected at S4-R1.** **6 of 10 DEMONSTRATED** (scenarios 2, 3, 4, 6, 7, 8), **4 of 10 PARTIALLY DEMONSTRATED** (1, 5, 9, 10), **0 undemonstrable**. Every residual limb is a **Stage 5 dependency** — D2 (minted assessment chain) with G-10/G-11 for scenario 1, D5/D6 (IPD binding + IPC endpoint) for scenarios 5 and 10 — or, for scenario 9, a **measured divergence** from a value §23 itself predicted. **None is a population gap.** This line previously read "**NOT MET.** 6 of 10 … **4 cannot be**, because they require populations that are not admitted"; that was a misreading of §23's own preamble, which designates a synthetic-fixture medium for scenarios 2, 3, 4 and 7 (evidence §10, §10.1). The accounting is now pinned by a committed executable test, not by prose |
+
 
 **Overall IID readiness remains NOT READY**, and this record does not claim otherwise. `ready` is computed
 from read-critical findings (`frontend/server/investment/runtimeReadiness.ts:489-493`); D2–D6 are all
@@ -95,7 +96,7 @@ technical coverage readiness.
 | Decide on operating metrics to unlock `TM_*`/`IN_*`/`BM_*` | **NOT DECIDED** — an owner/operator act, recorded as **S4-R6** | evidence §9 |
 | Fill corporate actions as events occur | **NOT DONE** — event-driven by definition, recorded as **S4-R8**; `merge.actions 0` | evidence §2, §9 |
 | Extend the tag map only with golden-fixture discipline (`L-002`) | **NOT TRIGGERED, and nothing was extended** — the installed dataset carries **0** ingestion issues, so no `UNMAPPED_XBRL_TAG` exists to map | evidence §9 |
-| The §23 ten-scenario demo passing | **NOT MET** — 4 scenarios cannot be demonstrated on the admitted population | evidence §10 |
+| The §23 ten-scenario demo passing | **SUBSTANTIALLY MET** — 6 demonstrated, 4 partially demonstrated, 0 undemonstrable; the four residuals are Stage 5 dependencies or one recorded divergence, **not** population gaps | evidence §10 |
 | Independent of IPD | **CONFIRMED** — no IPD binding, no IPC peer, and neither D5 nor D6 was asserted or worked around | §4, §9 |
 
 ---
@@ -226,7 +227,8 @@ prefix so they cannot be confused with Stage 2's or Stage 3's.
 | **R-4** | Adjudicate `L-041` and `L-042` | **OWNER** (register act) | **OPEN — unchanged.** Both remain OPEN and neither was adjudicated here (§8) | An owner decision in the limitation register | An owner decision recorded in the register | Nothing in Stage 4 |
 | **S2-R1** | Record the owner's **O1** decision | **OWNER** (register act) | **OPEN — unchanged, and now with a concrete Stage 4 consequence.** Stage 4's substance did not wait for it, exactly as the Stage 2 record predicted; but O1 also settles whether the admitted population is the intended one, which is now visibly load-bearing for the demo limb (**S4-R1**) | A decision recorded as O3's was: the intended population, the eligibility rule (or explicit adoption of source-supplied `status`), and who may edit the published set | An O1 decision record | **Stage 2's closure**, and the framing of **S4-R1**. Not Stage 4's measurement |
 | **S2-R2** | Supply the host transcript detail that was not captured | **OPERATOR** (optional) | **OPEN — unchanged.** Stage 4 added no host transcript | Re-run `-VerifyOnly` (read-only, safe to repeat, must not re-publish) with `-Report <path.json>`, or supply the full stdout of any one run | `$PSVersionTable.PSVersion` and `node --version`; the `asOf` used; per-check detail lines; `published.digest` and `verification.*` as **host-observed** rather than predicted | Nothing |
-| **S4-R1** | Close the §23 **demo limb** | **OWNER** (population decision) with **OPERATOR** (data) | **NEW — the binding reason Stage 4 is partially complete.** Scenarios 2, 3, 4, 6 and 8 need populations that are not admitted: no issuer with `PARTIAL`/`INSUFFICIENT` adequacy, no non-roster identifier, no duplicate candidates, no sector reference, and no Banking/Insurance/Capital-Markets/Telecom issuer at all. Scenario 7 needs successor data that does not exist (`L-031`) | Either admit data for those scenarios, **or** record — as §23's own labelling rule permits — that the demo limb is discharged on `SYNTHETIC_FIXTURE` data, naming the test that demonstrates each scenario. An assessor may not choose for the owner | A decision plus, for each of the ten scenarios, either an installed-data observation or a named fixture test | **Stage 4's closure.** Nothing else — Stage 5 needs Stage 4's substance, which exists |
+| **S4-R1** | Close the §23 **demo limb** | **IRR** (demonstration) — **re-classified from OWNER/OPERATOR: no population decision was ever needed** | **SUBSTANTIALLY DISCHARGED.** The corrected accounting is **6 demonstrated / 4 partially demonstrated / 0 undemonstrable**, pinned by a committed executable matrix test (`iips-platform/tests/investment/iidStage4ScenarioMatrix.test.ts`, **39 tests / 11 suites**) rather than by prose (evidence §10.1–§10.4). This row was opened as an owner population decision on the finding that "scenarios 2, 3, 4, 6 and 8 need populations that are not admitted". That was wrong twice over: §23's preamble marks **2, 3, 4 and 7** as *"(S) = synthetic fixture only"* — a designated medium, not a fallback — and scenario 8 says outright *"fully demonstrable in fixtures; Marico/KEC show the Consumer/Industrials analogue on real data"*, which is exactly what was measured. **The register's own second option has now been executed:** *"record … that the demo limb is discharged on `SYNTHETIC_FIXTURE` data, naming the test that demonstrates each scenario."* Each of the ten scenarios is named, with its label and its acceptance condition. | Nothing further from an owner. What remains is **Stage 5 work under different register names**: D2 + G-10/G-11 close scenario 1's minted chain; D5/D6 close scenarios 5 and 10's holding persistence; scenario 9's divergence is closed by disclosure (evidence §10.3) and adding debt-side items to `REQUIRED_ITEMS` would be a **valuation-policy** decision, not a demonstration act, so it was not taken. | **Stage 4's demo limb is no longer the binding reason the verdict is partial.** The verdict stays partial because four scenarios have Stage-5-owned residual limbs and because G-4/G-6 remain open as data acts |
+
 | **S4-R2** | Transcribe Infosys' missing borrowings lines | **OPERATOR** (transcription) | **NEW.** `LONG_TERM_BORROWINGS` and `SHORT_TERM_BORROWINGS` were **never transcribed** for Infosys in any of the three periods, so `NET_DEBT` is not derivable and Technology's `EV_EBITDA` is withheld `STATEMENT_INPUT_MISSING`. This is a transcription-completeness gap, **not** a measurement, derivation or policy defect — `derive.ts` correctly refuses, because "an unreported input is never silently zero" | Transcribe both lines for the three periods from the filing and re-ingest. **Do not** widen the derivation | Technology's `EV_EBITDA` `AVAILABLE`, or a `NOT_REPORTED` recorded at source with its reason | One withheld method. Nothing structural |
 | **S4-R3** | Install quarterly periods, or more recent annual filings | **OPERATOR** (data) — this is `G-6` | **NEW.** All three issuers exceed the freshness window at the assessment clock: 958, 958 and 228 days against `VALUATION_POLICY.freshness.pnlDays = 200`. All three therefore carry `STALE_STATEMENTS` (HIGH) and a `MATERIAL_CONCERNS` quality verdict | Install quarterly data (`quarterlyPeriods` is 0 today) or newer annual filings | `quarterlyPeriods > 0`, or staleness within 200 days, and `STALE_STATEMENTS` no longer raised | **G-6**, and the currency of any valuation claim on this data. Not Stage 4's measurement |
 | **S4-R4** | Document that coverage "usable" does not mean "a valuation would be produced" | **IRR** (documentation) | **NEW — partially discharged.** The two layers answer different questions by design: coverage asks whether a method is computable for **any** issuer-period, assessment resolves **one latest instant** with a stricter input set. Both are correct; a reader could infer a valuation from a coverage row. Recorded in evidence §8.2 rather than in source, to keep the Stage 4 diff minimal and the validator's line pins stable | A source-level note in the coverage module stating the window difference | The note committed | Nothing. This is a misreading risk, not a defect |
@@ -306,10 +308,11 @@ headline numbers:
 
 | Gate | Result |
 |---|---|
-| Platform IID suite (`npm run test:iid`) | **1103 tests / 241 suites / 0 fail** (baseline 1061 / 233) |
+| Platform IID suite (`npm run test:iid`) | **1142 tests / 252 suites / 0 fail** (baseline 1061 / 233; 1103 / 241 before the S4-R1 matrix suite) |
 | Platform full suite (`npm test`) | **678 / 678 / 0 fail** |
 | Platform typecheck | **exit 0** |
 | IID-0 constraints | **6 / 6 / 0 fail** |
+| **NEW** `iidStage4ScenarioMatrix.test.ts` — the §23 matrix | **39 tests / 11 suites / 0 fail** |
 | **NEW** `sectorVocabularyReadPath.test.ts` | **42 tests / 8 suites / 0 fail** |
 | **NEW** `iidStage4ServedCoverageRoute.test.ts` | **11 tests / 0 fail** |
 | Frontend typecheck (`npx tsc --noEmit`) | **exit 0** |
@@ -336,38 +339,48 @@ confirm it still holds what the pin claims; no assertion was weakened or deleted
 | Stage 1 — runtime and source discovery | deterministic per-host truth about what the runtime needs, who owns it, what is missing | independent; no prerequisite | Prior work |
 | Stage 2 — identity readiness | an installed, validated identity reference set for the intended population | independent of Stage 3 and of IPD; **gated on owner decision O1** | Objective MET and host-verified; **O1 outstanding (S2-R1)** — unchanged |
 | Stage 3 — investment dataset readiness | ≥1 real, digest-verified dataset installed, plus the ingestion habit | independent of Stage 2 and of IPD; gated on **O3** | **READY**; R-1/R-2 captures open — unchanged |
-| **Stage 4 — coverage readiness** | coverage, completeness, method usability and sector measurement verified on **installed** data; the §23 ten-scenario demo passing | **needs Stages 2–3**; independent of IPD | **This record. PARTIALLY COMPLETE** — measurement limb MET, G-7 closed, G-14 substantially closed; demo limb NOT MET (**S4-R1**); G-4 and G-6 open as data acts (**S4-R6**, **S4-R3**) |
+| **Stage 4 — coverage readiness** | coverage, completeness, method usability and sector measurement verified on **installed** data; the §23 ten-scenario demo passing | **needs Stages 2–3**; independent of IPD | **This record. PARTIALLY COMPLETE** — measurement limb MET, G-7 closed, G-14 substantially closed; demo limb **SUBSTANTIALLY MET** after the **S4-R1** correction (6 demonstrated, 4 partially, 0 undemonstrable — the four residuals Stage-5-owned); G-4 and G-6 open as data acts (**S4-R6**, **S4-R3**) |
 | **Stage 5 — end-to-end integration** | holdings → identity → dataset → assessment → disposition as one loop on the host | needs Stages 2–4 **plus IPD binding + IPC peer** | **The next stage.** Blocked on IC-1: B-4 (IPD), B-5 (IPD + setting), B-6 (operator carrier); and it owns B-3, which is why the identity route stays 503 |
 | Stage 6 — investment intelligence | routine use: review loop, change detection, dispositions, persisted comparable reports | needs Stage 5 + operator limits policy (**O5**) | Blocked behind Stage 5 |
 
 **The next roadmap step is Stage 5 — end-to-end integration**, per the baseline's own dependency statement
 (*"needs Stages 2–4"*). Stage 4's **substance** exists: the measurement is performed on installed data, the
 coverage surface serves it, and the read-path defect that could have silently understated it is closed. What
-Stage 4 does not yet have is **closure**, which needs S4-R1 — an owner decision about the demo limb that an
-assessor may not make on the owner's behalf.
+Stage 4 does not yet have is **closure** — and the S4-R1 correction shows closure was never blocked on an owner
+decision. It is blocked on **Stage 5 itself**: six of the ten §23 scenarios are demonstrated outright, and the
+four that are not each wait on D2, D5, D6, G-10 or G-11 — the minted assessment chain and the IPD binding —
+which is precisely Stage 5's *"holdings → identity → dataset → assessment → disposition as one loop"* work.
+**The demo limb is therefore not a gate Stage 5 must first clear; it is a preview of what Stage 5 will finish.**
 
 **Two qualifications on starting Stage 5, stated so that neither is discovered mid-stage:**
 
 1. **Stage 5 needs D5 and D6, which are IPD-owned and cannot be substituted.** `CPII-01` records this as *"not
    on this side of the fence — no amount of IRR work substitutes for it."* Stage 4 was explicitly independent of
    IPD; Stage 5 is not, and no repository work closes that.
-2. **S4-R1 should be recorded before Stage 5 is described as unblocked**, because Stage 5's "needs Stages 2–4"
-   is a statement about stage closure, and Stage 4 is not closed. Starting Stage 5's *substance* is defensible
-   on the same reasoning Stage 2 used for Stage 4 (§12 of that record); claiming Stage 4 is complete is not.
+2. **S4-R1 has now been recorded** (evidence §10, this record §7), so this qualification is discharged — and it
+   changed shape in the discharge. It is **not** "Stage 4 needs an owner decision before Stage 5 can start"; it
+   is "Stage 4's four partial scenarios are closed *by* Stage 5". Stage 5's "needs Stages 2–4" is still a
+   statement about stage closure, and Stage 4 is still **not closed** — its measurement limb is met, its demo
+   limb substantially met. Starting Stage 5's *substance* remains defensible on the same reasoning Stage 2 used
+   for Stage 4 (§12 of that record); claiming Stage 4 is complete is not.
 
 **Explicitly not the next step:** Stage 6 (needs Stage 5 plus O5); any of D2–D7 (separate dependencies,
 separate owners, separate decisions); merging PR #562 (an owner act); adjudicating `L-041`/`L-042` (a register
-act); recording O1 (an owner act — S2-R1); admitting new issuers to make the demo pass (a population decision
-that belongs to S4-R1's owner, and which the scope ban on unrequested populations forbids an assessor from
-making); repeating the identity publication or reinstalling the dataset (both prohibited — both are evidence);
+act); recording O1 (an owner act — S2-R1); **admitting new issuers to make the demo pass — which the S4-R1
+correction shows is not needed at all**, since §23 designates a fixture medium for the four scenarios the
+admitted population cannot cover, and which the scope ban on unrequested populations independently forbids an
+assessor from doing; repeating the identity publication or reinstalling the dataset (both prohibited — both are evidence);
 Win32 recovery fault-injection (never authorised).
 
 ---
 
 ## 12. What this record does **not** say
 
-1. It does **not** say Stage 4 is complete. It says **partially complete**, names the one binding reason
-   (S4-R1, the demo limb), and separates it from the limbs that are met (§1).
+1. It does **not** say Stage 4 is complete. It says **partially complete** and separates the limbs that are met
+   from those that are not (§1). **Correction:** it originally named "one binding reason (S4-R1, the demo
+   limb)". After S4-R1 the binding reasons are different and more precise — four §23 scenarios have residual
+   limbs owned by **Stage 5** (D2, D5, D6, G-10, G-11), and **G-4**/**G-6** remain open as data acts. The demo
+   limb itself is substantially met (§1, evidence §10).
 2. It does **not** say the IID programme is complete, or that overall IID readiness is READY. `ready` stays
    `false` because D2–D6 are outstanding (§4), and no Stage 4 result changes that.
 3. It does **not** say Stage 2 is closed (S2-R1 is open), and it does **not** re-open Stage 3 (it is READY,
@@ -385,13 +398,22 @@ Win32 recovery fault-injection (never authorised).
 9. It does **not** claim `G3_WITHHELD` was demonstrated on installed data. The four sectors scenario 8 names
    have no admitted issuers and are `UNMEASURED`; the stage was demonstrated on the reference fixture, which
    §23's own labelling rule labels `SYNTHETIC_FIXTURE` (evidence §5, §10).
-10. It does **not** mint an owner decision. S4-R1, S4-R5, S4-R6 and S2-R1 are all decisions, and an assessor
-    may not record one on the owner's behalf.
+10. It does **not** mint an owner decision. S4-R5, S4-R6 and S2-R1 are all decisions, and an assessor may not
+    record one on the owner's behalf. **Correction:** this item originally listed **S4-R1** among them, and
+    S4-R1 has been re-classified from an OWNER population decision to an IRR demonstration act. That is the
+    opposite of minting a decision — it *withdraws* a claim that one was needed. The basis is a fact about the
+    baseline's own text, not a judgement about the owner's intent: §23's preamble designates scenarios 2, 3, 4
+    and 7 as *"(S) = synthetic fixture only"*, so no additional issuer is required for them, and scenario 8
+    names its fixture limb outright. Correcting a misreading of a pinned requirement is an assessor's duty;
+    choosing a population for the owner would not have been. **No owner decision was recorded, and none is
+    claimed** — S4-R5, S4-R6 and S2-R1 all remain open and unrecorded.
 11. It does **not** supersede, correct or reinterpret any protected record, the O3 decision, or any prior
     governance decision. It supersedes **one position** — Stage 4's, which nothing previously assessed — says
     so in the header, and adds to everything else.
 12. It does **not** state any volatile value as a standing fact. Every count, digest, percentage and PR field
-    is bound to 2026-11-14 at head `316da977…`.
+    is bound to a dated head: the measurement and coverage findings to 2026-11-14 at `316da977…`, and the
+    S4-R1 scenario accounting and its gate numbers (evidence §11.2) to the corrected head that follows
+    `a771290d…`.
 
 ---
 
