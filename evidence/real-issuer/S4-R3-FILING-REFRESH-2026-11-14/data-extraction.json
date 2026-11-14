@@ -1,0 +1,772 @@
+{
+  "bundle": "S4-R3 filing refresh \u2014 additive candidate, not a host installation",
+  "scale": "INR crore as printed/tagged; source_scale=CRORE. Per-share values are not scaled.",
+  "marico": {
+    "issuerId": "IN:CIN:L15140MH1988PLC049208",
+    "periods": {
+      "2025-03-31": {
+        "periodEnd": "2025-03-31",
+        "fiscalYear": "2025",
+        "periodStart": "2024-04-01",
+        "filingRef": "MARICO-INDAS-CONSOL-FY25-AR",
+        "filedAt": "2025-05-02",
+        "items": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": "10831",
+            "printed": "Revenue from operations 19 10,831 9,653",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "OTHER_INCOME": {
+            "value": "208",
+            "printed": "Other income 20 208 142",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "TOTAL_INCOME": {
+            "value": "11039",
+            "printed": "Total income 11,039 9,795",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": "831",
+            "printed": "Employee benefits expense 22 831 743",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "OTHER_EXPENSES": {
+            "value": "2473",
+            "printed": "Other expenses 24 2,473 2,136",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "FINANCE_COSTS": {
+            "value": "53",
+            "printed": "Finance costs 25 53 73",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": "178",
+            "printed": "Depreciation and amortization expense 23 178 158",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": "2116",
+            "printed": "Profit before tax 2,116 1,937",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "TAX_EXPENSE": {
+            "value": "458",
+            "printed": "Tax expense 458 435",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "NET_PROFIT": {
+            "value": "1658",
+            "printed": "Profit for the year (A) 1,658 1,502",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": "1629",
+            "printed": "Owners 1,629 1,481",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "EPS_BASIC": {
+            "value": "12.59",
+            "printed": "Basic earnings per share (in H) 12.59 11.46",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "EPS_DILUTED": {
+            "value": "12.56",
+            "printed": "Diluted earnings per share (in H) 12.56 11.43",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "TOTAL_ASSETS": {
+            "value": "8338",
+            "printed": "Total assets 8,338 7,421",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "TOTAL_EQUITY": {
+            "value": "4266",
+            "printed": "Total equity 4,266 4,169",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": "3975",
+            "printed": "Equity attributable to owners 3,975 3,832",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "NON_CONTROLLING_INTEREST": {
+            "value": "291",
+            "printed": "Non-controlling interests 12(c) 291 337",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": "321",
+            "printed": "(iii) Cash and cash equivalents 6(d) 321 228",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "CURRENT_INVESTMENTS": {
+            "value": "1375",
+            "printed": "(i) Investments 6(a) 1,375 259",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED",
+            "note": "Current-asset investments line, not the non-current investments line."
+          },
+          "TRADE_RECEIVABLES": {
+            "value": "1271",
+            "printed": "(ii) Trade receivables 6(b) 1,271 1,069",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "TRADE_PAYABLES": {
+            "value": "1363",
+            "printed": [
+              "Total outstanding dues of micro enterprises and small enterprises 89 71",
+              "Total outstanding dues of creditors other than micro enterprises and small enterprises 1,274 1,510"
+            ],
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "OPERATOR_SUM",
+            "note": "89 + 1,274 = 1,363; both components printed."
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": "710",
+            "printed": "Property, plant and equipment 3(a) 710 700",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "CAPITAL_WORK_IN_PROGRESS": {
+            "value": "40",
+            "printed": "Capital work-in-progress 3(c) 40 44",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "GOODWILL": {
+            "value": "857",
+            "printed": "Goodwill 5 857 863",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "INTANGIBLE_ASSETS": {
+            "value": "946",
+            "printed": "Other intangible assets 5 946 937",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": "1363",
+            "printed": "Net cash generated from operating activities (A) 1,363 1,387",
+            "locator": "marico-fy25-cf#p172",
+            "basis": "REPORTED"
+          },
+          "CAPITAL_EXPENDITURE": {
+            "value": "161",
+            "printed": "Payment for property, plant and equipment and intangible assets (161) (153)",
+            "locator": "marico-fy25-cf#p172",
+            "basis": "REPORTED",
+            "note": "Printed outflow magnitude; positive-magnitude line item."
+          },
+          "INVESTING_CASH_FLOW": {
+            "value": "-621",
+            "printed": "Net cash (utilised in)/ generated from investing activities (B) (621) 176",
+            "locator": "marico-fy25-cf#p172",
+            "basis": "REPORTED"
+          },
+          "FINANCING_CASH_FLOW": {
+            "value": "-649",
+            "printed": "Net cash utilised in financing activities (C) (649) (1,542)",
+            "locator": "marico-fy25-cf#p172",
+            "basis": "REPORTED"
+          },
+          "DIVIDENDS_PAID": {
+            "value": "453",
+            "printed": "Dividends paid to company's shareholders (453) (1,229)",
+            "locator": "marico-fy25-cf#p172",
+            "basis": "REPORTED"
+          },
+          "INCOME_TAX_PAID": {
+            "value": "484",
+            "printed": "Income taxes paid (net of refunds) (484) (378)",
+            "locator": "marico-fy25-cf#p172",
+            "basis": "REPORTED"
+          },
+          "NET_CASH_FLOW": {
+            "value": "93",
+            "printed": "D NET INCREASE / (DECREASE) IN CASH & CASH EQUIVALENTS (A+B+C) 93 21",
+            "locator": "marico-fy25-cf#p172",
+            "basis": "REPORTED"
+          },
+          "LEASE_LIABILITIES": {
+            "value": "175",
+            "printed": [
+              "(i) Lease liabilities 124 104",
+              "(ii) Lease liabilities 51 41",
+              "Balance at March 31, 175 379 554 145 383 529"
+            ],
+            "locator": "marico-fy25-bs-pnl#p170+marico-fy25-cf#p172",
+            "basis": "OPERATOR_SUM",
+            "note": "124 + 51 = 175; cash-flow financing reconciliation prints 175."
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": "379",
+            "printed": "(i) Borrowings 13(a) 379 383",
+            "locator": "marico-fy25-bs-pnl#p170",
+            "basis": "REPORTED",
+            "note": "Printed current borrowings total. Current-maturity split is not in the committed extract; no split is asserted."
+          }
+        },
+        "notReported": {
+          "LONG_TERM_BORROWINGS": "The FY2025 consolidated balance sheet has no non-current borrowings row. Omission is not a dash, zero, or nil.",
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": "No current-maturity split is present in the committed FY2025 extract.",
+          "PREFERENCE_CAPITAL": "L-038 remains open: authorised preference capital and equity-only issued share capital do not declare issued preference capital nil."
+        }
+      },
+      "2026-03-31": {
+        "periodEnd": "2026-03-31",
+        "fiscalYear": "2026",
+        "periodStart": "2025-04-01",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "filedAt": "2026-05-05",
+        "items": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": "13611",
+            "printed": "Revenue from operations 19 13,611 10,831",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "OTHER_INCOME": {
+            "value": "204",
+            "printed": "Other income 20 204 208",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "TOTAL_INCOME": {
+            "value": "13815",
+            "printed": "Total income 13,815 11,039",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": "916",
+            "printed": "Employee benefits expense 22 916 831",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "OTHER_EXPENSES": {
+            "value": "2808",
+            "printed": "Other expenses 24 2,808 2,473",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "FINANCE_COSTS": {
+            "value": "53",
+            "printed": "Finance costs 25 53 53",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": "202",
+            "printed": "Depreciation and amortization expense 23 202 178",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": "2277",
+            "printed": "Profit before tax 2,277 2,116",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "TAX_EXPENSE": {
+            "value": "464",
+            "printed": "Tax expense 464 458",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "NET_PROFIT": {
+            "value": "1813",
+            "printed": "Profit for the year (A) 1,813 1,658",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": {
+            "value": "1762",
+            "printed": "Owners 1,762 1,629",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "EPS_BASIC": {
+            "value": "13.62",
+            "printed": "Basic earnings per share (in H) 13.62 12.59",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "EPS_DILUTED": {
+            "value": "13.59",
+            "printed": "Diluted earnings per share (in H) 13.59 12.56",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "TOTAL_ASSETS": {
+            "value": "10075",
+            "printed": "Total assets 10,075 8,332",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "TOTAL_EQUITY": {
+            "value": "4494",
+            "printed": "Total equity 4,494 4,266",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": "4210",
+            "printed": "Equity attributable to owners 4,210 3,975",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "NON_CONTROLLING_INTEREST": {
+            "value": "284",
+            "printed": "Non-controlling interests 12(c) 284 291",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": "404",
+            "printed": "(iii) Cash and cash equivalents 6(d) 404 321",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "CURRENT_INVESTMENTS": {
+            "value": "1948",
+            "printed": "(i) Investments 6(a) 1,948 1,375",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED",
+            "note": "Current-asset investments line."
+          },
+          "TRADE_RECEIVABLES": {
+            "value": "1304",
+            "printed": "(ii) Trade receivables 6(b) 1,304 1,271",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "TRADE_PAYABLES": {
+            "value": "1634",
+            "printed": [
+              "Total outstanding dues of micro enterprises and small enterprises 146 89",
+              "Total outstanding dues of creditors other than micro enterprises and small enterprises 1,488 1,217"
+            ],
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "OPERATOR_SUM",
+            "note": "146 + 1,488 = 1,634; both components printed."
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": "832",
+            "printed": "Property, plant and equipment 3(a) 832 710",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "CAPITAL_WORK_IN_PROGRESS": {
+            "value": "85",
+            "printed": "Capital work-in-progress 3(c) 85 40",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "GOODWILL": {
+            "value": "1036",
+            "printed": "Goodwill 5 1,036 857",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "INTANGIBLE_ASSETS": {
+            "value": "1498",
+            "printed": "Other intangible assets 5 1,498 946",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED"
+          },
+          "OPERATING_CASH_FLOW": {
+            "value": "2084",
+            "printed": "Net cash generated from operating activities (A) 2,084 1,363",
+            "locator": "marico-fy26-cf#p192",
+            "basis": "REPORTED"
+          },
+          "CAPITAL_EXPENDITURE": {
+            "value": "319",
+            "printed": "Payment for property, plant and equipment and intangible assets (319) (161)",
+            "locator": "marico-fy26-cf#p192",
+            "basis": "REPORTED",
+            "note": "Printed outflow magnitude."
+          },
+          "INVESTING_CASH_FLOW": {
+            "value": "-722",
+            "printed": "Net cash (utilised in)/ generated from investing activities (B) (722) (621)",
+            "locator": "marico-fy26-cf#p192",
+            "basis": "REPORTED"
+          },
+          "FINANCING_CASH_FLOW": {
+            "value": "-1279",
+            "printed": "Net cash utilised in financing activities (C) (1,279) (649)",
+            "locator": "marico-fy26-cf#p192",
+            "basis": "REPORTED"
+          },
+          "DIVIDENDS_PAID": {
+            "value": "908",
+            "printed": "Dividends paid to company\u2019s shareholders (908) (453)",
+            "locator": "marico-fy26-cf#p192",
+            "basis": "REPORTED"
+          },
+          "INCOME_TAX_PAID": {
+            "value": "565",
+            "printed": "Income taxes paid (net of refunds) (565) (484)",
+            "locator": "marico-fy26-cf#p192",
+            "basis": "REPORTED"
+          },
+          "NET_CASH_FLOW": {
+            "value": "83",
+            "printed": "D NET INCREASE IN CASH & CASH EQUIVALENTS (A+B+C) 83 93",
+            "locator": "marico-fy26-cf#p192",
+            "basis": "REPORTED"
+          },
+          "LEASE_LIABILITIES": {
+            "value": "202",
+            "printed": [
+              "(ii) Lease liabilities 127 124",
+              "(ii) Lease liabilities 75 51",
+              "Balance at March 31, 202 355 557 175 379 554"
+            ],
+            "locator": "marico-fy26-bs-pnl#p190+marico-fy26-cf#p192",
+            "basis": "OPERATOR_SUM",
+            "note": "127 + 75 = 202; cash-flow financing reconciliation prints 202."
+          },
+          "LONG_TERM_BORROWINGS": {
+            "value": "0",
+            "printed": "(i) Borrowings 13(a) 0 -",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED",
+            "note": "The current column prints the numeral 0; the comparative dash is not used."
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": "355",
+            "printed": "(i) Borrowings 13(a) 355 379",
+            "locator": "marico-fy26-bs-pnl#p190",
+            "basis": "REPORTED",
+            "note": "Printed current borrowings total. Current-maturity split is not in the committed extract; no split is asserted."
+          }
+        },
+        "notReported": {
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": "No current-maturity split is present in the committed FY2026 extract.",
+          "PREFERENCE_CAPITAL": "L-038 remains open; no issued preference amount or express nil is disclosed."
+        }
+      }
+    }
+  },
+  "kec": {
+    "issuerId": "IN:CIN:L45200MH2005PLC152061",
+    "periods": {
+      "2026-06-30": {
+        "periodEnd": "2026-06-30",
+        "fiscalYear": "2027",
+        "periodStart": "2026-04-01",
+        "quarterForm": "DISCRETE",
+        "quarterIndex": "1",
+        "filingRef": "KEC-INDAS-CONSOL-Q1-FY27-OUTCOME",
+        "filedAt": "2026-08-10",
+        "items": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": "5023.54",
+            "printed": "Revenue from operations 5,023.54 6,389.75 5,022.88 23,505.54",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "OTHER_INCOME": {
+            "value": "13.94",
+            "printed": "Other income 13.94 30.09 5.39 50.33",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "TOTAL_INCOME": {
+            "value": "5037.48",
+            "printed": "Total Income (1+2) 5,037.48 6,419.84 5,028.27 23,555.87",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": "430.88",
+            "printed": "Employee benefits expense 430.88 426.46 392.37 1,662.39",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "OTHER_EXPENSES": {
+            "value": "482.95",
+            "printed": "Other expenses 482.95 492.91 403.81 1,870.03",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "FINANCE_COSTS": {
+            "value": "164.03",
+            "printed": "Finance costs 164.03 169.85 151.12 663.60",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": "50.82",
+            "printed": "Depreciation and amortisation expense 50.82 50.58 45.86 197.38",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": "89.90",
+            "printed": "Profit after exceptional items and before tax (5-6) 89.90 257.73 158.51 789.14",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "TAX_EXPENSE": {
+            "value": "17.28",
+            "printed": "Total Tax Expense 17.28 64.94 33.91 183.55",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "NET_PROFIT": {
+            "value": "72.62",
+            "printed": "Profit for the period (7-8) 72.62 192.79 124.60 605.59",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "EPS_BASIC": {
+            "value": "2.73",
+            "printed": "2.73 7.24 4.68 22.75",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED"
+          },
+          "EPS_DILUTED": {
+            "value": "2.73",
+            "printed": "2.73 7.24 4.68 22.75",
+            "locator": "kec-q1-pnl#p6",
+            "basis": "REPORTED",
+            "note": "The filing prints Basic/Diluted EPS on one line."
+          }
+        },
+        "notReported": {
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": "The committed Q1 page prints profit for the period and EPS attributable to owners, but no separate owners' profit amount. No attribution is inferred.",
+          "BALANCE_SHEET": "No Q1 consolidated balance sheet is present in the committed extract.",
+          "CASH_FLOW": "No Q1 consolidated cash-flow statement is present in the committed extract."
+        }
+      },
+      "2026-09-30": {
+        "periodEnd": "2026-09-30",
+        "fiscalYear": "2027",
+        "periodStart": "2026-07-01",
+        "quarterForm": "DISCRETE",
+        "quarterIndex": "2",
+        "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+        "filedAt": "2026-11-02",
+        "items": {
+          "REVENUE_FROM_OPERATIONS": {
+            "value": "5467.71",
+            "printed": "RevenueFromOperations@OneD=54677100000",
+            "locator": "kec-q2-xbrl#OneD/RevenueFromOperations",
+            "basis": "REPORTED"
+          },
+          "OTHER_INCOME": {
+            "value": "13.27",
+            "printed": "OtherIncome@OneD=132700000",
+            "locator": "kec-q2-xbrl#OneD/OtherIncome",
+            "basis": "REPORTED"
+          },
+          "TOTAL_INCOME": {
+            "value": "5480.98",
+            "printed": "Income@OneD=54809800000",
+            "locator": "kec-q2-xbrl#OneD/Income",
+            "basis": "REPORTED"
+          },
+          "EMPLOYEE_BENEFIT_EXPENSE": {
+            "value": "456.22",
+            "printed": "EmployeeBenefitExpense@OneD=4562200000",
+            "locator": "kec-q2-xbrl#OneD/EmployeeBenefitExpense",
+            "basis": "REPORTED"
+          },
+          "OTHER_EXPENSES": {
+            "value": "2187.75",
+            "printed": "OtherExpenses@OneD=21877500000",
+            "locator": "kec-q2-xbrl#OneD/OtherExpenses",
+            "basis": "REPORTED"
+          },
+          "FINANCE_COSTS": {
+            "value": "190.66",
+            "printed": "FinanceCosts@OneD=1906600000",
+            "locator": "kec-q2-xbrl#OneD/FinanceCosts",
+            "basis": "REPORTED"
+          },
+          "DEPRECIATION_AND_AMORTISATION": {
+            "value": "53.01",
+            "printed": "DepreciationDepletionAndAmortisationExpense@OneD=530100000",
+            "locator": "kec-q2-xbrl#OneD/DepreciationDepletionAndAmortisationExpense",
+            "basis": "REPORTED"
+          },
+          "PROFIT_BEFORE_TAX": {
+            "value": "40.88",
+            "printed": "ProfitBeforeTax@OneD=408800000",
+            "locator": "kec-q2-xbrl#OneD/ProfitBeforeTax",
+            "basis": "REPORTED"
+          },
+          "TAX_EXPENSE": {
+            "value": "11.14",
+            "printed": "TaxExpense@OneD=111400000",
+            "locator": "kec-q2-xbrl#OneD/TaxExpense",
+            "basis": "REPORTED"
+          },
+          "NET_PROFIT": {
+            "value": "29.74",
+            "printed": "ProfitLossForPeriod@OneD=297400000",
+            "locator": "kec-q2-xbrl#OneD/ProfitLossForPeriod",
+            "basis": "REPORTED"
+          },
+          "EPS_BASIC": {
+            "value": "1.12",
+            "printed": "BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations@OneD=1.12",
+            "locator": "kec-q2-xbrl#OneD/BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+            "basis": "REPORTED"
+          },
+          "EPS_DILUTED": {
+            "value": "1.12",
+            "printed": "DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations@OneD=1.12",
+            "locator": "kec-q2-xbrl#OneD/DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+            "basis": "REPORTED"
+          },
+          "TOTAL_ASSETS": {
+            "value": "24818.26",
+            "printed": "Total Assets 24,818.26 25,158.06",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED",
+            "note": "Corroborated by Assets@OneI=248182600000."
+          },
+          "TOTAL_EQUITY": {
+            "value": "6091.35",
+            "printed": "Total Equity 6,091.35 6,159.69",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED",
+            "note": "Corroborated by Equity@OneI=60913500000."
+          },
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS": {
+            "value": "6091.35",
+            "printed": "EquityAttributableToOwnersOfParent@OneI=60913500000",
+            "locator": "kec-q2-xbrl#OneI/EquityAttributableToOwnersOfParent",
+            "basis": "REPORTED"
+          },
+          "CASH_AND_CASH_EQUIVALENTS": {
+            "value": "315.47",
+            "printed": "(ii) Cash and cash equivalents 315.47 411 .26",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED",
+            "note": "Corroborated by CashAndCashEquivalents@OneI=3154700000."
+          },
+          "TRADE_RECEIVABLES": {
+            "value": "5609.55",
+            "printed": "(i) Trade receivables 5,609.55 6,474.21",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED",
+            "note": "Current trade receivables; non-current receivables are sub-rounding and not added."
+          },
+          "TRADE_PAYABLES": {
+            "value": "7570.74",
+            "printed": [
+              "Total outstanding dues of micro and small enterprises 197.51 218.20",
+              "Total outstanding dues of creditors other than micro and small enterprises 7,373.23 8,485.05"
+            ],
+            "locator": "kec-q2-bs#p7",
+            "basis": "OPERATOR_SUM",
+            "note": "197.51 + 7,373.23 = 7,570.74; corroborated by TradePayablesCurrent@OneI=75707400000."
+          },
+          "PROPERTY_PLANT_AND_EQUIPMENT": {
+            "value": "1270.63",
+            "printed": "(a) Property, Plant and Equipment 1,270.63 1,159.49",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED",
+            "note": "Printed PPE excludes the separately printed right-of-use asset 310.32. XBRL PropertyPlantAndEquipment@OneI=15809500000 includes it; the printed split is used."
+          },
+          "CAPITAL_WORK_IN_PROGRESS": {
+            "value": "44.00",
+            "printed": "(c) Capital work-in-progress 44.00 113.65",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED"
+          },
+          "GOODWILL": {
+            "value": "308.74",
+            "printed": "(d)Goodwill 308.74 305.80",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED"
+          },
+          "INTANGIBLE_ASSETS": {
+            "value": "2.15",
+            "printed": "(e) Intangible Assets 2.15 2.92",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED"
+          },
+          "LONG_TERM_BORROWINGS": {
+            "value": "670.13",
+            "printed": "(i) Borrowings 670.13 661.37",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED",
+            "note": "Non-current borrowings."
+          },
+          "SHORT_TERM_BORROWINGS": {
+            "value": "5350.65",
+            "printed": "(i) Borrowings 5,350.65 4,441.86",
+            "locator": "kec-q2-bs#p7",
+            "basis": "REPORTED",
+            "note": "Printed current borrowings total. No current-maturity split is asserted; assessment capital structure remains blocked by the missing split."
+          }
+        },
+        "notReported": {
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS": "The committed September instance has no ProfitLossAttributableToOwnersOfParent fact and the committed PDF extract is the balance sheet only. No owners' profit is inferred from total profit.",
+          "NON_CONTROLLING_INTEREST": "No NCI fact/caption is present. Equality of total equity and owners' equity is not used to manufacture a zero.",
+          "CURRENT_INVESTMENTS": "L-039 refuses the machine CurrentInvestments=0 fact; the printed balance sheet has no current-investments caption.",
+          "LEASE_LIABILITIES": "The printed balance sheet has lease liabilities, but the committed XBRL selection has no governed lease-liability tag; the refresh does not map an aggregate other-financial-liabilities fact into leases.",
+          "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": "No current-maturity split is present in the committed Q2 sources.",
+          "CASH_FLOW": "The committed XBRL cash-flow facts are FourD (2026-04-01 to 2026-09-30), i.e. half-year YTD. They are retained in the source fact JSON but not assigned to the discrete Q2 period.",
+          "PREFERENCE_CAPITAL": "No issued preference amount or express nil is disclosed."
+        }
+      }
+    }
+  },
+  "crossChecks": {
+    "maricoFY25AsFiledVsFY26Comparative": {
+      "TOTAL_ASSETS": {
+        "FY25 current column": "8338",
+        "FY26 comparative column": "8332"
+      },
+      "TRADE_PAYABLES": {
+        "FY25 current column sum": "1363",
+        "FY26 comparative column sum": "1306"
+      },
+      "disposition": "Keep FY2025 as filed in the FY2025 report. The FY2026 comparative is not an overwrite and no restatement cause is inferred."
+    },
+    "kecQ2PPE": {
+      "printedPPE": "1270.63",
+      "printedRightOfUseAsset": "310.32",
+      "xbrlPropertyPlantAndEquipment": "1580.95",
+      "disposition": "Use printed PPE 1270.63; record that the XBRL caption aggregates PPE and right-of-use assets."
+    },
+    "kecQ2CashFlow": {
+      "context": "FourD",
+      "periodStart": "2026-04-01",
+      "periodEnd": "2026-09-30",
+      "operatingCashFlowCrore": "-400.37",
+      "investingCashFlowCrore": "-91.73",
+      "financingCashFlowCrore": "398.49",
+      "disposition": "Half-year YTD evidence retained, not ingested as discrete Q2 cash flow."
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "checks": [
+    {
+      "name": "Marico FY2025 EBITDA",
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "periodEnd": "2025-03-31",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 2116,
+        "FINANCE_COSTS": 53,
+        "DEPRECIATION_AND_AMORTISATION": 178
+      },
+      "resultCrore": 2347,
+      "verifiedBy": "iidStage4FilingRefresh.test.ts recomputes deriveLineItems for all four new periods; this note records the hand arithmetic"
+    },
+    {
+      "name": "Marico FY2026 EBITDA",
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "periodEnd": "2026-03-31",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 2277,
+        "FINANCE_COSTS": 53,
+        "DEPRECIATION_AND_AMORTISATION": 202
+      },
+      "resultCrore": 2532,
+      "verifiedBy": "iidStage4FilingRefresh.test.ts recomputes deriveLineItems for all four new periods; this note records the hand arithmetic"
+    },
+    {
+      "name": "Marico FY2026 free cash flow",
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "periodEnd": "2026-03-31",
+      "formula": "OCF - capital expenditure",
+      "inputsCrore": {
+        "OPERATING_CASH_FLOW": 2084,
+        "CAPITAL_EXPENDITURE": 319
+      },
+      "resultCrore": 1765,
+      "verifiedBy": "iidStage4FilingRefresh.test.ts recomputes deriveLineItems for all four new periods; this note records the hand arithmetic"
+    },
+    {
+      "name": "KEC Q1 FY27 EBITDA",
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "periodEnd": "2026-06-30",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 89.9,
+        "FINANCE_COSTS": 164.03,
+        "DEPRECIATION_AND_AMORTISATION": 50.82
+      },
+      "resultCrore": 304.75,
+      "verifiedBy": "iidStage4FilingRefresh.test.ts recomputes deriveLineItems for all four new periods; this note records the hand arithmetic"
+    },
+    {
+      "name": "KEC Q2 FY27 EBITDA",
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "periodEnd": "2026-09-30",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 40.88,
+        "FINANCE_COSTS": 190.66,
+        "DEPRECIATION_AND_AMORTISATION": 53.01
+      },
+      "resultCrore": 284.55,
+      "verifiedBy": "iidStage4FilingRefresh.test.ts recomputes deriveLineItems for all four new periods; this note records the hand arithmetic"
+    },
+    {
+      "name": "KEC Q2 FY27 total income",
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "periodEnd": "2026-09-30",
+      "formula": "revenue from operations + other income",
+      "inputsCrore": {
+        "REVENUE_FROM_OPERATIONS": 5467.71,
+        "OTHER_INCOME": 13.27
+      },
+      "resultCrore": 5480.98,
+      "verifiedBy": "iidStage4FilingRefresh.test.ts recomputes deriveLineItems for all four new periods; this note records the hand arithmetic"
+    }
+  ],
+  "mismatches": 0
+}

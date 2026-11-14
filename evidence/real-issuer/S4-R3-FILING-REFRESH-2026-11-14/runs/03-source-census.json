@@ -1,0 +1,47 @@
+{
+  "generatedOn": "2026-11-14",
+  "newPeriods": [
+    {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "periodEnd": "2025-03-31",
+      "periodType": "ANNUAL",
+      "populatedCells": 34,
+      "reported": 32,
+      "operatorSum": 2,
+      "notReportedReasons": 3
+    },
+    {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "periodEnd": "2026-03-31",
+      "periodType": "ANNUAL",
+      "populatedCells": 35,
+      "reported": 33,
+      "operatorSum": 2,
+      "notReportedReasons": 2
+    },
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "periodEnd": "2026-06-30",
+      "periodType": "QUARTER",
+      "populatedCells": 12,
+      "reported": 12,
+      "operatorSum": 0,
+      "notReportedReasons": 3
+    },
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "periodEnd": "2026-09-30",
+      "periodType": "QUARTER",
+      "populatedCells": 24,
+      "reported": 23,
+      "operatorSum": 1,
+      "notReportedReasons": 7
+    }
+  ],
+  "totals": {
+    "populatedCells": 105,
+    "reported": 100,
+    "operatorSum": 5,
+    "notReportedReasons": 15
+  }
+}

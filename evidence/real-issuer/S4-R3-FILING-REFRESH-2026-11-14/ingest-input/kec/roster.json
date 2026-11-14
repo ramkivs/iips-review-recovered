@@ -1,0 +1,42 @@
+{
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "legalName": "KEC International Limited",
+      "issuerKeyBasis": "CIN",
+      "sector": "Industrials",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31",
+      "cin": "L45200MH2005PLC152061",
+      "equityIsin": "INE389H01022",
+      "status": "ELIGIBLE",
+      "statusReason": null,
+      "foreignIssuer": false
+    }
+  ],
+  "securities": [
+    {
+      "securityId": "IN:ISIN:INE389H01022",
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "instrumentType": "EQUITY",
+      "status": "ASSESSABLE",
+      "statusReason": null,
+      "isin": "INE389H01022"
+    }
+  ],
+  "listings": [
+    {
+      "listingId": "IN:NSE:KEC:EQ:EQUITY",
+      "securityId": "IN:ISIN:INE389H01022",
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "exchange": "NSE",
+      "symbol": "KEC",
+      "series": "EQ",
+      "instrumentType": "EQUITY",
+      "effectiveFrom": "2021-04-01",
+      "effectiveTo": null,
+      "sourceRef": "Listing-identifier window declared by the operator for this work item from 2021-04-01 (the start of the oldest audited period in the dataset). THIS DATE IS AN OPERATOR RECORD, NOT A FILING FACT. Identity evidence: the CIN L45200MH2005PLC152061 is printed at FY2025-26 report PDF p.119 (Note 1, General Information); the ISIN is printed at PDF p.107, where the filing states \"Identification Number allotted to the Equity Shares of the Company is INE389H01022\"; and that same page states \"The Equity Shares of the Company are listed on BSE Limited and the National Stock Exchange of India Limited\". Neither annual report prints a trading symbol or a BSE scrip code anywhere in its 215 and 206 pages. The NSE symbol KEC was corroborated on 2026-11-07 from NSE's own quote-routing payload for get-quotes/equity?symbol=KEC, which carries symbol: \"KEC\" and companyName: \"KEC-International-Limited\" (source/identity-nse-corroboration.json). BSE was fetched the same day and returned only a JavaScript shell with no company content, so the BSE leg is deliberately NOT asserted and no BSE scrip code is invented."
+    }
+  ]
+}

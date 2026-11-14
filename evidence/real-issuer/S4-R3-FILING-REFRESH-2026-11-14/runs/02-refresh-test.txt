@@ -1,0 +1,342 @@
+TAP version 13
+# inputs         3 bundles merged into one dataset
+#   /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input
+#     issuers      IN:CIN:L85110KA1981PLC013115
+#     sectors      Technology
+#     inputDigest  sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c  over 2 file(s)
+#   /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico
+#     issuers      IN:CIN:L15140MH1988PLC049208
+#     sectors      Consumer
+#     inputDigest  sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d  over 2 file(s)
+#   /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec
+#     issuers      IN:CIN:L45200MH2005PLC152061
+#     sectors      Industrials
+#     inputDigest  sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a  over 2 file(s)
+# datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V1
+# datasetVersion sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+# dataset        /tmp/iid-s4-r3-refresh-zL43Ic/investment/dataset
+# coverage       /tmp/iid-s4-r3-refresh-zL43Ic/investment/dataset/coverage-report.json
+# dataset          sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+# completed        3/13 sectors measured
+#   Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Consumer         G1_ENABLED   usable 3  withheld 0  stmt 92.5%  metric 100%
+#   Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+#   Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+#   Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Technology       G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+#   Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+#   Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+# outstanding      Auto, Banking, Capital Markets, Energy, Healthcare, Hospitality, Insurance, Materials, Telecom, Utilities
+# methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53
+# sector vocabulary  every issuer carries one of the 13 canonical sectors; none was dropped
+# mode           EXECUTE
+# asOf           2026-11-14
+# target         /tmp/iid-s4-r3-refresh-zL43Ic/investment/identity
+# governed       yes — <dataRoot>/investment/identity
+# sources        3 operator-supplied identity source set(s)
+#   /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity
+#     rosterLabel  REL-1 operator-supplied roster (one real issuer, Infosys Limited)
+#     dataClass    OPERATOR_SUPPLIED
+#     eligible-roster.json         755 bytes  sha256:f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065
+#     listing-map.json             948 bytes  sha256:5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507
+#     corporate-actions.json        70 bytes  sha256:d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd
+#   /home/user/iips-review-recovered/evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity
+#     rosterLabel  WI-7 operator-supplied roster (one real issuer, Marico Limited, Consumer sector)
+#     dataClass    OPERATOR_SUPPLIED
+#     eligible-roster.json         766 bytes  sha256:1641e72775a47564c9048383c80ac56365428e759763190a77b580dabb11de57
+#     listing-map.json            1469 bytes  sha256:ca81334ef752ac6995d51e7e4cf76b871c9a9e2f277027b82a2904af10a45bbb
+#     corporate-actions.json        69 bytes  sha256:eeab6a794374217cfc801f61461cfd21b9182cfbe0ab5a5114b8d6678b04bf5a
+#   /home/user/iips-review-recovered/evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity
+#     rosterLabel  WI-8 operator-supplied roster (one real issuer, KEC International Limited, Industrials sector)
+#     dataClass    OPERATOR_SUPPLIED
+#     eligible-roster.json         794 bytes  sha256:31123077207b90f463266e264b3256cf4fc10f30b835ee60f62a29d6a615a333
+#     listing-map.json            1522 bytes  sha256:ba3ff2e7a88fb3f3019e133e996bd5869365ea3470f3d27372ad372d3d91e07c
+#     corporate-actions.json       558 bytes  sha256:6db8b7cf6ad5764cf2f2c26793e4359c068426342526bcf9cb74c4c87e104ab5
+# merge          accepted
+#   records      3 issuer(s), 3 security(ies), 5 listing(s), 0 corporate action(s) from 3 source set(s)
+#   rosterLabel  Merged from 3 operator-supplied identity source set(s): REL-1-INFOSYS-2026-11-06, WI7-CONSUMER-MARICO-2026-11-07, WI8-INDUSTRIALS-KEC-2026-11-07
+#   candidate digests (bytes this run would publish):
+#     eligible-roster.json        1992 bytes  sha256:08a5d29cbc6ba01729d4c05488d98ec89ff4027825f51ae5e3bd1a683140ef24
+#     listing-map.json            3794 bytes  sha256:33837065aedd8b30fa3ffd970712c73ea5565759200b19291a25b283b3f61c9b
+#     corporate-actions.json        70 bytes  sha256:1d5ef030ff0b3aaafc86820c60b191558e1808381f1e09b1a410b2e95a3f073a
+#   disclosure   REL-1-INFOSYS-2026-11-06: rosterLabel as supplied = "REL-1 operator-supplied roster (one real issuer, Infosys Limited)"
+#   disclosure   WI7-CONSUMER-MARICO-2026-11-07: rosterLabel as supplied = "WI-7 operator-supplied roster (one real issuer, Marico Limited, Consumer sector)"
+#   disclosure   WI8-INDUSTRIALS-KEC-2026-11-07: rosterLabel as supplied = "WI-8 operator-supplied roster (one real issuer, KEC International Limited, Industrials sector)"
+#   disclosure   the merged corporate-action table is EMPTY: no source set declared a corporate action. An empty table is valid and means "no action is claimed", not "no action was checked".
+# plan           the published set WOULD change
+#   eligible-roster.json     CREATED   candidate sha256:08a5d29cbc6ba01729d4c05488d98ec89ff4027825f51ae5e3bd1a683140ef24
+#                                      existing  (absent)
+#   listing-map.json         CREATED   candidate sha256:33837065aedd8b30fa3ffd970712c73ea5565759200b19291a25b283b3f61c9b
+#                                      existing  (absent)
+#   corporate-actions.json   CREATED   candidate sha256:1d5ef030ff0b3aaafc86820c60b191558e1808381f1e09b1a410b2e95a3f073a
+#                                      existing  (absent)
+# publication    PUBLISHED and verified
+#   replaced     no existing set
+#   rolledBack   no
+#   eligible-roster.json     CREATED      1992 bytes  sha256:08a5d29cbc6ba01729d4c05488d98ec89ff4027825f51ae5e3bd1a683140ef24
+#   listing-map.json         CREATED      3794 bytes  sha256:33837065aedd8b30fa3ffd970712c73ea5565759200b19291a25b283b3f61c9b
+#   corporate-actions.json   CREATED        70 bytes  sha256:1d5ef030ff0b3aaafc86820c60b191558e1808381f1e09b1a410b2e95a3f073a
+# verification   the published set LOADS through the existing identity loader
+#   rosterLabel  Merged from 3 operator-supplied identity source set(s): REL-1-INFOSYS-2026-11-06, WI7-CONSUMER-MARICO-2026-11-07, WI8-INDUSTRIALS-KEC-2026-11-07
+#   dataClass    OPERATOR_SUPPLIED
+#   records      3 issuer(s), 3 security(ies), 5 listing(s), 0 corporate action(s)
+#   rosterVersion              sha256:e910728a1bfa1593880d0880c1cb27952cfd155efd61d3d365bbb6e750a60fa3
+#   listingMapVersion          sha256:9635ecd1bef7638589cc188ae9aabcf9a3d40ffaaa0891da03b7049a71c4ae7c
+#   corporateActionTableVersion sha256:0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819
+# WRITES PERFORMED: the three identity files in the governed target directory (staged whole, then renamed into place); the sibling staging and previous marker directories, which are removed on success. Nothing else was created, modified, moved or deleted.
+# RESULT         PASS
+# --- machine-readable ---
+# result PASS
+# mode EXECUTE
+# governed true
+# target /tmp/iid-s4-r3-refresh-zL43Ic/investment/identity
+# source.count 3
+# source.digest f38334a45fcee8bc81bd9902afae9deda659ec9373778d4e113c20151b876065 755 /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/eligible-roster.json
+# source.digest 5bc4780b67cb79164909e05177fc8d80981cd947cc71d956fcf58b9442c2e507 948 /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/listing-map.json
+# source.digest d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd 70 /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/corporate-actions.json
+# source.class OPERATOR_SUPPLIED /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity
+# source.digest 1641e72775a47564c9048383c80ac56365428e759763190a77b580dabb11de57 766 /home/user/iips-review-recovered/evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity/eligible-roster.json
+# source.digest ca81334ef752ac6995d51e7e4cf76b871c9a9e2f277027b82a2904af10a45bbb 1469 /home/user/iips-review-recovered/evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity/listing-map.json
+# source.digest eeab6a794374217cfc801f61461cfd21b9182cfbe0ab5a5114b8d6678b04bf5a 69 /home/user/iips-review-recovered/evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity/corporate-actions.json
+# source.class OPERATOR_SUPPLIED /home/user/iips-review-recovered/evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity
+# source.digest 31123077207b90f463266e264b3256cf4fc10f30b835ee60f62a29d6a615a333 794 /home/user/iips-review-recovered/evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/eligible-roster.json
+# source.digest ba3ff2e7a88fb3f3019e133e996bd5869365ea3470f3d27372ad372d3d91e07c 1522 /home/user/iips-review-recovered/evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/listing-map.json
+# source.digest 6db8b7cf6ad5764cf2f2c26793e4359c068426342526bcf9cb74c4c87e104ab5 558 /home/user/iips-review-recovered/evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/corporate-actions.json
+# source.class OPERATOR_SUPPLIED /home/user/iips-review-recovered/evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity
+# merge.attempted true
+# merge.ok true
+# merge.issuers 3
+# merge.securities 3
+# merge.listings 5
+# merge.actions 0
+# candidate.digest 08a5d29cbc6ba01729d4c05488d98ec89ff4027825f51ae5e3bd1a683140ef24 1992 eligible-roster.json
+# candidate.digest 33837065aedd8b30fa3ffd970712c73ea5565759200b19291a25b283b3f61c9b 3794 listing-map.json
+# candidate.digest 1d5ef030ff0b3aaafc86820c60b191558e1808381f1e09b1a410b2e95a3f073a 70 corporate-actions.json
+# plan.wouldChange true
+# plan.action CREATED eligible-roster.json
+# existing.digest absent 0 eligible-roster.json
+# plan.action CREATED listing-map.json
+# existing.digest absent 0 listing-map.json
+# plan.action CREATED corporate-actions.json
+# existing.digest absent 0 corporate-actions.json
+# publication.published true
+# publication.rolledBack false
+# publication.replacedExisting false
+# published.digest 08a5d29cbc6ba01729d4c05488d98ec89ff4027825f51ae5e3bd1a683140ef24 1992 /tmp/iid-s4-r3-refresh-zL43Ic/investment/identity/eligible-roster.json
+# published.digest 33837065aedd8b30fa3ffd970712c73ea5565759200b19291a25b283b3f61c9b 3794 /tmp/iid-s4-r3-refresh-zL43Ic/investment/identity/listing-map.json
+# published.digest 1d5ef030ff0b3aaafc86820c60b191558e1808381f1e09b1a410b2e95a3f073a 70 /tmp/iid-s4-r3-refresh-zL43Ic/investment/identity/corporate-actions.json
+# verification.available true
+# verification.issuers 3
+# verification.securities 3
+# verification.listings 5
+# verification.actions 0
+# verification.dataClass OPERATOR_SUPPLIED
+# verification.rosterVersion sha256:e910728a1bfa1593880d0880c1cb27952cfd155efd61d3d365bbb6e750a60fa3
+# verification.listingMapVersion sha256:9635ecd1bef7638589cc188ae9aabcf9a3d40ffaaa0891da03b7049a71c4ae7c
+# verification.corporateActionTableVersion sha256:0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819
+# refusal.count 0
+# attestation WRITES_PERFORMED
+# inputs         3 bundles merged into one dataset
+#   /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input
+#     issuers      IN:CIN:L85110KA1981PLC013115
+#     sectors      Technology
+#     inputDigest  sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c  over 2 file(s)
+#   /home/user/iips-review-recovered/evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input
+#     issuers      IN:CIN:L15140MH1988PLC049208
+#     sectors      Consumer
+#     inputDigest  sha256:725e8eadc10b6d113ab069122f4728f2744773e8d62b187044c20a0aa1e2ad24  over 2 file(s)
+#   /home/user/iips-review-recovered/evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input
+#     issuers      IN:CIN:L45200MH2005PLC152061
+#     sectors      Industrials
+#     inputDigest  sha256:6a62f071ae17c8873dc8c3a3706abadafc2c7bc827a72a7833e2ec460abd07c2  over 2 file(s)
+# datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V1
+# datasetVersion sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83
+# dataset        /tmp/iid-s4-r3-host-pin-O1iNSV/dataset
+# coverage       /tmp/iid-s4-r3-host-pin-O1iNSV/dataset/coverage-report.json
+# dataset          sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83
+# completed        3/13 sectors measured
+#   Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Consumer         G1_ENABLED   usable 3  withheld 0  stmt 91.7%  metric 100%
+#   Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+#   Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+#   Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Technology       G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+#   Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+#   Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+# outstanding      Auto, Banking, Capital Markets, Energy, Healthcare, Hospitality, Insurance, Materials, Telecom, Utilities
+# methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53
+# sector vocabulary  every issuer carries one of the 13 canonical sectors; none was dropped
+# Subtest: S4-R3 — committed source excerpts and selected XBRL facts
+    # Subtest: every page excerpt is digested and is a verbatim block of its committed origin report
+    ok 1 - every page excerpt is digested and is a verbatim block of its committed origin report
+      ---
+      duration_ms: 8.731094
+      type: 'test'
+      ...
+    # Subtest: every populated new CSV cell has a printed form or XBRL fact that verifies against the committed source
+    ok 2 - every populated new CSV cell has a printed form or XBRL fact that verifies against the committed source
+      ---
+      duration_ms: 10.511279
+      type: 'test'
+      ...
+    # Subtest: the September XBRL raw bytes and contexts are the committed ones, and the refused zero stays raw evidence only
+    ok 3 - the September XBRL raw bytes and contexts are the committed ones, and the refused zero stays raw evidence only
+      ---
+      duration_ms: 1.069123
+      type: 'test'
+      ...
+    # Subtest: Infosys is recorded as open with no committed newer source, not silently refreshed
+    ok 4 - Infosys is recorded as open with no committed newer source, not silently refreshed
+      ---
+      duration_ms: 0.123053
+      type: 'test'
+      ...
+    1..4
+ok 1 - S4-R3 — committed source excerpts and selected XBRL facts
+  ---
+  duration_ms: 21.050992
+  type: 'suite'
+  ...
+# Subtest: S4-R3 — historical preservation and the candidate input shape
+    # Subtest: the refreshed rosters are byte-for-byte copies of the admitted rosters
+    ok 1 - the refreshed rosters are byte-for-byte copies of the admitted rosters
+      ---
+      duration_ms: 0.414973
+      type: 'test'
+      ...
+    # Subtest: the admitted historical periods parse identically inside the refreshed CSVs
+    ok 2 - the admitted historical periods parse identically inside the refreshed CSVs
+      ---
+      duration_ms: 4.573691
+      type: 'test'
+      ...
+    # Subtest: the original admitted inputs still reproduce the historical host dataset version
+    ok 3 - the original admitted inputs still reproduce the historical host dataset version
+      ---
+      duration_ms: 30.10948
+      type: 'test'
+      ...
+    # Subtest: a refreshed issuer directory cannot be merged alongside its historical bundle; it replaces that input once
+    ok 4 - a refreshed issuer directory cannot be merged alongside its historical bundle; it replaces that input once
+      ---
+      duration_ms: 2.501302
+      type: 'test'
+      ...
+    1..4
+ok 2 - S4-R3 — historical preservation and the candidate input shape
+  ---
+  duration_ms: 38.180781
+  type: 'suite'
+  ...
+# Subtest: S4-R3 — the candidate dataset built by the real CLI
+    # Subtest: has the pinned candidate version, 3 issuers, 11 annual periods, 2 quarterly periods and zero issues
+    ok 1 - has the pinned candidate version, 3 issuers, 11 annual periods, 2 quarterly periods and zero issues
+      ---
+      duration_ms: 0.362431
+      type: 'test'
+      ...
+    # Subtest: adds only the supported periods: Marico FY2025/FY2026 annual, KEC Q1/Q2 FY27 discrete quarters
+    ok 2 - adds only the supported periods: Marico FY2025/FY2026 annual, KEC Q1/Q2 FY27 discrete quarters
+      ---
+      duration_ms: 0.286116
+      type: 'test'
+      ...
+    # Subtest: every derived value on the four new periods recomputes from its own reported inputs
+    ok 3 - every derived value on the four new periods recomputes from its own reported inputs
+      ---
+      duration_ms: 0.428044
+      type: 'test'
+      ...
+    # Subtest: the coverage read path reports quarterlyPeriods > 0 on the dataset and on KEC’s issuer row
+    ok 4 - the coverage read path reports quarterlyPeriods > 0 on the dataset and on KEC’s issuer row
+      ---
+      duration_ms: 1.439951
+      type: 'test'
+      ...
+    # Subtest: the served investment-coverage route carries the same quarterly count, and withheld methods keep reasons
+    ok 5 - the served investment-coverage route carries the same quarterly count, and withheld methods keep reasons
+      ---
+      duration_ms: 1.219481
+      type: 'test'
+      ...
+    1..5
+ok 3 - S4-R3 — the candidate dataset built by the real CLI
+  ---
+  duration_ms: 4.078613
+  type: 'suite'
+  ...
+# Subtest: S4-R3 — assessment freshness is not lifted by quarterly data or by a still-stale annual
+    # Subtest: Infosys remains 958 days stale; Marico improves to 228 but remains stale; KEC remains 228 annual days stale
+    ok 1 - Infosys remains 958 days stale; Marico improves to 228 but remains stale; KEC remains 228 annual days stale
+      ---
+      duration_ms: 0.237903
+      type: 'test'
+      ...
+    # Subtest: annual completeness remains sufficient with 100% required-field coverage and no missing required fields
+    ok 2 - annual completeness remains sufficient with 100% required-field coverage and no missing required fields
+      ---
+      duration_ms: 0.117784
+      type: 'test'
+      ...
+    # Subtest: KEC’s quarterly series is discrete, does not invent TTM, and keeps the as-filed Q2 profit rather than a YTD subtraction
+    ok 3 - KEC’s quarterly series is discrete, does not invent TTM, and keeps the as-filed Q2 profit rather than a YTD subtraction
+      ---
+      duration_ms: 0.159634
+      type: 'test'
+      ...
+    1..3
+ok 4 - S4-R3 — assessment freshness is not lifted by quarterly data or by a still-stale annual
+  ---
+  duration_ms: 0.698444
+  type: 'suite'
+  ...
+# Subtest: S4-R3 — transcription arithmetic and explicit refusals
+    # Subtest: Marico’s new annual rows reconcile on the printed numbers and record operator sums as sums
+    ok 1 - Marico’s new annual rows reconcile on the printed numbers and record operator sums as sums
+      ---
+      duration_ms: 0.301309
+      type: 'test'
+      ...
+    # Subtest: KEC Q2 uses the printed PPE split, not the XBRL aggregate that includes right-of-use assets
+    ok 2 - KEC Q2 uses the printed PPE split, not the XBRL aggregate that includes right-of-use assets
+      ---
+      duration_ms: 0.174832
+      type: 'test'
+      ...
+    # Subtest: KEC’s unsupported quarterly fields remain NOT_REPORTED, and half-year cash flow is not assigned to Q2
+    ok 3 - KEC’s unsupported quarterly fields remain NOT_REPORTED, and half-year cash flow is not assigned to Q2
+      ---
+      duration_ms: 0.202037
+      type: 'test'
+      ...
+    # Subtest: the candidate CSVs contain no fabricated zero for the refused KEC fields
+    ok 4 - the candidate CSVs contain no fabricated zero for the refused KEC fields
+      ---
+      duration_ms: 0.44696
+      type: 'test'
+      ...
+    1..4
+ok 5 - S4-R3 — transcription arithmetic and explicit refusals
+  ---
+  duration_ms: 1.286872
+  type: 'suite'
+  ...
+1..5
+# tests 20
+# suites 5
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 494.58597

@@ -199,7 +199,7 @@ function financialClass(manifest: DatasetManifest | null): 'SYNTHETIC_FIXTURE' |
     : 'OPERATOR_SUPPLIED';
 }
 
-function periodTypeOf(period: NormalizedPeriod): 'ANNUAL' | 'QUARTERLY' | string {
+function periodTypeOf(period: NormalizedPeriod): 'ANNUAL' | 'QUARTER' | string {
   return period.period.periodType;
 }
 
@@ -280,7 +280,9 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
     .map((issuer) => {
       const issuerPeriods = periods.filter((period) => period.issuerId === issuer.issuerId);
       const annualPeriods = issuerPeriods.filter((period) => periodTypeOf(period) === 'ANNUAL').length;
-      const quarterlyPeriods = issuerPeriods.filter((period) => periodTypeOf(period) === 'QUARTERLY').length;
+      // S4-R3: the period contract token is `QUARTER`; `quarterlyPeriods` is only the report field name.
+      // Comparing against `QUARTERLY` silently reported zero for every valid quarterly period.
+      const quarterlyPeriods = issuerPeriods.filter((period) => periodTypeOf(period) === 'QUARTER').length;
       const issuerSecurities = securitiesByIssuer.get(issuer.issuerId) ?? [];
       const priceCount = issuerSecurities.reduce(
         (total, security) => total + (pricesBySecurity.get(security.securityId) ?? 0),

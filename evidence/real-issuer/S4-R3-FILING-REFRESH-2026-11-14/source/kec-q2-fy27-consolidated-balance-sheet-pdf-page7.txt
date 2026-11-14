@@ -1,0 +1,77 @@
+# KEC Q2 FY27 consolidated unaudited balance sheet, PDF page 7
+# Verbatim excerpt from committed report: evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/decisive-report.txt
+# Committed report sha256: 29f3960e28693e341351a865f4083aeee90d7ed60a8336e684dfaf14a6f18796
+# Block: === q2fy27-outcome PAGE 7 (verbatim) === ... === END q2fy27-outcome PAGE 7 ===
+# This file is an excerpt of committed evidence, not a new PDF fetch.
+
+Statement of Consolidated Assets and Liabilities as at Seotember 30 2026                                                  Rs in Crore
+Particulars                                                                                               Asat            As at
+                                                                                                      September 30,     March 31,
+                                                                                                          2026            2026
+                                                                                                       (Unaudited)      (Audited)
+
+             ASSETS
+     1       Non-Current Assets
+             (a) Property, Plant and Equipment                                                              1,270.63        1,159.49
+             (b) Right-of-use Asset                                                                           310.32          305.17
+             (c) Capital work-in-progress                                                                      44.00          113.65
+             (d)Goodwill                                                                                      308.74          305.80
+             (e) Intangible Assets                                                                              2.15            2.92
+             (f) Financial Assets
+                  (i) Investments
+                  (ii) Trade receivables
+                                                                                                                 •-               *
+                                                                                                                               31.45
+                  (iii) Other financial assets                                                                  70.60          65.38
+             (g) Deferred Tax Assets (Net)                                                                    484.05          475.39
+             (h) Non-Current Tax Assets (Net)                                                                 297.01          260.75
+             (i) Other Non-Current assets                                                                     208.16          228.98
+             Total Non-Current Assets                                                                       2,995.66        2,948.98
+
+         2    Current Assets
+              (a) Inventories                                                                               1,693.23        1,532.74
+              (b) Financial Assets
+                   (i) Trade receivables                                                                    5,609.55        6,474.21
+                   (ii) Cash and cash equivalents                                                             315.47          411 .26
+                   (iii) Bank balances other than (ii) above                                                   97.36          100.67
+                   (iv) Other financial assets                                                                235.97          276.90
+              (c) Contract Assets                                                                          12,240.23       12,127.56
+              (d) Current Tu Assets (Net)                                                                      43.42           26.57
+              (e) Other current assets                                                                      1,587.37        1,259.17
+              Total Current Assets                                                                         21,822.60       22,209.08
+
+                                             Total Assets                                                  24,818.26       25,158.06
+
+              EQUITY AND LIABILITIES
+              Equity
+              (a) Equity Share capital                                                                         53.24           53.24
+              (b) Other Equity                                                                              6,038.11        6,106.45
+              Total Equity                                                                                  6,091.35        6,159.69
+
+              Liabilities
+         1    Non-Current liabilities
+              (a) Financial Liabilities
+                   (i) Borrowings                                                                             670.13          661.37
+                   (ii) Lease liabilities                                                                     229.39          220.60
+              (b) Provisions                                                                                  106.37           83.58
+              (c) Deferred tax liabilities (Net)                                                               33.15           24.61
+              (c) Other non-current liabilities                                                                 0.38            0.39
+              Total Non-Current liabilities                                                                 1,039.42          990.55
+
+         2Current liabilities
+          (a) Financial Liabilities
+               (i) Borrowings                                                                               5,350.65        4,441.86
+               (ii) Lease liabilities                                                                          54.68           53,93
+               (iii) Trade payables
+                       - Total outstanding dues of micro and small enterprises                                197.51          218.20
+                       - Total outstanding dues of creditors other than micro and small enterprises         7,373.23        8,485.05
+               (iv) Trade acceptances                                                                       2,178.80        2,120.73
+               (v) Other financial liabilities                                                                130.91          115.68
+          (b) Contract Liabilities                                                                          1,757.84        1,837.26
+          (c) Other current liabilities                                                                       337.55          462.02
+          (d) Provisions                                                                                       83.35          101.46
+          (e) Current Tu Liabilities (Net)                                                                    222.97          171.62
+          Total current liabilities                                                                        17,687.49       18,007.81
+                                   Total Equity and Liabilities                                            24,818.26       25,158.06
+• Amount 1s below the roundmg off norms adopted by the Group.
+  

@@ -1,0 +1,110 @@
+{
+  "bundle": "S4-R3 filing refresh \u2014 additive candidate",
+  "generatedOn": "2026-11-14",
+  "files": {
+    "README.md": {
+      "sha256": "2d6847861fe2c5ca26e4f24f67cfc961bea2d78a415c1e35be9f280d88d25dc6",
+      "bytes": 5924
+    },
+    "data-extraction.json": {
+      "sha256": "ae6ebbee43e666908f489b7550f4ac306b7c00822f485f68f08fa74e648ef9b1",
+      "bytes": 31162
+    },
+    "determination.json": {
+      "sha256": "012ad0a7d652fa41cf16419990b706ea3d9b55ffcb543d7f4e6ae2e4720c93a5",
+      "bytes": 2029
+    },
+    "ingest-input/kec/periods.csv": {
+      "sha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b",
+      "bytes": 2637
+    },
+    "ingest-input/kec/roster.json": {
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6",
+      "bytes": 2166
+    },
+    "ingest-input/marico/periods.csv": {
+      "sha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669",
+      "bytes": 2321
+    },
+    "ingest-input/marico/roster.json": {
+      "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb",
+      "bytes": 1909
+    },
+    "probe/build_refresh.py": {
+      "sha256": "aa08f890a0f0e953fc2d277d2f8fa50521c4b759e3b9c73af62a60e6d72c450d",
+      "bytes": 34592
+    },
+    "runs/01-candidate-ingest-provision.txt": {
+      "sha256": "224383d806e31fa1e9ebaede9626797d073a731e0e671755514bb779a8b06e29",
+      "bytes": 14539
+    },
+    "runs/02-refresh-test.txt": {
+      "sha256": "9bcd1b9aa578ec0d3f8326f6732655844ac052e626b91658a10227d517768bb6",
+      "bytes": 21671
+    },
+    "runs/03-source-census.json": {
+      "sha256": "2063269fc40bb6514d55a1c7eb24053227065fb190f2bfa3fb7ded42ef26407c",
+      "bytes": 1096
+    },
+    "runs/04-derived-handchecks.json": {
+      "sha256": "ac52c820bb2213b9865b32aca488d02d25ea7378cbbbedb1d76d8029a604982c",
+      "bytes": 2961
+    },
+    "runs/05-gates.txt": {
+      "sha256": "2d66975f67bcda9ae63fa3c85f0ade0bc61eca2258c4b2f70545532de16de3f0",
+      "bytes": 2197
+    },
+    "runs/06-targeted-final.txt": {
+      "sha256": "7a1cc15739fbfdd03092ec4f9bec3b4a0b16679cbb5b6297a4a84f2739d03a4b",
+      "bytes": 24407
+    },
+    "runs/candidate-assessments-readonly.json": {
+      "sha256": "11d33bc85eafe0fc51ff909617183fcb1ff020e3b8c0f816e6b2bfe1cadda074",
+      "bytes": 348083
+    },
+    "runs/candidate-coverage.json": {
+      "sha256": "d32411d948c17a544db9ed66fd10c1dcd6ed8c1160ae549ec1c1c0196d10beee",
+      "bytes": 23129
+    },
+    "runs/candidate-manifest.json": {
+      "sha256": "b921741942d4674ed968f2938917b588b07ae9dc6db12f2998cb7361727d90ba",
+      "bytes": 4464
+    },
+    "source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt": {
+      "sha256": "ba96ac2ecc2799c3f1f54f71b6134ed589fecce55e709b0a7fecd0afdce45f3c",
+      "bytes": 6921
+    },
+    "source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt": {
+      "sha256": "fa283d6fd04df7f691010e4d17e0e5cd7a380c173ca53d5a01fb8c7c87bee758",
+      "bytes": 7374
+    },
+    "source/kec-q2-fy27-selected-xbrl-facts.json": {
+      "sha256": "03a92679f40e9799f0fdbd56c5040db00e32e703cf063f2528f6bfd70bec1ce3",
+      "bytes": 11788
+    },
+    "source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt": {
+      "sha256": "0625ecd2839075ebf6eca88ae0f3c6f599c2ea27ef5438e3dbdeb1d78946b881",
+      "bytes": 28561
+    },
+    "source/marico-fy25-consolidated-cash-flow-pdf-page172.txt": {
+      "sha256": "37b7226659377f07e62449a117fd7e5f6487fb4bf2e8557944d7a5ee43f4ccce",
+      "bytes": 12849
+    },
+    "source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt": {
+      "sha256": "925b7fce3d889070f8902c1499265bf83b541346b74b7dbbe7baeb0b79a6779c",
+      "bytes": 25352
+    },
+    "source/marico-fy26-consolidated-cash-flow-pdf-page192.txt": {
+      "sha256": "e0090d6e179d809f4f2b1be02e6258bc2fabb94705b70a9040683334642aafbe",
+      "bytes": 13333
+    },
+    "source/page-map.json": {
+      "sha256": "8b3864b9949234eafe3d52d781605353f92dd92470d05b1a136b80b0c4bbd3f0",
+      "bytes": 3100
+    },
+    "source-selection.json": {
+      "sha256": "831e94088e521ddbc981c644f6bf95d41c5c0ba35db81ce08b90b2665e1ec703",
+      "bytes": 1965
+    }
+  }
+}

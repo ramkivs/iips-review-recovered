@@ -1,0 +1,67 @@
+S4-R3 gate summary — 2026-11-14, Linux sandbox
+All commands run from the repository root unless stated.
+
+Platform typecheck: cd iips-platform && npm run typecheck -> exit 0
+
+Platform IID suite: cd iips-platform && npm run test:iid
+  ...
+1..257
+# tests 1163
+# suites 257
+# pass 1163
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17820.307244
+
+Platform full suite: cd iips-platform && npm test
+First run failed 30 A13 regression tests because shallow checkout lacked commit 5ca181c7564a063a01265efdfdc5996563888d49.
+Read-only fix: git fetch --depth=1 origin 5ca181c7564a063a01265efdfdc5996563888d49. No branch switch, no working-tree change.
+Rerun:
+  ...
+1..678
+# tests 678
+# suites 0
+# pass 678
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20490.70289
+
+IID-0 constraints: cd iips-platform && npx tsx --test tests/investment/constraints.test.ts
+  ...
+1..2
+# tests 6
+# suites 2
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 161.956265
+
+Targeted coverage + refresh (final): cd iips-platform && npx tsx --test tests/investment/investment-coverage.test.ts tests/investment/iidStage4FilingRefresh.test.ts
+  ...
+1..6
+# tests 30
+# suites 6
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 589.773155
+
+Frontend typecheck: cd frontend && NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt npm run typecheck -> exit 0
+
+Frontend full suite: cd frontend && NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt npx vitest run
+ Test Files  202 passed | 1 skipped (203)
+      Tests  2949 passed | 1 skipped (2950)
+   Duration  251.49s (transform 10.28s, setup 27.50s, collect 33.87s, tests 99.28s, environment 50.09s, prepare 12.85s)
+Known side effect: the frontend suite rewrote evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-{control,test}.json; both were restored with git checkout -- and verified absent from git status.
+
+Hygiene: git diff --check -> exit 0; python3 -m py_compile probe/build_refresh.py -> exit 0; all bundle JSON files parse.
+
+Unavailable validators: ps-conformance.py and doc-evidence-validate.py are not present in the current tree or in f98732e; they were not re-run and no pass is claimed for them here.

@@ -41,7 +41,7 @@ function issuer(issuerId: string, legalName: string, sector: string): IssuerReco
   } as IssuerRecord;
 }
 
-function period(issuerId: string, periodEnd: string, periodType: 'ANNUAL' | 'QUARTERLY'): NormalizedPeriod {
+function period(issuerId: string, periodEnd: string, periodType: 'ANNUAL' | 'QUARTER'): NormalizedPeriod {
   return {
     issuerId,
     period: {
@@ -162,6 +162,38 @@ describe('IID — the investment coverage report is independent of the identity 
     assert.equal(rowB?.annualPeriods, 0);
     assert.equal(rowB?.state, 'NO_FINANCIALS');
     assert.equal(report.counts.NO_FINANCIALS, 1);
+  });
+
+  it('counts the contract token QUARTER in issuer rows, not the non-contract string QUARTERLY (S4-R3)', () => {
+    const annual = period(ISSUER_A, '2026-03-31', 'ANNUAL');
+    const quarterly: NormalizedPeriod = {
+      ...period(ISSUER_A, '2026-09-30', 'QUARTER'),
+      period: {
+        ...period(ISSUER_A, '2026-09-30', 'QUARTER').period,
+        periodStart: '2026-07-01',
+        quarterForm: 'DISCRETE',
+        quarterIndex: 2,
+      },
+    };
+    const manifest = {
+      ...MANIFEST,
+      coverage: { ...MANIFEST.coverage, annualPeriods: 1, quarterlyPeriods: 1, latestPeriodEnd: '2026-09-30' },
+    } as unknown as DatasetManifest;
+    const report = buildInvestmentCoverageReport({
+      ...base,
+      manifest,
+      periods: [annual, quarterly],
+      identitySourcesAvailable: true,
+    });
+
+    const rowA = report.issuers.find((row) => row.issuerId === ISSUER_A);
+    const rowB = report.issuers.find((row) => row.issuerId === ISSUER_B);
+    assert.equal(rowA?.annualPeriods, 1);
+    assert.equal(rowA?.quarterlyPeriods, 1, 'a valid QUARTER period must not be reported as zero quarterly coverage');
+    assert.equal(rowA?.latestPeriodEnd, '2026-09-30');
+    assert.notEqual(rowA?.state, 'NO_FINANCIALS');
+    assert.equal(rowB?.quarterlyPeriods, 0);
+    assert.equal(report.dataset.quarterlyPeriods, 1);
   });
 
   it('reports an issuer carrying an ingestion issue as ISSUED_DATA', () => {
