@@ -72,12 +72,13 @@ const frontendRoot = resolve(here, '..', '..');
  * changes no consumed byte while adopting the revision IPD publishes as `main` — and it is the
  * revision that actually contains Stage 4 composition, which `709fd13…` does NOT.
  *
- * Every advance is PURELY ADDITIVE for existing consumers: the `./portfolio-ui`, `./pit`,
+ * Earlier advances were additive for existing consumers: the `./portfolio-ui`, `./pit`,
  * `./d114-non-production`, `./operator-drop` and `./dhan-server` subpaths all remain
  * published, IRR's consumed `./dhan-server` exports are unchanged, and IPD's
- * `MarketDataTransportClient` class is byte-identical across the last two advances.
+ * `MarketDataTransportClient` class was byte-identical across those advances.
+ * The current candidate changes the quote client to accept UNAVAILABLE; it is not a main pin.
  */
-export const EXPECTED_IPD_PIN_SHA = '1aee57fe093b4fb15eaf3a9ac67532ee40262fe2';
+export const EXPECTED_IPD_PIN_SHA = '1e396815a19a68f8b5f8e2b4a76a2474f7dd3c14';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
@@ -336,7 +337,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     exports?: Record<string, { types?: string; import?: string; default?: string }>;
   };
 
-  it('pins iips-production-market-data to the exact unified main commit SHA in package.json and package-lock.json', () => {
+  it('pins iips-production-market-data to the exact integration candidate SHA in package.json and package-lock.json', () => {
     const depSpec = irrPkg.dependencies?.['iips-production-market-data'] ?? '';
     const lockResolved = irrLock.packages?.['node_modules/iips-production-market-data']?.resolved ?? '';
 

@@ -110,7 +110,7 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
  *
  * IRR `Freshness` is `LIVE | SNAPSHOT | STALE | UNAVAILABLE | REPLAY`. IPD's canonical
  * quality states are `GOOD | STALE | UNAVAILABLE` (plus `PARTIAL`), and the transport adds
- * an explicit `CURRENT | STALE` marker on a quote outcome.
+ * an explicit `CURRENT | STALE | UNAVAILABLE` marker on a quote outcome.
  *
  * THE MAPPING IS DELIBERATELY CONSERVATIVE:
  *   - IPD `CURRENT` maps to IRR `SNAPSHOT`, NOT `LIVE`. IPD's `CURRENT` means "the data is
@@ -123,12 +123,11 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
  */
 export function mapIpdFreshnessToIrrFreshness(
   quality: string | undefined,
-  transportFreshness: 'CURRENT' | 'STALE' | undefined,
+  transportFreshness: 'CURRENT' | 'STALE' | 'UNAVAILABLE' | undefined,
 ): Freshness {
-  if (transportFreshness === 'STALE') return 'STALE';
-  if (quality === 'GOOD') return 'SNAPSHOT';
-  if (quality === 'STALE') return 'STALE';
-  return 'UNAVAILABLE';
+  if (transportFreshness === 'UNAVAILABLE' || (quality !== 'GOOD' && quality !== 'STALE')) return 'UNAVAILABLE';
+  if (transportFreshness === 'STALE' || quality === 'STALE') return 'STALE';
+  return 'SNAPSHOT';
 }
 
 /** The IRR-facing quote view. Canonical, provider-neutral and safe to render. */
@@ -504,12 +503,26 @@ export function validateDhanHistoricalRequest(body: unknown): DhanHistoricalRequ
   };
 }
 
+/** Fail closed before projection: the transport client checks the outer response, not
+ * the canonical envelope. Missing quote fields must not become fabricated zeroes. */
+function isCompleteQuoteEnvelope(value: unknown): boolean {
+  if (!value || typeof value !== 'object') return false;
+  const record = value as Record<string, unknown>;
+  if (!record.payload || typeof record.payload !== 'object' || !record.provenance || typeof record.provenance !== 'object') return false;
+  const payload = record.payload as Record<string, unknown>;
+  const provenance = record.provenance as Record<string, unknown>;
+  return ['companyId', 'symbol', 'exchange', 'currency'].every(key => typeof payload[key] === 'string' && payload[key] !== '')
+    && ['ltp', 'open', 'high', 'low', 'previousClose', 'volume', 'change', 'pctChange', 'bid', 'ask']
+      .every(key => typeof payload[key] === 'number' && Number.isFinite(payload[key]))
+    && ['qualityState', 'asOf', 'receivedAt', 'evaluatedAt'].every(key => typeof provenance[key] === 'string' && provenance[key] !== '');
+}
+
 /**
  * Projects IPD's canonical quote envelope onto the IRR quote view.
  */
 export function projectIpdQuoteEnvelope(
   envelope: unknown,
-  transportFreshness: 'CURRENT' | 'STALE' | undefined,
+  transportFreshness: 'CURRENT' | 'STALE' | 'UNAVAILABLE' | undefined,
   freshnessStatus: DhanFreshnessView | null = null,
   freshnessStatusFailure: { readonly code: string; readonly message: string } | null = null,
 ): DhanQuoteView {
@@ -728,6 +741,18 @@ export async function handleDhanQuotesRequest(
         code: outcome.failure.code,
         message: outcome.failure.message,
         identityFailure: IDENTITY_FAILURE_CODES.has(outcome.failure.code),
+        connectionAttempted: true,
+      },
+    } satisfies DhanMarketDataErrorEnvelope);
+    return;
+  }
+
+  if (!isCompleteQuoteEnvelope(outcome.envelope)) {
+    sendJson(res, 502, {
+      error: {
+        code: 'MALFORMED_RESPONSE',
+        message: 'market-data transport returned an incomplete quote envelope',
+        identityFailure: false,
         connectionAttempted: true,
       },
     } satisfies DhanMarketDataErrorEnvelope);

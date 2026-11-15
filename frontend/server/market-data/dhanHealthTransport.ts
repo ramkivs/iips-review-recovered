@@ -66,7 +66,7 @@ export const DHAN_HEALTH_TRANSPORT_SEMANTICS =
   'prove from the local IPD provider configuration and readiness only: no Dhan endpoint was ' +
   'contacted, no credential was resolved, the IPD market-data transport was not contacted, and ' +
   'the provider is not live-qualified. The browser receives no bearer token, no client id, no ' +
-  'access token and no SecretRef value — only SecretRef POINTERS and readiness enums.';
+  'access token and no SecretRef value; IPD may redact reference paths, leaving readiness enums.';
 
 /** Provenance block carried alongside the report, mirroring the existing IRR envelope shape. */
 export const DHAN_HEALTH_PROVENANCE = Object.freeze({

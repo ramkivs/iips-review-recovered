@@ -118,8 +118,8 @@ describe('DHAN-P2 health route — the published envelope', () => {
     const response = await call(DHAN_HEALTH_PATH, 'GET', CONFIGURED_ENV);
     const serialized = JSON.stringify(response.body);
 
-    // SecretRef POINTERS are published; values are not.
-    expect(serialized).toContain('vault://dhan/access-token');
+    // The installed IPD candidate redacts paths as well as values.
+    expect(serialized).not.toContain('vault://dhan/access-token');
     expect(serialized).not.toContain('IIPS_MARKET_DATA_TRANSPORT_TOKEN');
     expect(serialized).not.toContain('authorization');
     expect(serialized).not.toMatch(/Bearer\s/);
@@ -133,13 +133,11 @@ describe('DHAN-P2 health route — the published envelope', () => {
     expect(data.state).not.toBe('AUTHENTICATED');
   });
 
-  it('publishes only pointer paths for configured references', async () => {
+  it('reports configured references without exposing pointer paths', async () => {
     const response = await call(DHAN_HEALTH_PATH, 'GET', CONFIGURED_ENV);
     const data = (response.body as { data: Record<string, unknown> }).data;
-    expect(data.secretRefPointers).toEqual([
-      'vault://dhan/access-token',
-      'vault://dhan/client-id',
-    ]);
+    expect(data.secretRefPointers).toEqual([]);
+    expect(data.readiness).toBe('CREDENTIAL_REFERENCES_CONFIGURED');
     expect(data.missingKeys).toEqual([]);
   });
 

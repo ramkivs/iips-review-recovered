@@ -173,14 +173,14 @@ describe('DHAN-P3 quote surface', () => {
     expect(screen.queryByTestId('freshness-live')).toBeNull();
   });
 
-  it('renders an UNAVAILABLE verdict without presenting any value as a price', async () => {
+  it('renders an UNAVAILABLE observation without presenting it as current', async () => {
     vi.stubGlobal('fetch', okFetch(quoteBody({ freshness: 'UNAVAILABLE', qualityState: 'UNAVAILABLE' })));
     render(<DhanQuotes />);
     await submitQuote();
 
     await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
     expect(screen.getByTestId('dhan-quote-unavailable-notice').textContent).toContain(
-      'No value below is a price',
+      'outside the freshness-use policy',
     );
     expect(screen.getByTestId('freshness-unavailable')).toBeTruthy();
     expect(screen.queryByTestId('freshness-snapshot')).toBeNull();

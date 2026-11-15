@@ -34,7 +34,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
 /** The authoritative IPD dependency commit this boundary was qualified against. */
-const EXPECTED_IPD_COMMIT = '1aee57fe093b4fb15eaf3a9ac67532ee40262fe2';
+const EXPECTED_IPD_COMMIT = '1e396815a19a68f8b5f8e2b4a76a2474f7dd3c14';
 
 /** SecretRef pointers only. These are key paths, never secret values. */
 const CONFIGURED_ENV = {
@@ -108,12 +108,12 @@ describe('IRR Dhan provider consumption boundary (pre-access, offline)', () => {
     }
   });
 
-  it('never surfaces secret values, only SecretRef key paths', () => {
+  it('never surfaces secret values or SecretRef key paths', () => {
     const readiness = describeDhanProviderReadiness(CONFIGURED_ENV);
     const serialized = JSON.stringify(readiness);
 
-    // The key paths appear; no token, client id or other credential VALUE can.
-    expect(serialized).toContain('vault://dhan/access-token');
+    // The candidate reports configured flags, not secret paths or values.
+    expect(serialized).not.toContain('vault://dhan/access-token');
     expect(serialized).not.toMatch(/accessToken"[^"]*":\s*"(?!UNCONFIGURED)[^"]{8,}/);
     // Deliberate structural assertion: the report carries no credential-bearing field.
     expect(Object.keys(readiness)).not.toContain('accessToken');
