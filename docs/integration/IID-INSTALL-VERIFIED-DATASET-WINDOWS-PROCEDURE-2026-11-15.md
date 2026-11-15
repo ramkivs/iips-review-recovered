@@ -64,6 +64,7 @@ There is no second swap, no hand-written rename, and no second digest implementa
 | 2 | `REFUSED-PRIOR-UNREADABLE` | installed dataset does not verify; no rollback target |
 | 1 | `FAILED-PUBLICATION` | `writeDataset` threw; its own restoration/marker contract applies |
 | 1 | `FAILED-VERIFICATION-ROLLED-BACK` | verification failed; prior dataset restored and verified |
+| 1 | `FAILED-VERIFICATION-NO-PRIOR` | verification failed on a first publication; no prior dataset existed — reconcile manually |
 | 1 | `FAILED-ROLLBACK` | verification **and** rollback failed — reconcile manually before using the runtime |
 
 Every `2` means **nothing was written**. `--json` emits one machine-readable report with `result`, `exitCode`,

@@ -63,6 +63,7 @@ export type InstallResult =
   | 'REFUSED-PRIOR-UNREADABLE'
   | 'FAILED-PUBLICATION'
   | 'FAILED-VERIFICATION-ROLLED-BACK'
+  | 'FAILED-VERIFICATION-NO-PRIOR'
   | 'FAILED-ROLLBACK';
 
 export interface InstallReport {
@@ -317,6 +318,16 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
     add('published', true, `writeDataset published ${written.manifest.datasetVersion} at ${datasetDir}`);
   } catch (error) {
     add('published', false, error instanceof Error ? error.message : String(error));
+    // Report what is actually on disk: writeDataset may have restored the prior dataset already.
+    try {
+      installedDigest = readDataset(datasetDir).manifest.datasetVersion;
+      rolledBack = prior !== null && installedDigest === prior.manifest.datasetVersion;
+      add('destination-readable-after-failure', true,
+        `the destination verifies at ${installedDigest}${rolledBack ? ' (the prior dataset)' : ''}`);
+    } catch {
+      add('destination-readable-after-failure', false,
+        'the destination does not verify after the failed publication; resolve any markers with --recover');
+    }
     return finish('FAILED-PUBLICATION', 1,
       'publication failed; writeDataset restores the prior dataset on a survived failure and leaves markers for recovery otherwise');
   }
@@ -354,7 +365,7 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
 
   // ROLLBACK — through the same writer, never a hand-written swap. Only possible with a verified prior dataset.
   if (prior === null) {
-    return finish('FAILED-VERIFICATION-ROLLED-BACK', 1,
+    return finish('FAILED-VERIFICATION-NO-PRIOR', 1,
       'post-publication verification failed and there was no prior dataset to restore; the destination holds the published candidate and must be reconciled manually');
   }
   try {

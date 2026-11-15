@@ -412,7 +412,8 @@ describe('install-verified-dataset — the S4-R3 replacement, through the existi
       assert.equal(report.exitCode, 1);
       assert.equal(report.published, false);
       assert.equal(checkOf(report, 'published'), false);
-      assert.equal(report.installedDigest, null);
+      assert.equal(checkOf(report, 'destination-readable-after-failure'), false,
+        'the report states what is actually on disk rather than leaving the state unknown');
       assert.equal(readFileSync(join(live, 'investment'), 'utf8'), 'not a directory\n', 'nothing was forced over it');
       // That a survived swap failure restores the PRIOR dataset is pinned by publicationAtomicity.test.ts,
       // which drives writeDataset's own fault-injection seam. It is not duplicated here.
