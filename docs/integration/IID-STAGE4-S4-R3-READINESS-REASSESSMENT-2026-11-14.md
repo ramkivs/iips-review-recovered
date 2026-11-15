@@ -259,3 +259,27 @@ by the policy task.**
 technical limitations with no adjudication ceremony. Source rights remain `OPERATOR_ASSERTED`;
 `IDENTITY_SOURCE_MISSING` is unresolved; 3 of 13 sectors are measured. Stage 4 remains **PARTIALLY COMPLETE**
 and overall IID readiness remains **NOT READY**. PR #562 is not merged.
+
+## 10. The missing installation capability is implemented (2026-11-15)
+
+**Command:** `iips-platform/src/investment/cli/install-verified-dataset.ts`
+**Procedure:** `IID-INSTALL-VERIFIED-DATASET-WINDOWS-PROCEDURE-2026-11-15.md`
+
+§9 disclosed that re-ingesting the refresh over the live directory is refused by `assertNoSilentSourceLoss`, and
+that no supported command existed to publish an already-verified package. That gap is now closed. The command
+reads the candidate through `readDataset`, requires the expected content digest, carries `manifest.inputs`
+forward verbatim, refuses unresolved publication markers unless `--recover` resolves them through
+`recoverInterruptedPublication`, and publishes through **`writeDataset`** — so staging, verify-before-swap,
+move-aside restoration and the marker contract are the product's own. A failed post-publication verification
+restores the prior dataset through the same writer.
+
+**`assertNoSilentSourceLoss` is unchanged**, and a test pins that the superseding re-ingest is still refused.
+No parallel swap was written. New suite **25 tests / 0 fail**; targeted regression **154 / 0 fail**; platform
+and explicit test typechecks **0**; full IID suite adds 25 passing tests with the pre-existing 31 failures
+unchanged. An end-to-end drill installed the S4-R3 candidate over a reproduced Stage 3 dataset in an isolated
+temp root: `INSTALLED`, then the authoritative verifier **PASS 27/0**, no residue.
+
+**Installation on the Windows host has still not been performed.** `C:\iips-data` was not touched from the
+Linux environment. The S4-R3 installation limb stays open until the operator runs the procedure and host
+verification passes. Freshness, `G-4`, `G-6`, `L-041`, `L-042` and the IPD-owned Stage 5 dependencies are
+unchanged; Stage 4 remains **PARTIALLY COMPLETE** and overall IID readiness remains **NOT READY**.

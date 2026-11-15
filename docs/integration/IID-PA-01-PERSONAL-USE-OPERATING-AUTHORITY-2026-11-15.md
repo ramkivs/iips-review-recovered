@@ -143,10 +143,14 @@ Owner-executed outline — **not performed by this documentation task**:
 7. **Roll back** to the verified backup and re-verify if step 6 fails.
 8. **Record** the before/after digests, the verification result and the backup location.
 
-Step 5 is a deliberate directory replacement outside the writer. If the owner prefers to stay entirely
-inside the supported CLI, the alternative is a small, tested extension that performs backup → replace →
-verify → rollback as one operation. That is ordinary maintenance work the owner may commission
-directly; it needs no authority beyond their own.
+**Update (2026-11-15): the supported command now exists.** Step 5 no longer requires a replacement outside
+the writer. `iips-platform/src/investment/cli/install-verified-dataset.ts` publishes an already-verified
+candidate through `writeDataset` itself, inheriting staging, verify-before-swap, move-aside restoration and
+interrupted-publication recovery. It requires the expected digest, preserves `manifest.inputs` verbatim,
+refuses unresolved markers unless `--recover` resolves them through the authoritative recovery mechanism,
+and rolls back through the same writer if post-publication verification fails. `assertNoSilentSourceLoss`
+is unchanged. The exact invocation and rollback procedure is
+`IID-INSTALL-VERIFIED-DATASET-WINDOWS-PROCEDURE-2026-11-15.md`. Prefer that command over any manual copy.
 
 **What this does not change.** Freshness stays open: all three issuers remain `STALE_STATEMENTS` /
 `STALE_DATA` on the recorded clock, and installing newer bytes does not make stale statements current.
