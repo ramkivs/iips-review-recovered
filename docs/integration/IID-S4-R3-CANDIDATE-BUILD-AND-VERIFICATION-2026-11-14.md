@@ -8,6 +8,8 @@
 
 > **Result:** the exact O3-admitted S4-R3 candidate digest was reproduced from the exact admitted inputs through the existing authoritative ingestion pipeline. **CANDIDATE BUILD AND DIGEST VERIFICATION: PASS.** This is not runtime installation and not overall IID readiness.
 
+> **Subsequent host execution (host report date 2026-11-15):** the same exact candidate digest has now also been built and verified on the operator's Windows host at `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01`, outside the repository. That host result — including the authoritative verifier's PASS 31/0 — is recorded in `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`. Everything below remains the historical repository-side sandbox record; §8's transfer limitation is satisfied for that host by the operator building locally, and no dataset content was transferred or published. Runtime installation remains **NOT AUTHORIZED**; overall IID readiness remains **NOT READY**.
+
 ## 1. Authority and preserved decisions
 
 The operator separately authorized this candidate build, including the ingestion/build operations needed to generate the normalized dataset from the exact O3-admitted inputs. The governing admission records remain unchanged:

@@ -9,6 +9,8 @@
 
 > This document publishes procedure and non-content test evidence only. No Windows build was executed by the implementation session. No runtime was installed or changed. The active IID dataset, identity directory and portfolio database were not targets. Overall IID readiness remains **NOT READY**.
 
+> **Host execution status (host report date 2026-11-15):** the operator has since run this driver on the Windows host at `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01` and completed the candidate build and authoritative dataset verification — `BUILD-VERIFY-PASS; 75 passed, 0 failed; ExitCode=0`. The result is recorded in `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`. This document remains the procedure authority. Runtime installation remains **NOT AUTHORIZED**.
+
 ## 1. What the driver does
 
 The script drives the already published authoritative wrapper:
@@ -302,6 +304,8 @@ Implementation environment: Linux, Node v22.22.3, npm 10.9.8. Neither `pwsh` nor
 The prior driver publication gates at commits `5acc941af8230b21638150589813c68d96077636` and `dbb9545edfc8f0b0d258f8377084acde1a1fd0a2` remain historical. They were not rerun as candidate-build gates in this correction.
 
 These are **Linux-side static conformance and Git-object semantics tests**, not Windows PowerShell execution evidence. No Pester run is claimed. Windows PowerShell 5.1 host acceptance remains outstanding and must be performed by the operator before relying on the driver on that host.
+
+**Host acceptance addendum (host report date 2026-11-15).** The operator has now executed this driver on the Windows host under Windows PowerShell 5.1 Desktop with Node `v24.14.0` and locked tsx `4.23.9`, at repository HEAD `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01`, from `C:\iips-worktrees\S4-R3-preflight-7ef0f10` into `C:\iips-candidates\S4-R3-preflight-7ef0f10`. Result: `BUILD-VERIFY-PASS; 75 passed, 0 failed; ExitCode=0`; wrapper PASS 16/16; authoritative verifier PASS 31/0 exit 0; actual digest equal to the admitted `sha256:bdfb2527…`. The post-Node lockfile exception did not recur. This is operator-supplied host evidence, recorded in `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`; it is not a sandbox measurement and it does not claim a Pester run of the script suite. Installation into the active runtime remains **NOT AUTHORIZED**.
 
 ## 7. Preserved boundaries and limitations
 

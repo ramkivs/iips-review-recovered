@@ -237,6 +237,20 @@ prefix so they cannot be confused with Stage 2's or Stage 3's.
 | **S4-R7** | Add a lint over hand-authored rosters | **IRR** — this is the remainder of `G-14` | **NEW.** The read path now catches the defect class at runtime, which is the stronger position, but `G-14`'s literal complaint (*"no lint"*) is not yet answered statically | A repository validator that rejects an off-vocabulary `sector` in any committed roster, using the same `findInvalidIssuerSectors` authority | The lint failing on a deliberately respelled fixture roster | Nothing. `G-14` is substantially closed by the read path |
 | **S4-R8** | Fill corporate actions as events occur | **OPERATOR** — event-driven | **NEW, and named by §21 itself.** `merge.actions 0`, `corporateActions 0` | Record actions as they occur and re-publish | `corporateActions > 0` | Nothing today |
 
+**Addendum — S4-R3 host candidate build and dataset verification recorded (host report date 2026-11-15).**
+The `S4-R3` row above is **not closed**, and no other row changed. The operator has since built the exact
+O3-admitted candidate on the Windows host at `7ef0f10` through the authoritative ingestion pipeline, outside the
+repository: driver `BUILD-VERIFY-PASS; 75 passed, 0 failed; ExitCode=0`, wrapper **PASS** 16/16, authoritative
+`verify-installed-dataset` **PASS** 31/0 exit 0, actual digest equal to
+`sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`. This discharges the candidate-build and
+candidate-verification limbs only. `S4-R3` stays OPEN because `STALE_STATEMENTS`/`STALE_DATA` persist for all three
+issuers; `G-6` remains partially discharged in candidate; `G-4`, `S4-R6`, `S4-R7`, `R-1`, `R-2`, `R-4`, `S2-R1`,
+`S2-R2` and `D2`–`D6` are unchanged. **Runtime installation is not authorized and was not performed**; the active
+dataset, identity directory and portfolio database were protected and the portfolio database was not accessed.
+Stage 4 remains **PARTIALLY COMPLETE** and overall IID readiness remains **NOT READY**. Full host evidence:
+`IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`; current S4-R3 position:
+`IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md` §6.
+
 **Explicitly not remaining actions**, because naming them would reorder the roadmap, reopen closed work, or
 exceed this stage's authority: merging PR #562 (an owner act); repeating the identity publication or
 reinstalling the Stage 3 dataset (both prohibited — both are evidence); re-running `-Execute` (the set is
