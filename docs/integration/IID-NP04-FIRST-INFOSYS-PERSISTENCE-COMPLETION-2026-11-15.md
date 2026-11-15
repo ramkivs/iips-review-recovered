@@ -113,7 +113,24 @@ Expected files in `C:\iips-backup\NP04-20261115T200134629Z`:
 
 ## 8. Publication receipt
 
-Pending remote publication read-back. This section is amended forward after the commit is published; it does not edit the operator-reported execution facts above.
+Initial documentation commit: **`3647be599147609cff0e093be4298c682b2e93cb`** on
+`arena/53ff9276-iips-review-recovered`, parent `dda23a9614d9928c171d9ef4f32637b1477b2187`.
+Remote read-back verified the commit parent/tree, the exact four-file change set, and every published
+blob byte-for-byte against the local artifact:
+
+| Path | Initial published blob | SHA-256 |
+|---|---|---|
+| `docs/integration/IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md` | `90f786ed7a71400447dba8860b1b8695080ae22c` | `6451de001c8b5ceb94f427546336f441c1cfcf6817dac40e9609ff57d259bae4` |
+| `docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md` | `5642ab119f7caa20bdff6b524a9640807bf0d4f7` | `958bdda4135778c66850da34afe8c6ce9fc6a556e52745342b446666a360e4d8` |
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `cda5fe353cfd3410cc85c73a5296e4b289d0e310` | `cfddae660e157054c1a705e2077071a130968da346c87a625df538b2a2ba6998` |
+| `docs/integration/IID-NP04-PERSISTENCE-PREPARATION-2026-11-15.md` | `dd663a87ec3d549361285859bce5099734376826` | `b75c27f72e84eb18cce421ef21ded8f0caa21474b40447ed14310533c0c1bb7f` |
+
+Targeted documentation/consistency checks: **33/33 PASS** (append-only amendments, added-line
+whitespace/EOL, required identifiers/digests/paths, tracker section uniqueness, roadmap/procedure
+addenda, reference existence, and no overall-READY claim). This receipt section is then amended
+forward by a follow-up receipt commit on the same branch; that follow-up changes only this completion
+record. The final branch head and cumulative remote read-back are reported in the publishing session's
+final response. No PR was merged.
 
 ## 9. Next authoritative roadmap work — determined, not implemented here
 
@@ -159,4 +176,4 @@ It is **not** a prerequisite for the already-completed company-scoped Infosys mi
 - Inspected local copies of the roadmap, tracker, handover, NP-04 procedure, CPII-01, P6-A and Stage 4 records matched their remote blobs before amendment.
 - The 11 November baseline was read from its recorded remote ref `31a9b01e` without checkout or repository synchronization.
 - No application code, IPD repository, Windows database, evidence directory, carrier, dataset, identity directory or Personal Portfolio database was modified.
-- Targeted documentation/consistency checks and the remote publication read-back are recorded in §8 after publication.
+- Targeted documentation/consistency checks passed **33/33**; the initial remote publication read-back is recorded in §8. The follow-up receipt commit is verified cumulatively against the pre-task branch head before the final response.
