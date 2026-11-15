@@ -175,7 +175,7 @@ describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine
     }
     assert.ok(SOURCE.includes('computeInputDigest(b.filesRead)'));
     assert.ok(SOURCE.includes('loadInputBundle('));
-    assert.ok(SOURCE.includes("'--eval', $eval"));
+    assert.ok(SOURCE.includes("'--eval', $eval, 's4-r3-input-inspect', $loader, $multi, $dir"));
   });
 
   it('delegates build once, then verify-only and the authoritative dataset verifier; never ingests directly', () => {
@@ -200,6 +200,96 @@ describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine
     assert.ok(NO_COMMENTS.includes('windows-local-verification.json'));
     assert.ok(NO_COMMENTS.includes('if (-not $WriteWindowsEvidence)'));
     assert.ok(NO_COMMENTS.includes('powershell-verify-read-only'));
+  });
+});
+
+describe('Windows S4-R3 driver — post-Node lockfile inspection and exception reporting (no candidate build)', () => {
+  const lockPath = join(ROOT, 'iips-platform', 'package-lock.json');
+  const tsxPackagePath = join(ROOT, 'iips-platform', 'node_modules', 'tsx', 'package.json');
+  const evalMatch = NO_COMMENTS.match(/\$lockEval = "([^"]*)"/);
+  const runLockEval = (lock: string, installed: string) => {
+    assert.ok(evalMatch, 'driver defines a Node JSON.parse lockfile inspector');
+    return spawnSync(process.execPath, ['--eval', evalMatch![1]!, lock, installed], { encoding: 'utf8' });
+  };
+
+  it('identifies the PS 5.1 trigger and removes ConvertFrom-Json from the npm lockfile path', () => {
+    const lock = JSON.parse(readFileSync(lockPath, 'utf8')) as { packages: Record<string, { version?: string }> };
+    assert.equal(Object.prototype.hasOwnProperty.call(lock.packages, ''), true, 'npm lockfileVersion 3 uses the empty root package property name');
+    assert.equal(lock.packages['node_modules/tsx']!.version, '4.23.9');
+    assert.equal(/Read-JsonObject[^\n]*package-lock/.test(NO_COMMENTS), false);
+    assert.equal(/\$lock\s*=\s*Read-JsonObject/.test(NO_COMMENTS), false);
+    assert.ok(NO_COMMENTS.includes('JSON.parse(fs.readFileSync(process.argv[1]'));
+    assert.ok(NO_COMMENTS.includes("Add-Check -Id 'local-tsx-dependencies'"));
+    assert.ok(NO_COMMENTS.includes('$script:TsxVersion -eq $expectedTsx'));
+  });
+
+  it('extracts the locked and installed tsx versions through the driver Node inspector', () => {
+    const result = runLockEval(lockPath, tsxPackagePath);
+    assert.equal(result.status, 0, result.stderr);
+    const versions = JSON.parse(result.stdout) as { lockedVersion: string; installedVersion: string };
+    assert.equal(versions.lockedVersion, '4.23.9');
+    assert.equal(versions.installedVersion, JSON.parse(readFileSync(tsxPackagePath, 'utf8')).version);
+  });
+
+  it('passes admitted-input loader paths as argv without embedded double quotes in the PowerShell-native eval argument', () => {
+    const inputEval = NO_COMMENTS.match(/\$eval = "([^"]*)"/);
+    assert.ok(inputEval, 'driver defines an argv-based input inspector');
+    assert.equal(inputEval![1]!.includes('"'), false);
+    assert.equal(evalMatch![1]!.includes('"'), false);
+    const platform = join(ROOT, 'iips-platform');
+    const tsx = join(platform, 'node_modules', 'tsx', 'dist', 'cli.mjs');
+    const loader = join(platform, 'src', 'investment', 'cli', 'ingest.ts');
+    const multi = join(platform, 'src', 'investment', 'ingestion', 'multiInput.ts');
+    const dir = join(ROOT, INPUTS[0].dir);
+    const result = spawnSync(process.execPath, [tsx, '--no-cache', '--eval', inputEval![1]!, 's4-r3-input-inspect', loader, multi, dir], { encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+    const parsed = JSON.parse(result.stdout) as { inputDigest: string };
+    assert.equal(parsed.inputDigest, INPUTS[0].digest);
+  });
+
+  it('accepts an empty root package property name in a lockfile fixture', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'iid-s4-r3-lockfile-'));
+    try {
+      const lock = join(dir, 'package-lock.json');
+      const installed = join(dir, 'package.json');
+      writeFileSync(lock, JSON.stringify({ lockfileVersion: 3, packages: { '': { name: 'fixture' }, 'node_modules/tsx': { version: '9.9.9' } } }));
+      writeFileSync(installed, JSON.stringify({ name: 'tsx', version: '9.9.9' }));
+      const result = runLockEval(lock, installed);
+      assert.equal(result.status, 0, result.stderr);
+      assert.deepEqual(JSON.parse(result.stdout), { lockedVersion: '9.9.9', installedVersion: '9.9.9' });
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  });
+
+  it('fails closed when the locked tsx entry is missing and reports an installed-version mismatch', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'iid-s4-r3-lockfile-'));
+    try {
+      const lock = join(dir, 'package-lock.json');
+      const installed = join(dir, 'package.json');
+      writeFileSync(lock, JSON.stringify({ lockfileVersion: 3, packages: { '': { name: 'fixture' } } }));
+      writeFileSync(installed, JSON.stringify({ name: 'tsx', version: '1.2.3' }));
+      const missing = runLockEval(lock, installed);
+      assert.notEqual(missing.status, 0);
+      assert.match(missing.stderr, /locked tsx version missing/);
+      writeFileSync(lock, JSON.stringify({ lockfileVersion: 3, packages: { '': {}, 'node_modules/tsx': { version: '9.9.9' } } }));
+      const mismatch = runLockEval(lock, installed);
+      assert.equal(mismatch.status, 0, mismatch.stderr);
+      const versions = JSON.parse(mismatch.stdout) as { lockedVersion: string; installedVersion: string };
+      assert.notEqual(versions.lockedVersion, versions.installedVersion);
+      assert.ok(NO_COMMENTS.includes('$script:TsxVersion -eq $expectedTsx'), 'driver rejects the mismatch');
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  });
+
+  it('records the failing check, exception type, parameter name and stack traces instead of an unscoped exception', () => {
+    for (const fragment of [
+      "Set-CheckContext -Id 'local-tsx-dependencies'",
+      '$script:ExceptionType = $_.Exception.GetType().FullName',
+      '$script:ExceptionScriptStackTrace = $_.ScriptStackTrace',
+      "$_.Exception.PSObject.Properties.Name -contains 'ParamName'",
+      "Add-Check -Id ('exception-' + $script:CurrentCheck) -Ok $false",
+      'FailedCheck = $script:CurrentCheck',
+      'ExceptionParamName = $script:ExceptionParamName',
+      'ScriptStackTrace = $script:ExceptionScriptStackTrace',
+    ]) assert.ok(NO_COMMENTS.includes(fragment), fragment);
   });
 });
 

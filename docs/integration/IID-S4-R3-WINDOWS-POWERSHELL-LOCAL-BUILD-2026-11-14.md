@@ -57,6 +57,42 @@ Relevant checks:
 - `wrapper-working-tree-raw-sha256`: diagnostic raw working-tree hash.
 - `wrapper-line-ending-conversion`: diagnostic `NONE`, `CRLF_CHECKOUT`, or `OTHER_BYTE_DIFFERENCE`.
 
+### Post-Node PREFLIGHT exception correction
+
+The operator's Windows PowerShell 5.1 run passed all wrapper identity and commit/input checks, then failed immediately after Node version detection with:
+
+```text
+Cannot process argument because the value of argument "name" is not valid. Change the value of the "name" argument and run the operation again.
+```
+
+The failing operation was the driver's lockfile read:
+
+```text
+Read-JsonObject (Join-Path $platform 'package-lock.json')
+  -> Get-Content -Raw -Encoding UTF8
+  -> ConvertFrom-Json
+```
+
+`iips-platform/package-lock.json` is npm lockfileVersion 3 and contains the root package under the empty property name `packages[""]`. Windows PowerShell 5.1 `ConvertFrom-Json` cannot materialize an empty JSON property name as a PSObject note property; the invalid argument is `name`, with the empty string as its value. This is consistent with a `System.ArgumentException` whose `ParamName` is `name`. The old catch block did not record the exception type or stack, so the complete host stack trace was not captured in the published evidence. No Windows PowerShell engine is available in this implementation environment; host reproduction remains operator-side.
+
+The corrected driver no longer parses `package-lock.json` with `ConvertFrom-Json`. After Node detection it invokes the already-resolved Node executable with a read-only `--eval` inspector that uses `JSON.parse` to read:
+
+- `packages["node_modules/tsx"].version` from `iips-platform/package-lock.json`
+- `version` from the installed `iips-platform/node_modules/tsx/package.json`, when present
+
+It then compares installed `tsx` with the locked version and still requires the runner and native Windows esbuild binary. The inspector output is a small JSON object with non-empty property names, safe for PowerShell 5.1 `ConvertFrom-Json`. The lockfile and admitted-input Node inspectors pass paths as argv and avoid embedded double quotes in the PowerShell-native eval argument. The input inspector uses a sentinel argv slot so requiring `ingest.ts` does not trigger its direct-invocation CLI guard.
+
+Exception reporting is also corrected. The driver now tracks the current PREFLIGHT check and operation. An uncaught exception produces a failed check named `exception-<current-check>` and records:
+
+- `FailedCheck`
+- `FailingOperation`
+- `ExceptionType`
+- `ExceptionParamName`
+- `ExceptionStackTrace`
+- `ScriptStackTrace`
+
+This changes diagnosis only; it does not suppress the exception or bypass any gate.
+
 ## 2. Exact destination and package structure
 
 The documented candidate destination for this procedure is:
@@ -254,15 +290,16 @@ Implementation environment: Linux, Node v22.22.3, npm 10.9.8. Neither `pwsh` nor
 
 | Gate | Actual result |
 |---|---|
-| Corrected targeted suite `tests/investment/windowsS4R3CandidateBuildScript.test.ts` | **16 tests / 2 suites / 0 fail** |
-| Focused Windows-script regression (corrected suite + `windowsIdentityProvisionScript.test.ts`) | **52 tests / 8 suites / 0 fail / exit 0** |
+| Corrected targeted suite `tests/investment/windowsS4R3CandidateBuildScript.test.ts` | **22 tests / 3 suites / 0 fail** |
+| Focused Windows-script regression (corrected suite + `windowsIdentityProvisionScript.test.ts`) | **58 tests / 9 suites / 0 fail / exit 0** |
 | Platform `npm run typecheck` | **exit 0** |
 | Frontend `NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt npm run typecheck` | **exit 0** |
 | Comment/string-aware static PowerShell conformance | balanced delimiters; no executable `else`, `elseif`, `finally`, `exit`; no PS7-only `??`, `?.`, `&&`, `||`, `-parallel`, `-AsHashtable`; binary-safe `ProcessStartInfo`/`BaseStream`/`SHA256` APIs |
 | Temporary Git fixture | LF exact accepted; CRLF checkout accepted with raw SHA `c9c28d86b76d4ac5c194c429ae202443478f30741b2e2940372a4e8d0c13726b` and canonical SHA `5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7`; modified LF source rejected; modified CRLF source rejected; non-CRLF whitespace change rejected; wrong blob rejected; wrong canonical SHA rejected |
+| Post-Node lockfile fixture | empty root package key accepted by Node inspector; actual locked/installed tsx both `4.23.9`; missing locked tsx fails closed; installed/locked mismatch is visible and rejected by the driver comparison |
 | Script encoding/whitespace | ASCII, LF, no trailing whitespace; `git diff --check` clean |
 
-The prior driver publication gates at commit `5acc941af8230b21638150589813c68d96077636` remain the historical record for the original driver. They were not rerun as candidate-build gates in this correction.
+The prior driver publication gates at commits `5acc941af8230b21638150589813c68d96077636` and `dbb9545edfc8f0b0d258f8377084acde1a1fd0a2` remain historical. They were not rerun as candidate-build gates in this correction.
 
 These are **Linux-side static conformance and Git-object semantics tests**, not Windows PowerShell execution evidence. No Pester run is claimed. Windows PowerShell 5.1 host acceptance remains outstanding and must be performed by the operator before relying on the driver on that host.
 

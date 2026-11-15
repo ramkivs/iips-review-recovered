@@ -61,6 +61,12 @@ try {
   $script:ManifestByteIdentity = 'NOT_INSPECTED'
   $script:WrapperReport = $null
   $script:VerifierReport = $null
+  $script:CurrentCheck = 'initialization'
+  $script:CurrentOperation = ''
+  $script:ExceptionType = ''
+  $script:ExceptionParamName = ''
+  $script:ExceptionStackTrace = ''
+  $script:ExceptionScriptStackTrace = ''
   $script:Commit = '3c4789618b88689e269ce177ff50649545ef6e33'
   $script:WrapperRel = 'iips-platform/src/investment/cli/build-s4-r3-candidate.ts'
   $script:WrapperSha256 = '5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7'
@@ -77,6 +83,12 @@ try {
     [pscustomobject]@{ Issuer = 'Marico'; Id = 'IN:CIN:L15140MH1988PLC049208'; Rel = 'evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico'; Digest = 'sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d'; Periods = 'df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669'; Roster = '259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb' },
     [pscustomobject]@{ Issuer = 'KEC'; Id = 'IN:CIN:L45200MH2005PLC152061'; Rel = 'evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec'; Digest = 'sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a'; Periods = 'ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b'; Roster = 'd36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6' }
   )
+
+  function Set-CheckContext {
+    param([string]$Id, [string]$Operation = '')
+    $script:CurrentCheck = $Id
+    $script:CurrentOperation = $Operation
+  }
 
   function Add-Check {
     param([string]$Id, [bool]$Ok, [string]$Detail, [string]$Class = 'check')
@@ -270,6 +282,11 @@ try {
     Write-Host ''
     Write-Host ('RESULT {0}; {1} passed, {2} failed; ExitCode={3}' -f $Result, $passed.Count, $failed.Count, $Code)
     if ($Message -ne '') { Write-Host ('  {0}' -f $Message) }
+    if ($script:ExceptionType -ne '') {
+      Write-Host ('  failing check: {0}; operation: {1}' -f $script:CurrentCheck, $script:CurrentOperation)
+      Write-Host ('  exception: {0}; paramName={1}' -f $script:ExceptionType, $script:ExceptionParamName)
+      if ($script:ExceptionScriptStackTrace -ne '') { Write-Host ('  script stack: {0}' -f $script:ExceptionScriptStackTrace) }
+    }
     if ($script:BuildStarted) { Write-Host '  A build started. Any partial/failed candidate is preserved; do not overwrite or retry over it.' }
     if (-not $script:BuildStarted) { Write-Host '  No build was started by this script.' }
     Write-Host '  Candidate only: no installation. Active IID dataset and identity directory are not targets.'
@@ -283,17 +300,21 @@ try {
       WrapperRawSha256 = $script:WrapperRawSha256; WrapperCanonicalSha256 = $script:WrapperCanonicalSha256; WrapperLineEndingConversion = $script:WrapperLineEndingConversion
       WrapperReport = $script:WrapperReport; VerifierReport = $script:VerifierReport
       Checks = $script:Checks; Commands = $script:Commands; Error = $Message; BuildStarted = $script:BuildStarted
+      FailedCheck = $script:CurrentCheck; FailingOperation = $script:CurrentOperation; ExceptionType = $script:ExceptionType
+      ExceptionParamName = $script:ExceptionParamName; ExceptionStackTrace = $script:ExceptionStackTrace; ScriptStackTrace = $script:ExceptionScriptStackTrace
       CompletedAt = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.fffZ')
     }
   }
 
   function Test-Preflight {
     param([bool]$Existing)
+    Set-CheckContext -Id 'windows-powershell-5.1' -Operation 'host edition guard'
     $start = $script:Checks.Count
     $platformOk = ($PSVersionTable.PSVersion.Major -eq 5 -and $PSVersionTable.PSVersion.Minor -eq 1 -and $PSVersionTable.PSEdition -eq 'Desktop' -and [Environment]::OSVersion.Platform -eq [PlatformID]::Win32NT)
     Add-Check -Id 'windows-powershell-5.1' -Ok $platformOk -Detail ('requires Windows PowerShell 5.1 Desktop; found ' + $PSVersionTable.PSVersion.ToString() + ' ' + $PSVersionTable.PSEdition)
     if (-not $platformOk) { return $false }
 
+    Set-CheckContext -Id 'repo-root' -Operation 'physical repository resolution'
     $repoInput = $RepoRoot
     if ($repoInput -eq '') { $repoInput = Split-Path -Parent (Split-Path -Parent $PSScriptRoot) }
     $repoOk = $false
@@ -302,6 +323,7 @@ try {
     if (-not $repoOk) { return $false }
     Add-Check -Id 'repo-root' -Ok $true -Detail $script:Repo
 
+    Set-CheckContext -Id 'destination-safety' -Operation 'candidate path containment and state'
     $targetOk = $false
     $parent = ''
     try {
@@ -355,6 +377,7 @@ try {
     catch { Add-Check -Id 'destination-safety' -Ok $false -Detail $_.Exception.Message }
     if (-not $targetOk) { return $false }
 
+    Set-CheckContext -Id 'git-worktree-root' -Operation 'read-only Git worktree evidence'
     $git = Get-Command -Name 'git' -CommandType Application -ErrorAction SilentlyContinue
     if ($null -eq $git) { Add-Check -Id 'git-available' -Ok $false -Detail 'git is required for read-only local commit evidence; no synchronization is performed'; return $false }
     $script:GitResolved = $git.Source
@@ -363,6 +386,7 @@ try {
     if ($topOk) { $topOk = (Get-PhysicalDirectory $top.Stdout.Trim()) -eq $script:Repo }
     Add-Check -Id 'git-worktree-root' -Ok $topOk -Detail ($top.Stdout.Trim() + ' ' + $top.Stderr)
     if (-not $topOk) { return $false }
+    Set-CheckContext -Id 'implementation-commit-present' -Operation 'required commit ancestry'
     $head = Invoke-GitRead @('rev-parse', 'HEAD')
     $script:Head = $head.Stdout.Trim()
     $ancestor = Invoke-GitRead @('merge-base', '--is-ancestor', $script:Commit, 'HEAD')
@@ -370,9 +394,11 @@ try {
     Add-Check -Id 'implementation-commit-present' -Ok $versionOk -Detail ('HEAD=' + $script:Head + '; required ancestor=' + $script:Commit + '; no fetch/checkout/switch')
     if (-not $versionOk) { return $false }
     $wrapper = Join-Path $script:Repo $script:WrapperRel.Replace('/', '\')
+    Set-CheckContext -Id 'pinned-wrapper-present' -Operation 'wrapper path presence'
     $wrapperPresent = Test-Path -LiteralPath $wrapper -PathType Leaf
     Add-Check -Id 'pinned-wrapper-present' -Ok $wrapperPresent -Detail $wrapper
     if (-not $wrapperPresent) { return $false }
+    Set-CheckContext -Id 'pinned-wrapper-sha256' -Operation 'canonical/raw wrapper byte identity'
     $rawBytes = [System.IO.File]::ReadAllBytes($wrapper)
     $script:WrapperRawSha256 = Get-Sha256Bytes $rawBytes
     Add-Check -Id 'wrapper-working-tree-raw-sha256' -Ok $true -Class 'diagnostic' -Detail ('raw working-tree bytes sha256=' + $script:WrapperRawSha256)
@@ -400,11 +426,13 @@ try {
     Add-Check -Id 'pinned-wrapper-sha256' -Ok $canonicalOk -Detail ('canonical committed-content sha256=' + $script:WrapperCanonicalSha256 + '; expected=' + $script:WrapperSha256 + '; raw=' + $script:WrapperRawSha256 + '; line-ending conversion=' + $script:WrapperLineEndingConversion)
     Add-Check -Id 'wrapper-line-ending-conversion' -Ok $true -Class 'diagnostic' -Detail ($script:WrapperLineEndingConversion + '; only CRLF-to-LF checkout conversion is accepted; arbitrary whitespace/source changes are not normalized')
     $bytesOk = $canonicalOk -and ($script:WrapperLineEndingConversion -eq 'NONE' -or $script:WrapperLineEndingConversion -eq 'CRLF_CHECKOUT')
+    Set-CheckContext -Id 'implementation-and-inputs-match-commit' -Operation 'tracked implementation/input diff'
     $pinPaths = @('iips-platform/src/investment', 'iips-platform/package.json', 'iips-platform/package-lock.json', 'evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input', $script:BundleRel)
     $diff = Invoke-GitRead (@('diff', '--quiet', $script:Commit, '--') + $pinPaths)
     Add-Check -Id 'implementation-and-inputs-match-commit' -Ok ($diff.ExitCode -eq 0) -Detail ('tracked investment implementation, dependency lock and admitted evidence match the required commit; exit=' + $diff.ExitCode.ToString())
     if (-not ($blobOk -and $bytesOk -and $diff.ExitCode -eq 0)) { return $false }
 
+    Set-CheckContext -Id 'node-version' -Operation 'Node executable/version detection'
     $node = Get-Command -Name $NodeExe -CommandType Application -ErrorAction SilentlyContinue
     if ($null -eq $node) { Add-Check -Id 'node-available' -Ok $false -Detail 'Node.js >=18 must already be installed; pass -NodeExe if needed; this script never installs it'; return $false }
     $script:NodeResolved = $node.Source
@@ -414,13 +442,20 @@ try {
     if ($script:NodeVersion -match '^v(\d+)\.') { $major = [int]$Matches[1] }
     Add-Check -Id 'node-version' -Ok ($version.ExitCode -eq 0 -and $major -ge 18) -Detail ($script:NodeResolved + ' ' + $script:NodeVersion)
     if (-not ($version.ExitCode -eq 0 -and $major -ge 18)) { return $false }
+    Set-CheckContext -Id 'local-tsx-dependencies' -Operation 'Node JSON.parse of package-lock.json and installed tsx package.json'
     $platform = Join-Path $script:Repo 'iips-platform'
     $tsx = Join-Path $platform 'node_modules\tsx\dist\cli.mjs'
     $tsxPackage = Join-Path $platform 'node_modules\tsx\package.json'
-    $lock = Read-JsonObject (Join-Path $platform 'package-lock.json')
-    $expectedTsx = $lock.packages.'node_modules/tsx'.version
-    $depsOk = (Test-Path -LiteralPath $tsx -PathType Leaf) -and (Test-Path -LiteralPath $tsxPackage -PathType Leaf)
-    if ($depsOk) { $script:TsxVersion = (Read-JsonObject $tsxPackage).version; $depsOk = $script:TsxVersion -eq $expectedTsx }
+    $lockPath = Join-Path $platform 'package-lock.json'
+    # Windows PowerShell 5.1 ConvertFrom-Json rejects the empty property name "" used by npm lockfileVersion 3
+    # for the root package. Parse the lockfile with Node's JSON parser instead; never re-encode it as PS text.
+    $lockEval = "const fs=require('fs');const lock=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));const entry=lock.packages&&lock.packages['node_modules/tsx'];if(!entry||typeof entry.version!=='string'||entry.version.length===0){throw new Error('locked tsx version missing')}let installedVersion='';if(fs.existsSync(process.argv[2])){const pkg=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));if(typeof pkg.version!=='string'){throw new Error('installed tsx version invalid')}installedVersion=pkg.version}process.stdout.write(JSON.stringify({lockedVersion:entry.version,installedVersion:installedVersion}));"
+    $lockResult = Invoke-LocalProcess $script:NodeResolved @('--eval', $lockEval, $lockPath, $tsxPackage)
+    if ($lockResult.ExitCode -ne 0) { Add-Check -Id 'local-tsx-dependencies' -Ok $false -Detail ('locked-dependency inspection failed: ' + $lockResult.Stderr); return $false }
+    $versions = $lockResult.Stdout | ConvertFrom-Json
+    $expectedTsx = $versions.lockedVersion
+    $script:TsxVersion = $versions.installedVersion
+    $depsOk = (Test-Path -LiteralPath $tsx -PathType Leaf) -and (Test-Path -LiteralPath $tsxPackage -PathType Leaf) -and $expectedTsx -ne '' -and $script:TsxVersion -eq $expectedTsx
     $arch = 'x64'
     if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') { $arch = 'arm64' }
     $esbuild = Join-Path $platform ('node_modules\@esbuild\win32-' + $arch + '\esbuild.exe')
@@ -428,11 +463,13 @@ try {
     Add-Check -Id 'local-tsx-dependencies' -Ok $depsOk -Detail ('tsx=' + $script:TsxVersion + '; locked=' + $expectedTsx + '; native esbuild=' + $esbuild + '; if absent run npm ci separately inside iips-platform')
     if (-not $depsOk) { return $false }
     $verifier = Join-Path $platform 'src\investment\cli\verify-installed-dataset.ts'
+    Set-CheckContext -Id 'authoritative-verifier-available' -Operation 'verifier path presence'
     Add-Check -Id 'authoritative-verifier-available' -Ok (Test-Path -LiteralPath $verifier -PathType Leaf) -Detail $verifier
     if (-not (Test-Path -LiteralPath $verifier -PathType Leaf)) { return $false }
 
     $inputsOk = $true
     foreach ($pin in $script:InputPins) {
+      Set-CheckContext -Id ($pin.Issuer + '-input') -Operation 'admitted input census/hash/digest'
       $inputOk = $false
       try {
         $dir = Get-PhysicalDirectory (Join-Path $script:Repo $pin.Rel.Replace('/', '\'))
@@ -450,8 +487,8 @@ try {
         if (-not $filesOk) { throw ($pin.Issuer + ' admitted input bytes changed; do not normalize line endings or edit inputs') }
         $loader = Join-Path $platform 'src\investment\cli\ingest.ts'
         $multi = Join-Path $platform 'src\investment\ingestion\multiInput.ts'
-        $eval = 'const {loadInputBundle}=require(' + (ConvertTo-Json $loader -Compress) + ');const {computeInputDigest}=require(' + (ConvertTo-Json $multi -Compress) + ');const b=loadInputBundle(' + (ConvertTo-Json $dir -Compress) + ');process.stdout.write(JSON.stringify({inputDigest:computeInputDigest(b.filesRead),files:b.filesRead}));'
-        $result = Invoke-LocalProcess $script:NodeResolved @($tsx, '--no-cache', '--eval', $eval)
+        $eval = "const {loadInputBundle}=require(process.argv[2]);const {computeInputDigest}=require(process.argv[3]);const b=loadInputBundle(process.argv[4]);process.stdout.write(JSON.stringify({inputDigest:computeInputDigest(b.filesRead),files:b.filesRead}));"
+        $result = Invoke-LocalProcess $script:NodeResolved @($tsx, '--no-cache', '--eval', $eval, 's4-r3-input-inspect', $loader, $multi, $dir)
         if ($result.ExitCode -ne 0) { throw ($pin.Issuer + ' authoritative input loader failed: ' + $result.Stderr) }
         $parsed = $result.Stdout | ConvertFrom-Json
         $digestOk = $parsed.inputDigest -eq $pin.Digest
@@ -463,6 +500,7 @@ try {
       if (-not $inputOk) { $inputsOk = $false }
     }
     if (-not $inputsOk) { return $false }
+    Set-CheckContext -Id 'recorded-evidence-hashes' -Operation 'recorded ledger/manifest hashes'
     $ledgerPath = Join-Path $script:Repo ($script:BundleRel.Replace('/', '\') + '\digests.json')
     $manifestPath = Join-Path $script:Repo ($script:BundleRel.Replace('/', '\') + '\runs\candidate-manifest.json')
     $ledgerOk = (Test-Path -LiteralPath $ledgerPath -PathType Leaf)
@@ -493,6 +531,7 @@ try {
 
   function Invoke-PackageVerification {
     param([bool]$WriteWindowsEvidence)
+    Set-CheckContext -Id 'wrapper-verify-exit' -Operation 'authoritative candidate verification'
     $before = Get-PackageTree $script:Target
     $platform = Join-Path $script:Repo 'iips-platform'
     $tsx = Join-Path $platform 'node_modules\tsx\dist\cli.mjs'
@@ -639,6 +678,7 @@ try {
   $platform = Join-Path $script:Repo 'iips-platform'
   $tsx = Join-Path $platform 'node_modules\tsx\dist\cli.mjs'
   $wrapper = Join-Path $script:Repo $script:WrapperRel.Replace('/', '\')
+  Set-CheckContext -Id 'wrapper-build-exit' -Operation 'authoritative candidate build'
   $script:BuildStarted = $true
   $built = Invoke-LocalProcess $script:NodeResolved @($tsx, '--no-cache', $wrapper, '--build', '--output-dir', $script:Target)
   Add-Check -Id 'wrapper-build-exit' -Ok ($built.ExitCode -eq 0) -Detail ('exit=' + $built.ExitCode.ToString() + '; ' + $built.Stderr)
@@ -652,5 +692,12 @@ try {
   Complete-Run $result $code 'Candidate only. L-041/L-042 OPEN; all three issuers STALE_STATEMENTS/STALE_DATA; no PDF-to-transcription or independent source-rights claim.'
 }
 catch {
+  if ($null -eq $script:Checks) { $script:Checks = New-Object System.Collections.ArrayList }
+  $script:ExceptionType = $_.Exception.GetType().FullName
+  $script:ExceptionStackTrace = $_.Exception.StackTrace
+  $script:ExceptionScriptStackTrace = $_.ScriptStackTrace
+  if ($null -ne $_.InvocationInfo) { $script:CurrentOperation = $_.InvocationInfo.PositionMessage }
+  if ($_.Exception.PSObject.Properties.Name -contains 'ParamName') { $script:ExceptionParamName = [string]$_.Exception.ParamName }
+  Add-Check -Id ('exception-' + $script:CurrentCheck) -Ok $false -Detail ($script:ExceptionType + ': ' + $_.Exception.Message + '; paramName=' + $script:ExceptionParamName)
   Complete-Run 'FAILED-EXCEPTION' 1 $_.Exception.Message
 }
