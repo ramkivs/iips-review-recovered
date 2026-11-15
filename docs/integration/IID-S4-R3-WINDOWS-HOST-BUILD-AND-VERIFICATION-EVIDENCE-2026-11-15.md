@@ -80,12 +80,13 @@ sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
 | Admitted input bundles matching their exact digests | **3/3** |
 | Consumed input files matching | **6/6** |
 | Enclosing evidence ledger entries | **26** |
-| Evidence ledger SHA-256 (as supplied in the host report) | `6e4586b65f937308140b3b7b71d31b20f63e99adf29a250e19a4cf0777cddfa5` |
+| Enclosing evidence-bundle ledger SHA-256 — `digests.json`, 26 entries, enforced pin | `b41b0b106fe731d1b2420f72f05b2efa7e44e1a39ef185b4af063f441be92c63` |
+| Candidate package ledger SHA-256 — `verification/file-digests.json`, 10 entries (host report field `ledgerSha256`) | `6e4586b65f937308140b3b7b71d31b20f63e99adf29a250e19a4cf0777cddfa5` |
 | Candidate manifest SHA-256 (host-generated manifest) | `b0c888a86d44dcc7e79dde817ff4157ddfe590d64b324600d736d385e8fd6799` |
 | Original O3 admission record | **PRESERVED** |
 | Dataset contents committed or pushed | **NONE** |
 
-Both hashes above are recorded exactly as supplied. Neither replaces a repository pin; see §7 for the measured reconciliation and the one unresolved field.
+The two ledger rows are **different artefacts with different scopes**, not two values for one thing. The host-supplied value is recorded exactly as supplied and is the package-ledger scope; the enclosing-bundle pin is unchanged. See §7 for the code locators and the reproducible calculations that establish this.
 
 ## 4. Windows candidate build evidence
 
@@ -231,9 +232,46 @@ This record was reconciled against the repository at `7ef0f10` rather than trans
 
 1. **Host-generated manifest SHA-256 differs from the recorded manifest — expected and explained.** The wrapper pins the *recorded* manifest at `evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-manifest.json`, SHA-256 `b921741942d4674ed968f2938917b588b07ae9dc6db12f2998cb7361727d90ba` (4464 bytes, re-measured in the repository while recording this evidence). That recorded manifest carries `inputs[].inputDir` as an absolute Linux audit path. `comparableManifest()` in the wrapper deliberately excludes `inputDir` and compares only content-bearing fields, which is why check 5 passes on a Windows checkout while the generated manifest's raw SHA-256 is `b0c888a8…`. Raw manifest byte difference is a diagnostic, never a blocker; the authoritative candidate identity is the content digest, which matched exactly.
 
-2. **Supplied evidence-ledger SHA-256 does not match the pinned enclosing ledger — UNRESOLVED, recorded as supplied.** The wrapper's `enclosing-evidence-ledger` check requires the raw bytes of `evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/digests.json` to hash to `b41b0b106fe731d1b2420f72f05b2efa7e44e1a39ef185b4af063f441be92c63`, and that file re-measures to exactly that value in the repository (26 `files` entries). The host reported this check **PASS**, which is only possible against the pinned value. The supplied `6e4586b6…` is therefore recorded verbatim as a host-report field whose scope is **not established**; it is not adopted as the enclosing ledger identity and it did not change the pin. Operator confirmation of which artefact that field hashed remains an open clarification. It does not affect candidate identity: the candidate digest, the 3/3 bundle digests, the 6/6 consumed files and the 10/10 package ledger all matched.
+2. **The two ledger digests are different scopes — RESOLVED (investigation of 2026-11-15; corrects this record's initial "UNRESOLVED" wording).** The repository contains two distinct ledgers, hashed by two distinct code paths, and the driver keeps them in two distinct variables:
+
+   | | Enclosing evidence-bundle ledger | Candidate package ledger |
+   |---|---|---|
+   | File | `evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/digests.json` (committed) | `<outputDir>/verification/file-digests.json` (generated beside the candidate, never committed) |
+   | Entries | **26** source/evidence files | **10** package files under `investment/dataset` |
+   | Hashed bytes | raw file bytes, as checked out | `serializeDatasetFile(CandidateLedger)` — canonical sorted keys, two-space indent, trailing LF |
+   | Code | `EVIDENCE_LEDGER_SHA256`; `validateEvidenceLedger()`; check `enclosing-evidence-ledger` | `report.ledgerSha256 = sha256(serializeDatasetFile(ledger))`; check `file-level-digest-ledger` |
+   | Driver variable | `$script:EvidenceLedgerSha256` (pinned literal), check `recorded-evidence-hashes` | `$script:LedgerSha256 = $script:WrapperReport.ledgerSha256`, check `recorded-ledger-and-evidence` (asserts `entries.Count -eq 10`) |
+   | Value | `b41b0b106fe731d1b2420f72f05b2efa7e44e1a39ef185b4af063f441be92c63` (repository pin, re-measured) | `6e4586b6…` on the Windows host; `3647c9397bc7e1577ea1255aa6fcbe72418a3bc0fe23c439269c55a6891265bc` on the earlier Linux build |
+
+   The host report's `ledgerSha256` therefore **does not correspond to the enforced pin, and is not supposed to**. The "26 entries and ledger SHA-256 match" line is the *detail text of check 2* (`enclosing-evidence-ledger`), which verified `digests.json` against `b41b0b10…`; the `6e4586b6…` value is the separate top-level report field for the 10-entry package ledger. Both gates passed on the host against their own correct artefacts. **There is no inconsistency and no pin was changed.**
+
+   **Reproducible from committed bytes alone** (read-only; no candidate rebuild):
+   - `sha256(evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/digests.json)` → `b41b0b10…`, 26 `files` entries. Matches `EVIDENCE_LEDGER_SHA256`.
+   - Re-serializing `runs/candidate-manifest.json` reproduces its file bytes exactly → `b921741942…` (4464 B), confirming the serialization rule.
+   - Rebuilding the 10-entry ledger `{schemaVersion:1, scope:"all files under investment/dataset; excludes verification/", datasetVersion:<digest>, entries:<candidate.fileDigests>}` from `evidence/integration/iid-s4-r3-candidate-build-2026-11-14/verification.json` and serializing it reproduces **`3647c939…` exactly** — the Linux run's recorded `candidate.ledgerSha256`. This proves the field's scope by reproduction, independently of the host.
+
+   **Why the host value differs from the Linux value:** exactly one of the ten entries — `investment/dataset/manifest.json` — has different bytes on the host, because the manifest embeds absolute `inputs[].inputDir` audit paths (see item 1). The other nine entries are content-identical, as the 8/8 content digests, coverage recomputation and file census independently confirm. **Residual, stated honestly:** the exact host value `6e4586b6…` was not byte-reproduced here, because the host's `inputDir` strings are not committed and were not supplied; four plausible path spellings were tested and none reproduced the host manifest hash `b0c888a8…`. That negative result is recorded rather than guessed into a claim. It does not affect the scope determination above, which rests on code, on the two driver variables and on the exact Linux reproduction. The 26-entry host verification is independently reproducible from committed evidence and was reproduced.
 
 3. **Verifier check count.** This host run reports **31 passed / 0 failed**; the earlier sandbox harness run recorded 32 checks. Both are reported as observed for their own run. This record does not re-derive the host check set and does not claim the two runs executed an identical check list.
+
+### 7.1 Publication lineage — PR #562 relationship (established 2026-11-15)
+
+The published S4-R3 documentation branch and PR #562 are **different branches with diverged lineage**. Exact remote metadata:
+
+| Field | Value |
+|---|---|
+| Documentation branch | `arena/53ff9276-iips-review-recovered` |
+| Its head at this investigation | `f14fd886327dd171463ca79ece4c409388a6c5d0` (parent `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01`) |
+| PR #562 base | `ramkivs/iips-review-recovered`, branch `main`, PR-reported base SHA `a835d4af019ab4f677ab238ec42d44326f06a771` (current `main` is `08411bcd6d782a601fe5c82cc9983d076831148d`) |
+| PR #562 head | same repository, branch **`arena/94a53bb3-iips-review-recovered`**, SHA `f98732e1861ff8b384183c30c11e4d1adbc2dc95` |
+| PR #562 title / size | "WI-13: head re-validation of Infosys — record L-041 + L-042, correct the L-002 notice count"; 24 commits, 73 files |
+| Ancestry | GitHub compare returns **`diverged`**; merge base `a835d4af019ab4f677ab238ec42d44326f06a771`; the documentation branch is ahead by 33 and behind by 24 relative to the PR head |
+| Is `f14fd88` an ancestor of the PR head? | **NO** |
+| PR state | OPEN, `merged: false`, `merged_at: null`, `mergeable_state: clean` |
+
+**None of the five S4-R3 documentation changes is in the PR head tree.** Four of the five paths are absent from it entirely; the fifth, `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md`, exists there at blob `ec3a82b0a63defeec8a8c234142a28851cd6296e` — the pre-addendum version, without the S4-R3 host note.
+
+PR #562 is therefore an **independent workstream** (WI-13 / the earlier Stage 2–4 lineage), not the carrier of the S4-R3 documentation. The S4-R3 record is published on `arena/53ff9276-iips-review-recovered`, which has no PR of its own. **Recommendation only, no action taken:** if the owner wants the S4-R3 evidence reviewed on GitHub, that requires a separate PR from the S4-R3 branch; retargeting, updating or merging PR #562 would neither carry nor publish these documents. No PR was opened, retargeted, updated, merged or closed by this investigation, and no branch history was rewritten.
 
 ## 8. Governance limitations — preserved in full
 
