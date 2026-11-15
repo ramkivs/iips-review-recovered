@@ -251,6 +251,24 @@ Stage 4 remains **PARTIALLY COMPLETE** and overall IID readiness remains **NOT R
 `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`; current S4-R3 position:
 `IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md` §6.
 
+**Addendum — S4-R7 static roster vocabulary lint COMPLETE (2026-11-15).** The `S4-R7` row above is now
+**DISCHARGED**; no other row changed. IRR added `iips-platform/scripts/lint-roster-sectors.ts`
+(`npm run lint:rosters`, or `tsx scripts/lint-roster-sectors.ts [--root <dir>] [--json]`). It discovers the
+committed hand-authored roster population by walking the checkout for `roster.json` and
+`eligible-roster.json` — not by naming bundles — and classifies every sector with `findInvalidIssuerSectors`,
+the same authority the ingestion guard and the read path use. **18 rosters checked (11 ingestion + 7
+identity), 0 failed**; the discovered set equals the published tree's roster set exactly. A synthetic
+respelled fixture under `iips-platform/tests/investment/fixtures/roster-lint/` **exits 1**, naming the file,
+issuer and offending value, with both offenders reported. The lint is read-only: every roster's bytes and
+mtime are unchanged, and all 18 roster blobs are identical to the published ones. New suite **19 tests /
+4 suites / 0 fail**; platform typecheck **0**; explicit script+test typecheck **0**. Implementation commit
+`3a3521a9a3497607911cf790a53a4f61b3d2cd0a` on `arena/53ff9276-iips-review-recovered`, independently verified
+(5 changed paths, every blob byte-identical, all evidence/docs/runtime trees unchanged). **This closes the
+literal `G-14` "no lint" complaint only.** `G-4`, `G-6`, `S4-R3`, `S4-R6`, `R-1`, `R-2`, `R-4`, `S2-R1`,
+`S2-R2` and `D2`–`D6` are unchanged; Stage 4 remains **PARTIALLY COMPLETE**, Stage 5 is **not** declared
+ready, and overall IID readiness remains **NOT READY**. Full record:
+`IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md` §7.
+
 **Explicitly not remaining actions**, because naming them would reorder the roadmap, reopen closed work, or
 exceed this stage's authority: merging PR #562 (an owner act); repeating the identity publication or
 reinstalling the Stage 3 dataset (both prohibited — both are evidence); re-running `-Execute` (the set is
