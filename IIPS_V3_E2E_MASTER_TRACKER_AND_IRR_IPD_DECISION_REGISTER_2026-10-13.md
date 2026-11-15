@@ -22533,3 +22533,44 @@ Subsequent Q2 consolidated PDF omits the current caption; its XBRL has another z
 Next free §16.284 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
 
 **§16.283 focused follow-up — C, indeterminate.** The retained hash-matched March instance contains one `in-capmkt:CurrentInvestments` fact, lexical `0`, context `OneI`, unit `INR`, `decimals=-7`; QName namespace `http://www.sebi.gov.in/xbrl/2026-01-31/in-capmkt`. The complete context names scrip-code identifier `532714`, instant `2026-03-31`, and no explicit or typed dimensions; `iso4217:INR`, no nil or precision. The filing itself says consolidated/audited; the same undimensioned context also occurs in its separate standalone instance. This verifies the fact-level gap above but not the economic meaning: `-7` denotes accuracy to one crore; the PDF omission and recurring zero in other filings neither establish nor disprove defaulting. The referenced 2026 taxonomy schema returned 404; definitions, labels and presentation relationships remain unverified. Neither issuer economic zero nor template default established. `CURRENT_INVESTMENTS` remains `MISSING / NOT_REPORTED`; **L-039 OPEN**. No mapping or policy change. Source bytes, extraction, failed-workflow diagnosis, comparative controls, clock discrepancy and verification are in the §17.25 bundle.
+## 16.284 IID NP-04 first Infosys persistence COMPLETE — operator-reported Windows execution; Stage 5 next (2026-11-15)
+
+**No IPD act, no IPD change.** This is an IRR-only documentation and tracker record. It consumes no
+CV-CORR / CHG / V identifier. The owner reports successful execution of
+`docs/integration/IID-NP04-PERSISTENCE-PREPARATION-2026-11-15.md` §§4A–4E on Windows:
+§4A source/owner/package PASS; §4B backup/baseline inventory PASS; §4C initialization PASS
+(migrations applied 0, ledger entries 1); §4D first Infosys persistence OK/CREATED/wrote true;
+§4E independent read-back/preservation PASS.
+
+**Operator-reported paths and identity.** Evidence directory
+`C:\iips-backup\NP04-20261115T200134629Z`; database `H:\IIPS\runtime\np04\reports.sqlite`;
+Reports carrier `H:\IIPS\runtime\reports-owner\reports-owner-context.json`; issuer
+`IN:CIN:L85110KA1981PLC013115`; report ID `6b6e2316-d958-4187-9700-c47984a9a10a`; artifact version 1;
+version count 1; dataset `sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`;
+payload digest `f80c25de6025aa6e38f64b6b303d78b4a5657ef39a44c863c625b0041f683084`; input digest
+`sha256:b7086ae2695e36ef0ea68a9a1f768a96ee2990ebca14520b0a533795b3508f99`; assessment
+`SUFFICIENT / MATERIAL_CONCERNS`, confidence `0.3210`.
+
+**Preservation.** Baseline: 49,152 database bytes, 2 artifact rows, 2 chains, 0 Infosys heads, rows
+SHA-256 `483942b52d1392611d34a68183c38b13491d271116dcd15c56802be4eb7bad2d`. Initialization preserved
+2 rows/2 chains and the baseline hash. Final: original records preserved 2, new Infosys record 1,
+total rows 3, total chains 3, Infosys heads 1, rows SHA-256
+`34443b9bdc840531c588fe25270a35f90d51d10e573c3ce26eedcdcbfc629d95`.
+
+**Evidence boundary.** Arena could not access the Windows evidence directory or database; the expected
+JSON files are named but not inspected in
+`docs/integration/IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md`. Windows results remain
+operator-reported. Repository documents/blobs and the publication read-back are independently verified.
+
+**Status distinctions.** NP-04 first Infosys persistence is COMPLETE; IID-01 company-assessment
+persistence evidence exists (D9 first real version, operator-reported). IID-03 change comparison is not
+closed by one version. D5/D6 IPD binding/IPC, D4 F-3 carrier, D10/P6-B browser acceptance, R-1/R-2 host
+captures, Stage 4 freshness/operating-metric residuals, L-041/L-042 and overall IID readiness remain
+open. **Overall IID readiness: NOT READY.** No mint was repeated, no Windows data was modified by IRR,
+and PR #562 was not merged.
+
+**Next work.** Stage 5 — end-to-end integration remains the next adopted stage. Its hard portfolio-loop
+prerequisite is IPD active binding verification plus IPC peer/live portfolio read; IRR cannot implement
+or assert it. Exact remaining scope/owners/evidence: completion record §9; roadmap Part C §C.2.
+
+Next free §16.285 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).

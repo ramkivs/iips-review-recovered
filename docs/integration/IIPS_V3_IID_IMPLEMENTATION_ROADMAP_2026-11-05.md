@@ -1432,3 +1432,40 @@ SaaS, multi-user and commercial use. No PR is merged without explicit instructio
 **Stage 1–6 is adopted as the working sequence** by this amendment; no separate owner acceptance of the
 track is required. Stage 5's IPD binding and IPC peer remain genuine technical dependencies — a missing
 dependency is a real blocker, an approval ceremony is not.
+## C.1 NP-04 first Infosys persistence — COMPLETE (operator-reported, 2026-11-15)
+
+The owner executed `IID-NP04-PERSISTENCE-PREPARATION-2026-11-15.md` §§4A–4E on the Windows local
+environment. All five sections are operator-reported PASS. The first Infosys assessment version is
+persisted in `H:\IIPS\runtime\np04\reports.sqlite`, report ID
+`6b6e2316-d958-4187-9700-c47984a9a10a`, artifact version 1, payload digest
+`f80c25de6025aa6e38f64b6b303d78b4a5657ef39a44c863c625b0041f683084`, input digest
+`sha256:b7086ae2695e36ef0ea68a9a1f768a96ee2990ebca14520b0a533795b3508f99`, dataset
+`sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`.
+Original records preserved: 2; new Infosys record: 1; final rows/chains: 3/3; final rows SHA-256
+`34443b9bdc840531c588fe25270a35f90d51d10e573c3ce26eedcdcbfc629d95`.
+
+Arena did not access the Windows evidence directory or database. Full operator-reported record,
+evidence-access boundary and preservation proof:
+`IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md`; tracker §16.284.
+
+This completes NP-04 first Infosys persistence and supplies IID-01 company-assessment persistence
+evidence. It does **not** complete IID-03 change comparison, IPD binding/IPC, browser acceptance, or
+overall IID readiness. **Overall IID readiness remains NOT READY.** Do not repeat the mint.
+
+## C.2 Next adopted operational activity — Stage 5 end-to-end integration
+
+The next stage remains **Stage 5 — end-to-end integration** (11 November baseline §21, adopted by
+PA-01; Stage 4 record §11): holdings → identity → dataset → assessment → disposition, and
+watchlist/finance disclosure, as one loop on the host. The hard external prerequisite for the
+portfolio loop is **IPD active binding provisioning/verification (D5) plus the IPC peer/live
+portfolio read (D6)**. IRR cannot provision or assert the IPD binding; the operator may set
+`IIPS_G3_IPC_BINDING_PROVISIONED=true` only after IPD confirms, and must verify an actual portfolio
+read. Readiness `--strict` exit 0 is necessary but not sufficient: it does not probe Windows pipe
+liveness or browser behaviour.
+
+Remaining non-IPD Stage 5 evidence includes host readiness/served captures, F-3 carrier if watchlists
+are exercised, the remaining Marico/KEC v1 mints if the Stage 5 three-issuer scope is pursued, a
+second comparable version where change intelligence is exercised, and then P6-B/D10 real browser
+acceptance. Exact owners, prerequisites and closure evidence are tabulated in the completion record
+§9. No Stage 6 work, IPD implementation, PR merge, or new roadmap activity is authorized by this
+amendment.

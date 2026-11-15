@@ -468,3 +468,24 @@ The exact quarantine/restore filesystem commands depend on the effective `$DbPat
 - PowerShell procedure is prepared for 5.1, not executed on Windows. All 12 embedded JavaScript probes pass `node --check`; stdin invocation and relative imports were exercised without opening a database. PowerShell blocks contain no `else`, `elseif`, `finally` or `exit`. No Windows database/carrier state, initialization, migration, mint or backup result is claimed.
 
 **Next roadmap action:** run block A on Windows and return its effective paths plus readiness/owner/package reports. Then run B and return the backup/inventory counts. Only after those gates pass may C–E be executed. A successful Infosys chain establishes D9 for IID-01/03 persistence; it does not establish IPD binding/IPC, browser acceptance or overall IID READY.
+## 7. Completion addendum — operator-reported Windows execution (2026-11-15)
+
+Sections 1–6 are preserved as the pre-execution preparation record. The owner subsequently reports
+that §§4A–4E all completed successfully on Windows. Operation evidence directory:
+`C:\iips-backup\NP04-20261115T200134629Z`; database:
+`H:\IIPS\runtime\np04\reports.sqlite`; Reports carrier:
+`H:\IIPS\runtime\reports-owner\reports-owner-context.json`.
+
+First Infosys report ID: `6b6e2316-d958-4187-9700-c47984a9a10a`; artifact version 1; version count 1;
+payload digest `f80c25de6025aa6e38f64b6b303d78b4a5657ef39a44c863c625b0041f683084`; input digest
+`sha256:b7086ae2695e36ef0ea68a9a1f768a96ee2990ebca14520b0a533795b3508f99`; dataset
+`sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`.
+Baseline 2 rows/2 chains were preserved; final inventory is 3 rows/3 chains with 1 Infosys head; final
+rows SHA-256 `34443b9bdc840531c588fe25270a35f90d51d10e573c3ce26eedcdcbfc629d95`.
+
+Arena did not access the Windows evidence files or database; these are operator-reported results.
+The authoritative completion record is
+`IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md`; tracker §16.284; roadmap Part C §C.1–C.2.
+The §6 “Next roadmap action” is superseded for this operation: **do not repeat the mint**. Next adopted
+work is Stage 5 end-to-end integration, with IPD binding/IPC still the hard portfolio-loop prerequisite.
+Overall IID readiness remains **NOT READY**.
