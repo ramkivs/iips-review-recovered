@@ -100,7 +100,7 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     // convergence, then -> `ae393aa…` (IPD PR #144) by DHAN-P3. The Direct P1 HTTP-to-IPC
     // behaviour asserted below is unchanged: the advance is additive and IPD's Direct P1
     // surface is untouched by it.
-    const expected = 'github:ramkivs/iips-production-market-data#1e396815a19a68f8b5f8e2b4a76a2474f7dd3c14';
+    const expected = 'github:ramkivs/iips-production-market-data#af4460eeab9bb0544e009322526a5498df0d5909';
     const manifest = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
       dependencies: Record<string, string>;
     };
@@ -110,7 +110,7 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     expect(manifest.dependencies['iips-production-market-data']).toBe(expected);
     expect(lock.packages[''].dependencies?.['iips-production-market-data']).toBe(expected);
     expect(lock.packages['node_modules/iips-production-market-data'].resolved)
-      .toContain('#1e396815a19a68f8b5f8e2b4a76a2474f7dd3c14');
+      .toContain('#af4460eeab9bb0544e009322526a5498df0d5909');
   });
 
   let peer: Peer;

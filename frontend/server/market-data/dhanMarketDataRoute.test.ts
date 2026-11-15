@@ -34,7 +34,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
 /** The authoritative IPD dependency commit this boundary was qualified against. */
-const EXPECTED_IPD_COMMIT = '1e396815a19a68f8b5f8e2b4a76a2474f7dd3c14';
+const EXPECTED_IPD_COMMIT = 'af4460eeab9bb0544e009322526a5498df0d5909';
 
 /** SecretRef pointers only. These are key paths, never secret values. */
 const CONFIGURED_ENV = {

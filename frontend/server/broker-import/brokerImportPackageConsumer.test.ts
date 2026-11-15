@@ -76,9 +76,9 @@ const frontendRoot = resolve(here, '..', '..');
  * `./d114-non-production`, `./operator-drop` and `./dhan-server` subpaths all remain
  * published, IRR's consumed `./dhan-server` exports are unchanged, and IPD's
  * `MarketDataTransportClient` class was byte-identical across those advances.
- * The current candidate changes the quote client to accept UNAVAILABLE; it is not a main pin.
+ * The candidate retains UNAVAILABLE support and adds quote identity; it is not a main pin.
  */
-export const EXPECTED_IPD_PIN_SHA = '1e396815a19a68f8b5f8e2b4a76a2474f7dd3c14';
+export const EXPECTED_IPD_PIN_SHA = 'af4460eeab9bb0544e009322526a5498df0d5909';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
