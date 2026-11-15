@@ -1,0 +1,23 @@
+{
+  "_note": "SYNTHETIC S4-R7 NEGATIVE FIXTURE. Not admitted evidence, not a real issuer, never ingested. Company name, CIN and ISIN are placeholders. Two sectors are deliberately respelled — 'consumer' (wrong case) and 'Technology ' (trailing whitespace) — to prove the static lint rejects off-vocabulary values and reports every offender. This file lives under tests/**/fixtures/ so the lint excludes it from the gated committed population; the tests copy it into a temporary tree to prove the failure.",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L00000AA0000SYN000001",
+      "legalName": "Synthetic Lint Fixture One Limited (synthetic)",
+      "issuerKeyBasis": "CIN",
+      "sector": "consumer",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    },
+    {
+      "issuerId": "IN:CIN:L00000AA0000SYN000002",
+      "legalName": "Synthetic Lint Fixture Two Limited (synthetic)",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology ",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    }
+  ]
+}
