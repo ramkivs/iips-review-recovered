@@ -7,6 +7,8 @@
 **Baseline:** `docs/integration/DHAN-LIVE-MARKET-DATA-CURRENT-STATE-INVESTIGATION-2026-11-11.md` (IRR `9e957ad`, IPD `main` `a624d06`, consumed pin `1aee57f`).
 **Operating model:** personal, single-user, local Windows application. No multi-user, tenancy, cloud or enterprise infrastructure is introduced.
 
+**Current status reconciliation (2026-11-15):** See [W-06 execution and roadmap progression assessment](DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md). The operator reports an authenticated vendor interaction and canonical D01 quote response. W-06 is **partially complete** pending the required sanitized full-output disclosure-scan attestation and IPD-owned evidence capture; M1 and M2a are observed/reported, not yet independently evidenced here; M2 remains unqualified. The historical baseline statements below describe the investigation date, not current operational status. Milestone definitions, ownership and dependencies are unchanged.
+
 **Scale of this roadmap:** **9 phases** (Phase 0 through Phase 8), **7 decision records** (D-1…D-7), **38 work items** (W-01…W-15, W-17…W-39; the identifier W-16 was never allocated), **8 milestones** (M1, M2a, M2, M3a, M3, M4, M5, M6).
 
 ---
