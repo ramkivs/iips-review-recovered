@@ -29,11 +29,13 @@ import { join } from 'node:path';
 import { run as runIngest } from '../../src/investment/cli/ingest';
 import { installVerifiedDataset, run as runInstall, type InstallReport } from '../../src/investment/cli/install-verified-dataset';
 import { run as runVerify } from '../../src/investment/cli/verify-installed-dataset';
+import { measureCoverage } from '../../src/investment/coverage/measure';
 import {
   COVERAGE_FILE_NAME,
   MANIFEST_FILE_NAME,
   previousPathOf,
   readDataset,
+  serializeDatasetFile,
   stagingPathOf,
 } from '../../src/investment/ingestion/writer';
 
@@ -667,6 +669,246 @@ describe('install-verified-dataset — protected paths and machine-readable resu
         'the ingestion guard still refuses the superseding re-ingest',
       );
       assert.equal(fingerprint(liveDir), before, 'and still writes nothing');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+});
+
+/**
+ * THE WINDOWS FAILURE, PINNED.
+ *
+ * The operator's Stage 3 backup passes the authoritative installed-dataset verifier 21/0 and its content digest
+ * is correct, yet the installer refused it at `candidate-coverage-consistent`. Cause: the coverage report is a
+ * derived, timestamped view that lives OUTSIDE `datasetVersion` and OUTSIDE `manifest.files`, so `readDataset`
+ * never verifies its bytes and its `generatedAt` records whenever the measurement ran. Stage 4 measured coverage
+ * over the installed Stage 3 dataset in a separate pass (Stage 4 coverage evidence §3), so the installed report's
+ * clock is LATER than `manifest.lastImportAt`. The installer had assumed the two clocks were equal.
+ *
+ * These tests reproduce that structure with the real Stage 3 bundles and pin the corrected contract: validate
+ * the report against a recomputation AT ITS OWN declared clock, then carry it forward VERBATIM. Byte equality
+ * against the product's own measurement is still required, so tampering is still refused.
+ */
+const IMPORT_CLOCK = '2026-11-14T00:00:00.000Z';
+const MEASUREMENT_CLOCK = '2026-11-14T12:00:00.000Z';
+
+/** Re-measure coverage over an installed dataset at a later clock, exactly as the Stage 4 pass did. */
+function remeasureCoverageAt(dir: string, generatedAt: string): string {
+  const ds = readDataset(dir);
+  const bytes = serializeDatasetFile(measureCoverage(ds.content, {
+    datasetVersion: ds.manifest.datasetVersion,
+    generatedAt,
+  }));
+  writeFileSync(join(dir, COVERAGE_FILE_NAME), bytes, 'utf8');
+  return bytes;
+}
+
+describe('install-verified-dataset — the Stage 3 backup coverage-clock regression', () => {
+  test('the reproduced Windows state: digest correct, verifier 21/0, coverage clock later than import', () => {
+    const root = tempRoot();
+    try {
+      const backup = join(root, 'backup');
+      const dir = build(backup, [INFOSYS, WI7, WI8]);
+      remeasureCoverageAt(dir, MEASUREMENT_CLOCK);
+
+      const ds = readDataset(dir);
+      assert.equal(ds.manifest.datasetVersion, STAGE3_DIGEST, 'the content digest is unaffected by the view');
+      assert.equal(ds.manifest.lastImportAt, IMPORT_CLOCK);
+      assert.equal(JSON.parse(readFileSync(join(dir, COVERAGE_FILE_NAME), 'utf8')).generatedAt, MEASUREMENT_CLOCK);
+      assert.notEqual(ds.manifest.lastImportAt, MEASUREMENT_CLOCK, 'the two clocks genuinely differ');
+      assert.equal(
+        runVerify(['--data-dir', backup, '--dataset-dir', dir, '--expect-version', STAGE3_DIGEST, '--json']),
+        0,
+        'the authoritative installed-dataset verifier accepts this backup',
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('SAFE RESTORATION: that backup now installs instead of being refused at candidate-coverage-consistent', () => {
+    const root = tempRoot();
+    try {
+      const backup = join(root, 'backup');
+      const live = join(root, 'live');
+      const backupDir = build(backup, [INFOSYS, WI7, WI8]);
+      const view = remeasureCoverageAt(backupDir, MEASUREMENT_CLOCK);
+      mkdirSync(join(live, 'investment'), { recursive: true });
+
+      const report = install(backup, live, STAGE3_DIGEST);
+      assert.equal(report.result, 'INSTALLED', report.message);
+      assert.equal(report.exitCode, 0);
+      assert.equal(report.failed, 0);
+      assert.equal(checkOf(report, 'candidate-coverage-consistent'), true);
+      assert.equal(report.coverageAction, 'CARRIED_VERBATIM');
+      assert.equal(report.coverageGeneratedAt, MEASUREMENT_CLOCK);
+      assert.equal(readDataset(datasetDirOf(live)).manifest.datasetVersion, STAGE3_DIGEST);
+      assert.equal(readFileSync(join(datasetDirOf(live), COVERAGE_FILE_NAME), 'utf8'), view,
+        'the persisted view is carried forward byte-for-byte, never re-stamped to the import clock');
+      assert.equal(fingerprint(datasetDirOf(live)), fingerprint(backupDir), 'the restoration is byte-identical to the backup');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('ROUND TRIP through the publication machinery: Stage 3 -> S4-R3 -> Stage 3, with no manual copy', () => {
+    const root = tempRoot();
+    try {
+      const live = join(root, 'live');
+      const backup = join(root, 'backup');
+      const candidate = join(root, 'candidate');
+      const liveDir = build(live, [INFOSYS, WI7, WI8]);
+      const backupDir = build(backup, [INFOSYS, WI7, WI8]);
+      remeasureCoverageAt(liveDir, MEASUREMENT_CLOCK);
+      const originalView = remeasureCoverageAt(backupDir, MEASUREMENT_CLOCK);
+      const before = fingerprint(liveDir);
+      build(candidate, [INFOSYS, REFRESH_MARICO, REFRESH_KEC]);
+
+      // Forward: publish the S4-R3 candidate through writeDataset.
+      const forward = install(candidate, live, S4R3_DIGEST);
+      assert.equal(forward.result, 'INSTALLED', forward.message);
+      assert.equal(forward.previousDigest, STAGE3_DIGEST);
+      assert.equal(forward.coverageAction, 'CARRIED_VERBATIM');
+      assert.equal(forward.coverageGeneratedAt, IMPORT_CLOCK, 'a newly built candidate declares its import clock');
+      assert.equal(readDataset(liveDir).manifest.datasetVersion, S4R3_DIGEST);
+      assert.equal(
+        runVerify(['--data-dir', live, '--dataset-dir', liveDir, '--expect-version', S4R3_DIGEST,
+          '--expect-issuers', '3', '--expect-sectors', '3', '--expect-annual-periods', '11',
+          '--expect-quarterly-periods', '2', '--expect-inputs', '3', '--json']),
+        0, 'the published S4-R3 candidate passes the authoritative verifier',
+      );
+
+      // Backward: restore the prior dataset by INSTALLING THE BACKUP — the supported path, not a manual copy.
+      const backward = install(backup, live, STAGE3_DIGEST);
+      assert.equal(backward.result, 'INSTALLED', backward.message);
+      assert.equal(backward.previousDigest, S4R3_DIGEST);
+      assert.equal(backward.installedDigest, STAGE3_DIGEST);
+      assert.equal(backward.coverageGeneratedAt, MEASUREMENT_CLOCK);
+      assert.equal(readDataset(liveDir).manifest.datasetVersion, STAGE3_DIGEST);
+      assert.equal(readFileSync(join(liveDir, COVERAGE_FILE_NAME), 'utf8'), originalView);
+      assert.equal(fingerprint(liveDir), before, 'the whole tree, view included, is byte-identical to before');
+      assert.equal(existsSync(stagingPathOf(liveDir)), false);
+      assert.equal(existsSync(previousPathOf(liveDir)), false);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('AUTOMATIC ROLLBACK restores the prior coverage view verbatim, not a re-stamped measurement', () => {
+    const root = tempRoot();
+    try {
+      const live = join(root, 'live');
+      const candidate = join(root, 'candidate');
+      const liveDir = build(live, [INFOSYS, WI7, WI8]);
+      const priorView = remeasureCoverageAt(liveDir, MEASUREMENT_CLOCK);
+      const before = fingerprint(liveDir);
+      const candidateDir = build(candidate, [INFOSYS, REFRESH_MARICO, REFRESH_KEC]);
+      // Force a post-publication failure: an emptied inputs list cannot be reproduced by the writer.
+      const manifest = JSON.parse(readFileSync(join(candidateDir, MANIFEST_FILE_NAME), 'utf8')) as Record<string, unknown>;
+      manifest['inputs'] = [];
+      writeFileSync(join(candidateDir, MANIFEST_FILE_NAME), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+
+      const report = install(candidate, live, S4R3_DIGEST);
+      assert.equal(report.result, 'FAILED-VERIFICATION-ROLLED-BACK');
+      assert.equal(report.rolledBack, true);
+      assert.equal(checkOf(report, 'rolled-back-coverage-view'), true);
+      assert.equal(readDataset(liveDir).manifest.datasetVersion, STAGE3_DIGEST);
+      assert.equal(readFileSync(join(liveDir, COVERAGE_FILE_NAME), 'utf8'), priorView,
+        'rollback must not silently re-stamp the coverage clock');
+      assert.equal(fingerprint(liveDir), before);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('NO WEAKENING: a tampered measurement is still refused even with a valid later clock', () => {
+    const root = tempRoot();
+    try {
+      const candidate = join(root, 'candidate');
+      const live = join(root, 'live');
+      const candidateDir = build(candidate, [INFOSYS, WI7, WI8]);
+      const view = remeasureCoverageAt(candidateDir, MEASUREMENT_CLOCK);
+      const tampered = JSON.parse(view) as Record<string, unknown>;
+      tampered['completedMeasurements'] = ['Financials'];
+      writeFileSync(join(candidateDir, COVERAGE_FILE_NAME), `${JSON.stringify(tampered, null, 2)}\n`, 'utf8');
+      mkdirSync(join(live, 'investment'), { recursive: true });
+
+      const report = install(candidate, live, STAGE3_DIGEST);
+      assert.equal(report.result, 'REFUSED-CANDIDATE');
+      assert.equal(report.published, false);
+      assert.equal(checkOf(report, 'candidate-coverage-consistent'), false);
+      const detail = report.checks.find((check) => check.id === 'candidate-coverage-consistent')?.detail ?? '';
+      assert.match(detail, /completedMeasurements/, 'the refusal names the differing field as actionable evidence');
+      assert.equal(existsSync(datasetDirOf(live)), false, 'nothing was created at the destination');
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('NO WEAKENING: a coverage report for a DIFFERENT dataset version is refused', () => {
+    const root = tempRoot();
+    try {
+      const candidate = join(root, 'candidate');
+      const other = join(root, 'other');
+      const live = join(root, 'live');
+      const candidateDir = build(candidate, [INFOSYS, WI7, WI8]);
+      const otherDir = build(other, [INFOSYS, REFRESH_MARICO, REFRESH_KEC]);
+      // A genuine, self-consistent report — but measured over the S4-R3 content, not this candidate's.
+      writeFileSync(join(candidateDir, COVERAGE_FILE_NAME), readFileSync(join(otherDir, COVERAGE_FILE_NAME)));
+      mkdirSync(join(live, 'investment'), { recursive: true });
+
+      const report = install(candidate, live, STAGE3_DIGEST);
+      assert.equal(report.result, 'REFUSED-CANDIDATE');
+      assert.equal(report.published, false);
+      const detail = report.checks.find((check) => check.id === 'candidate-coverage-consistent')?.detail ?? '';
+      assert.match(detail, /datasetVersion/);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('NO WEAKENING: a non-canonical or absent coverage clock is refused, never defaulted', () => {
+    const root = tempRoot();
+    try {
+      const candidate = join(root, 'candidate');
+      const live = join(root, 'live');
+      const candidateDir = build(candidate, [INFOSYS, WI7, WI8]);
+      const good = readFileSync(join(candidateDir, COVERAGE_FILE_NAME), 'utf8');
+      mkdirSync(join(live, 'investment'), { recursive: true });
+
+      for (const clock of ['2026-11-14', 'yesterday', '', null, 12345]) {
+        const body = JSON.parse(good) as Record<string, unknown>;
+        if (clock === null) delete body['generatedAt'];
+        else body['generatedAt'] = clock;
+        writeFileSync(join(candidateDir, COVERAGE_FILE_NAME), `${JSON.stringify(body, null, 2)}\n`, 'utf8');
+        const report = install(candidate, live, STAGE3_DIGEST);
+        assert.equal(report.result, 'REFUSED-CANDIDATE', JSON.stringify(clock));
+        assert.equal(report.published, false);
+      }
+      writeFileSync(join(candidateDir, COVERAGE_FILE_NAME), 'not json at all\n', 'utf8');
+      assert.equal(install(candidate, live, STAGE3_DIGEST).result, 'REFUSED-CANDIDATE');
+      assert.equal(existsSync(datasetDirOf(live)), false);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+
+  test('S4-R3 CANDIDATE COVERAGE VALIDATION is unchanged: its report must still reproduce exactly', () => {
+    const root = tempRoot();
+    try {
+      const candidate = join(root, 'candidate');
+      const live = join(root, 'live');
+      const candidateDir = build(candidate, [INFOSYS, REFRESH_MARICO, REFRESH_KEC]);
+      mkdirSync(join(live, 'investment'), { recursive: true });
+      const view = readFileSync(join(candidateDir, COVERAGE_FILE_NAME), 'utf8');
+      const body = JSON.parse(view) as Record<string, unknown>;
+      body['outstandingSectors'] = [];
+      writeFileSync(join(candidateDir, COVERAGE_FILE_NAME), `${JSON.stringify(body, null, 2)}\n`, 'utf8');
+
+      const report = install(candidate, live, S4R3_DIGEST);
+      assert.equal(report.result, 'REFUSED-CANDIDATE', 'claiming every sector measured is still refused');
+      assert.equal(report.published, false);
+      assert.equal(existsSync(datasetDirOf(live)), false);
     } finally {
       rmSync(root, { recursive: true, force: true });
     }

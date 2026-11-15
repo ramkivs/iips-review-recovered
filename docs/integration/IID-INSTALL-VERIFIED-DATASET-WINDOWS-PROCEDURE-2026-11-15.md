@@ -39,6 +39,39 @@ that.
 
 There is no second swap, no hand-written rename, and no second digest implementation.
 
+### 2.1 The coverage-clock defect, and the corrected contract
+
+**Observed on Windows.** The Stage 3 backup passed the authoritative installed-dataset verifier **21/0** and its
+content digest was correct, yet both installation attempts returned `REFUSED`, `published: false`, failing at
+`candidate-coverage-consistent`. The active dataset was left intact.
+
+**Root cause.** The coverage report is a **derived, timestamped view**. `writer.ts` publishes it through
+`derivedFiles`, which puts it **outside `manifest.files` and outside `datasetVersion`** — so `readDataset` does not
+verify its bytes, and its `generatedAt` records whenever the measurement happened to run. Stage 4 measured
+coverage over the *installed* Stage 3 dataset in a separate pass (Stage 4 coverage evidence §3), so the installed
+report's `generatedAt` is **later** than `manifest.lastImportAt`. The installer had recomputed at
+`manifest.lastImportAt` and demanded byte equality, so a legitimate later measurement could never match. The two
+clocks are independent; assuming they were equal was the defect.
+
+**Corrected contract.** The persisted report is validated against a `measureCoverage` recomputation **at its own
+declared `generatedAt`**, then carried forward **verbatim**:
+
+| Package | Validation | Published view |
+|---|---|---|
+| Existing, independently verified dataset (a backup being restored) | byte equality with the recomputation at the report's own clock | the persisted bytes, unchanged |
+| Newly generated S4-R3 candidate | identical rule; its clock **is** its import clock, so validation is exactly as strict as before | the persisted bytes, unchanged |
+| Package with no coverage report | nothing to validate | derived at `manifest.lastImportAt` |
+
+This is **not a relaxation**. Byte equality against the product's own measurement is still required across the
+whole report, so a tampered measurement, a report measured over different content, a wrong `datasetVersion`, or a
+missing/non-canonical clock is still **refused before any write**. Only the clock is read from the report instead
+of assumed. A refusal now names the **differing fields**, so it is actionable evidence rather than a bare
+"inconsistent". Content integrity, `manifest.inputs` preservation and `assertNoSilentSourceLoss` are unchanged.
+
+Rollback restores the prior **view** verbatim too, and asserts it (`rolled-back-coverage-view`); a rollback that
+silently re-stamped the coverage clock would not be a restoration. The report exposes `coverageAction`
+(`CARRIED_VERBATIM` / `DERIVED`) and `coverageGeneratedAt`.
+
 ## 3. Behaviour and guarantees
 
 - The candidate must pass `readDataset` **and** equal `--expect-version` before anything live is touched.
@@ -141,21 +174,42 @@ and read `GET /api/investment/coverage/investment?asOf=2026-11-14`. Expect 3 iss
 **Always pass `--data-dir`.** Omitting it makes the coverage read resolve a different root and report spurious
 `coverage-*` failures — observed during development, not a dataset defect.
 
-## 5. Rollback
+## 5. Rollback — through the installer, never a manual copy
+
+**Do not delete or hand-copy the dataset directory.** Restoring the backup is an ordinary publication of a
+verified package, so it goes through the same staging, verify-before-swap and restoration machinery. This is the
+tested path.
 
 **Automatic.** If step 5 reports `FAILED-VERIFICATION-ROLLED-BACK`, the command has already restored the prior
-dataset through `writeDataset` and re-read it. Confirm with step 3's command against `$live` and `$old`.
-
-**Manual** — if step 6 fails, or the report is `FAILED-ROLLBACK`:
+dataset **and its coverage view** through `writeDataset` and re-read both. Confirm:
 ```powershell
-# application stopped
-Remove-Item -LiteralPath $live -Recurse -Force
-Copy-Item -LiteralPath "$bk\investment\dataset" -Destination $live -Recurse
 node $tsx --no-cache src/investment/cli/verify-installed-dataset.ts `
   --data-dir $data --dataset-dir $live --expect-version $old --json
 ```
-Require `"result": "PASS"` at the old digest before restarting the application. If markers remain after an
-interrupted run, resolve them with `--recover` rather than deleting them.
+
+**Operator-directed restore** — if step 6 fails, or you simply want the prior dataset back. Run the installer
+with the **backup as the candidate** and the **old digest** as the expectation:
+```powershell
+node $tsx --no-cache src/investment/cli/install-verified-dataset.ts `
+  --candidate-dir $bk --data-dir $data --expect-version $old --json |
+  Tee-Object -FilePath "$bk\restore-report.json"
+$restoreExit = $LASTEXITCODE
+```
+Require exit 0 and `"result": "INSTALLED"`, then re-verify:
+```powershell
+node $tsx --no-cache src/investment/cli/verify-installed-dataset.ts `
+  --data-dir $data --dataset-dir $live --expect-version $old --json
+```
+Require `"result": "PASS"` before restarting the application. This restore accepts the backup's later coverage
+clock and carries its view forward unchanged — the round trip was tested byte-for-byte.
+
+**If the restore reports `REFUSED-MARKERS`**, an earlier publication was interrupted. Re-run the same command
+with `--recover`; it resolves the markers through `recoverInterruptedPublication` and reports every action. Never
+delete markers by hand.
+
+**If it reports `REFUSED-PRIOR-UNREADABLE`**, the currently installed dataset does not verify, so the installer
+has no verified rollback target for its own swap. Resolve the markers with `--recover` first; if the destination
+still does not verify, stop and capture the report — do not force anything over it.
 
 `C:\iips-data\investment\identity` and `C:\iips-data\iips\user-portfolio.sqlite` are never targets of any step.
 
@@ -163,12 +217,17 @@ interrupted run, resolve them with `--recover` rather than deleting them.
 
 | Gate | Result |
 |---|---|
-| New suite `tests/investment/installVerifiedDataset.test.ts` | **25 tests / 2 suites / 0 fail** |
+| Suite `tests/investment/installVerifiedDataset.test.ts` | **33 tests / 3 suites / 0 fail** |
 | Targeted regression: publication atomicity, multi-input ingestion, installed-dataset verifier, S4-R3 candidate build, both Windows script suites | **154 tests / 28 suites / 0 fail** |
 | Platform `npm run typecheck` | exit 0 |
-| Explicit typecheck of the new test (`tsconfig` includes only `src/**`) | exit 0 |
-| Full IID suite | 1239 tests / 268 suites / **1208 pass / 31 fail — all pre-existing local drift, none new** |
-| End-to-end CLI drill | wrong digest **exit 2** `REFUSED-DIGEST`; install **exit 0** `INSTALLED` 14/0; authoritative verifier **PASS 27/0**; no residue |
+| Explicit typecheck of the test (`tsconfig` includes only `src/**`) | exit 0 |
+| End-to-end CLI round trip on the reproduced Windows state | backup verifier **PASS 21/0**; forward install **exit 0** `INSTALLED` 15/0; restore install **exit 0** `INSTALLED` 15/0; restored tree **byte-identical** to the backup; restored verifier **PASS 21/0** |
+
+**The failure was reproduced before it was fixed.** Rebuilding Stage 3 from the three historical bundles gives
+exactly `sha256:3ad82918…`; re-measuring its coverage at a later clock leaves the digest unchanged and the
+authoritative verifier at **21/0**, and the pre-fix installer returned `REFUSED-CANDIDATE` at
+`candidate-coverage-consistent` with `published: false` — the operator's evidence precisely. After the fix the
+same state returns `INSTALLED`.
 
 The 31 failures are the documented pre-existing drift in `iips-platform/src/investment/coverage/{investmentCoverage,measure}.ts`,
 which predate the published read-path fixes in this restored checkout. The arithmetic pins that this change added
@@ -177,7 +236,13 @@ none: 1214 → 1239 tests and 1183 → 1208 passing, with the failing count unch
 **A real rollback was exercised, not asserted.** A candidate whose `manifest.inputs` was emptied still passes
 `readDataset` (provenance is outside `datasetVersion`), but the writer omits an empty list, so the published
 manifest cannot reproduce it. `provenance-preserved` fails, the command restores the prior dataset through
-`writeDataset`, and the test asserts the destination is **byte-identical** to before the attempt, with no residue.
+`writeDataset`, and the test asserts the destination — **including a prior coverage view measured at a later
+clock** — is byte-identical to before the attempt, with no residue.
+
+**No weakening is pinned by tests, not claimed.** A tampered `completedMeasurements`, a report measured over
+different content, a missing or non-canonical `generatedAt`, and an S4-R3 candidate claiming every sector
+measured are all still refused with nothing written. The superseding re-ingest is still refused by
+`assertNoSilentSourceLoss`, which is unchanged.
 
 ## 7. Boundaries
 

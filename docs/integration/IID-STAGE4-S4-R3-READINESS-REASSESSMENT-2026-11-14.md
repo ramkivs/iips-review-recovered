@@ -283,3 +283,34 @@ temp root: `INSTALLED`, then the authoritative verifier **PASS 27/0**, no residu
 Linux environment. The S4-R3 installation limb stays open until the operator runs the procedure and host
 verification passes. Freshness, `G-4`, `G-6`, `L-041`, `L-042` and the IPD-owned Stage 5 dependencies are
 unchanged; Stage 4 remains **PARTIALLY COMPLETE** and overall IID readiness remains **NOT READY**.
+
+## 11. Windows installation attempt: coverage-clock defect found and corrected (2026-11-15)
+
+The operator's first Windows attempts returned `REFUSED`, `published: false`, at `candidate-coverage-consistent`.
+The Stage 3 backup was sound: content digest `sha256:3ad82918…` correct, authoritative installed-dataset verifier
+**21/0**, active dataset left intact.
+
+**Root cause.** The coverage report is a derived, timestamped view published through `derivedFiles`, so it sits
+**outside `manifest.files` and outside `datasetVersion`**; `readDataset` never verifies its bytes and its
+`generatedAt` is independent of `manifest.lastImportAt`. Stage 4 measured coverage over the installed Stage 3
+dataset in a separate pass (§3 of the Stage 4 coverage evidence), leaving the installed report's clock later than
+the import clock. The installer had recomputed at `manifest.lastImportAt` and demanded byte equality, so that
+legitimate later measurement could never match.
+
+**Correction.** Validate the persisted report against a recomputation **at its own declared `generatedAt`** and
+carry it forward **verbatim**; restore the prior view verbatim on rollback and assert it. Byte equality against
+the product's own measurement is still required, so tampering, a wrong `datasetVersion`, a report measured over
+other content, and a non-canonical clock are all still refused before any write. S4-R3 candidate validation is
+unchanged in strength. Content integrity, `manifest.inputs` preservation and `assertNoSilentSourceLoss` are
+untouched.
+
+**Evidence.** The failure was reproduced from the real Stage 3 bundles before the fix and returns `INSTALLED`
+after it. Suite **33/0**; targeted regression **154/0**; platform and explicit test typechecks **0**. A CLI round
+trip — Stage 3 → S4-R3 → Stage 3, restoring by installing the backup rather than copying files — ends
+**byte-identical** to the backup and verifies **21/0**.
+
+**Rollback is now the installer**, not a manual deletion/copy; the procedure prescribes
+`install-verified-dataset --candidate-dir <backup> --expect-version <old digest>` with `--recover` for markers.
+
+**The Windows installation itself is still not performed.** No Windows or `C:\iips-data` execution occurred in
+this session. Stage 4 remains **PARTIALLY COMPLETE**; `L-041`/`L-042` remain OPEN; IID readiness **NOT READY**.

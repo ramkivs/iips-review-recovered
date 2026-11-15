@@ -80,6 +80,8 @@ export interface InstallReport {
   readonly published: boolean;
   readonly rolledBack: boolean;
   readonly inputsPreserved: boolean;
+  readonly coverageAction: 'CARRIED_VERBATIM' | 'DERIVED' | 'NONE';
+  readonly coverageGeneratedAt: string | null;
   readonly recoveryActions: readonly string[];
   readonly deferredCleanup: readonly string[];
   readonly checks: readonly InstallCheck[];
@@ -93,6 +95,25 @@ export interface InstallOptions {
   readonly datasetDir: string;
   readonly expectedDigest: string;
   readonly recover: boolean;
+}
+
+/** A canonical ISO-8601 UTC instant, exactly as `toISOString` emits it. */
+const ISO_INSTANT = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+
+/**
+ * Name the fields that differ, so a refusal is actionable evidence rather than a bare "inconsistent".
+ * `generatedAt` is reported separately: it is the one field that legitimately varies between measurements.
+ */
+function coverageDiff(persisted: string, recomputed: string): string {
+  try {
+    const a = JSON.parse(persisted) as Record<string, unknown>;
+    const b = JSON.parse(recomputed) as Record<string, unknown>;
+    const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])].sort();
+    const differing = keys.filter((key) => JSON.stringify(a[key]) !== JSON.stringify(b[key]));
+    return differing.length === 0 ? 'none at the top level (key order or formatting differs)' : differing.join(', ');
+  } catch {
+    return 'the persisted report is not comparable JSON';
+  }
 }
 
 const USAGE =
@@ -187,6 +208,8 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
   let published = false;
   let rolledBack = false;
   let inputsPreserved = false;
+  let coverageAction: InstallReport['coverageAction'] = 'NONE';
+  let coverageGeneratedAt: string | null = null;
   let deferredCleanup: readonly string[] = [];
 
   const finish = (result: InstallResult, exitCode: number, message: string): InstallReport => ({
@@ -203,6 +226,8 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
     published,
     rolledBack,
     inputsPreserved,
+    coverageAction,
+    coverageGeneratedAt,
     recoveryActions,
     deferredCleanup,
     checks,
@@ -247,22 +272,62 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
     return finish('REFUSED-DIGEST', 2, 'the candidate is not the expected dataset; nothing was written');
   }
 
-  // The coverage report is re-derived with the product's own measurement and must equal the candidate's bytes
-  // where the candidate carries one. A candidate whose view disagrees with its content is not installable.
-  const derivedCoverage = serializeDatasetFile(measureCoverage(candidate.content, {
-    datasetVersion: candidate.manifest.datasetVersion,
-    generatedAt: candidate.manifest.lastImportAt,
-  }));
+  // THE COVERAGE CONTRACT.
+  //
+  // The coverage report is a DERIVED, TIMESTAMPED VIEW. It is outside `datasetVersion` AND outside
+  // `manifest.files` (writer.ts), so `readDataset` does not verify its bytes and its `generatedAt` is a free
+  // parameter of whenever the measurement ran. An installed dataset legitimately carries a report measured
+  // LATER than its import: Stage 4 measured coverage over the installed Stage 3 dataset in a separate pass,
+  // leaving `manifest.lastImportAt` at the install clock. Assuming the two clocks are equal refused a backup
+  // that the authoritative verifier passes 21/0 — the Windows failure this corrects.
+  //
+  // So the report is validated against a recomputation AT ITS OWN DECLARED `generatedAt`, and then carried
+  // forward VERBATIM. This is not a relaxation: byte equality against the product's own measurement is still
+  // required over the whole report, so a tampered or stale-semantics view is still refused. Only the clock is
+  // taken from the report instead of assumed. A newly built S4-R3 candidate declares its import clock, so it
+  // gets exactly the validation it had before.
+  let coverageBytes: string;
   const candidateCoveragePath = join(candidateDir, COVERAGE_FILE_NAME);
   if (existsSync(candidateCoveragePath)) {
-    const actual = readFileSync(candidateCoveragePath, 'utf8');
-    if (!add('candidate-coverage-consistent', actual === derivedCoverage,
-      actual === derivedCoverage
-        ? 'the candidate coverage report equals the authoritative recomputation'
-        : 'the candidate coverage report does not match the authoritative recomputation of its own content')) {
+    const persisted = readFileSync(candidateCoveragePath, 'utf8');
+    let declaredAt: unknown;
+    try {
+      declaredAt = (JSON.parse(persisted) as { generatedAt?: unknown }).generatedAt;
+    } catch (error) {
+      add('candidate-coverage-consistent', false,
+        `the candidate coverage report is not parseable JSON: ${error instanceof Error ? error.message : String(error)}`);
+      return finish('REFUSED-CANDIDATE', 2, 'the candidate coverage report is unreadable; nothing was written');
+    }
+    if (typeof declaredAt !== 'string' || !ISO_INSTANT.test(declaredAt)
+      || new Date(declaredAt).toISOString() !== declaredAt) {
+      add('candidate-coverage-consistent', false,
+        `the coverage report must declare a canonical ISO-8601 UTC generatedAt, found ${JSON.stringify(declaredAt)}`);
+      return finish('REFUSED-CANDIDATE', 2, 'the candidate coverage clock is not a valid instant; nothing was written');
+    }
+    coverageGeneratedAt = declaredAt;
+    const recomputed = serializeDatasetFile(measureCoverage(candidate.content, {
+      datasetVersion: candidate.manifest.datasetVersion,
+      generatedAt: declaredAt,
+    }));
+    if (!add('candidate-coverage-consistent', persisted === recomputed,
+      persisted === recomputed
+        ? `the coverage report equals the authoritative recomputation at its own generatedAt ${declaredAt}`
+        : `the coverage report is not reproducible from this content at its declared generatedAt ${declaredAt}; `
+          + `differing fields: ${coverageDiff(persisted, recomputed)}`)) {
       return finish('REFUSED-CANDIDATE', 2, 'the candidate coverage report is inconsistent; nothing was written');
     }
+    coverageBytes = persisted;
+    coverageAction = 'CARRIED_VERBATIM';
+    add('candidate-coverage-carried-verbatim', true,
+      `the persisted report is published unchanged${declaredAt === candidate.manifest.lastImportAt
+        ? '' : `; its measurement clock ${declaredAt} differs from the import clock ${candidate.manifest.lastImportAt}, which is legitimate`}`);
   } else {
+    coverageGeneratedAt = candidate.manifest.lastImportAt;
+    coverageBytes = serializeDatasetFile(measureCoverage(candidate.content, {
+      datasetVersion: candidate.manifest.datasetVersion,
+      generatedAt: candidate.manifest.lastImportAt,
+    }));
+    coverageAction = 'DERIVED';
     add('candidate-coverage-consistent', true, 'candidate carries no coverage report; it is derived at publication');
   }
 
@@ -290,10 +355,15 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
   // Capture the prior dataset so a failed verification can be undone through the SAME writer. A destination
   // that exists but cannot be read is refused: publishing over it would leave no verified way back.
   let prior: ReturnType<typeof readDataset> | null = null;
+  let priorCoverageBytes: string | null = null;
   if (existsSync(join(datasetDir, MANIFEST_FILE_NAME))) {
     try {
       prior = readDataset(datasetDir);
       previousDigest = prior.manifest.datasetVersion;
+      // The prior VIEW must come back too, not a fresh measurement of it: a rollback that silently
+      // re-stamped the coverage clock would not be a restoration.
+      const priorCoveragePath = join(datasetDir, COVERAGE_FILE_NAME);
+      priorCoverageBytes = existsSync(priorCoveragePath) ? readFileSync(priorCoveragePath, 'utf8') : null;
       add('prior-dataset-readable', true, `the installed dataset verifies at ${previousDigest}; it is the rollback target`);
     } catch (error) {
       add('prior-dataset-readable', false, error instanceof Error ? error.message : String(error));
@@ -310,7 +380,7 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
       dir: datasetDir,
       content: candidate.content,
       ...publicationOptionsOf(candidate.manifest),
-      derivedFiles: () => ({ [COVERAGE_FILE_NAME]: derivedCoverage }),
+      derivedFiles: () => ({ [COVERAGE_FILE_NAME]: coverageBytes }),
     });
     published = true;
     deferredCleanup = written.deferredCleanup;
@@ -354,9 +424,9 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
       : 'the installed manifest.inputs does not equal the candidate manifest.inputs');
 
   const coverageOk = existsSync(join(datasetDir, COVERAGE_FILE_NAME))
-    && readFileSync(join(datasetDir, COVERAGE_FILE_NAME), 'utf8') === derivedCoverage;
+    && readFileSync(join(datasetDir, COVERAGE_FILE_NAME), 'utf8') === coverageBytes;
   add('installed-coverage-published', coverageOk,
-    coverageOk ? 'the coverage report was published in the same unit as the dataset' : 'the published coverage report is not the derived one');
+    coverageOk ? `the coverage report was published in the same unit as the dataset (${coverageAction})` : 'the published coverage report is not the validated one');
 
   const ok = installed !== null && digestOk && inputsPreserved && coverageOk;
   if (ok) {
@@ -374,15 +444,19 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
       content: prior.content,
       ...publicationOptionsOf(prior.manifest),
       derivedFiles: () => ({
-        [COVERAGE_FILE_NAME]: serializeDatasetFile(measureCoverage(prior!.content, {
+        [COVERAGE_FILE_NAME]: priorCoverageBytes ?? serializeDatasetFile(measureCoverage(prior!.content, {
           datasetVersion: prior!.manifest.datasetVersion,
           generatedAt: prior!.manifest.lastImportAt,
         })),
       }),
     });
     const back = readDataset(datasetDir);
-    rolledBack = back.manifest.datasetVersion === prior.manifest.datasetVersion;
+    const viewRestored = priorCoverageBytes === null
+      || readFileSync(join(datasetDir, COVERAGE_FILE_NAME), 'utf8') === priorCoverageBytes;
+    rolledBack = back.manifest.datasetVersion === prior.manifest.datasetVersion && viewRestored;
     installedDigest = back.manifest.datasetVersion;
+    add('rolled-back-coverage-view', viewRestored,
+      viewRestored ? 'the prior coverage view was restored verbatim' : 'the prior coverage view was not restored verbatim');
     add('rolled-back', rolledBack,
       `restored ${restored.manifest.datasetVersion}; expected the prior ${prior.manifest.datasetVersion}`);
   } catch (error) {
@@ -419,6 +493,8 @@ export function run(argv: readonly string[]): number {
       published: false,
       rolledBack: false,
       inputsPreserved: false,
+      coverageAction: 'NONE',
+      coverageGeneratedAt: null,
       recoveryActions: [],
       deferredCleanup: [],
       checks: [{ id: 'usage', ok: false, detail: USAGE }],
