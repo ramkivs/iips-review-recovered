@@ -1,32 +1,27 @@
 /**
- * S4-R3 Windows PowerShell 5.1 local-build driver: static conformance + real wrapper regressions.
+ * S4-R3 Windows PowerShell 5.1 local-build driver: static conformance + wrapper-byte Git semantics.
  *
- * No PowerShell engine exists in the Linux implementation environment. The source checks below are
- * explicitly static conformance, NOT a PowerShell parser or Windows-host execution claim. Behavioral
- * build/verify cases exercise the published TypeScript wrapper and authoritative ingestion pipeline in
- * temporary directories only. No runtime dataset, identity directory, portfolio database or Windows host
- * is touched, and no normalized content is published by these tests.
+ * No PowerShell engine exists in the Linux implementation environment. The source checks are explicitly
+ * static conformance, NOT a PowerShell parser or Windows-host execution claim. The behavioral suite below
+ * creates a temporary Git repository and exercises the exact clean-filter/object semantics the driver uses
+ * for LF and CRLF working trees. It does NOT execute candidate BUILD, ingestion, installation, identity
+ * provisioning, or any runtime/portfolio access.
  */
 import { after, before, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { spawnSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
-
-import {
-  S4_R3_CANDIDATE_DIGEST,
-  buildCandidate,
-  inspectCandidate,
-  validateAdmittedInputs,
-  verifyExistingCandidate,
-} from '../../src/investment/cli/build-s4-r3-candidate';
-import { DATASET_FILE_NAMES } from '../../src/investment/ingestion/writer';
+import { dirname, join, resolve } from 'node:path';
 
 const ROOT = resolve(__dirname, '..', '..', '..');
 const SCRIPT = join(ROOT, 'tools', 'windows', 'IID-S4-R3-CANDIDATE-LOCAL-BUILD.ps1');
 const SOURCE = readFileSync(SCRIPT, 'utf8');
+const WRAPPER_REL = 'iips-platform/src/investment/cli/build-s4-r3-candidate.ts';
+const WRAPPER_PATH = join(ROOT, WRAPPER_REL);
+const EXPECTED_BLOB = 'b807c7f227bbc99228d5ac78bcaa385c4c63b9cc';
+const EXPECTED_SHA = '5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7';
 const BUNDLE = 'evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14';
 const INPUTS = [
   { issuer: 'Infosys', dir: 'evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input', digest: 'sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c' },
@@ -34,8 +29,6 @@ const INPUTS = [
   { issuer: 'KEC', dir: `${BUNDLE}/ingest-input/kec`, digest: 'sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a' },
 ] as const;
 const sha256 = (raw: Buffer | string): string => createHash('sha256').update(raw).digest('hex');
-let temp = '';
-let good = '';
 
 /** Strip comments and quoted strings, preserving code delimiters for a deliberately limited static check. */
 function codeOnly(source: string): string {
@@ -74,36 +67,6 @@ function forbiddenConstructs(code: string): string[] {
   }
   return found;
 }
-function snapshot(root: string): Record<string, string> {
-  const out: Record<string, string> = {};
-  const walk = (dir: string, prefix = ''): void => {
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      const rel = prefix === '' ? entry.name : `${prefix}/${entry.name}`;
-      const path = join(dir, entry.name);
-      if (entry.isDirectory()) walk(path, rel);
-      else { const s = statSync(path); out[rel] = `${String(s.size)}:${String(s.mtimeMs)}:${sha256(readFileSync(path))}`; }
-    }
-  };
-  walk(root);
-  return out;
-}
-function copyPackage(name: string): string {
-  const target = join(temp, name);
-  cpSync(good, target, { recursive: true });
-  return target;
-}
-function copyInputs(name: string): string {
-  const fake = join(temp, name);
-  for (const input of INPUTS) cpSync(join(ROOT, input.dir), join(fake, input.dir), { recursive: true });
-  return fake;
-}
-
-before(() => {
-  temp = mkdtempSync(join(tmpdir(), 'iid-s4-r3-windows-driver-'));
-  good = join(temp, 'good');
-  assert.equal(buildCandidate(good, ROOT).result, 'PASS');
-});
-after(() => { if (temp !== '') rmSync(temp, { recursive: true, force: true }); });
 
 describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine execution)', () => {
   it('has balanced code delimiters and none of the prohibited control-flow or PS7-only constructs', () => {
@@ -121,6 +84,9 @@ describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine
     assert.ok(NO_COMMENTS.includes('$PSVersionTable.PSVersion.Major -eq 5'));
     assert.ok(NO_COMMENTS.includes('$PSVersionTable.PSVersion.Minor -eq 1'));
     assert.ok(NO_COMMENTS.includes("$PSVersionTable.PSEdition -eq 'Desktop'"));
+    assert.ok(NO_COMMENTS.includes('System.Diagnostics.ProcessStartInfo'), 'binary-safe process API available on .NET Framework / PS 5.1');
+    assert.ok(NO_COMMENTS.includes('StandardOutput.BaseStream'));
+    assert.ok(NO_COMMENTS.includes('Security.Cryptography.SHA256'));
   });
 
   it('proves the static detector is non-vacuous and ignores comments/prose', () => {
@@ -159,6 +125,8 @@ describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine
     assert.equal(/Invoke-WebRequest|Invoke-RestMethod|Start-BitsTransfer|npm\s+(ci|install)|Install-Module|Install-Package/.test(CODE), false);
     assert.ok(NO_COMMENTS.includes("'--no-optional-locks'"));
     assert.ok(NO_COMMENTS.includes("'--no-cache'"));
+    assert.ok(NO_COMMENTS.includes("'--no-optional-locks cat-file blob ' + $ObjectId"));
+    assert.equal(/hash-object[^\n]*-w/.test(NO_COMMENTS), false, 'driver never writes Git objects');
   });
 
   it('canonicalizes literal paths, refuses reparse ancestors and protects every runtime boundary without probing the database', () => {
@@ -176,15 +144,22 @@ describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine
     assert.ok(NO_COMMENTS.includes("[System.IO.File]::WriteAllText($localEvidencePath"));
   });
 
-  it('pins the wrapper commit, blob and SHA-256 and fails closed for missing wrapper or wrong version', () => {
+  it('retains commit/blob gates and verifies canonical committed bytes binary-safely, reporting raw bytes and EOL conversion', () => {
     for (const fragment of [
-      '3c4789618b88689e269ce177ff50649545ef6e33', 'b807c7f227bbc99228d5ac78bcaa385c4c63b9cc',
-      '5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7',
+      '3c4789618b88689e269ce177ff50649545ef6e33', EXPECTED_BLOB, EXPECTED_SHA,
       "Add-Check -Id 'pinned-wrapper-present'", 'if (-not $wrapperPresent) { return $false }',
       "Add-Check -Id 'implementation-commit-present'", 'if (-not $versionOk) { return $false }',
-      "'merge-base', '--is-ancestor'", "'hash-object', '--', $wrapper", "'diff', '--quiet', $script:Commit",
-    ]) assert.ok(SOURCE.includes(fragment), fragment);
-    assert.equal(sha256(readFileSync(join(ROOT, 'iips-platform/src/investment/cli/build-s4-r3-candidate.ts'))), '5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7');
+      "'merge-base', '--is-ancestor'", "'hash-object', '--path', $script:WrapperRel, '--', $wrapper", "'diff', '--quiet', $script:Commit",
+      "Add-Check -Id 'pinned-wrapper-git-blob'", "Add-Check -Id 'pinned-wrapper-sha256' -Ok $canonicalOk",
+      "Add-Check -Id 'wrapper-working-tree-raw-sha256'", "Add-Check -Id 'wrapper-line-ending-conversion'",
+      '[System.IO.File]::ReadAllBytes($wrapper)', 'Invoke-GitBlobBytes $committedBlobId', 'Get-Sha256Bytes $object.Bytes',
+      'Convert-CrlfToLf $rawBytes', 'Compare-Bytes $lfBytes $object.Bytes',
+      "$script:WrapperLineEndingConversion -eq 'NONE' -or $script:WrapperLineEndingConversion -eq 'CRLF_CHECKOUT'",
+      'if (-not ($blobOk -and $bytesOk -and $diff.ExitCode -eq 0)) { return $false }',
+    ]) assert.ok(NO_COMMENTS.includes(fragment), fragment);
+    assert.equal(sha256(readFileSync(WRAPPER_PATH)), EXPECTED_SHA);
+    assert.equal(NO_COMMENTS.includes('c9c28d86b76d4ac5c194c429ae202443478f30741b2e2940372a4e8d0c13726b'), false, 'never replace the canonical pin with a CRLF raw hash');
+    assert.equal(/Get-Content[^\n]*\$wrapper|Out-String[^\n]*canonical/.test(NO_COMMENTS), false, 'canonical bytes are not PowerShell-reencoded text');
   });
 
   it('pins each of the three inputDigest checks and all six consumed-file hashes', () => {
@@ -194,7 +169,7 @@ describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine
       assert.ok(SOURCE.includes(`Add-Check -Id ($pin.Issuer + '-input-file-hashes')`));
       assert.ok(SOURCE.includes(`Add-Check -Id ($pin.Issuer + '-input-census')`));
     }
-    const wrapper = readFileSync(join(ROOT, 'iips-platform/src/investment/cli/build-s4-r3-candidate.ts'), 'utf8');
+    const wrapper = readFileSync(WRAPPER_PATH, 'utf8');
     for (const hash of wrapper.match(/'[a-f0-9]{64}'/g) ?? []) {
       if (hash.length === 66) assert.ok(SOURCE.includes(hash.slice(1, -1)), `pinned hash ${hash}`);
     }
@@ -228,111 +203,117 @@ describe('Windows S4-R3 driver — PowerShell 5.1 static conformance (not engine
   });
 });
 
-describe('Windows S4-R3 driver — real wrapper behavior in isolated Linux fixtures', () => {
-  it('builds successfully through the authoritative wrapper with the exact digest and complete package', () => {
-    const { report } = inspectCandidate(good, ROOT);
-    assert.equal(report.result, 'PASS');
-    assert.equal(report.actualCandidateDigest, S4_R3_CANDIDATE_DIGEST);
-    assert.equal(report.checks.length, 16);
-    assert.ok(report.checks.every((check) => check.ok));
-    assert.deepEqual(Object.keys(report.boundaries).sort(), ['existingWindowsDataset', 'gitHubDatasetPublication', 'overallIidReadiness', 'portfolioDatabase', 'stage2Provisioning', 'windowsInstallation']);
-    const dataset = join(good, 'investment', 'dataset');
-    assert.deepEqual(readdirSync(dataset).sort(), [...DATASET_FILE_NAMES, 'manifest.json', 'coverage-report.json'].sort());
-    assert.equal(readdirSync(join(good, 'verification')).sort().join('|'), 'file-digests.json|verification.json');
+describe('Windows S4-R3 driver — canonical wrapper-byte Git semantics (temporary Linux Git fixture, no candidate build)', () => {
+  let repo = '';
+  let committedBlob = '';
+  let canonical = Buffer.alloc(0);
+  const gitText = (args: readonly string[]): string => execFileSync('git', [...args], { cwd: repo, encoding: 'utf8' }).trim();
+  const gitBuffer = (args: readonly string[]): Buffer => execFileSync('git', [...args], { cwd: repo });
+  const crlfToLf = (raw: Buffer): Buffer => {
+    const out: number[] = [];
+    for (let index = 0; index < raw.length; index += 1) {
+      if (raw[index] === 13 && raw[index + 1] === 10) continue;
+      out.push(raw[index]!);
+    }
+    return Buffer.from(out);
+  };
+  const toCrlf = (raw: Buffer): Buffer => Buffer.from(raw.toString('utf8').replace(/\n/g, '\r\n'), 'utf8');
+  const evaluate = (raw: Buffer, expectedBlob = EXPECTED_BLOB, expectedSha = EXPECTED_SHA) => {
+    const path = join(repo, WRAPPER_REL);
+    writeFileSync(path, raw);
+    const cleanBlob = gitText(['hash-object', '--path', WRAPPER_REL, '--', path]);
+    const committed = gitBuffer(['cat-file', 'blob', committedBlob]);
+    const canonicalSha = sha256(committed);
+    const rawSha = sha256(raw);
+    let conversion = 'NONE';
+    if (rawSha !== canonicalSha) {
+      conversion = 'OTHER_BYTE_DIFFERENCE';
+      if (crlfToLf(raw).equals(committed)) conversion = 'CRLF_CHECKOUT';
+    }
+    const blobOk = committedBlob === expectedBlob && cleanBlob === expectedBlob;
+    const canonicalOk = canonicalSha === expectedSha;
+    const bytesOk = canonicalOk && (conversion === 'NONE' || conversion === 'CRLF_CHECKOUT');
+    const diff = spawnSync('git', ['diff', '--quiet', '--', WRAPPER_REL], { cwd: repo });
+    return { ok: blobOk && bytesOk, cleanBlob, canonicalSha, rawSha, conversion, diffExit: diff.status };
+  };
+
+  before(() => {
+    repo = mkdtempSync(join(tmpdir(), 'iid-s4-r3-wrapper-bytes-'));
+    execFileSync('git', ['init', '-q'], { cwd: repo });
+    execFileSync('git', ['config', 'user.email', 'fixture@example.invalid'], { cwd: repo });
+    execFileSync('git', ['config', 'user.name', 'Fixture'], { cwd: repo });
+    execFileSync('git', ['config', 'core.autocrlf', 'true'], { cwd: repo });
+    canonical = readFileSync(WRAPPER_PATH);
+    const path = join(repo, WRAPPER_REL);
+    mkdirSync(dirname(path), { recursive: true });
+    writeFileSync(path, canonical);
+    execFileSync('git', ['add', '--', WRAPPER_REL], { cwd: repo });
+    execFileSync('git', ['commit', '--no-verify', '-q', '-m', 'canonical wrapper fixture'], { cwd: repo });
+    committedBlob = gitText(['rev-parse', `HEAD:${WRAPPER_REL}`]);
+    assert.equal(committedBlob, EXPECTED_BLOB);
+    assert.equal(sha256(gitBuffer(['cat-file', 'blob', committedBlob])), EXPECTED_SHA);
+  });
+  after(() => { if (repo !== '') rmSync(repo, { recursive: true, force: true }); });
+
+  it('accepts an exact LF checkout with no line-ending conversion', () => {
+    const result = evaluate(canonical);
+    assert.equal(result.ok, true);
+    assert.equal(result.conversion, 'NONE');
+    assert.equal(result.rawSha, EXPECTED_SHA);
+    assert.equal(result.canonicalSha, EXPECTED_SHA);
+    assert.equal(result.cleanBlob, EXPECTED_BLOB);
+    assert.equal(result.diffExit, 0);
   });
 
-  it('invokes the real wrapper CLI once and extracts its final JSON after ingestion progress', () => {
-    const target = join(temp, 'cli-candidate');
-    const platform = join(ROOT, 'iips-platform');
-    const tsx = join(platform, 'node_modules', 'tsx', 'dist', 'cli.mjs');
-    const wrapper = join(platform, 'src', 'investment', 'cli', 'build-s4-r3-candidate.ts');
-    const built = spawnSync(process.execPath, [tsx, '--no-cache', wrapper, '--build', '--output-dir', target], { cwd: platform, encoding: 'utf8' });
-    assert.equal(built.status, 0, built.stderr);
-    const lines = built.stdout.split(/\r?\n/);
-    let start = -1;
-    for (let index = 0; index < lines.length; index += 1) if (lines[index] === '{') start = index;
-    assert.ok(start > 0, 'ingestion progress precedes the unindented JSON root');
-    const report = JSON.parse(lines.slice(start).join('\n')) as { result: string; actualCandidateDigest: string };
-    assert.equal(report.result, 'PASS');
-    assert.equal(report.actualCandidateDigest, S4_R3_CANDIDATE_DIGEST);
-    const verified = spawnSync(process.execPath, [tsx, '--no-cache', wrapper, '--verify-only', '--output-dir', target], { cwd: platform, encoding: 'utf8' });
-    assert.equal(verified.status, 0, verified.stderr);
-    assert.equal((JSON.parse(verified.stdout) as { result: string }).result, 'PASS');
+  it('accepts a normal CRLF checkout while reporting a different raw hash and the same canonical hash', () => {
+    const crlf = toCrlf(canonical);
+    const result = evaluate(crlf);
+    assert.equal(result.ok, true);
+    assert.equal(result.conversion, 'CRLF_CHECKOUT');
+    assert.equal(result.canonicalSha, EXPECTED_SHA);
+    assert.notEqual(result.rawSha, EXPECTED_SHA);
+    assert.equal(result.rawSha, 'c9c28d86b76d4ac5c194c429ae202443478f30741b2e2940372a4e8d0c13726b');
+    assert.equal(result.cleanBlob, EXPECTED_BLOB);
+    assert.equal(result.diffExit, 0, 'Git clean semantics also regard the CRLF checkout as unchanged');
   });
 
-  for (const input of INPUTS) {
-    it(`refuses missing ${input.issuer} input before any build output`, () => {
-      const fake = copyInputs(`missing-${input.issuer}`);
-      rmSync(join(fake, input.dir, 'roster.json'));
-      assert.throws(() => validateAdmittedInputs(fake));
-      assert.equal(existsSync(join(temp, `missing-${input.issuer}-output`)), false);
-    });
-
-    it(`refuses altered ${input.issuer} input and preserves the pinned inputDigest expectation`, () => {
-      const fake = copyInputs(`altered-${input.issuer}`);
-      const path = join(fake, input.dir, 'periods.csv');
-      writeFileSync(path, `${readFileSync(path, 'utf8')}\n`);
-      assert.throws(() => validateAdmittedInputs(fake), /digest|census/);
-      assert.ok(SOURCE.includes(input.digest));
-    });
-  }
-
-  it('accepts checkout-specific manifest audit paths only through the wrapper comparable-fields identity check', () => {
-    const fake = join(temp, 'audit-path-repo');
-    cpSync(join(ROOT, BUNDLE), join(fake, BUNDLE), { recursive: true });
-    cpSync(join(ROOT, INPUTS[0].dir), join(fake, INPUTS[0].dir), { recursive: true });
-    const target = join(temp, 'audit-path-candidate');
-    const report = buildCandidate(target, fake);
-    assert.equal(report.result, 'PASS');
-    assert.equal(report.actualCandidateDigest, S4_R3_CANDIDATE_DIGEST);
-    assert.equal(report.checks.find((check) => check.id === 'recorded-manifest-comparable-fields')?.ok, true);
-    const generated = readFileSync(join(target, 'investment', 'dataset', 'manifest.json'));
-    const recorded = readFileSync(join(ROOT, BUNDLE, 'runs', 'candidate-manifest.json'));
-    assert.notEqual(sha256(generated), sha256(recorded));
-    assert.equal(verifyExistingCandidate(target, fake).result, 'PASS');
+  it('rejects modified TypeScript source with unchanged LF line endings', () => {
+    const modified = Buffer.from(canonical.toString('utf8').replace("export const S4_R3_AS_OF = '2026-11-14';", "export const S4_R3_AS_OF = '2026-11-15';"), 'utf8');
+    assert.equal(modified.equals(canonical), false);
+    const result = evaluate(modified);
+    assert.equal(result.ok, false);
+    assert.notEqual(result.cleanBlob, EXPECTED_BLOB);
+    assert.equal(result.diffExit, 1);
   });
 
-  it('refuses an existing destination and repeated build execution without changing the package', () => {
-    const before = snapshot(good);
-    assert.throws(() => buildCandidate(good, ROOT), /refusing existing candidate destination/);
-    assert.throws(() => buildCandidate(good, ROOT), /refusing existing candidate destination/);
-    assert.deepEqual(snapshot(good), before);
+  it('rejects modified TypeScript source even when the working tree also uses CRLF', () => {
+    const modified = Buffer.from(canonical.toString('utf8').replace("export const S4_R3_AS_OF = '2026-11-14';", "export const S4_R3_AS_OF = '2026-11-15';"), 'utf8');
+    const result = evaluate(toCrlf(modified));
+    assert.equal(result.ok, false);
+    assert.notEqual(result.cleanBlob, EXPECTED_BLOB);
+    assert.equal(result.conversion, 'OTHER_BYTE_DIFFERENCE');
+    assert.equal(result.diffExit, 1);
   });
 
-  it('refuses an in-repository destination before creating it', () => {
-    const target = join(ROOT, `s4-r3-windows-driver-refused-${String(process.pid)}`);
-    assert.equal(existsSync(target), false);
-    assert.throws(() => buildCandidate(target, ROOT), /outside the repository/);
-    assert.equal(existsSync(target), false);
+  it('rejects whitespace/source changes that are not solely CRLF conversion', () => {
+    const trailingSpace = Buffer.from(canonical.toString('utf8').replace('const EVIDENCE_LEDGER_SHA256', 'const  EVIDENCE_LEDGER_SHA256'), 'utf8');
+    const result = evaluate(toCrlf(trailingSpace));
+    assert.equal(result.ok, false);
+    assert.equal(result.conversion, 'OTHER_BYTE_DIFFERENCE');
+    assert.notEqual(result.cleanBlob, EXPECTED_BLOB);
   });
 
-  it('detects a candidate digest mismatch and preserves the diagnostic bytes', () => {
-    const target = copyPackage('digest-mismatch');
-    const path = join(target, 'investment', 'dataset', 'issuers.json');
-    const issuers = JSON.parse(readFileSync(path, 'utf8')) as { legalName: string }[];
-    issuers[0]!.legalName = 'DIGEST MISMATCH DIAGNOSTIC';
-    writeFileSync(path, `${JSON.stringify(issuers, null, 2)}\n`);
-    const before = snapshot(target);
-    assert.throws(() => verifyExistingCandidate(target, ROOT));
-    assert.deepEqual(snapshot(target), before);
+  it('rejects an incorrect expected Git blob identity', () => {
+    const wrongBlob = gitText(['hash-object', '-w', '--path', WRAPPER_REL, '--', WRAPPER_REL]);
+    assert.notEqual(wrongBlob, EXPECTED_BLOB);
+    const result = evaluate(canonical, wrongBlob, EXPECTED_SHA);
+    assert.equal(result.ok, false);
   });
 
-  it('detects missing generated content and a missing recorded evidence file', () => {
-    const missingContent = copyPackage('missing-generated');
-    rmSync(join(missingContent, 'investment', 'dataset', 'prices.json'));
-    assert.throws(() => verifyExistingCandidate(missingContent, ROOT), /missing/);
-    const missingEvidence = copyPackage('missing-evidence');
-    rmSync(join(missingEvidence, 'verification', 'verification.json'));
-    assert.throws(() => verifyExistingCandidate(missingEvidence, ROOT));
-  });
-
-  it('verifies successfully read-only, including the recorded ledger and exact admitted identity', () => {
-    const before = snapshot(good);
-    const report = verifyExistingCandidate(good, ROOT);
-    assert.equal(report.result, 'PASS');
-    assert.equal(report.actualCandidateDigest, S4_R3_CANDIDATE_DIGEST);
-    assert.equal(report.inputs.length, 3);
-    assert.deepEqual(report.inputs.map((entry) => entry.inputDigest), INPUTS.map((entry) => entry.digest));
-    assert.deepEqual(snapshot(good), before);
+  it('rejects an incorrect canonical SHA-256 pin without adopting the observed raw hash', () => {
+    const result = evaluate(toCrlf(canonical), EXPECTED_BLOB, '0'.repeat(64));
+    assert.equal(result.ok, false);
+    assert.equal(result.canonicalSha, EXPECTED_SHA);
+    assert.notEqual(result.rawSha, result.canonicalSha);
   });
 });

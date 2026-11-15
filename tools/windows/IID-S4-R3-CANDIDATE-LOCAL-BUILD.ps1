@@ -48,6 +48,10 @@ try {
   $script:Repo = ''
   $script:Target = ''
   $script:NodeResolved = ''
+  $script:GitResolved = ''
+  $script:WrapperRawSha256 = ''
+  $script:WrapperCanonicalSha256 = ''
+  $script:WrapperLineEndingConversion = 'NOT_INSPECTED'
   $script:NodeVersion = ''
   $script:TsxVersion = ''
   $script:Head = ''
@@ -135,6 +139,63 @@ try {
     return (Get-FileHash -LiteralPath $LiteralPath -Algorithm SHA256).Hash.ToLowerInvariant()
   }
 
+  function Get-Sha256Bytes {
+    param([byte[]]$Bytes)
+    $algorithm = [System.Security.Cryptography.SHA256]::Create()
+    $hash = $algorithm.ComputeHash($Bytes)
+    $algorithm.Dispose()
+    return [System.BitConverter]::ToString($hash).Replace('-', '').ToLowerInvariant()
+  }
+
+  function Convert-CrlfToLf {
+    param([byte[]]$Bytes)
+    # Binary-safe detection aid only: remove CR from CRLF pairs. No other byte is changed.
+    $stream = New-Object System.IO.MemoryStream
+    for ($index = 0; $index -lt $Bytes.Length; $index += 1) {
+      if ($Bytes[$index] -eq 13 -and ($index + 1) -lt $Bytes.Length -and $Bytes[$index + 1] -eq 10) { continue }
+      $stream.WriteByte($Bytes[$index])
+    }
+    $normalized = $stream.ToArray()
+    $stream.Dispose()
+    return $normalized
+  }
+
+  function Compare-Bytes {
+    param([byte[]]$Left, [byte[]]$Right)
+    if ($Left.Length -ne $Right.Length) { return $false }
+    for ($index = 0; $index -lt $Left.Length; $index += 1) {
+      if ($Left[$index] -ne $Right[$index]) { return $false }
+    }
+    return $true
+  }
+
+  function Invoke-GitBlobBytes {
+    param([string]$ObjectId)
+    if ($ObjectId -notmatch '^[0-9a-f]{40}$') { throw ('invalid Git object id: ' + $ObjectId) }
+    if ($script:GitResolved -eq '') { throw 'git executable was not resolved' }
+    # Read the committed object through Git's object database as raw bytes. Never decode/re-encode it as text.
+    $info = New-Object System.Diagnostics.ProcessStartInfo
+    $info.FileName = $script:GitResolved
+    $info.Arguments = '--no-optional-locks cat-file blob ' + $ObjectId
+    $info.WorkingDirectory = $script:Repo
+    $info.UseShellExecute = $false
+    $info.RedirectStandardOutput = $true
+    $info.RedirectStandardError = $true
+    $info.CreateNoWindow = $true
+    $process = [System.Diagnostics.Process]::Start($info)
+    $memory = New-Object System.IO.MemoryStream
+    $stdout = $process.StandardOutput.BaseStream
+    $stdout.CopyTo($memory)
+    $stderr = $process.StandardError.ReadToEnd()
+    $process.WaitForExit()
+    $code = $process.ExitCode
+    $bytes = $memory.ToArray()
+    $stdout.Dispose()
+    $memory.Dispose()
+    $process.Dispose()
+    return [pscustomobject]@{ ExitCode = $code; Bytes = $bytes; Stderr = $stderr }
+  }
+
   function Read-WrapperJson {
     param([string]$Text)
     # The build wrapper delegates to ingest.ts, whose human-readable progress precedes the final JSON report.
@@ -219,6 +280,7 @@ try {
       TsxVersion = $script:TsxVersion; Head = $script:Head; RequiredCommit = $script:Commit
       ExpectedDigest = $script:ExpectedDigest; ActualDigest = $script:ObservedDigest; LedgerSha256 = $script:LedgerSha256
       ManifestSha256 = $script:ManifestSha256; ManifestByteIdentity = $script:ManifestByteIdentity
+      WrapperRawSha256 = $script:WrapperRawSha256; WrapperCanonicalSha256 = $script:WrapperCanonicalSha256; WrapperLineEndingConversion = $script:WrapperLineEndingConversion
       WrapperReport = $script:WrapperReport; VerifierReport = $script:VerifierReport
       Checks = $script:Checks; Commands = $script:Commands; Error = $Message; BuildStarted = $script:BuildStarted
       CompletedAt = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ss.fffZ')
@@ -295,6 +357,7 @@ try {
 
     $git = Get-Command -Name 'git' -CommandType Application -ErrorAction SilentlyContinue
     if ($null -eq $git) { Add-Check -Id 'git-available' -Ok $false -Detail 'git is required for read-only local commit evidence; no synchronization is performed'; return $false }
+    $script:GitResolved = $git.Source
     $top = Invoke-GitRead @('rev-parse', '--show-toplevel')
     $topOk = $top.ExitCode -eq 0
     if ($topOk) { $topOk = (Get-PhysicalDirectory $top.Stdout.Trim()) -eq $script:Repo }
@@ -310,16 +373,37 @@ try {
     $wrapperPresent = Test-Path -LiteralPath $wrapper -PathType Leaf
     Add-Check -Id 'pinned-wrapper-present' -Ok $wrapperPresent -Detail $wrapper
     if (-not $wrapperPresent) { return $false }
-    $hashOk = (Get-Sha256 $wrapper) -eq $script:WrapperSha256
-    Add-Check -Id 'pinned-wrapper-sha256' -Ok $hashOk -Detail $script:WrapperSha256
+    $rawBytes = [System.IO.File]::ReadAllBytes($wrapper)
+    $script:WrapperRawSha256 = Get-Sha256Bytes $rawBytes
+    Add-Check -Id 'wrapper-working-tree-raw-sha256' -Ok $true -Class 'diagnostic' -Detail ('raw working-tree bytes sha256=' + $script:WrapperRawSha256)
     $blob = Invoke-GitRead @('rev-parse', ($script:Commit + ':' + $script:WrapperRel))
-    $workingBlob = Invoke-GitRead @('hash-object', '--', $wrapper)
-    $blobOk = ($blob.ExitCode -eq 0 -and $workingBlob.ExitCode -eq 0 -and $blob.Stdout.Trim() -eq $script:WrapperBlob -and $workingBlob.Stdout.Trim() -eq $script:WrapperBlob)
-    Add-Check -Id 'pinned-wrapper-git-blob' -Ok $blobOk -Detail $script:WrapperBlob
+    $workingBlob = Invoke-GitRead @('hash-object', '--path', $script:WrapperRel, '--', $wrapper)
+    $committedBlobId = $blob.Stdout.Trim()
+    $cleanBlobId = $workingBlob.Stdout.Trim()
+    $blobOk = ($blob.ExitCode -eq 0 -and $workingBlob.ExitCode -eq 0 -and $committedBlobId -eq $script:WrapperBlob -and $cleanBlobId -eq $script:WrapperBlob)
+    Add-Check -Id 'pinned-wrapper-git-blob' -Ok $blobOk -Detail ('committed=' + $committedBlobId + '; clean working-tree=' + $cleanBlobId + '; expected=' + $script:WrapperBlob)
+    $canonicalOk = $false
+    $script:WrapperLineEndingConversion = 'NOT_INSPECTED'
+    if ($blobOk) {
+      $object = Invoke-GitBlobBytes $committedBlobId
+      if ($object.ExitCode -eq 0) {
+        $script:WrapperCanonicalSha256 = Get-Sha256Bytes $object.Bytes
+        $canonicalOk = $script:WrapperCanonicalSha256 -eq $script:WrapperSha256
+        $script:WrapperLineEndingConversion = 'NONE'
+        if ($script:WrapperRawSha256 -ne $script:WrapperCanonicalSha256) {
+          $script:WrapperLineEndingConversion = 'OTHER_BYTE_DIFFERENCE'
+          $lfBytes = Convert-CrlfToLf $rawBytes
+          if (Compare-Bytes $lfBytes $object.Bytes) { $script:WrapperLineEndingConversion = 'CRLF_CHECKOUT' }
+        }
+      }
+    }
+    Add-Check -Id 'pinned-wrapper-sha256' -Ok $canonicalOk -Detail ('canonical committed-content sha256=' + $script:WrapperCanonicalSha256 + '; expected=' + $script:WrapperSha256 + '; raw=' + $script:WrapperRawSha256 + '; line-ending conversion=' + $script:WrapperLineEndingConversion)
+    Add-Check -Id 'wrapper-line-ending-conversion' -Ok $true -Class 'diagnostic' -Detail ($script:WrapperLineEndingConversion + '; only CRLF-to-LF checkout conversion is accepted; arbitrary whitespace/source changes are not normalized')
+    $bytesOk = $canonicalOk -and ($script:WrapperLineEndingConversion -eq 'NONE' -or $script:WrapperLineEndingConversion -eq 'CRLF_CHECKOUT')
     $pinPaths = @('iips-platform/src/investment', 'iips-platform/package.json', 'iips-platform/package-lock.json', 'evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input', $script:BundleRel)
     $diff = Invoke-GitRead (@('diff', '--quiet', $script:Commit, '--') + $pinPaths)
     Add-Check -Id 'implementation-and-inputs-match-commit' -Ok ($diff.ExitCode -eq 0) -Detail ('tracked investment implementation, dependency lock and admitted evidence match the required commit; exit=' + $diff.ExitCode.ToString())
-    if (-not ($hashOk -and $blobOk -and $diff.ExitCode -eq 0)) { return $false }
+    if (-not ($blobOk -and $bytesOk -and $diff.ExitCode -eq 0)) { return $false }
 
     $node = Get-Command -Name $NodeExe -CommandType Application -ErrorAction SilentlyContinue
     if ($null -eq $node) { Add-Check -Id 'node-available' -Ok $false -Detail 'Node.js >=18 must already be installed; pass -NodeExe if needed; this script never installs it'; return $false }
