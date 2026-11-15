@@ -1,0 +1,53 @@
+# The approval record W04-D1-20261115-01 against the approval check of IPD: the governed policy, the command line.
+# The record file is kept on the host and is not in this repository. Paths are replaced.
+# All commands ran in a network namespace without interfaces (unshare -rn). Node v22.22.3; Linux.
+#
+# sandbox clock: 2026-11-15T19:38:58Z
+# IPD checkout: commit 901e4791e271cafdb777d56f9f66f6867b3f60c6; tracked tool files changed: 0; files changed in the checkout: 0
+# IRR checkout of the loader gate: commit 08411bcd6d782a601fe5c82cc9983d076831148d; files changed: 0
+# approval record file: sha256 70d49544845120755adff9b5f39bc0de216c6a983fa0dbbdcd613ab9b26b440d, 4374 bytes
+
+## 1. the record by itself and against the running tool (the first check the Windows wrapper makes)
+$ node scripts/provision-irr-identity-sources.mjs check-approval --approval <approval record>
+approval record: sha256 70d49544845120755adff9b5f39bc0de216c6a983fa0dbbdcd613ab9b26b440d
+approval: W04-D1-20261115-01; status APPROVED; approved 2026-11-15T19:37:36Z; review date 2026-11-16T18:29:59Z
+approver named in the record: PROGRAM_AUTHORITY_RAMKI
+compared with the running tool: yes; compared with the staged files: no; compared with the IRR commit of an accepted loader gate: no
+RESULT: NO FAILURE FOUND IN WHAT WAS COMPARED - this is not a statement that the record authorizes an installation; see the line above for what was not compared. Nothing was changed.
+exit code: 0
+
+## 2. the record against the generation staged with the PUBLISHED manifest (staging A)
+$ node scripts/provision-irr-identity-sources.mjs check-approval --approval <approval record> --staging <staging A>
+approval record: sha256 70d49544845120755adff9b5f39bc0de216c6a983fa0dbbdcd613ab9b26b440d
+approval: W04-D1-20261115-01; status APPROVED; approved 2026-11-15T19:37:36Z; review date 2026-11-16T18:29:59Z
+approver named in the record: PROGRAM_AUTHORITY_RAMKI
+compared with the running tool: yes; compared with the staged files: yes; compared with the IRR commit of an accepted loader gate: yes
+RESULT: PASS - the approval record authorizes exactly the staged files, their source and generation, the gated IRR commit and this tool. Nothing was changed.
+exit code: 0
+
+## 3. negative control: the same record against a generation staged with the PREVIOUS manifest (staging B)
+$ node scripts/provision-irr-identity-sources.mjs check-approval --approval <approval record> --staging <staging B>
+approval record: sha256 70d49544845120755adff9b5f39bc0de216c6a983fa0dbbdcd613ab9b26b440d
+approval: W04-D1-20261115-01; status APPROVED; approved 2026-11-15T19:37:36Z; review date 2026-11-16T18:29:59Z
+approver named in the record: PROGRAM_AUTHORITY_RAMKI
+compared with the running tool: yes; compared with the staged files: yes; compared with the IRR commit of an accepted loader gate: yes
+APPROVAL REFUSED, GENERATION_MISMATCH: the approval is for another generation than the staged one; differing: p7ManifestSha256
+RESULT: FAIL (GENERATION_MISMATCH) the approval record does not authorize an installation. Nothing was changed.
+exit code: 7
+
+## 4. the same record as it would arrive after a Windows transfer (line ends converted, byte-order mark added)
+# The content is the same record. Only the file bytes differ, and with them the SHA-256 the tool prints and the install receipt would carry.
+# sandbox clock: 2026-11-15T19:43:44Z. Each copy was checked against staging A and then deleted.
+CRLF line ends: file sha256 39a438fa4979ba0ecb9b845f7190ee4c2bb2bcf4734d8fd2c2ecf1f1a4a32c78, 4473 bytes
+  approval record: sha256 39a438fa4979ba0ecb9b845f7190ee4c2bb2bcf4734d8fd2c2ecf1f1a4a32c78
+  RESULT: PASS - the approval record authorizes exactly the staged files, their source and generation, the gated IRR commit and this tool. Nothing was changed.
+  exit code: 0
+UTF-8 byte-order mark, LF line ends: file sha256 0fd225eada16d71a0af1cb8abcb8d905819eabf7b4745e39a71a17f61a8c0d18, 4377 bytes
+  approval record: sha256 0fd225eada16d71a0af1cb8abcb8d905819eabf7b4745e39a71a17f61a8c0d18
+  RESULT: PASS - the approval record authorizes exactly the staged files, their source and generation, the gated IRR commit and this tool. Nothing was changed.
+  exit code: 0
+UTF-8 byte-order mark, CRLF line ends: file sha256 b077d671cd5d56c5e138049550e4c96949c0fee991625610dc631ad2eee71b50, 4476 bytes
+  approval record: sha256 b077d671cd5d56c5e138049550e4c96949c0fee991625610dc631ad2eee71b50
+  RESULT: PASS - the approval record authorizes exactly the staged files, their source and generation, the gated IRR commit and this tool. Nothing was changed.
+  exit code: 0
+as written (LF line ends, no byte-order mark): file sha256 70d49544845120755adff9b5f39bc0de216c6a983fa0dbbdcd613ab9b26b440d, 4374 bytes

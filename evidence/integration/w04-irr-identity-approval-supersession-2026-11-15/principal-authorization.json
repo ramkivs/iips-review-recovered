@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "record": "W04 identity provisioning, decision D1: the Principal's authorization of a superseding approval for the published P7 manifest",
+  "recordId": "IIPS-W04-D1-SUPERSEDING-APPROVAL-AUTHORIZATION-2026-11-15",
+  "notice": "This file is NOT an approval record and the approval check refuses it as one (it has another schema). It records who decided what, and when. The approval record is a separate file kept on the host; this repository holds its SHA-256 only.",
+  "authority": {
+    "name": "Ramki",
+    "authorityId": "PROGRAM_AUTHORITY_RAMKI",
+    "capacity": "Sole decision authority and approver of the local, single-user, non-production IIPS personal application (IPD approval policy IPD-IRR-IDENTITY-APPROVAL-POLICY-2)",
+    "howExercised": "By an instruction given in an Arena session attached to ramkivs/iips-review-recovered (branch arena/8bfe7d67-iips-review-recovered), and by four answers selected in that session to four questions put by the agent. The session runs under the repository owner's GitHub connection. The agent has no other means of identifying the person."
+  },
+  "instruction": {
+    "title": "W04 - Principal-authorized superseding IRR approval",
+    "wording": "RESTATED. The items below are the session's record of the instruction. They are not a quotation; the instruction's own wording is in the session and is not reproduced here.",
+    "authorizes": "Establishing a new, superseding approval for the published P7 manifest. The Principal states that no separate authorization is required for this approval action.",
+    "publishedManifest": {
+      "sha256": "69a918f78791114e8fb036ddfd2a2005facdddf785a7496bc28f541fd4964769",
+      "pipelineCommit": "325266d684f857a377d55b147e7306e02c7a495a",
+      "qualifiedMappings": 4680
+    },
+    "existingApproval": {
+      "approvalId": "W04-D1-20261114-01",
+      "p7ManifestSha256": "13bd2ef18b3dc79ed3d78e78126c4c4ee431e83665847bcb948f6184e14078bc"
+    },
+    "requiredActions": [
+      "Inspect the approval mechanism, the existing approval record and the governance requirements",
+      "Preserve the existing approval unchanged as historical evidence",
+      "Create a new, superseding approval record using the established conventions",
+      "Bind it to the exact published manifest digest and pipeline commit",
+      "Preserve the scope, restrictions and conditions of the original except for the superseded manifest binding",
+      "Record the Principal's authorization and the relationship between the old and the new approval",
+      "Validate the new approval against the actual approval mechanism",
+      "Commit and publish the change",
+      "Independently verify the remote commit and the approval record",
+      "Afterwards: verify that the old-manifest GENERATION_MISMATCH dependency is resolved for the new manifest, by non-production preflight only"
+    ],
+    "notAuthorized": [
+      "Inventing approval fields or bypassing governance validation; an unobtainable value is to be reported as a blocker",
+      "Rewriting or deleting the historical approval",
+      "Changing the published P7 manifest",
+      "Modifying IPD from this task",
+      "Modifying portfolios, holdings or identity assignments",
+      "Expanding the scope of the approval",
+      "Bypassing fail-closed behaviour",
+      "Production provisioning or deployment",
+      "Claiming overall W04 acceptance"
+    ]
+  },
+  "blockerReportedToThePrincipal": "The approval record must state three things that no record supplies and only the approver can decide: the review date, the approver's statement, and the IPD tool commit. The agent reported this before writing anything and put the questions below.",
+  "statedToThePrincipalWithTheQuestions": "The answers become the recorded authorization. The approval time is the second the answers arrive. The identifier follows the existing pattern W04-D1-<UTC date>-01.",
+  "answersReceivedAtUtc": "2026-11-15T19:37:36Z",
+  "answersReceivedClock": "Sandbox clock, read by the first command run after the answers arrived.",
+  "decisions": [
+    {
+      "questionId": "review_date",
+      "question": "Review date of the new approval (reviewDateUtc): the instant it lapses. No record supplies it. The original ran from 2026-11-14 04:57:48Z to 18:29:59Z (end of that day in IST) and has lapsed.",
+      "optionsOffered": [
+        "d1: 2026-11-16T18:29:59Z",
+        "d7: 2026-11-22T18:29:59Z",
+        "d30: 2026-12-15T18:29:59Z",
+        "a value of the Principal's own"
+      ],
+      "selectedOptionId": "d1",
+      "selectedOptionLabel": "2026-11-16T18:29:59Z",
+      "selectedOptionDescription": "End of Monday 16 November IST. Same pattern as the original: end of the day of approval in IST.",
+      "recordField": "reviewDateUtc",
+      "recordValue": "2026-11-16T18:29:59Z"
+    },
+    {
+      "questionId": "tool_commit",
+      "question": "IPD tool commit the record binds (subject.ipdToolCommit). It cannot stay fff4829, the original: the host wrapper has no P7 option and generates with the manifest its own checkout tracks. Installation is refused unless the host IPD checkout is at exactly the commit named.",
+      "optionsOffered": [
+        "main: 901e4791 (IPD main now)",
+        "pr164: bcb45d7d (merge of PR #164)",
+        "artifact: 371bf3bd (manifest commit)",
+        "a value of the Principal's own"
+      ],
+      "selectedOptionId": "main",
+      "selectedOptionLabel": "901e4791 (IPD main now)",
+      "selectedOptionDescription": "901e4791e271cafdb777d56f9f66f6867b3f60c6, merge of PR #165. The preflight already ran here at this commit: generation PASS, IRR loader gate PASS, ready for approval.",
+      "recordField": "subject.ipdToolCommit",
+      "recordValue": "901e4791e271cafdb777d56f9f66f6867b3f60c6"
+    },
+    {
+      "questionId": "statement",
+      "question": "Approver statement (approver.statement). The mechanism requires your own words. Pick a draft to adopt it verbatim, or write your own (the characters < and > are refused).",
+      "optionsOffered": [
+        "full: Adopt the full draft",
+        "short: Adopt the short draft",
+        "a statement of the Principal's own"
+      ],
+      "selectedOptionId": "full",
+      "selectedOptionLabel": "Adopt the full draft",
+      "selectedOptionDescription": "NOT REPRODUCED. The description of this option was the complete text of the statement. The text is part of the approval record, which is not published.",
+      "recordField": "approver.statement",
+      "recordValue": {
+        "published": false,
+        "sha256OfUtf8Text": "8204ae35d6270d78bb7c3c6346278e425a5468a840aaff8777c99a3247c111d8",
+        "characters": 927
+      },
+      "provenanceOfTheText": "Drafted by the agent, shown to the Principal in full, and adopted by the Principal by selecting it. The Principal did not type it."
+    },
+    {
+      "questionId": "publication",
+      "question": "Publication. The existing convention keeps an approval record on the host, outside both checkouts, with its content unpublished; your instruction asks for publication in IRR. Merging also moves IRR main past 08411bc, the gated commit this record names, so the record then matches only an IRR checkout that stays at 08411bc.",
+      "optionsOffered": [
+        "merge_main: Publish on IRR main",
+        "branch_pr: Session branch and open PR",
+        "digest_only: Keep the JSON off the repo"
+      ],
+      "selectedOptionId": "digest_only",
+      "selectedOptionLabel": "Keep the JSON off the repo",
+      "selectedOptionDescription": "Follow the existing convention: publish the document and evidence with the record's SHA-256 only. The JSON stays uncommitted in the session workspace for you to take to the host.",
+      "recordField": null,
+      "recordValue": null
+    }
+  ],
+  "valuesNotAskedAndHowTheyWereSet": [
+    {
+      "recordField": "approvalId",
+      "recordValue": "W04-D1-20261115-01",
+      "rule": "The pattern of the existing identifier, W04-D1-<date>-<sequence>, with the UTC date of approvedAtUtc and sequence 01. The rule was stated to the Principal with the questions."
+    },
+    {
+      "recordField": "approvedAtUtc",
+      "recordValue": "2026-11-15T19:37:36Z",
+      "rule": "The second the answers arrived, as stated to the Principal with the questions."
+    },
+    {
+      "recordField": "subject, scope, accepted",
+      "rule": "Carried over from the review record the tool wrote for the staged generation (review-for-approval-901e479.json in this directory), without retyping a value."
+    },
+    {
+      "recordField": "policyVersion, decision, approver.authorityId, approver.name",
+      "rule": "The values the tool's policy fixes, as printed in the same review record."
+    }
+  ],
+  "approvalEstablished": {
+    "approvalId": "W04-D1-20261115-01",
+    "schemaVersion": "IPD_IRR_IDENTITY_APPROVAL_V2",
+    "status": "APPROVED",
+    "approvedAtUtc": "2026-11-15T19:37:36Z",
+    "reviewDateUtc": "2026-11-16T18:29:59Z",
+    "recordFileSha256": "70d49544845120755adff9b5f39bc0de216c6a983fa0dbbdcd613ab9b26b440d",
+    "recordFileBytes": 4374,
+    "recordFileLocation": "Host-held. Not in this repository and not in IPD.",
+    "p7ManifestSha256": "69a918f78791114e8fb036ddfd2a2005facdddf785a7496bc28f541fd4964769",
+    "p7PipelineCommit": {
+      "value": "325266d684f857a377d55b147e7306e02c7a495a",
+      "howBound": "The record has no field for it. The manifest bytes state it, and the record binds the SHA-256 of those bytes."
+    },
+    "ipdToolCommit": "901e4791e271cafdb777d56f9f66f6867b3f60c6",
+    "irrCommit": "08411bcd6d782a601fe5c82cc9983d076831148d"
+  },
+  "supersedes": {
+    "approvalId": "W04-D1-20261114-01",
+    "recordFileSha256AsRecordedInIpd": "bf5d6918e1245d65fe3e26406537585e28aa5ba6b2e055c79da5c9975177ad69",
+    "reviewDateUtc": "2026-11-14T18:29:59Z",
+    "treatment": "Unchanged. The file is on the host and was not read, edited, renewed, revoked, replaced or deleted. It had lapsed by its own review date before this authorization.",
+    "meaningOfSupersedes": "For new installations the new record is the one to give to the tool. The record schema has no field for this relation; it is stated here, in the supersession record under docs/integration, and in the approver's statement inside the new record."
+  },
+  "notDecidedHere": [
+    "Whether and when the files are installed on the host. No installation was made.",
+    "Acceptance of W04. W04 stays PARTIALLY COMPLETE, not accepted."
+  ]
+}
