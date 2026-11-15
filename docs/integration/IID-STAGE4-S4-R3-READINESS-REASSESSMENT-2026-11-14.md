@@ -183,3 +183,48 @@ source rights remain `OPERATOR_ASSERTED`; identity sources remain `IDENTITY_SOUR
 are measured. **Runtime installation remains NOT AUTHORIZED**, the active dataset and identity directory
 were not touched, and the portfolio database was not accessed. **Stage 4 remains PARTIALLY COMPLETE and
 overall IID readiness remains NOT READY.**
+
+## 8. Windows read-only candidate verification recorded — VERIFY-PASS 46/46 (recorded 2026-11-15)
+
+**Evidence:** `IID-S4-R3-WINDOWS-READONLY-VERIFICATION-EVIDENCE-2026-11-15.md`
+**Mode:** `IID-S4-R3-CANDIDATE-LOCAL-BUILD.ps1 -VerifyOnly` against the existing candidate
+**Host baseline:** `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01`; shell Windows PowerShell `5.1.26100.9818` Desktop
+**Execution timestamp:** not supplied by the operator transcript; none asserted. Only the ordering after the
+§6 BUILD act is established, from the presence of the BUILD-written Windows attestation.
+
+Sections 1–7 keep their recorded statuses. This section is the current position **only for the Windows
+read-only candidate-verification limb**. The operator re-verified the existing candidate at
+`C:\iips-candidates\S4-R3-preflight-7ef0f10`: driver **`VERIFY-PASS; 46 passed, 0 failed; ExitCode=0`**, pinned
+build wrapper **PASS** with `checks=16` and `comparable-manifest matches=1`, authoritative
+`verify-installed-dataset` **PASS** `checks=31`, `failed=0`, exit 0, read-only attestation `1`. Digest
+`sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`. Infosys, Marico and KEC admitted
+input digests all matched. **No build was started by this invocation**; the candidate's names, sizes, mtimes
+and hashes were identical before and after. The active dataset, identity directory and portfolio database were
+protected; the portfolio database was not accessed. The complete transcript is preserved verbatim in §3 of the
+evidence document, with an integrity pin over its exact bytes.
+
+| S4-R3 limb | Position |
+|---|---|
+| Candidate build and digest verification | **COMPLETE** — unchanged from §6 |
+| Windows read-only candidate verification | **COMPLETE — 46/46**, wrapper 16/16, authoritative verifier 31/0 |
+| Installation / replacement | **NOT PERFORMED.** Separate owner authorization and a governed replacement procedure are required |
+| Freshness and every other outstanding Stage 4 finding | **OPEN**, unchanged — no authoritative evidence closes them |
+
+**Identity rule.** The `DIFFERENT_RAW_BYTES` manifest diagnostic (`b0c888a8…` vs recorded `b921741942…`) is
+**not** an identity failure: identity is governed by the passed authoritative comparable-fields check plus the
+exact content digest. The distinction is preserved, not collapsed.
+
+**Two transcript anomalies are disclosed rather than corrected** (evidence §6): the `pinned-wrapper-sha256`
+detail line carries two 68-character hex strings where SHA-256 is 64 — a copy artefact, since the committed
+driver prints a 64-character literal and the same line's canonical value plus the separate raw diagnostic are
+correct and match the committed pin `5f3ad17b…` / blob `b807c7f2…`; and the `wrapper-line-ending-conversion`
+diagnostic that the committed driver emits is absent from the capture, which cannot affect the totals because
+diagnostics are excluded from them. The transcript was **not** edited to match the script.
+
+`S4-R3` **remains OPEN**. `R-1`/`R-2` remain open — a candidate verifier run is neither the host readiness
+diagnostic nor the served-route captures. `G-4`, `G-6`, `S4-R6`, `S4-R3-Infosys`, `R-4`, `S2-R1`, `S2-R2` and
+`D2`–`D6` are unchanged. `L-041` and `L-042` remain **OPEN**; source rights remain `OPERATOR_ASSERTED` with no
+independent legal verification and no PDF-to-transcription claim; `IDENTITY_SOURCE_MISSING` is unresolved; 3 of
+13 sectors are measured. **Runtime installation remains NOT AUTHORIZED. Stage 4 remains PARTIALLY COMPLETE,
+Stage 5 is not declared ready, and overall IID readiness remains NOT READY.** No Windows execution was
+performed by IRR, no dataset content was published, and PR #562 was not merged.

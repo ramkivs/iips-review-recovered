@@ -269,6 +269,28 @@ literal `G-14` "no lint" complaint only.** `G-4`, `G-6`, `S4-R3`, `S4-R6`, `R-1`
 ready, and overall IID readiness remains **NOT READY**. Full record:
 `IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md` §7.
 
+**Addendum — S4-R3 Windows read-only candidate verification recorded (recorded 2026-11-15).** The `S4-R3` row
+above is **not closed**, and no other row changed. The operator ran
+`IID-S4-R3-CANDIDATE-LOCAL-BUILD.ps1 -VerifyOnly` on the Windows PowerShell 5.1 host against the existing
+candidate at `C:\iips-candidates\S4-R3-preflight-7ef0f10`, baseline `7ef0f10`:
+**`VERIFY-PASS; 46 passed, 0 failed; ExitCode=0`**, pinned wrapper **PASS** `checks=16` with
+`comparable-manifest matches=1`, authoritative `verify-installed-dataset` **PASS** `checks=31`, `failed=0`,
+exit 0, read-only attestation `1`, digest
+`sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`; all three admitted issuer input
+digests matched. **No build was started; nothing was written.** This discharges the Windows read-only
+candidate-verification limb only. **Installation/replacement was not performed** and needs separate owner
+authorization plus a governed replacement procedure. `S4-R3` stays OPEN because `STALE_STATEMENTS`/`STALE_DATA`
+persist for all three issuers; `G-6` remains partially discharged in candidate; `G-4`, `S4-R6`, `R-1`, `R-2`,
+`R-4`, `S2-R1`, `S2-R2` and `D2`–`D6` are unchanged; `S4-R7` remains DISCHARGED per the addendum above. The raw
+manifest-byte diagnostic stays distinct from the passed authoritative comparable-fields identity check. Two
+transcript anomalies (a 68-character hex copy artefact and one missing diagnostic line) are disclosed, not
+silently corrected. `L-041`/`L-042` remain **OPEN**, source rights remain `OPERATOR_ASSERTED`, identity sources
+remain `IDENTITY_SOURCE_MISSING`, 3 of 13 sectors are measured. The active dataset, identity directory and
+portfolio database were protected and the portfolio database was not accessed. Stage 4 remains
+**PARTIALLY COMPLETE** and overall IID readiness remains **NOT READY**. Full record with the verbatim transcript:
+`IID-S4-R3-WINDOWS-READONLY-VERIFICATION-EVIDENCE-2026-11-15.md`; current S4-R3 position:
+`IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md` §8.
+
 **Explicitly not remaining actions**, because naming them would reorder the roadmap, reopen closed work, or
 exceed this stage's authority: merging PR #562 (an owner act); repeating the identity publication or
 reinstalling the Stage 3 dataset (both prohibited — both are evidence); re-running `-Execute` (the set is
