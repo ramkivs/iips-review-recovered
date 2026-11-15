@@ -12,6 +12,7 @@
 | Evidence | `evidence/iid/Q1-NP04-COMPATIBILITY-PROBE-2026-11-05/` |
 | Scope | single-user, local, decision-support only. No production concept, no admission step, **no trade execution** |
 | Status | roadmap only — no IID functionality is implemented by this document |
+| Operating authority | **`IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` (PART C) — the owner is the sole operational authority for this personal, single-user, non-production application. It wins over any approval or acceptance requirement in Parts A or B.** |
 
 ---
 
@@ -713,6 +714,7 @@ cumulative register `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGIST
 | what is limited, and how badly | the limitation and coverage register (`L-001` … `L-016`) |
 | what is still outstanding | §B.K (C-16.1 … C-16.5) and §B.L |
 | the reasoning behind a correction | design of record, Part III §A … §I |
+| who authorizes a local operation | **PART C / PA-01 — the owner, directly; no committee or acceptance authority** |
 
 ## B.A Artifact-chain and version identity (corrects the identity mechanics of IID-3 and IID-5)
 
@@ -1391,3 +1393,42 @@ expected-payload dump is broader than that — recorded, not argued away. Eviden
 `L-014` remains `RESOLVED` by §B.N). AC-X1 stays a qualified PASS with Q-1…Q-4, and AC-2.6, AC-2.9 and AC-4.7 stay
 qualified. AC-X3, AC-X4, AC-X5 and AC-X7 are unchanged. No criterion was promoted without evidence in this section, and
 no limitation was closed by it.
+
+---
+
+# PART C — Operating authority amendment (authoritative, 2026-11-15)
+
+**Governing document:** `IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md`.
+
+**PART C wins on any conflict with Part A or Part B about who may authorize a local operation.** Parts A
+and B remain the authority for architecture, contracts, method enablement and technical acceptance
+criteria; they are not rewritten.
+
+The application is personal, single-user, local Windows and non-production. **The owner is its sole
+operational authority.** Dataset installation and replacement, runtime configuration, identity
+provisioning, local testing, backup/restore and routine verification are ordinary owner-directed
+operations. They require no committee, no acceptance authority, no governance approval and no
+owner-adjudication process.
+
+What replaces approval is engineering: preserve data before a destructive change; verify the backup;
+verify candidate identity and digests; use supported application mechanisms; verify the result through
+the product's own readers; roll back on failure; record the operation concisely. A safeguard is kept
+only if it addresses a demonstrable technical risk.
+
+**Phase acceptance is unchanged where it is technical.** AC-X1…AC-X7 (§3) are engineering checks —
+tests green, typecheck clean, no sockets, no unpinned dependency, no sector-engine edits, no second
+store, artifacts external to git, chain validation on write and read. They stay. What is withdrawn is
+any reading of them, or of the B.J* acceptance tables, as requiring a second human authority for a
+local act.
+
+**Removed as gates:** O1 (identity population decision), O3 as a recurring admission gate, O5/O10 as
+preconditions, R-4 formal adjudication, "installation NOT AUTHORIZED", and the prohibition on
+reinstalling a dataset or republishing identity. PA-01 §3 enumerates each with its location.
+
+**Preserved:** IRR/IPD write boundaries, source provenance and missing-value refusal, deterministic
+identity and digest integrity, backup/recovery, honest evidence, and the exclusion of production,
+SaaS, multi-user and commercial use. No PR is merged without explicit instruction.
+
+**Stage 1–6 is adopted as the working sequence** by this amendment; no separate owner acceptance of the
+track is required. Stage 5's IPD binding and IPC peer remain genuine technical dependencies — a missing
+dependency is a real blocker, an approval ceremony is not.

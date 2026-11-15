@@ -9,7 +9,7 @@
 
 > This document publishes procedure and non-content test evidence only. No Windows build was executed by the implementation session. No runtime was installed or changed. The active IID dataset, identity directory and portfolio database were not targets. Overall IID readiness remains **NOT READY**.
 
-> **Host execution status (host report date 2026-11-15):** the operator has since run this driver on the Windows host at `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01` and completed the candidate build and authoritative dataset verification — `BUILD-VERIFY-PASS; 75 passed, 0 failed; ExitCode=0`. The result is recorded in `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`. This document remains the procedure authority. Runtime installation remains **NOT AUTHORIZED**.
+> **Host execution status (host report date 2026-11-15):** the operator has since run this driver on the Windows host at `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01` and completed the candidate build and authoritative dataset verification — `BUILD-VERIFY-PASS; 75 passed, 0 failed; ExitCode=0`. The result is recorded in `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`. This document remains the procedure authority. **Operating authority (2026-11-15):** under `IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` the owner is the sole operational authority; installing the verified candidate is an ordinary owner-directed local operation, protected by backup, digest verification, supported replacement, post-installation verification and rollback. No approval ceremony applies. No installation has been performed by the recording sessions.
 
 ## 1. What the driver does
 
@@ -150,7 +150,7 @@ Prerequisites that must already be present:
 - The required commit `3c4789618b88689e269ce177ff50649545ef6e33` reachable from local HEAD, with the pinned wrapper SHA-256/blob and unchanged tracked investment implementation, dependency lock and admitted evidence.
 - All three admitted input directories with byte-exact LF inputs.
 
-The script never installs Node, runs `npm ci`, fetches, pulls, clones, switches branches, checks out, resets, rebases, stashes or restores. If a prerequisite is missing, it stops with the exact failed check. Dependency preparation or repository acquisition is a separate operator-governed act outside this script.
+The script never installs Node, runs `npm ci`, fetches, pulls, clones, switches branches, checks out, resets, rebases, stashes or restores. If a prerequisite is missing, it stops with the exact failed check. Dependency preparation or repository acquisition is an ordinary operator step outside this script (`npm ci`; obtain the baseline). The script's refusal to synchronize the repository automatically is a technical safety property and is unchanged.
 
 ### Parent preparation (separate manual step, outside the script)
 
@@ -273,7 +273,7 @@ The targeted Linux fixture proves this case: a copied checkout produced a differ
 
 | Failure | Required response |
 |---|---|
-| Missing wrapper, wrong commit/blob or changed tracked implementation/evidence | Stop. Do not edit pins or synchronize automatically. Obtain the authorized local baseline through a separate governed operator action. |
+| Missing wrapper, wrong commit/blob or changed tracked implementation/evidence | Stop. Do not edit pins or synchronize automatically. Prepare the local baseline yourself as an ordinary operator step; the script never synchronizes it for you. |
 | CRLF checkout conversion | Accepted only when the clean Git blob and canonical committed-content SHA-256 match, and binary comparison proves the sole difference is CRLF-to-LF. The raw hash and conversion state are reported. |
 | Other wrapper byte difference | Fail. Do not normalize whitespace or replace the canonical pin with the observed raw hash. |
 | Missing/altered input or inputDigest mismatch | Stop. Do not normalize CRLF, re-transcribe or edit admitted bytes. Restore the exact authorized local inputs separately. |
@@ -305,7 +305,7 @@ The prior driver publication gates at commits `5acc941af8230b21638150589813c68d9
 
 These are **Linux-side static conformance and Git-object semantics tests**, not Windows PowerShell execution evidence. No Pester run is claimed. Windows PowerShell 5.1 host acceptance remains outstanding and must be performed by the operator before relying on the driver on that host.
 
-**Host acceptance addendum (host report date 2026-11-15).** The operator has now executed this driver on the Windows host under Windows PowerShell 5.1 Desktop with Node `v24.14.0` and locked tsx `4.23.9`, at repository HEAD `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01`, from `C:\iips-worktrees\S4-R3-preflight-7ef0f10` into `C:\iips-candidates\S4-R3-preflight-7ef0f10`. Result: `BUILD-VERIFY-PASS; 75 passed, 0 failed; ExitCode=0`; wrapper PASS 16/16; authoritative verifier PASS 31/0 exit 0; actual digest equal to the admitted `sha256:bdfb2527…`. The post-Node lockfile exception did not recur. This is operator-supplied host evidence, recorded in `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`; it is not a sandbox measurement and it does not claim a Pester run of the script suite. Installation into the active runtime remains **NOT AUTHORIZED**.
+**Host acceptance addendum (host report date 2026-11-15).** The operator has now executed this driver on the Windows host under Windows PowerShell 5.1 Desktop with Node `v24.14.0` and locked tsx `4.23.9`, at repository HEAD `7ef0f10f593e6d5449900b61f7bf74d0c3daaa01`, from `C:\iips-worktrees\S4-R3-preflight-7ef0f10` into `C:\iips-candidates\S4-R3-preflight-7ef0f10`. Result: `BUILD-VERIFY-PASS; 75 passed, 0 failed; ExitCode=0`; wrapper PASS 16/16; authoritative verifier PASS 31/0 exit 0; actual digest equal to the admitted `sha256:bdfb2527…`. The post-Node lockfile exception did not recur. This is operator-supplied host evidence, recorded in `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`; it is not a sandbox measurement and it does not claim a Pester run of the script suite. Installation into the active runtime was not performed by that run. Under PA-01 it is an ordinary owner-directed local operation, not an act requiring separate authorization.
 
 ## 7. Preserved boundaries and limitations
 

@@ -228,3 +228,34 @@ independent legal verification and no PDF-to-transcription claim; `IDENTITY_SOUR
 13 sectors are measured. **Runtime installation remains NOT AUTHORIZED. Stage 4 remains PARTIALLY COMPLETE,
 Stage 5 is not declared ready, and overall IID readiness remains NOT READY.** No Windows execution was
 performed by IRR, no dataset content was published, and PR #562 was not merged.
+
+## 9. PA-01 applied — S4-R3 installation is an ordinary owner-directed local operation (2026-11-15)
+
+**Governing policy:** `IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md`, in force. Sections 1–8 keep
+their recorded facts; this section replaces their **approval** language prospectively.
+
+The §4 row `S4-R3` said `OWNER + OPERATOR` and required "a recorded admission decision"; §6 and §8 said
+installation is "NOT AUTHORIZED" and needs "separate owner authorization and a governed replacement procedure".
+**Those approval requirements are withdrawn.** The owner is the sole operational authority for this personal,
+single-user, non-production application. Installing the verified candidate is ordinary local maintenance.
+
+| Limb | Position under PA-01 |
+|---|---|
+| Candidate build and digest verification | **COMPLETE** — unchanged |
+| Windows read-only candidate verification | **COMPLETE — 46/46**, wrapper 16/16, verifier 31/0 — unchanged |
+| Installation / replacement | **Owner-directed ordinary operation.** No approval, admission decision, acceptance authority or adjudication required. Not yet performed |
+| Protected by | Verified backup of the Stage 3 dataset; candidate digest verification; supported replacement; post-installation verification through the product's own readers; rollback on failure; a concise durable record |
+| Freshness and all other Stage 4 findings | **OPEN**, unchanged — installing bytes does not make stale statements current |
+
+**One real technical constraint, disclosed not hidden.** Re-ingesting the S4-R3 inputs over the live directory
+is refused by `assertNoSilentSourceLoss`: the installed dataset's recorded `inputs[].inputDir` strings name the
+historical `WI7`/`WI8` bundles, which the refresh supersedes, so the guard sees dropped sources and stops before
+writing. That is the guard working correctly, and it is **not** to be weakened. The supported move is to replace
+the installed dataset with the **already-verified candidate package**, whose ten files are the exact bytes the
+verifier passed at `sha256:bdfb2527…`. PA-01 §5 gives the owner-executed outline. **No installation was performed
+by the policy task.**
+
+`R-1`/`R-2` remain open as host captures — verification steps, not approvals. `L-041`/`L-042` remain OPEN as
+technical limitations with no adjudication ceremony. Source rights remain `OPERATOR_ASSERTED`;
+`IDENTITY_SOURCE_MISSING` is unresolved; 3 of 13 sectors are measured. Stage 4 remains **PARTIALLY COMPLETE**
+and overall IID readiness remains **NOT READY**. PR #562 is not merged.

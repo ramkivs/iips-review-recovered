@@ -291,6 +291,26 @@ portfolio database were protected and the portfolio database was not accessed. S
 `IID-S4-R3-WINDOWS-READONLY-VERIFICATION-EVIDENCE-2026-11-15.md`; current S4-R3 position:
 `IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md` §8.
 
+**Addendum — PA-01 operating-authority amendment IN FORCE (2026-11-15).**
+`IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` is now the governing operating policy for the IID
+personal-use path and **wins over the approval language in this register**. The owner is the sole operational
+authority for this personal, single-user, non-production application. Effect on the rows above, applied
+prospectively without rewriting any historical statement: **R-4** (formal adjudication of `L-041`/`L-042`) is
+**removed as a ceremony** — both stay listed as known technical disclosure defects that block nothing;
+**S2-R1** (record owner decision O1) is **removed as a gate** — the owner selects their population by authoring
+the roster, and Stage 2 is not held open for a decision record; **S4-R5** and **S4-R6** become ordinary
+maintenance choices the owner makes directly, keeping their technical content; **S4-R3** installation is an
+**ordinary owner-directed local dataset replacement**, no longer "NOT AUTHORIZED"; and the §11/§12 prohibition on
+reinstalling the dataset or republishing identity is **withdrawn**. **R-1**/**R-2** remain real work — they are
+host captures, i.e. verification steps, not approvals. **S4-R7** stays DISCHARGED. What replaces approval is
+PA-01 §4: preserve data, verify the backup, verify candidate digests, use supported mechanisms, verify through
+the product's own readers, roll back on failure, record concisely. **Untouched:** IRR/IPD write boundaries,
+provenance and missing-value refusal, digest and identity integrity, backup/recovery, honest evidence, and the
+exclusion of production/SaaS/multi-user/commercial use. PR #562 is **not** merged. This addendum closes no
+technical finding: `G-4`, `G-6`, freshness, `L-041`, `L-042` and the IPD-owned Stage 5 dependencies are unchanged,
+Stage 4 remains **PARTIALLY COMPLETE**, and overall IID readiness remains **NOT READY** as an accurate
+description of an incomplete integration — not as a release gate.
+
 **Explicitly not remaining actions**, because naming them would reorder the roadmap, reopen closed work, or
 exceed this stage's authority: merging PR #562 (an owner act); repeating the identity publication or
 reinstalling the Stage 3 dataset (both prohibited — both are evidence); re-running `-Execute` (the set is

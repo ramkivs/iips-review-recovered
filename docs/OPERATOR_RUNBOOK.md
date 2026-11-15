@@ -894,3 +894,58 @@ prints a setting value, an owner/tenant pair, a carrier digest, a filesystem pat
    exists, IID-01 answers `404 investment-artifact-not-found` and IID-03 answers `404 change-not-found` —
    correct refusals, not faults.
 5. Re-run with `--strict`. Only then consider P6-B real-issuer browser acceptance.
+
+---
+
+## 17. IID personal-use operating authority (PA-01, 2026-11-15)
+
+**You are the sole operational authority for this application.** It is your own personal, single-user,
+local Windows, non-production system. There is no committee, acceptance authority, change board or second
+approver, and no IID record may require one of you. Governing document:
+`docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md`.
+
+**Just do these, directly:** install or replace a dataset; set runtime configuration; provision identity;
+run local tests; back up and restore; verify implementations and operations. Older IID records that call
+these "NOT AUTHORIZED", "a separate governed act", or "owner decision required" are **superseded** — PA-01
+§3 lists each one.
+
+### 17.1 The seven safeguards that replace approval
+
+1. **Back up before a destructive change.** Copy the current dataset out of the runtime path first.
+2. **Verify the backup.** Read it back and confirm its digest. An unverified copy is not a backup.
+3. **Verify the candidate.** Check its content digest before it goes near the live directory.
+4. **Use the supported mechanisms.** The ingestion CLI, the provisioning CLI, the published drivers —
+   not hand-edited dataset JSON.
+5. **Verify the result with the application's own readers**, not a reimplementation:
+   ```bash
+   # from iips-platform/
+   npx tsx src/investment/cli/verify-installed-dataset.ts --data-dir /absolute/data-domain
+   # from frontend/
+   npm run iid:readiness -- --data-dir /absolute/data-domain
+   ```
+6. **Roll back on failure.** Restore the verified backup and re-verify.
+7. **Write a short record.** What changed, digest before and after, verification result, backup location.
+
+A safeguard earns its place by preventing a real failure — data loss, unverified bytes, a silently dropped
+source, a claimed state the app cannot serve, or a failed change with no way back. Ceremony does not.
+
+### 17.2 Blockers: technical, not political
+
+A missing file, an absent dependency, a failed digest, a refused guard or an unprovisioned IPD peer is a
+**real blocker**. Fix it and proceed. An approval requirement is **not** a blocker. If a tool refuses,
+read the named check — it is telling you a technical fact.
+
+Two guards worth knowing, both correct and both kept:
+
+- `assertNoSilentSourceLoss` refuses an ingestion that would drop issuers or recorded sources from the
+  installed dataset. To supersede sources deliberately, replace the dataset with a verified package
+  rather than re-ingesting over it (PA-01 §5).
+- The Windows drivers refuse to synchronize your repository or overwrite an existing build destination.
+  Prepare the baseline yourself; choose a new destination.
+
+### 17.3 What has not changed
+
+IRR writes IRR and **IPD is not modified**. No PR is merged without explicit instruction. Unreported
+inputs are never silently zero. Digests, canonical sector vocabulary and fail-closed identity resolution
+still apply. Sandbox results are never reported as host results. Production, SaaS, multi-user and
+commercial deployment remain out of scope.
