@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 1,
+  "task": "Build and verify the exact O3-admitted S4-R3 candidate dataset",
+  "taskDate": "2026-11-14",
+  "branch": "arena/53ff9276-iips-review-recovered",
+  "verifiedBuildBaseline": "de65180577d1b79b9056974fc02a5000bc1baa39",
+  "result": "PASS",
+  "candidate": {
+    "expectedDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "actualDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "buildClock": "2026-11-14T00:00:00.000Z",
+    "sessionLocalBuildDirectory": "/home/user/iips-candidates/S4-R3-de65180",
+    "operatorControlledDurableLocationEstablished": false,
+    "manifestSha256": "b921741942d4674ed968f2938917b588b07ae9dc6db12f2998cb7361727d90ba",
+    "ledgerSha256": "3647c9397bc7e1577ea1255aa6fcbe72418a3bc0fe23c439269c55a6891265bc",
+    "generatedContentFileCount": 8,
+    "packageFileCount": 10,
+    "fileDigests": [
+      {
+        "bytes": 3,
+        "expectedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "match": true,
+        "path": "investment/dataset/corporateActions.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "bytes": 19201,
+        "expectedSha256": "100458707f38a9e81bd7f3b2d337989a04f438549768147d8e2c2be1a1d0e561",
+        "match": true,
+        "path": "investment/dataset/coverage-report.json",
+        "sha256": "100458707f38a9e81bd7f3b2d337989a04f438549768147d8e2c2be1a1d0e561"
+      },
+      {
+        "bytes": 866,
+        "expectedSha256": "b67da8709e7044312c5ef2db5fd92c416dc349bfdaff54f08f2d4194a5bc4014",
+        "match": true,
+        "path": "investment/dataset/issuers.json",
+        "sha256": "b67da8709e7044312c5ef2db5fd92c416dc349bfdaff54f08f2d4194a5bc4014"
+      },
+      {
+        "bytes": 3,
+        "expectedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "match": true,
+        "path": "investment/dataset/issues.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "bytes": 3375,
+        "expectedSha256": "77f8d13490332c05589d3ebbdb59bda98ef7cebc853371d652698824ab992130",
+        "match": true,
+        "path": "investment/dataset/listings.json",
+        "sha256": "77f8d13490332c05589d3ebbdb59bda98ef7cebc853371d652698824ab992130"
+      },
+      {
+        "bytes": 4464,
+        "expectedSha256": null,
+        "match": true,
+        "path": "investment/dataset/manifest.json",
+        "sha256": "b921741942d4674ed968f2938917b588b07ae9dc6db12f2998cb7361727d90ba"
+      },
+      {
+        "bytes": 3,
+        "expectedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "match": true,
+        "path": "investment/dataset/operatingMetrics.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "bytes": 188587,
+        "expectedSha256": "9b44cfffe23a05db0a5a288df26fe25dcdc2451f672c92a1bed2399f66ab6d47",
+        "match": true,
+        "path": "investment/dataset/periods.json",
+        "sha256": "9b44cfffe23a05db0a5a288df26fe25dcdc2451f672c92a1bed2399f66ab6d47"
+      },
+      {
+        "bytes": 3,
+        "expectedSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "match": true,
+        "path": "investment/dataset/prices.json",
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      {
+        "bytes": 583,
+        "expectedSha256": "d25abfdede4a4bb89f44babcf8a3690f294e5c2bd93651109ddebe6590abc5ab",
+        "match": true,
+        "path": "investment/dataset/securities.json",
+        "sha256": "d25abfdede4a4bb89f44babcf8a3690f294e5c2bd93651109ddebe6590abc5ab"
+      }
+    ],
+    "inputs": [
+      {
+        "inputDigest": "sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c",
+        "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+        "issuerId": "IN:CIN:L85110KA1981PLC013115"
+      },
+      {
+        "inputDigest": "sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d",
+        "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+        "issuerId": "IN:CIN:L15140MH1988PLC049208"
+      },
+      {
+        "inputDigest": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a",
+        "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+        "issuerId": "IN:CIN:L45200MH2005PLC152061"
+      }
+    ],
+    "enclosingEvidenceLedgerSha256": "b41b0b106fe731d1b2420f72f05b2efa7e44e1a39ef185b4af063f441be92c63",
+    "enclosingEvidenceLedgerEntries": 26
+  },
+  "authoritativePipeline": "iips-platform/src/investment/cli/ingest.ts",
+  "authoritativeReadOnlyHarness": {
+    "tool": "verify-installed-dataset",
+    "result": "PASS",
+    "passed": 32,
+    "failed": 0,
+    "exitCode": 0,
+    "checks": [
+      {
+        "id": "dataset-present",
+        "ok": true
+      },
+      {
+        "id": "no-publication-markers",
+        "ok": true
+      },
+      {
+        "id": "reader-verifies",
+        "ok": true
+      },
+      {
+        "id": "manifest-identity",
+        "ok": true
+      },
+      {
+        "id": "expected-version",
+        "ok": true
+      },
+      {
+        "id": "file-digests-recomputed",
+        "ok": true
+      },
+      {
+        "id": "dataset-files-exact",
+        "ok": true
+      },
+      {
+        "id": "issuer-count",
+        "ok": true
+      },
+      {
+        "id": "issuer-ids",
+        "ok": true
+      },
+      {
+        "id": "distinct-sectors",
+        "ok": true
+      },
+      {
+        "id": "sector-names",
+        "ok": true
+      },
+      {
+        "id": "issuer-sector-assignment",
+        "ok": true
+      },
+      {
+        "id": "annual-periods",
+        "ok": true
+      },
+      {
+        "id": "quarterly-periods",
+        "ok": true
+      },
+      {
+        "id": "ingestion-issues",
+        "ok": true
+      },
+      {
+        "id": "source-rights-recorded",
+        "ok": true
+      },
+      {
+        "id": "provenance-entries",
+        "ok": true
+      },
+      {
+        "id": "provenance-input-dirs",
+        "ok": true
+      },
+      {
+        "id": "provenance-input-digests",
+        "ok": true
+      },
+      {
+        "id": "provenance-bundle-bytes",
+        "ok": true
+      },
+      {
+        "id": "coverage-api-reads",
+        "ok": true
+      },
+      {
+        "id": "coverage-version-agrees",
+        "ok": true
+      },
+      {
+        "id": "coverage-dataset-class",
+        "ok": true
+      },
+      {
+        "id": "coverage-class-not-none",
+        "ok": true
+      },
+      {
+        "id": "coverage-measured-sectors",
+        "ok": true
+      },
+      {
+        "id": "coverage-usable-methods",
+        "ok": true
+      },
+      {
+        "id": "coverage-outstanding-listed",
+        "ok": true
+      },
+      {
+        "id": "coverage-issuer-rows",
+        "ok": true
+      },
+      {
+        "id": "coverage-row-state",
+        "ok": true
+      },
+      {
+        "id": "coverage-issues",
+        "ok": true
+      },
+      {
+        "id": "coverage-identity-disclosure",
+        "ok": true
+      },
+      {
+        "id": "read-only-attestation",
+        "ok": true
+      }
+    ]
+  },
+  "wrapperVerification": {
+    "result": "PASS",
+    "checks": [
+      {
+        "detail": "3/3 exact input bundles and 6/6 consumed files match",
+        "id": "admitted-input-digests",
+        "ok": true
+      },
+      {
+        "detail": "26 entries and ledger SHA-256 match",
+        "id": "enclosing-evidence-ledger",
+        "ok": true
+      },
+      {
+        "detail": "8 declared files verified",
+        "id": "reader-and-manifest-integrity",
+        "ok": true
+      },
+      {
+        "detail": "expected sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b; actual sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+        "id": "exact-o3-candidate-digest",
+        "ok": true
+      },
+      {
+        "detail": "content-bearing manifest fields match the recorded candidate; audit paths may differ by checkout",
+        "id": "recorded-manifest-comparable-fields",
+        "ok": true
+      },
+      {
+        "detail": "10 files; expected 8 content + manifest + coverage",
+        "id": "dataset-file-census",
+        "ok": true
+      },
+      {
+        "detail": "3 admitted issuer identities resolved",
+        "id": "admitted-issuer-identities",
+        "ok": true
+      },
+      {
+        "detail": "3 securities resolve to admitted issuers",
+        "id": "security-identity-resolution",
+        "ok": true
+      },
+      {
+        "detail": "5 listings resolve without overlap",
+        "id": "listing-resolution",
+        "ok": true
+      },
+      {
+        "detail": "empty admitted corporate-action table preserved",
+        "id": "corporate-actions",
+        "ok": true
+      },
+      {
+        "detail": "no unsupported metric or price was fabricated",
+        "id": "operating-metrics-and-prices",
+        "ok": true
+      },
+      {
+        "detail": "13 unique periods = 11 ANNUAL + 2 QUARTER",
+        "id": "period-validation",
+        "ok": true
+      },
+      {
+        "detail": "0 ingestion issues",
+        "id": "ingestion-issues",
+        "ok": true
+      },
+      {
+        "detail": "coverage-report.json matches the authoritative recomputation for the verified content",
+        "id": "derived-coverage-report",
+        "ok": true
+      },
+      {
+        "detail": "authoritative coverage read loads the candidate; this is not installation or overall readiness",
+        "id": "runtime-coverage-read",
+        "ok": true
+      },
+      {
+        "detail": "10/10 package files match available expectations",
+        "id": "file-level-digest-ledger",
+        "ok": true
+      }
+    ],
+    "failed": 0
+  },
+  "tests": {
+    "newWrapperSuite": {
+      "file": "iips-platform/tests/investment/s4R3CandidateBuild.test.ts",
+      "tests": 10,
+      "suites": 2,
+      "pass": 10,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0
+    },
+    "selectedIidRegressionBatchA": {
+      "files": 13,
+      "tests": 291,
+      "suites": 62,
+      "pass": 291,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0
+    },
+    "selectedIidRegressionBatchB": {
+      "files": 12,
+      "tests": 208,
+      "suites": 52,
+      "pass": 208,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 0
+    },
+    "selectedIidRegressionTotal": {
+      "tests": 499,
+      "suites": 114,
+      "pass": 499,
+      "fail": 0
+    },
+    "executionNote": "Final pass evidence is the two split batches, each exit 0. An initial combined 25-file invocation printed 499 pass / 0 fail but returned process exit 1; it was not claimed as a passing gate.",
+    "stage2ProvisioningInSelectedTests": false
+  },
+  "typecheck": {
+    "platform": {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    "frontend": {
+      "command": "NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt npm run typecheck",
+      "exitCode": 0
+    }
+  },
+  "boundaries": {
+    "existingWindowsDataset": "UNTOUCHED",
+    "gitHubDatasetPublication": "NOT_PERFORMED",
+    "overallIidReadiness": "NOT_READY",
+    "portfolioDatabase": "NOT_ACCESSED",
+    "stage2Provisioning": "NOT_EXECUTED",
+    "windowsInstallation": "NOT_EXECUTED"
+  },
+  "limitations": {
+    "L041": "OPEN",
+    "L042": "OPEN",
+    "freshness": [
+      {
+        "flags": [
+          "STALE_STATEMENTS",
+          "STALE_DATA"
+        ],
+        "issuerId": "IN:CIN:L85110KA1981PLC013115"
+      },
+      {
+        "flags": [
+          "STALE_STATEMENTS",
+          "STALE_DATA"
+        ],
+        "issuerId": "IN:CIN:L15140MH1988PLC049208"
+      },
+      {
+        "flags": [
+          "STALE_STATEMENTS",
+          "STALE_DATA"
+        ],
+        "issuerId": "IN:CIN:L45200MH2005PLC152061"
+      }
+    ],
+    "independentSourceRightsVerification": "NOT_CLAIMED",
+    "pdfToTranscriptionVerification": "NOT_CLAIMED"
+  },
+  "retentionAndTransfer": {
+    "datasetContentCommittedOrPushed": false,
+    "candidateArchiveUploaded": false,
+    "windowsTransferPerformed": false,
+    "limitation": "The generated package is session-local sandbox storage outside Git, not an established durable operator-controlled Windows personal-use location. No compliant transfer channel was established; the operator can reproduce the package locally with the published pinned build procedure."
+  },
+  "publicationScope": [
+    "build implementation code",
+    "automated tests",
+    "non-sensitive build procedure documentation",
+    "non-content verification metadata"
+  ]
+}
