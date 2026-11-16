@@ -25,6 +25,7 @@
     "server/executive-transport.ts",
     "server/market-data/marketDataTransportConfig.ts",
     "server/market-data/marketDataTransportConfig.test.ts",
+    "server/market-data/w11Configuration.test.ts",
     "server/market-data/dhanIdentityTransport.ts",
     "server/market-data/dhanIdentityTransport.test.ts",
     "server/reports/persist-real-reports.ts",
