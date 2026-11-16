@@ -2,19 +2,15 @@
  * IRR server-side consumption boundary for the IPD Dhan market-data provider.
  *
  * Authority for this surface:
- *   - Authoritative IPD dependency commit `d5e20c15059267a3f824b015e37d652084de5a01`
- *     (`ramkivs/iips-production-market-data` `main`, merge commit of IPD PR #146). The published
- *     `./dhan-server` closure is byte-identical to the IPD PR #145 merge `709fd13`; only the
- *     dependency revision moved.
- *   - That commit publishes the server-only `./dhan-server` subpath. It is the FIRST
- *     commit reachable from IPD `main` that does so; at the previously pinned primary
- *     commit `279d1eed…` and at the broker-import alias pin `58fc8fb7…` the subpath does
- *     not exist and `src/providers/dhan/**` is absent from the published package.
- *   - The pin advanced here from `59fdfd15` (IPD PR #140) for DHAN-P3: the pinned
- *     `MarketDataTransportClient` at `59fdfd15` carried no timeout, no loopback pinning,
- *     no production guard and no typed failure outcomes, and could not satisfy the
- *     transport requirements of the P3 boundary. The advance is backward compatible for
- *     every symbol this module consumes (Stage-1 `D3D-05`).
+ *   - Authoritative IPD dependency commit `5b384c7215b2644a8d525960ba05cd97f39bf7a7`
+ *     (`ramkivs/iips-production-market-data`, the published IPD W-07 commit; IPD PR #168,
+ *     head of that PR, based on IPD `main` `901e479…`). The pin advanced here from
+ *     `af4460eeab9bb0544e009322526a5498df0d5909` in the W-07 pin-bump leg of coordinated
+ *     W-07; W-07 widens only the `ServiceHealth` health contract (governed D-7
+ *     connectivity/qualification values plus the optional `contractVersion` marker) and is
+ *     backward compatible for every symbol this module consumes.
+ *   - The `./dhan-server` subpath is consumed server-only. It was first published at
+ *     `59fdfd15` (IPD PR #140) and is present at every subsequent pin.
  *
  * WHY THIS MODULE EXISTS
  *   IRR already consumes IPD through three pinned surfaces: the primary package
@@ -35,8 +31,8 @@
  *     contract states the same restriction from its side.
  *   - NO RAW VENDOR SHAPES. Vendor DTOs, security ids and exchange-segment enums are
  *     never re-exposed. Consumers see only the provider-neutral readiness and
- *     configuration description, which carries SecretRef pointers and never secret
- *     values.
+ *     configuration description, with every SecretRef pointer field stripped. Never a
+ *     secret value, never a pointer.
  *   - NOTHING IS PROMOTED. This is a consumption boundary, not a repin of the
  *     broker-import alias, not an identity deposition, not a durable-save grant, and
  *     not a Gate 4 / Gate 5 advance.
@@ -78,8 +74,10 @@ export interface DhanProviderReadiness {
   /** Deterministic failure code when configuration did not resolve, else null. */
   readonly failureCode: string | null;
   /**
-   * The provider's own display-string description of the resolved configuration. Values
-   * are `UNCONFIGURED` or a SecretRef key path — never a secret. Kept for operator logs.
+   * The provider's own display-string description of the resolved configuration, with the
+   * SecretRef keyPath fields STRIPPED. IPD's published `describeDhanConfig` renders
+   * `accessTokenKeyPath`/`clientIdKeyPath` (`vault://…` pointers, never secret values —
+   * but pointers IRR does not re-expose). IRR publishes only the non-sensitive fields.
    */
   readonly operatorStatus: Record<string, string>;
 }
@@ -111,8 +109,13 @@ export function describeDhanProviderReadiness(env: DhanEnvSource = {}): DhanProv
   }
 
   // `describeDhanConfig` renders every field as a display string, so it is used only for
-  // the operator status line. Typed readiness fields are read from the resolved config.
+  // the operator status line. The published contract (IPD PR #168 @ `5b384c72…`) renders
+  // the SecretRef key paths there; IRR strips any keyPath field before re-exposing the
+  // report. Typed readiness fields are read from the resolved config.
   const described = describeDhanConfig(resolution.config);
+  const operatorStatus = Object.fromEntries(
+    Object.entries(described).filter(([key]) => !/keypath/i.test(key)),
+  );
 
   return {
     providerId: resolution.config.providerId ?? DHAN_PROVIDER_ID,
@@ -123,7 +126,7 @@ export function describeDhanProviderReadiness(env: DhanEnvSource = {}): DhanProv
     configurationResolved: resolution.ok,
     liveTransportAvailable: false,
     failureCode: resolution.ok ? null : resolution.failure.code,
-    operatorStatus: described,
+    operatorStatus,
   };
 }
 

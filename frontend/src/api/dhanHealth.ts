@@ -8,8 +8,8 @@
  * CREDENTIAL AND TRANSPORT SAFETY
  *   The request is made through `noAuthFetch`, which strips any `Authorization` header and omits
  *   credentials. The browser therefore NEVER receives, stores or transmits the IPD market-data
- *   bearer token (`IIPS_MARKET_DATA_TRANSPORT_TOKEN`), a Dhan client id or a Dhan access token.
- *   The server publishes only SecretRef POINTERS (key paths) and readiness enums.
+ *   bearer token, a Dhan client id or a Dhan access token.
+ *   The health contract includes readiness information; it does not expose secret values.
  *
  * CONSERVATISM
  *   The client does not compute or upgrade the connection state. It reports the server's state
@@ -46,7 +46,7 @@ export interface DhanHealthReport {
   readonly liveQualified: boolean;
   readonly failureCode: string | null;
   readonly missingKeys: readonly string[];
-  /** SecretRef POINTERS only (e.g. `vault://dhan/access-token`). Never a secret value. */
+  /** Legacy pointer field; current server behavior must be reviewed separately. */
   readonly secretRefPointers: readonly string[];
   readonly reasons: readonly string[];
   readonly summary: string;

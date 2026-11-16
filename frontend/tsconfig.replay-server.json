@@ -25,6 +25,7 @@
     "server/executive-transport.ts",
     "server/market-data/marketDataTransportConfig.ts",
     "server/market-data/marketDataTransportConfig.test.ts",
+    "server/market-data/w11Configuration.test.ts",
     "server/market-data/dhanIdentityTransport.ts",
     "server/market-data/dhanIdentityTransport.test.ts",
     "server/reports/persist-real-reports.ts",
@@ -44,6 +45,7 @@
     "server/market-data/dhanMarketDataTransport.test.ts",
     "server/market-data/dhanMarketDataRoutes.ts",
     "server/market-data/dhanMarketDataRoutes.test.ts",
+    "server/market-data/dhanIdentityJoined.test.tsx",
     "server/market-data/dhanSyntheticFixtures.ts",
     "server/market-data/dhanFreshnessRoutes.ts",
     "server/market-data/dhanFreshnessRoutes.test.ts"

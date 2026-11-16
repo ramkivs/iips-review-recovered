@@ -2,22 +2,15 @@
  * IRR Dhan provider consumption boundary — qualification tests.
  *
  * These tests qualify IRR's OWN consumption of the IPD `./dhan-server` subpath at the
- * authoritative dependency commit `d5e20c15059267a3f824b015e37d652084de5a01` (IPD `main`,
- * merge commit of IPD PR #146, whose `./dhan-server` closure is byte-identical to the IPD PR
- * #145 merge `709fd13`). They are pre-access, offline and synthetic: no Dhan
- * credential is read, no socket is opened and no vendor endpoint is contacted.
+ * pinned dependency commit `5b384c7215b2644a8d525960ba05cd97f39bf7a7` — the published IPD
+ * W-07 commit (IPD PR #168), adopted in the W-07 pin-bump leg of coordinated W-07. They are
+ * pre-access, offline and synthetic: no Dhan credential is read, no socket is opened and no
+ * vendor endpoint is contacted.
  *
- * PIN ADVANCE (DHAN-P3): the pin moved forward from
- * `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19` (IPD PR #140) to `ae393aaf…` because the
- * pinned `MarketDataTransportClient` at `59fdfd15` had no timeout, no loopback pinning, no
- * production guard and no typed failure outcomes, and therefore could not satisfy the
- * transport requirements DHAN-P3 places on this boundary. The advance is backward
- * compatible for everything this file asserts: the Stage-1 admission record guarantees
- * "Existing symbol exports on `./dhan-server` remain intact in Stage 1" (`D3D-05`), and the
- * measured values below are unchanged across the advance.
- *
- * Every expected value below was MEASURED against the installed package at that commit
- * rather than assumed. Where the measurement is a refusal, the test asserts the refusal:
+ * Every expected value below was MEASURED against the installed package rather than assumed.
+ * The provider-configuration resolution surface asserted here is unchanged by the W-07
+ * advance; W-07 widens only the `ServiceHealth` health contract (tested in
+ * `dhanHealthTransport.test.ts` / `dhanHealthState.test.ts`). The refusal assertions stand:
  * a provider that is not configured must not report itself as configured.
  */
 import { readFileSync } from 'node:fs';
@@ -34,7 +27,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 const frontendRoot = resolve(here, '..', '..');
 
 /** The authoritative IPD dependency commit this boundary was qualified against. */
-const EXPECTED_IPD_COMMIT = '1aee57fe093b4fb15eaf3a9ac67532ee40262fe2';
+const EXPECTED_IPD_COMMIT = '5b384c7215b2644a8d525960ba05cd97f39bf7a7';
 
 /** SecretRef pointers only. These are key paths, never secret values. */
 const CONFIGURED_ENV = {
@@ -108,12 +101,12 @@ describe('IRR Dhan provider consumption boundary (pre-access, offline)', () => {
     }
   });
 
-  it('never surfaces secret values, only SecretRef key paths', () => {
+  it('never surfaces secret values or SecretRef key paths', () => {
     const readiness = describeDhanProviderReadiness(CONFIGURED_ENV);
     const serialized = JSON.stringify(readiness);
 
-    // The key paths appear; no token, client id or other credential VALUE can.
-    expect(serialized).toContain('vault://dhan/access-token');
+    // The candidate reports configured flags, not secret paths or values.
+    expect(serialized).not.toContain('vault://dhan/access-token');
     expect(serialized).not.toMatch(/accessToken"[^"]*":\s*"(?!UNCONFIGURED)[^"]{8,}/);
     // Deliberate structural assertion: the report carries no credential-bearing field.
     expect(Object.keys(readiness)).not.toContain('accessToken');

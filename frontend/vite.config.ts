@@ -22,5 +22,19 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    // `scripts/verify-browser-bundle.test.mjs` is a `node:test` suite executed via
+    // `npm run test:browser-bundle` (`node --test`). It contains zero vitest tests, so
+    // vitest collection of `scripts/**` fails the whole run with
+    // "No test suite found in file scripts/verify-browser-bundle.test.mjs". Keep the
+    // vitest default excludes and add `scripts/**`; the suite still runs in
+    // test:browser-bundle and in the production build's verify:browser-bundle gate.
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/cypress/**',
+      '**/.{idea,git,cache,output,temp}/**',
+      '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*',
+      'scripts/**',
+    ],
   },
 } as Parameters<typeof defineConfig>[0]);

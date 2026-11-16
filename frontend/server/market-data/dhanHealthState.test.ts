@@ -6,8 +6,9 @@
  * IPD evidence.
  *
  * Pre-access, offline and synthetic: no Dhan credential is read, no socket is opened and no
- * vendor endpoint is contacted. Every expected value below was measured against the pinned
- * IPD contract at `d5e20c15059267a3f824b015e37d652084de5a01`, not assumed.
+ * vendor endpoint is contacted. The governed vocabularies below were measured against the
+ * pinned IPD W-07 contract at `5b384c7215b2644a8d525960ba05cd97f39bf7a7` (IPD PR #168),
+ * not assumed.
  *
  * DHAN-P3 added the NOT-ATTEMPTED distinction: a transport that was never tried is not
  * "disconnected". The five-state vocabulary is preserved.
@@ -286,6 +287,54 @@ describe('DHAN-P2 health report', () => {
   it('never marks a pre-access report as live qualified', () => {
     const report = buildDhanHealthReport(PRE_ACCESS_EVIDENCE);
     expect(report.liveQualified).toBe(false);
+    expect(report.liveProviderContacted).toBe(false);
+  });
+});
+
+describe('W-07 governed vocabulary — the classifier cannot accept arbitrary strings', () => {
+  it('reports UNAVAILABLE for an ungoverned connectivity string, even via a cast', () => {
+    const evidence = {
+      ...CONFIGURED_DISCONNECTED_EVIDENCE,
+      liveProviderConnectivity: 'CONNECTED_LIVEISH',
+    } as unknown as DhanHealthEvidence;
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+    expect(isLiveConnectedEvidence(evidence)).toBe(false);
+  });
+
+  it('reports UNAVAILABLE for an ungoverned qualification string, even via a cast', () => {
+    const evidence = {
+      ...CONFIGURED_DISCONNECTED_EVIDENCE,
+      providerQualification: 'LIVE_QUALIFIEDISH',
+    } as unknown as DhanHealthEvidence;
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+    expect(isLiveQualifiedEvidence(evidence)).toBe(false);
+  });
+
+  it('reports UNAVAILABLE when the transport boundary flagged a contract violation', () => {
+    const report = buildDhanHealthReport({
+      ...CONFIGURED_DISCONNECTED_EVIDENCE,
+      healthContractViolation: true,
+    });
+    expect(report.state).toBe('UNAVAILABLE');
+    expect(report.liveQualified).toBe(false);
+  });
+
+  it('round-trips governed live values into an OPERATIONAL report without contacting a vendor', () => {
+    const report = buildDhanHealthReport({
+      service: 'UP',
+      providerConfiguration: 'CONFIGURED',
+      liveProviderConnectivity: 'CONNECTED_LIVE',
+      providerQualification: 'LIVE_QUALIFIED',
+      readiness: 'CREDENTIAL_REFERENCES_CONFIGURED',
+      failureCode: null,
+      configurationResolved: true,
+      missingKeys: [],
+      transportReachable: true,
+      connectionAttempted: true,
+    });
+    expect(report.state).toBe('OPERATIONAL');
+    expect(report.liveQualified).toBe(true);
+    // Classification is a pure report of evidence: it performs no vendor contact itself.
     expect(report.liveProviderContacted).toBe(false);
   });
 });

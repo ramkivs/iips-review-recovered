@@ -2,9 +2,10 @@
  * IRR server-side IPD market-data transport configuration (DHAN-P3).
  *
  * Authority:
- *   - IPD `ramkivs/iips-production-market-data` @ `d5e20c15059267a3f824b015e37d652084de5a01`
- *     (`main`, merge commit of IPD PR #146; byte-identical `./dhan-server` closure to the IPD PR
- *     #145 merge `709fd13`), consumed through the server-only `./dhan-server` subpath.
+ *   - IPD `ramkivs/iips-production-market-data` @ `5b384c7215b2644a8d525960ba05cd97f39bf7a7`
+ *     (the published IPD W-07 commit, IPD PR #168; the pin advanced from
+ *     `af4460eeab9bb0544e009322526a5498df0d5909` in the W-07 pin-bump leg of coordinated
+ *     W-07), consumed through the server-only `./dhan-server` subpath.
  *   - The transport credential env name is IPD's own: `MARKET_DATA_TRANSPORT_TOKEN_ENV` =
  *     `IIPS_MARKET_DATA_TRANSPORT_TOKEN`. The transport credential is SEPARATE from the Dhan
  *     API credentials and is never a Dhan credential.
@@ -133,6 +134,21 @@ export function resolveIpdMarketDataTransportConfig(
       code: 'NOT_CONFIGURED',
       message:
         'The IPD market-data transport credential is not configured on this server; no transport connection was attempted.',
+      connectionAttempted: false,
+    };
+  }
+  // The pinned IPD client (IPD PR #168 @ `5b384c72…`) no longer preflights bearer syntax —
+  // its pre-flight rejects only unsafe URLs and an EMPTY token; the pinned daemon itself
+  // enforces the credential server-side. IRR enforces the documented token hygiene at this
+  // configuration boundary instead: a credential must be non-empty printable ASCII with no
+  // whitespace — never handed to the daemon in any other shape. (The identity transport
+  // configuration applies the same fail-closed semantics at its own boundary.)
+  if (!/^[\x21-\x7E]+$/.test(token)) {
+    return {
+      ok: false,
+      code: 'NOT_CONFIGURED',
+      message:
+        'The configured IPD market-data transport credential contains whitespace or control characters; no transport connection was attempted.',
       connectionAttempted: false,
     };
   }

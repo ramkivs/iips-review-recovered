@@ -57,15 +57,20 @@ export const SYNTHETIC_EVALUATED_AT = '2026-11-06T10:15:00.121Z';
 /**
  * Builds a synthetic canonical quote envelope.
  *
- * `qualityState` is IPD's own canonical quality verdict. It is the ONLY input to IRR's
- * freshness mapping, so a scenario can produce a CURRENT, a STALE or an UNAVAILABLE verdict
- * without IRR inventing anything.
+ * `qualityState` is IPD's own canonical quality verdict. The transport marker is also
+ * considered conservatively by IRR's freshness mapping.
+ *
+ * NOTE (W-07 pin advance, IPD PR #168 @ `5b384c72…`): the published `./dhan-server`
+ * publication on IPD `main` carries NO `securityId` on the quote envelope — the D114
+ * identity stays inside IPD; the wire contract is companyId + the D114 `securityId` string
+ * on the REQUEST side only. The fixtures therefore carry no `securityId`, exactly like the
+ * pinned daemon's answers. (The candidate-line envelope carried one; that line is not what
+ * IRR pins.)
  */
 export function syntheticQuoteEnvelope(options: {
   readonly qualityState?: 'GOOD' | 'STALE' | 'UNAVAILABLE';
   readonly asOf?: string;
   readonly companyId?: string;
-  readonly securityId?: string;
 } = {}): Record<string, unknown> {
   const qualityState = options.qualityState ?? 'GOOD';
   return {
@@ -73,7 +78,6 @@ export function syntheticQuoteEnvelope(options: {
     domain: 'D01_QUOTES',
     mode: 'SNAPSHOT',
     companyId: options.companyId ?? 'SYNTHETIC:COMPANY',
-    securityId: options.securityId ?? 'ISIN:INE002A01018:EQ',
     payload: { ...SYNTHETIC_QUOTE_PAYLOAD, companyId: options.companyId ?? 'SYNTHETIC:COMPANY' },
     provenance: {
       sourceClassification: 'CANONICAL_MARKET_DATA',
@@ -142,7 +146,10 @@ export const SYNTHETIC_SERVICE_HEALTH = Object.freeze({
 export type SyntheticScenario =
   | 'QUOTE_SUCCESS'
   | 'QUOTE_STALE'
-  | 'QUOTE_UNAVAILABLE'
+  | 'QUOTE_STALE_SUPPRESSED'
+  | 'QUOTE_MALFORMED'
+  | 'QUOTE_INCOMPLETE'
+  | 'PROVIDER_FAILURE'
   | 'HISTORICAL_SUCCESS'
   | 'HISTORICAL_EMPTY'
   | 'TRANSPORT_UNAVAILABLE'
@@ -276,18 +283,33 @@ export function syntheticBehaviourFor(
         },
       };
 
-    case 'QUOTE_UNAVAILABLE':
+    case 'QUOTE_STALE_SUPPRESSED':
+      // W-07 pin advance (IPD PR #168 @ `5b384c72…`): the published IPD `main` normalizer
+      // FAILS CLOSED on an observation older than twice the D01 freshness threshold — it
+      // emits STALE_DATA_SUPPRESSED and serves no quote at all, instead of returning a
+      // quote stamped UNAVAILABLE. (The UNAVAILABLE-quote answer existed only on the
+      // unmerged identity-candidate line.) UNAVAILABLE quality mapping remains covered at
+      // the projection layer, where a hypothetical daemon answer can be modelled.
       return {
         kind: 'RESPOND',
-        status: 200,
+        status: 502,
         body: {
-          ok: true,
-          envelope: syntheticQuoteEnvelope({ qualityState: 'UNAVAILABLE' }),
-          // An UNAVAILABLE verdict carries no STALE marker: the two are distinct verdicts and
-          // the fixture must not conflate them.
-          freshness: 'CURRENT',
+          error: {
+            code: 'STALE_DATA_SUPPRESSED',
+            message:
+              'Dhan quote age 169573s exceeds twice the D01 freshness threshold; execution suppressed',
+          },
         },
       };
+
+    case 'QUOTE_MALFORMED':
+      return { kind: 'RESPOND', status: 200, body: { ok: true, envelope: {}, freshness: 'INVALID' } };
+
+    case 'QUOTE_INCOMPLETE':
+      return { kind: 'RESPOND', status: 200, body: { ok: true, envelope: {}, freshness: 'UNAVAILABLE' } };
+
+    case 'PROVIDER_FAILURE':
+      return { kind: 'RESPOND', status: 502, body: { error: { code: 'PROVIDER_STATUS_FAILURE', message: 'provider HTTP 403' } } };
 
     case 'HISTORICAL_SUCCESS':
       return {
@@ -495,6 +517,9 @@ export function syntheticBehaviourForRoute(
       scenario === 'RATE_LIMITED'
     ) {
       return syntheticBehaviourFor(scenario);
+    }
+    if (scenario === 'QUOTE_STALE_SUPPRESSED' && domain === 'D01_QUOTES') {
+      return syntheticBehaviourFor('FRESHNESS_D01_MISS');
     }
     // The default status for the data-route scenarios, in the requested domain.
     if (domain === 'D02_OHLCV') {
