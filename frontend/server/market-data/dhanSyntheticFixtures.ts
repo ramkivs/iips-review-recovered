@@ -59,12 +59,18 @@ export const SYNTHETIC_EVALUATED_AT = '2026-11-06T10:15:00.121Z';
  *
  * `qualityState` is IPD's own canonical quality verdict. The transport marker is also
  * considered conservatively by IRR's freshness mapping.
+ *
+ * NOTE (W-07 pin advance, IPD PR #168 @ `5b384c72…`): the published `./dhan-server`
+ * publication on IPD `main` carries NO `securityId` on the quote envelope — the D114
+ * identity stays inside IPD; the wire contract is companyId + the D114 `securityId` string
+ * on the REQUEST side only. The fixtures therefore carry no `securityId`, exactly like the
+ * pinned daemon's answers. (The candidate-line envelope carried one; that line is not what
+ * IRR pins.)
  */
 export function syntheticQuoteEnvelope(options: {
   readonly qualityState?: 'GOOD' | 'STALE' | 'UNAVAILABLE';
   readonly asOf?: string;
   readonly companyId?: string;
-  readonly securityId?: string;
 } = {}): Record<string, unknown> {
   const qualityState = options.qualityState ?? 'GOOD';
   return {
@@ -72,7 +78,6 @@ export function syntheticQuoteEnvelope(options: {
     domain: 'D01_QUOTES',
     mode: 'SNAPSHOT',
     companyId: options.companyId ?? 'SYNTHETIC:COMPANY',
-    securityId: options.securityId ?? 'ISIN:INE002A01018:EQ',
     payload: { ...SYNTHETIC_QUOTE_PAYLOAD, companyId: options.companyId ?? 'SYNTHETIC:COMPANY' },
     provenance: {
       sourceClassification: 'CANONICAL_MARKET_DATA',
@@ -141,7 +146,7 @@ export const SYNTHETIC_SERVICE_HEALTH = Object.freeze({
 export type SyntheticScenario =
   | 'QUOTE_SUCCESS'
   | 'QUOTE_STALE'
-  | 'QUOTE_UNAVAILABLE'
+  | 'QUOTE_STALE_SUPPRESSED'
   | 'QUOTE_MALFORMED'
   | 'QUOTE_INCOMPLETE'
   | 'PROVIDER_FAILURE'
@@ -278,14 +283,22 @@ export function syntheticBehaviourFor(
         },
       };
 
-    case 'QUOTE_UNAVAILABLE':
+    case 'QUOTE_STALE_SUPPRESSED':
+      // W-07 pin advance (IPD PR #168 @ `5b384c72…`): the published IPD `main` normalizer
+      // FAILS CLOSED on an observation older than twice the D01 freshness threshold — it
+      // emits STALE_DATA_SUPPRESSED and serves no quote at all, instead of returning a
+      // quote stamped UNAVAILABLE. (The UNAVAILABLE-quote answer existed only on the
+      // unmerged identity-candidate line.) UNAVAILABLE quality mapping remains covered at
+      // the projection layer, where a hypothetical daemon answer can be modelled.
       return {
         kind: 'RESPOND',
-        status: 200,
+        status: 502,
         body: {
-          ok: true,
-          envelope: syntheticQuoteEnvelope({ qualityState: 'UNAVAILABLE', companyId: 'EQ_RELIANCE_IN', asOf: '2026-11-04T11:08:47.121Z' }),
-          freshness: 'UNAVAILABLE',
+          error: {
+            code: 'STALE_DATA_SUPPRESSED',
+            message:
+              'Dhan quote age 169573s exceeds twice the D01 freshness threshold; execution suppressed',
+          },
         },
       };
 
@@ -505,7 +518,7 @@ export function syntheticBehaviourForRoute(
     ) {
       return syntheticBehaviourFor(scenario);
     }
-    if (scenario === 'QUOTE_UNAVAILABLE' && domain === 'D01_QUOTES') {
+    if (scenario === 'QUOTE_STALE_SUPPRESSED' && domain === 'D01_QUOTES') {
       return syntheticBehaviourFor('FRESHNESS_D01_MISS');
     }
     // The default status for the data-route scenarios, in the requested domain.

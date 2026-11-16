@@ -64,17 +64,34 @@ describe('W-11 documented transport configuration', () => {
     expect(DHAN_DEFAULT_TIMEOUT_MS).toBe(5000);
   });
 
-  it('the pinned client rejects unsafe query credentials and malformed tokens before network access', async () => {
+  it('the pinned client fails closed before network access; malformed tokens are rejected at the IRR configuration boundary', async () => {
+    // NOTE (W-07 pin advance, IPD PR #168 @ `5b384c72…`): the pinned IPD client no longer
+    // preflights bearer SYNTAX. Its pre-flight rejects unsafe URLs and an empty token
+    // only — the whitespace/non-ASCII token rejection the af4460ee build performed was
+    // REMOVED upstream, and the pinned daemon enforces the credential server-side. The
+    // guarantee is therefore asserted where it lives now:
+    //   - directive cases: the client itself fails closed before fetchImpl is called;
+    //   - "bad token" cases: IRR's configuration boundaries refuse the credential before
+    //     any transport construction.
     const fetchImpl = vi.fn<typeof fetch>();
     for (const [url, credential] of [
       ['http://127.0.0.1:8791/?x=y', token],
       ['http://user:pass@127.0.0.1:8791', token],
-      [endpoint, 'bad token'],
+      [endpoint, ''],
     ]) {
       const client = new MarketDataTransportClient(url, credential, { fetchImpl, env: {} });
       expect((await client.health()).ok).toBe(false);
     }
     expect(fetchImpl).not.toHaveBeenCalled();
+
+    const boundaryQuote = resolveIpdMarketDataTransportConfig({ ...env, IIPS_MARKET_DATA_TRANSPORT_TOKEN: 'bad token' });
+    expect(boundaryQuote).toMatchObject({ ok: false, code: 'NOT_CONFIGURED', connectionAttempted: false });
+    const boundaryIdentity = readMarketDataTransportConfiguration({ ...env, IIPS_MARKET_DATA_TRANSPORT_TOKEN: 'bad token' });
+    expect(boundaryIdentity).toMatchObject({ ok: false, code: 'TRANSPORT_NOT_CONFIGURED' });
+    const boundaryAscii = resolveIpdMarketDataTransportConfig({ ...env, IIPS_MARKET_DATA_TRANSPORT_TOKEN: 'bad\u00A0token' });
+    expect(boundaryAscii.ok).toBe(false); // non-breaking space is not printable ASCII
+    const boundaryHigh = resolveIpdMarketDataTransportConfig({ ...env, IIPS_MARKET_DATA_TRANSPORT_TOKEN: 'tøken' });
+    expect(boundaryHigh.ok).toBe(false); // non-ASCII
   });
 
   it('fails safely on missing settings and invalid non-loopback addresses', () => {
