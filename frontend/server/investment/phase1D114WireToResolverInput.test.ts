@@ -20,6 +20,7 @@
  * or `null`. Everything is synthetic fixture data; nothing here describes an actual holding.
  */
 import net from 'node:net';
+import { randomUUID } from 'node:crypto';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -136,28 +137,87 @@ afterEach(async () => {
 /** Minimal contract-v1 peer: one request per connection, one length-prefixed success frame back. */
 function startPeer(result: unknown): Promise<Peer> {
   return new Promise((resolveStart, rejectStart) => {
-    const dir = mkdtempSync(join(tmpdir(), 'irr-d114-wire-'));
-    const path = join(dir, 'ipd-peer.sock');
+    const dir = process.platform === 'win32'
+      ? undefined
+      : mkdtempSync(join(tmpdir(), 'irr-d114-wire-'));
+
+    const path = process.platform === 'win32'
+      ? `\\\\.\\pipe\\irr-d114-wire-${process.pid}-${randomUUID()}`
+      : join(dir!, 'ipd-peer.sock');
     const operations: string[] = [];
     const live: net.Socket[] = [];
     const server = net.createServer({ allowHalfOpen: true }, (socket) => {
       live.push(socket);
       const chunks: Buffer[] = [];
-      socket.on('data', (chunk: Buffer) => chunks.push(chunk));
-      socket.on('error', () => undefined);
-      socket.on('end', () => {
+      let replied = false;
+
+      const dispatchResponse = (): void => {
+        if (replied) return;
+
         const buffer = Buffer.concat(chunks);
+        if (buffer.byteLength < IPC_LENGTH_PREFIX_BYTES) return;
+
         const declared = buffer.readUInt32BE(0);
-        const request = JSON.parse(
-          buffer.subarray(IPC_LENGTH_PREFIX_BYTES, IPC_LENGTH_PREFIX_BYTES + declared).toString('utf8'),
-        ) as { op: string };
-        operations.push(request.op);
-        const body = Buffer.from(JSON.stringify({ v: IPC_PROTOCOL_VERSION, ok: true, op: request.op, result }), 'utf8');
-        const frame = Buffer.alloc(IPC_LENGTH_PREFIX_BYTES + body.byteLength);
-        frame.writeUInt32BE(body.byteLength, 0);
-        body.copy(frame, IPC_LENGTH_PREFIX_BYTES);
-        socket.write(frame);
-        socket.end();
+        const frameLength = IPC_LENGTH_PREFIX_BYTES + declared;
+
+        if (declared === 0 || buffer.byteLength > frameLength) {
+          socket.destroy();
+          return;
+        }
+
+        if (buffer.byteLength < frameLength) return;
+        replied = true;
+
+        try {
+          const request = JSON.parse(
+            buffer.subarray(IPC_LENGTH_PREFIX_BYTES, frameLength).toString('utf8'),
+          ) as { op: string };
+
+          if (typeof request.op !== 'string') {
+            socket.destroy();
+            return;
+          }
+
+          operations.push(request.op);
+
+          const body = Buffer.from(
+            JSON.stringify({
+              v: IPC_PROTOCOL_VERSION,
+              ok: true,
+              op: request.op,
+              result,
+            }),
+            'utf8',
+          );
+
+          const frame = Buffer.alloc(IPC_LENGTH_PREFIX_BYTES + body.byteLength);
+          frame.writeUInt32BE(body.byteLength, 0);
+          body.copy(frame, IPC_LENGTH_PREFIX_BYTES);
+
+          // Windows named pipes must remain open while the response is delivered.
+          // AF_UNIX retains the original half-close response lifecycle.
+          if (process.platform === 'win32') {
+            socket.write(frame);
+          }
+          if (process.platform !== 'win32') {
+            socket.end(frame);
+          }
+        }
+        catch {
+          socket.destroy();
+        }
+      };
+
+      socket.on('data', (chunk: Buffer) => {
+        chunks.push(chunk);
+        if (process.platform === 'win32') dispatchResponse();
+      });
+      socket.on('end', () => {
+        if (process.platform !== 'win32') dispatchResponse();
+      });
+      socket.on('error', (socketError: Error) => {
+        // Socket errors are observed by the client under test; teardown remains local.
+        void socketError;
       });
     });
     server.once('error', (error: Error) => rejectStart(error));
@@ -169,7 +229,9 @@ function startPeer(result: unknown): Promise<Peer> {
           new Promise<void>((resolveClose) => {
             for (const socket of live) socket.destroy();
             server.close(() => {
-              rmSync(dir, { recursive: true, force: true });
+              if (dir !== undefined) {
+                rmSync(dir, { recursive: true, force: true });
+              }
               resolveClose();
             });
           }),
@@ -187,7 +249,11 @@ async function readHoldingsOverTheWire() {
     portFactory: () =>
       new IpcUserPortfolioPort({
         precondition: { bindingProvisioned: true },
-        target: { kind: 'unix-socket', path: peer.path, source: 'absolute-path' },
+        target: {
+          kind: process.platform === 'win32' ? 'windows-named-pipe' : 'unix-socket',
+          path: peer.path,
+          source: 'absolute-path',
+        },
       }),
   });
   const holdings = await provider(PORTFOLIO_ID);

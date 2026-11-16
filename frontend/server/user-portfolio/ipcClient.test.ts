@@ -84,20 +84,22 @@ function startTestEndpoint(
   respond: (request: unknown, socket: net.Socket) => void,
 ): Promise<TestEndpoint> {
   return new Promise((resolveStart, rejectStart) => {
-    const path = join(makeTempDir(), 'ipd-test.sock');
+    const isWindows = process.platform === 'win32';
+    const path = isWindows
+      ? `\\\\.\\pipe\\iips-g3-irr-ipc-${process.pid}-${Date.now()}-${Math.random().toString(16).slice(2)}`
+      : join(makeTempDir(), 'ipd-test.sock');
     let accepted = 0;
     const live: net.Socket[] = [];
-    // `allowHalfOpen: true` lets the fixture accept a request and then say nothing,
-    // which is what a timeout case needs. With Node's default (false) the server
-    // auto-ends its side the moment the client half-closes, and a timeout would be
-    // indistinguishable from a Class P refusal.
+    // Keep the server side open: timeout cases deliberately receive no response.
     const server = net.createServer({ allowHalfOpen: true }, (socket) => {
       accepted += 1;
       live.push(socket);
       const chunks: Buffer[] = [];
-      socket.on('data', (chunk: Buffer) => chunks.push(chunk));
-      socket.on('error', () => undefined);
-      socket.on('end', () => {
+      let responseDispatched = false;
+
+      const dispatchResponse = (): void => {
+        if (responseDispatched) return;
+        responseDispatched = true;
         const buffer = Buffer.concat(chunks);
         let request: unknown = null;
         if (buffer.byteLength >= IPC_LENGTH_PREFIX_BYTES) {
@@ -107,23 +109,75 @@ function startTestEndpoint(
               request = JSON.parse(
                 buffer.subarray(IPC_LENGTH_PREFIX_BYTES, IPC_LENGTH_PREFIX_BYTES + declared).toString('utf8'),
               );
-            } catch {
+            } catch (parseError) {
               request = null;
             }
           }
         }
+
+        // Existing test responders commonly call socket.end(frame). On Windows,
+        // a framed response must be written without half-closing the named pipe;
+        // an argument-free end() still closes a deliberate zero-byte Class P peer.
+        const responseSocket = isWindows
+          ? new Proxy(socket, {
+              get(target, property) {
+                if (property === 'end') {
+                  return (...args: unknown[]) => {
+                    if (args.length > 0 && args[0] !== undefined && args[0] !== null) {
+                      const chunk = args[0] as Uint8Array | string;
+                      if (typeof args[1] === 'function') {
+                        return target.write(chunk, args[1] as (error?: Error | null) => void);
+                      }
+                      return target.write(
+                        chunk,
+                        args[1] as BufferEncoding | undefined,
+                        args[2] as ((error?: Error | null) => void) | undefined,
+                      );
+                    }
+                    return target.end(...(args as Parameters<net.Socket['end']>));
+                  };
+                }
+                const member = Reflect.get(target, property, target) as unknown;
+                if (typeof member === 'function') return member.bind(target);
+                return member;
+              },
+            }) as net.Socket
+          : socket;
+
         try {
-          respond(request, socket);
-        } catch {
+          respond(request, responseSocket);
+        } catch (respondError) {
           socket.destroy();
         }
+      };
+
+      socket.on('data', (chunk: Buffer) => {
+        chunks.push(chunk);
+        if (isWindows && !responseDispatched) {
+          const buffer = Buffer.concat(chunks);
+          if (buffer.byteLength >= IPC_LENGTH_PREFIX_BYTES) {
+            const declared = buffer.readUInt32BE(0);
+            if (buffer.byteLength >= IPC_LENGTH_PREFIX_BYTES + declared) dispatchResponse();
+          }
+        }
+      });
+      socket.on('end', () => {
+        if (!isWindows) dispatchResponse();
+      });
+      socket.on('error', (socketError: Error) => {
+        // Socket errors are observed by the client under test; teardown remains local.
+        void socketError;
       });
     });
     server.once('error', (error: Error) => rejectStart(error));
     server.listen({ path }, () => {
       const endpoint: TestEndpoint = {
         path,
-        target: { kind: 'unix-socket', path, source: 'absolute-path' },
+        target: {
+          kind: isWindows ? 'windows-named-pipe' : 'unix-socket',
+          path,
+          source: 'absolute-path',
+        },
         connections: () => accepted,
         close: () =>
           new Promise<void>((resolveClose) => {
@@ -138,7 +192,6 @@ function startTestEndpoint(
     });
   });
 }
-
 afterEach(async () => {
   while (openEndpoints.length > 0) {
     const endpoint = openEndpoints.pop();
