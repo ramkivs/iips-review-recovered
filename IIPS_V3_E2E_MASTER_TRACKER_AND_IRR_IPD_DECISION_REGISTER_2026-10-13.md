@@ -22574,3 +22574,60 @@ prerequisite is IPD active binding verification plus IPC peer/live portfolio rea
 or assert it. Exact remaining scope/owners/evidence: completion record §9; roadmap Part C §C.2.
 
 Next free §16.285 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
+
+
+## 16.285 IID O1 — identity governance decided: three-issuer initial population, identity from the admitted records, inclusion is not qualification (2026-11-16)
+
+**IRR-only documentation record. No IPD act, no IPD change, no code change, no identifier consumed** —
+this is an IID owner decision, so it takes no `CV-CORR` / `CHG` / `V` identifier from the CV series.
+
+**Decision recorded.** `O1` — `DECIDED`:
+`docs/integration/IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md`. Operative content: (1) the
+initial governed issuer population is **Infosys Limited, Marico Limited and KEC International Limited**;
+(2) issuer identity must be supported by the **admitted identity records** — no identifier invented,
+inferred or widened; (3) **inclusion is not financial qualification**; (4) **Ramki is the sole owner and
+decision-maker** for issuer eligibility and future additions; (5) **IRR maintains the identity records and
+IPD retains its existing identity approval enforcement responsibility.**
+
+**No duplicate.** Searched before writing: no `O1` decision record exists (filename walk and body search);
+the authoritative roadmap carries one `O1` mention — the `PA-01` removal row — and the tracker carried
+none; the 2026-10-19 eligibility-contract document is an expressly non-operative proposal; IPD's `D1`
+(W04) governs whether IPD's P04 export may be used as IRR's roster and is a different act. Nothing was
+overwritten.
+
+**Relationship to `IID-PA-01`.** `PA-01` §3 `G-3` removed `O1` as a gate. That stands: this record adds
+no gate and unblocks nothing. It states once what the owner decided, which `PA-01` did not do.
+
+**`S2-R1` status.** **SATISFIED** as a register act by this record, which is the exact evidence that row
+named. `S2-R2` remains **OPEN** (optional host-transcript detail). Stage 2's technical verdict is
+unchanged and is not re-asserted here; Stage 4, Stage 5 and the readiness findings are untouched.
+
+**Identity support verified read-only.** The nine identity files of the three `O3`-admitted bundles were
+hashed and compared against the remote tree of `ad448381…`: **9/9 blob-identical**. All three rosters
+parse and validate (CIN shape and `IN:CIN:` composition, ISIN Luhn, one `ASSESSABLE` equity security per
+issuer, `ELIGIBLE` with null reason, `foreignIssuer: false`, sectors inside the closed 13-member
+`SECTOR_NAMES` union, three distinct CINs, no fixture self-classification, zero corporate-action records).
+Blobs: Infosys `4d0550b7…`, Marico `565688d4…`, KEC `e1a14e5b…`.
+
+**Ownership line, as fact.** IRR's loader reads three files and no approval artefact — **0** hits in IRR's
+tracked content for `IDENTITY_APPROVAL`, `irr_identity_approval`, `W04-D1`, `p7ManifestSha256`,
+`GENERATION_MISMATCH`, `IPD_IRR_IDENTITY_APPROVAL`. IPD's check remains at
+`src/identity/irr_identity_approval.ts` (blob `8aced1fe…`) with `scripts/provision-irr-identity-sources.mjs`
+(blob `68f9a023…`) at IPD `main` `10f326cb…`, read only. Recording this decision neither requires nor
+creates an IPD approval.
+
+**One divergence recorded, not resolved.** IPD's own host-completion record reports, as an
+**operator-reported host fact** outside Arena's access, that a **2,388-issuer** P04-exported roster was
+installed as IRR's identity sources under IPD approval `W04-D1-20261114-01`. That is a different
+population from the three decided here. Arena did not access the host or `${IIPS_DATA_DIR}`; no set was
+read, written, compared or re-published. The population limb of `O1` reserves additions to the owner, so
+this neither adopts nor forecloses that set; reconciling an installed set to this decision is an
+owner/operator act and was not performed.
+
+**Effect on readiness: none.** **Overall IID readiness remains NOT READY.** The IPD active binding (D5),
+the IPC endpoint/peer (D6) and the F-3 owner-context carrier (D4) are untouched, as are IID-03 change
+comparison, browser acceptance and the Stage 4 data residuals. No holding has been shown to resolve to an
+issuer. Nothing was re-provisioned, reinstalled or re-minted; PR #562, #563, #566 and #515 are untouched
+and unmerged.
+
+Next free §16.286 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).

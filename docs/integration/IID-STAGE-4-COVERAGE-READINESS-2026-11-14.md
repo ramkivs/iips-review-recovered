@@ -492,3 +492,33 @@ Win32 recovery fault-injection (never authorised).
 ---
 
 *End of readiness record. Published additively; the records it assesses are unchanged, byte for byte.*
+
+
+---
+
+## 13. Addendum (2026-11-16) — `S2-R1` satisfied; the Stage 4 verdict is unchanged
+
+Appended forward. **§1–§12 above are unchanged, byte for byte.** The register row for `S2-R1` stays exactly
+as it was written at its own baseline, including its `OPEN` status statement; this addendum records the
+later act rather than editing the row.
+
+| Item | Status after 2026-11-16 |
+|---|---|
+| **`S2-R1`** — record the owner's O1 decision | **SATISFIED.** `IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md`; tracker §16.285. It is the “O1 decision record” this register named as the exact closing evidence |
+| **`S2-R2`** | **OPEN — unchanged.** Optional host transcript detail; still not captured |
+| **`R-1`, `R-2`** | **OPEN — unchanged.** No host readiness or served-surface capture was made by the O1 record |
+| **`R-3`**, **`R-4`** | **OPEN — unchanged.** `L-041`/`L-042` still await the owner in the ordinary course |
+| **`S4-R1`…`S4-R8`** | **Unchanged.** Nothing was re-scored, re-classified or closed |
+| Stage 4 verdict | **PARTIALLY COMPLETE** — unchanged. The four Stage-5-owned residual limbs and the `G-4`/`G-6` data acts are untouched |
+| Stage 5 | **Not started, not declared.** Its IPD binding/IPC prerequisite is unaffected |
+| Overall IID readiness | **NOT READY** |
+
+One point of substance, because §7 attached a consequence to `S2-R1`: the row noted that O1 also settles
+whether the admitted population is the intended one, which it called *“visibly load-bearing for the demo
+limb (S4-R1)”*. The O1 record answers that — three issuers **is** the intended initial population. That
+does not reopen `S4-R1`, whose accounting §7 already recorded as substantiated on labelled fixture data.
+It simply removes the population question from behind it.
+
+---
+
+*End of addendum. §1–§12 remain as published on 2026-11-14.*

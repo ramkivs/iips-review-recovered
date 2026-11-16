@@ -1469,3 +1469,21 @@ second comparable version where change intelligence is exercised, and then P6-B/
 acceptance. Exact owners, prerequisites and closure evidence are tabulated in the completion record
 §9. No Stage 6 work, IPD implementation, PR merge, or new roadmap activity is authorized by this
 amendment.
+
+
+## C.3 O1 identity governance — DECIDED (2026-11-16)
+
+`O1` is decided and recorded once: `IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md`; tracker
+§16.285. The initial governed issuer population is **Infosys Limited, Marico Limited and KEC
+International Limited**, supported by the admitted identity records of the three `O3` bundles; inclusion
+implies **no financial qualification**; **Ramki** is the sole owner for eligibility and additions; **IRR**
+maintains the identity records and **IPD** retains its identity approval enforcement.
+
+Two clarifications so this is not over-read:
+
+- `IID-PA-01` §3 `G-3` had already removed `O1` as a gate. **Nothing here becomes a gate and nothing was
+  blocked on it.** The record states the decision; it unblocks no work.
+- No downstream status moves. **Overall IID readiness remains NOT READY.** D4/D5/D6, IID-03 change
+  comparison, browser acceptance, the Stage 4 data residuals and Stage 5's end-to-end loop are unchanged,
+  and the next adopted operational activity is still **Stage 5** (§C.2). No Stage 6 work, no IPD
+  implementation, no PR merge and no new roadmap activity is authorized by this amendment.

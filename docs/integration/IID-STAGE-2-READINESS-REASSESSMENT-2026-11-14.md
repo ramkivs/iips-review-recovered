@@ -567,3 +567,43 @@ publication or reinstalling the dataset (both prohibited — both are evidence).
 ---
 
 *End of reassessment. Published additively; the records it reassesses are unchanged, byte for byte.*
+
+
+---
+
+## 14. Addendum (2026-11-16) — `O1` is now decided; §2 is satisfied, §1's verdict is unchanged
+
+Appended forward. **§1–§13 above are unchanged, byte for byte**, and remain the accurate account of what
+was observed on 2026-11-14 at `da4d145b`.
+
+**What changed.** The owner recorded the O1 decision:
+`IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md` (tracker §16.285). §2.3 named the three questions
+that record had to answer; each is answered there — the intended population is the three admitted issuers
+and three *is* the intended initial population, eligibility and exclusion are the owner's with identity
+support required from the admitted records, and edits are the owner's with IRR maintaining the files. §2.2's
+observation that a publication act evidences only “which issuers” is therefore no longer the whole
+position: the remaining limbs are now written down rather than inferred from roster bytes.
+
+**What did not change.**
+
+- The Stage 2 verdict stands exactly as §1 states it: the objective was met and host-verified for the
+  O3-admitted population. This addendum re-asserts nothing and re-derives nothing.
+- §2's four-row table of what a publication act can and cannot evidence remains a correct description of
+  that act. It is superseded only as a statement of the *current* record state, not as an analysis.
+- Rows 7 and 8 of §1's decomposition — the governance gate and the population question — move from
+  **NOT DISCHARGED / UNRESOLVED** to **DISCHARGED as a register act**. Rows 1–6 and 9–10 are untouched.
+- §7's register: **S2-R1 is SATISFIED** by that record. **S2-R2 remains OPEN** (optional; the host
+  transcript detail was still not captured). `R-1`, `R-2`, `R-4` are unchanged.
+- §8's `L-041`/`L-042` stay **OPEN**. §9's limitations stand. §10's boundary confirmations describe this
+  record's own scope and are not affected.
+- §6's readiness position is unchanged: **five of seven** read-critical findings outstanding at that date,
+  Identity Coverage still 503, and **overall IID readiness NOT READY**.
+
+**Why this matters less than it might appear.** `IID-PA-01` §3 `G-3` had already removed `O1` as a gate, so
+no work was waiting on this and none starts because of it. Recording it makes the owner's choice durable
+and auditable; it does not close Stage 2's technical questions, resolve any holding to an issuer, or change
+any served surface.
+
+---
+
+*End of addendum. §1–§13 remain as published on 2026-11-14.*
