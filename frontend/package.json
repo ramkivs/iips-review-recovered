@@ -13,6 +13,8 @@
     "test:ci": "vitest run --reporter=default --reporter=json --outputFile.json=.vitest-report.json",
     "server:dev": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/executive-transport.ts",
     "iid:readiness": "tsx server/investment/cli/iid-readiness.ts",
+    "portfolio:capture": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/user-portfolio/capture/capture-owner-bound-portfolio.ts",
+    "typecheck:portfolio-capture": "tsc -p tsconfig.portfolio-capture.json",
     "typecheck:replay-server": "tsc -p tsconfig.replay-server.json --noEmit",
     "typecheck:investment-server": "tsc -p tsconfig.investment-server.json --noEmit",
     "build:broker-import": "node scripts/materialize-broker-import.mjs && tsc -p tsconfig.broker-import.json",
