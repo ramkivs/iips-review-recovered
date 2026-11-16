@@ -360,3 +360,31 @@ All read-only, at branch head `ad448381…` / tree `260306c6…`.
 ---
 
 *End of decision record. Published additively; the records it cites are unchanged, byte for byte.*
+
+---
+
+## 13. Publication receipt
+
+Published to `arena/53ff9276-iips-review-recovered` as commit
+**`842a5ecaa1aa5482721f6363a9a91ba562fc46ee`** (tree `e83ced8f87f4e5a31211049721256bace7640aba`), parent
+`ad44838180265673e4b8df2a5a6d8b1fc62efe61`. Published through the GitHub git-data API with `base_tree`
+set to the parent tree and `force: false`, so the change is exactly the five intended paths and no local
+commit was used.
+
+| Path | Blob | Bytes | sha256 |
+|---|---|---:|---|
+| `docs/integration/IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md` | `55dcaec15a0a847b5fc6e6e017c54b01bec07678` | 25,093 | `55debbda1c5ed9d7fc44bd2bc2b26c9a2a15f1c69ee4e9dc73146c83fa6e0752` |
+| `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` | `33aec0dbfdaee9c457f0f9aa7f4ce3150ccf4263` | 4,102,267 | `625adac8a0944d3e0cee662deef3f504414f728e6d1acf87b1e8d040006a7852` |
+| `docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md` | `38d8740784192d777b1cfdeeaaa0c889087b8f18` | 107,984 | `557dba0a45af5146592099de61f5f7d214f78c545da674b367b302e61d860f3e` |
+| `docs/integration/IID-STAGE-2-READINESS-REASSESSMENT-2026-11-14.md` | `2ac752b8e23e2d5e864fce3a548c45a6d6ea30da` | 52,132 | `c24d2df2c7284b4a16f075f2911e661c41e365b0c71a71feec912e1b135e8898` |
+| `docs/integration/IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` | `d9f49521f80d3285bac89e3fbfada8e80e71a362` | 53,143 | `8a80c99aa590c4ecec35b740bf14b805cdab766bc070c0f7ce4a5b740293e4c9` |
+
+Remote read-back verified, independently of the writing session: the commit's parent and tree, the exact
+five-file change set with every entry `added`/`modified` and none deleted, and every published blob
+decoded from the remote and compared byte-for-byte with the local artifact — **all pass**. A
+**second** commit then appends this receipt; it changes this one file and nothing else. The branch head
+after both commits and the cumulative read-back are stated in the publishing session's final report.
+
+**What the publication does not include:** no PR, no merge, no IPD change, no code change, no identity
+file, no dataset, no approval record. PR #562, #563, #566 and #515 remain open and untouched.
+
