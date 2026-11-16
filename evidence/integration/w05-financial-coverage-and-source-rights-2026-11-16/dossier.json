@@ -1,0 +1,643 @@
+{
+  "schema": "w05-committed-dataset-dossier/1",
+  "scope": "tracked content of evidence/real-issuer on the commit this file is read from; no host, no network",
+  "classifiedBy": [
+    "iips-platform/src/investment/ingestion/writer.ts#readDataset",
+    "iips-platform/src/investment/fundamentals/manifest.ts#sourceRightsOf",
+    "iips-platform/src/investment/fundamentals/datasetClass.ts#classifyDataset",
+    "iips-platform/src/investment/coverage/investmentCoverage.ts#buildInvestmentCoverageReport"
+  ],
+  "vocabulary": {
+    "sourceRightsStates": [
+      "SYNTHETIC",
+      "OPERATOR_ASSERTED",
+      "UNKNOWN"
+    ],
+    "datasetClasses": [
+      "SYNTHETIC_REFERENCE",
+      "OPERATOR_SUPPLIED",
+      "UNKNOWN"
+    ]
+  },
+  "counts": {
+    "bundles": 25,
+    "datasetDirectories": 4,
+    "manifestCopiesInRunOutput": 1,
+    "datasetManifests": 5,
+    "datasetManifestsByRightsState": {
+      "UNKNOWN": 5
+    },
+    "datasetManifestsByClass": {
+      "UNKNOWN": 5
+    },
+    "datasetManifestsWithRightsDeclaration": 0,
+    "distinctDatasetVersions": 4,
+    "issuersWithCommittedDataset": 1,
+    "ingestInputs": 8,
+    "issuersWithIngestInput": 5,
+    "sectorsWithIngestInput": 3,
+    "operatingMetricRecordsInCommittedDatasets": 0,
+    "quarterlyPeriodsInCommittedDatasets": 0
+  },
+  "datasetDirectories": [
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset",
+      "bundle": "REL-1-INFOSYS-2026-11-06",
+      "digestsVerifiedByProductReader": true,
+      "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+      "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "rights": {
+        "declarationInManifest": "ABSENT",
+        "state": "UNKNOWN",
+        "basis": "",
+        "datasetClass": "UNKNOWN",
+        "classOnCoverageSurface": "UNKNOWN"
+      },
+      "clocks": {
+        "earliestPeriodEnd": "2022-03-31",
+        "latestPeriodEnd": "2024-03-31",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-06T00:00:00.000Z",
+        "lastImportAt": "2026-11-06T00:00:00.000Z"
+      },
+      "filing": {
+        "statementScopes": [
+          "CONSOLIDATED"
+        ],
+        "periodTypes": {
+          "ANNUAL": 3
+        },
+        "bases": {
+          "AS_FILED": 3
+        },
+        "taxonomies": [
+          "INDAS"
+        ],
+        "currencies": [
+          "INR"
+        ]
+      },
+      "observations": {
+        "filedByPresence": {
+          "PRESENT": 99
+        },
+        "notPresentByPresenceAndReason": {},
+        "derived": 15
+      },
+      "prices": 0,
+      "priceSources": [],
+      "operatingMetricRecords": 0,
+      "corporateActions": 0,
+      "ingestionIssues": 0,
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "legalName": "Infosys Limited",
+          "sector": "Technology",
+          "coverageState": "COVERED",
+          "annualPeriods": 3,
+          "quarterlyPeriods": 0,
+          "earliestPeriodEnd": "2022-03-31",
+          "latestPeriodEnd": "2024-03-31",
+          "prices": 0,
+          "operatingMetrics": 0
+        }
+      ],
+      "sectorsMeasured": "1 of 13"
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1",
+      "bundle": "REL-1-INFOSYS-2026-11-06",
+      "digestsVerifiedByProductReader": true,
+      "datasetVersion": "sha256:9be1a83ef198393b97465e104bef9270287bdc01a400c140a9f70927cdfa96e0",
+      "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "rights": {
+        "declarationInManifest": "ABSENT",
+        "state": "UNKNOWN",
+        "basis": "",
+        "datasetClass": "UNKNOWN",
+        "classOnCoverageSurface": "UNKNOWN"
+      },
+      "clocks": {
+        "earliestPeriodEnd": "2022-03-31",
+        "latestPeriodEnd": "2024-03-31",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-06T00:00:00.000Z",
+        "lastImportAt": "2026-11-06T00:00:00.000Z"
+      },
+      "filing": {
+        "statementScopes": [
+          "CONSOLIDATED"
+        ],
+        "periodTypes": {
+          "ANNUAL": 3
+        },
+        "bases": {
+          "AS_FILED": 3
+        },
+        "taxonomies": [
+          "INDAS"
+        ],
+        "currencies": [
+          "INR"
+        ]
+      },
+      "observations": {
+        "filedByPresence": {
+          "PRESENT": 96
+        },
+        "notPresentByPresenceAndReason": {},
+        "derived": 15
+      },
+      "prices": 0,
+      "priceSources": [],
+      "operatingMetricRecords": 0,
+      "corporateActions": 0,
+      "ingestionIssues": 0,
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "legalName": "Infosys Limited",
+          "sector": "Technology",
+          "coverageState": "COVERED",
+          "annualPeriods": 3,
+          "quarterlyPeriods": 0,
+          "earliestPeriodEnd": "2022-03-31",
+          "latestPeriodEnd": "2024-03-31",
+          "prices": 0,
+          "operatingMetrics": 0
+        }
+      ],
+      "sectorsMeasured": "1 of 13"
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset",
+      "bundle": "WI2-PRICE-OBSERVATION-2026-11-06",
+      "digestsVerifiedByProductReader": true,
+      "datasetVersion": "sha256:0ef4299dde504a202b96bce06183b91f38081e0f83f7d9a2d64ec7fc204d0579",
+      "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "rights": {
+        "declarationInManifest": "ABSENT",
+        "state": "UNKNOWN",
+        "basis": "",
+        "datasetClass": "UNKNOWN",
+        "classOnCoverageSurface": "UNKNOWN"
+      },
+      "clocks": {
+        "earliestPeriodEnd": "2022-03-31",
+        "latestPeriodEnd": "2024-03-31",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-06T13:45:00.000Z",
+        "lastImportAt": "2026-11-06T13:45:00.000Z"
+      },
+      "filing": {
+        "statementScopes": [
+          "CONSOLIDATED"
+        ],
+        "periodTypes": {
+          "ANNUAL": 3
+        },
+        "bases": {
+          "AS_FILED": 3
+        },
+        "taxonomies": [
+          "INDAS"
+        ],
+        "currencies": [
+          "INR"
+        ]
+      },
+      "observations": {
+        "filedByPresence": {
+          "PRESENT": 99
+        },
+        "notPresentByPresenceAndReason": {},
+        "derived": 15
+      },
+      "prices": 1,
+      "priceSources": [
+        "BSE"
+      ],
+      "operatingMetricRecords": 0,
+      "corporateActions": 0,
+      "ingestionIssues": 0,
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "legalName": "Infosys Limited",
+          "sector": "Technology",
+          "coverageState": "COVERED",
+          "annualPeriods": 3,
+          "quarterlyPeriods": 0,
+          "earliestPeriodEnd": "2022-03-31",
+          "latestPeriodEnd": "2024-03-31",
+          "prices": 1,
+          "operatingMetrics": 0
+        }
+      ],
+      "sectorsMeasured": "1 of 13"
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset",
+      "bundle": "WI3-BORROWINGS-NIL-2026-11-06",
+      "digestsVerifiedByProductReader": true,
+      "datasetVersion": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+      "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "rights": {
+        "declarationInManifest": "ABSENT",
+        "state": "UNKNOWN",
+        "basis": "",
+        "datasetClass": "UNKNOWN",
+        "classOnCoverageSurface": "UNKNOWN"
+      },
+      "clocks": {
+        "earliestPeriodEnd": "2022-03-31",
+        "latestPeriodEnd": "2024-03-31",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-06T14:05:00.000Z",
+        "lastImportAt": "2026-11-06T14:05:00.000Z"
+      },
+      "filing": {
+        "statementScopes": [
+          "CONSOLIDATED"
+        ],
+        "periodTypes": {
+          "ANNUAL": 3
+        },
+        "bases": {
+          "AS_FILED": 3
+        },
+        "taxonomies": [
+          "INDAS"
+        ],
+        "currencies": [
+          "INR"
+        ]
+      },
+      "observations": {
+        "filedByPresence": {
+          "MISSING": 8,
+          "NIL_BY_DISCLOSURE": 4,
+          "PRESENT": 99
+        },
+        "notPresentByPresenceAndReason": {
+          "MISSING/NOT_REPORTED": 8,
+          "NIL_BY_DISCLOSURE/DECLARED_NIL_IN_SOURCE": 4
+        },
+        "derived": 15
+      },
+      "prices": 1,
+      "priceSources": [
+        "BSE"
+      ],
+      "operatingMetricRecords": 0,
+      "corporateActions": 0,
+      "ingestionIssues": 0,
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "legalName": "Infosys Limited",
+          "sector": "Technology",
+          "coverageState": "COVERED",
+          "annualPeriods": 3,
+          "quarterlyPeriods": 0,
+          "earliestPeriodEnd": "2022-03-31",
+          "latestPeriodEnd": "2024-03-31",
+          "prices": 1,
+          "operatingMetrics": 0
+        }
+      ],
+      "sectorsMeasured": "1 of 13"
+    }
+  ],
+  "manifestCopiesInRunOutput": [
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/dataset-manifest.json",
+      "bundle": "D2-POST-MERGE-REGRESSION-2026-11-06",
+      "datasetVersion": "sha256:ca29c8357fd3ae87889af07b27ffc317f09745caaed870b287d7ca1f8fc6d71e",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "rights": {
+        "declarationInManifest": "ABSENT",
+        "state": "UNKNOWN",
+        "basis": "",
+        "datasetClass": "UNKNOWN"
+      },
+      "sameVersionAsDatasetDirectory": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset"
+    }
+  ],
+  "ingestInputs": [
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+      "bundle": "REL-1-INFOSYS-2026-11-06",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "legalName": "Infosys Limited",
+          "sector": "Technology"
+        }
+      ],
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        }
+      ],
+      "priceObservations": 0,
+      "priceSources": [],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/ingest-input",
+      "bundle": "WI2-PRICE-OBSERVATION-2026-11-06",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "legalName": "Infosys Limited",
+          "sector": "Technology"
+        }
+      ],
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c"
+        },
+        {
+          "name": "prices.json",
+          "sha256": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        }
+      ],
+      "priceObservations": 1,
+      "priceSources": [
+        "BSE"
+      ],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input",
+      "bundle": "WI3-BORROWINGS-NIL-2026-11-06",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "legalName": "Infosys Limited",
+          "sector": "Technology"
+        }
+      ],
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c"
+        },
+        {
+          "name": "prices.json",
+          "sha256": "d00655bc3f292cb727d2b0e0c8c8a3a7a12be410c0260a2c5987543785f2a11c"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        }
+      ],
+      "priceObservations": 1,
+      "priceSources": [
+        "BSE"
+      ],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/ingest-input",
+      "bundle": "WI5-PREFERENCE-CAPITAL-2026-11-07",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L72200MH2000PLC125319",
+          "legalName": "eClerx Services Limited",
+          "sector": "Technology"
+        }
+      ],
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "cf0abc1721b75377eda1db23fd86136eaaf22eee533d17b0db41f93ec9ad1fc3"
+        },
+        {
+          "name": "prices.json",
+          "sha256": "99ed6edf2cb901313c6132fd10e04c9060ee9180ccdaaa44771d37eb48003400"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "05918c1942d840a65dc21b7d80a1207697e6bf86602fe83eee6bc5ce2c90d5d9"
+        }
+      ],
+      "priceObservations": 1,
+      "priceSources": [
+        "YAHOO-FINANCE"
+      ],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/ingest-input",
+      "bundle": "WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L72200PN1963PLC012621",
+          "legalName": "Zensar Technologies Limited",
+          "sector": "Technology"
+        }
+      ],
+      "files": [
+        {
+          "name": "identity/corporate-actions.json",
+          "sha256": "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd"
+        },
+        {
+          "name": "identity/eligible-roster.json",
+          "sha256": "9f88dff271ac0960cf49802c71e018326f309b8f6414800b00ad491145fb7027"
+        },
+        {
+          "name": "identity/listing-map.json",
+          "sha256": "3f9cc8fcf0b308e858aa62b21750128b11fd2c238e3457183302ad17f0761ea8"
+        },
+        {
+          "name": "periods.csv",
+          "sha256": "89d503a27683d2f848d7051b56e00f1719122558e33693d59dcb6b09d352284d"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "e121a463c1e77a8e73abbfba43a9f88b479421b356bd8de5959915d7d831d9c9"
+        }
+      ],
+      "priceObservations": 0,
+      "priceSources": [],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input",
+      "bundle": "WI7-CONSUMER-MARICO-2026-11-07",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L15140MH1988PLC049208",
+          "legalName": "Marico Limited",
+          "sector": "Consumer"
+        }
+      ],
+      "files": [
+        {
+          "name": "data-extraction.json",
+          "sha256": "9137582f64c840a60287a6cf308e4eff7fd60593fc0952585a21795bb944c837"
+        },
+        {
+          "name": "identity/corporate-actions.json",
+          "sha256": "eeab6a794374217cfc801f61461cfd21b9182cfbe0ab5a5114b8d6678b04bf5a"
+        },
+        {
+          "name": "identity/eligible-roster.json",
+          "sha256": "1641e72775a47564c9048383c80ac56365428e759763190a77b580dabb11de57"
+        },
+        {
+          "name": "identity/listing-map.json",
+          "sha256": "ca81334ef752ac6995d51e7e4cf76b871c9a9e2f277027b82a2904af10a45bbb"
+        },
+        {
+          "name": "periods.csv",
+          "sha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        }
+      ],
+      "priceObservations": 0,
+      "priceSources": [],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input",
+      "bundle": "WI7-L038-DEBT-COMPLETENESS-2026-11-07",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L15140MH1988PLC049208",
+          "legalName": "Marico Limited",
+          "sector": "Consumer"
+        }
+      ],
+      "files": [
+        {
+          "name": "data-extraction.json",
+          "sha256": "db849adc44c9454ce51114209e01323188f7851330b60de7e9fe58651829d0a5"
+        },
+        {
+          "name": "identity/corporate-actions.json",
+          "sha256": "eeab6a794374217cfc801f61461cfd21b9182cfbe0ab5a5114b8d6678b04bf5a"
+        },
+        {
+          "name": "identity/eligible-roster.json",
+          "sha256": "1641e72775a47564c9048383c80ac56365428e759763190a77b580dabb11de57"
+        },
+        {
+          "name": "identity/listing-map.json",
+          "sha256": "ca81334ef752ac6995d51e7e4cf76b871c9a9e2f277027b82a2904af10a45bbb"
+        },
+        {
+          "name": "periods.csv",
+          "sha256": "7ce8844f395b5ea00db8a97d2f67319af3678d5208bb9c2ec55306cdd145a6f9"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        }
+      ],
+      "priceObservations": 0,
+      "priceSources": [],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input",
+      "bundle": "WI8-INDUSTRIALS-KEC-2026-11-07",
+      "issuers": [
+        {
+          "issuerId": "IN:CIN:L45200MH2005PLC152061",
+          "legalName": "KEC International Limited",
+          "sector": "Industrials"
+        }
+      ],
+      "files": [
+        {
+          "name": "data-extraction.json",
+          "sha256": "44e80efd84468f62ecca5ca2c3a5615f37a45a682596d81e1cc709cb24f1ab8e"
+        },
+        {
+          "name": "identity/corporate-actions.json",
+          "sha256": "6db8b7cf6ad5764cf2f2c26793e4359c068426342526bcf9cb74c4c87e104ab5"
+        },
+        {
+          "name": "identity/eligible-roster.json",
+          "sha256": "31123077207b90f463266e264b3256cf4fc10f30b835ee60f62a29d6a615a333"
+        },
+        {
+          "name": "identity/listing-map.json",
+          "sha256": "ba3ff2e7a88fb3f3019e133e996bd5869365ea3470f3d27372ad372d3d91e07c"
+        },
+        {
+          "name": "periods.csv",
+          "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ],
+      "priceObservations": 0,
+      "priceSources": [],
+      "rightsDeclarationInInput": "NONE — the input format has no rights field"
+    }
+  ],
+  "sourceMaterial": {
+    "note": "files under <bundle>/source: page text of issuer reports, exchange XBRL instances and a price-file extract, with retrieval logs and locator records",
+    "files": 135,
+    "bytes": 1639139,
+    "byExtension": {
+      "csv": 1,
+      "gz": 4,
+      "json": 21,
+      "txt": 109
+    },
+    "bundlesWithSourceMaterial": 16
+  },
+  "retiredClassLabel": {
+    "label": "APPROVED_LOCAL_INGESTION",
+    "note": "historical records written before the rights field existed; the label is no longer in the vocabulary and asserts no right",
+    "occurrences": 111,
+    "files": 39,
+    "filesByPlaceInBundle": {
+      "README.md": 1,
+      "runs": 37,
+      "withdrawn": 1
+    }
+  },
+  "productSchema": {
+    "lineItems": 53,
+    "reportedLineItems": 47,
+    "derivedOnlyLineItems": 6,
+    "derivations": 8,
+    "xbrlTagsMapped": 22,
+    "lineItemsReachableFromXbrl": 21,
+    "reportedLineItemsReachableFromXbrl": 21,
+    "reportedLineItemsNotReachableFromXbrl": 26,
+    "operatingMetrics": 33
+  }
+}
