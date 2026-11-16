@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run verify:browser-bundle",
+    "verify:browser-bundle": "node scripts/verify-browser-bundle.mjs",
+    "test:browser-bundle": "node --test scripts/verify-browser-bundle.test.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -27,7 +29,7 @@
   "dependencies": {
     "iips-broker-import": "github:ramkivs/iips-production-market-data#1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
     "iips-np04-governed-persistence": "github:ramkivs/iips-production-market-data#2e11fa3b689d1a3674a5e4ba1f1de9a559e20494",
-    "iips-production-market-data": "github:ramkivs/iips-production-market-data#1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
+    "iips-production-market-data": "github:ramkivs/iips-production-market-data#af4460eeab9bb0544e009322526a5498df0d5909",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",

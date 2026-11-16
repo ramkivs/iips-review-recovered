@@ -193,7 +193,7 @@ export function DhanQuotes() {
           )}
           {quote.freshness === 'UNAVAILABLE' && (
             <p data-testid="dhan-quote-unavailable-notice" style={{ color: 'var(--color-status-negative)', fontSize: 13 }}>
-              The provider did not return usable market data. No value below is a price.
+              The request succeeded, but this observation is outside the freshness-use policy. It is not a current price.
             </p>
           )}
 

@@ -57,9 +57,8 @@ export const SYNTHETIC_EVALUATED_AT = '2026-11-06T10:15:00.121Z';
 /**
  * Builds a synthetic canonical quote envelope.
  *
- * `qualityState` is IPD's own canonical quality verdict. It is the ONLY input to IRR's
- * freshness mapping, so a scenario can produce a CURRENT, a STALE or an UNAVAILABLE verdict
- * without IRR inventing anything.
+ * `qualityState` is IPD's own canonical quality verdict. The transport marker is also
+ * considered conservatively by IRR's freshness mapping.
  */
 export function syntheticQuoteEnvelope(options: {
   readonly qualityState?: 'GOOD' | 'STALE' | 'UNAVAILABLE';
@@ -143,6 +142,9 @@ export type SyntheticScenario =
   | 'QUOTE_SUCCESS'
   | 'QUOTE_STALE'
   | 'QUOTE_UNAVAILABLE'
+  | 'QUOTE_MALFORMED'
+  | 'QUOTE_INCOMPLETE'
+  | 'PROVIDER_FAILURE'
   | 'HISTORICAL_SUCCESS'
   | 'HISTORICAL_EMPTY'
   | 'TRANSPORT_UNAVAILABLE'
@@ -282,12 +284,19 @@ export function syntheticBehaviourFor(
         status: 200,
         body: {
           ok: true,
-          envelope: syntheticQuoteEnvelope({ qualityState: 'UNAVAILABLE' }),
-          // An UNAVAILABLE verdict carries no STALE marker: the two are distinct verdicts and
-          // the fixture must not conflate them.
-          freshness: 'CURRENT',
+          envelope: syntheticQuoteEnvelope({ qualityState: 'UNAVAILABLE', companyId: 'EQ_RELIANCE_IN', asOf: '2026-11-04T11:08:47.121Z' }),
+          freshness: 'UNAVAILABLE',
         },
       };
+
+    case 'QUOTE_MALFORMED':
+      return { kind: 'RESPOND', status: 200, body: { ok: true, envelope: {}, freshness: 'INVALID' } };
+
+    case 'QUOTE_INCOMPLETE':
+      return { kind: 'RESPOND', status: 200, body: { ok: true, envelope: {}, freshness: 'UNAVAILABLE' } };
+
+    case 'PROVIDER_FAILURE':
+      return { kind: 'RESPOND', status: 502, body: { error: { code: 'PROVIDER_STATUS_FAILURE', message: 'provider HTTP 403' } } };
 
     case 'HISTORICAL_SUCCESS':
       return {
@@ -495,6 +504,9 @@ export function syntheticBehaviourForRoute(
       scenario === 'RATE_LIMITED'
     ) {
       return syntheticBehaviourFor(scenario);
+    }
+    if (scenario === 'QUOTE_UNAVAILABLE' && domain === 'D01_QUOTES') {
+      return syntheticBehaviourFor('FRESHNESS_D01_MISS');
     }
     // The default status for the data-route scenarios, in the requested domain.
     if (domain === 'D02_OHLCV') {

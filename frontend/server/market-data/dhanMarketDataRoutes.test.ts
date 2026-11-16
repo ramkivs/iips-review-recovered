@@ -47,6 +47,8 @@ class SyntheticIpdTransport {
   private server: http.Server | null = null;
   private scenario: SyntheticScenario = 'QUOTE_SUCCESS';
   private baseUrl = '';
+  public lastQuoteRequest: unknown = null;
+  public lastQuoteAuthorization: string | undefined;
 
   public setScenario(scenario: SyntheticScenario): void {
     this.scenario = scenario;
@@ -57,6 +59,12 @@ class SyntheticIpdTransport {
       // The synthetic transport answers each IPD route with its own shape, exactly as
       // IPD's server does.
       const url = req.url ?? '';
+      if (url.split('?')[0] === '/v1/quotes') {
+        this.lastQuoteAuthorization = req.headers.authorization;
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', () => { this.lastQuoteRequest = JSON.parse(body); });
+      }
       const path = url.split('?')[0];
       const route: SyntheticRoute =
         path === '/v1/quotes' ? 'quotes' : path === '/v1/historical' ? 'historical' : 'freshness';
@@ -224,10 +232,26 @@ describe('DHAN-P3 quote route', () => {
   });
 
   it('reports an UNAVAILABLE quality verdict as UNAVAILABLE', async () => {
-    const response = await callQuotes(VALID_QUOTE, 'QUOTE_UNAVAILABLE');
+    const response = await callQuotes({ companyId: 'EQ_RELIANCE_IN', securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ' }, 'QUOTE_UNAVAILABLE');
+    expect(response.status).toBe(200);
+    expect(transport.lastQuoteRequest).toEqual({ companyId: 'EQ_RELIANCE_IN', securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ' });
+    expect(transport.lastQuoteAuthorization).toBe('Bearer synthetic-transport-token');
     const data = (response.body as { data: Record<string, unknown> }).data;
     expect(data.freshness).toBe('UNAVAILABLE');
+    expect(data.qualityState).toBe('UNAVAILABLE');
+    expect(data.asOf).toBe('2026-11-04T11:08:47.121Z');
+    expect(data.receivedAt).toBe('2026-11-06T10:15:00.120Z');
+    expect(data.evaluatedAt).toBe('2026-11-06T10:15:00.121Z');
+    expect((Date.parse(data.evaluatedAt as string) - Date.parse(data.asOf as string)) / 1000).toBe(169573);
   });
+
+  it.each([['QUOTE_MALFORMED', 'MALFORMED_RESPONSE'], ['QUOTE_INCOMPLETE', 'MALFORMED_RESPONSE'], ['PROVIDER_FAILURE', 'PROVIDER_STATUS_FAILURE']] as const)(
+    'preserves %s as an error', async (scenario, code) => {
+      const response = await callQuotes(VALID_QUOTE, scenario);
+      expect(response.status).not.toBe(200);
+      expect((response.body.error as Record<string, unknown>).code).toBe(code);
+    },
+  );
 
   it('rejects a request with no canonical identity before contacting the transport', async () => {
     const response = await callQuotes({ companyId: 'SYNTHETIC:COMPANY' }, 'QUOTE_SUCCESS');
@@ -493,11 +517,13 @@ describe('DHAN-P3 freshness mapping', () => {
 
   it('maps IPD UNAVAILABLE to IRR UNAVAILABLE', () => {
     expect(mapIpdFreshnessToIrrFreshness('UNAVAILABLE', undefined)).toBe('UNAVAILABLE');
+    expect(mapIpdFreshnessToIrrFreshness('UNAVAILABLE', 'STALE')).toBe('UNAVAILABLE');
+    expect(mapIpdFreshnessToIrrFreshness('GOOD', 'UNAVAILABLE')).toBe('UNAVAILABLE');
   });
 
   it('never produces LIVE for any input', () => {
     for (const quality of ['GOOD', 'STALE', 'UNAVAILABLE', 'PARTIAL', 'UNKNOWN', undefined]) {
-      for (const marker of ['CURRENT', 'STALE', undefined] as const) {
+      for (const marker of ['CURRENT', 'STALE', 'UNAVAILABLE', undefined] as const) {
         expect(mapIpdFreshnessToIrrFreshness(quality, marker)).not.toBe('LIVE');
       }
     }
