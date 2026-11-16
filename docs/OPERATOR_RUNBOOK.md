@@ -224,6 +224,8 @@ Rules that fail closed on purpose — the same rules as §2 and §3.2:
 
 This section is configuration guidance, **not** evidence of a connected daemon, vendor entitlement or live qualification. The Windows launcher inspected by the roadmap does not start the market-data daemon; launcher integration and full operational recovery remain W-36/W-37. Do not reprovision credentials, rebuild, restart or request quotes solely to repeat previously accepted W-06 evidence. Only an explicitly authorized operator should make changes on the host. Do not put secrets or secret-reference values in source control, shell history, logs, screenshots, URLs or browser configuration.
 
+**Owner-approved Windows baseline:** IPD commit `901e4791e271cafdb777d56f9f66f6867b3f60c6`, existing owner-designated Windows checkout and existing IIPS startup procedure. The owner-reported startup and later Git/artifact inspection are reconciled in [the W-11 execution record](integration/DHAN-W11-IRR-EXECUTION-2026-11-15.md); the later inspection is not proof of the exact commit at launch. The checked-in daemon at this approved commit defaults to a disabled vault backend and does **not** implement the selector described below for the separate pinned lineage. Do not apply candidate-only settings to the approved baseline or infer live capability from local health. Approval does not instruct a checkout, restart, upgrade or merge.
+
 **IRR transport configuration (server process only):**
 
 | Setting | Actual consumer and behavior |

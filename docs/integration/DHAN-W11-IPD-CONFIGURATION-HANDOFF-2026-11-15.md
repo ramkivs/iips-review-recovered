@@ -1,6 +1,6 @@
 # W-11 — IPD configuration/documentation handoff
 
-**Status: PENDING SEPARATE IPD EXECUTION.** IRR did not modify, commit or publish IPD. This is an actionable request, not evidence that IPD accepted or implemented it. W-11 remains partial until IPD configuration/documentation alignment and the roadmap's connected-daemon verification are independently completed.
+**Historical handoff with later reconciliation:** IPD separately published its candidate documentation and tests at `bcfa6cbbcaff63a8c55f4d7395c4cbb5d0088d52` (no PR found), while the owner approved the distinct IPD `901e4791e271cafdb777d56f9f66f6867b3f60c6` Windows baseline and existing admission path. The candidate is not evidence that its code was installed or that the approved baseline gained its backend. See `DHAN-W11-IRR-EXECUTION-2026-11-15.md` for the superseding evidence and outstanding acceptance. IRR did not modify, commit or publish IPD; W-11 remains PARTIAL.
 
 ## Evidence and ownership
 

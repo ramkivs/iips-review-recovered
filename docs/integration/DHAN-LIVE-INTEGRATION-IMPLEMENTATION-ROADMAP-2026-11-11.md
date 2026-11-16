@@ -7,7 +7,7 @@
 **Baseline:** `docs/integration/DHAN-LIVE-MARKET-DATA-CURRENT-STATE-INVESTIGATION-2026-11-11.md` (IRR `9e957ad`, IPD `main` `a624d06`, consumed pin `1aee57f`).
 **Operating model:** personal, single-user, local Windows application. No multi-user, tenancy, cloud or enterprise infrastructure is introduced.
 
-**Current status reconciliation (2026-11-15):** See [W-06 execution and roadmap progression assessment](DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md). The operator reports an authenticated vendor interaction and canonical D01 quote response. W-06 is **partially complete** pending the required sanitized full-output disclosure-scan attestation and IPD-owned evidence capture; M1 and M2a are observed/reported, not yet independently evidenced here; M2 remains unqualified. The historical baseline statements below describe the investigation date, not current operational status. Milestone definitions, ownership and dependencies are unchanged.
+**Current status reconciliation:** The [2026-11-15 W-06 assessment](DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md) is historical: its partial disposition and scan-attestation blocker are superseded by the [IPD final owner attestation at `617fab0`](https://github.com/ramkivs/iips-production-market-data/blob/617fab0bf88bb6c899ba6a0b7716ffb77c024d87/docs/integration/DHAN-W06-FINAL-OWNER-ATTESTATION.md). W-06 is **COMPLETE — OWNER ATTESTED**; no scan is claimed, and no repeat execution or additional W-06 evidence is required. The owner attests M1/M2a events; this is not independent observation or automatic M2 qualification. W-11 is **PARTIAL**, as recorded in [its execution and acceptance record](DHAN-W11-IRR-EXECUTION-2026-11-15.md). The historical baseline statements below describe the investigation date, not current operational status. Milestone definitions, ownership and dependencies are unchanged.
 
 **Scale of this roadmap:** **9 phases** (Phase 0 through Phase 8), **7 decision records** (D-1…D-7), **38 work items** (W-01…W-15, W-17…W-39; the identifier W-16 was never allocated), **8 milestones** (M1, M2a, M2, M3a, M3, M4, M5, M6).
 
@@ -344,6 +344,8 @@ Work items required to make Status, Quotes, History and Freshness work reliably.
 | Exit criteria | Following the documentation verbatim yields a connected daemon for all four capabilities |
 | Enables | W-15, W-21, W-29, W-36, W-37 |
 | Priority | **High** |
+
+**W-11 acceptance reconciliation:** **PARTIAL.** IRR configuration documentation and the browser-output gate have E1/E2 evidence; IPD's version-specific documentation candidate is published separately. The owner explicitly approved the Windows IPD `901e4791e271cafdb777d56f9f66f6867b3f60c6` baseline and existing admission path. The supplied Windows transcript is owner-reported partial E3 startup/local-health evidence, not independent E4 or proof of all four capabilities. Git inspection occurred after startup. The approved source's default backend is disabled and its checked-in Windows launcher does not start this daemon; neither fact invalidates owner approval or proves the installed runtime's launch-time bytes. Observation-only Status/freshness verification and connected-daemon Quotes/History evidence remain outstanding under the evidence and authorization boundaries detailed in the [W-11 record](DHAN-W11-IRR-EXECUTION-2026-11-15.md). W-11 exit criteria and M4 remain unmet; W-07 is not advanced by this reconciliation.
 
 ---
 
