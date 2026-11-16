@@ -1,0 +1,125 @@
+{
+  "schema": "w05-unmerged-rights-records-readback/1",
+  "note": "Read-only read-back of records that exist on unmerged refs of ramkivs/iips-review-recovered. Nothing was written to those refs. The decisions are the Program Authority's; this file only records where they are and their identity.",
+  "readAt": "2026-11-16",
+  "irrMain": "064195397dfdb32bf0f34a461b02fd6b9f9a8df0",
+  "refs": {
+    "iidBranch": {
+      "ref": "refs/heads/arena/53ff9276-iips-review-recovered",
+      "commit": "5bf1167d069a208a0dc3ca4e4df82559cd69d02f",
+      "committedAt": "2026-11-16T19:38:38+00:00",
+      "pullRequest": null,
+      "aheadOfMain": 45,
+      "behindMain": 26,
+      "mergeBaseWithMain": "08411bcd6d782a601fe5c82cc9983d076831148d"
+    },
+    "pr562": {
+      "ref": "refs/pull/562/head",
+      "commit": "f98732e1861ff8b384183c30c11e4d1adbc2dc95",
+      "headBranch": "arena/94a53bb3-iips-review-recovered",
+      "state": "OPEN"
+    },
+    "o3DefiningDocument": {
+      "ref": "refs/heads/arena/iid-coverage-readiness-report-2026-11-11",
+      "commit": "31a9b01e574f2911cc2685e3d63dddcfb1194d62",
+      "path": "docs/integration/IID-IDENTITY-AND-INVESTMENT-COVERAGE-READINESS-ASSESSMENT-2026-11-11.md",
+      "onIrrMain": false
+    }
+  },
+  "records": [
+    {
+      "path": "docs/integration/IID-O3-DATASET-ADMISSION-PA-DECISION-2026-11-13.md",
+      "gitBlob": "be627a990c13f6fd259819b9c4acda836870cd47",
+      "sha256": "25d8ba88248c138ca41f82874dca10db4e8605cba19c690a7a8a3740b7ee55ca",
+      "bytes": 41718,
+      "addedByCommit": "cf24c47b2871e3b7079428b52be449c1a1209526",
+      "onIrrMain": false,
+      "onPr562Head": "YES_SAME_BLOB",
+      "decision": "O3 — ADMITTED AS CANDIDATE INPUTS FOR LOCAL PERSONAL USE",
+      "decisionDate": "2026-11-13",
+      "basis": "explicit operator declaration; not independent legal verification of third-party licensing, publisher terms or source rights",
+      "admitted": [
+        "evidence/real-issuer/REL-1-INFOSYS-2026-11-06",
+        "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07",
+        "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07"
+      ]
+    },
+    {
+      "path": "docs/integration/IID-O3-S4-R3-READMISSION-PA-DECISION-2026-11-14.md",
+      "gitBlob": "e73a3f8cc526604970178193f2d6774bc94c1bf1",
+      "sha256": "ab476ecb195b6081296c85f0fe4b34670ee1857b2c6fb8d8bd66d82be2e4daed",
+      "bytes": 14812,
+      "addedByCommit": "de65180577d1b79b9056974fc02a5000bc1baa39",
+      "onIrrMain": false,
+      "onPr562Head": "NO",
+      "decision": "O3 — ADMITTED for local personal investment analysis (re-admission of exact successor inputs and candidate)",
+      "decisionDate": "2026-11-14",
+      "admitted": [
+        "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+        "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+        "candidate dataset sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b"
+      ]
+    },
+    {
+      "path": "docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md",
+      "gitBlob": "cd9198a0ba88f9158e7faf2ffda5e02c4eb11210",
+      "sha256": "9f7f835b6e3139bff6c44bb35c5f7da001634a9ff16ba7508a459229dcb12148",
+      "bytes": 17099,
+      "addedByCommit": "03e63550a633a3fa0de72d1530628f4c450fe253",
+      "onIrrMain": false,
+      "onPr562Head": "NO",
+      "subject": "personal-use operating authority; row G-4: O3 satisfied and closed as a recurring gate"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-manifest.json",
+      "gitBlob": "1b655f9739620dacb2d93a0b21a90e53bb612633",
+      "sha256": "b921741942d4674ed968f2938917b588b07ae9dc6db12f2998cb7361727d90ba",
+      "bytes": 4464,
+      "addedByCommit": "b2a14c9851a7ee7b4b3a6dcf201778ce9f053e10",
+      "onIrrMain": false,
+      "onPr562Head": "NO",
+      "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+      "sourceRightsState": "OPERATOR_ASSERTED",
+      "sourceRightsNote": "operator attestation over the operator’s own input files; not an independent verification of any third party’s terms",
+      "licence": "operator-supplied; not redistributable",
+      "inputs": 3
+    },
+    {
+      "path": "docs/integration/IID-STAGE3-WINDOWS-HOST-ACCEPTANCE-EVIDENCE-2026-11-14.md",
+      "gitBlob": "4b5c32c08e26109123cc56c2d6e3d743d42bf925",
+      "sha256": "24dd474c06f9e9f6df420599f12ef272c369e09831e84b9a6cb1f57f906c1781",
+      "bytes": 26096,
+      "addedByCommit": "272b4a54446ceaef4ffbbd414d462944f07dc5c4",
+      "onIrrMain": false,
+      "onPr562Head": "YES_SAME_BLOB",
+      "subject": "operator-reported host installation; dataset class OPERATOR_SUPPLIED, rights OPERATOR_ASSERTED"
+    },
+    {
+      "path": "docs/integration/IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md",
+      "gitBlob": "432308114638048548d3aad020fbd6d40fe8141a",
+      "sha256": "27af66efa68a860a99f810c5619efe7ba5248181814f6a0f545640ad805bd0ac",
+      "bytes": 16492,
+      "addedByCommit": "3647be599147609cff0e093be4298c682b2e93cb",
+      "onIrrMain": false,
+      "onPr562Head": "NO",
+      "subject": "operator-reported first persisted assessment on the host over the candidate dataset"
+    }
+  ],
+  "classifierOnThatBranch": {
+    "iips-platform/src/investment/coverage/investmentCoverage.ts": "provider/licence substring test (pre-6ae09ac)",
+    "iips-platform/src/investment/identity/coverage.ts": "provider/licence substring test (pre-6ae09ac)"
+  },
+  "trialMergeIntoMain": {
+    "command": "git merge-tree --write-tree --name-only <main> <iid branch>",
+    "clean": false,
+    "conflictedFiles": [
+      "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "iips-platform/src/investment/coverage/investmentCoverage.ts",
+      "iips-platform/tests/investment/investment-coverage.test.ts"
+    ],
+    "refsWritten": 0
+  },
+  "trialMergeOfPr562IntoMain": {
+    "clean": true
+  }
+}

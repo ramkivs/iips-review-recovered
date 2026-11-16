@@ -1,5 +1,7 @@
 # W05 — Actual Financial Dataset Qualification Record (2026-11-12)
 
+> **Later record (2026-11-16).** This record is kept as written. Its status of the source-rights enforcement, the eight dataset-version prefixes of section 3.2 and the XBRL counts of section 5.1 are replaced by [W05 status and reconciliation, 2026-11-16](W05-FINANCIAL-COVERAGE-AND-SOURCE-RIGHTS-STATUS-2026-11-16.md), section 6. Where the two differ, the later record stands.
+
 ## 1. Scope & Inspected Repositories
 
 - **Workstream:** `W05 — Actual financial dataset qualification` (`Snapshot-to-Live` execution roadmap)
