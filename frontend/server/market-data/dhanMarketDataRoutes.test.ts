@@ -203,6 +203,8 @@ describe('DHAN-P3 quote route', () => {
     expect(data.asOf).toBe('2026-11-06T10:15:00.000Z');
     expect(data.receivedAt).toBe('2026-11-06T10:15:00.120Z');
     expect(data.evaluatedAt).toBe('2026-11-06T10:15:00.121Z');
+    // The pinned W-07 publication (IPD PR #168 @ `5b384c72…`) does not echo `securityId` on
+    // the quote envelope; the view reports the validated identity that was requested.
     expect(data.securityId).toBe('ISIN:INE002A01018:EQ');
 
     const quote = data.quote as Record<string, unknown>;
@@ -231,18 +233,17 @@ describe('DHAN-P3 quote route', () => {
     expect(data.freshness).not.toBe('LIVE');
   });
 
-  it('reports an UNAVAILABLE quality verdict as UNAVAILABLE', async () => {
-    const response = await callQuotes({ companyId: 'EQ_RELIANCE_IN', securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ' }, 'QUOTE_UNAVAILABLE');
-    expect(response.status).toBe(200);
+  it('reports a twice-threshold-stale observation as STALE_DATA_SUPPRESSED (fail-closed, never a quote)', async () => {
+    // The pinned W-07 publication (IPD PR #168 @ `5b384c72…`) suppresses an observation older
+    // than twice the D01 freshness threshold entirely; the candidate-line answer of a 200
+    // with `freshness: 'UNAVAILABLE'` does not exist on IPD `main`. The identity-forwarding
+    // assertions are unchanged: the transport request still carries the canonical identity.
+    const response = await callQuotes({ companyId: 'EQ_RELIANCE_IN', securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ' }, 'QUOTE_STALE_SUPPRESSED');
+    expect(response.status).toBe(502);
     expect(transport.lastQuoteRequest).toEqual({ companyId: 'EQ_RELIANCE_IN', securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ' });
     expect(transport.lastQuoteAuthorization).toBe('Bearer synthetic-transport-token');
-    const data = (response.body as { data: Record<string, unknown> }).data;
-    expect(data.freshness).toBe('UNAVAILABLE');
-    expect(data.qualityState).toBe('UNAVAILABLE');
-    expect(data.asOf).toBe('2026-11-04T11:08:47.121Z');
-    expect(data.receivedAt).toBe('2026-11-06T10:15:00.120Z');
-    expect(data.evaluatedAt).toBe('2026-11-06T10:15:00.121Z');
-    expect((Date.parse(data.evaluatedAt as string) - Date.parse(data.asOf as string)) / 1000).toBe(169573);
+    const error = (response.body as { error: Record<string, unknown> }).error;
+    expect(error.code).toBe('STALE_DATA_SUPPRESSED');
   });
 
   it.each([['QUOTE_MALFORMED', 'MALFORMED_RESPONSE'], ['QUOTE_INCOMPLETE', 'MALFORMED_RESPONSE'], ['PROVIDER_FAILURE', 'PROVIDER_STATUS_FAILURE']] as const)(

@@ -16,6 +16,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  DHAN_HEALTH_CONTRACT_LEGACY_VERSION,
   DHAN_HEALTH_CONTRACT_VERSION,
   DHAN_HEALTH_PATH,
   DHAN_HEALTH_PROVENANCE,
@@ -30,7 +31,8 @@ import {
 } from './dhanHealthTransport';
 import { describeDhanProviderReadiness } from './dhanMarketDataRoute';
 import { classifyDhanHealth } from './dhanHealthState';
-import { resolveIpdMarketDataTransportConfig } from './dhanMarketDataTransport';
+import { resolveIpdMarketDataTransportConfig, createIpdMarketDataTransportClient } from './dhanMarketDataTransport';
+import { validateDhanServiceHealth } from 'iips-production-market-data/dhan-server';
 
 /** SecretRef POINTERS only. These are key paths, never secret values. */
 const CONFIGURED_ENV = {
@@ -378,6 +380,13 @@ describe('W-07 IRR mirror compatibility — governed D-7 health contract', () =>
         expectedState: 'UNAVAILABLE',
       },
       {
+        liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+        providerQualification: 'LIVE_QUALIFIED',
+        // A live qualification WITHOUT live connectivity is not operational and not
+        // authenticated: the connectivity signal is the one that carries authentication.
+        expectedState: 'UNAVAILABLE',
+      },
+      {
         liveProviderConnectivity: 'CONNECTED_LIVE',
         providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
         expectedState: 'AUTHENTICATED',
@@ -407,17 +416,20 @@ describe('W-07 IRR mirror compatibility — governed D-7 health contract', () =>
     }
   });
 
-  it('PENDING IPD PIN: the currently pinned client still rejects new values at its own boundary', async () => {
-    // The installed IPD package pin (af4460ee…) predates W-07: its MarketDataTransportClient
-    // accepts only the legacy literals and returns MALFORMED_RESPONSE for CONNECTED_LIVE.
-    // This test is the tripwire for the pin-bump leg of this PR: once the pin advances to
-    // the actual IPD W-07 commit, this probe must instead answer reachable with the live
-    // service health, and this test must be updated to assert that.
+  it('the pinned IPD W-07 client round-trips the governed live values (pin advance guard)', async () => {
+    // The pin now carries the published IPD W-07 commit
+    // `5b384c7215b2644a8d525960ba05cd97f39bf7a7` (IPD PR #168): its MarketDataTransportClient
+    // validates with IPD's own `validateDhanServiceHealth`, which governs the same D-7
+    // vocabularies IRR enforces. The live values therefore round-trip to an authoritative
+    // answer instead of MALFORMED_RESPONSE. If this test fails because the client rejected a
+    // governed value, the pin and the contract have drifted apart and must be reconciled —
+    // never by weakening either validator.
     const baseUrl = await startHealthTransport({
       service: 'UP',
       providerConfiguration: 'CONFIGURED',
       liveProviderConnectivity: 'CONNECTED_LIVE',
       providerQualification: 'LIVE_QUALIFIED',
+      contractVersion: DHAN_HEALTH_CONTRACT_VERSION,
     });
     const probe = await probeDhanTransport(
       {},
@@ -429,14 +441,427 @@ describe('W-07 IRR mirror compatibility — governed D-7 health contract', () =>
       },
     );
     expect(probe.attempted).toBe(true);
-    expect(probe.reachable).toBe(false);
-    expect(probe.serviceHealth).toBeUndefined();
+    expect(probe.reachable).toBe(true);
+    expect(probe.contractViolation).toBeUndefined();
+    expect(probe.serviceHealth).toEqual({
+      service: 'UP',
+      providerConfiguration: 'CONFIGURED',
+      liveProviderConnectivity: 'CONNECTED_LIVE',
+      providerQualification: 'LIVE_QUALIFIED',
+      contractVersion: DHAN_HEALTH_CONTRACT_VERSION,
+    });
   });
 
   it('reports UNAVAILABLE, never DISCONNECTED or upgraded, on a contract violation', () => {
     const probe: DhanTransportProbe = { attempted: true, reachable: true, contractViolation: true };
     const evidence = collectDhanHealthEvidence(describeDhanProviderReadiness(CONFIGURED_ENV), probe);
     expect(evidence.healthContractViolation).toBe(true);
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+  });
+});
+
+/**
+ * W-07 — cross-repository round-trip qualification against the INSTALLED pinned IPD package
+ * (`iips-production-market-data@1.0.0`, git pin `5b384c7215b2644a8d525960ba05cd97f39bf7a7`,
+ * IPD PR #168).
+ *
+ * Every test in this block exercises the real `MarketDataTransportClient.health()` — never a
+ * mock — against a synthetic loopback `/v1/health` endpoint. The loopback endpoint is the
+ * transport daemon; it is local, synthetic and credential-free by construction, and no Dhan
+ * vendor endpoint is ever contacted.
+ */
+const INSTALLED_CLIENT_CONNECTIVITY = ['NOT_CHECKED_PRE_ACCESS', 'CONNECTED_LIVE'] as const;
+const INSTALLED_CLIENT_QUALIFICATION = [
+  'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+  'LIVE_QUALIFIED',
+] as const;
+const INSTALLED_CLIENT_VERSIONS = [
+  { label: 'marker absent (legacy)', marker: undefined as number | undefined },
+  { label: 'legacy marker 1', marker: DHAN_HEALTH_CONTRACT_LEGACY_VERSION as number | undefined },
+  { label: 'W-07 marker 2', marker: DHAN_HEALTH_CONTRACT_VERSION as number | undefined },
+] as const;
+
+function jsonHealthResponder(body: unknown, status = 200) {
+  return (_req: http.IncomingMessage, res: http.ServerResponse) => {
+    res.writeHead(status, { 'content-type': 'application/json' });
+    res.end(JSON.stringify(body));
+  };
+}
+
+function rawHealthResponder(text: string, status = 200) {
+  return (_req: http.IncomingMessage, res: http.ServerResponse) => {
+    res.writeHead(status, { 'content-type': 'application/json' });
+    res.end(text);
+  };
+}
+
+/** Starts a synthetic `/v1/health` responder, runs `run` against it, and always closes it. */
+async function withHealthEndpoint(
+  responder: (req: http.IncomingMessage, res: http.ServerResponse) => void,
+  run: (baseUrl: string) => Promise<void>,
+): Promise<void> {
+  const server = http.createServer(responder);
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const port = (server.address() as AddressInfo).port;
+  try {
+    await run(`http://127.0.0.1:${port}`);
+  } finally {
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
+}
+
+function clientFor(baseUrl: string) {
+  return createIpdMarketDataTransportClient({
+    baseUrl,
+    token: 'synthetic-token',
+    timeoutMs: 2000,
+    configured: true,
+  });
+}
+
+describe('W-07 installed IPD package — installed-client compatibility (pinned commit 5b384c72)', () => {
+  const LEGACY_LIVE = {
+    service: 'UP',
+    providerConfiguration: 'CONFIGURED',
+    liveProviderConnectivity: 'CONNECTED_LIVE',
+    providerQualification: 'LIVE_QUALIFIED',
+    contractVersion: DHAN_HEALTH_CONTRACT_VERSION,
+  } as const;
+
+  it('round-trips all 12 (connectivity × qualification × contractVersion) combinations through the installed client', async () => {
+    let verified = 0;
+    for (const liveProviderConnectivity of INSTALLED_CLIENT_CONNECTIVITY) {
+      for (const providerQualification of INSTALLED_CLIENT_QUALIFICATION) {
+        for (const { label, marker } of INSTALLED_CLIENT_VERSIONS) {
+          const payload: Record<string, unknown> = {
+            service: 'UP',
+            providerConfiguration: 'CONFIGURED',
+            liveProviderConnectivity,
+            providerQualification,
+            ...(marker !== undefined ? { contractVersion: marker } : {}),
+          };
+          await withHealthEndpoint(jsonHealthResponder(payload), async (baseUrl) => {
+            const outcome = await clientFor(baseUrl).health();
+            expect(outcome.ok, `expected ${label} to parse`).toBe(true);
+            if (!outcome.ok) return;
+            expect(outcome.liveProviderConnectivity).toBe(liveProviderConnectivity);
+            expect(outcome.providerQualification).toBe(providerQualification);
+            if (marker === undefined) {
+              expect('contractVersion' in outcome).toBe(false);
+            } else {
+              expect(outcome.contractVersion).toBe(marker);
+            }
+          });
+          verified += 1;
+        }
+      }
+    }
+    expect(verified).toBe(12);
+  });
+
+  it('parses the legacy pre-W-07 payload (no marker, legacy values) byte-for-byte', async () => {
+    const payload = {
+      service: 'UP',
+      providerConfiguration: 'CONFIGURED',
+      liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+      providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+    };
+    await withHealthEndpoint(jsonHealthResponder(payload), async (baseUrl) => {
+      const outcome = await clientFor(baseUrl).health();
+      expect(outcome).toEqual({ ok: true, ...payload });
+    });
+  });
+
+  it('emits the legacy payload with the legacy marker 1 preserved verbatim', async () => {
+    const payload = {
+      service: 'UP',
+      providerConfiguration: 'CONFIGURED',
+      liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+      providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+      contractVersion: DHAN_HEALTH_CONTRACT_LEGACY_VERSION,
+    };
+    await withHealthEndpoint(jsonHealthResponder(payload), async (baseUrl) => {
+      const outcome = await clientFor(baseUrl).health();
+      expect(outcome).toEqual({ ok: true, ...payload });
+    });
+  });
+
+  it('strips ungoverned extra properties instead of reflecting them', async () => {
+    const payload = { ...LEGACY_LIVE, secretAccessToken: 'must-not-be-reflected', debugDump: { env: true } };
+    await withHealthEndpoint(jsonHealthResponder(payload), async (baseUrl) => {
+      const outcome = await clientFor(baseUrl).health();
+      expect(outcome.ok).toBe(true);
+      if (!outcome.ok) return;
+      expect(outcome).not.toHaveProperty('secretAccessToken');
+      expect(outcome).not.toHaveProperty('debugDump');
+    });
+  });
+
+  const REJECT_CASES: ReadonlyArray<readonly [string, Record<string, unknown>]> = [
+    ['unknown connectivity value', { ...LEGACY_LIVE, liveProviderConnectivity: 'CONNECTED_MAYBE' }],
+    ['unknown connectivity casing', { ...LEGACY_LIVE, liveProviderConnectivity: 'connected_live' }],
+    ['unknown qualification value', { ...LEGACY_LIVE, providerQualification: 'PROBABLY_LIVE' }],
+    ['unknown qualification casing', { ...LEGACY_LIVE, providerQualification: 'live_qualified' }],
+    ['contractVersion 0', { ...LEGACY_LIVE, contractVersion: 0 }],
+    ['contractVersion 3', { ...LEGACY_LIVE, contractVersion: 3 }],
+    ['contractVersion 99', { ...LEGACY_LIVE, contractVersion: 99 }],
+    ['contractVersion 1.5', { ...LEGACY_LIVE, contractVersion: 1.5 }],
+    ['contractVersion NaN (serialized as null on the wire)', { ...LEGACY_LIVE, contractVersion: Number.NaN }],
+    ['contractVersion string "1"', { ...LEGACY_LIVE, contractVersion: '1' }],
+    ['contractVersion string "2"', { ...LEGACY_LIVE, contractVersion: '2' }],
+    ['contractVersion null', { ...LEGACY_LIVE, contractVersion: null }],
+    ['contractVersion boolean', { ...LEGACY_LIVE, contractVersion: true }],
+    ['contractVersion object', { ...LEGACY_LIVE, contractVersion: {} }],
+    ['service SIDEWAYS', { ...LEGACY_LIVE, service: 'SIDEWAYS' }],
+    ['providerConfiguration MAYBE_CONFIGURED', { ...LEGACY_LIVE, providerConfiguration: 'MAYBE_CONFIGURED' }],
+    [
+      'missing liveProviderConnectivity',
+      { service: 'UP', providerConfiguration: 'CONFIGURED', providerQualification: 'LIVE_QUALIFIED', contractVersion: 2 },
+    ],
+    [
+      'missing providerQualification',
+      { service: 'UP', providerConfiguration: 'CONFIGURED', liveProviderConnectivity: 'CONNECTED_LIVE', contractVersion: 2 },
+    ],
+    [
+      'missing service',
+      { providerConfiguration: 'CONFIGURED', liveProviderConnectivity: 'CONNECTED_LIVE', providerQualification: 'LIVE_QUALIFIED', contractVersion: 2 },
+    ],
+    [
+      'missing providerConfiguration',
+      { service: 'UP', liveProviderConnectivity: 'CONNECTED_LIVE', providerQualification: 'LIVE_QUALIFIED', contractVersion: 2 },
+    ],
+    ['contradictory body (ok:false)', { ...LEGACY_LIVE, ok: false }],
+    [
+      'contradictory body (ok:true with error envelope)',
+      { ...LEGACY_LIVE, ok: true, error: { code: 'ERR', message: 'boom' } },
+    ],
+    [
+      'contradictory body (ok:true with failure envelope)',
+      { ...LEGACY_LIVE, ok: true, failure: { code: 'ERR', priorPreserved: false } },
+    ],
+    ['contradictory body (error envelope without ok)', { ...LEGACY_LIVE, error: { code: 'ERR', message: 'boom' } }],
+    ['contradictory body (failure envelope without ok)', { ...LEGACY_LIVE, failure: { code: 'ERR', priorPreserved: false } }],
+    ['ok present but not boolean true', { ...LEGACY_LIVE, ok: 1 }],
+  ];
+
+  for (const [label, payload] of REJECT_CASES) {
+    it(`fails closed on ${label}`, async () => {
+      await withHealthEndpoint(jsonHealthResponder(payload), async (baseUrl) => {
+        const outcome = await clientFor(baseUrl).health();
+        expect(outcome.ok).toBe(false);
+        if (outcome.ok) return;
+        expect(outcome.service).toBe('DOWN');
+        expect(outcome.failure.code).toBe('MALFORMED_RESPONSE');
+      });
+    });
+  }
+
+  it('fails closed when the body is not valid JSON', async () => {
+    await withHealthEndpoint(rawHealthResponder('this is not json'), async (baseUrl) => {
+      const outcome = await clientFor(baseUrl).health();
+      expect(outcome.ok).toBe(false);
+      if (outcome.ok) return;
+      expect(outcome.failure.code).toBe('MALFORMED_RESPONSE');
+    });
+  });
+
+  it('fails closed when the body is an array', async () => {
+    await withHealthEndpoint(rawHealthResponder('[1,2,3]'), async (baseUrl) => {
+      const outcome = await clientFor(baseUrl).health();
+      expect(outcome.ok).toBe(false);
+      if (outcome.ok) return;
+      expect(outcome.failure.code).toBe('MALFORMED_RESPONSE');
+    });
+  });
+
+  it('carries the daemon error code through on a non-2xx answer (never classified as health)', async () => {
+    await withHealthEndpoint(
+      jsonHealthResponder({ error: { code: 'REQUEST_TIMEOUT', message: 'slow' } }, 504),
+      async (baseUrl) => {
+        const outcome = await clientFor(baseUrl).health();
+        expect(outcome.ok).toBe(false);
+        if (outcome.ok) return;
+        expect(outcome.failure.code).toBe('REQUEST_TIMEOUT');
+      },
+    );
+  });
+
+  it('IRR and the installed IPD validator agree exactly on the governed field space', () => {
+    const services = ['UP', 'DOWN', 'SIDEWAYS', undefined, null] as const;
+    const providerConfigs = [
+      'CONFIGURED',
+      'PRE_ACCESS_CREDENTIALS_UNAVAILABLE',
+      'KIND_OF_CONFIGURED',
+      undefined,
+      null,
+    ] as const;
+    const connectivities = [
+      'NOT_CHECKED_PRE_ACCESS',
+      'CONNECTED_LIVE',
+      'CONNECTED_MAYBE',
+      '',
+      42,
+      false,
+      null,
+      undefined,
+    ] as const;
+    const qualifications = [
+      'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+      'LIVE_QUALIFIED',
+      'PROBABLY_LIVE',
+      '',
+      42,
+      false,
+      null,
+      undefined,
+    ] as const;
+    const versions: ReadonlyArray<{ readonly label: string; readonly value: unknown }> = [
+      { label: 'absent', value: undefined },
+      { label: '1', value: 1 },
+      { label: '2', value: 2 },
+      { label: '0', value: 0 },
+      { label: '3', value: 3 },
+      { label: '99', value: 99 },
+      { label: '-1', value: -1 },
+      { label: '1.5', value: 1.5 },
+      { label: 'NaN', value: Number.NaN },
+      { label: "'1'", value: '1' },
+      { label: "'2'", value: '2' },
+      { label: 'null', value: null },
+      { label: 'true', value: true },
+      { label: 'false', value: false },
+      { label: 'object', value: {} },
+      { label: 'array', value: [2] },
+    ];
+
+    let checked = 0;
+    for (const service of services) {
+      for (const providerConfiguration of providerConfigs) {
+        for (const liveProviderConnectivity of connectivities) {
+          for (const providerQualification of qualifications) {
+            for (const version of versions) {
+              const input: Record<string, unknown> = {
+                service,
+                providerConfiguration,
+                liveProviderConnectivity,
+                providerQualification,
+              };
+              // An explicitly undefined marker is indistinguishable from an absent one on the wire.
+              if (version.value !== undefined) {
+                input.contractVersion = version.value;
+              }
+              const ipd = validateDhanServiceHealth(input);
+              const irr = validateDhanServiceHealthContract(input);
+              expect(
+                irr.ok,
+                `IRR/IPD verdict mismatch at ${JSON.stringify(input)}`,
+              ).toBe(ipd !== null);
+              if (ipd !== null && irr.ok) {
+                expect(irr.serviceHealth.service).toBe(ipd.service);
+                expect(irr.serviceHealth.providerConfiguration).toBe(ipd.providerConfiguration);
+                expect(irr.serviceHealth.liveProviderConnectivity).toBe(ipd.liveProviderConnectivity);
+                expect(irr.serviceHealth.providerQualification).toBe(ipd.providerQualification);
+                expect(irr.serviceHealth.contractVersion).toBe(ipd.contractVersion);
+                expect(
+                  Object.prototype.hasOwnProperty.call(irr.serviceHealth, 'contractVersion'),
+                ).toBe(Object.prototype.hasOwnProperty.call(ipd, 'contractVersion'));
+              }
+              checked += 1;
+            }
+          }
+        }
+      }
+    }
+    expect(checked).toBe(services.length * providerConfigs.length * connectivities.length * qualifications.length * versions.length);
+  });
+
+  it('maps every installed-client contract rejection to a probe contractViolation (never DISCONNECTED)', async () => {
+    const rejectedPayloads: ReadonlyArray<Record<string, unknown>> = [
+      { ...LEGACY_LIVE, liveProviderConnectivity: 'CONNECTED_MAYBE' },
+      { ...LEGACY_LIVE, providerQualification: 'PROBABLY_LIVE' },
+      { ...LEGACY_LIVE, contractVersion: 3 },
+      { ...LEGACY_LIVE, ok: false },
+    ];
+    for (const payload of rejectedPayloads) {
+      const baseUrl = await startHealthTransport(payload);
+      const probe = await probeDhanTransport(
+        {},
+        {
+          transport: {
+            ok: true,
+            config: { baseUrl, token: 'synthetic-token', timeoutMs: 2000, configured: true },
+          },
+        },
+      );
+      expect(probe).toEqual({ attempted: true, reachable: true, contractViolation: true });
+      const evidence = collectDhanHealthEvidence(describeDhanProviderReadiness(CONFIGURED_ENV), probe);
+      expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+    }
+  });
+
+  it('classifies a self-contradictory but wire-valid live-over-DOWN payload as UNAVAILABLE', async () => {
+    // The installed client accepts this body (every field is governed and consistent with the
+    // published wire type): service DOWN contradicted only by the classifier's live rule.
+    const baseUrl = await startHealthTransport({ ...LEGACY_LIVE, service: 'DOWN' });
+    const probe = await probeDhanTransport(
+      {},
+      {
+        transport: {
+          ok: true,
+          config: { baseUrl, token: 'synthetic-token', timeoutMs: 2000, configured: true },
+        },
+      },
+    );
+    expect(probe.reachable).toBe(true);
+    const evidence = collectDhanHealthEvidence(describeDhanProviderReadiness(CONFIGURED_ENV), probe);
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+  });
+
+  it('round-trips a legacy (no marker) live payload into classification identically to a marked one', async () => {
+    for (const marker of [undefined, DHAN_HEALTH_CONTRACT_LEGACY_VERSION, DHAN_HEALTH_CONTRACT_VERSION]) {
+      const payload: Record<string, unknown> = {
+        service: 'UP',
+        providerConfiguration: 'CONFIGURED',
+        liveProviderConnectivity: 'CONNECTED_LIVE',
+        providerQualification: 'LIVE_QUALIFIED',
+        ...(marker !== undefined ? { contractVersion: marker } : {}),
+      };
+      const baseUrl = await startHealthTransport(payload);
+      const probe = await probeDhanTransport(
+        {},
+        {
+          transport: {
+            ok: true,
+            config: { baseUrl, token: 'synthetic-token', timeoutMs: 2000, configured: true },
+          },
+        },
+      );
+      expect(probe.reachable).toBe(true);
+      const evidence = collectDhanHealthEvidence(describeDhanProviderReadiness(CONFIGURED_ENV), probe);
+      expect(classifyDhanHealth(evidence)).toBe('OPERATIONAL');
+    }
+  });
+
+  it('reports a pre-access legacy payload over a reachable transport as before (no upgrade)', async () => {
+    const baseUrl = await startHealthTransport({
+      service: 'UP',
+      providerConfiguration: 'CONFIGURED',
+      liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+      providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+    });
+    const probe = await probeDhanTransport(
+      {},
+      {
+        transport: {
+          ok: true,
+          config: { baseUrl, token: 'synthetic-token', timeoutMs: 2000, configured: true },
+        },
+      },
+    );
+    expect(probe.reachable).toBe(true);
+    expect(probe.serviceHealth?.contractVersion).toBeUndefined();
+    const evidence = collectDhanHealthEvidence(describeDhanProviderReadiness(CONFIGURED_ENV), probe);
+    // Identical classification semantics to the pre-pin behaviour: nothing live is claimed.
     expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
   });
 });

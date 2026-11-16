@@ -19,12 +19,15 @@
  *   - It is NOT the live IPD transport integration. It does NOT contact the IPD market-data
  *     daemon, and it does NOT contact the Dhan vendor. The local transport is reported as
  *     unreachable in this phase. P1 is not here.
- *   - It NEVER exposes a credential. Only SecretRef POINTERS (key paths) and readiness enums
- *     are published, exactly as IPD's `describeDhanConfig` already renders them.
+ *   - It NEVER exposes a credential. No SecretRef reference of any kind is published (D-7
+ *     disclosure policy): the `secretRefPointers` envelope field is always empty until the
+ *     field's owning work item (IRR W-10) removes it, and only readiness enums and
+ *     configuration facts are published.
  *
  * CREDENTIAL AND TRANSPORT SAFETY
  *   The browser is never given the IPD bearer token (`IIPS_MARKET_DATA_TRANSPORT_TOKEN`), a
- *   Dhan client id, a Dhan access token, or any SecretRef VALUE. The route reads no ambient
+ *   Dhan client id, a Dhan access token, any SecretRef VALUE, or any `vault://` reference
+ *   (D-7 disclosure policy). The route reads no ambient
  *   process environment of its own: the environment map is an explicit dependency so that a
  *   deployment cannot accidentally hand credentials to IRR, and so the behaviour is provable
  *   exactly in tests. IRR-side environment resolution is delegated to IPD's own
@@ -109,21 +112,20 @@ export interface DhanHealthRouteDeps {
 }
 
 /**
- * Extracts the SecretRef POINTERS IPD resolved, so an operator can see WHICH reference is
- * configured and WHICH is missing without ever seeing a value.
+ * Collects the SecretRef POINTERS IPD resolved.
  *
- * These are key paths (`vault://…`) or the literal `UNCONFIGURED`. They are copied from IPD's
- * own `describeDhanConfig` rendering, which already guarantees it emits pointers only.
+ * D-7 disclosure policy (accepted for IRR, `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`):
+ * `vault://` references — and any secret-store metadata from which a sensitive local location
+ * can be derived — MUST NOT be exposed on this surface. The pinned IPD W-07 commit
+ * `5b384c72…` renders the resolved key paths in `describeDhanConfig` output (`accessTokenKeyPath`
+ * / `clientIdKeyPath`, e.g. `vault://dhan/access-token`), so those values must not be republished
+ * here. This boundary therefore emits NO pointers: the envelope reports configuration as
+ * resolved via `configurationResolved` / `missingKeys`, and the `secretRefPointers` field is
+ * always empty until the field itself is removed by its owning work item (IRR W-10). This is
+ * fail-closed: it publishes strictly less than the rendering allows, never more.
  */
-function secretRefPointersOf(readiness: DhanProviderReadiness): readonly string[] {
-  const pointers: string[] = [];
-  for (const key of ['accessTokenKeyPath', 'clientIdKeyPath']) {
-    const value = readiness.operatorStatus[key];
-    if (typeof value === 'string' && value.trim() !== '' && value !== 'UNCONFIGURED') {
-      pointers.push(value);
-    }
-  }
-  return pointers;
+function secretRefPointersOf(_readiness: DhanProviderReadiness): readonly string[] {
+  return [];
 }
 
 /**
@@ -160,9 +162,10 @@ export interface DhanTransportProbe {
  * (`docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md` §4).
  *
  * Legacy payloads carry no marker and are treated as version 1 — they remain parseable.
- * IPD's W-07 change set introduces the explicit marker; the marker field name
- * (`contractVersion`) and the current version value are confirmed against the actual IPD
- * W-07 commit in the pin-bump leg of this coordinated delivery, before this PR merges.
+ * Confirmed against the actual published IPD W-07 commit
+ * `5b384c7215b2644a8d525960ba05cd97f39bf7a7` (IPD PR #168): the marker field name is
+ * `contractVersion`, numeric `1` is the legacy marker, numeric `2` is the current W-07
+ * marker (`DHAN_HEALTH_CONTRACT_VERSION`), emitted by the IPD composed service's `health()`.
  * A marker that is present but not a supported version is a contract violation.
  */
 export const DHAN_HEALTH_CONTRACT_LEGACY_VERSION = 1;
@@ -338,19 +341,31 @@ export async function probeDhanTransport(
   const client = createIpdMarketDataTransportClient(resolution.config);
   const outcome = await client.health();
   if (!outcome.ok) {
-    // The connection WAS attempted and did not succeed. This is a genuine connection failure.
+    // W-07 (pinned IPD commit 5b384c7215b2644a8d525960ba05cd97f39bf7a7, IPD PR #168): the
+    // installed client distinguishes an unusable answer from an absent one.
+    //
+    // `MALFORMED_RESPONSE` means the daemon ANSWERED, but its payload failed the governed
+    // health contract — an unknown connectivity/qualification value, an unsupported
+    // contractVersion, a malformed or contradictory body (IPD's own
+    // `validateDhanServiceHealth` rejected it). That is a contract violation: attempted,
+    // answered, untrustworthy — never `DISCONNECTED`, and never a live claim.
+    if (outcome.failure?.code === 'MALFORMED_RESPONSE') {
+      return { attempted: true, reachable: true, contractViolation: true };
+    }
+    // Every other failure (TRANSPORT_FAILURE, TIMEOUT, UNAUTHENTICATED, …): the connection
+    // WAS attempted and did not produce a usable answer — a genuine connection failure.
     return { attempted: true, reachable: false };
   }
   // W-07 boundary validation: IPD's widened values are accepted, legacy values are
   // preserved, and anything ungoverned — or an unknown contract version — fails closed.
-  // The pinned client predates the contract version marker, so the marker is read
-  // structurally; IPD's W-07 client will carry it as a typed field after the pin bump.
+  // The pinned W-07 client already performs the same field-level validation and carries the
+  // marker as a typed field; this is the belt-and-braces boundary re-assertion on IRR's side.
   const validation = validateDhanServiceHealthContract({
     service: outcome.service,
     providerConfiguration: outcome.providerConfiguration,
     liveProviderConnectivity: outcome.liveProviderConnectivity,
     providerQualification: outcome.providerQualification,
-    contractVersion: (outcome as { contractVersion?: unknown }).contractVersion,
+    contractVersion: outcome.contractVersion,
   });
   if (!validation.ok) {
     // The daemon answered, but with a contract this boundary cannot trust. This is NOT a

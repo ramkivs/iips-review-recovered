@@ -519,12 +519,19 @@ function isCompleteQuoteEnvelope(value: unknown): boolean {
 
 /**
  * Projects IPD's canonical quote envelope onto the IRR quote view.
+ *
+ * `requestedSecurityId` is the canonical identity the caller VALIDATED and sent to IPD. The
+ * pinned W-07 publication (IPD PR #168 @ `5b384c72…`) does not echo `securityId` on the
+ * quote envelope, so the requested identity is reported for display. The envelope's own
+ * value is preferred verbatim when a future publication carries one; nothing is invented –
+ * an absent envelope field with no requested identity stays `null`.
  */
 export function projectIpdQuoteEnvelope(
   envelope: unknown,
   transportFreshness: 'CURRENT' | 'STALE' | 'UNAVAILABLE' | undefined,
   freshnessStatus: DhanFreshnessView | null = null,
   freshnessStatusFailure: { readonly code: string; readonly message: string } | null = null,
+  requestedSecurityId: string | null = null,
 ): DhanQuoteView {
   const record = (envelope ?? {}) as Record<string, unknown>;
   const payload = (record.payload ?? {}) as Record<string, unknown>;
@@ -557,7 +564,10 @@ export function projectIpdQuoteEnvelope(
       ...(typeof payload.turnover === 'number' ? { turnover: payload.turnover } : {}),
       ...(typeof payload.tradeCount === 'number' ? { tradeCount: payload.tradeCount } : {}),
     },
-    securityId: typeof record.securityId === 'string' ? record.securityId : null,
+    securityId:
+      typeof record.securityId === 'string' && record.securityId !== ''
+        ? record.securityId
+        : requestedSecurityId,
     provenance: {
       sourceClassification:
         typeof provenance.sourceClassification === 'string' ? provenance.sourceClassification : null,
@@ -775,6 +785,7 @@ export async function handleDhanQuotesRequest(
       outcome.freshness,
       freshness.status,
       freshness.failure,
+      validation.securityId ?? null,
     ),
   });
 }

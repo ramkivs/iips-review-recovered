@@ -2,18 +2,18 @@
  * IRR DHAN health/readiness STATE MODEL (DHAN-P2, synthetic / pre-access phase).
  *
  * Authority:
- *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `d5e20c15059267a3f824b015e37d652084de5a01`
- *     (merge commit of IPD PR #146; the value is unchanged from the IPD PR #145 merge `709fd13`
- *     because PR #146 adds no byte to the published `./dhan-server` closure), consumed through the
- *     server-only `./dhan-server` subpath.
- *     The pin advanced from `59fdfd157632dbdbc220ae03d9d0b8e047d4ef19` (IPD PR #140) in
- *     DHAN-P3 so the transport boundary inherits IPD's timeout, loopback pinning, production
- *     guard and typed failure outcomes. The `ServiceHealth` contract is unchanged by it.
+ *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `5b384c7215b2644a8d525960ba05cd97f39bf7a7`
+ *     (the published IPD W-07 commit, IPD PR #168; the pin advanced from
+ *     `af4460eeab9bb0544e009322526a5498df0d5909` in the W-07 pin-bump leg of coordinated
+ *     W-07), consumed through the server-only `./dhan-server` subpath.
+ *     The `ServiceHealth` contract was widened by IPD W-07 to the governed D-7 vocabulary
+ *     and carries an optional contract version marker:
  *     - `ServiceHealth` (IPD `src/providers/dhan/dhan_market_data_service.ts`):
+ *         contractVersion?:        1 (legacy) | 2 (W-07); absent in legacy payloads
  *         service:                 'UP' | 'DOWN'
  *         providerConfiguration:    'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE'
- *         liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS'
- *         providerQualification:    'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED'
+ *         liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS' | 'CONNECTED_LIVE'
+ *         providerQualification:    'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED' | 'LIVE_QUALIFIED'
  *     - `DhanCredentialReadiness` (IPD `src/providers/dhan/dhan_config.ts`):
  *         'PRE_ACCESS_CREDENTIALS_UNAVAILABLE' | 'CREDENTIAL_REFERENCES_CONFIGURED'
  *     These are TWO DIFFERENT enums with two overlapping-but-distinct literals. They are kept

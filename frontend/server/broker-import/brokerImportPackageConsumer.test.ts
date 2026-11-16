@@ -76,9 +76,27 @@ const frontendRoot = resolve(here, '..', '..');
  * `./d114-non-production`, `./operator-drop` and `./dhan-server` subpaths all remain
  * published, IRR's consumed `./dhan-server` exports are unchanged, and IPD's
  * `MarketDataTransportClient` class was byte-identical across those advances.
- * The candidate retains UNAVAILABLE support and adds quote identity; it is not a main pin.
+ *
+ * `5b384c72…` is the published IPD W-07 commit (IPD PR #168, head of that PR, based on IPD
+ * `main` `901e479…`) — the coordinated W-07 contract publication. It WIDENS the
+ * `./dhan-server` `ServiceHealth` surface to the governed D-7 vocabulary
+ * (`CONNECTED_LIVE` connectivity, `LIVE_QUALIFIED` qualification) and adds the optional
+ * `contractVersion` marker (absent = legacy, numeric `1` = legacy marker, numeric `2` =
+ * W-07), `DHAN_HEALTH_CONTRACT_VERSION` (`2`), `DHAN_HEALTH_CONTRACT_LEGACY_VERSION`
+ * (`1`) and `validateDhanServiceHealth`. Legacy payloads remain parseable; unknown values
+ * and unsupported versions fail closed. IRR adopts it in the W-07 pin-bump leg of the
+ * coordinated W-07 delivery; the materialized broker-import alias is UNCHANGED.
  */
-export const EXPECTED_IPD_PIN_SHA = 'af4460eeab9bb0544e009322526a5498df0d5909';
+export const EXPECTED_IPD_PIN_SHA = '5b384c7215b2644a8d525960ba05cd97f39bf7a7';
+
+/**
+ * The pre-W-07 pin, retained so a silent rollback cannot go unnoticed.
+ *
+ * `af4460ee…` is the identity-contract integration candidate. It predates IPD W-07: its
+ * `MarketDataTransportClient.health()` rejected the governed live D-7 values and had no
+ * contract version marker, which is why the W-07 IRR leg could not advance on it.
+ */
+export const SUPERSEDED_IPD_W07_PIN_SHA = 'af4460eeab9bb0544e009322526a5498df0d5909';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
@@ -406,6 +424,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P3_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P5_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_PR145_PIN_SHA);
+    expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_W07_PIN_SHA);
     expect(depSpec).toContain(EXPECTED_IPD_PIN_SHA);
 
     // The subpath did not exist at the superseded pin, so its presence is the observable

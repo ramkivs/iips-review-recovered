@@ -6,8 +6,9 @@
  * IPD evidence.
  *
  * Pre-access, offline and synthetic: no Dhan credential is read, no socket is opened and no
- * vendor endpoint is contacted. Every expected value below was measured against the pinned
- * IPD contract at `d5e20c15059267a3f824b015e37d652084de5a01`, not assumed.
+ * vendor endpoint is contacted. The governed vocabularies below were measured against the
+ * pinned IPD W-07 contract at `5b384c7215b2644a8d525960ba05cd97f39bf7a7` (IPD PR #168),
+ * not assumed.
  *
  * DHAN-P3 added the NOT-ATTEMPTED distinction: a transport that was never tried is not
  * "disconnected". The five-state vocabulary is preserved.
