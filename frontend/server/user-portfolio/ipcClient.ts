@@ -644,8 +644,15 @@ export async function callIpc(
     }
 
     socket.on('connect', () => {
-      // One request per connection (T-2). Half-close after writing so the peer sees
-      // EOF; a truncated frame is otherwise indistinguishable from a slow one.
+      // One request per connection (T-2). AF_UNIX requires a clean half-close
+      // before IPD responds. Windows named pipes use IPD's flush-guard policy:
+      // socket.end() triggers the libuv pipe shutdown/forced-break path before
+      // the response can be delivered, so keep the client pipe open until the
+      // complete response frame is received and settle() destroys the socket.
+      if (target.kind === 'windows-named-pipe') {
+        socket?.write(frame);
+        return;
+      }
       socket?.write(frame, () => socket?.end());
     });
 

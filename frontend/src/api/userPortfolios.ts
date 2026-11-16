@@ -61,12 +61,21 @@ export type UserPortfolioResolutionDisposition =
   | 'NON_PRODUCTION_OPERATOR_BYPASS'
   | 'MANUAL_PERSONAL_ENTRY';
 
-/** Holding as returned on the full view (mirror of `G2HoldingView`, 15 fields). */
+/** Nested series-aware D114 security identity (mirror of `G2SecurityIdentity`). */
+export interface UserPortfolioSecurityIdentity {
+  readonly securityId: string;
+  readonly isin: string;
+  readonly series: string;
+  readonly isinAuthority: 'NON_AUTHORITATIVE';
+}
+
+/** Holding as returned on the full view (mirror of `G2HoldingView`). */
 export interface UserPortfolioHolding {
   readonly symbol: string;
   readonly companyId: string;
   readonly isin?: string;
   readonly exchange?: 'NSE' | 'BSE';
+  readonly securityIdentity?: UserPortfolioSecurityIdentity | null;
   readonly quantity: number;
   readonly averageBuyPrice: number;
   readonly currentPrice: number;
@@ -317,12 +326,41 @@ function isOptionalStringValue(value: unknown): boolean {
   return value === undefined || typeof value === 'string';
 }
 
+const CLIENT_D114_ISIN_PATTERN = /^[A-Za-z0-9]{12}$/;
+
+function isValidClientSecurityIdentity(value: unknown): value is UserPortfolioSecurityIdentity {
+  if (!isRecordValue(value)) return false;
+  if (value.isinAuthority !== 'NON_AUTHORITATIVE') return false;
+  if (typeof value.isin !== 'string' || value.isin !== value.isin.trim() || !CLIENT_D114_ISIN_PATTERN.test(value.isin)) {
+    return false;
+  }
+  if (
+    typeof value.series !== 'string' ||
+    value.series.length === 0 ||
+    value.series !== value.series.trim() ||
+    value.series.includes(':')
+  ) {
+    return false;
+  }
+  return value.securityId === `ISIN:${value.isin}:${value.series}`;
+}
+
 function isAdmissibleHolding(entry: unknown): entry is UserPortfolioHolding {
   if (!isRecordValue(entry)) return false;
   if (!isNonBlank(entry.symbol)) return false;
   if (typeof entry.companyId !== 'string') return false;
   if (!isOptionalStringValue(entry.isin)) return false;
   if (entry.exchange !== undefined && entry.exchange !== 'NSE' && entry.exchange !== 'BSE') return false;
+  if (entry.securityIdentity !== undefined && entry.securityIdentity !== null) {
+    if (!isValidClientSecurityIdentity(entry.securityIdentity)) return false;
+    if (
+      typeof entry.isin === 'string' &&
+      entry.isin.trim().length > 0 &&
+      entry.isin.trim().toUpperCase() !== entry.securityIdentity.isin.toUpperCase()
+    ) {
+      return false;
+    }
+  }
   for (const field of ['quantity', 'averageBuyPrice', 'currentPrice', 'marketValue', 'weightPercentage'] as const) {
     if (typeof entry[field] !== 'number' || !Number.isFinite(entry[field])) return false;
   }

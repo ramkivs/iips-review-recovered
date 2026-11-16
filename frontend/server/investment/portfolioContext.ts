@@ -22,6 +22,7 @@ import type { G2HoldingView, G2PortfolioView } from '../user-portfolio/userPortf
 import type { PortfolioContextBlock } from '../../../iips-platform/src/investment/disposition/types';
 import type { PortfolioFacts } from '../../../iips-platform/src/investment/disposition/gates';
 import { missing, notComputable, notApplicable, present } from '../../../iips-platform/src/investment/contracts/observation';
+import { effectiveHoldingIsin } from './sources.js';
 
 const SOURCE = Object.freeze({ kind: 'DATASET' as const, ref: 'user-portfolio:view' });
 const DERIVED = Object.freeze({ kind: 'DERIVED' as const, ref: 'disposition/portfolio-context' });
@@ -62,6 +63,16 @@ function sameSecurity(a: string, b: string): boolean {
   return a.trim().toUpperCase() === b.trim().toUpperCase();
 }
 
+function holdingMatchesSecurity(holding: G2HoldingView, subjectSecurityId: string): boolean {
+  const effectiveIsin = effectiveHoldingIsin(holding);
+  if (effectiveIsin === null) return false;
+  if (sameSecurity(effectiveIsin, subjectSecurityId)) return true;
+  if (!effectiveIsin.toUpperCase().startsWith('IN:ISIN:')) {
+    return sameSecurity(`IN:ISIN:${effectiveIsin}`, subjectSecurityId);
+  }
+  return false;
+}
+
 export function buildPortfolioContext(input: PortfolioContextInput): PortfolioContextResult {
   const { view, subjectSecurityId, subjectIssuerId, subjectSector, asOf } = input;
   const resolve = input.resolveIdentity ?? ((): HoldingIdentity => ({ issuerId: null, sector: null }));
@@ -70,7 +81,7 @@ export function buildPortfolioContext(input: PortfolioContextInput): PortfolioCo
   const measured = active.filter(isMeasured);
   const unresolved = active.filter((holding) => holding.identityStatus === 'UNRESOLVED');
 
-  const subject = active.find((holding) => sameSecurity(holding.isin ?? '', subjectSecurityId)) ?? null;
+  const subject = active.find((holding) => holdingMatchesSecurity(holding, subjectSecurityId)) ?? null;
 
   const measuredWeight = round2(measured.reduce((sum, holding) => sum + holding.weightPercentage, 0));
   // The shortfall is a measurement in its own right: 100 − published weight sum. When the read model already

@@ -26,6 +26,7 @@ export interface CoverageItemView {
   readonly source: 'HOLDING' | 'BROKER_PREVIEW' | 'WATCHLIST';
   readonly portfolioId: string | null;
   readonly state: ResolutionState;
+  readonly outcomeClass?: 'RESOLVED' | 'UNRESOLVED' | 'REJECTED';
   readonly reason: string | null;
   readonly reasonText: string | null;
   readonly detail: string | null;
@@ -71,7 +72,7 @@ export interface FinancialCoverageView {
   readonly xbrlMappedTags: number;
   readonly derivationItems: number;
   readonly unmappedTagsObserved: readonly string[];
-  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
   readonly note: string;
 }
 
@@ -93,6 +94,11 @@ export interface InvestmentCoverageReport {
     readonly corporateActionTableVersion: string;
     readonly rosterLabel: string;
     readonly rosterDataClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED';
+    readonly issuerCount?: number;
+    readonly securityCount?: number;
+    readonly listingCount?: number;
+    readonly corporateActionCount?: number;
+    readonly corporateActionsEmpty?: boolean;
   };
 }
 

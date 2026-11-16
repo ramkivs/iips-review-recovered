@@ -260,12 +260,27 @@ export interface G2PortfolioView {
   readonly contributions: readonly G2Contribution[];
 }
 
+/**
+ * Nested series-aware D114 security identity persisted by IPD (`portfolio_holdings.security_identity`).
+ *
+ * Read-side only: IPD stamps `ISIN:<ISIN>:<series>` with `isinAuthority: 'NON_AUTHORITATIVE'` when
+ * qualified, or `null` when explicitly unresolved. IRR never asserts this field on writes (`toWireHolding`
+ * transmits broker-observed fields only).
+ */
+export interface G2SecurityIdentity {
+  readonly securityId: string;
+  readonly isin: string;
+  readonly series: string;
+  readonly isinAuthority: 'NON_AUTHORITATIVE';
+}
+
 /** Holding as returned by G24 (durable row → `UserHoldingInput`, fully populated). */
 export interface G2HoldingView {
   readonly symbol: string;
   readonly companyId: string;
   readonly isin?: string;
   readonly exchange?: 'NSE' | 'BSE';
+  readonly securityIdentity?: G2SecurityIdentity | null;
   readonly quantity: number;
   readonly averageBuyPrice: number;
   readonly currentPrice: number;

@@ -10,6 +10,7 @@
  * presentation-only fields live on `IdentityObservation` and are carried through untouched for display.
  */
 import type { CorporateActionRecord } from '../fundamentals/types';
+import type { D114SecurityIdentity, SecurityIdentityRejection } from './d114Projection';
 
 /** Closed resolution ladder (roadmap IID-1 item 3 + Revision 3 §E listing ambiguity). */
 export const RESOLUTION_STATES = [
@@ -51,6 +52,7 @@ export const UNRESOLVED_REASONS = [
   'EXCHANGE_NOT_SUPPORTED',
   'ISSUER_KEY_CONFLICT',
   'ISSUER_NOT_ELIGIBLE',
+  'SECURITY_IDENTITY_MALFORMED',
 ] as const;
 export type UnresolvedReason = (typeof UNRESOLVED_REASONS)[number];
 
@@ -77,6 +79,8 @@ export const REASON_TEXT: Readonly<Record<UnresolvedReason, string>> = Object.fr
   ISSUER_KEY_CONFLICT:
     'A CIN and an equity ISIN disagree about the same issuer or security. This is never resolved by picking one.',
   ISSUER_NOT_ELIGIBLE: 'The issuer exists but is excluded from the eligible roster.',
+  SECURITY_IDENTITY_MALFORMED:
+    'The nested D114 securityIdentity envelope is incomplete or malformed, so no fallback symbol resolution is attempted.',
 });
 
 /** Identity-bearing fields only. Nothing here can express a company name (AC-1.10). */
@@ -93,6 +97,8 @@ export interface IdentityInput {
   readonly cin: string | null;
   /** IPD `companyId`, used as a conflict indicator only — it is never proof of identity. */
   readonly companyIdHint: string | null;
+  /** Non-null when the upstream row carried a malformed or conflicting nested D114 `securityIdentity`. */
+  readonly securityIdentityRejection?: SecurityIdentityRejection | null;
 }
 
 /** An observation as received, including presentation-only fields the resolver never sees. */
@@ -102,6 +108,8 @@ export interface IdentityObservation extends IdentityInput {
   readonly quantity: number | null;
   /** Upstream status the source surface published, carried for reconciliation, not for authority. */
   readonly upstreamStatus: string | null;
+  /** Lossless nested D114 `securityIdentity` (`null` when explicitly unresolved upstream; omitted on flat rows). */
+  readonly securityIdentity?: D114SecurityIdentity | null;
   /** The raw row exactly as observed, shown verbatim beside an unresolved state. */
   readonly raw: Readonly<Record<string, string | number | boolean | null>>;
 }
@@ -218,6 +226,14 @@ export interface IdentitySourceVersions {
   readonly corporateActionTableDigest: string;
 }
 
+export interface IdentitySourceSummary {
+  readonly issuerCount: number;
+  readonly securityCount: number;
+  readonly listingCount: number;
+  readonly corporateActionCount: number;
+  readonly corporateActionsEmpty: boolean;
+}
+
 export interface IdentitySources {
   readonly roster: EligibleRoster;
   readonly listingMap: ListingMap;
@@ -225,4 +241,6 @@ export interface IdentitySources {
   readonly versions: IdentitySourceVersions;
   /** Which dataset the roster describes, so synthetic fixtures are never mistaken for live coverage. */
   readonly rosterDataClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED';
+  /** Explicit population summary distinguishing populated tables from valid empty corporate actions. */
+  readonly sourceSummary?: IdentitySourceSummary;
 }

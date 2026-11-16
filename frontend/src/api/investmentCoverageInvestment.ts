@@ -71,7 +71,12 @@ export interface InvestmentCoverageReport {
     readonly importRunId: string;
     readonly quality: 'good' | 'stale' | 'partial' | 'unavailable';
     readonly completenessPct: number;
-    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
+    readonly sourceRights?: {
+      readonly state: 'SYNTHETIC' | 'OPERATOR_ASSERTED' | 'UNKNOWN';
+      readonly basis: string;
+      readonly note: string;
+    } | null;
     readonly issuers: number;
     readonly securities: number;
     readonly listings: number;
@@ -99,7 +104,7 @@ export interface InvestmentCoverageReport {
     readonly xbrlMappedTags: number;
     readonly derivationItems: number;
     readonly unmappedTagsObserved: readonly string[];
-    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
     readonly note: string;
   };
   readonly statusLine: string;

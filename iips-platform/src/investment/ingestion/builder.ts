@@ -56,6 +56,7 @@ export interface TextFile {
 
 export interface XbrlFileInput extends TextFile {
   readonly issuerId: string;
+  readonly periodStart?: string;
   readonly periodEnd: string;
   readonly statementScope: 'CONSOLIDATED' | 'STANDALONE';
   readonly filingRef: string;
@@ -558,9 +559,11 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
     issues.push(...parsed.issues);
   }
   for (const file of inputs.xbrlFiles) {
+    const periodStart = file.periodStart ?? `${Number(file.periodEnd.slice(0, 4)) - 1}-04-01`;
     const instance = parseXbrlInstance(file.text);
     const extraction = extractPeriodValues(instance, {
       issuerId: file.issuerId,
+      periodStart,
       periodEnd: file.periodEnd,
       statementScope: file.statementScope,
       filingRef: file.filingRef,
@@ -578,7 +581,7 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
       period: {
         fiscalYear: Number(file.periodEnd.slice(0, 4)),
         periodType: 'ANNUAL',
-        periodStart: `${Number(file.periodEnd.slice(0, 4)) - 1}-04-01`,
+        periodStart,
         periodEnd: file.periodEnd,
         statementScope: file.statementScope,
       },

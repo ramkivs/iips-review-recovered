@@ -85,9 +85,18 @@ export interface HoldingIdentity {
   readonly holdingIndex: number;
   readonly symbol: string;
   readonly isin: string | null;
+  readonly series?: string | null;
+  readonly d114SecurityIdentity?: {
+    readonly securityId: string;
+    readonly isin: string;
+    readonly series: string;
+    readonly isinAuthority: 'NON_AUTHORITATIVE';
+  } | null;
   readonly state: string;
+  readonly outcomeClass?: 'RESOLVED' | 'UNRESOLVED' | 'REJECTED';
   readonly issuerId: string | null;
   readonly securityId: string | null;
+  readonly listingId?: string | null;
   readonly resolutionBasis: 'ISIN' | 'EXCHANGE_SYMBOL' | null;
   readonly reason: string | null;
   readonly reasonText: string | null;

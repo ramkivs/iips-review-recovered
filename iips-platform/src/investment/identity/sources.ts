@@ -11,7 +11,7 @@
  *   ${IIPS_DATA_DIR}/investment/identity/listing-map.json
  *   ${IIPS_DATA_DIR}/investment/identity/corporate-actions.json
  */
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 import { digestOf } from '../fundamentals/canonical';
@@ -66,6 +66,14 @@ const CORPORATE_ACTION_TYPES = new Set<string>([
   'CAPITAL_REDUCTION',
 ]);
 
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+function isIsoCalendarDate(value: string): boolean {
+  if (!ISO_DATE_PATTERN.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+}
+
 function issue(
   file: SourceIssue['file'],
   code: string,
@@ -75,21 +83,74 @@ function issue(
   return { file, code, subject, detail };
 }
 
-function parseJson(text: string, file: SourceIssue['file'], issues: SourceIssue[]): unknown {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function describeValueKind(value: unknown): string {
+  if (value === null) return 'null';
+  if (Array.isArray(value)) return 'array';
+  return typeof value;
+}
+
+function tryParseJson(
+  text: string,
+  file: SourceIssue['file'],
+  issues: SourceIssue[],
+): { readonly ok: true; readonly value: unknown } | { readonly ok: false } {
   try {
-    return JSON.parse(text) as unknown;
+    return { ok: true, value: JSON.parse(text) as unknown };
   } catch (error) {
     issues.push(issue(file, 'INVALID_JSON', file, error instanceof Error ? error.message : String(error)));
-    return null;
+    return { ok: false };
   }
 }
 
-function asRecord(value: unknown): Record<string, unknown> {
-  return typeof value === 'object' && value !== null ? (value as Record<string, unknown>) : {};
+function readRootObject(
+  text: string,
+  file: SourceIssue['file'],
+  issues: SourceIssue[],
+): Record<string, unknown> | null {
+  const parsed = tryParseJson(text, file, issues);
+  if (!parsed.ok) return null;
+  if (!isPlainObject(parsed.value)) {
+    issues.push(
+      issue(
+        file,
+        'INVALID_ROOT_TYPE',
+        file,
+        `expected a top-level JSON object, received ${describeValueKind(parsed.value)}`,
+      ),
+    );
+    return null;
+  }
+  return parsed.value;
 }
 
-function asArray(value: unknown): readonly unknown[] {
-  return Array.isArray(value) ? value : [];
+function readRequiredArray(
+  record: Record<string, unknown>,
+  key: string,
+  file: SourceIssue['file'],
+  subject: string,
+  issues: SourceIssue[],
+): readonly unknown[] | null {
+  if (!Object.prototype.hasOwnProperty.call(record, key) || record[key] === undefined) {
+    issues.push(issue(file, 'MISSING_REQUIRED_ARRAY', subject, `required array "${key}" is missing`));
+    return null;
+  }
+  const value = record[key];
+  if (!Array.isArray(value)) {
+    issues.push(
+      issue(
+        file,
+        'INVALID_ARRAY_TYPE',
+        subject,
+        `field "${key}" must be an array, received ${describeValueKind(value)}`,
+      ),
+    );
+    return null;
+  }
+  return value;
 }
 
 function readString(record: Record<string, unknown>, key: string): string | null {
@@ -97,16 +158,91 @@ function readString(record: Record<string, unknown>, key: string): string | null
   return typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
 }
 
+/** Validate top-level listing-map container structure without requiring a loaded roster. */
+function precheckListingMapContainer(text: string): readonly SourceIssue[] {
+  const file = 'listing-map.json' as const;
+  const issues: SourceIssue[] = [];
+  const root = readRootObject(text, file, issues);
+  if (root === null) return issues;
+  if (root.schemaVersion !== IDENTITY_SCHEMA) {
+    issues.push(issue(file, 'SCHEMA_MISMATCH', file, `expected ${IDENTITY_SCHEMA}`));
+    return issues;
+  }
+  const entries = readRequiredArray(root, 'entries', file, 'entries', issues);
+  if (entries !== null && entries.length === 0) {
+    issues.push(
+      issue(
+        file,
+        'EMPTY_LISTING_MAP',
+        'entries',
+        'listing-map.json must contain at least one listing entry; empty placeholder listing maps are not operational identity data',
+      ),
+    );
+  }
+  return issues;
+}
+
+/** Validate top-level corporate-actions container structure without requiring a loaded roster. */
+function precheckCorporateActionContainer(text: string): readonly SourceIssue[] {
+  const file = 'corporate-actions.json' as const;
+  const issues: SourceIssue[] = [];
+  const root = readRootObject(text, file, issues);
+  if (root === null) return issues;
+  if (root.schemaVersion !== IDENTITY_SCHEMA) {
+    issues.push(issue(file, 'SCHEMA_MISMATCH', file, `expected ${IDENTITY_SCHEMA}`));
+    return issues;
+  }
+  readRequiredArray(root, 'actions', file, 'actions', issues);
+  return issues;
+}
+
 /** Validate the roster structurally and semantically. Returns the accepted roster plus issues. */
 export function validateRoster(text: string): { roster: EligibleRoster | null; issues: readonly SourceIssue[] } {
   const file = 'eligible-roster.json' as const;
   const issues: SourceIssue[] = [];
-  const parsed = parseJson(text, file, issues);
-  if (parsed === null) return { roster: null, issues };
+  const root = readRootObject(text, file, issues);
+  if (root === null) return { roster: null, issues };
 
-  const root = asRecord(parsed);
   if (root.schemaVersion !== IDENTITY_SCHEMA) {
     issues.push(issue(file, 'SCHEMA_MISMATCH', file, `expected ${IDENTITY_SCHEMA}`));
+    return { roster: null, issues };
+  }
+
+  const rosterLabel = readString(root, 'rosterLabel');
+  if (rosterLabel === null) {
+    issues.push(
+      issue(
+        file,
+        'MISSING_ROSTER_LABEL',
+        'rosterLabel',
+        'rosterLabel is required and must be a non-empty string',
+      ),
+    );
+  }
+
+  const rawIssuers = readRequiredArray(root, 'issuers', file, 'issuers', issues);
+  const rawSecurities = readRequiredArray(root, 'securities', file, 'securities', issues);
+  if (rawIssuers !== null && rawIssuers.length === 0) {
+    issues.push(
+      issue(
+        file,
+        'EMPTY_ROSTER_ISSUERS',
+        'issuers',
+        'eligible-roster.json must contain at least one issuer; empty placeholder rosters are not operational identity data',
+      ),
+    );
+  }
+  if (rawSecurities !== null && rawSecurities.length === 0) {
+    issues.push(
+      issue(
+        file,
+        'EMPTY_ROSTER_SECURITIES',
+        'securities',
+        'eligible-roster.json must contain at least one security; empty placeholder rosters are not operational identity data',
+      ),
+    );
+  }
+  if (rawIssuers === null || rawSecurities === null) {
     return { roster: null, issues };
   }
 
@@ -115,8 +251,19 @@ export function validateRoster(text: string): { roster: EligibleRoster | null; i
   const seenCins = new Map<string, string>();
   const seenEquityIsins = new Map<string, string>();
 
-  for (const [index, raw] of asArray(root.issuers).entries()) {
-    const record = asRecord(raw);
+  for (const [index, raw] of rawIssuers.entries()) {
+    if (!isPlainObject(raw)) {
+      issues.push(
+        issue(
+          file,
+          'INVALID_RECORD_TYPE',
+          `issuers[${index}]`,
+          `issuer record must be a JSON object, received ${describeValueKind(raw)}`,
+        ),
+      );
+      continue;
+    }
+    const record = raw;
     const subject = readString(record, 'issuerId') ?? `issuers[${index}]`;
     const issuerIdRaw = readString(record, 'issuerId');
     if (issuerIdRaw === null) {
@@ -182,6 +329,10 @@ export function validateRoster(text: string): { roster: EligibleRoster | null; i
       issues.push(issue(file, 'INVALID_STATUS', subject, `status "${status}" is not ELIGIBLE|EXCLUDED`));
       continue;
     }
+    if (record.foreignIssuer !== undefined && typeof record.foreignIssuer !== 'boolean') {
+      issues.push(issue(file, 'INVALID_FIELD_TYPE', subject, 'foreignIssuer must be a boolean when supplied'));
+      continue;
+    }
     issuers.push({
       issuerId,
       legalName: readString(record, 'legalName') ?? issuerId,
@@ -201,8 +352,19 @@ export function validateRoster(text: string): { roster: EligibleRoster | null; i
   const seenSecurityIds = new Set<string>();
   const seenIsins = new Map<string, string>();
 
-  for (const [index, raw] of asArray(root.securities).entries()) {
-    const record = asRecord(raw);
+  for (const [index, raw] of rawSecurities.entries()) {
+    if (!isPlainObject(raw)) {
+      issues.push(
+        issue(
+          file,
+          'INVALID_RECORD_TYPE',
+          `securities[${index}]`,
+          `security record must be a JSON object, received ${describeValueKind(raw)}`,
+        ),
+      );
+      continue;
+    }
+    const record = raw;
     const subject = readString(record, 'securityId') ?? `securities[${index}]`;
     const securityIdRaw = readString(record, 'securityId');
     const isinRaw = readString(record, 'isin');
@@ -286,11 +448,11 @@ export function validateRoster(text: string): { roster: EligibleRoster | null; i
     }
   }
 
-  if (issues.length > 0) return { roster: null, issues };
+  if (issues.length > 0 || rosterLabel === null) return { roster: null, issues };
   return {
     roster: {
       schemaVersion: IDENTITY_SCHEMA,
-      rosterLabel: readString(root, 'rosterLabel') ?? 'unnamed roster',
+      rosterLabel,
       issuers,
       securities,
     },
@@ -304,11 +466,25 @@ export function validateListingMap(
 ): { listingMap: ListingMap | null; issues: readonly SourceIssue[] } {
   const file = 'listing-map.json' as const;
   const issues: SourceIssue[] = [];
-  const parsed = parseJson(text, file, issues);
-  if (parsed === null) return { listingMap: null, issues };
-  const root = asRecord(parsed);
+  const root = readRootObject(text, file, issues);
+  if (root === null) return { listingMap: null, issues };
+
   if (root.schemaVersion !== IDENTITY_SCHEMA) {
     issues.push(issue(file, 'SCHEMA_MISMATCH', file, `expected ${IDENTITY_SCHEMA}`));
+    return { listingMap: null, issues };
+  }
+
+  const rawEntries = readRequiredArray(root, 'entries', file, 'entries', issues);
+  if (rawEntries === null) return { listingMap: null, issues };
+  if (rawEntries.length === 0) {
+    issues.push(
+      issue(
+        file,
+        'EMPTY_LISTING_MAP',
+        'entries',
+        'listing-map.json must contain at least one listing entry; empty placeholder listing maps are not operational identity data',
+      ),
+    );
     return { listingMap: null, issues };
   }
 
@@ -316,8 +492,19 @@ export function validateListingMap(
   const entries: ListingMapEntry[] = [];
   const byKey = new Map<string, ListingMapEntry[]>();
 
-  for (const [index, raw] of asArray(root.entries).entries()) {
-    const record = asRecord(raw);
+  for (const [index, raw] of rawEntries.entries()) {
+    if (!isPlainObject(raw)) {
+      issues.push(
+        issue(
+          file,
+          'INVALID_RECORD_TYPE',
+          `entries[${index}]`,
+          `listing entry must be a JSON object, received ${describeValueKind(raw)}`,
+        ),
+      );
+      continue;
+    }
+    const record = raw;
     const subject = readString(record, 'listingId') ?? `entries[${index}]`;
     const listingIdRaw = readString(record, 'listingId');
     if (listingIdRaw === null) {
@@ -364,9 +551,22 @@ export function validateListingMap(
       continue;
     }
     const effectiveFrom = readString(record, 'effectiveFrom');
+    const effectiveToRaw = record.effectiveTo;
+    if (effectiveToRaw !== undefined && effectiveToRaw !== null && typeof effectiveToRaw !== 'string') {
+      issues.push(issue(file, 'INVALID_DATE', subject, 'effectiveTo must be a YYYY-MM-DD date string or null'));
+      continue;
+    }
     const effectiveTo = readString(record, 'effectiveTo');
     if (effectiveFrom === null) {
       issues.push(issue(file, 'EFFECTIVE_FROM_MISSING', subject, 'effectiveFrom is required'));
+      continue;
+    }
+    if (!isIsoCalendarDate(effectiveFrom)) {
+      issues.push(issue(file, 'INVALID_DATE', subject, `effectiveFrom "${effectiveFrom}" is not a valid YYYY-MM-DD date`));
+      continue;
+    }
+    if (effectiveTo !== null && !isIsoCalendarDate(effectiveTo)) {
+      issues.push(issue(file, 'INVALID_DATE', subject, `effectiveTo "${effectiveTo}" is not a valid YYYY-MM-DD date`));
       continue;
     }
     if (effectiveTo !== null && effectiveTo < effectiveFrom) {
@@ -417,20 +617,36 @@ export function validateCorporateActionTable(
 ): { table: CorporateActionTable | null; issues: readonly SourceIssue[] } {
   const file = 'corporate-actions.json' as const;
   const issues: SourceIssue[] = [];
-  const parsed = parseJson(text, file, issues);
-  if (parsed === null) return { table: null, issues };
-  const root = asRecord(parsed);
+  const root = readRootObject(text, file, issues);
+  if (root === null) return { table: null, issues };
+
   if (root.schemaVersion !== IDENTITY_SCHEMA) {
     issues.push(issue(file, 'SCHEMA_MISMATCH', file, `expected ${IDENTITY_SCHEMA}`));
     return { table: null, issues };
   }
 
+  // Explicit `actions: []` IS contractually permitted when no corporate actions exist;
+  // missing or non-array `actions` fails closed.
+  const rawActions = readRequiredArray(root, 'actions', file, 'actions', issues);
+  if (rawActions === null) return { table: null, issues };
+
   const issuerIds = new Set(roster.issuers.map((issuer) => issuer.issuerId));
   const actions: CorporateActionRecord[] = [];
   const seen = new Set<string>();
 
-  for (const [index, raw] of asArray(root.actions).entries()) {
-    const record = asRecord(raw);
+  for (const [index, raw] of rawActions.entries()) {
+    if (!isPlainObject(raw)) {
+      issues.push(
+        issue(
+          file,
+          'INVALID_RECORD_TYPE',
+          `actions[${index}]`,
+          `corporate action record must be a JSON object, received ${describeValueKind(raw)}`,
+        ),
+      );
+      continue;
+    }
+    const record = raw;
     const subject = readString(record, 'actionId') ?? `actions[${index}]`;
     const actionId = readString(record, 'actionId');
     const type = readString(record, 'type');
@@ -438,6 +654,10 @@ export function validateCorporateActionTable(
     const subjectIssuerId = readString(record, 'subjectIssuerId');
     if (actionId === null || type === null || effectiveDate === null || subjectIssuerId === null) {
       issues.push(issue(file, 'ACTION_INCOMPLETE', subject, 'actionId, type, effectiveDate and subjectIssuerId are required'));
+      continue;
+    }
+    if (!isIsoCalendarDate(effectiveDate)) {
+      issues.push(issue(file, 'INVALID_DATE', subject, `effectiveDate "${effectiveDate}" is not a valid YYYY-MM-DD date`));
       continue;
     }
     if (seen.has(actionId)) {
@@ -453,21 +673,40 @@ export function validateCorporateActionTable(
       issues.push(issue(file, 'UNKNOWN_ISSUER', subject, `subject issuer ${subjectIssuerId} is not in the roster`));
       continue;
     }
+    if (record.perShareComparable !== undefined && typeof record.perShareComparable !== 'boolean') {
+      issues.push(issue(file, 'INVALID_FIELD_TYPE', subject, 'perShareComparable must be a boolean'));
+      continue;
+    }
     const adjustmentFactorRaw = record.adjustmentFactor;
-    const adjustmentFactor =
-      typeof adjustmentFactorRaw === 'number' && Number.isFinite(adjustmentFactorRaw) ? adjustmentFactorRaw : null;
+    if (
+      adjustmentFactorRaw !== undefined &&
+      adjustmentFactorRaw !== null &&
+      (typeof adjustmentFactorRaw !== 'number' || !Number.isFinite(adjustmentFactorRaw))
+    ) {
+      issues.push(issue(file, 'INVALID_FACTOR', subject, 'adjustmentFactor must be a finite number or null'));
+      continue;
+    }
+    const adjustmentFactor = typeof adjustmentFactorRaw === 'number' ? adjustmentFactorRaw : null;
     if (adjustmentFactor !== null && adjustmentFactor <= 0) {
       issues.push(issue(file, 'INVALID_FACTOR', subject, 'adjustmentFactor must be greater than zero'));
       continue;
     }
-    const successors = asArray(record.successors).map((successor) => {
-      const entry = asRecord(successor);
+    const rawSuccessors = readRequiredArray(record, 'successors', file, `${subject}.successors`, issues);
+    if (rawSuccessors === null) {
+      continue;
+    }
+    let successorInvalid = false;
+    const successors = rawSuccessors.map((successor) => {
+      if (!isPlainObject(successor)) {
+        successorInvalid = true;
+        return { issuerId: '', ratio: Number.NaN };
+      }
       return {
-        issuerId: readString(entry, 'issuerId') ?? '',
-        ratio: typeof entry.ratio === 'number' && Number.isFinite(entry.ratio) ? entry.ratio : Number.NaN,
+        issuerId: readString(successor, 'issuerId') ?? '',
+        ratio: typeof successor.ratio === 'number' && Number.isFinite(successor.ratio) ? successor.ratio : Number.NaN,
       };
     });
-    if (successors.some((successor) => successor.issuerId === '' || !Number.isFinite(successor.ratio))) {
+    if (successorInvalid || successors.some((successor) => successor.issuerId === '' || !Number.isFinite(successor.ratio))) {
       issues.push(issue(file, 'SUCCESSOR_INVALID', subject, 'each successor needs an issuerId and a numeric ratio'));
       continue;
     }
@@ -512,7 +751,11 @@ export function loadIdentitySources(texts: IdentitySourceTexts): SourceLoadResul
   const issues: SourceIssue[] = [];
   const rosterResult = validateRoster(texts.roster);
   issues.push(...rosterResult.issues);
-  if (rosterResult.roster === null) return { available: false, issues };
+  if (rosterResult.roster === null) {
+    issues.push(...precheckListingMapContainer(texts.listingMap));
+    issues.push(...precheckCorporateActionContainer(texts.corporateActions));
+    return { available: false, issues };
+  }
   const roster = rosterResult.roster;
 
   const listingResult = validateListingMap(texts.listingMap, roster);
@@ -542,6 +785,13 @@ export function loadIdentitySources(texts: IdentitySourceTexts): SourceLoadResul
       rosterDataClass:
         texts.dataClass ??
         (/synthetic/i.test(roster.rosterLabel) ? 'SYNTHETIC_FIXTURE' : 'OPERATOR_SUPPLIED'),
+      sourceSummary: {
+        issuerCount: roster.issuers.length,
+        securityCount: roster.securities.length,
+        listingCount: listingResult.listingMap.entries.length,
+        corporateActionCount: actionResult.table.actions.length,
+        corporateActionsEmpty: actionResult.table.actions.length === 0,
+      },
     },
   };
 }
@@ -559,27 +809,52 @@ export function resolveIdentityDir(dataRoot?: string): string {
   return join(resolve(root), 'investment', IDENTITY_DIR_SUBDIR);
 }
 
-/** Load the three identity files from disk. A missing file is a bounded, reported failure. */
+/** Load the three identity files from disk. Missing or unreadable files fail closed with bounded issues. */
 export function loadIdentitySourcesFromDir(dir: string = resolveIdentityDir()): SourceLoadResult {
-  const paths = {
-    roster: join(dir, IDENTITY_FILE_NAMES.roster),
-    listingMap: join(dir, IDENTITY_FILE_NAMES.listingMap),
-    corporateActions: join(dir, IDENTITY_FILE_NAMES.corporateActions),
-  };
-  const missing = Object.entries(paths)
-    .filter(([, path]) => !existsSync(path))
-    .map(([key]) => key);
-  if (missing.length > 0) {
-    return {
-      available: false,
-      issues: [
-        issue('eligible-roster.json', 'IDENTITY_SOURCE_MISSING', dir, `missing file(s): ${missing.join(', ')}`),
-      ],
-    };
+  const entries = [
+    ['roster', IDENTITY_FILE_NAMES.roster, join(dir, IDENTITY_FILE_NAMES.roster)],
+    ['listingMap', IDENTITY_FILE_NAMES.listingMap, join(dir, IDENTITY_FILE_NAMES.listingMap)],
+    ['corporateActions', IDENTITY_FILE_NAMES.corporateActions, join(dir, IDENTITY_FILE_NAMES.corporateActions)],
+  ] as const;
+
+  const fsIssues: SourceIssue[] = [];
+  const texts: Partial<Record<'roster' | 'listingMap' | 'corporateActions', string>> = {};
+
+  for (const [key, fileName, filePath] of entries) {
+    if (!existsSync(filePath)) {
+      fsIssues.push(
+        issue(fileName, 'IDENTITY_SOURCE_MISSING', fileName, `missing required identity source file: ${fileName}`),
+      );
+      continue;
+    }
+    try {
+      const stat = statSync(filePath);
+      if (!stat.isFile()) {
+        fsIssues.push(
+          issue(
+            fileName,
+            'IDENTITY_SOURCE_UNREADABLE',
+            fileName,
+            `identity source path is not a regular file: ${fileName}`,
+          ),
+        );
+        continue;
+      }
+      texts[key] = readFileSync(filePath, 'utf8');
+    } catch {
+      fsIssues.push(
+        issue(fileName, 'IDENTITY_SOURCE_UNREADABLE', fileName, `identity source file could not be read: ${fileName}`),
+      );
+    }
   }
+
+  if (fsIssues.length > 0) {
+    return { available: false, issues: fsIssues };
+  }
+
   return loadIdentitySources({
-    roster: readFileSync(paths.roster, 'utf8'),
-    listingMap: readFileSync(paths.listingMap, 'utf8'),
-    corporateActions: readFileSync(paths.corporateActions, 'utf8'),
+    roster: texts.roster!,
+    listingMap: texts.listingMap!,
+    corporateActions: texts.corporateActions!,
   });
 }

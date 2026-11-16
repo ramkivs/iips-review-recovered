@@ -22533,3 +22533,99 @@ Subsequent Q2 consolidated PDF omits the current caption; its XBRL has another z
 Next free §16.284 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
 
 **§16.283 focused follow-up — C, indeterminate.** The retained hash-matched March instance contains one `in-capmkt:CurrentInvestments` fact, lexical `0`, context `OneI`, unit `INR`, `decimals=-7`; QName namespace `http://www.sebi.gov.in/xbrl/2026-01-31/in-capmkt`. The complete context names scrip-code identifier `532714`, instant `2026-03-31`, and no explicit or typed dimensions; `iso4217:INR`, no nil or precision. The filing itself says consolidated/audited; the same undimensioned context also occurs in its separate standalone instance. This verifies the fact-level gap above but not the economic meaning: `-7` denotes accuracy to one crore; the PDF omission and recurring zero in other filings neither establish nor disprove defaulting. The referenced 2026 taxonomy schema returned 404; definitions, labels and presentation relationships remain unverified. Neither issuer economic zero nor template default established. `CURRENT_INVESTMENTS` remains `MISSING / NOT_REPORTED`; **L-039 OPEN**. No mapping or policy change. Source bytes, extraction, failed-workflow diagnosis, comparative controls, clock discrepancy and verification are in the §17.25 bundle.
+
+## 16.285 IRR Windows named-pipe IPC lifecycle and test-fixture correction — implementation and targeted validation COMPLETE; feature branch only, not merged (2026-11-16)
+
+**No IPD act, no IPD change.** This is an IRR-only documentation and tracker record. It consumes no
+CV-CORR / CHG / V identifier and adds no work item, owner or dependency. No existing entry of this
+tracker is specific to this correction, so it is recorded as this one section and no other entry is
+edited. `§16.284` is allocated on the unmerged branch `arena/53ff9276-iips-review-recovered` (commit
+`3647be5`, `2026-11-15`, the IID NP-04 record) and is left to that record; this record therefore takes
+`§16.285`. Both records append at the end of this file, so merging the two lines needs an
+order-preserving resolution (`§16.284` before `§16.285`).
+
+**Scope.** One implementation commit, made and published before this record and not reopened, repeated
+or amended by it: `a20a9723c1edcec1ec30ba17d03503c9fe6d3da3`, "Fix Windows named-pipe IPC lifecycle and
+test fixtures" (committed `2026-11-16T18:12:01+05:30`; parent
+`90e6728764722913a13ad88a2dfb0170697098f8`; tree `7b4a1186cabf357a07b2e2aa8f9aa12d3466a9b2`). It changes
+exactly three files, `+158/−32`.
+
+**Implementation recorded.** Each statement below was checked against the diff of `a20a972`.
+
+| File | Change |
+|---|---|
+| `frontend/server/user-portfolio/ipcClient.ts` — `callIpc`, `+9/−2`, blob `0d4e5c15… → 00e75cb0…` | Windows named-pipe requests retain the connection while awaiting the response: for a `windows-named-pipe` target the client writes the request frame and does not invoke the half-close (`socket.end()`) path; the socket is destroyed when the call settles. Unix-domain socket behaviour keeps its existing write-then-half-close lifecycle (`socket.write(frame, () => socket.end())`). |
+| `frontend/server/user-portfolio/ipcClient.test.ts` — `startTestEndpoint`, `+66/−13`, blob `dfbe041e… → 443943e1…` | Windows test execution uses a Windows named pipe; Linux and macOS test execution keeps the Unix-domain socket. On Windows the fixture dispatches after the complete framed request has been received, and a responder's `socket.end(frame)` is delivered as a write, which preserves the connection until the response is delivered (an argument-free `end()` still closes). On the other platforms dispatch stays on the `end` event. Existing test cases and assertions are preserved: everything from the first `describe(` to the end of the file is byte-identical (566 lines, 34 `it()` cases, 110 `expect(` calls). |
+| `frontend/server/investment/phase1D114WireToResolverInput.test.ts` — `startPeer` and `readHoldingsOverTheWire`, `+83/−17`, blob `60bc64e5… → a7eab157…` | The Windows named-pipe fixture processes a complete request without waiting for a client half-close and responds with `socket.write(frame)`. The Unix fixture keeps processing on the `end` event and responds through `socket.end(frame)` (before the commit: `socket.write(frame)` followed by `socket.end()`). The platform-specific connection lifecycle is preserved. Also in the diff, on both platforms: the fixture destroys the connection when the declared length is zero, when bytes follow the declared frame, when `op` is not a string, or when parsing fails. The tests are byte-identical from the first `describe(` to the end of the file (140 lines, 3 `it()` cases, 19 `expect(` calls). |
+
+**Scope boundary and related records — all unchanged.** The change is in the shared `callIpc`, so it
+applies to every IRR caller that reaches a Windows named-pipe target. The `WINDOWS CAVEAT` in the header
+of `ipcClient.ts` (named-pipe behaviour is Gate 4 host-only evidence, unverified in CI) is not changed
+by the commit. Not changed by the commit and outside the reported runs: two other test peers that listen
+on a `.sock` path and dispatch on the `end` event (`ipcPortAdapterIntegration.test.ts`,
+`userPortfolioDirectP1Integration.test.ts`) and the capture utility's synthetic peer
+(`capture/testing/syntheticIpcPeer.ts`), all under `frontend/server/user-portfolio/`; this record states
+nothing about them on Windows. Existing records on the same subject: the Gate 3 IRR consumer set that
+contains `ipcClient.ts` and `ipcClient.test.ts` (§16.61.5, §16.62.4); the host-to-IPD transport
+(§16.85.5); the Windows named-pipe shutdown behaviour and the IPD-side flush-guard correction, where the
+response is written without a half-close (§16.73.1, §16.76.3), to which the code comment added by
+`a20a972` refers; and W11 acceptance dependency 1
+(`docs/integration/W11-DEP1-OWNER-BOUND-PORTFOLIO-CAPTURE-UTILITY-2026-11-13.md` §9), which records that
+the capture utility had executed no Windows named-pipe connection. This record reports no capture and
+does not change that dependency. The D114 wire-to-resolver test had no entry in this tracker; `8765860`
+added the test on the `arena/e8f9f3d2-iips-review-recovered` line (PR #563, open).
+
+**Validation — reported by the Program Authority.** The eight results below are recorded exactly as
+given in the Program Authority's instruction for this record (`2026-11-16`); the Program Authority
+states that the runs were made on the Windows host. Both test files use in-test peers, so no run against
+the IPD service is part of these results. No transcript of the runs is committed with `a20a972`.
+
+| Validation | Result |
+|---|---|
+| IPC client tests | 34/34 PASS |
+| D114 wire-to-resolver tests | 3/3 PASS |
+| Investment-server TypeScript typecheck | PASS |
+| `git diff --check` | PASS |
+| Final three-file diff review | APPROVED |
+| Commit creation | PASS |
+| Remote publication | PASS |
+| Remote commit verification | PASS |
+
+These are targeted tests. They are **not** a full frontend-suite pass, and no unrelated test suite is
+reported as re-run.
+
+**Validation — observed by the recording Arena session.** `2026-11-16`, Linux, fresh clone at `a20a972`,
+`npm ci` in `frontend` (Node `v22.22.3`, vitest `2.1.9`, TypeScript `5.9.3`), no network during the
+runs: `npx vitest run server/user-portfolio/ipcClient.test.ts` — 34 passed (34);
+`npx vitest run server/investment/phase1D114WireToResolverInput.test.ts` — 3 passed (3);
+`npm run typecheck:investment-server` — exit 0; `git diff --check 90e6728 a20a972` — exit 0. The same
+two test runs and the typecheck at the parent `90e6728` give the same results, so the commit leaves the
+Linux results unchanged. **Linux exercises the Unix-domain-socket path only; the recording session did
+not execute the Windows named-pipe path.** The `tsconfig.investment-server.json` program contains two of
+the three changed files (`ipcClient.ts` and `phase1D114WireToResolverInput.test.ts`);
+`ipcClient.test.ts` is in no `tsc` project of `frontend`, before or after the commit. No full suite and
+no CI run is claimed.
+
+**Publication.** Repository `ramkivs/iips-review-recovered`; remote `origin`; branch
+`arena/e8f9f3d2-iips-review-recovered-reconcile`; commit `a20a9723c1edcec1ec30ba17d03503c9fe6d3da3`.
+Result: committed and remotely verified — the commit was the branch tip at `2026-11-16T14:44Z`, read
+back with `git ls-remote`, a fresh clone and the GitHub API (commit, parent, tree and the three changed
+files agree). The branch contains `main@08411bcd…` (merged by `90e6728`). `main` has since moved to
+`3cc99a1f…` (PR #565, merged `2026-11-16T13:20:01Z`), which changes neither this tracker nor the three
+files; the branch is 9 commits ahead of `main` and 10 behind it. No pull request has the branch as its
+head. **Merge to `main`: NOT PERFORMED.**
+
+**Status.** Windows IPC transport correction — implementation and targeted validation: **COMPLETE**,
+within the scope and the evidence boundary stated here. No broader D114, `G-2`, IPC or portfolio work
+item is closed or advanced by these targeted results: `CV-20`, the Gate 3, Gate 4 and Gate 5 positions
+and the `503` fences stay exactly as recorded, with their owners and dependencies. No dependent item is
+marked complete.
+
+**Evidence boundary.** The results in the table are Program-Authority-reported from the Windows host and
+were not reproduced on Windows by the recording session. Independently verified: the commit, its parent
+and tree, the three changed files and their diff, the branch tip, and the Linux runs above. This
+record's own commit is built on `a20a972` by the recording session and handed to the Program Authority
+as a Git bundle, to be pushed to the same branch from the host; its hash, push and remote read-back
+cannot be part of the commit that carries it and are reported separately.
+
+Next free §16.286 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).

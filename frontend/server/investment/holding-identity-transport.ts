@@ -25,6 +25,11 @@
 import type http from 'node:http';
 
 import { loadRuntimeIdentitySources } from '../../../iips-platform/src/investment/identity/runtime';
+import {
+  classifyObservationOutcome,
+  type D114SecurityIdentity,
+  type ObservationOutcomeClass,
+} from '../../../iips-platform/src/investment/identity/d114Projection';
 import type { SourceLoadResult } from '../../../iips-platform/src/investment/identity/sources';
 import { identityInputOf, reasonText, resolveIdentity } from '../../../iips-platform/src/investment/identity/resolver';
 import type { IdentityObservation, ResolutionState, UnresolvedReason } from '../../../iips-platform/src/investment/identity/types';
@@ -66,9 +71,13 @@ export interface HoldingIdentity {
   readonly holdingIndex: number;
   readonly symbol: string;
   readonly isin: string | null;
+  readonly series: string | null;
+  readonly d114SecurityIdentity: D114SecurityIdentity | null;
   readonly state: ResolutionState;
+  readonly outcomeClass: ObservationOutcomeClass;
   readonly issuerId: string | null;
   readonly securityId: string | null;
+  readonly listingId: string | null;
   readonly resolutionBasis: 'ISIN' | 'EXCHANGE_SYMBOL' | null;
   readonly reason: UnresolvedReason | null;
   readonly reasonText: string | null;
@@ -124,10 +133,14 @@ export function resolveHoldingIdentities(
     return {
       holdingIndex: index,
       symbol: holding.symbol,
-      isin: holding.isin ?? null,
+      isin: observation.isin,
+      series: observation.series,
+      d114SecurityIdentity: observation.securityIdentity ?? null,
       state: resolution.state,
+      outcomeClass: classifyObservationOutcome(resolution.state, reason),
       issuerId: resolution.issuerId,
       securityId: resolution.securityId,
+      listingId: resolution.listingId,
       resolutionBasis: resolution.resolutionBasis,
       reason,
       reasonText: reasonText(reason),
@@ -203,6 +216,11 @@ export async function handleHoldingIdentityRequest(
         rosterVersion: loaded.sources.versions.rosterVersion,
         rosterDigest: loaded.sources.versions.rosterDigest,
         rosterDataClass: loaded.sources.rosterDataClass,
+        issuerCount: loaded.sources.roster.issuers.length,
+        securityCount: loaded.sources.roster.securities.length,
+        listingCount: loaded.sources.listingMap.entries.length,
+        corporateActionCount: loaded.sources.corporateActionTable.actions.length,
+        corporateActionsEmpty: loaded.sources.corporateActionTable.actions.length === 0,
       },
       disclosures: {
         decisionSupportOnly: true,

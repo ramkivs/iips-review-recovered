@@ -192,6 +192,17 @@ export default function InvestmentCoveragePage(): JSX.Element {
             <td>Dataset class</td>
             <td>{report.dataset.datasetClass}</td>
           </tr>
+          {report.dataset.sourceRights !== undefined && report.dataset.sourceRights !== null && (
+            <tr>
+              <td>Source rights</td>
+              <td>
+                {report.dataset.sourceRights.state}
+                {report.dataset.sourceRights.basis !== '' && (
+                  <div className="muted">{report.dataset.sourceRights.basis}</div>
+                )}
+              </td>
+            </tr>
+          )}
           <tr>
             <td>Dataset version</td>
             <td>
