@@ -105,11 +105,52 @@ export const DHAN_LIVE_QUALIFIED = 'LIVE_QUALIFIED';
 export const DHAN_LIVE_CONNECTIVITY = 'CONNECTED_LIVE';
 
 /**
+ * The complete governed D-7 connectivity vocabulary for `ServiceHealth.liveProviderConnectivity`
+ * (roadmap W-07; D-7 accepted by both repositories — see
+ * `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`).
+ *
+ * The legacy value is preserved; `CONNECTED_LIVE` is the only added value. No other value is
+ * governed, and an ungoverned value is a contract violation, never an upgrade signal.
+ */
+export const DHAN_CONNECTIVITY_VALUES: readonly DhanLiveProviderConnectivity[] = Object.freeze([
+  'NOT_CHECKED_PRE_ACCESS',
+  DHAN_LIVE_CONNECTIVITY,
+]);
+
+/** IPD `ServiceHealth.liveProviderConnectivity`, as a governed D-7 value. */
+export type DhanLiveProviderConnectivity = 'NOT_CHECKED_PRE_ACCESS' | 'CONNECTED_LIVE';
+
+/**
+ * The complete governed D-7 qualification vocabulary for `ServiceHealth.providerQualification`.
+ * The legacy value is preserved; `LIVE_QUALIFIED` is the only added value.
+ */
+export const DHAN_QUALIFICATION_VALUES: readonly DhanProviderQualification[] = Object.freeze([
+  'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+  DHAN_LIVE_QUALIFIED,
+]);
+
+/** IPD `ServiceHealth.providerQualification`, as a governed D-7 value. */
+export type DhanProviderQualification = 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED' | 'LIVE_QUALIFIED';
+
+/** True only when `value` is a governed D-7 connectivity value. */
+export function isGovernedConnectivityValue(value: unknown): value is DhanLiveProviderConnectivity {
+  return value === 'NOT_CHECKED_PRE_ACCESS' || value === DHAN_LIVE_CONNECTIVITY;
+}
+
+/** True only when `value` is a governed D-7 qualification value. */
+export function isGovernedQualificationValue(value: unknown): value is DhanProviderQualification {
+  return value === 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED' || value === DHAN_LIVE_QUALIFIED;
+}
+
+/**
  * The authoritative health fields this phase can observe.
  *
- * These are IPD's own values, carried verbatim. They are widened to `string` here ONLY so that
- * an unexpected or future provider value is observable rather than silently coerced into a
- * known literal; the classifier treats any unrecognized value as unproven.
+ * These are IPD's own values, carried verbatim. Since W-07 they are typed as the governed
+ * D-7 vocabularies rather than widened strings: an ungoverned value must not be able to
+ * enter the classifier as evidence. The transport boundary validates every payload with
+ * `validateDhanServiceHealthContract` before constructing this evidence, and the classifier
+ * additionally refuses ungoverned values at runtime (fail-closed), so a cast or a future
+ * widened client cannot bypass validation.
  */
 export interface DhanHealthEvidence {
   /** IPD `ServiceHealth.service` — the composed market-data service's process availability. */
@@ -117,9 +158,15 @@ export interface DhanHealthEvidence {
   /** IPD `ServiceHealth.providerConfiguration` — provider credential configuration state. */
   readonly providerConfiguration?: 'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE' | string;
   /** IPD `ServiceHealth.liveProviderConnectivity` — never implies live connectivity pre-access. */
-  readonly liveProviderConnectivity?: 'NOT_CHECKED_PRE_ACCESS' | string;
+  readonly liveProviderConnectivity?: DhanLiveProviderConnectivity;
   /** IPD `ServiceHealth.providerQualification` — the provider's own qualification verdict. */
-  readonly providerQualification?: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED' | string;
+  readonly providerQualification?: DhanProviderQualification;
+  /**
+   * Whether the transport boundary rejected the payload as a contract violation (unknown
+   * connectivity/qualification value or unknown contract version). When true the classifier
+   * reports `UNAVAILABLE`: the daemon answered, but its answer cannot be trusted.
+   */
+  readonly healthContractViolation?: boolean;
   /** IPD `DhanCredentialReadiness` — whether SecretRef POINTERS are configured. */
   readonly readiness?: DhanCredentialReadiness | string;
   /** Deterministic failure code from IPD's resolution, e.g. `CREDENTIALS_UNAVAILABLE`. */
@@ -252,6 +299,25 @@ export function isLiveConnectedEvidence(evidence: DhanHealthEvidence): boolean {
  * workstation as one that had lost a connection.
  */
 export function classifyDhanHealth(evidence: DhanHealthEvidence): DhanHealthState {
+  // Contract-violation guard (W-07): the transport boundary rejected the payload — an
+  // unknown connectivity/qualification value or an unknown contract version. The daemon
+  // answered, but nothing it said may be classified. Checked first, before any other rule.
+  if (evidence.healthContractViolation === true) {
+    return 'UNAVAILABLE';
+  }
+
+  // Runtime vocabulary guard: even a caller that bypasses the transport boundary (or casts
+  // an arbitrary string into the governed fields) cannot be classified. An ungoverned value
+  // is unproven evidence, and unproven evidence reports UNAVAILABLE — never an upgrade.
+  if (
+    (evidence.liveProviderConnectivity !== undefined &&
+      !isGovernedConnectivityValue(evidence.liveProviderConnectivity)) ||
+    (evidence.providerQualification !== undefined &&
+      !isGovernedQualificationValue(evidence.providerQualification))
+  ) {
+    return 'UNAVAILABLE';
+  }
+
   // Contradiction guard: a service that reports itself DOWN while also claiming live
   // connectivity is self-contradictory. Nothing can be established from it.
   if (evidence.service === 'DOWN' && isLiveConnectedEvidence(evidence)) {

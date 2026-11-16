@@ -16,6 +16,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  DHAN_HEALTH_CONTRACT_VERSION,
   DHAN_HEALTH_PATH,
   DHAN_HEALTH_PROVENANCE,
   DHAN_HEALTH_TRANSPORT_SEMANTICS,
@@ -24,6 +25,8 @@ import {
   handleDhanHealthRequest,
   isDhanHealthPath,
   probeDhanTransport,
+  validateDhanServiceHealthContract,
+  type DhanTransportProbe,
 } from './dhanHealthTransport';
 import { describeDhanProviderReadiness } from './dhanMarketDataRoute';
 import { classifyDhanHealth } from './dhanHealthState';
@@ -293,6 +296,148 @@ describe('DHAN-P2 health route — the transport probe (DHAN-P3 clarification)',
 
     const notAttempted = collectDhanHealthEvidence(readiness, { attempted: false, reachable: false });
     expect(classifyDhanHealth(notAttempted)).not.toBe('DISCONNECTED');
+  });
+});
+
+describe('W-07 IRR mirror compatibility — governed D-7 health contract', () => {
+  const LEGACY = {
+    service: 'UP',
+    providerConfiguration: 'CONFIGURED',
+    liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+    providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+  } as const;
+
+  it('accepts every legacy value and preserves it verbatim', () => {
+    const validation = validateDhanServiceHealthContract(LEGACY);
+    expect(validation.ok).toBe(true);
+    if (validation.ok) {
+      expect(validation.serviceHealth.liveProviderConnectivity).toBe('NOT_CHECKED_PRE_ACCESS');
+      expect(validation.serviceHealth.providerQualification).toBe('SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED');
+      expect(validation.serviceHealth.contractVersion).toBeUndefined();
+    }
+  });
+
+  it('accepts a missing version marker as legacy compatibility', () => {
+    expect(validateDhanServiceHealthContract(LEGACY).ok).toBe(true);
+    expect(validateDhanServiceHealthContract({ ...LEGACY, contractVersion: 1 }).ok).toBe(true);
+    expect(
+      validateDhanServiceHealthContract({ ...LEGACY, contractVersion: DHAN_HEALTH_CONTRACT_VERSION }).ok,
+    ).toBe(true);
+  });
+
+  it('accepts every new D-7 connectivity and qualification value', () => {
+    for (const liveProviderConnectivity of ['NOT_CHECKED_PRE_ACCESS', 'CONNECTED_LIVE']) {
+      for (const providerQualification of ['SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED', 'LIVE_QUALIFIED']) {
+        const validation = validateDhanServiceHealthContract({
+          ...LEGACY,
+          liveProviderConnectivity,
+          providerQualification,
+          contractVersion: DHAN_HEALTH_CONTRACT_VERSION,
+        });
+        expect(validation.ok).toBe(true);
+        if (validation.ok) {
+          expect(validation.serviceHealth.liveProviderConnectivity).toBe(liveProviderConnectivity);
+          expect(validation.serviceHealth.providerQualification).toBe(providerQualification);
+        }
+      }
+    }
+  });
+
+  it('rejects unknown connectivity and qualification values fail-closed', () => {
+    const connectivity = validateDhanServiceHealthContract({
+      ...LEGACY,
+      liveProviderConnectivity: 'CONNECTED_MAYBE',
+    });
+    expect(connectivity).toEqual({ ok: false, violation: 'UNKNOWN_CONNECTIVITY_VALUE' });
+
+    const qualification = validateDhanServiceHealthContract({
+      ...LEGACY,
+      providerQualification: 'PROBABLY_LIVE',
+    });
+    expect(qualification).toEqual({ ok: false, violation: 'UNKNOWN_QUALIFICATION_VALUE' });
+  });
+
+  it('rejects unknown contract versions fail-closed', () => {
+    for (const contractVersion of [0, 3, 99, '2', null, Number.NaN]) {
+      const validation = validateDhanServiceHealthContract({ ...LEGACY, contractVersion });
+      expect(validation).toEqual({ ok: false, violation: 'UNKNOWN_CONTRACT_VERSION' });
+    }
+  });
+
+  it('round-trips each governed value pair through evidence into classification', () => {
+    const cases: ReadonlyArray<{
+      liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS' | 'CONNECTED_LIVE';
+      providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED' | 'LIVE_QUALIFIED';
+      expectedState: string;
+    }> = [
+      {
+        // Legacy values over a reachable transport keep the existing classification
+        // semantics exactly: no live signal is asserted, so nothing is upgraded.
+        liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+        providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+        expectedState: 'UNAVAILABLE',
+      },
+      {
+        liveProviderConnectivity: 'CONNECTED_LIVE',
+        providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+        expectedState: 'AUTHENTICATED',
+      },
+      {
+        liveProviderConnectivity: 'CONNECTED_LIVE',
+        providerQualification: 'LIVE_QUALIFIED',
+        expectedState: 'OPERATIONAL',
+      },
+    ];
+    for (const testCase of cases) {
+      const probe: DhanTransportProbe = {
+        attempted: true,
+        reachable: true,
+        serviceHealth: {
+          service: 'UP',
+          providerConfiguration: 'CONFIGURED',
+          liveProviderConnectivity: testCase.liveProviderConnectivity,
+          providerQualification: testCase.providerQualification,
+          contractVersion: DHAN_HEALTH_CONTRACT_VERSION,
+        },
+      };
+      // Classification is asserted on the probe-shaped evidence path (collect + classify),
+      // which is the exact composition the health route performs after a successful probe.
+      const evidence = collectDhanHealthEvidence(describeDhanProviderReadiness(CONFIGURED_ENV), probe);
+      expect(classifyDhanHealth(evidence)).toBe(testCase.expectedState);
+    }
+  });
+
+  it('PENDING IPD PIN: the currently pinned client still rejects new values at its own boundary', async () => {
+    // The installed IPD package pin (af4460ee…) predates W-07: its MarketDataTransportClient
+    // accepts only the legacy literals and returns MALFORMED_RESPONSE for CONNECTED_LIVE.
+    // This test is the tripwire for the pin-bump leg of this PR: once the pin advances to
+    // the actual IPD W-07 commit, this probe must instead answer reachable with the live
+    // service health, and this test must be updated to assert that.
+    const baseUrl = await startHealthTransport({
+      service: 'UP',
+      providerConfiguration: 'CONFIGURED',
+      liveProviderConnectivity: 'CONNECTED_LIVE',
+      providerQualification: 'LIVE_QUALIFIED',
+    });
+    const probe = await probeDhanTransport(
+      {},
+      {
+        transport: {
+          ok: true,
+          config: { baseUrl, token: 'synthetic-token', timeoutMs: 2000, configured: true },
+        },
+      },
+    );
+    expect(probe.attempted).toBe(true);
+    expect(probe.reachable).toBe(false);
+    expect(probe.serviceHealth).toBeUndefined();
+  });
+
+  it('reports UNAVAILABLE, never DISCONNECTED or upgraded, on a contract violation', () => {
+    const probe: DhanTransportProbe = { attempted: true, reachable: true, contractViolation: true };
+    const evidence = collectDhanHealthEvidence(describeDhanProviderReadiness(CONFIGURED_ENV), probe);
+    expect(evidence.healthContractViolation).toBe(true);
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
   });
 });
 

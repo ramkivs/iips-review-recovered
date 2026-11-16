@@ -42,8 +42,12 @@ import { sendJson } from '../owner-scoped-http';
 import { describeDhanProviderReadiness, type DhanProviderReadiness } from './dhanMarketDataRoute';
 import {
   buildDhanHealthReport,
+  isGovernedConnectivityValue,
+  isGovernedQualificationValue,
   type DhanHealthEvidence,
   type DhanHealthReport,
+  type DhanLiveProviderConnectivity,
+  type DhanProviderQualification,
 } from './dhanHealthState';
 import {
   createIpdMarketDataTransportClient,
@@ -133,12 +137,111 @@ export interface DhanTransportProbe {
   readonly attempted: boolean;
   /** Whether the transport answered. Meaningful only when `attempted` is true. */
   readonly reachable: boolean;
+  /**
+   * Whether the transport answered with a payload this boundary rejects: an unknown
+   * connectivity/qualification value or an unknown contract version (W-07, fail-closed).
+   * Distinct from `reachable === false`: the daemon answered, but its answer is unusable,
+   * so the classifier reports `UNAVAILABLE`, never `DISCONNECTED` or an upgraded state.
+   */
+  readonly contractViolation?: boolean;
   /** IPD's authoritative `ServiceHealth`, when the transport answered with a valid payload. */
   readonly serviceHealth?: {
     readonly service: 'UP' | 'DOWN';
     readonly providerConfiguration: 'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE';
-    readonly liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS';
-    readonly providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED';
+    readonly liveProviderConnectivity: DhanLiveProviderConnectivity;
+    readonly providerQualification: DhanProviderQualification;
+    /** The W-07 contract version marker, when IPD sends one. Absent means legacy (v1). */
+    readonly contractVersion?: number;
+  };
+}
+
+/**
+ * W-07 health contract versions, as agreed in the D-7 acceptance record
+ * (`docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md` §4).
+ *
+ * Legacy payloads carry no marker and are treated as version 1 — they remain parseable.
+ * IPD's W-07 change set introduces the explicit marker; the marker field name
+ * (`contractVersion`) and the current version value are confirmed against the actual IPD
+ * W-07 commit in the pin-bump leg of this coordinated delivery, before this PR merges.
+ * A marker that is present but not a supported version is a contract violation.
+ */
+export const DHAN_HEALTH_CONTRACT_LEGACY_VERSION = 1;
+export const DHAN_HEALTH_CONTRACT_VERSION = 2;
+export const DHAN_HEALTH_SUPPORTED_CONTRACT_VERSIONS: readonly number[] = Object.freeze([
+  DHAN_HEALTH_CONTRACT_LEGACY_VERSION,
+  DHAN_HEALTH_CONTRACT_VERSION,
+]);
+
+/** The validated `ServiceHealth` shape this boundary accepts from the IPD transport. */
+export interface DhanValidatedServiceHealth {
+  readonly service: 'UP' | 'DOWN';
+  readonly providerConfiguration: 'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE';
+  readonly liveProviderConnectivity: DhanLiveProviderConnectivity;
+  readonly providerQualification: DhanProviderQualification;
+  readonly contractVersion?: number;
+}
+
+/** Why a `ServiceHealth` payload was rejected at this boundary. Enumerated; no free text. */
+export type DhanServiceHealthContractViolation =
+  | 'MALFORMED_SERVICE_HEALTH'
+  | 'UNKNOWN_CONNECTIVITY_VALUE'
+  | 'UNKNOWN_QUALIFICATION_VALUE'
+  | 'UNKNOWN_CONTRACT_VERSION';
+
+export type DhanServiceHealthContractValidation =
+  | { readonly ok: true; readonly serviceHealth: DhanValidatedServiceHealth }
+  | { readonly ok: false; readonly violation: DhanServiceHealthContractViolation };
+
+/**
+ * Validates one `ServiceHealth` payload against the governed D-7 contract (W-07).
+ *
+ * Pure and total: every input yields an explicit outcome. Legacy values and a missing
+ * version marker are accepted; every governed D-7 connectivity/qualification value is
+ * accepted; any unknown value, unknown version, or malformed shape is rejected with an
+ * enumerated violation so the caller can fail closed. This is the single IRR point where
+ * provider health values enter IRR — the string-widened evidence fields of earlier phases
+ * cannot bypass it.
+ */
+export function validateDhanServiceHealthContract(input: {
+  readonly service?: unknown;
+  readonly providerConfiguration?: unknown;
+  readonly liveProviderConnectivity?: unknown;
+  readonly providerQualification?: unknown;
+  readonly contractVersion?: unknown;
+}): DhanServiceHealthContractValidation {
+  if (input.service !== 'UP' && input.service !== 'DOWN') {
+    return { ok: false, violation: 'MALFORMED_SERVICE_HEALTH' };
+  }
+  if (
+    input.providerConfiguration !== 'CONFIGURED' &&
+    input.providerConfiguration !== 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE'
+  ) {
+    return { ok: false, violation: 'MALFORMED_SERVICE_HEALTH' };
+  }
+  if (!isGovernedConnectivityValue(input.liveProviderConnectivity)) {
+    return { ok: false, violation: 'UNKNOWN_CONNECTIVITY_VALUE' };
+  }
+  if (!isGovernedQualificationValue(input.providerQualification)) {
+    return { ok: false, violation: 'UNKNOWN_QUALIFICATION_VALUE' };
+  }
+  if (input.contractVersion !== undefined) {
+    if (
+      typeof input.contractVersion !== 'number' ||
+      !Number.isInteger(input.contractVersion) ||
+      !DHAN_HEALTH_SUPPORTED_CONTRACT_VERSIONS.includes(input.contractVersion)
+    ) {
+      return { ok: false, violation: 'UNKNOWN_CONTRACT_VERSION' };
+    }
+  }
+  return {
+    ok: true,
+    serviceHealth: {
+      service: input.service,
+      providerConfiguration: input.providerConfiguration,
+      liveProviderConnectivity: input.liveProviderConnectivity,
+      providerQualification: input.providerQualification,
+      ...(input.contractVersion !== undefined ? { contractVersion: input.contractVersion } : {}),
+    },
   };
 }
 
@@ -159,6 +262,9 @@ export function collectDhanHealthEvidence(
   const serviceHealth = probe?.serviceHealth;
 
   return {
+    // A rejected payload is carried as an explicit violation flag: the classifier reports
+    // UNAVAILABLE for it, regardless of the local configuration evidence below.
+    healthContractViolation: probe?.contractViolation === true,
     // IPD's own service health is authoritative when the transport answered. Until then the
     // local provider configuration is the only evidence available, and it is stated as such.
     service: serviceHealth?.service ?? 'UP',
@@ -235,15 +341,26 @@ export async function probeDhanTransport(
     // The connection WAS attempted and did not succeed. This is a genuine connection failure.
     return { attempted: true, reachable: false };
   }
+  // W-07 boundary validation: IPD's widened values are accepted, legacy values are
+  // preserved, and anything ungoverned — or an unknown contract version — fails closed.
+  // The pinned client predates the contract version marker, so the marker is read
+  // structurally; IPD's W-07 client will carry it as a typed field after the pin bump.
+  const validation = validateDhanServiceHealthContract({
+    service: outcome.service,
+    providerConfiguration: outcome.providerConfiguration,
+    liveProviderConnectivity: outcome.liveProviderConnectivity,
+    providerQualification: outcome.providerQualification,
+    contractVersion: (outcome as { contractVersion?: unknown }).contractVersion,
+  });
+  if (!validation.ok) {
+    // The daemon answered, but with a contract this boundary cannot trust. This is NOT a
+    // connection failure: it is reported as a contract violation (state UNAVAILABLE).
+    return { attempted: true, reachable: true, contractViolation: true };
+  }
   return {
     attempted: true,
     reachable: true,
-    serviceHealth: {
-      service: outcome.service,
-      providerConfiguration: outcome.providerConfiguration,
-      liveProviderConnectivity: outcome.liveProviderConnectivity,
-      providerQualification: outcome.providerQualification,
-    },
+    serviceHealth: validation.serviceHealth,
   };
 }
 

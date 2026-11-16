@@ -289,3 +289,51 @@ describe('DHAN-P2 health report', () => {
     expect(report.liveProviderContacted).toBe(false);
   });
 });
+
+describe('W-07 governed vocabulary — the classifier cannot accept arbitrary strings', () => {
+  it('reports UNAVAILABLE for an ungoverned connectivity string, even via a cast', () => {
+    const evidence = {
+      ...CONFIGURED_DISCONNECTED_EVIDENCE,
+      liveProviderConnectivity: 'CONNECTED_LIVEISH',
+    } as unknown as DhanHealthEvidence;
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+    expect(isLiveConnectedEvidence(evidence)).toBe(false);
+  });
+
+  it('reports UNAVAILABLE for an ungoverned qualification string, even via a cast', () => {
+    const evidence = {
+      ...CONFIGURED_DISCONNECTED_EVIDENCE,
+      providerQualification: 'LIVE_QUALIFIEDISH',
+    } as unknown as DhanHealthEvidence;
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+    expect(isLiveQualifiedEvidence(evidence)).toBe(false);
+  });
+
+  it('reports UNAVAILABLE when the transport boundary flagged a contract violation', () => {
+    const report = buildDhanHealthReport({
+      ...CONFIGURED_DISCONNECTED_EVIDENCE,
+      healthContractViolation: true,
+    });
+    expect(report.state).toBe('UNAVAILABLE');
+    expect(report.liveQualified).toBe(false);
+  });
+
+  it('round-trips governed live values into an OPERATIONAL report without contacting a vendor', () => {
+    const report = buildDhanHealthReport({
+      service: 'UP',
+      providerConfiguration: 'CONFIGURED',
+      liveProviderConnectivity: 'CONNECTED_LIVE',
+      providerQualification: 'LIVE_QUALIFIED',
+      readiness: 'CREDENTIAL_REFERENCES_CONFIGURED',
+      failureCode: null,
+      configurationResolved: true,
+      missingKeys: [],
+      transportReachable: true,
+      connectionAttempted: true,
+    });
+    expect(report.state).toBe('OPERATIONAL');
+    expect(report.liveQualified).toBe(true);
+    // Classification is a pure report of evidence: it performs no vendor contact itself.
+    expect(report.liveProviderContacted).toBe(false);
+  });
+});
