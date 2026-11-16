@@ -97,11 +97,13 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     // The primary pin is where the Direct P1 surface landed; it is re-expressed here as
     // the current integration candidate so this guard tracks the pin rather than freezing
     // it. Advanced `279d1eed…` -> `59fdfd1…` (IPD PR #140 merge) by the isolated Dhan
-    // convergence, then -> `ae393aa…` (IPD PR #144) by DHAN-P3, and finally ->
-    // `5b384c72…` — the published IPD W-07 commit (IPD PR #168) — in coordinated W-07.
+    // convergence, then -> `ae393aa…` (IPD PR #144) by DHAN-P3, then -> `5b384c72…` — the
+    // published IPD W-07 commit (IPD PR #168) — in coordinated W-07, and finally ->
+    // `d80d773…` — the published IPD `main` carrying W-07 (PR #168), W-08 (PR #169) and
+    // W-09 (PR #170) — in coordinated W-10.
     // The Direct P1 HTTP-to-IPC behaviour asserted below is unchanged: the advance is
     // additive and IPD's Direct P1 surface is untouched by it.
-    const expected = 'github:ramkivs/iips-production-market-data#5b384c7215b2644a8d525960ba05cd97f39bf7a7';
+    const expected = 'github:ramkivs/iips-production-market-data#d80d77345bed965c2a7e660ef272fd53a234d0a7';
     const manifest = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
       dependencies: Record<string, string>;
     };
@@ -111,7 +113,7 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     expect(manifest.dependencies['iips-production-market-data']).toBe(expected);
     expect(lock.packages[''].dependencies?.['iips-production-market-data']).toBe(expected);
     expect(lock.packages['node_modules/iips-production-market-data'].resolved)
-      .toContain('#5b384c7215b2644a8d525960ba05cd97f39bf7a7');
+      .toContain('#d80d77345bed965c2a7e660ef272fd53a234d0a7');
   });
 
   let peer: Peer;

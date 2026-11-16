@@ -8,7 +8,7 @@
  * read-only guarantee (no mutation controls).
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { UserPortfolioDetail } from './UserPortfolioDetail';
 import type { UserPortfolioView } from '../../api/userPortfolios';
@@ -115,7 +115,7 @@ describe('User Portfolio detail (G-2 read-only consumer)', () => {
     // Metrics render transport values verbatim (no recomputation).
     // Persistence is derived from the stored operation of the current revision, not from
     // `isSaved`: revision 3 is a MERGE, so the portfolio was updated.
-    expect(await screen.findByTestId('summary-persistence-status')).toHaveTextContent('UPDATED');
+    await waitFor(() => expect(screen.getByTestId('summary-persistence-status')).toHaveTextContent('UPDATED'));
     expect(screen.getByTestId('summary-total-value')).toHaveTextContent('₹48,102.50');
     expect(screen.getByTestId('summary-weight-sum')).toHaveTextContent('99.8000%');
     expect(screen.getByTestId('summary-digest')).toHaveTextContent('eeeeeeeeeeee…');

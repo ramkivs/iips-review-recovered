@@ -84,10 +84,19 @@ const frontendRoot = resolve(here, '..', '..');
  * `contractVersion` marker (absent = legacy, numeric `1` = legacy marker, numeric `2` =
  * W-07), `DHAN_HEALTH_CONTRACT_VERSION` (`2`), `DHAN_HEALTH_CONTRACT_LEGACY_VERSION`
  * (`1`) and `validateDhanServiceHealth`. Legacy payloads remain parseable; unknown values
- * and unsupported versions fail closed. IRR adopts it in the W-07 pin-bump leg of the
- * coordinated W-07 delivery; the materialized broker-import alias is UNCHANGED.
+ * and unsupported versions fail closed. It is superseded by `d80d773…`.
+ *
+ * `d80d77345bed965c2a7e660ef272fd53a234d0a7` is the published IPD `main` carrying W-07
+ * (PR #168), W-08 (PR #169) and W-09 (PR #170). W-10 advances the primary pin to it: W-09
+ * adds `MarketDataTransportClient.diagnostics()` — a read-only `/v1/diagnostics` read
+ * validated fail-closed by IPD's own `validateDhanServiceDiagnostics`
+ * (`contractVersion: 1`) — which is the ONLY source of provider state IRR is permitted to
+ * consume. IRR needs it for the W-10 boundary; without it the Status surface cannot read
+ * IPD's authority at all. The advance is additive: every `./dhan-server` export the
+ * existing consumers use remains published. The materialized broker-import alias is
+ * UNCHANGED.
  */
-export const EXPECTED_IPD_PIN_SHA = '5b384c7215b2644a8d525960ba05cd97f39bf7a7';
+export const EXPECTED_IPD_PIN_SHA = 'd80d77345bed965c2a7e660ef272fd53a234d0a7';
 
 /**
  * The pre-W-07 pin, retained so a silent rollback cannot go unnoticed.
@@ -97,6 +106,15 @@ export const EXPECTED_IPD_PIN_SHA = '5b384c7215b2644a8d525960ba05cd97f39bf7a7';
  * contract version marker, which is why the W-07 IRR leg could not advance on it.
  */
 export const SUPERSEDED_IPD_W07_PIN_SHA = 'af4460eeab9bb0544e009322526a5498df0d5909';
+
+/**
+ * The W-07 primary pin, retained so a silent rollback cannot go unnoticed.
+ *
+ * `5b384c72…` is IPD PR #168 (coordinated W-07). W-10 advances the pin to `d80d773…` to
+ * obtain W-09's diagnostics contract; the W-07 commit is retained here so an accidental
+ * downgrade fails this guard loudly.
+ */
+export const SUPERSEDED_IPD_W07_PRIMARY_PIN_SHA = '5b384c7215b2644a8d525960ba05cd97f39bf7a7';
 
 /**
  * The prior primary pin, retained so a silent rollback cannot go unnoticed.
@@ -425,6 +443,7 @@ describe('CAP-02 B-1R package consumer & pin compatibility guard', () => {
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_DHAN_P5_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_PR145_PIN_SHA);
     expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_W07_PIN_SHA);
+    expect(EXPECTED_IPD_PIN_SHA).not.toBe(SUPERSEDED_IPD_W07_PRIMARY_PIN_SHA);
     expect(depSpec).toContain(EXPECTED_IPD_PIN_SHA);
 
     // The subpath did not exist at the superseded pin, so its presence is the observable
