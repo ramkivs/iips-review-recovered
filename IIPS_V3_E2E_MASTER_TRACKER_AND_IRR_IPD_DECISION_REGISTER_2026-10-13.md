@@ -22629,3 +22629,108 @@ as a Git bundle, to be pushed to the same branch from the host; its hash, push a
 cannot be part of the commit that carries it and are reported separately.
 
 Next free §16.286 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
+
+## 16.286 Snapshot-to-Live W04 — ACCEPTED AS MEASURED by the Program Authority: 1 of 64 holdings identified, 63 unresolved; identity coverage not complete (2026-11-16)
+
+**IRR-only documentation and tracker record. No IPD act, no IPD change, no code change.** It consumes
+no CV-CORR / CHG / V identifier and adds no work item, owner or dependency. W04, "Actual security and
+issuer coverage", is an item of the Snapshot-to-Live roadmap, which IPD holds
+(`docs/integration/IIPS-CURRENT-PORTFOLIO-EXECUTION-ROADMAP.md`). This tracker had no entry for W04, so
+the acceptance is recorded as this one section and no other entry is edited. `§16.286` is the next free
+number on `main`. The unmerged branch `arena/53ff9276-iips-review-recovered` (IID records, no pull
+request) carries its own `§16.284` and a second `§16.285`, and also names `§16.286` as its next free
+number; those are left to that branch, which needs an order-preserving renumbering when it is merged.
+
+**Statement recorded.** On `2026-11-16` (UTC) the Program Authority, Ramki, authorized this record in
+these words: **"W04 ACCEPTED AS MEASURED — 1 of 64 holdings identified; 63 unresolved."** It is the
+statement of acceptance that the IPD assessment left to him (its section 10: "One thing is his and is
+not written here for him: the statement of acceptance"). It is his decision, made under the standing
+personal-application authority. No further approval is required for it and none is created here.
+
+**What is accepted.** The W04 measurement, as the W04 result. For `DHAN_PORTFOLIO` revision 1 (one
+import, 64 holdings, all active), **1 holding has a stored security identity and 63 have none.** Census
+by the five roadmap categories: qualified 1; ambiguous 0; missing / unresolved 63; expired / ineligible
+0; unavailable 0; total 64. The 63 are explicitly unresolved. No identity is inferred for them from a
+symbol, a company or membership of the registry.
+
+**References, both read back for this record.**
+
+| Reference | Read back on `2026-11-16` |
+|---|---|
+| IPD PR #166, merge `49742e3648ae1563914326ec9a76c68f84b9dc3f` | Merged `2026-11-16T19:54:56Z`; parents `d80d77345bed965c2a7e660ef272fd53a234d0a7` (`main`) and `0e473fc16723ae21115e65dc0887caad69173c93` (branch); head of IPD `main` when read. It carries the assessment `docs/integration/IIPS-W04-EVIDENCE-RECONCILIATION-AND-ACCEPTANCE-ASSESSMENT-2026-11-16.md` (blob `3980782aa9d08d9bfe6a43878e3b45b8f02ee121`, SHA-256 `0d31170221bf5f616a8d5deb8704ab01219a9873091f0a749d6035282b3168b6`), whose result is "The W04 acceptance criteria of the roadmap are met as measured", and the roadmap entry "MEASURED AT 1 OF 64, 63 UNRESOLVED — ACCEPTANCE CRITERIA MET AS MEASURED". IPD was read only. |
+| IRR PR #568, merge `064195397dfdb32bf0f34a461b02fd6b9f9a8df0` | Merged `2026-11-16T19:03:51Z`; parents `fa4e298791be8a0f68ffa7521736539bcce722bd` (`main`) and `7f53974e44c4ee89d4d253758b15bf15ac3a5a25` (branch); `Typecheck · Test · Build` and `Python compile · source/evidence/tracker validation` succeeded on the merge commit. For W04 it carries `7f3f7db` (a holding's stored D114 `securityIdentity` is projected into the resolver input) and `8765860` (a test that carries a persisted holding over the real read path into the resolver input). |
+
+**Evidence limitations, all preserved.** They are those of the IPD assessment named above (its sections
+3.2 to 3.6, 4, 5, 7 and 8.3), which stays the full statement of them. The acceptance removes, narrows
+or cures none of them. They are repeated here so that this record cannot be read without them.
+
+1. **Limits the acceptance carries** (assessment section 8.3). (a) The listing-map and corporate-action
+   versions served when the census was read were not captured; the versions of the installed files are
+   known. (b) The resolver outcome and the issuer mapping of the one qualified holding are
+   operator-reported; their values are in no repository. (c) The installation of `2026-11-14` and the
+   registry verification of `2026-11-15` are operator-reported summaries; their outputs are in no
+   repository.
+2. **Grades of the count.** The 1 and the 63 rest on two host outputs held on IPD `main`: the inventory
+   archive of `2026-11-16` (SHA-256 `813183b382a26d0b6affeeaee04d44b0ea0057bea140a83221b460d8720da1b3`)
+   and the E4 lineage output. The three zeros rest on the operator-reported census of IPD PR #156 alone.
+   Host evidence is not independent verification.
+3. **Not in any repository** (assessment section 7, rows 1 to 8).
+   - Of the installation of `2026-11-14`: the terminal output, the approval record
+     `W04-D1-20261114-01`, the install receipt, the result of `Test-IrrIdentitySources.ps1`, the IRR
+     commit of the running transport, and a `verify-endpoint` run.
+   - Of the registry verification of `2026-11-15`: the output file, its 64 row lines, its nine condition
+     lines, the result JSON, the utility digest line and the time of the run.
+   - The capture file of `2026-11-13`, which is local to the host by design.
+   - The identities-route response behind the census: the 64 rows, the counts by state and reason, the
+     listing-map and corporate-action table versions it served, the full roster version, its `asOf` and
+     `generatedAt`, the roster label, and the IRR commit of the transport.
+   - The security identity, listing and issuer of the one qualified holding, which were never supplied
+     to a record.
+   - The Broker Import evidence journal (not found on the host) and the typed reason at import (never
+     kept).
+   - Which IPD build and which P7 registry the host loaded at the import.
+   - The approval record `W04-D1-20261115-01`, which is on the host with only its digest published.
+4. **The cause of the 63 is unproven.** All 63 had an ISIN and an exchange in the committed import
+   input. Why no identity was stored for them is not established.
+5. **The merged IRR code on the host.** No run of it against revision 1 is in a repository, and which
+   IRR commit the host runs is not shown.
+6. **Conditions and open points the assessment states.**
+   - Membership of all 64 holdings in the published registry is an operator-reported summary. It is
+     readiness, not coverage: it assigned no identity and changed no stored holding.
+   - The IRR loader gate ran at `08411bc` and at `d10afbb`. It was not re-run at `0641953`, and the
+     receipt at `d10afbb` records a working tree that was not clean.
+   - The census reports one resolved holding. At IRR `08411bc` the transport passes no stored identity
+     to the resolver, so that result requires a transport that already had the projection; the census
+     document does not state the IRR commit of its transport.
+   - "No write to the database since `2026-11-12`" holds on the condition that the file time is a true
+     record of the last write. "Nothing remains to install" holds on the condition that the installed
+     files are unchanged since `2026-11-14`. The listing-map and corporate-action versions served at
+     the read are derived from the installed files on the same condition; they were not observed.
+
+**Not claimed.** 64 of 64, or complete identity coverage. That the 63 are resolved, or that their cause
+is known. That `1/64` is a threshold: `θI` stays NOT ESTABLISHED and W20 stays not accepted. That
+operator-reported evidence was independently verified. That W03 is closed: its status is not changed.
+That any later work item is advanced or closed.
+
+**Consequences, as the IPD assessment states them.** W08, W10, W11 and W13 can use at most one holding
+of revision 1 until the identities of the 63 are stored by a later import. That is future import work
+with its own prerequisite (IPD PR #163); it is not a repetition of any W04 step. W05 is to reconcile to
+this result in its own record, as the roadmap asks of it.
+
+**Related records, as read; none is changed by this record.** The W04 status line of the IPD roadmap at
+IPD `main` `49742e36…` still reads "Acceptance as measured is recommended; the statement of acceptance
+is the Principal's and is not written here for him". Changing that one line to "accepted as measured"
+is an IPD change and is not made from IRR. IRR PR #566, the supersession record of approval
+`W04-D1-20261115-01`, is OPEN at `92eda04`. Approvals `W04-D1-20261114-01` and `W04-D1-20261115-01` are
+historical; no approval is written, renewed or replaced.
+
+**Validation.** Documentation only; no test is affected and no host step was run or repeated. On the
+tree that carries this section, the IRR-only static gate was run locally: the validator compiles; the
+artifact-classification and workflow-trigger tests pass; the source, evidence and tracker validation
+passes; `git diff --check` is clean. The release-asset step of that gate needs the hosted runner.
+
+**Publication.** This section is added by one commit on a branch made from `main`
+`064195397dfdb32bf0f34a461b02fd6b9f9a8df0`. Its commit hash, push, pull request and remote read-back
+cannot be part of the commit that carries it and are reported separately.
+
+Next free §16.287 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
