@@ -1,89 +1,121 @@
 /**
- * IRR DHAN health/readiness HTTP boundary (DHAN-P2, synthetic / pre-access phase).
+ * IRR DHAN health/readiness HTTP boundary (DHAN-P2; W-10 — IPD authority only).
  *
- * Route: GET /api/dhan/health
+ * Routes:
+ *   GET  /api/dhan/health              → the IRR projection of IPD's authoritative
+ *                                        provider state, read from `GET /v1/diagnostics`
+ *   POST /api/dhan/verify-connection   → the operator-initiated "Verify connection"
+ *                                        affordance: exactly ONE read-only diagnostics
+ *                                        request, operator-initiated, no retry
  *
- * WHAT THIS ROUTE IS
- *   A read-only, credential-free status surface for the DHAN provider. It answers "what does
- *   IRR know about DHAN right now, and what has it NOT proven?" using IPD's OWN provider
- *   configuration and readiness vocabulary. It publishes exactly one of five states — see
- *   `dhanHealthState.ts` — together with the evidence behind that state.
+ * WHAT THIS MODULE IS
+ *   A read-only, credential-free status surface for the DHAN provider. Since W-10 it
+ *   derives EVERYTHING from IPD's own `/v1/diagnostics` read over the existing loopback
+ *   transport: there is exactly one source of truth for the provider state and it is IPD.
+ *   IRR holds no Dhan configuration, resolves no Dhan-credential environment variable and
+ *   publishes no SecretRef pointer of any kind.
  *
- * WHAT THIS ROUTE IS NOT
+ * WHAT THIS MODULE IS NOT
  *   - It is NOT a market-data service. It computes no quote, no historical series and no
- *     provider metric, and it holds no price, position or portfolio state. P3 is not here.
+ *     provider metric, and it holds no price, position or portfolio state.
  *   - It is NOT a second provider client, credential resolver, cache, rate limiter, egress
- *     policy or normalizer. It reuses the existing IRR boundary
- *     (`dhanMarketDataRoute.ts` → IPD `resolveDhanProviderConfig`) rather than re-deriving
- *     provider configuration by any other means.
- *   - It is NOT the live IPD transport integration. It does NOT contact the IPD market-data
- *     daemon, and it does NOT contact the Dhan vendor. The local transport is reported as
- *     unreachable in this phase. P1 is not here.
+ *     policy or normalizer. The only IPD surface used is the typed, fail-closed
+ *     `MarketDataTransportClient.diagnostics()` from the pinned package (IPD W-09), which
+ *     validates the payload with IPD's own `validateDhanServiceDiagnostics` before IRR
+ *     sees it.
+ *   - It is NOT a vendor verification channel. The ordinary health read NEVER contacts the
+ *     Dhan vendor; neither does the verify-connection action. A live vendor verification
+ *     exists only inside the IPD daemon (W-08 `verifyConnection`) and is NOT exposed over
+ *     the transport, so IRR surfaces cannot trigger one — by design, and by construction.
  *   - It NEVER exposes a credential. No SecretRef reference of any kind is published (D-7
- *     disclosure policy): the `secretRefPointers` envelope field is always empty until the
- *     field's owning work item (IRR W-10) removes it, and only readiness enums and
- *     configuration facts are published.
+ *     disclosure policy): the response carries only the D-7 MAY list — enumerated codes,
+ *     counts, booleans, backend IDENTIFIERS, canonical ISO-8601 UTC timestamps and the
+ *     provider-state vocabulary. No vault-reference string, no keyPath, no carrier name, no
+ *     secret-store metadata appears in any response or browser payload.
  *
  * CREDENTIAL AND TRANSPORT SAFETY
  *   The browser is never given the IPD bearer token (`IIPS_MARKET_DATA_TRANSPORT_TOKEN`), a
- *   Dhan client id, a Dhan access token, any SecretRef VALUE, or any `vault://` reference
- *   (D-7 disclosure policy). The route reads no ambient
- *   process environment of its own: the environment map is an explicit dependency so that a
- *   deployment cannot accidentally hand credentials to IRR, and so the behaviour is provable
- *   exactly in tests. IRR-side environment resolution is delegated to IPD's own
- *   `resolveDhanProviderConfig`, which is the single authority for what is configured.
+ *   Dhan client id, a Dhan access token, any SecretRef VALUE, or any vault reference.
+ *   The environment map consulted for the TRANSPORT (daemon address, transport credential,
+ *   timeout) is an explicit dependency supplied at the composition site — never ambient
+ *   configuration read inside this module. No Dhan-credential variable is consulted, anywhere
+ *   in this module or in the report it publishes.
  *
  * OWNERSHIP
  *   The DHAN provider surface is IPD-owned. This route is IRR-owned CONSUMPTION of that
  *   surface only. It creates no provider authority, promotes no gate, and advances no
- *   qualification. `providerQualification` remains whatever IPD reports — in this phase,
- *   `SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED`.
+ *   qualification. `providerQualification` remains whatever IPD reports.
+ *
+ * OBSERVATIONAL READS ONLY
+ *   Neither route polls, schedules work, mutates recorder state or triggers a vendor call.
+ *   The verify-connection action is operator-initiated only: opening the screen, loading or
+ *   retrying the health view never issues more than the single diagnostics read it needs.
  */
 
 import type http from 'node:http';
 import { sendJson } from '../owner-scoped-http';
-import { describeDhanProviderReadiness, type DhanProviderReadiness } from './dhanMarketDataRoute';
 import {
   buildDhanHealthReport,
-  isGovernedConnectivityValue,
-  isGovernedQualificationValue,
+  classifyDhanHealth,
+  projectDhanDiagnosticsView,
   type DhanHealthEvidence,
   type DhanHealthReport,
-  type DhanLiveProviderConnectivity,
-  type DhanProviderQualification,
+  type DhanDiagnosticsView,
 } from './dhanHealthState';
 import {
   createIpdMarketDataTransportClient,
   resolveIpdMarketDataTransportConfig,
   type IpdTransportConfigResolution,
 } from './dhanMarketDataTransport';
-import type { DhanEnvSource } from 'iips-production-market-data/dhan-server';
+import type { DhanEnvSource, ServiceDiagnostics } from 'iips-production-market-data/dhan-server';
 
-/** The single route this transport serves. */
+/** The health (observational read) route. */
 export const DHAN_HEALTH_PATH = '/api/dhan/health';
+
+/** The operator-initiated "Verify connection" route. */
+export const DHAN_VERIFY_CONNECTION_PATH = '/api/dhan/verify-connection';
 
 /**
  * Disclosed transport semantics for the UI provenance surface.
  *
- * This states, in the product's own words, exactly what the route does and — more
- * importantly — what it does NOT establish.
+ * This states, in the product's own words, exactly what the routes do and — more
+ * importantly — what they do NOT establish.
  */
 export const DHAN_HEALTH_TRANSPORT_SEMANTICS =
-  'READ-ONLY, credential-free DHAN provider status. The response reports the state IRR can ' +
-  'prove from the local IPD provider configuration and readiness only: no Dhan endpoint was ' +
-  'contacted, no credential was resolved, the IPD market-data transport was not contacted, and ' +
-  'the provider is not live-qualified. The browser receives no bearer token, no client id, no ' +
-  'access token and no SecretRef value; IPD may redact reference paths, leaving readiness enums.';
+  'READ-ONLY, credential-free DHAN provider status. IPD /v1/diagnostics was read over the ' +
+  'loopback transport: no Dhan endpoint was contacted by IRR, no credential was resolved by ' +
+  'IRR, and the reported provider state is IPD\u2019s last observed state. The browser receives ' +
+  'no bearer token, no client id, no access token and no SecretRef value.';
+
+/** Disclosed semantics for the operator-initiated verification action. */
+export const DHAN_VERIFY_CONNECTION_TRANSPORT_SEMANTICS =
+  'OPERATOR-INITIATED, single-shot, read-only. Exactly one /v1/diagnostics request is issued ' +
+  'to the local IPD daemon; there is no retry, no loop and no credential re-read. This action ' +
+  'observes IPD\u2019s recorded provider state — it does not itself authenticate to the vendor. ' +
+  'A live vendor verification exists only inside the IPD daemon and is not exposed over the ' +
+  'transport. The browser receives no bearer token, no client id, no access token and no ' +
+  'SecretRef value.';
 
 /** Provenance block carried alongside the report, mirroring the existing IRR envelope shape. */
 export const DHAN_HEALTH_PROVENANCE = Object.freeze({
-  dataSource: 'ipd:dhan-provider-config (via iips-production-market-data/dhan-server)',
+  dataSource: 'ipd:/v1/diagnostics (via iips-production-market-data/dhan-server)',
   asOf: null,
-  dataVersion: 'dhan-health-v1',
+  dataVersion: 'dhan-health-v2',
   mode: 'SNAPSHOT',
   freshness: 'SNAPSHOT',
   authority: 'IPD',
   transportSemantics: DHAN_HEALTH_TRANSPORT_SEMANTICS,
+});
+
+/** Provenance block carried alongside the verification report. */
+export const DHAN_VERIFY_CONNECTION_PROVENANCE = Object.freeze({
+  dataSource: 'ipd:/v1/diagnostics (via iips-production-market-data/dhan-server)',
+  asOf: null,
+  dataVersion: 'dhan-verify-connection-v1',
+  mode: 'SNAPSHOT',
+  freshness: 'SNAPSHOT',
+  authority: 'IPD',
+  transportSemantics: DHAN_VERIFY_CONNECTION_TRANSPORT_SEMANTICS,
 });
 
 /**
@@ -95,13 +127,21 @@ export function isDhanHealthPath(url: string | undefined): boolean {
 }
 
 /**
- * Dependencies for the route. The environment map is injected so tests are deterministic and
+ * Exact-namespace check: `/api/dhan/verify-connection` only. Lookalike paths are rejected.
+ */
+export function isDhanVerifyConnectionPath(url: string | undefined): boolean {
+  return (url ?? '').split('?')[0] === DHAN_VERIFY_CONNECTION_PATH;
+}
+
+/**
+ * Dependencies for the routes. The environment map is injected so tests are deterministic and
  * so the route never reads ambient configuration by accident.
  */
 export interface DhanHealthRouteDeps {
   /**
-   * The environment map consulted for the DHAN secret-reference POINTERS. Defaults to the
-   * process environment at the COMPOSITION site, never inside this module.
+   * The environment map consulted ONLY for the IPD transport configuration
+   * (`IIPS_MARKET_DATA_*`). The composition site supplies the environment map; no
+   * Dhan-credential variable is consulted.
    */
   readonly env?: DhanEnvSource;
   /**
@@ -111,280 +151,127 @@ export interface DhanHealthRouteDeps {
   readonly transport?: IpdTransportConfigResolution;
 }
 
-/**
- * Collects the SecretRef POINTERS IPD resolved.
- *
- * D-7 disclosure policy (accepted for IRR, `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`):
- * `vault://` references — and any secret-store metadata from which a sensitive local location
- * can be derived — MUST NOT be exposed on this surface. The pinned IPD W-07 commit
- * `5b384c72…` renders the resolved key paths in `describeDhanConfig` output (`accessTokenKeyPath`
- * / `clientIdKeyPath`, e.g. `vault://dhan/access-token`), so those values must not be republished
- * here. This boundary therefore emits NO pointers: the envelope reports configuration as
- * resolved via `configurationResolved` / `missingKeys`, and the `secretRefPointers` field is
- * always empty until the field itself is removed by its owning work item (IRR W-10). This is
- * fail-closed: it publishes strictly less than the rendering allows, never more.
- */
-function secretRefPointersOf(_readiness: DhanProviderReadiness): readonly string[] {
-  return [];
-}
-
-/**
- * The observed result of a transport probe.
- *
- * `attempted` distinguishes "the daemon was never contacted" from "the daemon was contacted
- * and did not answer". `reachable` is only meaningful when `attempted` is true.
- */
-export interface DhanTransportProbe {
+/** The observed result of the single diagnostics read. */
+export interface DhanDiagnosticsProbe {
   /** Whether a connection was actually attempted. */
   readonly attempted: boolean;
   /** Whether the transport answered. Meaningful only when `attempted` is true. */
   readonly reachable: boolean;
+  /** IPD's validated diagnostics payload, present exactly when `reachable` is true. */
+  readonly diagnostics?: ServiceDiagnostics;
   /**
-   * Whether the transport answered with a payload this boundary rejects: an unknown
-   * connectivity/qualification value or an unknown contract version (W-07, fail-closed).
-   * Distinct from `reachable === false`: the daemon answered, but its answer is unusable,
-   * so the classifier reports `UNAVAILABLE`, never `DISCONNECTED` or an upgraded state.
+   * Whether the transport answered with a payload IPD's own validator rejected: an unknown
+   * connectivity/qualification value, an unsupported diagnostics contract version, or a
+   * malformed/contradictory body. Distinct from
+   * `reachable === false`: the daemon answered, but its answer is unusable, so the
+   * classifier reports `UNAVAILABLE`, never `DISCONNECTED` or an upgraded state.
    */
   readonly contractViolation?: boolean;
-  /** IPD's authoritative `ServiceHealth`, when the transport answered with a valid payload. */
-  readonly serviceHealth?: {
-    readonly service: 'UP' | 'DOWN';
-    readonly providerConfiguration: 'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE';
-    readonly liveProviderConnectivity: DhanLiveProviderConnectivity;
-    readonly providerQualification: DhanProviderQualification;
-    /** The W-07 contract version marker, when IPD sends one. Absent means legacy (v1). */
-    readonly contractVersion?: number;
-  };
 }
 
 /**
- * W-07 health contract versions, as agreed in the D-7 acceptance record
- * (`docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md` §4).
+ * The ONE diagnostics read this module performs — the only IPD request on either route.
  *
- * Legacy payloads carry no marker and are treated as version 1 — they remain parseable.
- * Confirmed against the actual published IPD W-07 commit
- * `5b384c7215b2644a8d525960ba05cd97f39bf7a7` (IPD PR #168): the marker field name is
- * `contractVersion`, numeric `1` is the legacy marker, numeric `2` is the current W-07
- * marker (`DHAN_HEALTH_CONTRACT_VERSION`), emitted by the IPD composed service's `health()`.
- * A marker that is present but not a supported version is a contract violation.
+ * Exactly one `GET /v1/diagnostics` is issued when (and only when) the transport is
+ * configured. There is no retry, no loop, no fallback to a weaker payload, and no other
+ * endpoint is contacted. When the transport is not configured, nothing is attempted and
+ * nothing is claimed.
  */
-export const DHAN_HEALTH_CONTRACT_LEGACY_VERSION = 1;
-export const DHAN_HEALTH_CONTRACT_VERSION = 2;
-export const DHAN_HEALTH_SUPPORTED_CONTRACT_VERSIONS: readonly number[] = Object.freeze([
-  DHAN_HEALTH_CONTRACT_LEGACY_VERSION,
-  DHAN_HEALTH_CONTRACT_VERSION,
-]);
-
-/** The validated `ServiceHealth` shape this boundary accepts from the IPD transport. */
-export interface DhanValidatedServiceHealth {
-  readonly service: 'UP' | 'DOWN';
-  readonly providerConfiguration: 'CONFIGURED' | 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE';
-  readonly liveProviderConnectivity: DhanLiveProviderConnectivity;
-  readonly providerQualification: DhanProviderQualification;
-  readonly contractVersion?: number;
-}
-
-/** Why a `ServiceHealth` payload was rejected at this boundary. Enumerated; no free text. */
-export type DhanServiceHealthContractViolation =
-  | 'MALFORMED_SERVICE_HEALTH'
-  | 'UNKNOWN_CONNECTIVITY_VALUE'
-  | 'UNKNOWN_QUALIFICATION_VALUE'
-  | 'UNKNOWN_CONTRACT_VERSION';
-
-export type DhanServiceHealthContractValidation =
-  | { readonly ok: true; readonly serviceHealth: DhanValidatedServiceHealth }
-  | { readonly ok: false; readonly violation: DhanServiceHealthContractViolation };
-
-/**
- * Validates one `ServiceHealth` payload against the governed D-7 contract (W-07).
- *
- * Pure and total: every input yields an explicit outcome. Legacy values and a missing
- * version marker are accepted; every governed D-7 connectivity/qualification value is
- * accepted; any unknown value, unknown version, or malformed shape is rejected with an
- * enumerated violation so the caller can fail closed. This is the single IRR point where
- * provider health values enter IRR — the string-widened evidence fields of earlier phases
- * cannot bypass it.
- */
-export function validateDhanServiceHealthContract(input: {
-  readonly service?: unknown;
-  readonly providerConfiguration?: unknown;
-  readonly liveProviderConnectivity?: unknown;
-  readonly providerQualification?: unknown;
-  readonly contractVersion?: unknown;
-}): DhanServiceHealthContractValidation {
-  if (input.service !== 'UP' && input.service !== 'DOWN') {
-    return { ok: false, violation: 'MALFORMED_SERVICE_HEALTH' };
-  }
-  if (
-    input.providerConfiguration !== 'CONFIGURED' &&
-    input.providerConfiguration !== 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE'
-  ) {
-    return { ok: false, violation: 'MALFORMED_SERVICE_HEALTH' };
-  }
-  if (!isGovernedConnectivityValue(input.liveProviderConnectivity)) {
-    return { ok: false, violation: 'UNKNOWN_CONNECTIVITY_VALUE' };
-  }
-  if (!isGovernedQualificationValue(input.providerQualification)) {
-    return { ok: false, violation: 'UNKNOWN_QUALIFICATION_VALUE' };
-  }
-  if (input.contractVersion !== undefined) {
-    if (
-      typeof input.contractVersion !== 'number' ||
-      !Number.isInteger(input.contractVersion) ||
-      !DHAN_HEALTH_SUPPORTED_CONTRACT_VERSIONS.includes(input.contractVersion)
-    ) {
-      return { ok: false, violation: 'UNKNOWN_CONTRACT_VERSION' };
-    }
-  }
-  return {
-    ok: true,
-    serviceHealth: {
-      service: input.service,
-      providerConfiguration: input.providerConfiguration,
-      liveProviderConnectivity: input.liveProviderConnectivity,
-      providerQualification: input.providerQualification,
-      ...(input.contractVersion !== undefined ? { contractVersion: input.contractVersion } : {}),
-    },
-  };
-}
-
-/**
- * Builds the observed evidence for the health classification.
- *
- * The transport probe carries the DISTINCTION that matters: a transport that was never
- * attempted is not a connection failure. When no probe has been performed, `connectionAttempted`
- * is false and the classifier reports the state as "not connected" rather than
- * "disconnected".
- */
-export function collectDhanHealthEvidence(
-  readiness: DhanProviderReadiness,
-  probe?: DhanTransportProbe,
-): DhanHealthEvidence {
-  const attempted = probe?.attempted === true;
-  const reachable = probe?.reachable === true;
-  const serviceHealth = probe?.serviceHealth;
-
-  return {
-    // A rejected payload is carried as an explicit violation flag: the classifier reports
-    // UNAVAILABLE for it, regardless of the local configuration evidence below.
-    healthContractViolation: probe?.contractViolation === true,
-    // IPD's own service health is authoritative when the transport answered. Until then the
-    // local provider configuration is the only evidence available, and it is stated as such.
-    service: serviceHealth?.service ?? 'UP',
-    providerConfiguration:
-      serviceHealth?.providerConfiguration ??
-      (readiness.configurationResolved ? 'CONFIGURED' : 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE'),
-    liveProviderConnectivity: serviceHealth?.liveProviderConnectivity ?? 'NOT_CHECKED_PRE_ACCESS',
-    providerQualification: serviceHealth?.providerQualification ?? 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
-    readiness: readiness.readiness,
-    failureCode: readiness.failureCode,
-    configurationResolved: readiness.configurationResolved,
-    missingKeys: readiness.missingKeys,
-    transportReachable: reachable,
-    connectionAttempted: attempted,
-  };
-}
-
-/**
- * Produces the full health report for a given environment map, without a transport probe.
- *
- * This is the composition point used when the transport is not configured or not probed: IPD
- * resolves the provider configuration, IRR maps it onto one state, and nothing else is
- * consulted.
- */
-export function buildDhanHealthReportForEnv(env: DhanEnvSource = {}): DhanHealthReport {
-  const readiness = describeDhanProviderReadiness(env);
-  const evidence = collectDhanHealthEvidence(readiness);
-  return buildDhanHealthReport(evidence, secretRefPointersOf(readiness));
-}
-
-/**
- * Produces the full health report WITH a transport probe.
- *
- * When the transport is configured, IRR asks IPD's own client for its health. IPD's answer
- * is authoritative for the provider-side fields; IRR adds only the transport-reachability
- * observation, which IPD cannot make on IRR's behalf.
- */
-export async function buildDhanHealthReportWithProbe(
-  env: DhanEnvSource = {},
-  deps: DhanHealthProbeDeps = {},
-): Promise<DhanHealthReport> {
-  const readiness = describeDhanProviderReadiness(env);
-  const probe = await probeDhanTransport(env, deps);
-  const evidence = collectDhanHealthEvidence(readiness, probe);
-  return buildDhanHealthReport(evidence, secretRefPointersOf(readiness));
-}
-
-/** Dependencies for the transport probe. */
-export interface DhanHealthProbeDeps {
-  /** A pre-resolved transport configuration. Injected by the synthetic test seam. */
-  readonly transport?: IpdTransportConfigResolution;
-}
-
-/**
- * Probes the local IPD market-data transport for its authoritative health.
- *
- * The probe is performed ONLY when the transport is configured. An unconfigured transport is
- * NOT probed, and is reported as "not attempted" rather than as a failure — the workstation
- * has simply not been set up for the transport.
- */
-export async function probeDhanTransport(
-  env: DhanEnvSource = {},
-  deps: DhanHealthProbeDeps = {},
-): Promise<DhanTransportProbe> {
-  const resolution = deps.transport ?? resolveIpdMarketDataTransportConfig(env as Record<string, string | undefined>);
+export async function readIpdDiagnostics(deps: DhanHealthRouteDeps = {}): Promise<DhanDiagnosticsProbe> {
+  const resolution =
+    deps.transport ??
+    resolveIpdMarketDataTransportConfig(deps.env as Record<string, string | undefined> | undefined);
   if (!resolution.ok) {
     // Not configured: no connection was attempted, so nothing failed.
     return { attempted: false, reachable: false };
   }
 
   const client = createIpdMarketDataTransportClient(resolution.config);
-  const outcome = await client.health();
+  let outcome: Awaited<ReturnType<typeof client.diagnostics>>;
+  try {
+    // Exactly one request is issued here. No retry path exists below this point.
+    outcome = await client.diagnostics();
+  } catch {
+    // Defensive: any unexpected throw is a connection failure, never a claim about the provider.
+    return { attempted: true, reachable: false };
+  }
   if (!outcome.ok) {
-    // W-07 (pinned IPD commit 5b384c7215b2644a8d525960ba05cd97f39bf7a7, IPD PR #168): the
-    // installed client distinguishes an unusable answer from an absent one.
-    //
-    // `MALFORMED_RESPONSE` means the daemon ANSWERED, but its payload failed the governed
-    // health contract — an unknown connectivity/qualification value, an unsupported
-    // contractVersion, a malformed or contradictory body (IPD's own
-    // `validateDhanServiceHealth` rejected it). That is a contract violation: attempted,
-    // answered, untrustworthy — never `DISCONNECTED`, and never a live claim.
+    // W-09 diagnostics contract: `MALFORMED_RESPONSE` means the daemon ANSWERED, but its
+    // payload failed IPD's own governed validator. That is a contract violation: attempted,
+    // answered, untrustworthy — never DISCONNECTED, and never a live claim.
     if (outcome.failure?.code === 'MALFORMED_RESPONSE') {
       return { attempted: true, reachable: true, contractViolation: true };
     }
-    // Every other failure (TRANSPORT_FAILURE, TIMEOUT, UNAUTHENTICATED, …): the connection
-    // WAS attempted and did not produce a usable answer — a genuine connection failure.
     return { attempted: true, reachable: false };
   }
-  // W-07 boundary validation: IPD's widened values are accepted, legacy values are
-  // preserved, and anything ungoverned — or an unknown contract version — fails closed.
-  // The pinned W-07 client already performs the same field-level validation and carries the
-  // marker as a typed field; this is the belt-and-braces boundary re-assertion on IRR's side.
-  const validation = validateDhanServiceHealthContract({
-    service: outcome.service,
-    providerConfiguration: outcome.providerConfiguration,
-    liveProviderConnectivity: outcome.liveProviderConnectivity,
-    providerQualification: outcome.providerQualification,
-    contractVersion: outcome.contractVersion,
-  });
-  if (!validation.ok) {
-    // The daemon answered, but with a contract this boundary cannot trust. This is NOT a
-    // connection failure: it is reported as a contract violation (state UNAVAILABLE).
-    return { attempted: true, reachable: true, contractViolation: true };
-  }
-  return {
-    attempted: true,
-    reachable: true,
-    serviceHealth: validation.serviceHealth,
-  };
+  return { attempted: true, reachable: true, diagnostics: outcome };
 }
 
 /**
- * Handles the DHAN health request.
+ * Builds the DhanHealthEvidence from the diagnostics probe.
+ *
+ * When IPD's payload was read, its values are authoritative and are carried verbatim (IPD's
+ * own validator already rejected anything ungoverned). When it was not read, NO provider
+ * evidence is invented: the connectivity and qualification axes stay absent, and the
+ * classifier will report UNAVAILABLE.
+ */
+export function collectDhanDiagnosticsEvidence(probe: DhanDiagnosticsProbe): DhanHealthEvidence {
+  const d = probe.diagnostics;
+
+  if (probe.contractViolation === true) {
+    return {
+      healthContractViolation: true,
+      connectionAttempted: probe.attempted,
+      transportReachable: probe.reachable,
+    };
+  }
+
+  if (!d) {
+    return {
+      connectionAttempted: probe.attempted,
+      transportReachable: probe.reachable,
+    };
+  }
+
+  return {
+    service: d.service,
+    providerConfiguration: d.providerConfiguration,
+    providerState: d.providerState,
+    liveProviderConnectivity: d.liveProviderConnectivity,
+    providerQualification: d.providerQualification,
+    readiness: d.providerReadiness,
+    credentialResolutionOutcome: d.credentialResolutionOutcome,
+    liveCredentialResolutionSupported: d.liveCredentialResolutionSupported,
+    vaultBackendId: d.vaultBackendId,
+    vendorEgressMode: d.vendorEgressMode,
+    configurationResolved: d.providerConfiguration === 'CONFIGURED',
+    lastSuccessAt: d.lastSuccessAt,
+    lastFailureCategory: d.lastFailureCategory,
+    lastFailure: d.lastFailure,
+    lastAuthOutcome: d.lastAuthOutcome,
+    lastLatencyMs: d.lastLatencyMs,
+    consecutiveAuthFailures: d.consecutiveAuthFailures,
+    authLatched: d.authLatched,
+    requestCounters: d.requestCounters,
+    qualifiedMappingsLoaded: d.qualifiedMappingsLoaded,
+    quoteCache: d.quoteCache,
+    transportReachable: true,
+    connectionAttempted: true,
+  };
+}
+
+/** Produces the full health report for a diagnostics probe. */
+export function buildDhanHealthReportFromProbe(probe: DhanDiagnosticsProbe): DhanHealthReport {
+  return buildDhanHealthReport(collectDhanDiagnosticsEvidence(probe));
+}
+
+/**
+ * Handles `GET /api/dhan/health`.
  *
  * The route is read-only, credential-free and identity-free: it establishes no owner context
- * and accepts no tenant, owner, token or credential from the request. It reports the state of
- * the provider, which is a process-level fact rather than a user's private data.
+ * and accepts no tenant, owner, token or credential from the request. It reports the state
+ * of the provider, which is a process-level fact rather than a user's private data. Opening
+ * the screen or retrying this read issues exactly one IPD diagnostics request.
  */
 export async function handleDhanHealthRequest(
   req: http.IncomingMessage,
@@ -403,15 +290,108 @@ export async function handleDhanHealthRequest(
   }
 
   try {
-    // The transport probe is performed when the transport is configured, so the report can
-    // distinguish a genuine connection failure from a transport that was never attempted.
-    const report = await buildDhanHealthReportWithProbe(deps.env ?? {}, {
-      transport: deps.transport,
-    });
-    sendJson(res, 200, { data: report, provenance: DHAN_HEALTH_PROVENANCE });
+    const probe = await readIpdDiagnostics(deps);
+    sendJson(res, 200, { data: buildDhanHealthReportFromProbe(probe), provenance: DHAN_HEALTH_PROVENANCE });
   } catch {
     // Fail closed: a failed assessment is reported as UNAVAILABLE by the caller, and a
     // genuinely broken boundary must not leak an internal error to the browser.
     sendJson(res, 500, { error: 'dhan-health-transport-error' });
+  }
+}
+
+/** The enumerated outcomes of the operator-initiated verification action. No free text. */
+export type DhanVerifyConnectionOutcome =
+  /** IPD's diagnostics were read; the report carries IPD's observed state. */
+  | 'OBSERVED'
+  /** The IPD transport is not configured; nothing was attempted and nothing is claimed. */
+  | 'NOT_ATTEMPTED_NOT_CONFIGURED'
+  /** The diagnostics read was attempted and did not produce a usable answer. */
+  | 'TRANSPORT_UNAVAILABLE'
+  /** The daemon answered, but its diagnostics payload failed the governed contract. */
+  | 'DIAGNOSTICS_CONTRACT_VIOLATION';
+
+/** The operator-initiated verification report. Safe to render, log and assert on. */
+export interface DhanVerifyConnectionReport extends DhanDiagnosticsView {
+  /** The action this report describes. Always `VERIFY_CONNECTION`. */
+  readonly action: 'VERIFY_CONNECTION';
+  /** Whether an IPD read was attempted at all. */
+  readonly attempted: boolean;
+  /**
+   * How many requests this action issued to IPD. Exactly 1 when attempted, 0 when the
+   * transport is not configured. There is no code path that issues more.
+   */
+  readonly requestsIssued: 0 | 1;
+  /** The enumerated outcome. Never free text. */
+  readonly outcome: DhanVerifyConnectionOutcome;
+  /** Whether THIS action contacted the live vendor. Always false: it issues no vendor call. */
+  readonly liveProviderContacted: false;
+  /** ISO-8601 UTC instant at which this action completed. */
+  readonly checkedAt: string;
+  /** The same conservative IRR state mapping used by the health report (D-7 §8). */
+  readonly state: ReturnType<typeof classifyDhanHealth>;
+  /** Plain-language statement of exactly what this action did and did NOT establish. */
+  readonly verificationNote: string;
+}
+
+/**
+ * Static disclosure for the verification report. States plainly that this action observes
+ * IPD's recorded state and does not perform a vendor-side verification.
+ */
+export const DHAN_VERIFY_CONNECTION_NOTE =
+  'One read-only diagnostics request was issued to the local IPD daemon. No Dhan endpoint ' +
+  'was contacted by this action, no credential was resolved or re-read, and nothing was ' +
+  'retried. This action observes IPD\u2019s recorded provider state — it does not itself ' +
+  'authenticate to the vendor. A live vendor verification exists only inside the IPD daemon.';
+
+/**
+ * Handles `POST /api/dhan/verify-connection` — the operator-initiated "Verify connection".
+ *
+ * Exactly one `/v1/diagnostics` request is issued to IPD when the transport is configured,
+ * and zero otherwise. No retry, no loop, no polling, no credential resolution, no vendor
+ * call. The request body, if any, is ignored: the action takes no input.
+ */
+export async function handleDhanVerifyConnectionRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  deps: DhanHealthRouteDeps = {},
+): Promise<void> {
+  const url = (req.url ?? '').split('?')[0];
+  const method = req.method ?? 'GET';
+
+  res.setHeader('Content-Type', 'application/json');
+
+  if (!isDhanVerifyConnectionPath(url) || method !== 'POST') {
+    res.writeHead(404);
+    res.end(JSON.stringify({ error: 'dhan-verify-connection-endpoint-not-found' }));
+    return;
+  }
+
+  try {
+    const probe = await readIpdDiagnostics(deps);
+    const checkedAt = new Date().toISOString();
+    const evidence = collectDhanDiagnosticsEvidence(probe);
+    const outcome: DhanVerifyConnectionOutcome = !probe.attempted
+      ? 'NOT_ATTEMPTED_NOT_CONFIGURED'
+      : probe.contractViolation === true
+        ? 'DIAGNOSTICS_CONTRACT_VIOLATION'
+        : probe.reachable
+          ? 'OBSERVED'
+          : 'TRANSPORT_UNAVAILABLE';
+
+    const report: DhanVerifyConnectionReport = {
+      ...projectDhanDiagnosticsView(evidence),
+      action: 'VERIFY_CONNECTION',
+      attempted: probe.attempted,
+      requestsIssued: probe.attempted ? 1 : 0,
+      liveProviderContacted: false,
+      outcome,
+      checkedAt,
+      state: classifyDhanHealth(evidence),
+      verificationNote: DHAN_VERIFY_CONNECTION_NOTE,
+    };
+
+    sendJson(res, 200, { data: report, provenance: DHAN_VERIFY_CONNECTION_PROVENANCE });
+  } catch {
+    sendJson(res, 500, { error: 'dhan-verify-connection-error' });
   }
 }

@@ -1,72 +1,96 @@
 /**
- * DHAN-P2 — health state model tests.
+ * DHAN-P2 — health state model tests (W-10: IPD authority only).
  *
  * These qualify the CONSERVATIVE MAPPING: which of the five governed states IRR may report,
  * and — just as importantly — which it may never report without the corresponding authoritative
- * IPD evidence.
+ * IPD evidence. Since W-10 the authority is IPD's own `/v1/diagnostics` payload; the D-7 §8
+ * total mapping from IPD's eight provider states onto these five states is applied verbatim.
+ * A legacy fallback path is preserved for the case where the diagnostics read did not produce
+ * a usable payload.
  *
  * Pre-access, offline and synthetic: no Dhan credential is read, no socket is opened and no
- * vendor endpoint is contacted. The governed vocabularies below were measured against the
- * pinned IPD W-07 contract at `5b384c7215b2644a8d525960ba05cd97f39bf7a7` (IPD PR #168),
- * not assumed.
- *
- * DHAN-P3 added the NOT-ATTEMPTED distinction: a transport that was never tried is not
- * "disconnected". The five-state vocabulary is preserved.
+ * vendor endpoint is contacted. The governed vocabularies were measured against the pinned IPD
+ * contract at `d80d77345bed965c2a7e660ef272fd53a234d0a7`, not assumed.
  */
 import { describe, expect, it } from 'vitest';
 
 import {
   DHAN_HEALTH_DISCLOSURE,
   DHAN_HEALTH_STATES,
+  DHAN_PROVIDER_STATE_VALUES,
   buildDhanHealthReport,
   classifyDhanHealth,
   explainDhanHealth,
   formatDhanHealthSummary,
+  isGovernedProviderState,
   isLiveConnectedEvidence,
   isLiveQualifiedEvidence,
+  projectDhanDiagnosticsView,
   type DhanHealthEvidence,
 } from './dhanHealthState';
 
-/** The provider's authoritative pre-access health payload, as IPD reports it. */
-const PRE_ACCESS_EVIDENCE: DhanHealthEvidence = {
+/** A fully valid IPD diagnostics-derived evidence bundle; overrides tweak individual fields. */
+const CONFIGURED_EVIDENCE: DhanHealthEvidence = {
   service: 'UP',
-  providerConfiguration: 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE',
+  providerState: 'CONFIGURED',
+  providerConfiguration: 'CONFIGURED',
+  readiness: 'CREDENTIAL_REFERENCES_CONFIGURED',
+  credentialResolutionOutcome: 'CONFIGURED_NOT_RESOLVED',
+  liveCredentialResolutionSupported: true,
+  vaultBackendId: 'WINDOWS_DPAPI',
+  vendorEgressMode: 'IPD_SERVER_HTTPS',
   liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
   providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
-  readiness: 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE',
-  failureCode: 'CREDENTIALS_UNAVAILABLE',
-  configurationResolved: false,
-  missingKeys: ['IIPS_DHAN_ACCESS_TOKEN_SECRET_PATH', 'IIPS_DHAN_CLIENT_ID_SECRET_PATH'],
-  transportReachable: false,
+  configurationResolved: true,
+  connectionAttempted: true,
+  transportReachable: true,
+  lastSuccessAt: null,
+  lastFailureCategory: null,
+  lastFailure: null,
+  lastAuthOutcome: 'NOT_CHECKED',
+  lastLatencyMs: null,
+  consecutiveAuthFailures: 0,
+  authLatched: false,
+  requestCounters: {
+    quoteRequests: 3,
+    quoteCacheHits: 1,
+    historicalRequests: 2,
+    verificationProbes: 4,
+    vendorRequestsTotal: 9,
+    vendorSuccesses: 7,
+    providerFailures: 1,
+  },
+  qualifiedMappingsLoaded: 12,
+  quoteCache: { size: 2, capacity: 256, state: 'CURRENT', currentEntries: 2, staleEntries: 0, unavailableEntries: 0 },
 };
 
-/**
- * Credential references configured, and a transport connection was ATTEMPTED and failed.
- *
- * This is the only shape that may be reported as `DISCONNECTED`. A transport that was never
- * attempted is NOT disconnected — see `CONFIGURED_NOT_ATTEMPTED_EVIDENCE`.
- */
+/** Credential references configured, and a transport connection was ATTEMPTED and failed. */
 const CONFIGURED_DISCONNECTED_EVIDENCE: DhanHealthEvidence = {
   service: 'UP',
   providerConfiguration: 'CONFIGURED',
   liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
   providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
   readiness: 'CREDENTIAL_REFERENCES_CONFIGURED',
-  failureCode: null,
   configurationResolved: true,
-  missingKeys: [],
   transportReachable: false,
   connectionAttempted: true,
 };
 
-/**
- * Credential references configured, but the transport was NEVER ATTEMPTED.
- *
- * This must NOT be reported as `DISCONNECTED`: nothing was tried, so nothing was lost.
- */
+/** Credential references configured, but the transport was NEVER ATTEMPTED. */
 const CONFIGURED_NOT_ATTEMPTED_EVIDENCE: DhanHealthEvidence = {
   ...CONFIGURED_DISCONNECTED_EVIDENCE,
   connectionAttempted: false,
+};
+
+/** Unconfigured provider, as the legacy (pre-diagnostics) fallback sees it. */
+const UNCONFIGURED_FALLBACK_EVIDENCE: DhanHealthEvidence = {
+  service: 'UP',
+  providerConfiguration: 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE',
+  liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
+  providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+  readiness: 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE',
+  configurationResolved: false,
+  transportReachable: false,
 };
 
 describe('DHAN-P2 health state model — the five governed states', () => {
@@ -79,24 +103,77 @@ describe('DHAN-P2 health state model — the five governed states', () => {
       'OPERATIONAL',
     ]);
   });
+
+  it('declares exactly the eight governed D-7 provider states', () => {
+    expect(DHAN_PROVIDER_STATE_VALUES).toEqual([
+      'UNCONFIGURED',
+      'CONFIGURED',
+      'CREDENTIALS_RESOLVED',
+      'AUTHENTICATED',
+      'OPERATIONAL',
+      'EXPIRED',
+      'DEGRADED',
+      'UNAVAILABLE',
+    ]);
+    expect(isGovernedProviderState('OPERATIONAL')).toBe(true);
+    expect(isGovernedProviderState('MOSTLY_CONFIGURED')).toBe(false);
+    expect(isGovernedProviderState(undefined)).toBe(false);
+    expect(isGovernedProviderState(null)).toBe(false);
+    expect(isGovernedProviderState(4)).toBe(false);
+  });
 });
 
-describe('DHAN-P2 health state model — conservative classification', () => {
-  it('reports PRE_ACCESS when credential references are not configured', () => {
-    expect(classifyDhanHealth(PRE_ACCESS_EVIDENCE)).toBe('PRE_ACCESS');
+describe('DHAN-P2 health state model — the D-7 §8 total mapping (authoritative path)', () => {
+  const EXPECTED: ReadonlyArray<[DhanHealthEvidence['providerState'], string]> = [
+    ['UNCONFIGURED', 'UNAVAILABLE'],
+    ['CONFIGURED', 'PRE_ACCESS'],
+    ['CREDENTIALS_RESOLVED', 'PRE_ACCESS'],
+    ['AUTHENTICATED', 'AUTHENTICATED'],
+    ['OPERATIONAL', 'OPERATIONAL'],
+    ['EXPIRED', 'PRE_ACCESS'],
+    ['DEGRADED', 'DISCONNECTED'],
+    ['UNAVAILABLE', 'UNAVAILABLE'],
+  ];
+
+  it.each(EXPECTED)('providerState %s maps to IRR %s', (providerState, expected) => {
+    expect(classifyDhanHealth({ ...CONFIGURED_EVIDENCE, providerState })).toBe(expected);
   });
 
-  it('reports PRE_ACCESS when only the provider configuration says so', () => {
-    // The readiness enum and the providerConfiguration enum are DIFFERENT enums with
-    // overlapping literals; either one alone is enough to establish pre-access.
+  it('an ungoverned provider state, even via a cast, reports UNAVAILABLE', () => {
+    const evidence = { ...CONFIGURED_EVIDENCE, providerState: 'LIVE' } as unknown as DhanHealthEvidence;
+    expect(classifyDhanHealth(evidence)).toBe('UNAVAILABLE');
+  });
+
+  it('a DOWN service claiming AUTHENTICATED is self-contradictory and reports UNAVAILABLE', () => {
     expect(
-      classifyDhanHealth({
-        service: 'UP',
-        providerConfiguration: 'PRE_ACCESS_CREDENTIALS_UNAVAILABLE',
-        liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
-        providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
-      }),
-    ).toBe('PRE_ACCESS');
+      classifyDhanHealth({ ...CONFIGURED_EVIDENCE, service: 'DOWN', providerState: 'AUTHENTICATED' }),
+    ).toBe('UNAVAILABLE');
+  });
+
+  it('a DOWN service claiming OPERATIONAL is self-contradictory and reports UNAVAILABLE', () => {
+    expect(
+      classifyDhanHealth({ ...CONFIGURED_EVIDENCE, service: 'DOWN', providerState: 'OPERATIONAL' }),
+    ).toBe('UNAVAILABLE');
+  });
+
+  it('a DOWN service with DEGRADED is not contradictory and reports DISCONNECTED', () => {
+    expect(
+      classifyDhanHealth({ ...CONFIGURED_EVIDENCE, service: 'DOWN', providerState: 'DEGRADED' }),
+    ).toBe('DISCONNECTED');
+  });
+
+  it('reports AUTHENTICATED from providerState even with NOT_CHECKED axes (IPD earned it)', () => {
+    expect(classifyDhanHealth({ ...CONFIGURED_EVIDENCE, providerState: 'AUTHENTICATED' })).toBe('AUTHENTICATED');
+  });
+
+  it('reports OPERATIONAL from providerState even with NOT_CHECKED axes (IPD earned it)', () => {
+    expect(classifyDhanHealth({ ...CONFIGURED_EVIDENCE, providerState: 'OPERATIONAL' })).toBe('OPERATIONAL');
+  });
+});
+
+describe('DHAN-P2 health state model — conservative classification (legacy fallback)', () => {
+  it('reports PRE_ACCESS when credential references are not configured', () => {
+    expect(classifyDhanHealth(UNCONFIGURED_FALLBACK_EVIDENCE)).toBe('PRE_ACCESS');
   });
 
   it('reports DISCONNECTED when a connection was attempted and failed', () => {
@@ -104,27 +181,10 @@ describe('DHAN-P2 health state model — conservative classification', () => {
   });
 
   it('does NOT report DISCONNECTED when no connection was ever attempted', () => {
-    // THE NOT-ATTEMPTED CORRECTION (DHAN-P3): a transport that was never tried has not
-    // "lost" a connection. Reporting DISCONNECTED here would describe an untouched
-    // workstation as one that had lost a connection.
     const state = classifyDhanHealth(CONFIGURED_NOT_ATTEMPTED_EVIDENCE);
     expect(state).not.toBe('DISCONNECTED');
-    expect(state).not.toBe('AUTHENTICATED');
-    expect(state).not.toBe('OPERATIONAL');
-  });
-
-  it('states explicitly that no connection was attempted when none was', () => {
-    const reasons = explainDhanHealth('PRE_ACCESS', {
-      ...PRE_ACCESS_EVIDENCE,
-      connectionAttempted: false,
-    }).join(' ');
-    expect(reasons).toContain('No local transport connection was attempted');
-    expect(reasons).toContain('not connected rather than disconnected');
-  });
-
-  it('states that a connection was attempted when one was', () => {
-    const reasons = explainDhanHealth('DISCONNECTED', CONFIGURED_DISCONNECTED_EVIDENCE).join(' ');
-    expect(reasons).toContain('was attempted and did not succeed');
+    // Configured but never attempted: pre-access posture, not a lost connection.
+    expect(state).toBe('PRE_ACCESS');
   });
 
   it('reports UNAVAILABLE when nothing can be established', () => {
@@ -133,8 +193,6 @@ describe('DHAN-P2 health state model — conservative classification', () => {
   });
 
   it('reports UNAVAILABLE when the evidence contradicts itself', () => {
-    // A service that reports itself DOWN while also claiming live connectivity is
-    // self-contradictory: nothing may be established from it.
     expect(
       classifyDhanHealth({
         service: 'DOWN',
@@ -146,36 +204,20 @@ describe('DHAN-P2 health state model — conservative classification', () => {
     ).toBe('UNAVAILABLE');
   });
 
-  it('never claims AUTHENTICATED or OPERATIONAL from the pre-access provider values', () => {
-    // The provider's authoritative pre-access values must not, on their own, earn a live claim.
-    expect(isLiveConnectedEvidence(PRE_ACCESS_EVIDENCE)).toBe(false);
-    expect(isLiveQualifiedEvidence(PRE_ACCESS_EVIDENCE)).toBe(false);
-    expect(classifyDhanHealth(PRE_ACCESS_EVIDENCE)).not.toBe('AUTHENTICATED');
-    expect(classifyDhanHealth(PRE_ACCESS_EVIDENCE)).not.toBe('OPERATIONAL');
+  it('never claims AUTHENTICATED or OPERATIONAL from the pre-access provider values alone', () => {
+    expect(isLiveConnectedEvidence(UNCONFIGURED_FALLBACK_EVIDENCE)).toBe(false);
+    expect(isLiveQualifiedEvidence(UNCONFIGURED_FALLBACK_EVIDENCE)).toBe(false);
+    expect(classifyDhanHealth(UNCONFIGURED_FALLBACK_EVIDENCE)).not.toBe('AUTHENTICATED');
+    expect(classifyDhanHealth(UNCONFIGURED_FALLBACK_EVIDENCE)).not.toBe('OPERATIONAL');
     expect(classifyDhanHealth(CONFIGURED_DISCONNECTED_EVIDENCE)).not.toBe('AUTHENTICATED');
     expect(classifyDhanHealth(CONFIGURED_DISCONNECTED_EVIDENCE)).not.toBe('OPERATIONAL');
-  });
-
-  it('never claims AUTHENTICATED or OPERATIONAL merely because configuration resolved', () => {
-    // A resolved configuration is a CONFIGURATION fact. It is not authentication and it is
-    // not operational qualification.
-    const configured = classifyDhanHealth({
-      ...CONFIGURED_DISCONNECTED_EVIDENCE,
-      transportReachable: true,
-    });
-    expect(configured).not.toBe('AUTHENTICATED');
-    expect(configured).not.toBe('OPERATIONAL');
   });
 
   it('reports AUTHENTICATED only from an explicit live connectivity signal', () => {
     expect(
       classifyDhanHealth({
-        service: 'UP',
-        providerConfiguration: 'CONFIGURED',
+        ...CONFIGURED_DISCONNECTED_EVIDENCE,
         liveProviderConnectivity: 'CONNECTED_LIVE',
-        providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
-        readiness: 'CREDENTIAL_REFERENCES_CONFIGURED',
-        configurationResolved: true,
         transportReachable: true,
       }),
     ).toBe('AUTHENTICATED');
@@ -184,26 +226,20 @@ describe('DHAN-P2 health state model — conservative classification', () => {
   it('reports OPERATIONAL only from an explicit live connectivity AND qualification signal', () => {
     expect(
       classifyDhanHealth({
-        service: 'UP',
-        providerConfiguration: 'CONFIGURED',
+        ...CONFIGURED_DISCONNECTED_EVIDENCE,
         liveProviderConnectivity: 'CONNECTED_LIVE',
         providerQualification: 'LIVE_QUALIFIED',
-        readiness: 'CREDENTIAL_REFERENCES_CONFIGURED',
-        configurationResolved: true,
         transportReachable: true,
       }),
     ).toBe('OPERATIONAL');
   });
 
   it('does not report OPERATIONAL when only the qualification is live', () => {
-    // Both signals are required: a live qualification without live connectivity is not
-    // operational.
     expect(
       classifyDhanHealth({
-        service: 'UP',
+        ...CONFIGURED_DISCONNECTED_EVIDENCE,
         liveProviderConnectivity: 'NOT_CHECKED_PRE_ACCESS',
         providerQualification: 'LIVE_QUALIFIED',
-        configurationResolved: true,
         transportReachable: true,
       }),
     ).not.toBe('OPERATIONAL');
@@ -212,26 +248,36 @@ describe('DHAN-P2 health state model — conservative classification', () => {
 
 describe('DHAN-P2 health state model — reasons and summary', () => {
   it('states what was NOT established for every non-live state', () => {
-    const preAccess = explainDhanHealth('PRE_ACCESS', PRE_ACCESS_EVIDENCE);
-    expect(preAccess.join(' ')).toContain('No credential was resolved');
+    const preAccess = explainDhanHealth('PRE_ACCESS', {
+      ...UNCONFIGURED_FALLBACK_EVIDENCE,
+      connectionAttempted: false,
+    });
+    expect(preAccess.join(' ')).toContain('No local IPD transport connection was attempted');
     expect(preAccess.join(' ')).toContain('no Dhan endpoint was contacted');
 
-    const disconnected = explainDhanHealth('DISCONNECTED', CONFIGURED_DISCONNECTED_EVIDENCE);
-    expect(disconnected.join(' ')).toContain('was attempted and did not succeed');
+    const degraded = explainDhanHealth('DISCONNECTED', {
+      ...CONFIGURED_EVIDENCE,
+      providerState: 'DEGRADED',
+      lastFailureCategory: 'AUTHENTICATION_FAILURE',
+      authLatched: true,
+    });
+    expect(degraded.join(' ')).toContain("'DEGRADED'");
+    expect(degraded.join(' ')).toContain('AUTHENTICATION_FAILURE');
+    expect(degraded.join(' ')).toContain('latch');
 
-    const unavailable = explainDhanHealth('UNAVAILABLE', { failureCode: 'TRANSPORT_FAILURE' });
-    expect(unavailable.join(' ')).toContain('TRANSPORT_FAILURE');
-    expect(unavailable.join(' ')).toContain('No provider state');
+    const unavailable = explainDhanHealth('UNAVAILABLE', {});
+    expect(unavailable.join(' ')).toContain('could not be read');
+    expect(unavailable.join(' ')).toContain('No live provider capability is claimed.');
   });
 
   it('does not claim live behaviour in the pre-access reasons', () => {
-    const reasons = explainDhanHealth('PRE_ACCESS', PRE_ACCESS_EVIDENCE).join(' ');
+    const reasons = explainDhanHealth('PRE_ACCESS', UNCONFIGURED_FALLBACK_EVIDENCE).join(' ');
     expect(reasons).not.toContain('live connectivity was established');
     expect(reasons).not.toContain('credentials were accepted');
   });
 
   it('produces a summary that never leaks a secret or a vendor identifier', () => {
-    const report = buildDhanHealthReport(PRE_ACCESS_EVIDENCE, ['vault://dhan/access-token']);
+    const report = buildDhanHealthReport(CONFIGURED_EVIDENCE);
     const summary = formatDhanHealthSummary(report);
     expect(summary).toContain('PRE_ACCESS');
     expect(summary).toContain('not live-qualified');
@@ -241,53 +287,101 @@ describe('DHAN-P2 health state model — reasons and summary', () => {
 
 describe('DHAN-P2 health report', () => {
   it('carries the phase disclosure and the pre-access honesty flags', () => {
-    const report = buildDhanHealthReport(PRE_ACCESS_EVIDENCE);
+    const report = buildDhanHealthReport(CONFIGURED_EVIDENCE);
     expect(report.state).toBe('PRE_ACCESS');
     expect(report.disclosure).toBe(DHAN_HEALTH_DISCLOSURE);
     expect(report.disclosure).toContain('NOT live-qualified');
     expect(report.liveProviderContacted).toBe(false);
     expect(report.liveQualified).toBe(false);
-    expect(report.transportReachable).toBe(false);
+    expect(report.transportReachable).toBe(true);
+    expect(report.connectionAttempted).toBe(true);
   });
 
-  it('echoes the observed readiness, failure code and missing keys', () => {
-    const report = buildDhanHealthReport(PRE_ACCESS_EVIDENCE);
-    expect(report.readiness).toBe('PRE_ACCESS_CREDENTIALS_UNAVAILABLE');
-    expect(report.failureCode).toBe('CREDENTIALS_UNAVAILABLE');
-    expect(report.missingKeys).toEqual([
-      'IIPS_DHAN_ACCESS_TOKEN_SECRET_PATH',
-      'IIPS_DHAN_CLIENT_ID_SECRET_PATH',
-    ]);
-    expect(report.configurationResolved).toBe(false);
-  });
-
-  it('publishes SecretRef POINTERS only, and never a credential value', () => {
-    const report = buildDhanHealthReport(CONFIGURED_DISCONNECTED_EVIDENCE, [
-      'vault://dhan/access-token',
-      'vault://dhan/client-id',
-    ]);
-    const serialized = JSON.stringify(report);
-    expect(serialized).toContain('vault://dhan/access-token');
-    expect(report.secretRefPointers).toHaveLength(2);
-    // No credential-bearing field may appear on the report.
-    expect(Object.keys(report)).not.toContain('accessToken');
-    expect(Object.keys(report)).not.toContain('clientId');
-    expect(Object.keys(report)).not.toContain('token');
-    expect(Object.keys(report)).not.toContain('password');
-    expect(Object.keys(report)).not.toContain('secretValue');
-  });
-
-  it('reports no missing keys when the configuration resolved', () => {
-    const report = buildDhanHealthReport(CONFIGURED_DISCONNECTED_EVIDENCE);
-    expect(report.missingKeys).toEqual([]);
+  it('echoes the enumerated diagnostics view verbatim', () => {
+    const report = buildDhanHealthReport(CONFIGURED_EVIDENCE);
+    expect(report.providerState).toBe('CONFIGURED');
+    expect(report.service).toBe('UP');
+    expect(report.providerConfiguration).toBe('CONFIGURED');
+    expect(report.readiness).toBe('CREDENTIAL_REFERENCES_CONFIGURED');
+    expect(report.credentialResolutionOutcome).toBe('CONFIGURED_NOT_RESOLVED');
+    expect(report.liveCredentialResolutionSupported).toBe(true);
+    expect(report.vaultBackendId).toBe('WINDOWS_DPAPI');
+    expect(report.vendorEgressMode).toBe('IPD_SERVER_HTTPS');
+    expect(report.liveProviderConnectivity).toBe('NOT_CHECKED_PRE_ACCESS');
+    expect(report.providerQualification).toBe('SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED');
     expect(report.configurationResolved).toBe(true);
-    expect(report.state).toBe('DISCONNECTED');
+    expect(report.lastAuthOutcome).toBe('NOT_CHECKED');
+    expect(report.consecutiveAuthFailures).toBe(0);
+    expect(report.authLatched).toBe(false);
+    expect(report.requestCounters).toMatchObject({ verificationProbes: 4, vendorRequestsTotal: 9 });
+    expect(report.qualifiedMappingsLoaded).toBe(12);
+    expect(report.quoteCache).toMatchObject({ size: 2, state: 'CURRENT' });
+  });
+
+  it('carries NO pointer, path, failure message or key-name field of any kind', () => {
+    const report = buildDhanHealthReport(CONFIGURED_EVIDENCE);
+    const serialized = JSON.stringify(report);
+    expect(Object.keys(report)).not.toEqual(expect.arrayContaining(['secretRefPointers']));
+    expect(Object.keys(report)).not.toEqual(expect.arrayContaining(['failureCode']));
+    expect(Object.keys(report)).not.toEqual(expect.arrayContaining(['missingKeys']));
+    expect(serialized).not.toMatch(/vault:\/\//i);
+    expect(serialized).not.toMatch(/secretRefPointers/i);
+    expect(serialized).not.toMatch(/accessTokenKeyPath/i);
+    expect(serialized).not.toMatch(/clientIdKeyPath/i);
+    expect(serialized).not.toMatch(/IIPS_DHAN_/);
+    // No credential-bearing field may appear on the report.
+    expect(Object.keys(report)).not.toEqual(
+      expect.arrayContaining(['accessToken', 'clientId', 'token', 'password', 'secretValue']),
+    );
+  });
+
+  it('reports no request counters or cache when the diagnostics payload was unreadable', () => {
+    const report = buildDhanHealthReport({});
+    expect(report.providerState).toBeNull();
+    expect(report.requestCounters).toBeNull();
+    expect(report.quoteCache).toBeNull();
+    expect(report.qualifiedMappingsLoaded).toBeNull();
+    expect(report.readiness).toBe('UNKNOWN');
+    expect(report.liveProviderConnectivity).toBe('UNKNOWN');
+    expect(report.providerQualification).toBe('UNKNOWN');
   });
 
   it('never marks a pre-access report as live qualified', () => {
-    const report = buildDhanHealthReport(PRE_ACCESS_EVIDENCE);
+    const report = buildDhanHealthReport(CONFIGURED_EVIDENCE);
     expect(report.liveQualified).toBe(false);
     expect(report.liveProviderContacted).toBe(false);
+  });
+
+  it('round-trips an OPERATIONAL report without claiming IRR contacted a vendor', () => {
+    const report = buildDhanHealthReport({
+      ...CONFIGURED_EVIDENCE,
+      providerState: 'OPERATIONAL',
+      liveProviderConnectivity: 'CONNECTED_LIVE',
+      providerQualification: 'LIVE_QUALIFIED',
+      liveCredentialResolutionSupported: true,
+      lastSuccessAt: '2026-11-16T00:00:00.000Z',
+    });
+    expect(report.state).toBe('OPERATIONAL');
+    expect(report.liveQualified).toBe(true);
+    // Classification is a pure report of IPD evidence: it performs no vendor contact itself.
+    expect(report.liveProviderContacted).toBe(false);
+  });
+});
+
+describe('DHAN-P2 diagnostics view projection', () => {
+  it('projects null providerState when the evidence carries an ungoverned one', () => {
+    const view = projectDhanDiagnosticsView({ ...CONFIGURED_EVIDENCE, providerState: 'LIVE' as never });
+    expect(view.providerState).toBeNull();
+  });
+
+  it('projects null service when the evidence carries an ungoverned one', () => {
+    const view = projectDhanDiagnosticsView({ ...CONFIGURED_EVIDENCE, service: 'DEGRADED' as never });
+    expect(view.service).toBeNull();
+  });
+
+  it('projects null providerConfiguration when the evidence carries an ungoverned one', () => {
+    const view = projectDhanDiagnosticsView({ ...CONFIGURED_EVIDENCE, providerConfiguration: 'MAYBE' as never });
+    expect(view.providerConfiguration).toBeNull();
   });
 });
 
@@ -312,29 +406,10 @@ describe('W-07 governed vocabulary — the classifier cannot accept arbitrary st
 
   it('reports UNAVAILABLE when the transport boundary flagged a contract violation', () => {
     const report = buildDhanHealthReport({
-      ...CONFIGURED_DISCONNECTED_EVIDENCE,
+      ...CONFIGURED_EVIDENCE,
       healthContractViolation: true,
     });
     expect(report.state).toBe('UNAVAILABLE');
     expect(report.liveQualified).toBe(false);
-  });
-
-  it('round-trips governed live values into an OPERATIONAL report without contacting a vendor', () => {
-    const report = buildDhanHealthReport({
-      service: 'UP',
-      providerConfiguration: 'CONFIGURED',
-      liveProviderConnectivity: 'CONNECTED_LIVE',
-      providerQualification: 'LIVE_QUALIFIED',
-      readiness: 'CREDENTIAL_REFERENCES_CONFIGURED',
-      failureCode: null,
-      configurationResolved: true,
-      missingKeys: [],
-      transportReachable: true,
-      connectionAttempted: true,
-    });
-    expect(report.state).toBe('OPERATIONAL');
-    expect(report.liveQualified).toBe(true);
-    // Classification is a pure report of evidence: it performs no vendor contact itself.
-    expect(report.liveProviderContacted).toBe(false);
   });
 });
