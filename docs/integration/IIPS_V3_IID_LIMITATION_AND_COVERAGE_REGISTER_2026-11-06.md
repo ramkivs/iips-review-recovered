@@ -2883,8 +2883,8 @@ Reconsider after independently resolving the March fact's context, dimensions, c
 
 | ID | Originating phase | Short title | Status |
 |----|-------------------|-------------|--------|
-| `L-041` | WI-13 (observed) | Two dataset classifiers disagree on the same committed real-issuer manifests: `classifyDataset` (rights evidence, fail-closed) says `UNKNOWN`, `investmentCoverage.financialClass()` (substring test) says `OPERATOR_SUPPLIED`; the coverage read model has no fail-closed answer | OPEN (contract decision: read-model owner) |
-| `L-042` | WI-13 (observed) | The `EV_EBITDA`/`EV_REVENUE` basis label names only "− net debt" while the published per-share figure applies the full enterprise-to-equity bridge (also − minorityInterest − preferenceCapital + associatesAndJV); correcting the label moves the substantive digest of every EV-publishing assessment (L-014 C1–C5, AC-L14) | OPEN (contract decision: register owner + identity-contract owner) |
+| `L-041` | WI-13 (observed) | Two dataset classifiers disagree on the same committed real-issuer manifests: `classifyDataset` (rights evidence, fail-closed) says `UNKNOWN`, `investmentCoverage.financialClass()` (substring test) says `OPERATOR_SUPPLIED`; the coverage read model has no fail-closed answer | `RESOLVED` (2026-11-17, §17.27) |
+| `L-042` | WI-13 (observed) | The `EV_EBITDA`/`EV_REVENUE` basis label names only "− net debt" while the published per-share figure applies the full enterprise-to-equity bridge (also − minorityInterest − preferenceCapital + associatesAndJV); correcting the label moves the substantive digest of every EV-publishing assessment (L-014 C1–C5, AC-L14) | `RESOLVED` (2026-11-17, §17.29) |
 
 **Statuses after §17.26.** **`L-041` and `L-042` are added by this section, both `OPEN`.** **`L-002` and `L-003` stay `OPEN`** — defect A corrected the product's *restatement* of the count (and made it derive from code), not the limitations; the §2 `L-002` prose ("20") is flagged for the owner, not edited. **`L-001` is correct and untouched**; **`L-009`** is flagged as factually superseded but not restated. **`L-034` `RESOLVED`, `L-035` `RESOLVED`, `L-036` `PARTIALLY RESOLVED`, `L-037` `PARTIALLY RESOLVED`, `L-038` `OPEN`, `L-039` `OPEN`, `L-040` `RESOLVED`, `L-004` … `L-033` untouched.** No entry in `L-001` … `L-040` was modified, closed, renumbered or reinterpreted; no D-2 policy, IX policy, valuation formula, capital-structure rule or WI-11 same-instant safeguard was changed. The two new IDs are the only register movement.
 
@@ -2892,9 +2892,118 @@ Reconsider after independently resolving the March fact's context, dimensions, c
 
 **Evidence.** `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/` — `README.md`, `digests.json` over the bundle, `runs/01-ingest.txt` … `runs/07-*.txt` and `runs/commands.txt`, `artifact/assessment-payload-head.json` (`18f5ccb6…`) and `artifact/payload-diff-vs-wi3.json`, `verification/independent-recomputation.json`, `verification/mapping-census.json`, `verification/dataset-class-divergence.json`, and `findings/A-STALE-LIMITATION-COUNTS.md`, `findings/B-DATASET-CLASS-DIVERGENCE.md`, `findings/C-EV-BASIS-BRIDGE.md`; guarded by `frontend/server/investment/cli/rivHeadRevalidation.test.ts` (11 tests), `iips-platform/tests/investment/assessment-valuation.test.ts` and `iips-platform/scripts/riv-head-revalidation.ts`. Work-item record: `docs/integration/IIPS_V3_IID_WI13_HEAD_REVALIDATION_2026-11-12.md`. Next free §17.27.
 
----
+## 17.27 `L-041` — the classifier contract was decided on `main` and implemented here, so the limitation is `RESOLVED` (2026-11-17; register status change, no code change)
 
-## 17.27 `L-042` — Option B: the method label describes the method's arithmetic and names the published equity bridge (2026-11-17; owner decision, contract change, L-014 re-baseline through the authorised layered process, `L-042` resolved)
+**What this entry is.** §17.26 recorded `L-041` as a live disagreement between two classifiers and deferred it, in that section's own words, because a fail-closed answer "needs either a fourth vocabulary member or routing the read model through `classifyDataset`" and "both are changes to a published read-model contract other surfaces consume — a register-owner / read-model-owner decision". This entry records that the decision has been taken, that the implementation exists on `main` and on this branch, that a regression test fails if it is undone, and that the historical finding is intact. On that basis the status changes. **Nothing in §17.26's text is edited**: that section, the row's short title, `L-042`, and the historical bundle all stand as written. This is an appended entry, per rule 1 of §1.
+
+**The authority frame, applied rather than invented.** No read-model owner is appointed and none is required. `IID-PA-01` (2026-11-15, IN FORCE, published on this branch) settled the frame: **G-8** collapses stage acceptance to **one authority, the owner/operator**; **G-5** addresses `R-4` — the formal adjudication of `L-041`/`L-042` — as **SIMPLIFIED**, because "these are two known technical disclosure defects […] the owner fixes or accepts them in the normal course of maintenance. No adjudication ceremony, and they block nothing". PA-01 §2 forbids the opposite error as well: an approval ceremony "is not a blocker and must not be recorded as one". The `read-model owner` role named in the old status cell is therefore **retired by policy**, not filled. The authority that acts here is the register owner named in §17.23, exercising the single authority PA-01 leaves.
+
+**Decision 1 — the contract is decided, on `main`, as `W05-D1`.** Commit `6ae09ac` (`fix(investment): enforce W05 sourceRights dataset classification on coverage surfaces and record W05 qualification`, PR #568, on `main` since 2026-11-16) wired both coverage surfaces to the rights declaration and added `UNKNOWN` to the read-model vocabulary. The W05 qualification record describes it as a reproducible IRR code defect with that fix and records the status `REMEDIATED & REGRESSION-GUARDED`; the W05 status record cites the same commit. `main`'s `financialClass()` in both `coverage/investmentCoverage.ts` and `identity/coverage.ts` delegates to `classifyDataset()` and returns `UNKNOWN` for an absent declaration. **The decision §17.26 was waiting for already exists; it is not being made here.**
+
+**Decision 2 — this branch implements that contract.** Commit `552f1c74f2f5d63b6a19c7a547b64139e27788dd` made the same change here, tracing the rule rather than the filename: it found that `identity/coverage.ts` carried a **second copy** of the repudiated substring test that `L-041` had not named, and corrected both. Both `datasetClass` unions now read `SYNTHETIC_FIXTURE | OPERATOR_SUPPLIED | UNKNOWN | NONE`, so `UNKNOWN` is a published member distinct from `NONE` (`NONE` = no dataset installed; `UNKNOWN` = installed, rights not established). `UNKNOWN` also discloses itself through `datasetClassStatement('UNKNOWN')`. Verified functionally identical to `main`'s decided form. The substring rule survives nowhere in `iips-platform/src`, `frontend/src` or `frontend/server`.
+
+**The completion standard of §1 rule 3, limb by limb.**
+
+| Limb | Requirement | Evidence |
+|---|---|---|
+| (a) | an implementation that addresses the entry | `552f1c7` on this branch; `6ae09ac` on `main`. The entry describes two classifiers disagreeing; both now delegate to one rule, and the third copy was removed |
+| (b) | an acceptance test that would fail if the implementation regressed | `iips-platform/tests/investment/l041ClassifierReconciliation.test.ts` (6 tests) — **verified against the pre-fix code: 5 of its 6 tests fail there**, so it guards the defect rather than describing current behaviour. Also `investment-coverage.test.ts` (strings set *against* the declaration in three directions), `rivHeadRevalidation.test.ts` (both paths `UNKNOWN`, register asserted), and the generator's inverted guard, which refuses to publish unless both paths answer `UNKNOWN` |
+| (c) | a pointer in the entry's evidence field | below |
+
+**What "resolved" is asserted to mean, and what it is not.** `RESOLVED` here says the **gap the entry describes is closed**: two shipped rules that disagreed now cannot disagree, and a test says so. It is **not** a claim that datasets of unknown rights have become usable — they remain `UNKNOWN` and fail closed, which is the whole point. It is **not** a rights determination: `O3`, `PA-01` §1–§5 and the `not redistributable` labels are untouched, and no dataset is admitted by this entry. It is **not** a production, hosted or commercial determination. And it is **not** a statement that this branch has merged: the correction reaches the delivered line only when the Principal merges, and until then `main` carries its own equivalent fix at `6ae09ac`.
+
+**The historical finding is preserved, deliberately and mechanically.** `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/verification/dataset-class-divergence.json` is byte-identical to its committed form, sha256 `ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477`, and still reads `status: "OPEN — recorded, not corrected here"` with all three rows `agree: false`. That is the correct content for a record of what was observed on 2026-11-12, and it is not rewritten to match today's behaviour. The generator no longer re-emits it and instead verifies the pinned digest; `rivHeadRevalidation.test.ts` asserts the same digest. **A status change is not an amendment to history** — the finding stays true as a finding while ceasing to be true as a current condition.
+
+**Verification.** Register/evidence validation: the status cell reads `RESOLVED` and is the only cell changed; `L-042` remains `OPEN`; the historical digest is unchanged at `ae45717f…e05477`; both `datasetClass` unions carry `UNKNOWN`; no substring test remains in any source path. Suites re-run at this head: `l041ClassifierReconciliation` 6/6, coverage + endpoint 19/19, `rivHeadRevalidation` 12/12, W05 source-rights classification 5/5, served coverage route 11/11, platform IID 1243/1243 excluding the one path-sensitive suite that passes 10/10 in the canonical checkout, and `tsc` exit 0.
+
+**Evidence.** `552f1c74f2f5d63b6a19c7a547b64139e27788dd` (correction); `6ae09ac087cd8f89feb5f7c519bedac1858bd2c1` (`W05-D1` on `main`); `02761a4e2b4230a8ca52dfe35c5e2626527a0be0` (ownership determination and five-property evidence); `docs/integration/IID-L041-DATASET-CLASSIFIER-RECONCILIATION-2026-11-17.md`; `docs/integration/IID-L041-READ-MODEL-OWNER-CONFIRMATION-2026-11-17.md`; `docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` §3; `docs/integration/W05-ACTUAL-FINANCIAL-DATASET-QUALIFICATION-2026-11-12.md` §6; `docs/integration/W05-FINANCIAL-COVERAGE-AND-SOURCE-RIGHTS-STATUS-2026-11-16.md` §5; the historical bundle above; guarded by `iips-platform/tests/investment/l041ClassifierReconciliation.test.ts`, `iips-platform/tests/investment/investment-coverage.test.ts`, `frontend/server/investment/cli/rivHeadRevalidation.test.ts` and `iips-platform/scripts/riv-head-revalidation.ts`.
+
+**Statuses after §17.27.** **`L-041` is `RESOLVED`.** **`L-042` stays `OPEN`** — the EV basis label is a different defect and no correction for it exists on this branch. `L-038`, `L-039` stay `OPEN`; `L-034`, `L-035`, `L-040` stay `RESOLVED`; `L-036`, `L-037` stay `PARTIALLY RESOLVED`; `L-001` … `L-033` untouched. **No entry in `L-001` … `L-040` was modified, closed, renumbered or reinterpreted by this entry**, and §17.26's text is unaltered. W05's own completion and acceptance status is not touched by this register entry. Next free §17.28.
+
+## 17.28 `L-042` scope determination: why a longer static label is not the fix (2026-11-14)
+
+**What this entry is.** §17.26 recorded `L-042` as a demonstrated defect with a demonstrated-and-reverted one-line
+correction, and §17.27 left it `OPEN` because "no correction for it exists on this branch". This entry records the
+scope determination §17.26 asked for: *can the label be corrected at all, and what does correcting it cost?* It answers
+with evidence rather than preference, and **changes no status**: `L-042` stays `OPEN`, because the question it raises —
+which equation a per-method label is allowed to state — is not settled by anything measured here.
+
+**What was re-established (not assumed).** The mismatch is exactly as §17.26 records: the `basis` string names only
+`− net debt`, while `equityValueFromEnterprise` (`capitalStructure.ts:419-450`) applies the whole bridge. The field is
+not decorative — `MethodOutput.basis` is typed as the *"Deterministic summary of the arithmetic actually performed"*
+(`types.ts:92-98`) and reaches a reader through `view.ts:90`, so the defect is a **contract violation**, not a phrasing
+preference. Correcting it is also confirmed non-neutral: a probe editing **only** the `basis` string, leaving every
+figure byte-identical, moved the substantive digest of `techAssessmentInput()` from
+`493eab2c9a1a4c0dfb236fd38ae866dca61c75925dc98c883d7ac55a1822d344` to
+`eb926b67943e7e271a6d0a45a3a7dff68e311bb7324712009e6289de3f78c1dc`. `valuation.methods` is inside the substantive
+projection and `L-014` **E-2** forbids excluding it (it feeds a published figure); §3.4 retains the whole `valuation`
+block. The re-baseline is real.
+
+**The new finding, which is why the label was not lengthened.** §17.26 and `C-EV-BASIS-BRIDGE.md` assume the fix is a
+longer string. It is not, because `equityValueFromEnterprise` **is not one equation**. Measured for this entry:
+
+| Issuer shape | What the bridge actually does | What ANY static label would claim |
+|---|---|---|
+| term `PRESENT` | term subtracted | subtracted — correct |
+| term `NIL_BY_DISCLOSURE` | **not** subtracted; note says "claims declared nil by the filer, subtracted as zero" | subtracted — **wrong** |
+| term unavailable (`NOT_COMPUTABLE`) | conversion **blocked**; no equity value published at all | subtracted — **wrong** |
+| `associatesAndJV` `PRESENT` | added at carrying value | added — correct |
+| `associatesAndJV` unavailable | named `POLICY_ZERO`, adds zero | added — **wrong** |
+
+The same static wording is therefore wrong on three of these five rows. A longer
+`− netDebt − minorityInterest − preferenceCapital + associatesAndJV` string is wrong on *more* rows than the current
+short one, because it asserts the two conditional legs as unconditional. **Widening the label pays the full identity
+re-baseline and does not buy a faithful disclosure.** That combination is why `L-042` is left `OPEN` rather than closed
+with a longer string — and why the calculation was not touched: nothing measured here shows the *arithmetic* is wrong
+(it is correct, and `capitalStructure.equityBridge` publishes it in full); what is unresolved is the **label's
+semantics**.
+
+**The unresolved semantic question, stated exactly.** A per-method `basis` labelled "the deterministic summary of the
+arithmetic actually performed" can be faithful to a conditional conversion in two mutually exclusive ways, and the
+contract does not choose between them: **(a)** state the *conditional* rule in the label itself — the equation plus its
+nil/unavailable legs — which no single equation-shaped string can do without becoming prose; or **(b)** state only what
+the method's own arithmetic contributes and **reference** the bridge for the conversion, which requires the label to say
+it is a reference. `E-2` means whichever is chosen still moves the digest. Choosing between (a) and (b) is a decision
+about what `MethodOutput.basis` *means*, which changes the meaning stored in every historical artifact — the `L-014`
+decision's own bar. It is not made here.
+
+**What was done instead (calculation and label untouched).**
+- `iips-platform/tests/investment/assessment-valuation.test.ts`: a new test pins the *conditional* character of the
+  bridge — a `PRESENT` term is subtracted, a `NIL_BY_DISCLOSURE` term is not (and moves the published figure by
+  exactly its value), an unavailable term **blocks** the conversion, and the associates leg is added at carrying value
+  but is a named policy zero otherwise. It fails if the bridge is made less honest (verified by deleting the
+  declared-nil note: 1 failure; restored: 17/17 pass), and it records why no static label can be faithful so the next
+  attempt at `L-042` does not repeat a demonstrated failure. **No engine file was modified** — the diff is one test
+  file — so the substantive digests are untouched and no `L-014` re-baseline was performed or needed.
+- The existing `L-042` characterization test's comment said the Infosys gap was "~₹0.77"; §17.26 records
+  `₹0.8323504745930698` (`₹3,450,000,000 / 4,144,888,607.99`). The comment was corrected to the recorded figure and
+  says so. The assertion was not weakened.
+
+**Precedent applied, not invented.** §17.26 and §17.27 framed the next step as a *permission* question — a "register
+owner + identity-contract owner" decision. `IID-PA-01` **G-5** had already simplified that: the two defects "stay
+listed as limitations; the owner fixes or accepts them in the normal course of maintenance. No adjudication ceremony,
+and they block nothing", and **G-8** collapses acceptance to one authority. So no permission was missing here; what was
+missing is a **contract answer** (the (a)/(b) choice above), which is a different thing — and is why this entry records
+evidence rather than seeking a sign-off. Consistent with G-5, `L-042` "blocks nothing" and remains a listed limitation.
+
+**Verification.** `iips-platform/tests/investment/assessment-valuation.test.ts` 17/17 pass (16 before the added test);
+`frontend/server/investment/substantive-identity.test.ts` 36/36 pass — the pinned `L-014` C1–C5 reference digests and
+the `preD3`/`undoDisclosure`/`undoIX` reconstructions reproduce unmoved, confirming no identity change. **Evidence
+limit, stated plainly:** `frontend/server/investment/ac-l14.test.ts` could NOT be run in this environment — it imports
+the private `iips-np04-governed-persistence` package (`github:ramkivs/iips-production-market-data#2e11fa3b`), which is
+not installable here. `AC-L14` is therefore **not verified by execution in this entry**; it is unthreatened by this
+change only because no engine file was modified, so the payloads it digests are byte-identical. The probes that measured
+the digest movement and the bridge's conditionality were run in a scratch worktree and deleted; both are reproducible
+from the tables above.
+
+**Statuses after §17.28.** **`L-042` stays `OPEN`** — the label is not corrected, and the reason is now evidenced: no
+static label is faithful, and the (a)/(b) semantic choice is unmade. **`L-041` stays `RESOLVED`** (§17.27, untouched).
+`L-038`, `L-039` `OPEN`; `L-034`, `L-035`, `L-040` `RESOLVED`; `L-036`, `L-037` `PARTIALLY RESOLVED`; `L-001` … `L-033`
+untouched. No entry in `L-001` … `L-041` was modified, closed, renumbered or reinterpreted; §17.26 and §17.27 are
+unaltered, including §17.26's `L-042` row. No valuation formula, capital-structure rule, `D-2` policy or `IX` policy was
+changed. W05 completion, acceptance, source-rights and permissions are not touched. Next free §17.29.
+
+## 17.29 `L-042` — Option B: the method label describes the method's arithmetic and names the published equity bridge (2026-11-17; owner decision, contract change, L-014 re-baseline through the authorised layered process, `L-042` resolved)
 
 **What this entry is.** §17.26 recorded `L-042` as a demonstrated, reverted, deliberately uncorrected defect: the
 `EV_EBITDA`/`EV_REVENUE` `basis` label published `"mid-cycle EBITDA 375843333333 × 12 − net debt"` while the
@@ -2958,7 +3067,7 @@ declaration or grammar version changes).
   presentation consumer reading `output.basis` is told what the field is and is not. (The field is not rendered by
   `CompanyAssessmentPage`; no rendering change was needed, and none was made.)
 - `iips-platform/scripts/riv-head-revalidation.ts` — the published status line now reports defect C **RESOLVED** under
-  Option B and names §17.27; the persisted-vs-fresh comparison gains the documented two-step reconstruction below.
+  Option B and names §17.29; the persisted-vs-fresh comparison gains the documented two-step reconstruction below.
 - `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/README.md` — a dated addendum records the resolution and
   the one regenerated derived file. `findings/C-EV-BASIS-BRIDGE.md` is **not** edited: it is the record of what was
   observed on 2026-11-12, and its digest is pinned.
@@ -2967,7 +3076,7 @@ declaration or grammar version changes).
 (E-2: a consumer reads it as semantics; it is not clock-derived and cannot be excluded), the substantive digest of
 every assessment that publishes an enterprise-value method moves. On the `L-014` vectors, with the M1 fixture:
 
-| Vector | Value before §17.27 (post-IX, `POST_IX`) | Value after §17.27 (`POST_L042`) |
+| Vector | Value before §17.29 (post-IX, `POST_IX`) | Value after §17.29 (`POST_L042`) |
 |---|---|---|
 | C1 (baseline M1) | `c010909145475703b5cf2b2bf8495fb18c8427a6ab2969beb69bc4a0705a6dab` | `960bf5d2d03fac4e459c8dde2a6c07611011a7ec3eb6e54b9e7c30bd1eda9925` |
 | C4 (earlier clock, inside window) | `6d1838e4392baa98617cd57ef4071ed081dc18a4e9570678e3b6d76f1ec4bb00` | `f32a3b8b211e57a5a03a7a89d014b61a2bc9ee686f49fbe10cfbcca3aa145d1b` |
@@ -3021,8 +3130,10 @@ updated for that file alone.
 
 **Regression evidence.**
 
-- `iips-platform` `tsc --noEmit`: **0 errors**. `npm run test:iid`: **1452/1452** across 302 suites (pre-change
-  baseline in this sandbox: 1450/1450).
+- `iips-platform` `tsc --noEmit`: **0 errors**. `npm run test:iid` at **this reconciled head**: **1459/1459** across
+  303 suites, 0 failures (pre-change baseline in this sandbox: 1450/1450; before the reconciliation this branch measured
+  1452/1452, and the +7 are the six `l041ClassifierReconciliation` tests and the conditionality test that §17.28 adds —
+  both now in this tree, neither altered).
   - `assessment-valuation.test.ts` — four assertions of the contract: the label is `"<base> × <multiple> = enterprise
     value; "` + the bridge reference; it names `fundamentals.capitalStructure.equityBridge` and "conditional on the
     filed capital structure"; it does **not** contain `− net debt`, `minorityInterest`, `preferenceCapital` or
@@ -3034,14 +3145,32 @@ updated for that file alone.
 - `frontend/server/investment/substantive-identity.test.ts`: **41/41**, including the new `L-042` block and every
   earlier layer reproduced from the live payload.
 - `frontend/server/investment/cli/rivHeadRevalidation.test.ts`: **12/12**, including the byte-identical regeneration
-  of the three RIV artifacts and the register assertion below.
-- **Executed-environment limitation (recorded, not hidden).** In this sandbox the private dependency
-  `iips-np04-governed-persistence` (GitHub `ramkivs/iips-production-market-data`) is not fetchable — the credential
-  returns 403 — so the suites that load the governed store cannot be executed here. That includes
-  `frontend/server/investment/ac-l14.test.ts`, whose `REF` constants were re-baselined to values computed with the
-  same functions, fixture and clocks it uses (`M1_NOW = 2026-11-06T00:00:00.000Z`; C4 `2026-04-10T00:00:00.000Z`).
-  CI, where the dependency resolves, must execute the AC-L14 suite; the constants are already the values it will
-  compute, and no AC-L14 criterion was edited.
+  of the three RIV artifacts, the pinned `dataset-class-divergence.json` digest `ae45717f…e05477`, and the register
+  assertions below. Run together with the identity suite at this head: **53/53** (41 + 12).
+- **The suites that cannot load here, measured rather than assumed.** `frontend/server/investment` at this head:
+  20 files and 298 tests pass, 13 files fail to load and 6 tests fail — every one of them a suite that imports the
+  uninstallable private package, and the same 6 `iidStage4S4R1Scenarios` failures reproduce byte-for-byte at `6271296`
+  in a clean detached worktree, so the reconciliation introduced none of them.
+- **`AC-L14` — executed, in the one environment that can resolve the governed store.** The private dependency
+  `iips-np04-governed-persistence` (GitHub `ramkivs/iips-production-market-data`) is **not fetchable in the authoring
+  sandbox** — the credential returns 403 — so `frontend/server/investment/ac-l14.test.ts` and every suite that loads
+  the governed store cannot run locally, and nothing in this section claims a local run of them. They **did** run in
+  CI, which mints a read-only installation token for exactly that repository. On commit
+  `6271296e28d861c943af45fa9b286f738012d3b2` — the head of this branch before the numbering reconciliation, whose
+  engine, DTO, valuation payloads, digests and evidence bytes are **identical** to this head's, the reconciliation
+  having changed only comments, the retained §17.28 test, the RIV script's pinned-digest refusal and this register —
+  workflow run **`44105355657`**, job **`134116094869`**
+  (`Typecheck · Test · Build`) concluded **`success`**, with all thirteen steps green including **"Run the full Vitest
+  suite"** and **"Assert a non-zero, fully passing test run"**. `ac-l14.test.ts` is collected by that suite:
+  `frontend/vite.config.ts` excludes only `node_modules`, `dist`, `cypress`, dot-directories, `*.config.*` and
+  `scripts/**`, and the file's seven suites carry no `skip`/`skipIf`. The guard fails the job on a zero test count, a
+  missing report or **any** failing test, so the green job is executable evidence that **AC-L14.1–AC-L14.7 passed**
+  there, together with the governed-store suites that carry AC-L14.8–AC-L14.10 (`change/store.test.ts`). **Evidence
+  limit, stated plainly:** the per-test log text is not retrievable from this sandbox (GitHub's job-log endpoint
+  redirects to `results-receiver.actions.githubusercontent.com`, which is outside the allowed egress), so the record
+  is the guarded job-and-step conclusion, not a quoted test line. The `REF` constants are the values that environment
+  computes (`M1_NOW = 2026-11-06T00:00:00.000Z`; C4 `2026-04-10T00:00:00.000Z`), and **no AC-L14 criterion was
+  edited**. "Passed" here means exactly that: executed and green in CI, not inferred from recomputation.
 
 **Evidence pointers.** §17.26 (the recorded defect), `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/`
 (`findings/C-EV-BASIS-BRIDGE.md` for the demonstration; `README.md` addendum for the one regenerated file),
@@ -3053,19 +3182,36 @@ updated for that file alone.
 `frontend/server/investment/cli/rivHeadRevalidation.test.ts`,
 `iips-platform/scripts/riv-head-revalidation.ts`, `iips-platform/scripts/ix-authorized-policy.ts`.
 
-**Statuses after §17.27.** **`L-042` → `RESOLVED`** — implementation, regression tests and the required `L-014`
+**Statuses after §17.29.** **`L-042` → `RESOLVED`** — implementation, regression tests and the required `L-014`
 identity validation are recorded above, and the acceptance tests fail if the label or the bridge reference regresses.
-This is the register act that changes the status: the §17.26 row is **preserved byte for byte** as the record of what
-was true at WI-13, and its `OPEN` status is not edited — **nothing in §17.26 is edited**, and no earlier section is
-touched. **`L-041` remains `OPEN`** and is not adjudicated, reclassified or reopened here; `L-002`/`L-003` stay
+The register act is the `L-042` status cell in §17.26's table, which now reads `` `RESOLVED` (2026-11-17, §17.29) `` —
+exactly the form §17.27 used to move `L-041`. Nothing else in §17.26 is edited: its prose, both short titles, the
+description of the defect and its evidence pointers stand as written, and the earlier `OPEN` states remain visible as
+history in the sections that recorded them (§17.26's own narrative and §17.28's status paragraph). **`L-041` is
+`RESOLVED`** under §17.27 and is neither reopened, reinterpreted nor adjudicated again here. `L-002`/`L-003` stay
 `OPEN`; `L-034`/`L-035`/`L-040` stay `RESOLVED`; `L-036`/`L-037` stay `PARTIALLY RESOLVED`; `L-038`/`L-039` stay
 `OPEN`; `L-001` … `L-040` are otherwise untouched. No D-2 policy, IX policy, valuation formula, capital-structure
 rule, W05 or source-rights decision, or WI-11 same-instant safeguard was changed, and no underlying valuation
 arithmetic was altered.
 
-**Numbering note.** §17.26 closed with "Next free §17.27". No §17.28 exists at this head (verified by search); this
-entry therefore consumes §17.27 and leaves §17.28 free. Nothing was inserted between §17.26 and this section, and no
-section number was renumbered.
+**Numbering, reconciled from the two published histories rather than asserted.** This entry was first published as
+`§17.27` in `6271296` on this branch. That branch descends from `main` `ea20e3c`, which contains neither of the two
+sections that today precede it, so the number was free *there* and only there. The parallel branch
+`arena/53ff9276-…` published `§17.27` (the `L-041` resolution, `8d22d3d`, 13:59Z) and then `§17.28` (the `L-042` scope
+determination, `467be96`, 14:10Z), the latter closing with the words **"Next free §17.29"**. Neither branch contained
+the other: `6271296` has no `§17.27`/`§17.28` of theirs, and `467be96` has no `L-042` correction at all. The merge
+therefore had to allocate one number, and the allocation follows the published sections, not preference: **§17.27 and
+§17.28 are retained verbatim, and this entry takes §17.29 — the number `§17.28` itself reserved.** No section was
+overwritten, no section was recreated, and nothing was inserted between `§17.26` and `§17.27`. The earlier publication
+is superseded in its **number only**; its text is what you have just read, and the append-only rule is satisfied because
+`§17.26`, `§17.27` and `§17.28` read exactly as their own commits published them.
+
+**The question `§17.28` left open is answered here, not skipped.** `§17.28` established, by measurement, that no static
+label can be faithful and that the choice between **(a)** stating the conditional rule in the label and **(b)** stating
+the method's own arithmetic and referencing the bridge was a decision about what `MethodOutput.basis` *means*. The
+Principal's Option B decision recorded above **is** (b). `§17.28`'s status paragraph — "`L-042` stays `OPEN` … the
+(a)/(b) semantic choice is unmade" — is therefore accurate for its own date and is retained unaltered, as an
+append-only register requires.
 
 **Boundaries confirmed.** IRR repository only; no IPD change; `L-041` not reopened; W05 and source-rights decisions
 untouched; `main` not modified and no PR merged; valuation arithmetic unchanged; no authority beyond the recorded

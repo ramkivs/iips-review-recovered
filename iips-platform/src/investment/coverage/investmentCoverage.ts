@@ -199,6 +199,23 @@ export interface InvestmentCoverageInput {
   readonly issuerIdentityState?: ReadonlyMap<string, 'RESOLVED' | 'UNRESOLVED'> | null;
 }
 
+/**
+ * The coverage read model's class, derived from the assessment path's rule and from nothing else.
+ *
+ * WHY THIS IS A DELEGATION AND NOT ITS OWN RULE. Until `L-041` this function was a substring test on
+ * `provider` + `licence` — the exact rule `fundamentals/datasetClass.ts` documents under "WHAT WAS WRONG"
+ * and removes. The two classifiers therefore disagreed on the same committed manifests: the assessment
+ * path answered `UNKNOWN` (fail-closed, because those manifests carry no rights evidence), while this one
+ * answered `OPERATOR_SUPPLIED`, asserting an operator attestation that no manifest made. `L-041` recorded
+ * the divergence, and §17.27 records its resolution on `W05-D1`. It is corrected by removing the second
+ * implementation, not by reconciling two rules.
+ *
+ * The coverage vocabulary keeps its own names because consumers depend on them: `SYNTHETIC_FIXTURE` is the
+ * read model's historical spelling of `SYNTHETIC_REFERENCE`, and `NONE` means no manifest was installed at
+ * all — a different fact from "installed but its rights are not established". `UNKNOWN` is answerable here,
+ * which is what the read model previously could not do: a fail-closed third state, distinct from `NONE`, so
+ * an unestablished dataset no longer renders as either a fixture or an operator attestation.
+ */
 function financialClass(
   manifest: DatasetManifest | null,
 ): 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE' {

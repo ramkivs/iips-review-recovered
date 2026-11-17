@@ -154,7 +154,7 @@ export interface CompanyAssessmentView {
       readonly applicable: boolean;
       readonly notApplicableReason: string | null;
       /**
-       * `L-042` (Option B, register §17.27): `basis` describes the arithmetic the individual method performed. An
+       * `L-042` (Option B, register §17.29): `basis` describes the arithmetic the individual method performed. An
        * enterprise-value method's label ends at enterprise value and states that the value is subject to the
        * published equity bridge (see `fundamentals.capitalStructure.equityBridge`), whose terms are conditional on
        * the filed capital structure. The label is never the whole conversion and must not be read as one; the

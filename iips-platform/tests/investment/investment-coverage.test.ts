@@ -238,6 +238,14 @@ describe('IID — the investment coverage report is independent of the identity 
     assert.match(report.statusLine, /No investment dataset is installed/);
   });
 
+  /*
+   * L-041: THE CLASS COMES FROM THE RIGHTS DECLARATION AND FROM NOTHING ELSE.
+   *
+   * This test used to assert that a manifest with a non-synthetic provider string was `OPERATOR_SUPPLIED` — the
+   * substring rule `L-041` recorded. Each case below deliberately sets the strings AGAINST the declaration, so a
+   * classifier that consulted either string would answer the other way and fail here. §17.27 records the status
+   * change; this test is the guard that keeps the correction corrected.
+   */
   it('reports the dataset class solely from sourceRights — never from provider or licence strings', () => {
     const synthetic = buildInvestmentCoverageReport({
       ...base,
@@ -252,6 +260,7 @@ describe('IID — the investment coverage report is independent of the identity 
     assert.equal(synthetic.dataset.datasetClass, 'SYNTHETIC_FIXTURE');
     assert.equal(synthetic.financialCoverage.datasetClass, 'SYNTHETIC_FIXTURE');
 
+    // No rights declaration. Operator-looking strings are not an attestation, so the answer is fail-closed.
     const unknownWithoutRights = buildInvestmentCoverageReport({
       ...base,
       identitySourcesAvailable: true,

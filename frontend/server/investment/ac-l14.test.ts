@@ -65,7 +65,7 @@ const REF = Object.freeze({
    * the post-disclosure values (`33c02caa…`, `df2cacd8…`, `7e4251bc…`) through `undoIX(undoL042Basis(...))`, and the
    * post-IX values (`c0109091…`, `6d1838e4…`, `abe6c02f…`) through `undoL042Basis(...)`.
    *
-   * `L-042` (Option B, register §17.27) moved these three once more, and only these three: the EV_EBITDA/EV_REVENUE
+   * `L-042` (Option B, register §17.29) moved these three once more, and only these three: the EV_EBITDA/EV_REVENUE
    * `basis` label now states the method's own arithmetic and names the published equity bridge instead of writing
    * "− net debt" as if that were the whole equation. No number moved. The two input digests do not move — the engine
    * takes no new input — and the disposition digest does not move either: it renders confidence, not method labels.

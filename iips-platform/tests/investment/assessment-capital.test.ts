@@ -130,7 +130,7 @@ describe('AC-2.6 — net debt, leases and the other claims on equity', () => {
     const capital = payload.fundamentals.capitalStructure;
     assert.equal(capital.minorityInterest.value, 400_000_000);
     assert.equal(capital.preferenceCapital.value, 200_000_000);
-    // The enterprise-to-equity conversion must subtract both. `L-042` (Option B, register §17.27) moved where a
+    // The enterprise-to-equity conversion must subtract both. `L-042` (Option B, register §17.29) moved where a
     // reader is told that: the method's `basis` now stops at enterprise value and names the published equity bridge
     // — it does not write the bridge's conditional terms as method arithmetic, which is what made the old
     // "− net debt" label read as an equation and miss the published figure by (minority + preference) / shares.

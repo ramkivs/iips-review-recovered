@@ -159,7 +159,7 @@ persist step, or the fail-closed NP-04 loader returns `PERSISTENCE_UNAVAILABLE`.
 
 ## Addendum 2026-11-17 — `L-042` resolved (Option B), and one derived file regenerated
 
-The register owner adopted **Option B** for `MethodOutput.basis` on 2026-11-17 (register **§17.27**): the field now
+The register owner adopted **Option B** for `MethodOutput.basis` on 2026-11-17 (register **§17.29**): the field now
 describes only the arithmetic the individual method performed and states explicitly that the resulting enterprise
 value is **subject to the published equity bridge** (`fundamentals.capitalStructure.equityBridge`), whose terms are
 conditional on the filed capital structure. This bundle's finding C remains the record of what was observed on

@@ -446,7 +446,7 @@ function evEbitda(context: MethodContext, role: MethodRole): ValuationMethodResu
       toPerShare(midCycle * multiple * 1.2).value,
       // L-042, Option B: the method's arithmetic ends at enterprise value, and the label says so. The conversion
       // that follows is the published equity bridge's, and its terms are conditional — never restated here as
-      // unconditional method arithmetic. See EQUITY_BRIDGE_BASIS_REFERENCE and the register's §17.27.
+      // unconditional method arithmetic. See EQUITY_BRIDGE_BASIS_REFERENCE and the register's §17.29.
       enterpriseValueBasis(`mid-cycle EBITDA ${Math.round(midCycle)}`, multiple),
     ),
     inputs,
@@ -480,7 +480,7 @@ function evRevenue(context: MethodContext, role: MethodRole): ValuationMethodRes
       toPerShare(latest * multiple),
       toPerShare(latest * multiple * 1.2).value,
       // L-042, Option B: same contract as EV_EBITDA — method arithmetic to enterprise value, then the published,
-      // conditional equity bridge. See EQUITY_BRIDGE_BASIS_REFERENCE and the register's §17.27.
+      // conditional equity bridge. See EQUITY_BRIDGE_BASIS_REFERENCE and the register's §17.29.
       enterpriseValueBasis(`revenue ${Math.round(latest)}`, multiple),
     ),
     inputs,
