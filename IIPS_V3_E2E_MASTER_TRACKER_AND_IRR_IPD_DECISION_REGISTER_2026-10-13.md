@@ -23401,4 +23401,79 @@ each read from `origin`, not from the local worktree. Merged into `main` as
 `011c601651c9c4fea4eab2906cfad0a09eb5c15f` at 2026-11-17T20:04:01Z; `git merge-base --is-ancestor` confirms
 `bccfd876…` is reachable from `origin/main`.
 
-Next free §16.295 / `CV-CORR-260` / `CHG-2026-11-06-23` / `V2175`.
+## 16.295 `CV-CORR-260` — IID Stage 4 `S4-R4` closed: coverage `usable` is committed as *not* a valuation (`2026-11-17`; `CHG-2026-11-06-23`; `V2175`–`V2181`)
+
+**Scope.** IRR-only. This receipt records one IID Stage 4 documentation item, discharged as a committed source-level
+note plus a long-form contract. It adds no issuer, no bundle, no admission, no dataset class, no coverage or assessment
+behaviour, no derivation, no valuation formula, no threshold, no freshness window, no owner decision and no IPD write.
+
+**Base.** `main` `5b67827385d7ea8378cfd7dcf5c13274a5cf9904`. Work branch
+`arena/bc1e45f8-iips-review-recovered`, branched from that commit.
+
+**What `S4-R4` was, verified rather than carried forward (`V2175`).** The remaining-actions row required *"a
+source-level note in the coverage module stating the window difference"* and registered *"the note committed"* as its
+closure evidence; the distinction itself had been recorded only in a Stage 4 evidence section (§8.2 of the measurement
+evidence), which is not where a future developer looks. Re-read at this head, that is still exactly the position: no
+coverage module carried the note, and the served coverage surface (`sectors[].usableMethods`,
+`financialCoverage.usableMethods`, the `G1_ENABLED`/`G2_PARTIAL` stage — rendered as *"Methods usable / withheld"*
+in `frontend/src/features/investment/InvestmentCoveragePage.tsx`) publishes counts with nothing on the surface saying
+what they do not mean.
+
+**The two questions, and the window difference (`V2176`).** Coverage (`coverage/measure.ts` → `measureMethod`,
+`:111-175`) declares a method `AVAILABLE` when **at least one** (issuer, annual period) pair carries every declared
+input — existential over annual periods, with `presentLineItem` (`:94-97`) accepting a reported number only. The
+assessment (`assessment/engine.ts` → `assessCompany`) resolves **one series for one issuer at one clock**: each
+capital-structure component takes its newest informative period and the components must share an instant
+(`capitalStructure.ts:85-92`, `:126`, `:175`), each method demands its own history (`methods.ts:238-260`, `:390`,
+`:418-423`), the enterprise-to-equity bridge can refuse (`:419-440`), and the blend publishes an intrinsic range only
+when **every** weighted method produced a per-share number (`intrinsic.ts:37-63`, INV-5).
+
+**The complete scope, established rather than assumed (`V2177`).** The prior record named one example. Six rule
+differences exist, **three of them live** in the current population:
+
+| # | Class | Live instance at this head |
+|---|---|---|
+| D1 | existential window vs latest instant | Consumer `EV_EBITDA` `AVAILABLE` (FY2023) while the assessment refuses on FY2024 |
+| D2 | numeric derivation vs declared-nil aggregation | Technology `EV_EBITDA` `WITHHELD / STATEMENT_INPUT_MISSING ["NET_DEBT"]` while the assessment applies it on net debt −₹19,342 cr |
+| D3 | three-input derivation vs six-component aggregation (leases + one instant) | two issuers whose derivation triple is complete and whose cash side is not (`CURRENT_INVESTMENTS` / `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` `NOT_REPORTED`) |
+| D4 | metric at any period vs latest period + source-class floor (`measure.ts:99-109` vs `methods.ts:125-150`) | not live — `operatingMetricRecords` 0 (`G-4`/`S4-R6`) |
+| D5 | `applicable: true` vs a produced per-share figure | `DCF_FCFF` applicable with `NOT_COMPUTABLE` per-share, no intrinsic, all three issuers on `bdfb2527…` |
+| D6 | six matrix families with no engine-v1 implementation (`EV_EBITDAX`, `EV_SUBSCRIBER`, `NAV_RESERVES`, `P_AUM`, `P_EMBEDDED_VALUE`, `REGULATED_ASSET_BASE`) | not live — none declared for the three measured sectors |
+
+**Measured (`V2178`).** At clock 2026-11-17, on the O3-admitted dataset `sha256:bdfb2527…`: **seven usable method
+slots** across three measured sectors, Consumer **`G1_ENABLED`**, and **no intrinsic range for any issuer**. On the
+repository dataset of record `sha256:69bbc14e…`: exactly one intrinsic (Infosys, 875.34 / **1,088.97** / 1,399.81,
+`EV_EBITDA` at weight 0.1), and it belongs to the issuer whose coverage row **withholds** that method. Served counters
+are `usableMethods 7 / withheldMethods 31` on both datasets, where `derivationItems` (8) and `xbrlMappedTags` (22) are
+code-vocabulary sizes rather than dataset facts (`identity/coverage.ts:146-149`).
+
+**What was committed (`V2179`).** `docs/integration/IID-COVERAGE-USABLE-VERSUS-VALUATION-2026-11-17.md` — the
+issuer-neutral contract: the two questions, what `usable` means (seven source-level facts), what it does not guarantee,
+the six-class divergence catalogue, the measured tables for both datasets, history as tolerance versus requirement,
+derivation versus aggregation, the four presence states that change an answer, the three reason vocabularies, how
+`S4-R2` and `S4-R3` change the reading without changing their closure conditions, ten rules for any future issuer, a
+"what to infer when they differ" table, and an explicit observed-behaviour / policy / limitation / reserved-decision
+separation. The source-level notes are in `coverage/measure.ts` (header clause plus a contract note after the last
+declaration), `coverage/investmentCoverage.ts` and `identity/coverage.ts` — **comments only**.
+
+**No behaviour moved, and that was checked rather than asserted (`V2180`).** With comments stripped, all three files
+are byte-identical to their predecessors (266 / 437 / 270 code lines before and after). The coverage report, the
+rendered coverage summary and all six assessment payloads hash identically before and after the edits
+(`84869d96…`/`b3d5145f…` for `69bbc14e…`, `3a1142b2…`/`68bc0a36…` for `bdfb2527…`). IID suite **1516/1516**;
+`iips-platform` `tsc --noEmit` clean. The module header gained its third clause **without adding a line**, so the
+historical line references to `measure.ts` still resolve.
+
+**One wording imprecision, recorded and not fixed (`V2181`).** `assessment/engine.ts:327-330` states, when net debt is
+absent, *"…so every enterprise-value method is withheld rather than run on a partial bridge."* Substantively true,
+literally imprecise for a method that is `applicable: true` with a `NOT_COMPUTABLE` per-share leg (D5). Not a defect —
+no value is overstated, zeroed or approximated, and the payload names the blocked step twice. Repairing the sentence
+would be a production-source change outside this item's authority; it is recorded so the next reader does not
+rediscover it as a defect.
+
+**Nothing decided.** `S4-R5` remains **OPEN** (existential availability versus latest-period availability), and the
+document is written so that either answer leaves its contract true; the measurement-semantics question about
+`derive.ts` admitting a declared nil remains reserved. `S4-R2` stays **CLOSED**; `S4-R3`/`S4-R3-Infosys` stay
+**OPEN**; `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged. Stage 4 remains **PARTIALLY COMPLETE**,
+overall IID readiness **NOT READY**, and the next Stage 4 roadmap item is **`S4-R5`**.
+
+Next free §16.296 / `CV-CORR-261` / `CHG-2026-11-06-24` / `V2182`.

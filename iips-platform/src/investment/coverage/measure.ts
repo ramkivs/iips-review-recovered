@@ -1,9 +1,9 @@
 /**
  * IID-0 — R-16 coverage measurement foundation.
  *
- * Separates two different questions that must never be conflated (design of record Part II §R-16, Part III §I.2):
- *   1. what has been MEASURED (a completed measurement is a fact about the dataset), and
- *   2. what remains OUTSTANDING (sector coverage not yet achieved).
+ * Separates three questions that must never be conflated (design of record Part II §R-16, Part III §I.2): what
+ * has been MEASURED (a fact about the dataset), what remains OUTSTANDING, and — NOT answered here — whether a
+ * VALUATION WOULD BE PRODUCED (`S4-R4`): `usable` describes inputs; see the contract note at this file's end.
  *
  * A sector with no data is reported as UNMEASURED, not as "passed". Availability of a method requires a
  * real issuer-period with every mandatory input present; a missing input makes the method WITHHELD with a
@@ -349,3 +349,41 @@ export function sectorVocabularyLines(report: CoverageReport): readonly string[]
     `  correct the sector at source and re-ingest; this measurement never rewrites a sector`,
   ];
 }
+
+/* ====================================================================================================== *
+ * `S4-R4` — THE CONTRACT: `usable` IS NOT A VALUATION. Read this before reading `usableMethods`.
+ *
+ * THE WINDOW DIFFERENCE, stated once so no caller has to infer it:
+ *   • THIS MODULE IS EXISTENTIAL. A method is `AVAILABLE` when AT LEAST ONE (issuer, annual period) pair
+ *     carries every declared input (`measureMethod` above); one old year is enough. The inputs of one method
+ *     must come from the SAME period, but nothing here asks which period is newest, and nothing here knows
+ *     the assessment clock.
+ *   • THE ASSESSMENT (`assessment/engine.ts`) resolves ONE series for ONE issuer at ONE clock: each
+ *     capital-structure component takes its newest informative period, the components must share an instant
+ *     or the aggregate is refused, each method demands its own history (three annual observations for the
+ *     cash-flow, multiple and revenue families), the enterprise-to-equity bridge must convert, and the blend
+ *     publishes an intrinsic range only when EVERY weighted method produced a per-share number (INV-5).
+ *
+ * CONSEQUENCES A READER MUST CARRY AWAY (each is observable; none is a defect):
+ *   (a) `AVAILABLE` does not mean an issuer can be valued — it is a sector-level statement about inputs.
+ *   (b) `AVAILABLE` does not mean the LATEST period supports the method — the existential window above.
+ *   (c) `WITHHELD / STATEMENT_INPUT_MISSING` can UNDERSTATE capability: the assessment resolves net debt
+ *       through the capital-structure aggregation, which admits a declared `NIL_BY_DISCLOSURE` as a named
+ *       zero, while the derivation set that produces `NET_DEBT` accepts reported numbers only. Coverage reads
+ *       that derivation; the assessment never uses it.
+ *   (d) The two input sets differ: the derivation of `NET_DEBT` uses three line items, the aggregation uses
+ *       four debt components (leases included) and two cash-side components, and requires one instant.
+ *   (e) An operating metric counts here when it is `VALID` at ANY annual period end; the assessment resolves
+ *       it at the LATEST annual period end and applies a source-class floor.
+ *   (f) A method the engine does not implement at all (`METHOD_NOT_IMPLEMENTED_IN_ENGINE_V1`) can still be
+ *       `AVAILABLE` here, because availability is a property of the dataset, not of the engine.
+ *
+ * WHEN THE TWO LAYERS DISAGREE, READ BOTH REASONS. Do not reconcile them by changing a threshold, a
+ * derivation, an aggregate or a policy: the register records that boundary as an owner decision (`S4-R5`, on
+ * whether availability should remain existential over annual periods) and as a measurement-semantics
+ * decision (whether the derivation set should admit a declared nil). This module keeps reporting what the
+ * DATASET contains; it does not become a valuation statement.
+ *
+ * Long form, with the measured examples and the pinned tests:
+ *   docs/integration/IID-COVERAGE-USABLE-VERSUS-VALUATION-2026-11-17.md
+ * ====================================================================================================== */

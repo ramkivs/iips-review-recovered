@@ -601,3 +601,21 @@ function issuerIdOfIssue(issue: IngestionIssue): string | null {
 
 export const INVESTMENT_COVERAGE_TAG_MAP_SIZE = Object.keys(XBRL_TAG_MAP).length;
 export const INVESTMENT_COVERAGE_DERIVATION_COUNT = DERIVATIONS.length;
+
+/* ====================================================================================================== *
+ * `S4-R4` — WHAT THIS READ MODEL'S COVERAGE FIELDS DO AND DO NOT SAY.
+ *
+ * `sectors[].usableMethods`, `financialCoverage.usableMethods` and the `G1_ENABLED` / `G2_PARTIAL` stage all
+ * come from `measureCoverage` and describe the DATASET: which declared inputs are present for at least one
+ * annual period of at least one issuer in the sector. They say nothing about whether the assessment would
+ * produce a per-share valuation for any issuer at this `asOf`, and nothing about whether such a valuation
+ * would be current. A coverage row and an assessment row answer different questions and are allowed to
+ * disagree in either direction; `freshness` on the issuer row above is the third, separate question (age of
+ * the valuation basis, `S4-R3`).
+ *
+ * `financialCoverage.derivationItems` and `xbrlMappedTags` are sizes of the CODE's vocabularies, not
+ * measurements of this dataset.
+ *
+ * The full contract, with the measured examples and the reason vocabularies of both layers:
+ *   docs/integration/IID-COVERAGE-USABLE-VERSUS-VALUATION-2026-11-17.md
+ * ====================================================================================================== */

@@ -143,6 +143,9 @@ export function buildFinancialCoverageDisclosure(input: {
     measuredSectors,
     totalSectors,
     outstandingSectors: sectorReport?.outstandingSectors ?? [],
+    // `S4-R4` — this counts AVAILABLE method slots across every sector (unmeasured sectors' methods are
+    // WITHHELD / NO_DATA_FOR_SECTOR). It is a statement about the dataset's inputs, never about a valuation:
+    // see `coverage/measure.ts`'s contract note and docs/integration/IID-COVERAGE-USABLE-VERSUS-VALUATION-2026-11-17.md.
     usableMethods: methods.filter((method) => method.state === 'AVAILABLE').length,
     withheldMethods: methods.filter((method) => method.state === 'WITHHELD').length,
     xbrlMappedTags: Object.keys(XBRL_TAG_MAP).length,

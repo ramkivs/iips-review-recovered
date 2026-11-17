@@ -1,0 +1,22 @@
+# S4-R4 — coverage summary, dataset sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b, generatedAt 2026-11-17T00:00:00.000Z
+# produced by coverage/measure.ts renderCoverageSummary(); informational only, coverage answers the
+# dataset-availability question, NOT the valuation question (docs/integration/IID-COVERAGE-USABLE-VERSUS-VALUATION-2026-11-17.md)
+
+dataset          sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+completed        3/13 sectors measured
+  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Consumer         G1_ENABLED   usable 3  withheld 0  stmt 92.5%  metric 100%
+  Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+  Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Technology       G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+  Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+outstanding      Auto, Banking, Capital Markets, Energy, Healthcare, Hospitality, Insurance, Materials, Telecom, Utilities
+methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53
+sector vocabulary  every issuer carries one of the 13 canonical sectors; none was dropped
