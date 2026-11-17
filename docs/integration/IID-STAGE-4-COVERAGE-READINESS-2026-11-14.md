@@ -910,3 +910,47 @@ create-and-migrate notes) and `docs/integration/IID-NP04-PERSISTENCE-PREPARATION
 describe the pre-change opener; both carry an appended note pointing here. `docs/integration/CPII-01-…-2026-11-13.md`
 and `docs/integration/IID-P6A-…-2026-11-09.md` are dated records and are left as written; where they describe the
 opener, this section supersedes them.
+
+### 16.4 Execution evidence, commit and remote verification
+
+**Local (dependency-incomplete).** With only the dev toolchain present: `vitest run` over the affected suites —
+17 files, **253 tests, all passing** (the two new suites: 11 + 11; broker-import `brokerImportHttp.test.ts` 27;
+served chain `iidG11ServedChainTransport.test.ts` 23; watchlists/settings/collaboration transports and owner-context
+suites; `fenceUnchanged.test.ts` 13). A whole-`server/` run before and after the change differs only in that the two
+new suites go from failing-to-load to passing and in shifted line numbers; the same three pre-existing
+`reports-transport.test.ts` failures appear on both sides (they need the private package). `tsc --noEmit` on
+`frontend/tsconfig.json` reports the **same 24 pre-existing module-resolution errors before and after** — no error is
+introduced by this change. This environment cannot resolve the three private pins (HTTP 403), so no store-dependent
+suite could execute here; that is why the run below, not a local one, is the authority.
+
+| Field | Value |
+|---|---|
+| Workflow | `CI` (`ci.yml`), run **`44137325510`** |
+| Code head | **`6a1f3217d7a37d4b4a14fc758787c04a5e35bd01`** |
+| Result | **`completed` / `success`**, job *Typecheck · Test · Build* — all 17 steps `success` |
+| Steps that matter here | *Verify the scoped token can read the private IPD repository* → *Install dependencies from the committed lockfile* → *Verify all private dependencies resolve to their committed pins* → *Typecheck* → *Strict governed Screen replay server import closure* → **Run the full Vitest suite** → *Assert a non-zero, fully passing test run* → *Production build* |
+
+This is the dependency-complete execution in which `reports-transport.test.ts` (the surface whose `POST` keeps the
+provisioning intent and whose `GET`/`HEAD` no longer does), `reports-api.test.ts`, `reports-restart.test.ts` (three
+distinct OS processes), `investment-transport.test.ts`, `investment-artifacts.test.ts`,
+`iidStage4S4R1Scenarios.test.ts`, `brokerImportEvidenceRoute.test.ts` (the §8.5(21) blob pin) and
+`reports-persistence-integration.test.ts` all ran against the real pinned package. Their passing is what turns the
+`INITIALISE`/`READ` split from an assertion into evidence, and it also re-establishes that the frozen responder is
+still frozen: at the code head, `git rev-parse HEAD:frontend/server/owner-context-unavailable.ts` is
+**`cb8db45d668d28cee7e0a52721001d579a872733`** — the pinned value, unchanged.
+
+**Published state (verified against the remote, not from the local tree).**
+
+| Field | Value |
+|---|---|
+| Branch | `arena/e760fb87-iips-review-recovered` |
+| Head before this doc-only addendum | **`6a1f3217d7a37d4b4a14fc758787c04a5e35bd01`** (`6a1f321`) |
+| Tree at that head | **`ea12432f71ec17aab25fa2b3f32c3ae50365e63b`** — identical to `origin`'s tree for the branch |
+| `origin/main` | **`a45c9f7d7c961b42911903300f8599c824e855f8`** — unchanged, nothing merged |
+| New test blobs | `owner-context-uncached.test.ts` `8e41d53d…`; `reports/persistence-port.test.ts` `71066f6a…` |
+| Changed blobs | `owner-scoped-http.ts` `fc4e9aef…`; `reports/persistence-port.ts` `a2687e73…` |
+
+The push was `59454f0..6a1f321`; `git fetch` then `git rev-parse` showed local and remote heads and trees equal.
+Pull request **#584** remains a **draft**, opened only to obtain `pull_request` CI runs, and is neither merged nor
+closed; `main` was not touched. Because `ci.yml` filters on `frontend/**` and `.ci/**`, this documentation-only
+addendum does not re-run the workflow — by design, not by omission; the code head it describes is `6a1f321`.
