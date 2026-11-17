@@ -1082,3 +1082,11 @@ persistence are unchanged by construction, not merely by intention.
 The CI run is the dependency-complete execution: with the three private pins installed and verified, the full Vitest
 suite (which includes `iidCoverageSeparation.test.tsx` against the corrected fixture) and the production build both
 passed at this head.
+
+> **Note on the `origin/main` row above (recorded after the fact, same session).** When this addendum was verified,
+> `origin/main` was `a45c9f7d7c961b42911903300f8599c824e855f8`. It has since advanced to
+> `71306f276817890d76e7bfba2d349c7c38e17015` through **pull request #585** from an independent branch
+> (`arena/b63d36c5-iips-review-recovered`, *"Record AGI manual source provenance"* and its two predecessors) — not
+> through this branch. This task pushed only to `arena/e760fb87-iips-review-recovered`, whose head is **not** an
+> ancestor of `main`; PR #584 remains a draft and was neither merged nor closed. The correction described in §17.1–17.5
+> therefore reaches `main` only when that branch is separately reviewed and merged.
