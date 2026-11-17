@@ -1,0 +1,16 @@
+# IID records kept byte for byte as they were authored on the IID line
+# (`arena/53ff9276-iips-review-recovered`, reconciled with `main` on 2026-11-17).
+# Three of them end metadata lines with two spaces, which is a Markdown hard line break; one ends with a
+# blank line. `git diff --check` reports both, and the static check runs it over every changed file.
+# These exact names are therefore exempt from whitespace-error detection. Exact names only: no globs.
+IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md -whitespace
+IID-STAGE4-S4-R3-FILING-REFRESH-EVIDENCE-2026-11-14.md -whitespace
+IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md -whitespace
+IID-STAGE4-S4-R3-REFRESH-DESIGN-2026-11-14.md -whitespace
+# Decision records pinned by the SHA-256 of their exact bytes in
+# `iips-platform/src/investment/fundamentals/authorizationRecords.ts` (W05). The ingestion CLI hashes the file the
+# operator names and refuses one whose bytes differ, so a checkout that rewrote line endings would make the
+# records uncitable on the Windows host. Keep LF working-tree bytes for these exact names regardless of
+# core.autocrlf.
+IID-O3-DATASET-ADMISSION-PA-DECISION-2026-11-13.md text eol=lf
+IID-O3-S4-R3-READMISSION-PA-DECISION-2026-11-14.md text eol=lf

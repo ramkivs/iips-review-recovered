@@ -3,12 +3,31 @@
  * IID-0 — fundamentals ingestion CLI (file in, files out).
  *
  *   tsx src/investment/cli/ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors] \
- *     [--dataset-schema <IIPS_INVESTMENT_FUNDAMENTALS_V1|IIPS_INVESTMENT_FUNDAMENTALS_V2>]
+ *     [--dataset-schema <IIPS_INVESTMENT_FUNDAMENTALS_V1|IIPS_INVESTMENT_FUNDAMENTALS_V2>] \
+ *     [--authorization-record <file>]...
+ *
+ * `--input` may be REPEATED, once per bundle, to assemble several bundles into one dataset in a single run
+ * (`S3-D2`):
+ *
+ *   tsx src/investment/cli/ingest.ts --input <bundleA> --input <bundleB> --input <bundleC> --dataset-dir <dir>
+ *
+ * That is the only supported way to combine bundles. Ingesting them one run at a time into the same directory does
+ * not combine them: `writeDataset` replaces the destination, so the last run would leave only its own issuers. Such
+ * a run is now REFUSED rather than allowed to shrink the dataset silently — an ingestion run may add or update
+ * issuers, but may not remove any (see `assertNoSilentSourceLoss`).
  *
  * `--dataset-schema` declares the dataset grammar the operator is supplying. It is optional and defaults to the
  * legacy V1 grammar, so every existing command line produces exactly the dataset it produced before. It exists
  * because `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` is introduced by V2 (`L-036`): without a way to declare
  * V2, the one item V2 adds could be accepted by the library and never by an operator.
+ *
+ * `--authorization-record` names the decision record the operator relies on for these inputs (`W05`). It is
+ * optional and may be repeated, once per record. Without it the rights declaration says what it always said: that
+ * the operator supplied the files in the input directories. With it, the declaration names the record instead,
+ * pinned by the SHA-256 of the record's bytes, and the run is REFUSED before anything is written unless every
+ * input bundle is one a named record admits by digest. It records whose declaration the dataset rests on. It
+ * does not verify a third party's terms, it does not change the dataset class, and it installs nothing. See
+ * `fundamentals/authorizationRecords.ts`.
  *
  * Input directory layout:
  *   roster.json              { issuers[], securities[], listings[] }   (required)
@@ -21,13 +40,35 @@
  *
  * No network calls of any kind. Nothing outside the given directories is read or written.
  */
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
+import { join, relative, resolve, sep } from 'node:path';
 
 import { buildDatasetContent, type DatasetInputs, type TextFile, type XbrlFileInput } from '../ingestion/builder';
+import {
+  assertNoSilentSourceLoss,
+  manifestProvenance,
+  mergeInputBundles,
+  type InputBundle,
+  type MergedInputSet,
+} from '../ingestion/multiInput';
+import { assertValidIssuerSectors } from '../ingestion/sectorValidation';
 import { assertSupportedDatasetSchema, type DatasetSchema } from '../contracts/lineItems';
-import { COVERAGE_FILE_NAME, writeDataset } from '../ingestion/writer';
-import { canonicalize } from '../fundamentals/canonical';
+import {
+  COVERAGE_FILE_NAME,
+  recoverInterruptedPublication,
+  serializeDatasetFile,
+  writeDataset,
+} from '../ingestion/writer';
+import { sha256Hex } from '../fundamentals/canonical';
+import { computeContentDigest, type DatasetInputFile, type SourceRightsDeclaration } from '../fundamentals/manifest';
+import {
+  AuthorizationReferenceError,
+  authorizationBasisOf,
+  authorizationReferenceFindings,
+  citeAuthorizationRecords,
+  type AuthorizationReference,
+  type CitedRecordFile,
+} from '../fundamentals/authorizationRecords';
 import { measureCoverage, renderCoverageSummary } from '../coverage/measure';
 import type { CorporateActionRecord, IssuerRecord, ListingRecord, PriceRecord, SecurityRecord } from '../fundamentals/types';
 
@@ -44,52 +85,145 @@ interface XbrlFilingDeclaration {
 }
 
 interface Args {
-  readonly inputDir: string;
+  /**
+   * Every `--input` directory, in the order given, each resolved to an absolute path (`S3-D2`).
+   *
+   * One entry is the ordinary single-bundle run and behaves exactly as it did before the flag was repeatable.
+   */
+  readonly inputDirs: readonly string[];
   readonly datasetDir: string;
   readonly now: string;
   readonly allowErrors: boolean;
   /** The declared dataset grammar. Absent means the legacy V1 grammar, exactly as before the flag existed. */
   readonly datasetSchema: DatasetSchema;
+  /**
+   * Every `--authorization-record` file, each resolved to an absolute path (`W05`).
+   *
+   * Empty is the ordinary run and behaves exactly as it did before the flag existed.
+   */
+  readonly authorizationRecords: readonly string[];
 }
+
+const USAGE =
+  'usage: ingest.ts --input <dir> [--input <dir> ...] --dataset-dir <dir> [--now <iso>] [--allow-errors] ' +
+  '[--dataset-schema <schema>] [--authorization-record <file> ...]';
 
 function parseArgs(argv: readonly string[]): Args {
   const get = (flag: string): string | undefined => {
     const index = argv.indexOf(flag);
     return index === -1 ? undefined : argv[index + 1];
   };
-  const inputDir = get('--input');
+  /**
+   * Every value of a repeatable flag, in the order supplied.
+   *
+   * Repeats are KEPT, not collapsed. Supplying the same directory twice is a conflict the merge validation reports
+   * as `DUPLICATE_INPUT_DIR`: silently deduplicating it would accept a command line that does not say what the
+   * operator meant, and would record one source where two were named.
+   */
+  const getAll = (flag: string): string[] => {
+    const values: string[] = [];
+    argv.forEach((token, index) => {
+      if (token !== flag) return;
+      const value = argv[index + 1];
+      if (value !== undefined) values.push(value);
+    });
+    return values;
+  };
+  const inputDirs = getAll('--input');
   const datasetDir = get('--dataset-dir');
-  if (inputDir === undefined || datasetDir === undefined) {
-    throw new Error(
-      'usage: ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors] [--dataset-schema <schema>]',
-    );
+  if (inputDirs.length === 0 || datasetDir === undefined) {
+    throw new Error(USAGE);
   }
+  /**
+   * Every `--authorization-record` value. A flag with no value, or followed by another flag, is REFUSED.
+   *
+   * `getAll` skips a flag that has no value. That is tolerable for `--input`, where a run with no input is
+   * refused anyway. Here it would turn a mistyped citation into an ordinary uncited run, which writes a
+   * different rights declaration from the one the operator asked for, without saying so.
+   */
+  const authorizationRecords: string[] = [];
+  argv.forEach((token, index) => {
+    if (token !== '--authorization-record') return;
+    const value = argv[index + 1];
+    if (value === undefined || value.startsWith('--')) {
+      throw new Error(`--authorization-record needs the path of a record file. ${USAGE}`);
+    }
+    authorizationRecords.push(resolve(value));
+  });
   return {
-    inputDir: resolve(inputDir),
+    inputDirs: inputDirs.map((dir) => resolve(dir)),
     datasetDir: resolve(datasetDir),
     now: get('--now') ?? new Date().toISOString(),
     allowErrors: argv.includes('--allow-errors'),
     // Fail closed on a grammar this build does not know, before anything is read: `assertSupportedDatasetSchema`
     // is the single authority on which schemas exist, so the CLI cannot invent one.
     datasetSchema: assertSupportedDatasetSchema(get('--dataset-schema')),
+    authorizationRecords,
   };
 }
 
-function readJson<T>(path: string): T {
-  return JSON.parse(readFileSync(path, 'utf8')) as T;
+/**
+ * The name a consumed input file is recorded under: its path inside the input directory, `/`-separated.
+ *
+ * `sep` is normalised to `/` so that one bundle's input digest is the same on Windows and on Linux. Provenance
+ * that changed with the platform it was read on could not be reproduced, and this product's designated runtime is
+ * a Windows laptop.
+ */
+function inputFileName(inputDir: string, path: string): string {
+  return relative(inputDir, path).split(sep).join('/');
 }
 
-function readTextFile(path: string): TextFile {
-  return { name: path.split(/[\\/]/).pop() ?? path, text: readFileSync(path, 'utf8') };
-}
+/**
+ * Load ONE input bundle, recording the exact bytes it consumed (`S3-D2`).
+ *
+ * The recorded file list comes from the reading code itself rather than from a second scan of the directory, so
+ * the provenance digest cannot claim a file this run did not read, or omit one it did. Files the ingestion path
+ * does not read — `data-extraction.json` and `identity/*.json` are deliberately ignored here — are therefore not
+ * in the digest, which is the honest reading: it identifies what this dataset was actually built from.
+ */
+export function loadInputBundle(inputDir: string, datasetSchema?: DatasetSchema): InputBundle {
+  const dir = resolve(inputDir);
+  const filesRead: DatasetInputFile[] = [];
 
-export function loadInputs(inputDir: string, datasetSchema?: DatasetSchema): DatasetInputs {
-  const rosterPath = join(inputDir, 'roster.json');
+  /** Read a file AND record the digest of the bytes consumed. */
+  const consume = (path: string): string => {
+    const text = readFileSync(path, 'utf8');
+    filesRead.push({ name: inputFileName(dir, path), sha256: sha256Hex(text) });
+    return text;
+  };
+  const consumeJson = <T,>(path: string): T => JSON.parse(consume(path)) as T;
+  const consumeTextFile = (path: string): TextFile => ({
+    // `TextFile.name` stays the bare file name: ingestion issues quote it as their subject, so changing it would
+    // change recorded issue text and with it the content digest.
+    name: path.split(/[\\/]/).pop() ?? path,
+    text: consume(path),
+  });
+
+  const rosterPath = join(dir, 'roster.json');
   if (!existsSync(rosterPath)) throw new Error(`roster.json is required in ${inputDir}`);
-  const roster = readJson<{ issuers: IssuerRecord[]; securities: SecurityRecord[]; listings: ListingRecord[] }>(rosterPath);
+  const roster = consumeJson<{ issuers: IssuerRecord[]; securities: SecurityRecord[]; listings: ListingRecord[] }>(rosterPath);
+  /**
+   * `S3-D1` — validate the sector vocabulary HERE, before anything is built or written.
+   *
+   * The cast inside `consumeJson` above is an assertion, not a validation: it is `JSON.parse(...) as T`, so
+   * `roster.issuers` is typed `IssuerRecord[]` whether or not the file actually held canonical sectors.
+   * `IssuerRecord.sector` is the closed `SectorName` union, but a type is erased at runtime and coverage
+   * measurement selects issuers by string equality, so an off-vocabulary sector used to make its issuer match no
+   * sector at all — an ingestion that exited `0`, recorded no issue, and measured zero sectors.
+   *
+   * Validating before `buildDatasetContent` is also what makes the failure non-destructive: a roster this build
+   * cannot interpret must never reach the writer at all. Throwing here means an existing valid dataset is left
+   * untouched. Not bypassable by `--allow-errors`, which accepts ingestion issues, not uninterpretable input.
+   *
+   * `S3-D2` does not relax this: every bundle of a multi-input run is loaded through here, so each one is
+   * sector-validated on its own before the set is merged. The writer now publishes as one unit and would not
+   * partially overwrite a dataset either, but that is a second line of defence, not a licence to hand it input
+   * this build cannot interpret.
+   */
+  assertValidIssuerSectors(roster.issuers, rosterPath);
 
   const optional = (name: string): string | null => {
-    const path = join(inputDir, name);
+    const path = join(dir, name);
     return existsSync(path) ? path : null;
   };
 
@@ -99,36 +233,182 @@ export function loadInputs(inputDir: string, datasetSchema?: DatasetSchema): Dat
   const pricesPath = optional('prices.json');
   const filingsPath = optional('xbrl-filings.json');
 
-  const xbrlDir = join(inputDir, 'xbrl');
+  const xbrlDir = join(dir, 'xbrl');
   let xbrlFiles: XbrlFileInput[] = [];
   if (filingsPath !== null) {
-    const filings = readJson<XbrlFilingDeclaration[]>(filingsPath);
+    const filings = consumeJson<XbrlFilingDeclaration[]>(filingsPath);
     xbrlFiles = filings.map((filing) => {
       const path = join(xbrlDir, filing.file);
       if (!existsSync(path)) throw new Error(`XBRL instance ${filing.file} declared in xbrl-filings.json is missing`);
-      return { ...filing, name: filing.file, text: readFileSync(path, 'utf8') };
+      return { ...filing, name: filing.file, text: consume(path) };
     });
   } else if (existsSync(xbrlDir) && readdirSync(xbrlDir).some((entry) => entry.endsWith('.xml'))) {
     throw new Error('xbrl-filings.json is required when xbrl/ contains instance documents (issuer and period must be declared, never inferred)');
   }
 
-  return {
+  const inputs: DatasetInputs = {
     ...(datasetSchema === undefined ? {} : { datasetSchema }),
     issuers: roster.issuers,
     securities: roster.securities,
     listings: roster.listings,
-    corporateActions: actionsPath === null ? [] : readJson<{ corporateActions: CorporateActionRecord[] }>(actionsPath).corporateActions,
-    prices: pricesPath === null ? [] : readJson<{ prices: PriceRecord[] }>(pricesPath).prices,
-    periodCsv: periodsPath === null ? null : readTextFile(periodsPath),
-    operatingMetricsCsv: metricsPath === null ? null : readTextFile(metricsPath),
+    corporateActions: actionsPath === null ? [] : consumeJson<{ corporateActions: CorporateActionRecord[] }>(actionsPath).corporateActions,
+    prices: pricesPath === null ? [] : consumeJson<{ prices: PriceRecord[] }>(pricesPath).prices,
+    periodCsv: periodsPath === null ? null : consumeTextFile(periodsPath),
+    operatingMetricsCsv: metricsPath === null ? null : consumeTextFile(metricsPath),
     xbrlFiles,
   };
+  return { dir, inputs, filesRead };
+}
+
+/**
+ * Load a single input directory. Public behaviour is unchanged: this is `loadInputBundle` without the provenance,
+ * kept so existing callers keep one function to call.
+ */
+export function loadInputs(inputDir: string, datasetSchema?: DatasetSchema): DatasetInputs {
+  return loadInputBundle(inputDir, datasetSchema).inputs;
+}
+
+/**
+ * The rights declaration this run records.
+ *
+ * Without a citation it is exactly what the CLI always wrote: the same three members, in the same order, so a
+ * manifest built without `--authorization-record` is byte-identical to the manifests committed as evidence.
+ * With one, the basis names the cited records instead of the directories and the checked references travel with
+ * it. The state does not change either way: a cited record is the operator's own declaration.
+ */
+function sourceRightsFor(
+  inputDirs: readonly string[],
+  authorizationReferences: readonly AuthorizationReference[] | null,
+): SourceRightsDeclaration {
+  const note = 'operator attestation over the operator’s own input files; not an independent verification of any third party’s terms';
+  if (authorizationReferences === null) {
+    return {
+      state: 'OPERATOR_ASSERTED',
+      // One directory reads exactly as it did before `--input` was repeatable, so a single-bundle manifest is
+      // byte-identical to the manifests already committed as evidence.
+      basis: `operator-supplied input files read from ${inputDirs.join(', ')}`,
+      note,
+    };
+  }
+  return {
+    state: 'OPERATOR_ASSERTED',
+    basis: authorizationBasisOf(authorizationReferences),
+    note,
+    authorizationReferences,
+  };
+}
+
+/**
+ * Check the records the operator cited against the bundles of THIS run (`W05`). Throws; writes nothing.
+ *
+ * The record files are read here, so the reference is to bytes the run actually saw. Each bundle is identified
+ * by the input digest the run computed from the files it consumed. Where a record also states the dataset an
+ * admitted input produces alone, that dataset version is computed here with the product's own builder and
+ * digest function over the bundle as loaded, never taken from the bundle's own evidence.
+ */
+function citeRecordsFor(
+  recordPaths: readonly string[],
+  bundles: readonly InputBundle[],
+  merged: MergedInputSet,
+): readonly AuthorizationReference[] {
+  const cited: CitedRecordFile[] = recordPaths.map((path) => {
+    try {
+      return { suppliedPath: path, bytes: readFileSync(path) };
+    } catch (error) {
+      throw new AuthorizationReferenceError(
+        'RECORD_UNREADABLE',
+        `authorization record ${path} could not be read (${error instanceof Error ? error.message : String(error)}). Nothing was written.`,
+      );
+    }
+  });
+  const inputs = bundles.map((bundle, index) => {
+    let alone: string | undefined;
+    return {
+      inputDir: bundle.dir,
+      inputDigest: merged.provenance[index]!.inputDigest,
+      datasetVersion: (): string => {
+        alone ??= computeContentDigest(buildDatasetContent(bundle.inputs));
+        return alone;
+      },
+    };
+  });
+  const references = citeAuthorizationRecords(cited, inputs);
+
+  /*
+   * The dataset the WHOLE run produces, checked against what a cited record states for exactly these inputs.
+   * The writer makes the same check when it builds the manifest; it is made here as well so that this refusal,
+   * like every other, comes before the destination is read or recovered. The content is built once more for it,
+   * which changes nothing: the build is a pure function of the inputs.
+   */
+  const produced =
+    bundles.length === 1 ? inputs[0]!.datasetVersion() : computeContentDigest(buildDatasetContent(merged.inputs));
+  const recorded = manifestProvenance(merged.provenance);
+  const findings = authorizationReferenceFindings(references, {
+    datasetVersion: produced,
+    ...(recorded.length === 0 ? {} : { inputs: recorded }),
+  });
+  if (findings.length > 0) {
+    throw new AuthorizationReferenceError(
+      'DATASET_NOT_STATED',
+      `${findings.join('; ')}. A different dataset digest is not what was admitted. Nothing was written.`,
+    );
+  }
+  return references;
 }
 
 export function run(argv: readonly string[]): number {
   const args = parseArgs(argv);
-  const inputs = loadInputs(args.inputDir, args.datasetSchema);
-  const content = buildDatasetContent(inputs);
+
+  /**
+   * `S3-D2` — load every named bundle, validate the SET, and only then build or write anything.
+   *
+   * `mergeInputBundles` calls `assertMergeableInputBundles` first, so duplicate or conflicting identities, an empty
+   * bundle and incompatible grammars all throw here with the destination untouched. Each bundle was loaded through
+   * `loadInputBundle`, so `S3-D1` sector validation has already run on every one of them.
+   *
+   * The merged set then goes through `buildDatasetContent` ONCE, which is what keeps this from being a weaker path
+   * than single-bundle ingestion: the builder's referential-integrity, duplicate-period, sign-rule, nil-binding and
+   * listing-overlap checks all run over the union of the bundles rather than per bundle.
+   */
+  const bundles = args.inputDirs.map((dir) => loadInputBundle(dir, args.datasetSchema));
+  const merged = mergeInputBundles(bundles);
+
+  /**
+   * `W05` — check a cited authorization record BEFORE the destination is read, recovered or written.
+   *
+   * A record that does not admit every input bundle of this run is a refusal, not a downgrade: the run stops
+   * here and the destination is exactly as it was. Falling back to the directory basis would write a dataset
+   * under a declaration the operator did not ask for.
+   */
+  const authorizationReferences =
+    args.authorizationRecords.length === 0
+      ? null
+      : citeRecordsFor(args.authorizationRecords, bundles, merged);
+
+  /**
+   * Resolve an interrupted publication BEFORE reading the destination (`S3-D2`, publication safety).
+   *
+   * A previous run that was killed between the two renames of the swap leaves the dataset either absent from
+   * its path or sitting beside it under a marker. Reading the destination in that state would answer the wrong
+   * question — the guard below would see no dataset at all and allow anything — so the markers are resolved
+   * first, deterministically. This is a no-op with no marker present, which is why an ordinary run's output is
+   * unchanged; when it does act, every action is reported, because silently moving the operator's dataset
+   * directories would be worse than the interruption that caused it.
+   */
+  const recovery = recoverInterruptedPublication(args.datasetDir);
+  for (const action of recovery.actions) {
+    process.stdout.write(`recovery       ${action}\n`);
+  }
+
+  // Refuse a run that would silently drop issuers or recorded sources from the dataset already at the destination
+  // — the S3-D2 failure mode, guarded rather than merely made unnecessary. Throws before anything is written.
+  assertNoSilentSourceLoss(
+    args.datasetDir,
+    merged.provenance,
+    merged.inputs.issuers.map((issuer) => issuer.issuerId),
+  );
+
+  const content = buildDatasetContent(merged.inputs);
 
   const errors = content.issues.filter((issue) => issue.severity === 'ERROR');
   for (const issue of content.issues) {
@@ -138,6 +418,15 @@ export function run(argv: readonly string[]): number {
     process.stderr.write(`\n${errors.length} ingestion error(s); nothing was written. Re-run with --allow-errors to write a partial dataset that records them.\n`);
     return 1;
   }
+
+  /**
+   * The coverage report is derived from the content, so its version is the content digest — the same value the
+   * manifest it is published beside will carry. Computing it here is what lets the report be published IN THE
+   * SAME UNIT as the dataset instead of being written into the destination afterwards, where a failure left a
+   * dataset that verified while its coverage report still described the previous version.
+   */
+  const datasetVersion = computeContentDigest(content);
+  const report = measureCoverage(content, { datasetVersion, generatedAt: args.now });
 
   const written = writeDataset({
     dir: args.datasetDir,
@@ -153,17 +442,58 @@ export function run(argv: readonly string[]): number {
      * This is an ATTESTATION, not a verification: nothing here checked a third party's terms, and
      * the recorded basis says exactly what was relied on. An operator whose source needs a
      * rights-holder permission must obtain it and record THAT basis here instead.
+     *
+     * When the operator cites a decision record (`--authorization-record`, `W05`), the basis names that record
+     * instead of the directory, and the checked references travel with it. The state does not change: a cited
+     * record is still the operator's own declaration, so the dataset is still `OPERATOR_ASSERTED`.
      */
-    sourceRights: {
-      state: 'OPERATOR_ASSERTED',
-      basis: `operator-supplied input files read from ${args.inputDir}`,
-      note: 'operator attestation over the operator’s own input files; not an independent verification of any third party’s terms',
-    },
+    sourceRights: sourceRightsFor(args.inputDirs, authorizationReferences),
+    /**
+     * Per-bundle provenance, recorded only for a multi-input run (`manifestProvenance` returns nothing for one
+     * bundle). Audit metadata: it is not part of `datasetVersion`, so recording where a dataset came from cannot
+     * change what it says.
+     */
+    inputProvenance: manifestProvenance(merged.provenance),
+    /**
+     * The coverage report travels with the dataset. Bytes are unchanged — same canonical form, same name — and
+     * it is still outside `manifest.files` and outside `datasetVersion`, exactly as when the CLI wrote it
+     * itself. What changes is that it can no longer be left behind by a failed publication.
+     */
+    derivedFiles: () => ({ [COVERAGE_FILE_NAME]: serializeDatasetFile(report) }),
   });
 
-  const report = measureCoverage(content, { datasetVersion: written.manifest.datasetVersion, generatedAt: args.now });
   const coveragePath = join(args.datasetDir, COVERAGE_FILE_NAME);
-  writeFileSync(coveragePath, `${JSON.stringify(JSON.parse(canonicalize(report)), null, 2)}\n`, 'utf8');
+  for (const marker of written.deferredCleanup) {
+    process.stdout.write(`recovery       the superseded dataset at ${marker} could not be discarded now; the next run will remove it\n`);
+  }
+
+  if (merged.provenance.length > 1) {
+    // Operator-visible for a multi-input run only, so a single-bundle run's output is unchanged. Naming every
+    // source on the way out is the point of the contract: a three-issuer dataset must not look like a one-issuer
+    // dataset that happened to grow.
+    process.stdout.write(`\ninputs         ${merged.provenance.length} bundles merged into one dataset\n`);
+    for (const entry of merged.provenance) {
+      process.stdout.write(`  ${entry.inputDir}\n`);
+      process.stdout.write(`    issuers      ${entry.issuerIds.length === 0 ? 'none' : entry.issuerIds.join(', ')}\n`);
+      process.stdout.write(`    sectors      ${entry.sectors.length === 0 ? 'none' : entry.sectors.join(', ')}\n`);
+      process.stdout.write(`    inputDigest  ${entry.inputDigest}  over ${entry.files.length} file(s)\n`);
+    }
+  }
+
+  if (authorizationReferences !== null) {
+    // Printed only when a record was cited, so an ordinary run's output is unchanged.
+    process.stdout.write(
+      `\nauthorization  ${authorizationReferences.length} record(s) cited: the operator’s own declaration; ` +
+        'not an independent verification of any third party’s terms; redistribution not authorised\n',
+    );
+    for (const reference of authorizationReferences) {
+      process.stdout.write(`  ${reference.decision} ${reference.decisionDate}  ${reference.record}\n`);
+      process.stdout.write(`    sha256       ${reference.recordSha256}\n`);
+      for (const inputDigest of reference.inputDigests) {
+        process.stdout.write(`    admits       input ${inputDigest}\n`);
+      }
+    }
+  }
 
   process.stdout.write(`\ndatasetSchema  ${written.manifest.datasetSchema}\n`);
   process.stdout.write(`datasetVersion ${written.manifest.datasetVersion}\n`);
@@ -178,7 +508,14 @@ if (invokedDirectly) {
   try {
     process.exitCode = run(process.argv.slice(2));
   } catch (error) {
-    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+    // A refused citation is printed with its code, so the operator can tell which of the refusals it was.
+    const reason =
+      error instanceof AuthorizationReferenceError
+        ? `${error.code}: ${error.message}`
+        : error instanceof Error
+          ? error.message
+          : String(error);
+    process.stderr.write(`${reason}\n`);
     process.exitCode = 1;
   }
 }

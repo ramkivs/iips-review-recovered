@@ -22533,6 +22533,47 @@ Subsequent Q2 consolidated PDF omits the current caption; its XBRL has another z
 Next free §16.284 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
 
 **§16.283 focused follow-up — C, indeterminate.** The retained hash-matched March instance contains one `in-capmkt:CurrentInvestments` fact, lexical `0`, context `OneI`, unit `INR`, `decimals=-7`; QName namespace `http://www.sebi.gov.in/xbrl/2026-01-31/in-capmkt`. The complete context names scrip-code identifier `532714`, instant `2026-03-31`, and no explicit or typed dimensions; `iso4217:INR`, no nil or precision. The filing itself says consolidated/audited; the same undimensioned context also occurs in its separate standalone instance. This verifies the fact-level gap above but not the economic meaning: `-7` denotes accuracy to one crore; the PDF omission and recurring zero in other filings neither establish nor disprove defaulting. The referenced 2026 taxonomy schema returned 404; definitions, labels and presentation relationships remain unverified. Neither issuer economic zero nor template default established. `CURRENT_INVESTMENTS` remains `MISSING / NOT_REPORTED`; **L-039 OPEN**. No mapping or policy change. Source bytes, extraction, failed-workflow diagnosis, comparative controls, clock discrepancy and verification are in the §17.25 bundle.
+## 16.284 IID NP-04 first Infosys persistence COMPLETE — operator-reported Windows execution; Stage 5 next (2026-11-15)
+
+**No IPD act, no IPD change.** This is an IRR-only documentation and tracker record. It consumes no
+CV-CORR / CHG / V identifier. The owner reports successful execution of
+`docs/integration/IID-NP04-PERSISTENCE-PREPARATION-2026-11-15.md` §§4A–4E on Windows:
+§4A source/owner/package PASS; §4B backup/baseline inventory PASS; §4C initialization PASS
+(migrations applied 0, ledger entries 1); §4D first Infosys persistence OK/CREATED/wrote true;
+§4E independent read-back/preservation PASS.
+
+**Operator-reported paths and identity.** Evidence directory
+`C:\iips-backup\NP04-20261115T200134629Z`; database `H:\IIPS\runtime\np04\reports.sqlite`;
+Reports carrier `H:\IIPS\runtime\reports-owner\reports-owner-context.json`; issuer
+`IN:CIN:L85110KA1981PLC013115`; report ID `6b6e2316-d958-4187-9700-c47984a9a10a`; artifact version 1;
+version count 1; dataset `sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`;
+payload digest `f80c25de6025aa6e38f64b6b303d78b4a5657ef39a44c863c625b0041f683084`; input digest
+`sha256:b7086ae2695e36ef0ea68a9a1f768a96ee2990ebca14520b0a533795b3508f99`; assessment
+`SUFFICIENT / MATERIAL_CONCERNS`, confidence `0.3210`.
+
+**Preservation.** Baseline: 49,152 database bytes, 2 artifact rows, 2 chains, 0 Infosys heads, rows
+SHA-256 `483942b52d1392611d34a68183c38b13491d271116dcd15c56802be4eb7bad2d`. Initialization preserved
+2 rows/2 chains and the baseline hash. Final: original records preserved 2, new Infosys record 1,
+total rows 3, total chains 3, Infosys heads 1, rows SHA-256
+`34443b9bdc840531c588fe25270a35f90d51d10e573c3ce26eedcdcbfc629d95`.
+
+**Evidence boundary.** Arena could not access the Windows evidence directory or database; the expected
+JSON files are named but not inspected in
+`docs/integration/IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md`. Windows results remain
+operator-reported. Repository documents/blobs and the publication read-back are independently verified.
+
+**Status distinctions.** NP-04 first Infosys persistence is COMPLETE; IID-01 company-assessment
+persistence evidence exists (D9 first real version, operator-reported). IID-03 change comparison is not
+closed by one version. D5/D6 IPD binding/IPC, D4 F-3 carrier, D10/P6-B browser acceptance, R-1/R-2 host
+captures, Stage 4 freshness/operating-metric residuals, L-041/L-042 and overall IID readiness remain
+open. **Overall IID readiness: NOT READY.** No mint was repeated, no Windows data was modified by IRR,
+and PR #562 was not merged.
+
+**Next work.** Stage 5 — end-to-end integration remains the next adopted stage. Its hard portfolio-loop
+prerequisite is IPD active binding verification plus IPC peer/live portfolio read; IRR cannot implement
+or assert it. Exact remaining scope/owners/evidence: completion record §9; roadmap Part C §C.2.
+
+Next free §16.285 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
 
 ## 16.285 IRR Windows named-pipe IPC lifecycle and test-fixture correction — implementation and targeted validation COMPLETE; feature branch only, not merged (2026-11-16)
 
@@ -22734,3 +22775,138 @@ passes; `git diff --check` is clean. The release-asset step of that gate needs t
 cannot be part of the commit that carries it and are reported separately.
 
 Next free §16.287 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
+
+## 16.287 IID O1 — identity governance decided: three-issuer initial population, identity from the admitted records, inclusion is not qualification (2026-11-16)
+
+**Numbering.** This section was written as `§16.285` on the IID branch
+`arena/53ff9276-iips-review-recovered`. `main` had meanwhile used `§16.285` and `§16.286`, so at the
+reconciliation of the two lines on 2026-11-17 it became `§16.287`, after them. `§16.284` kept its number.
+Nothing else in this section was changed. The IID documents that cited this section as `§16.285` now
+cite `§16.287`.
+
+**IRR-only documentation record. No IPD act, no IPD change, no code change, no identifier consumed** —
+this is an IID owner decision, so it takes no `CV-CORR` / `CHG` / `V` identifier from the CV series.
+
+**Decision recorded.** `O1` — `DECIDED`:
+`docs/integration/IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md`. Operative content: (1) the
+initial governed issuer population is **Infosys Limited, Marico Limited and KEC International Limited**;
+(2) issuer identity must be supported by the **admitted identity records** — no identifier invented,
+inferred or widened; (3) **inclusion is not financial qualification**; (4) **Ramki is the sole owner and
+decision-maker** for issuer eligibility and future additions; (5) **IRR maintains the identity records and
+IPD retains its existing identity approval enforcement responsibility.**
+
+**No duplicate.** Searched before writing: no `O1` decision record exists (filename walk and body search);
+the authoritative roadmap carries one `O1` mention — the `PA-01` removal row — and the tracker carried
+none; the 2026-10-19 eligibility-contract document is an expressly non-operative proposal; IPD's `D1`
+(W04) governs whether IPD's P04 export may be used as IRR's roster and is a different act. Nothing was
+overwritten.
+
+**Relationship to `IID-PA-01`.** `PA-01` §3 `G-3` removed `O1` as a gate. That stands: this record adds
+no gate and unblocks nothing. It states once what the owner decided, which `PA-01` did not do.
+
+**`S2-R1` status.** **SATISFIED** as a register act by this record, which is the exact evidence that row
+named. `S2-R2` remains **OPEN** (optional host-transcript detail). Stage 2's technical verdict is
+unchanged and is not re-asserted here; Stage 4, Stage 5 and the readiness findings are untouched.
+
+**Identity support verified read-only.** The nine identity files of the three `O3`-admitted bundles were
+hashed and compared against the remote tree of `ad448381…`: **9/9 blob-identical**. All three rosters
+parse and validate (CIN shape and `IN:CIN:` composition, ISIN Luhn, one `ASSESSABLE` equity security per
+issuer, `ELIGIBLE` with null reason, `foreignIssuer: false`, sectors inside the closed 13-member
+`SECTOR_NAMES` union, three distinct CINs, no fixture self-classification, zero corporate-action records).
+Blobs: Infosys `4d0550b7…`, Marico `565688d4…`, KEC `e1a14e5b…`.
+
+**Ownership line, as fact.** IRR's loader reads three files and no approval artefact — **0** hits in IRR's
+tracked content for `IDENTITY_APPROVAL`, `irr_identity_approval`, `W04-D1`, `p7ManifestSha256`,
+`GENERATION_MISMATCH`, `IPD_IRR_IDENTITY_APPROVAL`. IPD's check remains at
+`src/identity/irr_identity_approval.ts` (blob `8aced1fe…`) with `scripts/provision-irr-identity-sources.mjs`
+(blob `68f9a023…`) at IPD `main` `10f326cb…`, read only. Recording this decision neither requires nor
+creates an IPD approval.
+
+**One divergence recorded, not resolved.** IPD's own host-completion record reports, as an
+**operator-reported host fact** outside Arena's access, that a **2,388-issuer** P04-exported roster was
+installed as IRR's identity sources under IPD approval `W04-D1-20261114-01`. That is a different
+population from the three decided here. Arena did not access the host or `${IIPS_DATA_DIR}`; no set was
+read, written, compared or re-published. The population limb of `O1` reserves additions to the owner, so
+this neither adopts nor forecloses that set; reconciling an installed set to this decision is an
+owner/operator act and was not performed.
+
+**Effect on readiness: none.** **Overall IID readiness remains NOT READY.** The IPD active binding (D5),
+the IPC endpoint/peer (D6) and the F-3 owner-context carrier (D4) are untouched, as are IID-03 change
+comparison, browser acceptance and the Stage 4 data residuals. No holding has been shown to resolve to an
+issuer. Nothing was re-provisioned, reinstalled or re-minted; PR #562, #563, #566 and #515 are untouched
+and unmerged.
+
+Next free §16.288 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
+
+## 16.288 Snapshot-to-Live W05 — IID line reconciled with `main`; a dataset can name its `O3` record; W05 not complete (2026-11-17)
+
+**IRR-only merge, code, tests and record. No IPD act, no IPD change, no host step.** It consumes no
+CV-CORR / CHG / V identifier and adds no work item, owner or dependency. It records the two repository
+items that the W05 status record of 2026-11-16 listed as needing no decision (its section 8.1, items 1
+and 2). The record is
+`docs/integration/W05-IID-RECONCILIATION-AND-AUTHORIZATION-REFERENCE-2026-11-17.md`; its evidence is in
+`evidence/integration/w05-iid-reconciliation-and-authorization-reference-2026-11-17/`. **W05 is not
+complete and is not accepted**: no issuer of the portfolio has a financial dataset, no source's terms
+have been reviewed, and the two decisions of section 8.2 of the earlier record are open.
+
+**Reconciliation.** Branch `arena/53ff9276-iips-review-recovered` at
+`5bf1167d069a208a0dc3ca4e4df82559cd69d02f` (45 commits, 133 files) is merged into `main`
+`2b61a50a7aa51e0fc4d5a1a3a208c08ca495823b` by merge commit `4ff29cf560bb6ab1ee7b67478db10ce97fc18817`.
+Three files conflicted as text. In `investmentCoverage.ts` the classifier of `main` is kept: the dataset
+class comes from the manifest's rights declaration on both coverage surfaces, and the substring test on
+provider and licence text is not restored anywhere. In this tracker, IID `§16.284` keeps its number and
+stands before `§16.285`; `§16.285` and `§16.286` are byte-identical; the IID `O1` section is `§16.287`
+and says so. Three further places agreed as text and disagreed in meaning (identity provisioning against
+the identity validator of `main`; the head re-validation generator and its test, which pinned the `L-041`
+disagreement; one served-route note count); each is named in the record, section 1.3. Of the 133 files,
+119 are byte-identical to the branch.
+
+**Rights records: unchanged.** The `O3` records of 2026-11-13 and 2026-11-14, `PA-01`, both verification
+files, the S4-R3 candidate manifest and the IID limitation register have the same Git blobs as on the
+branch (record, section 1.4). The four bundle directories have the Git trees that the `O3` record of
+2026-11-14 names. No authorization was added or re-issued.
+
+**A dataset can name its `O3` record.** The ingestion CLI takes one optional, repeatable option,
+`--authorization-record <file>` (commit `37c8f602466e695745a228db72f334c6aa79a8fe`). With it, the
+manifest's rights declaration names the decision record, pinned by the SHA-256 of its bytes, instead of
+the input directory. The run is refused before the destination is read or written unless the file is one
+of the two listed records byte for byte and every input bundle is an input a named record admits. An
+input is identified by the digest of its bytes and by nothing else: not by directory, issuer or provider
+text. The five bundles outside `O3` are refused, as are a refreshed bundle under the first record, a
+superseded bundle under the second, and an admitted bundle with any byte changed. Where a record states
+the dataset its inputs produce, the build must reproduce it. Each named record is cited for every bundle
+of the run that it admits, so nothing depends on the order of naming. Without the option the CLI writes
+what it wrote before, byte for byte. Readers check a citation every time and refuse one that does not
+fit; the coverage route then answers 503.
+
+**What a citation does not change.** The state stays `OPERATOR_ASSERTED` and the class stays
+`OPERATOR_SUPPLIED`: a cited record is the Principal's own declaration, not a verification of any third
+party's terms. `licence` still reads `operator-supplied; not redistributable`, and each reference
+carries `redistribution: NOT_AUTHORISED` with the record's own restrictions. Nothing is installed and no
+guard is relaxed. The dataset installed on the host is not changed and its manifest still carries the
+directory basis.
+
+**Limitations.** `L-041` and `L-042` are `OPEN` in the register, which is unchanged. The disagreement
+that `L-041` records no longer reproduces on the merged code: both paths answer `UNKNOWN` for the
+manifests it names. Whether to close `L-041` is a decision about the register and is the Principal's.
+
+**Validation, sandbox only.** `iips-platform`: typecheck 0 errors; `npm test` 678 of 678; `test:iid`
+1,450 of 1,450 in a checkout at the recorded path and 1,449 of 1,450 elsewhere (one test of the IID line
+compares a manifest that contains absolute paths); roster lint PASS. `frontend`: the three typechecks 0
+errors; full Vitest suite 3,073 passed, 1 skipped; production build passes. Of twenty-eight deliberate faults
+in the new implementation, twenty-seven failed at least one new test; the one that did not is a check the
+writer repeats, which no committed input can separate. All were reverted. The IRR-only static gate was
+run locally on the tree that carries this section: the validator compiles; the artifact-classification
+and workflow-trigger tests pass; the source, evidence and tracker validation passes; `git diff --check`
+is clean. The release-asset step of that gate needs the hosted runner.
+
+**Related records, as read; none is changed by this record.** PR #562 holds the first 24 of the 45
+commits and will show as merged when they are on `main`. PR #566 is OPEN at `92eda04`. The W05 status
+record of 2026-11-16 is kept as written; the record of this section lists the statements it replaces.
+
+**Publication.** This section is added by one commit on a branch made from `main`
+`2b61a50a7aa51e0fc4d5a1a3a208c08ca495823b`, after the two commits named above. Its commit hash, push,
+pull request and remote read-back cannot be part of the commit that carries it and are reported
+separately.
+
+Next free §16.289 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).

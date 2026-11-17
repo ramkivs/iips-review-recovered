@@ -58,6 +58,7 @@ function report(overrides: Partial<InvestmentCoverageReport> = {}): InvestmentCo
     measuredSectors: 0,
     totalSectors: 0,
     outstandingSectors: [],
+    offVocabularyIssuers: [],
     issuers: [],
     counts: { observed: 0, COVERED: 0, NO_FINANCIALS: 0, SECTOR_NOT_MEASURED: 0, ISSUED_DATA: 0 },
     issues: [],

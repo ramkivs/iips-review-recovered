@@ -1,0 +1,29 @@
+{
+  "bundle": "S4-R3 filing refresh",
+  "date": "2026-11-14",
+  "status": "PARTIALLY_DISCHARGED_CANDIDATE_NOT_HOST_INSTALLED",
+  "candidateDatasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "historicalHostDatasetVersion": "sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83",
+  "findings": {
+    "G6QuarterlyLimb": "MET_FOR_KEC_IN_CANDIDATE: quarterlyPeriods=2, issuer-row quarterlyPeriods=2 after the QUARTER-token read-path fix",
+    "S4R3FreshnessLimb": "NOT_MET: no issuer has an annual period end on or after 2026-04-28; STALE_STATEMENTS and STALE_DATA remain",
+    "Infosys": "OPEN_NO_COMMITTED_NEWER_SOURCE",
+    "Marico": "REFRESHED_TO_FY2026_IN_CANDIDATE: staleness 958 -> 228 days, still beyond the 200-day window",
+    "KEC": "QUARTERLY_COVERAGE_ADDED_IN_CANDIDATE: assessment staleness remains 228 annual days",
+    "HostInstallation": "NOT_PERFORMED",
+    "O3AdmissionOfRefreshedContent": "NOT_IMPLIED",
+    "SourceRights": "L-041 remains OPEN; committed-extract-to-derivation verified, PDF-to-transcription not independently verified here"
+  },
+  "asOf": "2026-11-14",
+  "freshness": [
+    { "issuerId": "IN:CIN:L85110KA1981PLC013115", "dataAsOf": "2024-03-31", "stalenessDays": 958, "staleBeyondPolicy": true },
+    { "issuerId": "IN:CIN:L15140MH1988PLC049208", "dataAsOf": "2026-03-31", "stalenessDays": 228, "staleBeyondPolicy": true },
+    { "issuerId": "IN:CIN:L45200MH2005PLC152061", "dataAsOf": "2026-03-31", "stalenessDays": 228, "staleBeyondPolicy": true, "quarterlyPeriods": 2 }
+  ],
+  "boundaries": [
+    "No assessment engine, freshness policy, valuation policy, required-field set, capital-structure rule, XBRL tag map, or identity resolver change",
+    "One coverage read-path fix: count the contract token QUARTER, not the non-contract string QUARTERLY",
+    "No historical evidence bundle modified",
+    "No host dataset reinstalled, no identity publication repeated against a host artefact, no NP-04 assessment artefact minted"
+  ]
+}

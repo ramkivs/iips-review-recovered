@@ -1,0 +1,122 @@
+{
+  "completenessPct": 100,
+  "contentDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "coverage": {
+    "annualPeriods": 11,
+    "corporateActions": 0,
+    "earliestPeriodEnd": "2022-03-31",
+    "issuers": 3,
+    "latestPeriodEnd": "2026-09-30",
+    "listings": 5,
+    "operatingMetricRecords": 0,
+    "prices": 0,
+    "quarterlyPeriods": 2,
+    "securities": 3
+  },
+  "dataAsOf": "2026-09-30",
+  "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+  "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "digestScope": {
+    "excluded": [
+      "lastImportAt",
+      "importRunId",
+      "inputFileNames",
+      "fileOrder",
+      "fileMtimes",
+      "elapsedMillis"
+    ],
+    "included": [
+      "issuers",
+      "securities",
+      "listings",
+      "periods",
+      "prices",
+      "corporateActions",
+      "operatingMetrics",
+      "issues"
+    ]
+  },
+  "files": {
+    "corporateActions.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "issuers.json": "b67da8709e7044312c5ef2db5fd92c416dc349bfdaff54f08f2d4194a5bc4014",
+    "issues.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "listings.json": "77f8d13490332c05589d3ebbdb59bda98ef7cebc853371d652698824ab992130",
+    "operatingMetrics.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "periods.json": "9b44cfffe23a05db0a5a288df26fe25dcdc2451f672c92a1bed2399f66ab6d47",
+    "prices.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "securities.json": "d25abfdede4a4bb89f44babcf8a3690f294e5c2bd93651109ddebe6590abc5ab"
+  },
+  "importRunId": "run-2026-11-14T00:00:00.000Z",
+  "inputs": [
+    {
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        }
+      ],
+      "inputDigest": "sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c",
+      "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+      "issuerIds": [
+        "IN:CIN:L85110KA1981PLC013115"
+      ],
+      "sectors": [
+        "Technology"
+      ]
+    },
+    {
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        }
+      ],
+      "inputDigest": "sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d",
+      "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+      "issuerIds": [
+        "IN:CIN:L15140MH1988PLC049208"
+      ],
+      "sectors": [
+        "Consumer"
+      ]
+    },
+    {
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ],
+      "inputDigest": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a",
+      "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+      "issuerIds": [
+        "IN:CIN:L45200MH2005PLC152061"
+      ],
+      "sectors": [
+        "Industrials"
+      ]
+    }
+  ],
+  "knownAsOf": "2026-11-14T00:00:00.000Z",
+  "lastImportAt": "2026-11-14T00:00:00.000Z",
+  "licence": "operator-supplied; not redistributable",
+  "provider": "operator-file-input",
+  "quality": "good",
+  "sourceRights": {
+    "basis": "operator-supplied input files read from /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input, /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico, /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+    "note": "operator attestation over the operator’s own input files; not an independent verification of any third party’s terms",
+    "state": "OPERATOR_ASSERTED"
+  }
+}

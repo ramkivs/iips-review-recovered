@@ -451,10 +451,24 @@ export async function fetchCompanyAssessment(
  * (`docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md`) and are deliberately
  * short: the register is the record, this is the notice. `investment.test.ts` asserts this list matches the
  * identifier list the server sends, so a new limitation cannot be added to one side only.
+ *
+ * **Two of these notices carry a COUNT, and a count can go stale.** `L-002` said "20 XBRL tags" after the V2
+ * associates/JV work had taken `XBRL_TAG_MAP` to 22, so the assessment page told the reader 20 while the
+ * coverage page — reading the same code — told them 22 (defect A,
+ * `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/A-STALE-LIMITATION-COUNTS.md`). This module is
+ * presentation-only and imports nothing from `iips-platform`, so the number cannot be derived here without
+ * breaking that boundary; it is corrected and then PINNED instead — `server/investment/cli/rivHeadRevalidation.test.ts`
+ * reads this file and fails if the stated count and `Object.keys(XBRL_TAG_MAP).length` disagree. Change the map
+ * and this notice must change with it.
+ *
+ * `L-009` is a known stale notice and is deliberately NOT reworded here: its text mirrors the register's §2
+ * short title, and restating it means restating the register, which is the register owner's act. Recorded under
+ * defect A in the same bundle (the register overlay flags `L-009` as superseded by the real-issuer work without
+ * editing the append-only §2 entry).
  */
 export const LIMITATION_DISCLOSURES: readonly { readonly id: string; readonly text: string }[] = Object.freeze([
   { id: 'L-001', text: '3 of 13 sectors are measured; 10 remain outstanding in the frozen sector engines.' },
-  { id: 'L-002', text: '20 XBRL tags are mapped; tags outside that set are visible gaps, not silent zeros.' },
+  { id: 'L-002', text: '22 XBRL tags are mapped; tags outside that set are visible gaps, not silent zeros.' },
   { id: 'L-003', text: 'The derivation set is closed at 8 items; anything else is reported as not computable.' },
   { id: 'L-004', text: 'The reference dataset is synthetic: it validates mechanics, never a company.' },
   { id: 'L-005', text: 'Bank dividends are withheld (NET_DEBT_TO_EBITDA_UNAVAILABLE) pending a bank-specific policy.' },

@@ -76,6 +76,24 @@ export interface InvestmentCoverageReport {
       readonly state: 'SYNTHETIC' | 'OPERATOR_ASSERTED' | 'UNKNOWN';
       readonly basis: string;
       readonly note: string;
+      /**
+       * `W05` — the operator's decision records the declaration cites. Absent for a dataset that cites none.
+       * The server checks every reference against the record list and the manifest before it serves it; one
+       * that does not check out is not served (the route answers 503). The three fixed members say what a
+       * citation is: the operator's own declaration, no independent verification, no right to redistribute.
+       */
+      readonly authorizationReferences?: readonly {
+        readonly decision: string;
+        readonly decisionDate: string;
+        readonly record: string;
+        readonly recordSha256: string;
+        readonly operativeText: string;
+        readonly instrument: 'OPERATOR_DECLARATION';
+        readonly independentSourceRightsVerification: 'NOT_CLAIMED';
+        readonly redistribution: 'NOT_AUTHORISED';
+        readonly restrictions: readonly string[];
+        readonly inputDigests: readonly string[];
+      }[];
     } | null;
     readonly issuers: number;
     readonly securities: number;

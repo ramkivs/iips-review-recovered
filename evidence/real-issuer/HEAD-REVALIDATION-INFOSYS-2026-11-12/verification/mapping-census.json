@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "countedAtHead": {
+    "lineItemsInClosedVocabulary": 53,
+    "xbrlTagsMapped": 22,
+    "distinctLineItemsWithAnXbrlTag": 21,
+    "derivationsInClosedSet": 8,
+    "derivationIds": [
+      "TOTAL_INCOME",
+      "EBIT",
+      "EBITDA",
+      "NET_DEBT",
+      "FREE_CASH_FLOW",
+      "NET_CASH_FLOW",
+      "DILUTED_SHARES",
+      "BOOK_VALUE_PER_SHARE"
+    ]
+  },
+  "csvIngestPath": {
+    "columns": 48,
+    "lineItemColumns": 37,
+    "lineItemsNotReachableViaCsv": 16,
+    "notReachable": [
+      {
+        "lineItem": "INTEREST_EARNED",
+        "statement": "PNL",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "INTEREST_EXPENDED",
+        "statement": "PNL",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "FEE_AND_COMMISSION_INCOME",
+        "statement": "PNL",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "COST_OF_MATERIALS_CONSUMED",
+        "statement": "PNL",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "PURCHASES_OF_STOCK_IN_TRADE",
+        "statement": "PNL",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "CHANGES_IN_INVENTORIES",
+        "statement": "PNL",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "OPERATING_EXPENSES",
+        "statement": "PNL",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "INVENTORIES",
+        "statement": "BS",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES",
+        "statement": "BS",
+        "derivable": false,
+        "hasXbrlTag": true
+      },
+      {
+        "lineItem": "INTEREST_PAID",
+        "statement": "CF",
+        "derivable": false,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "EBITDA",
+        "statement": "PNL",
+        "derivable": true,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "EBIT",
+        "statement": "PNL",
+        "derivable": true,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "FREE_CASH_FLOW",
+        "statement": "CF",
+        "derivable": true,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "NET_DEBT",
+        "statement": "BS",
+        "derivable": true,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "DILUTED_SHARES",
+        "statement": "BS",
+        "derivable": true,
+        "hasXbrlTag": false
+      },
+      {
+        "lineItem": "BOOK_VALUE_PER_SHARE",
+        "statement": "BS",
+        "derivable": true,
+        "hasXbrlTag": false
+      }
+    ],
+    "columnsThatAreNotLineItems": []
+  },
+  "xbrlPath": {
+    "exercisedByThisIssuer": false,
+    "reason": "no Ind AS XBRL instance was ingested for this issuer in any bundle; the tag map is therefore unexercised on real filings and L-002 stands",
+    "tagsMapped": 22,
+    "lineItemsWithNoTag": 32
+  },
+  "thisIssuerNewestPeriod": {
+    "periodEnd": "2024-03-31",
+    "filingRef": "INFY-INDAS-CONSOL-FY24",
+    "lineItemsSuppliedAsFiled": 33,
+    "lineItemsDeclaredNil": 4,
+    "declaredNil": [
+      "PREFERENCE_CAPITAL",
+      "SHORT_TERM_BORROWINGS",
+      "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+      "LONG_TERM_BORROWINGS"
+    ],
+    "lineItemsAbsentFromTheFilingRow": 0,
+    "absent": []
+  }
+}

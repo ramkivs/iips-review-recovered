@@ -928,3 +928,139 @@ prints a setting value, an owner/tenant pair, a carrier digest, a filesystem pat
    exists, IID-01 answers `404 investment-artifact-not-found` and IID-03 answers `404 change-not-found` —
    correct refusals, not faults.
 5. Re-run with `--strict`. Only then consider P6-B real-issuer browser acceptance.
+
+---
+
+## 17. IID personal-use operating authority (PA-01, 2026-11-15)
+
+**You are the sole operational authority for this application.** It is your own personal, single-user,
+local Windows, non-production system. There is no committee, acceptance authority, change board or second
+approver, and no IID record may require one of you. Governing document:
+`docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md`.
+
+**Just do these, directly:** install or replace a dataset; set runtime configuration; provision identity;
+run local tests; back up and restore; verify implementations and operations. Older IID records that call
+these "NOT AUTHORIZED", "a separate governed act", or "owner decision required" are **superseded** — PA-01
+§3 lists each one.
+
+### 17.1 The seven safeguards that replace approval
+
+1. **Back up before a destructive change.** Copy the current dataset out of the runtime path first.
+2. **Verify the backup.** Read it back and confirm its digest. An unverified copy is not a backup.
+3. **Verify the candidate.** Check its content digest before it goes near the live directory.
+4. **Use the supported mechanisms.** The ingestion CLI, the provisioning CLI, the published drivers —
+   not hand-edited dataset JSON.
+5. **Verify the result with the application's own readers**, not a reimplementation:
+   ```bash
+   # from iips-platform/
+   npx tsx src/investment/cli/verify-installed-dataset.ts --data-dir /absolute/data-domain
+   # from frontend/
+   npm run iid:readiness -- --data-dir /absolute/data-domain
+   ```
+6. **Roll back on failure.** Restore the verified backup and re-verify.
+7. **Write a short record.** What changed, digest before and after, verification result, backup location.
+
+A safeguard earns its place by preventing a real failure — data loss, unverified bytes, a silently dropped
+source, a claimed state the app cannot serve, or a failed change with no way back. Ceremony does not.
+
+### 17.2 Blockers: technical, not political
+
+A missing file, an absent dependency, a failed digest, a refused guard or an unprovisioned IPD peer is a
+**real blocker**. Fix it and proceed. An approval requirement is **not** a blocker. If a tool refuses,
+read the named check — it is telling you a technical fact.
+
+Two guards worth knowing, both correct and both kept:
+
+- `assertNoSilentSourceLoss` refuses an ingestion that would drop issuers or recorded sources from the
+  installed dataset. To supersede sources deliberately, replace the dataset with a verified package
+  rather than re-ingesting over it (PA-01 §5).
+- The Windows drivers refuse to synchronize your repository or overwrite an existing build destination.
+  Prepare the baseline yourself; choose a new destination.
+
+### 17.3 What has not changed
+
+IRR writes IRR and **IPD is not modified**. No PR is merged without explicit instruction. Unreported
+inputs are never silently zero. Digests, canonical sector vocabulary and fail-closed identity resolution
+still apply. Sandbox results are never reported as host results. Production, SaaS, multi-user and
+commercial deployment remain out of scope.
+
+## 18. Naming the decision record a dataset rests on (W05, 2026-11-17)
+
+Every dataset the ingestion CLI writes is `OPERATOR_ASSERTED`. Until now the basis it recorded was always
+the input directory. That is the same sentence for a bundle you admitted by decision `O3` and for one you
+did not. `--authorization-record` lets the manifest name the decision record instead. It is optional:
+without it the CLI writes exactly what it wrote before.
+
+### 18.1 Use it
+
+```bash
+# from iips-platform/ — build into a NEW directory, never over the installed dataset
+npx tsx src/investment/cli/ingest.ts \
+  --input ../evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input \
+  --input ../evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico \
+  --input ../evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec \
+  --dataset-dir /absolute/new-candidate/investment/dataset \
+  --now 2026-11-14T00:00:00.000Z \
+  --authorization-record ../docs/integration/IID-O3-S4-R3-READMISSION-PA-DECISION-2026-11-14.md
+```
+
+The run prints an `authorization` block: the record, its SHA-256, and the input digest of each bundle the
+record admits. In the manifest, `sourceRights.basis` then names the record and its SHA-256 instead of a
+directory, and `sourceRights.authorizationReferences` carries the checked reference. The dataset version is
+the one you get without the flag, because the rights declaration is outside the content digest.
+
+| Record this build lists | Inputs it admits | How the record fixes their bytes |
+|---|---|---|
+| `docs/integration/IID-O3-DATASET-ADMISSION-PA-DECISION-2026-11-13.md` | Infosys `REL-1`, Marico `WI7`, KEC `WI8` | It names each bundle's ledger, `digests.json`, by Git blob; the ledger gives the SHA-256 of each input file. It also states the dataset each bundle produces alone |
+| `docs/integration/IID-O3-S4-R3-READMISSION-PA-DECISION-2026-11-14.md` | The Infosys `REL-1` input and the refreshed Marico and KEC inputs | It states each input digest. It also states the dataset the three produce together, the S4-R3 candidate |
+
+An input is identified by the digest of its bytes and by nothing else. Repeat the flag when the bundles of
+one run rest on different records. Each named record is then cited for every bundle of the run that it
+admits, so a bundle both records admit (the Infosys input) is listed under both. The order of the flags
+changes nothing. The list is in `iips-platform/src/investment/fundamentals/authorizationRecords.ts`; a new
+decision record is added there.
+
+### 18.2 What is refused
+
+Each of these stops the run with exit status 1 before anything is read from or written to the destination.
+The first word on the error line is the code.
+
+- **A bundle no named record admits** (`INPUT_NOT_ADMITTED`). That is every bundle outside `O3` (`WI2`,
+  `WI3`, `WI5`, `WI6A-S2`, `WI7-L038`), a refreshed bundle under the 2026-11-13 record, a superseded bundle
+  under the 2026-11-14 record, and an admitted bundle with any byte changed, even a change that leaves the
+  dataset identical. Nothing is matched by directory, issuer or provider text. One such bundle refuses the
+  whole run.
+- **A build that does not reproduce the dataset a record states** (`DATASET_NOT_STATED`) for an admitted
+  input alone, or for the three candidate inputs together.
+- **A file that is not a listed record, byte for byte** (`RECORD_NOT_KNOWN`, `RECORD_UNREADABLE`). `PA-01`,
+  an edited copy, a copy whose line endings a checkout rewrote. If Windows reports this for the committed
+  record, restore the file with LF endings; `docs/integration/.gitattributes` keeps them that way in a fresh
+  checkout.
+- **A record named twice** (`RECORD_CITED_TWICE`), **or a record that admits none of the inputs**
+  (`RECORD_ADMITS_NO_INPUT`).
+- **The flag without a file.** This is a usage error. The run is not treated as an uncited run.
+
+To record only that you supplied the files, run without the flag.
+
+### 18.3 What it does not do
+
+- **It verifies nothing about a third party's terms.** The record is your own declaration. The state stays
+  `OPERATOR_ASSERTED` and the class stays `OPERATOR_SUPPLIED`.
+- **It does not authorise redistribution.** `licence` still reads `operator-supplied; not redistributable`,
+  and each reference carries `redistribution: NOT_AUTHORISED` with the record's own restrictions.
+- **It installs nothing and relaxes no guard.** `assertNoSilentSourceLoss`, the installer's expected digest
+  and the marker rules apply to a cited dataset unchanged.
+- **It cannot be added by hand.** A manifest edited to cite a record that does not fit it is refused by
+  every reader: the coverage route answers 503, `verify-installed-dataset.ts` fails the check
+  `authorization-references`, and `install-verified-dataset.ts` answers `REFUSED-CANDIDATE`.
+- **It does not look at the declared grammar.** `--dataset-schema` is outside the dataset version, so the
+  same inputs produce the same version under either grammar and can name the record under either.
+
+### 18.4 The installed dataset
+
+Adding this option changed nothing on your machine. The installed manifest keeps the directory basis until
+you replace it. To make it name the record, build as in §18.1, then publish that candidate with
+`install-verified-dataset.ts --candidate-dir <new-candidate root> --data-dir <data root> --expect-version
+sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b` under the §17.1 safeguards, and
+verify. The verifier then reports one more check, `authorization-references`. The dataset files and the
+dataset version are identical either way; only the manifest's rights declaration differs.

@@ -1,0 +1,501 @@
+{
+  "source": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/source/september-consolidated-xbrl.gz",
+  "compressedSha256": "ba9e6c15fca2f17bf10a7cf332044d04e95b000c5da0a7ef3ae85c2838b27ae7",
+  "compressedBytes": 6830,
+  "rawSha256": "59dd7e3bef485535eaec3db6ded52421088662469ba6bcecd315857073eda10c",
+  "rawBytes": 73996,
+  "contexts": [
+    {
+      "id": "OneD",
+      "startDate": "2026-07-01",
+      "endDate": "2026-09-30",
+      "instant": null
+    },
+    {
+      "id": "OneI",
+      "startDate": null,
+      "endDate": null,
+      "instant": "2026-09-30"
+    },
+    {
+      "id": "FourD",
+      "startDate": "2026-04-01",
+      "endDate": "2026-09-30",
+      "instant": null
+    }
+  ],
+  "units": {
+    "INR": [
+      "iso4217:INR"
+    ],
+    "pure": [
+      "xbrli:pure"
+    ],
+    "INRPerShare": []
+  },
+  "facts": [
+    {
+      "name": "DateOfBoardMeetingWhenFinancialResultsWereApproved",
+      "contextRef": "OneD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "2026-11-02"
+    },
+    {
+      "name": "DateOfStartOfReportingPeriod",
+      "contextRef": "OneD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "2026-07-01"
+    },
+    {
+      "name": "DateOfEndOfReportingPeriod",
+      "contextRef": "OneD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "2026-09-30"
+    },
+    {
+      "name": "WhetherResultsAreAuditedOrUnaudited",
+      "contextRef": "OneD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "Unaudited"
+    },
+    {
+      "name": "NatureOfReportStandaloneConsolidated",
+      "contextRef": "OneD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "Consolidated"
+    },
+    {
+      "name": "RevenueFromOperations",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "54677100000"
+    },
+    {
+      "name": "OtherIncome",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "132700000"
+    },
+    {
+      "name": "Income",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "54809800000"
+    },
+    {
+      "name": "EmployeeBenefitExpense",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "4562200000"
+    },
+    {
+      "name": "FinanceCosts",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1906600000"
+    },
+    {
+      "name": "DepreciationDepletionAndAmortisationExpense",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "530100000"
+    },
+    {
+      "name": "OtherExpenses",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "21877500000"
+    },
+    {
+      "name": "Expenses",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-6",
+      "value": "54401000000"
+    },
+    {
+      "name": "ProfitBeforeExceptionalItemsAndTax",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "408800000"
+    },
+    {
+      "name": "ExceptionalItemsBeforeTax",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-7",
+      "value": "0"
+    },
+    {
+      "name": "ProfitBeforeTax",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "408800000"
+    },
+    {
+      "name": "CurrentTax",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "-341900000"
+    },
+    {
+      "name": "DeferredTax",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "453300000"
+    },
+    {
+      "name": "TaxExpense",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "111400000"
+    },
+    {
+      "name": "ProfitLossForPeriod",
+      "contextRef": "OneD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "297400000"
+    },
+    {
+      "name": "BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+      "contextRef": "OneD",
+      "unitRef": "INRPerShare",
+      "decimals": "INF",
+      "value": "1.12"
+    },
+    {
+      "name": "DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+      "contextRef": "OneD",
+      "unitRef": "INRPerShare",
+      "decimals": "INF",
+      "value": "1.12"
+    },
+    {
+      "name": "DateOfStartOfReportingPeriod",
+      "contextRef": "FourD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "2026-04-01"
+    },
+    {
+      "name": "DateOfEndOfReportingPeriod",
+      "contextRef": "FourD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "2026-09-30"
+    },
+    {
+      "name": "WhetherResultsAreAuditedOrUnaudited",
+      "contextRef": "FourD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "Unaudited"
+    },
+    {
+      "name": "NatureOfReportStandaloneConsolidated",
+      "contextRef": "FourD",
+      "unitRef": null,
+      "decimals": null,
+      "value": "Consolidated"
+    },
+    {
+      "name": "RevenueFromOperations",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "104912500000"
+    },
+    {
+      "name": "OtherIncome",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "272100000"
+    },
+    {
+      "name": "Income",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "105184600000"
+    },
+    {
+      "name": "EmployeeBenefitExpense",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-6",
+      "value": "8871000000"
+    },
+    {
+      "name": "FinanceCosts",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "3546900000"
+    },
+    {
+      "name": "DepreciationDepletionAndAmortisationExpense",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1038300000"
+    },
+    {
+      "name": "OtherExpenses",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "43968400000"
+    },
+    {
+      "name": "Expenses",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "103876800000"
+    },
+    {
+      "name": "ProfitBeforeExceptionalItemsAndTax",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1307800000"
+    },
+    {
+      "name": "ExceptionalItemsBeforeTax",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-7",
+      "value": "0"
+    },
+    {
+      "name": "ProfitBeforeTax",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1307800000"
+    },
+    {
+      "name": "CurrentTax",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-6",
+      "value": "8000000"
+    },
+    {
+      "name": "DeferredTax",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "276100000"
+    },
+    {
+      "name": "TaxExpense",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "284100000"
+    },
+    {
+      "name": "ProfitLossForPeriod",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1023700000"
+    },
+    {
+      "name": "BasicEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+      "contextRef": "FourD",
+      "unitRef": "INRPerShare",
+      "decimals": "INF",
+      "value": "3.85"
+    },
+    {
+      "name": "DilutedEarningsLossPerShareFromContinuingAndDiscontinuedOperations",
+      "contextRef": "FourD",
+      "unitRef": "INRPerShare",
+      "decimals": "INF",
+      "value": "3.85"
+    },
+    {
+      "name": "PropertyPlantAndEquipment",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "15809500000"
+    },
+    {
+      "name": "CapitalWorkInProgress",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-7",
+      "value": "440000000"
+    },
+    {
+      "name": "Goodwill",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "3087400000"
+    },
+    {
+      "name": "OtherIntangibleAssets",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "21500000"
+    },
+    {
+      "name": "CurrentInvestments",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-7",
+      "value": "0"
+    },
+    {
+      "name": "TradeReceivablesCurrent",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "56095500000"
+    },
+    {
+      "name": "CashAndCashEquivalents",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "3154700000"
+    },
+    {
+      "name": "Assets",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "248182600000"
+    },
+    {
+      "name": "EquityAttributableToOwnersOfParent",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "60913500000"
+    },
+    {
+      "name": "Equity",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "60913500000"
+    },
+    {
+      "name": "BorrowingsNoncurrent",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "6701300000"
+    },
+    {
+      "name": "BorrowingsCurrent",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "53506500000"
+    },
+    {
+      "name": "TotalOutstandingDuesOfMicroEnterpriseAndSmallEnterpriseCurrent",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1975100000"
+    },
+    {
+      "name": "TotalOutstandingDuesOfCreditorsOtherThanMicroEnterpriseAndSmallEnterpriseCurrent",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "73732300000"
+    },
+    {
+      "name": "TradePayablesCurrent",
+      "contextRef": "OneI",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "75707400000"
+    },
+    {
+      "name": "IncomeTaxesPaidRefundClassifiedAsOperatingActivities",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "25700000"
+    },
+    {
+      "name": "CashFlowsFromUsedInOperatingActivities",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "-4003700000"
+    },
+    {
+      "name": "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1268300000"
+    },
+    {
+      "name": "CashFlowsFromUsedInInvestingActivities",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "-917300000"
+    },
+    {
+      "name": "DividendsPaidClassifiedAsFinancingActivities",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "1461200000"
+    },
+    {
+      "name": "CashFlowsFromUsedInFinancingActivities",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "3984900000"
+    },
+    {
+      "name": "EffectOfExchangeRateChangesOnCashAndCashEquivalents",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "-21800000"
+    },
+    {
+      "name": "IncreaseDecreaseInCashAndCashEquivalents",
+      "contextRef": "FourD",
+      "unitRef": "INR",
+      "decimals": "-5",
+      "value": "-957900000"
+    }
+  ],
+  "selectionRule": "Only undimensioned OneD/OneI/FourD facts needed by this refresh, plus filing-date/scope facts. CurrentInvestments is retained as raw evidence but is NOT ingested (L-039)."
+}

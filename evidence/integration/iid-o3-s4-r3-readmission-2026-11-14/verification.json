@@ -1,0 +1,713 @@
+{
+  "baseline": "b2a14c9851a7ee7b4b3a6dcf201778ce9f053e10",
+  "originalO3Baseline": "d1118df296b9f17e211a85ee91f8bb24c89ff947",
+  "originalO3PublicationCommit": "cf24c47b2871e3b7079428b52be449c1a1209526",
+  "candidateDatasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "checks": [
+    {
+      "check": "S4 bundle has exactly 27 remote files",
+      "ok": true,
+      "detail": 27
+    },
+    {
+      "check": "S4 ledger has exactly 26 entries",
+      "ok": true,
+      "detail": 26
+    },
+    {
+      "check": "Only digest ledger is outside its own ledger",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:README.md",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:data-extraction.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:determination.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:ingest-input/kec/periods.csv",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:ingest-input/kec/roster.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:ingest-input/marico/periods.csv",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:ingest-input/marico/roster.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:probe/build_refresh.py",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/01-candidate-ingest-provision.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/02-refresh-test.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/03-source-census.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/04-derived-handchecks.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/05-gates.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/06-targeted-final.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/candidate-assessments-readonly.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/candidate-coverage.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:runs/candidate-manifest.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/kec-q2-fy27-selected-xbrl-facts.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source/page-map.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "ledger:source-selection.json",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "REL-1-INFOSYS-2026-11-06: entire Git tree unchanged since original O3 baseline",
+      "ok": true,
+      "detail": {
+        "originalTree": "c777e1e8a1a713028eb622a8b545857299dbef21",
+        "candidateTree": "c777e1e8a1a713028eb622a8b545857299dbef21",
+        "changed": []
+      }
+    },
+    {
+      "check": "REL-1-INFOSYS-2026-11-06: ledger entry count",
+      "ok": true,
+      "detail": 37
+    },
+    {
+      "check": "REL-1-INFOSYS-2026-11-06: every ledger digest matches remote bytes",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "WI7-CONSUMER-MARICO-2026-11-07: entire Git tree unchanged since original O3 baseline",
+      "ok": true,
+      "detail": {
+        "originalTree": "41888478a5008c22cce3d82095040d75ff4d67ea",
+        "candidateTree": "41888478a5008c22cce3d82095040d75ff4d67ea",
+        "changed": []
+      }
+    },
+    {
+      "check": "WI7-CONSUMER-MARICO-2026-11-07: ledger entry count",
+      "ok": true,
+      "detail": 30
+    },
+    {
+      "check": "WI7-CONSUMER-MARICO-2026-11-07: every ledger digest matches remote bytes",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "WI8-INDUSTRIALS-KEC-2026-11-07: entire Git tree unchanged since original O3 baseline",
+      "ok": true,
+      "detail": {
+        "originalTree": "b2cd94816f4e1968107402be8a44fb6e20bc82e4",
+        "candidateTree": "b2cd94816f4e1968107402be8a44fb6e20bc82e4",
+        "changed": []
+      }
+    },
+    {
+      "check": "WI8-INDUSTRIALS-KEC-2026-11-07: ledger entry count",
+      "ok": true,
+      "detail": 54
+    },
+    {
+      "check": "WI8-INDUSTRIALS-KEC-2026-11-07: every ledger digest matches remote bytes",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "Original O3 decision blob unchanged since its publication commit",
+      "ok": true,
+      "detail": "25d8ba88248c138ca41f82874dca10db4e8605cba19c690a7a8a3740b7ee55ca"
+    },
+    {
+      "check": "Candidate manifest datasetVersion equals requested digest",
+      "ok": true,
+      "detail": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b"
+    },
+    {
+      "check": "Candidate manifest contentDigest equals datasetVersion",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input: exactly roster.json and periods.csv",
+      "ok": true,
+      "detail": [
+        "periods.csv",
+        "roster.json"
+      ]
+    },
+    {
+      "check": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input: independently recomputed inputDigest and file hashes match manifest",
+      "ok": true,
+      "detail": "sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c"
+    },
+    {
+      "check": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input: issuer/sector provenance matches roster",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico: exactly roster.json and periods.csv",
+      "ok": true,
+      "detail": [
+        "periods.csv",
+        "roster.json"
+      ]
+    },
+    {
+      "check": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico: independently recomputed inputDigest and file hashes match manifest",
+      "ok": true,
+      "detail": "sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d"
+    },
+    {
+      "check": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico: issuer/sector provenance matches roster",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec: exactly roster.json and periods.csv",
+      "ok": true,
+      "detail": [
+        "periods.csv",
+        "roster.json"
+      ]
+    },
+    {
+      "check": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec: independently recomputed inputDigest and file hashes match manifest",
+      "ok": true,
+      "detail": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a"
+    },
+    {
+      "check": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec: issuer/sector provenance matches roster",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "Manifest records exactly these three constituent inputs",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico: successor roster byte-identical to original",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico: CSV retains every original column in order",
+      "ok": true,
+      "detail": {
+        "addedColumns": []
+      }
+    },
+    {
+      "check": "marico: every historical CSV cell preserved under its issuer/period key",
+      "ok": true,
+      "detail": {
+        "historicalRows": 3,
+        "preserved": 3,
+        "changed": [],
+        "successorRows": 5
+      }
+    },
+    {
+      "check": "marico: added quarter columns are blank on historical annual rows",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "kec: successor roster byte-identical to original",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "kec: CSV retains every original column in order",
+      "ok": true,
+      "detail": {
+        "addedColumns": [
+          "quarter_form",
+          "quarter_index"
+        ]
+      }
+    },
+    {
+      "check": "kec: every historical CSV cell preserved under its issuer/period key",
+      "ok": true,
+      "detail": {
+        "historicalRows": 3,
+        "preserved": 3,
+        "changed": [],
+        "successorRows": 5
+      }
+    },
+    {
+      "check": "kec: added quarter columns are blank on historical annual rows",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy25-bs-pnl: origin report digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy25-bs-pnl: excerpt ends with exact marked origin block and names origin digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy25-cf: origin report digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy25-cf: excerpt ends with exact marked origin block and names origin digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy26-bs-pnl: origin report digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy26-bs-pnl: excerpt ends with exact marked origin block and names origin digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy26-cf: origin report digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "marico-fy26-cf: excerpt ends with exact marked origin block and names origin digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "kec-q1-pnl: origin report digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "kec-q1-pnl: excerpt ends with exact marked origin block and names origin digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "kec-q2-bs: origin report digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "kec-q2-bs: excerpt ends with exact marked origin block and names origin digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "KEC September XBRL compressed identity",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "KEC September XBRL raw identity",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "Determination pins same candidate digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "Source census totals",
+      "ok": true,
+      "detail": {
+        "populatedCells": 105,
+        "reported": 100,
+        "operatorSum": 5,
+        "notReportedReasons": 15
+      }
+    },
+    {
+      "check": "Manifest coverage counts",
+      "ok": true,
+      "detail": {
+        "annualPeriods": 11,
+        "corporateActions": 0,
+        "earliestPeriodEnd": "2022-03-31",
+        "issuers": 3,
+        "latestPeriodEnd": "2026-09-30",
+        "listings": 5,
+        "operatingMetricRecords": 0,
+        "prices": 0,
+        "quarterlyPeriods": 2,
+        "securities": 3
+      }
+    },
+    {
+      "check": "Coverage report pins candidate digest",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "Coverage report counts",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "Exactly three recorded candidate assessments",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "check": "IN:CIN:L85110KA1981PLC013115: recorded freshness/STALE_DATA preserved",
+      "ok": true,
+      "detail": {
+        "dataAsOf": "2024-03-31",
+        "stalenessDays": 958,
+        "quarterlyPeriods": 0,
+        "flags": [
+          "STALE_STATEMENTS"
+        ],
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ]
+      }
+    },
+    {
+      "check": "IN:CIN:L15140MH1988PLC049208: recorded freshness/STALE_DATA preserved",
+      "ok": true,
+      "detail": {
+        "dataAsOf": "2026-03-31",
+        "stalenessDays": 228,
+        "quarterlyPeriods": 0,
+        "flags": [
+          "STALE_STATEMENTS"
+        ],
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ]
+      }
+    },
+    {
+      "check": "IN:CIN:L45200MH2005PLC152061: recorded freshness/STALE_DATA preserved",
+      "ok": true,
+      "detail": {
+        "dataAsOf": "2026-03-31",
+        "stalenessDays": 228,
+        "quarterlyPeriods": 2,
+        "flags": [
+          "CASH_FLOW_EARNINGS_DIVERGENCE",
+          "STALE_STATEMENTS"
+        ],
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ]
+      }
+    },
+    {
+      "check": "marico 2025-03-31: extraction item count matches populated CSV cells",
+      "ok": true,
+      "detail": {
+        "items": 34,
+        "csvCells": 34
+      }
+    },
+    {
+      "check": "marico 2026-03-31: extraction item count matches populated CSV cells",
+      "ok": true,
+      "detail": {
+        "items": 35,
+        "csvCells": 35
+      }
+    },
+    {
+      "check": "kec 2026-06-30: extraction item count matches populated CSV cells",
+      "ok": true,
+      "detail": {
+        "items": 12,
+        "csvCells": 12
+      }
+    },
+    {
+      "check": "kec 2026-09-30: extraction item count matches populated CSV cells",
+      "ok": true,
+      "detail": {
+        "items": 24,
+        "csvCells": 24
+      }
+    },
+    {
+      "check": "Recomputed transcription census equals recorded census",
+      "ok": true,
+      "detail": {
+        "populatedCells": 105,
+        "reported": 100,
+        "operatorSum": 5,
+        "notReportedReasons": 15
+      }
+    }
+  ],
+  "failures": [],
+  "s4Ledger": {
+    "files": 27,
+    "entries": 26,
+    "ledgerSha256": "b41b0b106fe731d1b2420f72f05b2efa7e44e1a39ef185b4af063f441be92c63",
+    "ledgerGitBlob": "d1630e685b57064056884a83b93b2e5e8adae8f8"
+  },
+  "originalBundles": [
+    {
+      "bundle": "REL-1-INFOSYS-2026-11-06",
+      "tree": "c777e1e8a1a713028eb622a8b545857299dbef21",
+      "ledgerEntries": 37,
+      "mismatches": []
+    },
+    {
+      "bundle": "WI7-CONSUMER-MARICO-2026-11-07",
+      "tree": "41888478a5008c22cce3d82095040d75ff4d67ea",
+      "ledgerEntries": 30,
+      "mismatches": []
+    },
+    {
+      "bundle": "WI8-INDUSTRIALS-KEC-2026-11-07",
+      "tree": "b2cd94816f4e1968107402be8a44fb6e20bc82e4",
+      "ledgerEntries": 54,
+      "mismatches": []
+    }
+  ],
+  "inputs": [
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+      "inputDigest": "sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c",
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        }
+      ],
+      "issuerIds": [
+        "IN:CIN:L85110KA1981PLC013115"
+      ],
+      "sectors": [
+        "Technology"
+      ],
+      "manifestinputDir": "/home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+      "inputDigest": "sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d",
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        }
+      ],
+      "issuerIds": [
+        "IN:CIN:L15140MH1988PLC049208"
+      ],
+      "sectors": [
+        "Consumer"
+      ],
+      "manifestinputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+      "inputDigest": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a",
+      "files": [
+        {
+          "name": "periods.csv",
+          "sha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b"
+        },
+        {
+          "name": "roster.json",
+          "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ],
+      "issuerIds": [
+        "IN:CIN:L45200MH2005PLC152061"
+      ],
+      "sectors": [
+        "Industrials"
+      ],
+      "manifestinputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec"
+    }
+  ],
+  "candidateManifestSha256": "b921741942d4674ed968f2938917b588b07ae9dc6db12f2998cb7361727d90ba",
+  "candidateManifestGitBlob": "1b655f9739620dacb2d93a0b21a90e53bb612633",
+  "staticSourceValidation": {
+    "cellsChecked": 105,
+    "failures": [],
+    "jsonFilesParsed": 13,
+    "contexts": {
+      "OneD": {
+        "startDate": "2026-07-01",
+        "endDate": "2026-09-30"
+      },
+      "OneI": {
+        "instant": "2026-09-30"
+      },
+      "FourD": {
+        "startDate": "2026-04-01",
+        "endDate": "2026-09-30"
+      }
+    },
+    "rawCurrentInvestmentsZeroAdmitted": false
+  },
+  "publicationStateObserved": {
+    "repository": "ramkivs/iips-review-recovered",
+    "branch": "arena/53ff9276-iips-review-recovered",
+    "baseline": "b2a14c9851a7ee7b4b3a6dcf201778ce9f053e10",
+    "main": "08411bcd6d782a601fe5c82cc9983d076831148d",
+    "pr562": {
+      "state": "OPEN",
+      "mergedAt": null,
+      "head": "f98732e1861ff8b384183c30c11e4d1adbc2dc95"
+    },
+    "currentBranchPr": null,
+    "o3DefiningBranch": "31a9b01e574f2911cc2685e3d63dddcfb1194d62"
+  },
+  "method": {
+    "ingestionExecuted": false,
+    "candidateRebuilt": false,
+    "candidateDatasetDigest": "Verified against committed candidate manifest, run log, coverage report, read-only assessments, determination and test pin; not recomputed by a new ingestion.",
+    "constituentInputDigests": "Independently recomputed read-only from committed roster.json/periods.csv bytes using the canonical sorted {name,sha256} list in multiInput.computeInputDigest.",
+    "historicalPreservation": "Original bundle Git trees compared with original O3 decision-time baseline; successor rosters byte-compared; historical CSV cells compared under issuer_id/period_end keys."
+  },
+  "boundaries": {
+    "windowsHostTouched": false,
+    "cIipsDataTouched": false,
+    "portfolioSqliteOpened": false,
+    "stage2IdentityProvisioningModified": false,
+    "ipdModified": false,
+    "prMerged": false,
+    "sourceRightsClassificationChanged": false,
+    "financialValuesChanged": false,
+    "valuationLogicChanged": false,
+    "freshnessPolicyChanged": false,
+    "issuerIdentityChanged": false,
+    "L041": "OPEN",
+    "L042": "OPEN"
+  },
+  "originalO3Record": {
+    "path": "docs/integration/IID-O3-DATASET-ADMISSION-PA-DECISION-2026-11-13.md",
+    "sha256": "25d8ba88248c138ca41f82874dca10db4e8605cba19c690a7a8a3740b7ee55ca",
+    "gitBlob": "be627a990c13f6fd259819b9c4acda836870cd47",
+    "publicationCommit": "cf24c47b2871e3b7079428b52be449c1a1209526",
+    "unchanged": true
+  },
+  "priorHandover": {
+    "path": "IID-S4-R3-FINAL-REPORT-AND-HANDOVER-2026-11-14.md",
+    "sha256": "a89621792ace970b85df6bbafe0fcf096f876773d09c32d178d0b8933b2a363d",
+    "status": "Historical pre-admission handover; O3-open and local-checkout statements superseded only by the additive re-admission record."
+  }
+}

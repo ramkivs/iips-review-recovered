@@ -159,6 +159,28 @@ describe('AC-2.6 — the equity bridge and lease treatment are explicit', () => 
     assert.match(ev.output!.basis, /net debt/i);
     assert.equal(ev.assumptions.associatesAndJVWritten ?? ev.assumptions.associatesAndJV ?? 'recorded', 'recorded');
   });
+
+  test('the authoritative bridge formula is published in full beside the method label (defect C, L-042)', () => {
+    // DEFECT C is OPEN, not corrected. The EV_EBITDA/EV_REVENUE `basis` label names only the dominant bridge term
+    // ("− net debt"), while `equityValueFromEnterprise` also subtracts minority interest and preference capital and
+    // adds associates/JV. Read as an equation the label therefore misses the published per-share figure by
+    // minorityInterest/shares (~₹0.77 for Infosys). What keeps the payload honest is that the COMPLETE, authoritative
+    // formula is published beside it in `capitalStructure.equityBridge` — this test pins that, so the full bridge can
+    // never silently disappear while the short label remains. Correcting the label itself was demonstrated to move the
+    // substantive digest of every EV-publishing assessment (re-baselining the L-014 reference digests C1–C5 and the
+    // AC-L14 idempotency contract), so it is recorded as `L-042` for a coordinated disclosure-contract decision rather
+    // than narrowed into a validation work item. See
+    // `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/C-EV-BASIS-BRIDGE.md`.
+    const { payload } = assessCompany(techAssessmentInput());
+    const bridge = payload.fundamentals.capitalStructure.equityBridge;
+    assert.equal(
+      bridge.formula,
+      'equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV',
+    );
+    // The short label still names net debt (the dominant term) — pinned so a future fix is a deliberate, coordinated
+    // act that must also re-baseline the substantive-identity decision, not a silent string edit.
+    assert.match(method(payload, 'EV_EBITDA').output!.basis, /net debt/i);
+  });
 });
 
 describe('AC-2.7 — the sensitivity grid is monotone and bounded by the policy domain', () => {

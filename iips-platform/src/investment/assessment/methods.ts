@@ -415,6 +415,17 @@ function evEbitda(context: MethodContext, role: MethodRole): ValuationMethodResu
       toPerShare(midCycle * multiple * 0.8).value,
       mid,
       toPerShare(midCycle * multiple * 1.2).value,
+      // DEFECT C — OPEN, deliberately not corrected here. This label names only the dominant term of the bridge
+      // `equityValueFromEnterprise` applies (it also subtracts minority interest and preference capital and adds
+      // associates/JV), so read as an equation it misses the published per-share figure by minorityInterest/shares
+      // (₹3.45bn / 4.1449bn = ₹0.8324 for Infosys). The authoritative, complete formula IS published beside it in
+      // `capitalStructure.equityBridge` (`equityValue = enterpriseValue − netDebt − minorityInterest −
+      // preferenceCapital + associatesAndJV`, pinned by `assessment-valuation-integrity.test.ts`), so the payload as
+      // a whole is not misleading. Correcting this string was demonstrated to move the SUBSTANTIVE digest of every
+      // EV-publishing assessment, which re-baselines the L-014 reference digests (C1–C5, `substantive-identity.test.ts`)
+      // and the AC-L14 idempotency contract — "a change of the meaning stored in every historical artifact." That is a
+      // coordinated disclosure-contract decision for the register owner, not a narrow IRR fix inside a validation work
+      // item. Recorded as `L-042` in `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/C-EV-BASIS-BRIDGE.md`.
       `mid-cycle EBITDA ${Math.round(midCycle)} × ${multiple} − net debt`,
     ),
     inputs,
@@ -447,6 +458,8 @@ function evRevenue(context: MethodContext, role: MethodRole): ValuationMethodRes
       toPerShare(latest * multiple * 0.8).value,
       toPerShare(latest * multiple),
       toPerShare(latest * multiple * 1.2).value,
+      // DEFECT C — OPEN, deliberately not corrected here; see the EV_EBITDA note above. Same imprecise label, same
+      // authoritative bridge published in `capitalStructure.equityBridge`, same substantive-identity consequence.
       `revenue ${Math.round(latest)} × ${multiple} − net debt`,
     ),
     inputs,
