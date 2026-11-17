@@ -1,0 +1,41 @@
+{
+  "auditAtUtc": "2026-11-17T17:16:43Z",
+  "repository": "ramkivs/iips-review-recovered",
+  "visibility": {
+    "authenticatedGitHubApi": {"private": true, "visibility": "private", "defaultBranch": "main", "viewerPermission": "ADMIN"},
+    "implementationDisposition": "Already private when rechecked for this work; no settings mutation was made in this pass.",
+    "anonymousRequests": [
+      {"surface": "repository web URL", "url": "https://github.com/ramkivs/iips-review-recovered", "httpStatus": 404},
+      {"surface": "AGI source-branch tree", "url": "https://github.com/ramkivs/iips-review-recovered/tree/w05/agi-ine415a01038-source-filings/evidence/real-issuer/AGI/INE415A01038", "httpStatus": 404},
+      {"surface": "CAP03 recovery release asset", "url": "https://github.com/ramkivs/iips-review-recovered/releases/download/cap03-s2-recovery-20261031-212225/CAP03-S2-Original-1140-Artifacts.zip", "httpStatus": 404},
+      {"surface": "raw.githubusercontent.com", "result": "NOT VERIFIED: direct TLS connection failed in this sandbox; no HTTP status is claimed."}
+    ]
+  },
+  "repositoryPublicationSurfaces": {
+    "releases": [
+      {"tag": "cap03-s2-recovery-20261031-212225", "prerelease": true, "assetCount": 4, "access": "private repository release; anonymous request returned 404"},
+      {"tag": "program-v1.2.0", "prerelease": false, "assetCount": 0, "access": "private repository release"}
+    ],
+    "githubActionsArtifacts": {"count": 0},
+    "forks": {"count": 0},
+    "pages": {"enabled": false, "apiRead": "403 Resource not accessible by integration; metadata reports has_pages=false"},
+    "wiki": {"enabled": false},
+    "discussions": {"enabled": false},
+    "downloads": {"enabled": false},
+    "packages": {"listed": false, "apiResult": "404 Not Found"}
+  },
+  "agiDedicatedSourceBranch": {
+    "branch": "w05/agi-ine415a01038-source-filings",
+    "commit": "da5e40c0f1b43bac774905eb9db36a9f4ce79045",
+    "path": "evidence/real-issuer/AGI/INE415A01038/INE415A01038.zip",
+    "sha256": "05be52759ca5484fc49de2207ae8f90b7f0f1334bef7f6af20daa6ecd679fc32",
+    "gitBlob": "0757938b477dc876c8973874ce34b551017a1d6d",
+    "presentOnPrivateRemote": true,
+    "zipContents": "five filing PDFs only; no manifest, source URL, retrieval log, or source-rights metadata was present in the archive"
+  },
+  "limits": [
+    "Private visibility prevents unauthenticated access to the checked GitHub surfaces; it does not recall copies or caches obtained while the repository was public.",
+    "No claim is made about public copies on external systems that were not enumerated here.",
+    "No source documents or extracted text were added, removed, or redistributed by this audit."
+  ]
+}

@@ -1,0 +1,6 @@
+issuer	isin	document	period_end	pdf_pages	bytes	sha256	source_locator_recorded_in_zip	retrieval_date_or_channel_recorded_in_zip	zip_entry_timestamp_note
+AGI Greenpac Limited	INE415A01038	FY2024 Annual Report.pdf	2024-03-31	200	5769128	002300e18e9f498bc5b777dfe4520d8ba6b2c4cf077e888d448e58f87d716c0b	NO	NO	2026-11-17T21:36:38 ZIP member timestamp; not retrieval timestamp
+AGI Greenpac Limited	INE415A01038	FY2025 Annual Report.pdf	2025-03-31	260	11134966	2cc95692aeebd6ba8431be93c40560d140026a7ef0405573bcd0323a3f473a6e	NO	NO	2026-11-17T21:35:52 ZIP member timestamp; not retrieval timestamp
+AGI Greenpac Limited	INE415A01038	FY 2026 Annual Report.pdf	2026-03-31	282	7564246	9f9fe519db368cf8f20378243b97e11ce5375bf07875cc2f58d83eeb7a316a72	NO	NO	2026-11-17T21:35:16 ZIP member timestamp; not retrieval timestamp
+AGI Greenpac Limited	INE415A01038	Q1 FY2027 Financial Results.pdf	2026-06-30	12	2889312	7a121958e8dff03f2f67bb2f280e208bf6e0b8f434a465e43bb204c93ff942a1	NO	NO	2026-11-17T21:37:16 ZIP member timestamp; not retrieval timestamp
+AGI Greenpac Limited	INE415A01038	Q2 FY2027 Financial Results.pdf	2026-09-30	11	4694588	bbb457063f2af7ee9f8ec04f68173b6143b899e3cd0899206e9b3afed597d8ec	NO	NO	2026-11-17T21:38:06 ZIP member timestamp; not retrieval timestamp
