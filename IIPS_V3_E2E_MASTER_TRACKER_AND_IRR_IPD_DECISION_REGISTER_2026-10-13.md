@@ -23387,4 +23387,18 @@ and it is not. Not that any host holds the candidate. Not that `69bbc14e…`/`f3
 functional-currency window should change. Stage 4 remains **PARTIALLY COMPLETE**, overall IID readiness **NOT READY**;
 `L-001`, `G-6`, `L-041`, `L-042` unchanged; no IPD write.
 
+**Publication and verification receipt (2026-11-17).** One commit on the dedicated IRR work branch
+`arena/9a2897ac-iips-review-recovered`, branched from `main` `d71b025d24940b2694cad945be4a227fa2aabba8`:
+`bccfd8761d175cc4656cbc3622a5bd2c88d05b54` — the capability, the 23-test suite, the evidence bundle and the three
+addenda including this section. GitHub PR **#587** (`https://github.com/ramkivs/iips-review-recovered/pull/587`) is
+against `main`; on that head both required checks passed: **CI** run `44164089491` (*Typecheck · Test · Build*, 6m29s)
+and **CAP-03 Revision 7 IRR-only static checks** run `44164089370` (*Python compile · source/evidence/tracker
+validation*, 43s). Authenticated remote read-back confirmed the branch head OID and the committed blobs for
+`iips-platform/src/investment/assessment/freshness.ts` (`83daed35…`),
+`iips-platform/tests/investment/s4r3Freshness.test.ts` (`2e2289c1…`),
+`evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/README.md` (`f9122033…`) and this tracker (`eb69b2fd…`) —
+each read from `origin`, not from the local worktree. Merged into `main` as
+`011c601651c9c4fea4eab2906cfad0a09eb5c15f` at 2026-11-17T20:04:01Z; `git merge-base --is-ancestor` confirms
+`bccfd876…` is reachable from `origin/main`.
+
 Next free §16.295 / `CV-CORR-260` / `CHG-2026-11-06-23` / `V2175`.
