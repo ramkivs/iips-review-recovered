@@ -99,6 +99,19 @@ function report(overrides: Partial<InvestmentCoverageReport> = {}): InvestmentCo
         operatingMetrics: 0,
         latestPeriodEnd: '2024-03-31',
         earliestPeriodEnd: '2022-03-31',
+        /**
+         * `S4-R3` — the row's freshness block, as the server serves it. This fixture is a rendering fixture: the
+         * page does not consume the block, but the served contract carries it, so the fixture must too.
+         */
+        freshness: {
+          status: 'STALE' as const,
+          reasons: ['VALUATION_BASIS_BEYOND_PNL_WINDOW'],
+          valuationBasis: { periodEnd: '2024-03-31', periodType: 'ANNUAL' as const, filedAt: '2024-04-18', daysSincePeriodEnd: 941 },
+          latestReported: { periodEnd: '2024-03-31', periodType: 'ANNUAL' as const, filedAt: '2024-04-18', daysSincePeriodEnd: 941 },
+          windows: { pnlDays: 200, balanceSheetDays: 250 },
+          policyVersion: 'freshness-policy/1.0.0',
+          sequenceGapCount: 0,
+        },
         issueCodes: [],
         identityDependency: null,
         identityDependencyDetail: 'identity sources were not loaded',

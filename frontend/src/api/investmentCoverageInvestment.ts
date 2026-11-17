@@ -41,6 +41,33 @@ export interface InvestmentCoverageIssuerRow {
   readonly operatingMetrics: number;
   readonly latestPeriodEnd: string | null;
   readonly earliestPeriodEnd: string | null;
+  /**
+   * `S4-R3` — statement freshness for the issuer's assessed series, measured at the report clock.
+   *
+   * Optional in this projection because the page does not render it yet and older served reports predate it; the
+   * server always sends it. `valuationBasis` is the period a valuation would rest on (the annual period) and
+   * `latestReported` is the newest information the filer has published — two different facts, and `filedAt` is a
+   * publication date, never a period end.
+   */
+  readonly freshness?: {
+    readonly status: 'FRESH' | 'STALE' | 'UNKNOWN';
+    readonly reasons: readonly string[];
+    readonly valuationBasis: {
+      readonly periodEnd: string;
+      readonly periodType: 'ANNUAL' | 'QUARTER' | 'TTM';
+      readonly filedAt: string;
+      readonly daysSincePeriodEnd: number;
+    } | null;
+    readonly latestReported: {
+      readonly periodEnd: string;
+      readonly periodType: 'ANNUAL' | 'QUARTER' | 'TTM';
+      readonly filedAt: string;
+      readonly daysSincePeriodEnd: number;
+    } | null;
+    readonly windows: { readonly pnlDays: number; readonly balanceSheetDays: number };
+    readonly policyVersion: string;
+    readonly sequenceGapCount: number;
+  };
   readonly issueCodes: readonly string[];
   /**
    * `null` means "not evaluated" — the identity sources could not be loaded, so no binding could be

@@ -1158,3 +1158,29 @@ clock; Infosys still has no newer filing in the repository), `S4-R4`, `S4-R5`, `
 performed** — the candidate is repository-side, exactly as `S4-R3`'s candidate was. The next Stage 4 roadmap item after
 this one is **`S4-R3`** (freshness: quarterly periods or newer annual filings), whose Infosys leg remains blocked on
 source material that is not in the repository.
+
+## Addendum (2026-11-17) — `S4-R3` executed as a capability: freshness is measured per issuer, and the item stays OPEN
+
+**Scope.** IRR-only, additive. This addendum records that `S4-R3` (the freshness work item) was implemented as a
+reusable capability and measured against the admitted population. It revises nothing above; §16's measured coverage
+figures are unaffected — no period, no issuer and no dataset class changed. Full record:
+`IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md` §12 and
+`evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/`.
+
+**What changed in this document's own subject matter.** The investment-coverage read model now carries, on every issuer
+row, a `freshness` block computed by `assessment/freshness.ts` at the report's `asOf`: `status`
+(`FRESH`/`STALE`/`UNKNOWN`), `reasons`, `valuationBasis` (the period a valuation would consume, its age **and its
+filing date**), `latestReported` (the newest period of any type, with its own age), the policy windows and a
+`sequenceGapCount`. The row's `latestPeriodEnd` is unchanged in meaning; the age of the **basis** is now published
+beside it, so the §17.6 distinction between "how fresh is the newest filing" and "how old is the statement the
+valuation uses" is visible in the served read rather than inferred.
+
+**Measured at the newly recorded clock 2026-11-17** (admitted candidate `bdfb2527…`): Infosys basis 2024-03-31,
+**961 d**; Marico 2026-03-31, **231 d**; KEC 2026-03-31, **231 d**, with newest reported quarter 2026-09-30, **48 d**.
+All three `STALE` with `VALUATION_BASIS_BEYOND_PNL_WINDOW`.
+
+**Not claimed.** That coverage improved: `measuredSectors` is still 3 of 13 and the staleness finding stands. That
+`S4-R3` is closed: it is **OPEN**, and `S4-R3-Infosys` is **OPEN** on a source dependency that is not in this
+repository. That any host holds the refreshed dataset: the install-and-serve drill ran in an isolated sandbox temp
+root. `L-001`, `G-6`, `L-041`, `L-042` are unchanged; Stage 4 remains **PARTIALLY COMPLETE** and overall IID
+readiness **NOT READY**. Next Stage 4 roadmap item: **`S4-R4`** (documentation), then **`S4-R5`**.

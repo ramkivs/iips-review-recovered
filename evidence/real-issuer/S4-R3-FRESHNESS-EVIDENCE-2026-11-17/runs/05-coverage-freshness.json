@@ -1,0 +1,284 @@
+{
+  "S4-R2 (repository dataset of record for Stage 4)": {
+    "reportAsOf": "2026-11-17",
+    "datasetDataAsOf": "2026-03-31",
+    "datasetQuality": "good",
+    "latestPeriodEnd": "2026-03-31",
+    "quarterlyPeriods": 0,
+    "measuredSectors": 3,
+    "issuerRows": [
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "latestPeriodEnd": "2024-03-31",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-05-06",
+            "daysSincePeriodEnd": 961
+          },
+          "latestReported": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-05-06",
+            "daysSincePeriodEnd": 961
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "latestPeriodEnd": "2026-03-31",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-16",
+            "daysSincePeriodEnd": 231
+          },
+          "latestReported": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-16",
+            "daysSincePeriodEnd": 231
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      },
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "latestPeriodEnd": "2024-03-31",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-04-18",
+            "daysSincePeriodEnd": 961
+          },
+          "latestReported": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-04-18",
+            "daysSincePeriodEnd": 961
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      }
+    ]
+  },
+  "S4-R3 admitted candidate (O3 re-admission 2026-11-14)": {
+    "reportAsOf": "2026-11-17",
+    "datasetDataAsOf": "2026-09-30",
+    "datasetQuality": "good",
+    "latestPeriodEnd": "2026-09-30",
+    "quarterlyPeriods": 2,
+    "measuredSectors": 3,
+    "issuerRows": [
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "latestPeriodEnd": "2026-03-31",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-05",
+            "daysSincePeriodEnd": 231
+          },
+          "latestReported": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-05",
+            "daysSincePeriodEnd": 231
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "latestPeriodEnd": "2026-09-30",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-16",
+            "daysSincePeriodEnd": 231
+          },
+          "latestReported": {
+            "periodEnd": "2026-09-30",
+            "periodType": "QUARTER",
+            "filedAt": "2026-11-02",
+            "daysSincePeriodEnd": 48
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      },
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "latestPeriodEnd": "2024-03-31",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-04-18",
+            "daysSincePeriodEnd": 961
+          },
+          "latestReported": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-04-18",
+            "daysSincePeriodEnd": 961
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      }
+    ]
+  },
+  "S4-R2 + S4-R3 combined (construction only, not admitted)": {
+    "reportAsOf": "2026-11-17",
+    "datasetDataAsOf": "2026-09-30",
+    "datasetQuality": "good",
+    "latestPeriodEnd": "2026-09-30",
+    "quarterlyPeriods": 2,
+    "measuredSectors": 3,
+    "issuerRows": [
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "latestPeriodEnd": "2026-03-31",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-05",
+            "daysSincePeriodEnd": 231
+          },
+          "latestReported": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-05",
+            "daysSincePeriodEnd": 231
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "latestPeriodEnd": "2026-09-30",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2026-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2026-05-16",
+            "daysSincePeriodEnd": 231
+          },
+          "latestReported": {
+            "periodEnd": "2026-09-30",
+            "periodType": "QUARTER",
+            "filedAt": "2026-11-02",
+            "daysSincePeriodEnd": 48
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      },
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "latestPeriodEnd": "2024-03-31",
+        "freshness": {
+          "status": "STALE",
+          "reasons": [
+            "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+          ],
+          "valuationBasis": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-04-18",
+            "daysSincePeriodEnd": 961
+          },
+          "latestReported": {
+            "periodEnd": "2024-03-31",
+            "periodType": "ANNUAL",
+            "filedAt": "2024-04-18",
+            "daysSincePeriodEnd": 961
+          },
+          "windows": {
+            "pnlDays": 200,
+            "balanceSheetDays": 250
+          },
+          "policyVersion": "freshness-policy/1.0.0",
+          "sequenceGapCount": 0
+        }
+      }
+    ]
+  }
+}

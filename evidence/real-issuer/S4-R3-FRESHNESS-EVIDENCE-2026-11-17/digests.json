@@ -1,0 +1,839 @@
+{
+  "schemaVersion": 1,
+  "workItem": "S4-R3",
+  "recordedAt": "2026-11-17",
+  "recordedClocks": [
+    "2026-11-14",
+    "2026-11-17"
+  ],
+  "datasets": {
+    "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-14": {
+      "datasetVersion": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+      "contentDigest": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+      "annualPeriods": 9,
+      "quarterlyPeriods": 0,
+      "manifestDataAsOf": "2026-03-31",
+      "inputs": [
+        {
+          "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input",
+          "periodsCsvSha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83",
+          "rosterJsonSha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        },
+        {
+          "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input",
+          "periodsCsvSha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4",
+          "rosterJsonSha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        },
+        {
+          "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input",
+          "periodsCsvSha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd",
+          "rosterJsonSha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ]
+    },
+    "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-17": {
+      "datasetVersion": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+      "contentDigest": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+      "annualPeriods": 9,
+      "quarterlyPeriods": 0,
+      "manifestDataAsOf": "2026-03-31",
+      "inputs": [
+        {
+          "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input",
+          "periodsCsvSha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83",
+          "rosterJsonSha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        },
+        {
+          "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input",
+          "periodsCsvSha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4",
+          "rosterJsonSha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        },
+        {
+          "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input",
+          "periodsCsvSha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd",
+          "rosterJsonSha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ]
+    },
+    "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-14": {
+      "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+      "contentDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+      "annualPeriods": 11,
+      "quarterlyPeriods": 2,
+      "manifestDataAsOf": "2026-09-30",
+      "inputs": [
+        {
+          "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+          "periodsCsvSha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c",
+          "rosterJsonSha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+          "periodsCsvSha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669",
+          "rosterJsonSha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+          "periodsCsvSha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b",
+          "rosterJsonSha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ]
+    },
+    "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-17": {
+      "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+      "contentDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+      "annualPeriods": 11,
+      "quarterlyPeriods": 2,
+      "manifestDataAsOf": "2026-09-30",
+      "inputs": [
+        {
+          "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+          "periodsCsvSha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c",
+          "rosterJsonSha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+          "periodsCsvSha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669",
+          "rosterJsonSha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+          "periodsCsvSha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b",
+          "rosterJsonSha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ]
+    },
+    "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-14": {
+      "datasetVersion": "sha256:f357f6afafc3b50387ebc013c0dc857285871d183ccc7d828e8b2fc4c740798d",
+      "contentDigest": "sha256:f357f6afafc3b50387ebc013c0dc857285871d183ccc7d828e8b2fc4c740798d",
+      "annualPeriods": 11,
+      "quarterlyPeriods": 2,
+      "manifestDataAsOf": "2026-09-30",
+      "inputs": [
+        {
+          "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input",
+          "periodsCsvSha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83",
+          "rosterJsonSha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+          "periodsCsvSha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669",
+          "rosterJsonSha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+          "periodsCsvSha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b",
+          "rosterJsonSha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ]
+    },
+    "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-17": {
+      "datasetVersion": "sha256:f357f6afafc3b50387ebc013c0dc857285871d183ccc7d828e8b2fc4c740798d",
+      "contentDigest": "sha256:f357f6afafc3b50387ebc013c0dc857285871d183ccc7d828e8b2fc4c740798d",
+      "annualPeriods": 11,
+      "quarterlyPeriods": 2,
+      "manifestDataAsOf": "2026-09-30",
+      "inputs": [
+        {
+          "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input",
+          "periodsCsvSha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83",
+          "rosterJsonSha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+          "periodsCsvSha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669",
+          "rosterJsonSha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+        },
+        {
+          "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+          "periodsCsvSha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b",
+          "rosterJsonSha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+        }
+      ]
+    }
+  },
+  "assessments": {
+    "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-17": {
+      "IN:CIN:L85110KA1981PLC013115": {
+        "payloadSha256": "fe8c82f36215a1c01397c69b67bb636a1d51849f3f2464c3eec1ee739bc71b12",
+        "inputDigest": "sha256:d08bf10c819f0cc50a0a60bdf16ae8df988651122188f4ec42243730a554af20",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2024-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 961,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.4378,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "PE_RELATIVE",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            true,
+            null
+          ],
+          [
+            "EV_REVENUE",
+            false,
+            "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+          ]
+        ],
+        "intrinsicMid": 1088.972274952081
+      },
+      "IN:CIN:L15140MH1988PLC049208": {
+        "payloadSha256": "5aabf7da4f2138405c44a51ce71449aae677b424492cb416071d8ef39133524e",
+        "inputDigest": "sha256:5277a83404b4a69c14e3669bc9d988bafe9b8948118daca0e69890891adaf6b7",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2024-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 961,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.3306,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "PE_RELATIVE",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            false,
+            "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+          ]
+        ],
+        "intrinsicMid": null
+      },
+      "IN:CIN:L45200MH2005PLC152061": {
+        "payloadSha256": "96177409b313a626e8de342fcec753245516209c915d1cbf27c056a3444dc4cb",
+        "inputDigest": "sha256:f6b1940030c6ba00b76c48146214cae3de69c9e72e03147c5353ae63e49ea3f8",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2026-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 231,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "CASH_FLOW_EARNINGS_DIVERGENCE",
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.3199,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            false,
+            "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+          ],
+          [
+            "EV_REVENUE",
+            false,
+            "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+          ]
+        ],
+        "intrinsicMid": null
+      }
+    },
+    "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-17": {
+      "IN:CIN:L85110KA1981PLC013115": {
+        "payloadSha256": "5d8c45b46ebdb9f85d5895d96ef142b38360c9d174e3d3dcf9db8ba98b483009",
+        "inputDigest": "sha256:5329fae4b8e7a3f36c00fb78a4e0a6389a7bc3233934a8e92eb25b1cad220a8e",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2024-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 961,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.321,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "PE_RELATIVE",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            false,
+            "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+          ],
+          [
+            "EV_REVENUE",
+            false,
+            "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+          ]
+        ],
+        "intrinsicMid": null
+      },
+      "IN:CIN:L15140MH1988PLC049208": {
+        "payloadSha256": "d681940de4328e8f2f07ded7bdc90dbe1e165b271aa2c1d07ad1891c90c3b26d",
+        "inputDigest": "sha256:635e9a75a1307fb39237baba3cb56cc483a325ef02c765ebcba13b65059ef1d9",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2026-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 231,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.3306,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "PE_RELATIVE",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            false,
+            "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+          ]
+        ],
+        "intrinsicMid": null
+      },
+      "IN:CIN:L45200MH2005PLC152061": {
+        "payloadSha256": "9be9918f3269262e5f0c74eb3a36691f6225fb0fabe47c402640bc5ce0a0904d",
+        "inputDigest": "sha256:ae6e1ad74316c89c9cf75e31eca19b0e11e333ef3bd840a4c21505d6c3ad1885",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2026-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 231,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "CASH_FLOW_EARNINGS_DIVERGENCE",
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.3199,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            false,
+            "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+          ],
+          [
+            "EV_REVENUE",
+            false,
+            "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+          ]
+        ],
+        "intrinsicMid": null
+      }
+    },
+    "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-17": {
+      "IN:CIN:L85110KA1981PLC013115": {
+        "payloadSha256": "2fe9074de30407bdd2d3d37f53996ddb6ce033b8f31b4dc323867ddbf2bb9b48",
+        "inputDigest": "sha256:8d5abafc7297d7dff2fdace2bf337650c25fc0d7914db28a9ee5a502c3617f87",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2024-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 961,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.4378,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "PE_RELATIVE",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            true,
+            null
+          ],
+          [
+            "EV_REVENUE",
+            false,
+            "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+          ]
+        ],
+        "intrinsicMid": 1088.972274952081
+      },
+      "IN:CIN:L15140MH1988PLC049208": {
+        "payloadSha256": "075f271667ab8ed8f30a8412e128cb1f8655f8c52e55732a05442c0623ebbe58",
+        "inputDigest": "sha256:632c758abce19058d2b37ef16e70454dd200b8a0887661686f857023306ed6e6",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2026-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 231,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.3306,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "PE_RELATIVE",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            false,
+            "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+          ]
+        ],
+        "intrinsicMid": null
+      },
+      "IN:CIN:L45200MH2005PLC152061": {
+        "payloadSha256": "752f1fb67ff644fc652cb08327417ab9d0edd688ac2eafad77c6062b9828672b",
+        "inputDigest": "sha256:e3ef62c3074577360cb6903b802f182615df81323834cd9e122061fbc59d1838",
+        "asOf": {
+          "generatedAt": "2026-11-17T00:00:00.000Z",
+          "dataAsOf": "2026-03-31",
+          "knownAsOf": "2026-11-17",
+          "stalenessDays": 231,
+          "staleBeyondPolicy": true
+        },
+        "qualityVerdict": "MATERIAL_CONCERNS",
+        "qualityFlags": [
+          "CASH_FLOW_EARNINGS_DIVERGENCE",
+          "STALE_STATEMENTS"
+        ],
+        "confidence": 0.3199,
+        "confidenceCaps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ],
+        "adequacy": "SUFFICIENT",
+        "methods": [
+          [
+            "DCF_FCFF",
+            true,
+            null
+          ],
+          [
+            "EV_EBITDA",
+            false,
+            "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+          ],
+          [
+            "EV_REVENUE",
+            false,
+            "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+          ]
+        ],
+        "intrinsicMid": null
+      }
+    }
+  },
+  "coverage": {
+    "S4-R2 (repository dataset of record for Stage 4)": {
+      "reportAsOf": "2026-11-17",
+      "datasetDataAsOf": "2026-03-31",
+      "datasetQuality": "good",
+      "latestPeriodEnd": "2026-03-31",
+      "quarterlyPeriods": 0,
+      "measuredSectors": 3,
+      "issuerRows": [
+        {
+          "issuerId": "IN:CIN:L15140MH1988PLC049208",
+          "latestPeriodEnd": "2024-03-31",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-05-06",
+              "daysSincePeriodEnd": 961
+            },
+            "latestReported": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-05-06",
+              "daysSincePeriodEnd": 961
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        },
+        {
+          "issuerId": "IN:CIN:L45200MH2005PLC152061",
+          "latestPeriodEnd": "2026-03-31",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-16",
+              "daysSincePeriodEnd": 231
+            },
+            "latestReported": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-16",
+              "daysSincePeriodEnd": 231
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        },
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "latestPeriodEnd": "2024-03-31",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-04-18",
+              "daysSincePeriodEnd": 961
+            },
+            "latestReported": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-04-18",
+              "daysSincePeriodEnd": 961
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        }
+      ]
+    },
+    "S4-R3 admitted candidate (O3 re-admission 2026-11-14)": {
+      "reportAsOf": "2026-11-17",
+      "datasetDataAsOf": "2026-09-30",
+      "datasetQuality": "good",
+      "latestPeriodEnd": "2026-09-30",
+      "quarterlyPeriods": 2,
+      "measuredSectors": 3,
+      "issuerRows": [
+        {
+          "issuerId": "IN:CIN:L15140MH1988PLC049208",
+          "latestPeriodEnd": "2026-03-31",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-05",
+              "daysSincePeriodEnd": 231
+            },
+            "latestReported": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-05",
+              "daysSincePeriodEnd": 231
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        },
+        {
+          "issuerId": "IN:CIN:L45200MH2005PLC152061",
+          "latestPeriodEnd": "2026-09-30",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-16",
+              "daysSincePeriodEnd": 231
+            },
+            "latestReported": {
+              "periodEnd": "2026-09-30",
+              "periodType": "QUARTER",
+              "filedAt": "2026-11-02",
+              "daysSincePeriodEnd": 48
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        },
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "latestPeriodEnd": "2024-03-31",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-04-18",
+              "daysSincePeriodEnd": 961
+            },
+            "latestReported": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-04-18",
+              "daysSincePeriodEnd": 961
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        }
+      ]
+    },
+    "S4-R2 + S4-R3 combined (construction only, not admitted)": {
+      "reportAsOf": "2026-11-17",
+      "datasetDataAsOf": "2026-09-30",
+      "datasetQuality": "good",
+      "latestPeriodEnd": "2026-09-30",
+      "quarterlyPeriods": 2,
+      "measuredSectors": 3,
+      "issuerRows": [
+        {
+          "issuerId": "IN:CIN:L15140MH1988PLC049208",
+          "latestPeriodEnd": "2026-03-31",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-05",
+              "daysSincePeriodEnd": 231
+            },
+            "latestReported": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-05",
+              "daysSincePeriodEnd": 231
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        },
+        {
+          "issuerId": "IN:CIN:L45200MH2005PLC152061",
+          "latestPeriodEnd": "2026-09-30",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2026-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2026-05-16",
+              "daysSincePeriodEnd": 231
+            },
+            "latestReported": {
+              "periodEnd": "2026-09-30",
+              "periodType": "QUARTER",
+              "filedAt": "2026-11-02",
+              "daysSincePeriodEnd": 48
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        },
+        {
+          "issuerId": "IN:CIN:L85110KA1981PLC013115",
+          "latestPeriodEnd": "2024-03-31",
+          "freshness": {
+            "status": "STALE",
+            "reasons": [
+              "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+            ],
+            "valuationBasis": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-04-18",
+              "daysSincePeriodEnd": 961
+            },
+            "latestReported": {
+              "periodEnd": "2024-03-31",
+              "periodType": "ANNUAL",
+              "filedAt": "2024-04-18",
+              "daysSincePeriodEnd": 961
+            },
+            "windows": {
+              "pnlDays": 200,
+              "balanceSheetDays": 250
+            },
+            "policyVersion": "freshness-policy/1.0.0",
+            "sequenceGapCount": 0
+          }
+        }
+      ]
+    }
+  },
+  "digests": {
+    "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-14": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+    "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-17": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+    "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-14": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-17": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-14": "sha256:f357f6afafc3b50387ebc013c0dc857285871d183ccc7d828e8b2fc4c740798d",
+    "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-17": "sha256:f357f6afafc3b50387ebc013c0dc857285871d183ccc7d828e8b2fc4c740798d"
+  }
+}
