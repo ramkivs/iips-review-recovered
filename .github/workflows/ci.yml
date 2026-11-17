@@ -20,10 +20,10 @@
 # outside that closure are tested/transformed, not asserted to be typechecked or qualified.
 name: CI
 
-# IMPORTANT DEPENDENCY BOUNDARY: `npm ci` resolves three frontend dependencies pinned to
-# `ramkivs/iips-production-market-data`. This product CI is therefore limited to frontend code
-# and the test guard. IRR-only documentation, governance, script, validator and workflow changes
-# are covered by `cap03-revision7-irr-static.yml`; do not add those paths here.
+# IMPORTANT DEPENDENCY BOUNDARY: `npm ci` resolves three frontend dependencies pinned to the
+# private `ramkivs/iips-production-market-data` repository. This product CI is therefore limited
+# to frontend code and the test guard. IRR-only documentation, governance, script and validator
+# changes are covered by `cap03-revision7-irr-static.yml`; do not add those paths here.
 on:
   pull_request:
     paths:
@@ -55,6 +55,8 @@ jobs:
     steps:
       - name: Check out the exact commit under test
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       # The repository declares no `engines` and no `packageManager`, and its lockfile is
       # lockfileVersion 3. Node 22 + npm 10 is the toolchain the recorded local evidence (V2–V4) was
@@ -66,12 +68,57 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
-      # `npm ci` is the reproducible install against the committed lockfile. No dependency pin is
-      # altered for CI: `package.json` pins `iips-production-market-data` to a public GitHub commit,
-      # which hosted runners resolve anonymously — hence no token, no credential, no mirror, and no
-      # `NODE_EXTRA_CA_CERTS` (that step is a sandbox TLS-interception workaround, not a CI need).
+      # Mint an installation token scoped to the one private dependency repository. It has
+      # Contents read-only access. The token is used only by the private-repository read check
+      # and npm ci, through step-local environment variables; it is never persisted to Git config,
+      # the checkout, or an artifact.
+      - name: Create read-only IPD installation token
+        id: ipd-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.IRR_IPD_APP_CLIENT_ID }}
+          private-key: ${{ secrets.IRR_IPD_APP_PRIVATE_KEY }}
+          owner: ramkivs
+          repositories: iips-production-market-data
+          permission-contents: read
+
+      - name: Verify the scoped token can read the private IPD repository
+        env:
+          GH_TOKEN: ${{ steps.ipd-token.outputs.token }}
+        run: |
+          test "$(gh api repos/ramkivs/iips-production-market-data --jq '.private')" = true
+          echo 'Verified the scoped token reads a private IPD repository.'
+
+      # Prepare Basic auth only in a masked workflow output; the authorization header is passed
+      # to Git through the install step's environment and is never written to Git config.
+      - name: Prepare temporary IPD Git authorization header
+        id: ipd-git-auth
+        env:
+          IPD_APP_TOKEN: ${{ steps.ipd-token.outputs.token }}
+        run: |
+          auth_b64="$(printf 'x-access-token:%s' "$IPD_APP_TOKEN" | base64 -w0)"
+          echo "::add-mask::$IPD_APP_TOKEN"
+          echo "::add-mask::$auth_b64"
+          echo "header=AUTHORIZATION: basic $auth_b64" >> "$GITHUB_OUTPUT"
+
+      # The lockfile records git+ssh URLs. npm normalizes those to SSH URLs before invoking Git;
+      # cover the recorded, normalized and scp-style forms. Auth is path-scoped to the IPD repo.
       - name: Install dependencies from the committed lockfile
+        env:
+          GIT_TERMINAL_PROMPT: '0'
+          GIT_CONFIG_COUNT: '4'
+          GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_0: git+ssh://git@github.com/
+          GIT_CONFIG_KEY_1: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_1: ssh://git@github.com/
+          GIT_CONFIG_KEY_2: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_2: 'git@github.com:'
+          GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
+          GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
         run: npm ci --no-audit --no-fund
+
+      - name: Verify all private dependencies resolve to their committed pins
+        run: node ../.ci/verify-ipd-pins.mjs
 
       # `frontend/package.json` → "typecheck": "tsc --noEmit" (the established script; no substitution).
       - name: Typecheck
