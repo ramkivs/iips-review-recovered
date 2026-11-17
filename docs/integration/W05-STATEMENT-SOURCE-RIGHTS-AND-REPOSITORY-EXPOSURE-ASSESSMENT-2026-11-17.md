@@ -21,7 +21,7 @@
 | 4 | Repository exposure | The public repository reproduces third-party filing text: 114 source files (1,625,555 bytes) and five run reports that print filing pages (600,088 bytes). The Principal's own `O3` records say redistribution is not authorised | V; section 5 |
 | 5 | Handling from now on | Source documents and page text stay on the local host. The repository receives locators and digests. Existing evidence is not touched | R; section 6 |
 | 6 | Decisions of the Principal | Two: confirm the source (D1); decide how long the existing reproduction stays public (D2). A third only if scripted retrieval is wanted (D3) | D; section 7 |
-| 7 | Effect on W05 | The rights side of the source is settled for personal, local, manual use once D1 is given. Financial coverage stays at 0 of 64 measured; at most 1 holding can count until W04 stores more identities | V; section 8 |
+| 7 | Effect on W05 | The rights side of the source is narrowed for personal, local, manual use once D1 is given. Financial coverage stays at 0 of 64 measured; at most 1 holding can count until W04 stores more identities | V; section 8 |
 
 ## 1. What was examined
 
@@ -129,7 +129,7 @@ The names are not repeated here: the file above holds them, and a second copy wo
 
 - **Where the text came from.** By the address in each file's header: issuer websites for 76 of the 103 text files (`kecrpg.com` 26, `marico.com` 21, `infosys.com` 19, `rpggroup.com` 6, `eclerx.com` 4); `bseindia.com` for 7; the NSE archive for 2; 18 name their document without an address.
 - **How much of each document.** Whole pages of the primary statements and notes: 10 of 259 pages and 7 of 224 for Marico's two reports, 14 of 215 and 6 of 206 for KEC, 6 of 167 and 5 of 180 for Zensar. Infosys and eClerx files are single notes.
-- **Where the admitted bundles stand.** `REL-1` carries no source file; `WI7` 12; `WI8` 15; `S4-R3` 6.
+- **Where the bundles that hold admitted material stand.** They carry 33 of the 114 source files. 27 sit in the three bundles admitted on 2026-11-13: `REL-1` none, `WI7` 12, `WI8` 15. The other 6 sit in the S4-R3 bundle, where the re-admission of 2026-11-14 covers only the specified ingestion inputs and the candidate dataset.
 - **Files in a `source` directory:** 146 (1,761,607 bytes). The status record counted 135 at `0641953` by the bundle-level rule, which now gives 143; S4-R3 added 8.
 - **The marker `not redistributable`** stands in 11 evidence files: dataset manifests, copies of them and reports that quote them. Eight are under `evidence/real-issuer/`. It is the default text that the ingestion CLI writes (`iips-platform/src/investment/cli/ingest.ts`). It is the product's own label, not a term read from a source: one of the eleven is the manifest of a synthetic fixture dataset (`evidence/iid/IID-0-FOUNDATIONS-2026-11-05/`).
 - **How the content was obtained, by the bundles' own logs.** `curl` on throwaway GitHub Actions runners, an assistant fetch tool, and a page-rendering service: 17 files name `r.jina.ai`, and seven name the Internet Archive. Requests went to `www.nseindia.com/api/` endpoints and to `api.bseindia.com`.
@@ -138,7 +138,7 @@ The names are not repeated here: the file above holds them, and a second copy wo
 
 **Yes, in three respects.**
 
-1. **Third-party text is published without a recorded permission, under a licence file that does not exclude it.** The page text is the issuers' work. The private-use exception does not cover publication. The Principal's own `O3` records say redistribution is not authorised, and 33 of the 114 source files sit in admitted bundles.
+1. **Third-party text is published without a recorded permission, under a licence file that does not exclude it.** The page text is the issuers' work. The private-use exception does not cover publication. The Principal's own `O3` records say redistribution is not authorised. 27 of the 114 source files sit in the three bundles admitted on 2026-11-13, and 6 more sit in the S4-R3 bundle, where the re-admission of 2026-11-14 covers only the specified ingestion inputs and the candidate dataset.
 2. **Exchange-hosted content is reproduced, and its collection is on record.** Four files from the NSE archive, page text printed from NSE-hosted results, page text of a BSE-hosted report and one BSE price row are in the repository; both exchanges forbid reproduction elsewhere. The logs record scripted requests to NSE endpoints on 2026-11-08, after the terms of 29/10/2025 that prohibit automated collection. **Whether clause 9 was breached is not decided here.**
 3. **It persists.** The files are in Git history. Removing them from the tree would not remove them from history, and making the repository private ends public access without recalling a copy already taken and without authorising the earlier publication.
 

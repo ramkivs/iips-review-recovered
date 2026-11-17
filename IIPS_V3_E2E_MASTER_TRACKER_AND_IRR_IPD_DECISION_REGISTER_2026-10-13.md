@@ -22965,3 +22965,135 @@ reads this file.
 cannot be part of the commit that carries it and are reported separately.
 
 Next free §16.290 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
+
+## 16.290 Snapshot-to-Live W05 — PR #578 (source, rights and exposure assessment) is merged to `main`; D1 confirmed and D2 decided by the Program Authority; IRR is private, verified; two wording corrections to the assessment; W05 not complete (2026-11-17)
+
+**IRR-only record. It changes this tracker, three lines of the W05 assessment record (two wording
+corrections) and that record's checker script, and nothing else: no application code, test, dataset,
+manifest, rights record or evidence bundle. No IPD act, no IPD change, no host step.** It performs no
+IPD modification, so it consumes no CV-CORR / CHG / V identifier (the rule stated in `§16.276`); only
+the section number advances. It adds no work item, owner or dependency. `§16.289` and every earlier
+section are left as written. **W05 is in progress, not complete and not accepted.** `L-041` and `L-042`
+are `OPEN`. The rights questions Q1 to Q7 of the assessment are open.
+
+**Receipt, read back for this section.** Read from GitHub and from a full clone on 2026-11-17 from
+11:02 UTC. `main` was `e35a39fbdc3cd4098a6d91e7595910c62137c3b4` throughout.
+
+| Reference | Read back on `2026-11-17` |
+|---|---|
+| IRR PR #578, merge `e35a39fbdc3cd4098a6d91e7595910c62137c3b4` | Title "W05: statement source, source rights and repository exposure assessment". Opened `2026-11-17T10:21:40Z`; merged `2026-11-17T10:21:56Z` by `ramkivs` as a merge commit; parents `b74237f1c330be0e1d3287ae633bcaece9c5f901` (`main`) and `fc96425d4cf941256075eebeda869d79cbd12cee` (branch `w05/statement-source-rights-and-exposure-assessment-2026-11-17`). It added eight files, +10,409 lines, and modified or removed none: the record `docs/integration/W05-STATEMENT-SOURCE-RIGHTS-AND-REPOSITORY-EXPOSURE-ASSESSMENT-2026-11-17.md` and the seven files of `evidence/integration/w05-statement-source-rights-and-repository-exposure-2026-11-17/`. The tree of the merge commit is the tree of the branch head, `d2a4c2f86dc1549f42b565251680fa01d53fa83c`. No hosted workflow is triggered by those paths, and none ran: there is no check run and no workflow run for either commit. |
+
+**Decisions of the Program Authority, recorded as given.** On `2026-11-17` (UTC) the Program Authority,
+Ramki, gave these decisions in the instruction for this work item. They answer section 7 of the
+assessment. They are his decisions, made under the standing personal-application authority. No further
+approval is required for them and none is created here.
+
+| Decision | State | As given |
+|---|---|---|
+| D1, the statement source for the portfolio's issuers | **CONFIRMED** | "Confirmed D1: use manually downloaded issuer financial filings, retained locally." The assessment asked him to confirm row 1 of its section 0 or to name another source. He named no other. |
+| D2, the existing public reproduction | **DECIDED: IRR private now.** Implemented and verified, as the next table shows | "Changed the D2 decision: make the IRR repository private now, rather than waiting until implementation is complete." This replaces the position that section 2.4 of the assessment records: public during implementation, private afterwards. |
+| D3, scripted retrieval | **Manual retrieval. No scripted retrieval is authorised** | "D3 remains manual retrieval; no scripted retrieval is authorised." |
+
+The decisions select a source and a visibility. They admit no issuer, authorise no redistribution and
+decide no question of third-party rights. The assessment says of itself that it is not legal advice.
+
+**D2 implemented: `ramkivs/iips-review-recovered` is private. Verified independently.** All times are
+UTC on 2026-11-17.
+
+| Step | Fact |
+|---|---|
+| Before | GitHub reported `private: false`, `visibility: public` to the session at 11:02 and to a request made from outside the session, without credentials, at about 11:04. |
+| The session could not make the change | `PATCH /repos/ramkivs/iips-review-recovered` with `private=true` at 11:11:23 was refused: HTTP 403, "Resource not accessible by integration". GitHub named the permission the session's token lacks, `administration=write` (request `8C74:249C74:1C2F2:2D0B0:6AFC365B`). `gh repo edit --visibility private` at 11:11:31 was refused in the same way. The repository stayed public. |
+| The change | The Principal changed the visibility himself in GitHub's repository settings and reported it done by 11:21. GitHub gives the repository's `updated_at` as `2026-11-17T11:20:07Z`. |
+| GitHub's report after | `private: true`, `visibility: private`, read by the session at 11:21:53 and again at 11:23:38. |
+| From outside, without credentials, 11:21 to 11:24 | "Not found" for the API address of the repository, for its web page, for one file address on `raw.githubusercontent.com` and for one release-asset address. |
+| Nothing lost | `git ls-remote` listed the same 1,042 refs before (11:11) and after (11:22): 458 branches, 5 tags, 576 pull-request heads, `HEAD` and the merge refs of the two open pull requests. Every name and commit id is equal; the SHA-256 of either list is `675d555e3bd1b747310015484005198259b2608f8747f4c1b9a5f2c879476c1f`. The API counts 576 pull requests before and after, and two releases with 4 and 0 assets before and after. `main` is `e35a39fbdc3cd4098a6d91e7595910c62137c3b4` before and after. PR #566 (`92eda04bf4ff28dfcbd1761bc2614ac9a1c41127`) and PR #515 (`008dfe67d740e91c1691a6512e16af26c9e00104`) are open and untouched. Nothing was deleted, rewritten, squashed or relocated. |
+
+**Access after the switch, checked.** The session reads and lists IRR as before. `main` had no branch
+protection and the repository no ruleset before the switch, so none is lost. The three workflow files
+on `main` check the repository out with the workflow's own token, which a private repository accepts.
+Three things are affected. None is changed here: this work item changes no code, test, configuration,
+credential or Windows setting.
+
+1. **The static gate's release step.** "Download and independently verify the CAP-03 recovery release
+   assets" runs `docs/integration/cap03-s2/verify_recovery_release.py`, which requests each asset's
+   `browser_download_url` without credentials (its line 301). Requested without credentials after the
+   switch, such an address answers "Not Found". The step is therefore expected to fail on the hosted
+   runner until the script authenticates the download. The steps before it do not depend on it.
+2. **Commands that reach IRR without credentials.** Existing documents clone or download from this
+   repository anonymously, for example the `git clone` of `docs/OPERATOR_RUNBOOK.md` section 1 and the
+   release address in `docs/integration/IIPS_v3.0_CAP03_S2_ORIGINAL_DIST_RECOVERY_2026-10-31.ps1`. They
+   now need the Principal's credentials on the machine that runs them.
+3. **IPD is no longer public either, and IRR's frontend installs from it.** The decision names IRR. IPD
+   `ramkivs/iips-production-market-data` was read only, at `main`
+   `b4a9f0f3601c2c56960aa15796370af0b7664d39`, between 11:04 and 11:11, when GitHub still reported it
+   public. At 11:23 the session's token was refused there (HTTP 403), and at 11:24 a request without
+   credentials answered "Not Found". This session made no IPD change and has no means to make one; it
+   can no longer read IPD. `frontend/package.json` takes three packages from the IPD repository by
+   commit, and the `CI` workflow installs them with `npm ci` and no credential for IPD. A fetch of the
+   pinned commit is now refused to a caller without access (for this session: HTTP 404 from
+   `codeload.github.com` at 11:26, HTTP 403 from `git ls-remote`). `CI` is therefore expected to fail
+   at its install step when it next runs, unless the runner's cache already holds the three packages.
+   This change does not trigger `CI`, and no run was observed.
+
+The result of the first hosted run after the switch cannot be part of this commit and is reported
+separately.
+
+**What the switch does not do.** As section 5.3 of the assessment says, it ends public access. It does
+not recall a copy taken while the repository was public, and it does not authorise the earlier
+publication. The files stay in the tree and in history, unchanged.
+
+**Two corrections to the published assessment. They are corrections of wording, not new source-rights
+findings.** No figure, finding, recommendation or legal characterization of the assessment is changed,
+and no admission is widened. The superseded wording is kept here.
+
+| # | Place | Superseded | Corrected | Reason |
+|---|---|---|---|---|
+| A | Section 5.2, the bullet on admitted bundles | "**Where the admitted bundles stand.** `REL-1` carries no source file; `WI7` 12; `WI8` 15; `S4-R3` 6." | "**Where the bundles that hold admitted material stand.** They carry 33 of the 114 source files. 27 sit in the three bundles admitted on 2026-11-13: `REL-1` none, `WI7` 12, `WI8` 15. The other 6 sit in the S4-R3 bundle, where the re-admission of 2026-11-14 covers only the specified ingestion inputs and the candidate dataset." | "Admitted bundles" was too broad. The `O3` record of 2026-11-13 admits three bundles. The re-admission of 2026-11-14 admits, by exact digest, the refreshed Marico and KEC ingestion inputs and the candidate dataset, and names `S4-R3-FILING-REFRESH-2026-11-14` as the bundle that encloses those inputs. The six source files lie in that bundle's `source` directory; none lies under `ingest-input`. The counts are unchanged: 0, 12, 15 and 6; 27 and 6 make the 33. |
+| A | Section 5.3, item 1, last sentence | "The Principal's own `O3` records say redistribution is not authorised, and 33 of the 114 source files sit in admitted bundles." | "The Principal's own `O3` records say redistribution is not authorised. 27 of the 114 source files sit in the three bundles admitted on 2026-11-13, and 6 more sit in the S4-R3 bundle, where the re-admission of 2026-11-14 covers only the specified ingestion inputs and the candidate dataset." | The same. |
+| B | Section 0, row 7 | "The rights side of the source is settled for personal, local, manual use once D1 is given." | "The rights side of the source is narrowed for personal, local, manual use once D1 is given." | The position is narrowed, not settled. Section 8 of the same record says "Narrowed" of blocker B03, and Q1 to Q7 are open. |
+
+**The record's checker, kept in step.** `check_record.py` of the evidence folder required the
+superseded sentence of section 5.3 and, on a branch, refused any change to an existing file. With the
+corrections it would fail. It now requires the corrected sentences, with 27 and 6 computed from
+`inventory.json`, and the corrected row 7. It tests the commit that published the record,
+`fc96425d4cf941256075eebeda869d79cbd12cee`, for "only new files", instead of the branch it runs on. It
+has 32 checks; it had 31. No other file of the evidence folder is changed.
+
+**What stays as it was.** W05 is **IN PROGRESS, NOT COMPLETE, NOT ACCEPTED**. `L-041` and `L-042` are
+`OPEN`. Q1 to Q7 are open. The `O3` records of 2026-11-13 (blob
+`be627a990c13f6fd259819b9c4acda836870cd47`) and of 2026-11-14
+(`e73a3f8cc526604970178193f2d6774bc94c1bf1`), `PA-01` (`cd9198a0ba88f9158e7faf2ffda5e02c4eb11210`) and
+the IID limitation register (`e3c2517f1d8ad9d86562ccbac313fd901c824b35`) are the same Git objects at
+`b74237f1`, at `e35a39fb` and on the tree that carries this section. The existing admission boundaries
+are unchanged. `evidence/real-issuer/` is the same tree, `b4855f9d119fb320b9a040a60e5f5b9a3782978a`. No
+issuer is admitted. No redistribution is authorised. The S4-R3 candidate dataset is not installed. No
+source document, page text or dataset is added to Git. Financial coverage is unchanged.
+
+**What follows from D1, and what no repository holds.** The first unit of work is the one holding of
+`DHAN_PORTFOLIO` revision 1 that has a stored security identity (`§16.286`). Committed evidence locates
+that holding and does not name it. The E4 host output on IPD `main` `b4a9f0f3…`
+(`evidence/integration/w04-e4-original-csv-lineage-reproduction-2026-11-14/host-run-2026-11-14/w04-e4-csv-lineage-output.txt`,
+SHA-256 `518d76c31fef9351175d179839322165432977dd04f9c69b6accd217597860de`) gives it as capture holding
+`H01`: line 61 of the import CSV whose SHA-256 is
+`a3c3ee7635e24e56d1d2d6b9411a6de561f554addd382ab163344706e7b63107`, committed input ISIN and exchange
+NSE. The CSV and the capture are on the host only. The ISIN, symbol, listing and issuer of that holding
+are in no repository (`§16.286`, evidence limitation 3; the IPD W04 assessment of 2026-11-16, section 7,
+row 5). They are not inferred here. The Principal reads them from his own file and makes the manual
+download on the Windows host. No filing, dataset or market-data file was downloaded for this section,
+and no exchange page was opened.
+
+**Validation.** On the tree that carries this section: `build_inventory.py --check` and
+`portfolio_source_gap.py --check` each equal a fresh build; `check_record.py` passes 32 of 32; six
+deliberate faults put into the corrected sentences were each reported, and the file was restored; the
+record differs from its published blob in three lines. The IRR-only static gate was run locally: the
+validator compiles; the artifact-classification and workflow-trigger tests pass; the source, evidence
+and tracker validation passes; `git diff --check` is clean. The release step of that gate needs the
+hosted runner, where it is expected to fail for the reason given above. No product test was run,
+because none reads these files.
+
+**Publication.** This section is added by one commit on a branch made from `main`
+`e35a39fbdc3cd4098a6d91e7595910c62137c3b4`. Its commit hash, push, pull request, hosted run and remote
+read-back cannot be part of the commit that carries it and are reported separately.
+
+Next free §16.291 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
