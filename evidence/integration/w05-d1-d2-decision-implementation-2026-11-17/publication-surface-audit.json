@@ -24,6 +24,77 @@
     "downloads": {"enabled": false},
     "packages": {"listed": false, "apiResult": "404 Not Found"}
   },
+  "releaseAssetContentAudit": {
+    "reviewedAtUtc": "2026-11-17T17:38:33Z",
+    "hostedWorkflow": "CAP-03 Revision 7 IRR-only static checks",
+    "runId": "44139023529",
+    "headCommit": "e60248ae7f59678228a1c148be76198b5a8cd9ad",
+    "downloadMechanism": "Authenticated GitHub REST API; four release assets held in workflow memory for inspection; no source files extracted to the repository.",
+    "assets": [
+      {
+        "name": "CAP03-S2-Original-1140-Artifacts.zip",
+        "id": 695808804,
+        "bytes": 10328940,
+        "sha256": "57656309d721a0c6f6a072f14f6a9067a2cc788737efa92f34aa0997fb5d2d48",
+        "contentChecks": "1140 member paths matched the original inventory; every member payload SHA-256 and ZIP CRC passed. Filename/leading-signature triage found zero `.pdf`/`.doc`/`.docx`/`.xls`/`.xlsx`/`.ppt`/`.pptx` paths and zero entries beginning with a PDF signature. Exact byte-string scans found the ISIN in six files and 'AGI Greenpac' in fourteen files; the matched paths have JavaScript/TypeScript or test-file extensions and are listed below, not filing documents."
+      },
+      {
+        "name": "original-s2-sha256-inventory.txt",
+        "id": 695808801,
+        "bytes": 176456,
+        "sha256": "e077a349d3777403d426a0b0f338c53ac6f0e3942f75a9174a6a9b6e42854cbb",
+        "contentChecks": "Parsed exactly 1140 path/hash rows; original inventory digest matched the existing authority seal; compared against admitted S2 inventory. AGI/financial-filing filename heuristic hits: zero."
+      },
+      {
+        "name": "recovery-evidence.json",
+        "id": 695808803,
+        "bytes": 800,
+        "sha256": "412ed94f4c1d501f9fe7106631b8d2b51665f5732edffb29757693b9473c1522",
+        "contentChecks": "Parsed and validated pinned recovery run, source/inventory paths, counts, archive digest, result and scope fields."
+      },
+      {
+        "name": "recovery-run-20261031-212225-35931ce8.txt",
+        "id": 695808800,
+        "bytes": 1630,
+        "sha256": "1073c035045932a2706dfc51f10833e63b5cf62af943b80cb1fffaa20a648da6",
+        "contentChecks": "Decoded and validated transcript marker, PowerShell version, run ID, source/inventory paths, counts and archive digest."
+      }
+    ],
+    "agiMarkerPaths": {
+      "INE415A01038": [
+        "package/src/identity/d05_broad_universe_data.js",
+        "src/identity/d05_broad_universe_data.js",
+        "tests/d05_browser_runtime_hydration.test.js",
+        "tests/e2e_broad_universe_multi_broker_integration.test.js",
+        "tests/p04_expanded_broad_universe_runtime_qualification.test.js",
+        "tests/shell_security_master_surface.test.js"
+      ],
+      "AGI Greenpac": [
+        "package/src/identity/d05_broad_universe_data.js",
+        "package/src/identity/governed_fixture_master.d.ts",
+        "package/src/identity/governed_fixture_master.js",
+        "src/identity/d05_broad_universe_data.js",
+        "src/identity/governed_fixture_master.d.ts",
+        "src/identity/governed_fixture_master.js",
+        "tests/bi08_idempotent_ingress.test.js",
+        "tests/d05_browser_runtime_hydration.test.js",
+        "tests/e2e_broad_universe_multi_broker_integration.test.js",
+        "tests/non_production_operator_identity_bypass.test.js",
+        "tests/p04_expanded_broad_universe_runtime_qualification.test.js",
+        "tests/p04_governed_offline_security_master.test.js",
+        "tests/shell_security_master_surface.test.d.ts",
+        "tests/shell_security_master_surface.test.js"
+      ]
+    },
+    "limits": "This audit checks the recovered build artifact against its pinned hash inventory and does filename/signature/exact-string triage; it is not a complete semantic source-rights opinion, does not establish the provenance or public exposure history of any string, and does not authorize redistribution."
+  },
+  "agiD1SourceProvenance": {
+    "officialSourceLocator": "NOT RECORDED",
+    "actualManualRetrievalDateTimeUtc": "NOT RECORDED",
+    "actualManualRetrievalChannel": "NOT RECORDED",
+    "evidence": "The source-branch ZIP contains five PDFs but no source manifest or retrieval log. The ZIP member timestamps and source-branch commit timestamp identify packaging/commit events only; they are not substituted for retrieval metadata.",
+    "status": "UNRESOLVED — do not treat this AGI package as per-file D1 provenance-complete"
+  },
   "agiDedicatedSourceBranch": {
     "branch": "w05/agi-ine415a01038-source-filings",
     "commit": "da5e40c0f1b43bac774905eb9db36a9f4ce79045",

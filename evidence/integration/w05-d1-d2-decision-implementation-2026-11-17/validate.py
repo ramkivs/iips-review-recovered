@@ -33,6 +33,17 @@ def main() -> int:
     check(hashlib.sha256(archive).hexdigest() == ZIP_SHA256, "source ZIP digest mismatch")
     rows = list(csv.DictReader((EVIDENCE / "agi-source-package-inventory.tsv").open(), delimiter="\t"))
     check(len(rows) == 5, "expected exactly five AGI PDFs in the metadata inventory")
+    check(all(r["source_locator_recorded_in_zip"] == "NO" for r in rows), "source locator gap must remain explicit")
+    check(all(r["retrieval_date_or_channel_recorded_in_zip"] == "NO" for r in rows), "retrieval gap must remain explicit")
+    audit = json.loads((EVIDENCE / "publication-surface-audit.json").read_text())
+    asset_audit = audit["releaseAssetContentAudit"]
+    provenance = audit["agiD1SourceProvenance"]
+    check(provenance["officialSourceLocator"] == "NOT RECORDED", "do not fill source locator without evidence")
+    check(provenance["actualManualRetrievalDateTimeUtc"] == "NOT RECORDED", "do not infer retrieval date from packaging")
+    check(len(asset_audit["assets"]) == 4, "expected individual results for all four CAP-03 release assets")
+    check(asset_audit["runId"] == "44139023529", "hosted release-asset audit run does not match review receipt")
+    check(len(asset_audit["agiMarkerPaths"]["INE415A01038"]) == 6, "AGI ISIN triage path count changed")
+    check(len(asset_audit["agiMarkerPaths"]["AGI Greenpac"]) == 14, "AGI name triage path count changed")
     with zipfile.ZipFile(io.BytesIO(archive)) as zf:
         files = [i for i in zf.infolist() if not i.is_dir()]
         check(len(files) == 5, "source ZIP must contain exactly five files")

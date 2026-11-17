@@ -4,8 +4,8 @@ This evidence folder contains governance text and metadata-only source-package i
 
 - The operative D1/D2 addendum is [`docs/integration/W05-D1-D2-DECISION-IMPLEMENTATION-REGISTER-2026-11-17.md`](../../../docs/integration/W05-D1-D2-DECISION-IMPLEMENTATION-REGISTER-2026-11-17.md).
 - The tracker receipt is §16.292 in the canonical master tracker.
-- [`publication-surface-audit.json`](publication-surface-audit.json) records GitHub visibility, release/artifact/Pages/fork/package surface checks and anonymous HTTP outcomes. One raw-content host request could not be tested because TLS failed in this sandbox; no status is claimed for it.
-- [`agi-source-package-inventory.tsv`](agi-source-package-inventory.tsv) records the five AGI PDF names, reporting periods, page counts, byte lengths and SHA-256 values. The ZIP has no source URL or retrieval log; missing provenance is explicitly not inferred from ZIP-member timestamps.
+- [`publication-surface-audit.json`](publication-surface-audit.json) records GitHub visibility, release/artifact/Pages/fork/package checks, anonymous HTTP outcomes, and the per-asset authenticated content audit from hosted run `44139023529`. The release ZIP has 1,140 inventory-matched members and zero PDF/Office-like path or leading-PDF-signature hits; exact AGI/ISIN strings occur in JS/TS/test paths enumerated there. One raw-content host request could not be tested because TLS failed in this sandbox; no status is claimed for it.
+- [`agi-source-package-inventory.tsv`](agi-source-package-inventory.tsv) records the five AGI PDF names, reporting periods, page counts, byte lengths and SHA-256 values. The official source locator and actual manual retrieval date/channel remain NOT RECORDED; missing provenance is explicitly not inferred from ZIP-member or commit timestamps. This is a remaining D1 evidence gap.
 - The completed financial analysis is a local-only working paper at `local-work/AGI-Greenpac-financial-assessment-2026-11-17.md`. It is deliberately **not tracked or published**. The remote record cites its local path only.
 
 ## Boundaries preserved
