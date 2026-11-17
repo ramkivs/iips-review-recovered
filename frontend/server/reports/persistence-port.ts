@@ -286,9 +286,11 @@ function closeQuietly(database: unknown): void {
  *     migrate: false` so it can neither create the file, create its directory, nor migrate it.
  *
  *   - `INITIALISE` — bring a store into existence or bring an existing one up to schema. Only a
- *     caller that is already authorised to WRITE to the store asks for this: today the mint CLI
- *     (`generate-investment-artifacts.ts`) and nothing else. It keeps the historical behaviour
- *     verbatim.
+ *     caller that is already authorised to WRITE to the store asks for this, and there are exactly
+ *     three: the mint CLI (`investment/cli/generate-investment-artifacts.ts`), the real-report
+ *     script (`reports/persist-real-reports.ts`), and a reports `POST` (which creates or appends an
+ *     artifact through `reports-transport.ts`; its `GET`/`HEAD` state `READ`). Each keeps the
+ *     historical create-and-migrate behaviour verbatim.
  *
  * The default is `READ` so that a call site which forgets to state its intent cannot acquire write
  * powers: the failure mode of an omission is a 503, not a silent write. `m1-demonstration.ts`
