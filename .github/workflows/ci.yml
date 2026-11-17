@@ -96,7 +96,7 @@ jobs:
           GIT_CONFIG_KEY_2: url.https://github.com/.insteadOf
           GIT_CONFIG_VALUE_2: git@github.com:
           GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
-          GIT_CONFIG_VALUE_3: AUTHORIZATION: bearer ${{ steps.ipd-token.outputs.token }}
+          GIT_CONFIG_VALUE_3: 'AUTHORIZATION: bearer ${{ steps.ipd-token.outputs.token }}'
         run: npm ci --no-audit --no-fund
 
       # `frontend/package.json` → "typecheck": "tsc --noEmit" (the established script; no substitution).
