@@ -5,6 +5,10 @@
  * identity fixtures, so the evidence in `evidence/iid/IID-1-IDENTITY-COVERAGE-2026-11-05/` is produced by
  * the same code path the application uses, not by a parallel re-implementation.
  *
+ * The HTML is captured from `COVERAGE_ROUTES.html` (`/identity-coverage`), the identity capability's own
+ * path since `G-10` (2026-11-17). It was `/investment/coverage`, which is the INVESTMENT capability's path;
+ * capturing through the constant means this emitter follows the route rather than re-stating it.
+ *
  *   tsx scripts/iid1-coverage-report.ts <output-dir> [asOf]
  *
  * Writes: coverage-report.json, coverage-view.html, coverage-summary.txt. Read-only: no dataset, no store
@@ -13,7 +17,11 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { bindCoverageToHttp, type CoverageDependencies } from '../src/investment/identity/coverageEndpoint';
+import {
+  bindCoverageToHttp,
+  COVERAGE_ROUTES,
+  type CoverageDependencies,
+} from '../src/investment/identity/coverageEndpoint';
 import { buildFinancialCoverageDisclosure } from '../src/investment/identity/coverage';
 import {
   FIXTURE_AS_OF,
@@ -57,7 +65,7 @@ async function main(): Promise<void> {
   const json = await capture();
   const htmlCapture = await (async () => {
     let body = '';
-    const request = { method: 'GET', url: `/investment/coverage?asOf=${asOf}` } as never;
+    const request = { method: 'GET', url: `${COVERAGE_ROUTES.html}?asOf=${asOf}` } as never;
     const response = { writeHead: () => response, end: (chunk?: string) => ((body = chunk ?? ''), response) } as never;
     await bindCoverageToHttp(request, response, dependencies);
     return body;

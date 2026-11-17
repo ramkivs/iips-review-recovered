@@ -522,3 +522,119 @@ It simply removes the population question from behind it.
 ---
 
 *End of addendum. §1–§12 remain as published on 2026-11-14.*
+
+---
+
+## 14. Addendum (2026-11-17) — `G-10` corrected: each capability now has its own JS-free page
+
+Appended forward. **§1–§13 above are unchanged, byte for byte** — including §7's `G-10` row, which still reads
+*"Open, unchanged"* exactly as written on 2026-11-14, and §13's `S2-R1` disposition. This addendum records the
+later act and the disposition it supports: **`G-10` is RESOLVED**, and the completion standard was met rather
+than waived.
+
+### 14.1 The finding, restated in its own terms
+
+`G-10` recorded one fact: `COVERAGE_ROUTES.html = '/investment/coverage'` served the **identity** capability's
+HTML view, and `frontend/server/investment/coverage-transport.ts` fell through to the identity binder for that
+path, so a reader with scripts disabled — or one addressing the transport directly — was told *"Investment
+identity coverage unavailable"* on the path the SPA uses for **investment** coverage, while
+`/api/investment/coverage/investment` answered `200` from the dataset. The register charged it to owner
+decision **O9** and characterised it as *"a new surface"*, not a defect repair.
+
+### 14.2 Reproduction, on the delivered surface rather than in source
+
+Both observations are of the **product's own executive transport** (`frontend/server/executive-transport.ts`),
+started with `npx tsx server/executive-transport.ts`, with the identity sources **absent** — the precondition
+`G-10` names.
+
+| Head | Request | Delivered | Body |
+|---|---|---|---|
+| `a45c9f7` (pre-fix, detached worktree, port 8788) | `GET /investment/coverage?asOf=2026-11-10` | **`503 text/html; charset=utf-8`** | `<h1>Identity coverage is unavailable</h1>` |
+| `a45c9f7` (pre-fix) | `GET /api/investment/coverage/investment?asOf=2026-11-10` | `200 application/json` | investment report |
+| this branch (post-fix, port 8787) | `GET /investment/coverage?asOf=2026-11-10` | **`200 text/html; charset=utf-8`** | `<h1>Investment coverage</h1>`, 6,033 bytes, **0** `<script` occurrences |
+| this branch (post-fix) | `GET /identity-coverage?asOf=2026-11-10` | `503 text/html; charset=utf-8` | `<h1>Identity coverage is unavailable</h1>` — fail-closed, preserved |
+| this branch (post-fix) | `GET /api/investment/coverage/investment` | `200 application/json` | unchanged |
+| this branch (post-fix) | `GET /api/investment/coverage` | `503 application/json` — `identity-sources-unavailable` | unchanged |
+| this branch (post-fix) | `HEAD /investment/coverage` | `200`, `content-type: text/html; charset=utf-8`, CSP `default-src 'none'; style-src 'unsafe-inline'`, `x-content-type-options: nosniff`, empty body | — |
+| this branch (post-fix) | `POST /investment/coverage` / `GET …?asOf=12-11-2026` | `405` / `400` | unchanged contract |
+
+The local data root has no installed dataset, so the post-fix page reports the disclosed `NONE` position
+(`No investment dataset is installed: no issuer is covered.`) with the identity absence disclosed beneath it.
+That is the honest state of *this* machine; the dataset-populated output is what the Windows captures in
+`IID-STAGE4-WINDOWS-VERIFICATION-PROCEDURE-2026-11-16.md` §7.4/§7.5 record.
+
+### 14.3 Root cause, and the correction
+
+| Element | Was | Now |
+|---|---|---|
+| `COVERAGE_ROUTES.html` (identity, `coverageEndpoint.ts`) | `/investment/coverage` | **`/identity-coverage`** — the SPA's own identity route |
+| `INVESTMENT_COVERAGE_ROUTES.html` (investment, `investmentCoverageEndpoint.ts`) | did not exist | **`/investment/coverage`** |
+| `/investment/coverage` renderer | identity `renderUnavailableHtml` via the transport fall-through | `iips-platform/src/investment/coverage/investmentCoverageView.ts` — new, script-free, server-rendered |
+| Identity HTML contract | shared with the investment path | unchanged content, own path; still `503` fail-closed with `issues[].code` per file |
+
+The investment view is rendered from the **same read model the JSON route publishes** — dataset disclosure,
+counts, sector measurement, issuer rows, ingestion issues, the IID-0 financial-coverage disclosure and the
+notes — with the same three-state identity disclosure per row (`resolved` / `unresolved` / *not evaluated*).
+Every interpolated value is escaped, the page loads nothing (no script, stylesheet, font or image), and a
+genuine investment read failure answers `503` in **investment** words naming the dataset. The identity view is
+not weakened: it keeps its fail-closed form, its file-level issues and its content, and it is now reachable at
+the path the SPA already uses for that capability.
+
+The separation record's §5 sentence — that the server-rendered `/investment/coverage` *"still renders the
+identity unavailable page … the same identity report rendered without JavaScript"* — is **superseded by this
+act** and is marked so, additively, in
+`IID-IDENTITY-AND-INVESTMENT-COVERAGE-SEPARATION-2026-11-10.md` §7.
+
+### 14.4 Tests that now pin both halves (JS-free and JS-enabled)
+
+| Test | Tests | What it pins |
+|---|---|---|
+| `iips-platform/tests/investment/investment-coverage-html.test.ts` (**new**) | 8 | route ownership; `200 text/html` from the dataset with identity sources absent; identity absence disclosed, never fatal; a real read failure is investment-worded `503`; no script, no subresource, no inline handler; escaping; `HEAD`; JSON route unchanged |
+| `frontend/server/investment/g10JsFreeCoverage.test.ts` (**new**) | 8 | the same over **real HTTP** through the transport seam: JS-free investment path `200`; identity path `503`; the old collision gone; **parity** of every headline figure with the JSON the SPA reads; the investment page performs **zero** identity-source reads; JS-enabled routes unchanged |
+| `iips-platform/tests/investment/identity-endpoint.test.ts` | 19 (1 new) | identity HTML path is `/identity-coverage`, not `/investment/coverage`; the identity view's content assertions are unchanged |
+| `frontend/server/investment/iidStage2ServedIdentityRoute.test.ts` | 9 | re-pointed to `/identity-coverage`; **assertions unchanged**, only the path |
+| `frontend/server/investment/iidInvestmentCoverageTransport.test.ts`, `iidStage4ServedCoverageRoute.test.ts`, `w05CoverageTransportRights.test.ts` | 5 / 11 / 3 | untouched and passing — the JSON contracts and the §23 scenario route did not move |
+| `frontend/src/features/investment/iid6Coverage.test.tsx`, `iidCoverageSeparation.test.tsx` | 8 / 14 | untouched and passing — the SPA surfaces are unchanged |
+
+Executed: `iips-platform` `npm run test:iid` → **1,468 pass / 0 fail** (305 suites); `npx tsc --noEmit` → 0
+errors. `frontend` affected suites → **58 tests / 7 files, all pass**; `tsc -p tsconfig.investment-server.json`
+and `tsc --noEmit` are clean apart from the pre-existing private-dependency errors (`iips-broker-import`,
+`iips-np04-governed-persistence`, `iips-production-market-data`, and the `.cache/broker-import` path they
+materialise). `frontend/src/app/iid6Routes.test.tsx` cannot load locally for that same reason (its `pretest`
+materialises the alias); its assertions read only route constants, which are unchanged.
+
+### 14.5 Consumers corrected with the route
+
+| Consumer | Was | Now |
+|---|---|---|
+| `iips-platform/scripts/iid1-coverage-report.ts` (IID-1 evidence emitter) | captured HTML from a literal `/investment/coverage` | captures from `COVERAGE_ROUTES.html`; re-run produces the identity view at `200`, no script |
+| `frontend/src/features/investment/CompanyAssessmentPage.tsx` | link **labelled** "Identity coverage" pointing at `/investment/coverage` | points at `/identity-coverage` |
+| `frontend/src/features/investment/InvestmentLandingPage.tsx` | investment link whose description described identity resolution | investment link described as the investment position, plus a separate identity-coverage entry |
+| `frontend/src/app/routes.ts` | identity doc comment claiming the server renders it at `/investment/coverage` | states `/identity-coverage` |
+| `frontend/server/executive-transport.ts` | dispatched `/investment/coverage` only | dispatches `/identity-coverage` too |
+
+### 14.6 What authorised the act, and what is *not* claimed
+
+- **Authorisation.** O9 existed because building a JS-free investment surface was judged *"a new surface, not a
+  defect repair"*, with the recommendation *"leave as-is and document"*. The instruction under which this work
+  was performed directed that the exception be corrected **without making JavaScript mandatory**, with the
+  delivered HTML verified rather than asserted. That instruction is the decision O9 named; the recommendation
+  to leave the divergence in place is therefore **superseded, not ignored**, and this record says so instead of
+  pretending the owner had already decided.
+- **`G-10` is `RESOLVED`** on the register's own standard: the defect no longer reproduces on the delivered
+  surface, the correction is pinned by committed tests on both halves, the historical evidence is preserved
+  (this addendum is appended; no prior record was rewritten), and the identity capability's fail-closed
+  contract is intact at its own path.
+- **The Stage 4 verdict is unchanged: PARTIALLY COMPLETE.** `S4-R1`'s 8/2 accounting, `S2-R1`'s satisfaction,
+  `S2-R2`/`R-1`/`R-2`/`R-3`/`R-4`, and the `G-4`/`G-6` data acts are untouched. `G-10` was never one of the
+  demo limb's constraints — §7 charges it to a *non-demonstration* question — so closing it moves no verdict.
+- **`L-041`/`L-042` are not reopened**, and no valuation, rights or permission calculation is touched.
+- **One adjacent observation, recorded and deliberately not fixed.** `InvestmentCoveragePage.tsx:313` reads
+  `sector.issuerCount`, and the client type declares it (`frontend/src/api/investmentCoverageInvestment.ts:56`),
+  but the served `SectorMeasurement` (`iips-platform/src/investment/coverage/measure.ts:38-49`) publishes
+  `issuersConsidered: string[]` and no `issuerCount`. The client field was declared at separation time
+  (`8603138`) and never existed on the server; `issuersConsidered` arrived with `d1134bc` and the SPA was not
+  updated to derive from it. The SPA's sector table therefore renders an empty issuer count against a served dataset. The JS-free
+  page renders `issuersConsidered.length`, which is the true figure. Fixing the SPA is a JS-enabled-surface
+  change outside this act's authority (the instruction was to preserve JS-enabled behaviour); it is recorded
+  here so the register owner can number and charge it.

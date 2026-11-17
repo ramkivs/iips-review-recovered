@@ -296,6 +296,11 @@ describe('§23 scenario 1 — (R) normal equity holding, valid identity, complet
      * §23's UI limbs for this scenario are `/investment/coverage` (the SPA route, which is correct and covered
      * by the served-coverage suite), `/identity-coverage`, and `/investment/company/:issuerId` (the SPA route,
      * which now has a chain to render). The G-10 exception is the no-JS variant of the first, not those routes.
+     *
+     * HISTORICAL as of 2026-11-17: G-10 was corrected — `/investment/coverage` now renders the investment
+     * report on the server and the identity view moved to `/identity-coverage`
+     * (`IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14). The arrays below are left exactly as this record
+     * scored them; re-scoring S4-R1's accounting is a register act, not a side effect of that correction.
      */
     const openLimbs = ['G-10 raw-HTML /investment/coverage renders the identity page instead of the dataset position'];
     const closedAtS4R1 = ['G-11 served chain', 'D2 minting-with-a-configured-store'];

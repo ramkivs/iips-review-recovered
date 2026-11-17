@@ -91,6 +91,19 @@ describe('JSON response', () => {
 });
 
 describe('HTML view', () => {
+  /*
+   * `G-10`: this view is the IDENTITY capability's. It used to be served at `/investment/coverage`, the path
+   * the SPA uses for INVESTMENT coverage, so a JS-free reader of the investment path was shown an identity
+   * failure. It now mirrors the SPA's identity route, and the investment path renders its own report
+   * (`investment-coverage-html.test.ts`, `frontend/server/investment/g10JsFreeCoverage.test.ts`).
+   */
+  test('is served at the identity capability\'s own path, not the investment one', () => {
+    assert.equal(COVERAGE_ROUTES.html, '/identity-coverage');
+    assert.notEqual(COVERAGE_ROUTES.html, '/investment/coverage');
+    // The JSON read is unchanged; only the HTML path moved.
+    assert.equal(COVERAGE_ROUTES.json, '/api/investment/coverage');
+  });
+
   test('the view shows counts, every row, its reason and the raw observation', async () => {
     const response = await handleCoverageRequest({ method: 'GET', url: COVERAGE_ROUTES.html }, deps());
     assert.equal(response?.status, 200);
@@ -201,6 +214,7 @@ describe('node:http binding', () => {
 
       const html = await fetch(`${base}${COVERAGE_ROUTES.html}`);
       assert.equal(html.status, 200);
+      assert.equal(html.headers.get('content-type'), 'text/html; charset=utf-8');
       assert.match(await html.text(), /Investment identity coverage/);
     } finally {
       await new Promise<void>((resolve) => server.close(() => resolve()));

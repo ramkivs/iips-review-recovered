@@ -245,7 +245,12 @@ export default function InvestmentLandingPage(): JSX.Element {
             assessment, its held decision and its change history, carrying the portfolio and security context.
           </li>
           <li>
-            <Link to="/investment/coverage">Investment coverage →</Link> — every observed row and its resolution
+            <Link to="/investment/coverage">Investment coverage →</Link> — every issuer in the served dataset, its
+            sector and stage, the periods and records the dataset holds, and the sectors still outstanding. It
+            states the investment position, does not consult the identity files, and needs no script.
+          </li>
+          <li>
+            <Link to="/identity-coverage">Identity coverage →</Link> — every observed row and its resolution
             state. Coverage reports identity resolution only; it is not a company assessment, not a decision and
             not a change history, and it is unavailable whenever its own sources cannot be read.
           </li>

@@ -1029,3 +1029,18 @@ is null, and it was fixed in the test with an explicit `?? null`, not by widenin
 ---
 
 *End of evidence record. Published additively; the records it measures against are unchanged, byte for byte.*
+
+---
+
+## Addendum (2026-11-17) — `G-10`'s raw-HTML variant is closed, not deferred
+
+Appended forward; **nothing above is changed, byte for byte**, including §608's and §653's statements that the
+raw-HTML variant is *"owner decision O9 … a new surface"* and §675's note that it is not one of the routes §23
+names. Both statements were true when measured and stay true as measurements.
+
+The disposition they deferred has since been taken: `/investment/coverage` now renders the **investment** read
+on the server, and the identity view moved to `/identity-coverage`. **No measurement in this record changes** —
+`measuredSectors`, sector counts, method counts, tag counts and the NONE position are untouched, and the
+investment read still consults no identity file. What changes is only the raw-HTML delivery, recorded in
+`IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14 with the delivered captures and the tests that pin both
+halves.

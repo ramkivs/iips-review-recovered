@@ -16,8 +16,12 @@ export const ROUTES = {
   dhanInstrumentSearch: '/dhan/instruments',
   /**
    * IID-1 — IDENTITY coverage. The SPA surface; the server also renders the same report at
-   * `/investment/coverage` for a credential-free, JS-free view. Both read the same endpoint and neither
+   * `/identity-coverage` for a credential-free, JS-free view. Both read the same endpoint and neither
    * can classify a row: identity is resolved by IRR.
+   *
+   * The server-rendered view's path mirrors this constant. It used to be `/investment/coverage`, which is
+   * the INVESTMENT capability's path — a JS-free reader there was shown an identity failure (`G-10`);
+   * corrected 2026-11-17 by giving each capability its own HTML route.
    *
    * IID SEPARATION: this path serves the identity surface ONLY. It fails closed when the eligible
    * roster, listing map or corporate-action table cannot be loaded. Its sibling `investmentCoverage`

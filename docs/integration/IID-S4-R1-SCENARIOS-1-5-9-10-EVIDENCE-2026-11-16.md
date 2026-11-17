@@ -402,3 +402,19 @@ dataset file, carrier, database or IPD file was touched.
 
 *End of record. This document reports executed evidence. It does not claim Windows verification, and it does
 not claim S4-R1 complete: two scenarios remain partial, both against a single IPD-owned dependency.*
+
+---
+
+## Addendum (2026-11-17) — `G-10` corrected
+
+Appended forward; **this record's scenarios, counts and verdicts are unchanged, byte for byte**. Two statements
+above are now historical rather than current: §L149's *"adding to this endpoint an HTML renderer — a new surface,
+which is owner decision O9"*, §321's *"`G-10` raw-HTML variant remains (owner decision O9)"* and §398's
+*"not licensed by a demonstration act"*.
+
+They were accurate: no demonstration act licensed the surface, and this record still does not claim one did. The
+surface was built under the separate instruction that directed the exception be corrected without making
+JavaScript mandatory; `/investment/coverage` now serves the investment report on the server and the identity
+view moved to `/identity-coverage`. Scenario 1's row is unaffected — §23 names the SPA route, which was correct
+then and is correct now. Evidence:
+`IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14.

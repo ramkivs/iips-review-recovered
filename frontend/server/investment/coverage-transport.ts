@@ -5,9 +5,18 @@
  * only (a) binds the transport-free handler to `node:http`, (b) injects the read-only observation sources
  * and (c) reads the versioned identity files from the existing local data domain.
  *
- *   GET  /api/investment/coverage?asOf=YYYY-MM-DD   → JSON report
- *   GET  /investment/coverage?asOf=YYYY-MM-DD        → server-rendered coverage view
- *   POST /api/investment/coverage/preview            → evaluate broker-preview rows held by the client
+ *   GET  /api/investment/coverage?asOf=YYYY-MM-DD              → JSON identity-coverage report
+ *   GET  /identity-coverage?asOf=YYYY-MM-DD                    → server-rendered IDENTITY view
+ *   GET  /api/investment/coverage/investment?asOf=YYYY-MM-DD   → JSON investment-coverage report
+ *   GET  /investment/coverage?asOf=YYYY-MM-DD                   → server-rendered INVESTMENT view
+ *   POST /api/investment/coverage/preview                       → evaluate broker-preview rows
+ *
+ * EACH PATH SERVES ITS OWN CAPABILITY (`G-10`). The two capabilities used to share one HTML path:
+ * `/investment/coverage` — the investment route the SPA uses — rendered the identity view, so a reader
+ * without JavaScript was told identity coverage was unavailable while the investment JSON answered 200.
+ * The HTML paths now mirror the SPA's routes exactly: `/identity-coverage` for identity,
+ * `/investment/coverage` for investment. Neither HTML route needs script, and the investment one never
+ * fails because an identity file is absent.
  *
  * FAIL-CLOSED. If the identity files cannot be loaded, the answer is 503 with the file-level issues. If a
  * source surface cannot be read (IPD unavailable, watchlists unreadable), the answer is also 503 naming
@@ -124,12 +133,17 @@ export async function handleInvestmentCoverageRequest(
   /*
    * IID — INVESTMENT COVERAGE, SERVED INDEPENDENTLY OF IDENTITY.
    *
-   * The route is matched BEFORE the identity coverage route, because the identity handler matches
-   * `/api/investment/coverage` exactly and would otherwise swallow it. The investment read never
-   * consults the identity sources for anything but disclosure, so an absent identity roster cannot
-   * turn this into an identity error.
+   * Both investment paths are matched here — the JSON read and, since `G-10`, the server-rendered view at
+   * `/investment/coverage`, which used to fall through to the identity binder below and answer an
+   * identity failure on the investment path. The investment read never consults the identity sources for
+   * anything but disclosure, so an absent identity roster cannot turn either path into an identity error.
    */
-  if (url === INVESTMENT_COVERAGE_ROUTES.json || url.startsWith(`${INVESTMENT_COVERAGE_ROUTES.json}?`)) {
+  if (
+    url === INVESTMENT_COVERAGE_ROUTES.json ||
+    url.startsWith(`${INVESTMENT_COVERAGE_ROUTES.json}?`) ||
+    url === INVESTMENT_COVERAGE_ROUTES.html ||
+    url.startsWith(`${INVESTMENT_COVERAGE_ROUTES.html}?`)
+  ) {
     const investmentDependencies: InvestmentCoverageDependencies = {
       readInvestmentCoverage: (asOf) =>
         providers.readInvestmentCoverage?.(asOf) ?? investmentCoverageFromLocalDataset(asOf, providers.dataRoot),
@@ -173,7 +187,13 @@ export async function handleInvestmentCoverageRequest(
 }
 
 export const COVERAGE_TRANSPORT_SEMANTICS = Object.freeze({
-  routes: [COVERAGE_ROUTES.json, COVERAGE_ROUTES.html, COVERAGE_ROUTES.previewEvaluation],
+  routes: [
+    COVERAGE_ROUTES.json,
+    COVERAGE_ROUTES.html,
+    INVESTMENT_COVERAGE_ROUTES.json,
+    INVESTMENT_COVERAGE_ROUTES.html,
+    COVERAGE_ROUTES.previewEvaluation,
+  ],
   writes: 'none',
   identityAuthority: 'IRR eligible roster + listing map + corporate-action table (versioned local files)',
   preview: 'evaluated in memory from rows the client already holds; nothing is stored',

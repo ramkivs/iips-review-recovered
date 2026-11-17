@@ -792,3 +792,25 @@ Reading the primary baseline without checking out its branch (objects only; no b
 git fetch origin arena/iid-coverage-readiness-report-2026-11-11
 git show FETCH_HEAD:docs/integration/IID-IDENTITY-AND-INVESTMENT-COVERAGE-READINESS-ASSESSMENT-2026-11-11.md
 ```
+
+---
+
+## Addendum (2026-11-17) — `T-2`'s collision is corrected; the topology observations stand
+
+Appended forward. **§1–§28 and every observation above are unchanged, byte for byte.** They are observations at
+heads `a835d4a`/`72b5d0a`/`08cdf49`, and they remain true of those heads.
+
+Two of them describe a state that no longer exists at the head of this branch:
+
+- **T-2** — *"one path, two servers, two capabilities"*: `/investment/coverage` is now the investment
+  capability's path on both servers (SPA route and server-rendered view). The identity capability's
+  server-rendered view moved to **`/identity-coverage`**, which is the path the SPA already used for it. The
+  collision `G-10` recorded, and that T-2 confirmed live, is gone.
+- **R-F / R-G** — the *"no HTML renderer is proposed — that is O9's decision"* disposition: the renderer exists
+  (`iips-platform/src/investment/coverage/investmentCoverageView.ts`), built under the instruction directing
+  the correction. **R-G's** refinement is unchanged and still binds: both HTML paths sit outside `/api`, so
+  `vite.config.ts:15-18` does not proxy them and an operator must address the transport port directly.
+- **R-K / SEP §5** — *"HTML `/investment/coverage` still renders identity-unavailable"*: superseded; see
+  `IID-IDENTITY-AND-INVESTMENT-COVERAGE-SEPARATION-2026-11-10.md` §7.
+
+Delivered captures and the tests pinning both halves: `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14.
