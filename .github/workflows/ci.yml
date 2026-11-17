@@ -68,25 +68,33 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
-      # Mint an installation token scoped to the one private dependency repository. The token has
-      # Contents read-only access and is consumed only by npm ci. GIT_CONFIG_* below keeps the
-      # SSH-to-HTTPS rewrite and HTTP authorization in this step's environment; nothing is written
-      # to the runner's Git config, the checkout, or an artifact.
+      # Mint an installation token scoped to the one private dependency repository. It has
+      # Contents read-only access. The token is used only by the private-repository read check
+      # and npm ci, through step-local environment variables; it is never persisted to Git config,
+      # the checkout, or an artifact.
       - name: Create read-only IPD installation token
         id: ipd-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.IRR_IPD_APP_CLIENT_ID }}
+          client-id: ${{ vars.IRR_IPD_APP_CLIENT_ID }}
           private-key: ${{ secrets.IRR_IPD_APP_PRIVATE_KEY }}
           owner: ramkivs
           repositories: iips-production-market-data
           permission-contents: read
 
+      - name: Verify the scoped token can read the private IPD repository
+        env:
+          GH_TOKEN: ${{ steps.ipd-token.outputs.token }}
+        run: |
+          test "$(gh api repos/ramkivs/iips-production-market-data --jq '.private')" = true
+          echo 'Verified the scoped token reads a private IPD repository.'
+
       # The lockfile records git+ssh URLs. npm normalizes those to SSH URLs before invoking Git;
-      # cover both the recorded and normalized forms, plus scp-style GitHub URLs. The extraheader
-      # is path-scoped to the exact IPD repository, and the app token itself is IPD-only/read-only.
+      # cover both the recorded and normalized forms, plus scp-style GitHub URLs. Generate the
+      # Basic authorization header in-process; only the exact IPD repository path receives it.
       - name: Install dependencies from the committed lockfile
         env:
+          IPD_APP_TOKEN: ${{ steps.ipd-token.outputs.token }}
           GIT_TERMINAL_PROMPT: '0'
           GIT_CONFIG_COUNT: '4'
           GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
@@ -96,8 +104,9 @@ jobs:
           GIT_CONFIG_KEY_2: url.https://github.com/.insteadOf
           GIT_CONFIG_VALUE_2: 'git@github.com:'
           GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
-          GIT_CONFIG_VALUE_3: 'AUTHORIZATION: bearer ${{ steps.ipd-token.outputs.token }}'
-        run: npm ci --no-audit --no-fund
+        run: |
+          export GIT_CONFIG_VALUE_3="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$IPD_APP_TOKEN" | base64 -w0)"
+          npm ci --no-audit --no-fund
 
       - name: Verify all private dependencies resolve to their committed pins
         run: node ../.ci/verify-ipd-pins.mjs
