@@ -9,6 +9,7 @@ export * from './margin';
 export * from './dividends';
 export * from './moat';
 export * from './risk';
+export * from './freshness';
 export * from './adequacy';
 export * from './confidence';
 export * from './explain';

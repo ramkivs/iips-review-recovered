@@ -1,0 +1,392 @@
+{
+  "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-17": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "payloadSha256": "fe8c82f36215a1c01397c69b67bb636a1d51849f3f2464c3eec1ee739bc71b12",
+      "inputDigest": "sha256:d08bf10c819f0cc50a0a60bdf16ae8df988651122188f4ec42243730a554af20",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 961,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.4378,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC",
+        "POLICY_DEFAULT_MULTIPLE"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "PE_RELATIVE",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          true,
+          null
+        ],
+        [
+          "EV_REVENUE",
+          false,
+          "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+        ]
+      ],
+      "intrinsicMid": 1088.972274952081
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "payloadSha256": "5aabf7da4f2138405c44a51ce71449aae677b424492cb416071d8ef39133524e",
+      "inputDigest": "sha256:5277a83404b4a69c14e3669bc9d988bafe9b8948118daca0e69890891adaf6b7",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 961,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.3306,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC",
+        "POLICY_DEFAULT_MULTIPLE"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "PE_RELATIVE",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          false,
+          "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        ]
+      ],
+      "intrinsicMid": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "payloadSha256": "96177409b313a626e8de342fcec753245516209c915d1cbf27c056a3444dc4cb",
+      "inputDigest": "sha256:f6b1940030c6ba00b76c48146214cae3de69c9e72e03147c5353ae63e49ea3f8",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 231,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "CASH_FLOW_EARNINGS_DIVERGENCE",
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.3199,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          false,
+          "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        ],
+        [
+          "EV_REVENUE",
+          false,
+          "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+        ]
+      ],
+      "intrinsicMid": null
+    }
+  },
+  "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-17": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "payloadSha256": "5d8c45b46ebdb9f85d5895d96ef142b38360c9d174e3d3dcf9db8ba98b483009",
+      "inputDigest": "sha256:5329fae4b8e7a3f36c00fb78a4e0a6389a7bc3233934a8e92eb25b1cad220a8e",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 961,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.321,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC",
+        "POLICY_DEFAULT_MULTIPLE"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "PE_RELATIVE",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          false,
+          "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        ],
+        [
+          "EV_REVENUE",
+          false,
+          "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+        ]
+      ],
+      "intrinsicMid": null
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "payloadSha256": "d681940de4328e8f2f07ded7bdc90dbe1e165b271aa2c1d07ad1891c90c3b26d",
+      "inputDigest": "sha256:635e9a75a1307fb39237baba3cb56cc483a325ef02c765ebcba13b65059ef1d9",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 231,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.3306,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC",
+        "POLICY_DEFAULT_MULTIPLE"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "PE_RELATIVE",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          false,
+          "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        ]
+      ],
+      "intrinsicMid": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "payloadSha256": "9be9918f3269262e5f0c74eb3a36691f6225fb0fabe47c402640bc5ce0a0904d",
+      "inputDigest": "sha256:ae6e1ad74316c89c9cf75e31eca19b0e11e333ef3bd840a4c21505d6c3ad1885",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 231,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "CASH_FLOW_EARNINGS_DIVERGENCE",
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.3199,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          false,
+          "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        ],
+        [
+          "EV_REVENUE",
+          false,
+          "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+        ]
+      ],
+      "intrinsicMid": null
+    }
+  },
+  "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-17": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "payloadSha256": "2fe9074de30407bdd2d3d37f53996ddb6ce033b8f31b4dc323867ddbf2bb9b48",
+      "inputDigest": "sha256:8d5abafc7297d7dff2fdace2bf337650c25fc0d7914db28a9ee5a502c3617f87",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 961,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.4378,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC",
+        "POLICY_DEFAULT_MULTIPLE"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "PE_RELATIVE",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          true,
+          null
+        ],
+        [
+          "EV_REVENUE",
+          false,
+          "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+        ]
+      ],
+      "intrinsicMid": 1088.972274952081
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "payloadSha256": "075f271667ab8ed8f30a8412e128cb1f8655f8c52e55732a05442c0623ebbe58",
+      "inputDigest": "sha256:632c758abce19058d2b37ef16e70454dd200b8a0887661686f857023306ed6e6",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 231,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.3306,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC",
+        "POLICY_DEFAULT_MULTIPLE"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "PE_RELATIVE",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          false,
+          "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        ]
+      ],
+      "intrinsicMid": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "payloadSha256": "752f1fb67ff644fc652cb08327417ab9d0edd688ac2eafad77c6062b9828672b",
+      "inputDigest": "sha256:e3ef62c3074577360cb6903b802f182615df81323834cd9e122061fbc59d1838",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 231,
+        "staleBeyondPolicy": true
+      },
+      "qualityVerdict": "MATERIAL_CONCERNS",
+      "qualityFlags": [
+        "CASH_FLOW_EARNINGS_DIVERGENCE",
+        "STALE_STATEMENTS"
+      ],
+      "confidence": 0.3199,
+      "confidenceCaps": [
+        "STALE_DATA",
+        "DILUTION_PROXY",
+        "POLICY_DEFAULT_WACC"
+      ],
+      "adequacy": "SUFFICIENT",
+      "methods": [
+        [
+          "DCF_FCFF",
+          true,
+          null
+        ],
+        [
+          "EV_EBITDA",
+          false,
+          "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        ],
+        [
+          "EV_REVENUE",
+          false,
+          "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+        ]
+      ],
+      "intrinsicMid": null
+    }
+  }
+}

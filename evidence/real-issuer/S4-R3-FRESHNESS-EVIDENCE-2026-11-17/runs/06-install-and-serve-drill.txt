@@ -1,0 +1,129 @@
+# S4-R3 — sandbox install-and-serve drill (recorded 2026-11-17)
+#
+# WHAT THIS IS: the owner's documented installation procedure (IID-INSTALL-VERIFIED-DATASET-WINDOWS-PROCEDURE-2026-11-15),
+#   executed end to end in an isolated temp root on this Linux sandbox. It is NOT host verification and does not
+#   touch C:\iips-data. It shows that the O3-admitted candidate publishes through the product's own writer, that
+#   the installed bytes verify read-only afterwards, and that the served coverage read answers WITH the freshness
+#   block computed from the installed bytes.
+
+## 1. the prior dataset in the live directory (the S4-R2 dataset of record)
+ingest exit=0  live dataset dir=/tmp/tmp.i28glky9Bf/data/investment/dataset
+prior datasetVersion    sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2
+
+## 2. the candidate package, built separately (never over the live directory)
+ingest exit=0  candidate root=/tmp/tmp.i28glky9Bf/candidate
+candidate datasetVersion sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+
+## 3. install-verified-dataset (the supported replacement path; assertNoSilentSourceLoss is not bypassed)
+install-verified-dataset — publishes an already-verified candidate through writeDataset
+  candidate    /tmp/tmp.i28glky9Bf/candidate/investment/dataset
+  destination  /tmp/tmp.i28glky9Bf/data/investment/dataset
+  expected     sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+
+  [PASS] expected-digest-well-formed
+         sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] target-guard
+         candidate /tmp/tmp.i28glky9Bf/candidate/investment/dataset; destination /tmp/tmp.i28glky9Bf/data/investment/dataset
+  [PASS] distinct-targets
+         candidate /tmp/tmp.i28glky9Bf/candidate/investment/dataset; destination /tmp/tmp.i28glky9Bf/data/investment/dataset; neither contains the other
+  [PASS] protected-paths
+         identity directory and portfolio store are refused by the structural target guard and are never opened
+  [PASS] candidate-reader-verifies
+         readDataset verified every declared file digest and recomputed sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] candidate-digest-matches-expected
+         expected sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b; candidate sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] candidate-coverage-consistent
+         the coverage report equals the authoritative recomputation at its own generatedAt 2026-11-17T00:00:00.000Z
+  [PASS] candidate-coverage-carried-verbatim
+         the persisted report is published unchanged
+  [PASS] publication-markers
+         no staging or previous marker present
+  [PASS] prior-dataset-readable
+         the installed dataset verifies at sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2; it is the rollback target
+  [PASS] published
+         writeDataset published sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b at /tmp/tmp.i28glky9Bf/data/investment/dataset
+  [PASS] installed-reader-verifies
+         readDataset verified the installed bytes at sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] installed-digest-matches-expected
+         expected sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b; installed sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] provenance-preserved
+         manifest.inputs carried forward verbatim (3 entries)
+  [PASS] installed-coverage-published
+         the coverage report was published in the same unit as the dataset (CARRIED_VERBATIM)
+
+  RESULT INSTALLED — 15 passed, 0 failed
+  the candidate is installed and verifies at the expected digest
+install exit=0
+
+## 4. verify-installed-dataset — read-only, through the product's own reader and the runtime coverage API
+verify-installed-dataset — READ-ONLY
+  dataRoot     /tmp/tmp.i28glky9Bf/data
+  datasetDir   /tmp/tmp.i28glky9Bf/data/investment/dataset
+  asOf         2026-11-17
+
+  [PASS] dataset-present
+         /tmp/tmp.i28glky9Bf/data/investment/dataset
+  [PASS] no-publication-markers
+         staging absent, previous absent — reported, never resolved here
+  [PASS] reader-verifies
+         readDataset verified every file digest and recomputed the content digest
+  [PASS] manifest-identity
+         datasetVersion sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] expected-version
+         matches the expected digest sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] file-digests-recomputed
+         8/8 declared file digest(s) re-hash to the recorded value
+  [PASS] dataset-files-exact
+         10 file(s) on disk, 8 declared content file(s), 2 derived/manifest
+  [PASS] issuer-count
+         3 issuer(s); expected 3
+  [PASS] issuer-sector-assignment
+         Infosys Limited → Technology; Marico Limited → Consumer; KEC International Limited → Industrials
+  [PASS] annual-periods
+         11 annual period(s); expected 11
+  [PASS] quarterly-periods
+         2 quarterly period(s); expected 2
+  [PASS] ingestion-issues
+         0 issue(s) recorded in the dataset
+  [PASS] source-rights-recorded
+         OPERATOR_ASSERTED; operator attestation over the operator’s own input files; not an independent verification of any third party’s terms
+  [PASS] provenance-entries
+         manifest.inputs holds 3 entr(y/ies); expected 3
+  [PASS] provenance-input-digests
+         3/3 recorded input digest(s) recompute exactly
+  [PASS] provenance-bundle-bytes
+         3 bundle(s) re-hashed from the bytes on disk, 0 mismatch(es)
+  [PASS] coverage-api-reads
+         investmentCoverageFromLocalDataset answered for asOf 2026-11-17: 3 of 3 issuer(s) covered; 0 without financials, 0 in an unmeasured sector, 0 carrying an ingestion issue. 3 of 13 sector(s) measured.
+  [PASS] coverage-version-agrees
+         coverage report sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b vs manifest sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+  [PASS] coverage-class-not-none
+         financialCoverage.datasetClass OPERATOR_SUPPLIED
+  [PASS] coverage-usable-methods
+         Consumer G1_ENABLED usable 3; Industrials G2_PARTIAL usable 2; Technology G2_PARTIAL usable 2
+  [PASS] coverage-outstanding-listed
+         10 unmeasured sector(s) listed explicitly of 10 expected
+  [PASS] coverage-row-state
+         3/3 row(s) COVERED
+  [PASS] coverage-issues
+         0 ingestion issue(s) reported by the coverage read
+  [PASS] coverage-identity-disclosure
+         identitySourcesAvailable false — disclosure, not a gate: eligible-roster.json: IDENTITY_SOURCE_MISSING; listing-map.json: IDENTITY_SOURCE_MISSING; corporate-actions.json: IDENTITY_SOURCE_MISSING
+  [PASS] read-only-attestation
+         nothing created, removed or modified under /tmp/tmp.i28glky9Bf/data/investment between the first read and the last
+
+  RESULT PASS — 25 passed, 0 failed
+verify exit=0
+
+## 5. the served coverage read, from the INSTALLED bytes, at the newly recorded clock 2026-11-17
+report asOf 2026-11-17 · dataset sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b · dataAsOf 2026-09-30 · quarterly 2
+  IN:CIN:L15140MH1988PLC049208   COVERED  basis ANNUAL 2026-03-31 (231d, filed 2026-05-05) · newest ANNUAL 2026-03-31 (231d) · STALE ["VALUATION_BASIS_BEYOND_PNL_WINDOW"]
+  IN:CIN:L45200MH2005PLC152061   COVERED  basis ANNUAL 2026-03-31 (231d, filed 2026-05-16) · newest QUARTER 2026-09-30 (48d) · STALE ["VALUATION_BASIS_BEYOND_PNL_WINDOW"]
+  IN:CIN:L85110KA1981PLC013115   COVERED  basis ANNUAL 2024-03-31 (961d, filed 2024-04-18) · newest ANNUAL 2024-03-31 (961d) · STALE ["VALUATION_BASIS_BEYOND_PNL_WINDOW"]
+
+## 6. the served assessment read, from the INSTALLED bytes
+  Infosys Limited        dataAsOf 2024-03-31 · 961d · staleBeyondPolicy true  · MATERIAL_CONCERNS ["STALE_STATEMENTS"] · confidence 0.321 · EV_EBITDA withheld
+  Marico Limited         dataAsOf 2026-03-31 · 231d · staleBeyondPolicy true  · MATERIAL_CONCERNS ["STALE_STATEMENTS"] · confidence 0.3306 · EV_EBITDA withheld
+  KEC International Limited dataAsOf 2026-03-31 · 231d · staleBeyondPolicy true  · MATERIAL_CONCERNS ["CASH_FLOW_EARNINGS_DIVERGENCE","STALE_STATEMENTS"] · confidence 0.3199 · EV_EBITDA withheld
+
+# residue left behind: none — the temp root is removed. Nothing was installed on any host.

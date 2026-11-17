@@ -18,6 +18,7 @@ import { checkObservation } from '../contracts/invariants';
 import type { NumericObservation, Observation } from '../contracts/observation';
 import { notApplicable } from '../contracts/observation';
 import { buildCompleteness, buildQuality } from './adequacy';
+import { assessFreshness } from './freshness';
 import { buildCapitalStructure } from './capitalStructure';
 import { buildConfidence } from './confidence';
 import { policyDefaultPenaltyOf, type PolicyDefaultTrigger } from './confidence';
@@ -32,6 +33,7 @@ import { VALUATION_POLICY } from './policy';
 import { buildRisk } from './risk';
 import {
   ASSESSMENT_SCHEMA_VERSION,
+  FRESHNESS_POLICY_VERSION,
   MODEL_VERSION,
   POLICY_VERSION,
 } from './types';
@@ -75,11 +77,7 @@ export interface AssessCompanyResult {
   readonly inputDigest: string;
 }
 
-const DAY_MS = 24 * 60 * 60 * 1000;
-
-function daysBetween(earlier: string, later: string): number {
-  return Math.max(0, Math.round((new Date(`${later}T00:00:00Z`).getTime() - new Date(`${earlier}T00:00:00Z`).getTime()) / DAY_MS));
-}
+/* `S4-R3` — the age arithmetic moved into `assessment/freshness.ts`; there is one definition of "days between". */
 
 /** Resolve a dotted/indexed field path inside the payload. Used by the evidence validation. */
 export function resolvePath(root: unknown, path: string): unknown {
@@ -230,9 +228,29 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
   const moat = buildMoat({ series, structure, wacc: assumption.wacc, metrics });
   const risk = buildRisk({ series, structure, sector: input.sector });
 
-  const dataAsOf = series.annual[0]?.periodEnd ?? '';
-  const stalenessDays = dataAsOf === '' ? 0 : daysBetween(dataAsOf, input.generatedAt.slice(0, 10));
-  const staleBeyondPolicy = stalenessDays > VALUATION_POLICY.freshness.pnlDays;
+  /*
+   * S4-R3 — freshness is computed once, by `assessFreshness`, and the payload's verdict is taken from it.
+   *
+   * The arithmetic is unchanged for a series with an annual period: the basis is `annual[0]`, the age is
+   * measured from its period end, and the window is `freshness-policy/1.0.0`'s `pnlDays`. Two things are
+   * different, and both are corrections rather than relaxations:
+   *
+   *   • a series with **no** annual period is no longer zero days old. It has no valuation basis, so its age is
+   *     taken from the newest period it does hold (quarter or TTM) and, if it holds none at all, it is
+   *     `UNKNOWN` — which is stale for the flag's purpose, because "no basis" cannot be "fresh";
+   *   • the age is never taken from the filing date. A late filing does not make an old period current, and
+   *     `daysSinceFiling` is published beside `daysSincePeriodEnd` on the coverage read model so the two can
+   *     never be read as one another.
+   */
+  const freshness = assessFreshness({
+    series,
+    clock: input.generatedAt.slice(0, 10),
+    windows: VALUATION_POLICY.freshness,
+    policyVersion: FRESHNESS_POLICY_VERSION,
+  });
+  const dataAsOf = freshness.valuationBasis?.periodEnd ?? '';
+  const stalenessDays = freshness.valuationBasis?.daysSincePeriodEnd ?? 0;
+  const staleBeyondPolicy = freshness.status !== 'FRESH';
 
   const completeness = buildCompleteness(series, { datasetSchema });
   const shareCountMismatch =
@@ -253,6 +271,7 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
     shareCountMismatch,
     adequacy: completeness.adequacy,
     staleBeyondPolicy,
+    sequenceGapCount: freshness.sequenceGaps.length,
   });
 
   const applicableMethods = methods.filter((method) => method.applicable);

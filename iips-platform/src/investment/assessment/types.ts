@@ -501,7 +501,9 @@ export type QualityFlagCode =
   | 'STALE_STATEMENTS'
   | 'NEGATIVE_EQUITY'
   | 'SHARE_COUNT_PERIOD_MISMATCH'
-  | 'DIVIDEND_SOURCE_CONFLICT';
+  | 'DIVIDEND_SOURCE_CONFLICT'
+  /** `S4-R3`: the series skips a fiscal year or a quarter, so it is not the continuous series it appears to be. */
+  | 'PERIOD_SEQUENCE_GAP';
 
 export interface QualityFlag {
   readonly code: QualityFlagCode;

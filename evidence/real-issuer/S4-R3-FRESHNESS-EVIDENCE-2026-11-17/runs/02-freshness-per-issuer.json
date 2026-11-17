@@ -1,0 +1,936 @@
+{
+  "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-14": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "legalName": "Infosys Limited",
+      "sector": "Technology",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 940,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 940,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-04-18",
+          "filingRef": "INFY-INDAS-CONSOL-FY24",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 958,
+          "daysSinceFiling": 940,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "legalName": "Marico Limited",
+      "sector": "Consumer",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-05-06",
+        "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 922,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-05-06",
+        "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 922,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-05-06",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 958,
+          "daysSinceFiling": 922,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "legalName": "KEC International Limited",
+      "sector": "Industrials",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 182,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 182,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-16",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 228,
+          "daysSinceFiling": 182,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    }
+  },
+  "S4-R2 (repository dataset of record for Stage 4) @ 2026-11-17": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "legalName": "Infosys Limited",
+      "sector": "Technology",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 943,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 943,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-04-18",
+          "filingRef": "INFY-INDAS-CONSOL-FY24",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 961,
+          "daysSinceFiling": 943,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "legalName": "Marico Limited",
+      "sector": "Consumer",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-05-06",
+        "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 925,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-05-06",
+        "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 925,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-05-06",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 961,
+          "daysSinceFiling": 925,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "legalName": "KEC International Limited",
+      "sector": "Industrials",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 185,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 185,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-16",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 231,
+          "daysSinceFiling": 185,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    }
+  },
+  "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-14": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "legalName": "Infosys Limited",
+      "sector": "Technology",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 940,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 940,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-04-18",
+          "filingRef": "INFY-INDAS-CONSOL-FY24",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 958,
+          "daysSinceFiling": 940,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "legalName": "Marico Limited",
+      "sector": "Consumer",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 193,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 193,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-05",
+          "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 228,
+          "daysSinceFiling": 193,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "legalName": "KEC International Limited",
+      "sector": "Industrials",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 182,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 45,
+        "daysSinceFiling": 12,
+        "withinPnlWindow": true,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-16",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 228,
+          "daysSinceFiling": 182,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": {
+          "periodType": "QUARTER",
+          "periodEnd": "2026-09-30",
+          "filedAt": "2026-11-02",
+          "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 45,
+          "daysSinceFiling": 12,
+          "withinPnlWindow": true,
+          "withinBalanceSheetWindow": true
+        },
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 2,
+      "ttm": null
+    }
+  },
+  "S4-R3 admitted candidate (O3 re-admission 2026-11-14) @ 2026-11-17": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "legalName": "Infosys Limited",
+      "sector": "Technology",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 943,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 943,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-04-18",
+          "filingRef": "INFY-INDAS-CONSOL-FY24",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 961,
+          "daysSinceFiling": 943,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "legalName": "Marico Limited",
+      "sector": "Consumer",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 196,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 196,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-05",
+          "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 231,
+          "daysSinceFiling": 196,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "legalName": "KEC International Limited",
+      "sector": "Industrials",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 185,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 48,
+        "daysSinceFiling": 15,
+        "withinPnlWindow": true,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-16",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 231,
+          "daysSinceFiling": 185,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": {
+          "periodType": "QUARTER",
+          "periodEnd": "2026-09-30",
+          "filedAt": "2026-11-02",
+          "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 48,
+          "daysSinceFiling": 15,
+          "withinPnlWindow": true,
+          "withinBalanceSheetWindow": true
+        },
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 2,
+      "ttm": null
+    }
+  },
+  "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-14": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "legalName": "Infosys Limited",
+      "sector": "Technology",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 940,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 958,
+        "daysSinceFiling": 940,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-04-18",
+          "filingRef": "INFY-INDAS-CONSOL-FY24",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 958,
+          "daysSinceFiling": 940,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "legalName": "Marico Limited",
+      "sector": "Consumer",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 193,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 193,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-05",
+          "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 228,
+          "daysSinceFiling": 193,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "legalName": "KEC International Limited",
+      "sector": "Industrials",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 228,
+        "daysSinceFiling": 182,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 45,
+        "daysSinceFiling": 12,
+        "withinPnlWindow": true,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-16",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 228,
+          "daysSinceFiling": 182,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": {
+          "periodType": "QUARTER",
+          "periodEnd": "2026-09-30",
+          "filedAt": "2026-11-02",
+          "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 45,
+          "daysSinceFiling": 12,
+          "withinPnlWindow": true,
+          "withinBalanceSheetWindow": true
+        },
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 2,
+      "ttm": null
+    }
+  },
+  "S4-R2 + S4-R3 combined (construction only, not admitted) @ 2026-11-17": {
+    "IN:CIN:L85110KA1981PLC013115": {
+      "legalName": "Infosys Limited",
+      "sector": "Technology",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 943,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 961,
+        "daysSinceFiling": 943,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2024-03-31",
+          "filedAt": "2024-04-18",
+          "filingRef": "INFY-INDAS-CONSOL-FY24",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 961,
+          "daysSinceFiling": 943,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": false
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L15140MH1988PLC049208": {
+      "legalName": "Marico Limited",
+      "sector": "Consumer",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 196,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 196,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-05",
+          "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 231,
+          "daysSinceFiling": 196,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": null,
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 0,
+      "ttm": null
+    },
+    "IN:CIN:L45200MH2005PLC152061": {
+      "legalName": "KEC International Limited",
+      "sector": "Industrials",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 231,
+        "daysSinceFiling": 185,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+        "basis": "AS_FILED",
+        "daysSincePeriodEnd": 48,
+        "daysSinceFiling": 15,
+        "withinPnlWindow": true,
+        "withinBalanceSheetWindow": true
+      },
+      "latestByType": {
+        "ANNUAL": {
+          "periodType": "ANNUAL",
+          "periodEnd": "2026-03-31",
+          "filedAt": "2026-05-16",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 231,
+          "daysSinceFiling": 185,
+          "withinPnlWindow": false,
+          "withinBalanceSheetWindow": true
+        },
+        "QUARTER": {
+          "periodType": "QUARTER",
+          "periodEnd": "2026-09-30",
+          "filedAt": "2026-11-02",
+          "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+          "basis": "AS_FILED",
+          "daysSincePeriodEnd": 48,
+          "daysSinceFiling": 15,
+          "withinPnlWindow": true,
+          "withinBalanceSheetWindow": true
+        },
+        "TTM": null
+      },
+      "sequenceGaps": [],
+      "quarterlyPeriodsInSeries": 2,
+      "ttm": null
+    }
+  }
+}

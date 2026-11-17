@@ -127,6 +127,12 @@ export interface QualityInputs {
   readonly unvalidatedMetrics: number;
   readonly shareCountMismatch: boolean;
   readonly staleBeyondPolicy: boolean;
+  /**
+   * `S4-R3` — period-sequence gaps found in the series. A gap is reported as a MEDIUM flag because a shorter
+   * series is not a continuous one: a reader comparing FY2023 with FY2025 would otherwise be comparing across a
+   * missing year without being told. The count, not the gaps, is what this function needs.
+   */
+  readonly sequenceGapCount?: number;
   /** Adequacy gates the verdict: a payload that cannot support an assessment is not "clean". */
   readonly adequacy: CompletenessBlock['adequacy'];
 }
@@ -168,6 +174,13 @@ export function buildQuality(input: QualityInputs): QualityBlock {
   }
   if (input.staleBeyondPolicy) {
     flags.push({ code: 'STALE_STATEMENTS', severity: 'HIGH', evidence: 'the latest period end is beyond the freshness policy window' });
+  }
+  if ((input.sequenceGapCount ?? 0) > 0) {
+    flags.push({
+      code: 'PERIOD_SEQUENCE_GAP',
+      severity: 'MEDIUM',
+      evidence: `${input.sequenceGapCount} gap(s) in the period sequence; the series is shorter than it looks and no period was interpolated`,
+    });
   }
   if (input.shareCountMismatch) {
     flags.push({

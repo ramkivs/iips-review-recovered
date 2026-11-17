@@ -23294,4 +23294,97 @@ matched. Authenticated remote read-back confirmed the branch head OID and the co
 local worktree. This receipt asserts branch/PR publication and verification; the merge into `main` is the authorised
 next step of this same task and its commit is recorded in the PR, not invented here.
 
-Next free §16.294 / `CV-CORR-259` / `CHG-2026-11-06-22` / `V2167`.
+## 16.294 `CV-CORR-259` — IID Stage 4 `S4-R3` executed as a reusable freshness capability: measured per issuer, and still OPEN (`2026-11-17`; `CHG-2026-11-06-22`; `V2167`–`V2174`)
+
+**Scope.** IRR-only. This receipt records one IID Stage 4 remaining action, implemented as an issuer-neutral capability
+and measured against the admitted population. It adds no issuer, no bundle, no dataset class, no admission, no
+valuation policy, no source document, no host action and no IPD write.
+
+**Base.** `main` `d71b025d24940b2694cad945be4a227fa2aabba8` (the merge of PR #586, `S4-R2`). Work branch
+`arena/9a2897ac-iips-review-recovered`, branched from that commit. `S4-R3` was re-verified at this head rather than
+carried forward from §16.293's closing note.
+
+**What was wrong with freshness, read in the code rather than inferred.** `assessment/engine.ts` derived `dataAsOf`
+from `series.annual[0]?.periodEnd`: a series with **no annual period** yielded `stalenessDays = 0` and read as
+**fresh**. It published one age only, so a period older than a newly filed quarter was invisible; `filedAt` was
+captured at ingestion and never surfaced; and a gap in the period sequence was indistinguishable from a shorter
+series. Each of these is a way for stale data to look current — the exact failure `G-6` names.
+
+**The capability (`V2167`–`V2170`).** `assessment/freshness.ts`, one pure module, no I/O, no wall clock, no issuer
+identity. `valuationBasis` (newest annual, else TTM, else newest quarter — with `valuationBasisKind` publishing which)
+and `latestReported` are **separate facts with separate ages**, both measured from **period end, never from the filing
+date**; `filedAt`, `daysSinceFiling` and the `pnlDays`/`balanceSheetDays` windows are published beside them; the
+verdict is `FRESH`/`STALE`/**`UNKNOWN`**, and `UNKNOWN` is never `FRESH`; the engine's `staleBeyondPolicy` is
+`status !== 'FRESH'` (`V2168`). `periodSequenceGaps` (`V2169`) reports a skipped fiscal year or a skipped quarter —
+quarters grouped by fiscal-year **start**, so an April–March year is not split — and raises one new MEDIUM flag,
+`PERIOD_SEQUENCE_GAP`, adding nothing else to the payload. The engine calls this module instead of computing ages
+itself, and every issuer row of the investment-coverage read model carries the same block at the report's own `asOf`
+(`V2170`): one definition of freshness across assessment, coverage and reporting, with no threshold duplicated outside
+`VALUATION_POLICY.freshness` (`pnlDays 200`, `balanceSheetDays 250`, `priceMaxAgeDays 7` — **unchanged**).
+
+**Measured, at the newly recorded clock 2026-11-17** (200-day window ⇒ a period end on or after 2026-05-01 is
+required), on the O3-admitted candidate `sha256:bdfb2527…`:
+
+| Issuer | Valuation basis | Age | Newest reported | Age | Newest filing | Verdict | Gaps |
+|---|---|---|---|---|---|---|---|
+| Infosys | FY2024 annual 2024-03-31 | 961 d | same | 961 d | 2024-04-18 | `STALE` | 0 |
+| Marico | FY2026 annual 2026-03-31 | 231 d | same | 231 d | 2026-05-05 | `STALE` | 0 |
+| KEC | FY2026 annual 2026-03-31 | 231 d | FY2027 Q2 2026-09-30 | **48 d** | 2026-11-02 | `STALE` | 0 |
+
+Against the `S4-R2` dataset of record at the same clock, Marico moves **961 d → 231 d** and KEC gains **two quarters**
+(newest information 231 d → 48 d). No threshold was touched to produce either number.
+
+**Why `S4-R3` remains OPEN — the exact determination (`V2172`).** The register's closure evidence has two limbs.
+`quarterlyPeriods > 0` is now **met** for KEC (2 discrete quarters). "`STALE_STATEMENTS` no longer raised" is met for
+**no** issuer, and cannot be met by quarterly data under `freshness-policy/1.0.0`: the flag is raised from the annual
+valuation basis, and letting a quarter carry it would change what the verdict means for a DCF — a valuation-policy
+decision for the owner, not an implementation choice, and one that would be the threshold-weakening this item forbids.
+Closure therefore requires newer **annual** filings with a period end on or after the window (Marico/KEC: FY2027
+accounts, ~May 2027), or that recorded policy decision. **`S4-R3-Infosys` stays separately OPEN**: the repository
+holds no Infosys annual filing later than FY2024 (filed 2024-04-18); no quarterly data was manufactured, no annual
+extrapolated, no older period re-dated, and the stale limitation is preserved. Required operator action: an authorised
+Infosys filing with a period end on or after the window, transcribed into a complete successor input, declared, then
+installed. **Infosys does not block Marico/KEC and did not block this section.**
+
+**Payload invariance, proved not promised (`V2173`).** The freshness decomposition is clock-derived and the payload's
+substantive identity is clock-free by construction (`substantiveIdentity.ts` deletes a closed member list that
+includes `asOf.stalenessDays`; widening it is what the register forbids). The `S4-R2` payload digest
+`925b403622c9b667152effa64539036a8cbcea40229ef2b36c7f148c210e471e` and `inputDigest sha256:9a2b0fd2…` reproduce
+byte-for-byte in the new suite. The only payload change is the additive `PERIOD_SEQUENCE_GAP`, which cannot appear for
+an issuer without a gap.
+
+**Installed and served — a sandbox drill, explicitly not host verification.** The owner's documented procedure was run
+end to end in an isolated temp root: prior dataset `69bbc14e…` in the live directory, candidate `bdfb2527…` built
+separately, `install-verified-dataset` **INSTALLED — 15/0**, `verify-installed-dataset` **PASS — 25/0** including the
+read-only attestation, then the product's own coverage and assessment reads over the **installed** bytes, both
+carrying the freshness block. `C:\iips-data` was not touched and the temp root was removed. The
+host installation limb stays **OPEN**, with the exact command sequence recorded for the operator
+(`--expect-version sha256:bdfb2527…`, `--expect-quarterly-periods 2`).
+
+**Finding, disclosed rather than papered over (`V2171`).** O3 §8.4 requires a fresh declaration for any superseded
+bundle. The 2026-11-14 re-admission covers `REL-1`'s Infosys input, the refreshed Marico (`31d8e503…`) and KEC
+(`22ea5018…`) bundles and the candidate `bdfb2527…`. `S4-R2` then created a **successor transcription** of the Infosys
+input (`S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input`, `periods.csv` `97d7cf7c…`), which **no** declaration
+records — so the `S4-R2` dataset `69bbc14e…` and the combined candidate `f357f6af…` are **not O3-admitted** and must
+not be described as admitted or installed. §16.293 described that input as "the same admitted issuer", which
+understates §8.4. The admitted dataset remains `bdfb2527…`, which still reproduces. Closing this needs one operator
+declaration, not code.
+
+**Tests (`V2174`).** New suite `iips-platform/tests/investment/s4r3Freshness.test.ts` — **23 tests, 23 pass** — across
+four blocks: period algebra (basis fallback, two ages, filing-vs-period separation, `UNKNOWN`, window boundaries);
+sequence gaps (annual and quarterly, April–March grouping, no fabrication); a **synthetic issuer**
+`IN:CIN:U74999TN2019PLC000123` processed through the **real ingestion CLI** with no issuer-specific code (annual +
+quarters, a missing quarter, a stale series, a future holding with no new filing, an invalid fiscal year refused, a period
+dated after the clock withheld as `UNKNOWN` rather than read as fresh, an as-filed/restated pair keeping its
+provenance); and the admitted population (candidate reproduces `bdfb2527…`, the
+`S4-R2` payload digest reproduces, evidence-file sha pins). IID suite **1516/1516**; `iips-platform` `tsc --noEmit`
+clean; frontend typechecks unchanged (24 pre-existing private-module findings, and one rendering fixture completed
+with the now-required `freshness` member); frontend vitest **2353 passed / 12 named environmental failures / 52
+private-module collection errors** — the pre-existing baseline, untouched by this work.
+
+**What this section does not claim.** Not that `S4-R3` is closed. Not that freshness is satisfied — it is measured,
+and it is not. Not that any host holds the candidate. Not that `69bbc14e…`/`f357f6af…` are admitted. Not that the
+functional-currency window should change. Stage 4 remains **PARTIALLY COMPLETE**, overall IID readiness **NOT READY**;
+`L-001`, `G-6`, `L-041`, `L-042` unchanged; no IPD write.
+
+Next free §16.295 / `CV-CORR-260` / `CHG-2026-11-06-23` / `V2175`.

@@ -24,6 +24,10 @@
  *
  * READ-ONLY. No write, no store, no cache, no persistence.
  */
+import { assessFreshness } from '../assessment/freshness';
+import { selectSeries } from '../assessment/periods';
+import { VALUATION_POLICY } from '../assessment/policy';
+import { FRESHNESS_POLICY_VERSION } from '../assessment/types';
 import { measureCoverage, type CoverageReport, type SectorMeasurement } from './measure';
 import type { InvalidSectorReason } from '../ingestion/sectorValidation';
 import {
@@ -77,6 +81,36 @@ export interface InvestmentCoverageIssuerRow {
   readonly operatingMetrics: number;
   readonly latestPeriodEnd: string | null;
   readonly earliestPeriodEnd: string | null;
+  /**
+   * `S4-R3` — statement freshness for this issuer's **assessed series**, measured at the report clock.
+   *
+   * Deliberately separate from `latestPeriodEnd` above, which is the newest period end across every scope and type
+   * in the dataset. This block answers the two questions a reader actually has: how old is the period the valuation
+   * would rest on (`valuationBasis`, the annual period) and how old is the newest information the filer has
+   * published (`latestReported`, any type). `filedAt` is a publication date and never a period end; the age is
+   * always measured from the period end, because `freshness-policy/1.0.0` measures statements and not filing lag.
+   * `sequenceGapCount` is non-zero only when the series skips a fiscal year or a quarter — which counting periods
+   * would never reveal.
+   */
+  readonly freshness: {
+    readonly status: 'FRESH' | 'STALE' | 'UNKNOWN';
+    readonly reasons: readonly string[];
+    readonly valuationBasis: {
+      readonly periodEnd: string;
+      readonly periodType: 'ANNUAL' | 'QUARTER' | 'TTM';
+      readonly filedAt: string;
+      readonly daysSincePeriodEnd: number;
+    } | null;
+    readonly latestReported: {
+      readonly periodEnd: string;
+      readonly periodType: 'ANNUAL' | 'QUARTER' | 'TTM';
+      readonly filedAt: string;
+      readonly daysSincePeriodEnd: number;
+    } | null;
+    readonly windows: { readonly pnlDays: number; readonly balanceSheetDays: number };
+    readonly policyVersion: string;
+    readonly sequenceGapCount: number;
+  };
   /** Ingestion issue codes that touch this issuer. Empty when the issuer's data is clean. */
   readonly issueCodes: readonly string[];
   /**
@@ -243,6 +277,44 @@ function sectorMeasurementFor(
 }
 
 /**
+ * `S4-R3` — one issuer's freshness, from the same module the assessment uses.
+ *
+ * The series is selected with `selectSeries`, so this row describes exactly the series an assessment of the issuer
+ * would consume (consolidated where available, restatements preferred) rather than a mix of scopes. The clock is the
+ * report's own `asOf`, so the ages are reproducible from the report alone.
+ */
+function freshnessFor(
+  issuerId: string,
+  periods: readonly NormalizedPeriod[],
+  clock: string,
+): InvestmentCoverageIssuerRow['freshness'] {
+  const block = assessFreshness({
+    series: selectSeries(periods, issuerId),
+    clock,
+    windows: VALUATION_POLICY.freshness,
+    policyVersion: FRESHNESS_POLICY_VERSION,
+  });
+  const brief = (period: typeof block.valuationBasis) =>
+    period === null
+      ? null
+      : {
+          periodEnd: period.periodEnd,
+          periodType: period.periodType,
+          filedAt: period.filedAt,
+          daysSincePeriodEnd: period.daysSincePeriodEnd,
+        };
+  return {
+    status: block.status,
+    reasons: [...block.reasons],
+    valuationBasis: brief(block.valuationBasis),
+    latestReported: brief(block.latestReported),
+    windows: { pnlDays: block.windows.pnlDays, balanceSheetDays: block.windows.balanceSheetDays },
+    policyVersion: block.policyVersion,
+    sequenceGapCount: block.sequenceGaps.length,
+  };
+}
+
+/**
  * Build the investment-coverage report.
  *
  * Deterministic for identical inputs. Every number is read from the supplied dataset; nothing is
@@ -370,6 +442,7 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
         operatingMetrics: metricCount,
         latestPeriodEnd: periodEnds.length > 0 ? periodEnds[periodEnds.length - 1] : null,
         earliestPeriodEnd: periodEnds.length > 0 ? periodEnds[0] : null,
+        freshness: freshnessFor(issuer.issuerId, periods, asOf),
         issueCodes,
         identityDependency,
         identityDependencyDetail:
