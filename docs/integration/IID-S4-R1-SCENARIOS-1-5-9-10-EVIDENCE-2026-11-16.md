@@ -436,3 +436,10 @@ no client-supplied portfolio or query parameter can select which chain is served
 identity paths do not shadow one another. The disposition — `G-11` unchanged, closed in-tree, host limbs still the
 operator's — and the exact verification limits are recorded in
 `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §15.
+
+**Follow-up, same day.** The paragraph above recorded that the store-dependent suites could not be re-run from the
+environment it was written in. CI has since executed them at the exact code head — workflow `CI`, run
+**`44128048813`**, head **`3293361`**, conclusion **`success`**, with the three private pins installed and verified,
+the full Vitest suite passing, the zero-test guard satisfied and the production build green. On that evidence
+`G-11` is recorded **`RESOLVED`** in `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §15.6. No scenario verdict, count
+or residual in this record changes; the run was obtained through a **draft** pull request kept expressly unmerged.

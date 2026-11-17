@@ -747,3 +747,48 @@ served-layer regression coverage that was genuinely absent, and recorded the two
    empty database and answer `404` rather than a diagnosable failure. Splitting a read-only opener from the write
    opener would change the persistence boundary that `S4-R1`'s mint proof depends on — expressly outside this act's
    authority. **Recorded, not changed.**
+
+### 15.6 Resolution (same day) — the CI run that 15.4 said was missing, and `G-11` **RESOLVED**
+
+§15.4 recorded one reason not to advance the status: no run existed at this head, because `ci.yml` triggers only on
+a pull request or a push to `main`. That reason is now discharged by evidence, not by argument. A **draft** pull
+request (#584) was opened from this branch for the express purpose of obtaining the run — **not** as a merge
+request, and nothing was merged or pushed to `main` — and CI executed the dependency-complete suite at the exact
+code head:
+
+| Field | Value |
+|---|---|
+| Workflow | `CI` (`ci.yml`), run **`44128048813`** |
+| Head | **`329336118a03be9cf30d9a9edac4f4f2f9e7f45c`** |
+| Result | **`completed` / `success`**, job *Typecheck · Test · Build* — every step `success` |
+| Steps that matter here | *Install dependencies from the committed lockfile* → *Verify all private dependencies resolve to their committed pins* → *Typecheck* → *Strict governed Screen replay server import closure* → **Run the full Vitest suite** → *Assert a non-zero, fully passing test run* → *Production build* |
+
+`npm run test:ci` (`vitest run`) is the suite in which the store-dependent chain proofs execute, with the three
+private pins installed and their commits verified: `investment-transport.test.ts` (16 tests — ordering, `400`/`405`/
+`404`/`503`, the served chain and each stored version), `investment-artifacts.test.ts` (including *"keeps one scope
+per issuer and does not see another scope"*, *"treats a different issuer as a different chain, even with identical
+content"*, and the scope-drift refusals), `iidStage4S4R1Scenarios.test.ts` (22 tests — scenario 1: minted through the
+shipped CLI, served `200`, second independent reader, `UNCHANGED` on repeat, `404` when absent) and the new
+`iidG11ServedChainTransport.test.ts` (23 tests). The zero-test guard excludes the false-green class, and the
+production build succeeded.
+
+**Disposition: `G-11` is `RESOLVED`.** The finding was that no chain had ever been stored or served; at head
+`3293361` both limbs are evidenced — storage on the Windows store (2026-11-15, operator-reported, §15.1) and HTTP
+service to a real stored chain, reproduced `200`/`404` at this head by CI run `44128048813`. §15.5's
+"does not move" is superseded by this paragraph and is left as written because it was true when written, hours
+earlier, before the run existed.
+
+What `RESOLVED` does **not** mean, stated so the entry cannot be read as more than it is:
+
+- **No browser or host journey was performed.** D10 (real-issuer browser acceptance) and `R-1`/`R-2` (host readiness
+  and served-surface captures) remain the operator's, unchanged and untouched by this pass.
+- **No Windows observation is claimed.** The storage limb is operator-reported evidence from 2026-11-15; this pass
+  read it and did not re-execute it.
+- **§7's `S4-R1` row, §13, and every prior addendum are unchanged.** Nothing was re-scored; `G-11` was never a
+  constraint on the Stage 4 verdict (§7 charges it to a non-demonstration question), so closing it moves no verdict.
+- **The two recorded properties in 15.5 are still unchanged** — the owner-context refusal's missing
+  `Cache-Control: no-store`, and the shared boundary's `createDirectory: true, migrate: true` opener. Both remain
+  register-owner questions, deliberately not answered by a `G-11` act.
+
+The draft pull request that produced the run carries the code head `3293361`; this paragraph is documentation only,
+and `ci.yml`'s path filter (`frontend/**`, `.ci/**`) therefore does not re-run it — by design, not by omission.
