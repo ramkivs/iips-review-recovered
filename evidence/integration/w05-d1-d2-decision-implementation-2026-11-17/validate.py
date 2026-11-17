@@ -33,13 +33,41 @@ def main() -> int:
     check(hashlib.sha256(archive).hexdigest() == ZIP_SHA256, "source ZIP digest mismatch")
     rows = list(csv.DictReader((EVIDENCE / "agi-source-package-inventory.tsv").open(), delimiter="\t"))
     check(len(rows) == 5, "expected exactly five AGI PDFs in the metadata inventory")
-    check(all(r["source_locator_recorded_in_zip"] == "NO" for r in rows), "source locator gap must remain explicit")
-    check(all(r["retrieval_date_or_channel_recorded_in_zip"] == "NO" for r in rows), "retrieval gap must remain explicit")
+    check(all(r["source_locator_recorded_in_zip"] == "NO" for r in rows), "do not imply source metadata exists inside the ZIP")
+    check(all(r["retrieval_date_or_channel_recorded_in_zip"] == "NO" for r in rows), "do not imply retrieval metadata exists inside the ZIP")
+    expected_times = {
+        "FY 2026 Annual Report.pdf": "21:35 (minute precision)",
+        "FY2025 Annual Report.pdf": "21:35 (minute precision)",
+        "FY2024 Annual Report.pdf": "21:36 (minute precision)",
+        "Q1 FY2027 Financial Results.pdf": "21:37 (minute precision)",
+        "Q2 FY2027 Financial Results.pdf": "21:38 (minute precision)",
+    }
+    check({r["document"]: r["local_file_mtime"] for r in rows} == expected_times, "per-file local mtime differs from Principal-provided record")
+    for row in rows:
+        check(row["official_source_locator"] == "https://agigreenpac.com/investor-relations-2/", "issuer source locator mismatch")
+        check(row["retrieval_date_local"] == "2026-11-17", "manual retrieval date mismatch")
+        check(row["retrieval_method"] == "Manual download from issuer investor-relations source", "retrieval method mismatch")
+        check(row["retrieved_by"] == "Personal Application Principal (Ramki)", "retrieved-by attribution mismatch")
+        check(row["timezone"] == "Not stated in supplied metadata", "do not invent a timezone")
+        check(row["direct_document_url"] == "NOT PROVIDED", "do not invent direct PDF URLs")
+        check(row["local_source_path"].startswith(r"C:\iips-data\investment\source-filings\INE415A01038" + chr(92)), "local source directory mismatch")
+        check(row["local_source_path"].endswith("\\" + row["document"]), "local source path/document identity mismatch")
     audit = json.loads((EVIDENCE / "publication-surface-audit.json").read_text())
     asset_audit = audit["releaseAssetContentAudit"]
     provenance = audit["agiD1SourceProvenance"]
-    check(provenance["officialSourceLocator"] == "NOT RECORDED", "do not fill source locator without evidence")
-    check(provenance["actualManualRetrievalDateTimeUtc"] == "NOT RECORDED", "do not infer retrieval date from packaging")
+    check(provenance["officialSourceLocator"] == "https://agigreenpac.com/investor-relations-2/", "source locator not recorded")
+    check(provenance["retrievalDateLocal"] == "2026-11-17", "retrieval date not recorded")
+    check(provenance["retrievedBy"] == "Personal Application Principal (Ramki)", "retrieval principal not recorded")
+    check(provenance["retrievalMethod"].startswith("Manual download"), "manual retrieval method not recorded")
+    check(provenance["localSourceDirectory"] == r"C:\iips-data\investment\source-filings\INE415A01038", "Principal-reported local source path mismatch")
+    check(provenance["sourceFileMtimes"] == {
+        "FY 2026 Annual Report.pdf": "21:35",
+        "FY2025 Annual Report.pdf": "21:35",
+        "FY2024 Annual Report.pdf": "21:36",
+        "Q1 FY2027 Financial Results.pdf": "21:37",
+        "Q2 FY2027 Financial Results.pdf": "21:38",
+    }, "Principal-reported local mtime record mismatch")
+    check("timezone not stated" in provenance["retrievalTimeBasis"], "do not infer a timezone")
     check(len(asset_audit["assets"]) == 4, "expected individual results for all four CAP-03 release assets")
     check(asset_audit["runId"] == "44139023529", "hosted release-asset audit run does not match review receipt")
     check(len(asset_audit["agiMarkerPaths"]["INE415A01038"]) == 6, "AGI ISIN triage path count changed")
@@ -64,14 +92,20 @@ def main() -> int:
     check("**D1 — issuer filing source**" in doc and "**CONFIRMED; implementation rule recorded**" in doc and "manual" in doc.lower(), "D1 manual source decision absent")
     check("D2" in doc and "private" in doc.lower(), "D2 private decision absent")
     check("official exchange or issuer sources" in doc, "D1 source category not explicit")
+    check("https://agigreenpac.com/investor-relations-2/" in doc, "official AGI source locator absent from register")
+    check("Personal Application Principal (Ramki)" in doc and "17 November 2026" in doc, "retrieval attribution/date absent")
+    check(all(t in doc for t in ("21:35", "21:36", "21:37", "21:38")), "per-file retrieval mtime record absent")
+    check("C: filesystem is not mounted" in doc, "local metadata verification limit not disclosed")
     check("No scripted or automated retrieval" in doc, "automated retrieval boundary absent")
     check("§16.292" in tracker and "CV-CORR-257" in tracker, "tracker section or CV identifier missing")
     check("CHG-2026-11-06-20" in tracker and "V2156" in tracker, "tracker CHG/V identifiers missing")
+    check("https://agigreenpac.com/investor-relations-2/" in tracker and "Personal Application Principal (Ramki)" in tracker, "corrected source provenance absent from tracker")
+    check(all(t in tracker for t in ("FY2026 Annual Report 21:35", "FY2025 Annual Report 21:35", "FY2024 Annual Report 21:36", "Q1 FY2027 Results 21:37", "Q2 FY2027 Results 21:38")), "per-file mtimes absent from tracker")
     check("Next free §16.293 / `CV-CORR-258` / `CHG-2026-11-06-21` / `V2161`" in tracker, "next identifier declaration missing")
     check("W05: **IN PROGRESS — NOT COMPLETE — NOT ACCEPTED**" in doc, "W05 state not preserved")
     check("`L-041`: **OPEN**; `L-042`: **OPEN**." in doc and "Q1–Q7: **OPEN**." in doc, "limitation/question states not preserved")
     check("AGI is **not admitted**" in doc, "no-new-issuer boundary absent")
-    print("PASS: source ZIP, five PDF hashes, source-metadata caveat, D1/D2 wording, tracker IDs and protected statuses")
+    print("PASS: source ZIP, five PDF hashes, Principal-provided official source and per-file mtimes, D1/D2 wording, tracker IDs and protected statuses")
     return 0
 
 

@@ -89,11 +89,23 @@
     "limits": "This audit checks the recovered build artifact against its pinned hash inventory and does filename/signature/exact-string triage; it is not a complete semantic source-rights opinion, does not establish the provenance or public exposure history of any string, and does not authorize redistribution."
   },
   "agiD1SourceProvenance": {
-    "officialSourceLocator": "NOT RECORDED",
-    "actualManualRetrievalDateTimeUtc": "NOT RECORDED",
-    "actualManualRetrievalChannel": "NOT RECORDED",
-    "evidence": "The source-branch ZIP contains five PDFs but no source manifest or retrieval log. The ZIP member timestamps and source-branch commit timestamp identify packaging/commit events only; they are not substituted for retrieval metadata.",
-    "status": "UNRESOLVED — do not treat this AGI package as per-file D1 provenance-complete"
+    "officialSourceLocator": "https://agigreenpac.com/investor-relations-2/",
+    "locatorType": "AGI Greenpac issuer investor-relations page provided by the Principal; individual direct PDF URLs were not supplied.",
+    "retrievalDateLocal": "2026-11-17",
+    "retrievalTimeBasis": "Per-file local file modification times, minute precision, supplied by the Principal; timezone not stated in supplied metadata.",
+    "retrievedBy": "Personal Application Principal (Ramki)",
+    "retrievalMethod": "Manual download from the issuer investor-relations source link provided in the ChatGPT workflow.",
+    "localSourceDirectory": "C:\\iips-data\\investment\\source-filings\\INE415A01038",
+    "sourceFileMtimes": {
+      "FY 2026 Annual Report.pdf": "21:35",
+      "FY2025 Annual Report.pdf": "21:35",
+      "FY2024 Annual Report.pdf": "21:36",
+      "Q1 FY2027 Financial Results.pdf": "21:37",
+      "Q2 FY2027 Financial Results.pdf": "21:38"
+    },
+    "evidenceBasis": "Direct Principal instruction in this conversation identifying manual download, source, date, path and actual local file metadata values; the C: filesystem itself is not mounted in the Arena sandbox, so these values are recorded as Principal-provided rather than independently stat-verified.",
+    "sourceZipLimitation": "The source-branch ZIP itself still contains no source manifest/retrieval log; D1 provenance is recorded here from the Principal's source and local metadata record, not from ZIP timestamps or the commit timestamp.",
+    "status": "RECORDED FROM PRINCIPAL-PROVIDED SOURCE AND LOCAL FILE METADATA; no timestamps or retrieval events inferred beyond the supplied minute-resolution values"
   },
   "agiDedicatedSourceBranch": {
     "branch": "w05/agi-ine415a01038-source-filings",
