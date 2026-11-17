@@ -1053,3 +1053,32 @@ pins being unresolvable in this environment (HTTP 403). `tsc --noEmit` on `front
 - **No browser journey is claimed.** The evidence is the rendered component under jsdom plus the served JSON from the
   real handler; `D10`/`R-1`/`R-2` remain the operator's.
 - **No Windows observation, no re-scoring.** §§7, 13, 14, 15 and 16 are unchanged.
+
+### 17.6 Commit, remote verification and execution evidence
+
+| Field | Value |
+|---|---|
+| Commit | **`b4950b2ef8accc5ace9e15644138aeed056dc77a`** |
+| Branch | `arena/e760fb87-iips-review-recovered` (pushed `3aee6aa..b4950b2`) |
+| Tree | **`ffb27b68245dcfccbf621f3eb05b5f052c4e40e4`** — identical to the remote branch's tree after `git fetch` |
+| `origin/main` | **`a45c9f7d7c961b42911903300f8599c824e855f8`** — unchanged; nothing merged |
+| CI | workflow `CI`, run **`44141129756`**, head `b4950b2` — **`completed` / `success`**, all 17 steps, including *Run the full Vitest suite*, *Assert a non-zero, fully passing test run* and *Production build* |
+| PR #584 | still a **draft**, head `b4950b2`, neither merged nor closed; it exists only to obtain `pull_request` runs |
+
+**Changed-file set (exactly five, verified on the remote commit):**
+
+| Path | Blob | Change |
+|---|---|---|
+| `frontend/src/api/investmentCoverageInvestment.ts` | `7fc26957…` | sector row typed to the served contract; phantom `issuerCount` removed; sector-row validation added |
+| `frontend/src/features/investment/InvestmentCoveragePage.tsx` | `8db0a2e3…` | the "Issuers" cell renders `issuersConsidered.length`; nothing else changed |
+| `frontend/src/features/investment/iidInvestmentCoverageFixtures.ts` | `4292c101…` | fixture sector rows put in the served shape |
+| `frontend/src/features/investment/investmentCoverageSectorCount.test.tsx` | `9474a2db…` | new suite, 8 tests |
+| `docs/integration/IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` | — | this section |
+
+**No server file was touched by this commit** (`git show --name-only` reports only `frontend/src/**` and this record),
+so the `SectorMeasurement` contract, the measurement logic, dataset classification, valuation, identity and
+persistence are unchanged by construction, not merely by intention.
+
+The CI run is the dependency-complete execution: with the three private pins installed and verified, the full Vitest
+suite (which includes `iidCoverageSeparation.test.tsx` against the corrected fixture) and the production build both
+passed at this head.
