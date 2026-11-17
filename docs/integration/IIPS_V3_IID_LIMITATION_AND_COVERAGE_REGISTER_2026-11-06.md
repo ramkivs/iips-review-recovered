@@ -2919,3 +2919,86 @@ Reconsider after independently resolving the March fact's context, dimensions, c
 **Evidence.** `552f1c74f2f5d63b6a19c7a547b64139e27788dd` (correction); `6ae09ac087cd8f89feb5f7c519bedac1858bd2c1` (`W05-D1` on `main`); `02761a4e2b4230a8ca52dfe35c5e2626527a0be0` (ownership determination and five-property evidence); `docs/integration/IID-L041-DATASET-CLASSIFIER-RECONCILIATION-2026-11-17.md`; `docs/integration/IID-L041-READ-MODEL-OWNER-CONFIRMATION-2026-11-17.md`; `docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` §3; `docs/integration/W05-ACTUAL-FINANCIAL-DATASET-QUALIFICATION-2026-11-12.md` §6; `docs/integration/W05-FINANCIAL-COVERAGE-AND-SOURCE-RIGHTS-STATUS-2026-11-16.md` §5; the historical bundle above; guarded by `iips-platform/tests/investment/l041ClassifierReconciliation.test.ts`, `iips-platform/tests/investment/investment-coverage.test.ts`, `frontend/server/investment/cli/rivHeadRevalidation.test.ts` and `iips-platform/scripts/riv-head-revalidation.ts`.
 
 **Statuses after §17.27.** **`L-041` is `RESOLVED`.** **`L-042` stays `OPEN`** — the EV basis label is a different defect and no correction for it exists on this branch. `L-038`, `L-039` stay `OPEN`; `L-034`, `L-035`, `L-040` stay `RESOLVED`; `L-036`, `L-037` stay `PARTIALLY RESOLVED`; `L-001` … `L-033` untouched. **No entry in `L-001` … `L-040` was modified, closed, renumbered or reinterpreted by this entry**, and §17.26's text is unaltered. W05's own completion and acceptance status is not touched by this register entry. Next free §17.28.
+
+## 17.28 `L-042` scope determination: why a longer static label is not the fix (2026-11-14)
+
+**What this entry is.** §17.26 recorded `L-042` as a demonstrated defect with a demonstrated-and-reverted one-line
+correction, and §17.27 left it `OPEN` because "no correction for it exists on this branch". This entry records the
+scope determination §17.26 asked for: *can the label be corrected at all, and what does correcting it cost?* It answers
+with evidence rather than preference, and **changes no status**: `L-042` stays `OPEN`, because the question it raises —
+which equation a per-method label is allowed to state — is not settled by anything measured here.
+
+**What was re-established (not assumed).** The mismatch is exactly as §17.26 records: the `basis` string names only
+`− net debt`, while `equityValueFromEnterprise` (`capitalStructure.ts:419-450`) applies the whole bridge. The field is
+not decorative — `MethodOutput.basis` is typed as the *"Deterministic summary of the arithmetic actually performed"*
+(`types.ts:92-98`) and reaches a reader through `view.ts:90`, so the defect is a **contract violation**, not a phrasing
+preference. Correcting it is also confirmed non-neutral: a probe editing **only** the `basis` string, leaving every
+figure byte-identical, moved the substantive digest of `techAssessmentInput()` from
+`493eab2c9a1a4c0dfb236fd38ae866dca61c75925dc98c883d7ac55a1822d344` to
+`eb926b67943e7e271a6d0a45a3a7dff68e311bb7324712009e6289de3f78c1dc`. `valuation.methods` is inside the substantive
+projection and `L-014` **E-2** forbids excluding it (it feeds a published figure); §3.4 retains the whole `valuation`
+block. The re-baseline is real.
+
+**The new finding, which is why the label was not lengthened.** §17.26 and `C-EV-BASIS-BRIDGE.md` assume the fix is a
+longer string. It is not, because `equityValueFromEnterprise` **is not one equation**. Measured for this entry:
+
+| Issuer shape | What the bridge actually does | What ANY static label would claim |
+|---|---|---|
+| term `PRESENT` | term subtracted | subtracted — correct |
+| term `NIL_BY_DISCLOSURE` | **not** subtracted; note says "claims declared nil by the filer, subtracted as zero" | subtracted — **wrong** |
+| term unavailable (`NOT_COMPUTABLE`) | conversion **blocked**; no equity value published at all | subtracted — **wrong** |
+| `associatesAndJV` `PRESENT` | added at carrying value | added — correct |
+| `associatesAndJV` unavailable | named `POLICY_ZERO`, adds zero | added — **wrong** |
+
+The same static wording is therefore wrong on three of these five rows. A longer
+`− netDebt − minorityInterest − preferenceCapital + associatesAndJV` string is wrong on *more* rows than the current
+short one, because it asserts the two conditional legs as unconditional. **Widening the label pays the full identity
+re-baseline and does not buy a faithful disclosure.** That combination is why `L-042` is left `OPEN` rather than closed
+with a longer string — and why the calculation was not touched: nothing measured here shows the *arithmetic* is wrong
+(it is correct, and `capitalStructure.equityBridge` publishes it in full); what is unresolved is the **label's
+semantics**.
+
+**The unresolved semantic question, stated exactly.** A per-method `basis` labelled "the deterministic summary of the
+arithmetic actually performed" can be faithful to a conditional conversion in two mutually exclusive ways, and the
+contract does not choose between them: **(a)** state the *conditional* rule in the label itself — the equation plus its
+nil/unavailable legs — which no single equation-shaped string can do without becoming prose; or **(b)** state only what
+the method's own arithmetic contributes and **reference** the bridge for the conversion, which requires the label to say
+it is a reference. `E-2` means whichever is chosen still moves the digest. Choosing between (a) and (b) is a decision
+about what `MethodOutput.basis` *means*, which changes the meaning stored in every historical artifact — the `L-014`
+decision's own bar. It is not made here.
+
+**What was done instead (calculation and label untouched).**
+- `iips-platform/tests/investment/assessment-valuation.test.ts`: a new test pins the *conditional* character of the
+  bridge — a `PRESENT` term is subtracted, a `NIL_BY_DISCLOSURE` term is not (and moves the published figure by
+  exactly its value), an unavailable term **blocks** the conversion, and the associates leg is added at carrying value
+  but is a named policy zero otherwise. It fails if the bridge is made less honest (verified by deleting the
+  declared-nil note: 1 failure; restored: 17/17 pass), and it records why no static label can be faithful so the next
+  attempt at `L-042` does not repeat a demonstrated failure. **No engine file was modified** — the diff is one test
+  file — so the substantive digests are untouched and no `L-014` re-baseline was performed or needed.
+- The existing `L-042` characterization test's comment said the Infosys gap was "~₹0.77"; §17.26 records
+  `₹0.8323504745930698` (`₹3,450,000,000 / 4,144,888,607.99`). The comment was corrected to the recorded figure and
+  says so. The assertion was not weakened.
+
+**Precedent applied, not invented.** §17.26 and §17.27 framed the next step as a *permission* question — a "register
+owner + identity-contract owner" decision. `IID-PA-01` **G-5** had already simplified that: the two defects "stay
+listed as limitations; the owner fixes or accepts them in the normal course of maintenance. No adjudication ceremony,
+and they block nothing", and **G-8** collapses acceptance to one authority. So no permission was missing here; what was
+missing is a **contract answer** (the (a)/(b) choice above), which is a different thing — and is why this entry records
+evidence rather than seeking a sign-off. Consistent with G-5, `L-042` "blocks nothing" and remains a listed limitation.
+
+**Verification.** `iips-platform/tests/investment/assessment-valuation.test.ts` 17/17 pass (16 before the added test);
+`frontend/server/investment/substantive-identity.test.ts` 36/36 pass — the pinned `L-014` C1–C5 reference digests and
+the `preD3`/`undoDisclosure`/`undoIX` reconstructions reproduce unmoved, confirming no identity change. **Evidence
+limit, stated plainly:** `frontend/server/investment/ac-l14.test.ts` could NOT be run in this environment — it imports
+the private `iips-np04-governed-persistence` package (`github:ramkivs/iips-production-market-data#2e11fa3b`), which is
+not installable here. `AC-L14` is therefore **not verified by execution in this entry**; it is unthreatened by this
+change only because no engine file was modified, so the payloads it digests are byte-identical. The probes that measured
+the digest movement and the bridge's conditionality were run in a scratch worktree and deleted; both are reproducible
+from the tables above.
+
+**Statuses after §17.28.** **`L-042` stays `OPEN`** — the label is not corrected, and the reason is now evidenced: no
+static label is faithful, and the (a)/(b) semantic choice is unmade. **`L-041` stays `RESOLVED`** (§17.27, untouched).
+`L-038`, `L-039` `OPEN`; `L-034`, `L-035`, `L-040` `RESOLVED`; `L-036`, `L-037` `PARTIALLY RESOLVED`; `L-001` … `L-033`
+untouched. No entry in `L-001` … `L-041` was modified, closed, renumbered or reinterpreted; §17.26 and §17.27 are
+unaltered, including §17.26's `L-042` row. No valuation formula, capital-structure rule, `D-2` policy or `IX` policy was
+changed. W05 completion, acceptance, source-rights and permissions are not touched. Next free §17.29.
