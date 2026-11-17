@@ -34,7 +34,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 import { measureCoverage } from '../coverage/measure';
-import type { DatasetManifest } from '../fundamentals/manifest';
+import { sourceRightsOf, type DatasetManifest } from '../fundamentals/manifest';
 import {
   COVERAGE_FILE_NAME,
   MANIFEST_FILE_NAME,
@@ -270,6 +270,28 @@ export function installVerifiedDataset(options: InstallOptions): InstallReport {
   if (!add('candidate-digest-matches-expected', candidateDigest === options.expectedDigest,
     `expected ${options.expectedDigest}; candidate ${String(candidateDigest)}`)) {
     return finish('REFUSED-DIGEST', 2, 'the candidate is not the expected dataset; nothing was written');
+  }
+
+  // `W05` — a candidate whose rights declaration cites an authorization record is checked before anything is
+  // written, with the function every reader uses. The check is added ONLY for a candidate that cites a record,
+  // so a candidate that cites none reports exactly the checks it reported before. The declaration is then
+  // carried verbatim (`publicationOptionsOf`): the installer never adds, edits or removes a citation, and the
+  // writer checks it once more against the manifest it builds. Admission by a record is not installation: this
+  // check says the citation fits the candidate, and nothing about what may or should be installed.
+  if (candidate.manifest.sourceRights?.authorizationReferences !== undefined) {
+    let citationFailure = '';
+    let cited = 0;
+    try {
+      cited = (sourceRightsOf(candidate.manifest).authorizationReferences ?? []).length;
+    } catch (error) {
+      citationFailure = error instanceof Error ? error.message : String(error);
+    }
+    if (!add('candidate-authorization-references', citationFailure === '',
+      citationFailure === ''
+        ? `the candidate cites ${String(cited)} authorization record(s) and each fits it; carried verbatim`
+        : citationFailure)) {
+      return finish('REFUSED-CANDIDATE', 2, 'the candidate cites an authorization record that does not fit it; nothing was written');
+    }
   }
 
   // THE COVERAGE CONTRACT.

@@ -8,6 +8,13 @@ import type { IssuerRecord } from './types';
 import { canonicalize, digestOf, sha256Hex } from './canonical';
 import type { DatasetSchema } from '../contracts/lineItems';
 import type { SectorName } from '../contracts/operatingMetrics';
+import {
+  AuthorizationReferenceError,
+  assertAuthorizationReferences,
+  assertAuthorizationReferencesAgree,
+  authorizationBasisOf,
+  type AuthorizationReference,
+} from './authorizationRecords';
 
 /** Legacy (V1) schema identifier. V2 is additive and is selected per build — see `DatasetSchema`. */
 export const DATASET_SCHEMA = 'IIPS_INVESTMENT_FUNDAMENTALS_V1' as const;
@@ -81,6 +88,15 @@ export interface SourceRightsDeclaration {
   readonly basis: string;
   /** Free-text note, for example the exact terms consulted. Empty is fine. */
   readonly note: string;
+  /**
+   * `W05` — the operator's decision records this declaration cites, each pinned by the SHA-256 of its bytes.
+   *
+   * OPTIONAL and normally ABSENT. A declaration without it is exactly the declaration that existed before the
+   * member did, and serialises to the same bytes. Only `OPERATOR_ASSERTED` may carry it: a cited record is the
+   * operator's own declaration, so citing one does not change the state, and the dataset class is decided by the
+   * state alone. It is checked, not trusted: see `assertAuthorizationReferences`.
+   */
+  readonly authorizationReferences?: readonly AuthorizationReference[];
 }
 
 /** One input file a bundle contributed, with the digest of the exact bytes the run consumed. */
@@ -193,16 +209,52 @@ export function assertSourceRights(declaration: SourceRightsDeclaration | undefi
       'a source rights declaration of OPERATOR_ASSERTED must state the basis on which the operator holds the right',
     );
   }
-  return {
+  const validated = {
     state,
     basis: state === 'OPERATOR_ASSERTED' ? basis : '',
     note: typeof declaration.note === 'string' ? declaration.note : '',
   };
+  // `W05`. A declaration that cites no record is returned exactly as before. `undefined` is "not cited"; any
+  // other value, `null` and `[]` included, is a citation and is checked. It is refused, never dropped: a
+  // manifest that cites a record this build cannot confirm must not read as an ordinary declaration.
+  const cited: unknown = (declaration as { authorizationReferences?: unknown }).authorizationReferences;
+  if (cited === undefined) return validated;
+  if (state !== 'OPERATOR_ASSERTED') {
+    throw new AuthorizationReferenceError(
+      'REFERENCE_INVALID',
+      `only an OPERATOR_ASSERTED declaration may cite an authorization record; this one is ${state}`,
+    );
+  }
+  const authorizationReferences = assertAuthorizationReferences(cited);
+  const expectedBasis = authorizationBasisOf(authorizationReferences);
+  if (basis !== expectedBasis) {
+    throw new AuthorizationReferenceError(
+      'REFERENCE_INVALID',
+      `a declaration that cites authorization records must state exactly them as its basis; expected "${expectedBasis}", found "${basis}"`,
+    );
+  }
+  return { ...validated, authorizationReferences };
 }
 
-/** The rights declaration of a manifest, defaulted to `UNKNOWN` when absent. */
-export function sourceRightsOf(manifest: Pick<DatasetManifest, 'sourceRights'>): SourceRightsDeclaration {
-  return assertSourceRights(manifest.sourceRights);
+/**
+ * The rights declaration of a manifest, defaulted to `UNKNOWN` when absent.
+ *
+ * `W05`. When the declaration cites authorization records and the manifest is given with its dataset version,
+ * the references must also AGREE with the manifest that carries them (`assertAuthorizationReferencesAgree`): a
+ * reference copied onto another dataset is refused here. Every reader that classifies or serves a dataset passes
+ * the manifest it read, so every reader makes this check.
+ */
+export function sourceRightsOf(
+  manifest: Pick<DatasetManifest, 'sourceRights'> & Partial<Pick<DatasetManifest, 'datasetVersion' | 'inputs'>>,
+): SourceRightsDeclaration {
+  const declaration = assertSourceRights(manifest.sourceRights);
+  if (declaration.authorizationReferences !== undefined && manifest.datasetVersion !== undefined) {
+    assertAuthorizationReferencesAgree(declaration.authorizationReferences, {
+      datasetVersion: manifest.datasetVersion,
+      ...(manifest.inputs === undefined ? {} : { inputs: manifest.inputs }),
+    });
+  }
+  return declaration;
 }
 
 /** Content digest over the included members only. Deterministic and order-insensitive per member set. */
@@ -265,15 +317,25 @@ export function buildManifest(
   const errorCount = (content.issues as readonly { severity: string }[]).filter(
     (issue) => issue.severity === 'ERROR',
   ).length;
+  // The rights declaration is validated, never inferred: an invalid declaration throws here rather than
+  // reaching a reader as a plausible-looking class. `W05`: a citation must also fit THIS manifest, so the writer
+  // cannot produce a manifest that every reader would refuse.
+  const sourceRights = assertSourceRights(options.sourceRights);
+  if (sourceRights.authorizationReferences !== undefined) {
+    assertAuthorizationReferencesAgree(sourceRights.authorizationReferences, {
+      datasetVersion: contentDigest,
+      ...(options.inputProvenance === undefined || options.inputProvenance.length === 0
+        ? {}
+        : { inputs: options.inputProvenance }),
+    });
+  }
   return {
     datasetSchema: options.datasetSchema ?? DATASET_SCHEMA,
     datasetVersion: contentDigest,
     contentDigest,
     provider: options.provider,
     licence: options.licence,
-    // The rights declaration is validated, never inferred: an invalid declaration throws here
-    // rather than reaching a reader as a plausible-looking class.
-    sourceRights: assertSourceRights(options.sourceRights),
+    sourceRights,
     // Written ONLY for a multi-input run. An absent or empty list omits the key entirely, so a single-bundle
     // manifest stays byte-identical to the manifests already committed as evidence (`S3-D2`, compatibility).
     ...(options.inputProvenance === undefined || options.inputProvenance.length === 0

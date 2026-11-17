@@ -3,7 +3,8 @@
  * IID-0 — fundamentals ingestion CLI (file in, files out).
  *
  *   tsx src/investment/cli/ingest.ts --input <dir> --dataset-dir <dir> [--now <iso>] [--allow-errors] \
- *     [--dataset-schema <IIPS_INVESTMENT_FUNDAMENTALS_V1|IIPS_INVESTMENT_FUNDAMENTALS_V2>]
+ *     [--dataset-schema <IIPS_INVESTMENT_FUNDAMENTALS_V1|IIPS_INVESTMENT_FUNDAMENTALS_V2>] \
+ *     [--authorization-record <file>]...
  *
  * `--input` may be REPEATED, once per bundle, to assemble several bundles into one dataset in a single run
  * (`S3-D2`):
@@ -19,6 +20,14 @@
  * legacy V1 grammar, so every existing command line produces exactly the dataset it produced before. It exists
  * because `INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` is introduced by V2 (`L-036`): without a way to declare
  * V2, the one item V2 adds could be accepted by the library and never by an operator.
+ *
+ * `--authorization-record` names the decision record the operator relies on for these inputs (`W05`). It is
+ * optional and may be repeated, once per record. Without it the rights declaration says what it always said: that
+ * the operator supplied the files in the input directories. With it, the declaration names the record instead,
+ * pinned by the SHA-256 of the record's bytes, and the run is REFUSED before anything is written unless every
+ * input bundle is one a named record admits by digest. It records whose declaration the dataset rests on. It
+ * does not verify a third party's terms, it does not change the dataset class, and it installs nothing. See
+ * `fundamentals/authorizationRecords.ts`.
  *
  * Input directory layout:
  *   roster.json              { issuers[], securities[], listings[] }   (required)
@@ -40,6 +49,7 @@ import {
   manifestProvenance,
   mergeInputBundles,
   type InputBundle,
+  type MergedInputSet,
 } from '../ingestion/multiInput';
 import { assertValidIssuerSectors } from '../ingestion/sectorValidation';
 import { assertSupportedDatasetSchema, type DatasetSchema } from '../contracts/lineItems';
@@ -50,7 +60,15 @@ import {
   writeDataset,
 } from '../ingestion/writer';
 import { sha256Hex } from '../fundamentals/canonical';
-import { computeContentDigest, type DatasetInputFile } from '../fundamentals/manifest';
+import { computeContentDigest, type DatasetInputFile, type SourceRightsDeclaration } from '../fundamentals/manifest';
+import {
+  AuthorizationReferenceError,
+  authorizationBasisOf,
+  authorizationReferenceFindings,
+  citeAuthorizationRecords,
+  type AuthorizationReference,
+  type CitedRecordFile,
+} from '../fundamentals/authorizationRecords';
 import { measureCoverage, renderCoverageSummary } from '../coverage/measure';
 import type { CorporateActionRecord, IssuerRecord, ListingRecord, PriceRecord, SecurityRecord } from '../fundamentals/types';
 
@@ -78,7 +96,17 @@ interface Args {
   readonly allowErrors: boolean;
   /** The declared dataset grammar. Absent means the legacy V1 grammar, exactly as before the flag existed. */
   readonly datasetSchema: DatasetSchema;
+  /**
+   * Every `--authorization-record` file, each resolved to an absolute path (`W05`).
+   *
+   * Empty is the ordinary run and behaves exactly as it did before the flag existed.
+   */
+  readonly authorizationRecords: readonly string[];
 }
+
+const USAGE =
+  'usage: ingest.ts --input <dir> [--input <dir> ...] --dataset-dir <dir> [--now <iso>] [--allow-errors] ' +
+  '[--dataset-schema <schema>] [--authorization-record <file> ...]';
 
 function parseArgs(argv: readonly string[]): Args {
   const get = (flag: string): string | undefined => {
@@ -104,10 +132,24 @@ function parseArgs(argv: readonly string[]): Args {
   const inputDirs = getAll('--input');
   const datasetDir = get('--dataset-dir');
   if (inputDirs.length === 0 || datasetDir === undefined) {
-    throw new Error(
-      'usage: ingest.ts --input <dir> [--input <dir> ...] --dataset-dir <dir> [--now <iso>] [--allow-errors] [--dataset-schema <schema>]',
-    );
+    throw new Error(USAGE);
   }
+  /**
+   * Every `--authorization-record` value. A flag with no value, or followed by another flag, is REFUSED.
+   *
+   * `getAll` skips a flag that has no value. That is tolerable for `--input`, where a run with no input is
+   * refused anyway. Here it would turn a mistyped citation into an ordinary uncited run, which writes a
+   * different rights declaration from the one the operator asked for, without saying so.
+   */
+  const authorizationRecords: string[] = [];
+  argv.forEach((token, index) => {
+    if (token !== '--authorization-record') return;
+    const value = argv[index + 1];
+    if (value === undefined || value.startsWith('--')) {
+      throw new Error(`--authorization-record needs the path of a record file. ${USAGE}`);
+    }
+    authorizationRecords.push(resolve(value));
+  });
   return {
     inputDirs: inputDirs.map((dir) => resolve(dir)),
     datasetDir: resolve(datasetDir),
@@ -116,6 +158,7 @@ function parseArgs(argv: readonly string[]): Args {
     // Fail closed on a grammar this build does not know, before anything is read: `assertSupportedDatasetSchema`
     // is the single authority on which schemas exist, so the CLI cannot invent one.
     datasetSchema: assertSupportedDatasetSchema(get('--dataset-schema')),
+    authorizationRecords,
   };
 }
 
@@ -225,6 +268,94 @@ export function loadInputs(inputDir: string, datasetSchema?: DatasetSchema): Dat
   return loadInputBundle(inputDir, datasetSchema).inputs;
 }
 
+/**
+ * The rights declaration this run records.
+ *
+ * Without a citation it is exactly what the CLI always wrote: the same three members, in the same order, so a
+ * manifest built without `--authorization-record` is byte-identical to the manifests committed as evidence.
+ * With one, the basis names the cited records instead of the directories and the checked references travel with
+ * it. The state does not change either way: a cited record is the operator's own declaration.
+ */
+function sourceRightsFor(
+  inputDirs: readonly string[],
+  authorizationReferences: readonly AuthorizationReference[] | null,
+): SourceRightsDeclaration {
+  const note = 'operator attestation over the operator’s own input files; not an independent verification of any third party’s terms';
+  if (authorizationReferences === null) {
+    return {
+      state: 'OPERATOR_ASSERTED',
+      // One directory reads exactly as it did before `--input` was repeatable, so a single-bundle manifest is
+      // byte-identical to the manifests already committed as evidence.
+      basis: `operator-supplied input files read from ${inputDirs.join(', ')}`,
+      note,
+    };
+  }
+  return {
+    state: 'OPERATOR_ASSERTED',
+    basis: authorizationBasisOf(authorizationReferences),
+    note,
+    authorizationReferences,
+  };
+}
+
+/**
+ * Check the records the operator cited against the bundles of THIS run (`W05`). Throws; writes nothing.
+ *
+ * The record files are read here, so the reference is to bytes the run actually saw. Each bundle is identified
+ * by the input digest the run computed from the files it consumed. Where a record also states the dataset an
+ * admitted input produces alone, that dataset version is computed here with the product's own builder and
+ * digest function over the bundle as loaded, never taken from the bundle's own evidence.
+ */
+function citeRecordsFor(
+  recordPaths: readonly string[],
+  bundles: readonly InputBundle[],
+  merged: MergedInputSet,
+): readonly AuthorizationReference[] {
+  const cited: CitedRecordFile[] = recordPaths.map((path) => {
+    try {
+      return { suppliedPath: path, bytes: readFileSync(path) };
+    } catch (error) {
+      throw new AuthorizationReferenceError(
+        'RECORD_UNREADABLE',
+        `authorization record ${path} could not be read (${error instanceof Error ? error.message : String(error)}). Nothing was written.`,
+      );
+    }
+  });
+  const inputs = bundles.map((bundle, index) => {
+    let alone: string | undefined;
+    return {
+      inputDir: bundle.dir,
+      inputDigest: merged.provenance[index]!.inputDigest,
+      datasetVersion: (): string => {
+        alone ??= computeContentDigest(buildDatasetContent(bundle.inputs));
+        return alone;
+      },
+    };
+  });
+  const references = citeAuthorizationRecords(cited, inputs);
+
+  /*
+   * The dataset the WHOLE run produces, checked against what a cited record states for exactly these inputs.
+   * The writer makes the same check when it builds the manifest; it is made here as well so that this refusal,
+   * like every other, comes before the destination is read or recovered. The content is built once more for it,
+   * which changes nothing: the build is a pure function of the inputs.
+   */
+  const produced =
+    bundles.length === 1 ? inputs[0]!.datasetVersion() : computeContentDigest(buildDatasetContent(merged.inputs));
+  const recorded = manifestProvenance(merged.provenance);
+  const findings = authorizationReferenceFindings(references, {
+    datasetVersion: produced,
+    ...(recorded.length === 0 ? {} : { inputs: recorded }),
+  });
+  if (findings.length > 0) {
+    throw new AuthorizationReferenceError(
+      'DATASET_NOT_STATED',
+      `${findings.join('; ')}. A different dataset digest is not what was admitted. Nothing was written.`,
+    );
+  }
+  return references;
+}
+
 export function run(argv: readonly string[]): number {
   const args = parseArgs(argv);
 
@@ -241,6 +372,18 @@ export function run(argv: readonly string[]): number {
    */
   const bundles = args.inputDirs.map((dir) => loadInputBundle(dir, args.datasetSchema));
   const merged = mergeInputBundles(bundles);
+
+  /**
+   * `W05` — check a cited authorization record BEFORE the destination is read, recovered or written.
+   *
+   * A record that does not admit every input bundle of this run is a refusal, not a downgrade: the run stops
+   * here and the destination is exactly as it was. Falling back to the directory basis would write a dataset
+   * under a declaration the operator did not ask for.
+   */
+  const authorizationReferences =
+    args.authorizationRecords.length === 0
+      ? null
+      : citeRecordsFor(args.authorizationRecords, bundles, merged);
 
   /**
    * Resolve an interrupted publication BEFORE reading the destination (`S3-D2`, publication safety).
@@ -299,14 +442,12 @@ export function run(argv: readonly string[]): number {
      * This is an ATTESTATION, not a verification: nothing here checked a third party's terms, and
      * the recorded basis says exactly what was relied on. An operator whose source needs a
      * rights-holder permission must obtain it and record THAT basis here instead.
+     *
+     * When the operator cites a decision record (`--authorization-record`, `W05`), the basis names that record
+     * instead of the directory, and the checked references travel with it. The state does not change: a cited
+     * record is still the operator's own declaration, so the dataset is still `OPERATOR_ASSERTED`.
      */
-    sourceRights: {
-      state: 'OPERATOR_ASSERTED',
-      // One directory reads exactly as it did before `--input` was repeatable, so a single-bundle manifest is
-      // byte-identical to the manifests already committed as evidence.
-      basis: `operator-supplied input files read from ${args.inputDirs.join(', ')}`,
-      note: 'operator attestation over the operator’s own input files; not an independent verification of any third party’s terms',
-    },
+    sourceRights: sourceRightsFor(args.inputDirs, authorizationReferences),
     /**
      * Per-bundle provenance, recorded only for a multi-input run (`manifestProvenance` returns nothing for one
      * bundle). Audit metadata: it is not part of `datasetVersion`, so recording where a dataset came from cannot
@@ -339,6 +480,21 @@ export function run(argv: readonly string[]): number {
     }
   }
 
+  if (authorizationReferences !== null) {
+    // Printed only when a record was cited, so an ordinary run's output is unchanged.
+    process.stdout.write(
+      `\nauthorization  ${authorizationReferences.length} record(s) cited: the operator’s own declaration; ` +
+        'not an independent verification of any third party’s terms; redistribution not authorised\n',
+    );
+    for (const reference of authorizationReferences) {
+      process.stdout.write(`  ${reference.decision} ${reference.decisionDate}  ${reference.record}\n`);
+      process.stdout.write(`    sha256       ${reference.recordSha256}\n`);
+      for (const inputDigest of reference.inputDigests) {
+        process.stdout.write(`    admits       input ${inputDigest}\n`);
+      }
+    }
+  }
+
   process.stdout.write(`\ndatasetSchema  ${written.manifest.datasetSchema}\n`);
   process.stdout.write(`datasetVersion ${written.manifest.datasetVersion}\n`);
   process.stdout.write(`dataset        ${written.dir}\n`);
@@ -352,7 +508,14 @@ if (invokedDirectly) {
   try {
     process.exitCode = run(process.argv.slice(2));
   } catch (error) {
-    process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
+    // A refused citation is printed with its code, so the operator can tell which of the refusals it was.
+    const reason =
+      error instanceof AuthorizationReferenceError
+        ? `${error.code}: ${error.message}`
+        : error instanceof Error
+          ? error.message
+          : String(error);
+    process.stderr.write(`${reason}\n`);
     process.exitCode = 1;
   }
 }

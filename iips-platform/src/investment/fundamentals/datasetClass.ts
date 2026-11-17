@@ -75,7 +75,13 @@ export function rightsStateOf(manifest: Pick<DatasetManifest, 'sourceRights'>): 
  * The `provider` and `licence` strings are NOT consulted. They are free text a caller wrote; a
  * provider label is not proof of entitlement, and a licence string is not proof of one either.
  */
-export function classifyDataset(manifest: Pick<DatasetManifest, 'sourceRights'>): DatasetClass {
+export function classifyDataset(
+  manifest: Pick<DatasetManifest, 'sourceRights'> & Partial<Pick<DatasetManifest, 'datasetVersion' | 'inputs'>>,
+): DatasetClass {
+  // `W05`: a declaration that cites an authorization record is checked against the manifest that carries it. A
+  // citation that does not check out THROWS. It is not a lower class, because a dataset that claims a record it
+  // cannot support has not told the reader anything that can be classified. Citing a record never changes the
+  // class: the state decides it, and a cited declaration is still OPERATOR_ASSERTED.
   const rights = sourceRightsOf(manifest);
   switch (rights.state) {
     case 'SYNTHETIC':

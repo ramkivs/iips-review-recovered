@@ -32,6 +32,7 @@ import {
 } from '../identity/coverage';
 import { DERIVATIONS } from '../fundamentals/derive';
 import { classifyDataset, datasetClassStatement } from '../fundamentals/datasetClass';
+import { authorizationReferenceStatement } from '../fundamentals/authorizationRecords';
 import { XBRL_TAG_MAP } from '../ingestion/xbrl';
 import {
   sourceRightsOf,
@@ -412,6 +413,12 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
     notes.push(datasetClassStatement('UNKNOWN'));
   } else if (datasetClass === 'OPERATOR_SUPPLIED') {
     notes.push(datasetClassStatement('OPERATOR_SUPPLIED'));
+  }
+  // `W05`: a dataset whose declaration cites the operator's decision record says so, directly after the class
+  // statement. The references were checked by `sourceRightsOf` above; a citation that did not check out threw
+  // there and is never served. A dataset that cites no record gets no note, so its report is unchanged.
+  if (sourceRights?.authorizationReferences !== undefined) {
+    notes.push(authorizationReferenceStatement(sourceRights.authorizationReferences));
   }
   if (offVocabularyIssuers.length > 0) {
     notes.push(

@@ -34,7 +34,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { basename, dirname, join, resolve, sep } from 'node:path';
 
 import { DatasetIntegrityError, DatasetMissingError } from '../fundamentals/errors';
-import type { DatasetInputProvenance, DatasetManifest } from '../fundamentals/manifest';
+import { sourceRightsOf, type DatasetInputProvenance, type DatasetManifest } from '../fundamentals/manifest';
 import { investmentCoverageFromLocalDataset } from '../identity/runtime';
 import { computeInputDigest } from '../ingestion/multiInput';
 import { COVERAGE_FILE_NAME, MANIFEST_FILE_NAME, previousPathOf, readDataset, stagingPathOf } from '../ingestion/writer';
@@ -569,6 +569,34 @@ export function run(argv: readonly string[]): number {
         ? 'manifest carries no sourceRights — ABSENT equals UNKNOWN, which is not permitted evidence of anything'
         : `${rights.state}; ${rights.note}`,
     });
+    if (rights?.authorizationReferences !== undefined) {
+      /*
+       * `W05` — added ONLY when the manifest cites an authorization record, so the checks of a dataset that
+       * cites none are exactly what they were. The citation is checked with the product's own function, the one
+       * every reader goes through: the record must be one this build lists, pinned by its bytes; every cited
+       * input must be one that record admits; each reference must list every recorded bundle its record admits;
+       * and where a record states the dataset those inputs produce, this must be that dataset. A citation that
+       * fails any of these is a FAILED check here and a refused read everywhere else.
+       */
+      let citationFailure = '';
+      let citationDetail = '';
+      try {
+        const checked = sourceRightsOf(manifest).authorizationReferences ?? [];
+        citationDetail = checked
+          .map((reference) =>
+            `${reference.decision} ${reference.decisionDate} ${reference.record} (sha256 ${reference.recordSha256}) `
+              + `admits ${String(reference.inputDigests.length)} input bundle(s) of this dataset by digest`)
+          .join('; ')
+          + '; the operator’s own declaration, not an independent verification; redistribution not authorised';
+      } catch (error) {
+        citationFailure = error instanceof Error ? error.message : String(error);
+      }
+      checks.push({
+        id: 'authorization-references',
+        ok: citationFailure === '',
+        detail: citationFailure === '' ? citationDetail : citationFailure,
+      });
+    }
     provenanceChecks(manifest, args.expectations, checks);
 
     let report: InvestmentCoverageReport | null = null;
