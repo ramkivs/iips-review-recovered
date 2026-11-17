@@ -3,7 +3,9 @@ name: CAP-03 Revision 7 IRR-only static checks
 # This workflow is intentionally independent of frontend/npm CI. It checks tracked IRR
 # documents and admitted IRR-held S2 evidence using Python's standard library only.
 # Its recovery-release audit downloads only the pinned IRR release assets; it never fetches,
-# clones, installs, builds, inspects, or writes IPD.
+# clones, installs, builds, inspects, or writes IPD. The repository is private, so the audit
+# authenticates to the GitHub REST API with this workflow's own token, whose only permission
+# is read access to contents.
 on:
   pull_request:
     paths:
@@ -25,6 +27,7 @@ on:
       - 'evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-RESULTS-2026-11-06.json'
       - 'tests/validation/test_irr_workflow_triggers.py'
       - 'tests/validation/test_cap03_artifact_classification.py'
+      - 'tests/validation/test_cap03_recovery_release_audit.py'
       - 'docs/integration/cap03-s2/verify_recovery_release.py'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md'
       - '.github/workflows/ci.yml'
@@ -51,6 +54,7 @@ on:
       - 'evidence/integration/d02-d03-d05-engineering-2026-11-06/IPD-RECONSTRUCTION-RESULTS-2026-11-06.json'
       - 'tests/validation/test_irr_workflow_triggers.py'
       - 'tests/validation/test_cap03_artifact_classification.py'
+      - 'tests/validation/test_cap03_recovery_release_audit.py'
       - 'docs/integration/cap03-s2/verify_recovery_release.py'
       - 'docs/integration/IIPS_v3.0_CAP03_P1_REV7_POST_CI_BOUNDARY_RECONCILIATION_2026-10-30.md'
       - '.github/workflows/ci.yml'
@@ -81,6 +85,8 @@ jobs:
         run: python -m unittest discover -s tests/validation -p test_irr_workflow_triggers.py -v
       - name: Validate Revision 7 source, admitted IRR evidence, and tracker
         run: python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+      - name: Test the release audit download path offline (loopback servers only, no real token)
+        run: python -m unittest discover -s tests/validation -p test_cap03_recovery_release_audit.py -v
       - name: Download and independently verify the CAP-03 recovery release assets
         env:
           GITHUB_TOKEN: ${{ github.token }}
