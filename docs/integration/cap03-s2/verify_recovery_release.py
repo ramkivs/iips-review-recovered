@@ -1,23 +1,32 @@
 #!/usr/bin/env python3
 """Read-only audit of the published CAP-03 S2 recovery release assets.
 
-Downloads the four pinned assets directly from the public IRR GitHub release into
-memory, verifies GitHub's advertised per-asset digests against locally computed
-SHA-256, reconciles the original inventory's parsed path/hash map with the
-admitted S2 inventory map, and hashes every ZIP file entry. It never extracts
-files or accesses a Windows host/IPD/production system.
+Downloads the four pinned assets of the IRR GitHub release into memory through
+the GitHub REST API, verifies GitHub's advertised per-asset digests against
+locally computed SHA-256, reconciles the original inventory's parsed path/hash
+map with the admitted S2 inventory map, and hashes every ZIP file entry. It never
+extracts files or accesses a Windows host/IPD/production system.
+
+The repository is private, so the REST API must authenticate the caller. The
+token is read from GITHUB_TOKEN; read access to repository contents is enough.
+It is sent to the REST API only, in a header that urllib does not copy to a
+redirected request, so the storage address that an asset download is redirected
+to never receives it. It is never printed, logged or written to a file.
 """
 from __future__ import annotations
 
 import hashlib
+import http.client
 import io
 import json
 import os
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
+API_ROOT = "https://api.github.com"
 REPO = "ramkivs/iips-review-recovered"
 TAG = "cap03-s2-recovery-20261031-212225"
 RUN_ID = "20261031-212225-35931ce8"
@@ -61,14 +70,52 @@ def fail(message: str) -> "NoReturn":
     raise RuntimeError(message)
 
 
-def request_bytes(url: str, *, token: str | None = None, limit: int) -> bytes:
-    headers = {"User-Agent": "CAP03-S2-release-audit/1.0"}
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-    if url.startswith("https://api.github.com/"):
-        headers["Accept"] = "application/vnd.github+json"
-        headers["X-GitHub-Api-Version"] = "2022-11-28"
-    request = urllib.request.Request(url, headers=headers)
+def describe_http_error(exc: urllib.error.HTTPError, url: str, token_supplied: bool) -> str:
+    """Diagnosis of a refused request, built from the status, the answering host and GitHub's own message.
+
+    The address that answered is never included: after a redirect it is a signed, time-limited
+    download address. A storage host's error body is not included either.
+    """
+    text = f"HTTP Error {exc.code}: {http.client.responses.get(exc.code, 'unknown status')}"
+    try:
+        requested = urllib.parse.urlsplit(url)
+        answered = urllib.parse.urlsplit(exc.geturl() or url)
+        redirected = (answered.hostname, answered.port) != (requested.hostname, requested.port)
+        host = answered.hostname if answered.port is None else f"{answered.hostname}:{answered.port}"
+    except ValueError:
+        return f"{text} from an address that could not be parsed, after a redirect"
+    if redirected:
+        return f"{text} from {host} after the redirect"
+    if not url.startswith(API_ROOT + "/"):
+        return text
+    details = []
+    try:
+        message = json.loads(exc.read(4096).decode("utf-8")).get("message")
+    except Exception:  # The body is only a hint; an unreadable body must not hide the status.
+        message = None
+    if isinstance(message, str) and message:
+        details.append(f"GitHub says {message[:200]!r}")
+    accepted = exc.headers.get("X-Accepted-GitHub-Permissions") if exc.headers else None
+    if accepted:
+        details.append(f"permission the API accepts for this request: {accepted[:200]}")
+    details.append("a token was supplied" if token_supplied else "no token was supplied (GITHUB_TOKEN is not set)")
+    return f"{text} ({'; '.join(details)})"
+
+
+def request_bytes(
+    url: str, *, token: str | None = None, accept: str = "application/vnd.github+json", limit: int,
+) -> bytes:
+    token_supplied = bool(token)
+    request = urllib.request.Request(url, headers={"User-Agent": "CAP03-S2-release-audit/1.0"})
+    if url.startswith(API_ROOT + "/"):
+        # API-only headers, added as unredirected headers: urllib sends them with this request and
+        # does not copy them to the request it makes when the API answers with a redirect.
+        request.add_unredirected_header("Accept", accept)
+        request.add_unredirected_header("X-GitHub-Api-Version", "2022-11-28")
+        if token_supplied:
+            request.add_unredirected_header("Authorization", f"Bearer {token}")
+    elif token_supplied:
+        fail("refusing to send the GitHub token to an address outside the GitHub REST API")
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
             chunks: list[bytes] = []
@@ -82,8 +129,13 @@ def request_bytes(url: str, *, token: str | None = None, limit: int) -> bytes:
                 if total > limit:
                     fail(f"download exceeded size limit: {url}")
             return b"".join(chunks)
+    except urllib.error.HTTPError as exc:
+        fail(f"download failed for {url}: {describe_http_error(exc, url, token_supplied)}")
     except (urllib.error.URLError, TimeoutError) as exc:
         fail(f"download failed for {url}: {exc}")
+    except (http.client.HTTPException, OSError, ValueError) as exc:
+        # Only the kind of error: the text of these can quote a header value or a redirect address.
+        fail(f"download failed for {url}: {type(exc).__name__}")
 
 
 def sha256(data: bytes) -> str:
@@ -281,9 +333,9 @@ def verify_archive(data: bytes, original_map: dict[str, str]) -> None:
             fail(f"verified {len(hashes)} entries, expected {EXPECTED_COUNT}")
 
 
-def main() -> int:
-    token = os.environ.get("GITHUB_TOKEN", "")
-    api_url = f"https://api.github.com/repos/{REPO}/releases/tags/{TAG}"
+def download_release_assets(token: str) -> dict[str, bytes]:
+    """Return the four pinned assets, each checked against its pinned identity, size and SHA-256."""
+    api_url = f"{API_ROOT}/repos/{REPO}/releases/tags/{TAG}"
     release_data = json.loads(request_bytes(api_url, token=token, limit=2_000_000).decode("utf-8"))
     if release_data.get("tag_name") != TAG or release_data.get("draft"):
         fail("release tag/name mismatch or release is still draft")
@@ -298,12 +350,25 @@ def main() -> int:
         api_digest = asset.get("digest")
         if api_digest != f"sha256:{expected['sha256']}":
             fail(f"release API digest mismatch for {name}: {api_digest!r}")
-        content = request_bytes(asset["browser_download_url"], limit=expected["size"] + 1)
+        # The asset is requested by its pinned id through the REST API, which authenticates the
+        # caller and redirects to a short-lived storage address. The browser_download_url of a
+        # private repository refuses a request without a browser session.
+        asset_url = f"{API_ROOT}/repos/{REPO}/releases/assets/{expected['id']}"
+        content = request_bytes(
+            asset_url, token=token, accept="application/octet-stream", limit=expected["size"] + 1,
+        )
         actual_digest = sha256(content)
         if len(content) != expected["size"] or actual_digest != expected["sha256"]:
             fail(f"downloaded asset digest/size mismatch for {name}: {len(content)} bytes, {actual_digest}")
         downloaded[name] = content
         print(f"PASS asset downloaded and SHA-256 matched: {name} bytes={len(content)} sha256={actual_digest}")
+    return downloaded
+
+
+def main() -> int:
+    token = os.environ.get("GITHUB_TOKEN", "")
+    token_supplied = bool(token)
+    downloaded = download_release_assets(token)
 
     verify_original_inventory_seal()
     original_map = parse_inventory(downloaded["original-s2-sha256-inventory.txt"], "release original inventory")
@@ -333,6 +398,13 @@ def main() -> int:
     verify_archive(downloaded["CAP03-S2-Original-1140-Artifacts.zip"], original_map)
     print(f"PASS archive: exactly {EXPECTED_COUNT} file entries; every ZIP payload SHA-256 matches the original inventory")
     print("LIMIT: verifies recovered historical bytes only; does not certify S2, authorize P-1, or satisfy the separate S04 sealed-directory evidence contract")
+    # A check-run annotation, readable through the GitHub Checks API like the failure annotation below.
+    route = "with the supplied token" if token_supplied else "without a token"
+    print(
+        f"::notice title=CAP-03 release audit::PASS: {len(downloaded)} release assets downloaded through the "
+        f"GitHub REST API {route}; every asset SHA-256 matches its pinned digest; {EXPECTED_COUNT} ZIP payload "
+        "hashes match the original inventory"
+    )
     return 0
 
 
