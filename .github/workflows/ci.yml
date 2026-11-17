@@ -57,6 +57,8 @@ jobs:
     steps:
       - name: Check out the exact commit under test
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       # The repository declares no `engines` and no `packageManager`, and its lockfile is
       # lockfileVersion 3. Node 22 + npm 10 is the toolchain the recorded local evidence (V2–V4) was
