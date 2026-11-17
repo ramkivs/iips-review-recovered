@@ -74,6 +74,8 @@ Nine IID files carry trailing whitespace that `git diff --check` reports, and th
 
 PR #562 holds the first 24 of the 45 commits. GitHub marks a pull request merged once its commits are on `main`, so it will show as merged when this branch is. Nothing was done to it.
 
+**Correction, added on 2026-11-17 after the merge.** PR #562 is not shown as merged, and it does not hold the same commits as the IID branch. See section 8.2. The paragraph above is kept as it was written.
+
 ## 2. A dataset can name its `O3` record
 
 ### 2.1 The rule
@@ -254,3 +256,49 @@ All runs are in the sandbox, on the tree of commit `37c8f602`.
 ## 7. What this record did not do
 
 It did not change any decision record, manifest, dataset or evidence file of the IID line, and it issued no authorization. It did not close a limitation. It did not install, replace or verify anything on the Windows host, and it did not read or write `C:\iips-data`. It did not download anything. It did not write IPD. It did not merge a pull request.
+
+## 8. Read-back on `main`, and one correction (added on 2026-11-17, after the merge)
+
+A later commit added this section and the pointer at the end of section 1.6. Sections 0 to 7 are otherwise as merged. Everything below was read from GitHub on 2026-11-17 between 08:24 and 08:47 UTC, and from a full clone fetched in that time.
+
+### 8.1 Pull request #574 on `main`
+
+| Item | As read |
+|---|---|
+| Pull request | #574, merged on 2026-11-17 at 08:22:47 UTC by `ramkivs`, as a merge commit |
+| Merge commit | `735770dfd30d6806fc97e348417da568b6b0ed33`, the tip of `main` when read. Its parents are `dc3e4f9a6559377391e32aabf9fa5586c37d0fcc`, which was `main` before, and `889ec4e1f44b50758b40d9e586d5a7a1a333a1fe`, the head of the pull request. GitHub reports its signature as verified |
+| Tree | `b6a461a1bddd714a17912c5b27176513b9ccf480`. This is the tree of `refs/pull/574/merge` (`289a316ab21fbfe7d594f3f7d5403332f792a391`), the commit that both hosted checks of the pull request ran on |
+| Commits | All 48 commits of the pull request are ancestors of `main`: the 45 IID commits, the merge `4ff29cf560bb6ab1ee7b67478db10ce97fc18817`, the authorization reference `37c8f602466e695745a228db72f334c6aa79a8fe` and this record's commit `889ec4e1f44b50758b40d9e586d5a7a1a333a1fe` |
+| Tracker §16.288 | Present. The tracker is blob `f97a858efcf26b329f0bfeeba7c5dea4183989ee`, as at the head of the pull request. Its last line names §16.289 as the next free section |
+| This record, as merged | Blob `ec70d67e9f0c66f1cdec8dbe69296b750bba0b4f`, as at the head of the pull request |
+| Evidence folder | Tree `f96cd76e45c3d67ab981f124013051d370c13dab`, three files, as at the head of the pull request |
+| `main` against the head of the pull request | Two documents differ. Both came with PR #572 and PR #573 (W-11), which `main` had before the merge |
+| Hosted checks on the pull request, head `889ec4e1` | `CI`, run 44043819879: success. `CAP-03 Revision 7 IRR-only static checks`, run 44043819805: success |
+| Hosted checks on the push to `main`, `735770df` | `CI`, run 44046231737: success. `CAP-03 Revision 7 IRR-only static checks`, run 44046231673: success |
+
+The base at the top of this record, `2b61a50a7aa51e0fc4d5a1a3a208c08ca495823b`, is the commit the branch was made from. `main` had moved to `dc3e4f9a` by the time of the merge. The hosted checks of the pull request ran on the merge with that later `main`.
+
+### 8.2 Correction: pull request #562 is not shown as merged
+
+Section 1.6 and tracker §16.288 say that PR #562 holds the first 24 of the 45 commits and will show as merged. Both parts are wrong. PR #562 was read as `OPEN` after the merge, and it will not change by itself.
+
+| Item | As read |
+|---|---|
+| PR #562 | `OPEN`, not merged. Head branch `arena/94a53bb3-iips-review-recovered` at `f98732e1861ff8b384183c30c11e4d1adbc2dc95`: 24 commits made from `a835d4af019ab4f677ab238ec42d44326f06a771`, 73 files |
+| The IID branch | It does not contain those 24 commits. It contains the same 24 changes, made again from `08411bcd6d782a601fe5c82cc9983d076831148d`, as its commits `1a89d865` to `542e0fe4df84bc2e0dbc262da8ab2aa9ab0c05a7` |
+| Same changes | `git range-diff a835d4af..f98732e1 08411bcd..542e0fe4` pairs the two series one to one, 24 of 24, with no difference in any patch. The 73 files have the same blobs at `f98732e1` and at `542e0fe4` |
+| Why GitHub does not mark it | The commit ids differ because the parents differ. GitHub marks a pull request merged when its head commit can be reached from the base branch. `f98732e1` is not an ancestor of `main` |
+| Is anything of PR #562 missing from `main`? | No. `main` descends from `542e0fe4`. Of the 73 files, 61 are byte-identical on `main`. The other 12 were changed by later commits, all of them on `main` |
+| Can it still be merged? | No. GitHub reports `mergeable: false`, state `dirty`. A trial merge into `main`, computed and not written anywhere, conflicts in 10 files |
+
+The IID record `IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md`, section 7.1, had already recorded that the two branches have different lineage. Section 1.6 did not take it into account.
+
+PR #562 is superseded in content and stays open until someone closes it. Nothing was done to it. Closing it is the Principal's act.
+
+### 8.3 One IID commit is not on `main`
+
+The IID branch gained commit `0f9b9ae47769976e6ee60d7c245870da5802a255` on 2026-11-17 at 08:13:58 UTC, after the branch of PR #574 was built and published. It is not part of PR #574 and it is not an ancestor of the merge commit. "45 commits" in this record means the IID branch at `5bf1167d069a208a0dc3ca4e4df82559cd69d02f`. It is the only commit of the IID branch that `main` does not have. It changes five files: two tests and three IID records of Stage 4. A separate pull request offers it. This record does not describe it.
+
+### 8.4 What this section does not change
+
+No decision record, manifest, dataset or evidence file is changed, and no authorization is issued. `L-041` and `L-042` are `OPEN` in the register. The tracker is not changed and no section number is used. W05 is in progress, not complete and not accepted. Nothing was run on the Windows host, and IPD was not written.
