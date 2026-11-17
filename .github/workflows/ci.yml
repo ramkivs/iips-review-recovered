@@ -29,14 +29,12 @@ on:
     paths:
       - 'frontend/**'
       - '.ci/**'
-      - '.github/workflows/ci.yml'
   push:
     branches:
       - main
     paths:
       - 'frontend/**'
       - '.ci/**'
-      - '.github/workflows/ci.yml'
 
 # Read-only: this workflow verifies, it never writes to the repository, an environment or a release.
 permissions:
@@ -91,12 +89,22 @@ jobs:
           test "$(gh api repos/ramkivs/iips-production-market-data --jq '.private')" = true
           echo 'Verified the scoped token reads a private IPD repository.'
 
-      # The lockfile records git+ssh URLs. npm normalizes those to SSH URLs before invoking Git;
-      # cover both the recorded and normalized forms, plus scp-style GitHub URLs. Generate the
-      # Basic authorization header in-process; only the exact IPD repository path receives it.
-      - name: Install dependencies from the committed lockfile
+      # Prepare Basic auth only in a masked workflow output; the authorization header is passed
+      # to Git through the install step's environment and is never written to Git config.
+      - name: Prepare temporary IPD Git authorization header
+        id: ipd-git-auth
         env:
           IPD_APP_TOKEN: ${{ steps.ipd-token.outputs.token }}
+        run: |
+          auth_b64="$(printf 'x-access-token:%s' "$IPD_APP_TOKEN" | base64 -w0)"
+          echo "::add-mask::$IPD_APP_TOKEN"
+          echo "::add-mask::$auth_b64"
+          echo "header=AUTHORIZATION: basic $auth_b64" >> "$GITHUB_OUTPUT"
+
+      # The lockfile records git+ssh URLs. npm normalizes those to SSH URLs before invoking Git;
+      # cover the recorded, normalized and scp-style forms. Auth is path-scoped to the IPD repo.
+      - name: Install dependencies from the committed lockfile
+        env:
           GIT_TERMINAL_PROMPT: '0'
           GIT_CONFIG_COUNT: '4'
           GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
@@ -106,32 +114,8 @@ jobs:
           GIT_CONFIG_KEY_2: url.https://github.com/.insteadOf
           GIT_CONFIG_VALUE_2: 'git@github.com:'
           GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
-        run: |
-          AUTH_B64="$(printf 'x-access-token:%s' "$IPD_APP_TOKEN" | base64 -w0)"
-          echo "::add-mask::$IPD_APP_TOKEN"
-          echo "::add-mask::$AUTH_B64"
-          export GIT_CONFIG_VALUE_3="AUTHORIZATION: basic $AUTH_B64"
-
-          npm_log="$(mktemp)"
-          set +e
-          npm ci --no-audit --no-fund --loglevel=verbose >"$npm_log" 2>&1
-          npm_status=$?
-          set -e
-
-          npm_output="$(cat "$npm_log")"
-          npm_output="${npm_output//"$IPD_APP_TOKEN"/[REDACTED]}"
-          npm_output="${npm_output//"$AUTH_B64"/[REDACTED]}"
-          printf '%s\n' "$npm_output"
-          if [[ "$npm_status" -ne 0 ]]; then
-            error_text="$(tail -n 15 "$npm_log")"
-            error_text="${error_text//"$IPD_APP_TOKEN"/[REDACTED]}"
-            error_text="${error_text//"$AUTH_B64"/[REDACTED]}"
-            error_text="${error_text//'%'/'%25'}"
-            error_text="${error_text//$'\r'/'%0D'}"
-            error_text="${error_text//$'\n'/'%0A'}"
-            echo "::error title=npm ci failed::$error_text"
-            exit "$npm_status"
-          fi
+          GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
+        run: npm ci --no-audit --no-fund
 
       - name: Verify all private dependencies resolve to their committed pins
         run: node ../.ci/verify-ipd-pins.mjs
