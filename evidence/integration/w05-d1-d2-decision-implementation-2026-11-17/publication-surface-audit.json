@@ -1,0 +1,124 @@
+{
+  "auditAtUtc": "2026-11-17T17:16:43Z",
+  "repository": "ramkivs/iips-review-recovered",
+  "visibility": {
+    "authenticatedGitHubApi": {"private": true, "visibility": "private", "defaultBranch": "main", "viewerPermission": "ADMIN"},
+    "implementationDisposition": "Already private when rechecked for this work; no settings mutation was made in this pass.",
+    "anonymousRequests": [
+      {"surface": "repository web URL", "url": "https://github.com/ramkivs/iips-review-recovered", "httpStatus": 404},
+      {"surface": "AGI source-branch tree", "url": "https://github.com/ramkivs/iips-review-recovered/tree/w05/agi-ine415a01038-source-filings/evidence/real-issuer/AGI/INE415A01038", "httpStatus": 404},
+      {"surface": "CAP03 recovery release asset", "url": "https://github.com/ramkivs/iips-review-recovered/releases/download/cap03-s2-recovery-20261031-212225/CAP03-S2-Original-1140-Artifacts.zip", "httpStatus": 404},
+      {"surface": "raw.githubusercontent.com", "result": "NOT VERIFIED: direct TLS connection failed in this sandbox; no HTTP status is claimed."}
+    ]
+  },
+  "repositoryPublicationSurfaces": {
+    "releases": [
+      {"tag": "cap03-s2-recovery-20261031-212225", "prerelease": true, "assetCount": 4, "access": "private repository release; anonymous request returned 404"},
+      {"tag": "program-v1.2.0", "prerelease": false, "assetCount": 0, "access": "private repository release"}
+    ],
+    "githubActionsArtifacts": {"count": 0},
+    "forks": {"count": 0},
+    "pages": {"enabled": false, "apiRead": "403 Resource not accessible by integration; metadata reports has_pages=false"},
+    "wiki": {"enabled": false},
+    "discussions": {"enabled": false},
+    "downloads": {"enabled": false},
+    "packages": {"listed": false, "apiResult": "404 Not Found"}
+  },
+  "releaseAssetContentAudit": {
+    "reviewedAtUtc": "2026-11-17T17:38:33Z",
+    "hostedWorkflow": "CAP-03 Revision 7 IRR-only static checks",
+    "runId": "44139023529",
+    "headCommit": "e60248ae7f59678228a1c148be76198b5a8cd9ad",
+    "downloadMechanism": "Authenticated GitHub REST API; four release assets held in workflow memory for inspection; no source files extracted to the repository.",
+    "assets": [
+      {
+        "name": "CAP03-S2-Original-1140-Artifacts.zip",
+        "id": 695808804,
+        "bytes": 10328940,
+        "sha256": "57656309d721a0c6f6a072f14f6a9067a2cc788737efa92f34aa0997fb5d2d48",
+        "contentChecks": "1140 member paths matched the original inventory; every member payload SHA-256 and ZIP CRC passed. Filename/leading-signature triage found zero `.pdf`/`.doc`/`.docx`/`.xls`/`.xlsx`/`.ppt`/`.pptx` paths and zero entries beginning with a PDF signature. Exact byte-string scans found the ISIN in six files and 'AGI Greenpac' in fourteen files; the matched paths have JavaScript/TypeScript or test-file extensions and are listed below, not filing documents."
+      },
+      {
+        "name": "original-s2-sha256-inventory.txt",
+        "id": 695808801,
+        "bytes": 176456,
+        "sha256": "e077a349d3777403d426a0b0f338c53ac6f0e3942f75a9174a6a9b6e42854cbb",
+        "contentChecks": "Parsed exactly 1140 path/hash rows; original inventory digest matched the existing authority seal; compared against admitted S2 inventory. AGI/financial-filing filename heuristic hits: zero."
+      },
+      {
+        "name": "recovery-evidence.json",
+        "id": 695808803,
+        "bytes": 800,
+        "sha256": "412ed94f4c1d501f9fe7106631b8d2b51665f5732edffb29757693b9473c1522",
+        "contentChecks": "Parsed and validated pinned recovery run, source/inventory paths, counts, archive digest, result and scope fields."
+      },
+      {
+        "name": "recovery-run-20261031-212225-35931ce8.txt",
+        "id": 695808800,
+        "bytes": 1630,
+        "sha256": "1073c035045932a2706dfc51f10833e63b5cf62af943b80cb1fffaa20a648da6",
+        "contentChecks": "Decoded and validated transcript marker, PowerShell version, run ID, source/inventory paths, counts and archive digest."
+      }
+    ],
+    "agiMarkerPaths": {
+      "INE415A01038": [
+        "package/src/identity/d05_broad_universe_data.js",
+        "src/identity/d05_broad_universe_data.js",
+        "tests/d05_browser_runtime_hydration.test.js",
+        "tests/e2e_broad_universe_multi_broker_integration.test.js",
+        "tests/p04_expanded_broad_universe_runtime_qualification.test.js",
+        "tests/shell_security_master_surface.test.js"
+      ],
+      "AGI Greenpac": [
+        "package/src/identity/d05_broad_universe_data.js",
+        "package/src/identity/governed_fixture_master.d.ts",
+        "package/src/identity/governed_fixture_master.js",
+        "src/identity/d05_broad_universe_data.js",
+        "src/identity/governed_fixture_master.d.ts",
+        "src/identity/governed_fixture_master.js",
+        "tests/bi08_idempotent_ingress.test.js",
+        "tests/d05_browser_runtime_hydration.test.js",
+        "tests/e2e_broad_universe_multi_broker_integration.test.js",
+        "tests/non_production_operator_identity_bypass.test.js",
+        "tests/p04_expanded_broad_universe_runtime_qualification.test.js",
+        "tests/p04_governed_offline_security_master.test.js",
+        "tests/shell_security_master_surface.test.d.ts",
+        "tests/shell_security_master_surface.test.js"
+      ]
+    },
+    "limits": "This audit checks the recovered build artifact against its pinned hash inventory and does filename/signature/exact-string triage; it is not a complete semantic source-rights opinion, does not establish the provenance or public exposure history of any string, and does not authorize redistribution."
+  },
+  "agiD1SourceProvenance": {
+    "officialSourceLocator": "https://agigreenpac.com/investor-relations-2/",
+    "locatorType": "AGI Greenpac issuer investor-relations page provided by the Principal; individual direct PDF URLs were not supplied.",
+    "retrievalDateLocal": "2026-11-17",
+    "retrievalTimeBasis": "Per-file local file modification times, minute precision, supplied by the Principal; timezone not stated in supplied metadata.",
+    "retrievedBy": "Personal Application Principal (Ramki)",
+    "retrievalMethod": "Manual download from the issuer investor-relations source link provided in the ChatGPT workflow.",
+    "localSourceDirectory": "C:\\iips-data\\investment\\source-filings\\INE415A01038",
+    "sourceFileMtimes": {
+      "FY 2026 Annual Report.pdf": "21:35",
+      "FY2025 Annual Report.pdf": "21:35",
+      "FY2024 Annual Report.pdf": "21:36",
+      "Q1 FY2027 Financial Results.pdf": "21:37",
+      "Q2 FY2027 Financial Results.pdf": "21:38"
+    },
+    "evidenceBasis": "Direct Principal instruction in this conversation identifying manual download, source, date, path and actual local file metadata values; the C: filesystem itself is not mounted in the Arena sandbox, so these values are recorded as Principal-provided rather than independently stat-verified.",
+    "sourceZipLimitation": "The source-branch ZIP itself still contains no source manifest/retrieval log; D1 provenance is recorded here from the Principal's source and local metadata record, not from ZIP timestamps or the commit timestamp.",
+    "status": "RECORDED FROM PRINCIPAL-PROVIDED SOURCE AND LOCAL FILE METADATA; no timestamps or retrieval events inferred beyond the supplied minute-resolution values"
+  },
+  "agiDedicatedSourceBranch": {
+    "branch": "w05/agi-ine415a01038-source-filings",
+    "commit": "da5e40c0f1b43bac774905eb9db36a9f4ce79045",
+    "path": "evidence/real-issuer/AGI/INE415A01038/INE415A01038.zip",
+    "sha256": "05be52759ca5484fc49de2207ae8f90b7f0f1334bef7f6af20daa6ecd679fc32",
+    "gitBlob": "0757938b477dc876c8973874ce34b551017a1d6d",
+    "presentOnPrivateRemote": true,
+    "zipContents": "five filing PDFs only; no manifest, source URL, retrieval log, or source-rights metadata was present in the archive"
+  },
+  "limits": [
+    "Private visibility prevents unauthenticated access to the checked GitHub surfaces; it does not recall copies or caches obtained while the repository was public.",
+    "No claim is made about public copies on external systems that were not enumerated here.",
+    "No source documents or extracted text were added, removed, or redistributed by this audit."
+  ]
+}

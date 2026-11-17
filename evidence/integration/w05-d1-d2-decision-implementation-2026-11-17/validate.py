@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+"""Offline consistency checks for the W05 D1/D2 decision implementation record."""
+from __future__ import annotations
+
+import csv
+import hashlib
+import io
+import json
+import subprocess
+import sys
+import zipfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+EVIDENCE = Path(__file__).resolve().parent
+SOURCE_COMMIT = "da5e40c0f1b43bac774905eb9db36a9f4ce79045"
+SOURCE_PATH = "evidence/real-issuer/AGI/INE415A01038/INE415A01038.zip"
+ZIP_SHA256 = "05be52759ca5484fc49de2207ae8f90b7f0f1334bef7f6af20daa6ecd679fc32"
+DOC = ROOT / "docs/integration/W05-D1-D2-DECISION-IMPLEMENTATION-REGISTER-2026-11-17.md"
+TRACKER = ROOT / "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+
+
+def check(condition: bool, message: str) -> None:
+    if not condition:
+        raise AssertionError(message)
+
+
+def main() -> int:
+    archive = subprocess.run(
+        ["git", "show", f"{SOURCE_COMMIT}:{SOURCE_PATH}"],
+        cwd=ROOT, check=True, stdout=subprocess.PIPE,
+    ).stdout
+    check(hashlib.sha256(archive).hexdigest() == ZIP_SHA256, "source ZIP digest mismatch")
+    rows = list(csv.DictReader((EVIDENCE / "agi-source-package-inventory.tsv").open(), delimiter="\t"))
+    check(len(rows) == 5, "expected exactly five AGI PDFs in the metadata inventory")
+    check(all(r["source_locator_recorded_in_zip"] == "NO" for r in rows), "do not imply source metadata exists inside the ZIP")
+    check(all(r["retrieval_date_or_channel_recorded_in_zip"] == "NO" for r in rows), "do not imply retrieval metadata exists inside the ZIP")
+    expected_times = {
+        "FY 2026 Annual Report.pdf": "21:35 (minute precision)",
+        "FY2025 Annual Report.pdf": "21:35 (minute precision)",
+        "FY2024 Annual Report.pdf": "21:36 (minute precision)",
+        "Q1 FY2027 Financial Results.pdf": "21:37 (minute precision)",
+        "Q2 FY2027 Financial Results.pdf": "21:38 (minute precision)",
+    }
+    check({r["document"]: r["local_file_mtime"] for r in rows} == expected_times, "per-file local mtime differs from Principal-provided record")
+    for row in rows:
+        check(row["official_source_locator"] == "https://agigreenpac.com/investor-relations-2/", "issuer source locator mismatch")
+        check(row["retrieval_date_local"] == "2026-11-17", "manual retrieval date mismatch")
+        check(row["retrieval_method"] == "Manual download from issuer investor-relations source", "retrieval method mismatch")
+        check(row["retrieved_by"] == "Personal Application Principal (Ramki)", "retrieved-by attribution mismatch")
+        check(row["timezone"] == "Not stated in supplied metadata", "do not invent a timezone")
+        check(row["direct_document_url"] == "NOT PROVIDED", "do not invent direct PDF URLs")
+        check(row["local_source_path"].startswith(r"C:\iips-data\investment\source-filings\INE415A01038" + chr(92)), "local source directory mismatch")
+        check(row["local_source_path"].endswith("\\" + row["document"]), "local source path/document identity mismatch")
+    audit = json.loads((EVIDENCE / "publication-surface-audit.json").read_text())
+    asset_audit = audit["releaseAssetContentAudit"]
+    provenance = audit["agiD1SourceProvenance"]
+    check(provenance["officialSourceLocator"] == "https://agigreenpac.com/investor-relations-2/", "source locator not recorded")
+    check(provenance["retrievalDateLocal"] == "2026-11-17", "retrieval date not recorded")
+    check(provenance["retrievedBy"] == "Personal Application Principal (Ramki)", "retrieval principal not recorded")
+    check(provenance["retrievalMethod"].startswith("Manual download"), "manual retrieval method not recorded")
+    check(provenance["localSourceDirectory"] == r"C:\iips-data\investment\source-filings\INE415A01038", "Principal-reported local source path mismatch")
+    check(provenance["sourceFileMtimes"] == {
+        "FY 2026 Annual Report.pdf": "21:35",
+        "FY2025 Annual Report.pdf": "21:35",
+        "FY2024 Annual Report.pdf": "21:36",
+        "Q1 FY2027 Financial Results.pdf": "21:37",
+        "Q2 FY2027 Financial Results.pdf": "21:38",
+    }, "Principal-reported local mtime record mismatch")
+    check("timezone not stated" in provenance["retrievalTimeBasis"], "do not infer a timezone")
+    check(len(asset_audit["assets"]) == 4, "expected individual results for all four CAP-03 release assets")
+    check(asset_audit["runId"] == "44139023529", "hosted release-asset audit run does not match review receipt")
+    check(len(asset_audit["agiMarkerPaths"]["INE415A01038"]) == 6, "AGI ISIN triage path count changed")
+    check(len(asset_audit["agiMarkerPaths"]["AGI Greenpac"]) == 14, "AGI name triage path count changed")
+    with zipfile.ZipFile(io.BytesIO(archive)) as zf:
+        files = [i for i in zf.infolist() if not i.is_dir()]
+        check(len(files) == 5, "source ZIP must contain exactly five files")
+        zip_by_name = {i.filename.rsplit("/", 1)[-1]: i for i in files}
+        check(set(zip_by_name) == {r["document"] for r in rows}, "ZIP member names differ from inventory")
+        for row in rows:
+            member = zip_by_name[row["document"]]
+            data = zf.read(member)
+            check(len(data) == int(row["bytes"]), f"byte length mismatch: {row['document']}")
+            check(hashlib.sha256(data).hexdigest() == row["sha256"], f"SHA-256 mismatch: {row['document']}")
+            check(row["source_locator_recorded_in_zip"] == "NO", "do not imply original locator is in the ZIP")
+            check(row["retrieval_date_or_channel_recorded_in_zip"] == "NO", "do not imply retrieval provenance is in the ZIP")
+        names = {i.filename.rsplit("/", 1)[-1] for i in files}
+        check(not any(n.lower().endswith((".json", ".csv", ".txt", ".md")) for n in names), "unexpected metadata/text member appeared")
+
+    doc = DOC.read_text()
+    tracker = TRACKER.read_text()
+    check("**D1 — issuer filing source**" in doc and "**CONFIRMED; implementation rule recorded**" in doc and "manual" in doc.lower(), "D1 manual source decision absent")
+    check("D2" in doc and "private" in doc.lower(), "D2 private decision absent")
+    check("official exchange or issuer sources" in doc, "D1 source category not explicit")
+    check("https://agigreenpac.com/investor-relations-2/" in doc, "official AGI source locator absent from register")
+    check("Personal Application Principal (Ramki)" in doc and "17 November 2026" in doc, "retrieval attribution/date absent")
+    check(all(t in doc for t in ("21:35", "21:36", "21:37", "21:38")), "per-file retrieval mtime record absent")
+    check("C: filesystem is not mounted" in doc, "local metadata verification limit not disclosed")
+    check("No scripted or automated retrieval" in doc, "automated retrieval boundary absent")
+    check("§16.292" in tracker and "CV-CORR-257" in tracker, "tracker section or CV identifier missing")
+    check("CHG-2026-11-06-20" in tracker and "V2156" in tracker, "tracker CHG/V identifiers missing")
+    check("https://agigreenpac.com/investor-relations-2/" in tracker and "Personal Application Principal (Ramki)" in tracker, "corrected source provenance absent from tracker")
+    check(all(t in tracker for t in ("FY2026 Annual Report 21:35", "FY2025 Annual Report 21:35", "FY2024 Annual Report 21:36", "Q1 FY2027 Results 21:37", "Q2 FY2027 Results 21:38")), "per-file mtimes absent from tracker")
+    check("Next free §16.293 / `CV-CORR-258` / `CHG-2026-11-06-21` / `V2161`" in tracker, "next identifier declaration missing")
+    check("W05: **IN PROGRESS — NOT COMPLETE — NOT ACCEPTED**" in doc, "W05 state not preserved")
+    check("`L-041`: **OPEN**; `L-042`: **OPEN**." in doc and "Q1–Q7: **OPEN**." in doc, "limitation/question states not preserved")
+    check("AGI is **not admitted**" in doc, "no-new-issuer boundary absent")
+    print("PASS: source ZIP, five PDF hashes, Principal-provided official source and per-file mtimes, D1/D2 wording, tracker IDs and protected statuses")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except (AssertionError, OSError, subprocess.CalledProcessError, zipfile.BadZipFile) as exc:
+        print(f"FAIL: {exc}", file=sys.stderr)
+        raise SystemExit(1)
