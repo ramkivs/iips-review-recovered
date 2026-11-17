@@ -1029,18 +1029,23 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
-  // DHAN-P2 (synthetic / pre-access phase): read-only, credential-free provider status. The
-  // provider configuration and readiness are resolved by IPD's own `resolveDhanProviderConfig`
-  // through the existing IRR consumption boundary; this route maps them onto one of five
-  // states and publishes no credential, no bearer token and no SecretRef value. When the local
-  // IPD transport is configured, the route also asks IPD for its authoritative health, so a
-  // genuine connection failure is distinguishable from a transport that was never attempted.
-  // Purely additive: no existing route is touched.
-  if (req.url === '/api/dhan/health') {
+  // DHAN-P2 (W-10): read-only, credential-free provider status. IRR holds NO Dhan
+  // configuration: the only provider input is IPD's own `/v1/diagnostics`, read over the
+  // loopback transport. No Dhan-credential environment variable is consulted, no SecretRef pointer is
+  // published, and opening the screen issues exactly one diagnostics read. The adjoining
+  // verify-connection route is the operator-initiated "Verify connection" action: POST-only,
+  // exactly one call to IPD's governed `POST /v1/connection/verify` (at most one vendor
+  // probe, performed by IPD), no retry.
+  const dhanHealthPath = (req.url ?? '').split('?')[0];
+  if (dhanHealthPath === '/api/dhan/health' || dhanHealthPath === '/api/dhan/verify-connection') {
     void (async () => {
       try {
         const dhanHealth = await import('./market-data/dhanHealthTransport');
-        await dhanHealth.handleDhanHealthRequest(req, res, { env: process.env });
+        if (dhanHealthPath === '/api/dhan/health') {
+          await dhanHealth.handleDhanHealthRequest(req, res, { env: process.env });
+        } else {
+          await dhanHealth.handleDhanVerifyConnectionRequest(req, res, { env: process.env });
+        }
       } catch (e) {
         res.writeHead(500); res.end(JSON.stringify({ error: 'dhan health transport error', detail: String(e) }));
       }

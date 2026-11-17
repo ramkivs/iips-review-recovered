@@ -2,10 +2,12 @@
  * IRR server-side IPD market-data transport configuration (DHAN-P3).
  *
  * Authority:
- *   - IPD `ramkivs/iips-production-market-data` @ `5b384c7215b2644a8d525960ba05cd97f39bf7a7`
- *     (the published IPD W-07 commit, IPD PR #168; the pin advanced from
- *     `af4460eeab9bb0544e009322526a5498df0d5909` in the W-07 pin-bump leg of coordinated
- *     W-07), consumed through the server-only `./dhan-server` subpath.
+ *   - IPD `ramkivs/iips-production-market-data` @ `1ce6a829a7ce65550356a0071c108a60f2d813be`
+ *     (the published IPD `main` merge carrying W-07 PR #168 `5b384c72…`, W-08 PR #169
+ *     `75db511…`, W-09 PR #170 `a402eee…` and W-10's `POST /v1/connection/verify` operation;
+ *     the pin advanced from `d80d773…` so the Status-page Verify action can invoke IPD's
+ *     governed operator-initiated connection-verification operation), consumed through the
+ *     server-only `./dhan-server` subpath.
  *   - The transport credential env name is IPD's own: `MARKET_DATA_TRANSPORT_TOKEN_ENV` =
  *     `IIPS_MARKET_DATA_TRANSPORT_TOKEN`. The transport credential is SEPARATE from the Dhan
  *     API credentials and is never a Dhan credential.
