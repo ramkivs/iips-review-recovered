@@ -15,13 +15,13 @@
  *   2. **defect A stays corrected.** The reader-visible L-002/L-003 notices state counts read from
  *      `XBRL_TAG_MAP` and `DERIVATIONS`, on both the CLI side and the presentation side. One side moving alone
  *      is the defect; both are pinned against the code.
- *   3. **`L-041` stays OPEN in the register, and its recorded observation is kept.** On 2026-11-12 the
- *      assessment path and the investment-coverage path classified the same committed real-issuer manifests two
- *      different ways. The coverage path's substring test on `provider`/`licence` has since been removed from
- *      both of its copies, so both paths now answer through `classifyDataset` and the disagreement no longer
- *      reproduces at head. The tests assert that both answer `UNKNOWN`, that the committed observation of
- *      2026-11-12 is byte-identical to what was recorded, and that the register still says `OPEN`. Closing
- *      `L-041` is its owner's decision; no test here makes it.
+ *   3. **`L-041` is `RESOLVED`, and its recorded observation is kept.** On 2026-11-12 the assessment path and
+ *      the investment-coverage path classified the same committed real-issuer manifests two different ways. The
+ *      coverage path's substring test on `provider`/`licence` has since been removed from both of its copies, so
+ *      both paths now answer through `classifyDataset` and the disagreement no longer reproduces at head. The
+ *      tests assert that both answer `UNKNOWN`, that the committed observation of 2026-11-12 is byte-identical to
+ *      what was recorded, and that the register now says `RESOLVED` — the register owner's act of 2026-11-17,
+ *      §17.27, taken under PA-01's collapsed single authority. This test checks that status; it does not make it.
  *
  * Read-only: nothing here writes inside the repository, opens a store, or touches the network.
  */
@@ -251,10 +251,12 @@ describe('RIV — L-041: the recorded disagreement is kept, and it no longer rep
     expect(divergence.whyNotCorrectedHere).toContain('contract decision');
   });
 
-  it('the register still lists L-041 and L-042 as OPEN: correcting the code does not close the limitation', () => {
-    // `L-041`'s completion standard is a register act, not a code change. The correction removed the defect the
-    // observation describes; it did not decide that the limitation is closed, and this test refuses to let a
-    // code change quietly become that decision.
+  it('the register now says L-041 RESOLVED, and L-042 is still OPEN: a code fix is not a status change', () => {
+    // The distinction this pins is the one that matters in both directions. `L-041`'s completion standard is a
+    // register act, not a code change — so the correction in `552f1c7` alone left it OPEN. The register owner then
+    // made that act on 2026-11-17 under PA-01's collapsed single authority (§17.27), and the status moved. `L-042`
+    // has no correction on this branch, so it must still read OPEN: if someone closes it on the strength of the
+    // `L-041` work, this fails.
     const register = text(resolve(process.cwd(), '../docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md'));
     const statusOf = (id: string): string => {
       const rows = register.split('\n').filter((line) => line.startsWith(`| \`${id}\` |`));
@@ -262,7 +264,7 @@ describe('RIV — L-041: the recorded disagreement is kept, and it no longer rep
       const cells = rows[0]!.split('|').map((cell) => cell.trim());
       return cells[cells.length - 2]!;
     };
-    expect(statusOf('L-041')).toBe('OPEN (contract decision: read-model owner)');
+    expect(statusOf('L-041')).toBe('`RESOLVED` (2026-11-17, §17.27)');
     expect(statusOf('L-042')).toBe('OPEN (contract decision: register owner + identity-contract owner)');
   });
 });

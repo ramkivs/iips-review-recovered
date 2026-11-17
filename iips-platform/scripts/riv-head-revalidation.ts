@@ -898,8 +898,8 @@ function datasetClassAtHead(): Record<string, unknown> {
     assessmentRule: 'fundamentals/datasetClass.ts — the declared rights evidence, fail-closed to UNKNOWN',
     coverageRule:
       'coverage/investmentCoverage.ts financialClass() and identity/coverage.ts financialClass() — both delegate to classifyDataset(); the substring test on manifest.provider and manifest.licence is gone',
-    closingIsNotThisScriptsDecision:
-      'the register still lists L-041 as OPEN; whether to close it is the register owner\'s decision. This script records that the observation no longer reproduces at head, which is evidence for that decision, not the decision',
+    registerStatus:
+      'the register records L-041 as RESOLVED (2026-11-17, §17.27), on the register owner\'s act under PA-01\'s collapsed single authority. This script records only that the observation no longer reproduces at head; it neither made nor can make that status change',
     rows,
   };
 }
