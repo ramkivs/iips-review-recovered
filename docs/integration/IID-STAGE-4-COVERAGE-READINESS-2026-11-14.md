@@ -1184,3 +1184,60 @@ All three `STALE` with `VALUATION_BASIS_BEYOND_PNL_WINDOW`.
 repository. That any host holds the refreshed dataset: the install-and-serve drill ran in an isolated sandbox temp
 root. `L-001`, `G-6`, `L-041`, `L-042` are unchanged; Stage 4 remains **PARTIALLY COMPLETE** and overall IID
 readiness **NOT READY**. Next Stage 4 roadmap item: **`S4-R4`** (documentation), then **`S4-R5`**.
+
+## Addendum (2026-11-17) — `S4-R4` is CLOSED: the source-level note is committed
+
+**Scope.** IRR-only, additive. **The `S4-R4` row above is unchanged, byte for byte**, as are the `S4-R1`, `S4-R2` and
+`S4-R3` rows and their addenda: this section records what was committed afterwards. No coverage algorithm, derivation,
+assessment, valuation, freshness or confidence rule changed, no issuer was admitted, no dataset was built for
+admission and no host was touched.
+
+**The registered criterion, and its discharge.** `S4-R4` required *"a source-level note in the coverage module stating
+the window difference"* and its closure evidence was *"the note committed"*. Both are now true:
+
+| Where | What it says |
+|---|---|
+| `iips-platform/src/investment/coverage/measure.ts` — module header | the module separates **three** questions, the third being *whether a valuation would be produced*, **which it does not answer** |
+| `iips-platform/src/investment/coverage/measure.ts` — contract note after the last declaration | the window difference in full: this module is **existential** (one annual period with all declared inputs is enough); the assessment resolves **one series, one issuer, one clock** with a same-instant invariant, per-method history requirements, a bridge that can refuse, and an INV-5 blend. Plus six consequences, a-f |
+| `iips-platform/src/investment/coverage/investmentCoverage.ts` — note | what the served coverage fields do and do not say, and that `derivationItems`/`xbrlMappedTags` are code-vocabulary sizes rather than dataset facts |
+| `iips-platform/src/investment/identity/coverage.ts` — comment | the `usableMethods` counter is a dataset statement, never a valuation statement |
+| `docs/integration/IID-COVERAGE-USABLE-VERSUS-VALUATION-2026-11-17.md` | the long-form, issuer-neutral contract: the divergence catalogue, the measured examples, the reason vocabularies, the general rules, and what a reader should infer when the two layers differ |
+
+**Why a comment-only change is not an implementation change, and how that was checked.** The three files are
+identical to their committed predecessors once comments are stripped (266 / 437 / 270 code lines before and after);
+and the coverage report, the rendered coverage summary and **all six** assessment payloads hash identically before and
+after, over both datasets. Both checks reproduce; the digests are in
+`evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/`.
+
+**The complete scope of the distinction, established rather than assumed.** The prior record named one example (the
+`NET_DEBT` derivation versus the capital-structure aggregation). Investigation found **six** rule differences, two of
+which are live in the current population and four of which are not:
+
+| # | Class | Live instance |
+|---|---|---|
+| D1 | existential window vs latest instant | **live** — Consumer `EV_EBITDA` available on FY2023 while the assessment refuses on FY2024 |
+| D2 | numeric derivation vs declared-nil aggregation | **live** — Technology withholds `EV_EBITDA` while the assessment applies it on a −₹19,342 cr net debt |
+| D3 | three-input derivation vs six-component aggregation with leases and one instant | **live** — two issuers whose derivation triple is complete and whose cash side is not |
+| D4 | operating metric at any period vs latest period plus source-class floor | not live (`operatingMetricRecords` 0, `G-4`/`S4-R6`) |
+| D5 | method `applicable` vs a produced per-share figure | **live** — `DCF_FCFF` applicable, per-share `NOT_COMPUTABLE`, no intrinsic |
+| D6 | six matrix method families with no engine-v1 implementation | not live for the three measured sectors |
+
+**Measured, and the sentence the register can now rely on.** On the O3-admitted dataset `sha256:bdfb2527…` at clock
+2026-11-17, coverage reports **seven usable method slots** across three measured sectors, Consumer is **`G1_ENABLED`**,
+and the assessment produces **no intrinsic range for any issuer**. On the repository dataset of record
+`sha256:69bbc14e…`, the *only* intrinsic produced belongs to the issuer whose coverage row **withholds** the method
+that contributed to it (Infosys, mid ₹1,088.97, `EV_EBITDA` at weight 0.1, coverage `STATEMENT_INPUT_MISSING
+["NET_DEBT"]`).
+
+**One wording imprecision, recorded and deliberately not fixed.** `assessment/engine.ts:327-330` says, when net debt is
+absent, *"…so every enterprise-value method is withheld rather than run on a partial bridge."* That is substantively
+true and literally imprecise for a method that is `applicable: true` with a `NOT_COMPUTABLE` per-share leg (D5). It is
+**not a behaviour defect** — nothing is overstated, zeroed or approximated — and repairing the sentence would be a
+production-source change with its own record, which `S4-R4`'s authority does not include. Recorded here so the next
+reader does not rediscover it as a defect.
+
+**Nothing decided.** `S4-R5` remains **OPEN** (whether availability should remain existential over annual periods) and
+the document is written so that either answer leaves its contract true. The measurement-semantics question (whether
+`derive.ts` should admit a declared nil for `NET_DEBT`) remains reserved. `S4-R2` stays **CLOSED**; `S4-R3` and
+`S4-R3-Infosys` stay **OPEN**; `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` are unchanged. Stage 4 remains
+**PARTIALLY COMPLETE** and overall IID readiness remains **NOT READY**. The next Stage 4 roadmap item is **`S4-R5`**.
