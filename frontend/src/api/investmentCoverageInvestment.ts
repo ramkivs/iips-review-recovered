@@ -50,10 +50,31 @@ export interface InvestmentCoverageIssuerRow {
   readonly identityDependencyDetail: string | null;
 }
 
+/**
+ * One sector's measurement, as `GET /api/investment/coverage/investment` serves it.
+ *
+ * A PROJECTION of the server's `SectorMeasurement` (`iips-platform/src/investment/coverage/measure.ts`),
+ * narrowed to the fields this surface renders. The per-method detail (`methods`, `usableMethods`,
+ * `withheldMethods`) is served but is not consumed by the Investment Coverage page, so it is not
+ * declared here.
+ *
+ * THE SECTOR'S ISSUER COUNT IS MEMBERSHIP, NOT A FIELD. The served contract carries no scalar
+ * `issuerCount`: it carries `issuersConsidered`, the issuer ids the measurement considered for that
+ * sector. A count is `issuersConsidered.length` and must be derived from it. Declaring an
+ * `issuerCount` here — as this interface previously did — types a field the server never sends, so
+ * the count rendered as `undefined` (an empty cell) on every sector row. The server's own HTML view
+ * of the same report derives the count exactly this way (`investmentCoverageView.ts`).
+ */
 export interface InvestmentCoverageSectorRow {
   readonly sector: string;
+  /** `G1_ENABLED` | `G2_PARTIAL` | `G3_WITHHELD` | `UNMEASURED`. */
   readonly stage: string;
-  readonly issuerCount: number;
+  readonly measured: boolean;
+  /** The issuer ids this sector's measurement considered — the authoritative membership list. */
+  readonly issuersConsidered: readonly string[];
+  readonly annualPeriodsConsidered: number;
+  readonly statementCoveragePct: number;
+  readonly operatingMetricCoveragePct: number;
 }
 
 export interface InvestmentCoverageReport {
@@ -149,6 +170,26 @@ export class InvestmentCoverageUnavailableError extends Error {
 const plain = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === 'object' && !Array.isArray(value);
 
+const isStringList = (value: unknown): value is readonly string[] =>
+  Array.isArray(value) && value.every((entry) => typeof entry === 'string');
+
+/**
+ * A sector row is only usable if it carries the authoritative membership list.
+ *
+ * This is the `G-11`-hardening precedent applied to a different contract: a row whose count source
+ * is missing must fail loudly, not render an empty cell. The check is deliberately about
+ * `issuersConsidered` and nothing else — a payload carrying a legacy scalar `issuerCount` instead is
+ * exactly the shape that produced the blank counts, and it is refused.
+ */
+function isSectorRow(value: unknown): value is InvestmentCoverageSectorRow {
+  return (
+    plain(value) &&
+    typeof value.sector === 'string' &&
+    typeof value.stage === 'string' &&
+    isStringList(value.issuersConsidered)
+  );
+}
+
 /**
  * A report is only usable if it carries the sections the view needs. An unrecognised payload is an
  * error, never a partially-rendered report.
@@ -167,6 +208,9 @@ function assertReport(payload: unknown): InvestmentCoverageReport {
     Array.isArray(record.notes) &&
     typeof record.identitySourcesAvailable === 'boolean';
   if (!shapeOk) throw new Error('investment coverage report shape not recognised');
+  if (!(record.sectors as readonly unknown[]).every(isSectorRow)) {
+    throw new Error('investment coverage sector rows do not carry issuersConsidered');
+  }
   return payload as InvestmentCoverageReport;
 }
 

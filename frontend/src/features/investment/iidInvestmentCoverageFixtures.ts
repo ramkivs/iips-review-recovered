@@ -40,9 +40,31 @@ export const INVESTMENT_COVERAGE_REPORT = {
     earliestPeriodEnd: '2023-03-31',
     latestPeriodEnd: '2026-03-31',
   },
+  /**
+   * The sector rows are the server's `SectorMeasurement` shape: there is no scalar `issuerCount`,
+   * only the `issuersConsidered` membership list, and the count is its length. Declaring
+   * `issuerCount` here (as this fixture previously did) described a field the endpoint never sends,
+   * which is how the SPA's blank sector counts survived a green test suite.
+   */
   sectors: [
-    { sector: 'BANKS', stage: 'G2_PARTIAL', issuerCount: 1 },
-    { sector: 'INDUSTRIALS', stage: 'G1_ENABLED', issuerCount: 1 },
+    {
+      sector: 'BANKS',
+      stage: 'G2_PARTIAL',
+      measured: true,
+      issuersConsidered: ['IN:EQISIN:IN0000000202'],
+      annualPeriodsConsidered: 0,
+      statementCoveragePct: 0,
+      operatingMetricCoveragePct: 0,
+    },
+    {
+      sector: 'INDUSTRIALS',
+      stage: 'G1_ENABLED',
+      measured: true,
+      issuersConsidered: [INVESTMENT_ISSUER],
+      annualPeriodsConsidered: 2,
+      statementCoveragePct: 100,
+      operatingMetricCoveragePct: 100,
+    },
   ],
   measuredSectors: 2,
   totalSectors: 2,

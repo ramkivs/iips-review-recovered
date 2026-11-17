@@ -954,3 +954,102 @@ The push was `59454f0..6a1f321`; `git fetch` then `git rev-parse` showed local a
 Pull request **#584** remains a **draft**, opened only to obtain `pull_request` CI runs, and is neither merged nor
 closed; `main` was not touched. Because `ci.yml` filters on `frontend/**` and `.ci/**`, this documentation-only
 addendum does not re-run the workflow — by design, not by omission; the code head it describes is `6a1f321`.
+
+## 17. Investment Coverage SPA — the sector issuer count (2026-11-17)
+
+Recorded during `G-10` (§14, unchanged by this section): the Investment Coverage page read a field the server does
+not send, so the "Issuers" column of its Sector measurement table could render nothing. This section is the separate
+evidence entry for that defect. It does not reopen `G-10` (§14 stands as written) or `G-11` (§15, §16 stand as
+written), and it changes no server measurement logic, no `SectorMeasurement` field, no dataset classification, no
+valuation, no identity and no persistence.
+
+### 17.1 The finding, confirmed against the actual served JSON
+
+The page read `sector.issuerCount`; the server's `SectorMeasurement`
+(`iips-platform/src/investment/coverage/measure.ts`) has no such field. Confirmed by executing the composition, not
+by reading it: a dataset was built from `referenceContent()` (the IID fixtures), the report was composed with
+`buildInvestmentCoverageReport`, and served through the real handler
+`handleInvestmentCoverageRequest({ method: 'GET', url: '/api/investment/coverage/investment?asOf=…' })`. The served
+body (HTTP `200`, `application/json; charset=utf-8`) reported:
+
+- `sectors` — **13** rows, one per canonical sector;
+- the keys of a sector row — `sector, issuersConsidered, annualPeriodsConsidered, statementCoveragePct,
+  operatingMetricCoveragePct, stage, measured, usableMethods, withheldMethods, methods`;
+- `issuerCount` present on a sector row — **`false`**;
+- membership as served — `Banking[1] Hospitality[1] Technology[2]`, and an empty sector (`Auto`) with
+  `issuersConsidered: []`.
+
+So the recorded finding was exact, not approximate: the field the page read is absent, and the authoritative count
+source is the length of the membership list. Two details are worth recording because they make the wrong fix easy:
+the count is *membership*, not a measurement total (an empty sector reports `0`, not "unmeasured" as a number), and
+the payload also nests a **numeric** `issuersConsidered` inside `methods[]` — a different field at a different depth.
+
+### 17.2 Root cause
+
+The SPA's declared contract, not the server, was wrong. `frontend/src/api/investmentCoverageInvestment.ts` declared
+`InvestmentCoverageSectorRow { sector; stage; issuerCount: number }`, and the page rendered that field. Because the
+type was declared rather than imported, nothing compared it with the served JSON; and because the page's own fixture
+(`iidInvestmentCoverageFixtures.ts`) was authored to the same wrong type, the tests agreed with the page and never
+with the server. `undefined` renders as an empty cell in React, which is why the defect was silent: the table
+appeared, the rows were there, one column was blank.
+
+The server's own HTML view of the same report already derived the count correctly
+(`investmentCoverageView.ts`: `<td>${sector.issuersConsidered.length}</td>`), so the JS-free and JS-enabled surfaces
+of one capability disagreed with each other — the same class of divergence `G-10` was.
+
+### 17.3 Correction
+
+- **`frontend/src/api/investmentCoverageInvestment.ts`** — `InvestmentCoverageSectorRow` now describes the served
+  row as a documented projection of `SectorMeasurement`: `sector`, `stage`, `measured`, `issuersConsidered`
+  (the membership list), `annualPeriodsConsidered`, `statementCoveragePct`, `operatingMetricCoveragePct`. The
+  phantom `issuerCount` is gone, and the interface states that the count is `issuersConsidered.length`.
+- **The same module's payload validation** now requires every sector row to carry a string `sector`, a string
+  `stage` and a `issuersConsidered` list of strings. A row that cannot be counted is refused with a named error
+  (`investment coverage sector rows do not carry issuersConsidered`) instead of rendering an empty cell — the
+  defect's own shape (a scalar `issuerCount`) and a numeric `issuersConsidered` are both refused.
+- **`frontend/src/features/investment/InvestmentCoveragePage.tsx`** — the "Issuers" cell renders
+  `sector.issuersConsidered.length`. Nothing else on the page changed: the sector name, the stage, the counts table,
+  the measured/total line, the issuer table and every identity disclosure are untouched.
+- **`frontend/src/features/investment/iidInvestmentCoverageFixtures.ts`** — the fixture's sector rows were not in the
+  server's shape (they carried `issuerCount`); they now carry `issuersConsidered` and the rest of the served row, so
+  the fixture can no longer make a wrong page look right.
+
+No server file was modified: the contract was not defective, the consumer was.
+
+### 17.4 Tests
+
+New suite `frontend/src/features/investment/investmentCoverageSectorCount.test.tsx` — **8 tests**:
+
+1. a single-issuer sector renders `1` and a two-issuer sector renders `2`, each on **its own** row (a one-row test
+   would pass a per-row mapping defect), and the cell is not empty;
+2. a three-issuer sector renders `3` — and does so from the sector's membership list, not from the numeric
+   `methods[].issuersConsidered` the same payload carries;
+3. a sector that considered no issuer renders `0`, not a blank cell (and its stage stays `UNMEASURED`);
+4. the exact served row shape — every key the endpoint sends, including `usableMethods`, `withheldMethods` and
+   `methods` — is accepted and counted;
+5. the other displayed values are preserved: sector name, stage, and the measured/total line;
+6. the recorded defect shape (a scalar `issuerCount` row) is refused with the named error and no sector table is
+   rendered;
+7. a numeric `issuersConsidered` is refused;
+8. a membership list with a non-string entry is refused.
+
+**Red → green, demonstrated.** Against the pre-correction page the four count assertions fail with
+`expected '' to be '2'` / `'3'` / `'0'` — the empty cell, exactly as recorded; with the correction all 8 pass. The
+pre-existing separation suite (`iidCoverageSeparation.test.tsx`, 14 tests) also passes against the corrected fixture.
+
+**Runs.** Targeted: 22 tests across the two suites, all passing. Whole `frontend` vitest run: **2353 passed, 12
+failed, 1 skipped (2366)**, 57 files failing to load — and a before/after run of the same command differs by exactly
+one line, the new suite going from absent to passing: every failure is pre-existing and caused by the three private
+pins being unresolvable in this environment (HTTP 403). `tsc --noEmit` on `frontend/tsconfig.json` reports the same
+24 pre-existing module-resolution errors as the baseline and **none** in any file this section touches.
+
+### 17.5 What this section does not claim
+
+- **No server behaviour changed**, and no claim is made that the measurement semantics changed: `issuersConsidered`
+  was already the membership list, and `0` still means "this sector considered no issuer", not "unmeasured".
+- **`issuerCount` was not removed from the codebase.** It remains a legitimate field elsewhere — the identity
+  coverage report's `identitySources.issuerCount`, the company directory and the roster linter — and none of those
+  was touched. What was removed is its use for a report that never sends it.
+- **No browser journey is claimed.** The evidence is the rendered component under jsdom plus the served JSON from the
+  real handler; `D10`/`R-1`/`R-2` remain the operator's.
+- **No Windows observation, no re-scoring.** §§7, 13, 14, 15 and 16 are unchanged.
