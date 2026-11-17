@@ -651,3 +651,35 @@ describe('W-10 verify-connection route — the published report', () => {
     }
   });
 });
+
+describe('W-10 verify-connection route — bounded execution', () => {
+  it('a daemon that never answers is bounded by the transport timeout — one request, safe outcome', async () => {
+    // Accepts the socket but never responds: the pinned client's AbortSignal fires and the
+    // verification resolves TRANSPORT_UNAVAILABLE with an enumerated TIMEOUT failure code.
+    const requests: { method: string; path: string }[] = [];
+    const server = http.createServer((req) => {
+      requests.push({ method: req.method ?? '', path: (req.url ?? '').split('?')[0] });
+      // Intentionally never respond.
+    });
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+    const port = (server.address() as AddressInfo).port;
+    try {
+      const response = await callVerify('POST', {
+        ok: true as const,
+        config: { baseUrl: `http://127.0.0.1:${port}`, token: 'synthetic-token', timeoutMs: 50, configured: true as const },
+      });
+      expect(response.status).toBe(200);
+      expect(requests).toEqual([{ method: 'POST', path: '/v1/connection/verify' }]);
+      const data = dataOf(response.body);
+      expect(data.attempted).toBe(true);
+      expect(data.requestsIssued).toBe(1);
+      expect(data.outcome).toBe('TRANSPORT_UNAVAILABLE');
+      expect(data.failureCode).toBe('TIMEOUT');
+      expect(data.state).toBe('UNAVAILABLE');
+      expect(data.verification).toBeNull();
+      expect(data.liveProviderContacted).toBe(false);
+    } finally {
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
+  });
+});
