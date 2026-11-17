@@ -99,6 +99,9 @@ jobs:
           GIT_CONFIG_VALUE_3: 'AUTHORIZATION: bearer ${{ steps.ipd-token.outputs.token }}'
         run: npm ci --no-audit --no-fund
 
+      - name: Verify all private dependencies resolve to their committed pins
+        run: node ../.ci/verify-ipd-pins.mjs
+
       # `frontend/package.json` → "typecheck": "tsc --noEmit" (the established script; no substitution).
       - name: Typecheck
         run: npm run typecheck
