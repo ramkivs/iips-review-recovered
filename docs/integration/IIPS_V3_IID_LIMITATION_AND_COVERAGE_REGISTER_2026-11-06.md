@@ -3171,6 +3171,9 @@ updated for that file alone.
   is the guarded job-and-step conclusion, not a quoted test line. The `REF` constants are the values that environment
   computes (`M1_NOW = 2026-11-06T00:00:00.000Z`; C4 `2026-04-10T00:00:00.000Z`), and **no AC-L14 criterion was
   edited**. "Passed" here means exactly that: executed and green in CI, not inferred from recomputation.
+  The **reconciled head `b72f4a3`** was verified the same way: workflow run **`44107705697`**, job **`134124480366`**,
+  concluded **`success`** in 4m24s on that exact commit, with the full Vitest suite and the zero-test/fully-passing
+  guard green — so `AC-L14` is executed evidence for the merged tree, not only for its predecessor.
 
 **Evidence pointers.** §17.26 (the recorded defect), `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/`
 (`findings/C-EV-BASIS-BRIDGE.md` for the demonstration; `README.md` addendum for the one regenerated file),
