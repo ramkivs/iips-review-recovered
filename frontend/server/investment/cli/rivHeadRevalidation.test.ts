@@ -15,10 +15,13 @@
  *   2. **defect A stays corrected.** The reader-visible L-002/L-003 notices state counts read from
  *      `XBRL_TAG_MAP` and `DERIVATIONS`, on both the CLI side and the presentation side. One side moving alone
  *      is the defect; both are pinned against the code.
- *   3. **`L-041` stays OPEN and visible.** The assessment path and the investment-coverage path classify the
- *      same committed real-issuer manifests two different ways. That is a recorded defect awaiting a contract
- *      decision, not an accepted behaviour: the test asserts the disagreement, so a one-sided fix fails loudly
- *      and forces `L-041` to be updated deliberately.
+ *   3. **`L-041` stays OPEN in the register, and its recorded observation is kept.** On 2026-11-12 the
+ *      assessment path and the investment-coverage path classified the same committed real-issuer manifests two
+ *      different ways. The coverage path's substring test on `provider`/`licence` has since been removed from
+ *      both of its copies, so both paths now answer through `classifyDataset` and the disagreement no longer
+ *      reproduces at head. The tests assert that both answer `UNKNOWN`, that the committed observation of
+ *      2026-11-12 is byte-identical to what was recorded, and that the register still says `OPEN`. Closing
+ *      `L-041` is its owner's decision; no test here makes it.
  *
  * Read-only: nothing here writes inside the repository, opens a store, or touches the network.
  */
@@ -46,7 +49,7 @@ const scratch = mkdtempSync(join(tmpdir(), 'iips-riv-'));
 afterAll(() => rmSync(scratch, { recursive: true, force: true }));
 
 describe('RIV — the generator reproduces the committed evidence', () => {
-  it('rebuilds all four artifacts byte-identically from the committed head payload', () => {
+  it('rebuilds the three artifacts it writes byte-identically from the committed head payload', () => {
     const outDir = join(scratch, 'rebuilt');
     expect(
       main([
@@ -64,7 +67,10 @@ describe('RIV — the generator reproduces the committed evidence', () => {
       .sort();
     expect(emitted).toEqual([
       'artifact/payload-diff-vs-wi3.json',
-      'verification/dataset-class-divergence.json',
+      // `verification/dataset-class-divergence.json` is deliberately NOT emitted any more. It records what was
+      // observed on 2026-11-12; regenerating it from today's corrected code would overwrite an observation and
+      // erase the finding `L-041` rests on. The generator instead verifies the committed bytes against a pinned
+      // digest, and the L-041 suite below asserts the same digest.
       'verification/independent-recomputation.json',
       'verification/mapping-census.json',
     ]);
@@ -193,21 +199,26 @@ describe('RIV — defect A: the reader-visible counts are read from the code', (
   });
 });
 
-describe('RIV — L-041: the two dataset classifiers disagree on the committed real-issuer manifests', () => {
+describe('RIV — L-041: the recorded disagreement is kept, and it no longer reproduces at head', () => {
   const bundles = [
     ['REL-1-INFOSYS-2026-11-06', REL1],
     ['WI2-PRICE-OBSERVATION-2026-11-06', WI2],
     ['WI3-BORROWINGS-NIL-2026-11-06', WI3],
   ] as const;
 
-  it.each(bundles)('%s: the assessment path fails closed, the coverage path asserts operator-supplied', (_name, dir) => {
+  it.each(bundles)('%s: both paths answer UNKNOWN, because both read the rights declaration and it is absent', (_name, dir) => {
     const manifest = JSON.parse(text(join(dir, 'dataset', 'manifest.json'))) as DatasetManifest;
     // These manifests were written before the rights field existed, so the rights evidence is genuinely absent.
     expect(manifest.sourceRights).toBeUndefined();
-    // The assessment path: the rights-evidence rule, fail-closed. This half is correct and must stay correct.
+    // The assessment path: the rights-evidence rule, fail-closed. This half was always correct.
     expect(classifyDataset(manifest)).toBe('UNKNOWN');
-    // The coverage path: a substring test on provider and licence — the rule `datasetClass.ts` repudiates in
-    // writing under "WHAT WAS WRONG". This half is defect L-041 and is OPEN.
+    // The coverage path. Until this correction it ran a substring test on provider and licence — the rule
+    // `datasetClass.ts` repudiates in writing under "WHAT WAS WRONG" — and answered OPERATOR_SUPPLIED here.
+    // That was `L-041`. It now answers through `classifyDataset`. These manifests say `operator-file-input`
+    // and `operator-supplied; not redistributable`, so this assertion is also the proof that no substring test
+    // has come back: a substring test cannot produce UNKNOWN from this text.
+    expect(manifest.provider).toBe('operator-file-input');
+    expect(manifest.licence).toContain('operator-supplied');
     const report = buildInvestmentCoverageReport({
       asOf: '2026-11-12',
       generatedAt: '2026-11-12T00:00:00.000Z',
@@ -222,15 +233,36 @@ describe('RIV — L-041: the two dataset classifiers disagree on the committed r
       identitySourceDetail: null,
       issuerIdentityState: null,
     });
-    expect(report.dataset.datasetClass).toBe('OPERATOR_SUPPLIED');
+    expect(report.dataset.datasetClass).toBe('UNKNOWN');
   });
 
-  it('is recorded in the bundle as OPEN with the reason it was not corrected here', () => {
-    const divergence = JSON.parse(text(join(BUNDLE, 'verification', 'dataset-class-divergence.json'))) as any;
+  it('the observation recorded on 2026-11-12 is kept byte for byte, and still says what was observed then', () => {
+    // The record is the historical finding: it must not be rewritten to match today's behaviour. Regenerating it
+    // is exactly what the corrected generator refuses to do, and this digest is what that refusal compares to.
+    const recorded = readFileSync(join(BUNDLE, 'verification', 'dataset-class-divergence.json'));
+    expect(createHash('sha256').update(recorded).digest('hex')).toBe(
+      'ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477',
+    );
+    const divergence = JSON.parse(recorded.toString('utf8')) as any;
     expect(divergence.limitation).toBe('L-041');
     expect(divergence.status).toContain('OPEN');
     expect(divergence.rows.length).toBe(3);
     expect(divergence.rows.every((row: any) => row.agree === false)).toBe(true);
     expect(divergence.whyNotCorrectedHere).toContain('contract decision');
+  });
+
+  it('the register still lists L-041 and L-042 as OPEN: correcting the code does not close the limitation', () => {
+    // `L-041`'s completion standard is a register act, not a code change. The correction removed the defect the
+    // observation describes; it did not decide that the limitation is closed, and this test refuses to let a
+    // code change quietly become that decision.
+    const register = text(resolve(process.cwd(), '../docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md'));
+    const statusOf = (id: string): string => {
+      const rows = register.split('\n').filter((line) => line.startsWith(`| \`${id}\` |`));
+      expect(rows.length, `${id} has exactly one register row`).toBe(1);
+      const cells = rows[0]!.split('|').map((cell) => cell.trim());
+      return cells[cells.length - 2]!;
+    };
+    expect(statusOf('L-041')).toBe('OPEN (contract decision: read-model owner)');
+    expect(statusOf('L-042')).toBe('OPEN (contract decision: register owner + identity-contract owner)');
   });
 });

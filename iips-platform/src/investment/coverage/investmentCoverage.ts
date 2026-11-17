@@ -31,6 +31,7 @@ import {
   type FinancialCoverageDisclosure,
 } from '../identity/coverage';
 import { DERIVATIONS } from '../fundamentals/derive';
+import { classifyDataset, datasetClassStatement } from '../fundamentals/datasetClass';
 import { XBRL_TAG_MAP } from '../ingestion/xbrl';
 import type { DatasetManifest } from '../fundamentals/manifest';
 import type {
@@ -123,7 +124,7 @@ export interface InvestmentCoverageReport {
     readonly importRunId: string;
     readonly quality: 'good' | 'stale' | 'partial' | 'unavailable';
     readonly completenessPct: number;
-    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+    readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
     readonly issuers: number;
     readonly securities: number;
     readonly listings: number;
@@ -192,11 +193,34 @@ export interface InvestmentCoverageInput {
   readonly issuerIdentityState?: ReadonlyMap<string, 'RESOLVED' | 'UNRESOLVED'> | null;
 }
 
-function financialClass(manifest: DatasetManifest | null): 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE' {
+/**
+ * The coverage read model's class, derived from the assessment path's rule and from nothing else.
+ *
+ * WHY THIS IS A DELEGATION AND NOT ITS OWN RULE. Until `L-041` this function was a substring test on
+ * `provider` + `licence` — the exact rule `fundamentals/datasetClass.ts` documents under "WHAT WAS WRONG"
+ * and removes. The two classifiers therefore disagreed on the same committed manifests: the assessment
+ * path answered `UNKNOWN` (fail-closed, because those manifests carry no rights evidence), while this one
+ * answered `OPERATOR_SUPPLIED`, asserting an operator attestation that no manifest made. `L-041` recorded
+ * the divergence. It is corrected by removing the second implementation, not by reconciling two rules.
+ *
+ * The coverage vocabulary keeps its own names because consumers depend on them: `SYNTHETIC_FIXTURE` is the
+ * read model's historical spelling of `SYNTHETIC_REFERENCE`, and `NONE` means no manifest was installed at
+ * all — a different fact from "installed but its rights are not established". `UNKNOWN` is now answerable
+ * here, which is what the read model previously could not do: a fail-closed third state, distinct from
+ * `NONE`, so an unestablished dataset no longer renders as either a fixture or an operator attestation.
+ */
+function financialClass(
+  manifest: DatasetManifest | null,
+): 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE' {
   if (manifest === null) return 'NONE';
-  return /synthetic|test-fixture|fixture/i.test(`${manifest.provider} ${manifest.licence}`)
-    ? 'SYNTHETIC_FIXTURE'
-    : 'OPERATOR_SUPPLIED';
+  switch (classifyDataset(manifest)) {
+    case 'SYNTHETIC_REFERENCE':
+      return 'SYNTHETIC_FIXTURE';
+    case 'OPERATOR_SUPPLIED':
+      return 'OPERATOR_SUPPLIED';
+    default:
+      return 'UNKNOWN';
+  }
 }
 
 function periodTypeOf(period: NormalizedPeriod): 'ANNUAL' | 'QUARTER' | string {
@@ -391,6 +415,10 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
   }
   if (datasetClass === 'NONE') {
     notes.push('No investment dataset is installed, so there is nothing to cover. This is a disclosed position, not a failure of this surface.');
+  } else if (datasetClass === 'UNKNOWN') {
+    // Fail-closed, and stated in the read model's own words. Without this branch `UNKNOWN` would be a
+    // vocabulary member no reader ever sees, and the note list would imply an established class.
+    notes.push(datasetClassStatement('UNKNOWN'));
   }
   if (offVocabularyIssuers.length > 0) {
     notes.push(
@@ -453,7 +481,7 @@ function buildInvestmentCoverageStatusLine(
   rows: readonly InvestmentCoverageIssuerRow[],
   counts: Readonly<Record<InvestmentCoverageState | 'observed', number>>,
   sectorReport: CoverageReport,
-  datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE',
+  datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE',
 ): string {
   if (rows.length === 0) {
     return datasetClass === 'NONE'

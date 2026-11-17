@@ -841,9 +841,9 @@ function mappingCensus(rows: readonly FiledRow[]): Record<string, unknown> {
   };
 }
 
-/* -------------------------------------------------------------------------- 9. dataset-class divergence (L-041) */
+/* -------------------------------------------------------------------------- 9. dataset class at head (L-041) */
 
-function datasetClassDivergence(): Record<string, unknown> {
+function datasetClassAtHead(): Record<string, unknown> {
   const bundles = [
     'REL-1-INFOSYS-2026-11-06',
     'WI2-PRICE-OBSERVATION-2026-11-06',
@@ -880,27 +880,32 @@ function datasetClassDivergence(): Record<string, unknown> {
       agree: assessment === coverage || (assessment === 'SYNTHETIC_REFERENCE' && coverage === 'SYNTHETIC_FIXTURE'),
     };
   });
-  const disagreeing = rows.filter((row) => !row.agree);
-  // L-041 is recorded as a disagreement. If one side is fixed without the other, this must fail rather than pass.
+  // `L-041` was RECORDED as a disagreement on 2026-11-12: the coverage path then used a substring test on
+  // provider and licence text and answered OPERATOR_SUPPLIED. That rule was removed from the coverage read model
+  // (and from its second copy in `identity/coverage.ts`), so at head both paths answer through `classifyDataset`.
+  // These manifests carry no rights declaration, so the answer is UNKNOWN on both. A path that answers anything
+  // else has brought a second rule back, and this refuses.
   require(
-    disagreeing.length === rows.length,
-    'L-041: the two dataset classifiers no longer disagree on every committed real-issuer manifest — if one side was corrected, update L-041 deliberately',
+    rows.every((row) => row.agree && row.assessmentPathClass === 'UNKNOWN' && row.coveragePathClass === 'UNKNOWN'),
+    'L-041: at head both dataset classifier paths must answer UNKNOWN for every committed real-issuer manifest that carries no rights declaration',
     rows.map((row) => `${row.bundle}: ${row.assessmentPathClass} vs ${row.coveragePathClass}`),
   );
   return {
     limitation: 'L-041',
-    status: 'OPEN — recorded, not corrected here',
-    question: 'does the investment-coverage read model classify a dataset the same way the assessment path does?',
-    answer: 'no, on all three committed real-issuer manifests for this issuer',
+    observedAtHead: 'both paths answer UNKNOWN; the disagreement recorded on 2026-11-12 does not reproduce',
+    recordedObservation: 'verification/dataset-class-divergence.json — kept as committed, not re-emitted',
+    recordedObservationSha256: RECORDED_L041_SHA256,
     assessmentRule: 'fundamentals/datasetClass.ts — the declared rights evidence, fail-closed to UNKNOWN',
-    coverageRule: 'coverage/investmentCoverage.ts financialClass() — a substring test on manifest.provider and manifest.licence',
-    repudiation:
-      'datasetClass.ts documents that exact substring test under "WHAT WAS WRONG" and removes it; investmentCoverage.ts was added later and reintroduces it',
-    whyNotCorrectedHere:
-      'the coverage report\'s class vocabulary is SYNTHETIC_FIXTURE | OPERATOR_SUPPLIED | NONE, and NONE drives a "no dataset is installed" UI state (InvestmentCoveragePage.tsx datasetAbsent). A fail-closed answer for "manifest present, rights unknown" needs a fourth member, which is a contract decision for the register owner, not a narrow IRR correction inside a validation work item',
+    coverageRule:
+      'coverage/investmentCoverage.ts financialClass() and identity/coverage.ts financialClass() — both delegate to classifyDataset(); the substring test on manifest.provider and manifest.licence is gone',
+    closingIsNotThisScriptsDecision:
+      'the register still lists L-041 as OPEN; whether to close it is the register owner\'s decision. This script records that the observation no longer reproduces at head, which is evidence for that decision, not the decision',
     rows,
   };
 }
+
+/** The observation of 2026-11-12, pinned so the historical record cannot be quietly rewritten. */
+const RECORDED_L041_SHA256 = 'ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477';
 
 /* -------------------------------------------------------------------------- main */
 
@@ -950,7 +955,7 @@ function main(argv: readonly string[]): number {
   const recomputation = recompute(rows, head);
   const diff = attributeDiff(wi3Payload, head);
   const census = mappingCensus(rows);
-  const divergence = datasetClassDivergence();
+  const classAtHead = datasetClassAtHead();
 
   // The analysis layer alone, on the committed real input, must agree with the persisted artifact on every
   // substantive figure. The identity members differ by construction: the persisted artifact carries the real
@@ -1068,7 +1073,7 @@ function main(argv: readonly string[]): number {
       ],
     },
     mappingCensus: census,
-    datasetClassDivergence: divergence,
+    datasetClassAtHead: classAtHead,
     premises: { checked: failures.length === 0, failed: failures.length },
   };
 
@@ -1089,7 +1094,19 @@ function main(argv: readonly string[]): number {
   });
   emit('artifact/payload-diff-vs-wi3.json', { schemaVersion: 1, ...package_.diffVsWi3 });
   emit('verification/mapping-census.json', { schemaVersion: 1, ...package_.mappingCensus });
-  emit('verification/dataset-class-divergence.json', { schemaVersion: 1, ...package_.datasetClassDivergence });
+  // `verification/dataset-class-divergence.json` is NOT written. It is the record of what was observed on
+  // 2026-11-12; regenerating it from today's code would replace an observation with a different one and erase
+  // the finding `L-041` rests on. It is committed in the bundle, and its digest is checked here.
+  {
+    const recordedPath = join(REPO, 'evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/verification/dataset-class-divergence.json');
+    const recorded = readFileSync(recordedPath);
+    const recordedDigest = createHash('sha256').update(recorded).digest('hex');
+    require(
+      recordedDigest === RECORDED_L041_SHA256,
+      'the recorded L-041 observation no longer hashes to the digest this script and the test pin',
+      { recorded: RECORDED_L041_SHA256, recomputed: recordedDigest },
+    );
+  }
 
   // The builders return loose `Record<string, unknown>` shapes so they stay flexible; the print boundary narrows
   // them once. Every cast below is sound because control only reaches here after `refuse()` did NOT throw — i.e.
@@ -1099,7 +1116,7 @@ function main(argv: readonly string[]): number {
   const mosPublished = recomputation.marginOfSafety.published as { mosVsMid: number; band: string };
   const confidencePublished = recomputation.confidence.published as { combined: number };
   const censusHead = census.countedAtHead as { xbrlTagsMapped: number };
-  const divergenceRows = divergence.rows as readonly unknown[];
+  const classRows = classAtHead.rows as readonly unknown[];
 
   process.stdout.write(`RIV head re-validation — PUBLISHED\n`);
   process.stdout.write(`  dataset identity   ${rebuilt.datasetVersion} (reproduced: ${rebuilt.datasetVersion === WI3_DATASET_VERSION})\n`);
@@ -1111,7 +1128,7 @@ function main(argv: readonly string[]): number {
   process.stdout.write(`  diff vs WI-3       ${diff.changes.length} changed path(s), ${diff.unattributed.length} unattributed\n`);
   process.stdout.write(`  XBRL tags mapped   ${censusHead.xbrlTagsMapped} (defect A — the L-002 notice now reads this count from XBRL_TAG_MAP; it said 20)\n`);
   process.stdout.write(`  EV basis bridge    defect C — OPEN (L-042): the EV_EBITDA/EV_REVENUE basis names only "− net debt"; the full bridge is published in capitalStructure.equityBridge. Correcting the label moves the substantive digest of every EV-publishing assessment (L-014 C1–C5, AC-L14), so it is recorded, not narrowed here\n`);
-  process.stdout.write(`  L-041 (defect B)   ${divergenceRows.length} committed real-issuer manifest(s) classified two different ways — OPEN, a contract decision\n`);
+  process.stdout.write(`  L-041 (defect B)   ${classRows.length} committed real-issuer manifest(s): both classifier paths answer UNKNOWN at head; the recorded observation is kept, not re-emitted\n`);
   for (const [name, digest] of Object.entries(written)) process.stdout.write(`  wrote ${name} sha256:${digest}\n`);
   // The rebuild scratch is a means, not evidence; remove it. (On the `refuse()` throw path it leaks into the OS
   // temp dir, which is harmless — it is never inside the repository or the bundle.)

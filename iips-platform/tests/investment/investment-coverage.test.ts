@@ -237,16 +237,57 @@ describe('IID — the investment coverage report is independent of the identity 
     assert.match(report.statusLine, /No investment dataset is installed/);
   });
 
-  it('reports the dataset class honestly: a synthetic fixture is never called operator-supplied', () => {
-    const synthetic = buildInvestmentCoverageReport({ ...base, identitySourcesAvailable: true });
+  /*
+   * L-041: THE CLASS COMES FROM THE RIGHTS DECLARATION AND FROM NOTHING ELSE.
+   *
+   * This test used to assert that a manifest with a non-synthetic provider string was `OPERATOR_SUPPLIED` — the
+   * substring rule `L-041` recorded. Each case below deliberately sets the strings AGAINST the declaration, so a
+   * classifier that consulted either string would answer the other way and fail here.
+   */
+  it('reports the dataset class solely from sourceRights — never from provider or licence strings', () => {
+    const synthetic = buildInvestmentCoverageReport({
+      ...base,
+      identitySourcesAvailable: true,
+      manifest: {
+        ...MANIFEST,
+        provider: 'NSE',
+        licence: 'operator',
+        sourceRights: { state: 'SYNTHETIC', basis: '', note: 'synthetic reference mechanics' },
+      } as unknown as DatasetManifest,
+    });
     assert.equal(synthetic.dataset.datasetClass, 'SYNTHETIC_FIXTURE');
+    assert.equal(synthetic.financialCoverage.datasetClass, 'SYNTHETIC_FIXTURE');
+
+    // No rights declaration. Operator-looking strings are not an attestation, so the answer is fail-closed.
+    const unknownWithoutRights = buildInvestmentCoverageReport({
+      ...base,
+      identitySourcesAvailable: true,
+      manifest: {
+        ...MANIFEST,
+        provider: 'NSE',
+        licence: 'operator',
+        sourceRights: undefined,
+      } as unknown as DatasetManifest,
+    });
+    assert.equal(unknownWithoutRights.dataset.datasetClass, 'UNKNOWN');
+    assert.equal(unknownWithoutRights.financialCoverage.datasetClass, 'UNKNOWN');
 
     const operator = buildInvestmentCoverageReport({
       ...base,
       identitySourcesAvailable: true,
-      manifest: { ...MANIFEST, provider: 'NSE', licence: 'operator' } as unknown as DatasetManifest,
+      manifest: {
+        ...MANIFEST,
+        provider: 'synthetic-test-fixture',
+        licence: 'synthetic-test-fixture',
+        sourceRights: {
+          state: 'OPERATOR_ASSERTED',
+          basis: 'operator-supplied filing input',
+          note: 'operator attestation only',
+        },
+      } as unknown as DatasetManifest,
     });
     assert.equal(operator.dataset.datasetClass, 'OPERATOR_SUPPLIED');
+    assert.equal(operator.financialCoverage.datasetClass, 'OPERATOR_SUPPLIED');
   });
 
   it('states nothing it did not receive: the issuer count is the dataset count', () => {

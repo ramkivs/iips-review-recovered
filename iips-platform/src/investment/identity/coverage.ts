@@ -11,6 +11,7 @@
  * so in its own fields rather than in a footnote.
  */
 import { DERIVATIONS } from '../fundamentals/derive';
+import { classifyDataset } from '../fundamentals/datasetClass';
 import { XBRL_TAG_MAP } from '../ingestion/xbrl';
 import type { DatasetManifest } from '../fundamentals/manifest';
 import type { CoverageReport as SectorCoverageReport } from '../coverage/measure';
@@ -36,7 +37,7 @@ export interface FinancialCoverageDisclosure {
   readonly xbrlMappedTags: number;
   readonly derivationItems: number;
   readonly unmappedTagsObserved: readonly string[];
-  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'NONE';
+  readonly datasetClass: 'SYNTHETIC_FIXTURE' | 'OPERATOR_SUPPLIED' | 'UNKNOWN' | 'NONE';
   readonly note: string;
 }
 
@@ -103,11 +104,23 @@ function emptyCounts(): Record<ResolutionState, number> {
   return counts;
 }
 
+/**
+ * The class disclosed beside identity coverage. Delegated to the assessment path's rule.
+ *
+ * This was the third copy of the substring test `fundamentals/datasetClass.ts` repudiates in writing, and it
+ * is why the identity-coverage disclosure could assert `OPERATOR_SUPPLIED` for a manifest that carries no
+ * rights evidence. `L-041` named two classifiers; this is the second instance of the same removed rule.
+ */
 function financialClass(manifest: DatasetManifest | null): FinancialCoverageDisclosure['datasetClass'] {
   if (manifest === null) return 'NONE';
-  return /synthetic|test-fixture|fixture/i.test(`${manifest.provider} ${manifest.licence}`)
-    ? 'SYNTHETIC_FIXTURE'
-    : 'OPERATOR_SUPPLIED';
+  switch (classifyDataset(manifest)) {
+    case 'SYNTHETIC_REFERENCE':
+      return 'SYNTHETIC_FIXTURE';
+    case 'OPERATOR_SUPPLIED':
+      return 'OPERATOR_SUPPLIED';
+    default:
+      return 'UNKNOWN';
+  }
 }
 
 /**
