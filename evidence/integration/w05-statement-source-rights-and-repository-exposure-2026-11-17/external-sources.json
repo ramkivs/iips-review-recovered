@@ -1,0 +1,197 @@
+{
+ "schema": "w05-external-sources/1",
+ "readOn": "2026-11-17, between 09:50 and 10:06 UTC",
+ "method": "Each page was read once with the session page reader or taken from a web-search excerpt, as marked. No filing, dataset, market-data file or issuer page was requested. No page of either exchange was opened for any issuer of the portfolio. Quotations are short and are kept for this review only.",
+ "notRead": [
+  "NSE Disclaimer page",
+  "NSE Hyperlinking Policy (full text)",
+  "NSE Data & Analytics licence terms and the \"NSE Data Sharing & Usage Policy\"",
+  "any BSE data-product terms",
+  "the website terms of any issuer",
+  "SEBI LODR as amended to date, in SEBI's own consolidated text"
+ ],
+ "sources": [
+  {
+   "id": "NSE-TOU",
+   "kind": "exchange terms",
+   "requestedUrl": "https://www.nseindia.com/static/nse-terms-of-use",
+   "reportedUrl": "https://www.nseindia.in/static/nse-terms-of-use",
+   "what": "NSE Terms of Use, page footer \"Updated on: 29/10/2025\", read in full (28 clauses and the My Portfolio section)",
+   "takeaway": [
+    "Clause 2: an area of the website may have its own terms, which then prevail for that area.",
+    "Clause 7: NSE may change the terms without notice; continued use is acceptance.",
+    "Clause 8: content is NSE property except third-party content. Content \"shall not be copied, modified, ... reproduced, uploaded, transmitted, posted, stored (either in hardcopy or in an electronic retrieval system), ... distributed, displayed, ... published, hyperlinked, sold ... in any form, without prior written permission of NSE\". \"Unless the information or Content is available for download, not to aggregate, copy or duplicate in any manner\". The user gets \"a non-exclusive, non-transferable, limited right to access\".",
+    "Clause 9: \"User is prohibited to conduct any systematic or automated data collection activities (including scraping, data mining, data extraction and data harvesting)\". The clause states no exception.",
+    "Clause 13: no action that \"imposes an unreasonable or disproportionately large load\".",
+    "Clause 19: services that need registration are for a single individual user.",
+    "No clause states a retention period for downloaded files. No clause mentions personal use."
+   ],
+   "grade": "PRIMARY, read in full",
+   "note": "The page reader reported the host www.nseindia.in for a request to www.nseindia.com. The page defines \"Website\" as https://www.nseindia.com/, and the search index lists the same clauses at the .com address. Whether .in is a redirect by NSE or a rendering by the reader was not determined."
+  },
+  {
+   "id": "NSE-COPYRIGHT",
+   "kind": "exchange terms",
+   "requestedUrl": "https://www.nseindia.com/nse-copyright",
+   "reportedUrl": "https://www.nseindia.in/static/nse-copyright",
+   "what": "NSE Copyright policy, \"Updated on: 21/10/2025\", read in full (three paragraphs)",
+   "takeaway": [
+    "\"no portion of the Content may be reproduced on or transmitted to or stored in any other website or in other form of electronic retrieval system\".",
+    "\"Users may view, print copies and download the Content for personal, non-commercial or educational purpose without in any way amending, altering, deleting or modifying any part of the Content and provide full acknowledgement that the Content originated from this Website\".",
+    "\"The permission to reproduce the Content shall not extend to any content which is identified as being copyright of a third party. Authorization to reproduce such material must be obtained from the concerned copyright holder.\""
+   ],
+   "grade": "PRIMARY, read in full",
+   "note": "Same host remark as NSE-TOU."
+  },
+  {
+   "id": "NSE-POLICIES",
+   "kind": "exchange terms",
+   "requestedUrl": "https://www.nseindia.com/static/website-policies",
+   "reportedUrl": "https://www.nseindia.in/static/website-policies",
+   "what": "NSE Website Policies overview, \"Updated on: 21/10/2025\"",
+   "takeaway": [
+    "Lists the policies that govern use: Copyright, Disclaimer, Terms of Use, Hyperlinking, content contribution, review, archival, monitoring, contingency and security.",
+    "The Hyperlinking summary speaks of third-party links listed on the NSE website. The full Hyperlinking Policy and the Disclaimer page were not read."
+   ],
+   "grade": "PRIMARY, overview only"
+  },
+  {
+   "id": "NSE-ROBOTS",
+   "kind": "crawler file",
+   "requestedUrl": "https://www.nseindia.com/robots.txt",
+   "reportedUrl": "https://www.nseindia.in/robots.txt",
+   "what": "robots.txt, four lines",
+   "takeaway": [
+    "\"User-agent: *\", \"Allow: /\", \"Disallow: /market-data-test\", and a sitemap line.",
+    "A crawler convention. It grants no licence and does not displace clause 9 of the Terms of Use."
+   ],
+   "grade": "PRIMARY, read in full"
+  },
+  {
+   "id": "NSE-PAID-DATA",
+   "kind": "exchange data product",
+   "requestedUrl": "https://www.nseindia.com/static/market-data/corporate-data-subscription",
+   "reportedUrl": null,
+   "what": "NSE \"Paid Corporate Data\" page, read as a search-index excerpt, not fetched",
+   "takeaway": [
+    "Corporate Data (company fundamentals, corporate announcements, shareholding pattern) over a leased line: INR 1,060,000.",
+    "End of Day Corporate Announcement product over SFTP: INR 500,000 per annum.",
+    "Sold through NSE Data & Analytics Limited. Its licence terms were not read."
+   ],
+   "grade": "PRIMARY page, excerpt only"
+  },
+  {
+   "id": "BSE-DISCLAIMER",
+   "kind": "exchange terms",
+   "requestedUrl": "https://www.bseindia.com/static/about/disclaimer.aspx",
+   "reportedUrl": "https://www.bseindia.com/static/about/disclaimer",
+   "what": "BSE Disclaimer with its Trademark and Copyright notices, read in full; the page carries no date",
+   "takeaway": [
+    "\"all proprietary rights, statutory or otherwise, in the information received by such person shall remain the exclusive property of BSE. Any reproduction, redistribution or transmission, for consideration or otherwise, of any such information contained on the Website is strictly prohibited\".",
+    "Copyright Notice: \"No part of the information on this Website, including text, graphics and html code, may be reproduced or transmitted in any form by any means, without the express written consent of BSE.\"",
+    "The page grants no permission to download or keep a copy for personal use and says nothing about automated access.",
+    "Download and view-only facilities are \"subject to additional specified Terms and Conditions\"."
+   ],
+   "grade": "PRIMARY, read in full"
+  },
+  {
+   "id": "BSE-TC",
+   "kind": "exchange terms",
+   "requestedUrl": "https://www.bseindia.com/static/about/Terms_condition",
+   "reportedUrl": "https://www.bseindia.com/static/about/terms_condition",
+   "what": "BSE Terms & Conditions linked from the Disclaimer, read in full",
+   "takeaway": [
+    "The page is a licence for software tools that BSE offers as freeware. It does not address filings or data."
+   ],
+   "grade": "PRIMARY, read in full"
+  },
+  {
+   "id": "BSE-ROBOTS",
+   "kind": "crawler file",
+   "requestedUrl": "https://www.bseindia.com/robots.txt",
+   "reportedUrl": "https://www.bseindia.com/robots.txt",
+   "what": "robots.txt request",
+   "takeaway": [
+    "The address returned the site's \"Error - 404\" page. No robots.txt was read for BSE."
+   ],
+   "grade": "PRIMARY, nothing readable"
+  },
+  {
+   "id": "BSEPLUS-TC",
+   "kind": "exchange terms, other site",
+   "requestedUrl": "https://bseplus.bseindia.com/Terms_condition_Bseplus.htm",
+   "reportedUrl": null,
+   "what": "Terms of the BSEPlus site, read as a search-index excerpt, not fetched",
+   "takeaway": [
+    "Personal and non-commercial use only; \"you may print or download extracts from these pages for your personal / individual, non-commercial use only\"; copies may be kept only \"for subsequent viewing purposes\".",
+    "\"You may not ... create a database in electronic or structured manual form by regularly or systematically downloading and storing all or any part of the pages from this site.\"",
+    "These are the terms of another BSE site. Nothing read shows that they govern www.bseindia.com."
+   ],
+   "grade": "PRIMARY page of another site, excerpt only"
+  },
+  {
+   "id": "SEBI-LODR-2015",
+   "kind": "regulation",
+   "requestedUrl": "https://www.sebi.gov.in/sebi_data/attachdocs/1441284401427.pdf",
+   "reportedUrl": null,
+   "what": "SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015, Gazette text as notified, read as a search-index excerpt",
+   "takeaway": [
+    "Regulation 33(3): the listed entity submits quarterly and year-to-date financial results to the stock exchange.",
+    "Regulation 34(1): the listed entity submits the annual report to the stock exchange.",
+    "Regulation 36(1): the annual report is sent to shareholders; soft copies to those who registered an e-mail address.",
+    "Regulation 46(1) and (2): the listed entity maintains a functional website and disseminates on it, among other things, financial results and the complete annual report.",
+    "Regulation 47: financial results are published with a reference to the websites of the entity and of the stock exchange."
+   ],
+   "grade": "PRIMARY, as notified in 2015, excerpt only",
+   "note": "Later amendments were not read in SEBI's own text. The hosting periods of regulation 46 (results two years, annual report five years) and the present timing of regulation 34 were read in secondary renderings: https://ca2013.com/lodr-regulation-46/ and an issuer's own regulation 46 page."
+  },
+  {
+   "id": "SEBI-EXPERT-2024",
+   "kind": "regulator report",
+   "requestedUrl": "https://www.sebi.gov.in/sebi_data/commondocs/jun-2024/Expert%20Committee%20report%20on%20ICDR%20and%20LODR-new_p.pdf",
+   "reportedUrl": null,
+   "what": "SEBI expert committee report, June 2024, read as a search-index excerpt",
+   "takeaway": [
+    "Describes regulation 46 as it stood: a separate section of the issuer website with the regulation 46(2) disclosures, updated within two working days.",
+    "Records that most regulation 46(2) disclosures are also made to the stock exchange."
+   ],
+   "grade": "PRIMARY, excerpt only"
+  },
+  {
+   "id": "COPYRIGHT-ACT-52",
+   "kind": "statute",
+   "requestedUrl": "https://copyright.gov.in/documents/copyright_act_1957.pdf",
+   "reportedUrl": null,
+   "what": "Copyright Act, 1957, section 52(1)(a), Copyright Office text, read as a search-index excerpt",
+   "takeaway": [
+    "Not an infringement: \"a fair dealing with any work, not being a computer programme, for the purposes of (i) private or personal use, including research\".",
+    "Explanation: \"The storing of any work in any electronic medium for the purposes mentioned in this clause ... shall not constitute infringement of copyright.\""
+   ],
+   "grade": "PRIMARY, excerpt only",
+   "note": "How the exception applies to a given copy, and whether a website's terms can narrow it by contract, was not determined."
+  },
+  {
+   "id": "COMPANIES-ACT-136",
+   "kind": "statute",
+   "requestedUrl": "https://indiankanoon.org/doc/107395637/",
+   "reportedUrl": null,
+   "what": "Companies Act, 2013, section 136, read in a secondary rendering as a search-index excerpt",
+   "takeaway": [
+    "A copy of the financial statements, with the auditor's report, \"shall be sent to every member of the company\" before the general meeting; a listed company may send a statement of salient features unless the shareholder asks for the full statements.",
+    "\"a listed company shall also place its financial statements including consolidated financial statements ... on its website\"."
+   ],
+   "grade": "SECONDARY rendering of the statute, excerpt only"
+  },
+  {
+   "id": "SWH",
+   "kind": "archive check",
+   "requestedUrl": "https://archive.softwareheritage.org/api/1/origin/https://github.com/ramkivs/iips-review-recovered/visit/latest/",
+   "reportedUrl": null,
+   "what": "Software Heritage origin lookup",
+   "takeaway": [
+    "Status 404, \"Origin ... not found\". The repository was not in that archive at the time of reading."
+   ],
+   "grade": "PRIMARY, read in full"
+  }
+ ]
+}
