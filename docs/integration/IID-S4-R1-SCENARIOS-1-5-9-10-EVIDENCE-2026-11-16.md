@@ -418,3 +418,21 @@ JavaScript mandatory; `/investment/coverage` now serves the investment report on
 view moved to `/identity-coverage`. Scenario 1's row is unaffected — §23 names the SPA route, which was correct
 then and is correct now. Evidence:
 `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14.
+
+---
+
+## Addendum (2026-11-17) — `G-11`'s served closure re-examined; the accounting is unchanged
+
+Appended forward; **every scenario verdict, count and residual in this record is unchanged, byte for byte**. §5's
+scenario-1 proof (minted through the shipped CLI, served `200`, second independent reader, `UNCHANGED` on repeat,
+`404` when absent) remains the evidence for `G-11`'s served limb, and it was **read, not re-run**: the suites that
+produce it import the private `iips-np04-governed-persistence` pin, which is unreachable from the environment this
+addendum was written in (403 on `ramkivs/iips-production-market-data`).
+
+What the later pass added is a different layer of coverage, not a different verdict: 23 served-transport tests
+(`frontend/server/investment/iidG11ServedChainTransport.test.ts`) pinning that the product's own HTTP server enforces
+the chain's method, scope, owner-context and HEAD discipline **before** an owner is resolved or a store opened, that
+no client-supplied portfolio or query parameter can select which chain is served, and that the chain, coverage and
+identity paths do not shadow one another. The disposition — `G-11` unchanged, closed in-tree, host limbs still the
+operator's — and the exact verification limits are recorded in
+`IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §15.

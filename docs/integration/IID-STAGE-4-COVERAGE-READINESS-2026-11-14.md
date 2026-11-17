@@ -638,3 +638,112 @@ materialises the alias); its assertions read only route constants, which are unc
   page renders `issuersConsidered.length`, which is the true figure. Fixing the SPA is a JS-enabled-surface
   change outside this act's authority (the instruction was to preserve JS-enabled behaviour); it is recorded
   here so the register owner can number and charge it.
+
+---
+
+## 15. Addendum (2026-11-17) — `G-11`: no served-chain limb was missing; what was and was not verified
+
+Appended forward. **§1–§14 above are unchanged, byte for byte.** This addendum answers one question — *what
+served assessment-chain functionality is still outstanding?* — and answers it with evidence rather than with a
+code change: **none was outstanding.** It also records exactly what this pass could verify, what it could not,
+and why, so that the register's own status is not advanced on inspection.
+
+### 15.1 The finding, and its two limbs
+
+`G-11` (baseline §24, quoted by `CPII-01` §8.3 B-7) recorded that no assessment version had ever been stored and
+that `GET /investment/company/:issuerId` *"has never served a real chain and returns 404 everywhere"*.
+
+| Limb | Completed | Evidence | Reopened here? |
+|---|---|---|---|
+| **Storage** — no assessment version exists anywhere operational | 2026-11-15 | `IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md` §7.1, operator-reported on the Windows store, with CLI read-back in a separate process | **No.** Read only |
+| **Served** — the chain has never been served | 2026-11-16 | `IID-S4-R1-SCENARIOS-1-5-9-10-EVIDENCE-2026-11-16.md` §5, scenario 1: minted through the shipped CLI against the admitted dataset, served `200` over the product's own composition root, re-read identically by a second reader, `UNCHANGED` on a repeat mint, `404` for an issuer with no chain | **No.** Re-exercised, not re-scored |
+
+### 15.2 The served path, end to end, and where a gap could have been
+
+Traced in `frontend/server/investment/investment-transport.ts` and its collaborators — and found complete at every
+step: route parse (`/company/:issuerId`, `/company/:issuerId/versions/:reportId`, split-then-decode, no second
+`versions` marker) → issuer identity parse + scope-token derivation (`co:<issuerId>`) → method gate → **owner
+context** (`resolveReportsOwnerContext`, the server-owned carrier seam shared with Reports) → **governed
+persistence boundary** (`loadAuthoritativeNp04Persistence`, fail-closed, no substitute store) → chain read filtered
+by scope (`findChainArtifacts`: `portfolioId === scopeToken && reportType === HEAD`, refusing to choose between two
+heads) → chain validation (`assertChainOfScope`, provenance issuer check, report-key recomputation, scope-drift
+rejection) → version read inside the validated chain → response envelope (payload verbatim) → fixed error mapping
+(`400` scope, `404` absent chain/version, `405` method, `503` owner-context / persistence / integrity).
+
+The **portfolio** dimension of an assessment chain is the scope token itself (`co:<issuerId>`): a company
+assessment is not filed under a portfolio, and the disposition surface that *is* portfolio-keyed
+(`hd:<portfolioId>:<securityId>`) is a different capability on different paths. So "correct portfolio association"
+here means exactly one thing — **a client-supplied portfolio cannot select the chain**, because the chain is chosen
+by the path's issuer and the server-owned owner and by nothing else. That is now asserted (15.3), not assumed.
+
+Where a substitution could still occur, and does not: the store scan is owner-scoped (`queryByOwner(this.ownerPair)`),
+so another owner's chain is not merely filtered out of the response — it is never listed; and every chain member is
+re-checked against the requested scope on read, so a store edit that moved an artifact between scopes is a
+`CHAIN_SCOPE_DRIFT` refusal rather than a plausible answer. Both properties are pinned by
+`frontend/server/investment/investment-artifacts.test.ts` (including *"keeps one scope per issuer and does not see
+another scope"* and *"treats a different issuer as a different chain, even with identical content"*).
+
+### 15.3 What this pass verified, on the delivered transport
+
+**New suite: `frontend/server/investment/iidG11ServedChainTransport.test.ts` — 23 tests, 23 pass.** It imports the
+**executive transport's own server** (`server` from `executive-transport.ts`, `listen()` suppressed under
+`NODE_ENV=test` and bound by the test) and issues real HTTP requests at the chain paths, the version path and the
+four coverage/identity paths:
+
+| Property asserted | Result |
+|---|---|
+| `POST`/`PUT`/`PATCH`/`DELETE` → `405` + `Allow: GET, HEAD` + `no-store`, before any owner or store work | pass |
+| `OPTIONS` → the transport-wide preflight (`204`, empty), so the chain cannot be reached through it either | pass |
+| A symbol, a sector reference, a portfolio id, an empty version segment, a stray segment, a bare company path → `400 investment-scope-invalid`, with no echo of the rejected value, and **no owner resolved / no store opened** | pass |
+| No carrier; a changed owner; a changed tenant; an extra key; a non-JSON carrier → `503 owner-context-unavailable` in the fixed refusal shape, with no path, carrier value or owner pair in the body | pass |
+| `HEAD` answers the same status as `GET` with an empty body, on both chain paths | pass |
+| `?portfolio=`, `?portfolioId=`, `?securityId=`, `?asOf=`, `?reportId=` change **nothing** — byte-identical answer with and without them | pass |
+| No coverage/identity response is a chain envelope (`scopeToken`, `versionCount` absent), and no chain response carries a dataset field; the `/changes` path under the same issuer is a different surface | pass |
+
+Executed in this environment: the new suite **23/23**; `iips-platform` `npm run test:iid` **1,468/1,468**;
+`npx tsc --noEmit` clean in `iips-platform`; `tsc -p tsconfig.investment-server.json --noEmit` clean in `frontend`
+apart from the private-dependency resolution errors named in 15.4.
+
+### 15.4 What this pass could **not** reproduce, and the exact blocker
+
+The `200`/`404` chain and the store-level isolation properties are asserted by suites that import
+`iips-np04-governed-persistence/persistence` — the second-specifier pin
+`github:ramkivs/iips-production-market-data#2e11fa3b…` (R3-Option B). In this environment that repository is
+**unreachable**:
+
+```
+git ls-remote https://github.com/ramkivs/iips-production-market-data.git
+  remote: Write access to repository not granted.
+  fatal: ... The requested URL returned error: 403
+```
+
+Consequences, stated exactly rather than worked around:
+
+- `investment-transport.test.ts`, `investment-artifacts.test.ts` and `iidStage4S4R1Scenarios.test.ts` cannot be
+  **loaded** here (unresolved module), so the served `200`, the `404` for an absent chain and the service-level
+  isolation cases were **not** re-executed at this head.
+- On the live transport the chain paths answer only their fail-closed limbs — `503 investment-persistence-unavailable`
+  with a valid carrier and no boundary, `503 owner-context-unavailable` with a tampered carrier, `400`/`405` as above
+  — which is what a correct refusal looks like, not a served chain.
+- `ci.yml` runs on `pull_request` and on `push` to `main` only, so a branch commit alone produces **no run** to cite.
+
+### 15.5 Status, and why it does not move
+
+**`G-11` stays exactly as the register has it: closed in-tree at `S4-R1`'s head, with the host/browser limbs
+(`R-1`, `R-2`, D10) owned by the operator and unchanged by this pass.** It is **not** re-promoted here, because the
+repository's completion standard is evidence *at the head being claimed*, and the finding's substance — a chain
+served `200` — cannot be reproduced at this head from this environment (15.4). The in-tree closure is neither
+weakened nor re-scored; nothing in §7's `S4-R1` row was edited.
+
+This is a "no code limb was missing" outcome, not a repair: the investigation found the chain complete, added the
+served-layer regression coverage that was genuinely absent, and recorded the two properties it declined to change:
+
+1. **`respondOwnerContextUnavailable` sets no `Cache-Control: no-store`.** It is the only refusal in the served
+   chain surface without it; every neighbouring refusal sets it. The helper is shared by the Reports, broker-import,
+   disposition and investment surfaces (ten call sites), so a change is a cross-surface response-contract edit, not a
+   `G-11` repair. **Recorded, not changed.**
+2. **The shared boundary opens the store with `createDirectory: true, migrate: true`** (`persistence-port.ts:321-325`).
+   That is what lets the shipped mint CLI initialise a store, and it means a misconfigured *read* path can create an
+   empty database and answer `404` rather than a diagnosable failure. Splitting a read-only opener from the write
+   opener would change the persistence boundary that `S4-R1`'s mint proof depends on — expressly outside this act's
+   authority. **Recorded, not changed.**
