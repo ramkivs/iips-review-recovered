@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "baseline": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json",
+  "changedPaths": 14,
+  "unattributedPaths": [],
+  "changes": [
+    {
+      "path": "$.artifact.generatedAt",
+      "kind": "VALUE",
+      "wi3": "2026-11-06T14:05:00.000Z",
+      "head": "2026-11-12T09:00:00.000Z",
+      "cause": "RUN_CLOCK",
+      "evidence": "this run used a later --generated-at than WI-3; stalenessDays is measured against it"
+    },
+    {
+      "path": "$.asOf.generatedAt",
+      "kind": "VALUE",
+      "wi3": "2026-11-06T14:05:00.000Z",
+      "head": "2026-11-12T09:00:00.000Z",
+      "cause": "RUN_CLOCK",
+      "evidence": "this run used a later --generated-at than WI-3; stalenessDays is measured against it"
+    },
+    {
+      "path": "$.asOf.stalenessDays",
+      "kind": "VALUE",
+      "wi3": 950,
+      "head": 956,
+      "cause": "RUN_CLOCK",
+      "evidence": "this run used a later --generated-at than WI-3; stalenessDays is measured against it"
+    },
+    {
+      "path": "$.confidence.assumptionCaps",
+      "kind": "ADDED",
+      "wi3": null,
+      "head": [
+        {
+          "applied": true,
+          "basis": "POLICY_DEFAULT",
+          "cap": "POLICY_DEFAULT_WACC",
+          "category": "DISCOUNT_RATE",
+          "factor": null,
+          "penaltyRate": 0.2,
+          "reason": null,
+          "triggers": [
+            {
+              "assumption": "discountRate",
+              "methodId": "DCF_FCFF"
+            }
+          ]
+        },
+        {
+          "applied": true,
+          "basis": "POLICY_DEFAULT",
+          "cap": "POLICY_DEFAULT_MULTIPLE",
+          "category": "TARGET_MULTIPLE",
+          "factor": null,
+          "penaltyRate": 0.15,
+          "reason": null,
+          "triggers": [
+            {
+              "assumption": "targetMultiple",
+              "methodId": "PE_RELATIVE"
+            },
+            {
+              "assumption": "targetMultiple",
+              "methodId": "EV_EBITDA"
+            }
+          ]
+        }
+      ],
+      "cause": "IX_AUTHORIZED_POLICY (L-034)",
+      "evidence": "7790e48 implemented the owner-authorised R-4.3 penalty: POLICY_DEFAULT_WACC 0.20 and POLICY_DEFAULT_MULTIPLE 0.15, additive by category, one 0.35 ceiling, no floor"
+    },
+    {
+      "path": "$.confidence.caps",
+      "kind": "LENGTH",
+      "wi3": 2,
+      "head": 4,
+      "cause": "IX_AUTHORIZED_POLICY (L-034)",
+      "evidence": "7790e48 implemented the owner-authorised R-4.3 penalty: POLICY_DEFAULT_WACC 0.20 and POLICY_DEFAULT_MULTIPLE 0.15, additive by category, one 0.35 ceiling, no floor"
+    },
+    {
+      "path": "$.confidence.combined",
+      "kind": "VALUE",
+      "wi3": 0.6736,
+      "head": 0.4378,
+      "cause": "IX_AUTHORIZED_POLICY (L-034)",
+      "evidence": "7790e48 implemented the owner-authorised R-4.3 penalty: POLICY_DEFAULT_WACC 0.20 and POLICY_DEFAULT_MULTIPLE 0.15, additive by category, one 0.35 ceiling, no floor"
+    },
+    {
+      "path": "$.confidence.formula",
+      "kind": "VALUE",
+      "wi3": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp",
+      "head": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_WACC 0.2 + POLICY_DEFAULT_MULTIPLE 0.15) and are capped at one aggregate reduction of 0.35 — applied once here, 0.35, so ×0.65, with no minimum-confidence floor",
+      "cause": "IX_AUTHORIZED_POLICY (L-034)",
+      "evidence": "7790e48 implemented the owner-authorised R-4.3 penalty: POLICY_DEFAULT_WACC 0.20 and POLICY_DEFAULT_MULTIPLE 0.15, additive by category, one 0.35 ceiling, no floor"
+    },
+    {
+      "path": "$.fundamentals.capitalStructure.associatesJVReview",
+      "kind": "ADDED",
+      "wi3": null,
+      "head": {
+        "clockStart": "2024-03-31",
+        "clockStartBasis": "DATASET_PERIOD_END",
+        "reason": "The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence.",
+        "reviewAgeDays": 180,
+        "reviewDueOn": "2024-09-27",
+        "reviewPolicyVersion": "associates-review/1.0.0",
+        "reviewRequired": true,
+        "status": "REVIEW_DUE",
+        "treatment": "POLICY_ZERO",
+        "treatmentPolicyVersion": "associates-treatment/1.0.0"
+      },
+      "cause": "ASSOCIATES_JV_DISCLOSURE (L-036)",
+      "evidence": "VII/IX made the POLICY_ZERO substitution and the 180-day review control reader-visible on the figures they touch; WI-9 verified the control in force for this issuer"
+    },
+    {
+      "path": "$.fundamentals.capitalStructure.equityBridge",
+      "kind": "ADDED",
+      "wi3": null,
+      "head": {
+        "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+        "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+        "policyVersion": "associates-treatment/1.0.0",
+        "substitutedInputs": [
+          {
+            "input": "associatesAndJV",
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "treatment": "POLICY_ZERO"
+          }
+        ],
+        "treatment": "POLICY_ZERO_UNAVAILABLE"
+      },
+      "cause": "ASSOCIATES_JV_DISCLOSURE (L-036)",
+      "evidence": "VII/IX made the POLICY_ZERO substitution and the 180-day review control reader-visible on the figures they touch; WI-9 verified the control in force for this issuer"
+    },
+    {
+      "path": "$.limitations",
+      "kind": "LENGTH",
+      "wi3": 5,
+      "head": 8,
+      "cause": "IX_AUTHORIZED_POLICY (L-034) + ASSOCIATES_JV_DISCLOSURE (L-036)",
+      "evidence": "three entries were INSERTED before the closing IID-2 sentence, which moved from index 4 to index 7 and is unchanged: the policy-zero disclosure, the R-4.3 penalty account and the REVIEW_DUE flag"
+    },
+    {
+      "path": "$.limitations[4]",
+      "kind": "VALUE",
+      "wi3": "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those).",
+      "head": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+      "cause": "IX_AUTHORIZED_POLICY (L-034) + ASSOCIATES_JV_DISCLOSURE (L-036)",
+      "evidence": "three entries were INSERTED before the closing IID-2 sentence, which moved from index 4 to index 7 and is unchanged: the policy-zero disclosure, the R-4.3 penalty account and the REVIEW_DUE flag"
+    },
+    {
+      "path": "$.subject.identity.bindingRef",
+      "kind": "VALUE",
+      "wi3": "sha256:865fab31da57638feb2c1f5571d2f7ec4acba0ad482a00ad369b2147b37c8247",
+      "head": "sha256:63180b5983b320b3a656f003b31465f71102bf5360c062caae095cee4b39b5b2",
+      "cause": "RUN_CLOCK + IDENTITY_LISTING_NARROWING",
+      "evidence": "the binding hashes observedAt, and a54591e (W08) narrowed the candidate listings by the observed series, symbol and exchange, so the same observation now resolves to IN:NSE:INFY:EQ:EQUITY instead of IN:BSE:500209:EQ:EQUITY"
+    },
+    {
+      "path": "$.valuation.methods[0].output.perShareMid.note",
+      "kind": "ADDED",
+      "wi3": null,
+      "head": "claims declared nil by the filer, subtracted as zero: preferenceCapital; Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+      "cause": "ASSOCIATES_JV_DISCLOSURE (L-036)",
+      "evidence": "VII/IX made the POLICY_ZERO substitution and the 180-day review control reader-visible on the figures they touch; WI-9 verified the control in force for this issuer"
+    },
+    {
+      "path": "$.valuation.methods[2].output.perShareMid.note",
+      "kind": "ADDED",
+      "wi3": null,
+      "head": "claims declared nil by the filer, subtracted as zero: preferenceCapital; Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+      "cause": "ASSOCIATES_JV_DISCLOSURE (L-036)",
+      "evidence": "VII/IX made the POLICY_ZERO substitution and the 180-day review control reader-visible on the figures they touch; WI-9 verified the control in force for this issuer"
+    }
+  ],
+  "unchangedAndMaterial": [
+    "every reported (AS_FILED) cell in all three periods",
+    "all five derivations in all three periods",
+    "grossDebt, cashAndInvestments, netDebt, minorityInterest, leaseLiabilities, dilutedShares",
+    "all three weighted methods at all three points",
+    "intrinsic low/mid/high, spreadPct and the renormalised weights",
+    "the price, mosVsLow, mosVsMid, the band and the absence of a refusal",
+    "adequacy SUFFICIENT, quality MATERIAL_CONCERNS, dataConfidence, modelConfidence",
+    "risk evaluation: 3 applicable, 3 evaluated, 3 passed, 0 concerns, disposition PASSED",
+    "dividends, moat, assumptions, evidence, completeness and the sector reference view"
+  ],
+  "summaryFieldMoves": [
+    {
+      "field": "identity.listingId",
+      "wi3": "IN:BSE:500209:EQ:EQUITY",
+      "head": "IN:NSE:INFY:EQ:EQUITY",
+      "cause": "IDENTITY_LISTING_NARROWING (a54591e, W08)"
+    },
+    {
+      "field": "identity.bindingId",
+      "wi3": "sha256:865fab31da57638feb2c1f5571d2f7ec4acba0ad482a00ad369b2147b37c8247",
+      "head": "sha256:63180b5983b320b3a656f003b31465f71102bf5360c062caae095cee4b39b5b2",
+      "cause": "RUN_CLOCK + IDENTITY_LISTING_NARROWING"
+    },
+    {
+      "field": "dataset.datasetClass",
+      "wi3": "APPROVED_LOCAL_INGESTION",
+      "head": "OPERATOR_SUPPLIED",
+      "cause": "DATASET_CLASS_VOCABULARY (a54591e, W03/W05): APPROVED_LOCAL_INGESTION was withdrawn as a name for an approval no review produced"
+    },
+    {
+      "field": "assessment.confidence",
+      "wi3": 0.6736,
+      "head": 0.4378,
+      "cause": "IX_AUTHORIZED_POLICY (L-034)"
+    },
+    {
+      "field": "assessment.limitationCount",
+      "wi3": 5,
+      "head": 8,
+      "cause": "IX_AUTHORIZED_POLICY + ASSOCIATES_JV_DISCLOSURE"
+    }
+  ]
+}

@@ -1,0 +1,802 @@
+{
+  "schemaVersion": 1,
+  "issuer": {
+    "issuerId": "IN:CIN:L85110KA1981PLC013115",
+    "legalName": "Infosys Limited",
+    "securityId": "IN:ISIN:INE009A01021",
+    "sector": "Technology",
+    "reportingCurrency": "INR",
+    "fiscalYearEnd": "03-31"
+  },
+  "primaryEvidence": {
+    "input": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/periods.csv",
+    "inputSha256": "4b660e5d1a507be5638198ce0c618944a2609a8a8d8bf742fab1130bfc8c562c",
+    "note": "transcribed from the issuer's own audited consolidated Ind AS filings; the printed pages are committed under WI-3/source and REL-1/ingest-input",
+    "periods": [
+      {
+        "fiscalYear": 2024,
+        "periodEnd": "2024-03-31",
+        "statementScope": "CONSOLIDATED",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "filedAt": "2024-04-18",
+        "sourceScale": "CRORE"
+      },
+      {
+        "fiscalYear": 2023,
+        "periodEnd": "2023-03-31",
+        "statementScope": "CONSOLIDATED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "filedAt": "2023-04-13",
+        "sourceScale": "CRORE"
+      },
+      {
+        "fiscalYear": 2022,
+        "periodEnd": "2022-03-31",
+        "statementScope": "CONSOLIDATED",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "filedAt": "2023-04-13",
+        "sourceScale": "CRORE"
+      }
+    ]
+  },
+  "reproducibility": {
+    "datasetVersionRecordedByWi3": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+    "datasetVersionRecomputedAtHead": "sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847",
+    "reproduced": true,
+    "ingestionIssues": 0,
+    "headPayloadDigest": "18f5ccb60533535de5b9c8be034a7d16499a3b60d5899f672d4320317dbdc85d",
+    "headPayloadBytes": 55573,
+    "wi3PayloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
+    "wi3PayloadBytes": 51196,
+    "analysisLayerDigest": "d78d7c72320951e00b00846b5e7c605cafc6144ec3aadbadca1c0b18f5496d91",
+    "persistedArtifactEqualsFreshAnalysis": true,
+    "manifestIsNotByteReproducible": {
+      "fact": "the re-ingested manifest carries sourceRights (W05) whose basis embeds the absolute input path, and the manifest is outside manifest.digestScope",
+      "consequence": "dataset identity is reproducible across hosts; the manifest file is not, and is not part of the digest"
+    }
+  },
+  "recomputation": {
+    "perPeriod": [
+      {
+        "periodEnd": "2022-03-31",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "filedAt": "2023-04-13",
+        "statementScope": "CONSOLIDATED",
+        "recomputed": {
+          "EBIT": 303100000000,
+          "EBITDA": 337860000000,
+          "FREE_CASH_FLOW": 217240000000,
+          "DILUTED_SHARES": 4218660560.961649,
+          "BOOK_VALUE_PER_SHARE": 178.61119402985074
+        },
+        "published": {
+          "EBIT": 303100000000,
+          "EBITDA": 337860000000,
+          "FREE_CASH_FLOW": 217240000000,
+          "DILUTED_SHARES": 4218660560.961649,
+          "BOOK_VALUE_PER_SHARE": 178.61119402985074
+        }
+      },
+      {
+        "periodEnd": "2023-03-31",
+        "filingRef": "INFY-INDAS-CONSOL-FY23",
+        "filedAt": "2023-04-13",
+        "statementScope": "CONSOLIDATED",
+        "recomputed": {
+          "EBIT": 336060000000,
+          "EBITDA": 378310000000,
+          "FREE_CASH_FLOW": 198880000000,
+          "DILUTED_SHARES": 4187521724.0180745,
+          "BOOK_VALUE_PER_SHARE": 180.07548371031334
+        },
+        "published": {
+          "EBIT": 336060000000,
+          "EBITDA": 378310000000,
+          "FREE_CASH_FLOW": 198880000000,
+          "DILUTED_SHARES": 4187521724.0180745,
+          "BOOK_VALUE_PER_SHARE": 180.07548371031334
+        }
+      },
+      {
+        "periodEnd": "2024-03-31",
+        "filingRef": "INFY-INDAS-CONSOL-FY24",
+        "filedAt": "2024-04-18",
+        "statementScope": "CONSOLIDATED",
+        "recomputed": {
+          "EBIT": 364580000000,
+          "EBITDA": 411360000000,
+          "FREE_CASH_FLOW": 230090000000,
+          "DILUTED_SHARES": 4144888607.994944,
+          "BOOK_VALUE_PER_SHARE": 212.58954904128387
+        },
+        "published": {
+          "EBIT": 364580000000,
+          "EBITDA": 411360000000,
+          "FREE_CASH_FLOW": 230090000000,
+          "DILUTED_SHARES": 4144888607.994944,
+          "BOOK_VALUE_PER_SHARE": 212.58954904128387
+        }
+      }
+    ],
+    "derivationCoverage": [
+      {
+        "id": "TOTAL_INCOME",
+        "label": "Total income",
+        "requires": [
+          "REVENUE_FROM_OPERATIONS",
+          "OTHER_INCOME"
+        ],
+        "note": "Revenue from operations plus other income",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "REPORTED_AND_RECONCILED_AGAINST_DERIVATION",
+            "computed": 1239360000000,
+            "published": 1239360000000,
+            "formula": "Revenue from operations plus other income",
+            "inputs": [
+              {
+                "input": "REVENUE_FROM_OPERATIONS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "OTHER_INCOME",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "REPORTED_AND_RECONCILED_AGAINST_DERIVATION",
+            "computed": 1494680000000,
+            "published": 1494680000000,
+            "formula": "Revenue from operations plus other income",
+            "inputs": [
+              {
+                "input": "REVENUE_FROM_OPERATIONS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "OTHER_INCOME",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "REPORTED_AND_RECONCILED_AGAINST_DERIVATION",
+            "computed": 1583810000000,
+            "published": 1583810000000,
+            "formula": "Revenue from operations plus other income",
+            "inputs": [
+              {
+                "input": "REVENUE_FROM_OPERATIONS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "OTHER_INCOME",
+                "from": "AS_FILED"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "EBIT",
+        "label": "Earnings before interest and tax",
+        "requires": [
+          "PROFIT_BEFORE_TAX",
+          "FINANCE_COSTS"
+        ],
+        "note": "Profit before tax plus finance costs",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "DERIVED",
+            "computed": 303100000000,
+            "published": 303100000000,
+            "formula": "Profit before tax plus finance costs",
+            "inputs": [
+              {
+                "input": "PROFIT_BEFORE_TAX",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCE_COSTS",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "DERIVED",
+            "computed": 336060000000,
+            "published": 336060000000,
+            "formula": "Profit before tax plus finance costs",
+            "inputs": [
+              {
+                "input": "PROFIT_BEFORE_TAX",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCE_COSTS",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "DERIVED",
+            "computed": 364580000000,
+            "published": 364580000000,
+            "formula": "Profit before tax plus finance costs",
+            "inputs": [
+              {
+                "input": "PROFIT_BEFORE_TAX",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCE_COSTS",
+                "from": "AS_FILED"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "EBITDA",
+        "label": "EBITDA",
+        "requires": [
+          "PROFIT_BEFORE_TAX",
+          "FINANCE_COSTS",
+          "DEPRECIATION_AND_AMORTISATION"
+        ],
+        "note": "Profit before tax plus finance costs plus depreciation and amortisation",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "DERIVED",
+            "computed": 337860000000,
+            "published": 337860000000,
+            "formula": "Profit before tax plus finance costs plus depreciation and amortisation",
+            "inputs": [
+              {
+                "input": "PROFIT_BEFORE_TAX",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCE_COSTS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "DEPRECIATION_AND_AMORTISATION",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "DERIVED",
+            "computed": 378310000000,
+            "published": 378310000000,
+            "formula": "Profit before tax plus finance costs plus depreciation and amortisation",
+            "inputs": [
+              {
+                "input": "PROFIT_BEFORE_TAX",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCE_COSTS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "DEPRECIATION_AND_AMORTISATION",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "DERIVED",
+            "computed": 411360000000,
+            "published": 411360000000,
+            "formula": "Profit before tax plus finance costs plus depreciation and amortisation",
+            "inputs": [
+              {
+                "input": "PROFIT_BEFORE_TAX",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCE_COSTS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "DEPRECIATION_AND_AMORTISATION",
+                "from": "AS_FILED"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "NET_DEBT",
+        "label": "Net debt",
+        "requires": [
+          "LONG_TERM_BORROWINGS",
+          "SHORT_TERM_BORROWINGS",
+          "CASH_AND_CASH_EQUIVALENTS"
+        ],
+        "note": "Borrowings less cash; v0 excludes lease liabilities and current maturities (not reported in v0)",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "INPUTS_MISSING",
+            "missingInputs": [
+              "LONG_TERM_BORROWINGS",
+              "SHORT_TERM_BORROWINGS"
+            ],
+            "computed": null,
+            "published": null
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "INPUTS_MISSING",
+            "missingInputs": [
+              "LONG_TERM_BORROWINGS",
+              "SHORT_TERM_BORROWINGS"
+            ],
+            "computed": null,
+            "published": null
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "INPUTS_MISSING",
+            "missingInputs": [
+              "LONG_TERM_BORROWINGS",
+              "SHORT_TERM_BORROWINGS"
+            ],
+            "computed": null,
+            "published": null
+          }
+        ]
+      },
+      {
+        "id": "FREE_CASH_FLOW",
+        "label": "Free cash flow",
+        "requires": [
+          "OPERATING_CASH_FLOW",
+          "CAPITAL_EXPENDITURE"
+        ],
+        "note": "Operating cash flow less capital expenditure",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "DERIVED",
+            "computed": 217240000000,
+            "published": 217240000000,
+            "formula": "Operating cash flow less capital expenditure",
+            "inputs": [
+              {
+                "input": "OPERATING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "CAPITAL_EXPENDITURE",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "DERIVED",
+            "computed": 198880000000,
+            "published": 198880000000,
+            "formula": "Operating cash flow less capital expenditure",
+            "inputs": [
+              {
+                "input": "OPERATING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "CAPITAL_EXPENDITURE",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "DERIVED",
+            "computed": 230090000000,
+            "published": 230090000000,
+            "formula": "Operating cash flow less capital expenditure",
+            "inputs": [
+              {
+                "input": "OPERATING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "CAPITAL_EXPENDITURE",
+                "from": "AS_FILED"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "NET_CASH_FLOW",
+        "label": "Net cash flow",
+        "requires": [
+          "OPERATING_CASH_FLOW",
+          "INVESTING_CASH_FLOW",
+          "FINANCING_CASH_FLOW"
+        ],
+        "note": "Sum of the three cash-flow sections as filed",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "REPORTED_AND_RECONCILED_AGAINST_DERIVATION",
+            "computed": -71730000000,
+            "published": -71730000000,
+            "formula": "Sum of the three cash-flow sections as filed",
+            "inputs": [
+              {
+                "input": "OPERATING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "INVESTING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCING_CASH_FLOW",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "REPORTED_AND_RECONCILED_AGAINST_DERIVATION",
+            "computed": -54370000000,
+            "published": -54370000000,
+            "formula": "Sum of the three cash-flow sections as filed",
+            "inputs": [
+              {
+                "input": "OPERATING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "INVESTING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCING_CASH_FLOW",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "REPORTED_AND_RECONCILED_AGAINST_DERIVATION",
+            "computed": 26970000000,
+            "published": 26970000000,
+            "formula": "Sum of the three cash-flow sections as filed",
+            "inputs": [
+              {
+                "input": "OPERATING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "INVESTING_CASH_FLOW",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "FINANCING_CASH_FLOW",
+                "from": "AS_FILED"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "DILUTED_SHARES",
+        "label": "Diluted shares",
+        "requires": [
+          "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+          "EPS_DILUTED"
+        ],
+        "note": "Attributable profit divided by reported diluted EPS; division by zero is withheld",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "DERIVED",
+            "computed": 4218660560.961649,
+            "published": 4218660560.961649,
+            "formula": "Attributable profit divided by reported diluted EPS; division by zero is withheld",
+            "inputs": [
+              {
+                "input": "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "EPS_DILUTED",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "DERIVED",
+            "computed": 4187521724.0180745,
+            "published": 4187521724.0180745,
+            "formula": "Attributable profit divided by reported diluted EPS; division by zero is withheld",
+            "inputs": [
+              {
+                "input": "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "EPS_DILUTED",
+                "from": "AS_FILED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "DERIVED",
+            "computed": 4144888607.994944,
+            "published": 4144888607.994944,
+            "formula": "Attributable profit divided by reported diluted EPS; division by zero is withheld",
+            "inputs": [
+              {
+                "input": "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "EPS_DILUTED",
+                "from": "AS_FILED"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "BOOK_VALUE_PER_SHARE",
+        "label": "Book value per share",
+        "requires": [
+          "EQUITY_ATTRIBUTABLE_TO_OWNERS",
+          "DILUTED_SHARES"
+        ],
+        "note": "Equity attributable to owners divided by diluted shares",
+        "perPeriod": [
+          {
+            "periodEnd": "2022-03-31",
+            "state": "DERIVED",
+            "computed": 178.61119402985074,
+            "published": 178.61119402985074,
+            "formula": "Equity attributable to owners divided by diluted shares",
+            "inputs": [
+              {
+                "input": "EQUITY_ATTRIBUTABLE_TO_OWNERS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "DILUTED_SHARES",
+                "from": "DERIVED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2023-03-31",
+            "state": "DERIVED",
+            "computed": 180.07548371031334,
+            "published": 180.07548371031334,
+            "formula": "Equity attributable to owners divided by diluted shares",
+            "inputs": [
+              {
+                "input": "EQUITY_ATTRIBUTABLE_TO_OWNERS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "DILUTED_SHARES",
+                "from": "DERIVED"
+              }
+            ]
+          },
+          {
+            "periodEnd": "2024-03-31",
+            "state": "DERIVED",
+            "computed": 212.58954904128387,
+            "published": 212.58954904128387,
+            "formula": "Equity attributable to owners divided by diluted shares",
+            "inputs": [
+              {
+                "input": "EQUITY_ATTRIBUTABLE_TO_OWNERS",
+                "from": "AS_FILED"
+              },
+              {
+                "input": "DILUTED_SHARES",
+                "from": "DERIVED"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "capitalStructure": {
+      "declaredNilComponents": [
+        "LONG_TERM_BORROWINGS",
+        "SHORT_TERM_BORROWINGS",
+        "CURRENT_MATURITIES_OF_LONG_TERM_DEBT",
+        "PREFERENCE_CAPITAL"
+      ],
+      "recomputed": {
+        "grossDebt": 83590000000,
+        "cashAndInvestments": 277010000000,
+        "netDebt": -193420000000,
+        "minorityInterest": 3450000000,
+        "leaseLiabilities": 83590000000,
+        "dilutedShares": 4144888607.994944
+      },
+      "published": {
+        "grossDebt": 83590000000,
+        "cashAndInvestments": 277010000000,
+        "netDebt": -193420000000,
+        "minorityInterest": 3450000000,
+        "leaseLiabilities": 83590000000,
+        "dilutedShares": 4144888607.994944
+      },
+      "notComputable": {
+        "associatesAndJV": {
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "value": null
+        },
+        "restrictedCash": {
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED",
+          "value": null
+        }
+      },
+      "equityBridge": {
+        "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+        "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+        "policyVersion": "associates-treatment/1.0.0",
+        "substitutedInputs": [
+          {
+            "input": "associatesAndJV",
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "treatment": "POLICY_ZERO"
+          }
+        ],
+        "treatment": "POLICY_ZERO_UNAVAILABLE"
+      },
+      "associatesJVReview": {
+        "clockStart": "2024-03-31",
+        "clockStartBasis": "DATASET_PERIOD_END",
+        "reason": "The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence.",
+        "reviewAgeDays": 180,
+        "reviewDueOn": "2024-09-27",
+        "reviewPolicyVersion": "associates-review/1.0.0",
+        "reviewRequired": true,
+        "status": "REVIEW_DUE",
+        "treatment": "POLICY_ZERO",
+        "treatmentPolicyVersion": "associates-treatment/1.0.0"
+      }
+    },
+    "valuation": {
+      "policyInputs": {
+        "wacc": 0.10677961,
+        "terminalGrowth": 0.04,
+        "taxRate": 0.2517,
+        "horizon": 5,
+        "revenueCagrFade": 0.12396957337716952,
+        "peMultiple": 22,
+        "ebitdaMultiple": 12
+      },
+      "recomputed": {
+        "baseFcff": 268492880666.66666,
+        "baseFcffRounded": 268492880667,
+        "midCycleEbitda": 375843333333.3333,
+        "normalisedEps": 57.74666666666667,
+        "methods": {
+          "DCF_FCFF": {
+            "low": 798.0074864338665,
+            "mid": 990.7490504210945,
+            "high": 1345.4995871836054
+          },
+          "PE_RELATIVE": {
+            "low": 1016.3413333333334,
+            "mid": 1270.4266666666667,
+            "high": 1524.512
+          },
+          "EV_EBITDA": {
+            "low": 916.3252283002325,
+            "mid": 1133.9484469942438,
+            "high": 1351.5716656882553
+          }
+        },
+        "intrinsic": {
+          "low": 875.3394146903431,
+          "mid": 1088.972274952081,
+          "high": 1399.8105188789887
+        },
+        "weights": {
+          "DCF_FCFF": 0.6,
+          "EV_EBITDA": 0.1,
+          "PE_RELATIVE": 0.3
+        }
+      },
+      "published": {
+        "methods": {
+          "DCF_FCFF": {
+            "low": 798.0074864338665,
+            "mid": 990.7490504210945,
+            "high": 1345.4995871836054
+          },
+          "PE_RELATIVE": {
+            "low": 1016.3413333333334,
+            "mid": 1270.4266666666667,
+            "high": 1524.512
+          },
+          "EV_EBITDA": {
+            "low": 916.3252283002325,
+            "mid": 1133.9484469942438,
+            "high": 1351.5716656882553
+          },
+          "EV_REVENUE": null
+        },
+        "intrinsic": {
+          "low": 875.3394146903431,
+          "mid": 1088.972274952081,
+          "high": 1399.8105188789887
+        }
+      },
+      "unchangedSinceWi3": true
+    },
+    "marginOfSafety": {
+      "price": 1180.65,
+      "priceAsOf": "2026-11-06",
+      "sourceRef": "BSE:BhavCopy_BSE_CM_0_0_0_20261106_F_0000.CSV:2026-11-06:500209:INE009A01021:ClsPric",
+      "recomputed": {
+        "mosVsMid": -0.08418738213693565,
+        "mosVsLow": -0.3487910862755592
+      },
+      "published": {
+        "mosVsMid": -0.08418738213693565,
+        "mosVsLow": -0.3487910862755592,
+        "band": "FAIR",
+        "refusal": null
+      }
+    },
+    "confidence": {
+      "published": {
+        "dataConfidence": 0.85,
+        "modelConfidence": 0.6342,
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "combined": 0.4378
+      },
+      "recomputed": {
+        "preCapCombination": 0.76368,
+        "afterCaps": 0.67356576,
+        "categoriesCharged": {
+          "DISCOUNT_RATE": 0.2,
+          "TARGET_MULTIPLE": 0.15
+        },
+        "aggregateReduction": 0.35,
+        "multiplier": 0.65,
+        "combined": 0.4378
+      },
+      "note": "WI-3 published 0.6736 with two caps. The authorised R-4.3 penalty multiplies that by 0.65, giving 0.4378. The correct expression is round4(0.67356576 × 0.65); the STALE_DATA and DILUTION_PROXY factors are already inside 0.67356576."
+    },
+    "checks": {
+      "total": 0,
+      "failed": 0
+    }
+  }
+}

@@ -1,0 +1,11 @@
+# Evidence of the S4-R3 filing refresh, kept byte for byte as committed on the IID line
+# (`arena/53ff9276-iips-review-recovered`, reconciled with `main` on 2026-11-17).
+# The four page excerpts are verbatim text of the filings and the bundle's own ledger (`digests.json`)
+# records the SHA-256 of each, so their bytes cannot change. They and the bundle README carry trailing
+# whitespace that `git diff --check` reports, and the static check runs it over every changed file.
+# These exact paths are therefore exempt from whitespace-error detection. Exact paths only: no globs.
+S4-R3-FILING-REFRESH-2026-11-14/README.md -whitespace
+S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt -whitespace
+S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt -whitespace
+S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt -whitespace
+S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt -whitespace

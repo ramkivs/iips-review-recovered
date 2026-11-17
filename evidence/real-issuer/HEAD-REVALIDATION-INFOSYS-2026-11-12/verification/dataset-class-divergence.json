@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "limitation": "L-041",
+  "status": "OPEN — recorded, not corrected here",
+  "question": "does the investment-coverage read model classify a dataset the same way the assessment path does?",
+  "answer": "no, on all three committed real-issuer manifests for this issuer",
+  "assessmentRule": "fundamentals/datasetClass.ts — the declared rights evidence, fail-closed to UNKNOWN",
+  "coverageRule": "coverage/investmentCoverage.ts financialClass() — a substring test on manifest.provider and manifest.licence",
+  "repudiation": "datasetClass.ts documents that exact substring test under \"WHAT WAS WRONG\" and removes it; investmentCoverage.ts was added later and reintroduces it",
+  "whyNotCorrectedHere": "the coverage report's class vocabulary is SYNTHETIC_FIXTURE | OPERATOR_SUPPLIED | NONE, and NONE drives a \"no dataset is installed\" UI state (InvestmentCoveragePage.tsx datasetAbsent). A fail-closed answer for \"manifest present, rights unknown\" needs a fourth member, which is a contract decision for the register owner, not a narrow IRR correction inside a validation work item",
+  "rows": [
+    {
+      "bundle": "REL-1-INFOSYS-2026-11-06",
+      "issuer": "Infosys Limited (IN:CIN:L85110KA1981PLC013115)",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "sourceRightsDeclared": false,
+      "assessmentPathClass": "UNKNOWN",
+      "coveragePathClass": "OPERATOR_SUPPLIED",
+      "agree": false
+    },
+    {
+      "bundle": "WI2-PRICE-OBSERVATION-2026-11-06",
+      "issuer": "Infosys Limited (IN:CIN:L85110KA1981PLC013115)",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "sourceRightsDeclared": false,
+      "assessmentPathClass": "UNKNOWN",
+      "coveragePathClass": "OPERATOR_SUPPLIED",
+      "agree": false
+    },
+    {
+      "bundle": "WI3-BORROWINGS-NIL-2026-11-06",
+      "issuer": "Infosys Limited (IN:CIN:L85110KA1981PLC013115)",
+      "provider": "operator-file-input",
+      "licence": "operator-supplied; not redistributable",
+      "sourceRightsDeclared": false,
+      "assessmentPathClass": "UNKNOWN",
+      "coveragePathClass": "OPERATOR_SUPPLIED",
+      "agree": false
+    }
+  ]
+}

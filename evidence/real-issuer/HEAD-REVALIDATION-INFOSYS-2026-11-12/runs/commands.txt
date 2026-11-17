@@ -1,0 +1,106 @@
+# WI-13 head re-validation — commands actually run
+
+Base commit `a835d4af019ab4f677ab238ec42d44326f06a771` (== `origin/main` at run time). Date 2026-11-12.
+Working directory `frontend/` unless stated; `iips-platform/` for the ingestion CLI and the platform baselines.
+
+This is a **re-validation**, not a re-acquisition: it consumes the committed WI-3 inputs directly and re-runs them at
+the current head. Nothing below touches the network. The statement text was fetched once, outside the product, and
+committed under `evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/` and `REL-1-INFOSYS-2026-11-06/` before
+any of these commands ran; this bundle references those committed bytes rather than duplicating them (see README §3).
+
+## 0 — dependencies (node_modules is not committed; the fail-closed NP-04 loader returns PERSISTENCE_UNAVAILABLE without it)
+
+    cd iips-platform && npm install --no-audit --no-fund
+    cd ../frontend   && npm install --no-audit --no-fund --strict-ssl=false --fetch-retries=5 --fetch-retry-maxtimeout=120000
+    # verify the three pinned github deps + the bins landed before any generate/persist step:
+    ls frontend/node_modules/iips-* frontend/node_modules/.bin/{vitest,tsx,tsc}
+
+## 1 — re-ingest the committed WI-3 input (reproduces datasetVersion 21cf2522…)
+
+    cd iips-platform
+    npx tsx src/investment/cli/ingest.ts \
+      --input      ../evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input \
+      --dataset-dir /tmp/riv2/data/investment/dataset \
+      --now         2026-11-06T14:05:00.000Z
+    # datasetVersion sha256:21cf25222fcdf0ac31d8e285c631b272f8d3d5e8567f2ed9594e4fff81725847   (stdout: runs/01-ingest.txt)
+    # Technology G2_PARTIAL · 1/13 sectors measured · issues [] · 53 line items · 38 methods · 33 metric ids
+
+## 2 — identity and owner carrier (byte-identical to WI-1/WI-2/WI-3; copied from the committed bundles)
+
+    mkdir -p /tmp/riv2/data/investment/identity
+    cp evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/identity/*.json /tmp/riv2/data/investment/identity/
+    cp evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json /tmp/riv2/owner.json
+
+## 3 — generate → assess → compose → validate → persist → verify, at the HEAD clock (defect A corrected; defect C recorded open)
+
+    cd frontend
+    IIPS_NP04_DATABASE_PATH=/tmp/riv2/data/investment/investment.db \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer        IN:CIN:L85110KA1981PLC013115 \
+      --data-dir      /tmp/riv2/data/investment/dataset \
+      --identity-dir  /tmp/riv2/data/investment/identity \
+      --db            /tmp/riv2/data/investment/investment.db \
+      --owner-carrier /tmp/riv2/owner.json \
+      --generated-at  2026-11-12T09:00:00.000Z \
+      --out           evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/cli-head.json
+    # SUFFICIENT / MATERIAL_CONCERNS / confidence 0.4378 · compose payloadDigest 18f5ccb60533… · persist CREATED · head v1
+    # (stdout: runs/02-generate-head-clock.txt)  — digest IDENTICAL to the pre-correction head: defect A is digest-neutral
+
+## 4 — generate at a PINNED SAME-INSTANT clock (removes the run clock as a variable; isolates the listing-narrowing)
+
+    rm -f /tmp/riv2/data/investment/db-sameclock.sqlite*
+    IIPS_NP04_DATABASE_PATH=/tmp/riv2/data/investment/db-sameclock.sqlite \
+    npx tsx server/investment/cli/generate-investment-artifacts.ts \
+      --issuer        IN:CIN:L85110KA1981PLC013115 \
+      --data-dir      /tmp/riv2/data/investment/dataset \
+      --identity-dir  /tmp/riv2/data/investment/identity \
+      --db            /tmp/riv2/data/investment/db-sameclock.sqlite \
+      --owner-carrier /tmp/riv2/owner.json \
+      --generated-at  2026-11-06T14:05:00.000Z \
+      --out           evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/cli-head-sameclock.json
+    # confidence 0.4378 · payloadDigest c7ae0ba3741f… · bindingId e6f80fa2…  (stdout: runs/03-generate-sameclock.txt)
+    # bindingId differs from the head clock ONLY by the run clock; from WI-3 ONLY by the a54591e listing-narrowing
+
+## 5 — independent read-back of the persisted head payload, in a SEPARATE process
+
+    IIPS_NP04_DATABASE_PATH=/tmp/riv2/data/investment/investment.db \
+    npx tsx server/investment/cli/read-investment-payload.ts \
+      --issuer        IN:CIN:L85110KA1981PLC013115 \
+      --db            /tmp/riv2/data/investment/investment.db \
+      --owner-carrier /tmp/riv2/owner.json \
+      --out           ../evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/artifact/assessment-payload-head.json
+    # recordedDigest == recomputed == 18f5ccb60533… · payloadBytes 55573 · versionCount 1  (stdout: runs/04-read-back-head.txt)
+
+## 6 — independent recomputation + attributed diff + mapping census + dataset-class divergence (the RIV generator)
+
+    cd frontend
+    npx tsx ../iips-platform/scripts/riv-head-revalidation.ts \
+      --bundle evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12
+    # dataset reproduced: true · intrinsic 875.34/1088.97/1399.81 (byte-identical since WI-3) · MoS -0.08418738213693565 FAIR
+    # confidence 0.4378 = 0.6736 × 0.65 · diff vs WI-3: 14 changed paths, 0 unattributed · XBRL 22 tags · L-041: 3 manifests two ways
+    # writes verification/independent-recomputation.json, verification/mapping-census.json, verification/dataset-class-divergence.json,
+    #        artifact/payload-diff-vs-wi3.json   (stdout: runs/05-riv-generator.txt)
+    # scratch rebuild dataset is mkdtempSync(tmpdir()/riv-rebuild-) + rmSync — never written inside the bundle
+
+## 7 — the five baselines at head (all exit 0; defect C reverted)
+
+    cd iips-platform && npx tsc --noEmit                                              # 1/5  0 errors
+    cd iips-platform && npm run test:iid                                              # 2/5  807/807 (190 suites)
+    cd frontend     && npm run typecheck                                              # 3/5  0 errors
+    cd frontend     && npm run typecheck:investment-server                            # 4/5  0 errors
+    cd frontend     && npx vitest run server/investment                               # 5/5  359/359 (26 files; AC-X2 zero-socket 0 attempts)
+    # captured verbatim in runs/06-baselines.txt
+    # NOTE: the vitest run rewrites two committed AC-X2 evidence files in volatile fields only (generatedAt/loopback port/pid);
+    #       restore them afterwards so the bundle carries no incidental churn on IID closure evidence:
+    git checkout -- evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-control.json \
+                    evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-test.json
+
+## 8 — the guard that pins all of it
+
+    cd frontend && npx vitest run server/investment/cli/rivHeadRevalidation.test.ts    # 11 passed
+    cd iips-platform && npx tsx --test tests/investment/assessment-valuation.test.ts   # the L-042 bridge-formula-published test
+
+Re-running §1 and §3 must reproduce `21cf2522…` and `18f5ccb6…`. `payloadDigest` is content-derived and reproduces
+byte-exactly; `reportId` (`d9e2212a…` here) is a UUID minted per persist and is NOT content-derived — it differs on
+every write and nothing here compares it. `bindingId` is content-derived over identity + clock, which is why the head
+and same-instant runs differ only by the clock and the same-instant run differs from WI-3 only by the listing-narrowing.

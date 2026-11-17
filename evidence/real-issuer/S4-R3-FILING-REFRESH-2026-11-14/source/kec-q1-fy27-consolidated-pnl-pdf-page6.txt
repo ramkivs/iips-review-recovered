@@ -1,0 +1,59 @@
+# KEC Q1 FY27 consolidated unaudited profit and loss, PDF page 6
+# Verbatim excerpt from committed report: evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/decisive-report.txt
+# Committed report sha256: 29f3960e28693e341351a865f4083aeee90d7ed60a8336e684dfaf14a6f18796
+# Block: === q1fy27 PAGE 6 (verbatim) === ... === END q1fy27 PAGE 6 ===
+# This file is an excerpt of committed evidence, not a new PDF fetch.
+
+                                                      KEC International Limited
+                                                           CIN - L45200MH2005PLC152061
+                                       Registered Office • RPG House 463 Dr Annie Besant Road Worli Mumbai - 400 030
+                                                                                                                                               Rs. in Crore
+                                  Statement of Consolidated Unaudited Financial Results for the Quarter ended June 30, 2026
+                                                                                                      Quarter ended                          Year ended
+                                                                                     June 30,           March 31,           June 30,         March 31,
+                                   Particulars
+                                                                                       2026                2026               2025              2026
+                                                                                   (Unaudited)        (Refer note 7)      (Unaudited)         (Audited)
+   1 Revenue from operations                                                              5,023.54           6,389.75           5,022.88         23,505.54
+   2 Other income                                                                             13.94             30.09                5.39            50.33
+   3 Total Income (1+2)                                                                   5,037.48           6,419.84           5,028.27         23,555.87
+   4 Expenses
+        (i) Cost of materials consumed                                                    2,247.46           3,109.93           2,460.81         11,571.46
+       (ii) Changes in inventories of finished goods, work-in-progress                     (154.70)            (74.14)           (215.25)          (325.32)
+      (iii) Erection and sub-contracting expenses                                         1,726.14           1,986.52           1,631.04          7,068.41
+       (iv) Employee benefits expense                                                       430.88             426.46             392.37          1,662.39
+       (v) Finance costs                                                                    164.03             169.85             151.12            663.60
+       (vi) Depreciation and amortisation expense                                            50.82              50.58              45.86            197.38
+     (vii) Other expenses                                                                   482.95             492.91             403.81          1,870.03
+              Total expenses                                                              4,947.58           6,162.11           4,869.76         22,707.95
+  5 Profit before exceptional items and tax (3-4)                                            89.90             257.73             158.51            847.92
+  6 Exceptional Items                                                                          -                  -                  -               58.78
+  7 Profit after exceptional items and before tax (5-6)                                      89.90             257.73             158.51            789.14
+  8 Tax expenses :
+     (i)      Current Tax                                                                    35.00              92.08              22.93            180.41
+     (ii) Deferred Tax                                                                      (17.72)            (27.14)             10.98              3.14
+              Total Tax Expense                                                              17.28              64.94              33.91            183.55
+  9 Profit for the period (7-8)                                                              72.62             192.79             124.60            605.59
+  10 Other Comprehensive Income/(loss)
+     (i) Items that will not be reclassified to profit or loss                                (1.16)             (7.92)             (1.99)           (6.02)
+     (ii) Income tax relating to items that will not be reclassified                           0.14               1.24               0.44             0.62
+           to profit or loss
+     (iii) Items that will be reclassified to profit or loss                                  (9.49)           426.45               63.24           594.14
+     (iv) Income tax relating to items that will be reclassified to                            2.67            (75.57)             (10.90)          (98.85)
+            profit or loss
+   11 Total Other Comprehensive lncome/(Loss) for the period                                  (7.84)         344.20                50.79             489.89
+   12 Total Comprehensive Income for the period (9+11)                                       64.78           536.99              175.39            1,095.48
+   13 Paid-up equity share capital (face value Rs. 2/- each)                                 53.24            53.24                53.24              53.24
+   14 Other Equity                                                                                                                                 6,106.45
+   15 Basic/ Diluted Earnings Per Share (in Rupees) attributable to owners (face               2.73            7.24                 4.68              22.75
+       value Rs. 2/- each) (not annualised except for the year ended March)
+  See accompanying notes forming part of the Consolidated Financial Results
+  Notes:
+1 The above results of KEC International Limited, its branches, jointly controlled operations (the "Company") and its Subsidiaries (together referred to as
+  "Group") were reviewed by the Audit Committee and approved by the Board of Directors at their respective meetings held on August 10, 2026. The Statutory
+  Auditors of the Company have conducted a "Limited Review" of the above Consolidated Unaudited Financial Results for the quarter ended June 30, 2026.
+
+2 The above results of the Group have been prepared in accordance with the recognition and measurement principles laid down in Indian Accounting Standard
+  34 "Interim Financial Reporting" ("Ind AS 34"), prescribed under Section 133 of the Companies Act, 2013, and the other accounting principles generally
+  accepted in India.
+  

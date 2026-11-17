@@ -1,0 +1,23 @@
+{
+  "_note": "SYNTHETIC S4-R7 POSITIVE CONTROL. Not admitted evidence, not a real issuer, never ingested. Company name, CIN and ISIN are placeholders. Both sectors are exactly canonical, so the same code path that rejects the respelled fixture must accept this one.",
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L00000AA0000SYN000003",
+      "legalName": "Synthetic Lint Control One Limited (synthetic)",
+      "issuerKeyBasis": "CIN",
+      "sector": "Consumer",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    },
+    {
+      "issuerId": "IN:CIN:L00000AA0000SYN000004",
+      "legalName": "Synthetic Lint Control Two Limited (synthetic)",
+      "issuerKeyBasis": "CIN",
+      "sector": "Technology",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31"
+    }
+  ]
+}

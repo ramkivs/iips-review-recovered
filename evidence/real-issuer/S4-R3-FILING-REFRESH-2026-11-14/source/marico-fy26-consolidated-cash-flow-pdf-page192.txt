@@ -1,0 +1,83 @@
+# Marico FY2026 consolidated cash flow, PDF page 192
+# Verbatim excerpt from committed report: evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/03-fy2526-locator-report.txt
+# Committed report sha256: d079fb852f946a33cf161e717baf37f2e182135b0af5eb43928a2a22e1ce41fa
+# Block: === BEGIN FY26 PAGE 192 === ... === END FY26 PAGE 192 ===
+# This file is an excerpt of committed evidence, not a new PDF fetch.
+
+380                                                                                                                                                                                                                                                                  381
+     Marico Limited            Integrated Annual Repor t 2025-26                                                                                                             Corporate Overview                  Statutory Reports                Financial Statements
+
+
+
+
+Consolidated Statement of Cash Flows
+For the year ended 31st March, 2026
+                                                                                                                               Consolidated Statement of Cash Flows
+                                                                                                                               For the year ended 31st March, 2026
+                                                                                                                (H in Crore)
+                                                                                           Year ended          Year Ended      Reconciliation of the movements of liabilities to cash flows arising from financing activities
+Particulars                                                                                                                                                                                                                                                    (H in Crore)
+                                                                                     31st March, 2026    31st March, 2025
+                                                                                                                                                                                       Year ended 31st March, 2026                   Year ended 31st March, 2025
+A CASH FLOW FROM OPERATING ACTIVITIES
+                                                                                                                               Particulars                                              Lease                                        Lease
+  Profit before income tax                                                                     2,277                2,116                                                                         Borrowings            Total                  Borrowings            Total
+  Adjustments for:                                                                                                                                                                  Liabilities                                  Liabilities
+  Depreciation and amortisation expense                                                           202                 178      Balance at April 1,                                        175            379             554           145            383            528
+  Finance costs                                                                                    53                   53     Changes from financing cash flows
+  Interest income from financial assets                                                          (14)                 (77)     Repayment of lease liabilities - principal portion         (64)               -            (64)          (43)              -           (43)
+  (Gain) on disposal of property, plant and equipment and right of use asset (net)                 (2)                (20)
+                                                                                                                               Payment of interest on lease liabilities                   (16)               -            (16)          (14)              -           (14)
+  Net fair value changes in financial assets and profit on sale of investments                  (153)                 (76)
+  Employees stock option charge                                                                    31                   43     Other borrowings (repaid) / taken (net)                       -            (24)            (24)             -            (5)            (5)
+  Provision for doubtful debts                                                                       3                   2     Payment of interest on borrowings from banks                  -            (37)            (37)             -           (51)           (51)
+                                                                                                  120                 103      and financial institutions
+  Operating profit before working capital changes                                              2,397                2,219      Total changes from financing                               (80)           (61)          (141)           (57)           (56)          (113)
+  Change in operating assets and liabilities:                                                                                  cash flows
+  (Increase) / Decrease in inventories                                                          (352)                  101     Other changes
+  (Increase) in trade receivables                                                                  (2)               (205)     New leases net off closures/disposals                        91               -             91            73                -             73
+  (Increase) / Decrease in other financials assets                                               (12)                     3
+                                                                                                                               (including new leases on account of business
+  (Increase) / Decrease in other non-current assets                                                (4)                    2
+                                                                                                                               combinations of H 12 crores)
+  (Increase) in other current assets                                                             (61)                 (33)
+  Decrease / (Increase) in loans and other assets                                                  11                   (3)    Interest expense on lease liabilities                       16               -             16            14               -            14
+  (Decrease)/ Increase in provisions                                                             (14)                   14     Interest expense on borrowings                                -            37              37              -            52             52
+  Increase in employee benefit obligations                                                         56                   21     Total changes                                              107             37             144            87             52            139
+  (Decrease) / Increase in other current liabilities                                             (13)                   21     Balance at March 31,                                       202            355             557           175            379            554
+  Increase / (Decrease) in trade payables                                                         282                (218)
+  Increase in other financial liabilities                                                         362                     4    The cash flow statement has been prepared under the indirect method as set out in Indian Accounting Standard (Ind AS 7)
+  Changes in working capital                                                                     253                (293)
+                                                                                                                               statement of cash flows.
+  Cash generated from operations                                                               2,650                1,926
+  Effect of exchange difference on translation of foreign currency                                 (1)                (79)     The accompanying notes are an integral part of these consolidated financial statements
+  Income taxes paid (net of refunds)                                                            (565)                (484)
+  Net cash generated from operating activities (A)                                             2,084                1,363
+B CASH FLOW FROM INVESTING ACTIVITIES                                                                                          As per our report of even date attached
+  Payment for property, plant and equipment and intangible assets                                (319)                (161)
+  Acquisition of Subsidiary under business combination net of cash (refer note 41)               (452)                    -    For B S R & Co. LLP                                                 For and on behalf of the Board of Directors
+  Proceeds from sale of property, plant and equipment                                                7                   39    Chartered Accountants
+  Purchase of non current investments                                                                -                 (46)    Firm Registration No. 101248W/W-100022
+  Proceeds from sale of non current investments                                                    145                   60
+  (Payment for)/ Proceeds from purchase / sale of investments (net)                              (486)                (926)    VIJAY MATHUR                                                        HARSH MARIWALA                         SAUGATA GUPTA
+  (Investment in) / Redemption of Bank deposits (having original maturity more                     359                  343    Partner                                                             Chairman                               Managing Director and CEO
+  than 3 months) (net)                                                                                                         Membership No. 046476                                               [DIN 00210342]                         [DIN 05251806]
+  Interest received                                                                                24                   70
+  Net cash (utilised in)/ generated from investing activities (B)                               (722)                (621)                                                                         PAWAN AGRAWAL                          VINAY M A
+C CASH FLOW FROM FINANCING ACTIVITIES                                                                                                                                                              Group CFO and CEO                      Company Secretary
+  Proceeds from issuance of share capital                                                          154                   46
+                                                                                                                                                                                                   International Business                 [Membership No.FCS 11362]
+  (Purchase)/ sale of investments by WEOMA trust (Net)                                            (82)                 (12)
+  Borrowings (repaid) / taken (net)                                                               (24)                   (5)   Place : Mumbai                                                      Place : Mumbai
+  Dividend paid to non controlling interest                                                       (81)                 (47)
+                                                                                                                               Date : May 5, 2026                                                  Date : May 5, 2026
+  Acquisition of non controlling interest                                                        (221)                 (70)
+  Interest paid                                                                                   (37)                 (51)
+  Repayment of Principal portion of lease liabilities                                             (64)                 (43)
+  Interest on lease liabilities                                                                   (16)                 (14)
+  Dividends paid to company’s shareholders                                                       (908)                (453)
+  Net cash utilised in financing activities (C)                                               (1,279)                (649)
+D NET INCREASE IN CASH & CASH EQUIVALENTS (A+B+C)                                                   83                   93
+E Cash and cash equivalents at the beginning of the financial year                                 321                  228
+F Cash and cash equivalents at end of the year (Refer note 6 (d))                                 404                  321
+  

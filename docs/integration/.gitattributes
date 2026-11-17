@@ -1,0 +1,9 @@
+# IID records kept byte for byte as they were authored on the IID line
+# (`arena/53ff9276-iips-review-recovered`, reconciled with `main` on 2026-11-17).
+# Three of them end metadata lines with two spaces, which is a Markdown hard line break; one ends with a
+# blank line. `git diff --check` reports both, and the static check runs it over every changed file.
+# These exact names are therefore exempt from whitespace-error detection. Exact names only: no globs.
+IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md -whitespace
+IID-STAGE4-S4-R3-FILING-REFRESH-EVIDENCE-2026-11-14.md -whitespace
+IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md -whitespace
+IID-STAGE4-S4-R3-REFRESH-DESIGN-2026-11-14.md -whitespace

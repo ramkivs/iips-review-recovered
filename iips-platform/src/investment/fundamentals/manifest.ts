@@ -7,6 +7,7 @@
 import type { IssuerRecord } from './types';
 import { canonicalize, digestOf, sha256Hex } from './canonical';
 import type { DatasetSchema } from '../contracts/lineItems';
+import type { SectorName } from '../contracts/operatingMetrics';
 
 /** Legacy (V1) schema identifier. V2 is additive and is selected per build — see `DatasetSchema`. */
 export const DATASET_SCHEMA = 'IIPS_INVESTMENT_FUNDAMENTALS_V1' as const;
@@ -82,6 +83,41 @@ export interface SourceRightsDeclaration {
   readonly note: string;
 }
 
+/** One input file a bundle contributed, with the digest of the exact bytes the run consumed. */
+export interface DatasetInputFile {
+  /** Path relative to the bundle's input directory. */
+  readonly name: string;
+  readonly sha256: string;
+}
+
+/**
+ * WHICH BUNDLE A DATASET WAS BUILT FROM (`S3-D2`).
+ *
+ * A dataset assembled from several input bundles must say so, per bundle, or the operator cannot later tell
+ * three admitted issuers from one — which is exactly how sequential single-bundle ingestion silently reduced a
+ * dataset to its last issuer. Each entry records the directory read, a digest over the files that run actually
+ * consumed, and the issuers and sectors that bundle contributed.
+ *
+ * `inputDigest` covers only the files the ingestion path reads. It is computed from those bytes, never taken on
+ * trust from a bundle's own evidence manifest, so it cannot claim a provenance the run did not consume.
+ *
+ * This is AUDIT metadata, not identity. `DIGEST_SCOPE.excluded` already excludes `inputFileNames`, and the same
+ * reasoning applies here: where a dataset came from is not part of what it says. Recording provenance therefore
+ * cannot mint a new `datasetVersion` for unchanged content, and two runs over the same content share one identity
+ * whichever directories they were read from.
+ */
+export interface DatasetInputProvenance {
+  /** The input directory this bundle was read from, as resolved by the run. */
+  readonly inputDir: string;
+  /** `sha256:<hex>` over the canonical list of `files` — this bundle's input-side identity. */
+  readonly inputDigest: string;
+  readonly files: readonly DatasetInputFile[];
+  /** The issuers this bundle contributed, in roster order. */
+  readonly issuerIds: readonly string[];
+  /** The canonical sectors those issuers declared. */
+  readonly sectors: readonly SectorName[];
+}
+
 export interface DatasetManifest {
   readonly datasetSchema: DatasetSchema;
   /** Identity. Equal to `contentDigest`; carries no timestamp. */
@@ -97,6 +133,18 @@ export interface DatasetManifest {
    * is therefore not permitted evidence of anything.
    */
   readonly sourceRights?: SourceRightsDeclaration;
+  /**
+   * The input bundles this dataset was assembled from (`S3-D2`).
+   *
+   * OPTIONAL on the wire, exactly like `sourceRights`: a dataset written before this field existed still reads,
+   * and an absent value means the run recorded no per-bundle provenance. It is populated only when a run consumed
+   * more than one input bundle. A single-bundle run leaves it absent on purpose — its provenance is already stated
+   * by `sourceRights.basis`, which names the directory read, and omitting the field keeps a single-bundle manifest
+   * byte-identical to the manifests already committed as evidence.
+   *
+   * Audit metadata, never identity: `datasetVersion` does not cover it (see `DatasetInputProvenance`).
+   */
+  readonly inputs?: readonly DatasetInputProvenance[];
   readonly dataAsOf: string | null;
   readonly knownAsOf: string | null;
   /** Recorded for audit only — NOT part of identity. */
@@ -188,6 +236,11 @@ export function buildManifest(
      * carries no rights evidence, and the classification downstream reflects exactly that.
      */
     readonly sourceRights?: SourceRightsDeclaration;
+    /**
+     * Per-bundle provenance for a multi-input run (`S3-D2`). Omitted or empty means none is recorded, and the
+     * `inputs` key is then left out of the manifest entirely.
+     */
+    readonly inputProvenance?: readonly DatasetInputProvenance[];
   },
 ): DatasetManifest {
   const contentDigest = computeContentDigest(content);
@@ -221,6 +274,11 @@ export function buildManifest(
     // The rights declaration is validated, never inferred: an invalid declaration throws here
     // rather than reaching a reader as a plausible-looking class.
     sourceRights: assertSourceRights(options.sourceRights),
+    // Written ONLY for a multi-input run. An absent or empty list omits the key entirely, so a single-bundle
+    // manifest stays byte-identical to the manifests already committed as evidence (`S3-D2`, compatibility).
+    ...(options.inputProvenance === undefined || options.inputProvenance.length === 0
+      ? {}
+      : { inputs: options.inputProvenance }),
     dataAsOf,
     knownAsOf,
     lastImportAt: options.now,

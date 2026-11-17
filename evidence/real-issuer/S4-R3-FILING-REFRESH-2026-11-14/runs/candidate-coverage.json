@@ -1,0 +1,857 @@
+{
+  "reportVersion": 1,
+  "asOf": "2026-11-14",
+  "generatedAt": "2026-11-14T00:00:00.000Z",
+  "dataset": {
+    "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "contentDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "provider": "operator-file-input",
+    "licence": "operator-supplied; not redistributable",
+    "dataAsOf": "2026-09-30",
+    "knownAsOf": "2026-11-14T00:00:00.000Z",
+    "lastImportAt": "2026-11-14T00:00:00.000Z",
+    "importRunId": "run-2026-11-14T00:00:00.000Z",
+    "quality": "good",
+    "completenessPct": 100,
+    "datasetClass": "OPERATOR_SUPPLIED",
+    "issuers": 3,
+    "securities": 3,
+    "listings": 5,
+    "annualPeriods": 11,
+    "quarterlyPeriods": 2,
+    "prices": 0,
+    "operatingMetricRecords": 0,
+    "corporateActions": 0,
+    "earliestPeriodEnd": "2022-03-31",
+    "latestPeriodEnd": "2026-09-30"
+  },
+  "sectors": [
+    {
+      "sector": "Auto",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "PE_RELATIVE",
+        "EV_EBITDA",
+        "EV_REVENUE"
+      ],
+      "methods": [
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "AU_CAPACITY_UTILISATION",
+            "AU_MARKET_SHARE"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Banking",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "RESIDUAL_INCOME",
+        "PB_RELATIVE",
+        "DIVIDEND_DISCOUNT"
+      ],
+      "methods": [
+        {
+          "methodId": "RESIDUAL_INCOME",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "NET_PROFIT",
+            "TOTAL_EQUITY",
+            "BOOK_VALUE_PER_SHARE",
+            "BM_NIM",
+            "BM_GNPA",
+            "BM_CET1"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PB_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "BOOK_VALUE_PER_SHARE",
+            "BM_GNPA"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "DIVIDEND_DISCOUNT",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "DIVIDENDS_PAID",
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Capital Markets",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "P_AUM",
+        "PE_RELATIVE",
+        "DCF_FCFF"
+      ],
+      "methods": [
+        {
+          "methodId": "P_AUM",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "NET_PROFIT",
+            "TOTAL_EQUITY",
+            "CM_AUM",
+            "CM_COST_TO_INCOME"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "DCF_FCFF",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Consumer",
+      "issuersConsidered": [
+        "IN:CIN:L15140MH1988PLC049208"
+      ],
+      "annualPeriodsConsidered": 5,
+      "statementCoveragePct": 92.5,
+      "operatingMetricCoveragePct": 100,
+      "stage": "G1_ENABLED",
+      "measured": true,
+      "usableMethods": [
+        "DCF_FCFF",
+        "PE_RELATIVE",
+        "EV_EBITDA"
+      ],
+      "withheldMethods": [],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "AVAILABLE",
+          "reason": null,
+          "missing": [],
+          "issuersAvailable": [
+            "IN:CIN:L15140MH1988PLC049208"
+          ],
+          "issuersConsidered": 1
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "state": "AVAILABLE",
+          "reason": null,
+          "missing": [],
+          "issuersAvailable": [
+            "IN:CIN:L15140MH1988PLC049208"
+          ],
+          "issuersConsidered": 1
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "CROSS_CHECK",
+          "state": "AVAILABLE",
+          "reason": null,
+          "missing": [],
+          "issuersAvailable": [
+            "IN:CIN:L15140MH1988PLC049208"
+          ],
+          "issuersConsidered": 1
+        }
+      ]
+    },
+    {
+      "sector": "Energy",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDAX",
+        "NAV_RESERVES"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDAX",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "EM_LIFTING_COST"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "NAV_RESERVES",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "TOTAL_ASSETS",
+            "EM_RESERVE_REPLACEMENT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Healthcare",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA",
+        "PE_RELATIVE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "HC_OCCUPANCY",
+            "HC_ARPOB"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Hospitality",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA",
+        "PE_RELATIVE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "HM_REVPAR"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Industrials",
+      "issuersConsidered": [
+        "IN:CIN:L45200MH2005PLC152061"
+      ],
+      "annualPeriodsConsidered": 3,
+      "statementCoveragePct": 100,
+      "operatingMetricCoveragePct": 0,
+      "stage": "G2_PARTIAL",
+      "measured": true,
+      "usableMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA"
+      ],
+      "withheldMethods": [
+        "EV_REVENUE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "AVAILABLE",
+          "reason": null,
+          "missing": [],
+          "issuersAvailable": [
+            "IN:CIN:L45200MH2005PLC152061"
+          ],
+          "issuersConsidered": 1
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "AVAILABLE",
+          "reason": null,
+          "missing": [],
+          "issuersAvailable": [
+            "IN:CIN:L45200MH2005PLC152061"
+          ],
+          "issuersConsidered": 1
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "MANDATORY_METRIC_MISSING",
+          "missing": [
+            "IN_BOOK_TO_BILL"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 1
+        }
+      ]
+    },
+    {
+      "sector": "Insurance",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "P_EMBEDDED_VALUE",
+        "PE_RELATIVE"
+      ],
+      "methods": [
+        {
+          "methodId": "P_EMBEDDED_VALUE",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "NET_PROFIT",
+            "TOTAL_EQUITY",
+            "IM_EMBEDDED_VALUE",
+            "IM_VNB_MARGIN",
+            "IM_SOLVENCY"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Materials",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA",
+        "NAV_RESERVES"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "NAV_RESERVES",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "TOTAL_ASSETS",
+            "MM_RESERVE_LIFE",
+            "MM_COST_POSITION"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Technology",
+      "issuersConsidered": [
+        "IN:CIN:L85110KA1981PLC013115"
+      ],
+      "annualPeriodsConsidered": 3,
+      "statementCoveragePct": 87.5,
+      "operatingMetricCoveragePct": 0,
+      "stage": "G2_PARTIAL",
+      "measured": true,
+      "usableMethods": [
+        "DCF_FCFF",
+        "PE_RELATIVE"
+      ],
+      "withheldMethods": [
+        "EV_EBITDA",
+        "EV_REVENUE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "AVAILABLE",
+          "reason": null,
+          "missing": [],
+          "issuersAvailable": [
+            "IN:CIN:L85110KA1981PLC013115"
+          ],
+          "issuersConsidered": 1
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "state": "AVAILABLE",
+          "reason": null,
+          "missing": [],
+          "issuersAvailable": [
+            "IN:CIN:L85110KA1981PLC013115"
+          ],
+          "issuersConsidered": 1
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "STATEMENT_INPUT_MISSING",
+          "missing": [
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 1
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "MANDATORY_METRIC_MISSING",
+          "missing": [
+            "TM_NRR",
+            "TM_RECURRING_REVENUE_PCT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 1
+        }
+      ]
+    },
+    {
+      "sector": "Telecom",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "EV_SUBSCRIBER",
+        "DCF_FCFF"
+      ],
+      "methods": [
+        {
+          "methodId": "EV_SUBSCRIBER",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "TL_SUBSCRIBERS",
+            "TL_ARPU"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "DCF_FCFF",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Utilities",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "PB_RELATIVE",
+        "REGULATED_ASSET_BASE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PB_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "BOOK_VALUE_PER_SHARE"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "REGULATED_ASSET_BASE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "TOTAL_ASSETS",
+            "UM_RAB",
+            "UM_ALLOWED_ROE"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    }
+  ],
+  "measuredSectors": 3,
+  "totalSectors": 13,
+  "outstandingSectors": [
+    "Auto",
+    "Banking",
+    "Capital Markets",
+    "Energy",
+    "Healthcare",
+    "Hospitality",
+    "Insurance",
+    "Materials",
+    "Telecom",
+    "Utilities"
+  ],
+  "offVocabularyIssuers": [],
+  "issuers": [
+    {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "legalName": "Marico Limited",
+      "sector": "Consumer",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31",
+      "state": "COVERED",
+      "annualPeriods": 5,
+      "quarterlyPeriods": 0,
+      "securities": 1,
+      "prices": 0,
+      "operatingMetrics": 0,
+      "latestPeriodEnd": "2026-03-31",
+      "earliestPeriodEnd": "2022-03-31",
+      "issueCodes": [],
+      "identityDependency": null,
+      "identityDependencyDetail": "The identity sources could not be loaded, so no identity binding could be evaluated for this issuer."
+    },
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "legalName": "KEC International Limited",
+      "sector": "Industrials",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31",
+      "state": "COVERED",
+      "annualPeriods": 3,
+      "quarterlyPeriods": 2,
+      "securities": 1,
+      "prices": 0,
+      "operatingMetrics": 0,
+      "latestPeriodEnd": "2026-09-30",
+      "earliestPeriodEnd": "2024-03-31",
+      "issueCodes": [],
+      "identityDependency": null,
+      "identityDependencyDetail": "The identity sources could not be loaded, so no identity binding could be evaluated for this issuer."
+    },
+    {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "legalName": "Infosys Limited",
+      "sector": "Technology",
+      "subSegment": null,
+      "reportingCurrency": "INR",
+      "fiscalYearEnd": "03-31",
+      "state": "COVERED",
+      "annualPeriods": 3,
+      "quarterlyPeriods": 0,
+      "securities": 1,
+      "prices": 0,
+      "operatingMetrics": 0,
+      "latestPeriodEnd": "2024-03-31",
+      "earliestPeriodEnd": "2022-03-31",
+      "issueCodes": [],
+      "identityDependency": null,
+      "identityDependencyDetail": "The identity sources could not be loaded, so no identity binding could be evaluated for this issuer."
+    }
+  ],
+  "counts": {
+    "observed": 3,
+    "COVERED": 3,
+    "NO_FINANCIALS": 0,
+    "SECTOR_NOT_MEASURED": 0,
+    "ISSUED_DATA": 0
+  },
+  "issues": [],
+  "financialCoverage": {
+    "measuredSectors": 3,
+    "totalSectors": 13,
+    "outstandingSectors": [
+      "Auto",
+      "Banking",
+      "Capital Markets",
+      "Energy",
+      "Healthcare",
+      "Hospitality",
+      "Insurance",
+      "Materials",
+      "Telecom",
+      "Utilities"
+    ],
+    "usableMethods": 7,
+    "withheldMethods": 31,
+    "xbrlMappedTags": 22,
+    "derivationItems": 8,
+    "unmappedTagsObserved": [],
+    "datasetClass": "OPERATOR_SUPPLIED",
+    "note": "Identity coverage says whether a row has a defensible issuer/security/listing. It says nothing about whether the issuer has usable fundamentals: 3 of 13 sectors have been measured, 22 XBRL tags are mapped and 8 items are derivable. An identity-resolved security is not a covered sector."
+  },
+  "statusLine": "3 of 3 issuer(s) covered; 0 without financials, 0 in an unmeasured sector, 0 carrying an ingestion issue. 3 of 13 sector(s) measured.",
+  "notes": [
+    "Investment coverage describes what the served dataset holds. It is not identity coverage: a row here states the dataset position for an issuer, and says nothing about whether that issuer has a defensible security or listing.",
+    "Identity coverage is a separate read. Where the identity sources could not be loaded, that is disclosed per row and in this report's identity disclosure — it never removes the investment-coverage position."
+  ],
+  "identitySourcesAvailable": true,
+  "identitySourceDetail": null
+}

@@ -12,6 +12,7 @@
 | Evidence | `evidence/iid/Q1-NP04-COMPATIBILITY-PROBE-2026-11-05/` |
 | Scope | single-user, local, decision-support only. No production concept, no admission step, **no trade execution** |
 | Status | roadmap only — no IID functionality is implemented by this document |
+| Operating authority | **`IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` (PART C) — the owner is the sole operational authority for this personal, single-user, non-production application. It wins over any approval or acceptance requirement in Parts A or B.** |
 
 ---
 
@@ -713,6 +714,7 @@ cumulative register `docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGIST
 | what is limited, and how badly | the limitation and coverage register (`L-001` … `L-016`) |
 | what is still outstanding | §B.K (C-16.1 … C-16.5) and §B.L |
 | the reasoning behind a correction | design of record, Part III §A … §I |
+| who authorizes a local operation | **PART C / PA-01 — the owner, directly; no committee or acceptance authority** |
 
 ## B.A Artifact-chain and version identity (corrects the identity mechanics of IID-3 and IID-5)
 
@@ -1391,3 +1393,97 @@ expected-payload dump is broader than that — recorded, not argued away. Eviden
 `L-014` remains `RESOLVED` by §B.N). AC-X1 stays a qualified PASS with Q-1…Q-4, and AC-2.6, AC-2.9 and AC-4.7 stay
 qualified. AC-X3, AC-X4, AC-X5 and AC-X7 are unchanged. No criterion was promoted without evidence in this section, and
 no limitation was closed by it.
+
+---
+
+# PART C — Operating authority amendment (authoritative, 2026-11-15)
+
+**Governing document:** `IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md`.
+
+**PART C wins on any conflict with Part A or Part B about who may authorize a local operation.** Parts A
+and B remain the authority for architecture, contracts, method enablement and technical acceptance
+criteria; they are not rewritten.
+
+The application is personal, single-user, local Windows and non-production. **The owner is its sole
+operational authority.** Dataset installation and replacement, runtime configuration, identity
+provisioning, local testing, backup/restore and routine verification are ordinary owner-directed
+operations. They require no committee, no acceptance authority, no governance approval and no
+owner-adjudication process.
+
+What replaces approval is engineering: preserve data before a destructive change; verify the backup;
+verify candidate identity and digests; use supported application mechanisms; verify the result through
+the product's own readers; roll back on failure; record the operation concisely. A safeguard is kept
+only if it addresses a demonstrable technical risk.
+
+**Phase acceptance is unchanged where it is technical.** AC-X1…AC-X7 (§3) are engineering checks —
+tests green, typecheck clean, no sockets, no unpinned dependency, no sector-engine edits, no second
+store, artifacts external to git, chain validation on write and read. They stay. What is withdrawn is
+any reading of them, or of the B.J* acceptance tables, as requiring a second human authority for a
+local act.
+
+**Removed as gates:** O1 (identity population decision), O3 as a recurring admission gate, O5/O10 as
+preconditions, R-4 formal adjudication, "installation NOT AUTHORIZED", and the prohibition on
+reinstalling a dataset or republishing identity. PA-01 §3 enumerates each with its location.
+
+**Preserved:** IRR/IPD write boundaries, source provenance and missing-value refusal, deterministic
+identity and digest integrity, backup/recovery, honest evidence, and the exclusion of production,
+SaaS, multi-user and commercial use. No PR is merged without explicit instruction.
+
+**Stage 1–6 is adopted as the working sequence** by this amendment; no separate owner acceptance of the
+track is required. Stage 5's IPD binding and IPC peer remain genuine technical dependencies — a missing
+dependency is a real blocker, an approval ceremony is not.
+## C.1 NP-04 first Infosys persistence — COMPLETE (operator-reported, 2026-11-15)
+
+The owner executed `IID-NP04-PERSISTENCE-PREPARATION-2026-11-15.md` §§4A–4E on the Windows local
+environment. All five sections are operator-reported PASS. The first Infosys assessment version is
+persisted in `H:\IIPS\runtime\np04\reports.sqlite`, report ID
+`6b6e2316-d958-4187-9700-c47984a9a10a`, artifact version 1, payload digest
+`f80c25de6025aa6e38f64b6b303d78b4a5657ef39a44c863c625b0041f683084`, input digest
+`sha256:b7086ae2695e36ef0ea68a9a1f768a96ee2990ebca14520b0a533795b3508f99`, dataset
+`sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`.
+Original records preserved: 2; new Infosys record: 1; final rows/chains: 3/3; final rows SHA-256
+`34443b9bdc840531c588fe25270a35f90d51d10e573c3ce26eedcdcbfc629d95`.
+
+Arena did not access the Windows evidence directory or database. Full operator-reported record,
+evidence-access boundary and preservation proof:
+`IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md`; tracker §16.284.
+
+This completes NP-04 first Infosys persistence and supplies IID-01 company-assessment persistence
+evidence. It does **not** complete IID-03 change comparison, IPD binding/IPC, browser acceptance, or
+overall IID readiness. **Overall IID readiness remains NOT READY.** Do not repeat the mint.
+
+## C.2 Next adopted operational activity — Stage 5 end-to-end integration
+
+The next stage remains **Stage 5 — end-to-end integration** (11 November baseline §21, adopted by
+PA-01; Stage 4 record §11): holdings → identity → dataset → assessment → disposition, and
+watchlist/finance disclosure, as one loop on the host. The hard external prerequisite for the
+portfolio loop is **IPD active binding provisioning/verification (D5) plus the IPC peer/live
+portfolio read (D6)**. IRR cannot provision or assert the IPD binding; the operator may set
+`IIPS_G3_IPC_BINDING_PROVISIONED=true` only after IPD confirms, and must verify an actual portfolio
+read. Readiness `--strict` exit 0 is necessary but not sufficient: it does not probe Windows pipe
+liveness or browser behaviour.
+
+Remaining non-IPD Stage 5 evidence includes host readiness/served captures, F-3 carrier if watchlists
+are exercised, the remaining Marico/KEC v1 mints if the Stage 5 three-issuer scope is pursued, a
+second comparable version where change intelligence is exercised, and then P6-B/D10 real browser
+acceptance. Exact owners, prerequisites and closure evidence are tabulated in the completion record
+§9. No Stage 6 work, IPD implementation, PR merge, or new roadmap activity is authorized by this
+amendment.
+
+
+## C.3 O1 identity governance — DECIDED (2026-11-16)
+
+`O1` is decided and recorded once: `IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md`; tracker
+§16.287 (§16.285 on the IID branch; renumbered at the reconciliation with `main`, 2026-11-17). The initial governed issuer population is **Infosys Limited, Marico Limited and KEC
+International Limited**, supported by the admitted identity records of the three `O3` bundles; inclusion
+implies **no financial qualification**; **Ramki** is the sole owner for eligibility and additions; **IRR**
+maintains the identity records and **IPD** retains its identity approval enforcement.
+
+Two clarifications so this is not over-read:
+
+- `IID-PA-01` §3 `G-3` had already removed `O1` as a gate. **Nothing here becomes a gate and nothing was
+  blocked on it.** The record states the decision; it unblocks no work.
+- No downstream status moves. **Overall IID readiness remains NOT READY.** D4/D5/D6, IID-03 change
+  comparison, browser acceptance, the Stage 4 data residuals and Stage 5's end-to-end loop are unchanged,
+  and the next adopted operational activity is still **Stage 5** (§C.2). No Stage 6 work, no IPD
+  implementation, no PR merge and no new roadmap activity is authorized by this amendment.

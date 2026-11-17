@@ -1,0 +1,56 @@
+{
+  "marico-fy25-bs-pnl": {
+    "file": "source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+    "sha256": "0625ecd2839075ebf6eca88ae0f3c6f599c2ea27ef5438e3dbdeb1d78946b881",
+    "bytes": 28561,
+    "originReport": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/02-fy2425-locator-report.txt",
+    "originReportSha256": "40086d89081e6f018b019b3654cb761a043b42a55637661a63eb0a7fa761f64a",
+    "beginMarker": "=== BEGIN PAGE 170 of /tmp/ar25.pdf ===",
+    "endMarker": "=== END PAGE 170 of /tmp/ar25.pdf ==="
+  },
+  "marico-fy25-cf": {
+    "file": "source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+    "sha256": "37b7226659377f07e62449a117fd7e5f6487fb4bf2e8557944d7a5ee43f4ccce",
+    "bytes": 12849,
+    "originReport": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/02-fy2425-locator-report.txt",
+    "originReportSha256": "40086d89081e6f018b019b3654cb761a043b42a55637661a63eb0a7fa761f64a",
+    "beginMarker": "=== BEGIN PAGE 172 of /tmp/ar25.pdf ===",
+    "endMarker": "=== END PAGE 172 of /tmp/ar25.pdf ==="
+  },
+  "marico-fy26-bs-pnl": {
+    "file": "source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+    "sha256": "925b7fce3d889070f8902c1499265bf83b541346b74b7dbbe7baeb0b79a6779c",
+    "bytes": 25352,
+    "originReport": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/03-fy2526-locator-report.txt",
+    "originReportSha256": "d079fb852f946a33cf161e717baf37f2e182135b0af5eb43928a2a22e1ce41fa",
+    "beginMarker": "=== BEGIN FY26 PAGE 190 ===",
+    "endMarker": "=== END FY26 PAGE 190 ==="
+  },
+  "marico-fy26-cf": {
+    "file": "source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+    "sha256": "e0090d6e179d809f4f2b1be02e6258bc2fabb94705b70a9040683334642aafbe",
+    "bytes": 13333,
+    "originReport": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/03-fy2526-locator-report.txt",
+    "originReportSha256": "d079fb852f946a33cf161e717baf37f2e182135b0af5eb43928a2a22e1ce41fa",
+    "beginMarker": "=== BEGIN FY26 PAGE 192 ===",
+    "endMarker": "=== END FY26 PAGE 192 ==="
+  },
+  "kec-q1-pnl": {
+    "file": "source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+    "sha256": "ba96ac2ecc2799c3f1f54f71b6134ed589fecce55e709b0a7fecd0afdce45f3c",
+    "bytes": 6921,
+    "originReport": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/decisive-report.txt",
+    "originReportSha256": "29f3960e28693e341351a865f4083aeee90d7ed60a8336e684dfaf14a6f18796",
+    "beginMarker": "=== q1fy27 PAGE 6 (verbatim) ===",
+    "endMarker": "=== END q1fy27 PAGE 6 ==="
+  },
+  "kec-q2-bs": {
+    "file": "source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+    "sha256": "fa283d6fd04df7f691010e4d17e0e5cd7a380c173ca53d5a01fb8c7c87bee758",
+    "bytes": 7374,
+    "originReport": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/decisive-report.txt",
+    "originReportSha256": "29f3960e28693e341351a865f4083aeee90d7ed60a8336e684dfaf14a6f18796",
+    "beginMarker": "=== q2fy27-outcome PAGE 7 (verbatim) ===",
+    "endMarker": "=== END q2fy27-outcome PAGE 7 ==="
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "generatedOn": "2026-11-14",
+  "network": "NONE",
+  "historicalBundlesModified": false,
+  "candidateInputs": [
+    "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+    "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+    "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec"
+  ],
+  "documents": {
+    "maricoFY25": {
+      "sha256": "74e0f6c239f6b611a1d66f361988a65f52bdfb51956ada929de3f4857b1e3474",
+      "bytes": 14370556,
+      "pages": 255,
+      "committedExtract": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/02-fy2425-locator-report.txt"
+    },
+    "maricoFY26": {
+      "sha256": "7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f",
+      "bytes": 21282741,
+      "pages": 279,
+      "committedExtract": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/03-fy2526-locator-report.txt"
+    },
+    "kecQ1FY27": {
+      "sha256": "b2e183cd6ddc17c2b60c034a20ac8cd2d81cb5b4a946b8a36175e084fd31e5ae",
+      "bytes": 7405447,
+      "pages": 14,
+      "committedExtract": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/decisive-report.txt"
+    },
+    "kecQ2FY27": {
+      "sha256": "42d826df45b0b561460980fbc7a1f8fab2ff3985ec1196fe42706f0e4097144e",
+      "bytes": 9260344,
+      "pages": 18,
+      "committedExtract": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/decisive-report.txt"
+    },
+    "kecQ2FY27Xbrl": {
+      "compressedSha256": "ba9e6c15fca2f17bf10a7cf332044d04e95b000c5da0a7ef3ae85c2838b27ae7",
+      "compressedBytes": 6830,
+      "rawSha256": "59dd7e3bef485535eaec3db6ded52421088662469ba6bcecd315857073eda10c",
+      "rawBytes": 73996,
+      "committedSource": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/source/september-consolidated-xbrl.gz"
+    }
+  },
+  "infosys": {
+    "status": "OPEN_NO_COMMITTED_NEWER_SOURCE",
+    "newestCommittedPeriodEnd": "2024-03-31"
+  }
+}
