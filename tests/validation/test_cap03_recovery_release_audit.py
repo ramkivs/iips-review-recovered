@@ -14,6 +14,7 @@ import os
 import re
 import threading
 import unittest
+import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from unittest import mock
@@ -347,6 +348,37 @@ class HashMismatch(DownloadPathTest):
                 self.assertNotIn('/releases/assets/%d' % self.asset_id(name), ' '.join(self.asset_paths()))
 
 
+class ArchiveContentTriage(unittest.TestCase):
+    def make_archive(self, entries):
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, 'w', compression=zipfile.ZIP_STORED) as archive:
+            for name, body in entries.items():
+                archive.writestr(name, body)
+        return buffer.getvalue()
+
+    def test_archive_summary_flags_document_like_members_and_exact_agi_markers(self):
+        entries = {
+            'dist/app.js': b'ordinary application bundle',
+            'dist/INE415A01038-Q2-Results.pdf': b'%PDF-1.7 AGI Greenpac Limited INE415A01038',
+        }
+        source_map = {name.removeprefix('dist/'): hashlib.sha256(body).hexdigest()
+                      for name, body in entries.items()}
+        with mock.patch.object(audit, 'EXPECTED_COUNT', len(entries)):
+            summary = audit.verify_archive(self.make_archive(entries), source_map)
+        self.assertEqual(summary['file_count'], 2)
+        self.assertEqual(summary['document_like_paths'], ['INE415A01038-Q2-Results.pdf'])
+        self.assertEqual(summary['issuer_marker_hits']['INE415A01038'], ['INE415A01038-Q2-Results.pdf'])
+        self.assertEqual(summary['issuer_marker_hits']['AGI Greenpac'], ['INE415A01038-Q2-Results.pdf'])
+
+    def test_archive_summary_does_not_flag_unrelated_bundle_as_issuer_material(self):
+        entries = {'dist/app.js': b'ordinary application bundle'}
+        source_map = {'app.js': hashlib.sha256(entries['dist/app.js']).hexdigest()}
+        with mock.patch.object(audit, 'EXPECTED_COUNT', 1):
+            summary = audit.verify_archive(self.make_archive(entries), source_map)
+        self.assertEqual(summary['document_like_paths'], [])
+        self.assertEqual(summary['issuer_marker_hits'], {'INE415A01038': [], 'AGI Greenpac': []})
+
+
 class MainUsesTheEnvironmentToken(unittest.TestCase):
     def run_main(self, environment):
         output = io.StringIO()
@@ -357,7 +389,11 @@ class MainUsesTheEnvironmentToken(unittest.TestCase):
                 mock.patch.object(audit, 'parse_inventory', return_value={}), \
                 mock.patch.object(audit, 'verify_evidence_json'), \
                 mock.patch.object(audit, 'verify_transcript'), \
-                mock.patch.object(audit, 'verify_archive'), \
+                mock.patch.object(audit, 'verify_archive', return_value={
+                    'file_count': 0, 'extension_counts': {}, 'document_like_paths': [],
+                    'issuer_marker_hits': {'INE415A01038': [], 'AGI Greenpac': []},
+                    'uncompressed_bytes': 0,
+                }), \
                 mock.patch.object(audit, 'open', mock.mock_open(read_data=b''), create=True), \
                 contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
             self.assertEqual(audit.main(), 0)
