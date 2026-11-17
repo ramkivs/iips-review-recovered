@@ -462,13 +462,15 @@ def main() -> int:
     print("LIMIT: verifies recovered historical bytes only; does not certify S2, authorize P-1, or satisfy the separate S04 sealed-directory evidence contract")
     # A check-run annotation, readable through the GitHub Checks API like the failure annotation below.
     route = "with the supplied token" if token_supplied else "without a token"
+    marker_paths = {key: value for key, value in archive_summary["issuer_marker_hits"].items() if value}
     print(
         f"::notice title=CAP-03 release audit::PASS: {len(downloaded)} release assets downloaded through the "
         f"GitHub REST API {route}; all four asset contents individually validated; {EXPECTED_COUNT} ZIP payload "
         f"hashes match the original inventory; doc-like members={len(archive_summary['document_like_paths'])}; "
         f"AGI ISIN/name exact-text hits="
         f"{len(archive_summary['issuer_marker_hits']['INE415A01038'])}/"
-        f"{len(archive_summary['issuer_marker_hits']['AGI Greenpac'])}"
+        f"{len(archive_summary['issuer_marker_hits']['AGI Greenpac'])}; "
+        f"candidate_paths={json.dumps({'documentLike': archive_summary['document_like_paths'][:20], 'AGI': marker_paths}, separators=(',', ':'))}"
     )
     return 0
 

@@ -389,7 +389,11 @@ class MainUsesTheEnvironmentToken(unittest.TestCase):
                 mock.patch.object(audit, 'parse_inventory', return_value={}), \
                 mock.patch.object(audit, 'verify_evidence_json'), \
                 mock.patch.object(audit, 'verify_transcript'), \
-                mock.patch.object(audit, 'verify_archive'), \
+                mock.patch.object(audit, 'verify_archive', return_value={
+                    'file_count': 0, 'extension_counts': {}, 'document_like_paths': [],
+                    'issuer_marker_hits': {'INE415A01038': [], 'AGI Greenpac': []},
+                    'uncompressed_bytes': 0,
+                }), \
                 mock.patch.object(audit, 'open', mock.mock_open(read_data=b''), create=True), \
                 contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
             self.assertEqual(audit.main(), 0)
