@@ -64,7 +64,14 @@ const AS_OF = '2026-11-14';
 const NOW = `${AS_OF}T00:00:00.000Z`;
 
 const BUNDLES = {
-  infosys: 'REL-1-INFOSYS-2026-11-06',
+  /**
+   * `S4-R2` (2026-11-17) — the corrected Infosys transcription. `REL-1-INFOSYS-2026-11-06` is the same issuer and
+   * the same authorised filings, and its bytes are preserved exactly where they were; it simply never carried the
+   * borrowings block, so the dataset built from it could not resolve net debt. The replacement is a complete input
+   * for the issuer, which is the shape the multi-input merger requires. See
+   * `evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/`.
+   */
+  infosys: 'S4-R2-INFOSYS-BORROWINGS-2026-11-17',
   marico: 'WI7-CONSUMER-MARICO-2026-11-07',
   kec: 'WI8-INDUSTRIALS-KEC-2026-11-07',
 } as const;
@@ -73,7 +80,11 @@ const BUNDLES = {
 const ADMITTED_INPUTS = Object.values(BUNDLES).map((bundle) => join(EVIDENCE, bundle, 'ingest-input'));
 /** REL-1 keeps its identity set at the bundle root; WI7/WI8 keep it under `ingest-input`. Not uniform. */
 const ADMITTED_IDENTITY = [
-  join(EVIDENCE, BUNDLES.infosys, 'identity'),
+  /*
+   * Infosys' identity source set stays where Stage 2 admitted it: `S4-R2` corrects the fundamentals transcription and
+   * touches no roster, listing map or corporate-action table, so there is nothing to substitute on this side.
+   */
+  join(EVIDENCE, 'REL-1-INFOSYS-2026-11-06', 'identity'),
   join(EVIDENCE, BUNDLES.marico, 'ingest-input', 'identity'),
   join(EVIDENCE, BUNDLES.kec, 'ingest-input', 'identity'),
 ];
@@ -85,8 +96,14 @@ const INFOSYS_ISIN = 'INE009A01021';
 const MARICO_ISIN = 'INE196A01026';
 const KEC_ISIN = 'INE389H01022';
 
-/** The dataset the Windows host produced at Stage 3; if this moves, the admitted bundles changed. */
-const HOST_DATASET_VERSION = 'sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83';
+/**
+ * The dataset this suite is written against; if it moves, the admitted bundles or the ingestion changed.
+ *
+ * `sha256:3ad82918…` was the version the Windows host verified at Stage 3 — built from `REL-1`'s input, which carried
+ * no borrowings block. `S4-R2` replaces that issuer input, so the version moves to the rebuilt candidate below.
+ * Repository-side candidate: **host re-installation and re-verification are an operator step**, not performed here.
+ */
+const STAGE4_DATASET_VERSION = 'sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2';
 
 /* -------------------------------------------------------------------------------------------------- *
  * Fixture: the real admitted data, installed by the real CLIs, plus a real NP-04 store.
@@ -132,8 +149,8 @@ beforeAll(() => {
   expect(provisionCode, 'the real provisioner must publish the admitted identity set').toBe(0);
 
   installed = readDataset(datasetDir);
-  expect(installed.manifest.datasetVersion, 'this must be the host-verified admitted dataset').toBe(
-    HOST_DATASET_VERSION,
+  expect(installed.manifest.datasetVersion, 'this must be the S4-R2 rebuilt candidate, not some other dataset').toBe(
+    STAGE4_DATASET_VERSION,
   );
 
   /* A real carrier, materialised from the governing declaration — never hand-written. */
@@ -325,14 +342,19 @@ describe('§23 scenario 1 (R, Infosys) — the assessment chain, minted and serv
     expect(completeness.requiredFieldCoveragePct).toBe(1);
 
     /*
-     * These three values are the operator-reported figures from
-     * `IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md` §4. They are re-derived here from the
-     * admitted bundles rather than compared to a recorded string: the engine's own output is the assertion.
+     * These values are the engine's own output on the admitted bundles, re-derived here rather than compared to a
+     * recorded string — the operator-reported figures in `IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md`
+     * §4 were `SUFFICIENT` / `MATERIAL_CONCERNS` / `0.321`.
+     *
+     * `0.321` became **`0.4378`** with `S4-R2` (2026-11-17), and the movement is arithmetic, not policy: confidence
+     * carries a method-applicability ratio, and correcting the borrowing transcription moved `EV_EBITDA` from
+     * inapplicable (`CAPITAL_STRUCTURE_INCOMPLETE`) to applied — 3 of 4 declared methods where there were 2 of 4.
+     * No confidence cap, rate, floor or formula changed; adequacy and quality stay where they were.
      */
     const quality = assessment.quality as Record<string, unknown>;
     expect(quality.verdict).toBe('MATERIAL_CONCERNS');
     const confidence = assessment.confidence as Record<string, unknown>;
-    expect(confidence.combined).toBe(0.321);
+    expect(confidence.combined).toBe(0.4378);
   });
 
   it('is read back identically by a second, independent reader', async () => {
@@ -349,7 +371,7 @@ describe('§23 scenario 1 (R, Infosys) — the assessment chain, minted and serv
     const servedVersion = served!.body.version as Record<string, unknown>;
     expect(head.reportId).toBe(servedVersion.reportId);
     expect(head.payloadDigest).toBe(servedVersion.payloadDigest);
-    expect(head.datasetVersion).toBe(HOST_DATASET_VERSION);
+    expect(head.datasetVersion).toBe(STAGE4_DATASET_VERSION);
     expect(head.adequacy).toBe('SUFFICIENT');
     expect(head.qualityVerdict).toBe('MATERIAL_CONCERNS');
     expect(readBack.output.versionCount).toBe(1);

@@ -23193,3 +23193,105 @@ Next free §16.293 / `CV-CORR-258` / `CHG-2026-11-06-21` / `V2161`.
 **Publication receipt (2026-11-17).** Commit `8db7c9736c341d7dfc9a0f7ac692abb398e4edc5` was pushed to the current dedicated IRR work branch `arena/b63d36c5-iips-review-recovered`; GitHub PR **#585** (`https://github.com/ramkivs/iips-review-recovered/pull/585`) is OPEN against `main`. GitHub Actions run `44136376499` completed **success** on that PR head; all steps passed, including the repository's source/evidence/tracker validation, changed-file whitespace check, and the workflow's authenticated release-asset verification. Follow-up audit-enhancement commit `e60248ae7f59678228a1c148be76198b5a8cd9ad` passed hosted run `44139023529`: it recorded per-asset checks and a 1,140-member archive triage, with no PDF/Office-like filename extensions or leading PDF signatures and AGI/ISIN strings in the enumerated JS/TS/test paths. The exact result and path list are in `publication-surface-audit.json`; this is a content triage, not a rights determination. Authenticated remote read-back confirmed the PR head OID and returned the committed D1/D2 register and inventory with their expected paths and Git blob IDs. The AGI source branch was independently fetched from the authenticated remote at commit `da5e40c0f1b43bac774905eb9db36a9f4ce79045`; its ZIP blob is `0757938b477dc876c8973874ce34b551017a1d6d`, and the remote bytes reproduce SHA-256 `05be52759ca5484fc49de2207ae8f90b7f0f1334bef7f6af20daa6ecd679fc32`. PR #585 remains unmerged; this receipt asserts branch/PR publication and verification only, not admission to `main`.
 
 Next free §16.293 / `CV-CORR-258` / `CHG-2026-11-06-21` / `V2161`.
+
+## 16.293 `CV-CORR-258` — IID Stage 4 `S4-R2` closed: Infosys borrowings transcribed, technology `EV_EBITDA` applied, and the borrowing grammar proved reusable (`2026-11-17`; `CHG-2026-11-06-21`; `V2161`–`V2166`)
+
+**Scope.** IRR-only. This receipt records one IID Stage 4 remaining action and the generic ingestion validation it
+required. It adds no issuer, no dataset class, no admission, no valuation policy, no source document, no host action
+and no IPD write.
+
+**Base.** `main` `037d29ad09a29f68f567b68c3823f2a28715b666` (the merge of PR #584, which §16.292's own next-free line
+preceded; PR #585 — recorded as unmerged in §16.292 — has since merged to `main` at that commit). The work branch is
+`arena/e6f75c56-iips-review-recovered`, branched from that commit.
+
+**What `S4-R2` was, verified rather than carried forward.** `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` recorded
+that `LONG_TERM_BORROWINGS` and `SHORT_TERM_BORROWINGS` were "never transcribed" for Infosys in any of the three
+periods, so `NET_DEBT` was underivable and Technology's `EV_EBITDA` was withheld. Re-read at this head against
+`REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv`: none of the four borrowing/preference columns exists, and the
+measured chain reproduces — `capitalStructure.netDebt` `MISSING/NOT_REPORTED`, `EV_EBITDA`
+`applicable: false / "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"`, `DCF_FCFF` per-share
+`NOT_COMPUTABLE (blocked by netDebt)`, `valuation.intrinsic` `null`. The recorded claim was therefore still current.
+
+**The correction, and its exact period coverage.** A complete replacement input for the same admitted issuer was
+transcribed from the authorised consolidated Ind AS filings already in the repository (extracts at
+`WI3-BORROWINGS-NIL-2026-11-06/source/`, quoting "The Group has no outstanding borrowings." from Note 2.11 of
+`INFY-INDAS-CONSOL-FY24`, filed 2024-04-18). FY2024 carries that sentence as a bound `NIL_BY_DISCLOSURE` for
+`LONG_TERM_BORROWINGS`, `SHORT_TERM_BORROWINGS` and `CURRENT_MATURITIES_OF_LONG_TERM_DEBT`, plus `PREFERENCE_CAPITAL` as
+a cross-scope declared nil (`scope=STANDALONE_COMPANY;acceptedBy=WI5-preference-capital-review`) from the single-share-
+class sentence — the term the enterprise-to-equity conversion needs, without which `EV_EBITDA` is applicable but
+unvalued. FY2023 and FY2022 are **blank**: no disclosure for those balance-sheet dates was transcribed, the FY2024
+sentence is not projected backwards, and blank is `MISSING / NOT_REPORTED` — never a zero. No number was transcribed
+for any period, and no value was estimated or imputed. Bundle:
+`evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/` (`README.md`, `digests.json`, `runs/`).
+`REL-1-INFOSYS-2026-11-06` is byte-identical to its state on `main`.
+
+**Outcome, measured.**
+
+| | before (`sha256:3ad82918…`) | after (`sha256:69bbc14e…`) |
+|---|---|---|
+| `capitalStructure.netDebt` | `MISSING` | `PRESENT` = −₹19,342 crore |
+| `Technology.EV_EBITDA` | withheld `CAPITAL_STRUCTURE_INCOMPLETE` | **applied**, per-share mid ₹1,133.95 |
+| `valuation.intrinsic` | `null` | 875.34 / 1,088.97 / 1,399.81 |
+| `EV_REVENUE` | withheld `MANDATORY_METRIC_MISSING` | unchanged, for its own reason |
+| Marico, KEC payloads | — | deep-equal (each block) before and after |
+
+The net-debt figure and the intrinsic range reproduce `IIPS_V3_IID_WI3_BORROWINGS_NIL_2026-11-06.md`'s published
+values, computed on 2026-11-06 through a different dataset assembly. No formula, threshold, weight, confidence cap,
+policy constant, policy version, sector classification or withholding rule changed. `S4-R2`'s acceptance criterion —
+*"`EV_EBITDA` `AVAILABLE`, or a `NOT_REPORTED` recorded at source with its reason"* — is met on both limbs.
+
+**The reusable capability, and the one product change.** Nothing in the product knows this issuer: the reused path is
+the CSV grammar (`LINE_ITEMS`, nil binding, blank ⇒ `NOT_REPORTED`), the capital-structure aggregation (declared nil
+admitted, mixed instants refused) and the method layer. A new suite,
+`iips-platform/tests/investment/s4r2BorrowingsReuse.test.ts` (25 tests), proves it on **synthetic issuers**: complete
+data consumed; a missing long-term and a missing short-term component each remaining explicitly missing; missing never
+read as zero (the zero-substituted figure is asserted absent); an older-period component refused as
+`NOT_COMPUTABLE / PERIOD_MISMATCH` with each component's period named; invalid units (`INVALID_SOURCE_SCALE`) and
+invalid periods refused before publication; two synthetic issuers using one mechanism with an inspection asserting the
+six borrowing/derivation/aggregation modules name no issuer; and Marico/KEC deep-equality as the regression control.
+One generic validation was required by "period-aware ingestion and validation": `FISCAL_YEAR_PERIOD_MISMATCH` in
+`ingestion/builder.ts`, because a row whose `fiscal_year` contradicted its own `period_end` was previously stored as a
+period that is two years at once. All 41 committed period rows pass it, so no admitted dataset moves.
+
+**Remainder, recorded not taken.** `coverage-report.json` (`measureCoverage`) still reports Technology `G2_PARTIAL`
+with `EV_EBITDA WITHHELD / STATEMENT_INPUT_MISSING: [NET_DEBT]`, because coverage asks whether the **line-item
+derivation set** can produce `NET_DEBT` and `derive.ts` admits `PRESENT` inputs only, while the assessment resolves net
+debt through the capital-structure aggregation that admits a declared nil (D-2). The coverage figure therefore
+understates capability and never overstates it; making the two agree would change derivation semantics reaching
+`NET_DEBT`'s consumers (W07 leverage, dividends, risk, disposition) and is a measurement-semantics decision recorded
+with `S4-R4`/`S4-R5`, not taken here. Host installation of the new dataset version was **not performed**; it is an
+operator step, as `S4-R3`'s candidate was.
+
+| Verification ID | Result |
+|---|---|
+| `V2161` — `S4-R2` state re-read at this head | **PASS** — four columns absent from `REL-1`'s input; the withheld/`MISSING` chain reproduced from the code, not quoted |
+| `V2162` — source support and period coverage | **PASS WITH LIMIT** — FY2024 nil quoted verbatim, located (Note 2.11) and hashed in the WI-3 extract; preference sentence cross-scope and acknowledged; FY2023/FY2022 recorded `NOT_REPORTED` because no disclosure for those dates was transcribed. No number is claimed for any period |
+| `V2163` — dataset and assessment digests | **PASS** — inputs `periods.csv` `97d7cf7c…` / `roster.json` `426e8478…`; dataset `sha256:69bbc14e…` (was `3ad82918…`); assessment payloads `a4fa5781…` → `925b4036…`; `assessCompany` input digests `449207…` → `9a2b0fd2…` |
+| `V2164` — reusability and regression evidence | **PASS** — 25 new tests on synthetic issuers plus the real bundle; Marico/KEC blocks deep-equal; no issuer identifier in any borrowing, derivation or aggregation module outside comments |
+| `V2165` — scope and governance | **PASS** — same three admitted issuers; `REL-1` byte-identical; W05 records neither rewritten nor cited for the new bytes; no source document redistributed; no IPD write; no host install; `L-041`/`L-042`, W05, Q1–Q7 open statuses preserved |
+| `V2166` — unchanged boundaries | **PASS** — `EV_REVENUE` still withheld on `TM_NRR`/`TM_RECURRING_REVENUE_PCT`; `L-001` 3 of 13 sectors; `S4-R3` staleness (958 days at the assessment clock) unchanged; coverage row deliberately unchanged and the reason recorded |
+
+Records updated: `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` (addendum — `S4-R2` closed, remainder named),
+`IID-STAGE4-COVERAGE-MEASUREMENT-EVIDENCE-2026-11-14.md` (addendum — outcome and the coverage divergence), and this
+section.
+
+**Publication and verification receipt (2026-11-17).** Two commits on the dedicated IRR work branch
+`arena/e6f75c56-iips-review-recovered`, branched from `main` `037d29ad09a29f68f567b68c3823f2a28715b666`:
+`37de6c29f2de5d9f224e5c7dbb0370b0a57386b0` (the transcription, the generic ingestion guard, the 25-test suite, the two
+evidence addenda and this section) and `348db8b30865f0d26f12b11266fbbc7976c42ca6` (the correction to the §23
+scenario-1 confidence assertion). GitHub PR **#586**
+(`https://github.com/ramkivs/iips-review-recovered/pull/586`) is against `main`; on head
+`348db8b30865f0d26f12b11266fbbc7976c42ca6` both required checks passed: **CI** run `44156815646` (*Typecheck · Test ·
+Build*, 5m31s) and **CAP-03 Revision 7 IRR-only static checks** run `44156815544` (*Python compile · source/evidence/
+tracker validation*, 50s). The first attempt, head `37de6c29f2de5d9f224e5c7dbb0370b0a57386b0`, failed *Run the full
+Vitest suite* (run `44155388598`) on the stale §23 confidence pin — `0.321` is what the engine produced while
+`EV_EBITDA` was withheld, and `0.4378` is what it produces once the corrected transcription makes the method
+applicable; the assertion and its comment were corrected in the second commit rather than the number being fuzzy-
+matched. Authenticated remote read-back confirmed the branch head OID and the committed blobs for
+`iips-platform/src/investment/ingestion/builder.ts` (`8b28d1a4…`),
+`evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv` (`840b77db…`) and
+`iips-platform/tests/investment/s4r2BorrowingsReuse.test.ts` (`ce0bfa62…`) — each read from `origin`, not from the
+local worktree. This receipt asserts branch/PR publication and verification; the merge into `main` is the authorised
+next step of this same task and its commit is recorded in the PR, not invented here.
+
+Next free §16.294 / `CV-CORR-259` / `CHG-2026-11-06-22` / `V2167`.

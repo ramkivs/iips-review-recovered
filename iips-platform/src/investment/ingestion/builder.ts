@@ -34,7 +34,13 @@ import {
   type OperatingMetricRecord,
 } from '../contracts/operatingMetrics';
 import { missing, nilByDisclosure, notComputable, present, type NumericObservation } from '../contracts/observation';
-import { SCALE_FACTOR, type PeriodIdentity, type QuarterForm, type Scale } from '../contracts/period';
+import {
+  SCALE_FACTOR,
+  fiscalYearLabel,
+  type PeriodIdentity,
+  type QuarterForm,
+  type Scale,
+} from '../contracts/period';
 import type {
   CorporateActionRecord,
   DatasetContent,
@@ -229,12 +235,50 @@ export function parsePeriodCsv(
       issues.push(issue('ERROR', 'INVALID_SOURCE_SCALE', subject, `"${record.source_scale}" is not a known scale`));
       continue;
     }
+    /*
+     * `S4-R2` — a row's fiscal-year label must agree with the period the row describes.
+     *
+     * The label is the year the fiscal year ENDS (`fiscalYearLabel`). For an annual row the period end is always
+     * inside that year: a March year end ending 2024-03-31 is FY2024, and a December year end ending 2024-12-31 is
+     * FY2024 too. A quarterly or TTM row is labelled by the year its fiscal year ends, which is the period-end year
+     * or the year after it (Q1 FY27 ends 2026-06-30). A label outside those windows is a row whose two statements
+     * about its own period contradict each other — the commonest transcription slip in a hand-built CSV — and it is
+     * refused here rather than stored as a period that is simultaneously two years. It is a property of the
+     * grammar, not of an issuer: nothing below knows which issuer the row belongs to.
+     */
+    const fiscalYear = Number(record.fiscal_year);
+    if (!Number.isInteger(fiscalYear)) {
+      issues.push(
+        issue('ERROR', 'INVALID_FISCAL_YEAR', subject, `\"${record.fiscal_year}\" is not an integer fiscal year`),
+      );
+      continue;
+    }
+    const periodEndYear = fiscalYearLabel(record.period_end ?? '');
+    if (Number.isInteger(periodEndYear)) {
+      const labelled = periodType === 'ANNUAL'
+        ? fiscalYear === periodEndYear
+        : fiscalYear === periodEndYear || fiscalYear === periodEndYear + 1;
+      if (!labelled) {
+        issues.push(
+          issue(
+            'ERROR',
+            'FISCAL_YEAR_PERIOD_MISMATCH',
+            subject,
+            `fiscal_year ${fiscalYear} does not describe ${periodType === 'ANNUAL' ? 'an annual' : 'a quarterly or TTM'} period ending \"${record.period_end}\": ` +
+              (periodType === 'ANNUAL'
+                ? 'an annual period is labelled by the year in which it ends'
+                : 'a quarter or TTM period is labelled by the year its fiscal year ends, which is the period-end year or the year after it'),
+          ),
+        );
+        continue;
+      }
+    }
     const quarterForm = asQuarterForm(record.quarter_form ?? '');
     const quarterIndex = record.quarter_index === undefined || record.quarter_index === ''
       ? undefined
       : Number(record.quarter_index);
     const identity: PeriodIdentity = {
-      fiscalYear: Number(record.fiscal_year),
+      fiscalYear,
       periodType,
       periodStart: record.period_start,
       periodEnd: record.period_end,

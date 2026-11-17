@@ -1,0 +1,199 @@
+{
+  "note": "dataset built from this bundle (S4-R2 corrected transcription)",
+  "datasetVersion": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+  "contentDigest": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+  "periods": [
+    "2024-03-31",
+    "2023-03-31",
+    "2022-03-31"
+  ],
+  "borrowingsByPeriod": [
+    {
+      "periodEnd": "2024-03-31",
+      "LONG_TERM_BORROWINGS": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "value": null,
+        "note": "The Group has no outstanding borrowings."
+      },
+      "SHORT_TERM_BORROWINGS": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "value": null,
+        "note": "The Group has no outstanding borrowings."
+      },
+      "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "value": null,
+        "note": "The Group has no outstanding borrowings."
+      },
+      "PREFERENCE_CAPITAL": {
+        "presence": "NIL_BY_DISCLOSURE",
+        "reason": "DECLARED_NIL_IN_SOURCE",
+        "value": null,
+        "note": "The Company has only one class of shares referred to as equity shares having a par value of ₹5/-."
+      }
+    },
+    {
+      "periodEnd": "2023-03-31",
+      "LONG_TERM_BORROWINGS": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      },
+      "SHORT_TERM_BORROWINGS": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      },
+      "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      },
+      "PREFERENCE_CAPITAL": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      }
+    },
+    {
+      "periodEnd": "2022-03-31",
+      "LONG_TERM_BORROWINGS": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      },
+      "SHORT_TERM_BORROWINGS": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      },
+      "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      },
+      "PREFERENCE_CAPITAL": {
+        "presence": "MISSING",
+        "reason": "NOT_REPORTED",
+        "value": null,
+        "note": null
+      }
+    }
+  ],
+  "capitalStructure": {
+    "grossDebt": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 83590000000,
+      "note": "components declared nil by the filer, counted as zero under the capital-structure aggregation contract: shortTermBorrowings, currentMaturities, longTermBorrowings — each nil keeps its source and period in components"
+    },
+    "cashAndInvestments": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 277010000000,
+      "note": null
+    },
+    "netDebt": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": -193420000000,
+      "note": null
+    },
+    "minorityInterest": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 3450000000,
+      "note": null
+    },
+    "preferenceCapital": {
+      "presence": "NIL_BY_DISCLOSURE",
+      "reason": "DECLARED_NIL_IN_SOURCE",
+      "value": null,
+      "note": "The Company has only one class of shares referred to as equity shares having a par value of ₹5/-."
+    },
+    "equityBridgeTreatment": "POLICY_ZERO_UNAVAILABLE",
+    "dilutedShares": {
+      "presence": "PRESENT",
+      "reason": null,
+      "value": 4144888607.994944,
+      "note": null
+    }
+  },
+  "methods": [
+    {
+      "methodId": "DCF_FCFF",
+      "applicable": true,
+      "notApplicableReason": null,
+      "perShareMid": 990.7490504210945
+    },
+    {
+      "methodId": "PE_RELATIVE",
+      "applicable": true,
+      "notApplicableReason": null,
+      "perShareMid": 1270.4266666666667
+    },
+    {
+      "methodId": "EV_EBITDA",
+      "applicable": true,
+      "notApplicableReason": null,
+      "perShareMid": 1133.9484469942438
+    },
+    {
+      "methodId": "EV_REVENUE",
+      "applicable": false,
+      "notApplicableReason": "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT",
+      "perShareMid": null
+    }
+  ],
+  "intrinsic": {
+    "withheld": null,
+    "perShare": {
+      "low": 875.3394146903431,
+      "mid": 1088.972274952081,
+      "high": 1399.8105188789887
+    },
+    "weighting": [
+      {
+        "methodId": "DCF_FCFF",
+        "weight": 0.6
+      },
+      {
+        "methodId": "EV_EBITDA",
+        "weight": 0.1
+      },
+      {
+        "methodId": "PE_RELATIVE",
+        "weight": 0.3
+      }
+    ]
+  },
+  "marginOfSafety": {
+    "refusal": "NO_PRICE_OBSERVATION",
+    "band": null,
+    "mosVsMid": null
+  },
+  "confidenceCombined": 0.4378,
+  "qualityVerdict": "MATERIAL_CONCERNS",
+  "adequacy": "SUFFICIENT",
+  "limitations": [
+    "Dilutive potential shares (ESOP, convertibles) are not present in dataset schema v1, so the diluted count is the EPS-implied count and carries the DILUTION_PROXY cap.",
+    "Net debt subtracts cash and cash equivalents plus liquid investments only; restricted balances, margin money and regulatory balances are excluded from available cash by construction (R-4.1 / Schedule III). Dataset schema v1 carries no restricted-balance line item, so the component is published as NOT_COMPUTABLE rather than as a zero.",
+    "The corporate-action table carries no dividend declaration record in dataset schema v1, so R-15 corroboration is unavailable for this assessment.",
+    "Gross debt counts 3 component(s) that the filer declared nil as zero (shortTermBorrowings, currentMaturities, longTermBorrowings). Each is published as NIL_BY_DISCLOSURE with its filing reference and period, not as a reported zero, and an unreported or unavailable component would still block the aggregate.",
+    "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports.",
+    "R-4.3's policy-default penalty is applied: the valuation leans on 2 distinct assumption category(ies) (POLICY_DEFAULT_WACC 0.2, POLICY_DEFAULT_MULTIPLE 0.15) triggered by DCF_FCFF/discountRate, PE_RELATIVE/targetMultiple, EV_EBITDA/targetMultiple. The reductions are additive and capped once at 0.35, so the published confidence carries a 0.35 reduction (×0.65); multiple methods sharing one assumption category carry one penalty, and no minimum-confidence floor exists.",
+    "Associates/JV review required (REVIEW_DUE): The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence. A review flag is not a carrying value: no figure has been established, no unavailable input has been converted into a nil, and the flag changes no valuation output.",
+    "Assessment only: no persistence, no transport and no UI are part of IID-2 (IID-3 and IID-6 own those)."
+  ],
+  "violations": []
+}

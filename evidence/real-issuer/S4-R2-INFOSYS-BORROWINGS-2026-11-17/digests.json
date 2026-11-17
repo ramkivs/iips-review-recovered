@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "workItem": "S4-R2",
+  "recordedAt": "2026-11-17",
+  "assessmentClock": "2026-11-14T00:00:00.000Z",
+  "inputs": {
+    "ingest-input/periods.csv": {
+      "sha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83",
+      "bytes": 2306
+    },
+    "ingest-input/roster.json": {
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "bytes": 1157
+    },
+    "REL-1 roster (unchanged)": {
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+    },
+    "REL-1 periods.csv (unchanged)": {
+      "sha256": "e2cdba2042a55fc3352e85b8384e014f669e1472deb9011e7be2babd4fbc745c"
+    }
+  },
+  "datasets": {
+    "before": {
+      "sources": [
+        "REL-1-INFOSYS-2026-11-06/ingest-input",
+        "WI7-CONSUMER-MARICO-2026-11-07/ingest-input",
+        "WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input"
+      ],
+      "datasetVersion": "sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83",
+      "contentDigest": "sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83",
+      "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1"
+    },
+    "after": {
+      "sources": [
+        "S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input",
+        "WI7-CONSUMER-MARICO-2026-11-07/ingest-input",
+        "WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input"
+      ],
+      "datasetVersion": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+      "contentDigest": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+      "datasetSchema": "IIPS_INVESTMENT_FUNDAMENTALS_V1"
+    }
+  },
+  "assessmentPayloadSha256": {
+    "before": "a4fa5781bf17a10cca8bb9d67ef83b3736df573b73674b8ca9dca33c7dd4ae2e",
+    "after": "925b403622c9b667152effa64539036a8cbcea40229ef2b36c7f148c210e471e"
+  },
+  "assessmentInputDigest": {
+    "before": "sha256:44920743672caf70dee2864683108945d9abc64c4d6203854647ff33729ad8cc",
+    "after": "sha256:9a2b0fd24d734d955a0f6d37dd421d2ef77609bbb8610e4055ab556172b5f46a"
+  },
+  "violations": {
+    "before": [],
+    "after": []
+  }
+}
