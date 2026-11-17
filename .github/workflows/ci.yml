@@ -105,8 +105,31 @@ jobs:
           GIT_CONFIG_VALUE_2: 'git@github.com:'
           GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
         run: |
-          export GIT_CONFIG_VALUE_3="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$IPD_APP_TOKEN" | base64 -w0)"
-          npm ci --no-audit --no-fund
+          AUTH_B64="$(printf 'x-access-token:%s' "$IPD_APP_TOKEN" | base64 -w0)"
+          echo "::add-mask::$IPD_APP_TOKEN"
+          echo "::add-mask::$AUTH_B64"
+          export GIT_CONFIG_VALUE_3="AUTHORIZATION: basic $AUTH_B64"
+
+          npm_log="$(mktemp)"
+          set +e
+          npm ci --no-audit --no-fund --loglevel=verbose >"$npm_log" 2>&1
+          npm_status=$?
+          set -e
+
+          npm_output="$(cat "$npm_log")"
+          npm_output="${npm_output//"$IPD_APP_TOKEN"/[REDACTED]}"
+          npm_output="${npm_output//"$AUTH_B64"/[REDACTED]}"
+          printf '%s\n' "$npm_output"
+          if [[ "$npm_status" -ne 0 ]]; then
+            error_text="$(tail -n 15 "$npm_log")"
+            error_text="${error_text//"$IPD_APP_TOKEN"/[REDACTED]}"
+            error_text="${error_text//"$AUTH_B64"/[REDACTED]}"
+            error_text="${error_text//'%'/'%25'}"
+            error_text="${error_text//$'\r'/'%0D'}"
+            error_text="${error_text//$'\n'/'%0A'}"
+            echo "::error title=npm ci failed::$error_text"
+            exit "$npm_status"
+          fi
 
       - name: Verify all private dependencies resolve to their committed pins
         run: node ../.ci/verify-ipd-pins.mjs
