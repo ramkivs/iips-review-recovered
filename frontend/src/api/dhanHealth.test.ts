@@ -76,17 +76,44 @@ function report(overrides: Record<string, unknown> = {}) {
   };
 }
 
+function verificationView(overrides: Record<string, unknown> = {}) {
+  return {
+    contractVersion: 1,
+    mode: 'LIVE_PROBE',
+    outcome: 'VERIFIED_LOCAL_ONLY',
+    providerState: 'CREDENTIALS_RESOLVED',
+    localReadinessEstablished: true,
+    probeAttempted: false,
+    probeCount: 0,
+    failureCategory: null,
+    checkedAt: '2026-11-16T00:00:00.000Z',
+    latencyMs: null,
+    observedState: {
+      lastSuccessAt: null,
+      lastFailure: null,
+      lastAuthOutcome: 'NOT_CHECKED',
+      lastLatencyMs: null,
+      consecutiveAuthFailures: 0,
+      authLatched: false,
+    },
+    ...overrides,
+  };
+}
+
 function verifyReport(overrides: Record<string, unknown> = {}) {
   return {
     action: 'VERIFY_CONNECTION',
     attempted: true,
     requestsIssued: 1,
     liveProviderContacted: false,
-    outcome: 'OBSERVED',
+    outcome: 'EXECUTED',
+    failureCode: null,
+    verification: verificationView(),
     checkedAt: '2026-11-16T00:00:00.000Z',
-    state: 'UNAVAILABLE',
-    verificationNote: 'One read-only diagnostics request was issued to the local IPD daemon.',
-    ...diagnosticsFields(),
+    state: 'PRE_ACCESS',
+    verificationNote:
+      'IPD executed its governed verification. Local credential readiness was established WITHOUT contacting the vendor.',
+    ...diagnosticsFields({ providerState: 'CREDENTIALS_RESOLVED' }),
     ...overrides,
   };
 }
@@ -200,12 +227,12 @@ describe('DHAN-P2 health API client', () => {
 
 describe('DHAN-P2 verify-connection API client', () => {
   it('issues exactly one POST to the verify-connection route', async () => {
-    const fetchMock = okFetch({ data: verifyReport(), provenance: { ...PROVENANCE, dataVersion: 'dhan-verify-connection-v1' } });
+    const fetchMock = okFetch({ data: verifyReport(), provenance: { ...PROVENANCE, dataVersion: 'dhan-verify-connection-v2' } });
     vi.stubGlobal('fetch', fetchMock);
 
     const envelope = await verifyDhanConnection();
 
-    expect(envelope.data.outcome).toBe('OBSERVED');
+    expect(envelope.data.outcome).toBe('EXECUTED');
     expect(envelope.data.requestsIssued).toBe(1);
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
@@ -269,10 +296,122 @@ describe('DHAN-P2 verify-connection API client', () => {
     await expect(verifyDhanConnection()).rejects.toBeInstanceOf(DhanHealthApiError);
   });
 
-  it('fails closed when the verify report claims liveProviderContacted true', async () => {
+  it('fails closed when the vendor-contact flag contradicts the verification payload', async () => {
     vi.stubGlobal('fetch', okFetch({ data: verifyReport({ liveProviderContacted: true }), provenance: PROVENANCE }));
 
     await expect(verifyDhanConnection()).rejects.toBeInstanceOf(DhanHealthApiError);
+  });
+
+  it('fails closed when EXECUTED carries no verification payload', async () => {
+    vi.stubGlobal('fetch', okFetch({ data: verifyReport({ verification: null }), provenance: PROVENANCE }));
+
+    await expect(verifyDhanConnection()).rejects.toBeInstanceOf(DhanHealthApiError);
+  });
+
+  it('fails closed when a non-EXECUTED outcome carries a verification payload', async () => {
+    vi.stubGlobal(
+      'fetch',
+      okFetch({ data: verifyReport({ outcome: 'TRANSPORT_UNAVAILABLE' }), provenance: PROVENANCE }),
+    );
+
+    await expect(verifyDhanConnection()).rejects.toBeInstanceOf(DhanHealthApiError);
+  });
+
+  it('fails closed on a contradictory verification payload (probeAttempted without a probe)', async () => {
+    vi.stubGlobal(
+      'fetch',
+      okFetch({
+        data: verifyReport({ verification: verificationView({ probeCount: 1 }) }),
+        provenance: PROVENANCE,
+      }),
+    );
+
+    await expect(verifyDhanConnection()).rejects.toBeInstanceOf(DhanHealthApiError);
+  });
+
+  it('fails closed on an unsupported verification contract version', async () => {
+    vi.stubGlobal(
+      'fetch',
+      okFetch({
+        data: verifyReport({ verification: verificationView({ contractVersion: 2 }) }),
+        provenance: PROVENANCE,
+      }),
+    );
+
+    await expect(verifyDhanConnection()).rejects.toBeInstanceOf(DhanHealthApiError);
+  });
+
+  it('fails closed on a LOCAL_ONLY verification that claims a vendor probe', async () => {
+    vi.stubGlobal(
+      'fetch',
+      okFetch({
+        data: verifyReport({
+          liveProviderContacted: true,
+          verification: verificationView({ mode: 'LOCAL_ONLY', probeAttempted: true, probeCount: 1, latencyMs: 10 }),
+        }),
+        provenance: PROVENANCE,
+      }),
+    );
+
+    await expect(verifyDhanConnection()).rejects.toBeInstanceOf(DhanHealthApiError);
+  });
+
+  it('accepts a vendor-authenticated verification and echoes it verbatim', async () => {
+    vi.stubGlobal(
+      'fetch',
+      okFetch({
+        data: verifyReport({
+          liveProviderContacted: true,
+          verification: verificationView({
+            outcome: 'VERIFIED_VENDOR_ACCEPTED',
+            providerState: 'AUTHENTICATED',
+            probeAttempted: true,
+            probeCount: 1,
+            failureCategory: null,
+            latencyMs: 42,
+            observedState: {
+              lastSuccessAt: '2026-11-16T00:00:00.000Z',
+              lastFailure: null,
+              lastAuthOutcome: 'AUTHENTICATED',
+              lastLatencyMs: 42,
+              consecutiveAuthFailures: 0,
+              authLatched: false,
+            },
+          }),
+          state: 'AUTHENTICATED',
+        }),
+        provenance: PROVENANCE,
+      }),
+    );
+
+    const envelope = await verifyDhanConnection();
+
+    expect(envelope.data.verification?.outcome).toBe('VERIFIED_VENDOR_ACCEPTED');
+    expect(envelope.data.liveProviderContacted).toBe(true);
+    expect(envelope.data.state).toBe('AUTHENTICATED');
+  });
+
+  it('accepts a non-EXECUTED outcome with no verification payload', async () => {
+    vi.stubGlobal(
+      'fetch',
+      okFetch({
+        data: verifyReport({
+          attempted: false,
+          requestsIssued: 0,
+          outcome: 'NOT_ATTEMPTED_NOT_CONFIGURED',
+          verification: null,
+          providerState: null,
+        }),
+        provenance: PROVENANCE,
+      }),
+    );
+
+    const envelope = await verifyDhanConnection();
+
+    expect(envelope.data.outcome).toBe('NOT_ATTEMPTED_NOT_CONFIGURED');
+    expect(envelope.data.requestsIssued).toBe(0);
+    expect(envelope.data.verification).toBeNull();
+    expect(envelope.data.liveProviderContacted).toBe(false);
   });
 });
 

@@ -82,12 +82,14 @@ describe('R3-Option B dependency surface', () => {
     // `279d1eed…` to `59fdfd1…` (IPD PR #140 merge commit) so IRR can consume the newly
     // published server-only `./dhan-server` subpath, then to `ae393aa…` (IPD PR #144)
     // by DHAN-P3, then to `5b384c72…` — the published IPD W-07 commit (IPD PR #168) — in
-    // coordinated W-07, and finally to `d80d773…` — the published IPD `main` carrying
-    // W-07 (PR #168), W-08 (PR #169) and W-09 (PR #170) — in coordinated W-10, which
-    // needs W-09's `/v1/diagnostics` client. The advances are additive; every subpath
-    // this guard's consumers rely on is still published at the new commit.
+    // coordinated W-07, then to `d80d773…` — the published IPD `main` carrying W-07
+    // (PR #168), W-08 (PR #169) and W-09 (PR #170) — in coordinated W-10, and finally to
+    // `1ce6a829…` — the published IPD `main` merge carrying the W-10
+    // `POST /v1/connection/verify` operation — in coordinated W-10 verify. The advances are
+    // additive; every subpath this guard's consumers rely on is still published at the new
+    // commit.
     expect(manifest.dependencies['iips-production-market-data']).toBe(
-      'github:ramkivs/iips-production-market-data#d80d77345bed965c2a7e660ef272fd53a234d0a7',
+      'github:ramkivs/iips-production-market-data#1ce6a829a7ce65550356a0071c108a60f2d813be',
     );
     // The broker-import alias is guarded by `broker-import-package-profile.json`, the single source
     // of truth shared with `scripts/materialize-broker-import.mjs` and the CAP-02 B-1R guard.

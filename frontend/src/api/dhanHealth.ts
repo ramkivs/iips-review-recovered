@@ -129,18 +129,77 @@ export interface DhanHealthReport extends DhanDiagnosticsView {
   readonly disclosure: string;
 }
 
-/** The enumerated outcomes of the operator-initiated verification action. */
+/** IPD's governed verification modes (D-7 §3). Mirrors the server. */
+export type DhanVerificationMode = 'LIVE_PROBE' | 'LOCAL_ONLY';
+
+const DHAN_VERIFICATION_MODES: readonly DhanVerificationMode[] = Object.freeze([
+  'LIVE_PROBE',
+  'LOCAL_ONLY',
+]);
+
+/** IPD's governed verification outcome codes (D-7 §3). Mirrors the server. */
+export type DhanVerificationOutcomeCode =
+  | 'VERIFIED_VENDOR_ACCEPTED'
+  | 'VERIFIED_LOCAL_ONLY'
+  | 'AUTH_REJECTED'
+  | 'EXPIRED_LOCAL'
+  | 'NOT_ATTEMPTED_NOT_READY'
+  | 'FAILED_TRANSPORT'
+  | 'FAILED_VENDOR_RESPONSE';
+
+const DHAN_VERIFICATION_OUTCOME_CODES: readonly DhanVerificationOutcomeCode[] = Object.freeze([
+  'VERIFIED_VENDOR_ACCEPTED',
+  'VERIFIED_LOCAL_ONLY',
+  'AUTH_REJECTED',
+  'EXPIRED_LOCAL',
+  'NOT_ATTEMPTED_NOT_READY',
+  'FAILED_TRANSPORT',
+  'FAILED_VENDOR_RESPONSE',
+]);
+
+/** IPD's recorder-observed state, mirrored structurally. Counts/booleans/codes only. */
+export interface DhanVerificationObservedStateView {
+  readonly lastSuccessAt: string | null;
+  readonly lastFailure: DhanRecordedFailure | null;
+  readonly lastAuthOutcome: string;
+  readonly lastLatencyMs: number | null;
+  readonly consecutiveAuthFailures: number;
+  readonly authLatched: boolean;
+}
+
+/**
+ * IPD's validated D-7 §3 verification payload, projected. Every field is an enumeration, a
+ * count, a boolean or an ISO-8601 UTC timestamp. `VERIFIED_LOCAL_ONLY` is local credential
+ * readiness only — never vendor authentication.
+ */
+export interface DhanVerificationView {
+  readonly contractVersion: 1;
+  readonly mode: DhanVerificationMode;
+  readonly outcome: DhanVerificationOutcomeCode;
+  readonly providerState: DhanProviderState;
+  /** Whether V1 local credential readiness was established during this verification. */
+  readonly localReadinessEstablished: boolean;
+  /** Whether THIS verification issued a vendor probe. */
+  readonly probeAttempted: boolean;
+  readonly probeCount: 0 | 1;
+  readonly failureCategory: string | null;
+  readonly checkedAt: string;
+  readonly latencyMs: number | null;
+  readonly observedState: DhanVerificationObservedStateView;
+}
+
+/** The enumerated dispositions of the operator-initiated verification action. */
 export type DhanVerifyConnectionOutcome =
-  | 'OBSERVED'
+  | 'EXECUTED'
   | 'NOT_ATTEMPTED_NOT_CONFIGURED'
   | 'TRANSPORT_UNAVAILABLE'
-  | 'DIAGNOSTICS_CONTRACT_VIOLATION';
+  | 'VERIFICATION_CONTRACT_VIOLATION';
 
 const DHAN_VERIFY_OUTCOMES: readonly DhanVerifyConnectionOutcome[] = Object.freeze([
-  'OBSERVED',
+  'EXECUTED',
   'NOT_ATTEMPTED_NOT_CONFIGURED',
   'TRANSPORT_UNAVAILABLE',
-  'DIAGNOSTICS_CONTRACT_VIOLATION',
+  'VERIFICATION_CONTRACT_VIOLATION',
 ]);
 
 /** The operator-initiated verification report published by the server. */
@@ -149,9 +208,13 @@ export interface DhanVerifyConnectionReport extends DhanDiagnosticsView {
   readonly attempted: boolean;
   /** How many requests this action issued to IPD. Exactly 1 when attempted, 0 otherwise. */
   readonly requestsIssued: 0 | 1;
-  /** Whether THIS action contacted the live vendor. Always false: it issues no vendor call. */
-  readonly liveProviderContacted: false;
+  /** Whether THIS action issued a vendor probe (IPD-validated `probeAttempted`). */
+  readonly liveProviderContacted: boolean;
   readonly outcome: DhanVerifyConnectionOutcome;
+  /** Enumerated IPD transport failure code, or null. Never a message. */
+  readonly failureCode: string | null;
+  /** IPD's validated D-7 §3 verification projection, or null when no usable payload returned. */
+  readonly verification: DhanVerificationView | null;
   readonly checkedAt: string;
   readonly state: DhanHealthState;
   readonly verificationNote: string;
@@ -202,6 +265,49 @@ function isDhanProviderState(value: unknown): value is DhanProviderState {
 
 function isDhanVerifyConnectionOutcome(value: unknown): value is DhanVerifyConnectionOutcome {
   return typeof value === 'string' && (DHAN_VERIFY_OUTCOMES as readonly string[]).includes(value);
+}
+
+function isDhanVerificationMode(value: unknown): value is DhanVerificationMode {
+  return typeof value === 'string' && (DHAN_VERIFICATION_MODES as readonly string[]).includes(value);
+}
+
+function isDhanVerificationOutcomeCode(value: unknown): value is DhanVerificationOutcomeCode {
+  return typeof value === 'string' && (DHAN_VERIFICATION_OUTCOME_CODES as readonly string[]).includes(value);
+}
+
+/**
+ * Fail-closed structural check of IPD's projected verification payload. Mirrors the
+ * invariants IPD's own `validateDhanConnectionVerification` enforces (which already ran
+ * inside the pinned client); the client refuses to render a payload that breaks them.
+ */
+function isDhanVerificationView(value: unknown): value is DhanVerificationView {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const v = value as Record<string, unknown>;
+  if (v.contractVersion !== 1) return false;
+  if (!isDhanVerificationMode(v.mode)) return false;
+  if (!isDhanVerificationOutcomeCode(v.outcome)) return false;
+  if (!isDhanProviderState(v.providerState)) return false;
+  if (typeof v.localReadinessEstablished !== 'boolean') return false;
+  if (typeof v.probeAttempted !== 'boolean') return false;
+  if (v.probeCount !== 0 && v.probeCount !== 1) return false;
+  if (v.probeCount !== (v.probeAttempted === true ? 1 : 0)) return false;
+  if (v.mode === 'LOCAL_ONLY' && v.probeAttempted === true) return false;
+  if (v.failureCategory !== null && typeof v.failureCategory !== 'string') return false;
+  if (typeof v.checkedAt !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(v.checkedAt)) {
+    return false;
+  }
+  if (v.latencyMs !== null && (typeof v.latencyMs !== 'number' || !Number.isFinite(v.latencyMs) || v.latencyMs < 0)) {
+    return false;
+  }
+  if (!v.probeAttempted && v.latencyMs !== null) return false;
+  const observed = v.observedState;
+  if (!observed || typeof observed !== 'object' || Array.isArray(observed)) return false;
+  const o = observed as Record<string, unknown>;
+  if (o.lastSuccessAt !== null && typeof o.lastSuccessAt !== 'string') return false;
+  if (typeof o.lastAuthOutcome !== 'string') return false;
+  if (typeof o.consecutiveAuthFailures !== 'number' || !Number.isInteger(o.consecutiveAuthFailures) || o.consecutiveAuthFailures < 0) return false;
+  if (typeof o.authLatched !== 'boolean') return false;
+  return true;
 }
 
 /**
@@ -269,9 +375,12 @@ export async function fetchDhanHealth(baseUrl = ''): Promise<DhanHealthEnvelope>
 /**
  * Invoke the operator-initiated "Verify connection" action.
  *
- * Issues exactly ONE POST to the IRR boundary, which in turn issues exactly one diagnostics
- * request to the local IPD daemon (zero when the transport is not configured). No retry, no
- * loop, no credential resolution, no vendor call. Fails closed on a contract violation.
+ * Issues exactly ONE POST to the IRR boundary, which in turn issues exactly one call to
+ * IPD's `POST /v1/connection/verify` operation (zero when the transport is not configured).
+ * IPD performs its own governed verification — in LIVE_PROBE mode at most one authenticated
+ * vendor probe — and validates its own contract before the response is built. No retry, no
+ * loop, no credential resolution, no IRR-side verification. Fails closed on a contract
+ * violation. `VERIFIED_LOCAL_ONLY` is local readiness only and is never vendor authentication.
  */
 export async function verifyDhanConnection(baseUrl = ''): Promise<DhanVerifyConnectionEnvelope> {
   let res: Response;
@@ -301,8 +410,9 @@ export async function verifyDhanConnection(baseUrl = ''): Promise<DhanVerifyConn
     );
   }
 
-  // Fail closed on a contract violation. The action marker, the request count and the
-  // enumerated outcome are all part of the contract.
+  // Fail closed on a contract violation. The action marker, the request count, the honesty
+  // flag, the enumerated outcome, the route-level disposition and the verification payload
+  // are all part of the contract.
   if (envelope?.data?.action !== 'VERIFY_CONNECTION') {
     throw new DhanHealthApiError(
       'dhan verify-connection response contract violation: unexpected action',
@@ -317,10 +427,30 @@ export async function verifyDhanConnection(baseUrl = ''): Promise<DhanVerifyConn
       res.status,
     );
   }
-  // The vendor-contact honesty flag must be present and false — this action issues no vendor call.
-  if (envelope.data.liveProviderContacted !== false) {
+  if (typeof envelope.data.attempted !== 'boolean') {
     throw new DhanHealthApiError(
-      'dhan verify-connection response contract violation: liveProviderContacted must be false',
+      'dhan verify-connection response contract violation: missing attempted flag',
+      'transport',
+      res.status,
+    );
+  }
+  if (envelope.data.attempted === false && envelope.data.requestsIssued !== 0) {
+    throw new DhanHealthApiError(
+      'dhan verify-connection response contract violation: unattempted action issued requests',
+      'transport',
+      res.status,
+    );
+  }
+  if (envelope.data.attempted === true && envelope.data.requestsIssued !== 1) {
+    throw new DhanHealthApiError(
+      'dhan verify-connection response contract violation: attempted action issued unexpected request count',
+      'transport',
+      res.status,
+    );
+  }
+  if (typeof envelope.data.liveProviderContacted !== 'boolean') {
+    throw new DhanHealthApiError(
+      'dhan verify-connection response contract violation: missing vendor-contact flag',
       'transport',
       res.status,
     );
@@ -328,6 +458,13 @@ export async function verifyDhanConnection(baseUrl = ''): Promise<DhanVerifyConn
   if (!isDhanVerifyConnectionOutcome(envelope.data.outcome)) {
     throw new DhanHealthApiError(
       'dhan verify-connection response contract violation: unrecognized outcome',
+      'transport',
+      res.status,
+    );
+  }
+  if (envelope.data.failureCode !== null && typeof envelope.data.failureCode !== 'string') {
+    throw new DhanHealthApiError(
+      'dhan verify-connection response contract violation: unrecognized failure code',
       'transport',
       res.status,
     );
@@ -342,6 +479,33 @@ export async function verifyDhanConnection(baseUrl = ''): Promise<DhanVerifyConn
   if (envelope.data.providerState !== null && !isDhanProviderState(envelope.data.providerState)) {
     throw new DhanHealthApiError(
       'dhan verify-connection response contract violation: unrecognized provider state',
+      'transport',
+      res.status,
+    );
+  }
+  // The verification payload must be present exactly when the route reports EXECUTED, and
+  // must pass the full fail-closed structural check when present.
+  if (envelope.data.outcome === 'EXECUTED') {
+    if (!isDhanVerificationView(envelope.data.verification)) {
+      throw new DhanHealthApiError(
+        'dhan verify-connection response contract violation: missing or invalid verification payload',
+        'transport',
+        res.status,
+      );
+    }
+  } else if (envelope.data.verification !== null) {
+    throw new DhanHealthApiError(
+      'dhan verify-connection response contract violation: verification payload present on a non-EXECUTED outcome',
+      'transport',
+      res.status,
+    );
+  }
+  // The vendor-contact honesty flag is derived from IPD's validated probeAttempted — never
+  // inferred, never defaulted.
+  const expectedLiveProviderContacted = envelope.data.verification?.probeAttempted === true;
+  if (envelope.data.liveProviderContacted !== expectedLiveProviderContacted) {
+    throw new DhanHealthApiError(
+      'dhan verify-connection response contract violation: vendor-contact flag contradicts the verification payload',
       'transport',
       res.status,
     );

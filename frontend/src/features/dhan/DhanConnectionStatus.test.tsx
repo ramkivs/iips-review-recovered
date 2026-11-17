@@ -76,17 +76,44 @@ function report(overrides: Record<string, unknown> = {}) {
   };
 }
 
+function verificationView(overrides: Record<string, unknown> = {}) {
+  return {
+    contractVersion: 1,
+    mode: 'LIVE_PROBE',
+    outcome: 'VERIFIED_LOCAL_ONLY',
+    providerState: 'CREDENTIALS_RESOLVED',
+    localReadinessEstablished: true,
+    probeAttempted: false,
+    probeCount: 0,
+    failureCategory: null,
+    checkedAt: '2026-11-16T00:00:00.000Z',
+    latencyMs: null,
+    observedState: {
+      lastSuccessAt: null,
+      lastFailure: null,
+      lastAuthOutcome: 'NOT_CHECKED',
+      lastLatencyMs: null,
+      consecutiveAuthFailures: 0,
+      authLatched: false,
+    },
+    ...overrides,
+  };
+}
+
 function verifyReport(overrides: Record<string, unknown> = {}) {
   return {
     action: 'VERIFY_CONNECTION',
     attempted: true,
     requestsIssued: 1,
     liveProviderContacted: false,
-    outcome: 'OBSERVED',
+    outcome: 'EXECUTED',
+    failureCode: null,
+    verification: verificationView(),
     checkedAt: '2026-11-16T00:00:00.000Z',
-    state: 'UNAVAILABLE',
-    verificationNote: 'One read-only diagnostics request was issued to the local IPD daemon.',
-    ...diagnosticsFields(),
+    state: 'PRE_ACCESS',
+    verificationNote:
+      'IPD executed its governed verification. Local credential readiness was established WITHOUT contacting the vendor.',
+    ...diagnosticsFields({ providerState: 'CREDENTIALS_RESOLVED' }),
     ...overrides,
   };
 }
@@ -110,7 +137,7 @@ describe('DHAN-P2 connection status surface', () => {
   it('renders the PRE_ACCESS state truthfully', async () => {
     vi.stubGlobal('fetch', routedFetch(
       { data: report({ state: 'PRE_ACCESS', ...diagnosticsFields({ providerState: 'CONFIGURED', providerConfiguration: 'CONFIGURED', readiness: 'CREDENTIAL_REFERENCES_CONFIGURED', credentialResolutionOutcome: 'CONFIGURED_NOT_RESOLVED', configurationResolved: true, vaultBackendId: 'WINDOWS_DPAPI', liveCredentialResolutionSupported: true, vendorEgressMode: 'IPD_SERVER_HTTPS' }) }), provenance: PROVENANCE },
-      { data: verifyReport(), provenance: { ...PROVENANCE, dataVersion: 'dhan-verify-connection-v1' } },
+      { data: verifyReport(), provenance: { ...PROVENANCE, dataVersion: 'dhan-verify-connection-v2' } },
     ));
     render(<DhanConnectionStatus />);
 
@@ -234,7 +261,7 @@ describe('DHAN-P2 connection status surface', () => {
   it('issues exactly one verify-connection request when the operator presses the button', async () => {
     const fetchMock = routedFetch(
       { data: report(), provenance: PROVENANCE },
-      { data: verifyReport(), provenance: { ...PROVENANCE, dataVersion: 'dhan-verify-connection-v1' } },
+      { data: verifyReport(), provenance: { ...PROVENANCE, dataVersion: 'dhan-verify-connection-v2' } },
     );
     vi.stubGlobal('fetch', fetchMock);
     render(<DhanConnectionStatus />);
@@ -249,9 +276,100 @@ describe('DHAN-P2 connection status surface', () => {
     expect(init?.method).toBe('POST');
     expect(new Headers(init?.headers).has('authorization')).toBe(false);
     expect(init?.credentials).toBe('omit');
-    expect(screen.getByTestId('dhan-verify-result').textContent).toContain('OBSERVED');
-    expect(screen.getByTestId('dhan-verify-result').textContent).toContain('requests issued to IPD: 1');
-    expect(screen.getByTestId('dhan-verify-note').textContent).toContain('read-only diagnostics request');
+    expect(screen.getByTestId('dhan-verify-result').textContent).toContain('EXECUTED');
+    expect(screen.getByTestId('dhan-verify-result').textContent).toContain('Requests issued to IPD: 1');
+    expect(screen.getByTestId('dhan-verify-note').textContent).toContain('WITHOUT contacting the vendor');
+  });
+
+  it('renders VERIFIED_LOCAL_ONLY as local readiness only — never as authenticated', async () => {
+    vi.stubGlobal('fetch', routedFetch(
+      { data: report(), provenance: PROVENANCE },
+      { data: verifyReport(), provenance: PROVENANCE },
+    ));
+    render(<DhanConnectionStatus />);
+
+    await waitFor(() => expect(screen.getByTestId('dhan-verify-connection')).toBeTruthy());
+    fireEvent.click(screen.getByTestId('dhan-verify-connection'));
+
+    await waitFor(() => expect(screen.getByTestId('dhan-verify-result')).toBeTruthy());
+    const verdict = screen.getByTestId('dhan-verify-verdict').textContent ?? '';
+    expect(verdict).toContain('LOCAL READINESS ONLY');
+    expect(verdict).toContain('VERIFIED_LOCAL_ONLY');
+    expect(verdict).not.toContain('AUTHENTICATED');
+    const result = screen.getByTestId('dhan-verify-result').textContent ?? '';
+    expect(result).toContain('NOT vendor authentication');
+    expect(result).toContain('Vendor probe attempted');
+    expect(screen.getByTestId('dhan-verify-probe-attempted').textContent).toContain('no');
+    expect(screen.getByTestId('dhan-verify-mode').textContent).toBe('LIVE_PROBE');
+    expect(screen.getByTestId('dhan-verify-local-readiness').textContent).toBe('yes');
+    // The health-side badge is unaffected by the verify action (observational read only).
+    expect(screen.getByTestId('dhan-health-state').textContent).toContain('UNAVAILABLE');
+  });
+
+  it('renders VERIFIED_VENDOR_ACCEPTED as vendor-authenticated with one probe — honestly', async () => {
+    vi.stubGlobal('fetch', routedFetch(
+      { data: report(), provenance: PROVENANCE },
+      {
+        data: verifyReport({
+          liveProviderContacted: true,
+          state: 'AUTHENTICATED',
+          verification: verificationView({
+            outcome: 'VERIFIED_VENDOR_ACCEPTED',
+            providerState: 'AUTHENTICATED',
+            probeAttempted: true,
+            probeCount: 1,
+            latencyMs: 42,
+            observedState: {
+              lastSuccessAt: '2026-11-16T00:00:00.000Z',
+              lastFailure: null,
+              lastAuthOutcome: 'AUTHENTICATED',
+              lastLatencyMs: 42,
+              consecutiveAuthFailures: 0,
+              authLatched: false,
+            },
+          }),
+        }),
+        provenance: PROVENANCE,
+      },
+    ));
+    render(<DhanConnectionStatus />);
+
+    await waitFor(() => expect(screen.getByTestId('dhan-verify-connection')).toBeTruthy());
+    fireEvent.click(screen.getByTestId('dhan-verify-connection'));
+
+    await waitFor(() => expect(screen.getByTestId('dhan-verify-result')).toBeTruthy());
+    const verdict = screen.getByTestId('dhan-verify-verdict').textContent ?? '';
+    expect(verdict).toContain('VENDOR AUTHENTICATED');
+    expect(screen.getByTestId('dhan-verify-probe-attempted').textContent).toContain('yes');
+    expect(screen.getByTestId('dhan-verify-probe-attempted').textContent).toContain('1');
+    const result = screen.getByTestId('dhan-verify-result').textContent ?? '';
+    expect(result).toContain('vendor accepted authentication');
+    expect(result).toContain('yes (vendor probe issued)');
+  });
+
+  it('renders a non-EXECUTED outcome without any verification payload', async () => {
+    vi.stubGlobal('fetch', routedFetch(
+      { data: report(), provenance: PROVENANCE },
+      {
+        data: verifyReport({
+          attempted: false,
+          requestsIssued: 0,
+          outcome: 'NOT_ATTEMPTED_NOT_CONFIGURED',
+          verification: null,
+          providerState: null,
+        }),
+        provenance: PROVENANCE,
+      },
+    ));
+    render(<DhanConnectionStatus />);
+
+    await waitFor(() => expect(screen.getByTestId('dhan-verify-connection')).toBeTruthy());
+    fireEvent.click(screen.getByTestId('dhan-verify-connection'));
+
+    await waitFor(() => expect(screen.getByTestId('dhan-verify-result')).toBeTruthy());
+    expect(screen.queryByTestId('dhan-verify-verdict')).toBeNull();
+    expect(screen.getByTestId('dhan-verify-no-payload').textContent).toContain('not configured');
+    expect(screen.getByTestId('dhan-verify-result').textContent).toContain('Requests issued to IPD: 0');
   });
 
   it('a second press issues a second, independent single request (never a batch)', async () => {

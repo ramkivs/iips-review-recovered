@@ -32,12 +32,16 @@
  *   browser.
  *
  * VERIFY CONNECTION
- *   A distinct, operator-initiated action. It issues EXACTLY ONE read-only request to the
- *   IRR boundary, which in turn issues exactly one diagnostics request to the local IPD
- *   daemon (zero when the transport is not configured). There is no retry, no loop and no
- *   credential re-read, and the action NEVER runs on screen open, on load, on retry or on
- *   any timer. It observes IPD's recorded provider state; it does not itself authenticate
- *   to the vendor.
+ *   A distinct, operator-initiated action. It issues EXACTLY ONE request to the IRR
+ *   boundary, which in turn issues exactly one call to IPD's governed
+ *   `POST /v1/connection/verify` operation (zero when the transport is not configured).
+ *   IPD performs its own fail-closed verification — in LIVE_PROBE mode at most one
+ *   authenticated vendor probe — and returns the D-7 §3 verification contract, which the
+ *   IRR boundary and this client both check fail-closed. There is no retry, no loop and no
+ *   credential re-read by IRR, and the action NEVER runs on screen open, on load, on retry
+ *   or on any timer. Local readiness (`VERIFIED_LOCAL_ONLY`) and vendor authentication
+ *   (`VERIFIED_VENDOR_ACCEPTED`) are rendered as DISTINCT outcomes; `VERIFIED_LOCAL_ONLY`
+ *   is never shown as authentication or live connectivity.
  */
 import { useCallback, useEffect, useState } from 'react';
 import {
@@ -47,6 +51,8 @@ import {
   type DhanHealthEnvelope,
   type DhanHealthReport,
   type DhanHealthState,
+  type DhanVerificationOutcomeCode,
+  type DhanVerifyConnectionOutcome,
   type DhanVerifyConnectionReport,
 } from '../../api/dhanHealth';
 import { LoadingState } from '../../components/state/StateComponents';
@@ -65,6 +71,34 @@ const STATE_PRESENTATION: Record<
   DISCONNECTED: { label: 'DISCONNECTED', symbol: '▲', status: 'warning' },
   AUTHENTICATED: { label: 'AUTHENTICATED', symbol: '◐', status: 'positive' },
   OPERATIONAL: { label: 'OPERATIONAL', symbol: '●', status: 'positive' },
+};
+
+/**
+ * Presentation for the D-7 §3 verification verdicts. `VERIFIED_LOCAL_ONLY` gets a distinct,
+ * non-positive treatment: local readiness is NOT vendor authentication and is never rendered
+ * as such.
+ */
+const VERIFICATION_PRESENTATION: Record<
+  DhanVerificationOutcomeCode,
+  { label: string; status: 'positive' | 'negative' | 'neutral' | 'warning' | 'informational' }
+> = {
+  VERIFIED_VENDOR_ACCEPTED: { label: 'VENDOR AUTHENTICATED', status: 'positive' },
+  VERIFIED_LOCAL_ONLY: { label: 'LOCAL READINESS ONLY', status: 'informational' },
+  AUTH_REJECTED: { label: 'AUTH REJECTED', status: 'negative' },
+  EXPIRED_LOCAL: { label: 'CREDENTIAL EXPIRED', status: 'warning' },
+  NOT_ATTEMPTED_NOT_READY: { label: 'NOT ATTEMPTED', status: 'neutral' },
+  FAILED_TRANSPORT: { label: 'PROBE FAILED · TRANSPORT', status: 'negative' },
+  FAILED_VENDOR_RESPONSE: { label: 'PROBE FAILED · VENDOR', status: 'negative' },
+};
+
+const VERIFICATION_DISPOSITION_PRESENTATION: Record<
+  DhanVerifyConnectionOutcome,
+  { label: string; status: 'positive' | 'negative' | 'neutral' | 'warning' | 'informational' }
+> = {
+  EXECUTED: { label: 'EXECUTED', status: 'informational' },
+  NOT_ATTEMPTED_NOT_CONFIGURED: { label: 'NOT ATTEMPTED', status: 'neutral' },
+  TRANSPORT_UNAVAILABLE: { label: 'NOT VERIFIED · DAEMON UNREACHABLE', status: 'negative' },
+  VERIFICATION_CONTRACT_VIOLATION: { label: 'NOT VERIFIED · CONTRACT VIOLATION', status: 'negative' },
 };
 
 function failureMessage(e: unknown): string {
@@ -276,8 +310,10 @@ export function DhanConnectionStatus() {
           {verifyPhase === 'running' ? 'Verifying…' : 'Verify connection'}
         </button>
         <p style={{ color: 'var(--color-ink-secondary)', fontSize: 12, margin: '4px 0 0' }}>
-          Operator-initiated. Issues exactly one read-only diagnostics request to the local
-          IPD daemon; nothing is retried, and this never runs automatically.
+          Operator-initiated. Issues exactly one connection-verification request to the local
+          IPD daemon (IPD may perform at most one authenticated vendor probe); nothing is
+          retried, and this never runs automatically. Local readiness is not vendor
+          authentication.
         </p>
 
         {verifyPhase === 'failed' && (
@@ -290,30 +326,86 @@ export function DhanConnectionStatus() {
           </p>
         )}
 
-        {verifyPhase === 'done' && verifyResult && (
-          <div
-            data-testid="dhan-verify-result"
-            style={{ marginTop: 12, fontSize: 13, border: '1px solid var(--color-border, #ccc)', borderRadius: 6, padding: 12 }}
-          >
-            <p style={{ margin: 0, fontWeight: 600 }}>
-              Verification outcome: {verifyResult.outcome}
-            </p>
-            <p style={{ margin: '4px 0 0' }}>Checked at {verifyResult.checkedAt} · requests issued to IPD: {verifyResult.requestsIssued}</p>
-            <p style={{ margin: '4px 0 0' }}>IPD provider state: {verifyResult.providerState ?? 'UNKNOWN'}</p>
-            <p style={{ margin: '4px 0 0' }}>
-              Credential resolution: {verifyResult.credentialResolutionOutcome ?? 'none'} · last auth outcome: {verifyResult.lastAuthOutcome ?? 'none'}
-            </p>
-            <p style={{ margin: '4px 0 0' }}>
-              Verification probes recorded by IPD: {verifyResult.requestCounters?.verificationProbes ?? 'unknown'}
-            </p>
-            <p style={{ margin: '4px 0 0' }}>
-              Live provider contacted by this action: {verifyResult.liveProviderContacted ? 'yes' : 'no'}
-            </p>
-            <p data-testid="dhan-verify-note" style={{ margin: '8px 0 0', color: 'var(--color-ink-secondary)', fontSize: 12 }}>
-              {verifyResult.verificationNote}
-            </p>
-          </div>
-        )}
+        {verifyPhase === 'done' && verifyResult && (() => {
+          const verification = verifyResult.verification;
+          const disposition = VERIFICATION_DISPOSITION_PRESENTATION[verifyResult.outcome];
+          const presented = verification ? VERIFICATION_PRESENTATION[verification.outcome] : null;
+          return (
+            <div
+              data-testid="dhan-verify-result"
+              style={{ marginTop: 12, fontSize: 13, border: '1px solid var(--color-border, #ccc)', borderRadius: 6, padding: 12 }}
+            >
+              <div
+                data-testid="dhan-verify-disposition"
+                style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}
+              >
+                <StatusBadge status={disposition.status} label={disposition.label} />
+              </div>
+              {presented && verification ? (
+                <>
+                  <div
+                    data-testid="dhan-verify-verdict"
+                    style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 8 }}
+                  >
+                    <StatusBadge status={presented.status} label={presented.label} />
+                    <span data-testid="dhan-verify-outcome-code" style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>
+                      {verification.outcome}
+                    </span>
+                  </div>
+                  <p style={{ margin: '8px 0 0' }}>
+                    {verification.outcome === 'VERIFIED_LOCAL_ONLY'
+                      ? 'Local credential readiness was established. The vendor was NOT contacted — this is NOT vendor authentication and NOT live connectivity.'
+                      : verification.outcome === 'VERIFIED_VENDOR_ACCEPTED'
+                        ? 'The vendor accepted authentication for this connection. Exactly one authenticated vendor probe was issued by IPD.'
+                        : 'The vendor did not authenticate this connection. No capability beyond the reported outcome is claimed.'}
+                  </p>
+                  <dl style={{ margin: '8px 0 0', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '2px 12px' }}>
+                    <dt style={{ color: 'var(--color-ink-secondary)' }}>Verification mode</dt>
+                    <dd data-testid="dhan-verify-mode" style={{ margin: 0 }}>{verification.mode}</dd>
+                    <dt style={{ color: 'var(--color-ink-secondary)' }}>IPD provider state</dt>
+                    <dd data-testid="dhan-verify-provider-state" style={{ margin: 0 }}>{verification.providerState}</dd>
+                    <dt style={{ color: 'var(--color-ink-secondary)' }}>Local readiness established</dt>
+                    <dd data-testid="dhan-verify-local-readiness" style={{ margin: 0 }}>
+                      {verification.localReadinessEstablished ? 'yes' : 'no'}
+                    </dd>
+                    <dt style={{ color: 'var(--color-ink-secondary)' }}>Vendor probe attempted</dt>
+                    <dd data-testid="dhan-verify-probe-attempted" style={{ margin: 0 }}>
+                      {verification.probeAttempted ? 'yes' : 'no'} ({verification.probeCount})
+                    </dd>
+                    <dt style={{ color: 'var(--color-ink-secondary)' }}>Failure category</dt>
+                    <dd data-testid="dhan-verify-failure-category" style={{ margin: 0 }}>
+                      {verification.failureCategory ?? 'none'}
+                    </dd>
+                    <dt style={{ color: 'var(--color-ink-secondary)' }}>Verification checked at (IPD)</dt>
+                    <dd data-testid="dhan-verify-checked-at" style={{ margin: 0 }}>{verification.checkedAt}</dd>
+                    <dt style={{ color: 'var(--color-ink-secondary)' }}>Probe latency</dt>
+                    <dd data-testid="dhan-verify-latency" style={{ margin: 0 }}>
+                      {verification.latencyMs === null ? 'none' : `${verification.latencyMs} ms`}
+                    </dd>
+                  </dl>
+                </>
+              ) : (
+                <p data-testid="dhan-verify-no-payload" style={{ margin: '8px 0 0' }}>
+                  {verifyResult.outcome === 'NOT_ATTEMPTED_NOT_CONFIGURED'
+                    ? 'IPD market-data transport is not configured on this server; no verification was attempted.'
+                    : verifyResult.outcome === 'TRANSPORT_UNAVAILABLE'
+                      ? 'The verification request to the local IPD daemon did not complete. Nothing is claimed about the provider.'
+                      : 'IPD answered, but its verification payload failed the governed contract and was rejected fail-closed. Nothing it said is claimed.'}
+                </p>
+              )}
+              <p style={{ margin: '8px 0 0' }}>Reported state (D-7 §8 mapping): {verifyResult.state}</p>
+              <p style={{ margin: '4px 0 0' }}>
+                Requests issued to IPD: {verifyResult.requestsIssued} · action checked at {verifyResult.checkedAt}
+              </p>
+              <p style={{ margin: '4px 0 0' }}>
+                Live provider contacted by this action: {verifyResult.liveProviderContacted ? 'yes (vendor probe issued)' : 'no (vendor not contacted)'}
+              </p>
+              <p data-testid="dhan-verify-note" style={{ margin: '8px 0 0', color: 'var(--color-ink-secondary)', fontSize: 12 }}>
+                {verifyResult.verificationNote}
+              </p>
+            </div>
+          );
+        })()}
       </div>
 
       <div data-testid="dhan-health-reasons" style={{ marginTop: 16 }}>

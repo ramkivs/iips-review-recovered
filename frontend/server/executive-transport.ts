@@ -1034,7 +1034,8 @@ const server = http.createServer(async (req, res) => {
   // loopback transport. No Dhan-credential environment variable is consulted, no SecretRef pointer is
   // published, and opening the screen issues exactly one diagnostics read. The adjoining
   // verify-connection route is the operator-initiated "Verify connection" action: POST-only,
-  // exactly one diagnostics request, no retry, no vendor call.
+  // exactly one call to IPD's governed `POST /v1/connection/verify` (at most one vendor
+  // probe, performed by IPD), no retry.
   const dhanHealthPath = (req.url ?? '').split('?')[0];
   if (dhanHealthPath === '/api/dhan/health' || dhanHealthPath === '/api/dhan/verify-connection') {
     void (async () => {

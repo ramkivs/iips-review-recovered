@@ -474,7 +474,20 @@ describe('DHAN-P2 health route — scope refusals', () => {
     expect(transportSource).not.toMatch(/setInterval|setTimeout/);
   });
 
-  it('the pinned IPD contract exposes the W-09 diagnostics client and contract version', () => {
+  it('issues exactly one verification request per operator action by construction', () => {
+    // There is exactly one call site of `client.verifyConnection()` in the module and no
+    // retry path anywhere: the single-request property is structural, and the
+    // synthetic-daemon tests prove it end to end.
+    const callSites = transportSource.match(/client\.verifyConnection\(/g) ?? [];
+    expect(callSites).toHaveLength(1);
+    // IRR never constructs a second verifier and never calls the vendor itself.
+    expect(transportSource).not.toMatch(/new\s+DhanApiClient\s*\(/);
+    expect(transportSource).not.toMatch(/verifyProviderConnection/);
+    expect(transportSource).not.toMatch(/retr(y|ies)\(/);
+    expect(transportSource).not.toMatch(/setInterval|setTimeout/);
+  });
+
+  it('the pinned IPD contract exposes the W-09 diagnostics client and the W-10 verify operation', () => {
     expect(typeof createIpdMarketDataTransportClient).toBe('function');
     const client = createIpdMarketDataTransportClient({
       baseUrl: 'http://127.0.0.1:8791',
@@ -483,6 +496,7 @@ describe('DHAN-P2 health route — scope refusals', () => {
       configured: true,
     });
     expect(typeof (client as { diagnostics?: unknown }).diagnostics).toBe('function');
+    expect(typeof (client as { verifyConnection?: unknown }).verifyConnection).toBe('function');
   });
 });
 

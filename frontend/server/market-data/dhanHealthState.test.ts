@@ -10,7 +10,7 @@
  *
  * Pre-access, offline and synthetic: no Dhan credential is read, no socket is opened and no
  * vendor endpoint is contacted. The governed vocabularies were measured against the pinned IPD
- * contract at `d80d77345bed965c2a7e660ef272fd53a234d0a7`, not assumed.
+ * contract at `1ce6a829a7ce65550356a0071c108a60f2d813be`, not assumed.
  */
 import { describe, expect, it } from 'vitest';
 
@@ -18,15 +18,20 @@ import {
   DHAN_HEALTH_DISCLOSURE,
   DHAN_HEALTH_STATES,
   DHAN_PROVIDER_STATE_VALUES,
+  DHAN_VERIFICATION_OUTCOME_CODES,
   buildDhanHealthReport,
   classifyDhanHealth,
   explainDhanHealth,
   formatDhanHealthSummary,
   isGovernedProviderState,
+  isGovernedVerificationOutcome,
   isLiveConnectedEvidence,
   isLiveQualifiedEvidence,
+  isVendorVerifiedOutcome,
   projectDhanDiagnosticsView,
+  projectDhanVerificationView,
   type DhanHealthEvidence,
+  type DhanVerificationView,
 } from './dhanHealthState';
 
 /** A fully valid IPD diagnostics-derived evidence bundle; overrides tweak individual fields. */
@@ -411,5 +416,116 @@ describe('W-07 governed vocabulary — the classifier cannot accept arbitrary st
     });
     expect(report.state).toBe('UNAVAILABLE');
     expect(report.liveQualified).toBe(false);
+  });
+});
+
+/** A fully valid IPD verification payload (as validated by IPD's own validator). */
+function verificationPayload(overrides: Record<string, unknown> = {}) {
+  return {
+    contractVersion: 1 as const,
+    mode: 'LIVE_PROBE' as const,
+    outcome: 'VERIFIED_LOCAL_ONLY' as const,
+    providerState: 'CREDENTIALS_RESOLVED' as const,
+    localReadinessEstablished: true,
+    probeAttempted: false,
+    probeCount: 0 as const,
+    failureCategory: null,
+    checkedAt: '2026-11-16T00:00:00.000Z',
+    latencyMs: null,
+    observedState: {
+      lastSuccessAt: null,
+      lastFailure: null,
+      lastAuthOutcome: 'NOT_CHECKED',
+      lastLatencyMs: null,
+      consecutiveAuthFailures: 0,
+      authLatched: false,
+    },
+    diagnostics: {} as never,
+    ...overrides,
+  } as unknown as Parameters<typeof projectDhanVerificationView>[0];
+}
+
+describe('W-10 verification projection (D-7 §3)', () => {
+  it('carries the seven governed outcome codes and nothing else', () => {
+    expect(DHAN_VERIFICATION_OUTCOME_CODES).toEqual([
+      'VERIFIED_VENDOR_ACCEPTED',
+      'VERIFIED_LOCAL_ONLY',
+      'AUTH_REJECTED',
+      'EXPIRED_LOCAL',
+      'NOT_ATTEMPTED_NOT_READY',
+      'FAILED_TRANSPORT',
+      'FAILED_VENDOR_RESPONSE',
+    ]);
+    for (const governed of DHAN_VERIFICATION_OUTCOME_CODES) {
+      expect(isGovernedVerificationOutcome(governed)).toBe(true);
+    }
+    for (const ungoverned of ['VERIFIED', 'OK', 'LIVE', '', 'verified_local_only', 1, null, undefined]) {
+      expect(isGovernedVerificationOutcome(ungoverned)).toBe(false);
+    }
+  });
+
+  it('VERIFIED_LOCAL_ONLY projects as local readiness only — never vendor-verified', () => {
+    const view = projectDhanVerificationView(verificationPayload());
+    expect(view.outcome).toBe('VERIFIED_LOCAL_ONLY');
+    expect(view.localReadinessEstablished).toBe(true);
+    expect(view.probeAttempted).toBe(false);
+    expect(view.probeCount).toBe(0);
+    expect(isVendorVerifiedOutcome(view.outcome)).toBe(false);
+  });
+
+  it('VERIFIED_VENDOR_ACCEPTED projects as vendor-verified with exactly one probe', () => {
+    const view = projectDhanVerificationView(
+      verificationPayload({
+        outcome: 'VERIFIED_VENDOR_ACCEPTED',
+        providerState: 'AUTHENTICATED',
+        probeAttempted: true,
+        probeCount: 1,
+        latencyMs: 42,
+      }),
+    );
+    expect(view.outcome).toBe('VERIFIED_VENDOR_ACCEPTED');
+    expect(view.probeAttempted).toBe(true);
+    expect(view.probeCount).toBe(1);
+    expect(isVendorVerifiedOutcome(view.outcome)).toBe(true);
+  });
+
+  it('fails closed on contradictory field values, even via a cast', () => {
+    const view = projectDhanVerificationView(
+      verificationPayload({
+        outcome: 'NOT_A_CODE',
+        providerState: 'LIVE',
+        probeCount: 7,
+        failureCategory: 42,
+        latencyMs: -1,
+      }) as never,
+    );
+    expect(view.outcome).toBe('NOT_ATTEMPTED_NOT_READY');
+    expect(view.providerState).toBe('UNAVAILABLE');
+    expect(view.probeCount).toBe(0);
+    expect(view.failureCategory).toBeNull();
+    expect(view.latencyMs).toBeNull();
+  });
+
+  it('the projection is structurally incapable of carrying a secret', () => {
+    const view = projectDhanVerificationView(verificationPayload());
+    const serialized = JSON.stringify(view);
+    expect(serialized).not.toMatch(/vault:\/\//i);
+    expect(serialized).not.toMatch(/secretRefPointers/i);
+    expect(serialized).not.toMatch(/IIPS_DHAN_/);
+    expect(Object.keys(view).sort()).toEqual(
+      [
+        'checkedAt',
+        'contractVersion',
+        'failureCategory',
+        'latencyMs',
+        'localReadinessEstablished',
+        'mode',
+        'observedState',
+        'outcome',
+        'probeAttempted',
+        'probeCount',
+        'providerState',
+      ].sort(),
+    );
   });
 });

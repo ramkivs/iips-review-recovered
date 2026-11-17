@@ -2,9 +2,24 @@
  * IRR DHAN health/readiness STATE MODEL (DHAN-P2, synthetic / pre-access phase; W-10 boundary).
  *
  * Authority:
- *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `d80d77345bed965c2a7e660ef272fd53a234d0a7`
- *     (the published IPD `main` containing W-07 PR #168 `5b384c72…`, W-08 PR #169 `75db511…`
- *     and W-09 PR #170 `a402eee…`), consumed through the server-only `./dhan-server` subpath.
+ *   - IPD provider contract: `ramkivs/iips-production-market-data` @ `1ce6a829a7ce65550356a0071c108a60f2d813be`
+ *     (the published IPD `main` merge carrying W-07 PR #168 `5b384c72…`, W-08 PR #169 `75db511…`,
+ *     W-09 PR #170 `a402eee…` and W-10's `POST /v1/connection/verify` operation), consumed
+ *     through the server-only `./dhan-server` subpath.
+ *     IPD's verification contract (W-10 / D-7 §3) is carried verbatim across this boundary:
+ *     - `ServiceConnectionVerification` (IPD `src/providers/dhan/dhan_market_data_service.ts`):
+ *         contractVersion (1), mode ('LIVE_PROBE'|'LOCAL_ONLY'),
+ *         outcome ('VERIFIED_VENDOR_ACCEPTED'|'VERIFIED_LOCAL_ONLY'|'AUTH_REJECTED'
+ *                  |'EXPIRED_LOCAL'|'NOT_ATTEMPTED_NOT_READY'|'FAILED_TRANSPORT'
+ *                  |'FAILED_VENDOR_RESPONSE'),
+ *         providerState (the D-7 §2 eight-state vocabulary), localReadinessEstablished,
+ *         probeAttempted, probeCount (0|1), failureCategory, checkedAt, latencyMs,
+ *         observedState, diagnostics.
+ *     The verification payload is validated fail-closed by IPD's own
+ *     `validateDhanConnectionVerification` (inside the pinned client's `verifyConnection()`)
+ *     before it reaches this module; every value is still runtime-guarded here because
+ *     unproven evidence must never be classified as a capable state. `VERIFIED_LOCAL_ONLY`
+ *     is local credential readiness only — it is NEVER vendor authentication.
  *     IPD's diagnostics contract (W-09 / D-7 §4.1) is carried verbatim across this boundary:
  *     - `ServiceDiagnostics` (IPD `src/providers/dhan/dhan_market_data_service.ts`):
  *         contractVersion (1), service ('UP'|'DOWN'),
@@ -73,6 +88,7 @@
 import {
   DHAN_PROVIDER_ID,
   type DhanCredentialReadiness,
+  type ServiceConnectionVerification,
 } from 'iips-production-market-data/dhan-server';
 
 /**
@@ -708,6 +724,168 @@ export function projectDhanDiagnosticsView(evidence: DhanHealthEvidence): DhanDi
     qualifiedMappingsLoaded: evidence.qualifiedMappingsLoaded ?? null,
     quoteCache: evidence.quoteCache ?? null,
   };
+}
+
+/**
+ * The governed D-7 §3 connection-verification vocabulary, mirrored structurally (never
+ * widened). IPD is the authority: `dhan_provider_state_recorder.ts` declares the enums and
+ * `validateDhanConnectionVerification` enforces the cross-field invariants before any
+ * payload reaches this module.
+ */
+export type DhanVerificationMode = 'LIVE_PROBE' | 'LOCAL_ONLY';
+
+/** Every governed verification mode, in reporting order. */
+export const DHAN_VERIFICATION_MODES: readonly DhanVerificationMode[] = Object.freeze([
+  'LIVE_PROBE',
+  'LOCAL_ONLY',
+]);
+
+/** True only when `value` is a governed verification mode. */
+export function isDhanVerificationMode(value: unknown): value is DhanVerificationMode {
+  return value === 'LIVE_PROBE' || value === 'LOCAL_ONLY';
+}
+
+/** The governed D-7 §3 enumerated verification outcomes. No other value is legitimate. */
+export type DhanVerificationOutcomeCode =
+  | 'VERIFIED_VENDOR_ACCEPTED'
+  | 'VERIFIED_LOCAL_ONLY'
+  | 'AUTH_REJECTED'
+  | 'EXPIRED_LOCAL'
+  | 'NOT_ATTEMPTED_NOT_READY'
+  | 'FAILED_TRANSPORT'
+  | 'FAILED_VENDOR_RESPONSE';
+
+/** Every governed verification outcome, in reporting order. */
+export const DHAN_VERIFICATION_OUTCOME_CODES: readonly DhanVerificationOutcomeCode[] = Object.freeze([
+  'VERIFIED_VENDOR_ACCEPTED',
+  'VERIFIED_LOCAL_ONLY',
+  'AUTH_REJECTED',
+  'EXPIRED_LOCAL',
+  'NOT_ATTEMPTED_NOT_READY',
+  'FAILED_TRANSPORT',
+  'FAILED_VENDOR_RESPONSE',
+]);
+
+/** True only when `value` is a governed D-7 §3 verification outcome code. */
+export function isGovernedVerificationOutcome(value: unknown): value is DhanVerificationOutcomeCode {
+  return (
+    typeof value === 'string' &&
+    (DHAN_VERIFICATION_OUTCOME_CODES as readonly string[]).includes(value)
+  );
+}
+
+/**
+ * The recorder-observed provider state echoed by the verification payload, mirrored
+ * structurally. Counts, booleans, enumerated codes and canonical ISO-8601 UTC timestamps
+ * only — never a message.
+ */
+export interface DhanVerificationObservedStateView {
+  readonly lastSuccessAt: string | null;
+  readonly lastFailure: DhanRecordedFailureView | null;
+  readonly lastAuthOutcome: string;
+  readonly lastLatencyMs: number | null;
+  readonly consecutiveAuthFailures: number;
+  readonly authLatched: boolean;
+}
+
+/**
+ * The governed projection of IPD's `ServiceConnectionVerification` (D-7 §3/§4.1) onto IRR's
+ * report vocabulary. Every field is an enumeration, a count, a boolean or an ISO-8601 UTC
+ * timestamp echoed from IPD's validated payload; no field can carry secret material, a vault
+ * reference or a secret-store location.
+ */
+export interface DhanVerificationView {
+  /** IPD's verification contract version. Always 1 on this boundary. */
+  readonly contractVersion: 1;
+  /** The verification mode IPD executed ('LIVE_PROBE' — at most one vendor probe — or 'LOCAL_ONLY'). */
+  readonly mode: DhanVerificationMode;
+  /** IPD's enumerated verification verdict. */
+  readonly outcome: DhanVerificationOutcomeCode;
+  /** IPD's authoritative provider state at verification time (D-7 §2). */
+  readonly providerState: DhanProviderState;
+  /**
+   * Whether V1 local credential readiness succeeded during THIS verification attempt.
+   * NEVER an assertion of vendor authentication: local readiness and vendor acceptance are
+   * distinct axes (D-7 §3 rule 5).
+   */
+  readonly localReadinessEstablished: boolean;
+  /** Whether THIS verification issued a vendor probe. */
+  readonly probeAttempted: boolean;
+  /** How many vendor probes THIS verification issued. Zero or one by construction. */
+  readonly probeCount: 0 | 1;
+  /** The governed failure category, or null when the verification succeeded. */
+  readonly failureCategory: string | null;
+  /** Canonical ISO-8601 UTC instant at which the verification completed. */
+  readonly checkedAt: string;
+  /** Latency of the vendor probe, or null when no probe was attempted. */
+  readonly latencyMs: number | null;
+  /** IPD's recorder-observed provider state at verification time. */
+  readonly observedState: DhanVerificationObservedStateView;
+}
+
+/**
+ * Projects an IPD-validated verification payload onto the IRR report view. Pure and total.
+ * The caller MUST have obtained the payload from IPD's own `validateDhanConnectionVerification`
+ * (inside the pinned client's `verifyConnection()`); this projection re-checks the enums at
+ * runtime so a cast can never widen them.
+ */
+export function projectDhanVerificationView(
+  verification: ServiceConnectionVerification,
+): DhanVerificationView {
+  const mode: DhanVerificationMode = isDhanVerificationMode(verification.mode)
+    ? verification.mode
+    : 'LOCAL_ONLY'; // unreachable after IPD's validator; fail-closed, never an upgrade
+  const outcome: DhanVerificationOutcomeCode = isGovernedVerificationOutcome(verification.outcome)
+    ? verification.outcome
+    : 'NOT_ATTEMPTED_NOT_READY'; // unreachable after IPD's validator; fail-closed
+  const providerState: DhanProviderState = isGovernedProviderState(verification.providerState)
+    ? verification.providerState
+    : 'UNAVAILABLE'; // unreachable after IPD's validator; fail-closed
+  const probeCount: 0 | 1 = verification.probeCount === 1 ? 1 : 0;
+  const providerStateAt = verification.observedState;
+  return {
+    contractVersion: 1,
+    mode,
+    outcome,
+    providerState,
+    localReadinessEstablished: verification.localReadinessEstablished === true,
+    probeAttempted: verification.probeAttempted === true,
+    probeCount,
+    failureCategory: typeof verification.failureCategory === 'string' ? verification.failureCategory : null,
+    checkedAt: typeof verification.checkedAt === 'string' ? verification.checkedAt : new Date(0).toISOString(),
+    latencyMs:
+      typeof verification.latencyMs === 'number' &&
+      Number.isFinite(verification.latencyMs) &&
+      verification.latencyMs >= 0
+        ? verification.latencyMs
+        : null,
+    observedState: {
+      lastSuccessAt: providerStateAt?.lastSuccessAt ?? null,
+      lastFailure: providerStateAt?.lastFailure
+        ? { category: providerStateAt.lastFailure.category, at: providerStateAt.lastFailure.at }
+        : null,
+      lastAuthOutcome: typeof providerStateAt?.lastAuthOutcome === 'string' ? providerStateAt.lastAuthOutcome : 'NOT_CHECKED',
+      lastLatencyMs:
+        typeof providerStateAt?.lastLatencyMs === 'number' && Number.isFinite(providerStateAt.lastLatencyMs)
+          ? providerStateAt.lastLatencyMs
+          : null,
+      consecutiveAuthFailures:
+        typeof providerStateAt?.consecutiveAuthFailures === 'number' &&
+        Number.isInteger(providerStateAt.consecutiveAuthFailures) &&
+        providerStateAt.consecutiveAuthFailures >= 0
+          ? providerStateAt.consecutiveAuthFailures
+          : 0,
+      authLatched: providerStateAt?.authLatched === true,
+    },
+  };
+}
+
+/**
+ * The local-only readiness outcome must never be read as vendor authentication.
+ * Returns the plain-language verdict an operator surface may render for a verification.
+ */
+export function isVendorVerifiedOutcome(outcome: DhanVerificationOutcomeCode): boolean {
+  return outcome === 'VERIFIED_VENDOR_ACCEPTED';
 }
 
 /**
