@@ -69,9 +69,8 @@
 import type http from 'node:http';
 import { handleEvidenceSubmission, type EvidenceSubmissionDeps } from './brokerImportEvidenceSubmission.js';
 
-import { readJsonBody, sendJson } from '../owner-scoped-http.js';
+import { readJsonBody, respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { resolveDataDir } from '../persistence/persistence-service.js';
-import { respondOwnerContextUnavailable } from '../owner-context-unavailable.js';
 import {
   ownerContextFromBinding,
   readBindingPrecondition,
@@ -262,7 +261,7 @@ function respondToOutcome(res: http.ServerResponse, outcome: BrokerImportSaveTra
       // Indistinguishable from configuration-absent, by design (IRR-2); no reason invented.
       // Recorded for the operator, who otherwise cannot tell this from a host setting.
       reportBrokerImportOwnerContext('legacy-commit', { cause: 'ipc-class-p-refusal' });
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
       return;
     case 'OUTCOME_UNKNOWN':
       sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', retried: false });
@@ -289,7 +288,7 @@ function respondToStage4Outcome(res: http.ServerResponse, outcome: Stage4Transpo
     // refusal (C6). Indistinguishable to the browser by design; recorded here so the
     // operator knows this cannot be fixed by IRR configuration.
     reportBrokerImportOwnerContext('commit', { cause: 'ipc-class-p-refusal' });
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return;
   }
   if (outcome.kind === 'UNKNOWN') {
@@ -339,7 +338,7 @@ function respondToRevisionOutcome(
       // Same condition as the commit path: IPD connected and answered with zero
       // bytes. Opaque to the browser, classified for the operator.
       reportBrokerImportOwnerContext('revision-read', { cause: 'ipc-class-p-refusal' });
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
       return;
     case 'OUTCOME_UNKNOWN':
       sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', retried: false });
@@ -467,7 +466,7 @@ export async function handleBrokerImportRequest(
     const evidenceEnv = deps.env ?? process.env;
     const evidenceBinding = ownerContextFromBinding(readBindingPrecondition(evidenceEnv), evidenceEnv);
     if (evidenceBinding.state !== 'IPD_BINDING_RESOLVED' || !evidenceBinding.established) {
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
       return;
     }
 
@@ -507,7 +506,7 @@ export async function handleBrokerImportRequest(
     // Absent, unreadable, malformed or digest-mismatched ⇒ null ⇒ fail closed at 503.
     const evidenceOwner = resolveBrokerEvidenceOwnerContext(evidenceEnv);
     if (evidenceOwner === null) {
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
       return;
     }
 
@@ -563,7 +562,7 @@ export async function handleBrokerImportRequest(
     const ownerContext = ownerContextFromBinding(readBindingPrecondition(env), env);
     if (ownerContext.state !== 'IPD_BINDING_RESOLVED' || !ownerContext.established) {
       reportBrokerImportOwnerContext('revision-read', { cause: 'owner-precondition-not-established' });
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
       return;
     }
 
@@ -589,7 +588,7 @@ export async function handleBrokerImportRequest(
         cause: 'ipc-local-refusal',
         localCode: classifyLocalIpcRefusal(error),
       });
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
       return;
     }
     respondToRevisionOutcome(res, revisionOutcome);
@@ -617,7 +616,7 @@ export async function handleBrokerImportRequest(
     // The one condition that really IS the owner context: IRR's own binding
     // precondition was not established, so no IPC call is justified.
     reportBrokerImportOwnerContext('commit', { cause: 'owner-precondition-not-established' });
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return;
   }
 
@@ -657,7 +656,7 @@ export async function handleBrokerImportRequest(
         cause: 'ipc-local-refusal',
         localCode: classifyLocalIpcRefusal(error),
       });
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
     }
     return;
   }
@@ -700,7 +699,7 @@ export async function handleBrokerImportRequest(
       cause: 'ipc-local-refusal',
       localCode: classifyLocalIpcRefusal(error),
     });
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return;
   }
   respondToOutcome(res, outcome);

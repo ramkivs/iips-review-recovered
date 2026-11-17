@@ -162,6 +162,9 @@ describe('G-11 — the served chain rejects an inadmissible scope before the own
     const payload = JSON.parse(response.body) as { error: string; detail: { reason: string } };
     expect(payload.error).toBe('owner-context-unavailable');
     expect(payload.detail.reason).toMatch(/No non-authentication ownership source/);
+    // `G-11` hardening (was recorded-not-asserted here): the refusal now carries `no-store`, so a
+    // cached 503 cannot outlive the condition that produced it.
+    expect(response.headers.get('cache-control')).toBe('no-store');
     // Nothing about the caller, the carrier or the store may appear.
     expect(response.body).not.toContain(tempRoot);
     expect(response.body).not.toContain('owner-irr-reports-personal');
@@ -182,11 +185,12 @@ describe('G-11 — the served chain fails closed on a missing, tampered or forei
       expect(response.status).toBe(503);
       const payload = JSON.parse(response.body) as { error: string };
       expect(payload.error).toBe('owner-context-unavailable');
-      // Recorded, not asserted: this refusal is the one response in the chain surface that does not carry
-      // `Cache-Control: no-store` (its shared helper sets only the content type). The omission is a property of
-      // `owner-context-unavailable.ts`, used by several surfaces, and is recorded in the register rather than
-      // changed here — see the G-11 addendum.
+      // Resolved by the `G-11` hardening (was recorded-not-asserted): the frozen shared responder cannot
+      // set the header itself (its blob is pinned), so every call site now goes through
+      // `respondOwnerContextUnavailableUncached`, and this refusal is asserted uncacheable like every other.
+      // A missing, tampered or foreign carrier must not produce a cacheable answer.
       expect(response.headers.get('content-type')).toBe('application/json');
+      expect(response.headers.get('cache-control')).toBe('no-store');
     });
   });
 

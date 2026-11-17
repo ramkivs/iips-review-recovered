@@ -19,9 +19,8 @@
  */
 import type http from 'node:http';
 import { URLSearchParams } from 'node:url';
-import { respondOwnerContextUnavailable } from './owner-context-unavailable';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from './reports-owner-resolver';
-import { readJsonBody, sendJson } from './owner-scoped-http';
+import { readJsonBody, respondOwnerContextUnavailableUncached, sendJson } from './owner-scoped-http';
 import { ReportValidationError } from './reports/artifact';
 import {
   ReportPersistenceError,
@@ -187,7 +186,7 @@ export async function handleReportsRequest(
   // 1. Resolve owner context from server-owned carrier seam (R1).
   const owner = resolveReportsOwnerContext();
   if (owner === null) {
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return;
   }
 
@@ -216,7 +215,12 @@ export async function handleReportsRequest(
   }
 
   // 4. Resolve persistence foundation (C-8).
-  const resolution = await resolveAuthoritativeNp04Port();
+  //
+  // `G-11` hardening: the open is operation-specific. A GET/HEAD answers from a store that must
+  // already exist, so it can never create the directory, create the database or migrate it; a POST
+  // is the surface's write operation and keeps the ability to provision the store it is about to
+  // write to (unchanged behaviour for the surface's documented write contract).
+  const resolution = await resolveAuthoritativeNp04Port(method === 'POST' ? 'INITIALISE' : 'READ');
   if (!resolution.available) {
     sendJson(res, 503, { error: 'persistence-unavailable', reason: resolution.reason });
     return;

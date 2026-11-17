@@ -8,11 +8,12 @@
  * nothing about any of this. This module answers that question by CALLING THE EXISTING RESOLVERS.
  *
  * IT CONSTRUCTS NOTHING. No database handle, no store, no IPC connection, no write, no migration.
- * In particular it deliberately does NOT call `loadAuthoritativeNp04Persistence()`: that resolver opens
- * the configured database with `createDirectory: true, migrate: true`, so calling it from a diagnostic
- * would CREATE and MIGRATE a database as a side effect of asking a question. Readiness is therefore
- * reported as "configured / not configured" plus "file present / absent", and the caller is told that a
- * configured path is not evidence of stored assessment records.
+ * In particular it deliberately does NOT call `loadAuthoritativeNp04Persistence()`: that resolver
+ * OPENS the configured database (a handle, a lock, schema inspection). `G-11` hardening made the
+ * resolver's default open read-only — it can no longer create a directory, create the file or run
+ * migrations — so the reason is now the contract rather than a side effect: a diagnostic reports
+ * "configured / not configured" plus "file present / absent" without acquiring anything, and the
+ * caller is told that a configured path is not evidence of stored assessment records.
  *
  * IT DOES NOT DECIDE AUTHORITY. Ownership labels describe which side must act; they are not an
  * authorization grant. Nothing here enables a write, admits an operation, or relaxes a fail-closed

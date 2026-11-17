@@ -149,6 +149,9 @@ describe('brokerImportHttp — direct handler contract (injected IPC)', () => {
       }, BINDING_ENV, ipc);
       expect(result.status).toBe(503);
       expect(JSON.parse(result.body).error).toBe('owner-context-unavailable');
+      // `G-11` hardening: an owner-context refusal is never cacheable, so a corrected deployment
+      // cannot be masked by a cached 503.
+      expect(result.headers['cache-control']).toBe('no-store');
     }
   });
 
@@ -184,6 +187,7 @@ describe('brokerImportHttp — direct handler contract (injected IPC)', () => {
     }, NO_BINDING_ENV, successReceipt());
     expect(result.status).toBe(503);
     expect(JSON.parse(result.body).error).toBe('owner-context-unavailable');
+    expect(result.headers['cache-control']).toBe('no-store');
     expect(result.calls).toBe(0);
   });
 
@@ -303,6 +307,7 @@ describe('brokerImportHttp — direct handler contract (injected IPC)', () => {
     );
     expect(noBindingRes.status).toBe(503);
     expect(JSON.parse(noBindingRes.body).error).toBe('owner-context-unavailable');
+    expect(noBindingRes.headers['cache-control']).toBe('no-store');
     expect(noBindingRes.calls).toBe(0);
   });
 
@@ -379,12 +384,14 @@ describe('brokerImportHttp — real composed host (route admission + fence prese
     // Binding precondition absent ⇒ fail-closed 503 owner-context-unavailable BEFORE any IPC.
     expect(response.status).toBe(503);
     expect(JSON.parse(await response.text()).error).toBe('owner-context-unavailable');
+    expect(response.headers.get('cache-control')).toBe('no-store');
 
     const revResponse = await fetch(`${baseUrl}/api/broker-import/DEFAULT_PORTFOLIO/revision`, {
       method: 'GET',
     });
     expect(revResponse.status).toBe(503);
     expect(JSON.parse(await revResponse.text()).error).toBe('owner-context-unavailable');
+    expect(revResponse.headers.get('cache-control')).toBe('no-store');
   });
 
   it('sends no wildcard cross-origin header on the CAP-02 namespace (C8 posture)', async () => {

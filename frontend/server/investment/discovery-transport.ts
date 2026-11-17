@@ -23,7 +23,7 @@ import type http from 'node:http';
 import { loadRuntimeIdentitySources } from '../../../iips-platform/src/investment/identity/runtime';
 import type { SourceLoadResult } from '../../../iips-platform/src/investment/identity/sources';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadAuthoritativeNp04Persistence } from '../reports/persistence-port.js';
+import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
 import { ASSESSMENT_REPORT_TYPE, createInvestmentArtifactService } from './investmentArtifacts.js';
 import {
   MAX_QUERY_LENGTH,
@@ -109,7 +109,7 @@ export async function loadAssessmentInventory(
   try {
     const owner = (deps.resolveOwner ?? resolveReportsOwnerContext)();
     if (owner === null) return null;
-    const port = await (deps.loadPort ?? loadAuthoritativeNp04Persistence)();
+    const port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
     if (port === null || port === undefined) return null;
     const service = createInvestmentArtifactService({
       port,

@@ -41,6 +41,8 @@
  * Reports still owns NO storage: the store reached through this seam is NP-04's own.
  */
 
+import { statSync } from 'node:fs';
+
 /** An NP-04 stored artifact identity. Globally unique; never derived from canonical content. */
 export type Np04ReportId = string;
 
@@ -268,6 +270,65 @@ function closeQuietly(database: unknown): void {
 }
 
 /**
+ * `G-11` hardening — WHAT THE OPEN IS FOR, stated by the caller.
+ *
+ * The loader used to open every store the one way that can write: `createDirectory: true,
+ * migrate: true`. That is correct for a process whose job is to bring a store into existence, and
+ * wrong for a process whose job is to answer a question about a store that already exists — a read
+ * could create a database file, create its directory, and run schema migrations, all as a side
+ * effect of serving a page.
+ *
+ * So the operation is now explicit at every call site instead of implicit in the loader:
+ *
+ *   - `READ` (the default) — answer from a store that is already there. The path must be an
+ *     existing regular file; if it is absent, the loader fails closed with `null` (503 on every
+ *     transport) exactly as it does for an unset path, and it opens with `createDirectory: false,
+ *     migrate: false` so it can neither create the file, create its directory, nor migrate it.
+ *
+ *   - `INITIALISE` — bring a store into existence or bring an existing one up to schema. Only a
+ *     caller that is already authorised to WRITE to the store asks for this: today the mint CLI
+ *     (`generate-investment-artifacts.ts`) and nothing else. It keeps the historical behaviour
+ *     verbatim.
+ *
+ * The default is `READ` so that a call site which forgets to state its intent cannot acquire write
+ * powers: the failure mode of an omission is a 503, not a silent write. `m1-demonstration.ts`
+ * already opens a store with both flags false for its read-only inspection, so the read shape is an
+ * existing pattern in this repository, not a new capability.
+ */
+export type Np04OpenIntent = 'READ' | 'INITIALISE';
+
+/** The `openDatabase` options this boundary will ever pass, per intent. */
+export interface Np04OpenOptions {
+  readonly createDirectory: boolean;
+  readonly migrate: boolean;
+}
+
+/** The read-intent loader, named so read call sites read as what they are. */
+export const loadReadOnlyNp04Persistence = (): Promise<ReportsPersistencePort | null> =>
+  loadAuthoritativeNp04Persistence('READ');
+
+/**
+ * Map an intent onto NP-04's `openDatabase` options.
+ *
+ * Total and side-effect free, so the mapping can be asserted directly in a test without a store,
+ * a filesystem or the dependency being present.
+ */
+export function np04OpenOptions(intent: Np04OpenIntent): Np04OpenOptions {
+  return intent === 'INITIALISE'
+    ? Object.freeze({ createDirectory: true, migrate: true })
+    : Object.freeze({ createDirectory: false, migrate: false });
+}
+
+/** True only for a path that already names a regular file (never a directory, never absent). */
+function isExistingRegularFile(path: string): boolean {
+  try {
+    return statSync(path).isFile();
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Attempt to load and CONSTRUCT the authoritative NP-04 persistence store.
  *
  * Returns `null` whenever a live authoritative store cannot be produced in THIS process — the
@@ -292,14 +353,38 @@ function closeQuietly(database: unknown): void {
  * The specifier is computed at runtime so that this repository builds — and fails closed — without
  * the package having to be present, rather than depending on it at compile time.
  */
-export async function loadAuthoritativeNp04Persistence(): Promise<ReportsPersistencePort | null> {
+/**
+ * Test seam for the loader.
+ *
+ * Production never supplies this. It exists because `G-11` requires the open options and the
+ * fail-closed guards to be demonstrated by an EXECUTABLE test, and the pinned package is private:
+ * without a way to resolve a stand-in module, the only thing a local test could do is inspect
+ * source, which is exactly what is not allowed. The seam changes no production behaviour — the
+ * default path is the same dynamic `import` of the same admitted specifier.
+ */
+export interface Np04LoaderOverrides {
+  readonly importModule?: () => Promise<Record<string, unknown>>;
+}
+
+export async function loadAuthoritativeNp04Persistence(
+  intent: Np04OpenIntent = 'READ',
+  overrides: Np04LoaderOverrides = {},
+): Promise<ReportsPersistencePort | null> {
+  const openOptions = np04OpenOptions(intent);
   const databasePath = serverOwnedDatabasePath();
   if (databasePath === null) return null; // no server-owned path -> fail closed
+
+  // A READ must not bring a store into existence. Checked BEFORE the module is imported and before
+  // `openDatabase` is called, so an absent store costs a `stat` and nothing else — and so that a
+  // read path can never be the reason a database file or its directory appears.
+  if (intent === 'READ' && !isExistingRegularFile(databasePath)) return null;
 
   const specifier = ['iips-np04-governed-persistence', 'persistence'].join('/');
   let mod: Record<string, unknown>;
   try {
-    mod = (await import(/* @vite-ignore */ specifier)) as Record<string, unknown>;
+    mod = overrides.importModule
+      ? await overrides.importModule()
+      : ((await import(/* @vite-ignore */ specifier)) as Record<string, unknown>);
   } catch {
     return null; // package/subpath unavailable in this process -> fail closed (see NP04_BOUNDARY)
   }
@@ -320,8 +405,7 @@ export async function loadAuthoritativeNp04Persistence(): Promise<ReportsPersist
   try {
     database = (openDatabase as (options: Record<string, unknown>) => unknown)({
       path: databasePath,
-      createDirectory: true,
-      migrate: true,
+      ...openOptions,
     });
     const store = new (StoreClass as new (db: unknown) => unknown)(database);
     return assertNp04PersistencePort(store);

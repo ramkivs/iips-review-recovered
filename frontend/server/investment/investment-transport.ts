@@ -23,10 +23,9 @@ import type http from 'node:http';
 
 import { companyScopeToken } from '../../../iips-platform/src/investment/artifacts/scopeToken';
 import { parseIssuerId } from '../../../iips-platform/src/investment/contracts/ids';
-import { respondOwnerContextUnavailable } from '../owner-context-unavailable.js';
-import { sendJson } from '../owner-scoped-http.js';
+import { respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadAuthoritativeNp04Persistence } from '../reports/persistence-port.js';
+import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
 import {
   ASSESSMENT_REPORT_TYPE,
   InvestmentArtifactError,
@@ -293,14 +292,14 @@ export async function handleInvestmentRequest(
       endHead(res, 503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
       return true;
     }
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return true;
   }
 
   // 3. Governed persistence boundary. Absent ⇒ 503. No substitute store is constructed.
   let port: unknown;
   try {
-    port = await (deps.loadPort ?? loadAuthoritativeNp04Persistence)();
+    port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
   } catch {
     port = null;
   }

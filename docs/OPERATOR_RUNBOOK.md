@@ -147,6 +147,8 @@ The two are independent in both directions: owner context can be available while
 
 - `IIPS_NP04_DATABASE_PATH` — an absolute path to the SQLite database file. NP-04 rejects a relative path, so the value must be absolute. It must be distinct from the Gate 3 user-portfolio store and from `IIPS_DATA_DIR` (§3); it is never client-supplied. NP-04's `openDatabase` is called with `createDirectory: true` and `migrate: true`, so **configuring this path can create a database through NP-04 initialization**: NP-04 creates the parent directory, opens (creating it if absent) the database file, applies its pragmas, and runs its pending migrations. Reports owns no schema and no store; NP-04 does.
 
+  > **Update 2026-11-17 — creating a store is now an explicit operation.** The sentence above describes the pre-hardening behaviour and is left as written. Since `G-11` hardening, `persistence-port.ts` opens per operation: a `GET`/`HEAD` on a reports path (`READ`) opens with `createDirectory: false, migrate: false` and **fails closed with `503 persistence-unavailable`** when the configured store does not exist; a `POST` (artifact create/append) and the mint CLI (`INITIALISE`) keep creating the directory, file and migrations exactly as described. So the practical instruction is unchanged but sharper: **provision the store before reading it** — either run the mint CLI, or let the first reports write create it. A read can no longer do it for you. Evidence: `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §16.
+
   This runbook deliberately does **not** prescribe a database location. The bounded non-production durable store is already authorized by the effective R3 decision (`IIPS-V3-REPORTS-NP06-R3-PA-DECISION-2026-10-25-01`) and accepted by the F-7 qualification record (`IIPS-V3-REPORTS-NP06-F7-QUALIFICATION-AND-ACCEPTANCE-2026-10-25-01`); within that authority the operator selects the absolute server-owned path as deployment configuration, not as a new Program Authority designation. The path must remain distinct from the Gate 3 store and `IIPS_DATA_DIR`, must never be client-supplied, and must remain non-production. Production admission is **NOT ADMITTED**; designating a durable store location for production requires a separate Program Authority determination.
 
 **Fail-closed behaviour.** With the Reports owner carrier unavailable, every recognized `/api/reports/*` route and method answers `503 {"error":"owner-context-unavailable"}` and no report data is read or fabricated. With owner context available but persistence unavailable — `IIPS_NP04_DATABASE_PATH` unset, the package not resolvable, or `openDatabase`/store construction failing — every artifact route answers `503 {"error":"persistence-unavailable"}`. No substitute store, Reports-local store, or fallback is constructed. The UI renders a sanitized unavailable state with a `Retry` button and never displays the backend `reason`, a filesystem path, or a SQLite error.
@@ -886,6 +888,12 @@ peer, writes nothing and changes no environment. This is deliberate: `loadAuthor
 opens the configured database with `createDirectory: true, migrate: true`, so a diagnostic that called it
 would *create and migrate a database as a side effect of asking a question*. Readiness therefore reports
 the configured path and whether the file already exists, and nothing more.
+
+> **Update 2026-11-17.** The loader's default open is now read-only (`READ`: no directory, no file, no
+> migrations), so the historical reason above no longer applies. The conclusion does not change: the
+> diagnostic still constructs nothing, because its contract is to report *configured / not configured* and
+> *file present / absent* without acquiring a handle or a lock. Evidence:
+> `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §16.
 
 **Output is paste-safe.** It prints setting *names*, bounded reason codes, counts and booleans. It never
 prints a setting value, an owner/tenant pair, a carrier digest, a filesystem path or a stack trace.

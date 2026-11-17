@@ -792,3 +792,121 @@ What `RESOLVED` does **not** mean, stated so the entry cannot be read as more th
 
 The draft pull request that produced the run carries the code head `3293361`; this paragraph is documentation only,
 and `ci.yml`'s path filter (`frontend/**`, `.ci/**`) therefore does not re-run it — by design, not by omission.
+
+## 16. `G-11` hardening — the owner-context refusal and the read-path open (2026-11-17)
+
+§15.5 recorded two properties and deliberately did not change them: `respondOwnerContextUnavailable` set no
+`Cache-Control`, and the shared persistence boundary opened every store with `createDirectory: true, migrate: true`.
+This section closes both. It does not reopen `G-11`: §15.6's `RESOLVED` disposition, its evidence and its non-claims
+stand exactly as written, and nothing was pushed to `main`.
+
+### 16.1 Root cause 1 — an owner-context failure could be cached
+
+`owner-context-unavailable.ts` responded `503` with `Content-Type: application/json` and **no** caching directive. An
+owner context that is absent, invalid, tampered or carries a foreign owner is a *transient* condition — it changes
+when the server-owned carrier is provisioned or corrected — yet the refusal was cacheable, so a browser or an
+intermediary could replay it after the condition was fixed, or pin it as this deployment's standing answer on a
+surface whose only failure mode is that refusal.
+
+**Call-site census (production code, before the change): 19 calls in 9 modules, reaching 6 served surfaces.**
+`broker-import/brokerImportHttp.ts` ×10 (commit, legacy commit, revision read, evidence admission ×2, the three
+Class-P/config-error mappings, the two precondition refusals); `broker-import/brokerImportEvidenceSubmission.ts` ×2;
+`collaboration/collaboration-transport.ts` ×1; `reports-transport.ts` ×1; `settings/settings-transport.ts` ×1;
+`watchlists/watchlists-transport.ts` ×1; `investment/investment-transport.ts` ×1;
+`investment/disposition-transport.ts` ×1; `investment/change-transport.ts` ×1. (`holding-identity-transport.ts`
+defines its own `owner-context-unavailable` body but already set `no-store` on every response, so it needed no
+change; it is untouched.)
+
+**Why the obvious fix was not available.** AMEND-01 §8.5(21) pins `owner-context-unavailable.ts` to git blob
+`cb8db45d668d28cee7e0a52721001d579a872733` (`brokerImportEvidenceRoute.test.ts:917–920`). Editing the responder
+fails a fence by design, so the header is enforced one layer out rather than by re-pinning a frozen artefact.
+
+**Correction.** `owner-scoped-http.ts` — the shared helper module for the owner-scoped transports — gained
+`respondOwnerContextUnavailableUncached(res)`: it sets `Cache-Control: no-store` (only when the head is not already
+flushed), then delegates to the frozen responder. Status, body, content type and the non-disclosure properties are
+the frozen ones; the caching policy is additive and exists in exactly one place. All 19 call sites now call the
+wrapper, and a source fence fails the build's test run if any production module calls the frozen responder directly.
+
+**Evidence (executable).** `server/owner-context-uncached.test.ts`, 11 tests: the frozen responder alone reproduces
+the defect (`503`, `application/json`, `cache-control` absent — the control); the wrapper yields `503` with
+`cache-control: no-store`, the same content type and a byte-identical body, and the body still deep-equals the frozen
+`OWNER_CONTEXT_UNAVAILABLE` constant; a flushed head does not throw; and each of the six served surfaces
+(broker-import, watchlists, settings, reports, collaboration, investment) is driven through its **real HTTP handler**
+and asserted `503` + `owner-context-unavailable` + `no-store`. The two source fences (only the wrapper calls the
+frozen responder; the frozen file still contains no `Cache-Control`) are part of the same suite. `brokerImportHttp.test.ts`
+additionally asserts the header at all five existing owner-context assertions (direct handler and the real composed
+host), and `iidG11ServedChainTransport.test.ts` — whose note previously read *"recorded, not asserted"* — now asserts
+`no-store` on the missing/tampered/foreign-carrier refusals and on the no-carrier refusal.
+
+**Preserved.** Status codes, bodies, content types, the operator-diagnosis log lines, the Class-P/config-error
+indistinguishability and the `HEAD` path are unchanged; no information was added to any refusal, and no authority,
+owner or carrier detail is disclosed by a header that only says "do not store".
+
+### 16.2 Root cause 2 — a read could provision the store
+
+`reports/persistence-port.ts` opened the database the one way that writes: `{ createDirectory: true, migrate: true }`,
+for every caller. A `GET`, a CLI read-back or a readiness-style probe could therefore create the database directory,
+create the database file and run schema migrations simply by asking a question. §15.5 recorded it; the NP-04
+preparation record already noted the consequence (`show-investment-chain` "is read-only with respect to artifact rows,
+not a non-mutating database probe").
+
+**Caller census and the intent each one now states** (the API makes intent mandatory and defaults it to `READ`, so an
+omitted intent can never acquire write powers):
+
+| Caller | Kind | Intent |
+|---|---|---|
+| `investment/cli/generate-investment-artifacts.ts` (default and `--dbPath` paths) | mint CLI — writes artifacts | `INITIALISE` (unchanged behaviour) |
+| `reports/persist-real-reports.ts` | script — writes real reports | `INITIALISE` |
+| `reports-transport.ts` `POST` (artifact create/append) | served write | `INITIALISE` (unchanged behaviour) |
+| `reports-transport.ts` `GET`/`HEAD` | served read | `READ` |
+| `investment/investment-transport.ts`, `disposition-transport.ts`, `change-transport.ts`, `discovery-transport.ts` | served assessment/chain reads | `READ` |
+| `investment/cli/show-investment-chain.ts` (×2), `cli/read-investment-payload.ts` | read CLIs | `READ` |
+| `reports/np04-adapter.ts` (`resolveAuthoritativeNp04Port`) | composition point | caller states it; default `READ` |
+
+**Correction.** `persistence-port.ts` gained `Np04OpenIntent` (`'READ' | 'INITIALISE'`), `np04OpenOptions(intent)`
+(READ → `{createDirectory:false, migrate:false}`, INITIALISE → `{createDirectory:true, migrate:true}`), a
+`loadReadOnlyNp04Persistence()` alias, and an optional module-resolution seam (`Np04LoaderOverrides`) used only by
+tests. `loadAuthoritativeNp04Persistence(intent = 'READ')` now (1) fails closed — `null` → `503` on every transport —
+when a `READ` is pointed at a path that is not an existing regular file, **before** the module is imported or any
+handle is taken, and (2) passes the intent-derived options to NP-04's own `openDatabase`. This is
+operation-specific configuration, not a global disable: the mint CLI and the reports write path keep their
+create-and-migrate capability verbatim, and the two-flag read shape is the one `m1-demonstration.ts` already used for
+its read-only inspection.
+
+**Evidence (executable).** `server/reports/persistence-port.test.ts`, 11 tests: the intent mapping (including that
+both option objects are frozen); `READ` on an absent path fails closed **without importing the module** and creates no
+directory; the default call behaves as `READ`; a directory path is refused; `READ` on an existing store passes exactly
+`{path, createDirectory:false, migrate:false}` and leaves the file's bytes, size and mtime unchanged; `INITIALISE`
+passes exactly `{path, createDirectory:true, migrate:true}`, accepts the store the open created, and closes a
+half-constructed handle when store construction fails; plus a source fence that no production module calls the loader
+without stating an intent. Because the loader takes the test seam, these assertions run **without** the private
+package — which matters, since this environment cannot resolve it.
+
+**Preserved.** Mint CLI initialisation: `generate-investment-artifacts` keeps its owner-before-port ordering (a run
+about to abort still cannot create a store) and both of its resolution paths state `INITIALISE`; its suite's
+read-back now states `READ` against a store the CLI created, which is a real read-only re-open. Reports create/append
+(`POST`) still provisions on first use, so the reports surface's documented write contract and its acceptance tests
+are unchanged.
+
+**Deliberate behaviour change.** A `GET`/`HEAD` on a reports path when the configured store does not yet exist now
+answers `503 persistence-unavailable` instead of silently creating the database. Provisioning is an operator act
+(mint CLI) or a write act (`POST`), never a read side effect.
+
+### 16.3 What this section does not claim
+
+- **No claim about NP-04's internals.** These tests prove which options *this repository* passes and that it never
+  reaches the module on a read that has no store. They do not assert that NP-04's own `openDatabase` ignores the
+  flags; that is NP-04's contract, and the dependency-complete run exercises the real package.
+- **Local execution is dependency-incomplete.** The three private pins cannot be resolved in this environment
+  (`Write access to repository not granted`, HTTP 403), so store-dependent suites cannot load here, and the local
+  `tsc --noEmit` reports the same 24 pre-existing module-resolution errors before and after this change. The
+  authoritative execution is the CI run recorded in §16.4, not a local one.
+- **No browser or host journey was performed**, and no Windows observation is claimed. `D10`, `R-1`/`R-2` are
+  untouched.
+- **No re-scoring.** §§7, 13 and 15 are unchanged; `G-11` stays `RESOLVED`.
+
+**Historical statements this section makes operation-dependent.** `docs/OPERATOR_RUNBOOK.md` (the two
+create-and-migrate notes) and `docs/integration/IID-NP04-PERSISTENCE-PREPARATION-2026-11-15.md` (lines 41 and 51)
+describe the pre-change opener; both carry an appended note pointing here. `docs/integration/CPII-01-…-2026-11-13.md`
+and `docs/integration/IID-P6A-…-2026-11-09.md` are dated records and are left as written; where they describe the
+opener, this section supersedes them.

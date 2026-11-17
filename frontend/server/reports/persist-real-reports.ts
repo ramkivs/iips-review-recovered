@@ -91,7 +91,8 @@ function requireDatabasePath(): string {
 }
 
 async function resolvePersistence() {
-  const resolution = await resolveAuthoritativeNp04Port();
+  // `G-11` hardening: this script exists to WRITE real reports, so it may provision the store.
+  const resolution = await resolveAuthoritativeNp04Port('INITIALISE');
   if (!resolution.available) {
     throw new Error(`NP-04 governed persistence unavailable: ${resolution.reason}`);
   }

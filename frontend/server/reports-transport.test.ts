@@ -21,7 +21,7 @@ import {
   materialiseReportsOwnerCarrier,
 } from './reports-owner-carrier';
 import { REPORTS_OWNER_PATH_ENV } from './reports-owner-resolver';
-import { NP04_DATABASE_PATH_ENV } from './reports/persistence-port';
+import { loadAuthoritativeNp04Persistence, NP04_DATABASE_PATH_ENV } from './reports/persistence-port';
 
 const temporaryDirs: string[] = [];
 const savedOwnerPath = process.env[REPORTS_OWNER_PATH_ENV];
@@ -137,6 +137,11 @@ describe('Reports transport — configured carrier and persistence', () => {
     const dir = tempDir();
     process.env[REPORTS_OWNER_PATH_ENV] = materialiseReportsOwnerCarrier(dir);
     process.env[NP04_DATABASE_PATH_ENV] = path.join(dir, 'reports.db');
+
+    // `G-11` hardening: a GET may no longer provision the store as a side effect (that is what this
+    // test used to rely on), so provision it the way a deployment does — once, deliberately, with
+    // the write intent — before the read assertions below. A POST still provisions on demand.
+    await loadAuthoritativeNp04Persistence('INITIALISE');
 
     // 1. Context endpoint
     const ctx = await request('/api/reports/context');

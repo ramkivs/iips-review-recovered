@@ -18,9 +18,13 @@
  *   With no carrier configured this transport behaves exactly as before.
  */
 import type http from 'node:http';
-import { respondOwnerContextUnavailable } from '../owner-context-unavailable';
 import { resolveOwnerContext, type OwnerContext } from '../owner-context-resolver';
-import { readJsonBody, sendGovernedDependencyUnavailable, sendJson } from '../owner-scoped-http';
+import {
+  readJsonBody,
+  respondOwnerContextUnavailableUncached,
+  sendGovernedDependencyUnavailable,
+  sendJson,
+} from '../owner-scoped-http';
 import { buildCollaborationResolversFor, type GovernedReferenceProvider } from './collaboration-resolvers';
 import {
   CollaborationValidationError,
@@ -239,7 +243,7 @@ export async function handleCollaborationRequest(
 
   const owner = resolveOwnerContext();
   if (owner === null) {
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return;
   }
 

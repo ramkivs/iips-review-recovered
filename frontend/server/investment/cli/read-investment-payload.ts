@@ -68,7 +68,7 @@ async function run(argv: readonly string[]): Promise<number> {
     process.stderr.write('FAIL owner: no owner context is established; nothing was read\n');
     return 2;
   }
-  const port = await loadAuthoritativeNp04Persistence();
+  const port = await loadAuthoritativeNp04Persistence('READ');
   if (port === null) {
     process.stderr.write(`FAIL persistence: set ${NP04_DATABASE_PATH_ENV} (or --db); nothing was read\n`);
     return 2;
