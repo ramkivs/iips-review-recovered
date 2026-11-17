@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import http.client
+from collections import Counter
 import io
 import json
 import os
@@ -273,7 +274,7 @@ def verify_transcript(data: bytes) -> None:
         fail("recovery transcript original inventory path is missing")
 
 
-def verify_archive(data: bytes, original_map: dict[str, str]) -> None:
+def verify_archive(data: bytes, original_map: dict[str, str]) -> dict[str, object]:
     try:
         archive = zipfile.ZipFile(io.BytesIO(data), "r")
     except (zipfile.BadZipFile, OSError) as exc:
@@ -307,12 +308,24 @@ def verify_archive(data: bytes, original_map: dict[str, str]) -> None:
         hashes: dict[str, str] = {}
         total_uncompressed = 0
         by_name = dict(zip(names, file_infos))
+        extension_counts: Counter[str] = Counter()
+        document_suffixes = {".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx"}
+        document_like_names: list[str] = []
+        issuer_marker_hits: dict[str, list[str]] = {"INE415A01038": [], "AGI Greenpac": []}
+        for name in names:
+            leaf = name.rsplit("/", 1)[-1]
+            suffix = "." + leaf.rsplit(".", 1)[-1].lower() if "." in leaf else "[no extension]"
+            extension_counts[suffix] += 1
+            if suffix in document_suffixes or re.search(r"AGI|INE415A01038|annual[ _-]?report|financial[ _-]?results", leaf, re.I):
+                document_like_names.append(name)
         for name in sorted(original_map):
             info = by_name[name]
             total_uncompressed += info.file_size
             if total_uncompressed > 1_000_000_000:
                 fail("archive uncompressed size exceeds 1 GB safety limit")
             digest = hashlib.sha256()
+            prefix = bytearray()
+            tail = b""
             try:
                 with archive.open(info, "r") as member:
                     while True:
@@ -320,6 +333,16 @@ def verify_archive(data: bytes, original_map: dict[str, str]) -> None:
                         if not block:
                             break
                         digest.update(block)
+                        if len(prefix) < 16:
+                            prefix.extend(block[: 16 - len(prefix)])
+                        sample = (tail + block).lower()
+                        if b"ine415a01038" in sample and name not in issuer_marker_hits["INE415A01038"]:
+                            issuer_marker_hits["INE415A01038"].append(name)
+                        if b"agi greenpac" in sample and name not in issuer_marker_hits["AGI Greenpac"]:
+                            issuer_marker_hits["AGI Greenpac"].append(name)
+                        tail = sample[-32:]
+                if bytes(prefix).startswith(b"%PDF-") and name not in document_like_names:
+                    document_like_names.append(name)
             except (OSError, RuntimeError, zipfile.BadZipFile) as exc:
                 fail(f"archive entry read failed for {name}: {exc}")
             actual = digest.hexdigest()
@@ -331,6 +354,13 @@ def verify_archive(data: bytes, original_map: dict[str, str]) -> None:
             fail(f"ZIP CRC check failed for entry {bad_entry}")
         if len(hashes) != EXPECTED_COUNT:
             fail(f"verified {len(hashes)} entries, expected {EXPECTED_COUNT}")
+        return {
+            "file_count": len(file_infos),
+            "extension_counts": dict(sorted(extension_counts.items())),
+            "document_like_paths": sorted(document_like_names),
+            "issuer_marker_hits": {key: sorted(value) for key, value in issuer_marker_hits.items()},
+            "uncompressed_bytes": total_uncompressed,
+        }
 
 
 def download_release_assets(token: str) -> dict[str, bytes]:
@@ -372,6 +402,16 @@ def main() -> int:
 
     verify_original_inventory_seal()
     original_map = parse_inventory(downloaded["original-s2-sha256-inventory.txt"], "release original inventory")
+    issuer_filename_hits = sorted(
+        path for path in original_map
+        if re.search(r"INE415A01038|AGI[ _-]?Greenpac|annual[ _-]?report|financial[ _-]?results", path, re.I)
+    )
+    print(
+        f"PASS asset content: original-s2-sha256-inventory.txt has {len(original_map)} parsed rows; "
+        f"AGI/financial-filing filename heuristic hits={len(issuer_filename_hits)}"
+    )
+    if issuer_filename_hits:
+        print(f"INFO inventory filename candidates (review only): {issuer_filename_hits[:20]}")
     admitted_bytes = open(ADMITTED_INVENTORY, "rb").read()
     admitted_map = parse_inventory(admitted_bytes, "admitted S2 inventory")
     missing_from_original = sorted(set(admitted_map) - set(original_map))
@@ -392,18 +432,43 @@ def main() -> int:
     )
 
     verify_evidence_json(downloaded["recovery-evidence.json"])
-    verify_transcript(downloaded["recovery-run-20261031-212225-35931ce8.txt"])
-    print("PASS recovery evidence JSON and Windows transcript are internally consistent with release identity, counts, source and archive digest")
+    print(
+        "PASS asset content: recovery-evidence.json parsed; required recovery identity, "
+        "counts, archive digest and scope fields validated"
+    )
+    transcript = downloaded["recovery-run-20261031-212225-35931ce8.txt"]
+    verify_transcript(transcript)
+    print(
+        "PASS asset content: recovery-run-20261031-212225-35931ce8.txt decoded and checked for "
+        "the transcript marker, PowerShell version, recovery run ID, source/inventory paths, counts and ZIP digest"
+    )
 
-    verify_archive(downloaded["CAP03-S2-Original-1140-Artifacts.zip"], original_map)
-    print(f"PASS archive: exactly {EXPECTED_COUNT} file entries; every ZIP payload SHA-256 matches the original inventory")
+    archive_summary = verify_archive(downloaded["CAP03-S2-Original-1140-Artifacts.zip"], original_map)
+    print(
+        f"PASS asset content: CAP03-S2-Original-1140-Artifacts.zip has {archive_summary['file_count']} "
+        "members; all member hashes and CRCs match the original inventory; "
+        f"extension_counts={archive_summary['extension_counts']}"
+    )
+    print(
+        "INFO archive content triage (filename/signature/exact-text heuristics, not a legal rights opinion): "
+        f"document_like_members={len(archive_summary['document_like_paths'])}; "
+        f"AGI_ISIN_hits={len(archive_summary['issuer_marker_hits']['INE415A01038'])}; "
+        f"AGI_name_hits={len(archive_summary['issuer_marker_hits']['AGI Greenpac'])}"
+    )
+    if archive_summary["document_like_paths"]:
+        print(f"INFO document-like archive member paths (review only): {archive_summary['document_like_paths'][:20]}")
+    if any(archive_summary["issuer_marker_hits"].values()):
+        print(f"INFO exact AGI marker paths (review only): {archive_summary['issuer_marker_hits']}")
     print("LIMIT: verifies recovered historical bytes only; does not certify S2, authorize P-1, or satisfy the separate S04 sealed-directory evidence contract")
     # A check-run annotation, readable through the GitHub Checks API like the failure annotation below.
     route = "with the supplied token" if token_supplied else "without a token"
     print(
         f"::notice title=CAP-03 release audit::PASS: {len(downloaded)} release assets downloaded through the "
-        f"GitHub REST API {route}; every asset SHA-256 matches its pinned digest; {EXPECTED_COUNT} ZIP payload "
-        "hashes match the original inventory"
+        f"GitHub REST API {route}; all four asset contents individually validated; {EXPECTED_COUNT} ZIP payload "
+        f"hashes match the original inventory; doc-like members={len(archive_summary['document_like_paths'])}; "
+        f"AGI ISIN/name exact-text hits="
+        f"{len(archive_summary['issuer_marker_hits']['INE415A01038'])}/"
+        f"{len(archive_summary['issuer_marker_hits']['AGI Greenpac'])}"
     )
     return 0
 
