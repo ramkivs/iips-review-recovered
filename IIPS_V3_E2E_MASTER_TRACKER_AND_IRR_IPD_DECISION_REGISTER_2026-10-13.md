@@ -22837,3 +22837,76 @@ issuer. Nothing was re-provisioned, reinstalled or re-minted; PR #562, #563, #56
 and unmerged.
 
 Next free §16.288 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
+
+## 16.288 Snapshot-to-Live W05 — IID line reconciled with `main`; a dataset can name its `O3` record; W05 not complete (2026-11-17)
+
+**IRR-only merge, code, tests and record. No IPD act, no IPD change, no host step.** It consumes no
+CV-CORR / CHG / V identifier and adds no work item, owner or dependency. It records the two repository
+items that the W05 status record of 2026-11-16 listed as needing no decision (its section 8.1, items 1
+and 2). The record is
+`docs/integration/W05-IID-RECONCILIATION-AND-AUTHORIZATION-REFERENCE-2026-11-17.md`; its evidence is in
+`evidence/integration/w05-iid-reconciliation-and-authorization-reference-2026-11-17/`. **W05 is not
+complete and is not accepted**: no issuer of the portfolio has a financial dataset, no source's terms
+have been reviewed, and the two decisions of section 8.2 of the earlier record are open.
+
+**Reconciliation.** Branch `arena/53ff9276-iips-review-recovered` at
+`5bf1167d069a208a0dc3ca4e4df82559cd69d02f` (45 commits, 133 files) is merged into `main`
+`2b61a50a7aa51e0fc4d5a1a3a208c08ca495823b` by merge commit `4ff29cf560bb6ab1ee7b67478db10ce97fc18817`.
+Three files conflicted as text. In `investmentCoverage.ts` the classifier of `main` is kept: the dataset
+class comes from the manifest's rights declaration on both coverage surfaces, and the substring test on
+provider and licence text is not restored anywhere. In this tracker, IID `§16.284` keeps its number and
+stands before `§16.285`; `§16.285` and `§16.286` are byte-identical; the IID `O1` section is `§16.287`
+and says so. Three further places agreed as text and disagreed in meaning (identity provisioning against
+the identity validator of `main`; the head re-validation generator and its test, which pinned the `L-041`
+disagreement; one served-route note count); each is named in the record, section 1.3. Of the 133 files,
+119 are byte-identical to the branch.
+
+**Rights records: unchanged.** The `O3` records of 2026-11-13 and 2026-11-14, `PA-01`, both verification
+files, the S4-R3 candidate manifest and the IID limitation register have the same Git blobs as on the
+branch (record, section 1.4). The four bundle directories have the Git trees that the `O3` record of
+2026-11-14 names. No authorization was added or re-issued.
+
+**A dataset can name its `O3` record.** The ingestion CLI takes one optional, repeatable option,
+`--authorization-record <file>` (commit `37c8f602466e695745a228db72f334c6aa79a8fe`). With it, the
+manifest's rights declaration names the decision record, pinned by the SHA-256 of its bytes, instead of
+the input directory. The run is refused before the destination is read or written unless the file is one
+of the two listed records byte for byte and every input bundle is an input a named record admits. An
+input is identified by the digest of its bytes and by nothing else: not by directory, issuer or provider
+text. The five bundles outside `O3` are refused, as are a refreshed bundle under the first record, a
+superseded bundle under the second, and an admitted bundle with any byte changed. Where a record states
+the dataset its inputs produce, the build must reproduce it. Each named record is cited for every bundle
+of the run that it admits, so nothing depends on the order of naming. Without the option the CLI writes
+what it wrote before, byte for byte. Readers check a citation every time and refuse one that does not
+fit; the coverage route then answers 503.
+
+**What a citation does not change.** The state stays `OPERATOR_ASSERTED` and the class stays
+`OPERATOR_SUPPLIED`: a cited record is the Principal's own declaration, not a verification of any third
+party's terms. `licence` still reads `operator-supplied; not redistributable`, and each reference
+carries `redistribution: NOT_AUTHORISED` with the record's own restrictions. Nothing is installed and no
+guard is relaxed. The dataset installed on the host is not changed and its manifest still carries the
+directory basis.
+
+**Limitations.** `L-041` and `L-042` are `OPEN` in the register, which is unchanged. The disagreement
+that `L-041` records no longer reproduces on the merged code: both paths answer `UNKNOWN` for the
+manifests it names. Whether to close `L-041` is a decision about the register and is the Principal's.
+
+**Validation, sandbox only.** `iips-platform`: typecheck 0 errors; `npm test` 678 of 678; `test:iid`
+1,450 of 1,450 in a checkout at the recorded path and 1,449 of 1,450 elsewhere (one test of the IID line
+compares a manifest that contains absolute paths); roster lint PASS. `frontend`: the three typechecks 0
+errors; full Vitest suite 3,073 passed, 1 skipped; production build passes. Of twenty-eight deliberate faults
+in the new implementation, twenty-seven failed at least one new test; the one that did not is a check the
+writer repeats, which no committed input can separate. All were reverted. The IRR-only static gate was
+run locally on the tree that carries this section: the validator compiles; the artifact-classification
+and workflow-trigger tests pass; the source, evidence and tracker validation passes; `git diff --check`
+is clean. The release-asset step of that gate needs the hosted runner.
+
+**Related records, as read; none is changed by this record.** PR #562 holds the first 24 of the 45
+commits and will show as merged when they are on `main`. PR #566 is OPEN at `92eda04`. The W05 status
+record of 2026-11-16 is kept as written; the record of this section lists the statements it replaces.
+
+**Publication.** This section is added by one commit on a branch made from `main`
+`2b61a50a7aa51e0fc4d5a1a3a208c08ca495823b`, after the two commits named above. Its commit hash, push,
+pull request and remote read-back cannot be part of the commit that carries it and are reported
+separately.
+
+Next free §16.289 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
