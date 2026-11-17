@@ -992,11 +992,48 @@ function main(argv: readonly string[]): number {
   });
   require(analysed.violations.length === 0, 'the engine reported invariant violations on the real issuer', analysed.violations);
   const analysisDigest = createHash('sha256').update(JSON.stringify(analysed.payload), 'utf8').digest('hex');
+
+  // `L-042` (Option B, register §17.27) — the authorised label evolution, reconstructed rather than ignored.
+  //
+  // The committed head payload is EVIDENCE: it records what the engine published at head `a835d4a`, when the
+  // EV_EBITDA/EV_REVENUE `basis` read "… × multiple − net debt". It is not rewritten. The engine now publishes the
+  // Option B label ("… = enterprise value; that enterprise value is subject to the published equity bridge …",
+  // whose terms are conditional on the filed capital structure), so a fresh analysis differs from the record in
+  // exactly those strings and nowhere else.
+  //
+  // The check is therefore made in two steps, and narrowed rather than relaxed:
+  //   1. every difference between the fresh analysis and the record must be an enterprise-value `basis` path — any
+  //      other difference is still a refusal, naming the path;
+  //   2. restoring the recorded wording from the fresh payload's own published assumptions must reproduce the
+  //      record byte for byte, so the persisted-vs-fresh comparison still proves every other member.
+  const basisPath = /^\$\.valuation\.methods\[\d+\]\.output\.basis$/;
+  const rawDifferences: Change[] = [];
+  walk(analysed.payload, head, '$', rawDifferences);
+  require(
+    rawDifferences.every((change) => basisPath.test(change.path)),
+    'the persisted artifact and a fresh analysis of the same committed real input disagree outside the L-042 basis relabel',
+    rawDifferences.filter((change) => !basisPath.test(change.path)).map((change) => `${change.kind} ${change.path}`),
+  );
+  const preL042Basis = (payload: Record<string, any>): Record<string, any> => {
+    const copy = JSON.parse(JSON.stringify(payload)) as Record<string, any>;
+    const methods = (copy.valuation?.methods ?? []) as Record<string, any>[];
+    for (const method of methods) {
+      if (method.output === null || method.output === undefined) continue;
+      const assumptions = method.assumptions as Record<string, number | string>;
+      if (method.methodId === 'EV_EBITDA') {
+        method.output.basis = `mid-cycle EBITDA ${assumptions.midCycleEbitda} × ${assumptions.targetMultiple} − net debt`;
+      }
+      if (method.methodId === 'EV_REVENUE') {
+        method.output.basis = `revenue ${assumptions.revenue} × ${assumptions.targetMultiple} − net debt`;
+      }
+    }
+    return copy;
+  };
   const storedVsAnalysis: Change[] = [];
-  walk(analysed.payload, head, '$', storedVsAnalysis);
+  walk(preL042Basis(analysed.payload), head, '$', storedVsAnalysis);
   require(
     storedVsAnalysis.length === 0,
-    'the persisted artifact and a fresh analysis of the same committed real input disagree',
+    'the persisted artifact and a fresh analysis of the same committed real input disagree, even after the L-042 basis reconstruction',
     storedVsAnalysis.map((change) => `${change.kind} ${change.path}`),
   );
 
@@ -1111,7 +1148,7 @@ function main(argv: readonly string[]): number {
   process.stdout.write(`  confidence         ${confidencePublished.combined} (WI-3 ${WI3_RECORDED.combined} × ${IX_PUBLISHED.multiplier})\n`);
   process.stdout.write(`  diff vs WI-3       ${diff.changes.length} changed path(s), ${diff.unattributed.length} unattributed\n`);
   process.stdout.write(`  XBRL tags mapped   ${censusHead.xbrlTagsMapped} (defect A — the L-002 notice now reads this count from XBRL_TAG_MAP; it said 20)\n`);
-  process.stdout.write(`  EV basis bridge    defect C — OPEN (L-042): the EV_EBITDA/EV_REVENUE basis names only "− net debt"; the full bridge is published in capitalStructure.equityBridge. Correcting the label moves the substantive digest of every EV-publishing assessment (L-014 C1–C5, AC-L14), so it is recorded, not narrowed here\n`);
+  process.stdout.write(`  EV basis bridge    defect C — RESOLVED (L-042, Option B; register §17.27): the EV_EBITDA/EV_REVENUE basis now states the method's own arithmetic (a multiple applied to a base = enterprise value) and says explicitly that the enterprise value is subject to the published equity bridge in capitalStructure.equityBridge, whose terms are conditional on the filed capital structure. The label no longer restates the bridge as "− net debt"; the full bridge remains authoritative. The substantive digests of EV-publishing assessments were re-baselined through the authorised layered-reconstruction process (L-014 C1–C5, AC-L14)\n`);
   process.stdout.write(`  L-041 (defect B)   ${classRows.length} committed real-issuer manifest(s): both classifier paths answer UNKNOWN at head; the recorded observation is kept, not re-emitted\n`);
   for (const [name, digest] of Object.entries(written)) process.stdout.write(`  wrote ${name} sha256:${digest}\n`);
   // The rebuild scratch is a means, not evidence; remove it. (On the `refuse()` throw path it leaks into the OS

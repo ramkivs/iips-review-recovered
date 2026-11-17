@@ -48,7 +48,7 @@
     "headPayloadBytes": 55573,
     "wi3PayloadDigest": "83644bc68e3d68f3f714fb205179eae63c6da2ff9d5cdcf77d0a3d5c573d493d",
     "wi3PayloadBytes": 51196,
-    "analysisLayerDigest": "d78d7c72320951e00b00846b5e7c605cafc6144ec3aadbadca1c0b18f5496d91",
+    "analysisLayerDigest": "ced930627b1a13ba1ca986d146541ed5c5039b27944b1a670953affb38030254",
     "persistedArtifactEqualsFreshAnalysis": true,
     "manifestIsNotByteReproducible": {
       "fact": "the re-ingested manifest carries sourceRights (W05) whose basis embeds the absolute input path, and the manifest is outside manifest.digestScope",

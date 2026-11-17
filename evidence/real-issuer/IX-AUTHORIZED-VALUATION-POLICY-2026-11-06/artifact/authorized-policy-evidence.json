@@ -196,8 +196,8 @@
       "mosVsMid": -0.08418738213693565,
       "band": "FAIR"
     },
-    "structuralDigestV1": "f2329b501528113ef9bf51f8438b9defcf70bb1dc876f6c3c7e710b228409e8f",
-    "structuralDigestV2": "22b33b92aac900d9c9a89157e4216b47cace2ee447a43b20aea04d450d6ffb9a",
+    "structuralDigestV1": "22acb05dc1a7dc4061e69e555a5fb8a92dd8c28734faaff019f0a24495708a01",
+    "structuralDigestV2": "1adcc3fec1ea97f7a6b442ec663f30721f521190327869b2c56f10aa0640a604",
     "structuralDigestNote": "sha256 over the payload JSON as this reproduction builds it; the NP-04 canonical payload digest is minted at the composition boundary and is asserted by the frontend store suite, not here",
     "attributableToPolicy": [
       "confidence.combined (0.6736 → 0.4378)",

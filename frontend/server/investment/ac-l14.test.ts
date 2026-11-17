@@ -60,14 +60,19 @@ const REF = Object.freeze({
    * `confidence.combined` and `confidence.caps` follow it, `associatesJVReview` publishes the 180-day control, and
    * the associates note on each enterprise-derived per-share observation says which payload it came from. Every
    * earlier layer is still reproduced byte for byte in `substantive-identity.test.ts`: the decision's published
-   * values (`08ea8d4a…`, `fd9589e4…`, `34240407…`) through `preD3(undoDisclosure(undoIX(...)))`, the post-D-3 values
-   * (`6d295010…`, `19a08af3…`, `0032be68…`) through `undoDisclosure(undoIX(...))`, and the post-disclosure values
-   * (`33c02caa…`, `df2cacd8…`, `7e4251bc…`) through `undoIX(...)`. The two input digests do not move — the engine
-   * takes no new input — and the disposition digest moves only because it renders the assessment's confidence.
+   * values (`08ea8d4a…`, `fd9589e4…`, `34240407…`) through `preD3(undoDisclosure(undoIX(undoL042Basis(...))))`, the
+   * post-D-3 values (`6d295010…`, `19a08af3…`, `0032be68…`) through `undoDisclosure(undoIX(undoL042Basis(...)))`,
+   * the post-disclosure values (`33c02caa…`, `df2cacd8…`, `7e4251bc…`) through `undoIX(undoL042Basis(...))`, and the
+   * post-IX values (`c0109091…`, `6d1838e4…`, `abe6c02f…`) through `undoL042Basis(...)`.
+   *
+   * `L-042` (Option B, register §17.27) moved these three once more, and only these three: the EV_EBITDA/EV_REVENUE
+   * `basis` label now states the method's own arithmetic and names the published equity bridge instead of writing
+   * "− net debt" as if that were the whole equation. No number moved. The two input digests do not move — the engine
+   * takes no new input — and the disposition digest does not move either: it renders confidence, not method labels.
    */
-  C1: 'c010909145475703b5cf2b2bf8495fb18c8427a6ab2969beb69bc4a0705a6dab',
-  C4: '6d1838e4392baa98617cd57ef4071ed081dc18a4e9570678e3b6d76f1ec4bb00',
-  C5: 'abe6c02fbd56361648b7dd384873de97058ce1bd399b6c3dd8f73a32dd825a06',
+  C1: '960bf5d2d03fac4e459c8dde2a6c07611011a7ec3eb6e54b9e7c30bd1eda9925',
+  C4: 'f32a3b8b211e57a5a03a7a89d014b61a2bc9ee686f49fbe10cfbcca3aa145d1b',
+  C5: 'd5079d589eed42598960afcbacf69fb39402d47f2fce0a799fe23caef50cc435',
   /**
    * The disposition value THIS repository's M1 held fixture produces. Decision §5.2 publishes `126bd28f…` for a D0
    * fixture it does not print; both readings of the `nextReviewOn` rule were executed against this fixture and

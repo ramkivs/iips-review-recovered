@@ -57,6 +57,35 @@ export interface MethodContext {
 const DERIVED = { kind: 'DERIVED' as const, ref: 'valuation-methods/1.0.0' };
 const FORMULA_VERSION = '1.0.0';
 
+/**
+ * `L-042` — Option B: what a method's `basis` label says about the step that comes after it.
+ *
+ * The label describes ONLY the arithmetic the individual method performed. An enterprise-value method's own
+ * arithmetic stops at enterprise value; the conversion to an equity value per share is the published equity
+ * bridge's job (`fundamentals.capitalStructure.equityBridge`), and the label says so explicitly.
+ *
+ * The label deliberately does NOT write the bridge as an equation. `equityValueFromEnterprise` subtracts minority
+ * interest and preference capital and adds associates/JV, but each of those terms is CONDITIONAL on the filed
+ * capital structure: a term may be present, nil by disclosure, a named policy zero, or unavailable — and when a
+ * mandatory term is unavailable the conversion refuses outright rather than substituting. Writing "− net debt"
+ * after a multiple made the label look like the whole equation, and it missed the published per-share figure by
+ * `minorityInterest / dilutedShares` on an issuer with a minority interest (Infosys, WI-13 defect C). Stating the
+ * bridge as unconditional method arithmetic would be the same misrepresentation in the other direction.
+ *
+ * A method with no enterprise-value step never carries this clause; its label is its own arithmetic.
+ */
+export const EQUITY_BRIDGE_BASIS_REFERENCE =
+  'that enterprise value is subject to the published equity bridge ' +
+  '(fundamentals.capitalStructure.equityBridge), whose terms are conditional on the filed capital structure';
+
+/**
+ * The label for a method whose arithmetic ends at enterprise value: the base and multiple the method applied, then
+ * the pointer to the published bridge. Shared by `EV_EBITDA` and `EV_REVENUE` so the two labels cannot drift apart.
+ */
+export function enterpriseValueBasis(base: string, multiple: number): string {
+  return `${base} × ${multiple} = enterprise value; ${EQUITY_BRIDGE_BASIS_REFERENCE}`;
+}
+
 const IMPLEMENTED: ReadonlySet<MethodId> = new Set<MethodId>([
   'DCF_FCFF',
   'RESIDUAL_INCOME',
@@ -415,18 +444,10 @@ function evEbitda(context: MethodContext, role: MethodRole): ValuationMethodResu
       toPerShare(midCycle * multiple * 0.8).value,
       mid,
       toPerShare(midCycle * multiple * 1.2).value,
-      // DEFECT C — OPEN, deliberately not corrected here. This label names only the dominant term of the bridge
-      // `equityValueFromEnterprise` applies (it also subtracts minority interest and preference capital and adds
-      // associates/JV), so read as an equation it misses the published per-share figure by minorityInterest/shares
-      // (₹3.45bn / 4.1449bn = ₹0.8324 for Infosys). The authoritative, complete formula IS published beside it in
-      // `capitalStructure.equityBridge` (`equityValue = enterpriseValue − netDebt − minorityInterest −
-      // preferenceCapital + associatesAndJV`, pinned by `assessment-valuation-integrity.test.ts`), so the payload as
-      // a whole is not misleading. Correcting this string was demonstrated to move the SUBSTANTIVE digest of every
-      // EV-publishing assessment, which re-baselines the L-014 reference digests (C1–C5, `substantive-identity.test.ts`)
-      // and the AC-L14 idempotency contract — "a change of the meaning stored in every historical artifact." That is a
-      // coordinated disclosure-contract decision for the register owner, not a narrow IRR fix inside a validation work
-      // item. Recorded as `L-042` in `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/C-EV-BASIS-BRIDGE.md`.
-      `mid-cycle EBITDA ${Math.round(midCycle)} × ${multiple} − net debt`,
+      // L-042, Option B: the method's arithmetic ends at enterprise value, and the label says so. The conversion
+      // that follows is the published equity bridge's, and its terms are conditional — never restated here as
+      // unconditional method arithmetic. See EQUITY_BRIDGE_BASIS_REFERENCE and the register's §17.27.
+      enterpriseValueBasis(`mid-cycle EBITDA ${Math.round(midCycle)}`, multiple),
     ),
     inputs,
     assumptions: { midCycleEbitda: Math.round(midCycle), targetMultiple: multiple, multipleBasis: 'POLICY_DEFAULT' },
@@ -458,9 +479,9 @@ function evRevenue(context: MethodContext, role: MethodRole): ValuationMethodRes
       toPerShare(latest * multiple * 0.8).value,
       toPerShare(latest * multiple),
       toPerShare(latest * multiple * 1.2).value,
-      // DEFECT C — OPEN, deliberately not corrected here; see the EV_EBITDA note above. Same imprecise label, same
-      // authoritative bridge published in `capitalStructure.equityBridge`, same substantive-identity consequence.
-      `revenue ${Math.round(latest)} × ${multiple} − net debt`,
+      // L-042, Option B: same contract as EV_EBITDA — method arithmetic to enterprise value, then the published,
+      // conditional equity bridge. See EQUITY_BRIDGE_BASIS_REFERENCE and the register's §17.27.
+      enterpriseValueBasis(`revenue ${Math.round(latest)}`, multiple),
     ),
     inputs,
     assumptions: { revenue: Math.round(latest), targetMultiple: multiple, multipleBasis: 'POLICY_DEFAULT' },

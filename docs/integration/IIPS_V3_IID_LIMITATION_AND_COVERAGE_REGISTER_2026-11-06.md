@@ -2891,3 +2891,182 @@ Reconsider after independently resolving the March fact's context, dimensions, c
 **Baselines at head `a835d4a` (all green, defect C reverted):** `iips-platform` `tsc` 0 errors; `test:iid` **807/807**; `frontend` `typecheck` 0; `typecheck:investment-server` 0; `vitest server/investment` **359/359** (26 files, including the AC-X2 zero-socket control with 0 socket attempts). Captured in `runs/06-baselines.txt`.
 
 **Evidence.** `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/` — `README.md`, `digests.json` over the bundle, `runs/01-ingest.txt` … `runs/07-*.txt` and `runs/commands.txt`, `artifact/assessment-payload-head.json` (`18f5ccb6…`) and `artifact/payload-diff-vs-wi3.json`, `verification/independent-recomputation.json`, `verification/mapping-census.json`, `verification/dataset-class-divergence.json`, and `findings/A-STALE-LIMITATION-COUNTS.md`, `findings/B-DATASET-CLASS-DIVERGENCE.md`, `findings/C-EV-BASIS-BRIDGE.md`; guarded by `frontend/server/investment/cli/rivHeadRevalidation.test.ts` (11 tests), `iips-platform/tests/investment/assessment-valuation.test.ts` and `iips-platform/scripts/riv-head-revalidation.ts`. Work-item record: `docs/integration/IIPS_V3_IID_WI13_HEAD_REVALIDATION_2026-11-12.md`. Next free §17.27.
+
+---
+
+## 17.27 `L-042` — Option B: the method label describes the method's arithmetic and names the published equity bridge (2026-11-17; owner decision, contract change, L-014 re-baseline through the authorised layered process, `L-042` resolved)
+
+**What this entry is.** §17.26 recorded `L-042` as a demonstrated, reverted, deliberately uncorrected defect: the
+`EV_EBITDA`/`EV_REVENUE` `basis` label published `"mid-cycle EBITDA 375843333333 × 12 − net debt"` while the
+per-share figure beside it was produced by `equityValueFromEnterprise`, which applies the **whole** bridge
+(`equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV`). Read as the
+equation it appears to be, the label missed Infosys's published `perShareMid` `1133.9484469942438` by exactly
+`minorityInterest / dilutedShares` = **₹0.8323504745930698**. §17.26 recorded why it was not fixed inside WI-13:
+`basis` is valuation output inside the substantive projection, so the string cannot move without moving the
+substantive digest of every EV-publishing assessment — `L-014` C1–C5 and the AC-L14 idempotency contract — and that
+is a coordinated disclosure-contract act, not a validation work item's.
+
+**The decision (Principal, 2026-11-17 — the valuation-contract decision of record).** **Option B is adopted.**
+
+1. `MethodOutput.basis` describes **only the arithmetic performed by the individual valuation method**.
+2. It **must explicitly state that the resulting enterprise value is subject to the published equity bridge**.
+3. The **full equity bridge remains the authoritative description** of the subsequent adjustments.
+4. The **conditional** treatment of minority interest, preference capital and associates/JV must **not** be
+   misrepresented as unconditional method arithmetic.
+
+Option B is narrower than restating the bridge inside the label, and deliberately so. `equityValueFromEnterprise`
+treats those terms conditionally: a term may be `PRESENT`, `NIL_BY_DISCLOSURE`, a named `POLICY_ZERO`, or
+unavailable — and when a mandatory term is unavailable the conversion **refuses** and withholds the per-share
+figure. Writing them into a method label as a fixed equation would replace the old under-statement with a new
+misstatement. A method with no enterprise-value step carries no bridge clause at all.
+
+**The contract change, exactly.** One shared constant and one shared builder in
+`iips-platform/src/investment/assessment/methods.ts`; no other method's label is touched.
+
+```
+EQUITY_BRIDGE_BASIS_REFERENCE =
+  "that enterprise value is subject to the published equity bridge
+   (fundamentals.capitalStructure.equityBridge), whose terms are conditional on the filed capital structure"
+
+enterpriseValueBasis(base, multiple) = `${base} × ${multiple} = enterprise value; ${EQUITY_BRIDGE_BASIS_REFERENCE}`
+```
+
+| Method | Before (byte-identical since WI-13) | After |
+|---|---|---|
+| `EV_EBITDA` | `mid-cycle EBITDA 375843333333 × 12 − net debt` | `mid-cycle EBITDA 375843333333 × 12 = enterprise value; that enterprise value is subject to the published equity bridge (fundamentals.capitalStructure.equityBridge), whose terms are conditional on the filed capital structure` |
+| `EV_REVENUE` | `revenue <base> × <multiple> − net debt` | `revenue <base> × <multiple> = enterprise value; that enterprise value is subject to the published equity bridge (fundamentals.capitalStructure.equityBridge), whose terms are conditional on the filed capital structure` |
+
+`DCF_FCFF`, `RESIDUAL_INCOME`, `PE_RELATIVE`, `PB_RELATIVE` and `DIVIDEND_DISCOUNT` labels are **unchanged** — their
+arithmetic already ends where it ends and none of them performs an enterprise-to-equity step.
+
+**What did NOT change.** `equityValueFromEnterprise`, `perShare`, the capital-structure block, `equityBridge`
+(including its `formula`, `treatment`, `policyVersion` and note), every published number (enterprise value, equity
+value, per-share low/mid/high, intrinsic triad `875.34 / 1088.97 / 1399.81`, margin of safety
+`−0.08418738213693565`, band `FAIR`, confidence `0.4378`), every `limitations` sentence, the O-9 member inventory,
+the projection, the exclusion list, the canonicalisation and the hash. No member was added, removed or renamed:
+this is a rewording of one existing string, and the payload's shape is untouched (which is why no inventory
+declaration or grammar version changes).
+
+**Surfaces updated to implement the decision consistently.**
+
+- `iips-platform/src/investment/assessment/methods.ts` — the shared constant, builder and both labels; the WI-13
+  "DEFECT C — OPEN" comments are replaced by the Option B contract.
+- `iips-platform/src/investment/assessment/types.ts` — `MethodOutput.basis` now documents the contract: the label is
+  scoped to the method, names the published bridge, and does not write the bridge's conditional terms as method
+  arithmetic.
+- `frontend/src/api/investment.ts` — the client DTO member carries the same `L-042`/Option B statement, so a
+  presentation consumer reading `output.basis` is told what the field is and is not. (The field is not rendered by
+  `CompanyAssessmentPage`; no rendering change was needed, and none was made.)
+- `iips-platform/scripts/riv-head-revalidation.ts` — the published status line now reports defect C **RESOLVED** under
+  Option B and names §17.27; the persisted-vs-fresh comparison gains the documented two-step reconstruction below.
+- `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/README.md` — a dated addendum records the resolution and
+  the one regenerated derived file. `findings/C-EV-BASIS-BRIDGE.md` is **not** edited: it is the record of what was
+  observed on 2026-11-12, and its digest is pinned.
+
+**Substantive identity impact (measured, not inferred).** Because `basis` is inside the substantive projection
+(E-2: a consumer reads it as semantics; it is not clock-derived and cannot be excluded), the substantive digest of
+every assessment that publishes an enterprise-value method moves. On the `L-014` vectors, with the M1 fixture:
+
+| Vector | Value before §17.27 (post-IX, `POST_IX`) | Value after §17.27 (`POST_L042`) |
+|---|---|---|
+| C1 (baseline M1) | `c010909145475703b5cf2b2bf8495fb18c8427a6ab2969beb69bc4a0705a6dab` | `960bf5d2d03fac4e459c8dde2a6c07611011a7ec3eb6e54b9e7c30bd1eda9925` |
+| C4 (earlier clock, inside window) | `6d1838e4392baa98617cd57ef4071ed081dc18a4e9570678e3b6d76f1ec4bb00` | `f32a3b8b211e57a5a03a7a89d014b61a2bc9ee686f49fbe10cfbcca3aa145d1b` |
+| C5 (dataset v2) | `abe6c02fbd56361648b7dd384873de97058ce1bd399b6c3dd8f73a32dd825a06` | `d5079d589eed42598960afcbacf69fb39402d47f2fce0a799fe23caef50cc435` |
+| disposition | `85a64c7d665868adf49adfca02e138059bb3685741aec3061df61060a909e5a5` | **unchanged** |
+| clock-free input digests (`C1`, `v2`) | `bea2c9b8…`, `e2f4af33…` | **unchanged** |
+
+The disposition digest does not move: it renders confidence and the cited substantive digest, not method labels.
+The input digests do not move: the engine consumes no new input.
+
+**The `L-014` re-baseline, through the existing authorised process — nothing is reinterpreted.** The repository's
+identity discipline is layered reconstruction: a new layer is added as constants, and the **previous** layer's
+digest must be reproduced **from the live payload** by an explicit inverse, so "the payload changed" is provably
+distinct from "the rules changed". That is what was done, and only that:
+
+- `frontend/server/investment/substantive-identity.test.ts` gains `POST_L042` (C1/C4/C5/disposition above) and
+  `undoL042Basis(payload)`, which **restores** the recorded labels from the payload's own published assumptions
+  (`midCycleEbitda`/`revenue` × `targetMultiple − net debt`) rather than editing text by hand.
+- `undoL042Basis(live)` reproduces `POST_IX` byte for byte; `undoIX(undoL042Basis(live))` reproduces
+  `POST_DISCLOSURE`; `undoDisclosure(undoIX(undoL042Basis(live)))` reproduces `CURRENT`; and
+  `preD3(undoDisclosure(undoIX(undoL042Basis(live))))` reproduces the decision's own published
+  `08ea8d4a… / fd9589e4… / 34240407…`. `REFERENCE`, `CURRENT`, `POST_DISCLOSURE` and `POST_IX` are **unchanged
+  constants**, kept as published; nothing was deleted, skipped or weakened. The changed-path assertion in the
+  disclosure test now permits exactly one extra restored channel, `valuation.methods[i].output.basis`, and fails on
+  anything else.
+- `frontend/server/investment/ac-l14.test.ts` `REF` is re-baselined to the same C1/C4/C5 values; its disposition
+  constant is unchanged. The AC-L14 criteria themselves are untouched.
+- The identity tests that assert "rewording the label alone mints a version" and "the input identity does not move"
+  are **added**, so the next silent label edit fails rather than ageing.
+
+**Authority for the re-baseline.** This is the Principal's valuation-contract decision, recorded here by this
+instruction; the register's own rule 3 is satisfied: (a) an implementation that addresses the entry, (b) acceptance
+tests that fail if it regresses, (c) evidence pointers below. No authority beyond this decision was required, and
+none is claimed: the projection, the exclusion rule (`E-1`/`E-2`/`E-3`), the grammar ids and the hash are unchanged,
+so this is a **payload** evolution, not a new identity grammar.
+
+**Other digest surfaces that moved, and only these.**
+
+| Artifact | Before | After | Why |
+|---|---|---|---|
+| IX closure artifact `structuralDigestV1` | `f2329b50…` | `22acb05d…` | the IX package is a living reproduction of the current engine over committed WI-3 inputs |
+| IX closure artifact `structuralDigestV2` | `22b33b92…` | `1adcc3fe…` | same, on the schema-demonstration V2 dataset |
+| RIV `verification/independent-recomputation.json` — `analysisLayerDigest` | `d78d7c72…` | `ced93062…` | sha256 over the fresh analysis payload, which now carries the Option B label |
+
+The IX artifact was regenerated by its own generator and reproduces exactly
+(`iips-platform/tests/investment/ixAuthorizedPolicy.test.ts`, 11/11). Its `L-034` arithmetic, caps, review control
+and intrinsic invariants are unchanged. The RIV head payload (`18f5ccb6…`, 55,573 B), the WI-3 payload
+(`83644bc6…`), the 14-path attributed diff, the mapping census and the `L-041` observation are **byte-identical to
+what WI-13 recorded**; only the derived file's own hash and `analysisLayerDigest` moved, and `digests.json` was
+updated for that file alone.
+
+**Regression evidence.**
+
+- `iips-platform` `tsc --noEmit`: **0 errors**. `npm run test:iid`: **1452/1452** across 302 suites (pre-change
+  baseline in this sandbox: 1450/1450).
+  - `assessment-valuation.test.ts` — four assertions of the contract: the label is `"<base> × <multiple> = enterprise
+    value; "` + the bridge reference; it names `fundamentals.capitalStructure.equityBridge` and "conditional on the
+    filed capital structure"; it does **not** contain `− net debt`, `minorityInterest`, `preferenceCapital` or
+    `associatesAndJV`; a non-EV method carries no bridge clause; the shared builder is what both EV methods publish;
+    the full bridge formula is still published; and the published per-share figure is still the **full** bridge.
+  - `assessment-capital.test.ts` — with a ₹40 crore minority interest and ₹20 crore preference capital seeded, the
+    published per-share figure is the full bridge and the old label-as-equation reading differs by more than ₹1/share.
+- `iips-platform/tests/investment/ixAuthorizedPolicy.test.ts`: **11/11** (the regenerated IX package reproduces).
+- `frontend/server/investment/substantive-identity.test.ts`: **41/41**, including the new `L-042` block and every
+  earlier layer reproduced from the live payload.
+- `frontend/server/investment/cli/rivHeadRevalidation.test.ts`: **12/12**, including the byte-identical regeneration
+  of the three RIV artifacts and the register assertion below.
+- **Executed-environment limitation (recorded, not hidden).** In this sandbox the private dependency
+  `iips-np04-governed-persistence` (GitHub `ramkivs/iips-production-market-data`) is not fetchable — the credential
+  returns 403 — so the suites that load the governed store cannot be executed here. That includes
+  `frontend/server/investment/ac-l14.test.ts`, whose `REF` constants were re-baselined to values computed with the
+  same functions, fixture and clocks it uses (`M1_NOW = 2026-11-06T00:00:00.000Z`; C4 `2026-04-10T00:00:00.000Z`).
+  CI, where the dependency resolves, must execute the AC-L14 suite; the constants are already the values it will
+  compute, and no AC-L14 criterion was edited.
+
+**Evidence pointers.** §17.26 (the recorded defect), `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/`
+(`findings/C-EV-BASIS-BRIDGE.md` for the demonstration; `README.md` addendum for the one regenerated file),
+`evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/artifact/authorized-policy-evidence.json`,
+`iips-platform/src/investment/assessment/methods.ts` (`EQUITY_BRIDGE_BASIS_REFERENCE`,
+`enterpriseValueBasis`), `iips-platform/tests/investment/assessment-valuation.test.ts`,
+`iips-platform/tests/investment/assessment-capital.test.ts`,
+`frontend/server/investment/substantive-identity.test.ts`, `frontend/server/investment/ac-l14.test.ts`,
+`frontend/server/investment/cli/rivHeadRevalidation.test.ts`,
+`iips-platform/scripts/riv-head-revalidation.ts`, `iips-platform/scripts/ix-authorized-policy.ts`.
+
+**Statuses after §17.27.** **`L-042` → `RESOLVED`** — implementation, regression tests and the required `L-014`
+identity validation are recorded above, and the acceptance tests fail if the label or the bridge reference regresses.
+This is the register act that changes the status: the §17.26 row is **preserved byte for byte** as the record of what
+was true at WI-13, and its `OPEN` status is not edited — **nothing in §17.26 is edited**, and no earlier section is
+touched. **`L-041` remains `OPEN`** and is not adjudicated, reclassified or reopened here; `L-002`/`L-003` stay
+`OPEN`; `L-034`/`L-035`/`L-040` stay `RESOLVED`; `L-036`/`L-037` stay `PARTIALLY RESOLVED`; `L-038`/`L-039` stay
+`OPEN`; `L-001` … `L-040` are otherwise untouched. No D-2 policy, IX policy, valuation formula, capital-structure
+rule, W05 or source-rights decision, or WI-11 same-instant safeguard was changed, and no underlying valuation
+arithmetic was altered.
+
+**Numbering note.** §17.26 closed with "Next free §17.27". No §17.28 exists at this head (verified by search); this
+entry therefore consumes §17.27 and leaves §17.28 free. Nothing was inserted between §17.26 and this section, and no
+section number was renumbered.
+
+**Boundaries confirmed.** IRR repository only; no IPD change; `L-041` not reopened; W05 and source-rights decisions
+untouched; `main` not modified and no PR merged; valuation arithmetic unchanged; no authority beyond the recorded
+decision exercised.

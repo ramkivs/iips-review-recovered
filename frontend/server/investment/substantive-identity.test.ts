@@ -252,10 +252,41 @@ function undoIX(payload: Record<string, any>): Record<string, any> {
   ) as Record<string, any>;
 }
 
+/**
+ * Undo the **`L-042` Option B** layer, leaving the post-IX payload shape.
+ *
+ * This is the narrowest evolution in the chain: a STRING inside valuation output. `EV_EBITDA` and `EV_REVENUE`
+ * stopped publishing "… × multiple − net debt" — a label that named one bridge term and, read as an equation,
+ * missed the published per-share figure by `minorityInterest / dilutedShares` — and now publish the method's own
+ * arithmetic (`base × multiple = enterprise value`) plus an explicit pointer to the published equity bridge.
+ *
+ * No number, member, note or formula moved. But `basis` is valuation output, which is inside the projection by
+ * E-2 (a consumer reads it as semantics), so the substantive digests of assessments that publish an EV method had
+ * to move. The reconstruction RESTORES the earlier strings from the payload's own published assumptions instead of
+ * editing text by hand: the pre-change labels were deterministic functions of `midCycleEbitda`/`revenue` and
+ * `targetMultiple`, so the older digest is reproduced from the newer payload exactly as the D-3, VII and IX layers
+ * are — which is what proves the projection, the exclusion list, the canonicalisation and the hash did not move.
+ */
+function undoL042Basis(payload: Record<string, any>): Record<string, any> {
+  const copy = JSON.parse(JSON.stringify(payload)) as Record<string, any>;
+  const methods = (copy.valuation?.methods ?? []) as Record<string, any>[];
+  for (const method of methods) {
+    if (method.output === null || method.output === undefined) continue;
+    const assumptions = method.assumptions as Record<string, number | string>;
+    if (method.methodId === 'EV_EBITDA') {
+      method.output.basis = `mid-cycle EBITDA ${assumptions.midCycleEbitda} × ${assumptions.targetMultiple} − net debt`;
+    }
+    if (method.methodId === 'EV_REVENUE') {
+      method.output.basis = `revenue ${assumptions.revenue} × ${assumptions.targetMultiple} − net debt`;
+    }
+  }
+  return copy;
+}
+
 describe('D-3 — stored history is not reinterpreted by the new risk block', () => {
   it('still reproduces the decision\'s published digests for the payload shape they measured', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(assessment))))).toBe(REFERENCE.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(assessmentV2))))).toBe(REFERENCE.assessmentV2);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(undoL042Basis(assessment)))))).toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(undoL042Basis(assessmentV2)))))).toBe(REFERENCE.assessmentV2);
     const c4 = assessmentPayloadOf(
       assembleAssessment({
         identityDir: env.identityDir,
@@ -263,14 +294,14 @@ describe('D-3 — stored history is not reinterpreted by the new risk block', ()
         generatedAt: '2026-04-10T00:00:00.000Z',
       }) as never,
     ) as Record<string, any>;
-    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(c4))))).toBe(REFERENCE.assessmentInsideWindow);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(undoL042Basis(c4)))))).toBe(REFERENCE.assessmentInsideWindow);
   });
 
   it('digests a post-D-3 payload differently, because it publishes a semantic member it did not have', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessment)))).toBe(CURRENT.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessment)))).not.toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessment))))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessment))))).not.toBe(REFERENCE.assessment);
     expect(assessmentSubstantiveInputDigest(assessment)).toBe(REFERENCE.assessmentInput);
-    expect(substantiveDigestOfPayload(DISPOSITION, disposition)).toBe(POST_IX.disposition);
+    expect(substantiveDigestOfPayload(DISPOSITION, disposition)).toBe(POST_L042.disposition);
   });
 });
 
@@ -307,10 +338,29 @@ const POST_IX = Object.freeze({
   disposition: '85a64c7d665868adf49adfca02e138059bb3685741aec3061df61060a909e5a5',
 });
 
+/**
+ * `L-042` (Option B) moved the payload once more, and it is the narrowest move in the chain: a STRING inside
+ * valuation output. The label no longer restates the bridge as "− net debt"; it states the method's arithmetic and
+ * points at the published, conditional equity bridge. Every number — enterprise value, equity value, per share,
+ * intrinsic, margin of safety, confidence — is byte-identical, and the clock-free input digests are untouched.
+ * Only assessments that publish an enterprise-value method move, and only in that string.
+ *
+ * The disposition digest does not move: it renders confidence and the cited substantive digest, not the method
+ * labels. `REFERENCE`, `CURRENT`, `POST_DISCLOSURE` and `POST_IX` stay exactly as published, and
+ * `undoL042Basis(…)` reproduces each of them from the live payload — the layered proof the L-014 decision requires
+ * of any payload evolution.
+ */
+const POST_L042 = Object.freeze({
+  C1: '960bf5d2d03fac4e459c8dde2a6c07611011a7ec3eb6e54b9e7c30bd1eda9925',
+  C4: 'f32a3b8b211e57a5a03a7a89d014b61a2bc9ee686f49fbe10cfbcca3aa145d1b',
+  C5: 'd5079d589eed42598960afcbacf69fb39402d47f2fce0a799fe23caef50cc435',
+  disposition: '85a64c7d665868adf49adfca02e138059bb3685741aec3061df61060a909e5a5',
+});
+
 describe('IX — the authorized policy is a payload evolution on top of a MODEL change', () => {
-  it('digests the live payloads at the post-IX values, and only because the arithmetic changed', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(POST_IX.C1);
-    expect(substantiveDigestOfPayload(ASSESSMENT, assessmentV2)).toBe(POST_IX.C5);
+  it('digests the live payloads at the current layer, and only because the arithmetic changed', () => {
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(POST_L042.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessmentV2)).toBe(POST_L042.C5);
     const c4 = assessmentPayloadOf(
       assembleAssessment({
         identityDir: env.identityDir,
@@ -318,28 +368,28 @@ describe('IX — the authorized policy is a payload evolution on top of a MODEL 
         generatedAt: '2026-04-10T00:00:00.000Z',
       }) as never,
     ) as Record<string, any>;
-    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(POST_IX.C4);
+    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(POST_L042.C4);
     expect(POST_IX.C1).not.toBe(POST_DISCLOSURE.C1);
     // The engine takes no new input: the clock-free input identity is where VIII left it.
     expect(assessmentSubstantiveInputDigest(assessment)).toBe(REFERENCE.assessmentInput);
   });
 
   it('reconstructs each earlier layer from the live payload, so the rules still provably did not move', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(assessment))).toBe(POST_DISCLOSURE.C1);
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessment)))).toBe(CURRENT.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(assessment))))).toBe(REFERENCE.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(undoL042Basis(assessment)))).toBe(POST_DISCLOSURE.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessment))))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, preD3(undoDisclosure(undoIX(undoL042Basis(assessment)))))).toBe(REFERENCE.assessment);
   });
 
   it('publishes the review control and the penalty as semantic members inside identity', () => {
     expect(() => assertPayloadInventory(ASSESSMENT, assessment)).not.toThrow();
     const withoutReview = clone(assessment);
     delete withoutReview.fundamentals.capitalStructure.associatesJVReview;
-    expect(substantiveDigestOfPayload(ASSESSMENT, withoutReview)).not.toBe(POST_IX.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, withoutReview)).not.toBe(POST_L042.C1);
 
     const withoutRate = clone(assessment);
     if (withoutRate.confidence.assumptionCaps[0] !== undefined) {
       delete withoutRate.confidence.assumptionCaps[0].penaltyRate;
-      expect(substantiveDigestOfPayload(ASSESSMENT, withoutRate)).not.toBe(POST_IX.C1);
+      expect(substantiveDigestOfPayload(ASSESSMENT, withoutRate)).not.toBe(POST_L042.C1);
     }
   });
 });
@@ -347,7 +397,7 @@ describe('IX — the authorized policy is a payload evolution on top of a MODEL 
 describe('L-034/L-036 — the disclosure is a payload evolution, not a reinterpretation', () => {
   it('reconstructs the pre-disclosure payload exactly, so the rules provably did not move', () => {
     // The reconstruction must remove exactly the disclosed channels and nothing else.
-    const changed = changedPaths(assessment, undoDisclosure(undoIX(assessment)));
+    const changed = changedPaths(assessment, undoDisclosure(undoIX(undoL042Basis(assessment))));
     // The reconstruction removes both layers' channels: VII's disclosure and IX's policy contract. Anything else
     // would mean the rules moved, which is exactly what this test exists to disprove.
     const disclosed = [
@@ -360,18 +410,21 @@ describe('L-034/L-036 — the disclosure is a payload evolution, not a reinterpr
       'limitations',
     ];
     expect(changed).toEqual(expect.arrayContaining(disclosed));
+    // `L-042` adds one more restored channel to this reconstruction: the two enterprise-value `basis` labels.
     for (const path of changed) {
       expect(
-        disclosed.includes(path) || /^valuation\.methods\[\d+\]\.output\.perShare(Mid|Low|High)\.note$/.test(path),
+        disclosed.includes(path) ||
+          /^valuation\.methods\[\d+\]\.output\.perShare(Mid|Low|High)\.note$/.test(path) ||
+          /^valuation\.methods\[\d+\]\.output\.basis$/.test(path),
       ).toBe(true);
     }
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessment)))).toBe(CURRENT.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessmentV2)))).toBe(CURRENT.assessmentV2);
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessment)))).not.toBe(POST_DISCLOSURE.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessment))))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessmentV2))))).toBe(CURRENT.assessmentV2);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessment))))).not.toBe(POST_DISCLOSURE.C1);
   });
 
   it('digests the post-disclosure payload at the new values, and only because it says something new', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(assessment))).toBe(POST_DISCLOSURE.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(undoL042Basis(assessment)))).toBe(POST_DISCLOSURE.C1);
     const c4 = assessmentPayloadOf(
       assembleAssessment({
         identityDir: env.identityDir,
@@ -379,8 +432,8 @@ describe('L-034/L-036 — the disclosure is a payload evolution, not a reinterpr
         generatedAt: '2026-04-10T00:00:00.000Z',
       }) as never,
     ) as Record<string, any>;
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(c4))).toBe(POST_DISCLOSURE.C4);
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(assessmentV2))).toBe(POST_DISCLOSURE.C5);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(undoL042Basis(c4)))).toBe(POST_DISCLOSURE.C4);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(undoL042Basis(assessmentV2)))).toBe(POST_DISCLOSURE.C5);
     expect(POST_DISCLOSURE.C1).not.toBe(CURRENT.assessment);
   });
 
@@ -392,15 +445,15 @@ describe('L-034/L-036 — the disclosure is a payload evolution, not a reinterpr
   it('puts both new members INSIDE identity, as E-2 requires of a semantic member', () => {
     const withoutCaps = clone(assessment);
     delete withoutCaps.confidence.assumptionCaps;
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(withoutCaps))).not.toBe(POST_DISCLOSURE.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(undoL042Basis(withoutCaps)))).not.toBe(POST_DISCLOSURE.C1);
 
     const withoutBridge = clone(assessment);
     delete withoutBridge.fundamentals.capitalStructure.equityBridge;
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(withoutBridge))).not.toBe(POST_DISCLOSURE.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(undoL042Basis(withoutBridge)))).not.toBe(POST_DISCLOSURE.C1);
 
     const differentTreatment = clone(assessment);
     differentTreatment.fundamentals.capitalStructure.equityBridge.treatment = 'CARRYING_VALUE_REPORTED';
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(differentTreatment))).not.toBe(POST_DISCLOSURE.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoIX(undoL042Basis(differentTreatment)))).not.toBe(POST_DISCLOSURE.C1);
   });
 
   it('passes the O-9 inventory with the disclosed members declared, and still refuses an undeclared one', () => {
@@ -412,19 +465,90 @@ describe('L-034/L-036 — the disclosure is a payload evolution, not a reinterpr
 
   it('does not treat the disclosure as a metadata-only re-run: it mints a version', () => {
     // The disclosure is content, so two runs that differ only by it are SUBSTANTIVE, not CLOCK_ONLY.
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessment)))).not.toBe(
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessment))))).not.toBe(
       substantiveDigestOfPayload(ASSESSMENT, assessment),
     );
   });
 });
 
+
+describe('L-042 (Option B) — the method label describes method arithmetic and names the published bridge', () => {
+  it('digests the live payload at the post-L-042 values, and only because the label says something new', () => {
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessment)).toBe(POST_L042.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, assessmentV2)).toBe(POST_L042.C5);
+    const c4 = assessmentPayloadOf(
+      assembleAssessment({
+        identityDir: env.identityDir,
+        datasetDir: env.datasetV1Dir,
+        generatedAt: '2026-04-10T00:00:00.000Z',
+      }) as never,
+    ) as Record<string, any>;
+    expect(substantiveDigestOfPayload(ASSESSMENT, c4)).toBe(POST_L042.C4);
+    // It is a real move, not a re-spelling of the same digest.
+    expect(POST_L042.C1).not.toBe(POST_IX.C1);
+  });
+
+  it('reconstructs the post-IX payload byte for byte, so ONLY the label moved', () => {
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoL042Basis(assessment))).toBe(POST_IX.C1);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoL042Basis(assessmentV2))).toBe(POST_IX.C5);
+    const c4 = assessmentPayloadOf(
+      assembleAssessment({
+        identityDir: env.identityDir,
+        datasetDir: env.datasetV1Dir,
+        generatedAt: '2026-04-10T00:00:00.000Z',
+      }) as never,
+    ) as Record<string, any>;
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoL042Basis(c4))).toBe(POST_IX.C4);
+
+    // The reconstruction touches the enterprise-value labels and nothing else. If a future change widens it, this
+    // fails — which is the point: a payload evolution must stay describable.
+    const changed = changedPaths(assessment, undoL042Basis(assessment));
+    expect(changed.length).toBeGreaterThan(0);
+    for (const path of changed) {
+      expect(/^valuation\.methods\[\d+\]\.output\.basis$/.test(path), path).toBe(true);
+    }
+  });
+
+  it('publishes the Option B contract in the payload the digests are taken over', () => {
+    const methods = assessment.valuation.methods as Record<string, any>[];
+    const ev = methods.find((method) => method.methodId === 'EV_EBITDA');
+    expect(ev).toBeDefined();
+    // The label is the method's arithmetic, then an explicit pointer to the bridge — never "− net debt".
+    expect(String(ev!.output.basis)).toMatch(/= enterprise value; .*published equity bridge/);
+    expect(String(ev!.output.basis)).not.toMatch(/−\s*net debt/);
+    // The bridge remains the authoritative, complete and conditional description of the step that follows.
+    expect(assessment.fundamentals.capitalStructure.equityBridge.formula).toBe(
+      'equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV',
+    );
+    expect(['CARRYING_VALUE_REPORTED', 'DECLARED_NIL', 'POLICY_ZERO_UNAVAILABLE']).toContain(
+      assessment.fundamentals.capitalStructure.equityBridge.treatment,
+    );
+  });
+
+  it('keeps the label inside identity: rewording it alone mints a version', () => {
+    const relabelled = clone(assessment);
+    const ev = (relabelled.valuation.methods as Record<string, any>[]).find((method) => method.methodId === 'EV_EBITDA')!;
+    ev.output.basis = `mid-cycle EBITDA ${ev.assumptions.midCycleEbitda} × ${ev.assumptions.targetMultiple} − net debt`;
+    expect(substantiveDigestOfPayload(ASSESSMENT, relabelled)).not.toBe(POST_L042.C1);
+  });
+
+  it('does not move the numbers: the disposition and the clock-free input digests are unchanged', () => {
+    // The disposition renders confidence and the cited substantive digest, not the method labels.
+    expect(substantiveDigestOfPayload(DISPOSITION, disposition)).toBe(POST_L042.disposition);
+    expect(POST_L042.disposition).toBe(POST_IX.disposition);
+    // The engine takes no new input and publishes no new value: only a string it already published.
+    expect(assessmentSubstantiveInputDigest(assessment)).toBe(REFERENCE.assessmentInput);
+    expect(assessmentSubstantiveInputDigest(assessmentV2)).toBe(REFERENCE.assessmentInputV2);
+  });
+});
+
 describe('O-1 — the published reference digests are reproduced exactly', () => {
   it('reproduces C1 for the baseline M1 assessment', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessment)))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessment))))).toBe(CURRENT.assessment);
   });
 
   it('reproduces C1 from the canonical payload TEXT, so object and stored bytes agree', () => {
-    const canonical = canonicalizePayload(undoDisclosure(undoIX(assessment)));
+    const canonical = canonicalizePayload(undoDisclosure(undoIX(undoL042Basis(assessment))));
     expect(substantiveDigestOfCanonical(ASSESSMENT, canonical)).toBe(CURRENT.assessment);
   });
 
@@ -435,8 +559,8 @@ describe('O-1 — the published reference digests are reproduced exactly', () =>
       ) as Record<string, any>;
     const c2 = build('2026-11-06T06:30:00.000Z');
     const c3 = build('2026-11-07T00:00:00.000Z');
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(c2)))).toBe(CURRENT.assessment);
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(c3)))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(c2))))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(c3))))).toBe(CURRENT.assessment);
     // C3 moved `stalenessDays` (220 → 221) and the identity binding reference, and still did not move identity.
     expect(c3.asOf.stalenessDays).not.toBe(assessment.asOf.stalenessDays);
   });
@@ -450,12 +574,12 @@ describe('O-1 — the published reference digests are reproduced exactly', () =>
       }) as never,
     ) as Record<string, any>;
     expect(c4.asOf.staleBeyondPolicy).toBe(false);
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(c4)))).toBe(CURRENT.assessmentInsideWindow);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(c4))))).toBe(CURRENT.assessmentInsideWindow);
     expect(CURRENT.assessmentInsideWindow).not.toBe(CURRENT.assessment);
   });
 
   it('reproduces C5 — a different dataset does move the digest', () => {
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(assessmentV2)))).toBe(CURRENT.assessmentV2);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(assessmentV2))))).toBe(CURRENT.assessmentV2);
   });
 
   it('records the clock-free input digests', () => {
@@ -510,7 +634,7 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
     shifted.asOf.generatedAt = '2030-01-01T00:00:00.000Z';
     shifted.asOf.stalenessDays = 9999;
     shifted.subject.identity.bindingRef = 'a-different-binding-reference';
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(shifted)))).toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(shifted))))).toBe(CURRENT.assessment);
     // ...while the byte identity does move. The two identities are different questions.
     expect(sha(canonicalizePayload(shifted))).not.toBe(sha(canonicalizePayload(assessment)));
   });
@@ -518,7 +642,7 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
   it('keeps staleBeyondPolicy, so crossing the freshness window is a substantive change', () => {
     const fresh = clone(assessment);
     fresh.asOf.staleBeyondPolicy = !assessment.asOf.staleBeyondPolicy;
-    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(fresh)))).not.toBe(CURRENT.assessment);
+    expect(substantiveDigestOfPayload(ASSESSMENT, undoDisclosure(undoIX(undoL042Basis(fresh))))).not.toBe(CURRENT.assessment);
   });
 
   it('keeps knownAsOf: learning something later is a substantive difference, not clock metadata', () => {
@@ -531,11 +655,11 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
     const shifted = clone(disposition);
     shifted.artifact.generatedAt = '2030-01-01T00:00:00.000Z';
     shifted.companyAssessmentRef.generatedAt = '2030-01-01T00:00:00.000Z';
-    expect(substantiveDigestOfPayload(DISPOSITION, shifted)).toBe(POST_IX.disposition);
+    expect(substantiveDigestOfPayload(DISPOSITION, shifted)).toBe(POST_L042.disposition);
 
     const versioned = clone(disposition);
     versioned.companyAssessmentRef.artifactVersion += 1;
-    expect(substantiveDigestOfPayload(DISPOSITION, versioned)).not.toBe(POST_IX.disposition);
+    expect(substantiveDigestOfPayload(DISPOSITION, versioned)).not.toBe(POST_L042.disposition);
   });
 
   it('excludes a non-null nextReviewOn (clock-derived) while retaining a null, as §3.4 specifies', () => {
@@ -559,7 +683,7 @@ describe('the clock is outside identity — but a freshness TRANSITION inside it
     expect(substantiveDigestOfPayload(DISPOSITION, withNull)).not.toBe(
       substantiveDigestOfPayload(DISPOSITION, withoutMember),
     );
-    expect(substantiveDigestOfPayload(DISPOSITION, withNull)).toBe(POST_IX.disposition);
+    expect(substantiveDigestOfPayload(DISPOSITION, withNull)).toBe(POST_L042.disposition);
   });
 
   it('refuses a payload that is not an object, rather than digesting a non-payload', () => {

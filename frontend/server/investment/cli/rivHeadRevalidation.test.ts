@@ -243,15 +243,25 @@ describe('RIV — L-041: the recorded disagreement is kept, and it no longer rep
     expect(divergence.whyNotCorrectedHere).toContain('contract decision');
   });
 
-  it('the register still lists L-041 and L-042 as OPEN: closing either is its owner’s decision', () => {
+  it('keeps the recorded L-041/L-042 rows and records L-042’s resolution only in the appended section', () => {
     const register = text(resolve(process.cwd(), '../docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md'));
+    const rowsOf = (id: string): string[] =>
+      register.split('\n').filter((line) => line.startsWith(`| \`${id}\` |`));
     const statusOf = (id: string): string => {
-      const rows = register.split('\n').filter((line) => line.startsWith(`| \`${id}\` |`));
+      const rows = rowsOf(id);
       expect(rows.length, `${id} has exactly one register row`).toBe(1);
       const cells = rows[0]!.split('|').map((cell) => cell.trim());
       return cells[cells.length - 2]!;
     };
+    // §17.26 is append-only and is preserved byte for byte, including the status it recorded THEN.
     expect(statusOf('L-041')).toBe('OPEN (contract decision: read-model owner)');
     expect(statusOf('L-042')).toBe('OPEN (contract decision: register owner + identity-contract owner)');
+    // The register's own rule is that a status improves where an append-only register records it: the newest
+    // section. The earlier row is evidence of what was true at WI-13, not a live status field to edit.
+    const appended = register.slice(register.indexOf('## 17.27'));
+    expect(appended.length, 'the L-042 decision section is appended, not substituted for §17.26').toBeGreaterThan(0);
+    expect(appended).toContain('`L-042` → `RESOLVED`');
+    expect(appended).toContain('Option B');
+    expect(appended).toContain('nothing in §17.26 is edited');
   });
 });
