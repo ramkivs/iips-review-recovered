@@ -22910,3 +22910,58 @@ pull request and remote read-back cannot be part of the commit that carries it a
 separately.
 
 Next free §16.289 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
+
+## 16.289 Snapshot-to-Live W05 — publication receipts: PR #575 (IID S4-R1 second pass) and PR #576 (W05 record read-back) are merged to `main`; PR #562 is closed, not merged; W05 not complete (2026-11-17)
+
+**IRR-only receipt. It changes this tracker and nothing else: no code, test, record, evidence file or
+dataset. No IPD act, no IPD change, no host step.** It consumes no CV-CORR / CHG / V identifier and adds
+no work item, owner, dependency, authorization or approval. It records the publication and merge of the
+two pull requests that followed `§16.288`, and the state of PR #562. `§16.288` and every earlier section
+are left as written. **W05 is in progress, not complete and not accepted.** `L-041` and `L-042` are
+`OPEN`.
+
+**Receipts, both read back for this section.** Read from GitHub and from a full clone on 2026-11-17 from
+09:19 UTC. `main` was `75e8195b1e9f40379a15834bc4754ea0d8f28fcf` throughout.
+
+| Reference | Read back on `2026-11-17` |
+|---|---|
+| IRR PR #575, merge `75e8195b1e9f40379a15834bc4754ea0d8f28fcf` | Title "IID S4-R1 second pass (0f9b9ae): the one IID commit that PR #574 did not carry". Opened `2026-11-17T09:00:17Z`; merged `2026-11-17T09:04:43Z` by `ramkivs` as a merge commit; parents `db710552d5ce76a86b4bf8dae91bd527d1b8ba6d` (`main`) and `d819b6e5a771a50ed2adc8ed6ecccc7b80798206` (branch `w05/iid-s4-r1-second-pass-follow-up-2026-11-17`). Purpose: to bring IID commit `0f9b9ae47769976e6ee60d7c245870da5802a255` to `main`. Its subject is "IID S4-R1 (second pass): close §23 scenarios 1 and 9, correct 5 and 10 to IPD-owned". Branch `arena/53ff9276-iips-review-recovered` gained it after the branch of PR #574 was built, so PR #574 did not carry it. The branch head merges that commit into `main` `735770dfd30d6806fc97e348417da568b6b0ed33`; it is not a cherry-pick, so the commit itself is on `main`. Five files, +1,403 −47: three IID Stage 4 records and two test files; no production source. `CI` (`Typecheck · Test · Build`) succeeded on the pull request, run 44051579468, and on the merge commit, run 44052244225. |
+| IRR PR #576, merge `db710552d5ce76a86b4bf8dae91bd527d1b8ba6d` | Title "W05 record: read-back of PR #574 on main, and a correction about PR #562". Opened `2026-11-17T09:01:05Z`; merged `2026-11-17T09:03:43Z` by `ramkivs` as a merge commit; parents `735770dfd30d6806fc97e348417da568b6b0ed33` (`main`) and `11fb41faad1e7cc25df1cf861f0d1997811601cc` (branch `w05/pr574-read-back-2026-11-17`). Purpose: to add section 8 to the W05 record of `§16.288`, `docs/integration/W05-IID-RECONCILIATION-AND-AUTHORIZATION-REFERENCE-2026-11-17.md`. That section reads PR #574 back on `main` and corrects what the record and `§16.288` say about PR #562. One file, +48. No hosted workflow is triggered by that path, and none ran, on the pull request or on the merge commit. |
+
+**Ancestry, checked before recording.** The two merge commits, the two branch heads `d819b6e5` and
+`11fb41fa`, and the IID commit `0f9b9ae4` are each an ancestor of `main`. Branch
+`arena/53ff9276-iips-review-recovered` is at `0f9b9ae4` and has no commit that `main` lacks. The six
+files that the two pull requests changed have on `main` the blobs of the two branch heads. Section 8.3 of
+the W05 record, which says that `0f9b9ae4` is not on `main`, describes the state before PR #575.
+
+**What the two merges did not change.** From `735770df` to `75e8195b` these are the same Git objects:
+this tracker, `iips-platform/src`, `iips-platform/scripts`, `frontend/src`, everything under `evidence/`,
+the `O3` records of 2026-11-13 and 2026-11-14, `PA-01` and the IID limitation register. No authorization
+was added, widened or re-issued. This section records publication only. It does not assess or change any
+IID finding; the subject line of the IID commit is quoted as written.
+
+**PR #562 is closed, not merged; its changes are on `main`.** These are two separate facts and both hold.
+PR #562 was closed without merging on `2026-11-17T09:05:47Z` by the recording session, on the Principal's
+instruction, after one comment that gives the reason (comment 6943597429). GitHub never marked it merged,
+because its head `f98732e1861ff8b384183c30c11e4d1adbc2dc95` is not an ancestor of `main`; it stayed open
+until it was closed by hand. Its branch `arena/94a53bb3-iips-review-recovered` is kept. The 24 changes it
+holds are on `main` under other commit ids: branch `arena/53ff9276-iips-review-recovered` carries the
+same 24 changes as its commits `1a89d865` to `542e0fe4df84bc2e0dbc262da8ab2aa9ab0c05a7`, and PR #574
+merged them (merge commit `735770dfd30d6806fc97e348417da568b6b0ed33`). Nothing of PR #562 is missing from
+`main`. The comparison is in the W05 record, section 8.2, which reads the pull request as open: it was
+read before the closing. `§16.288` says that PR #562 "holds the first 24 of the 45 commits and will show
+as merged when they are on `main`". Both parts of that sentence are wrong. It is kept as written, and
+this paragraph is its correction in the tracker.
+
+**Validation.** Every commit id above was resolved in a full clone and tested for the ancestry stated.
+Pull-request states, times and run results were read from GitHub. The IRR-only static gate was run
+locally on the tree that carries this section: the validator compiles; the artifact-classification and
+workflow-trigger tests pass; the source, evidence and tracker validation passes; `git diff --check` is
+clean. The release-asset step of that gate needs the hosted runner. No product test was run, because none
+reads this file.
+
+**Publication.** This section is added by one commit on a branch made from `main`
+`75e8195b1e9f40379a15834bc4754ea0d8f28fcf`. Its commit hash, push, pull request and remote read-back
+cannot be part of the commit that carries it and are reported separately.
+
+Next free §16.290 / `CV-CORR-256` / `CHG-2026-11-06-19` / `V2151` (no identifiers consumed).
