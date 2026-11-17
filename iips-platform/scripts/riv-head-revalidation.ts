@@ -886,10 +886,11 @@ function datasetClassAtHead(): Record<string, unknown> {
     };
   });
   // `L-041` was RECORDED as a disagreement on 2026-11-12: the coverage path then used a substring test on
-  // provider and licence text and answered OPERATOR_SUPPLIED. Since the reconciliation with `main` (2026-11-17)
-  // the coverage path answers through `classifyDataset`, so at head the two paths must agree. These manifests
-  // carry no rights declaration, so the answer is UNKNOWN on both. A path that answers anything else has brought
-  // back a second rule, and this refuses.
+  // provider and licence text and answered OPERATOR_SUPPLIED. That rule was removed from the coverage read model
+  // and from its second copy in `identity/coverage.ts` (`552f1c7`, the branch correction behind §17.27), and `main`
+  // carries its own equivalent at `6ae09ac` (`W05-D1`), so at head both paths answer through `classifyDataset`.
+  // These manifests carry no rights declaration, so the answer is UNKNOWN on both. A path that answers anything
+  // else has brought a second rule back, and this refuses.
   require(
     rows.every((row) => row.agree && row.assessmentPathClass === 'UNKNOWN' && row.coveragePathClass === 'UNKNOWN'),
     'L-041: at head both dataset classifier paths must answer UNKNOWN for every committed real-issuer manifest that carries no rights declaration',
@@ -899,9 +900,18 @@ function datasetClassAtHead(): Record<string, unknown> {
     limitation: 'L-041',
     observedAtHead: 'both paths answer UNKNOWN; the disagreement recorded on 2026-11-12 does not reproduce',
     recordedObservation: 'verification/dataset-class-divergence.json — kept as committed, not re-emitted',
+    recordedObservationSha256: RECORDED_L041_SHA256,
+    assessmentRule: 'fundamentals/datasetClass.ts — the declared rights evidence, fail-closed to UNKNOWN',
+    coverageRule:
+      'coverage/investmentCoverage.ts financialClass() and identity/coverage.ts financialClass() — both delegate to classifyDataset(); the substring test on manifest.provider and manifest.licence is gone',
+    registerStatus:
+      'the register records L-041 as RESOLVED (2026-11-17, §17.27), on the register owner\'s act under PA-01\'s collapsed single authority, and L-042 as RESOLVED (2026-11-17, §17.29) under the Option B decision. This script records only that the observation no longer reproduces at head; it neither made nor can make either status change',
     rows,
   };
 }
+
+/** The observation of 2026-11-12, pinned so the historical record cannot be quietly rewritten. */
+const RECORDED_L041_SHA256 = 'ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477';
 
 /* -------------------------------------------------------------------------- main */
 
@@ -992,11 +1002,48 @@ function main(argv: readonly string[]): number {
   });
   require(analysed.violations.length === 0, 'the engine reported invariant violations on the real issuer', analysed.violations);
   const analysisDigest = createHash('sha256').update(JSON.stringify(analysed.payload), 'utf8').digest('hex');
+
+  // `L-042` (Option B, register §17.29) — the authorised label evolution, reconstructed rather than ignored.
+  //
+  // The committed head payload is EVIDENCE: it records what the engine published at head `a835d4a`, when the
+  // EV_EBITDA/EV_REVENUE `basis` read "… × multiple − net debt". It is not rewritten. The engine now publishes the
+  // Option B label ("… = enterprise value; that enterprise value is subject to the published equity bridge …",
+  // whose terms are conditional on the filed capital structure), so a fresh analysis differs from the record in
+  // exactly those strings and nowhere else.
+  //
+  // The check is therefore made in two steps, and narrowed rather than relaxed:
+  //   1. every difference between the fresh analysis and the record must be an enterprise-value `basis` path — any
+  //      other difference is still a refusal, naming the path;
+  //   2. restoring the recorded wording from the fresh payload's own published assumptions must reproduce the
+  //      record byte for byte, so the persisted-vs-fresh comparison still proves every other member.
+  const basisPath = /^\$\.valuation\.methods\[\d+\]\.output\.basis$/;
+  const rawDifferences: Change[] = [];
+  walk(analysed.payload, head, '$', rawDifferences);
+  require(
+    rawDifferences.every((change) => basisPath.test(change.path)),
+    'the persisted artifact and a fresh analysis of the same committed real input disagree outside the L-042 basis relabel',
+    rawDifferences.filter((change) => !basisPath.test(change.path)).map((change) => `${change.kind} ${change.path}`),
+  );
+  const preL042Basis = (payload: Record<string, any>): Record<string, any> => {
+    const copy = JSON.parse(JSON.stringify(payload)) as Record<string, any>;
+    const methods = (copy.valuation?.methods ?? []) as Record<string, any>[];
+    for (const method of methods) {
+      if (method.output === null || method.output === undefined) continue;
+      const assumptions = method.assumptions as Record<string, number | string>;
+      if (method.methodId === 'EV_EBITDA') {
+        method.output.basis = `mid-cycle EBITDA ${assumptions.midCycleEbitda} × ${assumptions.targetMultiple} − net debt`;
+      }
+      if (method.methodId === 'EV_REVENUE') {
+        method.output.basis = `revenue ${assumptions.revenue} × ${assumptions.targetMultiple} − net debt`;
+      }
+    }
+    return copy;
+  };
   const storedVsAnalysis: Change[] = [];
-  walk(analysed.payload, head, '$', storedVsAnalysis);
+  walk(preL042Basis(analysed.payload), head, '$', storedVsAnalysis);
   require(
     storedVsAnalysis.length === 0,
-    'the persisted artifact and a fresh analysis of the same committed real input disagree',
+    'the persisted artifact and a fresh analysis of the same committed real input disagree, even after the L-042 basis reconstruction',
     storedVsAnalysis.map((change) => `${change.kind} ${change.path}`),
   );
 
@@ -1090,7 +1137,19 @@ function main(argv: readonly string[]): number {
   });
   emit('artifact/payload-diff-vs-wi3.json', { schemaVersion: 1, ...package_.diffVsWi3 });
   emit('verification/mapping-census.json', { schemaVersion: 1, ...package_.mappingCensus });
-  // `verification/dataset-class-divergence.json` is deliberately not emitted: see the header and section 9.
+  // `verification/dataset-class-divergence.json` is NOT written. It is the record of what was observed on
+  // 2026-11-12; regenerating it from today's code would replace an observation with a different one and erase
+  // the finding `L-041` rests on. It is committed in the bundle, and its digest is checked here.
+  {
+    const recordedPath = join(REPO, 'evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/verification/dataset-class-divergence.json');
+    const recorded = readFileSync(recordedPath);
+    const recordedDigest = createHash('sha256').update(recorded).digest('hex');
+    require(
+      recordedDigest === RECORDED_L041_SHA256,
+      'the recorded L-041 observation no longer hashes to the digest this script and the test pin',
+      { recorded: RECORDED_L041_SHA256, recomputed: recordedDigest },
+    );
+  }
 
   // The builders return loose `Record<string, unknown>` shapes so they stay flexible; the print boundary narrows
   // them once. Every cast below is sound because control only reaches here after `refuse()` did NOT throw — i.e.
@@ -1111,7 +1170,7 @@ function main(argv: readonly string[]): number {
   process.stdout.write(`  confidence         ${confidencePublished.combined} (WI-3 ${WI3_RECORDED.combined} × ${IX_PUBLISHED.multiplier})\n`);
   process.stdout.write(`  diff vs WI-3       ${diff.changes.length} changed path(s), ${diff.unattributed.length} unattributed\n`);
   process.stdout.write(`  XBRL tags mapped   ${censusHead.xbrlTagsMapped} (defect A — the L-002 notice now reads this count from XBRL_TAG_MAP; it said 20)\n`);
-  process.stdout.write(`  EV basis bridge    defect C — OPEN (L-042): the EV_EBITDA/EV_REVENUE basis names only "− net debt"; the full bridge is published in capitalStructure.equityBridge. Correcting the label moves the substantive digest of every EV-publishing assessment (L-014 C1–C5, AC-L14), so it is recorded, not narrowed here\n`);
+  process.stdout.write(`  EV basis bridge    defect C — RESOLVED (L-042, Option B; register §17.29): the EV_EBITDA/EV_REVENUE basis now states the method's own arithmetic (a multiple applied to a base = enterprise value) and says explicitly that the enterprise value is subject to the published equity bridge in capitalStructure.equityBridge, whose terms are conditional on the filed capital structure. The label no longer restates the bridge as "− net debt"; the full bridge remains authoritative. The substantive digests of EV-publishing assessments were re-baselined through the authorised layered-reconstruction process (L-014 C1–C5, AC-L14)\n`);
   process.stdout.write(`  L-041 (defect B)   ${classRows.length} committed real-issuer manifest(s): both classifier paths answer UNKNOWN at head; the recorded observation is kept, not re-emitted\n`);
   for (const [name, digest] of Object.entries(written)) process.stdout.write(`  wrote ${name} sha256:${digest}\n`);
   // The rebuild scratch is a means, not evidence; remove it. (On the `refuse()` throw path it leaks into the OS

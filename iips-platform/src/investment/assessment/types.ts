@@ -93,7 +93,19 @@ export interface MethodOutput {
   readonly perShareLow: NumericObservation;
   readonly perShareMid: NumericObservation;
   readonly perShareHigh: NumericObservation;
-  /** Deterministic summary of the arithmetic actually performed. */
+  /**
+   * Deterministic summary of the arithmetic THIS method performed — and, for an enterprise-value method, an
+   * explicit statement that the resulting enterprise value is subject to the published equity bridge.
+   *
+   * `L-042` — Option B. The label is scoped to the individual method. It does not attempt to restate the
+   * enterprise-to-equity conversion: `capitalStructure.equityBridge` is the authoritative description of that
+   * step, and its terms (net debt, minority interest, preference capital, associates/JV) are CONDITIONAL on the
+   * filed capital structure — a term may be present, nil by disclosure, a named policy zero, or unavailable, in
+   * which case the conversion refuses and no per-share value is published. Writing those terms into the label as
+   * unconditional arithmetic would misstate them; writing only "− net debt" (the pre-`L-042` label) read as an
+   * equation and missed the published per-share figure by `minorityInterest / dilutedShares`. The label therefore
+   * names the bridge and declines to speak for it.
+   */
   readonly basis: string;
 }
 

@@ -5,8 +5,16 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
+import {
+  buildCapitalStructure,
+  describeEquityBridge,
+  equityValueFromEnterprise,
+} from '../../src/investment/assessment/capitalStructure';
 import { assessCompany } from '../../src/investment/assessment/engine';
-import { bankAssessmentInput, techAssessmentInput, thinAssessmentInput } from './assessmentFixtures';
+import { EQUITY_BRIDGE_BASIS_REFERENCE, enterpriseValueBasis } from '../../src/investment/assessment/methods';
+import { present } from '../../src/investment/contracts/observation';
+import { selectSeries } from '../../src/investment/assessment/periods';
+import { bankAssessmentInput, techAssessmentInput, techDataset, thinAssessmentInput } from './assessmentFixtures';
 
 const method = (payload: ReturnType<typeof assessCompany>['payload'], id: string) => {
   const found = payload.valuation.methods.find((entry) => entry.methodId === id);
@@ -152,34 +160,138 @@ describe('AC-2.6 — the equity bridge and lease treatment are explicit', () => 
     assert.ok(payload.fundamentals.capitalStructure.leaseTreatment.length > 0);
   });
 
-  test('the enterprise-to-equity bridge is stated in the method basis', () => {
+  test('the basis states the method\'s own arithmetic and names the published equity bridge (L-042, Option B)', () => {
     const { payload } = assessCompany(techAssessmentInput());
     const ev = method(payload, 'EV_EBITDA');
     assert.equal(ev.applicable, true);
-    assert.match(ev.output!.basis, /net debt/i);
-    assert.equal(ev.assumptions.associatesAndJVWritten ?? ev.assumptions.associatesAndJV ?? 'recorded', 'recorded');
+    const basis = ev.output!.basis;
+    // The method's arithmetic, and only that: a base multiplied by a multiple gives an enterprise value.
+    assert.match(basis, /^mid-cycle EBITDA \d+ × 12 = enterprise value; /);
+    // The step that follows is named explicitly, and it is the PUBLISHED bridge that owns it.
+    assert.ok(basis.includes(EQUITY_BRIDGE_BASIS_REFERENCE), 'the label names the published equity bridge verbatim');
+    assert.match(basis, /fundamentals\.capitalStructure\.equityBridge/);
+    assert.match(basis, /conditional on the filed capital structure/);
+    // Option B: the conditional bridge terms are NOT written as unconditional method arithmetic.
+    assert.doesNotMatch(basis, /−\s*net debt/);
+    assert.doesNotMatch(basis, /minorityInterest|preferenceCapital|associatesAndJV/);
+    // A non-EV method carries no bridge clause: its label is its own arithmetic.
+    assert.doesNotMatch(method(payload, 'PE_RELATIVE').output!.basis, /equity bridge/);
   });
 
-  test('the authoritative bridge formula is published in full beside the method label (defect C, L-042)', () => {
-    // DEFECT C is OPEN, not corrected. The EV_EBITDA/EV_REVENUE `basis` label names only the dominant bridge term
-    // ("− net debt"), while `equityValueFromEnterprise` also subtracts minority interest and preference capital and
-    // adds associates/JV. Read as an equation the label therefore misses the published per-share figure by
-    // minorityInterest/shares (~₹0.77 for Infosys). What keeps the payload honest is that the COMPLETE, authoritative
-    // formula is published beside it in `capitalStructure.equityBridge` — this test pins that, so the full bridge can
-    // never silently disappear while the short label remains. Correcting the label itself was demonstrated to move the
-    // substantive digest of every EV-publishing assessment (re-baselining the L-014 reference digests C1–C5 and the
-    // AC-L14 idempotency contract), so it is recorded as `L-042` for a coordinated disclosure-contract decision rather
-    // than narrowed into a validation work item. See
-    // `evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/C-EV-BASIS-BRIDGE.md`.
+  test('the shared EV label builder gives both enterprise-value methods the same contract (L-042, Option B)', () => {
+    // EV_REVENUE is withheld on this fixture by a named metric gap, so its LABEL is asserted through the builder both
+    // methods use — the point of sharing it is that the two labels cannot drift apart.
+    assert.equal(
+      enterpriseValueBasis('revenue 80000000000', 2.5),
+      'revenue 80000000000 × 2.5 = enterprise value; ' + EQUITY_BRIDGE_BASIS_REFERENCE,
+    );
+    assert.match(enterpriseValueBasis('mid-cycle EBITDA 3350000000', 12), /^mid-cycle EBITDA 3350000000 × 12 = enterprise value; /);
+    // The template is the one the code publishes, not a lookalike.
+    const { payload } = assessCompany(techAssessmentInput());
+    const ev = method(payload, 'EV_EBITDA');
+    const base = `mid-cycle EBITDA ${Number(ev.assumptions.midCycleEbitda)}`;
+    assert.equal(ev.output!.basis, enterpriseValueBasis(base, Number(ev.assumptions.targetMultiple)));
+  });
+
+  test('the authoritative bridge formula is published in full beside the method label (L-042, Option B)', () => {
+    // The method label stops at enterprise value and points at the bridge. The bridge block is the authoritative
+    // description of the enterprise-to-equity step, and it stays complete and conditional: the earlier label
+    // ("− net debt") read as the equation and missed the published per-share figure by minorityInterest/shares
+    // wherever those terms were non-zero — ₹3,450,000,000 / 4,144,888,607.99 = ₹0.8323504745930698 for Infosys, the
+    // figure `L-042` records (an earlier draft of this comment said ~₹0.77). The correction must not replace one
+    // misstatement with another by presenting the bridge's conditional terms as unconditional method arithmetic,
+    // which §17.28 established is what ANY longer static label does; the next test records that measurement, and
+    // §17.29 records the Option B decision taken on it.
     const { payload } = assessCompany(techAssessmentInput());
     const bridge = payload.fundamentals.capitalStructure.equityBridge;
     assert.equal(
       bridge.formula,
       'equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV',
     );
-    // The short label still names net debt (the dominant term) — pinned so a future fix is a deliberate, coordinated
-    // act that must also re-baseline the substantive-identity decision, not a silent string edit.
-    assert.match(method(payload, 'EV_EBITDA').output!.basis, /net debt/i);
+    assert.ok(['CARRYING_VALUE_REPORTED', 'DECLARED_NIL', 'POLICY_ZERO_UNAVAILABLE'].includes(bridge.treatment));
+    const ev = method(payload, 'EV_EBITDA');
+    assert.ok(ev.output!.basis.includes('equityBridge'), 'the label points the reader at the block that owns the step');
+  });
+
+  test('the label change did not move the arithmetic: the published per-share figure is the full bridge', () => {
+    const { payload } = assessCompany(techAssessmentInput());
+    const ev = method(payload, 'EV_EBITDA');
+    const structure = payload.fundamentals.capitalStructure;
+    const terms = (observation: { presence: string; value: number | null }): number =>
+      observation.presence === 'PRESENT' && observation.value !== null ? observation.value : 0;
+    const enterprise = Number(ev.assumptions.midCycleEbitda) * Number(ev.assumptions.targetMultiple);
+    const equity =
+      enterprise - terms(structure.netDebt) - terms(structure.minorityInterest) -
+      terms(structure.preferenceCapital) + terms(structure.associatesAndJV);
+    const shares = structure.dilutedShares.value!;
+    const fromBridge = equity / shares;
+    assert.ok(
+      Math.abs(fromBridge - ev.output!.perShareMid.value!) < 1e-6,
+      `published ${ev.output!.perShareMid.value} must be the full bridge ${fromBridge}`,
+    );
+  });
+
+  test('no single static label can be faithful: the bridge is conditional per issuer (L-042, scope evidence)', () => {
+    // L-042 asks for a label that "represents the full bridge". This test records why a longer STATIC string does not
+    // satisfy that, so the next attempt at L-042 does not repeat a demonstrated failure.
+    //
+    // `equityValueFromEnterprise` is not one equation. It applies three different shapes depending on what the issuer
+    // discloses: a PRESENT term is subtracted, a NIL_BY_DISCLOSURE term is "claims declared nil by the filer,
+    // subtracted as zero", and an unavailable term BLOCKS the whole conversion with no equity value at all. The
+    // associates/JV leg is conditional too: added only at a reported carrying value, a named POLICY_ZERO otherwise.
+    //
+    // So *any* static wording — the current short "− net debt" or a longer
+    // "− netDebt − minorityInterest − preferenceCapital + associatesAndJV" — states as unconditional arithmetic
+    // things the code does not always do. Widening the label moves the substantive digest of every EV-publishing
+    // assessment while measurably FAILING to make the label faithful; it buys the identity re-baseline and does not
+    // buy the disclosure. That is why L-042 stays OPEN instead of being closed with a longer string.
+    const asOf = '2026-07-25T00:00:00.000Z';
+    const series = selectSeries(techDataset().periods, techAssessmentInput().issuerId);
+    const structure = () => JSON.parse(JSON.stringify(buildCapitalStructure(series, { asOf }))) as Record<string, any>;
+    const netDebt = () => Number(buildCapitalStructure(series, { asOf }).netDebt.value ?? 0);
+    const equityFor = (mutate: (s: Record<string, any>) => void) => {
+      const clone = structure();
+      mutate(clone);
+      clone.equityBridge = describeEquityBridge(clone as never);
+      return equityValueFromEnterprise(present(1_000, 'DERIVED', { basis: 'DERIVED' }), clone as never);
+    };
+
+    // (a) a PRESENT minority interest is genuinely subtracted. The fixture reports zero, so a non-zero carrying value
+    // is supplied here: the point is the *shape* of the arithmetic, which only a non-zero term can show.
+    const MI = 3_450_000_000;
+    const presentMi = equityFor((clone) => {
+      clone.minorityInterest = { ...clone.minorityInterest, presence: 'PRESENT', value: MI };
+    });
+    assert.equal(presentMi.presence, 'PRESENT');
+    // netDebt is net cash here (a negative value), so the arithmetic is `EV − netDebt − MI`.
+    assert.equal(presentMi.value, 1_000 - netDebt() - MI);
+
+    // (b) a NIL_BY_DISCLOSURE minority interest is NOT subtracted — the same equation, one term lighter
+    const nilMi = equityFor((clone) => {
+      clone.minorityInterest = { ...clone.minorityInterest, presence: 'NIL_BY_DISCLOSURE', value: null };
+    });
+    assert.equal(nilMi.presence, 'PRESENT');
+    assert.equal(nilMi.value! - presentMi.value!, MI, 'a declared-nil term must change the arithmetic, not the formula');
+    assert.match(String((nilMi as { note?: string }).note ?? ''), /declared nil/i);
+
+    // (c) an unavailable term BLOCKS the conversion — no equity value is published at all
+    const blocked = equityFor((clone) => {
+      clone.minorityInterest = { presence: 'NOT_COMPUTABLE', reason: 'NOT_REPORTED', value: null };
+    });
+    assert.equal(blocked.presence, 'NOT_COMPUTABLE');
+    assert.equal(blocked.value, null);
+    assert.match(String((blocked as { note?: string }).note ?? ''), /blocked by minorityInterest/);
+
+    // (d) the associates/JV leg is conditional too: added at carrying value, a named policy zero otherwise
+    const baseline = equityFor(() => {});
+    assert.equal(baseline.presence, 'PRESENT');
+    const withAssociates = equityFor((clone) => {
+      clone.associatesAndJV = { ...clone.associatesAndJV, presence: 'PRESENT', value: 5_000_000_000 };
+    });
+    assert.equal(withAssociates.presence, 'PRESENT');
+    assert.equal(withAssociates.value! - baseline.value!, 5_000_000_000);
+    assert.equal(describeEquityBridge(structure() as never).treatment, 'POLICY_ZERO_UNAVAILABLE');
+    assert.equal(describeEquityBridge({ associatesAndJV: { presence: 'PRESENT', value: 1 } } as never).treatment, 'CARRYING_VALUE_REPORTED');
   });
 });
 

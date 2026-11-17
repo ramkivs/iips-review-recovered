@@ -15,12 +15,15 @@
  *   2. **defect A stays corrected.** The reader-visible L-002/L-003 notices state counts read from
  *      `XBRL_TAG_MAP` and `DERIVATIONS`, on both the CLI side and the presentation side. One side moving alone
  *      is the defect; both are pinned against the code.
- *   3. **`L-041` stays OPEN in the register, and its recorded observation is kept.** On 2026-11-12 the
+ *   3. **`L-041` and `L-042` are `RESOLVED`, and the recorded observations are kept.** On 2026-11-12 the
  *      assessment path and the investment-coverage path classified the same committed real-issuer manifests two
- *      different ways. Since the reconciliation with `main` (2026-11-17) both paths go through
- *      `classifyDataset`, so the disagreement no longer reproduces: the tests assert that both answer `UNKNOWN`,
- *      that the committed observation is byte-identical to what was recorded, and that the register still says
- *      `OPEN`. Closing `L-041` is its owner's decision; no test here makes it.
+ *      different ways. The coverage path's substring test on `provider`/`licence` has since been removed from both
+ *      of its copies (`552f1c7`; `main` carries its own equivalent at `6ae09ac`, `W05-D1`), so both paths now
+ *      answer through `classifyDataset` and the disagreement no longer reproduces at head. The tests assert that
+ *      both answer `UNKNOWN`, that the committed observation of 2026-11-12 is byte-identical to what was recorded,
+ *      and that the register now says `RESOLVED` for `L-041` (the register owner's act of 2026-11-17, §17.27,
+ *      under PA-01's collapsed single authority) and for `L-042` (§17.29, the Option B label contract, whose
+ *      §17.28 scope determination is retained unaltered). This test checks those statuses; it does not make them.
  *
  * Read-only: nothing here writes inside the repository, opens a store, or touches the network.
  */
@@ -66,8 +69,10 @@ describe('RIV — the generator reproduces the committed evidence', () => {
       .sort();
     expect(emitted).toEqual([
       'artifact/payload-diff-vs-wi3.json',
-      // `verification/dataset-class-divergence.json` is no longer written: the observation of 2026-11-12 is kept
-      // as committed (pinned below), and the generator now checks that the two paths agree.
+      // `verification/dataset-class-divergence.json` is deliberately NOT emitted any more. It records what was
+      // observed on 2026-11-12; regenerating it from today's corrected code would overwrite an observation and
+      // erase the finding `L-041` rests on. The generator instead verifies the committed bytes against a pinned
+      // digest, and the L-041 suite below asserts the same digest.
       'verification/independent-recomputation.json',
       'verification/mapping-census.json',
     ]);
@@ -207,12 +212,13 @@ describe('RIV — L-041: the recorded disagreement is kept, and it no longer rep
     const manifest = JSON.parse(text(join(dir, 'dataset', 'manifest.json'))) as DatasetManifest;
     // These manifests were written before the rights field existed, so the rights evidence is genuinely absent.
     expect(manifest.sourceRights).toBeUndefined();
-    // The assessment path: the rights-evidence rule, fail-closed.
+    // The assessment path: the rights-evidence rule, fail-closed. This half was always correct.
     expect(classifyDataset(manifest)).toBe('UNKNOWN');
-    // The coverage path. Until the reconciliation with `main` it used a substring test on provider and licence
-    // and answered OPERATOR_SUPPLIED here: that was `L-041`. It now answers through `classifyDataset`. These
-    // manifests say `operator-file-input` and `operator-supplied; not redistributable`, so this assertion is
-    // also the proof that no substring test is back.
+    // The coverage path. Until `552f1c7` (and `main`'s `6ae09ac`) it ran a substring test on provider and licence —
+    // the rule `datasetClass.ts` repudiates in writing under "WHAT WAS WRONG" — and answered OPERATOR_SUPPLIED
+    // here. That was `L-041`. It now answers through `classifyDataset`. These manifests say `operator-file-input`
+    // and `operator-supplied; not redistributable`, so this assertion is also the proof that no substring test has
+    // come back: a substring test cannot produce UNKNOWN from this text.
     expect(manifest.provider).toBe('operator-file-input');
     expect(manifest.licence).toContain('operator-supplied');
     const report = buildInvestmentCoverageReport({
@@ -233,8 +239,12 @@ describe('RIV — L-041: the recorded disagreement is kept, and it no longer rep
   });
 
   it('the observation recorded on 2026-11-12 is kept byte for byte, and still says what was observed then', () => {
+    // The record is the historical finding: it must not be rewritten to match today's behaviour. Regenerating it
+    // is exactly what the corrected generator refuses to do, and this digest is what that refusal compares to.
     const recorded = readFileSync(join(BUNDLE, 'verification', 'dataset-class-divergence.json'));
-    expect(createHash('sha256').update(recorded).digest('hex')).toBe('ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477');
+    expect(createHash('sha256').update(recorded).digest('hex')).toBe(
+      'ae45717fe4bc3dd1b8c3090bb9e1a315fb96706e1e11a6e5c58949cc48e05477',
+    );
     const divergence = JSON.parse(recorded.toString('utf8')) as any;
     expect(divergence.limitation).toBe('L-041');
     expect(divergence.status).toContain('OPEN');
@@ -243,15 +253,31 @@ describe('RIV — L-041: the recorded disagreement is kept, and it no longer rep
     expect(divergence.whyNotCorrectedHere).toContain('contract decision');
   });
 
-  it('the register still lists L-041 and L-042 as OPEN: closing either is its owner’s decision', () => {
+  it('the register says L-041 and L-042 RESOLVED, records why in one appended section each, and keeps the history', () => {
+    // Both directions matter here. A code fix is not a status change: `552f1c7` alone left `L-041` OPEN, and the
+    // Option B label is a contract act — the register owner's §§17.27/17.29 entries are what moved the statuses.
+    // The sections are append-only, so §17.26's record of what was true at WI-13 is preserved as evidence, and the
+    // §17.28 scope determination — which is why a longer static label was rejected — is retained unaltered.
     const register = text(resolve(process.cwd(), '../docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md'));
+    const rowsOf = (id: string): string[] =>
+      register.split('\n').filter((line) => line.startsWith(`| \`${id}\` |`));
     const statusOf = (id: string): string => {
-      const rows = register.split('\n').filter((line) => line.startsWith(`| \`${id}\` |`));
+      const rows = rowsOf(id);
       expect(rows.length, `${id} has exactly one register row`).toBe(1);
       const cells = rows[0]!.split('|').map((cell) => cell.trim());
       return cells[cells.length - 2]!;
     };
-    expect(statusOf('L-041')).toBe('OPEN (contract decision: read-model owner)');
-    expect(statusOf('L-042')).toBe('OPEN (contract decision: register owner + identity-contract owner)');
+    // The status cells are the register owner's acts: `L-041` moved under §17.27, `L-042` under §17.29. §17.26's
+    // prose, the short titles and the evidence are unaltered, and the sections themselves are appended, not
+    // substituted: reverting either cell fails here.
+    expect(statusOf('L-041')).toBe('`RESOLVED` (2026-11-17, §17.27)');
+    expect(statusOf('L-042')).toBe('`RESOLVED` (2026-11-17, §17.29)');
+    const scope = register.slice(register.indexOf('## 17.28'), register.indexOf('## 17.29'));
+    expect(scope.length, 'the L-042 scope determination is retained, not overwritten').toBeGreaterThan(0);
+    expect(scope).toContain('The new finding, which is why the label was not lengthened');
+    const appended = register.slice(register.indexOf('## 17.29'));
+    expect(appended.length, 'the L-042 decision section is appended, not substituted for §17.26').toBeGreaterThan(0);
+    expect(appended).toContain('`L-042` → `RESOLVED`');
+    expect(appended).toContain('Option B');
   });
 });

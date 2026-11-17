@@ -130,10 +130,23 @@ describe('AC-2.6 — net debt, leases and the other claims on equity', () => {
     const capital = payload.fundamentals.capitalStructure;
     assert.equal(capital.minorityInterest.value, 400_000_000);
     assert.equal(capital.preferenceCapital.value, 200_000_000);
-    // The enterprise-to-equity conversion must subtract both, so the EV-based value is unchanged in
-    // structure but the bridge is visible in the basis text.
+    // The enterprise-to-equity conversion must subtract both. `L-042` (Option B, register §17.29) moved where a
+    // reader is told that: the method's `basis` now stops at enterprise value and names the published equity bridge
+    // — it does not write the bridge's conditional terms as method arithmetic, which is what made the old
+    // "− net debt" label read as an equation and miss the published figure by (minority + preference) / shares.
     const ev = payload.valuation.methods.find((entry) => entry.methodId === 'EV_EBITDA')!;
-    assert.match(ev.output!.basis, /net debt/i);
+    const basis = ev.output!.basis;
+    assert.match(basis, /= enterprise value; .*published equity bridge/);
+    assert.doesNotMatch(basis, /net debt/i);
+
+    // The arithmetic is unchanged: the published per-share figure is the FULL bridge...
+    const shares = capital.dilutedShares.value!;
+    const enterprise = Number(ev.assumptions.midCycleEbitda) * Number(ev.assumptions.targetMultiple);
+    const fullBridge = (enterprise - capital.netDebt.value! - 400_000_000 - 200_000_000) / shares;
+    assert.ok(Math.abs(fullBridge - ev.output!.perShareMid.value!) < 1e-6);
+    // ...and the label-as-equation reading it used to invite is demonstrably different by those two terms.
+    const labelAsEquation = (enterprise - capital.netDebt.value!) / shares;
+    assert.ok(Math.abs(labelAsEquation - ev.output!.perShareMid.value!) > 1);
   });
 
   test('an issuer with no balance sheet publishes an unavailable net debt, not a zero', () => {
