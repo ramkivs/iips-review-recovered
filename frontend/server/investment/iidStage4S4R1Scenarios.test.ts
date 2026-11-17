@@ -342,14 +342,19 @@ describe('§23 scenario 1 (R, Infosys) — the assessment chain, minted and serv
     expect(completeness.requiredFieldCoveragePct).toBe(1);
 
     /*
-     * These three values are the operator-reported figures from
-     * `IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md` §4. They are re-derived here from the
-     * admitted bundles rather than compared to a recorded string: the engine's own output is the assertion.
+     * These values are the engine's own output on the admitted bundles, re-derived here rather than compared to a
+     * recorded string — the operator-reported figures in `IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md`
+     * §4 were `SUFFICIENT` / `MATERIAL_CONCERNS` / `0.321`.
+     *
+     * `0.321` became **`0.4378`** with `S4-R2` (2026-11-17), and the movement is arithmetic, not policy: confidence
+     * carries a method-applicability ratio, and correcting the borrowing transcription moved `EV_EBITDA` from
+     * inapplicable (`CAPITAL_STRUCTURE_INCOMPLETE`) to applied — 3 of 4 declared methods where there were 2 of 4.
+     * No confidence cap, rate, floor or formula changed; adequacy and quality stay where they were.
      */
     const quality = assessment.quality as Record<string, unknown>;
     expect(quality.verdict).toBe('MATERIAL_CONCERNS');
     const confidence = assessment.confidence as Record<string, unknown>;
-    expect(confidence.combined).toBe(0.321);
+    expect(confidence.combined).toBe(0.4378);
   });
 
   it('is read back identically by a second, independent reader', async () => {
