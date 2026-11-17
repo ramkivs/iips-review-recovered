@@ -1044,3 +1044,49 @@ on the server, and the identity view moved to `/identity-coverage`. **No measure
 investment read still consults no identity file. What changes is only the raw-HTML delivery, recorded in
 `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14 with the delivered captures and the tests that pin both
 halves.
+
+## Addendum (2026-11-17) — `S4-R2`: Technology's `EV_EBITDA` is now applied, and the coverage row is deliberately unchanged
+
+Appended forward; **nothing above is changed, byte for byte**, including §3.2's finding that Infosys'
+`LONG_TERM_BORROWINGS` and `SHORT_TERM_BORROWINGS` were "never transcribed — ABSENT in all three periods" and its
+per-issuer derivability table. Those were measurements of the dataset as it then was, and they remain correct as
+statements about it.
+
+**What changed is the data, not the measurement.** The borrowings block was transcribed from the authorised filings for
+the same already-admitted issuer and ingested as a complete replacement input
+(`evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/`). `REL-1-INFOSYS-2026-11-06` is byte-identical to its
+state on `main`.
+
+| | before (`sha256:3ad82918…`) | after (`sha256:69bbc14e…`) |
+|---|---|---|
+| Infosys `LONG_TERM_BORROWINGS` | ABSENT ×3 | FY2024 `NIL_BY_DISCLOSURE`; FY2023/FY2022 `MISSING / NOT_REPORTED` |
+| Infosys `SHORT_TERM_BORROWINGS` | ABSENT ×3 | the same |
+| Infosys `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` | ABSENT ×3 | the same |
+| Infosys `PREFERENCE_CAPITAL` | ABSENT ×3 | the same |
+| Infosys `capitalStructure.netDebt` | `MISSING / NOT_REPORTED` | `PRESENT` = **−₹19,342 crore** |
+| Infosys `EV_EBITDA` (assessment) | withheld — `CAPITAL_STRUCTURE_INCOMPLETE` | **applied**, mid ₹1,133.95 |
+| Infosys `valuation.intrinsic` | `null` | 875.34 / **1,088.97** / 1,399.81 |
+| Marico, KEC — every payload block | — | **deep-equal to before** (asserted, not asserted-by-hope: `s4r2BorrowingsReuse.test.ts`) |
+
+The net-debt figure and the intrinsic range are the ones `IIPS_V3_IID_WI3_BORROWINGS_NIL_2026-11-06.md` published on
+2026-11-06 from the same filing. Nothing in the derivation set, the method matrix, the sector vocabulary, the coverage
+algorithm or the valuation policy was touched.
+
+**The coverage row is unchanged, and that is the finding, not an omission.** `measureCoverage` still reports Technology
+`G2_PARTIAL` with `EV_EBITDA WITHHELD / STATEMENT_INPUT_MISSING: [NET_DEBT]`, before and after. The two layers answer
+different questions: coverage asks whether the **line-item derivation set** can produce `NET_DEBT`, and `derive.ts`
+admits `PRESENT` inputs only ("an unreported input is never silently zero" — a declared nil is not a number); the
+**assessment** resolves net debt through `capital-structure/1.0.0`, whose aggregation admits a declared nil as the
+filer's statement (D-2). §8.2 of the Stage 4 record already warned that a coverage row must not be read as a valuation;
+this is the converse direction of the same warning — a valuation exists where the derivation-based coverage row says
+the method is withheld, so the coverage figure **understates** capability and never overstates it.
+
+Changing that would mean teaching `derive.ts` to treat `NIL_BY_DISCLOSURE` as zero inside derivations, which affects
+every consumer of `NET_DEBT` (leverage in W07, dividends, risk, disposition) and is a measurement-semantics decision of
+the same family as `S4-R4` and `S4-R5`. It is recorded there and **not taken here**.
+
+**Unchanged by this addendum:** `measuredSectors` (3 of 13), the sector counts, `Consumer G1_ENABLED` (usable 3),
+`Industrials G2_PARTIAL` (usable 2, `EV_REVENUE` withheld on `IN_BOOK_TO_BILL`), the 38 declared methods, the 33 metric
+ids, the 53 line items, `operatingMetricRecords = 0` and the `L-001` position. Technology's stage remains
+`G2_PARTIAL` on this row, because `EV_REVENUE` is still withheld on missing operating metrics (`G-4`) — a different
+item, untouched.

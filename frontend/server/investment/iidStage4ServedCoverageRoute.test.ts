@@ -50,9 +50,17 @@ const EVIDENCE = join(ROOT, 'evidence', 'real-issuer');
 const AS_OF = '2026-11-14';
 const NOW = `${AS_OF}T00:00:00.000Z`;
 
-/** The three bundles admitted as operational sources (decision O3), at their ingestion-input directories. */
+/**
+ * The three bundles admitted as operational sources (decision O3), at their ingestion-input directories.
+ *
+ * Infosys' input is the `S4-R2` corrected transcription (2026-11-17), not `REL-1`'s: the same issuer, the same
+ * authorised consolidated filings, with the borrowings block the Stage 3 bundle never carried. `REL-1`'s bytes are
+ * untouched and still sit where they were; the replacement is a complete input for the issuer (all three periods,
+ * roster byte-identical), which is the shape the multi-input merger requires. Evidence:
+ * `evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/`.
+ */
 const ADMITTED_INPUTS = [
-  join(EVIDENCE, 'REL-1-INFOSYS-2026-11-06', 'ingest-input'),
+  join(EVIDENCE, 'S4-R2-INFOSYS-BORROWINGS-2026-11-17', 'ingest-input'),
   join(EVIDENCE, 'WI7-CONSUMER-MARICO-2026-11-07', 'ingest-input'),
   join(EVIDENCE, 'WI8-INDUSTRIALS-KEC-2026-11-07', 'ingest-input'),
 ];
@@ -64,11 +72,16 @@ const ADMITTED_IDENTITY = [
 ];
 
 /**
- * The dataset version the Windows host reported when Stage 3 closed, and the digests Stage 2 predicted for
- * the published identity set. Asserted here so this test cannot pass against a different dataset than the one
- * the host verified: if the bundles or the ingestion change, these move and the change is deliberate.
+ * The dataset version of the `S4-R2` rebuilt candidate, asserted so this test cannot pass against a different
+ * dataset than the one the evidence records: if the bundles or the ingestion change, this moves and the change is
+ * deliberate.
+ *
+ * History, kept so the arithmetic is checkable: `sha256:3ad82918…` was the version the Windows host verified when
+ * Stage 3 closed — the dataset built from `REL-1`'s input, which carried no borrowings block. `S4-R2` replaces that
+ * issuer input, so the dataset moves; the new version is a repository-side candidate and **host re-installation and
+ * re-verification remain an operator step**, exactly as `S4-R3`'s was.
  */
-const HOST_DATASET_VERSION = 'sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83';
+const STAGE4_DATASET_VERSION = 'sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2';
 
 const servers: http.Server[] = [];
 const roots: string[] = [];
@@ -176,11 +189,11 @@ describe('IID Stage 4 — coverage readiness on installed data, served', () => {
     base = await startServer(dataRoot);
   });
 
-  it('installs the dataset the Windows host verified, and publishes the identity set Stage 2 predicted', () => {
+  it('installs the S4-R2 rebuilt dataset, and publishes the identity set Stage 2 predicted', () => {
     const manifest = JSON.parse(readFileSync(join(datasetDir(dataRoot), 'manifest.json'), 'utf8')) as {
       datasetVersion: string;
     };
-    expect(manifest.datasetVersion).toBe(HOST_DATASET_VERSION);
+    expect(manifest.datasetVersion).toBe(STAGE4_DATASET_VERSION);
     expect(readdirSync(identityDir(dataRoot)).sort()).toEqual([
       'corporate-actions.json',
       'eligible-roster.json',

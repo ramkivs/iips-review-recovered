@@ -1,0 +1,92 @@
+# S4-R2 — the Technology coverage row, before and after the corrected input
+# Produced by the ingestion CLI's own coverage report (iips-platform measureCoverage), 2026-11-17.
+# NOTE: coverage is a DATASET-CAPABILITY statement. It marks NET_DEBT available only when the
+#       line-item DERIVATION set can compute it (derive.ts: PRESENT inputs only, a declared nil is
+#       not a number). The ASSESSMENT resolves net debt through the capital-structure aggregation,
+#       which admits a declared nil (D-2). So EV_EBITDA is computed by the assessment (see
+#       02-assessment-after.json) while this derivation-based row still reports it withheld.
+#       That divergence is recorded, not smoothed: it is the S4-R4/S4-R5 semantics, and changing
+#       it would be a measurement-semantics change this work item does not make.
+
+
+BEFORE (REL-1 input)
+{
+  "stage": "G2_PARTIAL",
+  "usableMethods": [
+    "DCF_FCFF",
+    "PE_RELATIVE"
+  ],
+  "statementCoveragePct": 87.5,
+  "methods": [
+    {
+      "methodId": "DCF_FCFF",
+      "state": "AVAILABLE",
+      "reason": null,
+      "missing": []
+    },
+    {
+      "methodId": "PE_RELATIVE",
+      "state": "AVAILABLE",
+      "reason": null,
+      "missing": []
+    },
+    {
+      "methodId": "EV_EBITDA",
+      "state": "WITHHELD",
+      "reason": "STATEMENT_INPUT_MISSING",
+      "missing": [
+        "NET_DEBT"
+      ]
+    },
+    {
+      "methodId": "EV_REVENUE",
+      "state": "WITHHELD",
+      "reason": "MANDATORY_METRIC_MISSING",
+      "missing": [
+        "TM_NRR",
+        "TM_RECURRING_REVENUE_PCT"
+      ]
+    }
+  ]
+}
+
+AFTER (S4-R2 input)
+{
+  "stage": "G2_PARTIAL",
+  "usableMethods": [
+    "DCF_FCFF",
+    "PE_RELATIVE"
+  ],
+  "statementCoveragePct": 87.5,
+  "methods": [
+    {
+      "methodId": "DCF_FCFF",
+      "state": "AVAILABLE",
+      "reason": null,
+      "missing": []
+    },
+    {
+      "methodId": "PE_RELATIVE",
+      "state": "AVAILABLE",
+      "reason": null,
+      "missing": []
+    },
+    {
+      "methodId": "EV_EBITDA",
+      "state": "WITHHELD",
+      "reason": "STATEMENT_INPUT_MISSING",
+      "missing": [
+        "NET_DEBT"
+      ]
+    },
+    {
+      "methodId": "EV_REVENUE",
+      "state": "WITHHELD",
+      "reason": "MANDATORY_METRIC_MISSING",
+      "missing": [
+        "TM_NRR",
+        "TM_RECURRING_REVENUE_PCT"
+      ]
+    }
+  ]
+}

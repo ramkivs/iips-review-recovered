@@ -1090,3 +1090,71 @@ passed at this head.
 > through this branch. This task pushed only to `arena/e760fb87-iips-review-recovered`, whose head is **not** an
 > ancestor of `main`; PR #584 remains a draft and was neither merged nor closed. The correction described in §17.1–17.5
 > therefore reaches `main` only when that branch is separately reviewed and merged.
+
+## Addendum (2026-11-17) — `S4-R2` is CLOSED on the assessment path, with one named remainder
+
+Appended forward; **nothing above is changed, byte for byte**, including the `S4-R2` row of the remaining-actions
+table. That row's statements were true when they were written — the two borrowing components *were* absent from all
+three periods, `NET_DEBT` *was* underivable, and `Technology.EV_EBITDA` *was* withheld `STATEMENT_INPUT_MISSING` — and
+they remain true as a statement of the state at that date. This section records what changed afterwards.
+
+**What was done.** The borrowings block was transcribed for the already-admitted issuer Infosys Limited from the
+authorised consolidated filings, and ingested as a complete replacement input for that issuer
+(`evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/`). `REL-1-INFOSYS-2026-11-06` is byte-identical to its
+state on `main`; nothing was rewritten.
+
+| Period | `LONG_TERM_BORROWINGS` | `SHORT_TERM_BORROWINGS` | `CURRENT_MATURITIES_OF_LONG_TERM_DEBT` | `PREFERENCE_CAPITAL` |
+|---|---|---|---|---|
+| FY2024 | `NIL_BY_DISCLOSURE` — "The Group has no outstanding borrowings." | same | same | `NIL_BY_DISCLOSURE` — the single-share-class sentence, cross-scope, `acceptedBy` recorded |
+| FY2023 | `MISSING / NOT_REPORTED` | same | same | same |
+| FY2022 | `MISSING / NOT_REPORTED` | same | same | same |
+
+The FY2024 nil is the filer's own sentence about borrowings as a class, already quoted, hashed and located in
+`WI3-BORROWINGS-NIL-2026-11-06/source/`; the FY2023/FY2022 cells are **blank**, because no disclosure for those
+balance-sheet dates was transcribed and the FY2024 sentence is not projected backwards onto them. Nothing was
+transcribed as a number, and no zero was substituted anywhere.
+
+**The acceptance criterion, measured at this head.**
+
+| | before | after |
+|---|---|---|
+| dataset version | `sha256:3ad82918…` | `sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2` |
+| `capitalStructure.netDebt` | `MISSING` | **`PRESENT` = −₹19,342 crore** |
+| `Technology.EV_EBITDA` | withheld — `CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable` | **applied; mid ₹1,133.95 per share** |
+| `valuation.intrinsic` | `null` | 875.34 / **1,088.97** / 1,399.81 |
+| `EV_REVENUE` | withheld — `MANDATORY_METRIC_MISSING` | **unchanged** — still withheld, for its own reason |
+
+Both the net-debt figure and the intrinsic range reproduce what `IIPS_V3_IID_WI3_BORROWINGS_NIL_2026-11-06.md`
+published on 2026-11-06 from the same filing, through a different dataset assembly. No formula, threshold, weight,
+confidence cap, policy constant or policy version changed, and `sectorReferenceView`, dataset classification and
+identity are untouched.
+
+**Reusability — the half of the item that is not about this issuer.** The transcription is issuer data; the capability
+is the grammar and the aggregation, and it was verified against issuers that do not exist:
+`iips-platform/tests/investment/s4r2BorrowingsReuse.test.ts` proves complete data consumed, a missing long-term and a
+missing short-term component each staying `NOT_REPORTED`, a missing value never read as zero, an older-period component
+refused as `PERIOD_MISMATCH` rather than silently mixed, invalid units and invalid periods refused before publication,
+two synthetic issuers using the mechanism with no issuer-specific code (asserted by source inspection of the six
+modules involved), and Marico's and KEC's assessment blocks deep-equal before and after the correction.
+
+One generic product change was required and is in scope of "period-aware ingestion and validation":
+`FISCAL_YEAR_PERIOD_MISMATCH` in `iips-platform/src/investment/ingestion/builder.ts`. A row whose `fiscal_year`
+contradicts its own `period_end` was previously accepted and stored as a period that is two years at once — the exact
+slip a hand transcription makes. An annual row must now end inside its labelled year, and a quarterly or TTM row must
+be labelled by the year the period-end year or the year after it (KEC's Q1 FY27 ending 2026-06-30 is the real
+instance). All 41 committed period rows pass, so no admitted dataset moves.
+
+**Remainder — the coverage row still withholds.** `coverage-report.json` continues to report Technology `G2_PARTIAL`
+with `EV_EBITDA WITHHELD / STATEMENT_INPUT_MISSING: [NET_DEBT]`. Coverage asks whether the **line-item derivation set**
+can produce `NET_DEBT`, and `derive.ts` accepts `PRESENT` inputs only (a declared nil is not a number); the
+**assessment** resolves net debt through the capital-structure aggregation, which admits a declared nil under D-2. The
+two answers differ because the two questions differ, and the coverage figure understates the capability rather than
+overstating it. Teaching `derive.ts` to treat `NIL_BY_DISCLOSURE` as zero would change derivation semantics that reach
+`NET_DEBT`'s consumers — a **measurement-semantics decision**, recorded with `S4-R4`/`S4-R5` rather than taken here.
+
+**Still open, unchanged by this section:** `S4-R3` (staleness — the statements remain 958 days old at the assessment
+clock; Infosys still has no newer filing in the repository), `S4-R4`, `S4-R5`, `S4-R6`, `S4-R7`, `S4-R8`; `L-001`
+(3 of 13 sectors) and `G-6`. **Host installation of the new dataset version is an operator step and was not
+performed** — the candidate is repository-side, exactly as `S4-R3`'s candidate was. The next Stage 4 roadmap item after
+this one is **`S4-R3`** (freshness: quarterly periods or newer annual filings), whose Infosys leg remains blocked on
+source material that is not in the repository.
