@@ -69,11 +69,21 @@ check('pages per document', all(has(t) for t in (
     f"{len(pages[('Marico', 259)])} of 259 pages and {len(pages[('Marico', 224)])} of 224",
     f"{len(pages[('KEC International', 215)])} of 215 and {len(pages[('KEC International', 206)])} of 206",
     f"{len(pages[('Zensar Technologies', 167)])} of 167 and {len(pages[('Zensar Technologies', 180)])} of 180")), {k: len(v) for k, v in pages.items()})
-per = {b: sum(1 for f in src if f['bundle'] == b) for b in (
-    'REL-1-INFOSYS-2026-11-06', 'WI7-CONSUMER-MARICO-2026-11-07', 'WI8-INDUSTRIALS-KEC-2026-11-07', 'S4-R3-FILING-REFRESH-2026-11-14')}
-check('source files in admitted bundles', per['REL-1-INFOSYS-2026-11-06'] == 0 and has(
-    f"`WI7` {per['WI7-CONSUMER-MARICO-2026-11-07']}; `WI8` {per['WI8-INDUSTRIALS-KEC-2026-11-07']}; `S4-R3` {per['S4-R3-FILING-REFRESH-2026-11-14']}")
-      and has(f"{sum(per.values())} of the {len(src)} source files sit in admitted bundles"), per)
+# Wording corrected on 2026-11-17 (tracker section 16.290). The counts are unchanged. The record no longer says that
+# all of these files "sit in admitted bundles": the S4-R3 re-admission covers ingestion inputs and the candidate dataset.
+three = ('REL-1-INFOSYS-2026-11-06', 'WI7-CONSUMER-MARICO-2026-11-07', 'WI8-INDUSTRIALS-KEC-2026-11-07')
+s4r3 = 'S4-R3-FILING-REFRESH-2026-11-14'
+per = {b: sum(1 for f in src if f['bundle'] == b) for b in three + (s4r3,)}
+in_three = sum(per[b] for b in three)
+tail = 'where the re-admission of 2026-11-14 covers only the specified ingestion inputs and the candidate dataset.'
+check('source files in the three admitted bundles, and in the S4-R3 bundle separately', per[three[0]] == 0
+      and not any('/ingest-input/' in f['path'] for f in src if f['bundle'] == s4r3)
+      and has(f"They carry {in_three + per[s4r3]} of the {len(src)} source files. {in_three} sit in the three bundles admitted on "
+              f"2026-11-13: `REL-1` none, `WI7` {per[three[1]]}, `WI8` {per[three[2]]}. The other {per[s4r3]} sit in the S4-R3 "
+              f"bundle, {tail}")
+      and has(f"{in_three} of the {len(src)} source files sit in the three bundles admitted on 2026-11-13, and {per[s4r3]} more "
+              f"sit in the S4-R3 bundle, {tail}")
+      and not has('sit in admitted bundles') and not has('Where the admitted bundles stand'), per)
 any_source = s['filesInAnySourceDirectory']['all']
 check('files in a source directory', has(f"{any_source['files']} ({fmt(any_source['bytes'])} bytes)"))
 marked = s['evidenceFilesCarryingTheLicenceMarker']
@@ -92,17 +102,19 @@ def grep_count(needle, where):
 check('files naming r.jina.ai', grep_count('r.jina.ai', 'evidence/real-issuer') == 17 and has('17 files name `r.jina.ai`'))
 check('files naming the Internet Archive', grep_count('web.archive.org', 'evidence/real-issuer') == 7 and has('seven name the Internet Archive'))
 
-# Records left unchanged, and nothing existing modified.
+# Records left unchanged, and the publication added only new files.
 base = subprocess.run(['git', '-C', ROOT, 'merge-base', 'HEAD', 'origin/main'], capture_output=True, text=True).stdout.strip()
 for path, v in gap['recordsLeftUnchanged'].items():
     now = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', 'HEAD:' + path], text=True).strip()
     then = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', base + ':' + path], text=True).strip() if base else now
     check('unchanged ' + os.path.basename(path), now == v['blob'] == then)
-if base:
-    status = subprocess.check_output(['git', '-C', ROOT, 'diff', '--name-status', base, 'HEAD'], text=True).split('\n')
-    status = [l for l in status if l.strip()]
-    bad = [l for l in status if not l.startswith('A\t') or not (l.endswith(RECORD) or ('\t' + OWN + '/') in l)]
-    check('only new files, in the record and its evidence folder', not bad, bad[:3])
+# The commit that published the record (PR #578). The wording corrections came later and changed the record and this file.
+PUBLISHED = 'fc96425d4cf941256075eebeda869d79cbd12cee'
+pub = subprocess.run(['git', '-C', ROOT, 'diff', '--name-status', PUBLISHED + '^', PUBLISHED], capture_output=True, text=True)
+status = [l for l in pub.stdout.split('\n') if l.strip()]
+bad = [l for l in status if not l.startswith('A\t') or not (l.endswith(RECORD) or ('\t' + OWN + '/') in l)]
+check('the publication commit added only new files, in the record and its evidence folder',
+      pub.returncode == 0 and len(status) == 8 and not bad, bad[:3] or pub.stderr.strip()[:160])
 
 # Links of the record and of the README.
 link = re.compile(r'\]\(([^)#\s]+)(?:#[^)]*)?\)')
@@ -114,6 +126,8 @@ for doc in (RECORD, OWN + '/README.md'):
 
 # The record keeps the status and names no holding.
 check('status line', has('**IN PROGRESS, NOT COMPLETE, NOT ACCEPTED**') and has('`L-041` and `L-042` remain OPEN'))
+check('result row 7 says narrowed, not settled',
+      has('The rights side of the source is narrowed for personal, local, manual use once D1 is given.') and not has('is settled'))
 with open(os.path.join(ROOT, gap['surface']['path']), encoding='utf-8') as fh:
     rows = [l.split(',') for l in fh.read().splitlines()[1:]]
 leaks = [r[1] for r in rows if r[1].strip() in record] + [r[0] for r in rows if len(r[0].strip()) > 6 and r[0].strip() in record]
