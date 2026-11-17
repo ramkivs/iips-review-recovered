@@ -662,7 +662,10 @@ async function defaultLoadPort(args: CliArgs, env: NodeJS.ProcessEnv): Promise<u
     // loader reads. IID-3 owns no database handle of its own.
     return loadAuthoritativeNp04PersistenceWithPath(args.dbPath, env);
   }
-  return loadAuthoritativeNp04Persistence();
+  // `G-11` hardening: the mint CLI is the one caller that must be able to bring a store into
+  // existence, so it asks for INITIALISE explicitly (create the directory, run migrations). Every
+  // read path uses READ, which cannot do either.
+  return loadAuthoritativeNp04Persistence('INITIALISE');
 }
 
 /**
@@ -679,7 +682,7 @@ async function loadAuthoritativeNp04PersistenceWithPath(
   const previous = env[NP04_DATABASE_PATH_ENV];
   env[NP04_DATABASE_PATH_ENV] = resolve(dbPath);
   try {
-    return await loadAuthoritativeNp04Persistence();
+    return await loadAuthoritativeNp04Persistence('INITIALISE');
   } finally {
     if (previous === undefined) delete env[NP04_DATABASE_PATH_ENV];
     else env[NP04_DATABASE_PATH_ENV] = previous;

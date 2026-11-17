@@ -40,6 +40,14 @@ The transport loads `../.env.local` then `frontend/.env.local`; the commands bel
 - Public operations: `openDatabase`, `GovernedArtifactStore`; the store implements exactly the five consumed operations `createInstance`, `appendVersion`, `resolveById`, `queryByOwner`, `listSupersededBy`.
 - IRR composition: `frontend/server/reports/persistence-port.ts` validates all five operations and calls `openDatabase({ path, createDirectory: true, migrate: true })`. It owns no schema and constructs no substitute store.
 
+> **Update 2026-11-17 (`G-11` hardening).** The composition is now operation-specific: the file above
+> calls `openDatabase({ path, ...np04OpenOptions(intent) })` with `intent: 'READ' | 'INITIALISE'` —
+> `READ` → `{createDirectory: false, migrate: false}` (default; a `READ` on an absent path fails closed
+> before the module is imported), `INITIALISE` → `{createDirectory: true, migrate: true}` (the mint CLI,
+> the real-report script and a reports `POST`). The paragraph above is left as written; it remains true
+> for the writing callers and is no longer true for reads. Evidence:
+> `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §16.
+
 ### Schema and migration
 
 There is **one** migration: ordinal `1`, name `governed_persistence_baseline`, SQL SHA-256
@@ -49,6 +57,14 @@ It creates `schema_migrations` and `governed_artifacts`, ownership/chain/key ind
 Do not confuse three versions: migration ordinal `1`; NP-04 canonical artifact `schemaVersion: 1`; IID assessment payload `schemaVersion: 1`. NP-04 does not use `PRAGMA user_version` as this migration ledger.
 
 Every governed connection applies WAL, `foreign_keys=ON`, `busy_timeout=5000`, `synchronous=FULL`. `show-investment-chain` is read-only with respect to artifact rows, **not** a non-mutating database probe: its loader can create/migrate the file and SQLite can change journal/sidecar state. Never use it as the first probe of an uninspected active store.
+
+> **Update 2026-11-17 (`G-11` hardening).** The first clause's consequence is now only half true: the read
+> CLIs (`show-investment-chain`, `read-investment-payload`) and the served investment transports state
+> `READ`, so they can no longer create the file or its directory and cannot run migrations — a `READ` on an
+> absent path fails closed with `503`/`PERSISTENCE_UNAVAILABLE`. The second half still holds unchanged:
+> opening an existing store is not a *content* no-op — SQLite may still touch journal/WAL sidecar state, so
+> the operational rule stands — never probe an uninspected active store this way. Evidence:
+> `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §16.
 
 ### Owner carrier
 

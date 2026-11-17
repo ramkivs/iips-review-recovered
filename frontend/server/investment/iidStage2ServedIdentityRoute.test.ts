@@ -18,6 +18,10 @@
  *      The route must not degrade to an empty 200 that looks like full coverage.
  *   7. The HTML view answers 200 on the same published set, so the page the operator actually opens is live.
  *
+ * THE HTML PATH IS `/identity-coverage` (`G-10`, 2026-11-17). The assertions below are unchanged; only the
+ * path moved. The identity view used to be served at `/investment/coverage` — the SPA's INVESTMENT path — so a
+ * JS-free reader of the investment route was shown this identity report instead of the investment position.
+ *
  * @vitest-environment node
  */
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
@@ -286,7 +290,7 @@ describe('IID Stage 2 — the served identity-coverage route over the published 
 
     const url = await startServer(dataRoot);
     await fetch(`${url}/api/investment/coverage?asOf=${AS_OF}`);
-    await fetch(`${url}/investment/coverage?asOf=${AS_OF}`);
+    await fetch(`${url}/identity-coverage?asOf=${AS_OF}`);
     await fetch(`${url}/api/investment/coverage/investment?asOf=${AS_OF}`);
 
     expect(snapshot(dir)).toEqual(before);
@@ -315,7 +319,7 @@ describe('IID Stage 2 — the served identity-coverage route over the published 
 
   it('serves the HTML view the operator actually opens, over the same published set', async () => {
     const url = await startServer(dataRoot);
-    const response = await fetch(`${url}/investment/coverage?asOf=${AS_OF}`);
+    const response = await fetch(`${url}/identity-coverage?asOf=${AS_OF}`);
     expect(response.status).toBe(200);
     expect(response.headers.get('content-type')).toMatch(/text\/html/);
     const html = await response.text();

@@ -22,10 +22,9 @@ import type http from 'node:http';
 
 import { companyScopeToken } from '../../../iips-platform/src/investment/artifacts/scopeToken.js';
 import { parseIssuerId } from '../../../iips-platform/src/investment/contracts/ids.js';
-import { respondOwnerContextUnavailable } from '../owner-context-unavailable.js';
-import { sendJson } from '../owner-scoped-http.js';
+import { respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadAuthoritativeNp04Persistence } from '../reports/persistence-port.js';
+import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
 import { ASSESSMENT_REPORT_TYPE, InvestmentArtifactError } from './investmentArtifacts.js';
 import { CHANGE_REPORT_TYPE } from './changeComposition.js';
 import { createChangeService, type ChangeService, type PairComparison } from './changeService.js';
@@ -296,12 +295,12 @@ export async function handleChangeRequest(
         endHead(res, 503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
         return true;
       }
-      respondOwnerContextUnavailable(res);
+      respondOwnerContextUnavailableUncached(res);
       return true;
     }
     let port: unknown;
     try {
-      port = await (deps.loadPort ?? loadAuthoritativeNp04Persistence)();
+      port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
     } catch {
       port = null;
     }

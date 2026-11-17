@@ -101,6 +101,12 @@ Windows machine.
   database with `createDirectory: true, migrate: true`; calling it from a diagnostic would **create and
   migrate a database as a side effect of asking a question**. Readiness reports configuration plus file
   presence only. A mutation test proves the guard: making the check create the file fails the suite.
+- **Update 2026-11-17 (`G-11` hardening).** The historical wording above is left as written. The loader now
+  opens per operation and defaults to `READ` — `{createDirectory: false, migrate: false}`, failing closed before
+  the module is imported when the path is not an existing file — so calling it would no longer create or migrate a
+  database. The diagnostic still does not call it, for the reason that outlives the side effect: readiness reports
+  *configured / not configured* and *file present / absent* without acquiring a handle or a lock. Evidence:
+  `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §16.
 - **No disclosure.** Output carries setting *names*, bounded reason codes, counts and booleans — never a
   value, owner/tenant pair, digest, filesystem path or stack trace. A mutation test proves a path leak is
   caught.

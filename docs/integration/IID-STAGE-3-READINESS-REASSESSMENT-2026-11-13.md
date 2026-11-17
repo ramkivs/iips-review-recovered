@@ -523,6 +523,14 @@ involved, and the acceptance criterion's literal URL names the one Stage 3 canno
 | Identity coverage, JSON | `GET /api/investment/coverage` (`COVERAGE_ROUTES.json`) | The identity coverage report | **503** `identity-sources-unavailable`, naming the missing files |
 | **Investment coverage, JSON** | `GET /api/investment/coverage/investment` (`INVESTMENT_COVERAGE_ROUTES.json`) | **The served dataset's own coverage** — what criterion B is about | **200**, 3 issuers `COVERED`, `OPERATOR_SUPPLIED`, 3/13 measured (V-9) |
 
+> **Amended 2026-11-17 (`G-10`).** The table above is an observation at the head named at the top of this
+> assessment and is left as written. The collision it records has since been corrected: the identity
+> capability's server-rendered view moved to **`/identity-coverage`** (`COVERAGE_ROUTES.html`), and
+> `/investment/coverage` now renders the **investment** report (`INVESTMENT_COVERAGE_ROUTES.html`), matching the
+> SPA routes. The conclusion drawn from OBS-4 — that criterion B is answered by the investment JSON read, not by
+> the identity HTML view — is unchanged. Delivered evidence: `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14;
+> topology amendment: `CPII-01-RUNTIME-TOPOLOGY-AND-READINESS-BOUNDARY-2026-11-13.md` addendum.
+
 The collision: the SPA registers a **client** route at the *same* path as the server's identity HTML view —
 `frontend/src/app/routes.ts:66` `investmentCoverage: '/investment/coverage'` → `InvestmentCoveragePage` →
 `fetchInvestmentCoverageInvestment` → `/api/investment/coverage/investment` — while the composition root's

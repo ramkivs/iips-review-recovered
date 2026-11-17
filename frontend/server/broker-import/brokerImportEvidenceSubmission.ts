@@ -1,7 +1,6 @@
 /** U1 AMEND-02 evidence-only writer. One OS writer per directory is an operational precondition. */
 import type http from 'node:http';
-import { readJsonBody, sendJson } from '../owner-scoped-http.js';
-import { respondOwnerContextUnavailable } from '../owner-context-unavailable.js';
+import { readJsonBody, respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { ownerContextFromBinding, readBindingPrecondition } from '../user-portfolio/ownerContextFromBinding.js';
 import { evaluateRequestFirstPartySignal, isFirstPartyHardeningSatisfied } from '../user-portfolio/firstPartySignal.js';
 import { resolveDataDir } from '../persistence/persistence-service.js';
@@ -40,12 +39,12 @@ export async function handleEvidenceSubmission(req: http.IncomingMessage, res: h
   }
   const env = deps.env ?? process.env;
   const binding = ownerContextFromBinding(readBindingPrecondition(env), env);
-  if (binding.state !== 'IPD_BINDING_RESOLVED' || !binding.established) { respondOwnerContextUnavailable(res); return; }
+  if (binding.state !== 'IPD_BINDING_RESOLVED' || !binding.established) { respondOwnerContextUnavailableUncached(res); return; }
   if ((req.url ?? '').includes('?') || validatePortfolioIdParam(portfolioId) !== null) {
     sendJson(res, 400, { error: 'invalid-request' }); return;
   }
   const owner = resolveBrokerEvidenceOwnerContext(env);
-  if (!owner) { respondOwnerContextUnavailable(res); return; }
+  if (!owner) { respondOwnerContextUnavailableUncached(res); return; }
   const body = await readJsonBody(req, EVIDENCE_BODY_LIMIT);
   if (!body.ok) { sendJson(res, body.status, { error: body.error }); return; }
   if (!validateEvidenceSubmission(body.value)) { sendJson(res, 400, { error: 'invalid-evidence-submission' }); return; }

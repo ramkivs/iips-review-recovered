@@ -281,3 +281,53 @@ ALL CHECKS PASSED
 | `frontend/src/app/App.tsx` | the two routes mount their own pages |
 | `frontend/src/app/routes.ts` | the two paths are documented as distinct capabilities |
 | `frontend/scripts/iid-coverage-separation-probe.mts` | **new** — the end-to-end probe (not part of any gate) |
+
+---
+
+## 7. Addendum (2026-11-17) — the JS-free HTML paths now match the SPA's routes (`G-10` closed)
+
+Appended forward. **§1–§6 above are unchanged, byte for byte**, including §5's limitation paragraph and its
+files-changed table. §5 stated, of the server-rendered view:
+
+> … `still renders the identity unavailable page … the same identity report rendered without JavaScript` …
+> stated rather than silently changed, because it is an established IID-1 surface whose contract is the identity
+> report.
+
+That sentence is **superseded by this act, and stated rather than silently changed**, exactly as §5 itself asked:
+the identity report still exists, unchanged in content and still fail-closed, but it is now served at
+**`/identity-coverage`** — the route `frontend/src/app/routes.ts` already gives the identity capability — and
+**`/investment/coverage`** now renders the **investment** report on the server.
+
+Why the change was made: `G-10` recorded that a reader with scripts disabled, or one addressing the transport
+directly, was told *"Investment identity coverage unavailable"* on the path the SPA uses for investment coverage,
+while the investment JSON read answered `200` from a dataset that never consults an identity file. The two
+capabilities now have one path and one HTML contract each:
+
+| Path | Capability | Delivery |
+|---|---|---|
+| `/identity-coverage` | identity | server-rendered identity report; `503` fail-closed with `issues[].code` when a file cannot load |
+| `/investment/coverage` | investment | server-rendered investment report from the served dataset; `503` naming the **dataset** if the read fails |
+| `/api/investment/coverage` | identity | JSON — unchanged |
+| `/api/investment/coverage/investment` | investment | JSON — unchanged |
+| `/api/investment/coverage/preview` | shared evaluation | `POST` — unchanged |
+
+What did **not** change: the separation itself. The investment read still consults no identity file (proved by
+counting the loader: **zero** calls while serving `/investment/coverage`, non-zero for `/identity-coverage`), the
+identity dependency is still **disclosed** rather than enforced (`identitySourcesAvailable`, per-row
+`identityDependency` with *not evaluated* never collapsed to *no dependency*), and no row is classified by the
+investment surface.
+
+Delivered evidence, and the tests that pin it, are recorded in
+`IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14. Files changed by this addendum:
+`iips-platform/src/investment/coverage/investmentCoverageView.ts` (**new**),
+`iips-platform/src/investment/coverage/investmentCoverageEndpoint.ts`,
+`iips-platform/src/investment/identity/coverageEndpoint.ts` (route constant + comment only),
+`iips-platform/scripts/iid1-coverage-report.ts`,
+`frontend/server/investment/coverage-transport.ts`, `frontend/server/executive-transport.ts`,
+`frontend/src/app/routes.ts` (comment only), `frontend/src/features/investment/CompanyAssessmentPage.tsx`,
+`frontend/src/features/investment/InvestmentLandingPage.tsx`, plus the tests named in §14.4.
+
+---
+
+*End of addendum. The separation §1–§6 describes is unchanged; one of its two deliveries moved to the path it
+was always meant to have.*

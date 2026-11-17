@@ -328,7 +328,8 @@ $Reqs = @(
   @{ n = '06-06-identity-coverage'; u = "$Base/api/investment/coverage?asOf=$AsOf" },
   @{ n = '06-07-investment-coverage'; u = "$Base/api/investment/coverage/investment?asOf=$AsOf" },
   @{ n = '06-08-company-Infosys';   u = "$Base/api/investment/company/IN:CIN:L85110KA1981PLC013115" },
-  @{ n = '06-09-html-coverage';     u = "$Base/investment/coverage?asOf=$AsOf" }
+  @{ n = '06-09-html-coverage';     u = "$Base/investment/coverage?asOf=$AsOf" },
+  @{ n = '06-10-identity-html';     u = "$Base/identity-coverage?asOf=$AsOf" }
 )
 
 foreach ($r in $Reqs) {
@@ -351,7 +352,8 @@ holding only the Infosys identity files and no dataset — they are the **contra
 | `06-06` identity coverage | `503 identity-sources-unavailable` (files missing) **or** `503 observation-sources-unavailable` (files fine, holdings/watchlist surfaces unavailable — the observed case here, with `detail` naming `holdings/broker-preview/watchlist`) | fail-closed behaviour is correct in both states, and which of the two causes applies | that "no company exists". A 503 is a *read that could not be validated* |
 | `06-07` investment coverage | `200`, `dataset.datasetClass`, `dataset.issuers`, `measuredSectors`/`13`, `counts`, `statusLine` | the dataset's own position, computed without the identity files | anything about identity |
 | `06-08` company assessment chain | `200` with `head` (reportId, versionCount, payloadDigest, adequacy) — **or** `503 owner-context-unavailable` / `503 investment-persistence-unavailable` / `404 investment-artifact-not-found` | an honest, fixed refusal shape when a precondition is missing; a real chain when one is stored | that a `404` means "never assessed" — it means no version exists for that scope in that store |
-| `06-09` server-rendered coverage HTML | `503` fail-closed HTML | the JS-free page's honest state | that the SPA behaves the same. It does not — this is the known `G-10` divergence |
+| `06-09` server-rendered **investment** coverage HTML | `200 text/html`, no script: `datasetClass`, issuer count, sectors measured of 13, outstanding sectors, `statusLine`, one row per issuer — **or** `503` investment-worded HTML (`Investment coverage is unavailable`, naming the dataset) if the dataset cannot be read | the JS-free page renders the **investment** capability from the dataset, without the identity files | anything about identity coverage; and it is not the SPA's own bundle — it is the server's rendering of the same read model |
+| `06-10` server-rendered **identity** coverage HTML | `503` fail-closed HTML with `issues[].code` per file (`IDENTITY_SOURCE_MISSING`) **or** `200` with the identity report once the files validate | the identity capability keeps its own JS-free view, still fail-closed | that identity coverage is unavailable to the SPA — the SPA shows the same JSON read |
 
 Note in your evidence which branch of `06-06` you got, because the two have completely different next
 actions: the first is a host file problem, the second is the IPD-owned observation surfaces.
@@ -426,13 +428,25 @@ Read off and record: `datasetClass`, issuer count, sectors measured of 13, outst
 status line. This page must answer from the dataset **without** requiring the identity files; if it shows
 an identity error instead, that is the separation defect returning and is a finding.
 
-### 7.5 The JS-free exception (`G-10`) — record it, do not fix it
+### 7.5 The JS-free coverage views (`G-10`) — corrected 2026-11-17; verify, do not record an exception
 
-Open `http://127.0.0.1:8787/investment/coverage` directly (the server-rendered page, not the SPA). It
-returns the fail-closed identity-unavailable HTML — verified in this session as `503`, ~1.7 KB. Screenshot
-→ `07-08-html-coverage.png`. This is a known, recorded divergence: the bookmarked/JS-disabled view claims
-identity failure while the SPA shows the investment position. Record it; it is not a defect this procedure
-introduces or resolves.
+**Amended 2026-11-17.** The instruction this section previously carried — *"returns the fail-closed
+identity-unavailable HTML … Record it; it is not a defect this procedure introduces or resolves"* — is
+**withdrawn**, because `G-10` has been corrected in the product. Each capability now has its own JS-free page,
+at its own path:
+
+| Open on the transport, scripts disabled | Expected | If it is not |
+|---|---|---|
+| `http://127.0.0.1:8787/investment/coverage` | `200`, `<h1>Investment coverage</h1>`, no `<script`, dataset figures (or `503` *Investment coverage is unavailable* naming the dataset) | an identity error here is **the separation defect returning** — a finding, not an expected state |
+| `http://127.0.0.1:8787/identity-coverage` | the identity page: the identity report once the files validate, otherwise `503` fail-closed with `issues[].code` per file | a `200` that reports coverage while the roster is missing would be worse than the old defect |
+
+Screenshot the investment page → `07-08-html-coverage.png`. Read off `datasetClass`, issuer count, sectors
+measured of 13, outstanding sectors and the status line, and check them against the `06-07` JSON body from
+§7.4: the page is the server's rendering of the same read, so the two must agree figure for figure.
+
+Both pages are outside `/api`, so the Vite origin does not proxy them (T-1 in
+`CPII-01-RUNTIME-TOPOLOGY-AND-READINESS-BOUNDARY-2026-11-13.md`): address the transport port directly, as the
+captures in §7.4 do.
 
 ### 7.6 Change intelligence (`/investment/change-intelligence`) — optional
 

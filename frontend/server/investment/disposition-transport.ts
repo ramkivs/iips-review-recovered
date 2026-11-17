@@ -19,10 +19,9 @@
 import type http from 'node:http';
 
 import { parseSecurityId } from '../../../iips-platform/src/investment/contracts/ids.js';
-import { respondOwnerContextUnavailable } from '../owner-context-unavailable.js';
-import { sendJson } from '../owner-scoped-http.js';
+import { respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadAuthoritativeNp04Persistence } from '../reports/persistence-port.js';
+import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
 import {
   DISPOSITION_REPORT_TYPE,
 } from './dispositionComposition.js';
@@ -291,13 +290,13 @@ export async function handleDispositionRequest(
       endHead(res, 503, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
       return true;
     }
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return true;
   }
 
   let port: unknown;
   try {
-    port = await (deps.loadPort ?? loadAuthoritativeNp04Persistence)();
+    port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
   } catch {
     port = null;
   }

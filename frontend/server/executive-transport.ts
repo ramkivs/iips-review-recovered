@@ -828,6 +828,11 @@ const server = http.createServer(async (req, res) => {
   // matched here so the request reaches the coverage transport, and it answers from the dataset
   // independently of the identity sources — an absent identity roster is disclosed on that report
   // and on each affected issuer row, never rendered as an identity error.
+  //
+  // `G-10` (2026-11-17): the two JS-free HTML paths now mirror the SPA's routes. `/investment/coverage`
+  // renders the INVESTMENT report on the server (it used to fall through to the identity view and answer
+  // `503 Investment identity coverage unavailable` on a path the SPA uses for investment coverage), and
+  // the identity view is served at `/identity-coverage`, where the SPA already puts that capability.
   if (
     req.url === '/api/investment/coverage' ||
     req.url?.startsWith('/api/investment/coverage?') ||
@@ -836,7 +841,9 @@ const server = http.createServer(async (req, res) => {
     req.url === '/api/investment/coverage/preview' ||
     req.url?.startsWith('/api/investment/coverage/preview?') ||
     req.url === '/investment/coverage' ||
-    req.url?.startsWith('/investment/coverage?')
+    req.url?.startsWith('/investment/coverage?') ||
+    req.url === '/identity-coverage' ||
+    req.url?.startsWith('/identity-coverage?')
   ) {
     void (async () => {
       try {

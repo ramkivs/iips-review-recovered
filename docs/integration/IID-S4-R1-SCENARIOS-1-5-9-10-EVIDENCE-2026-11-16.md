@@ -402,3 +402,44 @@ dataset file, carrier, database or IPD file was touched.
 
 *End of record. This document reports executed evidence. It does not claim Windows verification, and it does
 not claim S4-R1 complete: two scenarios remain partial, both against a single IPD-owned dependency.*
+
+---
+
+## Addendum (2026-11-17) — `G-10` corrected
+
+Appended forward; **this record's scenarios, counts and verdicts are unchanged, byte for byte**. Two statements
+above are now historical rather than current: §L149's *"adding to this endpoint an HTML renderer — a new surface,
+which is owner decision O9"*, §321's *"`G-10` raw-HTML variant remains (owner decision O9)"* and §398's
+*"not licensed by a demonstration act"*.
+
+They were accurate: no demonstration act licensed the surface, and this record still does not claim one did. The
+surface was built under the separate instruction that directed the exception be corrected without making
+JavaScript mandatory; `/investment/coverage` now serves the investment report on the server and the identity
+view moved to `/identity-coverage`. Scenario 1's row is unaffected — §23 names the SPA route, which was correct
+then and is correct now. Evidence:
+`IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §14.
+
+---
+
+## Addendum (2026-11-17) — `G-11`'s served closure re-examined; the accounting is unchanged
+
+Appended forward; **every scenario verdict, count and residual in this record is unchanged, byte for byte**. §5's
+scenario-1 proof (minted through the shipped CLI, served `200`, second independent reader, `UNCHANGED` on repeat,
+`404` when absent) remains the evidence for `G-11`'s served limb, and it was **read, not re-run**: the suites that
+produce it import the private `iips-np04-governed-persistence` pin, which is unreachable from the environment this
+addendum was written in (403 on `ramkivs/iips-production-market-data`).
+
+What the later pass added is a different layer of coverage, not a different verdict: 23 served-transport tests
+(`frontend/server/investment/iidG11ServedChainTransport.test.ts`) pinning that the product's own HTTP server enforces
+the chain's method, scope, owner-context and HEAD discipline **before** an owner is resolved or a store opened, that
+no client-supplied portfolio or query parameter can select which chain is served, and that the chain, coverage and
+identity paths do not shadow one another. The disposition — `G-11` unchanged, closed in-tree, host limbs still the
+operator's — and the exact verification limits are recorded in
+`IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §15.
+
+**Follow-up, same day.** The paragraph above recorded that the store-dependent suites could not be re-run from the
+environment it was written in. CI has since executed them at the exact code head — workflow `CI`, run
+**`44128048813`**, head **`3293361`**, conclusion **`success`**, with the three private pins installed and verified,
+the full Vitest suite passing, the zero-test guard satisfied and the production build green. On that evidence
+`G-11` is recorded **`RESOLVED`** in `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` §15.6. No scenario verdict, count
+or residual in this record changes; the run was obtained through a **draft** pull request kept expressly unmerged.

@@ -8,6 +8,8 @@
  */
 import type http from 'node:http';
 
+import { respondOwnerContextUnavailable } from './owner-context-unavailable.js';
+
 /**
  * Maximum accepted request body size in bytes (malformed-input limit).
  *
@@ -76,6 +78,29 @@ export function readJsonBody(
 export function sendJson(res: http.ServerResponse, status: number, payload: unknown): void {
   res.writeHead(status, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(payload));
+}
+
+/**
+ * `G-11` hardening — the owner-context refusal, marked uncacheable.
+ *
+ * `owner-context-unavailable.ts` is FROZEN: AMEND-01 §8.5(21) pins its exact git blob, so the
+ * `Cache-Control` header the refusal needs cannot be added inside it. This wrapper sets the header
+ * and then delegates to the frozen responder, so the status (`503`), the body and the
+ * non-disclosure properties are byte-for-byte the frozen ones — only the caching policy is added,
+ * and it is added in exactly one place.
+ *
+ * `no-store` (rather than `no-cache`) is deliberate: shared caches must not retain the refusal at
+ * all, so a client that later resolves a valid owner context cannot be served a stale "unavailable"
+ * from an intermediary, and the refusal itself never becomes a cacheable artefact of the deployment.
+ *
+ * `headersSent` is checked because `writeHead` throws once the head is flushed; a call site that has
+ * already started a response keeps its own behaviour instead of crashing on the refusal path.
+ */
+export function respondOwnerContextUnavailableUncached(res: http.ServerResponse): void {
+  if (!res.headersSent) {
+    res.setHeader('Cache-Control', 'no-store');
+  }
+  respondOwnerContextUnavailable(res);
 }
 
 /**

@@ -894,7 +894,8 @@ export default function CompanyAssessmentPage({
           <p>
             <Link to="/user-portfolios">User portfolios →</Link>{' '}
             <Link to="/investment">Investment Intelligence →</Link>{' '}
-            <Link to={`/investment/coverage`}>Identity coverage →</Link>
+            {/* `G-10`: the identity view is the identity capability's, at the identity path. */}
+            <Link to="/identity-coverage">Identity coverage →</Link>
           </p>
         </SurfaceSection>
       )}

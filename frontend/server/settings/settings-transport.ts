@@ -20,9 +20,8 @@
  *   client's documented meaning of that field); `lastRevisionKind` discloses a later reset.
  */
 import type http from 'node:http';
-import { respondOwnerContextUnavailable } from '../owner-context-unavailable';
 import { resolveOwnerContext, type OwnerContext } from '../owner-context-resolver';
-import { readJsonBody, sendJson } from '../owner-scoped-http';
+import { readJsonBody, respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http';
 import {
   SettingsCorruptionError,
   SettingsSchemaVersionError,
@@ -134,7 +133,7 @@ export async function handleSettingsRequest(
   // The owner context is established BEFORE any service call: no owner ⇒ no data read or changed.
   const owner = resolveOwnerContext();
   if (owner === null) {
-    respondOwnerContextUnavailable(res);
+    respondOwnerContextUnavailableUncached(res);
     return;
   }
 

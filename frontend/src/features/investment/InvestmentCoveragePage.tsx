@@ -310,7 +310,10 @@ export default function InvestmentCoveragePage(): JSX.Element {
             <tr key={sector.sector} data-sector={sector.sector}>
               <td>{sector.sector}</td>
               <td>{sector.stage}</td>
-              <td>{sector.issuerCount}</td>
+              {/* The count is the sector's MEMBERSHIP: the served contract has no `issuerCount`
+                  field, only the `issuersConsidered` list (the same derivation the server's own
+                  HTML view uses). Reading a non-existent field rendered an empty cell. */}
+              <td>{sector.issuersConsidered.length}</td>
             </tr>
           ))}
         </tbody>

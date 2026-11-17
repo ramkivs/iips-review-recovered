@@ -522,3 +522,571 @@ It simply removes the population question from behind it.
 ---
 
 *End of addendum. §1–§12 remain as published on 2026-11-14.*
+
+---
+
+## 14. Addendum (2026-11-17) — `G-10` corrected: each capability now has its own JS-free page
+
+Appended forward. **§1–§13 above are unchanged, byte for byte** — including §7's `G-10` row, which still reads
+*"Open, unchanged"* exactly as written on 2026-11-14, and §13's `S2-R1` disposition. This addendum records the
+later act and the disposition it supports: **`G-10` is RESOLVED**, and the completion standard was met rather
+than waived.
+
+### 14.1 The finding, restated in its own terms
+
+`G-10` recorded one fact: `COVERAGE_ROUTES.html = '/investment/coverage'` served the **identity** capability's
+HTML view, and `frontend/server/investment/coverage-transport.ts` fell through to the identity binder for that
+path, so a reader with scripts disabled — or one addressing the transport directly — was told *"Investment
+identity coverage unavailable"* on the path the SPA uses for **investment** coverage, while
+`/api/investment/coverage/investment` answered `200` from the dataset. The register charged it to owner
+decision **O9** and characterised it as *"a new surface"*, not a defect repair.
+
+### 14.2 Reproduction, on the delivered surface rather than in source
+
+Both observations are of the **product's own executive transport** (`frontend/server/executive-transport.ts`),
+started with `npx tsx server/executive-transport.ts`, with the identity sources **absent** — the precondition
+`G-10` names.
+
+| Head | Request | Delivered | Body |
+|---|---|---|---|
+| `a45c9f7` (pre-fix, detached worktree, port 8788) | `GET /investment/coverage?asOf=2026-11-10` | **`503 text/html; charset=utf-8`** | `<h1>Identity coverage is unavailable</h1>` |
+| `a45c9f7` (pre-fix) | `GET /api/investment/coverage/investment?asOf=2026-11-10` | `200 application/json` | investment report |
+| this branch (post-fix, port 8787) | `GET /investment/coverage?asOf=2026-11-10` | **`200 text/html; charset=utf-8`** | `<h1>Investment coverage</h1>`, 6,033 bytes, **0** `<script` occurrences |
+| this branch (post-fix) | `GET /identity-coverage?asOf=2026-11-10` | `503 text/html; charset=utf-8` | `<h1>Identity coverage is unavailable</h1>` — fail-closed, preserved |
+| this branch (post-fix) | `GET /api/investment/coverage/investment` | `200 application/json` | unchanged |
+| this branch (post-fix) | `GET /api/investment/coverage` | `503 application/json` — `identity-sources-unavailable` | unchanged |
+| this branch (post-fix) | `HEAD /investment/coverage` | `200`, `content-type: text/html; charset=utf-8`, CSP `default-src 'none'; style-src 'unsafe-inline'`, `x-content-type-options: nosniff`, empty body | — |
+| this branch (post-fix) | `POST /investment/coverage` / `GET …?asOf=12-11-2026` | `405` / `400` | unchanged contract |
+
+The local data root has no installed dataset, so the post-fix page reports the disclosed `NONE` position
+(`No investment dataset is installed: no issuer is covered.`) with the identity absence disclosed beneath it.
+That is the honest state of *this* machine; the dataset-populated output is what the Windows captures in
+`IID-STAGE4-WINDOWS-VERIFICATION-PROCEDURE-2026-11-16.md` §7.4/§7.5 record.
+
+### 14.3 Root cause, and the correction
+
+| Element | Was | Now |
+|---|---|---|
+| `COVERAGE_ROUTES.html` (identity, `coverageEndpoint.ts`) | `/investment/coverage` | **`/identity-coverage`** — the SPA's own identity route |
+| `INVESTMENT_COVERAGE_ROUTES.html` (investment, `investmentCoverageEndpoint.ts`) | did not exist | **`/investment/coverage`** |
+| `/investment/coverage` renderer | identity `renderUnavailableHtml` via the transport fall-through | `iips-platform/src/investment/coverage/investmentCoverageView.ts` — new, script-free, server-rendered |
+| Identity HTML contract | shared with the investment path | unchanged content, own path; still `503` fail-closed with `issues[].code` per file |
+
+The investment view is rendered from the **same read model the JSON route publishes** — dataset disclosure,
+counts, sector measurement, issuer rows, ingestion issues, the IID-0 financial-coverage disclosure and the
+notes — with the same three-state identity disclosure per row (`resolved` / `unresolved` / *not evaluated*).
+Every interpolated value is escaped, the page loads nothing (no script, stylesheet, font or image), and a
+genuine investment read failure answers `503` in **investment** words naming the dataset. The identity view is
+not weakened: it keeps its fail-closed form, its file-level issues and its content, and it is now reachable at
+the path the SPA already uses for that capability.
+
+The separation record's §5 sentence — that the server-rendered `/investment/coverage` *"still renders the
+identity unavailable page … the same identity report rendered without JavaScript"* — is **superseded by this
+act** and is marked so, additively, in
+`IID-IDENTITY-AND-INVESTMENT-COVERAGE-SEPARATION-2026-11-10.md` §7.
+
+### 14.4 Tests that now pin both halves (JS-free and JS-enabled)
+
+| Test | Tests | What it pins |
+|---|---|---|
+| `iips-platform/tests/investment/investment-coverage-html.test.ts` (**new**) | 8 | route ownership; `200 text/html` from the dataset with identity sources absent; identity absence disclosed, never fatal; a real read failure is investment-worded `503`; no script, no subresource, no inline handler; escaping; `HEAD`; JSON route unchanged |
+| `frontend/server/investment/g10JsFreeCoverage.test.ts` (**new**) | 8 | the same over **real HTTP** through the transport seam: JS-free investment path `200`; identity path `503`; the old collision gone; **parity** of every headline figure with the JSON the SPA reads; the investment page performs **zero** identity-source reads; JS-enabled routes unchanged |
+| `iips-platform/tests/investment/identity-endpoint.test.ts` | 19 (1 new) | identity HTML path is `/identity-coverage`, not `/investment/coverage`; the identity view's content assertions are unchanged |
+| `frontend/server/investment/iidStage2ServedIdentityRoute.test.ts` | 9 | re-pointed to `/identity-coverage`; **assertions unchanged**, only the path |
+| `frontend/server/investment/iidInvestmentCoverageTransport.test.ts`, `iidStage4ServedCoverageRoute.test.ts`, `w05CoverageTransportRights.test.ts` | 5 / 11 / 3 | untouched and passing — the JSON contracts and the §23 scenario route did not move |
+| `frontend/src/features/investment/iid6Coverage.test.tsx`, `iidCoverageSeparation.test.tsx` | 8 / 14 | untouched and passing — the SPA surfaces are unchanged |
+
+Executed: `iips-platform` `npm run test:iid` → **1,468 pass / 0 fail** (305 suites); `npx tsc --noEmit` → 0
+errors. `frontend` affected suites → **58 tests / 7 files, all pass**; `tsc -p tsconfig.investment-server.json`
+and `tsc --noEmit` are clean apart from the pre-existing private-dependency errors (`iips-broker-import`,
+`iips-np04-governed-persistence`, `iips-production-market-data`, and the `.cache/broker-import` path they
+materialise). `frontend/src/app/iid6Routes.test.tsx` cannot load locally for that same reason (its `pretest`
+materialises the alias); its assertions read only route constants, which are unchanged.
+
+### 14.5 Consumers corrected with the route
+
+| Consumer | Was | Now |
+|---|---|---|
+| `iips-platform/scripts/iid1-coverage-report.ts` (IID-1 evidence emitter) | captured HTML from a literal `/investment/coverage` | captures from `COVERAGE_ROUTES.html`; re-run produces the identity view at `200`, no script |
+| `frontend/src/features/investment/CompanyAssessmentPage.tsx` | link **labelled** "Identity coverage" pointing at `/investment/coverage` | points at `/identity-coverage` |
+| `frontend/src/features/investment/InvestmentLandingPage.tsx` | investment link whose description described identity resolution | investment link described as the investment position, plus a separate identity-coverage entry |
+| `frontend/src/app/routes.ts` | identity doc comment claiming the server renders it at `/investment/coverage` | states `/identity-coverage` |
+| `frontend/server/executive-transport.ts` | dispatched `/investment/coverage` only | dispatches `/identity-coverage` too |
+
+### 14.6 What authorised the act, and what is *not* claimed
+
+- **Authorisation.** O9 existed because building a JS-free investment surface was judged *"a new surface, not a
+  defect repair"*, with the recommendation *"leave as-is and document"*. The instruction under which this work
+  was performed directed that the exception be corrected **without making JavaScript mandatory**, with the
+  delivered HTML verified rather than asserted. That instruction is the decision O9 named; the recommendation
+  to leave the divergence in place is therefore **superseded, not ignored**, and this record says so instead of
+  pretending the owner had already decided.
+- **`G-10` is `RESOLVED`** on the register's own standard: the defect no longer reproduces on the delivered
+  surface, the correction is pinned by committed tests on both halves, the historical evidence is preserved
+  (this addendum is appended; no prior record was rewritten), and the identity capability's fail-closed
+  contract is intact at its own path.
+- **The Stage 4 verdict is unchanged: PARTIALLY COMPLETE.** `S4-R1`'s 8/2 accounting, `S2-R1`'s satisfaction,
+  `S2-R2`/`R-1`/`R-2`/`R-3`/`R-4`, and the `G-4`/`G-6` data acts are untouched. `G-10` was never one of the
+  demo limb's constraints — §7 charges it to a *non-demonstration* question — so closing it moves no verdict.
+- **`L-041`/`L-042` are not reopened**, and no valuation, rights or permission calculation is touched.
+- **One adjacent observation, recorded and deliberately not fixed.** `InvestmentCoveragePage.tsx:313` reads
+  `sector.issuerCount`, and the client type declares it (`frontend/src/api/investmentCoverageInvestment.ts:56`),
+  but the served `SectorMeasurement` (`iips-platform/src/investment/coverage/measure.ts:38-49`) publishes
+  `issuersConsidered: string[]` and no `issuerCount`. The client field was declared at separation time
+  (`8603138`) and never existed on the server; `issuersConsidered` arrived with `d1134bc` and the SPA was not
+  updated to derive from it. The SPA's sector table therefore renders an empty issuer count against a served dataset. The JS-free
+  page renders `issuersConsidered.length`, which is the true figure. Fixing the SPA is a JS-enabled-surface
+  change outside this act's authority (the instruction was to preserve JS-enabled behaviour); it is recorded
+  here so the register owner can number and charge it.
+
+---
+
+## 15. Addendum (2026-11-17) — `G-11`: no served-chain limb was missing; what was and was not verified
+
+Appended forward. **§1–§14 above are unchanged, byte for byte.** This addendum answers one question — *what
+served assessment-chain functionality is still outstanding?* — and answers it with evidence rather than with a
+code change: **none was outstanding.** It also records exactly what this pass could verify, what it could not,
+and why, so that the register's own status is not advanced on inspection.
+
+### 15.1 The finding, and its two limbs
+
+`G-11` (baseline §24, quoted by `CPII-01` §8.3 B-7) recorded that no assessment version had ever been stored and
+that `GET /investment/company/:issuerId` *"has never served a real chain and returns 404 everywhere"*.
+
+| Limb | Completed | Evidence | Reopened here? |
+|---|---|---|---|
+| **Storage** — no assessment version exists anywhere operational | 2026-11-15 | `IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md` §7.1, operator-reported on the Windows store, with CLI read-back in a separate process | **No.** Read only |
+| **Served** — the chain has never been served | 2026-11-16 | `IID-S4-R1-SCENARIOS-1-5-9-10-EVIDENCE-2026-11-16.md` §5, scenario 1: minted through the shipped CLI against the admitted dataset, served `200` over the product's own composition root, re-read identically by a second reader, `UNCHANGED` on a repeat mint, `404` for an issuer with no chain | **No.** Re-exercised, not re-scored |
+
+### 15.2 The served path, end to end, and where a gap could have been
+
+Traced in `frontend/server/investment/investment-transport.ts` and its collaborators — and found complete at every
+step: route parse (`/company/:issuerId`, `/company/:issuerId/versions/:reportId`, split-then-decode, no second
+`versions` marker) → issuer identity parse + scope-token derivation (`co:<issuerId>`) → method gate → **owner
+context** (`resolveReportsOwnerContext`, the server-owned carrier seam shared with Reports) → **governed
+persistence boundary** (`loadAuthoritativeNp04Persistence`, fail-closed, no substitute store) → chain read filtered
+by scope (`findChainArtifacts`: `portfolioId === scopeToken && reportType === HEAD`, refusing to choose between two
+heads) → chain validation (`assertChainOfScope`, provenance issuer check, report-key recomputation, scope-drift
+rejection) → version read inside the validated chain → response envelope (payload verbatim) → fixed error mapping
+(`400` scope, `404` absent chain/version, `405` method, `503` owner-context / persistence / integrity).
+
+The **portfolio** dimension of an assessment chain is the scope token itself (`co:<issuerId>`): a company
+assessment is not filed under a portfolio, and the disposition surface that *is* portfolio-keyed
+(`hd:<portfolioId>:<securityId>`) is a different capability on different paths. So "correct portfolio association"
+here means exactly one thing — **a client-supplied portfolio cannot select the chain**, because the chain is chosen
+by the path's issuer and the server-owned owner and by nothing else. That is now asserted (15.3), not assumed.
+
+Where a substitution could still occur, and does not: the store scan is owner-scoped (`queryByOwner(this.ownerPair)`),
+so another owner's chain is not merely filtered out of the response — it is never listed; and every chain member is
+re-checked against the requested scope on read, so a store edit that moved an artifact between scopes is a
+`CHAIN_SCOPE_DRIFT` refusal rather than a plausible answer. Both properties are pinned by
+`frontend/server/investment/investment-artifacts.test.ts` (including *"keeps one scope per issuer and does not see
+another scope"* and *"treats a different issuer as a different chain, even with identical content"*).
+
+### 15.3 What this pass verified, on the delivered transport
+
+**New suite: `frontend/server/investment/iidG11ServedChainTransport.test.ts` — 23 tests, 23 pass.** It imports the
+**executive transport's own server** (`server` from `executive-transport.ts`, `listen()` suppressed under
+`NODE_ENV=test` and bound by the test) and issues real HTTP requests at the chain paths, the version path and the
+four coverage/identity paths:
+
+| Property asserted | Result |
+|---|---|
+| `POST`/`PUT`/`PATCH`/`DELETE` → `405` + `Allow: GET, HEAD` + `no-store`, before any owner or store work | pass |
+| `OPTIONS` → the transport-wide preflight (`204`, empty), so the chain cannot be reached through it either | pass |
+| A symbol, a sector reference, a portfolio id, an empty version segment, a stray segment, a bare company path → `400 investment-scope-invalid`, with no echo of the rejected value, and **no owner resolved / no store opened** | pass |
+| No carrier; a changed owner; a changed tenant; an extra key; a non-JSON carrier → `503 owner-context-unavailable` in the fixed refusal shape, with no path, carrier value or owner pair in the body | pass |
+| `HEAD` answers the same status as `GET` with an empty body, on both chain paths | pass |
+| `?portfolio=`, `?portfolioId=`, `?securityId=`, `?asOf=`, `?reportId=` change **nothing** — byte-identical answer with and without them | pass |
+| No coverage/identity response is a chain envelope (`scopeToken`, `versionCount` absent), and no chain response carries a dataset field; the `/changes` path under the same issuer is a different surface | pass |
+
+Executed in this environment: the new suite **23/23**; `iips-platform` `npm run test:iid` **1,468/1,468**;
+`npx tsc --noEmit` clean in `iips-platform`; `tsc -p tsconfig.investment-server.json --noEmit` clean in `frontend`
+apart from the private-dependency resolution errors named in 15.4.
+
+### 15.4 What this pass could **not** reproduce, and the exact blocker
+
+The `200`/`404` chain and the store-level isolation properties are asserted by suites that import
+`iips-np04-governed-persistence/persistence` — the second-specifier pin
+`github:ramkivs/iips-production-market-data#2e11fa3b…` (R3-Option B). In this environment that repository is
+**unreachable**:
+
+```
+git ls-remote https://github.com/ramkivs/iips-production-market-data.git
+  remote: Write access to repository not granted.
+  fatal: ... The requested URL returned error: 403
+```
+
+Consequences, stated exactly rather than worked around:
+
+- `investment-transport.test.ts`, `investment-artifacts.test.ts` and `iidStage4S4R1Scenarios.test.ts` cannot be
+  **loaded** here (unresolved module), so the served `200`, the `404` for an absent chain and the service-level
+  isolation cases were **not** re-executed at this head.
+- On the live transport the chain paths answer only their fail-closed limbs — `503 investment-persistence-unavailable`
+  with a valid carrier and no boundary, `503 owner-context-unavailable` with a tampered carrier, `400`/`405` as above
+  — which is what a correct refusal looks like, not a served chain.
+- `ci.yml` runs on `pull_request` and on `push` to `main` only, so a branch commit alone produces **no run** to cite.
+
+### 15.5 Status, and why it does not move
+
+**`G-11` stays exactly as the register has it: closed in-tree at `S4-R1`'s head, with the host/browser limbs
+(`R-1`, `R-2`, D10) owned by the operator and unchanged by this pass.** It is **not** re-promoted here, because the
+repository's completion standard is evidence *at the head being claimed*, and the finding's substance — a chain
+served `200` — cannot be reproduced at this head from this environment (15.4). The in-tree closure is neither
+weakened nor re-scored; nothing in §7's `S4-R1` row was edited.
+
+This is a "no code limb was missing" outcome, not a repair: the investigation found the chain complete, added the
+served-layer regression coverage that was genuinely absent, and recorded the two properties it declined to change:
+
+1. **`respondOwnerContextUnavailable` sets no `Cache-Control: no-store`.** It is the only refusal in the served
+   chain surface without it; every neighbouring refusal sets it. The helper is shared by the Reports, broker-import,
+   disposition and investment surfaces (ten call sites), so a change is a cross-surface response-contract edit, not a
+   `G-11` repair. **Recorded, not changed.**
+2. **The shared boundary opens the store with `createDirectory: true, migrate: true`** (`persistence-port.ts:321-325`).
+   That is what lets the shipped mint CLI initialise a store, and it means a misconfigured *read* path can create an
+   empty database and answer `404` rather than a diagnosable failure. Splitting a read-only opener from the write
+   opener would change the persistence boundary that `S4-R1`'s mint proof depends on — expressly outside this act's
+   authority. **Recorded, not changed.**
+
+### 15.6 Resolution (same day) — the CI run that 15.4 said was missing, and `G-11` **RESOLVED**
+
+§15.4 recorded one reason not to advance the status: no run existed at this head, because `ci.yml` triggers only on
+a pull request or a push to `main`. That reason is now discharged by evidence, not by argument. A **draft** pull
+request (#584) was opened from this branch for the express purpose of obtaining the run — **not** as a merge
+request, and nothing was merged or pushed to `main` — and CI executed the dependency-complete suite at the exact
+code head:
+
+| Field | Value |
+|---|---|
+| Workflow | `CI` (`ci.yml`), run **`44128048813`** |
+| Head | **`329336118a03be9cf30d9a9edac4f4f2f9e7f45c`** |
+| Result | **`completed` / `success`**, job *Typecheck · Test · Build* — every step `success` |
+| Steps that matter here | *Install dependencies from the committed lockfile* → *Verify all private dependencies resolve to their committed pins* → *Typecheck* → *Strict governed Screen replay server import closure* → **Run the full Vitest suite** → *Assert a non-zero, fully passing test run* → *Production build* |
+
+`npm run test:ci` (`vitest run`) is the suite in which the store-dependent chain proofs execute, with the three
+private pins installed and their commits verified: `investment-transport.test.ts` (16 tests — ordering, `400`/`405`/
+`404`/`503`, the served chain and each stored version), `investment-artifacts.test.ts` (including *"keeps one scope
+per issuer and does not see another scope"*, *"treats a different issuer as a different chain, even with identical
+content"*, and the scope-drift refusals), `iidStage4S4R1Scenarios.test.ts` (22 tests — scenario 1: minted through the
+shipped CLI, served `200`, second independent reader, `UNCHANGED` on repeat, `404` when absent) and the new
+`iidG11ServedChainTransport.test.ts` (23 tests). The zero-test guard excludes the false-green class, and the
+production build succeeded.
+
+**Disposition: `G-11` is `RESOLVED`.** The finding was that no chain had ever been stored or served; at head
+`3293361` both limbs are evidenced — storage on the Windows store (2026-11-15, operator-reported, §15.1) and HTTP
+service to a real stored chain, reproduced `200`/`404` at this head by CI run `44128048813`. §15.5's
+"does not move" is superseded by this paragraph and is left as written because it was true when written, hours
+earlier, before the run existed.
+
+What `RESOLVED` does **not** mean, stated so the entry cannot be read as more than it is:
+
+- **No browser or host journey was performed.** D10 (real-issuer browser acceptance) and `R-1`/`R-2` (host readiness
+  and served-surface captures) remain the operator's, unchanged and untouched by this pass.
+- **No Windows observation is claimed.** The storage limb is operator-reported evidence from 2026-11-15; this pass
+  read it and did not re-execute it.
+- **§7's `S4-R1` row, §13, and every prior addendum are unchanged.** Nothing was re-scored; `G-11` was never a
+  constraint on the Stage 4 verdict (§7 charges it to a non-demonstration question), so closing it moves no verdict.
+- **The two recorded properties in 15.5 are still unchanged** — the owner-context refusal's missing
+  `Cache-Control: no-store`, and the shared boundary's `createDirectory: true, migrate: true` opener. Both remain
+  register-owner questions, deliberately not answered by a `G-11` act.
+
+The draft pull request that produced the run carries the code head `3293361`; this paragraph is documentation only,
+and `ci.yml`'s path filter (`frontend/**`, `.ci/**`) therefore does not re-run it — by design, not by omission.
+
+## 16. `G-11` hardening — the owner-context refusal and the read-path open (2026-11-17)
+
+§15.5 recorded two properties and deliberately did not change them: `respondOwnerContextUnavailable` set no
+`Cache-Control`, and the shared persistence boundary opened every store with `createDirectory: true, migrate: true`.
+This section closes both. It does not reopen `G-11`: §15.6's `RESOLVED` disposition, its evidence and its non-claims
+stand exactly as written, and nothing was pushed to `main`.
+
+### 16.1 Root cause 1 — an owner-context failure could be cached
+
+`owner-context-unavailable.ts` responded `503` with `Content-Type: application/json` and **no** caching directive. An
+owner context that is absent, invalid, tampered or carries a foreign owner is a *transient* condition — it changes
+when the server-owned carrier is provisioned or corrected — yet the refusal was cacheable, so a browser or an
+intermediary could replay it after the condition was fixed, or pin it as this deployment's standing answer on a
+surface whose only failure mode is that refusal.
+
+**Call-site census (production code, before the change): 19 calls in 9 modules, reaching 6 served surfaces.**
+`broker-import/brokerImportHttp.ts` ×10 (commit, legacy commit, revision read, evidence admission ×2, the three
+Class-P/config-error mappings, the two precondition refusals); `broker-import/brokerImportEvidenceSubmission.ts` ×2;
+`collaboration/collaboration-transport.ts` ×1; `reports-transport.ts` ×1; `settings/settings-transport.ts` ×1;
+`watchlists/watchlists-transport.ts` ×1; `investment/investment-transport.ts` ×1;
+`investment/disposition-transport.ts` ×1; `investment/change-transport.ts` ×1. (`holding-identity-transport.ts`
+defines its own `owner-context-unavailable` body but already set `no-store` on every response, so it needed no
+change; it is untouched.)
+
+**Why the obvious fix was not available.** AMEND-01 §8.5(21) pins `owner-context-unavailable.ts` to git blob
+`cb8db45d668d28cee7e0a52721001d579a872733` (`brokerImportEvidenceRoute.test.ts:917–920`). Editing the responder
+fails a fence by design, so the header is enforced one layer out rather than by re-pinning a frozen artefact.
+
+**Correction.** `owner-scoped-http.ts` — the shared helper module for the owner-scoped transports — gained
+`respondOwnerContextUnavailableUncached(res)`: it sets `Cache-Control: no-store` (only when the head is not already
+flushed), then delegates to the frozen responder. Status, body, content type and the non-disclosure properties are
+the frozen ones; the caching policy is additive and exists in exactly one place. All 19 call sites now call the
+wrapper, and a source fence fails the build's test run if any production module calls the frozen responder directly.
+
+**Evidence (executable).** `server/owner-context-uncached.test.ts`, 11 tests: the frozen responder alone reproduces
+the defect (`503`, `application/json`, `cache-control` absent — the control); the wrapper yields `503` with
+`cache-control: no-store`, the same content type and a byte-identical body, and the body still deep-equals the frozen
+`OWNER_CONTEXT_UNAVAILABLE` constant; a flushed head does not throw; and each of the six served surfaces
+(broker-import, watchlists, settings, reports, collaboration, investment) is driven through its **real HTTP handler**
+and asserted `503` + `owner-context-unavailable` + `no-store`. The two source fences (only the wrapper calls the
+frozen responder; the frozen file still contains no `Cache-Control`) are part of the same suite. `brokerImportHttp.test.ts`
+additionally asserts the header at all five existing owner-context assertions (direct handler and the real composed
+host), and `iidG11ServedChainTransport.test.ts` — whose note previously read *"recorded, not asserted"* — now asserts
+`no-store` on the missing/tampered/foreign-carrier refusals and on the no-carrier refusal.
+
+**Preserved.** Status codes, bodies, content types, the operator-diagnosis log lines, the Class-P/config-error
+indistinguishability and the `HEAD` path are unchanged; no information was added to any refusal, and no authority,
+owner or carrier detail is disclosed by a header that only says "do not store".
+
+### 16.2 Root cause 2 — a read could provision the store
+
+`reports/persistence-port.ts` opened the database the one way that writes: `{ createDirectory: true, migrate: true }`,
+for every caller. A `GET`, a CLI read-back or a readiness-style probe could therefore create the database directory,
+create the database file and run schema migrations simply by asking a question. §15.5 recorded it; the NP-04
+preparation record already noted the consequence (`show-investment-chain` "is read-only with respect to artifact rows,
+not a non-mutating database probe").
+
+**Caller census and the intent each one now states** (the API makes intent mandatory and defaults it to `READ`, so an
+omitted intent can never acquire write powers):
+
+| Caller | Kind | Intent |
+|---|---|---|
+| `investment/cli/generate-investment-artifacts.ts` (default and `--dbPath` paths) | mint CLI — writes artifacts | `INITIALISE` (unchanged behaviour) |
+| `reports/persist-real-reports.ts` | script — writes real reports | `INITIALISE` |
+| `reports-transport.ts` `POST` (artifact create/append) | served write | `INITIALISE` (unchanged behaviour) |
+| `reports-transport.ts` `GET`/`HEAD` | served read | `READ` |
+| `investment/investment-transport.ts`, `disposition-transport.ts`, `change-transport.ts`, `discovery-transport.ts` | served assessment/chain reads | `READ` |
+| `investment/cli/show-investment-chain.ts` (×2), `cli/read-investment-payload.ts` | read CLIs | `READ` |
+| `reports/np04-adapter.ts` (`resolveAuthoritativeNp04Port`) | composition point | caller states it; default `READ` |
+
+**Correction.** `persistence-port.ts` gained `Np04OpenIntent` (`'READ' | 'INITIALISE'`), `np04OpenOptions(intent)`
+(READ → `{createDirectory:false, migrate:false}`, INITIALISE → `{createDirectory:true, migrate:true}`), a
+`loadReadOnlyNp04Persistence()` alias, and an optional module-resolution seam (`Np04LoaderOverrides`) used only by
+tests. `loadAuthoritativeNp04Persistence(intent = 'READ')` now (1) fails closed — `null` → `503` on every transport —
+when a `READ` is pointed at a path that is not an existing regular file, **before** the module is imported or any
+handle is taken, and (2) passes the intent-derived options to NP-04's own `openDatabase`. This is
+operation-specific configuration, not a global disable: the mint CLI and the reports write path keep their
+create-and-migrate capability verbatim, and the two-flag read shape is the one `m1-demonstration.ts` already used for
+its read-only inspection.
+
+**Evidence (executable).** `server/reports/persistence-port.test.ts`, 11 tests: the intent mapping (including that
+both option objects are frozen); `READ` on an absent path fails closed **without importing the module** and creates no
+directory; the default call behaves as `READ`; a directory path is refused; `READ` on an existing store passes exactly
+`{path, createDirectory:false, migrate:false}` and leaves the file's bytes, size and mtime unchanged; `INITIALISE`
+passes exactly `{path, createDirectory:true, migrate:true}`, accepts the store the open created, and closes a
+half-constructed handle when store construction fails; plus a source fence that no production module calls the loader
+without stating an intent. Because the loader takes the test seam, these assertions run **without** the private
+package — which matters, since this environment cannot resolve it.
+
+**Preserved.** Mint CLI initialisation: `generate-investment-artifacts` keeps its owner-before-port ordering (a run
+about to abort still cannot create a store) and both of its resolution paths state `INITIALISE`; its suite's
+read-back now states `READ` against a store the CLI created, which is a real read-only re-open. Reports create/append
+(`POST`) still provisions on first use, so the reports surface's documented write contract and its acceptance tests
+are unchanged.
+
+**Deliberate behaviour change.** A `GET`/`HEAD` on a reports path when the configured store does not yet exist now
+answers `503 persistence-unavailable` instead of silently creating the database. Provisioning is an operator act
+(mint CLI) or a write act (`POST`), never a read side effect.
+
+### 16.3 What this section does not claim
+
+- **No claim about NP-04's internals.** These tests prove which options *this repository* passes and that it never
+  reaches the module on a read that has no store. They do not assert that NP-04's own `openDatabase` ignores the
+  flags; that is NP-04's contract, and the dependency-complete run exercises the real package.
+- **Local execution is dependency-incomplete.** The three private pins cannot be resolved in this environment
+  (`Write access to repository not granted`, HTTP 403), so store-dependent suites cannot load here, and the local
+  `tsc --noEmit` reports the same 24 pre-existing module-resolution errors before and after this change. The
+  authoritative execution is the CI run recorded in §16.4, not a local one.
+- **No browser or host journey was performed**, and no Windows observation is claimed. `D10`, `R-1`/`R-2` are
+  untouched.
+- **No re-scoring.** §§7, 13 and 15 are unchanged; `G-11` stays `RESOLVED`.
+
+**Historical statements this section makes operation-dependent.** `docs/OPERATOR_RUNBOOK.md` (the two
+create-and-migrate notes) and `docs/integration/IID-NP04-PERSISTENCE-PREPARATION-2026-11-15.md` (lines 41 and 51)
+describe the pre-change opener; both carry an appended note pointing here. `docs/integration/CPII-01-…-2026-11-13.md`
+and `docs/integration/IID-P6A-…-2026-11-09.md` are dated records and are left as written; where they describe the
+opener, this section supersedes them.
+
+### 16.4 Execution evidence, commit and remote verification
+
+**Local (dependency-incomplete).** With only the dev toolchain present: `vitest run` over the affected suites —
+17 files, **253 tests, all passing** (the two new suites: 11 + 11; broker-import `brokerImportHttp.test.ts` 27;
+served chain `iidG11ServedChainTransport.test.ts` 23; watchlists/settings/collaboration transports and owner-context
+suites; `fenceUnchanged.test.ts` 13). A whole-`server/` run before and after the change differs only in that the two
+new suites go from failing-to-load to passing and in shifted line numbers; the same three pre-existing
+`reports-transport.test.ts` failures appear on both sides (they need the private package). `tsc --noEmit` on
+`frontend/tsconfig.json` reports the **same 24 pre-existing module-resolution errors before and after** — no error is
+introduced by this change. This environment cannot resolve the three private pins (HTTP 403), so no store-dependent
+suite could execute here; that is why the run below, not a local one, is the authority.
+
+| Field | Value |
+|---|---|
+| Workflow | `CI` (`ci.yml`), run **`44137325510`** |
+| Code head | **`6a1f3217d7a37d4b4a14fc758787c04a5e35bd01`** |
+| Result | **`completed` / `success`**, job *Typecheck · Test · Build* — all 17 steps `success` |
+| Steps that matter here | *Verify the scoped token can read the private IPD repository* → *Install dependencies from the committed lockfile* → *Verify all private dependencies resolve to their committed pins* → *Typecheck* → *Strict governed Screen replay server import closure* → **Run the full Vitest suite** → *Assert a non-zero, fully passing test run* → *Production build* |
+
+This is the dependency-complete execution in which `reports-transport.test.ts` (the surface whose `POST` keeps the
+provisioning intent and whose `GET`/`HEAD` no longer does), `reports-api.test.ts`, `reports-restart.test.ts` (three
+distinct OS processes), `investment-transport.test.ts`, `investment-artifacts.test.ts`,
+`iidStage4S4R1Scenarios.test.ts`, `brokerImportEvidenceRoute.test.ts` (the §8.5(21) blob pin) and
+`reports-persistence-integration.test.ts` all ran against the real pinned package. Their passing is what turns the
+`INITIALISE`/`READ` split from an assertion into evidence, and it also re-establishes that the frozen responder is
+still frozen: at the code head, `git rev-parse HEAD:frontend/server/owner-context-unavailable.ts` is
+**`cb8db45d668d28cee7e0a52721001d579a872733`** — the pinned value, unchanged.
+
+**Published state (verified against the remote, not from the local tree).**
+
+| Field | Value |
+|---|---|
+| Branch | `arena/e760fb87-iips-review-recovered` |
+| Head before this doc-only addendum | **`6a1f3217d7a37d4b4a14fc758787c04a5e35bd01`** (`6a1f321`) |
+| Tree at that head | **`ea12432f71ec17aab25fa2b3f32c3ae50365e63b`** — identical to `origin`'s tree for the branch |
+| `origin/main` | **`a45c9f7d7c961b42911903300f8599c824e855f8`** — unchanged, nothing merged |
+| New test blobs | `owner-context-uncached.test.ts` `8e41d53d…`; `reports/persistence-port.test.ts` `71066f6a…` |
+| Changed blobs | `owner-scoped-http.ts` `fc4e9aef…`; `reports/persistence-port.ts` `a2687e73…` |
+
+The push was `59454f0..6a1f321`; `git fetch` then `git rev-parse` showed local and remote heads and trees equal.
+Pull request **#584** remains a **draft**, opened only to obtain `pull_request` CI runs, and is neither merged nor
+closed; `main` was not touched. Because `ci.yml` filters on `frontend/**` and `.ci/**`, this documentation-only
+addendum does not re-run the workflow — by design, not by omission; the code head it describes is `6a1f321`.
+
+## 17. Investment Coverage SPA — the sector issuer count (2026-11-17)
+
+Recorded during `G-10` (§14, unchanged by this section): the Investment Coverage page read a field the server does
+not send, so the "Issuers" column of its Sector measurement table could render nothing. This section is the separate
+evidence entry for that defect. It does not reopen `G-10` (§14 stands as written) or `G-11` (§15, §16 stand as
+written), and it changes no server measurement logic, no `SectorMeasurement` field, no dataset classification, no
+valuation, no identity and no persistence.
+
+### 17.1 The finding, confirmed against the actual served JSON
+
+The page read `sector.issuerCount`; the server's `SectorMeasurement`
+(`iips-platform/src/investment/coverage/measure.ts`) has no such field. Confirmed by executing the composition, not
+by reading it: a dataset was built from `referenceContent()` (the IID fixtures), the report was composed with
+`buildInvestmentCoverageReport`, and served through the real handler
+`handleInvestmentCoverageRequest({ method: 'GET', url: '/api/investment/coverage/investment?asOf=…' })`. The served
+body (HTTP `200`, `application/json; charset=utf-8`) reported:
+
+- `sectors` — **13** rows, one per canonical sector;
+- the keys of a sector row — `sector, issuersConsidered, annualPeriodsConsidered, statementCoveragePct,
+  operatingMetricCoveragePct, stage, measured, usableMethods, withheldMethods, methods`;
+- `issuerCount` present on a sector row — **`false`**;
+- membership as served — `Banking[1] Hospitality[1] Technology[2]`, and an empty sector (`Auto`) with
+  `issuersConsidered: []`.
+
+So the recorded finding was exact, not approximate: the field the page read is absent, and the authoritative count
+source is the length of the membership list. Two details are worth recording because they make the wrong fix easy:
+the count is *membership*, not a measurement total (an empty sector reports `0`, not "unmeasured" as a number), and
+the payload also nests a **numeric** `issuersConsidered` inside `methods[]` — a different field at a different depth.
+
+### 17.2 Root cause
+
+The SPA's declared contract, not the server, was wrong. `frontend/src/api/investmentCoverageInvestment.ts` declared
+`InvestmentCoverageSectorRow { sector; stage; issuerCount: number }`, and the page rendered that field. Because the
+type was declared rather than imported, nothing compared it with the served JSON; and because the page's own fixture
+(`iidInvestmentCoverageFixtures.ts`) was authored to the same wrong type, the tests agreed with the page and never
+with the server. `undefined` renders as an empty cell in React, which is why the defect was silent: the table
+appeared, the rows were there, one column was blank.
+
+The server's own HTML view of the same report already derived the count correctly
+(`investmentCoverageView.ts`: `<td>${sector.issuersConsidered.length}</td>`), so the JS-free and JS-enabled surfaces
+of one capability disagreed with each other — the same class of divergence `G-10` was.
+
+### 17.3 Correction
+
+- **`frontend/src/api/investmentCoverageInvestment.ts`** — `InvestmentCoverageSectorRow` now describes the served
+  row as a documented projection of `SectorMeasurement`: `sector`, `stage`, `measured`, `issuersConsidered`
+  (the membership list), `annualPeriodsConsidered`, `statementCoveragePct`, `operatingMetricCoveragePct`. The
+  phantom `issuerCount` is gone, and the interface states that the count is `issuersConsidered.length`.
+- **The same module's payload validation** now requires every sector row to carry a string `sector`, a string
+  `stage` and a `issuersConsidered` list of strings. A row that cannot be counted is refused with a named error
+  (`investment coverage sector rows do not carry issuersConsidered`) instead of rendering an empty cell — the
+  defect's own shape (a scalar `issuerCount`) and a numeric `issuersConsidered` are both refused.
+- **`frontend/src/features/investment/InvestmentCoveragePage.tsx`** — the "Issuers" cell renders
+  `sector.issuersConsidered.length`. Nothing else on the page changed: the sector name, the stage, the counts table,
+  the measured/total line, the issuer table and every identity disclosure are untouched.
+- **`frontend/src/features/investment/iidInvestmentCoverageFixtures.ts`** — the fixture's sector rows were not in the
+  server's shape (they carried `issuerCount`); they now carry `issuersConsidered` and the rest of the served row, so
+  the fixture can no longer make a wrong page look right.
+
+No server file was modified: the contract was not defective, the consumer was.
+
+### 17.4 Tests
+
+New suite `frontend/src/features/investment/investmentCoverageSectorCount.test.tsx` — **8 tests**:
+
+1. a single-issuer sector renders `1` and a two-issuer sector renders `2`, each on **its own** row (a one-row test
+   would pass a per-row mapping defect), and the cell is not empty;
+2. a three-issuer sector renders `3` — and does so from the sector's membership list, not from the numeric
+   `methods[].issuersConsidered` the same payload carries;
+3. a sector that considered no issuer renders `0`, not a blank cell (and its stage stays `UNMEASURED`);
+4. the exact served row shape — every key the endpoint sends, including `usableMethods`, `withheldMethods` and
+   `methods` — is accepted and counted;
+5. the other displayed values are preserved: sector name, stage, and the measured/total line;
+6. the recorded defect shape (a scalar `issuerCount` row) is refused with the named error and no sector table is
+   rendered;
+7. a numeric `issuersConsidered` is refused;
+8. a membership list with a non-string entry is refused.
+
+**Red → green, demonstrated.** Against the pre-correction page the four count assertions fail with
+`expected '' to be '2'` / `'3'` / `'0'` — the empty cell, exactly as recorded; with the correction all 8 pass. The
+pre-existing separation suite (`iidCoverageSeparation.test.tsx`, 14 tests) also passes against the corrected fixture.
+
+**Runs.** Targeted: 22 tests across the two suites, all passing. Whole `frontend` vitest run: **2353 passed, 12
+failed, 1 skipped (2366)**, 57 files failing to load — and a before/after run of the same command differs by exactly
+one line, the new suite going from absent to passing: every failure is pre-existing and caused by the three private
+pins being unresolvable in this environment (HTTP 403). `tsc --noEmit` on `frontend/tsconfig.json` reports the same
+24 pre-existing module-resolution errors as the baseline and **none** in any file this section touches.
+
+### 17.5 What this section does not claim
+
+- **No server behaviour changed**, and no claim is made that the measurement semantics changed: `issuersConsidered`
+  was already the membership list, and `0` still means "this sector considered no issuer", not "unmeasured".
+- **`issuerCount` was not removed from the codebase.** It remains a legitimate field elsewhere — the identity
+  coverage report's `identitySources.issuerCount`, the company directory and the roster linter — and none of those
+  was touched. What was removed is its use for a report that never sends it.
+- **No browser journey is claimed.** The evidence is the rendered component under jsdom plus the served JSON from the
+  real handler; `D10`/`R-1`/`R-2` remain the operator's.
+- **No Windows observation, no re-scoring.** §§7, 13, 14, 15 and 16 are unchanged.
+
+### 17.6 Commit, remote verification and execution evidence
+
+| Field | Value |
+|---|---|
+| Commit | **`b4950b2ef8accc5ace9e15644138aeed056dc77a`** |
+| Branch | `arena/e760fb87-iips-review-recovered` (pushed `3aee6aa..b4950b2`) |
+| Tree | **`ffb27b68245dcfccbf621f3eb05b5f052c4e40e4`** — identical to the remote branch's tree after `git fetch` |
+| `origin/main` | **`a45c9f7d7c961b42911903300f8599c824e855f8`** — unchanged; nothing merged |
+| CI | workflow `CI`, run **`44141129756`**, head `b4950b2` — **`completed` / `success`**, all 17 steps, including *Run the full Vitest suite*, *Assert a non-zero, fully passing test run* and *Production build* |
+| PR #584 | still a **draft**, head `b4950b2`, neither merged nor closed; it exists only to obtain `pull_request` runs |
+
+**Changed-file set (exactly five, verified on the remote commit):**
+
+| Path | Blob | Change |
+|---|---|---|
+| `frontend/src/api/investmentCoverageInvestment.ts` | `7fc26957…` | sector row typed to the served contract; phantom `issuerCount` removed; sector-row validation added |
+| `frontend/src/features/investment/InvestmentCoveragePage.tsx` | `8db0a2e3…` | the "Issuers" cell renders `issuersConsidered.length`; nothing else changed |
+| `frontend/src/features/investment/iidInvestmentCoverageFixtures.ts` | `4292c101…` | fixture sector rows put in the served shape |
+| `frontend/src/features/investment/investmentCoverageSectorCount.test.tsx` | `9474a2db…` | new suite, 8 tests |
+| `docs/integration/IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` | — | this section |
+
+**No server file was touched by this commit** (`git show --name-only` reports only `frontend/src/**` and this record),
+so the `SectorMeasurement` contract, the measurement logic, dataset classification, valuation, identity and
+persistence are unchanged by construction, not merely by intention.
+
+The CI run is the dependency-complete execution: with the three private pins installed and verified, the full Vitest
+suite (which includes `iidCoverageSeparation.test.tsx` against the corrected fixture) and the production build both
+passed at this head.
+
+> **Note on the `origin/main` row above (recorded after the fact, same session).** When this addendum was verified,
+> `origin/main` was `a45c9f7d7c961b42911903300f8599c824e855f8`. It has since advanced to
+> `71306f276817890d76e7bfba2d349c7c38e17015` through **pull request #585** from an independent branch
+> (`arena/b63d36c5-iips-review-recovered`, *"Record AGI manual source provenance"* and its two predecessors) — not
+> through this branch. This task pushed only to `arena/e760fb87-iips-review-recovered`, whose head is **not** an
+> ancestor of `main`; PR #584 remains a draft and was neither merged nor closed. The correction described in §17.1–17.5
+> therefore reaches `main` only when that branch is separately reviewed and merged.

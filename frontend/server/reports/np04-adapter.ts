@@ -15,6 +15,7 @@ import {
   loadAuthoritativeNp04Persistence,
   NP04_BOUNDARY,
   PersistenceBoundaryError,
+  type Np04OpenIntent,
   type ReportsPersistencePort,
 } from './persistence-port.js';
 
@@ -39,8 +40,17 @@ export type Np04Resolution =
   | { readonly available: true; readonly port: ReportsPersistencePort }
   | { readonly available: false; readonly reason: string; readonly boundary: typeof NP04_BOUNDARY };
 
-export async function resolveAuthoritativeNp04Port(): Promise<Np04Resolution> {
-  const port = await loadAuthoritativeNp04Persistence();
+export async function resolveAuthoritativeNp04Port(
+  /**
+   * `G-11` hardening — what the caller intends to DO with the port.
+   *
+   * The default is `READ`: resolving a port is not, by itself, a reason to create a directory,
+   * create the database or migrate it. Only a caller that is about to WRITE through the port states
+   * `INITIALISE`, and it must state it deliberately.
+   */
+  intent: Np04OpenIntent = 'READ',
+): Promise<Np04Resolution> {
+  const port = await loadAuthoritativeNp04Persistence(intent);
   if (port === null) {
     return { available: false, reason: NP04_BOUNDARY.blocker, boundary: NP04_BOUNDARY };
   }

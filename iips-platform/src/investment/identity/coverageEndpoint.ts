@@ -7,7 +7,13 @@
  * fail-closed behaviour testable.
  *
  *   GET /api/investment/coverage?asOf=YYYY-MM-DD   → application/json
- *   GET /investment/coverage?asOf=YYYY-MM-DD       → text/html (the minimal view)
+ *   GET /identity-coverage?asOf=YYYY-MM-DD          → text/html (the minimal identity view)
+ *
+ * THE HTML PATH MOVED TO THIS CAPABILITY'S OWN ROUTE (`G-10`, 2026-11-17). This view is the IDENTITY
+ * report; it used to be served at `/investment/coverage`, the path the SPA uses for INVESTMENT coverage,
+ * so a JS-free reader of the investment path was shown an identity failure. It now mirrors the SPA's
+ * identity route, `/identity-coverage`, and the investment path renders the investment report
+ * (`investmentCoverageEndpoint.ts`). The JSON route above is unchanged.
  *
  * Fail-closed: if the identity sources cannot be loaded, the answer is 503 with the file-level issues.
  * There is no fallback roster, no cached previous report and no partially classified output.
@@ -20,7 +26,12 @@ import type { IdentityObservation } from './types';
 
 export const COVERAGE_ROUTES = Object.freeze({
   json: '/api/investment/coverage',
-  html: '/investment/coverage',
+  /**
+   * The SPA's identity route is `/identity-coverage` (`frontend/src/app/routes.ts`); the server-rendered
+   * view of the same report is served there. It is deliberately NOT `/investment/coverage`, which is the
+   * investment capability's path — that collision was `G-10`.
+   */
+  html: '/identity-coverage',
   /**
    * Broker-import preview rows are not persisted anywhere — they live in the browser session. Rather
    * than inventing a preview store (forbidden: no new persistence), the preview is evaluated on the

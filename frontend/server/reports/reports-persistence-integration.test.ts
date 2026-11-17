@@ -181,7 +181,9 @@ describe('five-operation contract against the real governed store', () => {
 
   it('resolves the admitted port through the runtime resolver when configured', async () => {
     process.env[NP04_DATABASE_PATH_ENV] = path.join(tempDir(), 'reports-resolver.db');
-    const port = await loadAuthoritativeNp04Persistence();
+    // `G-11` hardening: a resolver call that must BRING A STORE INTO EXISTENCE states INITIALISE.
+    // The same call with READ fails closed on this absent path (see persistence-port.test.ts).
+    const port = await loadAuthoritativeNp04Persistence('INITIALISE');
     expect(port).not.toBeNull();
     const binding = new ReportsPersistence(port);
     const created = binding.persistNew(OWNER_A, inputFor(11));

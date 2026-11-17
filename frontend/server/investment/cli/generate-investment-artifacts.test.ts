@@ -121,7 +121,9 @@ describe('the documented sequence runs end to end', () => {
     // Independently readable, through the same boundary the transport uses.
     process.env['IIPS_NP04_DATABASE_PATH'] = env.dbPath;
     try {
-      const port = await loadAuthoritativeNp04Persistence();
+      // `G-11`: a read-back states READ. Against a store the CLI already created, this proves the
+      // read-intent open works on a real NP-04 store without creating or migrating anything.
+      const port = await loadAuthoritativeNp04Persistence('READ');
       const service = createInvestmentArtifactService({
         port,
         owner: { tenantId: 'irr-reports-personal', userId: 'owner-irr-reports-personal' },

@@ -2,6 +2,14 @@
  * IID — the investment-coverage endpoint: the dataset's own coverage, independent of identity.
  *
  *   GET /api/investment/coverage/investment?asOf=YYYY-MM-DD   → application/json
+ *   GET /investment/coverage?asOf=YYYY-MM-DD                   → text/html (the JS-free view)
+ *
+ * THE HTML ROUTE IS THIS CAPABILITY'S OWN (`G-10`). `/investment/coverage` is the path the SPA and the
+ * navigation model use for INVESTMENT coverage. Until 2026-11-17 the only HTML served there was the
+ * IDENTITY capability's view, which answered `503 Investment identity coverage unavailable` whenever the
+ * identity files were absent — while this read answered `200` without them. The route now renders this
+ * endpoint's own report (`investmentCoverageView`), and the identity view has moved to the identity
+ * capability's own path, `/identity-coverage`, where the SPA already puts it.
  *
  * WHY A SEPARATE ENDPOINT
  *   `GET /api/investment/coverage` is the IDENTITY coverage read. It fails closed with 503 when
@@ -24,10 +32,15 @@ import {
   type InvestmentCoverageReport,
 } from '../coverage/investmentCoverage';
 import type { CoverageHttpRequest, CoverageHttpResponse } from '../identity/coverageEndpoint';
+import {
+  renderInvestmentCoverageHtml,
+  renderInvestmentCoverageUnavailableHtml,
+} from './investmentCoverageView';
 
-/** The route this endpoint owns. */
+/** The routes this endpoint owns. */
 export const INVESTMENT_COVERAGE_ROUTES = Object.freeze({
   json: '/api/investment/coverage/investment',
+  html: '/investment/coverage',
 });
 
 /** Everything the endpoint needs, injected. No file, network or clock access happens inside. */
@@ -54,6 +67,27 @@ function json(status: number, payload: unknown): CoverageHttpResponse {
   };
 }
 
+function html(status: number, body: string): CoverageHttpResponse {
+  return {
+    status,
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'cache-control': 'no-store',
+      'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'",
+      'x-content-type-options': 'nosniff',
+    },
+    body,
+  };
+}
+
+type Target = 'JSON' | 'HTML';
+
+function matchTarget(pathname: string): Target | null {
+  if (pathname === INVESTMENT_COVERAGE_ROUTES.json) return 'JSON';
+  if (pathname === INVESTMENT_COVERAGE_ROUTES.html) return 'HTML';
+  return null;
+}
+
 /**
  * Handle one request. Returns `null` when the path is not ours, so a composition root can fall
  * through to the next transport without this handler swallowing the route.
@@ -64,7 +98,8 @@ export async function handleInvestmentCoverageRequest(
 ): Promise<CoverageHttpResponse | null> {
   const rawUrl = request.url;
   const [pathname = '', query = ''] = rawUrl.split('?');
-  if (pathname !== INVESTMENT_COVERAGE_ROUTES.json) return null;
+  const target = matchTarget(pathname);
+  if (target === null) return null;
 
   const method = request.method.toUpperCase();
   if (method !== 'GET' && method !== 'HEAD') {
@@ -86,6 +121,11 @@ export async function handleInvestmentCoverageRequest(
     report = await dependencies.readInvestmentCoverage(asOf);
   } catch (error) {
     // An investment-coverage failure. It names itself; it never borrows identity's wording.
+    const detail = error instanceof Error ? error.message : String(error);
+    if (target === 'HTML') {
+      // The JS-free view states the same cause in the same words: the dataset, not the identity files.
+      return html(503, renderInvestmentCoverageUnavailableHtml(detail, asOf));
+    }
     return json(503, {
       error: 'investment-coverage-unavailable',
       detail:
@@ -95,11 +135,11 @@ export async function handleInvestmentCoverageRequest(
         {
           code: 'INVESTMENT_DATASET_UNREADABLE',
           subject: 'investment dataset',
-          detail: error instanceof Error ? error.message : String(error),
+          detail,
         },
       ],
     });
   }
 
-  return json(200, report);
+  return target === 'HTML' ? html(200, renderInvestmentCoverageHtml(report)) : json(200, report);
 }

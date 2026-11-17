@@ -110,13 +110,13 @@ export async function runShowChain(
       const previous = env[NP04_DATABASE_PATH_ENV];
       env[NP04_DATABASE_PATH_ENV] = resolve(dbPath);
       try {
-        port = await loadAuthoritativeNp04Persistence();
+        port = await loadAuthoritativeNp04Persistence('READ');
       } finally {
         if (previous === undefined) delete env[NP04_DATABASE_PATH_ENV];
         else env[NP04_DATABASE_PATH_ENV] = previous;
       }
     } else {
-      port = await loadAuthoritativeNp04Persistence();
+      port = await loadAuthoritativeNp04Persistence('READ');
     }
     if (port === null || port === undefined) {
       return { exitCode: 1, output: { ...base, scopeToken, failure: { code: 'PERSISTENCE_UNAVAILABLE', message: 'the governed persistence boundary is unavailable' } } };
