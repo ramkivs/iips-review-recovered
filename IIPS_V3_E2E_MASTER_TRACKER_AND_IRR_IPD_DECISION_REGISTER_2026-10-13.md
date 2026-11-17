@@ -23275,4 +23275,23 @@ Records updated: `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md` (addendum — `S
 `IID-STAGE4-COVERAGE-MEASUREMENT-EVIDENCE-2026-11-14.md` (addendum — outcome and the coverage divergence), and this
 section.
 
+**Publication and verification receipt (2026-11-17).** Two commits on the dedicated IRR work branch
+`arena/e6f75c56-iips-review-recovered`, branched from `main` `037d29ad09a29f68f567b68c3823f2a28715b666`:
+`37de6c29f2de5d9f224e5c7dbb0370b0a57386b0` (the transcription, the generic ingestion guard, the 25-test suite, the two
+evidence addenda and this section) and `348db8b30865f0d26f12b11266fbbc7976c42ca6` (the correction to the §23
+scenario-1 confidence assertion). GitHub PR **#586**
+(`https://github.com/ramkivs/iips-review-recovered/pull/586`) is against `main`; on head
+`348db8b30865f0d26f12b11266fbbc7976c42ca6` both required checks passed: **CI** run `44156815646` (*Typecheck · Test ·
+Build*, 5m31s) and **CAP-03 Revision 7 IRR-only static checks** run `44156815544` (*Python compile · source/evidence/
+tracker validation*, 50s). The first attempt, head `37de6c29f2de5d9f224e5c7dbb0370b0a57386b0`, failed *Run the full
+Vitest suite* (run `44155388598`) on the stale §23 confidence pin — `0.321` is what the engine produced while
+`EV_EBITDA` was withheld, and `0.4378` is what it produces once the corrected transcription makes the method
+applicable; the assertion and its comment were corrected in the second commit rather than the number being fuzzy-
+matched. Authenticated remote read-back confirmed the branch head OID and the committed blobs for
+`iips-platform/src/investment/ingestion/builder.ts` (`8b28d1a4…`),
+`evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv` (`840b77db…`) and
+`iips-platform/tests/investment/s4r2BorrowingsReuse.test.ts` (`ce0bfa62…`) — each read from `origin`, not from the
+local worktree. This receipt asserts branch/PR publication and verification; the merge into `main` is the authorised
+next step of this same task and its commit is recorded in the PR, not invented here.
+
 Next free §16.294 / `CV-CORR-259` / `CHG-2026-11-06-22` / `V2167`.
