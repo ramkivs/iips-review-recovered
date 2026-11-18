@@ -24,7 +24,7 @@ jobs:
           python - <<'PY'
           import base64, json, os, pathlib, zlib
           files = {str(p.relative_to('l038-delta-capture')): p.read_text() for p in pathlib.Path('l038-delta-capture').rglob('*') if p.is_file()}
-          encoded = base64.b64encode(zlib.compress(json.dumps(files).encode(), 9)).decode()
+          encoded = base64.b64encode(zlib.compress(json.dumps(files, sort_keys=True).encode(), 9)).decode()
           chunks = [encoded[i:i+3500] for i in range(0, len(encoded), 3500)]
           batch = int(os.environ['BATCH'])
           for i in range(batch*9, min((batch+1)*9, len(chunks))):
