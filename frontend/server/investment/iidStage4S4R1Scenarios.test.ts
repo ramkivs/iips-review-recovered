@@ -56,6 +56,7 @@ import { LINE_ITEMS } from '../../../iips-platform/src/investment/contracts/line
 import type { LineItemId } from '../../../iips-platform/src/investment/contracts/lineItems';
 import type { SectorName } from '../../../iips-platform/src/investment/contracts/operatingMetrics';
 import { materialiseReportsOwnerCarrier } from '../reports-owner-carrier';
+import { releaseNp04DatabasesUnderDirectory } from '../reports/persistence-port';
 import { runCli, type CliSummary } from './cli/generate-investment-artifacts';
 
 const ROOT = join(__dirname, '..', '..', '..');
@@ -177,7 +178,13 @@ afterAll(async () => {
     if (previous === undefined) delete process.env[key];
     else process.env[key] = previous;
   }
-  if (root !== '') rmSync(root, { recursive: true, force: true });
+  if (root !== '') {
+    // Every NP-04 handle this suite caused to be opened — by the real executive transport's
+    // requests and by each real `runCli` mint — is closed BEFORE the temporary root is deleted.
+    // An open handle leaves `np04.sqlite` undeletable on Windows (`EBUSY`); POSIX hides it.
+    releaseNp04DatabasesUnderDirectory(root);
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 /**

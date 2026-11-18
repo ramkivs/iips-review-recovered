@@ -14,6 +14,10 @@
 import net from 'node:net';
 
 import { IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION } from '../../ipcClient.js';
+import {
+  localIpcEndpointKindFor,
+  type LocalIpcEndpointKind,
+} from '../../testing/localIpcEndpoint.js';
 import { SYNTHETIC_FIXTURE_PORTFOLIO_PREFIX } from '../ownerBoundPortfolioCapture.js';
 
 export const SYNTHETIC_PORTFOLIO_ID = `${SYNTHETIC_FIXTURE_PORTFOLIO_PREFIX}-PORTFOLIO`;
@@ -28,8 +32,11 @@ export type SyntheticPeerMode =
 
 export interface SyntheticPeer {
   readonly path: string;
+  /** The local endpoint class this peer is listening on, for the platform in use. */
+  readonly kind: LocalIpcEndpointKind;
   /** Operations received, in order. */
   readonly operations: string[];
+  /** Idempotent: closes a started peer exactly once and releases its sockets. */
   close(): Promise<void>;
 }
 
@@ -118,9 +125,25 @@ function frameOf(value: unknown): Buffer {
  * Starts the synthetic peer on a local endpoint (a unix socket path, or a Windows
  * named pipe path). It answers the three read operations and nothing else: any other
  * operation is closed with zero bytes.
+ *
+ * `kind` selects the RESPONSE-DELIVERY policy and defaults to the host platform's local endpoint
+ * class, which is the same choice the production client makes in `resolveIpcEndpoint`: on POSIX
+ * the peer half-closes with the frame, and on Windows it writes the frame and leaves the pipe
+ * open, because ending a named pipe triggers the libuv shutdown/forced-break path before the
+ * client has read the response (IPD's flush-guard policy, mirrored). A test may state the kind
+ * explicitly to exercise that policy on a host whose own class differs.
+ *
+ * A peer that fails to start is NEVER returned: the promise rejects with the endpoint class and
+ * the underlying reason, so a caller cannot close — or report success for — a peer that does not
+ * exist.
  */
-export function startSyntheticPeer(endpointPath: string, mode: SyntheticPeerMode = 'CONSISTENT'): Promise<SyntheticPeer> {
+export function startSyntheticPeer(
+  endpointPath: string,
+  mode: SyntheticPeerMode = 'CONSISTENT',
+  kind: LocalIpcEndpointKind = localIpcEndpointKindFor(),
+): Promise<SyntheticPeer> {
   return new Promise((resolveStart, rejectStart) => {
+    let settled = false;
     const operations: string[] = [];
     const live = new Set<net.Socket>();
     let getCount = 0;
@@ -170,18 +193,56 @@ export function startSyntheticPeer(endpointPath: string, mode: SyntheticPeerMode
           socket.end();
           return;
         }
-        socket.end(frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result }));
+        const frame = frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result });
+        if (kind === 'windows-named-pipe') {
+          // Written, and the pipe stays open: the client destroys it once the full frame has
+          // arrived. Ending it here would break the pipe before the response is delivered.
+          socket.write(frame);
+          return;
+        }
+        socket.end(frame);
       });
     });
 
-    server.once('error', rejectStart);
+    const onStartupError = (error: Error): void => {
+      if (settled) return;
+      settled = true;
+      // Swallow any further error from a server that never listened: rejecting is the report.
+      server.removeListener('error', onStartupError);
+      server.on('error', () => undefined);
+      // The underlying reason is carried in the message: this project compiles against the
+      // ES2020 lib, where `Error` takes no `cause` option.
+      rejectStart(
+        new Error(
+          `the synthetic peer could not listen on the ${kind} endpoint '${endpointPath}': `
+            + `${error.name}: ${error.message}`,
+        ),
+      );
+    };
+
+    server.once('error', onStartupError);
     server.listen(endpointPath, () => {
+      if (settled) return;
+      settled = true;
+      server.removeListener('error', onStartupError);
+      // A started peer stays observable but must not take the run down: socket-level faults are
+      // the client's to report, and `close()` destroys every live socket.
+      server.on('error', () => undefined);
+
+      let closed = false;
       resolveStart({
         path: endpointPath,
+        kind,
         operations,
         close: () =>
           new Promise<void>((resolveClose) => {
+            if (closed) {
+              resolveClose();
+              return;
+            }
+            closed = true;
             for (const socket of live) socket.destroy();
+            live.clear();
             server.close(() => resolveClose());
           }),
       });

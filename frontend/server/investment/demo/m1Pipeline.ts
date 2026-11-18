@@ -19,6 +19,7 @@ import { loadIdentitySources, IDENTITY_FILE_NAMES } from '../../../../iips-platf
 import { readDataset } from '../../../../iips-platform/src/investment/ingestion/writer';
 import { classifyDataset } from '../../../../iips-platform/src/investment/fundamentals/datasetClass';
 import { CANONICAL_REPORTS_CARRIER_TEXT } from '../../reports-owner-carrier.js';
+import { releaseNp04DatabasesUnderDirectory } from '../../reports/persistence-port.js';
 import { composeAssessmentArtifact, type ComposedAssessment, type DatasetClass } from '../assessmentComposition.js';
 import {
   M1_DATASET_PROVIDER,
@@ -73,6 +74,13 @@ export function prepareM1Environment(root?: string): M1Environment {
     dbPath,
     carrierPath,
     cleanup: (): void => {
+      // Deterministic disposal BEFORE deletion. The NP-04 resolver opens a database handle for
+      // every transport request and every CLI run it serves, and this environment's own database
+      // lives under `rootDir`; an open handle is enough on Windows to make the file — and this
+      // directory — undeletable (`EBUSY`), while POSIX hides the same leak because `unlink`
+      // succeeds on an open file. Closing what the resolver opened is therefore part of cleanup,
+      // not an optional extra, and a close failure is reported rather than suppressed.
+      releaseNp04DatabasesUnderDirectory(rootDir);
       rmSync(rootDir, { recursive: true, force: true });
     },
   };

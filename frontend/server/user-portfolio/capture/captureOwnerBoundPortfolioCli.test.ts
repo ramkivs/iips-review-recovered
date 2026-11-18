@@ -35,6 +35,7 @@ import {
   type CliResult,
 } from './capture-owner-bound-portfolio.js';
 import { sha256Hex, type CaptureTransport } from './ownerBoundPortfolioCapture.js';
+import { createLocalIpcEndpoint, type LocalIpcEndpoint } from '../testing/localIpcEndpoint.js';
 import { startSyntheticPeer, SYNTHETIC_PORTFOLIO_ID, type SyntheticPeer } from './testing/syntheticIpcPeer.js';
 
 const PORTFOLIO_ID = 'SENTINEL-CLI-PORTFOLIO-ID';
@@ -407,28 +408,32 @@ describe('CLI validation — before any connection', () => {
 });
 
 describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD, not evidence)', () => {
-  let socketDirectory: string;
+  let endpoint: LocalIpcEndpoint;
   let peer: SyntheticPeer | null = null;
 
   beforeEach(() => {
-    socketDirectory = mkdtempSync(path.join(tmpdir(), 'iips-w11-dep1-peer-'));
+    // Platform-aware endpoint selection: a POSIX socket path in a fresh temporary directory here,
+    // a `\\.\pipe\` name on Windows. The SAME string is handed to the listening peer and to the
+    // client's environment, which is what makes the two sides agree by construction.
+    endpoint = createLocalIpcEndpoint({ label: 'w11-dep1-peer' });
   });
 
   afterEach(async () => {
+    // Only a peer that actually started is closed: a failed start rejects, so `peer` stays null
+    // and there is nothing to close. The endpoint's own allocation is released either way.
     if (peer !== null) await peer.close();
     peer = null;
-    rmSync(socketDirectory, { recursive: true, force: true });
+    endpoint.dispose();
   });
 
-  function peerEnvironment(endpoint: string): NodeJS.ProcessEnv {
-    return { IIPS_G2_IPC_ENDPOINT: endpoint, [BINDING_PRECONDITION_SETTING]: 'true' };
+  function peerEnvironment(endpointPath: string): NodeJS.ProcessEnv {
+    return { IIPS_G2_IPC_ENDPOINT: endpointPath, [BINDING_PRECONDITION_SETTING]: 'true' };
   }
 
   it('runs the full sequence through real framing and marks the result as not evidence', async () => {
-    const endpoint = path.join(socketDirectory, 'peer.sock');
-    peer = await startSyntheticPeer(endpoint);
+    peer = await startSyntheticPeer(endpoint.path);
     // No transport injected: the CLI uses the existing callIpc with the endpoint from the environment.
-    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint));
+    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint.path));
 
     expect(result.exitCode).toBe(0);
     expect(peer.operations).toEqual(['portfolio.list', 'portfolio.get', 'portfolio.revisions', 'portfolio.get']);
@@ -446,9 +451,8 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
   });
 
   it('recaptures once when the first attempt is inconsistent', async () => {
-    const endpoint = path.join(socketDirectory, 'peer.sock');
-    peer = await startSyntheticPeer(endpoint, 'FIRST_ATTEMPT_INCONSISTENT');
-    const { result } = await runCli(['--output-root', outputRoot, '--retry-delay-ms', '0'], undefined, peerEnvironment(endpoint));
+    peer = await startSyntheticPeer(endpoint.path, 'FIRST_ATTEMPT_INCONSISTENT');
+    const { result } = await runCli(['--output-root', outputRoot, '--retry-delay-ms', '0'], undefined, peerEnvironment(endpoint.path));
 
     expect(result.exitCode).toBe(0);
     expect(peer.operations).toHaveLength(8);
@@ -460,9 +464,8 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
   });
 
   it('reports a zero-byte close as a binding or authorization refusal', async () => {
-    const endpoint = path.join(socketDirectory, 'peer.sock');
-    peer = await startSyntheticPeer(endpoint, 'CLASS_P');
-    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint));
+    peer = await startSyntheticPeer(endpoint.path, 'CLASS_P');
+    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint.path));
 
     expect(result.exitCode).toBe(11);
     expect(peer.operations).toEqual(['portfolio.list']);
@@ -470,12 +473,20 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
   });
 
   it('reports a connection failure when nothing is serving the endpoint, and starts nothing', async () => {
-    const endpoint = path.join(socketDirectory, 'nobody-listening.sock');
-    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint));
+    // A SECOND endpoint, valid for this platform and with nothing listening on it. It has to be
+    // valid: an endpoint the client's own resolver would reject is a configuration refusal
+    // (exit 2), not the connection failure (exit 10) this case is about.
+    const unbound = createLocalIpcEndpoint({ label: 'w11-dep1-peer', name: 'nobody-listening' });
+    try {
+      const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(unbound.path));
 
-    expect(result.exitCode).toBe(10);
-    expect(result.outcome).toBe('IPC_CONNECTION_FAILURE');
-    expect(existsSync(endpoint)).toBe(false);
-    expect(result.exactCapturePath).toBeNull();
+      expect(result.exitCode).toBe(10);
+      expect(result.outcome).toBe('IPC_CONNECTION_FAILURE');
+      expect(existsSync(unbound.path)).toBe(false);
+      expect(result.exactCapturePath).toBeNull();
+      expect(peer).toBeNull();
+    } finally {
+      unbound.dispose();
+    }
   });
 });

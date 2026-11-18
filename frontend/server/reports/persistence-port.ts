@@ -42,6 +42,7 @@
  */
 
 import { statSync } from 'node:fs';
+import { isAbsolute, relative, resolve, sep } from 'node:path';
 
 /** An NP-04 stored artifact identity. Globally unique; never derived from canonical content. */
 export type Np04ReportId = string;
@@ -410,10 +411,153 @@ export async function loadAuthoritativeNp04Persistence(
       ...openOptions,
     });
     const store = new (StoreClass as new (db: unknown) => unknown)(database);
-    return assertNp04PersistencePort(store);
+    const port = assertNp04PersistencePort(store);
+    // Ownership of a LIVE handle passes to the caller here, so the resolver records it: an
+    // unreleased handle keeps the database file open for the lifetime of the process, which on
+    // Windows makes that file — and any directory containing it — undeletable (`EBUSY`) no
+    // matter how the deletion is attempted. See `releaseNp04DatabasesUnderDirectory` below.
+    trackOpenedDatabase(database, databasePath);
+    return port;
   } catch {
     // Ownership of the handle transfers only with a validated port: close it if we failed.
     closeQuietly(database);
     return null;
   }
+}
+
+/* ------------------------------------------------------------------ *
+ * Deterministic release of the database handles THIS resolver opened
+ * ------------------------------------------------------------------ */
+
+/**
+ * One handle this resolver opened, and the path it was opened at.
+ *
+ * The resolver's contract is unchanged by this record: it still opens exactly the handle the
+ * admitted NP-04 `openDatabase` produces, and it still hands that handle to the caller inside a
+ * validated port. What the record adds is *accountability* — the resolver is the only party that
+ * knows which handles it opened, so it is the only party that can say which ones are still open.
+ */
+interface OpenedNp04Database {
+  readonly path: string;
+  readonly database: unknown;
+  released: boolean;
+}
+
+/** Handles opened and not yet released. Deliberately process-local and never exported raw. */
+const openedDatabases = new Set<OpenedNp04Database>();
+
+function trackOpenedDatabase(database: unknown, databasePath: string): void {
+  openedDatabases.add({ path: databasePath, database, released: false });
+}
+
+/**
+ * How many handles this resolver has opened and not yet released.
+ *
+ * Telemetry for the owners of those handles (a test tearing down a temporary store, an operator
+ * script finishing a run). It reads no filesystem state and opens nothing.
+ */
+export function countOpenNp04Databases(): number {
+  let open = 0;
+  for (const entry of openedDatabases) if (!entry.released) open += 1;
+  return open;
+}
+
+/**
+ * Close one tracked handle.
+ *
+ * A close that throws is NOT swallowed and NOT retried silently: the entry stays tracked (so the
+ * count above still reports it) and the error is collected for the caller to surface. A handle
+ * whose database exposes no `close` counts as released — there is nothing this resolver can do
+ * about a dependency that offers no disposal operation, and pretending otherwise would be a lie.
+ */
+function closeTracked(entry: OpenedNp04Database): void {
+  if (entry.released) return;
+  const close = (entry.database as { close?: unknown } | null | undefined)?.close;
+  if (typeof close !== 'function') {
+    entry.released = true;
+    return;
+  }
+  (close as () => void).call(entry.database);
+  entry.released = true;
+}
+
+function describeError(error: unknown): string {
+  return error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+}
+
+/** True when `candidate` is `rootDirectory` itself or lives inside it, by the host's path rules. */
+function isInsideDirectory(candidate: string, rootDirectory: string): boolean {
+  // Windows paths are case-insensitive; comparing them case-sensitively would miss a handle the
+  // caller plainly owns (for example a temporary directory reached through `%TEMP%` vs `%Temp%`).
+  const normalize = (value: string): string => (process.platform === 'win32' ? value.toLowerCase() : value);
+  const root = normalize(resolve(rootDirectory));
+  const target = normalize(resolve(candidate));
+  if (target === root) return true;
+  const relation = relative(root, target);
+  if (relation.length === 0) return true;
+  if (isAbsolute(relation)) return false; // a different root/drive: not contained
+  return relation !== '..' && !relation.startsWith(`..${sep}`);
+}
+
+function releaseEntries(entries: readonly OpenedNp04Database[], scope: string): number {
+  const failures: string[] = [];
+  let released = 0;
+  for (const entry of entries) {
+    try {
+      closeTracked(entry);
+      released += 1;
+    } catch (error) {
+      failures.push(`${entry.path} -> ${describeError(error)}`);
+    }
+  }
+  if (failures.length > 0) {
+    // Reported, never suppressed: a cleanup failure that is hidden becomes a locked file somebody
+    // else has to diagnose.
+    throw new PersistenceBoundaryError(`could not release every NP-04 database handle ${scope}`, {
+      failures: Object.freeze(failures),
+      released,
+    });
+  }
+  for (const entry of entries) {
+    if (entry.released) openedDatabases.delete(entry);
+  }
+  return released;
+}
+
+/**
+ * Release every handle this resolver opened for a database at — or under — `rootDirectory`.
+ *
+ * This is the deterministic disposal step an owner of a TEMPORARY store must perform before
+ * deleting that store's directory: the resolver may have opened handles the owner never saw
+ * (each transport request and each CLI run resolves its own), and on Windows an open handle is
+ * enough to make the file and its directory undeletable. POSIX hides the same leak — `unlink`
+ * succeeds on an open file — which is exactly why this must be explicit rather than inferred
+ * from a green POSIX run.
+ *
+ * Returns how many handles were closed. Throws a `PersistenceBoundaryError` listing every handle
+ * that refused to close; no failure is suppressed, and no delay, retry loop or `force` flag is
+ * substituted for disposal.
+ */
+export function releaseNp04DatabasesUnderDirectory(rootDirectory: string): number {
+  if (typeof rootDirectory !== 'string' || rootDirectory.trim().length === 0) {
+    throw new PersistenceBoundaryError('a directory is required to release NP-04 database handles', {});
+  }
+  const scoped: OpenedNp04Database[] = [];
+  for (const entry of openedDatabases) {
+    if (!entry.released && isInsideDirectory(entry.path, rootDirectory)) scoped.push(entry);
+  }
+  return releaseEntries(scoped, `under ${rootDirectory}`);
+}
+
+/**
+ * Release every handle this resolver opened, wherever it was opened.
+ *
+ * The whole-process form of the scoped release above, for an owner that is finished with every
+ * store it configured (a teardown that does not want to enumerate paths, or a script exiting).
+ * Same contract: returns the number closed, throws with every failure listed.
+ */
+export function releaseAllNp04Databases(): number {
+  const all: OpenedNp04Database[] = [];
+  for (const entry of openedDatabases) if (!entry.released) all.push(entry);
+  return releaseEntries(all, 'opened by this resolver');
 }

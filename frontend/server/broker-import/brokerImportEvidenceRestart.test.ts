@@ -11,8 +11,9 @@
  * therefore still recover exactly one record with the same digest.
  */
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { spawnSync } from 'node:child_process';
+import { spawnSync, type SpawnSyncReturns } from 'node:child_process';
 import * as fs from 'node:fs';
+import { createRequire } from 'node:module';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,7 +22,32 @@ import { previewBrokerHoldings } from '../../src/api/brokerHoldingsPreview';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const FRONTEND_ROOT = path.resolve(HERE, '..', '..');
-const VITE_NODE_BIN = path.resolve(FRONTEND_ROOT, 'node_modules', '.bin', 'vite-node');
+
+/**
+ * The vite-node CLI entry, resolved through the package's OWN manifest — never through
+ * `node_modules/.bin`.
+ *
+ * WHY THE `.bin` PATH IS NOT PORTABLE. On POSIX `.bin/vite-node` is a symlink to the entry, so
+ * spawning it works through its shebang (and `realpathSync` of it yields the entry). On Windows
+ * npm writes three cmd-shim files instead — `vite-node` (a `/bin/sh` script), `vite-node.cmd` and
+ * `vite-node.ps1` — and the extensionless one this test used to spawn is not an executable image
+ * at all: `CreateProcess` refuses it, the child never starts, `status` stays `null` and the only
+ * evidence of what happened is `child.error`, which the previous failure message discarded
+ * (`child failed (status null): undefined`). Resolving the declared `bin` entry and running it
+ * with the SAME Node binary that runs this suite removes the shim from the path on every platform.
+ */
+const require = createRequire(import.meta.url);
+const VITE_NODE_ENTRY = ((): string => {
+  const manifestPath = require.resolve('vite-node/package.json');
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as {
+    bin?: string | Record<string, string>;
+  };
+  const bin = typeof manifest.bin === 'string' ? manifest.bin : manifest.bin?.['vite-node'];
+  if (typeof bin !== 'string' || bin.length === 0) {
+    throw new Error(`vite-node declares no runnable bin entry (manifest: ${manifestPath})`);
+  }
+  return path.resolve(path.dirname(manifestPath), bin);
+})();
 const WRITER = path.join(HERE, 'brokerImportEvidenceWriter.ts');
 const RECOVERER = path.join(HERE, 'brokerImportEvidenceRecoverer.ts');
 const CSV = path.join(HERE, '__fixtures__', 'dhan-web-ui-summary-68.csv');
@@ -80,13 +106,52 @@ interface RecovererEvidence {
   foreignScopeInvisible: boolean;
 }
 
+/** Bounded excerpt, so a chatty child cannot bury the diagnostic it was captured for. */
+function excerpt(value: string | null | undefined, limit = 4000): string {
+  const text = (value ?? '').trim();
+  if (text.length === 0) return '(empty)';
+  return text.length > limit ? `${text.slice(0, limit)}\n… [${text.length - limit} further bytes omitted]` : text;
+}
+
+/**
+ * Everything a failed child invocation has to say about itself.
+ *
+ * A `status` of `null` means the process never produced an exit status — it was not started, or it
+ * was killed by a signal, or the run timed out — and in every one of those cases the reason lives
+ * in `error`/`signal`/the captured output, not in `status`. Reporting only `status` is what made
+ * the Windows failure undiagnosable. Paths and arguments are test-local (a temporary directory, a
+ * tenant/owner label, a fixture CSV); no credential or vendor material is in scope here.
+ */
+function describeChildFailure(child: SpawnSyncReturns<string>, args: readonly string[]): string {
+  const error = child.error as (Error & { code?: string }) | undefined;
+  const errorCode = error?.code === undefined ? '' : ` (code ${error.code})`;
+  return [
+    `executable:      ${process.execPath}`,
+    `runner entry:    ${VITE_NODE_ENTRY}`,
+    `cwd:             ${FRONTEND_ROOT}`,
+    `argv:            ${JSON.stringify([VITE_NODE_ENTRY, ...args])}`,
+    `child.error:     ${error === undefined ? 'none reported' : `${error.name}: ${error.message}${errorCode}`}`,
+    `child.status:    ${child.status === null ? 'null — the process produced no exit status' : String(child.status)}`,
+    `child.signal:    ${child.signal === null || child.signal === undefined ? 'none reported' : String(child.signal)}`,
+    `child.stderr:    ${excerpt(child.stderr)}`,
+    `child.stdout:    ${excerpt(child.stdout)}`,
+  ].join('\n');
+}
+
 function run(args: string[]) {
-  const child = spawnSync(VITE_NODE_BIN, args, { cwd: FRONTEND_ROOT, encoding: 'utf8', timeout: CHILD_TIMEOUT_MS });
-  if (child.status !== 0) {
-    throw new Error(`child failed (status ${child.status}): ${child.stderr || child.stdout}`);
+  // No shell: a shell would put path quoting back in play on Windows, and the child needs none —
+  // it is the same Node binary running this suite, with the resolved runner entry as its script.
+  const child = spawnSync(process.execPath, [VITE_NODE_ENTRY, ...args], {
+    cwd: FRONTEND_ROOT,
+    encoding: 'utf8',
+    timeout: CHILD_TIMEOUT_MS,
+    windowsHide: true,
+  });
+  if (child.error !== undefined || child.status !== 0) {
+    throw new Error(`child failed for ${path.basename(args[0] ?? '(no script)')}:\n${describeChildFailure(child, args)}`);
   }
   const line = child.stdout.trim().split('\n').filter(Boolean).pop();
-  if (!line) throw new Error('child produced no stdout');
+  if (!line) throw new Error(`child produced no stdout:\n${describeChildFailure(child, args)}`);
   return { pid: child.pid, value: JSON.parse(line) as WriterEvidence | RecovererEvidence };
 }
 
@@ -101,6 +166,46 @@ describe('WS-A durable import evidence — separate-process restart', () => {
 
   afterEach(() => {
     fs.rmSync(root, { recursive: true, force: true });
+  });
+
+  it('runs its children through a Node-runnable runner entry, never a platform-specific .bin shim', () => {
+    // The resolved entry must be a script THIS Node binary can execute on any platform: a `.mjs`
+    // inside the package, not `node_modules/.bin/vite-node` — a symlink on POSIX, and an
+    // extensionless `/bin/sh` shim plus `.cmd`/`.ps1` siblings on Windows, where the extensionless
+    // file is not an executable image and `spawnSync` reports `status: null` with the reason only
+    // in `child.error`.
+    expect(fs.existsSync(VITE_NODE_ENTRY), `the runner entry must exist at ${VITE_NODE_ENTRY}`).toBe(true);
+    expect(/\.(mjs|cjs|js)$/.test(VITE_NODE_ENTRY)).toBe(true);
+    expect(VITE_NODE_ENTRY).not.toContain(`${path.sep}.bin${path.sep}`);
+    expect(fs.existsSync(process.execPath)).toBe(true);
+  });
+
+  it('reports the underlying cause when a child never produced an exit status', () => {
+    // The exact shape the Windows failure had: no status, no stderr, and the only evidence in
+    // `child.error` — which the previous one-line message threw away.
+    const failure = describeChildFailure(
+      {
+        pid: -1,
+        status: null,
+        signal: null,
+        stdout: '',
+        stderr: '',
+        output: [null, '', ''],
+        error: Object.assign(new Error('spawnSync EINVAL'), { code: 'EINVAL' }),
+      } as unknown as SpawnSyncReturns<string>,
+      [path.join(HERE, 'brokerImportEvidenceWriter.ts'), 'a', 'b'],
+    );
+
+    expect(failure).toContain('child.error:');
+    expect(failure).toContain('EINVAL');
+    expect(failure).toContain('child.status:');
+    expect(failure).toContain('no exit status');
+    expect(failure).toContain('child.signal:');
+    expect(failure).toContain('child.stderr:');
+    expect(failure).toContain('(empty)');
+    expect(failure).toContain(process.execPath);
+    expect(failure).toContain(VITE_NODE_ENTRY);
+    expect(failure).toContain(FRONTEND_ROOT);
   });
 
   it('process B recovers the unresolved 68-row evidence after process A terminates', () => {

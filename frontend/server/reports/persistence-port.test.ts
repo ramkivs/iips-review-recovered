@@ -26,10 +26,14 @@ import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  countOpenNp04Databases,
   loadAuthoritativeNp04Persistence,
   loadReadOnlyNp04Persistence,
   NP04_DATABASE_PATH_ENV,
   np04OpenOptions,
+  PersistenceBoundaryError,
+  releaseAllNp04Databases,
+  releaseNp04DatabasesUnderDirectory,
 } from './persistence-port.js';
 
 const SERVER_ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -44,6 +48,10 @@ interface Behaviour {
   readonly createFile?: string;
   readonly throwOnOpen?: boolean;
   readonly throwInStore?: boolean;
+  /** The handle refuses to close, so release must REPORT it rather than swallow it. */
+  readonly throwOnClose?: boolean;
+  /** The handle exposes no `close` at all. */
+  readonly noClose?: boolean;
 }
 
 /** A stand-in for the authoritative module: the same shape, none of the storage. */
@@ -81,8 +89,10 @@ function standInModule(capture: Capture, behaviour: Behaviour = {}): () => Promi
           mkdirSync(dirname(behaviour.createFile), { recursive: true });
           writeFileSync(behaviour.createFile, 'stand-in-database');
         }
+        if (behaviour.noClose === true) return {};
         return {
           close: () => {
+            if (behaviour.throwOnClose === true) throw new Error('close refused');
             capture.closed += 1;
           },
         };
@@ -105,6 +115,13 @@ beforeEach(() => {
 afterEach(() => {
   if (savedPath === undefined) delete process.env[NP04_DATABASE_PATH_ENV];
   else process.env[NP04_DATABASE_PATH_ENV] = savedPath;
+  // Same ordering the affected suites now use: dispose what the resolver opened, then delete.
+  // A handle that refuses to close is reported here rather than left to lock the directory.
+  try {
+    releaseAllNp04Databases();
+  } catch (error) {
+    if (!(error instanceof PersistenceBoundaryError)) throw error;
+  }
   rmSync(workDir, { recursive: true, force: true });
 });
 
@@ -211,6 +228,127 @@ describe('INITIALISE — the mint CLI keeps its ability to create and migrate', 
 
     expect(port).toBeNull();
     expect(capture.closed).toBe(1);
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * Deterministic release — the Windows `EBUSY` lifecycle, proven here
+ *
+ * The resolver opens a database handle per call and hands it to the caller inside a validated
+ * port. Nothing in the five-operation port says who closes it, so the resolver records what it
+ * opened. These tests use the SAME stand-in seam the intent tests use: no private package, no
+ * database engine — only the handle lifecycle this repository owns.
+ * ------------------------------------------------------------------ */
+
+async function openAt(
+  dbPath: string,
+  behaviour: { readonly throwOnClose?: boolean; readonly noClose?: boolean } = {},
+): Promise<Capture> {
+  const capture = newCapture();
+  mkdirSync(dirname(dbPath), { recursive: true });
+  writeFileSync(dbPath, 'stand-in-database');
+  process.env[NP04_DATABASE_PATH_ENV] = dbPath;
+  const port = await loadAuthoritativeNp04Persistence('READ', {
+    importModule: standInModule(capture, behaviour),
+  });
+  expect(port, `the stand-in store at ${dbPath} must resolve`).not.toBeNull();
+  return capture;
+}
+
+describe('deterministic release of resolver-opened database handles', () => {
+  it('counts a handle the resolver opened, and closes exactly the handles under the given directory', async () => {
+    const before = countOpenNp04Databases();
+    const first = await openAt(join(workDir, 'scope-a', 'one.db'));
+    const second = await openAt(join(workDir, 'scope-b', 'two.db'));
+    expect(countOpenNp04Databases()).toBe(before + 2);
+
+    expect(releaseNp04DatabasesUnderDirectory(join(workDir, 'scope-a'))).toBe(1);
+    expect(first.closed).toBe(1);
+    // The handle in the sibling directory is NOT this caller's to close.
+    expect(second.closed).toBe(0);
+    expect(countOpenNp04Databases()).toBe(before + 1);
+  });
+
+  it('is idempotent: a second release of the same scope closes nothing further', async () => {
+    await openAt(join(workDir, 'idem', 'one.db'));
+    expect(releaseNp04DatabasesUnderDirectory(join(workDir, 'idem'))).toBe(1);
+    expect(releaseNp04DatabasesUnderDirectory(join(workDir, 'idem'))).toBe(0);
+  });
+
+  it('closes a nested store several directories below the released root', async () => {
+    const capture = await openAt(join(workDir, 'deep', 'nested', 'store', 'three.db'));
+    expect(releaseNp04DatabasesUnderDirectory(workDir)).toBeGreaterThanOrEqual(1);
+    expect(capture.closed).toBe(1);
+  });
+
+  it('does not treat a sibling directory that merely shares a name prefix as contained', async () => {
+    const sibling = `${workDir}-sibling`;
+    const capture = await openAt(join(sibling, 'four.db'));
+    try {
+      expect(releaseNp04DatabasesUnderDirectory(workDir)).toBe(0);
+      expect(capture.closed).toBe(0);
+    } finally {
+      releaseNp04DatabasesUnderDirectory(sibling);
+      rmSync(sibling, { recursive: true, force: true });
+    }
+  });
+
+  it('releases every tracked handle wherever it was opened', async () => {
+    const first = await openAt(join(workDir, 'all-a', 'five.db'));
+    const second = await openAt(join(workDir, 'all-b', 'six.db'));
+    const released = releaseAllNp04Databases();
+    expect(released).toBeGreaterThanOrEqual(2);
+    expect(first.closed).toBe(1);
+    expect(second.closed).toBe(1);
+    expect(countOpenNp04Databases()).toBe(0);
+  });
+
+  it('reports a close failure with the offending path instead of suppressing it, and keeps counting the handle', async () => {
+    const before = countOpenNp04Databases();
+    const dbPath = join(workDir, 'stubborn', 'seven.db');
+    await openAt(dbPath, { throwOnClose: true });
+
+    let raised: unknown = null;
+    try {
+      releaseNp04DatabasesUnderDirectory(join(workDir, 'stubborn'));
+    } catch (error) {
+      raised = error;
+    }
+    expect(raised).toBeInstanceOf(PersistenceBoundaryError);
+    const detail = (raised as PersistenceBoundaryError).detail as { failures: readonly string[] };
+    expect(detail.failures).toHaveLength(1);
+    expect(detail.failures[0]).toContain(dbPath);
+    expect(detail.failures[0]).toContain('close refused');
+    // A handle that refused to close is still open: the count must not lie about disposal.
+    expect(countOpenNp04Databases()).toBe(before + 1);
+  });
+
+  it('treats a dependency handle with no close operation as released rather than pretending to close it', async () => {
+    const before = countOpenNp04Databases();
+    await openAt(join(workDir, 'noclose', 'eight.db'), { noClose: true });
+    expect(countOpenNp04Databases()).toBe(before + 1);
+    expect(releaseNp04DatabasesUnderDirectory(join(workDir, 'noclose'))).toBe(1);
+    expect(countOpenNp04Databases()).toBe(before);
+  });
+
+  it('never tracks a half-constructed handle: the failed composition already closed it', async () => {
+    const capture = newCapture();
+    const dbPath = join(workDir, 'broken-tracking', 'nine.db');
+    process.env[NP04_DATABASE_PATH_ENV] = dbPath;
+    const before = countOpenNp04Databases();
+
+    const port = await loadAuthoritativeNp04Persistence('INITIALISE', {
+      importModule: standInModule(capture, { createFile: dbPath, throwInStore: true }),
+    });
+
+    expect(port).toBeNull();
+    expect(capture.closed).toBe(1);
+    expect(countOpenNp04Databases()).toBe(before);
+  });
+
+  it('refuses a blank directory argument rather than releasing everything by accident', () => {
+    expect(() => releaseNp04DatabasesUnderDirectory('')).toThrow(PersistenceBoundaryError);
+    expect(() => releaseNp04DatabasesUnderDirectory('   ')).toThrow(PersistenceBoundaryError);
   });
 });
 
