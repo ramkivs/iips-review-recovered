@@ -73,6 +73,7 @@ def fetch(pair):
    row['discoveryLinks']=[x for x in links if re.search(r'IndAS|ind_as|capmkt|taxonomy|annual|financial|result|clarif|investor',x,re.I)][:130]
   return row
  except Exception as e:row['error']=repr(e);row['interpretation']='retrieval/parse limitation, not nonexistence';return row
-with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool: rows=list(pool.map(fetch,URLS.items()))
-(OUT/'retrieval-ledger.json').write_text(json.dumps({'sessionDate':'2026-11-17','runnerClockNote':'Runner timestamps retained as observed; not an unqualified session-date completeness cutoff.','sources':rows},indent=2)+'\n')
-print('Captured',len(rows),'candidates; no source admission')
+if __name__ == '__main__':
+ with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool: rows=list(pool.map(fetch,URLS.items()))
+ (OUT/'retrieval-ledger.json').write_text(json.dumps({'sessionDate':'2026-11-17','runnerClockNote':'Runner timestamps retained as observed; not an unqualified session-date completeness cutoff.','sources':rows},indent=2)+'\n')
+ print('Captured',len(rows),'candidates; no source admission')
