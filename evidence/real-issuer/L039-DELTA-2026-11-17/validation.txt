@@ -1,0 +1,126 @@
+L-039 validation (local, IRR only). No source admission or production write.
+Tooling: isolated .local/deps npm typescript5.4.5 / tsx4.23.0 / @types/node26.1.0; temporary node_modules symlink.
+Initial tsx4.19.2 diagnostic failed __dirname; current4.23.0 used for all passing runs.
+Initial replay exposed old identity entries/actions failure; explicitly retained, historical carrier only.
+New harness field lookup corrected to capital.components; no production change.
+Commands: cd iips-platform; tsx --test tests/investment/l039DeltaMissingPreservation.test.ts; tsx --test tests/investment/{l039CashSideEvidence,l040ValuationZeroSubstitution,w07FinancialLimitationResolution,ingestion,l038CashSideAlignment}.test.ts; tsx --test tests/investment/wi8IndustrialsKec.test.ts; tsx --test tests/investment/*.test.ts
+tsc --noEmit: exit0; additional strict ES2020/CommonJS typecheck including new script+test: exit0.
+Memory replay: tsx scripts/l039-delta-verify.ts <explicit diagnostic path>: exit0; original and refresh candidate only.
+Python compile scripts/l039* + test_l039_delta_evidence.py: exit0.
+Official capture workflows do NOT run product tests; temporary workflows removed from final tree.
+
+=== new-7 (exit0) ===
+    1..7
+ok 1 - L-039 delta safeguards
+  ---
+  duration_ms: 13.507798
+  type: 'suite'
+  ...
+1..1
+# tests 7
+# suites 1
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 434.763275
+
+=== targeted-86 (exit0) ===
+    1..2
+ok 22 - W07 — L-040 preservation and published W07 report verification
+  ---
+  duration_ms: 16.441599
+  type: 'suite'
+  ...
+1..22
+# tests 86
+# suites 22
+# pass 86
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2098.371471
+
+=== wi8-35 (exit0) ===
+    1..6
+ok 4 - WI-8 — the register, the record, and what must not have changed
+  ---
+  duration_ms: 7.57402
+  type: 'suite'
+  ...
+1..4
+# tests 35
+# suites 4
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 339.640351
+
+=== iid-full-1589 (exit0) ===
+    1..7
+ok 329 - Windows verify Pester suite — Pester 5 lifecycle discipline
+  ---
+  duration_ms: 3.89662
+  type: 'suite'
+  ...
+1..329
+# tests 1589
+# suites 329
+# pass 1589
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43657.165945
+
+=== prior-context-7 (exit0) ===
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.031s
+
+OK
+
+=== static-workflows-4 (exit0) ===
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.007s
+
+OK
+
+=== static-classification-7 (exit0) ===
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.010s
+
+OK
+
+=== static-release-23 (exit0) ===
+.......................
+----------------------------------------------------------------------
+Ran 23 tests in 0.487s
+
+OK
+
+=== static-validator (exit0) ===
+PASS: exact PA-authorized Windows 10 profile, evidence-gated pre-start retries, and post-marker no-retry controls
+PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation
+PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified
+LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS
+DURABLE IRR RETENTION: WAIVER AUTHORIZED — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The distinct original verification-output file may be absent under PA act IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01; the transcript remains separate. A sealed S04 bundle and Windows readback are still NOT PERFORMED by this static validator.
+U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN
+REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1
+
+
+Final offline Python evidence suite:
+$ python -m unittest discover -s scripts -p test_l039_delta_evidence.py -v
+exit0, 7/7. Verifies raw/compressed source hashes, retried archive outer/nested hashes and actual entry members,
+March context/zero bytes, explicit finite decimal accuracy counterexample, basis-specific packages, missing/open,
+and every evidence-manifest entry. No network, issuer admission, persistence or product operation.
+$ git diff --check
+exit0. Preservation baseline check: all original files unchanged except exact append-only register/tracker prefixes.
+
+Whitespace normalization: generated text extracts trimmed only trailing line/EOF whitespace after initial cached diff warning; original downloaded bodies and raw PDF hashes untouched. Final diff check rerun below.

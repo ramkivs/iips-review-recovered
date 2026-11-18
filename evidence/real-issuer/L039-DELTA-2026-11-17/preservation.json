@@ -1,0 +1,29 @@
+{
+  "baseline": "ed839d116d1d7363431e7d771e2f90dcbb9b330c",
+  "baselineTrackedFiles": 3942,
+  "unchangedBaselineFiles": 3940,
+  "onlyModifiedBaselineFiles": [
+    "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+    "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md"
+  ],
+  "allOtherBaselineFilesByteIdentical": true,
+  "appendOnlyRecords": [
+    {
+      "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+      "baselineBytes": 320659,
+      "baselineSha256": "7803b364c674aaac3b7e07ccd742fa7b18e7b8a11c8f7e1754195cb8c205869b",
+      "historicalPrefixUnchanged": true,
+      "appendBytes": 5902
+    },
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "baselineBytes": 4222473,
+      "baselineSha256": "581a8a93f533876323d029f211129119b24d1394ee0c549671871a926265b4d4",
+      "historicalPrefixUnchanged": true,
+      "appendBytes": 5482
+    }
+  ],
+  "newFilesAreDiagnosticEvidenceTestsAndProbesOnly": true,
+  "existingProductionCodeDataHistoricalArtifactsAndL038Unchanged": true,
+  "verification": "git diff baseline --diff-filter=MD and exact prefix comparisons; new paths do not overwrite old evidence; no rename/deletion of any baseline file"
+}
