@@ -1,0 +1,542 @@
+{
+  "S4R2-69bbc14e": {
+    "datasetVersion": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+    "operatingMetricRecords": 0,
+    "metricSourceClasses": [],
+    "metricIssues": [],
+    "issuers": [
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "legalName": "Infosys Limited",
+        "sector": "Technology"
+      },
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "legalName": "Marico Limited",
+        "sector": "Consumer"
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "legalName": "KEC International Limited",
+        "sector": "Industrials"
+      }
+    ],
+    "sectorsWithIssuer": [
+      "Consumer",
+      "Industrials",
+      "Technology"
+    ],
+    "metricGatedSlots": [
+      {
+        "sector": "Technology",
+        "methodId": "EV_REVENUE",
+        "sectorHasIssuer": true,
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "TM_NRR",
+          "TM_RECURRING_REVENUE_PCT"
+        ]
+      },
+      {
+        "sector": "Industrials",
+        "methodId": "EV_REVENUE",
+        "sectorHasIssuer": true,
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "IN_BOOK_TO_BILL"
+        ]
+      },
+      {
+        "sector": "Materials",
+        "methodId": "NAV_RESERVES",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "TOTAL_ASSETS",
+          "MM_RESERVE_LIFE",
+          "MM_COST_POSITION"
+        ]
+      },
+      {
+        "sector": "Utilities",
+        "methodId": "REGULATED_ASSET_BASE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "TOTAL_ASSETS",
+          "UM_RAB",
+          "UM_ALLOWED_ROE"
+        ]
+      },
+      {
+        "sector": "Auto",
+        "methodId": "EV_REVENUE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "REVENUE_FROM_OPERATIONS",
+          "AU_CAPACITY_UTILISATION",
+          "AU_MARKET_SHARE"
+        ]
+      },
+      {
+        "sector": "Energy",
+        "methodId": "EV_EBITDAX",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "EM_LIFTING_COST"
+        ]
+      },
+      {
+        "sector": "Energy",
+        "methodId": "NAV_RESERVES",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "TOTAL_ASSETS",
+          "EM_RESERVE_REPLACEMENT"
+        ]
+      },
+      {
+        "sector": "Healthcare",
+        "methodId": "EV_EBITDA",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "HC_OCCUPANCY",
+          "HC_ARPOB"
+        ]
+      },
+      {
+        "sector": "Hospitality",
+        "methodId": "EV_EBITDA",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "HM_REVPAR"
+        ]
+      },
+      {
+        "sector": "Banking",
+        "methodId": "RESIDUAL_INCOME",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "NET_PROFIT",
+          "TOTAL_EQUITY",
+          "BOOK_VALUE_PER_SHARE",
+          "BM_NIM",
+          "BM_GNPA",
+          "BM_CET1"
+        ]
+      },
+      {
+        "sector": "Banking",
+        "methodId": "PB_RELATIVE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "BOOK_VALUE_PER_SHARE",
+          "BM_GNPA"
+        ]
+      },
+      {
+        "sector": "Insurance",
+        "methodId": "P_EMBEDDED_VALUE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "NET_PROFIT",
+          "TOTAL_EQUITY",
+          "IM_EMBEDDED_VALUE",
+          "IM_VNB_MARGIN",
+          "IM_SOLVENCY"
+        ]
+      },
+      {
+        "sector": "Capital Markets",
+        "methodId": "P_AUM",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "NET_PROFIT",
+          "TOTAL_EQUITY",
+          "CM_AUM",
+          "CM_COST_TO_INCOME"
+        ]
+      },
+      {
+        "sector": "Telecom",
+        "methodId": "EV_SUBSCRIBER",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "TL_SUBSCRIBERS",
+          "TL_ARPU"
+        ]
+      }
+    ],
+    "sectorsWithIssuerSummary": [
+      {
+        "sector": "Consumer",
+        "stage": "G1_ENABLED",
+        "usable": [
+          "DCF_FCFF",
+          "PE_RELATIVE",
+          "EV_EBITDA"
+        ],
+        "withheld": [],
+        "statementCoveragePct": 91.7,
+        "operatingMetricCoveragePct": 100
+      },
+      {
+        "sector": "Industrials",
+        "stage": "G2_PARTIAL",
+        "usable": [
+          "DCF_FCFF",
+          "EV_EBITDA"
+        ],
+        "withheld": [
+          "EV_REVENUE"
+        ],
+        "statementCoveragePct": 100,
+        "operatingMetricCoveragePct": 0
+      },
+      {
+        "sector": "Technology",
+        "stage": "G2_PARTIAL",
+        "usable": [
+          "DCF_FCFF",
+          "PE_RELATIVE"
+        ],
+        "withheld": [
+          "EV_EBITDA",
+          "EV_REVENUE"
+        ],
+        "statementCoveragePct": 87.5,
+        "operatingMetricCoveragePct": 0
+      }
+    ]
+  },
+  "ADMITTED-bdfb2527": {
+    "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "operatingMetricRecords": 0,
+    "metricSourceClasses": [],
+    "metricIssues": [],
+    "issuers": [
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "legalName": "Infosys Limited",
+        "sector": "Technology"
+      },
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "legalName": "Marico Limited",
+        "sector": "Consumer"
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "legalName": "KEC International Limited",
+        "sector": "Industrials"
+      }
+    ],
+    "sectorsWithIssuer": [
+      "Consumer",
+      "Industrials",
+      "Technology"
+    ],
+    "metricGatedSlots": [
+      {
+        "sector": "Technology",
+        "methodId": "EV_REVENUE",
+        "sectorHasIssuer": true,
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "TM_NRR",
+          "TM_RECURRING_REVENUE_PCT"
+        ]
+      },
+      {
+        "sector": "Industrials",
+        "methodId": "EV_REVENUE",
+        "sectorHasIssuer": true,
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "IN_BOOK_TO_BILL"
+        ]
+      },
+      {
+        "sector": "Materials",
+        "methodId": "NAV_RESERVES",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "TOTAL_ASSETS",
+          "MM_RESERVE_LIFE",
+          "MM_COST_POSITION"
+        ]
+      },
+      {
+        "sector": "Utilities",
+        "methodId": "REGULATED_ASSET_BASE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "TOTAL_ASSETS",
+          "UM_RAB",
+          "UM_ALLOWED_ROE"
+        ]
+      },
+      {
+        "sector": "Auto",
+        "methodId": "EV_REVENUE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "REVENUE_FROM_OPERATIONS",
+          "AU_CAPACITY_UTILISATION",
+          "AU_MARKET_SHARE"
+        ]
+      },
+      {
+        "sector": "Energy",
+        "methodId": "EV_EBITDAX",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "EM_LIFTING_COST"
+        ]
+      },
+      {
+        "sector": "Energy",
+        "methodId": "NAV_RESERVES",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "TOTAL_ASSETS",
+          "EM_RESERVE_REPLACEMENT"
+        ]
+      },
+      {
+        "sector": "Healthcare",
+        "methodId": "EV_EBITDA",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "HC_OCCUPANCY",
+          "HC_ARPOB"
+        ]
+      },
+      {
+        "sector": "Hospitality",
+        "methodId": "EV_EBITDA",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "HM_REVPAR"
+        ]
+      },
+      {
+        "sector": "Banking",
+        "methodId": "RESIDUAL_INCOME",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "NET_PROFIT",
+          "TOTAL_EQUITY",
+          "BOOK_VALUE_PER_SHARE",
+          "BM_NIM",
+          "BM_GNPA",
+          "BM_CET1"
+        ]
+      },
+      {
+        "sector": "Banking",
+        "methodId": "PB_RELATIVE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "BOOK_VALUE_PER_SHARE",
+          "BM_GNPA"
+        ]
+      },
+      {
+        "sector": "Insurance",
+        "methodId": "P_EMBEDDED_VALUE",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "NET_PROFIT",
+          "TOTAL_EQUITY",
+          "IM_EMBEDDED_VALUE",
+          "IM_VNB_MARGIN",
+          "IM_SOLVENCY"
+        ]
+      },
+      {
+        "sector": "Capital Markets",
+        "methodId": "P_AUM",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "NET_PROFIT",
+          "TOTAL_EQUITY",
+          "CM_AUM",
+          "CM_COST_TO_INCOME"
+        ]
+      },
+      {
+        "sector": "Telecom",
+        "methodId": "EV_SUBSCRIBER",
+        "sectorHasIssuer": false,
+        "stage": "UNMEASURED",
+        "operatingMetricCoveragePct": 0,
+        "state": "WITHHELD",
+        "reason": "NO_DATA_FOR_SECTOR",
+        "missing": [
+          "EBITDA",
+          "NET_DEBT",
+          "TL_SUBSCRIBERS",
+          "TL_ARPU"
+        ]
+      }
+    ],
+    "sectorsWithIssuerSummary": [
+      {
+        "sector": "Consumer",
+        "stage": "G1_ENABLED",
+        "usable": [
+          "DCF_FCFF",
+          "PE_RELATIVE",
+          "EV_EBITDA"
+        ],
+        "withheld": [],
+        "statementCoveragePct": 92.5,
+        "operatingMetricCoveragePct": 100
+      },
+      {
+        "sector": "Industrials",
+        "stage": "G2_PARTIAL",
+        "usable": [
+          "DCF_FCFF",
+          "EV_EBITDA"
+        ],
+        "withheld": [
+          "EV_REVENUE"
+        ],
+        "statementCoveragePct": 100,
+        "operatingMetricCoveragePct": 0
+      },
+      {
+        "sector": "Technology",
+        "stage": "G2_PARTIAL",
+        "usable": [
+          "DCF_FCFF",
+          "PE_RELATIVE"
+        ],
+        "withheld": [
+          "EV_EBITDA",
+          "EV_REVENUE"
+        ],
+        "statementCoveragePct": 87.5,
+        "operatingMetricCoveragePct": 0
+      }
+    ]
+  }
+}
