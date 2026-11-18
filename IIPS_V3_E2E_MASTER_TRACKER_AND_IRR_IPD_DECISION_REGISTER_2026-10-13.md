@@ -23963,3 +23963,52 @@ census/matrix, twelve probes,25tests and no-defect finding unchanged/not rerun. 
 PR #597 on designated branch; no merge or host write authorized. Exact blockers published.
 
 Next free §16.304 / `CV-CORR-269` / `CHG-2026-11-06-32` / `V2230`.
+
+
+## 16.304 S4-R6 / G-4 corrected FY26 reconciliation — local admission, actual withholding (`2026-11-18`)
+
+**Trace:** `CV-CORR-269` / `CHG-2026-11-06-32` / `V2230`–`V2233`.
+
+**Source/disposition (`V2230`).** Official original SEC index/HTML adds bounded review of
+Infosys FY26 Item4 Our Clients, Item5 Revenues, Item18 note2.11 revenue/RPO; official annual
+MD&A/customer-satisfaction extracts corroborate why growth/concentration/contract mix/RPO/
+survey measures cannot provide NRR or recurring-revenue share. Supplied examination plus
+named independently examined sections support NOT_REPORTED / UNAVAILABLE, not whole-filing
+absence certification. Actual Infosys statement input remains FY24; no FY26 bundle found in
+targeted tracked-input lookup. KEC official May16,2026 consolidated release confirms period
+intake25,280cr; preserved audited annual PDFp117 (printed230–231) confirms revenue23,505.54cr.
+Ratio1.075491139535615859… rounds1.08, existing third band; closing book36,267/L1 excluded.
+FY25 operands remain rejected/historical. Sources, byte/page-digest distinction and verification
+limits in report; no new source redistribution licence or filing-date assertion invented.
+
+**Actual local admission/assessment (`V2231`).** One normal CLI ingestion of private copies
+of existing three-issuer inputs, only one KEC metric added, source assertions/rights unchanged.
+Digest `sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874`;
+actual disk/hash/read-port verification PASS, KEC metric VALID/PRESENT with correct issuer,
+FY26 consolidated period/RATIO/source floor. Actual assessCompany consumes read-back content:
+Infosys EV_REVENUE remains missing both metrics; KEC metric gate passes but method **withholds**
+`CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable`. Current investments remain missing,
+not zero; separate limitation not reopened/repaired. Both assessment invariant counts0.
+This is a real **local** canonical admission, not committed-data/owner-runtime installation.
+No host write, active runtime snapshot replacement or owner-runtime read-back is claimed.
+
+**Freshness/matrix/closure (`V2232`).** Period-end age232, not supplied publication-date103.
+Parser accepts metric; statement freshness emits STALE_STATEMENTS, STALE_DATA multiplier0.9.
+Separate actual bookToBill **certified-engine field qualification** returns **FIELD_STALE**:
+existing PNL200day policy is applied before field resolution. No parser failure invented, no
+publication anchor/override/calibration change. CLI input coverage says Industrials AVAILABLE,
+but actual valuation method remains withheld; no score executed. Additive14/38 matrix overlay:
+two live slots updated, twelve unmeasured unchanged; no fresh census/new slot. Numeric closure
+not met; explicit Ramki criterion/population/scope/final-status accepted-limitation decision
+under existing PA-01/O1 authority remains outstanding. **S4-R6 OPEN; G-4 OPEN.** No other status changed.
+
+**Verification/publication (`V2233`).** Report:
+`docs/integration/IID-S4-R6-FY26-RECONCILIATION-2026-11-18.md`; code, metadata-only execution/
+assessment/source/overlay/preservation receipts and new targeted checks:
+`evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/`. Original production code, source inputs,
+previous findings,12probes/25tests/census unchanged/not rerun. Private datasets/full payloads
+remain ignored. Publish supported partial to existing PR597, remote commit/tree/CI read-back;
+no merge. Required evidence/owner decision is not asserted complete merely because this pass
+is published. Exact remaining blockers are listed in report§9.
+
+Next free §16.305 / `CV-CORR-270` / `CHG-2026-11-06-33` / `V2234`.

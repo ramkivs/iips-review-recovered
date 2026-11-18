@@ -1,0 +1,59 @@
+{
+  "baseline": "29a225cdaa5e041ab4d08de004e86ab46f52d6f2",
+  "actualExecution": true,
+  "ingestExitCode": 0,
+  "allowErrors": false,
+  "command": "iips-platform/node_modules/.bin/tsx iips-platform/src/investment/cli/ingest.ts --input LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/infosys --input LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/marico --input LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/kec --dataset-dir LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/dataset --now 2026-11-18T00:00:00.000Z",
+  "inputCopyVerification": [
+    {
+      "original": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv",
+      "localCopy": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/infosys/periods.csv",
+      "sha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83",
+      "byteEqual": true
+    },
+    {
+      "original": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/roster.json",
+      "localCopy": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/infosys/roster.json",
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "byteEqual": true
+    },
+    {
+      "original": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/periods.csv",
+      "localCopy": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/marico/periods.csv",
+      "sha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4",
+      "byteEqual": true
+    },
+    {
+      "original": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/roster.json",
+      "localCopy": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/marico/roster.json",
+      "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb",
+      "byteEqual": true
+    },
+    {
+      "original": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/periods.csv",
+      "localCopy": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/kec/periods.csv",
+      "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd",
+      "byteEqual": true
+    },
+    {
+      "original": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/roster.json",
+      "localCopy": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/kec/roster.json",
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6",
+      "byteEqual": true
+    }
+  ],
+  "newLocalInputFile": "input/kec/operating-metrics.csv",
+  "newLocalCanonicalMetricRecords": 1,
+  "datasetVersion": "sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874",
+  "contentDigest": "sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874",
+  "ingestLogSha256": "7b84a301eebb8fc711065538960d6b7e409b84ccb825fecbbfd5c8c189b2f149",
+  "privateLocalDatasetIgnored": true,
+  "committedDatasetInstalled": false,
+  "ownerRuntimeInstallationVerified": false,
+  "inputCoverage": "normal CLI side effect; only two target slots projected; not a new census",
+  "operatingMetricParserFreshnessRejection": false,
+  "actualQualificationFieldCode": "FIELD_STALE",
+  "actualKecMethodRefusal": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+  "S4-R6": "OPEN",
+  "G-4": "OPEN"
+}

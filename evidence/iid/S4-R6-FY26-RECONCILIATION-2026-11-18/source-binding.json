@@ -1,0 +1,10 @@
+{
+  "sourceRef": "KEC-FY26-BTB-S4R6-RECONCILIATION",
+  "intakeUrl": "https://www.kecrpg.com/press-release/earnings/financial-performance-for-quarter-&-year-ended-31-march-2026",
+  "intakeSection": "Consolidated Order Intake and Order Book / Order Intake",
+  "denominatorDocument": "KEC_Annual_Report_2025-26.pdf",
+  "denominatorLocator": "PDF117 / printed230-231 / consolidated profit and loss / revenue from operations / FY26",
+  "denominatorSourceSha256": "ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820",
+  "operation": "local personal-use transcription and ingestion only; not a third-party rights clearance",
+  "denominatorPageTextSha256": "da5d5f73e3cdcb015636b1bcd576a6c34ba11f6fe5d8f8360a6c7dc3ee93912b"
+}

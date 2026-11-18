@@ -1,0 +1,203 @@
+{
+  "updateType": "additive evidence-state overlay; original matrix/definitions unchanged",
+  "baseline": "29a225cdaa5e041ab4d08de004e86ab46f52d6f2",
+  "originalMatrix": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+  "originalMatrixSha256": "49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62",
+  "datasetVersion": "sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874",
+  "datasetClass": "local personal-use CLI snapshot, not committed dataset or installed owner runtime",
+  "census": {
+    "totalSlots": 38,
+    "metricGatedSlots": 14,
+    "basis": "reused original census, not recomputed",
+    "newSlotDiscovered": false
+  },
+  "slots": [
+    {
+      "sector": "Technology",
+      "methodId": "EV_REVENUE",
+      "declaredMetrics": [
+        "TM_NRR",
+        "TM_RECURRING_REVENUE_PCT"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/0/metricDefinitions",
+      "evidenceDisposition": {
+        "TM_NRR": "NOT_REPORTED",
+        "TM_RECURRING_REVENUE_PCT": "NOT_REPORTED"
+      },
+      "verificationScope": "supplied examination plus independently inspected sections; not exhaustive whole-filings certification",
+      "localNumericRecords": 0,
+      "coverageState": "WITHHELD",
+      "assessmentState": "WITHHELD",
+      "reason": "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT",
+      "datasetPeriod": "2024-03-31",
+      "FY26DatasetAvailable": false
+    },
+    {
+      "sector": "Industrials",
+      "methodId": "EV_REVENUE",
+      "declaredMetrics": [
+        "IN_BOOK_TO_BILL"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/1/metricDefinitions",
+      "evidenceDisposition": {
+        "IN_BOOK_TO_BILL": "FY26_SOURCE_SUPPORTED"
+      },
+      "localNumericRecords": 1,
+      "localMetricValidation": "VALID",
+      "repositoryCommittedMetricAdmitted": false,
+      "ownerRuntimeInstalled": "NOT_VERIFIED",
+      "coverageState": "AVAILABLE",
+      "assessmentState": "WITHHELD",
+      "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+      "datasetPeriod": "2026-03-31",
+      "qualificationFieldOutcome": "STALE",
+      "qualificationCode": "FIELD_STALE"
+    },
+    {
+      "sector": "Materials",
+      "methodId": "NAV_RESERVES",
+      "declaredMetrics": [
+        "MM_RESERVE_LIFE",
+        "MM_COST_POSITION"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/2/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Utilities",
+      "methodId": "REGULATED_ASSET_BASE",
+      "declaredMetrics": [
+        "UM_RAB",
+        "UM_ALLOWED_ROE"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/3/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Auto",
+      "methodId": "EV_REVENUE",
+      "declaredMetrics": [
+        "AU_CAPACITY_UTILISATION",
+        "AU_MARKET_SHARE"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/4/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Energy",
+      "methodId": "EV_EBITDAX",
+      "declaredMetrics": [
+        "EM_LIFTING_COST"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/5/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Energy",
+      "methodId": "NAV_RESERVES",
+      "declaredMetrics": [
+        "EM_RESERVE_REPLACEMENT"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/6/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Healthcare",
+      "methodId": "EV_EBITDA",
+      "declaredMetrics": [
+        "HC_OCCUPANCY",
+        "HC_ARPOB"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/7/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Hospitality",
+      "methodId": "EV_EBITDA",
+      "declaredMetrics": [
+        "HM_REVPAR"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/8/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Banking",
+      "methodId": "RESIDUAL_INCOME",
+      "declaredMetrics": [
+        "BM_NIM",
+        "BM_GNPA",
+        "BM_CET1"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/9/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Banking",
+      "methodId": "PB_RELATIVE",
+      "declaredMetrics": [
+        "BM_GNPA"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/10/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Insurance",
+      "methodId": "P_EMBEDDED_VALUE",
+      "declaredMetrics": [
+        "IM_EMBEDDED_VALUE",
+        "IM_VNB_MARGIN",
+        "IM_SOLVENCY"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/11/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Capital Markets",
+      "methodId": "P_AUM",
+      "declaredMetrics": [
+        "CM_AUM",
+        "CM_COST_TO_INCOME"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/12/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    },
+    {
+      "sector": "Telecom",
+      "methodId": "EV_SUBSCRIBER",
+      "declaredMetrics": [
+        "TL_SUBSCRIBERS",
+        "TL_ARPU"
+      ],
+      "definitionsRef": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json#/slots/13/metricDefinitions",
+      "state": "UNMEASURED",
+      "reason": "NO_DATA_FOR_SECTOR",
+      "basis": "unchanged original matrix/census; no new issuer or census performed"
+    }
+  ],
+  "numericClosureSatisfied": false,
+  "acceptedLimitationOwnerDecision": "OUTSTANDING",
+  "S4-R6": "OPEN",
+  "G-4": "OPEN"
+}
