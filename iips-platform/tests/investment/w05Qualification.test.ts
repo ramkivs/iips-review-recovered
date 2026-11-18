@@ -1,0 +1,339 @@
+/**
+ * W05-C/W05-D — dataset qualification and the qualification-threshold mechanism.
+ *
+ * Acceptance tests: 3 (unknown rights cannot qualify), 5 (stale), 6 (missing periods and
+ * incomplete statements), 7 (standalone vs consolidated), 8 (missing/nil/zero/unmapped distinct),
+ * 9 (accounting limitations retained and consequential), 10 (reproducible from recorded
+ * evidence and rules) — plus the threshold mechanism: documented, testable, configurable, and
+ * never treated as approved.
+ */
+import { test, describe } from 'node:test';
+import assert from 'node:assert/strict';
+
+import {
+  DEFAULT_QUALIFICATION_POLICY,
+  qualifyIssuerDataset,
+  qualificationFromEvidence,
+  type IssuerDatasetQualification,
+  type QualificationInput,
+} from '../../src/investment/lifecycle/qualification';
+import {
+  PROPOSED_QUALIFICATION_THRESHOLD,
+  applyQualificationThreshold,
+  type QualificationThreshold,
+} from '../../src/investment/lifecycle/threshold';
+import { rightsRecordFromManifest } from '../../src/investment/lifecycle/rightsRecord';
+import {
+  ISSUER_A,
+  annualPeriod,
+  completeItems,
+  operatorAssertedRightsRecord,
+  quarterPeriod,
+  syntheticMissing,
+  syntheticNil,
+  syntheticRightsRecord,
+  threeCompleteAnnuals,
+} from './w05LifecycleFixture';
+
+const AS_OF_FRESH = '2026-09-15'; // FY2026 (ended 2026-03-31) is 168 days old — inside the 200-day P&L window
+const AS_OF_STALE = '2026-11-17'; // the same period is 231 days old — outside it
+
+function rightsSummary() {
+  const record = syntheticRightsRecord(AS_OF_FRESH);
+  return {
+    manifestRightsState: record.manifestRightsState,
+    datasetClass: record.datasetClass,
+    status: record.status,
+    statusReason: record.statusReason,
+  };
+}
+
+function qualify(overrides: Partial<QualificationInput> = {}, asOf: string = AS_OF_FRESH): IssuerDatasetQualification {
+  return qualifyIssuerDataset({
+    dataset: {
+      datasetVersion: 'sha256:1111111111111111111111111111111111111111111111111111111111111111',
+      datasetSchema: 'IIPS_INVESTMENT_FUNDAMENTALS_V1',
+      provider: 'w05-synthetic-fixture',
+      licence: 'synthetic; not redistributable',
+      importRunId: 'run-w05-synthetic',
+      lastImportAt: '2026-09-10T00:00:00.000Z',
+      dataAsOf: '2026-09-10',
+      knownAsOf: '2026-09-10',
+    },
+    issuerId: ISSUER_A,
+    periods: threeCompleteAnnuals(ISSUER_A),
+    issues: [],
+    integrity: { ok: true, detail: null },
+    rights: rightsSummary(),
+    asOf,
+    ...overrides,
+  });
+}
+
+describe('W05 — dataset qualification: a successful import is not qualification', () => {
+  test('test 3 — a dataset with unknown rights cannot qualify', () => {
+    const unknownRights = rightsRecordFromManifest(undefined, AS_OF_FRESH);
+    assert.equal(unknownRights.status, 'UNKNOWN');
+
+    const qualification = qualify({
+      rights: {
+        manifestRightsState: unknownRights.manifestRightsState,
+        datasetClass: unknownRights.datasetClass,
+        status: unknownRights.status,
+        statusReason: unknownRights.statusReason,
+      },
+    });
+
+    assert.equal(qualification.technicallyValid, true, 'the import itself is valid');
+    assert.ok(qualification.failedGates.includes('RIGHTS_ELIGIBLE'));
+    const decision = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(decision.decision, 'BELOW_PROPOSED_THRESHOLD');
+    assert.ok(decision.failedGates.includes('RIGHTS_ELIGIBLE'));
+  });
+
+  test('a fresh, complete dataset that merely imported successfully still fails qualification when rights are unknown', () => {
+    const unknownRights = rightsRecordFromManifest({ state: 'UNKNOWN', basis: '', note: '' }, AS_OF_FRESH);
+    const qualification = qualify({
+      rights: {
+        manifestRightsState: 'UNKNOWN',
+        datasetClass: 'UNKNOWN',
+        status: unknownRights.status,
+        statusReason: unknownRights.statusReason,
+      },
+    });
+    assert.equal(qualification.technicallyValid, true);
+    assert.equal(qualification.freshness.status, 'FRESH');
+    assert.equal(qualification.completeness.adequacy, 'SUFFICIENT');
+    assert.ok(qualification.failedGates.length > 0, 'technically valid is not qualified');
+  });
+
+  test('test 5 — a stale dataset is identified and cannot silently appear current', () => {
+    const qualification = qualify({}, AS_OF_STALE);
+
+    assert.equal(qualification.freshness.status, 'STALE');
+    assert.ok(qualification.freshness.reasons.includes('VALUATION_BASIS_BEYOND_PNL_WINDOW'));
+    assert.ok(qualification.failedGates.includes('FRESH_WITHIN_POLICY'));
+    const staleFlag = qualification.quality.flags.find((flag) => flag.code === 'STALE_STATEMENTS');
+    assert.ok(staleFlag, 'the stale condition is recorded as a named quality flag');
+    assert.equal(staleFlag.severity, 'HIGH');
+    assert.ok(qualification.accountingLimitations.some((finding) => finding.code === 'STALE_STATEMENTS'));
+
+    // The staleness is dated, so a reader can see HOW stale rather than a bare "old".
+    assert.equal(qualification.freshness.valuationBasis?.periodEnd, '2026-03-31');
+    assert.ok((qualification.freshness.valuationBasis?.daysSincePeriodEnd ?? 0) > 200);
+
+    const decision = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(decision.decision, 'BELOW_PROPOSED_THRESHOLD');
+    assert.ok(decision.failedGates.includes('FRESH_WITHIN_POLICY'));
+  });
+
+  test('test 6 — missing financial periods and incomplete statements are reported accurately', () => {
+    // FY2024 and FY2026 only: FY2025 is absent from the series, and the latest period lacks items.
+    const partial = completeItems({
+      REVENUE_FROM_OPERATIONS: syntheticMissing('NOT_REPORTED'),
+      EBITDA: syntheticMissing('NOT_REPORTED'),
+      TOTAL_ASSETS: syntheticMissing('NOT_TAGGED_IN_FILING'),
+      OPERATING_CASH_FLOW: syntheticMissing('NOT_REPORTED'),
+    });
+    const qualification = qualify({
+      periods: [
+        annualPeriod(ISSUER_A, 2024, completeItems()),
+        annualPeriod(ISSUER_A, 2026, partial),
+      ],
+    });
+
+    const gap = qualification.freshness.sequenceGaps.find((entry) => entry.periodType === 'ANNUAL');
+    assert.ok(gap, 'the missing FY2025 is reported as a sequence gap, never interpolated');
+    assert.deepEqual(gap.missing, ['FY2025']);
+    assert.deepEqual(gap.between, ['FY2024', 'FY2026']);
+
+    assert.ok(qualification.completeness.missingFields.length > 0);
+    assert.ok(
+      qualification.completeness.missingFields.some(
+        (field) => field.periodEnd === '2026-03-31' && field.reason === 'NOT_REPORTED',
+      ),
+      'a missing field names its period and its reason',
+    );
+    assert.ok(qualification.failedGates.includes('STATEMENTS_ADEQUATE'));
+    assert.notEqual(qualification.completeness.adequacy, 'SUFFICIENT');
+  });
+
+  test('test 7 — standalone and consolidated datasets are not incorrectly interchanged', () => {
+    // Mixed scopes in one dataset: the consolidated series wins and the standalone period is excluded BY NAME.
+    const mixed = qualify({
+      periods: [
+        ...threeCompleteAnnuals(ISSUER_A),
+        annualPeriod(ISSUER_A, 2026, completeItems(), { scope: 'STANDALONE' }),
+      ],
+    });
+    assert.equal(mixed.seriesScope, 'CONSOLIDATED');
+    assert.equal(mixed.scopeSubstitution, false);
+    assert.ok(mixed.freshness.sequenceGaps.length === 0);
+    assert.ok(
+      mixed.accountingLimitations.some((finding) => finding.code === 'PERIODS_EXCLUDED_FOR_SCOPE'),
+      'the excluded standalone period is disclosed',
+    );
+    assert.ok(mixed.evidence.periods.some((period) => period.period.statementScope === 'STANDALONE'));
+    assert.ok(!mixed.periodsCovered.annual.includes('2026-03-31:STANDALONE'));
+
+    // Standalone-only: the substitution is recorded and the series is never presented as consolidated.
+    const standalone = qualify({
+      periods: threeCompleteAnnuals(ISSUER_A, { scope: 'STANDALONE' }),
+    });
+    assert.equal(standalone.seriesScope, 'STANDALONE');
+    assert.equal(standalone.scopeSubstitution, true);
+    assert.ok(standalone.accountingLimitations.some((finding) => finding.code === 'STANDALONE_SERIES_SUBSTITUTED'));
+
+    // The two datasets stay distinct: one never satisfies the other's basis silently.
+    assert.notEqual(mixed.seriesScope, standalone.seriesScope);
+  });
+
+  test('test 8 — missing, nil, zero and unmapped values remain distinct', () => {
+    // A reported zero is a value: present, and zero — never missing, never nil.
+    const zeroCapex = { ...completeItems().CAPITAL_EXPENDITURE!, value: 0 };
+    const latest = annualPeriod(ISSUER_A, 2026, completeItems({
+      REVENUE_FROM_OPERATIONS: syntheticMissing('NOT_REPORTED'),
+      NET_PROFIT: syntheticNil('2026-03-31'),
+      TOTAL_EQUITY: syntheticMissing('NOT_TAGGED_IN_FILING'),
+      CAPITAL_EXPENDITURE: zeroCapex,
+    }));
+
+    const qualification = qualify({ periods: [annualPeriod(ISSUER_A, 2024, completeItems()), annualPeriod(ISSUER_A, 2025, completeItems()), latest] });
+
+    assert.equal(qualification.valueSemantics.zero, 1, 'a reported zero is counted as zero');
+    assert.equal(qualification.valueSemantics.nilByDisclosure, 1, 'a nil disclosure is counted as nil');
+    assert.equal(qualification.valueSemantics.missingNotReported, 1, 'an unreported item is counted as missing-not-reported');
+    assert.equal(qualification.valueSemantics.missingNotTagged, 1, 'an untagged item is counted as missing-not-tagged (unmapped)');
+    assert.equal(qualification.valueSemantics.presentNonZero, 23);
+
+    // The underlying observations are untouched: nothing was converted into anything else.
+    const annual2026 = qualification.evidence.periods.find((period) => period.period.periodEnd === '2026-03-31')!;
+    assert.equal(annual2026.values.NET_PROFIT?.presence, 'NIL_BY_DISCLOSURE');
+    assert.equal(annual2026.values.NET_PROFIT?.value, null, 'a nil is never a number');
+    assert.equal(annual2026.values.REVENUE_FROM_OPERATIONS?.presence, 'MISSING');
+    assert.equal(annual2026.values.REVENUE_FROM_OPERATIONS?.value, null);
+    assert.equal(annual2026.values.CAPITAL_EXPENDITURE?.presence, 'PRESENT');
+    assert.equal(annual2026.values.CAPITAL_EXPENDITURE?.value, 0, 'a zero stays a zero');
+    assert.equal(annual2026.values.TOTAL_EQUITY?.reason, 'NOT_TAGGED_IN_FILING');
+  });
+
+  test('test 9 — accounting limitations are retained and affect qualification where required', () => {
+    const negativeEquity = completeItems({ TOTAL_EQUITY: { ...completeItems().TOTAL_EQUITY!, value: -50 } });
+    const restated = annualPeriod(ISSUER_A, 2026, negativeEquity, { basis: 'RESTATED', restatementOf: 'SYNTHETIC-FY2026' });
+    const qualification = qualify({ periods: [annualPeriod(ISSUER_A, 2024, completeItems()), annualPeriod(ISSUER_A, 2025, completeItems()), restated] });
+
+    const negative = qualification.accountingLimitations.find((finding) => finding.code === 'NEGATIVE_EQUITY');
+    assert.ok(negative, 'the negative equity limitation is retained');
+    assert.equal(negative.severity, 'BLOCKING');
+    const restatement = qualification.accountingLimitations.find((finding) => finding.code === 'RESTATEMENT_PRESENT');
+    assert.ok(restatement, 'the restatement is retained');
+    assert.equal(restatement.severity, 'LIMITATION');
+
+    assert.ok(qualification.failedGates.includes('NO_BLOCKING_ACCOUNTING_LIMITATIONS'));
+
+    // It affects qualification WHERE REQUIRED: valuation input is refused; the gate list per purpose
+    // is the threshold's documented mapping.
+    const valuation = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(valuation.decision, 'BELOW_PROPOSED_THRESHOLD');
+    assert.ok(valuation.failedGates.includes('NO_BLOCKING_ACCOUNTING_LIMITATIONS'));
+    const statements = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'STATEMENT_ANALYSIS');
+    assert.ok(
+      statements.gateOutcomes.every((outcome) => outcome.gate !== 'NO_BLOCKING_ACCOUNTING_LIMITATIONS'),
+      'the statement-analysis purpose does not require the no-blocking-limitations gate — the difference is explicit, not hidden',
+    );
+  });
+
+  test('test 10 — qualification results are reproducible from recorded evidence and rules', () => {
+    const first = qualify();
+    const second = qualify();
+
+    assert.deepEqual(first, second, 'the same inputs produce the identical result');
+    assert.equal(first.evidenceDigest, second.evidenceDigest, 'the evidence digest is the reproduction key');
+
+    // The result re-derives from the recorded evidence alone — no source files, no clock, no store.
+    const recomputed = qualificationFromEvidence(first.evidence);
+    assert.deepEqual(recomputed, first, 'the assessment is a pure function of the recorded evidence snapshot');
+
+    assert.equal(first.ruleset, 'qualification/1.0.0');
+    assert.equal(first.policy.valuationPolicyVersion, 'valuation-policy/1.0.0');
+  });
+});
+
+describe('W05 — the qualification-threshold mechanism is documented, testable and NOT approved', () => {
+  test('the proposal names its rationale, impact and the exact outstanding decision', () => {
+    const threshold = PROPOSED_QUALIFICATION_THRESHOLD;
+    assert.equal(threshold.approvalStatus, 'PROPOSED_NOT_APPROVED');
+    assert.match(threshold.provenance.outstandingDecision, /PRODUCT-OWNER DECISION OUTSTANDING/);
+    assert.match(threshold.provenance.outstandingDecision, /θF/);
+    assert.ok(threshold.provenance.rationale.length > 0);
+    assert.ok(threshold.provenance.impact.length > 0);
+    // The numeric gates are the ALREADY-GOVERNED policy values, not new inventions.
+    assert.equal(threshold.policy.adequacy.minimumAnnualPeriods, DEFAULT_QUALIFICATION_POLICY.adequacy.minimumAnnualPeriods);
+    assert.equal(threshold.policy.adequacy.sufficientFieldCoveragePct, DEFAULT_QUALIFICATION_POLICY.adequacy.sufficientFieldCoveragePct);
+    assert.equal(threshold.policy.freshness.pnlDays, DEFAULT_QUALIFICATION_POLICY.freshness.pnlDays);
+  });
+
+  test('meeting the proposed threshold is a technical result with NO approval effect', () => {
+    const qualification = qualify();
+    const application = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+
+    assert.equal(application.decision, 'MEETS_PROPOSED_THRESHOLD');
+    assert.equal(application.approvalStatus, 'PROPOSED_NOT_APPROVED');
+    assert.equal(application.approvalEffect, 'NONE');
+    assert.match(application.explanation, /approval effect NONE/);
+    assert.equal(application.evidenceDigest, qualification.evidenceDigest);
+  });
+
+  test('the threshold is configurable, and a configuration mismatch refuses to decide', () => {
+    const stricter: QualificationThreshold = {
+      ...PROPOSED_QUALIFICATION_THRESHOLD,
+      thresholdId: 'W05-THF-TEST-STRICTER',
+      policy: {
+        ...PROPOSED_QUALIFICATION_THRESHOLD.policy,
+        adequacy: { ...PROPOSED_QUALIFICATION_THRESHOLD.policy.adequacy, minimumAnnualPeriods: 5 },
+      },
+    };
+    const application = applyQualificationThreshold(qualify(), stricter, 'VALUATION_INPUT');
+    assert.equal(application.decision, 'CONFIGURATION_MISMATCH');
+    assert.match(application.explanation, /re-run the qualification under the threshold configuration/);
+  });
+
+  test('the application is reproducible and explainable', () => {
+    const qualification = qualify();
+    const first = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'PRICE_SENSITIVE_ANALYSIS');
+    const second = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'PRICE_SENSITIVE_ANALYSIS');
+    assert.deepEqual(first, second);
+    for (const outcome of first.gateOutcomes) {
+      assert.match(first.explanation, new RegExp(`${outcome.gate}=(PASS|FAIL)`));
+    }
+    assert.equal(first.gateOutcomes.length, PROPOSED_QUALIFICATION_THRESHOLD.requiredGates.PRICE_SENSITIVE_ANALYSIS.length);
+  });
+
+  test('quarterly periods are identified and distinguished from annual periods', () => {
+    const periods = [
+      ...threeCompleteAnnuals(ISSUER_A),
+      quarterPeriod(ISSUER_A, 2026, 1, '2025-04-01', '2025-06-30', completeItems()),
+      quarterPeriod(ISSUER_A, 2026, 2, '2025-07-01', '2025-09-30', completeItems()),
+    ];
+    const qualification = qualify({ periods });
+
+    assert.equal(qualification.periodsCovered.annual.length, 3);
+    assert.equal(qualification.periodsCovered.quarterly.length, 2);
+    assert.ok(qualification.periodsCovered.quarterly.includes('2025-06-30'));
+    const gate = qualification.gates.find((entry) => entry.gate === 'PERIODS_IDENTIFIED');
+    assert.equal(gate?.passed, true);
+  });
+
+  test('an operator-asserted rights record with full permission supports eligibility; a purpose denied restricts it', () => {
+    const eligible = operatorAssertedRightsRecord(AS_OF_FRESH);
+    assert.equal(eligible.status, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+
+    const restricted = operatorAssertedRightsRecord(AS_OF_FRESH, { ANALYSIS: 'NOT_PERMITTED' });
+    assert.equal(restricted.status, 'RESTRICTED');
+    assert.match(restricted.statusReason, /ANALYSIS/);
+
+    const expired = operatorAssertedRightsRecord(AS_OF_FRESH, {}, { expiry: '2026-01-01', reviewBy: 'operator' });
+    assert.equal(expired.status, 'RESTRICTED');
+    assert.match(expired.statusReason, /expired|review/i);
+  });
+});
