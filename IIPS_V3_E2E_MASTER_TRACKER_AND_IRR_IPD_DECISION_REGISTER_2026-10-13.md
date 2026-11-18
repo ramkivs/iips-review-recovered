@@ -24115,3 +24115,63 @@ credit/bills/acceptances overlap, including original note17 visual check. No rep
 absence-as-zero search or unchanged-fact ingestion is needed for economic admission.
 
 Next free §16.307 / `CV-CORR-272` / `CHG-2026-11-06-35` / `V2239`.
+
+### 16.307 `CV-CORR-272` — KEC uploaded statutory extract: exact accrued-interest and supplier-finance reconciliation
+
+**Change `CHG-2026-11-06-35`; validation `V2239` (2026-11-17 UTC).** Additive continuation
+of §16.306, same PR597, starting remote d9a68b02629e421c75f409ca5abdfd19592a0f1d/tree
+368a2aaddffc13bec44ea8ec1588302bc474e3c0. Complete supplied statutory-text page sections126,
+131,134–138,144–147 inspected; attachment SHA2565b1c7244fdbc22182e42b174b2d726b0897a2cd8ad58ef8a2dd7f48f4aeafd0e.
+Note19 uses retained PDF132. This verifies the user-supplied extracted statutory text, not
+original-PDF byte/visual authenticity or whole-report completeness; no raw source republished.
+
+Note30 stays4441.86, not4451.77; notes25+30=5103.23. **Note34(a)9.91** is now directly
+verified as accrued borrowing interest: interest-inclusive5113.14, plus leases274.53 gives
+**Note53 debt5387.67**, less411.26CCE gives **reported statutory net debt4976.41**. FY25
+comparatives also reconcile. No silent allocation of interest into current borrowings.
+**Note34(b)6.22** directly explains2120.74acceptances→2126.96liquidity carrying amount;
+FY25 1507.27+8.01=1515.28. Otherfinancial115.68−9.91−6.22=99.55 matches liquidity row;
+no duplicate interest addition. Contractual undiscounted borrowing5292.97 is not carrying
+5113.14; buckets not ingested as principal. Separate FY25 interest-risk3701.11 versus
+notes3701.10 source-table difference0.01 retained, not adjusted.
+
+Note33 explicitly separates2120.74interest-bearing0–180day acceptances from1737.37non-
+interest supplier finance **inside trade payables**; FY25 latter comparative not provided
+under transitional relief, not nil. Note3.21.7 interest-bearing supplier payments classified
+operating cash flow; no automatic canonical debt addition. Note30.2 buyercredit44.65 already
+inside597.54 secured short-term bank debt (552.89PCFC/FCNR+44.65); no extra addition.
+Note18 cash eligibility remains component-specific;3.20 is >3<12month deposit, not labelled
+other-earmarked. Note19 deposit liquidity not established; accrued interest/claims/derivatives/
+reimbursables are not cash offsets. Note53 narrative names17+18 but gearing table deducts
+only17:100.67disclosure difference remains unexplained, neither text called erroneous.
+4976.41−274.53−100.67+2120.74=6721.95 is management-compatible arithmetic, not a newly
+verified management policy. Note17 extracted components still differ1.20 from reported total;
+needs original visual or issuer explanation. Known1.54restriction does not authorize a new
+canonical deduction. All prior supplied operating/candidate values and findings preserved.
+
+No new capital or BTB admission. Prior private snapshot absent after workspace recovery;
+existing APIs restore **exact prior content digest a62f95f81a923e72fb6b4e0220bb8852d08191d14e94b1997a12bbfe8d4a0daf**
+or refuse; no CLI/metricCSV ingestion, no combined-data replacement. Actual issuer and
+certified assessments at Nov17 age231 and explicit Nov18 scenario232days; before/after
+digest and all dataset-file hashes equal, results deep-equal prior runtime receipt. Gross
+5377.76PRESENT, currentinvestments MISSING/NOT_REPORTED/null, netdebt missing. EV_REVENUE/
+EV_EBITDA still null/CAPITAL_STRUCTURE_INCOMPLETE; certified Industrials NOT_QUALIFIED1/14;
+BTB FIELD_STALE/PNL200 versus debtEbitda RESOLVED/BS250; confidence0.7/0.0833/0.3199 and
+caps unchanged; zero invariants both clocks. No policy/schema/formula/source-rights change.
+
+Report updated additively at `docs/integration/IID-S4-R6-KEC-CAPITAL-2026-11-17.md` §H;
+existing evidence bundle gains statutory source/recovery/assessment/preservation records,
+exact-digest restoration and read-only verification scripts,10new focused tests/validation.
+10newtests and3selectedcapitalregressions passed, strict scoped TypeScript for both scripts,
+sourcehash/read-back/uniqueness/beforeafter/preservation/checksum/link/ignore/diff checks.
+Original14/38matrix/twelveunmeasured/Infosysmissingmetrics/twolivemethods unchanged;
+no12probe/25test repeat, unrelated issuer reassessment, G9/G15 or Stage5 work. Publish same
+branch/PR597; verify exact remote commit/tree/allchangedblobs/CI/clean; no merge.
+
+**S4-R6 OPEN; G-4 OPEN.** Source reconciliation improved; actual method availability did
+not. No authorized numeric/accepted-limitation closure route met or owner decision invented.
+Next numeric prerequisite: authoritative same-period current-investment observation under
+existing contract; separate issuer Note53 wording/management-definition and original Note17
+visual questions remain. Do not repeat completed9.91/6.22/supplierfinance/44.65 investigations.
+
+Next free §16.308 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.

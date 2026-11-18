@@ -2,6 +2,8 @@
 
 **Disposition: S4-R6 OPEN; G-4 OPEN. No definitive IID net debt, new capital admission, owner-runtime installation, accepted-limitation decision or closure.** This is an additive correction to the [prior FY26 adoption report](IID-S4-R6-FY26-ADOPTION-2026-11-18.md), not a rewrite of historical execution. Work executed on **2026-11-17 UTC**; November 18 is the explicitly requested assessment scenario, not today's date. Neither date changes filing/period anchors.
 
+> **Current additive update:** [Section H](#h-uploaded-statutory-extract--additional-reconciliation) records the newly supplied statutory extract, resolves the Note34 interest sublines and buyer-credit/supplier-finance gaps, and verifies actual assessments without a BTB ingestion. Earlier A–G access-limit statements are historical where Section H explicitly supersedes them. Canonical net debt and S4-R6/G-4 remain unavailable/open.
+
 ## A. Repository and execution boundary
 
 Starting published head `187783d047ed63da31fd00276d41423ba318b91d`, tree `4cfb5090d4936e4bc3669bd876cf7baff2ffdc55`, PR **597 OPEN**, branch `arena/5461e5b5-iips-review-recovered`. Recovered checkout initially pointed at `2ec2e75`; all 60 recovered changed/untracked files were verified byte-identical to remote head, backed up under the ignored local directory, then safely fast-forwarded. No unrelated edits were discarded. Prior CI `44304624869` is historical, not this patch's CI. Final commit/tree/changed blobs and exact-head CI are recorded in the PR publication receipt after push; no merge is requested.
@@ -116,3 +118,174 @@ Remaining: authoritative management cash/interest/lease/acceptance definition, d
 ## G. Single next required action
 
 **Obtain one authoritative issuer reconciliation package**: March31 management net-debt calculation with gross borrowings/accrued interest/leases, eligible versus restricted cash/banks/current investments, acceptances/buyer-credit/bills overlap, supported by full relevant audited notes and the original note17 table. Do not repeat the completed absence-as-zero search, re-ingest unchanged facts or select a net-debt candidate on arithmetic compatibility. Without that package, only an explicit application-owner accepted-limitation decision—not an agent inference—can adopt a different closure route.
+
+## H. Uploaded statutory extract — additional reconciliation
+
+### H.1 Source provenance and current execution
+
+**Additional evidence, not a competing investigation.** Starting remote PR597 head **`d9a68b02629e421c75f409ca5abdfd19592a0f1d`**, tree **`368a2aaddffc13bec44ea8ec1588302bc474e3c0`**, same designated branch. The recovered checkout again contained70 restored files at base2ec2e75: each was byte-compared to remote, backed up ignored, and safely fast-forwarded. No unrelated work was lost. The existing private runtime snapshot was absent again; recovery is described in H.8. No owner/Windows installation or merge.
+
+The user supplied **`KEC_Consolidated_Notes_Verified_Extract.txt`**, SHA-256 **`5b1c7244fdbc22182e42b174b2d726b0897a2cd8ad58ef8a2dd7f48f4aeafd0e`**. Complete supplied page sections **PDF126,131,134–138,144–147** were inspected, not just selected search snippets. Reporting scope is explicitly **consolidated**, year ended **March31,2026**, FY25 comparatives, INR crore; the May16,2026 audit/signature date remains supported by retained PDF119. No standalone substitution or annual-publication freshness anchor.
+
+**Verification boundary:** this is a user-supplied text extraction labelled “Verified”, not the original PDF or rendered page images. Its title is not an independent certificate. We verified its contents and cross-checked overlapping tables against retained issuer-report extracts; we do not claim a new original-PDF byte/visual audit or whole-report inspection. Note19 is not in this upload: its existing complete PDF132 extract was inspected instead. The raw upload, split-page text, reconstructed dataset and full computed payloads stay private/ignored. Only hash-bound evidence summaries and verification code/results are published; the attachment is not republished or treated as a redistribution licence.
+
+Full41-row source-reference/classification inventory: [statutory-source-review.json](../../evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/statutory-source-review.json). Material rows follow (all monetary values ₹ crore):
+
+| Statutory reference | PDF / printed page | FY26 | FY25 | Source finding / distinction |
+|---|---|---:|---:|---|
+| Note25 non-current borrowings |134 /265|661.37|358.46|Term loans net of current maturities |
+| Note30 current borrowings |136 /269|4,441.86|3,342.64|Not4,451.77; includes maturities235.60/120.10 |
+| Notes25+30 arithmetic |134,136|5,103.23|3,701.10|Before separate accrued-interest classification |
+| Note34(a) accrued interest, borrowings |138 /273|9.91|5.56|Exact previously unverified subline now inspected |
+| Note54A borrowings including accrued interest |145 /286|5,113.14|3,706.66|Carrying amount, not principal-only |
+| Note26 non-current leases |135 /266|220.60|211.48|Included once |
+| Note31 current leases |137 /271|53.93|44.90|Included once |
+| Note52 total leases |144 /284|274.53|256.38|Current + non-current |
+| Note17 cash/equivalents |131 /259|411.26|545.69|Contains repatriation restriction1.54/3.48; do not call wholly unrestricted |
+| Note18 other banks |131 /259|100.67|110.24|Components below; not all unrestricted |
+| Note19 current other financial assets |132 /260, retained|276.90|144.42|Not a cash aggregate |
+| Note33 interest-bearing trade acceptances |138 /273|2,120.74|1,507.27|Separate liability;0–180day payment range |
+| Note33(iii) non-interest-bearing supplier finance |138 /273|1,737.37|Not provided|FY25 comparative omitted under explicitly disclosed transitional relief, **not zero** |
+| Note34(b) accrued interest, acceptances |138 /273|6.22|8.01|Explains liquidity carrying amount |
+| Note34 other financial liabilities |138 /273|115.68|97.28|Includes both interest sublines; no wholesale debt admission |
+| Note53 debt |144 /285|5,387.67|3,963.04|Borrowings including accrued borrowing interest + leases |
+| Note53 cash deduction |144 /285|(411.26)|(545.69)|Only Note17 deducted in gearing table |
+| Note53 reported net debt |144 /285|4,976.41|3,417.35|Issuer-reported figure, not IID-admitted NET_DEBT |
+| Note53 equity |144 /285|6,159.69|5,347.45|Not a debt input |
+| Note53 net debt/equity |144 /285|0.81|0.64|Ratios, not ₹ crore |
+| Note54B.2 borrowing undiscounted contractual total |147 /291|5,292.97|3,824.10|Not carrying amount5,113.14/3,706.66 |
+| Note54B.2 acceptance carrying amount |147 /291|2,126.96|1,515.28|Principal plus Note34(b) accrued interest |
+
+### H.2 Corrected borrowing, interest and lease bridge
+
+**FY26 audited-caption reconciliation:**
+
+```text
+Note25 secured term loans103.12 − current portion10.78       =   92.34
+Note25 unsecured term loans793.85 − current portion224.82    =  569.03
+Non-current borrowings                                    =  661.37
+Note30 demand loans                                       =2,638.96
+Other short-term bank borrowings597.54 +525.00              =1,122.54
+Commercial papers (financial institutions)                 =  444.76
+Current maturities10.78 +224.82                            =  235.60
+Current borrowings                                        =4,441.86
+Notes25+30                                                =5,103.23
+Add Note34(a) accrued interest, separately classified       =    9.91
+Note54A/B.2 carrying amount                                =5,113.14
+Add Note26/31 leases220.60 +53.93                           =  274.53
+Note53 issuer-defined debt                                =5,387.67
+Less Note17 cash                                          = (411.26)
+Note53 reported net debt                                  =4,976.41
+```
+
+Thus **₹4,451.77 is rejected as Note30 current borrowings**; **₹5,113.14 is not all principal**. Do not silently fold9.91 into current borrowings, or add current maturities/leases twice. FY25 independently reconciles **358.46+3,342.64=3,701.10; +5.56=3,706.66; +256.38=3,963.04; −545.69=3,417.35**. The separate interest-rate exposure table on PDF147 prints3,701.11: its0.01 difference from notes25+30 is preserved as a source-table discrepancy, not “fixed” by changing a canonical comparative. Retained cash-flow reconciliation PDF119 uses3,701.10 for its FY25 borrowings balance; it must not be silently relabelled as the FY25 interest-inclusive carrying amount.
+
+**Maturity amounts are different measurements.** PDF147 expressly includes principal and interest in undiscounted cash flows. FY26 borrowing buckets **4,505.53 +661.44 +126.00 +dash =5,292.97**, versus carrying5,113.14; dash is the source's >5year entry, not a newly admitted nil/zero observation. Likewise lease contractual455.72 is not lease carrying274.53. Do not ingest buckets/totals as outstanding principal.
+
+### H.3 Cash, bank balances and Note19 eligibility
+
+Note17 filed total **411.26** stays as reported, with **1.54 repatriation-restricted within it**. Existing IID uses the filed cash caption and has no separate restriction-adjustment input: **do not deduct1.54 again** or call411.26 wholly unrestricted. The upload reproduces the old extracted306.35+92.89+10.82=410.06 versus411.26 total: **1.20 remains unresolved in the text**, not corrected by an invented cash component. Original visual page/issuer explanation is still needed for that narrow discrepancy.
+
+| Note18 component | FY26 | FY25 | Existing IID treatment |
+|---|---:|---:|---|
+| Unpaid-dividend earmarked bank accounts |3.06|3.02|Not operating available cash; no additional offset |
+| Original maturity >3months and <12months deposits |3.20|27.48|Not stated earmarked in this row; not Note17 <3month cash equivalent or a current investment. No maturity/liquidity evidence establishing a supported extra offset |
+| Margin/security against borrowings, guarantees and commitments |94.41|79.74|Restricted/security balance; no additional offset or relabelling as investments |
+| Total |100.67|110.24|No blanket unrestricted-cash assertion |
+
+No new rule decides that all deposits qualify, or that no Note18 instrument could ever qualify under some other contract. Under **this existing closed IID path**, none has a supported new offset mapping; eligibility cannot be inferred from inclusion in an issuer narrative.
+
+| Note19 current asset | FY26 | FY25 | Classification / cash eligibility |
+|---|---:|---:|---|
+| Sundry deposits |107.53|68.73|Asset, but no established bank instrument, original maturity, withdrawal terms or unrestricted liquidity; no additional cash offset |
+| Interest accrued on fixed deposits |7.59|4.38|Interest receivable, not deposit principal; no cash offset |
+| Insurance claims |1.25|0.94|Claim receivable, not cash |
+| MTM forward/commodity gain |104.19|23.94|Derivative asset, not cash |
+| Contractually reimbursable gross |63.60|51.24|Receivable; deduct ECL7.26/5.68 →net56.34/45.56, neither cash |
+| Others |dash|0.87|No eligible deposit established |
+| Total |276.90|144.42|No cash-aggregate admission |
+
+These remain assets in their disclosed accounting classifications/evidence; no existing canonical period asset totals are removed or overwritten. There is no supported new deposit/cash-equivalent observation. **Unknown current investments remain MISSING/NOT_REPORTED/null**, not a residual from these assets.
+
+### H.4 Note33 acceptances, supplier finance and the6.22 difference
+
+**Source verification now resolves the earlier classification gap:** Note3.21.7 (PDF126 / printed248) describes direct bank/FI payment of suppliers for materials/services, later repayment by the Group, extended credit and **interest charged to the Group**. Settlement is presented as **operating cash flow**, which is not proof the liability is interest-free or included in borrowing captions.
+
+Note33 (PDF138 / printed273) explicitly reports:
+
+- **2,120.74 interest-bearing trade acceptances**, payment range **0–180days**, all of which suppliers have received from finance providers. FY25 is1,507.27. This is separately presented from Note32 trade payables and Note25/30 borrowings.
+- **1,737.37 non-interest-bearing supplier-finance arrangements**, payment range0–180days, **included in trade payables**, not additional trade acceptances. The note says the Group incurs no interest cost for these arrangements, suppliers benefit from early payment, and their nature/function remains consistent with other trade payables. FY25 comparative information is explicitly withheld under first-adoption transitional relief, not nil. Provider payments to suppliers are disclosed as non-cash transactions. This is a payment arrangement disclosure, not authority to add another1,737.37 financing-debt amount.
+
+**Exact acceptance bridge (not a plug):** Note34(b) separately reports interest accrued on trade acceptances **6.22** (FY25 **8.01**). Therefore **2,120.74+6.22=2,126.96** (FY25 **1,507.27+8.01=1,515.28**), matching PDF147's liquidity table. That table prints2,126.96 in **both** contractual-total and carrying-amount columns. Do not describe it merely as future interest: it reconciles to the separately reported **accrued** interest. The liquidity row groups principal and accrued interest; it does not change the Note33 principal caption.
+
+Cross-check: Note34 total115.68−borrowing interest9.91−acceptance interest6.22=**99.55**, exactly liquidity “other financial liabilities”; FY25 **97.28−5.56−8.01=83.71**. Both accrued-interest sublines are regrouped in liquidity disclosures, not added twice. Other Note34 items are unpaid dividends3.06, PPE creditor43.29, derivative loss46.87 and directors' commission6.33; they are not wholesale borrowing inputs.
+
+**Buyer's credit/bills:** Note30.2(a)(ii), PDF137 / printed270–271, identifies **44.65** buyer's credit for the Saudi jointly controlled operation (FY25 **51.91**). It is already in secured short-term bank borrowings **597.54 =552.89 PCFC/FCNR +44.65**, and hence in4,441.86 current borrowings and the IID short-term component. **No additional buyer-credit amount is added.** KEC Asian Cables buyer/packing/FCNR credit and debtors' bill discounting are separately stated Nil FY26 (FY25 **32.43 /1.31**). Those limited nil disclosures and Note16.1 non-recourse receivables nil do not prove every group LC/bill exposure nil. The source supports distinct reported captions and the above inclusion, not a blanket instrument-by-instrument no-overlap certificate for every bank facility. No additional overlap adjustment is inferred.
+
+The separate historical May-results2,120.73 versus annual2,120.74 **0.01** difference remains version-labelled, unrelated to the now-resolved **6.22 interest reclassification**. Neither is called a material adjustment.
+
+### H.5 Note53 reported net debt and the Note18 narrative/table question
+
+The complete supplied Note53 section now confirms its **reported** FY26 gearing table: debt5,387.67, CCE deduction411.26, net debt4,976.41, equity6,159.69, ratio0.81. Its footnote expressly includes interest accrued on borrowings and Note26/31 leases, excluding derivative/financial-guarantee contracts from the borrowing definition. **The reported numerical reconciliation has no unexplained residual.**
+
+The narrative nevertheless names offsets in **Notes17 and18**, whereas the quantitative table deducts only **Note17**. This is verified as a **disclosure difference**, not an agent finding that one is erroneous or that the issuer changed policy. If the full100.67 were also deducted, the arithmetic would be **4,875.74**, **not** the reported4,976.41. The extract provides no further explanation reconciling this wording. Note18 restrictions make blanket unrestricted eligibility inappropriate, but do not by themselves establish why the narrative names all bank balances or why the table uses only CCE. **Issuer intent remains unresolved.**
+
+Report4,976.41 as **issuer-reported statutory Note53 net debt**, with the narrative/table qualification, not as the IID result. Table presentation does not by itself prove that every Note18 component is economically ineligible for every conceivable definition; it does establish what **this table actually deducts**. No formula or source-rights exception is inferred.
+
+### H.6 Management measure remains separately sourced
+
+The existing presentation's **4,601 +2,121 =6,722** is retained unchanged; it is rounded management communication, not the audited Note53 measure. With source components now identified, this **diagnostic bridge** is precise:
+
+```text
+Note53 reported net debt                                 4,976.41
+Remove leases                                             (274.53)
+Deduct all Note18 bank balances                            (100.67)
+Add Note33 acceptance principal                           2,120.74
+Arithmetic management-compatible total                    6,721.95
+```
+
+Equivalently5,113.14−411.26−100.67+2,120.74=6,721.95, rounded6,722; its base4,601.21 rounds4,601. Note53-to-exact-candidate difference **1,745.54 =2,120.74−274.53−100.67**. The0.05 difference to rounded6,722 is rounding compatibility, not a plug or filed precise management observation. Adding accrued acceptance interest6.22 instead would give6,728.17, not the displayed headline. **No new management source has explicitly adopted these exact offsets/lease exclusions**, so the equation is not elevated to verified management policy or canonical debt. Historical supplied4,691.90,5,103.20 “including leases”,411.30 and both management candidates remain preserved, not averaged or selected.
+
+### H.7 Existing IID admission decision — no speculative amendment
+
+The actual `assessment/capitalStructure.ts` path, `contracts/lineItems.ts`, missing-observation contract and existing qualification/freshness rules were inspected again **before** changing evidence. They remain unmodified:
+
+- Existing gross debt **4,206.26 short-term +235.60 maturities +661.37 long-term +274.53 leases =5,377.76**. Buyer's credit44.65 is already included. Note34(a)'s9.91 has no separate admitted accrued-interest slot here; **do not rewrite Note30 as4,451.77** or alter a principal caption to smuggle it in. Thus issuer-defined gross5,387.67 exceeds IID component gross by the explicitly identified9.91. This is a definition/representation distinction, not unexplained arithmetic.
+- Current investments must be a supported same-instant **PRESENT** input under the strict existing cash-side contract; missing is not zero and even a declared nil does not count as zero in this cash-side sum. No uploaded note supplies a current-investment amount. Do not relabel Note18/19 or non-current holdings to fill it.
+- No additional accrued-interest, trade-acceptance, supplier-finance or other-bank offset term exists in the closed bridge; no reported-NET_DEBT override. These new source facts are **evidence-supported but not new numeric canonical admissions**. Do not misdescribe source verification as ingestion or an engine-policy change.
+- Canonical cash remains the existing411.26 input with restriction evidence recorded; there is **no extra1.54 deduction**. `restrictedCash` remainsNOT_COMPUTABLE/NOT_REPORTED as a schema/path status, not a claim that restrictions are absent.
+- Therefore **cashAndInvestments and netDebt remain MISSING/NOT_REPORTED/null**. The diagnostic5,377.76−411.26=4,966.50 is **not** IID net debt without current investments. Neither4,976.41 nor6,721.95/6,722 is an automatic replacement.
+
+No accounting definition, cash-offset rule,200/250day policy, scoring/sector/confidence rule, source-rights scope, or acceptance/closure criterion was changed.
+
+### H.8 Actual runtime verification, data preservation and tests
+
+No BTB ingestion was repeated. The private snapshot from the earlier turn was absent after workspace recovery, so `restore-statutory-snapshot.ts` reconstructs the **exact previously published one-issuer content**, restoring its existing canonical BTB record without invoking CLI/metric-CSV ingestion. It refuses to write unless the entire content digest equals historical **`sha256:a62f95f81a923e72fb6b4e0220bb8852d08191d14e94b1997a12bbfe8d4a0daf`**. Statement/identity inputs are the unchanged existing records. This uses existing builder/writer/read APIs, **not a new import/admission or combined-dataset replacement**. Source-rights metadata remains an operator assertion; full payloads/local source stay ignored.
+
+`verify-statutory.ts` then executes **actual assessCompany and qualifyIssuerToEngines**, at November17 UTC execution-date anchor231days and the explicitly requested November18 scenario232days. Before/after content digests and dataset-file hashes are identical; all actual method/qualification/freshness/confidence results are deep-equal to the prior published runtime results. No metric CSV parser is called by either new script, no BTB source/date/period/value is changed, and the FY26 row/BTB record remain unique. The original three-issuer combined dataset is not overwritten or claimed restored. No unrelated issuer is re-assessed.
+
+| Runtime layer | Actual outcome after new evidence review |
+|---|---|
+| Canonical BTB | Existing VALID/PRESENT1.075491…; unchanged, no new observation |
+| Gross debt / current investments | PRESENT5,377.76 / MISSING,NOT_REPORTED,null |
+| Net debt | MISSING,NOT_REPORTED,null |
+| EV_REVENUE | Not applicable; null output; **CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable** |
+| EV_EBITDA | Not applicable; null output; **CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable** |
+| DCF | Enterprise calculation applicable; per-shareMid NOT_COMPUTABLE/null; intrinsic null |
+| Certified Industrials | **NOT_QUALIFIED**,1of14 required inputs resolved;ENGINE_REQUIRED_INPUT_UNRESOLVED |
+| BTB qualification freshness | **STALE/FIELD_STALE**,PNL200days; no value forwarded |
+| debtEbitda qualification | **RESOLVED**,balance-sheet250days; distinct from net-debt method eligibility |
+| Confidence | data0.7/model0.0833/combined0.3199;STALE_DATA,DILUTION_PROXY,POLICY_DEFAULT_WACC |
+| Invariants | **0** at both clocks |
+
+Validation details: [statutory-validation.txt](../../evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/statutory-validation.txt). Targeted source/arithmetic/classification/preservation regressions, existing capital regressions, strict scoped TypeScript for both new scripts, digest/read-back and actual runtime checks were run. No12probe/25test/census repetition. Original14/38 matrix, twelveunmeasured, Infosys FY26 missing-metric findings, two live missing-metric methods and earlier KEC operating/BTB evidence remain unchanged. All earlier supplied performance figures/identifiers/dispositions remain incorporated through B and the preserved FY26 adoption sidecars. **Source completeness has improved; actual availability has not.**
+
+### H.9 Remaining work and closure boundary
+
+**Resolved from the supplied statutory extract:** full Note25/26/30/31/33/34/52/53 textual disclosure gaps; exact9.91 borrowing-interest classification; exact6.22/8.01 acceptance-interest regrouping; separate non-interest supplier finance; disclosed buyer-credit inclusion; numerical issuer Note53 debt/net-debt reconciliation. These specific completed investigations need not be repeated. Verification remains bounded to supplied extracted pages, not a new rendered-PDF audit.
+
+**Remaining evidence:** (1) authoritative current-investment amount and same-period canonical/source support; (2) issuer explanation of Note53's Note18 narrative/table wording and explicit management bridge definition if that measure is to be characterised beyond arithmetic compatibility; (3) original visual Note17 table or issuer correction for1.20 component discrepancy. No exhaustive current-investment absence search is repeated and unknown is not nil. Further facility-level LC/financing-overlap claims would require actual instrument schedules; no such global claim is made here.
+
+For the **existing IID valuation path**, current investments are the immediate hard blocker; resolving the disclosure questions does not waive that requirement. No change to definition/representability is authorized. A source amount alone also does not imply full-population closure or remove freshness/confidence limits.
+
+**S4-R6 OPEN / G-4 OPEN.** Neither actual AVAILABLE numeric closure nor an authorized alternative closure route has been met. No accepted-limitation decision, new closure criterion, G9/G15 closure, Stage5, production or Windows installation. Next required numeric-route evidence is a supported FY26 current-investment observation; remaining issuer-definition/visual questions stay explicitly open rather than blocking recognition of the completed source reconciliations above. Publication uses this same PR597 branch; exact remote head/tree/changed blobs/CI and clean worktree are recorded in the PR receipt after push, without merge.

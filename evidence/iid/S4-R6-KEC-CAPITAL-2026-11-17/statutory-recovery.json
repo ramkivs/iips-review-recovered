@@ -1,0 +1,10 @@
+{
+  "recoveryOnly": true,
+  "newCapitalAdmission": false,
+  "newEconomicObservations": 0,
+  "btbCsvIngestion": false,
+  "expectedHistoricalDigest": "sha256:a62f95f81a923e72fb6b4e0220bb8852d08191d14e94b1997a12bbfe8d4a0daf",
+  "restoredDigest": "sha256:a62f95f81a923e72fb6b4e0220bb8852d08191d14e94b1997a12bbfe8d4a0daf",
+  "digestEquality": true,
+  "privateCombinedSnapshotReplaced": false
+}

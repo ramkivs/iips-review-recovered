@@ -1,0 +1,645 @@
+{
+  "baseline": "d9a68b02629e421c75f409ca5abdfd19592a0f1d",
+  "unchangedFiles": [
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/README.md",
+      "sha256": "b912f8a0de7bbaa0f686c9320c6eead65fd3dba9ae99aa6c7c60d26279ba0033"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/SHA256SUMS",
+      "sha256": "6d9e5ffd5fad0c56523a118d53c5fac1d3cd23c4160e01cdeaf6494b09100dfe"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/assessment-verification.json",
+      "sha256": "d4b024a918ac50eabd96d83f4bb1c40ae5d76864ec33eaf5036f37bac53b386e"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/audit-binding.json",
+      "sha256": "aa017c25838c44316fcd9bec35fefec538a0f5c412d53c554425818ebc50f024"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/execution.json",
+      "sha256": "509faa95ea2ce1f9ca88aab4030daf7d1cc8337cd60843883f809ce6e0bfe192"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/infosys-field-map.json",
+      "sha256": "ed6ff3763fdb27b3626a5642ad7973e1f48a2e6f868045b1647368e1599c975b"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/kec-components.json",
+      "sha256": "380af60ba7a9d5c0ed887ed5e80409e3549b30a300fd5163ee9b0e1c1d836f42"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/preservation.json",
+      "sha256": "a5bc1906916902fdb015f043d4261a58d989c12c89094c3938a49ca95b195353"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/requirement-matrix-update.json",
+      "sha256": "9eb10e2d33e13c87c7c296ee92106e796b436b0cef9247b60d5a8efe0a57d29c"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/source-review.json",
+      "sha256": "65c1757874fe285cf94176e64130c199fde6c2f3f932e8e203b7d30ef1b43a70"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/supplied-infosys-payload.json",
+      "sha256": "ae4a08ffc9927228ffe2e1ffb0ef763dc110ac3dcb2e25d890f7b2b95cec4539"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/supplied-review-and-mapping.md",
+      "sha256": "cf493b87dfbcf4c43b44c77076b8110db6998e19342035b7213629683f659e33"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/test_adoption.py",
+      "sha256": "fe9ac85273040181d1ec1266da1c3a3af8927491c8cc3999d5d26ffff137d9bf"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/validation.txt",
+      "sha256": "32c294b31bb31bc7ac324405d119bd18a243e77899b51cc6217f43e892f2b916"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/verify-adoption.ts",
+      "sha256": "c1e5ef163bf0631d3a94d71a28c7ef0d29b57da17330e72575c8f8090df54f49"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/README.md",
+      "sha256": "1e0241c8941706c2f2f34f49d4d9248ee32322e75405a7f9318b591e5f45b5b0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/baseline-and-provenance.json",
+      "sha256": "7954aae58c6999a2e0837a7d2c1aeca741db5b77daa9c168f6fa765925f49793"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/candidate-dispositions.json",
+      "sha256": "a48362a67abe7d37755dd8d055851b9942403bd99c7e93d665eed0159c3c0234"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/determination.json",
+      "sha256": "7c41af8b3db3d313defb3670689af1fea51bc9504fe6a8033dde08095040f372"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/digests.json",
+      "sha256": "38d7ae92a1f67c6ec10351c707699293cf1368c3951f10452c34990aef41d8e9"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/missing-value-verification.json",
+      "sha256": "fbab6a2f0595415bb8a6697c5505e50f4ce8fc92683cb8fee23a031c0d703663"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/pr563-reconciliation-readback.json",
+      "sha256": "647cb36f7bd3ad8d72e0100418d5c3d3078635162d6bc576b080ec0e63de1896"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/pr568-reconciliation-readback.json",
+      "sha256": "864aab7543c99c504adc4257195745d063260e1d5999eac626115601692fd524"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/precision-standard-extract.txt",
+      "sha256": "0645adaa237d337c5ea33eab4e81824320a68495154237f1ca6f0f9835cd31b5"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/preservation.json",
+      "sha256": "56cabc8f8509cedeb411be534173055f1f67cc09b8ce85e99dd71d0208e0058f"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/archive-0.gz",
+      "sha256": "e209a4425bc4ac3ef8f8e96e7dabb0b18d96cbdf254bc7f5da5123745033dd27"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/archive-1.gz",
+      "sha256": "304d7ad39342c6b217725ea9051ee3aa44efb9b07b0300b5b744d6e2b66eecf0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/followup-ledger.json",
+      "sha256": "ea07083deb6a04894ca858e5e6e6c21b8b4d60a0b48de60c0335e8534d093f50"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/meeting-page-1.txt",
+      "sha256": "b284210286868edca557a72f7343b8f6fa8c5bac3a68143adb151ad2d2f9477f"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/bse-announcements.gz",
+      "sha256": "dc4f52c402984006c073fe5ca861ab2af53f9850ebf90013c710bbe65433b1ca"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/bse-index.gz",
+      "sha256": "8df283191d2b56badbf1197b92c0a71d89fa01b3e88f3f7d096e2fec83ceca2c"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/bse-package.gz",
+      "sha256": "7d346c9c06b2d740d480ba13951c4fde3da4d34d93777fa99139a805c188e8fd"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/bse-otherthanbank.gz",
+      "sha256": "a5e9157702d2210e72e7b2f9d583efe4ed9bdbef62f7004880ee95351d49b10c"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/followup-ledger.json",
+      "sha256": "8635f69804f39fe5bd5d1d04aacd5eee9555575b8c69271f9c9539ce911d831f"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/issuer-actual-quarterly.gz",
+      "sha256": "03014231a1e8c8c621b5ddfea3ef5310408431cf845e69bcfbaffb3ec1588844"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/issuer-actual-results.gz",
+      "sha256": "6e4fdf2f6bdcb04ac51eafa525a18f927d3404a442d5ab9984fc2a06d41cdaff"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/issuer-earnings.gz",
+      "sha256": "79eb2a4d174cfa1b166af4d2cf9a93197d712ac60c397ef8e57ed4cf0e9890b1"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/sebi-entry-otherthanbank.gz",
+      "sha256": "2a1de19dcbefbee8b7d4baee42a2810b6af6b6a6ffc8a088506d94ed3acec3c7"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/bse-otherthanbank.gz",
+      "sha256": "15668e330ce3a65764e9d832f3b6888e60c19db4e59567e495633e0e4d4b8061"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/followup-ledger.json",
+      "sha256": "2de254ee8cd21488d4f0a653a4479796b5e97e0b84e15135df2f4b74c45c04ee"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/issuer-actual-quarterly.gz",
+      "sha256": "37ef28fe2d035325bd34e3176463e745d847c9c714823d56dfedb7f015926f67"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/issuer-actual-results.gz",
+      "sha256": "911014f8f7dc217d7545b32a0bd9b6e25f2a8a6943b9721ea7818ba18d122eca"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/issuer-earnings.gz",
+      "sha256": "712af5984fce0a94af59fec3c168588becf2315b9eed1a78bbc72bb749cfc500"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/sebi-entry-otherthanbank.gz",
+      "sha256": "8ffb16503ccb2eab716e4f1ab8f0ebf72c478104370c19007f5832cfbe68b3c2"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-annuals.gz",
+      "sha256": "43978ac129adc2a1332059390ad98196c28406aea7e460fcd8ba2e3d25252fc3"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-117.txt",
+      "sha256": "0965b2e582bd0881c1472bd8654d8de26a390cf4d3f3c2ceae47786c0d92fd96"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-129.txt",
+      "sha256": "482d747d23b6f66cd086aee253b921a9f4a857aa74fd87c5519b19409e3917c0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-131.txt",
+      "sha256": "152a2e4109b297272ecbea99ed1a596482d4a326719bbd69a976a868e6cc598b"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-132.txt",
+      "sha256": "2be2cf179ad2d97582563d603b5131040fa4f4d64cc319c06d09a647a062e9f2"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-145.txt",
+      "sha256": "adc74fb34a5ae9d2fa0ea92b903f170bed4bf0c6edf982147aa9c55d1a379f62"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-investors.gz",
+      "sha256": "41463a3a9e58bcafe8dc6b8ca000149aaecc842a93379256b5b4863c4a3d01cd"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-results.gz",
+      "sha256": "aad784ca4eb98fb95519fdcacb82bc752a5ff425fc73a60f1226ea19b4310f71"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/march-rendered.gz",
+      "sha256": "37c79ed59458228e7d3237ee8aeb80defc6f38cbe7db38595cfe1b7c31a7d6f7"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/march-xml.gz",
+      "sha256": "d0eca3d47f0b204c022fa5f6988d79b0e6c678f2f4a51f2136ee9ee1ddb57a85"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-announcements.gz",
+      "sha256": "4b3ac35812171dbdc0a6453ae9198467f62625145768e22537d672d455ff8b8c"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-entry-2026.gz",
+      "sha256": "5d1f37900e8fd28e739e5a4b8ad4ed9bd82f432a52a6fa7fa74049e665ab38a8"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-index.gz",
+      "sha256": "f06d54575ffa969bcd7694546a2417118a472efb6d12b870d839e14a6d4870b4"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-integrated.gz",
+      "sha256": "2c979dc7d524cf3ff291a31133bd444944da77e1c1f57aa8fc892e1bb4055ff0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-package.gz",
+      "sha256": "dc8599067aeb05bdc9472607a3d4da3a4607d40aea57bd4ac908c413fc8d5d21"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/retrieval-ledger.json",
+      "sha256": "33d862424f7a7ebda088ef2b2f087cd66d935c0003c86c82a961ffd8b37f66ff"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/sebi-core-2026.gz",
+      "sha256": "b30df3612a84fbcc67cc39daaf2b3cec3cb7e411b81c281670eefcd904ad4379"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/sebi-entry-2026.gz",
+      "sha256": "741fc80a69799c7859cc753cfeeeb070d6bf4bfe4259e223e49fb4a08d634512"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/sebi-publications.gz",
+      "sha256": "fc8a2430f572f4d0fe28a8a0bd90356446a8445f6ec79b9d0656c65adee529e2"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/september-results-page-16.txt",
+      "sha256": "6230c8154fa0c4210a522f42fb66f56a5bda4429058038173fe19af114763398"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/september-results-page-7.txt",
+      "sha256": "7a27c7682242aff5a630b37fe52378d869feb3b090411ba9987ae9c684a2fb80"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/xbrl-precision-guidance.gz",
+      "sha256": "bed17140b8d74ecb9fc12b84d5a3ade6733b06494b596f6edaa0cea99c9127ab"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/xbrl-spec.gz",
+      "sha256": "106b80b457d64c6b20c1af8a2ea7a26c17e7da0d802594897703540995835ed9"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/taxonomy-readback.json",
+      "sha256": "bb2f4a73df9d9f1e7ffc7566b39e96351e500f6ccd3778047994ad797924e610"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/validation.txt",
+      "sha256": "224070e6857461f23b6e973a9d1f2a7537f87d6fe7d6a734985bf905c068e32f"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+      "sha256": "49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62"
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/index.ts",
+      "sha256": "7e3d7d7869bad3e61051d11e2321d6584b096f12a46a20992ee402dcbf99fd43"
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/scopeToken.ts",
+      "sha256": "1cbb14896f4e16f30d391c31d459ce9aba141a85d080eba44cdbb5e5651ce2cd"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/adequacy.ts",
+      "sha256": "9147bd3c6dcaf420857af3c78a3a907350503619d1f4220f95f7b8822d08bcec"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/capitalStructure.ts",
+      "sha256": "ffa2c8edd5b1061a28e31fb24e70b16a9e44bd4c6bd817aa0cb8eeafd4f5ffea"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/confidence.ts",
+      "sha256": "bd159cf30c2624867ccee2260e84a9553adbda44551acfe097f504829f1cf33a"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/dividends.ts",
+      "sha256": "ca7393c3e925d02a616ba722a356e9c1e413809796789242fb4cb044a3429cf1"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/engine.ts",
+      "sha256": "e4ee71d566a872cbb69c53cb24e7829c821418fc0d123f5cf0306c7189765be0"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/explain.ts",
+      "sha256": "1f262b6d7d3e8ff5c13ea9b6fd0a16e683ef9ed1f366c5d6ba763eb6950682dc"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/freshness.ts",
+      "sha256": "404bce6df5587dc18dccba95ba818931b2481f4fde675dc81caa8580352792f9"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/index.ts",
+      "sha256": "e828af2df7c7c55561dd124dce20642be25e9cb80e70bd314196238871baca64"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/intrinsic.ts",
+      "sha256": "02e7e9bb811f02ed5fbaae0091625e99e5eeafb71f5019e4b5b2b99274224aa2"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/margin.ts",
+      "sha256": "02fbae571e375a3988584f1fad2e2c4a9764a3148557f14c3f83c0fcb5ffc040"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/methods.ts",
+      "sha256": "d6fccf5f2091c59658ec523d5f147200b0382ca25f047e56d114a292b719db54"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/moat.ts",
+      "sha256": "a1e7e88fc57bab7c55e13c5c28dfa8c30dd6f3b399cac954e27e7ebc1071de87"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/periods.ts",
+      "sha256": "b6b4ab1727431363bc8b8581b1ac80f20678e7a0b596935f4c496f9483947b51"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policy.ts",
+      "sha256": "4165e2d34702b44e9ed6b8df6f09c62ffc6f5d96f2da9b3f888432d6db46e94e"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policyReview.ts",
+      "sha256": "3b5477268b71350d033341bcbc6c754cbc5a1b92ff6f091f8cd657fffbee1b68"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/risk.ts",
+      "sha256": "0188b03a63bb988c523b0dfe29bcc8187fd3a4304d0a2332352933408d3889f9"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/types.ts",
+      "sha256": "eab260e2df80779e1eef6c01a2571baeddcff053ba344440bfdc1f4494405494"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/view.ts",
+      "sha256": "4ab0a47d63a1964a511818a91d270cafb1fe2bd7f46ccbe67cf9d57bb20f2e56"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/build-s4-r3-candidate.ts",
+      "sha256": "5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/ingest.ts",
+      "sha256": "bf1ee190d1b909dbe0edd7572165c6005b14ecfe00299a14eb47761b2d22b78e"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/install-verified-dataset.ts",
+      "sha256": "14668fba4468f923fded3b90c136027a4daf011a84c0df323690e5f38761b126"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/provision-identity.ts",
+      "sha256": "846f34e27618c42e7b5b4985057ccaf3c69fafb5446efc1af7194171753771ca"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-installed-dataset.ts",
+      "sha256": "3eb639f1b797300ae3d3c49e25094e9fbaee92a2520e197577a98d215363a2b0"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-retrieval-evidence.ts",
+      "sha256": "7481263629a8a02678c829b27837c6cd8823cfcd638e3fd9729023a1113da2c4"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/disposition.ts",
+      "sha256": "7bccc91eec0d147dd35ebae69d7469340a792b4f782a6f64225651e4d17a6818"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/ids.ts",
+      "sha256": "df57eccd670b680695a4ce83eb0505fb8c7438aed1ec39169c8947cc31769e05"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/index.ts",
+      "sha256": "ac8919b6abb9b51180b40301f93115acd88d0932c4a29dcddd0c72ba2a7e9d41"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/invariants.ts",
+      "sha256": "b1660174e18de640cce215d06d38b239d988cb9d3183acbc356d0b2b2c317820"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/lineItems.ts",
+      "sha256": "a2c017834170f6cb3542b475dbcbd3d4cba677f00aaface06d482f3bf5c89ae6"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/nilBinding.ts",
+      "sha256": "eaa282724e4cfbe494c9336dcb0a403ba04f9eddb29b639b4ea17a77f0bae30d"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/observation.ts",
+      "sha256": "81bffacb2d8241d95267b37624f2c899a72ed8cc875d452336b3daba6263a72b"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/operatingMetrics.ts",
+      "sha256": "b28d297a9f91a159df2f2002d234634daacc05de76df074a7ee187a3aa62cb99"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/period.ts",
+      "sha256": "0f32101ac46a6082905c9f5512a0167c6c253ca0ee0570f6ceecf5bf00ddf2ac"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverage.ts",
+      "sha256": "e9d856c0edf0192526b72927f10b27d57183298df01dfea8fa73c66d34271866"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageEndpoint.ts",
+      "sha256": "071296273116e722158ed81591eec14590f56a009314a5939905dae66038a850"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageView.ts",
+      "sha256": "f8ef9a2e23d3dc9a1bb073a2a3fea79c51e92abee50ccc446a777cec16de6f71"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/measure.ts",
+      "sha256": "ba7afbe6ae5e86ccb2718c85619f6737ccf1b0391b023f815dd3d3aed98a4877"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/methodMatrix.ts",
+      "sha256": "b5649214152441bdeba90f807e85ca6cdb9da1243a4ecb1c44c7990ef7720305"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/engine.ts",
+      "sha256": "06afe5cf8cf83ba6354e2081c60e800f3ebb68723cb3dc2980bd4d4dec5b01a6"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/gates.ts",
+      "sha256": "2798273650141c706128d3df1f0d4a82c2c78cb1dc71f7717248e4e9b5e00a0d"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/index.ts",
+      "sha256": "80a71acc9a9b79f925f40181625d3054b11c3879a406d58e7aaac9f7279b0eca"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/limits.ts",
+      "sha256": "f7f0073d8a3cc6a6a1b93eb68d062b69dc9e04f2a2f4fbeb3910d2b3ac656207"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/policy.ts",
+      "sha256": "454027c2ece73dee96d321124a22d874e64c40b189c9eb3e0497d91b69b60191"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/portfolioImplication.ts",
+      "sha256": "7de82c78e907525f5199262244377d88bfd199e2ae89824f3cf0e3859db42370"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/rationale.ts",
+      "sha256": "edd3350339131a789352d13894d8ebf17da486ccc8af684fc2d98e85e1a96831"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/subject.ts",
+      "sha256": "73b50f5207e25eb2ad967a4e4d37b5847cbbdf06b9396bce674865132a1df51e"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/types.ts",
+      "sha256": "04336f125700356092b91e0b989e8a698343b161af55813c9df5c77e2a16859f"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/verbs.ts",
+      "sha256": "55487c2a64b38ebb25519e363b177a1a33ab5a32ece34486eb81cce291ff13ca"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/execute.ts",
+      "sha256": "6ac8e5128de59baaeb4ae5238525acd3ad466233e318ad21b9e14a52026e4dd7"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/index.ts",
+      "sha256": "1e243b83961831c8d9558670c28f20dd7667f62a35f12b71cf68a4c440e78f2b"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/inputs.ts",
+      "sha256": "c4573bcac82be28f8be82307cf86431e576b14dda858bac05445edabb31f7615"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/types.ts",
+      "sha256": "0fdb7ad667c4ff622d17ccb8305af153ae32686b52948a3ef2fea06a032f8e45"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/authorizationRecords.ts",
+      "sha256": "8944ad50b743fdd03f58ae9239bd06a64e8173de540e211837ad6f4e27d782e4"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/canonical.ts",
+      "sha256": "68efff4145f23342bc1638372ec5ed01451b1f1c9d9f47737a9379bc20618e4d"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/datasetClass.ts",
+      "sha256": "b94edde5ffb4ded2a1f8f583cf21c61e4f3268c81a28a61ac20db7cce6d2e091"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/derive.ts",
+      "sha256": "28cd1bb8142d03ac1f1ba01a35ed04ce0afcc7fd2da3a15435573aa49adf6fa7"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/errors.ts",
+      "sha256": "66f7f64028f776369604be9c5b58982f3ecf79576260d3c5ba723a56adc8cadd"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/manifest.ts",
+      "sha256": "da76c3b8c9e4a298dd748cce8c498123a024a9141ce67472b7d8b343d5431a7b"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/types.ts",
+      "sha256": "f9a6377aebd69c9e6c46bfb22a4b4e444ada359f065a7aa197d968905df5e644"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/corporateActions.ts",
+      "sha256": "8a871c20bd974f68297732c4b9f19140ec176c05131352d14af79d74588a1cbe"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverage.ts",
+      "sha256": "c523b51dc04ba181c9e820c6a316a35c3871a4a135726f3d0dc996053a05d386"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageEndpoint.ts",
+      "sha256": "4fe5edd4119595e39bbd20584fc7aa67deab519449acab2dd16a61c7c0757289"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageView.ts",
+      "sha256": "7362418c5f6bf55dbe63f12318966e3e8eed72296581db6c79168ef0f3f76ff6"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/d114Projection.ts",
+      "sha256": "a36c1c3b2db7962427acd1dc2afcf2100532e4fcf8d99565f8aad13a3a9f6716"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/index.ts",
+      "sha256": "21f88a71e5402793638bb183e39dee5630f58f56341fd51af29ff56e76eff449"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/provision.ts",
+      "sha256": "e20e5422d0230e4d722942b762b9474ec265b41c92c6e0eac2cdfe384a491283"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/resolver.ts",
+      "sha256": "e410d4a6dc56ecb7a5f4e2a3a0aa5ccb4e3a114e5c14745310bffb6a8160338b"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/runtime.ts",
+      "sha256": "0074108f855445b02532e8e106f22a6f212477752afb8f333fbe776035a570b6"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/sources.ts",
+      "sha256": "ac21e939466f82b0a13ceeadd1342c4917388d7006b3f5641378e4ec38b319a5"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/types.ts",
+      "sha256": "f4665d800e8f2f2eb678190e792fdf7664f2457c4588cecd36427894e757ed0a"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/builder.ts",
+      "sha256": "d947742404404670d149af570adaa2ccfd4f6b8f1dc861f78c4984418251de74"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/csv.ts",
+      "sha256": "b56d185df3b74484d8790657ef622fd576bcebaaafe72e98329c7ac10cb7e1a8"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/multiInput.ts",
+      "sha256": "ab20d1b11f524efbebbc26f43af145ec23f0465a4f76006742a25f1b9e11a7af"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/sectorValidation.ts",
+      "sha256": "41978688da98e0c78d810759ca0871e34bcb58d808a1f892742be8422383d15a"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/writer.ts",
+      "sha256": "4bb4dcc87b2fd3b2795d33a8b2581aae39b0c6c34fe3b4ebec5403bc882cc75a"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xbrl.ts",
+      "sha256": "7ef621cc2d1778164dd3e0da70d7730e7b054296e9b28672287064e2eb83c8ec"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xml.ts",
+      "sha256": "2e9ada84c9c274f861ac789a4d5b192b0d277ed659388b96e00eed89e3680ce2"
+    },
+    {
+      "path": "iips-platform/src/investment/port/fundamentalsReadPort.ts",
+      "sha256": "8cb5b8a04e9c1cb961d5972e685a9e0ef69c71beb5ef1e874121b8b935e9a6a6"
+    },
+    {
+      "path": "iips-platform/src/investment/port/localSnapshotStore.ts",
+      "sha256": "5eaeb7395b0ec1b6b4701746bb22825dcd177f53e5b77ba6da710dd32b17f508"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/evidence.ts",
+      "sha256": "ae43fa82dc638f58e925bc30b912af788b75cbd9cd75b8d70e323964e7ac7679"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/index.ts",
+      "sha256": "e633baadfd891eead6b0b7f25f9456d444ffbb401b788429f922c829f356c257"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/mapping.ts",
+      "sha256": "d1c43574be52cad347c8d2c8e17a152fa0288eef746cc798b4237016df6e9d7a"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/qualify.ts",
+      "sha256": "eb012fe25e8327f0c31d94a928ab4a4994db9e963bb9aa0dd536e927ff280665"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/render.ts",
+      "sha256": "4b3be8c15b2be334a40a7c966e981b50990550c38b491a5e4cae9184dfeff1a5"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/resolve.ts",
+      "sha256": "88ce5b3362fbd49ea5c968947c78f446a1baf07a892dfe214a7da095600d8567"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/types.ts",
+      "sha256": "0527169652db1366474db926285b1e97a492e9a18f2ae12a26afe01cc3e904a1"
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalBundle.ts",
+      "sha256": "c3ef157542476eb68a79e69130ea1d1632cf1d06eb53ee4a19ae0e3308140887"
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalEvidence.ts",
+      "sha256": "ff917645a7e4088016336e4745e8e43c766458120afde5c56cff0b2ba4ce7784"
+    }
+  ]
+}
