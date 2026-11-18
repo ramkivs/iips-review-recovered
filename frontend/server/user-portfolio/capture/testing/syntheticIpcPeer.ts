@@ -14,6 +14,7 @@
 import net from 'node:net';
 
 import { IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION } from '../../ipcClient.js';
+import { localIpcEndpointKindFor, type LocalIpcEndpointKind } from '../../testing/localIpcEndpoint.js';
 import { SYNTHETIC_FIXTURE_PORTFOLIO_PREFIX } from '../ownerBoundPortfolioCapture.js';
 
 export const SYNTHETIC_PORTFOLIO_ID = `${SYNTHETIC_FIXTURE_PORTFOLIO_PREFIX}-PORTFOLIO`;
@@ -118,8 +119,21 @@ function frameOf(value: unknown): Buffer {
  * Starts the synthetic peer on a local endpoint (a unix socket path, or a Windows
  * named pipe path). It answers the three read operations and nothing else: any other
  * operation is closed with zero bytes.
+ *
+ * `kind` selects the RESPONSE-DELIVERY policy and defaults to the host platform's local endpoint
+ * class, the same choice the production client makes in `resolveIpcEndpoint`: on POSIX the peer
+ * half-closes with the frame, and on Windows it writes the frame and leaves the pipe open, because
+ * ending a named pipe immediately after a write can trigger the libuv shutdown/forced-break path
+ * before the client has read the response (the same reason the production client itself never
+ * ends a Windows named-pipe connection after writing — see `callIpc` in `ipcClient.ts`). The
+ * zero-byte closes below (Class P and the "not a read this fixture serves" refusal) write nothing
+ * first, so there is nothing to protect and they end for real on every platform.
  */
-export function startSyntheticPeer(endpointPath: string, mode: SyntheticPeerMode = 'CONSISTENT'): Promise<SyntheticPeer> {
+export function startSyntheticPeer(
+  endpointPath: string,
+  mode: SyntheticPeerMode = 'CONSISTENT',
+  kind: LocalIpcEndpointKind = localIpcEndpointKindFor(),
+): Promise<SyntheticPeer> {
   return new Promise((resolveStart, rejectStart) => {
     const operations: string[] = [];
     const live = new Set<net.Socket>();
@@ -170,7 +184,15 @@ export function startSyntheticPeer(endpointPath: string, mode: SyntheticPeerMode
           socket.end();
           return;
         }
-        socket.end(frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result }));
+        const frame = frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result });
+        if (kind === 'windows-named-pipe') {
+          // Written, and the pipe stays open: the real client destroys its socket once it has
+          // read the full frame (it tracks the declared length itself). Ending it here would
+          // race the pipe shut before the response is delivered.
+          socket.write(frame);
+          return;
+        }
+        socket.end(frame);
       });
     });
 
