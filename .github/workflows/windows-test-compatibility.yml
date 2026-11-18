@@ -117,8 +117,16 @@ jobs:
           echo "::add-mask::$IPD_APP_TOKEN"
           echo "::add-mask::$auth_b64"
           echo "header=AUTHORIZATION: basic $auth_b64" >> "$GITHUB_OUTPUT"
+          # Self-check, reporting sizes and counts only — never a value. An output that did not
+          # reach the runner would otherwise surface two steps later as an unauthenticated 403.
+          echo "auth_b64 length: ${#auth_b64}"
+          test "${#auth_b64}" -gt 20 || { echo '::error title=IPD auth header::encoded authorization header is implausibly short'; exit 1; }
+          echo "GITHUB_OUTPUT entries: $(grep -c '^header=AUTHORIZATION: basic ' "$GITHUB_OUTPUT")"
+          test "$(grep -c '^header=AUTHORIZATION: basic ' "$GITHUB_OUTPUT")" -eq 1
 
       - name: Install dependencies from the committed lockfile
+        id: npm-ci
+        continue-on-error: true
         env:
           GIT_TERMINAL_PROMPT: '0'
           GIT_CONFIG_COUNT: '4'
@@ -130,7 +138,52 @@ jobs:
           GIT_CONFIG_VALUE_2: 'git@github.com:'
           GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
           GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
-        run: npm ci --no-audit --no-fund
+        run: |
+          set -o pipefail
+          npm ci --no-audit --no-fund 2>&1 | tee "$RUNNER_TEMP/npm-ci.log"
+
+      # A failed install must be diagnosable from the API alone: job logs are served from blob
+      # storage that a review environment may not be able to reach, annotations are not. This step
+      # reports the platform facts, the URL rewrite rules actually in force (never a credential)
+      # and the tail of the install output, then fails the job.
+      - name: Report an install failure as annotations
+        if: ${{ steps.npm-ci.outcome != 'success' }}
+        env:
+          GIT_TERMINAL_PROMPT: '0'
+          GIT_CONFIG_COUNT: '4'
+          GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_0: git+ssh://git@github.com/
+          GIT_CONFIG_KEY_1: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_1: ssh://git@github.com/
+          GIT_CONFIG_KEY_2: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_2: 'git@github.com:'
+          GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
+          GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
+        run: |
+          echo "::error title=windows install::npm ci failed on the Windows runner; details follow as annotations"
+          {
+            echo "git: $(git --version 2>&1)"
+            echo "npm: $(npm --version 2>&1) | node: $(node --version 2>&1)"
+            echo "url rewrites in force:"
+            git config --get-regexp '^url\.' 2>&1 | sed 's/^/  /'
+            echo "extraheader configured for the IPD repository: $(git config --get-regexp '^http\..*extraheader$' >/dev/null 2>&1 && echo yes || echo no)"
+            echo "direct authenticated probe of the private repository:"
+            git ls-remote --heads https://github.com/ramkivs/iips-production-market-data.git >/dev/null 2>"$RUNNER_TEMP/probe.err"
+            probe_status=$?
+            if [ "$probe_status" -eq 0 ]; then
+              echo "  git ls-remote: OK (authenticated read of the private repository works on this runner)"
+            else
+              probe_reason="$(tail -n 3 "$RUNNER_TEMP/probe.err" | tr '\n' ' ')"
+              echo "  git ls-remote: exit $probe_status -> $probe_reason"
+            fi
+            echo "npm ci output (last 40 lines):"
+            tail -n 40 "$RUNNER_TEMP/npm-ci.log" 2>/dev/null | sed 's/^/  /'
+          } > "$RUNNER_TEMP/install-diagnosis.txt" 2>&1
+          # One annotation per line, bounded: annotations are the retrievable channel.
+          head -n 60 "$RUNNER_TEMP/install-diagnosis.txt" | while IFS= read -r line; do
+            echo "::error title=windows install detail::${line}"
+          done
+          exit 1
 
       - name: Verify all private dependencies resolve to their committed pins
         run: node ../.ci/verify-ipd-pins.mjs
@@ -195,6 +248,17 @@ jobs:
             }
             appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
             console.log(lines.join('\n'));
+            // Annotations as well as the step summary: the job log itself is served from blob
+            // storage, which a review environment may not be able to fetch.
+            for (const [label, file] of groups) {
+              let summary;
+              try { summary = JSON.parse(readFileSync(file, 'utf8')); }
+              catch { console.log('::error title=Windows ' + label + '::no Vitest summary was produced'); continue; }
+              console.log('::notice title=Windows ' + label + '::files=' + summary.numTotalTestSuites
+                + ' total=' + summary.numTotalTests + ' passed=' + summary.numPassedTests
+                + ' failed=' + summary.numFailedTests + ' skipped=' + (summary.numPendingTests ?? 0)
+                + ' success=' + summary.success);
+            }
           "
 
       - name: Upload the Windows Vitest summaries
