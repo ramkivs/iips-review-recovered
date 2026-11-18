@@ -51,6 +51,7 @@ import type {
   PriceRecord,
   SecurityRecord,
 } from '../fundamentals/types';
+import { validateCorporateActionRecords } from '../identity/sources';
 import { deriveLineItems } from '../fundamentals/derive';
 import { parseCsv, rowAsRecord } from './csv';
 import { extractPeriodValues, parseXbrlInstance } from './xbrl';
@@ -740,10 +741,34 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
       issues.push(issue('ERROR', 'UNKNOWN_SECURITY', price.securityId, 'price references an unknown security'));
     }
   }
-  for (const action of inputs.corporateActions) {
-    if (!issuerIds.has(action.subjectIssuerId)) {
-      issues.push(issue('ERROR', 'UNKNOWN_ISSUER', action.actionId, 'corporate action references an unknown issuer'));
+  // Validate the entire action file before exposing any of it. Even --allow-errors may not retain
+  // the apparently good subset of a rejected action file (scenario 7's all-or-nothing contract).
+  const actionValidation = validateCorporateActionRecords(inputs.corporateActions, issuerIds);
+  const actionIssues = actionValidation.issues.map((problem) =>
+    issue('ERROR', problem.code, problem.subject, problem.detail),
+  );
+  if (actionValidation.table !== null) {
+    for (const action of inputs.corporateActions) {
+      // Identity files allow legacy defaults, but dataset records are consumed without normalisation.
+      // Do not let an omitted boolean bypass assessment's explicit `perShareComparable === false` guard.
+      if (typeof action.perShareComparable !== 'boolean' || action.adjustmentFactor === undefined ||
+          (action.factorBasis !== null && typeof action.factorBasis !== 'string') ||
+          typeof action.sourceRef !== 'string' || action.sourceRef.trim() === '') {
+        actionIssues.push(issue('ERROR', 'ACTION_INCOMPLETE', action.actionId,
+          'dataset actions require perShareComparable, adjustmentFactor, factorBasis and a non-empty sourceRef'));
+      }
+      if (action.subjectSecurityId !== null) {
+        const security = inputs.securities.find((candidate) => candidate.securityId === action.subjectSecurityId);
+        if (security === undefined || security.issuerId !== action.subjectIssuerId) {
+          actionIssues.push(issue('ERROR', 'ACTION_SECURITY_MISMATCH', action.actionId,
+            'subject security must exist and belong to the subject issuer'));
+        }
+      }
     }
+  }
+  issues.push(...actionIssues);
+  const corporateActions = actionIssues.length === 0 ? inputs.corporateActions : [];
+  for (const action of corporateActions) {
     if (!action.perShareComparable && action.adjustmentFactor === null) {
       issues.push(
         issue('WARNING', 'PER_SHARE_NOT_COMPARABLE', action.actionId, 'no adjustment factor: per-share series are not comparable across this boundary'),
@@ -766,7 +791,7 @@ export function buildDatasetContent(inputs: DatasetInputs): DatasetContent {
     listings: inputs.listings,
     periods: [...retainedPeriods].sort(byPeriodEnd),
     prices: inputs.prices,
-    corporateActions: inputs.corporateActions,
+    corporateActions,
     operatingMetrics,
     issues: sortedIssues,
   };

@@ -1377,3 +1377,37 @@ safely.
 `S4-R8` open (event-driven); `L-001`, `G-6`, `L-041`, `L-042` unchanged. Stage 4 remains **PARTIALLY COMPLETE**; overall
 IID readiness **NOT READY**. The next Stage 4 roadmap item is **`S4-R7`** (already discharged) and then **`S4-R8`**
 (corporate actions), with `S4-R6`'s owner decision outstanding in parallel.
+
+
+## Addendum (2026-11-17) — S4-R8 corporate-actions G-8 investigated; OPEN/event-driven
+
+This addendum updates the **status of S4-R8 only**; the historical registration row and its criterion are preserved.
+Record: `IID-S4-R8-CORPORATE-ACTIONS-2026-11-17.md` (§§1–10). Evidence:
+`evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/`. Tracker §16.298 / `CV-CORR-263` / `V2197`–`V2204`.
+Baseline: remote main at PR #591 merge (exact commit in the record and machine-generated census).
+
+| Item | Current finding | Literal criterion | Determination |
+|---|---|---|---|
+| S4-R8 / corporate-actions G-8 | **INVESTIGATED — OPEN/event-driven**. 597-file evidence census, 13 discovery candidate/group rows, zero admissible canonical events. Both temporary real-input dataset read-backs contain 0 actions. | **`corporateActions > 0`**, record as events occur and re-publish; L-031 additionally needs a real declared-action guard/factor demonstration. | **C**, not A: sources reference historical buybacks/bonuses/split/redemption and other distributions/issues, but event-level evidence/admission/schema support is insufficient. No global non-occurrence claim. |
+
+**Synthetic result unchanged:** scenario 7 remains DEMONSTRATED on **SYNTHETIC_FIXTURE**, with its three original
+tests untouched and reused. Never counted as real issuer coverage. The real-event limb is **NOT DEMONSTRATED**.
+
+**Safe issuer-neutral correction:** dataset assembly now reuses the identity record validator instead of bypassing
+it, withholds the whole action file on any error even for explicit partial dataset publication, and verifies supplied
+subject security ownership. Canonical dataset fields must be explicit, so legacy identity defaults cannot let a
+missing boolean bypass the comparability guard. Shared validation rejects non-positive ratios and duplicate successor issuer ids.
+Valid originals/provenance retained; **22 new tests**, existing corporate-action/source/scenario run **77/77**,
+full IID **1573/1573**, platform typecheck and CAP-03 static validation pass. Original/corrected production replay
+returns identical digests for both real-input datasets; no real input or historical evidence changed.
+
+**Not claimed:** successor-security exchange/fraction processing, independent source rights, a real guard firing,
+complete action history or acceptance of the supplemental refresh as new O3 authority. No synthetic event entered,
+no new provider, rights expansion, valuation/freshness/portfolio change, host operation, IPD write or cross-repo sync.
+L-031 **OPEN**; G-8 **OPEN**; S4-R2 through S4-R7 not reopened. Stage 4 **PARTIALLY COMPLETE**, IID **NOT READY**.
+
+**Next action:** owner/operator obtains event-specific source/locator, exact dates/historical identity/terms and
+applicable rights/admission, then transcribes, validates, publishes, independently reads back and demonstrates the
+real criterion with before/after digests. Unsupported schema semantics require a governed decision, not a guessed
+mapping. S4-R8 is the last numbered Stage 4 roadmap row: **no next numbered item is registered**; remaining work is
+the existing residual/event-driven/operator/owner actions, including the outstanding S4-R6 decision.

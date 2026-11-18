@@ -1,0 +1,89 @@
+S4-R8 local validation (no production/Windows-host operation)
+
+$ cd iips-platform && tsx --test tests/investment/s4r8-corporate-action-ingestion.test.ts
+exit 0
+  ...
+1..1
+# tests 22
+# suites 1
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 370.685773
+
+$ cd iips-platform && tsx --test tests/investment/identity-corporate-actions.test.ts tests/investment/identity-sources.test.ts tests/investment/iidStage4ScenarioMatrix.test.ts
+exit 0
+  ...
+1..19
+# tests 77
+# suites 19
+# pass 77
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 915.19008
+
+$ cd iips-platform && tsx --test tests/investment/*.test.ts
+exit 0
+  ...
+1..327
+# tests 1573
+# suites 327
+# pass 1573
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 40082.578287
+
+$ python -m unittest discover -s tests/validation -p test_cap03_artifact_classification.py -v
+exit 0
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.011s
+
+OK
+
+$ python -m unittest discover -s tests/validation -p test_irr_workflow_triggers.py -v
+exit 0
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.009s
+
+OK
+
+$ python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+exit 0
+PASS: exact PA-authorized Windows 10 profile, evidence-gated pre-start retries, and post-marker no-retry controls
+PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation
+PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified
+LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS
+DURABLE IRR RETENTION: WAIVER AUTHORIZED — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The distinct original verification-output file may be absent under PA act IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01; the transcript remains separate. A sealed S04 bundle and Windows readback are still NOT PERFORMED by this static validator.
+U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN
+REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1
+
+$ python -m unittest discover -s tests/validation -p test_cap03_recovery_release_audit.py -v
+exit 0
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.541s
+
+OK
+
+$ cd iips-platform && tsc --noEmit
+TypeScript 5.4.5; exit 0, no diagnostics
+
+$ python -m py_compile docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+exit 0
+
+$ git diff --check
+exit 0
+
+$ cd iips-platform && tsx scripts/s4r8-corporate-action-census.ts
+exit 0
+Wrote census: 597 files; 13 tables.
+
+Baseline/corrected CLI replay equality: PASS; see digest-comparison.json (production reader/digest paths).
