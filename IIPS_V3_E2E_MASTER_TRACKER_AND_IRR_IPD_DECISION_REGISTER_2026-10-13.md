@@ -23825,3 +23825,21 @@ merge/independent remote ancestry/blob readback reported after publication, not 
 upgraded. Investigation complete, limitation **OPEN**.
 
 Next free §16.301 / `CV-CORR-266` / `CHG-2026-11-06-29` / `V2217`.
+
+## W05 Q1–Q7 addendum — rights evidence and bounded operating positions (2026-11-17)
+
+**Documentation-only tracker entry.** See [W05 rights questions Q1–Q7 addendum](docs/integration/W05-RIGHTS-QUESTIONS-Q1-Q7-ADDENDUM-2026-11-17.md). This supplemental entry is kept outside the numbered CV-CORR/CHG/V sequence; it consumes no such identifier and changes no code, dataset, source evidence, O3/PA-01 authorization, limitation entry, or acceptance state.
+
+**Current status.** W05 remains **IN PROGRESS — NOT COMPLETE — NOT ACCEPTED**. The earlier W05 assessment snapshot recorded `L-041`/`L-042` OPEN; subsequent merged Stage 4 records and the current authoritative limitation register mark both RESOLVED. Preserve that historical distinction; do not reopen either limitation. O3 remains Infosys, Marico and KEC only; AGI is not admitted. The 63 unresolved holdings remain unresolved. No redistribution authorization, new issuer, S4-R3 candidate installation, or W04 reopening is made.
+
+| Question | Bounded recorded position | Still open / prohibited |
+|---|---|---|
+| Q1 | Local single-user personal-app use is the operating scope. | No automatic NSE clause 8 exemption or resolution of “electronic retrieval system.” |
+| Q2 | Copyright Act 1957 §52(1)(a)(i) and its electronic-storage Explanation are recorded. | No conclusion that it overrides website contracts. |
+| Q3 | No BSE personal-download permission established; issuer IR for BSE-only securities, BSE as locator/cross-check, is an operating choice. | No legal determination of permission. |
+| Q4 | AGI IR materials/results, reviewed privacy policy and disclaimer recorded. | No inference that other terms are absent; assess issuer by issuer; AGI remains unadmitted. |
+| Q5 | Existing records evidence NSE endpoint requests on 2026-11-08; they appear within clause 9 wording, without a breach finding. | Do not repeat automated NSE retrieval or publish direct NSE filing links; interpretation remains open. |
+| Q6 | Preserve O3/PA-01 and existing local personal-analysis/transcription scope. | Source PDFs, filing-page text, derived datasets and computed artefacts are not authorized for redistribution. |
+| Q7 | The October 15, 2026 consolidation is identified. The supplied Third Amendment Gazette was visually inspected; Gazette pp. 2–3 verify changes confined to Regulation 62A. Gazette p. 1 dates publication October 14, 2026 (notification dated October 12), not October 15. | **CLOSED — PA-directed, evidence-limited disposition.** At the user’s explicit direction, the available evidence and its limitations are accepted as final for this single-user, non-production laptop application. The October consolidation page exposes metadata only and PDF extraction ends at Regulation 17; current text for Regulations 33/34/46, Regulation 34 deadlines, amendment annotations and reliable page numbers remain unverified. The FAQ is a limited cross-check, not a substitute. No 21-working-day deadline is adopted as current. This is an operating decision, not a legal determination. Disclosure duties are not copyright/download/redistribution permission. |
+
+**Verification limits.** The October 15, 2026 SEBI consolidation HTML page exposed title/date metadata only; available direct-PDF extraction stops at Regulation 17. Regulations 33/34/46 were not inspected. The supplied three-page Third Amendment Gazette was added at a gitignored local-only workspace path, SHA-256 verified and visually inspected; Gazette pp. 2–3 confirm changes confined to Regulation 62A. `git diff --check` and relative-document-link checks pass. Q7 is CLOSED by the user’s PA direction as an evidence-limited operating decision; the required consolidated clauses and their annotations/deadlines remain unavailable and unverified. W05 overall remains IN PROGRESS — NOT COMPLETE — NOT ACCEPTED. Repository publication of this documentation does not change that status or assert legal verification.
