@@ -11,6 +11,14 @@ import { present, missing, nilByDisclosure, type NumericObservation } from '../.
 import type { PeriodIdentity, QuarterForm, StatementScope } from '../../src/investment/contracts/period';
 import type { IngestionIssue, NormalizedPeriod } from '../../src/investment/fundamentals/types';
 import type { DatasetSchema } from '../../src/investment/contracts/lineItems';
+import {
+  OPERATING_METRICS,
+  SECTOR_NAMES,
+  type MetricId,
+  type OperatingMetricRecord,
+  type SectorName,
+} from '../../src/investment/contracts/operatingMetrics';
+import { sectorRequirements } from '../../src/investment/coverage/measure';
 import { buildRightsRecord, type DatasetRightsRecord, type PermissionState } from '../../src/investment/lifecycle/rightsRecord';
 import type { DatasetCatalogEntry, DatasetSourceRecord } from '../../src/investment/lifecycle/issuerLifecycle';
 
@@ -126,6 +134,50 @@ export function threeCompleteAnnuals(issuerId: string, options: PeriodOptions = 
   ];
 }
 
+/* ------------------------------------------------------------------ metrics */
+
+/** One synthetic operating-metric observation for an issuer. */
+export function metricRecord(
+  issuerId: string,
+  metricId: MetricId,
+  observation: NumericObservation,
+  options: { readonly periodEnd?: string; readonly validation?: 'VALID' | 'UNVALIDATED' | 'CONFLICT' } = {},
+): OperatingMetricRecord {
+  return {
+    issuerId,
+    metricId,
+    observation,
+    periodEnd: options.periodEnd ?? '2026-03-31',
+    statementScope: 'CONSOLIDATED',
+    sourceClass: 'OPERATOR_ENTERED',
+    unit: OPERATING_METRICS[metricId].unit,
+    sourceRef: 'w05-synthetic-fixture',
+    observedAt: '2026-09-10T00:00:00.000Z',
+    enteredAt: '2026-09-10T00:00:00.000Z',
+    validation: options.validation ?? 'VALID',
+    issues: [],
+  };
+}
+
+/**
+ * A report (present value) for every metric the governed method matrix requires for the sector —
+ * the requirement set is `sectorRequirements`', reused, never re-invented.
+ */
+export function completeMetrics(
+  issuerId: string,
+  sector: SectorName,
+  overrides: Readonly<Partial<Record<MetricId, NumericObservation>>> = {},
+  options: { readonly periodEnd?: string } = {},
+): OperatingMetricRecord[] {
+  return sectorRequirements(sector).metrics.map((metricId) =>
+    metricRecord(issuerId, metricId, overrides[metricId] ?? present(1, SOURCE), options),
+  );
+}
+
+export function isGovernedSector(sector: string): sector is SectorName {
+  return (SECTOR_NAMES as readonly string[]).includes(sector);
+}
+
 /* ------------------------------------------------------------------- rights */
 
 export function syntheticRightsRecord(asOf: string): DatasetRightsRecord {
@@ -208,7 +260,12 @@ export interface CatalogEntryOptions {
 }
 
 export function catalogEntry(
-  issuers: readonly { issuerId: string; periods: readonly NormalizedPeriod[] }[],
+  issuers: readonly {
+    issuerId: string;
+    sector?: string | null;
+    periods: readonly NormalizedPeriod[];
+    operatingMetrics?: readonly OperatingMetricRecord[];
+  }[],
   options: CatalogEntryOptions = {},
 ): DatasetCatalogEntry {
   return {
@@ -236,12 +293,18 @@ export function catalogEntry(
 /** A catalog entry whose content is complete and fresh for the given issuers, with synthetic rights. */
 export function suitableEntry(
   issuerIds: readonly string[],
-  options: CatalogEntryOptions & { readonly periodsFor?: (issuerId: string) => readonly NormalizedPeriod[] } = {},
+  options: CatalogEntryOptions & {
+    readonly periodsFor?: (issuerId: string) => readonly NormalizedPeriod[];
+    readonly sector?: SectorName;
+  } = {},
 ): DatasetCatalogEntry {
+  const sector = options.sector ?? 'Technology';
   return catalogEntry(
     issuerIds.map((issuerId) => ({
       issuerId,
+      sector,
       periods: options.periodsFor?.(issuerId) ?? threeCompleteAnnuals(issuerId),
+      operatingMetrics: completeMetrics(issuerId, sector),
     })),
     {
       rights: syntheticRightsRecord('2026-09-15'),

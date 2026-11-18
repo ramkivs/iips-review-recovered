@@ -23,10 +23,13 @@ import {
   type QualificationThreshold,
 } from '../../src/investment/lifecycle/threshold';
 import { rightsRecordFromManifest } from '../../src/investment/lifecycle/rightsRecord';
+import { present } from '../../src/investment/contracts/observation';
+import { sectorRequirements } from '../../src/investment/coverage/measure';
 import {
   ISSUER_A,
   annualPeriod,
   completeItems,
+  completeMetrics,
   operatorAssertedRightsRecord,
   quarterPeriod,
   syntheticMissing,
@@ -61,7 +64,9 @@ function qualify(overrides: Partial<QualificationInput> = {}, asOf: string = AS_
       knownAsOf: '2026-09-10',
     },
     issuerId: ISSUER_A,
+    sector: 'Technology',
     periods: threeCompleteAnnuals(ISSUER_A),
+    operatingMetrics: completeMetrics(ISSUER_A, 'Technology'),
     issues: [],
     integrity: { ok: true, detail: null },
     rights: rightsSummary(),
@@ -335,5 +340,77 @@ describe('W05 — the qualification-threshold mechanism is documented, testable 
     const expired = operatorAssertedRightsRecord(AS_OF_FRESH, {}, { expiry: '2026-01-01', reviewBy: 'operator' });
     assert.equal(expired.status, 'RESTRICTED');
     assert.match(expired.statusReason, /expired|review/i);
+  });
+});
+
+describe('W05 — required operating-metric completeness is assessed, not assumed', () => {
+  test('a sector-required metric with no report fails the metric gate and is named', () => {
+    const required = sectorRequirements('Technology').metrics;
+    assert.ok(required.length > 0, 'the fixture sector has governed metric requirements');
+    const dropped = required[0]!;
+    const incompleteMetrics = completeMetrics(ISSUER_A, 'Technology').filter((metric) => metric.metricId !== dropped);
+
+    const qualification = qualify({ operatingMetrics: incompleteMetrics });
+
+    assert.equal(qualification.metricCompleteness.sectorDeterminable, true);
+    assert.deepEqual(qualification.metricCompleteness.missingMetricIds, [dropped]);
+    assert.equal(qualification.metricCompleteness.reportedMetricIds.length, required.length - 1);
+    assert.match(qualification.metricCompleteness.note, new RegExp(dropped));
+    const gate = qualification.gates.find((entry) => entry.gate === 'REQUIRED_METRICS_PRESENT')!;
+    assert.equal(gate.passed, false);
+
+    // It is consequential WHERE REQUIRED: valuation input is refused; statement analysis is not.
+    const valuation = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(valuation.decision, 'BELOW_PROPOSED_THRESHOLD');
+    assert.ok(valuation.failedGates.includes('REQUIRED_METRICS_PRESENT'));
+    const statements = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'STATEMENT_ANALYSIS');
+    assert.equal(statements.decision, 'MEETS_PROPOSED_THRESHOLD');
+  });
+
+  test('a nil disclosure or reported zero is a report — missing stays distinct', () => {
+    const required = sectorRequirements('Technology').metrics;
+    const nilId = required[0]!;
+    const zeroId = required[1] ?? required[0]!;
+    const metrics = completeMetrics(ISSUER_A, 'Technology', {
+      [nilId]: syntheticNil('2026-03-31'),
+      [zeroId]: present(0, { kind: 'FILING', ref: 'w05-synthetic-fixture' }),
+    });
+
+    const qualification = qualify({ operatingMetrics: metrics });
+
+    // Both count as REPORTS: the metric gate passes even though one is nil and one is zero.
+    assert.equal(qualification.metricCompleteness.missingMetricIds.length, 0);
+    const gate = qualification.gates.find((entry) => entry.gate === 'REQUIRED_METRICS_PRESENT')!;
+    assert.equal(gate.passed, true);
+    assert.equal(qualification.metricCompleteness.observationCounts.nilByDisclosure, 1);
+    assert.equal(qualification.metricCompleteness.observationCounts.zero, 1);
+
+    // And a metric with no observation at all is missing — never nil, never zero.
+    const withoutAny = completeMetrics(ISSUER_A, 'Technology').filter((metric) => metric.metricId !== nilId);
+    const missing = qualify({ operatingMetrics: withoutAny });
+    assert.equal(missing.metricCompleteness.missingMetricIds.length, 1);
+    assert.equal(missing.metricCompleteness.observationCounts.missing, 0, 'absence is a missing REQUIRED metric, not a missing observation');
+  });
+
+  test('an unrecorded or off-vocabulary sector fails the metric gate closed', () => {
+    const unknown = qualify({ sector: null, operatingMetrics: completeMetrics(ISSUER_A, 'Technology') });
+    const gate = unknown.gates.find((entry) => entry.gate === 'REQUIRED_METRICS_PRESENT')!;
+    assert.equal(gate.passed, false);
+    assert.match(gate.reason, /cannot be established|fails closed/);
+    assert.equal(unknown.metricCompleteness.sectorDeterminable, false);
+    assert.deepEqual(unknown.metricCompleteness.requiredMetricIds, []);
+
+    const offVocabulary = qualify({ sector: 'Space-Tourism', operatingMetrics: [] });
+    assert.equal(offVocabulary.metricCompleteness.sectorDeterminable, false);
+    assert.ok(offVocabulary.failedGates.includes('REQUIRED_METRICS_PRESENT'));
+  });
+
+  test('the metric assessment is part of the reproducible evidence', () => {
+    const qualification = qualify();
+    assert.equal(qualification.metricCompleteness.reportedMetricIds.length, sectorRequirements('Technology').metrics.length);
+    assert.ok(qualification.evidence.operatingMetrics.length > 0, 'metric observations are retained in the evidence snapshot');
+    assert.deepEqual(qualificationFromEvidence(qualification.evidence), qualification);
+    const gate = qualification.gates.find((entry) => entry.gate === 'REQUIRED_METRICS_PRESENT')!;
+    assert.equal(gate.passed, true);
   });
 });

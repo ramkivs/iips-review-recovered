@@ -36,12 +36,14 @@ import type { Presence, MissingReason } from '../contracts/observation';
 import type { IngestionIssue, NormalizedPeriod } from '../fundamentals/types';
 import type { SourceRightsState } from '../fundamentals/manifest';
 import type { DatasetClass } from '../fundamentals/datasetClass';
+import { SECTOR_NAMES, type MetricId, type OperatingMetricRecord, type SectorName } from '../contracts/operatingMetrics';
 import { assessFreshness, type FreshnessBlock } from '../assessment/freshness';
 import { periodObservation, selectSeries } from '../assessment/periods';
 import { buildCompleteness, buildQuality, REQUIRED_ITEMS, type CompletenessOptions } from '../assessment/adequacy';
 import type { CompletenessBlock, QualityBlock, SeriesSelection } from '../assessment/types';
 import { FRESHNESS_POLICY_VERSION, POLICY_VERSION } from '../assessment/types';
 import { VALUATION_POLICY } from '../assessment/policy';
+import { sectorRequirements } from '../coverage/measure';
 import type { RightsStatus } from './rightsRecord';
 
 export const QUALIFICATION_RULESET = 'qualification/1.0.0' as const;
@@ -90,7 +92,15 @@ export interface QualificationInput {
     readonly knownAsOf: string | null;
   };
   readonly issuerId: string;
+  /**
+   * The issuer's governed sector, from the dataset's own issuer record. Required to establish
+   * required operating-metric completeness; absent means the requirement set cannot be determined
+   * and the metric gate fails closed.
+   */
+  readonly sector?: SectorName | string | null;
   readonly periods: readonly NormalizedPeriod[];
+  /** Operating-metric observations recorded for THIS issuer in this dataset. */
+  readonly operatingMetrics?: readonly OperatingMetricRecord[];
   readonly issues: readonly IngestionIssue[];
   /** Integrity of the dataset files, as verified at read time. */
   readonly integrity: { readonly ok: boolean; readonly detail: string | null };
@@ -126,7 +136,9 @@ export interface QualificationEvidenceSnapshot {
     readonly knownAsOf: string | null;
   };
   readonly rights: QualificationInput['rights'];
+  readonly sector: string | null;
   readonly periods: readonly NormalizedPeriod[];
+  readonly operatingMetrics: readonly OperatingMetricRecord[];
   readonly issues: readonly IngestionIssue[];
 }
 
@@ -139,6 +151,7 @@ export type QualificationGateId =
   | 'FRESH_WITHIN_POLICY'
   | 'PERIODS_IDENTIFIED'
   | 'STATEMENTS_ADEQUATE'
+  | 'REQUIRED_METRICS_PRESENT'
   | 'NO_BLOCKING_ACCOUNTING_LIMITATIONS';
 
 export type FindingSeverity = 'BLOCKING' | 'LIMITATION' | 'DISCLOSURE';
@@ -174,6 +187,35 @@ export interface ValueSemanticsCounts {
   readonly unmappedTagIssues: number;
 }
 
+/**
+ * Required operating-metric completeness. The requirement set is the GOVERNED method-matrix
+ * requirement for the issuer's sector (`coverage/measure.ts` `sectorRequirements`) — reused, never
+ * re-invented. Missing, nil and zero stay distinct: a nil disclosure or a reported zero is a
+ * REPORT; only a metric with no report of any kind is missing.
+ */
+export interface MetricCompletenessBlock {
+  /** The issuer's sector as recorded by the dataset. `null` when not recorded. */
+  readonly sector: string | null;
+  /** True when the sector is one of the governed `SECTOR_NAMES`. */
+  readonly sectorDeterminable: boolean;
+  /** Metric ids the governed method matrix requires for this sector. Empty when undeterminable. */
+  readonly requiredMetricIds: readonly string[];
+  /** Required metrics with at least one report (present, zero or nil disclosure). */
+  readonly reportedMetricIds: readonly string[];
+  /** Required metrics with no report of any kind — the completeness gap. */
+  readonly missingMetricIds: readonly string[];
+  readonly observationCounts: {
+    readonly presentNonZero: number;
+    readonly zero: number;
+    readonly nilByDisclosure: number;
+    readonly missing: number;
+    /** Observations whose record-level validation state is not `VALID`. */
+    readonly unvalidated: number;
+    readonly conflict: number;
+  };
+  readonly note: string;
+}
+
 export interface IssuerDatasetQualification {
   readonly ruleset: typeof QUALIFICATION_RULESET;
   readonly datasetVersion: string;
@@ -189,6 +231,8 @@ export interface IssuerDatasetQualification {
   readonly completeness: CompletenessBlock;
   readonly quality: QualityBlock;
   readonly valueSemantics: ValueSemanticsCounts;
+  /** Required operating-metric completeness for the issuer's sector. */
+  readonly metricCompleteness: MetricCompletenessBlock;
   readonly periodsCovered: {
     readonly annual: readonly string[];
     readonly quarterly: readonly string[];
@@ -230,6 +274,10 @@ function evidenceSnapshotOf(input: QualificationInput): QualificationEvidenceSna
       statusReason: input.rights.statusReason,
     },
     periods: input.periods.filter((period) => period.issuerId === input.issuerId),
+    sector: input.sector === undefined ? null : (input.sector as string | null),
+    operatingMetrics: (input.operatingMetrics ?? [])
+      .filter((metric) => metric.issuerId === input.issuerId)
+      .map((metric) => ({ ...metric })),
     issues: input.issues.map((issue) => ({ severity: issue.severity, code: issue.code, subject: issue.subject, detail: issue.detail })),
   };
 }
@@ -292,6 +340,54 @@ function countValueSemantics(series: SeriesSelection, issues: readonly Ingestion
 }
 
 /**
+ * Required metric completeness for the issuer's sector. The requirement set comes from the
+ * governed method matrix; when the sector is not a governed sector the requirement set is
+ * undeterminable, which the metric gate fails closed on rather than assuming "no requirements".
+ */
+function countMetricCompleteness(evidence: QualificationEvidenceSnapshot): MetricCompletenessBlock {
+  const sector = evidence.sector;
+  const sectorDeterminable = typeof sector === 'string' && (SECTOR_NAMES as readonly string[]).includes(sector);
+  const requiredMetricIds: readonly MetricId[] = sectorDeterminable ? sectorRequirements(sector as SectorName).metrics : [];
+
+  const reportedByMetric = new Map<string, number>();
+  const counts = { presentNonZero: 0, zero: 0, nilByDisclosure: 0, missing: 0, unvalidated: 0, conflict: 0 };
+  for (const metric of evidence.operatingMetrics) {
+    const observation = metric.observation;
+    const presence: Presence = observation.presence;
+    if (presence === 'PRESENT') {
+      if (observation.value === 0) counts.zero += 1;
+      else counts.presentNonZero += 1;
+      reportedByMetric.set(metric.metricId, (reportedByMetric.get(metric.metricId) ?? 0) + 1);
+    } else if (presence === 'NIL_BY_DISCLOSURE') {
+      counts.nilByDisclosure += 1;
+      // A nil disclosure is a REPORT: the source said the metric is nil. It is never "missing".
+      reportedByMetric.set(metric.metricId, (reportedByMetric.get(metric.metricId) ?? 0) + 1);
+    } else {
+      counts.missing += 1;
+    }
+    if (metric.validation === 'UNVALIDATED') counts.unvalidated += 1;
+    if (metric.validation === 'CONFLICT') counts.conflict += 1;
+  }
+
+  const reportedMetricIds = requiredMetricIds.filter((id) => (reportedByMetric.get(id) ?? 0) > 0);
+  const missingMetricIds = requiredMetricIds.filter((id) => (reportedByMetric.get(id) ?? 0) === 0);
+
+  return {
+    sector: typeof sector === 'string' ? sector : null,
+    sectorDeterminable,
+    requiredMetricIds,
+    reportedMetricIds,
+    missingMetricIds,
+    observationCounts: counts,
+    note: !sectorDeterminable
+      ? 'the issuer sector is not a governed sector (or is not recorded), so the required metric set cannot be established; the metric gate fails closed and no metric completeness is claimed'
+      : missingMetricIds.length === 0
+        ? `all ${requiredMetricIds.length} sector-required metric(s) carry at least one report`
+        : `sector-required metric(s) with no report of any kind: ${missingMetricIds.join(', ')}; a nil disclosure or reported zero counts as a report, a missing value never does`,
+  };
+}
+
+/**
  * The assessment core. A PURE function of the recorded evidence: same snapshot, same result —
  * byte for byte, including `evidenceDigest`.
  */
@@ -323,6 +419,7 @@ export function qualificationFromEvidence(evidence: QualificationEvidenceSnapsho
   });
 
   const valueSemantics = countValueSemantics(series, evidence.issues);
+  const metricCompleteness = countMetricCompleteness(evidence);
 
   const accountingLimitations: QualificationFinding[] = [
     ...quality.flags.map((flag) => ({
@@ -396,6 +493,11 @@ export function qualificationFromEvidence(evidence: QualificationEvidenceSnapsho
       reason: `adequacy is ${completeness.adequacy} (${completeness.adequacyBasis.join('; ')}; required-field coverage ${(completeness.requiredFieldCoveragePct * 100).toFixed(1)}%)`,
     },
     {
+      gate: 'REQUIRED_METRICS_PRESENT',
+      passed: metricCompleteness.sectorDeterminable && metricCompleteness.missingMetricIds.length === 0,
+      reason: metricCompleteness.note,
+    },
+    {
       gate: 'NO_BLOCKING_ACCOUNTING_LIMITATIONS',
       passed: blockingLimitations.length === 0,
       reason:
@@ -426,6 +528,7 @@ export function qualificationFromEvidence(evidence: QualificationEvidenceSnapsho
     completeness,
     quality,
     valueSemantics,
+    metricCompleteness,
     periodsCovered: {
       annual: series.annual.map((period) => period.periodEnd),
       quarterly: series.quarterly.map((period) => period.periodEnd),

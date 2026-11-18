@@ -88,13 +88,15 @@ export const PROPOSED_QUALIFICATION_THRESHOLD: QualificationThreshold = Object.f
       'PERIODS_IDENTIFIED',
       'STATEMENTS_ADEQUATE',
     ] as readonly QualificationGateId[]),
-    // Valuation consumes the freshness window and is exposed to accounting limitations.
+    // Valuation consumes the freshness window and is exposed to accounting limitations; the sector
+    // methods also consume operating metrics, so required-metric presence is a gate here.
     VALUATION_INPUT: Object.freeze([
       'INTEGRITY_VERIFIED',
       'PROVENANCE_RECORDED',
       'RIGHTS_ELIGIBLE',
       'PERIODS_IDENTIFIED',
       'STATEMENTS_ADEQUATE',
+      'REQUIRED_METRICS_PRESENT',
       'FRESH_WITHIN_POLICY',
       'NO_BLOCKING_ACCOUNTING_LIMITATIONS',
     ] as readonly QualificationGateId[]),
@@ -105,6 +107,7 @@ export const PROPOSED_QUALIFICATION_THRESHOLD: QualificationThreshold = Object.f
       'RIGHTS_ELIGIBLE',
       'PERIODS_IDENTIFIED',
       'STATEMENTS_ADEQUATE',
+      'REQUIRED_METRICS_PRESENT',
       'FRESH_WITHIN_POLICY',
       'NO_BLOCKING_ACCOUNTING_LIMITATIONS',
     ] as readonly QualificationGateId[]),

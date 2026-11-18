@@ -33,6 +33,7 @@ import { readDataset } from '../ingestion/writer';
 import { DatasetIntegrityError, DatasetMissingError } from '../fundamentals/errors';
 import { assertSourceRights, type SourceRightsDeclaration } from '../fundamentals/manifest';
 import type { DatasetSchema } from '../contracts/lineItems';
+import type { OperatingMetricRecord } from '../contracts/operatingMetrics';
 import type { IngestionIssue, NormalizedPeriod } from '../fundamentals/types';
 import type { IdentityObservation, IdentitySources } from '../identity/types';
 import { identityInputOf, resolveIdentity } from '../identity/resolver';
@@ -80,7 +81,11 @@ export interface DatasetCatalogEntry {
   readonly rights?: DatasetRightsRecord;
   readonly issuers: readonly {
     readonly issuerId: string;
+    /** The issuer's governed sector as the dataset records it. Enables required-metric assessment. */
+    readonly sector?: string | null;
     readonly periods: readonly NormalizedPeriod[];
+    /** Operating-metric observations recorded for this issuer in this dataset. */
+    readonly operatingMetrics?: readonly OperatingMetricRecord[];
   }[];
   readonly issues?: readonly IngestionIssue[];
 }
@@ -104,7 +109,9 @@ export function catalogEntryFromReadPort(port: FundamentalsReadPort, sourceLabel
     integrity: { ok: true, detail: null },
     issuers: port.listIssuers().map((issuer) => ({
       issuerId: issuer.issuerId,
+      sector: issuer.sector,
       periods: port.periodsFor(issuer.issuerId),
+      operatingMetrics: port.operatingMetricsFor(issuer.issuerId),
     })),
     issues: port.issues(),
   };
@@ -140,7 +147,9 @@ export function tryCatalogEntryFromDatasetDir(dir: string, sourceLabel: string =
         integrity: { ok: true, detail: null },
         issuers: read.content.issuers.map((issuer) => ({
           issuerId: issuer.issuerId,
+          sector: issuer.sector,
           periods: read.content.periods.filter((period) => period.issuerId === issuer.issuerId),
+          operatingMetrics: read.content.operatingMetrics.filter((metric) => metric.issuerId === issuer.issuerId),
         })),
         issues: read.content.issues,
       },
@@ -269,10 +278,12 @@ function statesOf(qualification: IssuerDatasetQualification): IssuerCoverageStat
   if (rightsStatus === 'UNKNOWN') states.push('RIGHTS_UNKNOWN');
   else if (rightsStatus === 'RESTRICTED') states.push('RIGHTS_RESTRICTED');
   if (qualification.freshness.status === 'STALE') states.push('STALE');
+  const metricGatePassed = qualification.gates.find((gate) => gate.gate === 'REQUIRED_METRICS_PRESENT')?.passed ?? false;
   if (
     qualification.periodsCovered.annual.length === 0 ||
     qualification.completeness.adequacy !== 'SUFFICIENT' ||
-    qualification.freshness.status === 'UNKNOWN'
+    qualification.freshness.status === 'UNKNOWN' ||
+    !metricGatePassed
   ) {
     states.push('INCOMPLETE');
   }
@@ -398,7 +409,9 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
           qualification: qualifyIssuerDataset({
             dataset: entry.dataset,
             issuerId,
+            sector: coverage.sector ?? null,
             periods: coverage.periods,
+            operatingMetrics: coverage.operatingMetrics ?? [],
             issues: entry.issues ?? [],
             integrity: entry.integrity,
             rights: {
@@ -417,7 +430,9 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
       const qualification = qualifyIssuerDataset({
         dataset: entry.dataset,
         issuerId,
+        sector: coverage.sector ?? null,
         periods: coverage.periods,
+        operatingMetrics: coverage.operatingMetrics ?? [],
         issues: entry.issues ?? [],
         integrity: entry.integrity,
         rights: {
