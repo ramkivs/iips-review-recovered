@@ -1,0 +1,1561 @@
+{
+  "baseline": "d93c6d623a7cafb721cdc211f07d2315b18aa2b0",
+  "files": [
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/README.md",
+      "sha256": "63d7bf38a4082c5893f463d1c1da37204d130cad0b4c469adfae7b5d93e314cc"
+    },
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/SHA256SUMS",
+      "sha256": "81cc9f515c92cfdf109ec12d9bf48ac2e9646ca88383d61cc4bb1781e9dc63d7"
+    },
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/review-evidence.json",
+      "sha256": "d7cc79991a5e927b42fe324163bf5e59e22705e2839569ac261e197fb72b6338"
+    },
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/validation.txt",
+      "sha256": "7e9843f13f1af1495e7ab1bff893fa35f2fb82db6c4cb7a035f83257ab639ab5"
+    },
+    {
+      "path": "evidence/iid/S4-R6-COMBINED-DISPOSITION-2026-11-18/README.md",
+      "sha256": "bfcab981355234f579821835f88fdd6763bb193ae93bd215f7b187df3b199dc5"
+    },
+    {
+      "path": "evidence/iid/S4-R6-COMBINED-DISPOSITION-2026-11-18/SHA256SUMS",
+      "sha256": "23da3e370ea31a166c9d177594a1be0639362bb148d883a2a1d7c490a6cf2321"
+    },
+    {
+      "path": "evidence/iid/S4-R6-COMBINED-DISPOSITION-2026-11-18/assessment-verification.json",
+      "sha256": "c10d3d74ae8862e3135f9fe316a22b50e3563f4f47effba68bbeb121eaa3e345"
+    },
+    {
+      "path": "evidence/iid/S4-R6-COMBINED-DISPOSITION-2026-11-18/preservation.json",
+      "sha256": "50c4b80446024a29c1e667480b0043b38cbd7f54614cdbc06c1ad0970f9a4e31"
+    },
+    {
+      "path": "evidence/iid/S4-R6-COMBINED-DISPOSITION-2026-11-18/validation.txt",
+      "sha256": "03dd63ee8a0124dbbed179f4c40ab56a69283e49c85c9a81e8718a96bbf174b7"
+    },
+    {
+      "path": "evidence/iid/S4-R6-COMBINED-DISPOSITION-2026-11-18/verify-assessment.ts",
+      "sha256": "fc3c0a3d68cbe13fb4fe5e61fbab84aa2432b5ec0b8bc3d28fd7d77f5945be53"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/README.md",
+      "sha256": "10292d8a57339974a3b246d0ab1a38d376451dc1f0f7bfff049b82e7b90dfbf9"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/SHA256SUMS",
+      "sha256": "a7278d9ea5b83b01b50cb3cb07e3d4dab2ceabf80b0d57d679de3a6b66d46c6c"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/assessment-verification.json",
+      "sha256": "a26646a9a4a57a339f4ddca6473a30ff6e0a59cb3d6e9d87f505072706c925e5"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/execution.json",
+      "sha256": "d5887f868f7818ea4b12e230ab9e1dd6d93e574af20316db372b877404dc19ae"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/infosys-bundle-lookup.json",
+      "sha256": "a3c93f790459ad387cce078d46aa4b956ba5a9cffbaf40bd0622e7d1ed9f87da"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/preservation.json",
+      "sha256": "0e6a57278b9eac3368fd4eb25857dd80b37a9e82d137890195fa84b3cbfe3764"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/requirement-matrix-update.json",
+      "sha256": "db4064f7335616a4f5f2ddf75db2367894b50829810b0c3ee49d31b8adbc4d76"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/source-binding.json",
+      "sha256": "01d83dfb6ca10b77382bc8e9e4bbecd99fafcd7d576e32f9d27c50c46f548381"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/test_reconciliation.py",
+      "sha256": "c1e2c6de11559a9701fa14512d2d1d2c7252f5cf5aa6746cc478de63d6c63356"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/validation.txt",
+      "sha256": "4327f0b1d0cf59b913c9048c1334cf20d5261c19f0cd7c5ac3f08e849b15f58c"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/verify-ingested-assessment.ts",
+      "sha256": "39a867b43967fc69e7270ddf88b897c678e59cda1d8aa6e308b8fd337ac59d97"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/README.md",
+      "sha256": "54edf9fbb492e37d6c0b572f7576db0e0e4db1ebfa217dd7894852238383d8f6"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/digests.json",
+      "sha256": "45035ac46817f607188e6d1179ab849f186023b08d529dba3cdbabe62924e134"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv",
+      "sha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/roster.json",
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/01-assessment-before.json",
+      "sha256": "b464e8fd2d6b30ef2c18c69e1c6913aacc2ea9f30a73d4a7ac45225e1289b076"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/02-assessment-after.json",
+      "sha256": "d47ba3038e21b983dfdc1a5ad3e0e5b4bedeb93d0ab9079f685d486b2fb76ae5"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/03-ingest-corrected.txt",
+      "sha256": "c51d5f6265f6ed69bf7b8114a5a7d878f8875b4dcf6858bb36982a0f4402fe87"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/04-coverage-technology.txt",
+      "sha256": "d37aa035d6b9e07e1fecfcc51c5a065c414688466b44fbf8a0b96ad74e76edd6"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/README.md",
+      "sha256": "5e869d6c5898325f43c25ebe3c83be99c80c3fe74b82427d4a9ddb7940a551ab"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/capability-probes.json",
+      "sha256": "b154465e6201e18a9a6731376d5861844ca88328656b649a67dfbb8fbc7f94b5"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-census.json",
+      "sha256": "c8c13dec3d174aad6e63695f4f8f7c101c194b2431c27a3fb858c894535a54dd"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+      "sha256": "49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/README.md",
+      "sha256": "50d4feb73b06d4784e854ee7741755bfb7272309e5c19ed625faac80e069eadc"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/artifact/assessment-payload-kec-wi8-l040-corrected.json",
+      "sha256": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/artifact/assessment-payload-kec-wi8.json",
+      "sha256": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/determination-l040-correction.json",
+      "sha256": "c734764b027fa7f8dba38ab4679a6c456d7907551377a19f49e584502d7b1116"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/determination-wi8.json",
+      "sha256": "7f39616013ed02a2bbe5a12bff24be3714ad00ab61ff4bcf2a32637bbadc6a4b"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/digests.json",
+      "sha256": "7f52e9da7e9ee02f257de5b16951c83ca3368aed1753594604914abaab9940a5"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/data-extraction.json",
+      "sha256": "44e80efd84468f62ecca5ca2c3a5615f37a45a682596d81e1cc709cb24f1ab8e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/corporate-actions.json",
+      "sha256": "6db8b7cf6ad5764cf2f2c26793e4359c068426342526bcf9cb74c4c87e104ab5"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/eligible-roster.json",
+      "sha256": "31123077207b90f463266e264b3256cf4fc10f30b835ee60f62a29d6a615a333"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/listing-map.json",
+      "sha256": "ba3ff2e7a88fb3f3019e133e996bd5869365ea3470f3d27372ad372d3d91e07c"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/periods.csv",
+      "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/roster.json",
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/01-ingest.txt",
+      "sha256": "5c5504f5fa08fb5c47c875888a3fcdfce3c85824f1a11091dbcbb81db6a7ba52"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/02-generate.txt",
+      "sha256": "baf80647b9aae1ffa4e68d0c5360d1753eab629ae0980e077b839825d95b6ad1"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/03-chain-read.txt",
+      "sha256": "a79795ac2d073a2a95c20c271bb305a33a52ad6f006291720d915e88dc8cf326"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/03-generate-again.txt",
+      "sha256": "05606c71055ce27a24477a774094a3dc694a850a3cbaaffd29d00e82f5027ff9"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/04-payload-findings.json",
+      "sha256": "a9577a9da7ed979cf01726587f4d65238e9542c2ff93afac7426f51a22a2f23e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/05-guard-test.txt",
+      "sha256": "0f513fb68168d873e18b6fcebc52fad089225baf9f456817b2c7b9c8440a1a95"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/06-typecheck.txt",
+      "sha256": "339f7b2fae338fbbf7c979120df31187745a531759f75c69be684e5b918b80cc"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/07-clean-clone.txt",
+      "sha256": "c05bfbda6a29be94c9afe93ac22570dd7726fad3c128739ddde36d4bb732e825"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/08-ci-check.txt",
+      "sha256": "a604b9f25a509fd6f31be4d67d5d1faef6d957ee8ebe2eecfcc8e5b1baa77203"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/09-l040-corrected-ingest.txt",
+      "sha256": "d64905a2446bc4a0cfdc474e51e3391148678b94fcbf18a1d2f1b9c40cdd94ba"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/10-l040-corrected-generate.json",
+      "sha256": "2e108d98454b6fcbd65337a71de04450089b7cd947134ac84d703566f4f3d906"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/10-l040-corrected-generate.txt",
+      "sha256": "6341f4d7bd84ff62e5d32cfcafb464d236eb71fd25728bc97f9615793f0faaff"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/11-l040-corrected-readback.txt",
+      "sha256": "76a024247a4b5ea371bf1a2b2d200effa223cea8714c8cf89e6e0f96ebf19961"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/11-l040-readback.json",
+      "sha256": "d682650d6a5a1626ea0dca4ffeecbcfdc8cbb7aefc3dccb20ca38f6acf3a2b1d"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/12-l040-payload-diff.json",
+      "sha256": "01e721ff48cd75799a1be328a87778a3a39b5e1756de02d53d6736884a832643"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/13-l040-tests.txt",
+      "sha256": "24439e4a77ffc08ed894cc56c81b7987fe3ec53cbd2ad8a7c1c78dfdb985597e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/14-l040-typecheck.txt",
+      "sha256": "75fb1363d0c2ec384e607b5b34a5a1890495a358699cc2f96247630a261cc60e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/15-l040-clean-clone.txt",
+      "sha256": "9a25e1311817cd2e2bb5d970c7f5eb960009e55d0537db6ac13c3588af47eaf7"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/16-l040-ci-check.txt",
+      "sha256": "f272a671d40148628d2ab9a0c460d57f55e22d150e0cba0afd58520735aa30e4"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/17-l040-commands.txt",
+      "sha256": "1830abcb448e183e56c811c5fbd6cf01fb73f1d81501617fecbc78ef946b7dd6"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/cli-wi8-unchanged.json",
+      "sha256": "92a4242d5ab4265bf5ba267845d0b7eb194173597c3340ecda838a7f1cb8c11f"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/cli-wi8.json",
+      "sha256": "34c7e4adc74f9fdb0d2908ac01fb8da5e9f774e3816ea459cc26ad47356d9df8"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/commands.txt",
+      "sha256": "576bbebeb53a7d9d8242fb65f78000d71a9b9e63f52ea589824fe63578256f33"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/readback-stdout.txt",
+      "sha256": "d7d55ef18fb709dbc619f561436d7935490881a6c8ae385dde1a698ee6f9de8f"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/readback.json",
+      "sha256": "a6cd6230d343649855eeba683ffb41090a81431fa3757461a7b8c889b1d98aec"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-balance-sheet-and-profit-and-loss-pdf-page110.txt",
+      "sha256": "3c9150854e554a9022e53e8d1e10083210eaf0cd26588479d82bf930bc3df318"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-cash-flow-financing-pdf-page112.txt",
+      "sha256": "e34d841031dd0b9502938d643635a4d3f05db26c078f39ab665b7049551ea5d1"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-cash-flow-operating-and-investing-pdf-page111.txt",
+      "sha256": "31b1dbb65435dc0a7fcca26d2e6a15af039978b30405a1046d78f8c144406abb"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-note-30-borrowings-pdf-page129.txt",
+      "sha256": "5939cc4f4290d0595a64a471916de0cc8704172ed8dc9810eb00c6823516a6e8"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-accounting-policy-ind-as-basis-pdf-page120.txt",
+      "sha256": "1b76689239dbe9d0f02820d6eb84352febef3411d3cc864759e311d9507d5de5"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-auditor-opinion-consolidated-pdf-page111.txt",
+      "sha256": "5943e241c5c8cd8b840dfaffc3f14711cf499310bf7ac161bcba2ef08d75d772"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-auditor-signature-and-firm-details-pdf-page115.txt",
+      "sha256": "c7f40e90b0b19fd31a5d11a0145bd8236f8c1fa801b1b25bc5ddf27687736eb0"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-balance-sheet-and-profit-and-loss-pdf-page117.txt",
+      "sha256": "da5d5f73e3cdcb015636b1bcd576a6c34ba11f6fe5d8f8360a6c7dc3ee93912b"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt",
+      "sha256": "5f5c6ec2919ffadc28809280dd7c0466a9bb3a2b2bc9b40b9a9fd967af9ba81a"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-cash-flow-operating-and-investing-pdf-page118.txt",
+      "sha256": "a52ada4a384401c6fe7ce83d8a2a14b999cdb816beafaf68d5094a80bb4e8e26"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-identity-isin-and-listing-pdf-page107.txt",
+      "sha256": "d1277e08b53c1754d32aaead7b082aa52e86417d603060d0b35d38fc4d2014a6"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-mdna-key-metrics-pdf-page28.txt",
+      "sha256": "6546a3f065e9e6e122b93aef25b8cc62073018f855db7476f47a71cc592f2791"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-note-30-borrowings-pdf-page136.txt",
+      "sha256": "ffa4668536bb1f7add8b9ba518ede58d1c6af02893a7d63a8076ea323c6a4b2d"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt",
+      "sha256": "3fa001b894aef5af95e7ecb7bea7a7eb182f7b703c73c12dc43fbcd8d9fa9e95"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-order-intake-and-order-book-pdf-page6.txt",
+      "sha256": "aab401554ba89f6d03294fef8f038a74c2dd385ff711b32009d53f69e90c7764"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/identity-nse-corroboration.json",
+      "sha256": "1934406d5f0ed066013b8422a28b5b8c882a93f4e74b86e270b733cb9ad2197c"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/page-map.json",
+      "sha256": "241a5532f529e0f18627e1e43e5316d55c4b213dc328672d7620530a5fd32c0e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/source-bytes.json",
+      "sha256": "9600930888b8416e2dcfc6c315c322e01b47838aac89a3b67d6a3632a05d8c90"
+    },
+    {
+      "path": "iips-platform/src/di/Container.ts",
+      "sha256": "fd9049feb4e49bab32d8e9cbf3633086db176b67e152c247aefbfddc94ef21aa"
+    },
+    {
+      "path": "iips-platform/src/distributed/AiAssistedRuntime.ts",
+      "sha256": "24770dcaff509772a286bde06e0f1e63ef8ed6cfc6bdc314049f69601c6af3b2"
+    },
+    {
+      "path": "iips-platform/src/distributed/CloudHaRuntime.ts",
+      "sha256": "efa9604a739f5984b69c0373a40c0e2df6a12e9dbe02724307d8394e93a30690"
+    },
+    {
+      "path": "iips-platform/src/distributed/DataGovernanceRuntime.ts",
+      "sha256": "604d229c169cb2df71a2d6cdd87563e9d06bcf7c82f6799a658e61ae830b0a48"
+    },
+    {
+      "path": "iips-platform/src/distributed/DisasterRecoveryRuntime.ts",
+      "sha256": "7cc97583111b45da740c962f8ade710e61d6b916b9a6819a7c9c43b32eaf6817"
+    },
+    {
+      "path": "iips-platform/src/distributed/DistributedRuntime.ts",
+      "sha256": "28c62dddd31a9e55e186a6e80aff0e6de6e0afe5b8308c2ebfac0a5bb48ccf96"
+    },
+    {
+      "path": "iips-platform/src/distributed/EnterpriseRuntime.ts",
+      "sha256": "b7b40b77ae131f52144d96be56fe4d96f1cc95b0e6ab910f07ad2d26ca448541"
+    },
+    {
+      "path": "iips-platform/src/distributed/LiveDataRuntime.ts",
+      "sha256": "2c2139cb0635e0138e247f020f30ff4758eea1a60eeaa6ac8388dd95ec254c06"
+    },
+    {
+      "path": "iips-platform/src/distributed/MigrationRuntime.ts",
+      "sha256": "cef5daac40a3eac626646a2e8272b6e4b1e30532b53efd4e109b24f01b7b5af3"
+    },
+    {
+      "path": "iips-platform/src/distributed/PerformanceScaling.ts",
+      "sha256": "b46c3f3b8863d1a54b695f895d06963dec1c2cd88c1785cf51bcba630ba0a010"
+    },
+    {
+      "path": "iips-platform/src/distributed/PlatformApi.ts",
+      "sha256": "7bdb1ef08d9f529931d03a19c45cad3c47d2de7521070c7022fd37007a433a14"
+    },
+    {
+      "path": "iips-platform/src/distributed/PluginMarketplace.ts",
+      "sha256": "198569de475328e4e7b7fc823c83f082ee71e542cd3d958cfc04b1a2e195dbbe"
+    },
+    {
+      "path": "iips-platform/src/distributed/V2Observability.ts",
+      "sha256": "4f1d95c72d2b1aed0183cb8286d12948a1a936839a44854dc1d94af3fc6d79d9"
+    },
+    {
+      "path": "iips-platform/src/distributed/WorkflowRuntime.ts",
+      "sha256": "3a1ec6faabdfcbc8d563667c6db07645567d80b5ae1ad94a8adfb4fa48008ada"
+    },
+    {
+      "path": "iips-platform/src/framework/activation/ActivationService.test.ts",
+      "sha256": "27bfd5f051aae6df83fb35e03ee68da8fe41989c8f8ac92159c6cc44ca93ab82"
+    },
+    {
+      "path": "iips-platform/src/framework/activation/ActivationService.ts",
+      "sha256": "d52f0e6407f8a22e5c40e2d08dd418ca50c5d13c7effb31cc8b49ce43cdc47e9"
+    },
+    {
+      "path": "iips-platform/src/framework/diagnostics/DiagnosticsService.test.ts",
+      "sha256": "e95e7b722f70cfb465a19d78c192797e06b140981be280f4198f4b2816b3c1b1"
+    },
+    {
+      "path": "iips-platform/src/framework/diagnostics/DiagnosticsService.ts",
+      "sha256": "558503b51c291ad3d03707c30755c48a8ae8768e58fb4674d43bc26f8cf193aa"
+    },
+    {
+      "path": "iips-platform/src/framework/evidence/EvidencePipeline.test.ts",
+      "sha256": "0822c6c665af2f435b853ad50734053dc02c74a3b9212862645431da22e2edbd"
+    },
+    {
+      "path": "iips-platform/src/framework/evidence/EvidencePipeline.ts",
+      "sha256": "a502aac7ec1571761ab677f63c451dc649512d1c7e5e4dd78f81984ebfac9135"
+    },
+    {
+      "path": "iips-platform/src/framework/index.ts",
+      "sha256": "310c7d95e0727a68cc6eee1216b63c21fc6d3c71fb8bbe5e9490158c206be8c2"
+    },
+    {
+      "path": "iips-platform/src/framework/manifest/ManifestLoader.test.ts",
+      "sha256": "be967ea09a690071ac5543d948963bf32fffb0d7bfeb7ecad1f168070e549a24"
+    },
+    {
+      "path": "iips-platform/src/framework/manifest/ManifestLoader.ts",
+      "sha256": "4f5bb5468a88f8799b0db8b56c9353686e362038b9e814dfbabc6cf8265ec1d0"
+    },
+    {
+      "path": "iips-platform/src/framework/qualification/QualificationService.test.ts",
+      "sha256": "c45872c8c99842a322480d336b5e23e2c6dc543d81ae4d3a47ae3e8c710ed5ba"
+    },
+    {
+      "path": "iips-platform/src/framework/qualification/QualificationService.ts",
+      "sha256": "32951cf4150d28cc96b965dfe54d5328d8befb04c32b92268108b4c91f95e45b"
+    },
+    {
+      "path": "iips-platform/src/framework/transport/Transport.test.ts",
+      "sha256": "1bb0e879473e15fc022b93114305900150ca6f4681e04ac13fe9c059694a6d05"
+    },
+    {
+      "path": "iips-platform/src/framework/transport/Transport.ts",
+      "sha256": "c428f399585aa89b1ae6ea6e4c63373a3e95d61dc90bcfcbbd49ba4ae929bd49"
+    },
+    {
+      "path": "iips-platform/src/index.ts",
+      "sha256": "6b1272db8e309bd2c5937d82501f5f88b0612260fb461e52e392a5be93eaf7ab"
+    },
+    {
+      "path": "iips-platform/src/infrastructure/Clock.ts",
+      "sha256": "46fe63ce4a35929538c6beaaa4c44547bdf6c96f6b60b2056ab6d05105315bb7"
+    },
+    {
+      "path": "iips-platform/src/infrastructure/IdProvider.ts",
+      "sha256": "b7d3abf30d3329a50f14ef29e47c8f111086720f172bfcc3293aaf29c2f1bd1b"
+    },
+    {
+      "path": "iips-platform/src/infrastructure/deepFreeze.ts",
+      "sha256": "8c9840593bc253e7cdff4441c1e4e53c55a646ce49eb3b8af0878bc2bde52fde"
+    },
+    {
+      "path": "iips-platform/src/infrastructure/infrastructure.test.ts",
+      "sha256": "46f4b2d345718e2a9b836d12440a2165b3fe8ac90a745671ec5fe1ee5c6fa5d0"
+    },
+    {
+      "path": "iips-platform/src/integration/EngineApiAdapter.ts",
+      "sha256": "5cf4f69578ab2ee54c82d0f93b0305db708ea7e6bad0d882119f3d1ca493ff58"
+    },
+    {
+      "path": "iips-platform/src/integration/EngineRegistry.ts",
+      "sha256": "730880cdd014ca249a7b123362a5422a1de4101c2c1e60c91cbd48b85e72f9d5"
+    },
+    {
+      "path": "iips-platform/src/integration/index.ts",
+      "sha256": "e139d129db855cce3a2dd8c22c27849581d9ecacb77ed8a2fe7168ab7dbafc00"
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/index.ts",
+      "sha256": "7e3d7d7869bad3e61051d11e2321d6584b096f12a46a20992ee402dcbf99fd43"
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/scopeToken.ts",
+      "sha256": "1cbb14896f4e16f30d391c31d459ce9aba141a85d080eba44cdbb5e5651ce2cd"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/adequacy.ts",
+      "sha256": "9147bd3c6dcaf420857af3c78a3a907350503619d1f4220f95f7b8822d08bcec"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/capitalStructure.ts",
+      "sha256": "ffa2c8edd5b1061a28e31fb24e70b16a9e44bd4c6bd817aa0cb8eeafd4f5ffea"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/confidence.ts",
+      "sha256": "bd159cf30c2624867ccee2260e84a9553adbda44551acfe097f504829f1cf33a"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/dividends.ts",
+      "sha256": "ca7393c3e925d02a616ba722a356e9c1e413809796789242fb4cb044a3429cf1"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/engine.ts",
+      "sha256": "e4ee71d566a872cbb69c53cb24e7829c821418fc0d123f5cf0306c7189765be0"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/explain.ts",
+      "sha256": "1f262b6d7d3e8ff5c13ea9b6fd0a16e683ef9ed1f366c5d6ba763eb6950682dc"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/freshness.ts",
+      "sha256": "404bce6df5587dc18dccba95ba818931b2481f4fde675dc81caa8580352792f9"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/index.ts",
+      "sha256": "e828af2df7c7c55561dd124dce20642be25e9cb80e70bd314196238871baca64"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/intrinsic.ts",
+      "sha256": "02e7e9bb811f02ed5fbaae0091625e99e5eeafb71f5019e4b5b2b99274224aa2"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/margin.ts",
+      "sha256": "02fbae571e375a3988584f1fad2e2c4a9764a3148557f14c3f83c0fcb5ffc040"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/methods.ts",
+      "sha256": "d6fccf5f2091c59658ec523d5f147200b0382ca25f047e56d114a292b719db54"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/moat.ts",
+      "sha256": "a1e7e88fc57bab7c55e13c5c28dfa8c30dd6f3b399cac954e27e7ebc1071de87"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/periods.ts",
+      "sha256": "b6b4ab1727431363bc8b8581b1ac80f20678e7a0b596935f4c496f9483947b51"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policy.ts",
+      "sha256": "4165e2d34702b44e9ed6b8df6f09c62ffc6f5d96f2da9b3f888432d6db46e94e"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policyReview.ts",
+      "sha256": "3b5477268b71350d033341bcbc6c754cbc5a1b92ff6f091f8cd657fffbee1b68"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/risk.ts",
+      "sha256": "0188b03a63bb988c523b0dfe29bcc8187fd3a4304d0a2332352933408d3889f9"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/types.ts",
+      "sha256": "eab260e2df80779e1eef6c01a2571baeddcff053ba344440bfdc1f4494405494"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/view.ts",
+      "sha256": "4ab0a47d63a1964a511818a91d270cafb1fe2bd7f46ccbe67cf9d57bb20f2e56"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/build-s4-r3-candidate.ts",
+      "sha256": "5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/ingest.ts",
+      "sha256": "bf1ee190d1b909dbe0edd7572165c6005b14ecfe00299a14eb47761b2d22b78e"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/install-verified-dataset.ts",
+      "sha256": "14668fba4468f923fded3b90c136027a4daf011a84c0df323690e5f38761b126"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/provision-identity.ts",
+      "sha256": "846f34e27618c42e7b5b4985057ccaf3c69fafb5446efc1af7194171753771ca"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-installed-dataset.ts",
+      "sha256": "3eb639f1b797300ae3d3c49e25094e9fbaee92a2520e197577a98d215363a2b0"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-retrieval-evidence.ts",
+      "sha256": "7481263629a8a02678c829b27837c6cd8823cfcd638e3fd9729023a1113da2c4"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/disposition.ts",
+      "sha256": "7bccc91eec0d147dd35ebae69d7469340a792b4f782a6f64225651e4d17a6818"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/ids.ts",
+      "sha256": "df57eccd670b680695a4ce83eb0505fb8c7438aed1ec39169c8947cc31769e05"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/index.ts",
+      "sha256": "ac8919b6abb9b51180b40301f93115acd88d0932c4a29dcddd0c72ba2a7e9d41"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/invariants.ts",
+      "sha256": "b1660174e18de640cce215d06d38b239d988cb9d3183acbc356d0b2b2c317820"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/lineItems.ts",
+      "sha256": "a2c017834170f6cb3542b475dbcbd3d4cba677f00aaface06d482f3bf5c89ae6"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/nilBinding.ts",
+      "sha256": "eaa282724e4cfbe494c9336dcb0a403ba04f9eddb29b639b4ea17a77f0bae30d"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/observation.ts",
+      "sha256": "81bffacb2d8241d95267b37624f2c899a72ed8cc875d452336b3daba6263a72b"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/operatingMetrics.ts",
+      "sha256": "b28d297a9f91a159df2f2002d234634daacc05de76df074a7ee187a3aa62cb99"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/period.ts",
+      "sha256": "0f32101ac46a6082905c9f5512a0167c6c253ca0ee0570f6ceecf5bf00ddf2ac"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverage.ts",
+      "sha256": "e9d856c0edf0192526b72927f10b27d57183298df01dfea8fa73c66d34271866"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageEndpoint.ts",
+      "sha256": "071296273116e722158ed81591eec14590f56a009314a5939905dae66038a850"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageView.ts",
+      "sha256": "f8ef9a2e23d3dc9a1bb073a2a3fea79c51e92abee50ccc446a777cec16de6f71"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/measure.ts",
+      "sha256": "ba7afbe6ae5e86ccb2718c85619f6737ccf1b0391b023f815dd3d3aed98a4877"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/methodMatrix.ts",
+      "sha256": "b5649214152441bdeba90f807e85ca6cdb9da1243a4ecb1c44c7990ef7720305"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/engine.ts",
+      "sha256": "06afe5cf8cf83ba6354e2081c60e800f3ebb68723cb3dc2980bd4d4dec5b01a6"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/gates.ts",
+      "sha256": "2798273650141c706128d3df1f0d4a82c2c78cb1dc71f7717248e4e9b5e00a0d"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/index.ts",
+      "sha256": "80a71acc9a9b79f925f40181625d3054b11c3879a406d58e7aaac9f7279b0eca"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/limits.ts",
+      "sha256": "f7f0073d8a3cc6a6a1b93eb68d062b69dc9e04f2a2f4fbeb3910d2b3ac656207"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/policy.ts",
+      "sha256": "454027c2ece73dee96d321124a22d874e64c40b189c9eb3e0497d91b69b60191"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/portfolioImplication.ts",
+      "sha256": "7de82c78e907525f5199262244377d88bfd199e2ae89824f3cf0e3859db42370"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/rationale.ts",
+      "sha256": "edd3350339131a789352d13894d8ebf17da486ccc8af684fc2d98e85e1a96831"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/subject.ts",
+      "sha256": "73b50f5207e25eb2ad967a4e4d37b5847cbbdf06b9396bce674865132a1df51e"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/types.ts",
+      "sha256": "04336f125700356092b91e0b989e8a698343b161af55813c9df5c77e2a16859f"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/verbs.ts",
+      "sha256": "55487c2a64b38ebb25519e363b177a1a33ab5a32ece34486eb81cce291ff13ca"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/execute.ts",
+      "sha256": "6ac8e5128de59baaeb4ae5238525acd3ad466233e318ad21b9e14a52026e4dd7"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/index.ts",
+      "sha256": "1e243b83961831c8d9558670c28f20dd7667f62a35f12b71cf68a4c440e78f2b"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/inputs.ts",
+      "sha256": "c4573bcac82be28f8be82307cf86431e576b14dda858bac05445edabb31f7615"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/types.ts",
+      "sha256": "0fdb7ad667c4ff622d17ccb8305af153ae32686b52948a3ef2fea06a032f8e45"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/authorizationRecords.ts",
+      "sha256": "8944ad50b743fdd03f58ae9239bd06a64e8173de540e211837ad6f4e27d782e4"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/canonical.ts",
+      "sha256": "68efff4145f23342bc1638372ec5ed01451b1f1c9d9f47737a9379bc20618e4d"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/datasetClass.ts",
+      "sha256": "b94edde5ffb4ded2a1f8f583cf21c61e4f3268c81a28a61ac20db7cce6d2e091"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/derive.ts",
+      "sha256": "28cd1bb8142d03ac1f1ba01a35ed04ce0afcc7fd2da3a15435573aa49adf6fa7"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/errors.ts",
+      "sha256": "66f7f64028f776369604be9c5b58982f3ecf79576260d3c5ba723a56adc8cadd"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/manifest.ts",
+      "sha256": "da76c3b8c9e4a298dd748cce8c498123a024a9141ce67472b7d8b343d5431a7b"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/types.ts",
+      "sha256": "f9a6377aebd69c9e6c46bfb22a4b4e444ada359f065a7aa197d968905df5e644"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/corporateActions.ts",
+      "sha256": "8a871c20bd974f68297732c4b9f19140ec176c05131352d14af79d74588a1cbe"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverage.ts",
+      "sha256": "c523b51dc04ba181c9e820c6a316a35c3871a4a135726f3d0dc996053a05d386"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageEndpoint.ts",
+      "sha256": "4fe5edd4119595e39bbd20584fc7aa67deab519449acab2dd16a61c7c0757289"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageView.ts",
+      "sha256": "7362418c5f6bf55dbe63f12318966e3e8eed72296581db6c79168ef0f3f76ff6"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/d114Projection.ts",
+      "sha256": "a36c1c3b2db7962427acd1dc2afcf2100532e4fcf8d99565f8aad13a3a9f6716"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/index.ts",
+      "sha256": "21f88a71e5402793638bb183e39dee5630f58f56341fd51af29ff56e76eff449"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/provision.ts",
+      "sha256": "e20e5422d0230e4d722942b762b9474ec265b41c92c6e0eac2cdfe384a491283"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/resolver.ts",
+      "sha256": "e410d4a6dc56ecb7a5f4e2a3a0aa5ccb4e3a114e5c14745310bffb6a8160338b"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/runtime.ts",
+      "sha256": "0074108f855445b02532e8e106f22a6f212477752afb8f333fbe776035a570b6"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/sources.ts",
+      "sha256": "ac21e939466f82b0a13ceeadd1342c4917388d7006b3f5641378e4ec38b319a5"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/types.ts",
+      "sha256": "f4665d800e8f2f2eb678190e792fdf7664f2457c4588cecd36427894e757ed0a"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/builder.ts",
+      "sha256": "d947742404404670d149af570adaa2ccfd4f6b8f1dc861f78c4984418251de74"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/csv.ts",
+      "sha256": "b56d185df3b74484d8790657ef622fd576bcebaaafe72e98329c7ac10cb7e1a8"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/multiInput.ts",
+      "sha256": "ab20d1b11f524efbebbc26f43af145ec23f0465a4f76006742a25f1b9e11a7af"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/sectorValidation.ts",
+      "sha256": "41978688da98e0c78d810759ca0871e34bcb58d808a1f892742be8422383d15a"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/writer.ts",
+      "sha256": "4bb4dcc87b2fd3b2795d33a8b2581aae39b0c6c34fe3b4ebec5403bc882cc75a"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xbrl.ts",
+      "sha256": "7ef621cc2d1778164dd3e0da70d7730e7b054296e9b28672287064e2eb83c8ec"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xml.ts",
+      "sha256": "2e9ada84c9c274f861ac789a4d5b192b0d277ed659388b96e00eed89e3680ce2"
+    },
+    {
+      "path": "iips-platform/src/investment/port/fundamentalsReadPort.ts",
+      "sha256": "8cb5b8a04e9c1cb961d5972e685a9e0ef69c71beb5ef1e874121b8b935e9a6a6"
+    },
+    {
+      "path": "iips-platform/src/investment/port/localSnapshotStore.ts",
+      "sha256": "5eaeb7395b0ec1b6b4701746bb22825dcd177f53e5b77ba6da710dd32b17f508"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/evidence.ts",
+      "sha256": "ae43fa82dc638f58e925bc30b912af788b75cbd9cd75b8d70e323964e7ac7679"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/index.ts",
+      "sha256": "e633baadfd891eead6b0b7f25f9456d444ffbb401b788429f922c829f356c257"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/mapping.ts",
+      "sha256": "d1c43574be52cad347c8d2c8e17a152fa0288eef746cc798b4237016df6e9d7a"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/qualify.ts",
+      "sha256": "eb012fe25e8327f0c31d94a928ab4a4994db9e963bb9aa0dd536e927ff280665"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/render.ts",
+      "sha256": "4b3be8c15b2be334a40a7c966e981b50990550c38b491a5e4cae9184dfeff1a5"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/resolve.ts",
+      "sha256": "88ce5b3362fbd49ea5c968947c78f446a1baf07a892dfe214a7da095600d8567"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/types.ts",
+      "sha256": "0527169652db1366474db926285b1e97a492e9a18f2ae12a26afe01cc3e904a1"
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalBundle.ts",
+      "sha256": "c3ef157542476eb68a79e69130ea1d1632cf1d06eb53ee4a19ae0e3308140887"
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalEvidence.ts",
+      "sha256": "ff917645a7e4088016336e4745e8e43c766458120afde5c56cff0b2ba4ce7784"
+    },
+    {
+      "path": "iips-platform/src/plugin-loader/PluginContract.ts",
+      "sha256": "6589176e0cbcf91241ca8f28f2b9c821c3262b142c5fbe85fa4f4b3bcf53be08"
+    },
+    {
+      "path": "iips-platform/src/plugin-loader/PluginLoader.test.ts",
+      "sha256": "67f021c1fc2bf5f8ef453baf3a1fb29d304665768d7ac72643da037be91cdcca"
+    },
+    {
+      "path": "iips-platform/src/plugin-loader/PluginLoader.ts",
+      "sha256": "19e68db79cfa60c5ebeca17dab67b14ff6aebe883105c5886f7d3bc56146c178"
+    },
+    {
+      "path": "iips-platform/src/registry/RegistryManager.test.ts",
+      "sha256": "b7861b83c5dd7cd34c289caa1b7f71c70f4547f4c7d579b142ab6c21043ac729"
+    },
+    {
+      "path": "iips-platform/src/registry/RegistryManager.ts",
+      "sha256": "5017bb1f259417a1f5a2b4f60e0a0cba8d6b4e9b9d9b8ab0ebb7b02ea0df3859"
+    },
+    {
+      "path": "iips-platform/src/replay/ReplayService.test.ts",
+      "sha256": "d96ac4573c64d80476f3e6116be0a8a742153760e72f30d05e066beef4008447"
+    },
+    {
+      "path": "iips-platform/src/replay/ReplayService.ts",
+      "sha256": "a889da90af025003c813e6ccde23fe286f67f6b0f335c97e0d5576eaa2db2eee"
+    },
+    {
+      "path": "iips-platform/src/runtime/MultiPlugin.test.ts",
+      "sha256": "087fe4bdd41b91c87da4e4988bcb1575d46bbffe51c15b53fed366e1e34b9494"
+    },
+    {
+      "path": "iips-platform/src/runtime/RuntimeCoordinator.test.ts",
+      "sha256": "b9438da803933404b4587b9a0d1d6572f7febaac3ba3fe799e558830c8150e95"
+    },
+    {
+      "path": "iips-platform/src/runtime/RuntimeCoordinator.ts",
+      "sha256": "5a07a2ca93a3cb76c9c80ddaf8e79a956d93f62615707369c07e6adba720beb9"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/AutoEngine.ts",
+      "sha256": "23465c45dfceaeb4a94704b0ff431b7f49c2d43415e559845c875cb461ddf1f4"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/automobile-calibration-1.0.0.json",
+      "sha256": "08d9fac51ada3845cc18c664bc757fa54208a62aece42575298c8e84e216f2b1"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/automobile-expected-outputs-1.0.0.json",
+      "sha256": "fb1a4cdcbac73d8eb675afafa0dd79b87c631740f6860cc28a2c2f948702e3f7"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/automobile-golden-reference-1.0.0.json",
+      "sha256": "0e0f717496efb98901e35ad7549889b655a1428afa3145889ef9a57cdb1ca438"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/automobile-validation-fixtures-1.0.0.json",
+      "sha256": "16a0b9665a08859c1ab93897bf729af2468d776d763c35e2369ad27f7c71694a"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/calibration/AutoCalibration.ts",
+      "sha256": "5bce57b8ae589a876349f3d3b134c705c0027fb6205106b9c8fc450ca405d213"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/decision/AutoDecision.ts",
+      "sha256": "39661a2d3fbefe5a164d3652d96b260957c28823c0f2f46b7a844ae6a29faa67"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/evidence/AutoEvidence.ts",
+      "sha256": "f57d9cbe428cec8c315cadea4a897e7ead66dcb0d45445f44443cf1d87e343c5"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/index.ts",
+      "sha256": "ff1153377c6c5fa2bf03705d30c3e282e064642471f86390bdbcdb68e9fe5429"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/metrics/AutoMetrics.ts",
+      "sha256": "ccf7aab8b78dc19a12ae169810ad36b493e87bf3d5a5978cd62951055a478010"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/auto/scoring/AutoScoreEngine.ts",
+      "sha256": "cbddfa0e2c358e19dcd4e49b39abbbf6f964a5ce120a6914c0cb179d879347aa"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/BankingEngine.ts",
+      "sha256": "d61297ab5a4d300a767e486bd9b910faddd026508188cf607bc60df7f24782b0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/calibration/BankingCalibration.ts",
+      "sha256": "c83d788b6f90e77556bfdec8d0a56583b7ee3217bcb22720aeb5698b6405f4d0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/decision/BankingDecision.ts",
+      "sha256": "0a7bc665d18f27153ea35bb99b4f8e54b8afdcb3e76a041bce4b1e8e4a727b71"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/evidence/BankingEvidence.ts",
+      "sha256": "dced755257f6618368b93663016889c2a4d93873f3529944140bfac2ce0d9a97"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/frozen-assets/banking-calibration-1.0.0.json",
+      "sha256": "0e7c22aec3ec7120e15c4f5984861b8f27ff671e3191293179d8aff805bb5c50"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/frozen-assets/banking-expected-outputs-1.0.0.json",
+      "sha256": "23b92afcba84245f27fa659aa3a8ca8489e004fe9b3c5f3a21e2c2e28d7c1e3a"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/frozen-assets/banking-golden-reference-1.0.0.json",
+      "sha256": "36d359704510d7d86f0834231f30948ee2457587dfe6006cd2ca627b3b6c7181"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/frozen-assets/banking-validation-fixtures-1.0.0.json",
+      "sha256": "e12a20d8ca06cb30f4de114b0470f7fb4edaae005dd4ecb3124cac4589785347"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/index.ts",
+      "sha256": "8e19758f290792263f938d8df8e2117f5150f342a9572a1cbee4eac7088e95dd"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/metrics/BankingMetrics.ts",
+      "sha256": "572c7cd9a5717a4446f2716849a640f0184087d94fbb2e7b3734e0f666a510f5"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/banking/scoring/BankingScoreEngine.ts",
+      "sha256": "6b5ff89b11eb29ec5b91d1e9b0a614305ef8e398a316904406530f7d8478af0b"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/CapitalMarketsEngine.ts",
+      "sha256": "7b6ef918cf0e7f7ce9234eb5e551c04d4627742aaea0792317a325c0835fbd9f"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/calibration/CapitalMarketsCalibration.ts",
+      "sha256": "9914ddcf5a0e1647f40371c9b1790d44efb514f679d0e7687a295ea32a29cfe7"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/capital-markets-calibration-1.0.0.json",
+      "sha256": "f28e6b12a1405f2871d39f804839366d629629827b897eec73f171758d953f8d"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/capital-markets-expected-outputs-1.0.0.json",
+      "sha256": "30db5e40ee66e897876e557156598a2612f7e0d8d6d84f6f4eacc7cc2b9b4bba"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/capital-markets-golden-reference-1.0.0.json",
+      "sha256": "d5720f8caf135a6fd53c09baa6d900befc34886d4ce3b0c06829e1ba6433bd85"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/capital-markets-validation-fixtures-1.0.0.json",
+      "sha256": "8db6c44fb3f0833c5071b2909bf476adecbb920ffcbe2f301d461878eb43d7ec"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/decision/CapitalMarketsDecision.ts",
+      "sha256": "97830914c2dbd7e4f6787f8b2ce4a9ffe228b55920f5ac68d5672d90b265c6df"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/evidence/CapitalMarketsEvidence.ts",
+      "sha256": "5b412549d304e0217a1958e82bfea860c9ee0b26dd02d156a190ac389d2a6a07"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/metrics/CapitalMarketsMetrics.ts",
+      "sha256": "7f77614f1f0fe970ac1cfc3d76757cb0beb048ecd1ac360762933f9a6be52496"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/capital-markets/scoring/CapitalMarketsScoreEngine.ts",
+      "sha256": "89c927733ed896101ffffef5a0349866017c751822d3b275420c4efe991619ab"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/ConsumerEngine.ts",
+      "sha256": "dc00418303ba743e47b4a32122afe8b84c28ac5cfa74f256e48e2383a7559e17"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/calibration/ConsumerCalibration.ts",
+      "sha256": "c96f77f39b3cc5592bfc784d7346743f7eb08e6ee26b1b6c5e49023d36cbe6cd"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/consumer-calibration-1.0.0.json",
+      "sha256": "2c25fa39cb85f4202eafb0f57c08996aa4c6cd0619c7f462f3a8ca118833b0c9"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/consumer-expected-outputs-1.0.0.json",
+      "sha256": "5ae32bcd24749a67cf1d09c927130d84b32c736f57ebfa1fc02c1e88c4ff794c"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/consumer-golden-reference-1.0.0.json",
+      "sha256": "4044130bc856ec0392fe5fd60874cd27ea887177d80b6c253a9fae9359c0a6ec"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/consumer-validation-fixtures-1.0.0.json",
+      "sha256": "4b6acc44d1d317f3a38cced54b7e6c25a8b3e43bf6d70f4a167658a9f11e299e"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/decision/ConsumerDecision.ts",
+      "sha256": "5ef0b789cbc281e9c74feff4c03e7406925d830e8fe82e8cb92927143d6e9819"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/evidence/ConsumerEvidence.ts",
+      "sha256": "193754219557da3f8a40127e5f0d56912f5f999dd8029e1e29bb4e1800455a4f"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/index.ts",
+      "sha256": "9678be8430ae90c35ac4d12e458a81219982888df33bf617b34b4910e0b8b9ff"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/metrics/ConsumerMetrics.ts",
+      "sha256": "7b69f46b5ef1c49095e182ff6290158b099eb544c0cb17853bd637bc5f24470e"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/consumer/scoring/ConsumerScoreEngine.ts",
+      "sha256": "c52c6c6e20690604d2914364fd1ead8e53fde7301f23fcc85bacf157b65026f7"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/CrossSectorEngine.ts",
+      "sha256": "bd01e8ebc21ac7810fcca4341440800d3ba403e5ee32116f345933a19bdbcb98"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/CrossSectorPlugin.ts",
+      "sha256": "ef2563d8fa9965ce260230e42398475d6d3922e59a8a07dcd2ffbbbc0190e811"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/allocation/AllocationEngine.ts",
+      "sha256": "443b37afeb6112321c6dca1bc4f2841fc6adbacbf839f724907721c654ba650d"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/correlation/CorrelationEngine.ts",
+      "sha256": "a3b7a45e7eb528e150108360e87146ca251b106e6c7530eb53cb21f041b20756"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/definition/ScreenDefinition.ts",
+      "sha256": "0fcd91f7f21b13e6bb29dfdfe0db73e1316636381bff6752b2879c0ff3713c47"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/diversification/DiversificationAnalyzer.ts",
+      "sha256": "46e7ddf9771bf2d9d231bdbcaec4be469e72e916bbf1881a59f256599177053b"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/evidence/CrossSectorEvidence.ts",
+      "sha256": "dbef82101ac930dd034dcfad7865d4b4099235be1899169d2506c78766040545"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/index.ts",
+      "sha256": "5605f00ce61f8cb8aacf643cfcbf7f771a5baf6417fb9c0d53bd9ceb6907b730"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/ontology/OntologyMapper.ts",
+      "sha256": "cd7e2c21e2095573f69d920e2be56c4823e93a025602d1ebcfda382c17eecc07"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/opportunity/OpportunityEngine.ts",
+      "sha256": "cd0779f1b06eda8f3aa013ff4e6e767219069ca4503d84139fc6771e90e192fa"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/population/ScreeningPopulation.ts",
+      "sha256": "6b36cf20688cd0faa27c12d425139f6fcd4d377a9ae25571575a2ca9ba606a6a"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/portfolio/PortfolioIntelligence.ts",
+      "sha256": "71203c5c6086ca0668842ea5bd8a385fae884362dc0adb87e3596e3ab572e5ac"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/ranking/RankingEngine.ts",
+      "sha256": "12bf348e6f638aa5f48124532bdab1eaabb80bd07ea526677d46899985188399"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/reporting/ReportingEngine.ts",
+      "sha256": "5eaf7968738ad36bff3f4705cd27509bc05a9849fc7b3a14297943d0527ad8d1"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/screen/CanonicalFormats.ts",
+      "sha256": "9fd03ee2f6f6a4fd720d4366a761aaa9a52c04876bec281b8da9061b31807667"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/screen/ScreenEvaluator.ts",
+      "sha256": "2a2450c152d3add7ca2322afea8f8f4fa3fa76e356166b290f26047db6a503c8"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/screen/ScreenExecution.ts",
+      "sha256": "c855fac6ee23868305311d3f00202fd95ec8bd1c03f587ef690fd70239bc17e7"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/screen/ScreenMemberInput.ts",
+      "sha256": "b36dbbac3766754eaecf858dd77243f061511c70e26b8daf00eb8a5557ba632c"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/screen/ScreenProducerAdapter.ts",
+      "sha256": "bf9caa24ea91041a13611c5090adbaa0fc96a392cbaa38204e874449b402b948"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/screen/ScreenResult.ts",
+      "sha256": "942edafb2f7b178307d6957fe562b02c78ad19fd819e4585e0856fe82633bfd4"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/screen/index.ts",
+      "sha256": "a26816525a31e720b7d816e0b5a16bef4ab28557df1a74c0fb0ef9fdbf947ab2"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/cross-sector/types.ts",
+      "sha256": "c9d6ddbff980d1bf3d0ae52cfc5195548c5cd4212b2bc02821861615b8edb24f"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/EnergyEngine.ts",
+      "sha256": "6047baf31ae6413b14c721f276951739db52645af56fe852e9f9ab6bab32ab31"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/calibration/EnergyCalibration.ts",
+      "sha256": "1f39786575c998a1b6339ae9e7afafb8699a67e06cf1ef99095fbfc432312edd"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/decision/EnergyDecision.ts",
+      "sha256": "898d85feab7e665bf78ec8edd0d6c671ac62ccaf934af9c2c7c508b3d6a116e6"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/energy-calibration-1.0.0.json",
+      "sha256": "aa0e364c6543825727ae944c4a56102176af0e1cc6391fb3b9b669adaaba1b3d"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/energy-expected-outputs-1.0.0.json",
+      "sha256": "cddd6b244c2f572ece915fb31538241a5b5d2e7cd760ab678c36825708097398"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/energy-golden-reference-1.0.0.json",
+      "sha256": "2591a07dd479f4dffc96078216dc20feb3593dd1f6bfc015154124b99b40b562"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/energy-validation-fixtures-1.0.0.json",
+      "sha256": "9964ba952371919e1a1c44d9cd70bc397793dc5f564300da2c142d9c28bfe243"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/evidence/EnergyEvidence.ts",
+      "sha256": "88dd8913632e4e241dcd7c06f5a7b67f368833d82bd8d8ec490f04ae055c2d50"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/index.ts",
+      "sha256": "847a55e9b64f026c195b1a072153482e53979127a87dc2f7b004e4635a81cca6"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/metrics/EnergyMetrics.ts",
+      "sha256": "65bdd27c17307f6aeecc58dd97c273fc3b769c92d1fae60bedfa99f7cef1c3b2"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/energy/scoring/EnergyScoreEngine.ts",
+      "sha256": "aed2ab762453ee6d56d53bbbd712f4cb98b8b8be1399dcd1cea077ea34891a27"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/HealthcareEngine.ts",
+      "sha256": "1805ddb0681b8e201d0febdb0677d7d1df223847d86a921492560322057995fd"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/calibration/HealthcareCalibration.ts",
+      "sha256": "c2ce21422cb2ee8a39b2a7d4d19627f317ffb330cf2828cdc21741c35c087f63"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/decision/HealthcareDecision.ts",
+      "sha256": "4415f527d8c181a4053e6968ec512ae0895ff873445d3b4ead699cb185220361"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/evidence/HealthcareEvidence.ts",
+      "sha256": "7ec3f8afc6c35f20d53f4d71da5c60d54ad4b35e09b88f101b6c0d200cadc2c5"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/healthcare-calibration-1.0.0.json",
+      "sha256": "a7c5c74fc855587cc131e218f8eff20636dfc6225e76d06a4ddbc17293c099a0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/healthcare-expected-outputs-1.0.0.json",
+      "sha256": "5f29823b887ed9391525c3d79d74e999fd57a4b4b6c684ebca222d4706a8e609"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/healthcare-golden-reference-1.0.0.json",
+      "sha256": "d861af74af5740cdfb33084c5a3b82af670acae1ff2722ac49bdd1908b1a8279"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/healthcare-validation-fixtures-1.0.0.json",
+      "sha256": "01add8ba91d9976f443cdb789fe64e4c63d9bc23be8e2ae82b0daebb63753934"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/metrics/HealthcareMetrics.ts",
+      "sha256": "c8c1b8a965e5f9046d3e52479c06c4ac7fd2a28845cdd1a418285a5b9e07792f"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/healthcare/scoring/HealthcareScoreEngine.ts",
+      "sha256": "5000894db15ce60b80a2aedbc9a73af38f8ce9c7361b51a93c93f0a368114b73"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/HospitalityEngine.ts",
+      "sha256": "cd26d759900f3c5737950d37fbe0741e14c44a6ebbe58118128261e6b6fd557e"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/calibration/HospitalityCalibration.ts",
+      "sha256": "3566cd53f9fb4a335db6f38cbf34b521e88bcb57369fa46eb582d749048b83ae"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/decision/HospitalityDecision.ts",
+      "sha256": "63023d127c8f6d7e8ccc05306f18f6efbc3773540c9a434c7183679615aa68c9"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/evidence/HospitalityEvidence.ts",
+      "sha256": "66e07ccab12faa98fb3e8066243e06cd89ad7623bda568db7740d05594c001b3"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/hospitality-calibration-1.0.0.json",
+      "sha256": "0869096c260a295b90e7c117da85051c7dd17553b4a27a5b523d896a7ecf35a8"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/hospitality-expected-outputs-1.0.0.json",
+      "sha256": "9615fc981e6c3d7442bf0dea8a1d37cbc4808cecb4cce1e5a4b918c40516301c"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/hospitality-golden-reference-1.0.0.json",
+      "sha256": "bcc0b9c92fa27ecb725abb683fe468e25b36443c04c7a4bd5dc38409b757d6a1"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/hospitality-validation-fixtures-1.0.0.json",
+      "sha256": "411cc9162b0ede0a5909a816fe01043d2e7bb58b9ca0710e8c121b76d61545a2"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/index.ts",
+      "sha256": "fc8e98593cdb2e09d71c55b10cb4725094ffe501b2df716b9699cdcb8ab0ae10"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/metrics/HospitalityMetrics.ts",
+      "sha256": "407952222d4a262d56ebdb5bf38510b1dd5b46635b28a2c4da0259a4e5bf0b16"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/hospitality/scoring/HospitalityScoreEngine.ts",
+      "sha256": "b011dee4057bbd4e48a0637bc3ca8956d090cb62cb3eff2a7380e98c3d8349c7"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/IndustrialsEngine.ts",
+      "sha256": "1e61c52a70b4116cc7c0f8494492e4dc29b22b9babd8355be47e52795dac2265"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/calibration/IndustrialsCalibration.ts",
+      "sha256": "a1a57b78eb69d3fa6add33aecb8080964ce3b1e003052703dd01daaa74d6c6b8"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/decision/IndustrialsDecision.ts",
+      "sha256": "43e889b24f266aa4d5526dc58f9040abd54a123b4c0a43480805f17101a94d13"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/evidence/IndustrialsEvidence.ts",
+      "sha256": "f7c3daee1d4a255ce7186d863c88698af0fc94c35ddb3e76cc14f4a43de712e4"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/index.ts",
+      "sha256": "0b41eba025b8ad3d751cfee5ceca429b54dd9c3c73d1b99bc67e62eecfd8fe13"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/industrials-calibration-1.0.0.json",
+      "sha256": "abaa02d0c96055febbc69a3175b28d354aed515fe9695acb089fd3f849ee05be"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/industrials-expected-outputs-1.0.0.json",
+      "sha256": "577773339ad351fd912bca12af5f669e04ef9e75c83ed7c770515468c2b0df36"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/industrials-golden-reference-1.0.0.json",
+      "sha256": "59fcbd489d81a3d645b274ce999cb85294a9df229965a928e7b2fc573f6ccbd8"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/industrials-validation-fixtures-1.0.0.json",
+      "sha256": "9ca65f64b388a8a9fbf29d0ddb0fc106e1a59c3472daaca37e3d5cc8341d5348"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/metrics/IndustrialsMetrics.ts",
+      "sha256": "36ea345403e3d00f9665fc075a694fef8fb096e90b594083b427deb021c8ded0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/industrials/scoring/IndustrialsScoreEngine.ts",
+      "sha256": "1ca0c3998580492e5506bcff08bda120def1f3a07ba7ace7169a552d04b1fafd"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/InsuranceEngine.ts",
+      "sha256": "7f8493daeabc1d092e938220b6e4cbddd6c68a3c02edfb79e8d9af2cb7d1b2a0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/calibration/InsuranceCalibration.ts",
+      "sha256": "9258a4556d8ec3cd8ee25908e54e3bcea4eba112e90aea97f25e72ac9b1d6d55"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/decision/InsuranceDecision.ts",
+      "sha256": "9db8d7a59ad966bc982cec0a3a24eb171b52e7cd96c43fb4868a9bda72968e07"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/evidence/InsuranceEvidence.ts",
+      "sha256": "58b3899bd08e16486f03b24cbef8ca96649f3b00bd6063bdec817cc3e41341f0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/index.ts",
+      "sha256": "a76d874b734590da0ecd342fa42ba095736f4278b6c497dd0214fcb712d78f50"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/insurance-calibration-1.0.0.json",
+      "sha256": "9a1f46c9d6a23720fd352941940d5798780eca0bde034b77e60164aeea688804"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/insurance-expected-outputs-1.0.0.json",
+      "sha256": "c124f146afdb1c6c67979a6bc6178fe2ace20a2272bddcdb1576989c194a8dba"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/insurance-golden-reference-1.0.0.json",
+      "sha256": "08464851b23a9da7b5bfdb697f3492bd528cca3cce5f2286c324abc7ea9e478d"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/insurance-validation-fixtures-1.0.0.json",
+      "sha256": "b2f98806a81deb2f68957e2e7efd03addfdb895f95d39636b1923c472846a622"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/metrics/InsuranceMetrics.ts",
+      "sha256": "79a7627a702a040e0c2282ab0aedaee4a6898269d854e2ba908345fedb381226"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/insurance/scoring/InsuranceScoreEngine.ts",
+      "sha256": "17b709b28b545cbde5fd0c8811cc9895a8d2e230535382cdbb69cf7f7f38a965"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/MaterialsEngine.ts",
+      "sha256": "20d7020a60a735b2dfa744fd2eecbe9d9bc5d895610d8f34cfca66612efac220"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/calibration/MaterialsCalibration.ts",
+      "sha256": "d866b59ceab8eb74b7c8ad6a4d1d8136cd83f89bb0c982acc5ed50c7681f9056"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/decision/MaterialsDecision.ts",
+      "sha256": "1fdf1d80dad0b074e0fec20a3adc04f8aaca14bddf5a8bb2aee682e279e886ad"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/evidence/MaterialsEvidence.ts",
+      "sha256": "c0ab8d5ef4722938d4886426c2f0228d33bc02b168e8d6e7c8e3d4be8f99076e"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/index.ts",
+      "sha256": "cc3b7d9056f0be04f2382f3000205853a7f1b953e3c509d699439b8e5eff36a6"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/materials-metals-calibration-1.0.0.json",
+      "sha256": "b3ddc7668ccb23a8d9f2ea9772410303c32c38519a93d04b447dfe0d55a2a247"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/materials-metals-expected-outputs-1.0.0.json",
+      "sha256": "26ab58a3e5c5f935e936be3a035e37fab35bd8ec502ed0e9a02c97966a3a40d1"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/materials-metals-golden-reference-1.0.0.json",
+      "sha256": "a06d0e345490735783b25706fde25a3447a904d08e502a683de6b7885311c161"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/materials-metals-validation-fixtures-1.0.0.json",
+      "sha256": "3996840fa8fda709d32e943f9d1a3b6a55319874d5f4235f0edac6212826b516"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/metrics/MaterialsMetrics.ts",
+      "sha256": "8f4784cee328931cc2508cce0d1151cd38f832ee52c82fb6e4010e04f9effc8e"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/materials/scoring/MaterialsScoreEngine.ts",
+      "sha256": "d8fdeb60b84235e4a7aa5ea8612bb37371bee689685f4d996a0251450ef8116c"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/TechnologyEngine.ts",
+      "sha256": "268b6d28f5c110a96ec24bb995d494659574b0d78900b90cb1d019b1857b2b99"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/calibration/TechnologyCalibration.ts",
+      "sha256": "bb201cf93a22f8ec92fcc9ab192c8785c6aa4cecad7173d09375fc99094e0ed5"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/decision/TechnologyDecision.ts",
+      "sha256": "d8837fa630b1eb53051029d8c94b00354316e7b3c35b338f55d1588ebdeb4ec4"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/evidence/TechnologyEvidence.ts",
+      "sha256": "15308bb2c61e72331059ba9bf6949e4db914b209ec0931d9f56888d21e8723a5"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/index.ts",
+      "sha256": "03168be5b0a396db06aba2b871a0de938b36f5c6c1cf8e36382fa074c929f6fa"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/metrics/TechnologyMetrics.ts",
+      "sha256": "5e713a0c41992dadc0393b384aa281c5643b1a92a76a0f16d190b30b739afcce"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/scoring/TechnologyScoreEngine.ts",
+      "sha256": "d4664836a5dbb4deedfd85027e216415d35d8fb01834305bb3ba91f8aafa1b72"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/technology-calibration-1.0.0.json",
+      "sha256": "9be45e06c953711a7c3202ac8b4fc5d6337dc9c59189f0a2c5f45485d729a06d"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/technology-expected-outputs-1.0.0.json",
+      "sha256": "fcb46d7b9ef0abcbebdc5cb83a464a262fac2ed0d9e3a01cdac85329a848b6c7"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/technology-golden-reference-1.0.0.json",
+      "sha256": "0a41807a45e3e1eb8c05a4589824024ad6fdf1edf781c646f57d5aee56077381"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/technology/technology-validation-fixtures-1.0.0.json",
+      "sha256": "20b99a5b92f680d526d7d294a740abaf92e1753e29d61da8b5b876e23be6e6f4"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/TelecomEngine.ts",
+      "sha256": "ff3b7706751a249a071f8e2696ad646fdfe3606826c770059837c95a9feb3ad8"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/calibration/TelecomCalibration.ts",
+      "sha256": "d43676463055a025f27cb35d17e669eef2dec47940c977eabc3d61429b469a4a"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/decision/TelecomDecision.ts",
+      "sha256": "5b629dd664e71a671c1c30aad15da61f4a044a6aacd6f5e5d57bda60571d7deb"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/evidence/TelecomEvidence.ts",
+      "sha256": "6eaa1adf191f9c9b5ad2b08c153ccc733326bf58f82871daa848cde181d7a678"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/index.ts",
+      "sha256": "6bb4ec63352774efd79571aa7654f6660fa0722a6d6b92e5067c35b8583ee5c9"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/metrics/TelecomMetrics.ts",
+      "sha256": "1889b62a89fd2164c80323da21f41cc73ed20e69009f7b1308ea7090d180c894"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/scoring/TelecomScoreEngine.ts",
+      "sha256": "843d3aab4b9b453d7106115a6e4f049dc8e04d520b00ff28ca696a6f2f4ca4c4"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/telecommunications-calibration-1.0.0.json",
+      "sha256": "5289fad385e06d8733710cdf3712abf4ee5dc9b44953ddde04b1e55d304ce2bb"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/telecommunications-expected-outputs-1.0.0.json",
+      "sha256": "20b34e3e7547c374764ad90b63399aec293366df267b3c3cea3e70016a39ca8d"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/telecommunications-golden-reference-1.0.0.json",
+      "sha256": "c6adcf9666d309fb1f36c0fd2133c05dd52e09d7f35d466c91f6644d46da0d7e"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/telecom/telecommunications-validation-fixtures-1.0.0.json",
+      "sha256": "8e50676dcf779a6f82d1c8287631be4de4b2905e1ed506c4924a9c1a81b2d351"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/UtilitiesEngine.ts",
+      "sha256": "dc1d24ee252b9945159743dfcf833a57a3019e9bc35cce6dd9824f53fda43659"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/calibration/UtilitiesCalibration.ts",
+      "sha256": "c35b9520ab0d28954d6bc532fe677217aebc5a3d4be63825188249cf3712f586"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/decision/UtilitiesDecision.ts",
+      "sha256": "0e50ee1d1342b51db929386f9e7be06b8933839e30ad7beaca5e22785034cda0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/evidence/UtilitiesEvidence.ts",
+      "sha256": "948d3c88eaced67c8fccbb70d8325d86549843fe9b302c3f2b56360662017830"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/index.ts",
+      "sha256": "8f5913a8e4d9f56f88eab5d4a541fb09dd4f02ad790f944d57f2b756c9b310a0"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/metrics/UtilitiesMetrics.ts",
+      "sha256": "3f07badc4a673866f988b47bb631a21eee4613da153e5a86ea3a265c47ee8ef5"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/scoring/UtilitiesScoreEngine.ts",
+      "sha256": "fc97b12c21f43ef9d0cb9aca93879f51d029dec80d5a34c2a67269cbf9f9b8a5"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/utilities-calibration-1.0.0.json",
+      "sha256": "cd60d644c92f999cc6484b31ae3842376ced07c7727fe5dd7b13a67a7f2f0ab8"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/utilities-expected-outputs-1.0.0.json",
+      "sha256": "0abb710ff6dbc3452fc690426e004e7ba7bb10dea4b5f3c546db5ccb67176103"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/utilities-golden-reference-1.0.0.json",
+      "sha256": "27c191a3289bcfcdd4a2df12735adca6c35f8a8a6940d88a7ce907800c4caa4e"
+    },
+    {
+      "path": "iips-platform/src/sector-engines/utilities/utilities-validation-fixtures-1.0.0.json",
+      "sha256": "b0edbffd1d1b6eceeb4efdf93b9c2d5923a12d92e8744469fe4b02fe5367921e"
+    },
+    {
+      "path": "iips-platform/src/snapshot/SnapshotService.test.ts",
+      "sha256": "c8a43d293b57436f79e9ac7f6c1e3ea0f7e2d25a3de83bc31df1eacc1587a1c5"
+    },
+    {
+      "path": "iips-platform/src/snapshot/SnapshotService.ts",
+      "sha256": "03201f2f9f4d17aeb21ba72bece38d13e05d4f50da0f0ef8fb6a46b4c046d170"
+    },
+    {
+      "path": "iips-platform/src/snapshot/SnapshotStore.ts",
+      "sha256": "c710a2283ab360fde35bb41f1731631b2b35cdc5872b1f75b24aa5a5270f7772"
+    }
+  ]
+}

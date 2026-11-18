@@ -1,0 +1,51 @@
+{
+  "baseline": "d93c6d623a7cafb721cdc211f07d2315b18aa2b0",
+  "preflight": "44 recovered files byte-identical to remote d93c6d6 backed up ignored before same-branch fast-forward; no unrelated differences",
+  "previousPrivateSnapshot": "ABSENT_AFTER_WORKSPACE_RECOVERY",
+  "kecReingestionReason": "Necessary reconstruction for requested combined successor dataset: prior gitignored snapshot/input absent, canonical metric semantics from published receipt preserved; no repeat source investigation or scoring-band calibration",
+  "cliExitCode": 0,
+  "allowErrors": false,
+  "command": "iips-platform/node_modules/.bin/tsx iips-platform/src/investment/cli/ingest.ts --input LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/infosys --input LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/marico --input LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/kec --dataset-dir LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/dataset --now 2026-11-18T00:00:00.000Z",
+  "readBackDigestVerified": true,
+  "datasetVersion": "sha256:590b3ea9602248ca63be2701144c492cc00e0d252285be2c5b816159e462e1cf",
+  "historicalInfosysCsvRowsStructurallyEqual": true,
+  "kecStatementInputByteUnchanged": true,
+  "inputFiles": [
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/infosys/operating-metrics.csv",
+      "sha256": "44c0c0c28b69931355a76fd202c8d7ba9b25484b86f5e886ab5bd4d2edda0e22"
+    },
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/infosys/periods.csv",
+      "sha256": "14e9961955f225b236031197291aa6ac4dfd2ec5a07dfa86e57edb0800c84123"
+    },
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/infosys/roster.json",
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+    },
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/kec/operating-metrics.csv",
+      "sha256": "3954c2472323939d36dd3056f86b715ef94840c2bddae27fad12f3dd5c1230c7"
+    },
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/kec/periods.csv",
+      "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd"
+    },
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/kec/roster.json",
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+    },
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/marico/periods.csv",
+      "sha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4"
+    },
+    {
+      "path": "LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/marico/roster.json",
+      "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+    }
+  ],
+  "sourceRightsState": "OPERATOR_ASSERTED",
+  "ownerRuntimeInstalled": false,
+  "fullDatasetCommitted": false,
+  "newKecCapitalCandidateAdmitted": false
+}

@@ -1,0 +1,120 @@
+{
+  "currencyUnit": "INR_CRORE",
+  "periodEnd": "2026-03-31",
+  "scope": "CONSOLIDATED",
+  "components": [
+    {
+      "component": "Current borrowings",
+      "supplied": null,
+      "verified": "4441.86",
+      "locator": "BS PDF117 / printed230 / note30 PDF136 printed269",
+      "canonicalTreatment": "Short-term4206.26 + current maturities235.60; do not add maturities again"
+    },
+    {
+      "component": "Non-current borrowings",
+      "supplied": null,
+      "verified": "661.37",
+      "locator": "BS PDF117 / printed230 / note25",
+      "canonicalTreatment": "LONG_TERM_BORROWINGS"
+    },
+    {
+      "component": "Lease liabilities",
+      "supplied": null,
+      "verified": "274.53",
+      "locator": "BS PDF117 / printed230 / notes26,31:220.60+53.93",
+      "canonicalTreatment": "LEASE_LIABILITIES included exactly once"
+    },
+    {
+      "component": "Cash and cash equivalents",
+      "supplied": "411.30 aggregate candidate",
+      "verified": "411.26",
+      "locator": "BS PDF117 / printed230 / note17 reference; CF PDF119 closing cash",
+      "canonicalTreatment": "CASH_AND_CASH_EQUIVALENTS only; no additional deposits/restrictions asserted"
+    },
+    {
+      "component": "Other bank balances",
+      "supplied": null,
+      "verified": "100.67",
+      "locator": "BS PDF117 / printed230 / note18 reference",
+      "canonicalTreatment": "No separate canonical offset item; not folded into cash/current investments"
+    },
+    {
+      "component": "Current investments",
+      "supplied": null,
+      "verified": null,
+      "locator": "No current-investments row on BS; note10 PDF129 is NON-CURRENT investments",
+      "canonicalTreatment": "MISSING/NOT_REPORTED remains; absence is not zero/nil"
+    },
+    {
+      "component": "Restricted balances",
+      "supplied": null,
+      "verified": null,
+      "locator": "Notes17/18 detail not in existing extracts or accessible first30pages",
+      "canonicalTreatment": "Not eligible without evidence; canonical restrictedCash NOT_COMPUTABLE/NOT_REPORTED"
+    },
+    {
+      "component": "Acceptances / bills discounted",
+      "supplied": null,
+      "verified": "2120.74 trade acceptances; bills discounted unverified",
+      "locator": "BS PDF117 / printed230 / note33 reference; management presentation Borrowings & Working Capital consolidated",
+      "canonicalTreatment": "Separate BS liability, not auto-mapped to closed borrowings items; no double counting"
+    },
+    {
+      "component": "Buyer\u2019s credit",
+      "supplied": null,
+      "verified": null,
+      "locator": "Note30.2 subnote continuation absent from available extract",
+      "canonicalTreatment": "Cannot determine separate amount or overlap; no admission"
+    },
+    {
+      "component": "Other relevant liabilities",
+      "supplied": null,
+      "verified": "115.68 other financial liabilities; no financing classification verified",
+      "locator": "BS PDF117 / printed230 / note34 reference",
+      "canonicalTreatment": "Do not auto-map all other financial liabilities into debt"
+    },
+    {
+      "component": "Management-reported net debt",
+      "supplied": "6722.00",
+      "verified": "6722 rounded",
+      "locator": "May16,2026 issuer release Consolidated Net Debt and NWC; corporate presentation Borrowings & Working Capital consolidated",
+      "canonicalTreatment": "Evidence only; runtime uses component bridge, no management NET_DEBT override"
+    },
+    {
+      "component": "Calculated net debt excluding acceptances",
+      "supplied": "4691.90",
+      "verified": null,
+      "locator": "Supplied5103.20\u2212411.30 arithmetic; not a filed row",
+      "canonicalTreatment": "Not admitted; source debt/cash scope mismatch and current investments unknown"
+    }
+  ],
+  "suppliedInclusiveDebt": "5103.20",
+  "verifiedBorrowingsExcludingLeases": "5103.23",
+  "verifiedLeases": "274.53",
+  "contractGrossDebt": "5377.76",
+  "suppliedCashLikeAggregate": "411.30",
+  "suppliedNetDebtExcludingAcceptances": "4691.90",
+  "suppliedManagementIncludingAcceptances": "6722.00",
+  "managementPresentationBridge": {
+    "netDebtExcludingAcceptancesRounded": "4601",
+    "interestBearingAcceptancesRounded": "2121",
+    "includingAcceptancesRounded": "6722"
+  },
+  "diagnosticsNotAdmitted": {
+    "suppliedDifference": "2030.10",
+    "differenceVersusAuditedTradeAcceptances": "90.64",
+    "balanceSheetBorrowingsLessCashOnly": "4691.97",
+    "addingTradeAcceptances": "6812.71",
+    "aboveManagementHeadline": "90.71",
+    "contractGrossDebtLessCashOnly": "4966.50",
+    "includingTradeAcceptances": "7087.24",
+    "aboveManagementHeadlineIncludingLeases": "365.24",
+    "cashFlowBorrowings": "5113.14",
+    "cashFlowVsBalanceSheetBorrowingsUnexplained": "9.91"
+  },
+  "cashCompositionFullyVerified": false,
+  "buyerCreditOverlapVerified": false,
+  "managementCompleteDefinitionVerified": false,
+  "newCapitalCandidateAdmitted": false,
+  "blocker": "No verified current-investment observation or eligible cash bridge. Supplied debt total excludes leases despite description. Management bridge base differs and cash/buyer-credit subnotes not available; do not invent classification."
+}

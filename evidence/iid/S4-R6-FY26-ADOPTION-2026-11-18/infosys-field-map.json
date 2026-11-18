@@ -1,0 +1,181 @@
+{
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "periodEnd": "2026-03-31",
+  "scope": "CONSOLIDATED",
+  "taxonomy": "INDAS",
+  "sourceUrl": "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/2025-26/consolidated.pdf",
+  "sourceDateMeaning": "2026-04-23 approval/signature date, not newly verified exchange submission date",
+  "fields": [
+    {
+      "item": "TOTAL_ASSETS",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "TOTAL_EQUITY",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "EQUITY_ATTRIBUTABLE_TO_OWNERS",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "NON_CONTROLLING_INTEREST",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "CASH_AND_CASH_EQUIVALENTS",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "CURRENT_INVESTMENTS",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "TRADE_RECEIVABLES",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "TRADE_PAYABLES",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "PROPERTY_PLANT_AND_EQUIPMENT",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "CAPITAL_WORK_IN_PROGRESS",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "GOODWILL",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "INTANGIBLE_ASSETS",
+      "locator": "Consolidated Balance Sheet printed316\u2013317",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "REVENUE_FROM_OPERATIONS",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "OTHER_INCOME",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "TOTAL_INCOME",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "EMPLOYEE_BENEFIT_EXPENSE",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "OTHER_EXPENSES",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "FINANCE_COSTS",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "DEPRECIATION_AND_AMORTISATION",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "PROFIT_BEFORE_TAX",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "NET_PROFIT",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "EPS_BASIC",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "EPS_DILUTED",
+      "locator": "Consolidated Statement of Profit and Loss printed318\u2013319",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "TAX_EXPENSE",
+      "locator": "Consolidated Statement of Cash Flows printed325\u2013326",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "OPERATING_CASH_FLOW",
+      "locator": "Consolidated Statement of Cash Flows printed325\u2013326",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "INVESTING_CASH_FLOW",
+      "locator": "Consolidated Statement of Cash Flows printed325\u2013326",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "FINANCING_CASH_FLOW",
+      "locator": "Consolidated Statement of Cash Flows printed325\u2013326",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "DIVIDENDS_PAID",
+      "locator": "Consolidated Statement of Cash Flows printed325\u2013326",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "INCOME_TAX_PAID",
+      "locator": "Consolidated Statement of Cash Flows printed325\u2013326",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "NET_CASH_FLOW",
+      "locator": "Consolidated Statement of Cash Flows printed325\u2013326",
+      "mapping": "direct filed caption; monetary CRORE\u2192INR once, EPS unscaled"
+    },
+    {
+      "item": "LEASE_LIABILITIES",
+      "locator": "BS printed317 / current and non-current lease-liability captions",
+      "mapping": "sum6016+3160=9176crore; no duplicate lease addition"
+    }
+  ],
+  "intentionallyUnfilled": {
+    "LONG_TERM_BORROWINGS": "no new BS-bound group nil declaration verified; no absent-row zero",
+    "SHORT_TERM_BORROWINGS": "same",
+    "CURRENT_MATURITIES_OF_LONG_TERM_DEBT": "same",
+    "PREFERENCE_CAPITAL": "no new admissible FY26 declaration mapped",
+    "CAPITAL_EXPENDITURE": "only net-of-sale-proceeds expenditure observed; no new gross capex interpretation"
+  },
+  "additionalSourceEvidenceNotRepresentable": {
+    "restrictedCashCfSupplementaryCrore": "422",
+    "handling": "retained as source finding; schemaV1 has no standalone restricted-cash numeric item, no adjustment or second subtraction inferred"
+  }
+}

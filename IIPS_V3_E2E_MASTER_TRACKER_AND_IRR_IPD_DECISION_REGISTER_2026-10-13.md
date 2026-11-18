@@ -24012,3 +24012,58 @@ no merge. Required evidence/owner decision is not asserted complete merely becau
 is published. Exact remaining blockers are listed in report§9.
 
 Next free §16.305 / `CV-CORR-270` / `CHG-2026-11-06-33` / `V2234`.
+
+
+## 16.305 S4-R6 / G-4 FY26 audit adoption and actual assessment reconciliation (`2026-11-18`)
+
+**Trace:** `CV-CORR-270` / `CHG-2026-11-06-33` / `V2234`–`V2237`.
+
+**Audit/source mapping (`V2234`).** Entire supplied Infosys semantic payload,8filing-coverage
+entries, business figures, four disaggregation axes, identifiers/locators and both null
+NOT_REPORTED/UNAVAILABLE/WITHHELD dispositions retained with attribution. Independent new
+checks: original IndAS BS/P&L/CF printed316–319/325–326, Value Creation Model443accounts,
+MD&A liquidity/segment tables and original SEC Item3.D pricing/termination subsection plus
+Item18 note2.11 policy. Earlier bounded review preserved; exhaustive full-filing verification
+NOT ESTABLISHED. No absent cohort/recurring numerator proxy or supplied-scope certification.
+
+**Actual local adoption (`V2235`).** Recovered checkout44files verified byte-identical to
+published remote d93c6d6, backed up ignored and same-branch fast-forwarded; no unrelated loss.
+Prior private snapshot absent after recovery, so one supported successor CLI ingestion
+reconstructs established KEC metric without re-investigating it. Three-issuer population,
+10annual/3metric rows; Infosys FY26 real consolidated statement row plus two explicit
+MISSING/NOT_REPORTED/null, UNVALIDATED/MISSING_VALUE metric records. Actual digest-verified
+read-back `sha256:590b3ea9602248ca63be2701144c492cc00e0d252285be2c5b816159e462e1cf`.
+Normal selectSeries/assessment now selects FY26, not FY24; old rows/provenance preserved.
+Residual historical FY24 borrowing/preference component references remain visible; mixed
+FY26leases/FY24borrowings refuse PERIOD_MISMATCH. No transplanted nil/zero or fake full
+FY26-input completeness. EV_REVENUE still withholds both missing metrics; zero invariants.
+No Windows/production installation or committed dataset replacement authorized/performed.
+
+**KEC components/freshness (`V2236`).** New source check contradicts supplied5103.20inclusive-
+lease total: BS borrowings5103.23 plus separate leases274.53 =existing IID gross debt5377.76.
+CCE411.26 and other banks100.67 separate; current investments still missing. Original official
+presentation bridges4601net debt +2121interest-bearing acceptances =6722, not supplied4691.90.
+2030.10candidate gap is not2120.74audited acceptances;90.71/365.24cash/lease residuals and
+CF-vs-BS borrowings9.91 unexplained, no classification guessed. Detailed cash/deposit/buyer-
+credit/acceptance notes and management bridge unverified. Neither net-debt candidate admitted;
+existing component inputs unchanged, exact CAPITAL_STRUCTURE_INCOMPLETE refusal persists.
+Actual qualification both issuers NOT_QUALIFIED; Infosys nrr/recurringRevenuePct and KEC
+bookToBill FIELD_STALE at232days/PNL200, but KEC debtEbitda RESOLVED under BS250. No override,
+publication anchor, policy/definition/calibration change or sector score. Combined confidence
+Infosys0.4932/KEC0.3199; actual named caps retained; zero invariants each.14/38matrix overlay
+only,12unmeasured unchanged; numeric closure unmet; ordinary PA-01 owner criterion/scope/
+accepted-withholding/final-status decision outstanding. **S4-R6 OPEN; G-4 OPEN.**
+
+**Validation/publication (`V2237`).** Report:
+`docs/integration/IID-S4-R6-FY26-ADOPTION-2026-11-18.md`; supplied/verified source/component/
+field-map/actual-assessment/overlay/preservation metadata and focused verifier/tests:
+`evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/`.9new focused tests;7relevant existing tests
+selected (six passed initially, digest test rerun only after correcting package cwd); scoped
+strict TypeScript verification; actual issuer and certified-qualification executions;
+checksums/diff/links/ignore/preservation checks. Original25tests/12probes/census not rerun.
+Publish to existing PR597 with remote commit/tree/all changed blobs/CI/clean read-back;
+no merge. Next source action: obtain detailed KEC notes17/18/30/33 and issuer net-debt/cash-
+offset reconciliation before further capital admission; other source/owner gaps remain
+recorded, not waived. No G-9/G-15 or unrelated limitation/status work.
+
+Next free §16.306 / `CV-CORR-271` / `CHG-2026-11-06-34` / `V2238`.

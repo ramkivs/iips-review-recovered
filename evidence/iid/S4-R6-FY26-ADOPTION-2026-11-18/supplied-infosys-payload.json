@@ -1,0 +1,53 @@
+{
+  "entity_id": "INFY",
+  "entity_name": "Infosys Limited",
+  "dataset_fiscal_year": "FY26",
+  "period_start": "2025-04-01",
+  "period_end": "2026-03-31",
+  "scope": "CONSOLIDATED",
+  "audit_metadata": {
+    "audit_date": "2026-11-18",
+    "review_completeness": "EXHAUSTIVE_FULL_FILING_REVIEW",
+    "supersedes_anchor": "FY24",
+    "sources_audited": [
+      {
+        "title": "Infosys Integrated Annual Report 2025-26",
+        "artifact": "infosys-ar-26.pdf",
+        "sections_verified": [
+          "Business Highlights",
+          "Value Creation Model (Social & Relationship Capital)",
+          "Management's Discussion and Analysis",
+          "Consolidated Financial Statements (Notes to Accounts)"
+        ]
+      },
+      {
+        "title": "Infosys Annual Report on Form 20-F for Fiscal 2026",
+        "sec_accession": "0001193125-26-270520",
+        "sections_verified": [
+          "Item 3.D (Risk Factors)",
+          "Item 4 (Information on the Company)",
+          "Item 5 (Operating and Financial Review and Prospects)",
+          "Item 18 (Consolidated Financial Statements - IFRS 15 Revenue Notes)"
+        ]
+      }
+    ]
+  },
+  "dispositions": [
+    {
+      "metric_code": "TM_NRR",
+      "disposition": "NOT_REPORTED",
+      "iid_status": "UNAVAILABLE",
+      "numeric_value": null,
+      "method_gate_status": "WITHHELD",
+      "rationale": "Review of the FY26 Integrated Annual Report and Form 20-F finds client-tier counts, top-client concentration and Large Deal TCV (USD 14.9 billion, 55% net new), but no 12-month same-cohort customer revenue-retention or expansion/contraction/churn bridge."
+    },
+    {
+      "metric_code": "TM_RECURRING_REVENUE_PCT",
+      "disposition": "NOT_REPORTED",
+      "iid_status": "UNAVAILABLE",
+      "numeric_value": null,
+      "method_gate_status": "WITHHELD",
+      "rationale": "Review of the FY26 IFRS/Ind AS revenue-disaggregation notes finds revenue segmented by offering, vertical, geography and billing type (fixed-price versus T&M), but no issuer-defined recurring-revenue classification or numerator."
+    }
+  ]
+}
