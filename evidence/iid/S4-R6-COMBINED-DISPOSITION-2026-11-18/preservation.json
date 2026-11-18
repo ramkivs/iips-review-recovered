@@ -1,0 +1,815 @@
+{
+  "baseline": "078232863bfa300759023549b02d9b81f9a6137b",
+  "files": [
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/README.md",
+      "sha256": "63d7bf38a4082c5893f463d1c1da37204d130cad0b4c469adfae7b5d93e314cc",
+      "gitBlob": "3c04d5527a1b6672a18c891294ebff8f71dbcad4"
+    },
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/SHA256SUMS",
+      "sha256": "81cc9f515c92cfdf109ec12d9bf48ac2e9646ca88383d61cc4bb1781e9dc63d7",
+      "gitBlob": "e14c00a298b01be88446bbc4679fff89714d65f9"
+    },
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/review-evidence.json",
+      "sha256": "d7cc79991a5e927b42fe324163bf5e59e22705e2839569ac261e197fb72b6338",
+      "gitBlob": "88317223647133c159efbb2ec5a6ec4ac34cf3c1"
+    },
+    {
+      "path": "evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/validation.txt",
+      "sha256": "7e9843f13f1af1495e7ab1bff893fa35f2fb82db6c4cb7a035f83257ab639ab5",
+      "gitBlob": "9818a433507b19d7fd09e68c5be65ac121c1bb6c"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/README.md",
+      "sha256": "54edf9fbb492e37d6c0b572f7576db0e0e4db1ebfa217dd7894852238383d8f6",
+      "gitBlob": "012bc2dddae56628aa78c31528c9304b826cd382"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/digests.json",
+      "sha256": "45035ac46817f607188e6d1179ab849f186023b08d529dba3cdbabe62924e134",
+      "gitBlob": "f763bd95d24131f97b0239ec083d99208995f17d"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv",
+      "sha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83",
+      "gitBlob": "840b77dbe244448b6657cdf3905344f8dabd6064"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/roster.json",
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "gitBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/01-assessment-before.json",
+      "sha256": "b464e8fd2d6b30ef2c18c69e1c6913aacc2ea9f30a73d4a7ac45225e1289b076",
+      "gitBlob": "f07ebdea1f9fbe4d6e2937baf3d02fce568d4ecc"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/02-assessment-after.json",
+      "sha256": "d47ba3038e21b983dfdc1a5ad3e0e5b4bedeb93d0ab9079f685d486b2fb76ae5",
+      "gitBlob": "c57ea855dbb9180b60c66eb7fe1a615e36c1f121"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/03-ingest-corrected.txt",
+      "sha256": "c51d5f6265f6ed69bf7b8114a5a7d878f8875b4dcf6858bb36982a0f4402fe87",
+      "gitBlob": "d9785a656b25b2df1c73c0e962dbf96020198c01"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/04-coverage-technology.txt",
+      "sha256": "d37aa035d6b9e07e1fecfcc51c5a065c414688466b44fbf8a0b96ad74e76edd6",
+      "gitBlob": "62a0d32052479fe394006f7840d335ee99293bf5"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/README.md",
+      "sha256": "5e869d6c5898325f43c25ebe3c83be99c80c3fe74b82427d4a9ddb7940a551ab",
+      "gitBlob": "8ac8b3e16500f930f7acf5a99e2f1c08398d9b3e"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/capability-probes.json",
+      "sha256": "b154465e6201e18a9a6731376d5861844ca88328656b649a67dfbb8fbc7f94b5",
+      "gitBlob": "1023c739c96378608275acafd5efc8e28aa97de4"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-census.json",
+      "sha256": "c8c13dec3d174aad6e63695f4f8f7c101c194b2431c27a3fb858c894535a54dd",
+      "gitBlob": "f7802a37b2ac8181a834997c9ba92d04eebada85"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+      "sha256": "49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62",
+      "gitBlob": "0a084fd96c8374661b74f5580fb5c11bdb4f472a"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/README.md",
+      "sha256": "50d4feb73b06d4784e854ee7741755bfb7272309e5c19ed625faac80e069eadc",
+      "gitBlob": "acbb1f87462d9227583940298531b1425a79aa6e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/artifact/assessment-payload-kec-wi8-l040-corrected.json",
+      "sha256": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+      "gitBlob": "7b4f711f9b1f31fa3dd8e9759421dd4179959b5c"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/artifact/assessment-payload-kec-wi8.json",
+      "sha256": "4f89f0ec514890f30bce1960d4a9e8302fad9ddfeb28c13bbc4f22b59072e351",
+      "gitBlob": "a3c0f773a7f5c2da39c939f33ed7c86fef6d4c44"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/determination-l040-correction.json",
+      "sha256": "c734764b027fa7f8dba38ab4679a6c456d7907551377a19f49e584502d7b1116",
+      "gitBlob": "314f94b32afe8a43ab2ef50f60220effd2357a27"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/determination-wi8.json",
+      "sha256": "7f39616013ed02a2bbe5a12bff24be3714ad00ab61ff4bcf2a32637bbadc6a4b",
+      "gitBlob": "9dd45b2878918042e62d960d15893f8774efb653"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/digests.json",
+      "sha256": "7f52e9da7e9ee02f257de5b16951c83ca3368aed1753594604914abaab9940a5",
+      "gitBlob": "f16c4b62ec40ca0ddf982e037e1d2ed342434ce5"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/data-extraction.json",
+      "sha256": "44e80efd84468f62ecca5ca2c3a5615f37a45a682596d81e1cc709cb24f1ab8e",
+      "gitBlob": "74d5875f82e99890379086744fcd3897fa420879"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/corporate-actions.json",
+      "sha256": "6db8b7cf6ad5764cf2f2c26793e4359c068426342526bcf9cb74c4c87e104ab5",
+      "gitBlob": "d3f8cf8d4f168d966249ae53bbe2d1ccfce7ac41"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/eligible-roster.json",
+      "sha256": "31123077207b90f463266e264b3256cf4fc10f30b835ee60f62a29d6a615a333",
+      "gitBlob": "e1a14e5b7de622f322b3a264503ed63907dd939e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/listing-map.json",
+      "sha256": "ba3ff2e7a88fb3f3019e133e996bd5869365ea3470f3d27372ad372d3d91e07c",
+      "gitBlob": "5bc12e91c7a7419dd3be40c0f74ef2492c067813"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/periods.csv",
+      "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd",
+      "gitBlob": "0885f5c3a2b08818b12420c09930e92a6aa94b81"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/roster.json",
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6",
+      "gitBlob": "60ad389403eed8cf70f35fd8d8e8cb8b0e08f45c"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/01-ingest.txt",
+      "sha256": "5c5504f5fa08fb5c47c875888a3fcdfce3c85824f1a11091dbcbb81db6a7ba52",
+      "gitBlob": "68592b4e7a01899f6a86c390d40ecc571a307ecd"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/02-generate.txt",
+      "sha256": "baf80647b9aae1ffa4e68d0c5360d1753eab629ae0980e077b839825d95b6ad1",
+      "gitBlob": "cf606c76c468f68a9948a387695241f2e89916f0"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/03-chain-read.txt",
+      "sha256": "a79795ac2d073a2a95c20c271bb305a33a52ad6f006291720d915e88dc8cf326",
+      "gitBlob": "aa3cfaf66a12aaaa5040f226896187eb5ffea7e0"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/03-generate-again.txt",
+      "sha256": "05606c71055ce27a24477a774094a3dc694a850a3cbaaffd29d00e82f5027ff9",
+      "gitBlob": "7d665472a19bd30557ae0dc7abe0c383b9e64327"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/04-payload-findings.json",
+      "sha256": "a9577a9da7ed979cf01726587f4d65238e9542c2ff93afac7426f51a22a2f23e",
+      "gitBlob": "0174b777b6cc26559925cf7bc3b2220b86dc2c65"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/05-guard-test.txt",
+      "sha256": "0f513fb68168d873e18b6fcebc52fad089225baf9f456817b2c7b9c8440a1a95",
+      "gitBlob": "c251b05f96e4e13f5526d18fd6add1b859182025"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/06-typecheck.txt",
+      "sha256": "339f7b2fae338fbbf7c979120df31187745a531759f75c69be684e5b918b80cc",
+      "gitBlob": "d56c37b98c78f94dafa7d7979fe19fa7011cdc5a"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/07-clean-clone.txt",
+      "sha256": "c05bfbda6a29be94c9afe93ac22570dd7726fad3c128739ddde36d4bb732e825",
+      "gitBlob": "580dbe70201753bdf3e964cf2c43b2750cb967f6"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/08-ci-check.txt",
+      "sha256": "a604b9f25a509fd6f31be4d67d5d1faef6d957ee8ebe2eecfcc8e5b1baa77203",
+      "gitBlob": "3654ebb7926b46e8460e4c6aa4f61bffb05d0758"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/09-l040-corrected-ingest.txt",
+      "sha256": "d64905a2446bc4a0cfdc474e51e3391148678b94fcbf18a1d2f1b9c40cdd94ba",
+      "gitBlob": "408117874c0e3f53665343620e9e81beae7319b5"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/10-l040-corrected-generate.json",
+      "sha256": "2e108d98454b6fcbd65337a71de04450089b7cd947134ac84d703566f4f3d906",
+      "gitBlob": "80a50cf7475f5e456827a11f5045a7247ba3f07e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/10-l040-corrected-generate.txt",
+      "sha256": "6341f4d7bd84ff62e5d32cfcafb464d236eb71fd25728bc97f9615793f0faaff",
+      "gitBlob": "fbbdd2ef845711ff3277af6cb5853434977d4eee"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/11-l040-corrected-readback.txt",
+      "sha256": "76a024247a4b5ea371bf1a2b2d200effa223cea8714c8cf89e6e0f96ebf19961",
+      "gitBlob": "800ceb9ea35b7f7d648056a6c03b688347a69681"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/11-l040-readback.json",
+      "sha256": "d682650d6a5a1626ea0dca4ffeecbcfdc8cbb7aefc3dccb20ca38f6acf3a2b1d",
+      "gitBlob": "39b56537c8233cff41a8434c58a3b732cf3c4514"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/12-l040-payload-diff.json",
+      "sha256": "01e721ff48cd75799a1be328a87778a3a39b5e1756de02d53d6736884a832643",
+      "gitBlob": "758d22c20972245e922e36c36cb48fbc4f00b10d"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/13-l040-tests.txt",
+      "sha256": "24439e4a77ffc08ed894cc56c81b7987fe3ec53cbd2ad8a7c1c78dfdb985597e",
+      "gitBlob": "54bb7f19923e190e1f628c3ccff1e9e54a1bde8a"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/14-l040-typecheck.txt",
+      "sha256": "75fb1363d0c2ec384e607b5b34a5a1890495a358699cc2f96247630a261cc60e",
+      "gitBlob": "e7957db2df912351b75a8e54cc4664bcdbdc4082"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/15-l040-clean-clone.txt",
+      "sha256": "9a25e1311817cd2e2bb5d970c7f5eb960009e55d0537db6ac13c3588af47eaf7",
+      "gitBlob": "6a06c461c3a269d310bda7e621c88f70d58b4b46"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/16-l040-ci-check.txt",
+      "sha256": "f272a671d40148628d2ab9a0c460d57f55e22d150e0cba0afd58520735aa30e4",
+      "gitBlob": "21a5a4408f28d45df78e8571550695d9c406062f"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/17-l040-commands.txt",
+      "sha256": "1830abcb448e183e56c811c5fbd6cf01fb73f1d81501617fecbc78ef946b7dd6",
+      "gitBlob": "010673b3875108148ffac2c3e37ba09d832371c6"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/cli-wi8-unchanged.json",
+      "sha256": "92a4242d5ab4265bf5ba267845d0b7eb194173597c3340ecda838a7f1cb8c11f",
+      "gitBlob": "462114011718c63847a4c8837ba33c761150306e"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/cli-wi8.json",
+      "sha256": "34c7e4adc74f9fdb0d2908ac01fb8da5e9f774e3816ea459cc26ad47356d9df8",
+      "gitBlob": "88d4df7ab9f5216405fa1dfb61abab9fc1d8daf0"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/commands.txt",
+      "sha256": "576bbebeb53a7d9d8242fb65f78000d71a9b9e63f52ea589824fe63578256f33",
+      "gitBlob": "ef2b5728e9574b2a0d9688a45c2a81f0a3960081"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/readback-stdout.txt",
+      "sha256": "d7d55ef18fb709dbc619f561436d7935490881a6c8ae385dde1a698ee6f9de8f",
+      "gitBlob": "2afdb7b94f612e12cbf3f2ec144fc1f4d35d3e94"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/readback.json",
+      "sha256": "a6cd6230d343649855eeba683ffb41090a81431fa3757461a7b8c889b1d98aec",
+      "gitBlob": "1cb21071ecf6fe115f3a96150659abfcff649990"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-balance-sheet-and-profit-and-loss-pdf-page110.txt",
+      "sha256": "3c9150854e554a9022e53e8d1e10083210eaf0cd26588479d82bf930bc3df318",
+      "gitBlob": "c1b30dfba825ff7ab48f261959f4656943807a20"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-cash-flow-financing-pdf-page112.txt",
+      "sha256": "e34d841031dd0b9502938d643635a4d3f05db26c078f39ab665b7049551ea5d1",
+      "gitBlob": "7df39cd9f05f6e5e38ca9c2f16a67545f2cfd875"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-cash-flow-operating-and-investing-pdf-page111.txt",
+      "sha256": "31b1dbb65435dc0a7fcca26d2e6a15af039978b30405a1046d78f8c144406abb",
+      "gitBlob": "e7920b5e19ad7e627454555bb9ab8028cb171a15"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-note-30-borrowings-pdf-page129.txt",
+      "sha256": "5939cc4f4290d0595a64a471916de0cc8704172ed8dc9810eb00c6823516a6e8",
+      "gitBlob": "037203bbcfbd76528870152f2c470066e53d1cfe"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-accounting-policy-ind-as-basis-pdf-page120.txt",
+      "sha256": "1b76689239dbe9d0f02820d6eb84352febef3411d3cc864759e311d9507d5de5",
+      "gitBlob": "960ead0b60312d5a5cfc58bed47bff7b8b01bc2f"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-auditor-opinion-consolidated-pdf-page111.txt",
+      "sha256": "5943e241c5c8cd8b840dfaffc3f14711cf499310bf7ac161bcba2ef08d75d772",
+      "gitBlob": "7acb412a424fbd3bff70387cc9b95329a024d93f"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-auditor-signature-and-firm-details-pdf-page115.txt",
+      "sha256": "c7f40e90b0b19fd31a5d11a0145bd8236f8c1fa801b1b25bc5ddf27687736eb0",
+      "gitBlob": "2db502f5f0bcb7de4f3b9c85657200ee094d87c4"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-balance-sheet-and-profit-and-loss-pdf-page117.txt",
+      "sha256": "da5d5f73e3cdcb015636b1bcd576a6c34ba11f6fe5d8f8360a6c7dc3ee93912b",
+      "gitBlob": "de2b62b6069a4ff15d979f57e7c9ca50df268ee4"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt",
+      "sha256": "5f5c6ec2919ffadc28809280dd7c0466a9bb3a2b2bc9b40b9a9fd967af9ba81a",
+      "gitBlob": "1a1c202875bf2af04c89a7b33b82cb69239c5f14"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-cash-flow-operating-and-investing-pdf-page118.txt",
+      "sha256": "a52ada4a384401c6fe7ce83d8a2a14b999cdb816beafaf68d5094a80bb4e8e26",
+      "gitBlob": "fde7d7b16b8dd29311bf35ef1469a959c08cbb9a"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-identity-isin-and-listing-pdf-page107.txt",
+      "sha256": "d1277e08b53c1754d32aaead7b082aa52e86417d603060d0b35d38fc4d2014a6",
+      "gitBlob": "c54b294640edb6e88d9a649ef5e234126c16d332"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-mdna-key-metrics-pdf-page28.txt",
+      "sha256": "6546a3f065e9e6e122b93aef25b8cc62073018f855db7476f47a71cc592f2791",
+      "gitBlob": "ec13e3687c357be1033a75775371dc94532d1be1"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-note-30-borrowings-pdf-page136.txt",
+      "sha256": "ffa4668536bb1f7add8b9ba518ede58d1c6af02893a7d63a8076ea323c6a4b2d",
+      "gitBlob": "c207b16412e4c8eb48d37175cf551419ae216a78"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt",
+      "sha256": "3fa001b894aef5af95e7ecb7bea7a7eb182f7b703c73c12dc43fbcd8d9fa9e95",
+      "gitBlob": "e93ba961fd9643ae871aec612b1b7f651a81f7f6"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-order-intake-and-order-book-pdf-page6.txt",
+      "sha256": "aab401554ba89f6d03294fef8f038a74c2dd385ff711b32009d53f69e90c7764",
+      "gitBlob": "d2eedc8f949c3c1fc85589dbe1896e5d493c1fc1"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/identity-nse-corroboration.json",
+      "sha256": "1934406d5f0ed066013b8422a28b5b8c882a93f4e74b86e270b733cb9ad2197c",
+      "gitBlob": "aecd583aa6930e88ed3f6ed62c5e48f5483c174d"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/page-map.json",
+      "sha256": "241a5532f529e0f18627e1e43e5316d55c4b213dc328672d7620530a5fd32c0e",
+      "gitBlob": "9248bd56b5649e598fd97414700204e2f7de3081"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/source-bytes.json",
+      "sha256": "9600930888b8416e2dcfc6c315c322e01b47838aac89a3b67d6a3632a05d8c90",
+      "gitBlob": "166aaf03eafcb41f8787422b49dbf9f2ece06be6"
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/index.ts",
+      "sha256": "7e3d7d7869bad3e61051d11e2321d6584b096f12a46a20992ee402dcbf99fd43",
+      "gitBlob": "aa30dd5e46263cd3fdb3edfe13eb862c77080aed"
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/scopeToken.ts",
+      "sha256": "1cbb14896f4e16f30d391c31d459ce9aba141a85d080eba44cdbb5e5651ce2cd",
+      "gitBlob": "7c0c6138549b12658a99d4e048d3d7e6a3a0ce9a"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/adequacy.ts",
+      "sha256": "9147bd3c6dcaf420857af3c78a3a907350503619d1f4220f95f7b8822d08bcec",
+      "gitBlob": "396dc181fae08e0218bc18d0e9273e57a3c17d83"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/capitalStructure.ts",
+      "sha256": "ffa2c8edd5b1061a28e31fb24e70b16a9e44bd4c6bd817aa0cb8eeafd4f5ffea",
+      "gitBlob": "7716e58db1c37c929037e5510793288dee52bde1"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/confidence.ts",
+      "sha256": "bd159cf30c2624867ccee2260e84a9553adbda44551acfe097f504829f1cf33a",
+      "gitBlob": "f90f7a36023ff7c7c3a6d2a21f3640c0c4cbdfba"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/dividends.ts",
+      "sha256": "ca7393c3e925d02a616ba722a356e9c1e413809796789242fb4cb044a3429cf1",
+      "gitBlob": "d1e35570b98c98fae857279335a984ea7a577739"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/engine.ts",
+      "sha256": "e4ee71d566a872cbb69c53cb24e7829c821418fc0d123f5cf0306c7189765be0",
+      "gitBlob": "267f24d46f72fecf99dead3293a5480c6da3e024"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/explain.ts",
+      "sha256": "1f262b6d7d3e8ff5c13ea9b6fd0a16e683ef9ed1f366c5d6ba763eb6950682dc",
+      "gitBlob": "f6a55b3e9a3343b10eee866942f6fd6f9f884579"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/freshness.ts",
+      "sha256": "404bce6df5587dc18dccba95ba818931b2481f4fde675dc81caa8580352792f9",
+      "gitBlob": "83daed3519855cb91d941ce1e586e68294f739a8"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/index.ts",
+      "sha256": "e828af2df7c7c55561dd124dce20642be25e9cb80e70bd314196238871baca64",
+      "gitBlob": "7764b641092e40e58c642a82a64dc2034145290e"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/intrinsic.ts",
+      "sha256": "02e7e9bb811f02ed5fbaae0091625e99e5eeafb71f5019e4b5b2b99274224aa2",
+      "gitBlob": "83a79cd5c716d767c5887bc02b950931000c395a"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/margin.ts",
+      "sha256": "02fbae571e375a3988584f1fad2e2c4a9764a3148557f14c3f83c0fcb5ffc040",
+      "gitBlob": "732cdcd8fa4548fe3540479c6afc921f79da03bc"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/methods.ts",
+      "sha256": "d6fccf5f2091c59658ec523d5f147200b0382ca25f047e56d114a292b719db54",
+      "gitBlob": "8a369b6baa2d3271a7eaa3aeeccb666f40527d6f"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/moat.ts",
+      "sha256": "a1e7e88fc57bab7c55e13c5c28dfa8c30dd6f3b399cac954e27e7ebc1071de87",
+      "gitBlob": "fcf3c8b913cac36ce17bd139f9b2e3834a7922c1"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/periods.ts",
+      "sha256": "b6b4ab1727431363bc8b8581b1ac80f20678e7a0b596935f4c496f9483947b51",
+      "gitBlob": "10378c3f838d6736792b79b65f7e219022b655d6"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policy.ts",
+      "sha256": "4165e2d34702b44e9ed6b8df6f09c62ffc6f5d96f2da9b3f888432d6db46e94e",
+      "gitBlob": "0d02d0e6775e2de8489eed4bc80b3e93730097f9"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policyReview.ts",
+      "sha256": "3b5477268b71350d033341bcbc6c754cbc5a1b92ff6f091f8cd657fffbee1b68",
+      "gitBlob": "8c1d550e1ad00427a5697337cbbb82538f3c18d6"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/risk.ts",
+      "sha256": "0188b03a63bb988c523b0dfe29bcc8187fd3a4304d0a2332352933408d3889f9",
+      "gitBlob": "2c0256b412c53fd01d270d2326c4acbd3c80cc69"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/types.ts",
+      "sha256": "eab260e2df80779e1eef6c01a2571baeddcff053ba344440bfdc1f4494405494",
+      "gitBlob": "1228df0e92bf98251fcfce32d8215cc040858d53"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/view.ts",
+      "sha256": "4ab0a47d63a1964a511818a91d270cafb1fe2bd7f46ccbe67cf9d57bb20f2e56",
+      "gitBlob": "35ec35135cb16ad84b72f37b979b3043a821bf2e"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/build-s4-r3-candidate.ts",
+      "sha256": "5f3ad17b507c31e30220e96f5717a0b5fbb817b2def62417f91651acde2ba5f7",
+      "gitBlob": "b807c7f227bbc99228d5ac78bcaa385c4c63b9cc"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/ingest.ts",
+      "sha256": "bf1ee190d1b909dbe0edd7572165c6005b14ecfe00299a14eb47761b2d22b78e",
+      "gitBlob": "9a2646963a5f3799db5faf4e99caa60df0a202fc"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/install-verified-dataset.ts",
+      "sha256": "14668fba4468f923fded3b90c136027a4daf011a84c0df323690e5f38761b126",
+      "gitBlob": "52cb54043223a533bd60703730b33e9ddf4b6895"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/provision-identity.ts",
+      "sha256": "846f34e27618c42e7b5b4985057ccaf3c69fafb5446efc1af7194171753771ca",
+      "gitBlob": "23e0ecd180013642891613d18649d9c781d291d5"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-installed-dataset.ts",
+      "sha256": "3eb639f1b797300ae3d3c49e25094e9fbaee92a2520e197577a98d215363a2b0",
+      "gitBlob": "b01e1715ad90f207d2124d19a325cd505f1028c4"
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-retrieval-evidence.ts",
+      "sha256": "7481263629a8a02678c829b27837c6cd8823cfcd638e3fd9729023a1113da2c4",
+      "gitBlob": "2a841363616428a29c1b95b2e5803741e1443430"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/disposition.ts",
+      "sha256": "7bccc91eec0d147dd35ebae69d7469340a792b4f782a6f64225651e4d17a6818",
+      "gitBlob": "ff9a9f12c7cb581b92d17ba4186295554ca770f2"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/ids.ts",
+      "sha256": "df57eccd670b680695a4ce83eb0505fb8c7438aed1ec39169c8947cc31769e05",
+      "gitBlob": "ef8a00f61080f3d4acf70e2e97c4c6ad5d51e0ec"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/index.ts",
+      "sha256": "ac8919b6abb9b51180b40301f93115acd88d0932c4a29dcddd0c72ba2a7e9d41",
+      "gitBlob": "4abc6b05ace655e136c989e1832adbccc492cf3a"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/invariants.ts",
+      "sha256": "b1660174e18de640cce215d06d38b239d988cb9d3183acbc356d0b2b2c317820",
+      "gitBlob": "4a737d1f5e28b259eeb1acaeb903107000da6e3f"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/lineItems.ts",
+      "sha256": "a2c017834170f6cb3542b475dbcbd3d4cba677f00aaface06d482f3bf5c89ae6",
+      "gitBlob": "2ec482264b18d3bf593b27c3a0f8c83bb27ab7c9"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/nilBinding.ts",
+      "sha256": "eaa282724e4cfbe494c9336dcb0a403ba04f9eddb29b639b4ea17a77f0bae30d",
+      "gitBlob": "155812c7af8907f0b1c4ffb329b0264568ea3599"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/observation.ts",
+      "sha256": "81bffacb2d8241d95267b37624f2c899a72ed8cc875d452336b3daba6263a72b",
+      "gitBlob": "2cc59fb1339df0be67d863df5d2acaff7d274485"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/operatingMetrics.ts",
+      "sha256": "b28d297a9f91a159df2f2002d234634daacc05de76df074a7ee187a3aa62cb99",
+      "gitBlob": "4dc0f8f44f9fb5538362b6f89deb522c76e8f3d4"
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/period.ts",
+      "sha256": "0f32101ac46a6082905c9f5512a0167c6c253ca0ee0570f6ceecf5bf00ddf2ac",
+      "gitBlob": "660f518d00271e6042bc586b2b360e0adb57af43"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverage.ts",
+      "sha256": "e9d856c0edf0192526b72927f10b27d57183298df01dfea8fa73c66d34271866",
+      "gitBlob": "1a5d169386fa1bc5e671a2453f4b8442de9da828"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageEndpoint.ts",
+      "sha256": "071296273116e722158ed81591eec14590f56a009314a5939905dae66038a850",
+      "gitBlob": "8fea422664f1c838a08a741e581fa4eda27cbb37"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageView.ts",
+      "sha256": "f8ef9a2e23d3dc9a1bb073a2a3fea79c51e92abee50ccc446a777cec16de6f71",
+      "gitBlob": "0d608fae5b5b5f96c2ec5f5d13e12603ed826f12"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/measure.ts",
+      "sha256": "ba7afbe6ae5e86ccb2718c85619f6737ccf1b0391b023f815dd3d3aed98a4877",
+      "gitBlob": "9237b5a65de688ba1b5e2d6df1b5646f723b4f65"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/methodMatrix.ts",
+      "sha256": "b5649214152441bdeba90f807e85ca6cdb9da1243a4ecb1c44c7990ef7720305",
+      "gitBlob": "477e016be429fbc679651dadb87f61bdbb5e0ab3"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/engine.ts",
+      "sha256": "06afe5cf8cf83ba6354e2081c60e800f3ebb68723cb3dc2980bd4d4dec5b01a6",
+      "gitBlob": "855722ff6c7c43b1c16ed3e510f5d2b489623aa7"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/gates.ts",
+      "sha256": "2798273650141c706128d3df1f0d4a82c2c78cb1dc71f7717248e4e9b5e00a0d",
+      "gitBlob": "c895e4f0c0a103475c9bbda34ddfb1a356f192ee"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/index.ts",
+      "sha256": "80a71acc9a9b79f925f40181625d3054b11c3879a406d58e7aaac9f7279b0eca",
+      "gitBlob": "53575839ba81efcf25e4c382577e9c9b747c6ee8"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/limits.ts",
+      "sha256": "f7f0073d8a3cc6a6a1b93eb68d062b69dc9e04f2a2f4fbeb3910d2b3ac656207",
+      "gitBlob": "b9e447573270d60f33ad9a6cd626f7e1374c4d7c"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/policy.ts",
+      "sha256": "454027c2ece73dee96d321124a22d874e64c40b189c9eb3e0497d91b69b60191",
+      "gitBlob": "c2b6da5748e879919468ed08164fe94b7850e86f"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/portfolioImplication.ts",
+      "sha256": "7de82c78e907525f5199262244377d88bfd199e2ae89824f3cf0e3859db42370",
+      "gitBlob": "1e3a6114a123de4c4779e65402d27fa3636e8a66"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/rationale.ts",
+      "sha256": "edd3350339131a789352d13894d8ebf17da486ccc8af684fc2d98e85e1a96831",
+      "gitBlob": "3e99798c83e74dda4ce76e87f5592fcdbfa01c37"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/subject.ts",
+      "sha256": "73b50f5207e25eb2ad967a4e4d37b5847cbbdf06b9396bce674865132a1df51e",
+      "gitBlob": "4944d7416c8b0cdd5dd686cdb706a2d05eeb5297"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/types.ts",
+      "sha256": "04336f125700356092b91e0b989e8a698343b161af55813c9df5c77e2a16859f",
+      "gitBlob": "d81dbbc4e34b9d085b458327e4bcd4dcc86562b0"
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/verbs.ts",
+      "sha256": "55487c2a64b38ebb25519e363b177a1a33ab5a32ece34486eb81cce291ff13ca",
+      "gitBlob": "f087a7acda5f4c3ce0b6fe40935d86437babbf97"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/execute.ts",
+      "sha256": "6ac8e5128de59baaeb4ae5238525acd3ad466233e318ad21b9e14a52026e4dd7",
+      "gitBlob": "8f79b1a4a448d1aabe09fd051e1e7e70ecdf5aeb"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/index.ts",
+      "sha256": "1e243b83961831c8d9558670c28f20dd7667f62a35f12b71cf68a4c440e78f2b",
+      "gitBlob": "79af87d4e08e348cb429acadafc8f1e225b41f2e"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/inputs.ts",
+      "sha256": "c4573bcac82be28f8be82307cf86431e576b14dda858bac05445edabb31f7615",
+      "gitBlob": "689f3d31f83c4fb53864c6dc618a4a24a592b5b3"
+    },
+    {
+      "path": "iips-platform/src/investment/execution/types.ts",
+      "sha256": "0fdb7ad667c4ff622d17ccb8305af153ae32686b52948a3ef2fea06a032f8e45",
+      "gitBlob": "8bf1577301e5917f332878f5136d7886c125dd30"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/authorizationRecords.ts",
+      "sha256": "8944ad50b743fdd03f58ae9239bd06a64e8173de540e211837ad6f4e27d782e4",
+      "gitBlob": "ccb58857afce17d3b1c6266e6d88350893dcc39f"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/canonical.ts",
+      "sha256": "68efff4145f23342bc1638372ec5ed01451b1f1c9d9f47737a9379bc20618e4d",
+      "gitBlob": "ae6f37541b1395d5b9b004eade27cef0aeeda7fd"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/datasetClass.ts",
+      "sha256": "b94edde5ffb4ded2a1f8f583cf21c61e4f3268c81a28a61ac20db7cce6d2e091",
+      "gitBlob": "84cc5958f3df0e8266703ee9f7101cbff13906e5"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/derive.ts",
+      "sha256": "28cd1bb8142d03ac1f1ba01a35ed04ce0afcc7fd2da3a15435573aa49adf6fa7",
+      "gitBlob": "966cd64378b1a9a2e355c92952ac323f1bab3921"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/errors.ts",
+      "sha256": "66f7f64028f776369604be9c5b58982f3ecf79576260d3c5ba723a56adc8cadd",
+      "gitBlob": "24b0376f3651808271db8f6b5fbf9d2e8491cb27"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/manifest.ts",
+      "sha256": "da76c3b8c9e4a298dd748cce8c498123a024a9141ce67472b7d8b343d5431a7b",
+      "gitBlob": "7ee0292c5ec3e78f272959de8c470b7271e88ddd"
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/types.ts",
+      "sha256": "f9a6377aebd69c9e6c46bfb22a4b4e444ada359f065a7aa197d968905df5e644",
+      "gitBlob": "8f6656004adb5eceb6cd62c774c9e2b1e121cffe"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/corporateActions.ts",
+      "sha256": "8a871c20bd974f68297732c4b9f19140ec176c05131352d14af79d74588a1cbe",
+      "gitBlob": "9aeb1d192705b6a633ccc4066ffbdd6450a32eb1"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverage.ts",
+      "sha256": "c523b51dc04ba181c9e820c6a316a35c3871a4a135726f3d0dc996053a05d386",
+      "gitBlob": "114985cc144dea23cb6e581cf3651cc466a5103f"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageEndpoint.ts",
+      "sha256": "4fe5edd4119595e39bbd20584fc7aa67deab519449acab2dd16a61c7c0757289",
+      "gitBlob": "5510cb62db85c225166dba4c84fde72a529d8124"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageView.ts",
+      "sha256": "7362418c5f6bf55dbe63f12318966e3e8eed72296581db6c79168ef0f3f76ff6",
+      "gitBlob": "76b1029198442bca7d112b4b6ce3f0ed0de2f575"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/d114Projection.ts",
+      "sha256": "a36c1c3b2db7962427acd1dc2afcf2100532e4fcf8d99565f8aad13a3a9f6716",
+      "gitBlob": "becf129623e7d308dd2362cc7b98a254415462c3"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/index.ts",
+      "sha256": "21f88a71e5402793638bb183e39dee5630f58f56341fd51af29ff56e76eff449",
+      "gitBlob": "720d539101c919269c2b8641da0fd628b3f5df6a"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/provision.ts",
+      "sha256": "e20e5422d0230e4d722942b762b9474ec265b41c92c6e0eac2cdfe384a491283",
+      "gitBlob": "679dbe76c6d892b6d4b40096c17d62abd1c3e7dd"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/resolver.ts",
+      "sha256": "e410d4a6dc56ecb7a5f4e2a3a0aa5ccb4e3a114e5c14745310bffb6a8160338b",
+      "gitBlob": "6808da15e5f85fc18a29a003aaf22e7d71fc6784"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/runtime.ts",
+      "sha256": "0074108f855445b02532e8e106f22a6f212477752afb8f333fbe776035a570b6",
+      "gitBlob": "7ecae561fccc7763728fa3830ee9fa12ae145837"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/sources.ts",
+      "sha256": "ac21e939466f82b0a13ceeadd1342c4917388d7006b3f5641378e4ec38b319a5",
+      "gitBlob": "d20fb277edff203ebaa9b38f641fda76d05f786d"
+    },
+    {
+      "path": "iips-platform/src/investment/identity/types.ts",
+      "sha256": "f4665d800e8f2f2eb678190e792fdf7664f2457c4588cecd36427894e757ed0a",
+      "gitBlob": "4bbed48ed6be87b1e71c02563a5ae22742a6a468"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/builder.ts",
+      "sha256": "d947742404404670d149af570adaa2ccfd4f6b8f1dc861f78c4984418251de74",
+      "gitBlob": "cbd8fd18ecb3d2ae55c8e8f2734218986a646c1c"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/csv.ts",
+      "sha256": "b56d185df3b74484d8790657ef622fd576bcebaaafe72e98329c7ac10cb7e1a8",
+      "gitBlob": "51f23137799ace39fcd026161cf42e268b064b0b"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/multiInput.ts",
+      "sha256": "ab20d1b11f524efbebbc26f43af145ec23f0465a4f76006742a25f1b9e11a7af",
+      "gitBlob": "b0e1bd031a45787fedb418e5b2e9e75f8481355f"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/sectorValidation.ts",
+      "sha256": "41978688da98e0c78d810759ca0871e34bcb58d808a1f892742be8422383d15a",
+      "gitBlob": "e8c4068fe12162d847a063c36ce25038fd3b1a9c"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/writer.ts",
+      "sha256": "4bb4dcc87b2fd3b2795d33a8b2581aae39b0c6c34fe3b4ebec5403bc882cc75a",
+      "gitBlob": "d5bf1501198aabb72f4c0b8ddb71d25a2225a80d"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xbrl.ts",
+      "sha256": "7ef621cc2d1778164dd3e0da70d7730e7b054296e9b28672287064e2eb83c8ec",
+      "gitBlob": "cbf32ede0d63b70535ae76e6b18bdb5fd4cdf8ec"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xml.ts",
+      "sha256": "2e9ada84c9c274f861ac789a4d5b192b0d277ed659388b96e00eed89e3680ce2",
+      "gitBlob": "9f0a9cc0e68ac50ad00beef7459c06e5a86b2675"
+    },
+    {
+      "path": "iips-platform/src/investment/port/fundamentalsReadPort.ts",
+      "sha256": "8cb5b8a04e9c1cb961d5972e685a9e0ef69c71beb5ef1e874121b8b935e9a6a6",
+      "gitBlob": "b6b198b8c5f068021061c8d3644e592003855f6f"
+    },
+    {
+      "path": "iips-platform/src/investment/port/localSnapshotStore.ts",
+      "sha256": "5eaeb7395b0ec1b6b4701746bb22825dcd177f53e5b77ba6da710dd32b17f508",
+      "gitBlob": "7c2123da078b6ba041f328914d245e76429edb9b"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/evidence.ts",
+      "sha256": "ae43fa82dc638f58e925bc30b912af788b75cbd9cd75b8d70e323964e7ac7679",
+      "gitBlob": "f5b38c473d5638ce712fe6457577f44a171f0154"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/index.ts",
+      "sha256": "e633baadfd891eead6b0b7f25f9456d444ffbb401b788429f922c829f356c257",
+      "gitBlob": "d679918c89d899f21a00583ac2be025f81c00dd0"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/mapping.ts",
+      "sha256": "d1c43574be52cad347c8d2c8e17a152fa0288eef746cc798b4237016df6e9d7a",
+      "gitBlob": "2aa682b87c9ce61bf3a264465f311b8626aa2057"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/qualify.ts",
+      "sha256": "eb012fe25e8327f0c31d94a928ab4a4994db9e963bb9aa0dd536e927ff280665",
+      "gitBlob": "19a20652b44daa6851a8d6e502cd644c2f89841f"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/render.ts",
+      "sha256": "4b3be8c15b2be334a40a7c966e981b50990550c38b491a5e4cae9184dfeff1a5",
+      "gitBlob": "5c40584b478333b2cbba8c3e3379b09336eaa4d3"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/resolve.ts",
+      "sha256": "88ce5b3362fbd49ea5c968947c78f446a1baf07a892dfe214a7da095600d8567",
+      "gitBlob": "94f5f8f31f4f5af652cf5668fec92f2403a7314a"
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/types.ts",
+      "sha256": "0527169652db1366474db926285b1e97a492e9a18f2ae12a26afe01cc3e904a1",
+      "gitBlob": "3c88950cff6023635460db6dd239d9159a8d9b90"
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalBundle.ts",
+      "sha256": "c3ef157542476eb68a79e69130ea1d1632cf1d06eb53ee4a19ae0e3308140887",
+      "gitBlob": "9bede9ab34f080bcee52ca64cf4d740ca9448502"
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalEvidence.ts",
+      "sha256": "ff917645a7e4088016336e4745e8e43c766458120afde5c56cff0b2ba4ce7784",
+      "gitBlob": "8be7313613bad88d65a519325d0e61671b2954a6"
+    },
+    {
+      "path": "iips-platform/tests/investment/s4r6-operating-metric-gating.test.ts",
+      "sha256": "51ac1b1fbff1bd7b6cae9d9e1fa96a21ae63393c8607053139b4808dc5cc43e8",
+      "gitBlob": "b6c389a9407f58eeca3b5772f640848b684ca0fd"
+    }
+  ]
+}

@@ -23925,3 +23925,41 @@ of completed implementation, operating-metric investigation, probes or tests. Pu
 updates existing PR #597 on the designated branch; no merge authorized.
 
 Next free §16.303 / `CV-CORR-268` / `CHG-2026-11-06-31` / `V2226`.
+
+
+## 16.303 S4-R6 / G-4 combined source/data dispositions — supported partial, both OPEN (`2026-11-18`)
+
+**Trace:** `CV-CORR-268` / `CHG-2026-11-06-31` / `V2226`–`V2229`.
+
+**Original-source findings (`V2226`).** Bounded independent Infosys annual-report/20-F
+review supports refusing growth/client-count/TCV/repeat-business proxies; original whole-filing
+negative verification remains incomplete because PDF-reader access is limited. No false
+full-document NOT_DISCLOSED certification. Preserve `MISSING / NOT_REPORTED / null`, never zero;
+in-memory blank-value contract check returns UNVALIDATED/MISSING_VALUE, not numeric admission.
+Official KEC FY25 release/presentation identify supplied 24,689/21,847 crore as FY25, not FY26;
+ratio arithmetic 1.1300865107337392… rounds1.13 but source-period mismatch blocks FY26 record.
+No silent substitution/admission of FY25 or new FY26 numbers.
+
+**Actual results (`V2227`).** New bounded read-only assessCompany execution, two existing
+repository input bundles, requested clock2026-11-18, not installed-host evidence: Infosys basis
+FY24 (962days), KEC basisFY26 (232days). Both EV_REVENUE methods inapplicable/output absent,
+exact missing-metric reasons in receipt, zero invariant violations each; zero new metric rows.
+232days exceeds P&L200 by32. Existing metric parser has no separate200day age rejection;
+statement freshness emits STALE_STATEMENTS. No invented validator failure, publication-date
+anchor, backdate, bypass, policy/scoring change or availability claim.
+
+**Closure (`V2228`).** Reuse unchanged prior14-slot matrix; two live slots still unresolved,
+twelve others unmeasured. Numeric closure requires qualifying real metrics AND actual AVAILABLE
+results at explicit scope. Accepted-limitation closure instead needs Ramki's explicit bounded
+criterion reconciliation/final acceptance under existing PA-01/O1 authority; none inferred.
+**S4-R6 OPEN; G-4 OPEN.** No other gap/status/decision changed.
+
+**Publication/verification (`V2229`).** Report:
+`docs/integration/IID-S4-R6-COMBINED-DISPOSITION-2026-11-18.md`; metadata-only receipt, reproducible
+read-only verifier, preserved-file identities and new scoped checks:
+`evidence/iid/S4-R6-COMBINED-DISPOSITION-2026-11-18/`. Source PDFs/text/datasets/full payloads
+not republished; no new redistribution authorization inferred. Original PR591 investigation,
+census/matrix, twelve probes,25tests and no-defect finding unchanged/not rerun. Update existing
+PR #597 on designated branch; no merge or host write authorized. Exact blockers published.
+
+Next free §16.304 / `CV-CORR-269` / `CHG-2026-11-06-32` / `V2230`.

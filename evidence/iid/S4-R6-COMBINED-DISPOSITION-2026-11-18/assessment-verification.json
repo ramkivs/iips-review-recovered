@@ -1,0 +1,93 @@
+{
+  "baseline": "078232863bfa300759023549b02d9b81f9a6137b",
+  "clock": "2026-11-18",
+  "execution": "actual assessCompany, existing committed inputs only, sandbox in-memory not installed",
+  "inputs": [
+    "S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input",
+    "WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input"
+  ],
+  "operatingMetricCount": 0,
+  "ingestedNewRecords": 0,
+  "assessments": [
+    {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "legalName": "Infosys Limited",
+      "invariantViolations": 0,
+      "method": {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "outputPresent": false,
+        "notApplicableReason": "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+      },
+      "asOf": {
+        "generatedAt": "2026-11-18T00:00:00.000Z",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-18",
+        "stalenessDays": 962,
+        "staleBeyondPolicy": true
+      },
+      "qualityFlagCodes": [
+        "STALE_STATEMENTS"
+      ]
+    },
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "legalName": "KEC International Limited",
+      "invariantViolations": 0,
+      "method": {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "outputPresent": false,
+        "notApplicableReason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL"
+      },
+      "asOf": {
+        "generatedAt": "2026-11-18T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-18",
+        "stalenessDays": 232,
+        "staleBeyondPolicy": true
+      },
+      "qualityFlagCodes": [
+        "CASH_FLOW_EARNINGS_DIVERGENCE",
+        "STALE_STATEMENTS"
+      ]
+    }
+  ],
+  "dispositionRepresentation": [
+    {
+      "metricId": "TM_NRR",
+      "presence": "MISSING",
+      "value": null,
+      "reason": "NOT_REPORTED",
+      "validation": "UNVALIDATED",
+      "issues": [
+        "MISSING_VALUE"
+      ]
+    },
+    {
+      "metricId": "TM_RECURRING_REVENUE_PCT",
+      "presence": "MISSING",
+      "value": null,
+      "reason": "NOT_REPORTED",
+      "validation": "UNVALIDATED",
+      "issues": [
+        "MISSING_VALUE"
+      ]
+    }
+  ],
+  "freshnessCheck": {
+    "anchor": "2026-03-31",
+    "ageDays": 232,
+    "policyWindowDays": 200,
+    "excessDays": 32,
+    "metricParserFreshnessRejection": "No such check in existing parser; no claim of validator rejection"
+  },
+  "kecAdmission": {
+    "status": "BLOCKED_SOURCE_PERIOD_MISMATCH",
+    "suppliedPeriod": "FY26",
+    "verifiedSourcePeriod": "FY25",
+    "canonicalFY26RecordCreated": false,
+    "ratioRoundingCheck": true
+  },
+  "scope": "No coverage census, synthetic capability probes, PR591 tests, new metric admission or host writes."
+}

@@ -1,0 +1,12 @@
+PASS actual bounded assessCompany run + task-local assertions (verify-assessment.ts), clock2026-11-18
+PASS two existing input issuers; zero metric admissions
+PASS both EV_REVENUE inapplicable / output absent / exact missing-metric reasons; zero invariant violations
+PASS basis/age asserted: Infosys FY24/962days; KEC FY26/232days, stale flags
+PASS two missing-value representations: null/NOT_REPORTED/UNVALIDATED/MISSING_VALUE; not ingested
+PASS supplied rounded FY25 arithmetic and 232day/32day excess checks
+PASS KEC source-period mismatch blocks FY26 canonical creation
+PASS 162 original product/test/investigation/closure/input-evidence file identities preserved
+PASS tracker historical byte prefix preserved
+PASS original matrix reused:14slots; every declared requirement named in report
+PASS incomplete full-document verification and non-FY26 Infosys assessment disclosed; both OPEN
+NOT RUN PR591 tests/probes/census, completed audit or product regression suites
