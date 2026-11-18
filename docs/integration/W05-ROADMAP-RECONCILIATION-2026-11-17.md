@@ -169,3 +169,31 @@ denominator. θF itself is unchanged: no value is asserted and it is not a W05 c
 6. `w05RightsRecord.test.ts` has 14 type errors under `tsc` (an untyped `permissions()` helper).
    They pre-date this review, lie outside `npm run typecheck`'s scope, do not affect execution,
    and were left alone because the file holds the pinned accepted-behaviour expectations.
+
+**Status notes — 2026-11-18, after the post-merge open work** (branch
+`arena/9852cfbf-iips-review-recovered`; the limitations above are the review's record of that time
+and are left verbatim; these notes say what moved since):
+
+- **Limitation 1 (no W04 reconciliation) — machinery delivered, run still blocked.** The
+  reconciliation harness (`src/investment/lifecycle/censusReconciliation.ts` + tests) now exists
+  and pins the D2 nuance (census `NULL` stored identity + run `RESOLVED` on `EXCHANGE_SYMBOL` is a
+  disclosed disagreement). The actual run is blocked on revision 1's per-holding rows, which are in
+  no repository; the operator input-bundle specification and run procedure are in
+  `W05-W04-RECONCILIATION-2026-11-18.md`. **No revision-1 figure exists or is claimed.**
+- **Limitation 2 (eligible set `E` not modelled) — closed in code.** `EligibleSetDesignation` is
+  now a lifecycle input (applied, never decided; exclusions itemised; no designation means E equals
+  every supplied holding, disclosed as undesignated). The ratio's denominator is `|E|` (empty E =
+  not applicable, never 0 % / never 100 %), and `eligibleHoldings` is renamed
+  `identityResolvedHoldings` with basis `IDENTITY_RESOLVED_HOLDINGS` so it can no longer be read as
+  E. Membership rules themselves remain roadmap-side.
+- **Limitation 3 (per-dataset ruleset ≠ the roadmap's full financial condition) — unchanged.**
+  Required-metric set stays `PROVISIONAL_PENDING_W10`.
+- **Limitation 4 (no actual dossier) — a dossier now exists at evidence level**:
+  `W05-ACTUAL-DOSSIER-2026-11-18.md` compiles source/rights, filing/period/basis,
+  issuer/sector/analytical-method coverage and dataset digests from `evidence/real-issuer/`, with
+  the item-1 provisioning plan inside it. Per-source entitlement and retention verification remains
+  outstanding (recorded NOT VERIFIED, fail closed) until that plan completes per source.
+- **Limitations 5 and 6 — unchanged** (standalone modules; the pinned file's 14 type errors stay
+  untouched).
+
+W05 remains **IN PROGRESS — NOT ACCEPTED**; nothing in these notes accepts it.
