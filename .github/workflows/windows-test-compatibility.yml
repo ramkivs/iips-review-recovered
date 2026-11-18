@@ -62,6 +62,14 @@ jobs:
     steps:
       - name: Check out the exact commit under test
         uses: actions/checkout@v4
+        with:
+          # Same as the Linux job in ci.yml. `persist-credentials` defaults to true, which writes a
+          # BROAD `http.https://github.com/.extraheader` into .git/config; git applies extraheader
+          # entries additively rather than letting the repository-scoped one below replace it, so
+          # the request would carry two Authorization headers and GitHub would answer 400
+          # (`remote: Duplicate header: "Authorization"`) — which is exactly what the first two
+          # Windows runs did inside `npm ci`.
+          persist-credentials: false
 
       # Same toolchain pair the Linux job pins (Node 22 + npm 10, lockfileVersion 3), so a
       # difference in result is attributable to the platform and not to the toolchain.
@@ -123,6 +131,19 @@ jobs:
           test "${#auth_b64}" -gt 20 || { echo '::error title=IPD auth header::encoded authorization header is implausibly short'; exit 1; }
           echo "GITHUB_OUTPUT entries: $(grep -c '^header=AUTHORIZATION: basic ' "$GITHUB_OUTPUT")"
           test "$(grep -c '^header=AUTHORIZATION: basic ' "$GITHUB_OUTPUT")" -eq 1
+
+          # An extraheader inherited from the checkout, the runner image or a previous step would be
+          # sent ALONGSIDE the scoped one, producing a duplicate Authorization header and a 400.
+          # Remove any broad github.com entry that survives the checkout above (counts, not values),
+          # so the scoped IPD header configured at install time is the only one in play.
+          for scope in 'http.https://github.com/.extraheader' 'http.https://github.com.extraheader'; do
+            before="$(git config --local --get-all "$scope" 2>/dev/null | wc -l | tr -d ' ')"
+            git config --local --unset-all "$scope" 2>/dev/null || true
+            echo "cleared ${scope}: ${before} inherited entr(y/ies)"
+          done
+          remaining="$(git config --get-regexp '^http\..*github\.com.*extraheader$' 2>/dev/null | wc -l | tr -d ' ')"
+          echo "github.com extraheader entries still configured: ${remaining}"
+          test "$remaining" -eq 0 || { echo '::error title=IPD auth header::a broad github.com authorization header is still configured and would be sent twice'; exit 1; }
 
       - name: Install dependencies from the committed lockfile
         id: npm-ci
