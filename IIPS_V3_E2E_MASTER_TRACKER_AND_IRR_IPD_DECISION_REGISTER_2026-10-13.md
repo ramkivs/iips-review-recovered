@@ -23644,3 +23644,74 @@ owner's A/B disposition plus the closure-test question. Next Stage 4 roadmap ite
 then **`S4-R8`** (corporate actions), with `S4-R6`'s owner decision outstanding in parallel.
 
 Next free §16.298 / `CV-CORR-263` / `CHG-2026-11-06-26` / `V2197`.
+
+
+## 16.298 `CV-CORR-263` — IID Stage 4 S4-R8 corporate-actions G-8 investigated; real limb OPEN/event-driven (`2026-11-17`; `CHG-2026-11-06-26`; `V2197`–`V2204`)
+
+**Baseline/criterion (`V2197`).** Current authoritative remote main, PR #591 merge, clean before edits; exact
+machine-recorded baseline in `docs/integration/IID-S4-R8-CORPORATE-ACTIONS-2026-11-17.md` §1 and evidence census.
+IRR only. Governing roadmap row S4-R8: **Record actions as they occur and re-publish**, closure evidence
+**`corporateActions > 0`**, OPERATOR/event-driven. L-031 §16.2 remains OPEN and requires a real declared-action
+price guard/factor demonstration. Corporate-actions G-8 is not PA-01's authority-collapse G-8 or AC-X6's closed
+fixture-size G-8; no acceptance ceremony is added and no evidence criterion weakened.
+
+**Synthetic evidence (`V2198`).** Scenario 7 **DEMONSTRATED — SYNTHETIC_FIXTURE**, unchanged three tests reused.
+Existing corporate-action/source/scenario-matrix tests **77/77**. No fixture or scenario-demo test rewritten;
+no synthetic action credited as real coverage.
+
+**Census (`V2199`).** `evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/census.json`: 597 baseline files
+under real-issuer evidence, including source extracts and retrieval reports, plus all 13 corporate-action tables
+across the repository (11 real-evidence tables empty, 2 synthetic fixtures carrying 3/9 actions). All inspected
+paths/blob ids and discovery-hit line locators recorded. Admitted population remains Infosys/Marico/KEC, not Zensar
+or controls. Historical and refresh-candidate inputs separately replayed/read back: **0 corporateActions** each.
+The refresh remains a candidate, not new O3 authority. Primary PDFs absent; no network source used.
+
+**Sources/rights (`V2200`).** `candidate-events.json`: 13 discovery candidate/group rows, not 13 validated events;
+classes (1)/(2)/(3)/(4)/(5) = **0/2/6/0/5**, zero admissible canonical events. Infosys Note 2.12 gives an aggregate
+five-year purchased/extinguished-share reference, not individual dates/terms/factors. Marico retrieval reports give
+month-level historical bonuses (equity/preference), a 2007 split and preference redemption, without day-level
+event/historical security detail or event admission; predating measured periods does not prove continuity.
+KEC QIP, Marico ESOP and cash-dividend references cannot be relabelled into unsupported action types. KEC brand
+accounting under an earlier Scheme lacks predecessor/successor/event dates/allocations. Every row records exact
+source+locator, original terms, known/missing fields, applicability, lineage and required operator action. Existing
+OPERATOR_ASSERTED rights are not independent third-party verification or automatic new event admission. No O3 or
+rights expansion, no guessed effective date/factor/successor/fraction handling. Source absence is not non-occurrence.
+
+**Capability (`V2201`).** Identity sources already validate canonical fields and reconcile successor **issuer**
+weights; read/factor/coverage paths and price-comparability guard inspected. Schema has no announcement-date,
+successor-security or fraction/residual fields and no DIVIDEND/QIP/ESOP type. SourceRef is preserved but does not
+prove rights/locator truth; legacy sourceRef default persists. Different-id semantic conflicts require source
+interpretation. Existing validation/display tolerances (1e-6/1e-9) unchanged; no claim of exact equivalence at the
+boundary. L-031's real guard/factor limb remains unexercised. No unrelated identity or assessment behaviour edited.
+
+**Correction/tests (`V2202`).** Dataset-side corporate actions bypassed identity validation. Small issuer-neutral
+fix: extract/reuse record validator in dataset assembly without JSON round-trip; check supplied subject security
+ownership and require explicit canonical dataset fields (no comparability-boolean default bypass); withhold **the whole action file** on error, including --allow-errors partial publication. Shared
+validator rejects non-positive ratios and duplicate successor issuer ids. No thresholds/formulas changed. Valid
+original records/source refs preserved. New **22-test** suite covers malformed fields/dates/factors/ratios, duplicate
+or conflicting ids, security mismatches, all-or-nothing rejection, two-issuer exact persistence/read-back, untouched
+unrelated content and CLI no-write/explicit-partial withholding. Full IID **1573/1573**; platform `tsc --noEmit`
+PASS; CAP-03 static validator, Python compile and 7+4+23 static unit tests PASS; diff whitespace PASS.
+
+**Real read-back/integrity (`V2203`).** Real event demonstration **NOT PERFORMED**, no admissible record. Both
+zero-action real-input datasets verified through production CLI/readDataset. `digest-comparison.json` records
+production-computed baseline-source vs corrected-source replay digests: identical for historical and refreshed
+candidate inputs, including sourceRights. No durable dataset, source, issuer, listing, holding or valuation changed.
+Synthetic two-issuer read-back is labelled regression evidence only. No host or production operation.
+
+**Determination/remaining actions (`V2204`).** **C: G-8 OPEN/event-driven**, not A and not a global B/non-occurrence
+claim. The literal numeric criterion is false (0); the real declared-action guard/factor evidence is absent.
+Completed investigation and safe correction do not close the real-data criterion. Operator must supply exact
+event-specific authorised source/locator, dates/historical identity/terms and applicable successor/fraction rules,
+validate/transcribe through canonical workflow, publish/read back and demonstrate real acceptance with before/after
+digests. Unsupported semantics require a governed decision, not invented mappings. This publication needs no
+unnecessary approval checkpoint. CI/PR/remote verification results follow in the completion report, not a prediction.
+
+Readiness register updated by **append-only addendum**; historical row/criterion retained. L-031 OPEN; Stage 4
+**PARTIALLY COMPLETE**; IID **NOT READY**. S4-R2 CLOSED, S4-R3/Infosys OPEN, S4-R4 CLOSED, S4-R5 discharged,
+S4-R6 investigated/G-4 OPEN with outstanding owner decision, S4-R7 discharged; none reopened. No IPD/cross-repo
+write, provider admission, O3/rights expansion, issuer-specific code, valuation/coverage/freshness/portfolio policy
+change or production operation. S4-R8 is the last registered numbered item; next work is **existing residual
+operator/owner/event-driven actions**, not an invented S4-R9 or a claim of overall Stage 4 closure.
+
+Next free §16.299 / `CV-CORR-264` / `CHG-2026-11-06-27` / `V2205`.
