@@ -18,9 +18,9 @@ jobs:
       - name: Official source probe
         run: |
           PYTHONPATH="$RUNNER_TEMP/l039-parser" python scripts/l039_delta_followup_probe.py
-          mv l039-followup-capture followup
+          mv l039-followup-capture followup-retry
           mkdir -p l039-delta-capture
-          mv followup l039-delta-capture/
+          mv followup-retry l039-delta-capture/
       - name: Evidence transport via bounded check annotations
         run: |
           python - <<'PY'

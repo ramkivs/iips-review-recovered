@@ -11,8 +11,8 @@ urls={
 }
 with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:rows=list(pool.map(p.fetch,urls.items()))
 # Inspect the archived IndAS packages, without retaining the unrelated 8.9MB archive.
-u=p.URLS['nse-archives'];r=subprocess.run(['curl','-L','--max-time','90','-sS',u],capture_output=True)
-b=r.stdout;archive={'url':u,'bytes':len(b),'rawSha256':hashlib.sha256(b).hexdigest(),'admission':'DISCOVERY_ONLY_NOT_ADMITTED','nestedPackages':[]}
+u=p.URLS['nse-archives'];r=subprocess.run(['curl','-L','--max-time','60','--retry','2','--retry-all-errors','-sS',u],capture_output=True)
+b=r.stdout;archive={'url':u,'retrievedAtUTC':p.datetime.now(p.timezone.utc).isoformat(),'curlExit':r.returncode,'stderr':r.stderr.decode(errors='replace'),'bytes':len(b),'rawSha256':hashlib.sha256(b).hexdigest(),'admission':'DISCOVERY_ONLY_NOT_ADMITTED','nestedPackages':[]}
 try:
  z=zipfile.ZipFile(io.BytesIO(b))
  for n in z.namelist():
@@ -24,9 +24,9 @@ try:
   archive['nestedPackages'].append(record)
 except Exception as e:archive['error']=repr(e)
 # New transcript and post-cutoff meeting intimation are context, not audited March balance evidence.
-for name,url in [('transcript','https://nsearchives.nseindia.in/corporate/KEC_06112026155134_SE_Intimation_Transcript.pdf'),('meeting','https://nsearchives.nseindia.in/corporate/KEC_12112026182139_AnalystMeetIntimation.pdf')]:
- r=subprocess.run(['curl','-L','--max-time','65','-sS','-w','\n%{http_code}',url],capture_output=True);parts=r.stdout.rsplit(b'\n',1)
- row={'name':name,'url':url,'admission':'DISCOVERY_ONLY_NOT_ADMITTED'}
+for name,url in [('transcript','https://nsearchives.nseindia.com/corporate/KEC_06112026155134_SE_Intimation_Transcript.pdf'),('meeting','https://nsearchives.nseindia.com/corporate/KEC_12112026182139_AnalystMeetIntimation.pdf')]:
+ r=subprocess.run(['curl','-L','--max-time','60','--retry','2','--retry-all-errors','-sS','-w','\n%{http_code}',url],capture_output=True);parts=r.stdout.rsplit(b'\n',1)
+ row={'name':name,'url':url,'retrievedAtUTC':p.datetime.now(p.timezone.utc).isoformat(),'curlExit':r.returncode,'stderr':r.stderr.decode(errors='replace'),'admission':'DISCOVERY_ONLY_NOT_ADMITTED'}
  try:
   b,status=parts;row.update(http=int(status),bytes=len(b),rawSha256=hashlib.sha256(b).hexdigest())
   if int(status)==200 and b.startswith(b'%PDF'):
