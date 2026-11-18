@@ -1,0 +1,246 @@
+{
+  "baseline": "187783d047ed63da31fd00276d41423ba318b91d",
+  "isolatedReplay": true,
+  "newEconomicObservations": 0,
+  "readBackDigestVerified": true,
+  "datasetVersion": "sha256:a62f95f81a923e72fb6b4e0220bb8852d08191d14e94b1997a12bbfe8d4a0daf",
+  "contentDigest": "sha256:a62f95f81a923e72fb6b4e0220bb8852d08191d14e94b1997a12bbfe8d4a0daf",
+  "sourceRights": "OPERATOR_ASSERTED",
+  "issuerCount": 1,
+  "annualPeriods": [
+    {
+      "periodEnd": "2026-03-31",
+      "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+    },
+    {
+      "periodEnd": "2025-03-31",
+      "filingRef": "KEC-INDAS-CONSOL-FY26-AR-COMPARATIVE"
+    },
+    {
+      "periodEnd": "2024-03-31",
+      "filingRef": "KEC-INDAS-CONSOL-FY25-AR-COMPARATIVE"
+    }
+  ],
+  "canonicalMetric": {
+    "id": "IN_BOOK_TO_BILL",
+    "periodEnd": "2026-03-31",
+    "validation": "VALID",
+    "presence": "PRESENT",
+    "parserAndPortEqual": true
+  },
+  "runs": [
+    {
+      "clock": "2026-11-17",
+      "clockMeaning": "execution-date UTC assessment",
+      "asOf": {
+        "generatedAt": "2026-11-17T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-17",
+        "stalenessDays": 231,
+        "staleBeyondPolicy": true
+      },
+      "fieldQualification": [
+        {
+          "field": "bookToBill",
+          "freshnessKind": "PNL",
+          "limitDays": 200,
+          "outcome": "STALE",
+          "codes": [
+            "FIELD_STALE"
+          ],
+          "valueForwarded": false
+        },
+        {
+          "field": "debtEbitda",
+          "freshnessKind": "BALANCE_SHEET",
+          "limitDays": 250,
+          "outcome": "RESOLVED",
+          "codes": [],
+          "valueForwarded": true
+        }
+      ],
+      "certifiedQualification": [
+        {
+          "engineId": "sector.industrials",
+          "state": "NOT_QUALIFIED",
+          "codes": [
+            "ENGINE_REQUIRED_INPUT_UNRESOLVED"
+          ],
+          "requiredInputs": 14,
+          "requiredResolved": 1
+        }
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "applicable": true,
+          "outputPresent": true,
+          "reason": null
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        }
+      ],
+      "capital": {
+        "grossDebtPresence": "PRESENT",
+        "currentInvestments": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "restrictedCash": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "netDebtPresence": "MISSING"
+      },
+      "confidence": {
+        "dataConfidence": 0.7,
+        "modelConfidence": 0.0833,
+        "combined": 0.3199,
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ],
+        "assumptionCaps": [
+          {
+            "cap": "POLICY_DEFAULT_WACC",
+            "basis": "POLICY_DEFAULT",
+            "category": "DISCOUNT_RATE",
+            "applied": true,
+            "factor": null,
+            "penaltyRate": 0.2,
+            "triggers": [
+              {
+                "methodId": "DCF_FCFF",
+                "assumption": "discountRate"
+              }
+            ],
+            "reason": null
+          }
+        ],
+        "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_WACC 0.2) and are capped at one aggregate reduction of 0.35 — applied once here, 0.2, so ×0.8, with no minimum-confidence floor"
+      },
+      "invariantViolations": 0
+    },
+    {
+      "clock": "2026-11-18",
+      "clockMeaning": "requested Nov18 scenario; not execution date",
+      "asOf": {
+        "generatedAt": "2026-11-18T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-18",
+        "stalenessDays": 232,
+        "staleBeyondPolicy": true
+      },
+      "fieldQualification": [
+        {
+          "field": "bookToBill",
+          "freshnessKind": "PNL",
+          "limitDays": 200,
+          "outcome": "STALE",
+          "codes": [
+            "FIELD_STALE"
+          ],
+          "valueForwarded": false
+        },
+        {
+          "field": "debtEbitda",
+          "freshnessKind": "BALANCE_SHEET",
+          "limitDays": 250,
+          "outcome": "RESOLVED",
+          "codes": [],
+          "valueForwarded": true
+        }
+      ],
+      "certifiedQualification": [
+        {
+          "engineId": "sector.industrials",
+          "state": "NOT_QUALIFIED",
+          "codes": [
+            "ENGINE_REQUIRED_INPUT_UNRESOLVED"
+          ],
+          "requiredInputs": 14,
+          "requiredResolved": 1
+        }
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "applicable": true,
+          "outputPresent": true,
+          "reason": null
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        }
+      ],
+      "capital": {
+        "grossDebtPresence": "PRESENT",
+        "currentInvestments": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "restrictedCash": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "netDebtPresence": "MISSING"
+      },
+      "confidence": {
+        "dataConfidence": 0.7,
+        "modelConfidence": 0.0833,
+        "combined": 0.3199,
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ],
+        "assumptionCaps": [
+          {
+            "cap": "POLICY_DEFAULT_WACC",
+            "basis": "POLICY_DEFAULT",
+            "category": "DISCOUNT_RATE",
+            "applied": true,
+            "factor": null,
+            "penaltyRate": 0.2,
+            "triggers": [
+              {
+                "methodId": "DCF_FCFF",
+                "assumption": "discountRate"
+              }
+            ],
+            "reason": null
+          }
+        ],
+        "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_WACC 0.2) and are capped at one aggregate reduction of 0.35 — applied once here, 0.2, so ×0.8, with no minimum-confidence floor"
+      },
+      "invariantViolations": 0
+    }
+  ],
+  "ownerRuntimeInstalled": false,
+  "censusRerun": false,
+  "freshnessOverride": false
+}

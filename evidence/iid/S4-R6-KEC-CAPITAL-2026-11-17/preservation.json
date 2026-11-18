@@ -1,0 +1,309 @@
+{
+  "baseline": "187783d047ed63da31fd00276d41423ba318b91d",
+  "unchangedFiles": [
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/README.md",
+      "sha256": "b912f8a0de7bbaa0f686c9320c6eead65fd3dba9ae99aa6c7c60d26279ba0033"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/SHA256SUMS",
+      "sha256": "6d9e5ffd5fad0c56523a118d53c5fac1d3cd23c4160e01cdeaf6494b09100dfe"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/assessment-verification.json",
+      "sha256": "d4b024a918ac50eabd96d83f4bb1c40ae5d76864ec33eaf5036f37bac53b386e"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/audit-binding.json",
+      "sha256": "aa017c25838c44316fcd9bec35fefec538a0f5c412d53c554425818ebc50f024"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/execution.json",
+      "sha256": "509faa95ea2ce1f9ca88aab4030daf7d1cc8337cd60843883f809ce6e0bfe192"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/infosys-field-map.json",
+      "sha256": "ed6ff3763fdb27b3626a5642ad7973e1f48a2e6f868045b1647368e1599c975b"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/kec-components.json",
+      "sha256": "380af60ba7a9d5c0ed887ed5e80409e3549b30a300fd5163ee9b0e1c1d836f42"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/preservation.json",
+      "sha256": "a5bc1906916902fdb015f043d4261a58d989c12c89094c3938a49ca95b195353"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/requirement-matrix-update.json",
+      "sha256": "9eb10e2d33e13c87c7c296ee92106e796b436b0cef9247b60d5a8efe0a57d29c"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/source-review.json",
+      "sha256": "65c1757874fe285cf94176e64130c199fde6c2f3f932e8e203b7d30ef1b43a70"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/supplied-infosys-payload.json",
+      "sha256": "ae4a08ffc9927228ffe2e1ffb0ef763dc110ac3dcb2e25d890f7b2b95cec4539"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/supplied-review-and-mapping.md",
+      "sha256": "cf493b87dfbcf4c43b44c77076b8110db6998e19342035b7213629683f659e33"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/test_adoption.py",
+      "sha256": "fe9ac85273040181d1ec1266da1c3a3af8927491c8cc3999d5d26ffff137d9bf"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/validation.txt",
+      "sha256": "32c294b31bb31bc7ac324405d119bd18a243e77899b51cc6217f43e892f2b916"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/verify-adoption.ts",
+      "sha256": "c1e5ef163bf0631d3a94d71a28c7ef0d29b57da17330e72575c8f8090df54f49"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/README.md",
+      "sha256": "1e0241c8941706c2f2f34f49d4d9248ee32322e75405a7f9318b591e5f45b5b0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/baseline-and-provenance.json",
+      "sha256": "7954aae58c6999a2e0837a7d2c1aeca741db5b77daa9c168f6fa765925f49793"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/candidate-dispositions.json",
+      "sha256": "a48362a67abe7d37755dd8d055851b9942403bd99c7e93d665eed0159c3c0234"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/determination.json",
+      "sha256": "7c41af8b3db3d313defb3670689af1fea51bc9504fe6a8033dde08095040f372"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/digests.json",
+      "sha256": "38d7ae92a1f67c6ec10351c707699293cf1368c3951f10452c34990aef41d8e9"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/missing-value-verification.json",
+      "sha256": "fbab6a2f0595415bb8a6697c5505e50f4ce8fc92683cb8fee23a031c0d703663"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/pr563-reconciliation-readback.json",
+      "sha256": "647cb36f7bd3ad8d72e0100418d5c3d3078635162d6bc576b080ec0e63de1896"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/pr568-reconciliation-readback.json",
+      "sha256": "864aab7543c99c504adc4257195745d063260e1d5999eac626115601692fd524"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/precision-standard-extract.txt",
+      "sha256": "0645adaa237d337c5ea33eab4e81824320a68495154237f1ca6f0f9835cd31b5"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/preservation.json",
+      "sha256": "56cabc8f8509cedeb411be534173055f1f67cc09b8ce85e99dd71d0208e0058f"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/archive-0.gz",
+      "sha256": "e209a4425bc4ac3ef8f8e96e7dabb0b18d96cbdf254bc7f5da5123745033dd27"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/archive-1.gz",
+      "sha256": "304d7ad39342c6b217725ea9051ee3aa44efb9b07b0300b5b744d6e2b66eecf0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/followup-ledger.json",
+      "sha256": "ea07083deb6a04894ca858e5e6e6c21b8b4d60a0b48de60c0335e8534d093f50"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/access-retry/meeting-page-1.txt",
+      "sha256": "b284210286868edca557a72f7343b8f6fa8c5bac3a68143adb151ad2d2f9477f"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/bse-announcements.gz",
+      "sha256": "dc4f52c402984006c073fe5ca861ab2af53f9850ebf90013c710bbe65433b1ca"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/bse-index.gz",
+      "sha256": "8df283191d2b56badbf1197b92c0a71d89fa01b3e88f3f7d096e2fec83ceca2c"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/bse-package.gz",
+      "sha256": "7d346c9c06b2d740d480ba13951c4fde3da4d34d93777fa99139a805c188e8fd"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/bse-otherthanbank.gz",
+      "sha256": "15668e330ce3a65764e9d832f3b6888e60c19db4e59567e495633e0e4d4b8061"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/followup-ledger.json",
+      "sha256": "2de254ee8cd21488d4f0a653a4479796b5e97e0b84e15135df2f4b74c45c04ee"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/issuer-actual-quarterly.gz",
+      "sha256": "37ef28fe2d035325bd34e3176463e745d847c9c714823d56dfedb7f015926f67"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/issuer-actual-results.gz",
+      "sha256": "911014f8f7dc217d7545b32a0bd9b6e25f2a8a6943b9721ea7818ba18d122eca"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/issuer-earnings.gz",
+      "sha256": "712af5984fce0a94af59fec3c168588becf2315b9eed1a78bbc72bb749cfc500"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup/sebi-entry-otherthanbank.gz",
+      "sha256": "8ffb16503ccb2eab716e4f1ab8f0ebf72c478104370c19007f5832cfbe68b3c2"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/bse-otherthanbank.gz",
+      "sha256": "a5e9157702d2210e72e7b2f9d583efe4ed9bdbef62f7004880ee95351d49b10c"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/followup-ledger.json",
+      "sha256": "8635f69804f39fe5bd5d1d04aacd5eee9555575b8c69271f9c9539ce911d831f"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/issuer-actual-quarterly.gz",
+      "sha256": "03014231a1e8c8c621b5ddfea3ef5310408431cf845e69bcfbaffb3ec1588844"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/issuer-actual-results.gz",
+      "sha256": "6e4fdf2f6bdcb04ac51eafa525a18f927d3404a442d5ab9984fc2a06d41cdaff"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/issuer-earnings.gz",
+      "sha256": "79eb2a4d174cfa1b166af4d2cf9a93197d712ac60c397ef8e57ed4cf0e9890b1"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/followup-retry/sebi-entry-otherthanbank.gz",
+      "sha256": "2a1de19dcbefbee8b7d4baee42a2810b6af6b6a6ffc8a088506d94ed3acec3c7"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-annuals.gz",
+      "sha256": "43978ac129adc2a1332059390ad98196c28406aea7e460fcd8ba2e3d25252fc3"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-117.txt",
+      "sha256": "0965b2e582bd0881c1472bd8654d8de26a390cf4d3f3c2ceae47786c0d92fd96"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-129.txt",
+      "sha256": "482d747d23b6f66cd086aee253b921a9f4a857aa74fd87c5519b19409e3917c0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-131.txt",
+      "sha256": "152a2e4109b297272ecbea99ed1a596482d4a326719bbd69a976a868e6cc598b"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-132.txt",
+      "sha256": "2be2cf179ad2d97582563d603b5131040fa4f4d64cc319c06d09a647a062e9f2"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-fy26-page-145.txt",
+      "sha256": "adc74fb34a5ae9d2fa0ea92b903f170bed4bf0c6edf982147aa9c55d1a379f62"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-investors.gz",
+      "sha256": "41463a3a9e58bcafe8dc6b8ca000149aaecc842a93379256b5b4863c4a3d01cd"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/issuer-results.gz",
+      "sha256": "aad784ca4eb98fb95519fdcacb82bc752a5ff425fc73a60f1226ea19b4310f71"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/march-rendered.gz",
+      "sha256": "37c79ed59458228e7d3237ee8aeb80defc6f38cbe7db38595cfe1b7c31a7d6f7"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/march-xml.gz",
+      "sha256": "d0eca3d47f0b204c022fa5f6988d79b0e6c678f2f4a51f2136ee9ee1ddb57a85"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-announcements.gz",
+      "sha256": "4b3ac35812171dbdc0a6453ae9198467f62625145768e22537d672d455ff8b8c"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-entry-2026.gz",
+      "sha256": "5d1f37900e8fd28e739e5a4b8ad4ed9bd82f432a52a6fa7fa74049e665ab38a8"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-index.gz",
+      "sha256": "f06d54575ffa969bcd7694546a2417118a472efb6d12b870d839e14a6d4870b4"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-integrated.gz",
+      "sha256": "2c979dc7d524cf3ff291a31133bd444944da77e1c1f57aa8fc892e1bb4055ff0"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/nse-package.gz",
+      "sha256": "dc8599067aeb05bdc9472607a3d4da3a4607d40aea57bd4ac908c413fc8d5d21"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/retrieval-ledger.json",
+      "sha256": "33d862424f7a7ebda088ef2b2f087cd66d935c0003c86c82a961ffd8b37f66ff"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/sebi-core-2026.gz",
+      "sha256": "b30df3612a84fbcc67cc39daaf2b3cec3cb7e411b81c281670eefcd904ad4379"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/sebi-entry-2026.gz",
+      "sha256": "741fc80a69799c7859cc753cfeeeb070d6bf4bfe4259e223e49fb4a08d634512"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/sebi-publications.gz",
+      "sha256": "fc8a2430f572f4d0fe28a8a0bd90356446a8445f6ec79b9d0656c65adee529e2"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/september-results-page-16.txt",
+      "sha256": "6230c8154fa0c4210a522f42fb66f56a5bda4429058038173fe19af114763398"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/september-results-page-7.txt",
+      "sha256": "7a27c7682242aff5a630b37fe52378d869feb3b090411ba9987ae9c684a2fb80"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/xbrl-precision-guidance.gz",
+      "sha256": "bed17140b8d74ecb9fc12b84d5a3ade6733b06494b596f6edaa0cea99c9127ab"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/source/xbrl-spec.gz",
+      "sha256": "106b80b457d64c6b20c1af8a2ea7a26c17e7da0d802594897703540995835ed9"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/taxonomy-readback.json",
+      "sha256": "bb2f4a73df9d9f1e7ffc7566b39e96351e500f6ccd3778047994ad797924e610"
+    },
+    {
+      "path": "evidence/real-issuer/L039-DELTA-2026-11-17/validation.txt",
+      "sha256": "224070e6857461f23b6e973a9d1f2a7537f87d6fe7d6a734985bf905c068e32f"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+      "sha256": "49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/periods.csv",
+      "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/roster.json",
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-note-30-borrowings-pdf-page136.txt",
+      "sha256": "ffa4668536bb1f7add8b9ba518ede58d1c6af02893a7d63a8076ea323c6a4b2d"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-note-19-other-financial-assets-pdf-page132.txt",
+      "sha256": "6d6fe27abfe13e69784917dad2134b5e20b85c69fd9c47e31bf80ec1b2766c94"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-note-54-ind-as-107-financial-instrument-classification-pdf-page145.txt",
+      "sha256": "0594c8812249d66c437c7c4db10a97a4723cfd3b2e16a50594f8087661e5aca5"
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-notes-15-to-18-inventories-cash-and-bank-balances-pdf-page131.txt",
+      "sha256": "c994c779e23fda03649626aff70f684d185c673ab6c7d6826aaa64c9c4276fe9"
+    }
+  ]
+}

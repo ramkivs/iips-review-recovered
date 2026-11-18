@@ -24067,3 +24067,51 @@ offset reconciliation before further capital admission; other source/owner gaps 
 recorded, not waived. No G-9/G-15 or unrelated limitation/status work.
 
 Next free §16.306 / `CV-CORR-271` / `CHG-2026-11-06-34` / `V2238`.
+
+### 16.306 `CV-CORR-271` — KEC FY26 capital evidence correction and isolated assessment replay (2026-11-17 UTC)
+
+**Change `CHG-2026-11-06-34`; validation `V2238`.** Additive correction to §16.305,
+not historical evidence rewriting or a new population census. Retained notes17/18 already
+contain cash/bank details:1.54 repatriation restriction;100.67 other banks composed of3.06
+unpaid dividend,3.20 deposits and94.41 margin/security. Prior access-limit statement is
+superseded. Note17 extracted components differ from printed total by1.20; original visual
+check remains required. Note54 borrowings5113.14 expressly include accrued interest versus
+BS5103.23:9.91 now explained at classification level, without inventing note34 allocation.
+Management operating EBITDA1659 (exact1658.57) differs from IID derived1650.12; other
+income50.33 less exceptional58.78 explains8.45. Do not ingest headline into derived field.
+Annual acceptances2120.74 and May results2120.73 preserved separately:0.01crore difference,
+both round2121; cause unresolved, not a material adjustment. Management4601+2121=6722
+verified. Interest-inclusive borrowings minus CCE411.26 and all other banks100.67 gives
+4601.21, plus annual acceptances6721.95; rounding-compatible arithmetic is NOT a verified
+management definition or permission to offset restricted balances. Full borrowing/lease/
+acceptance notes and buyer-credit overlap remain incomplete; no completeness claim.
+
+Prior private combined dataset absent after recovery. Existing KEC inputs byte-copied and
+existing BTB semantics replayed ONCE in a separate ignored one-issuer verification fixture;
+not a replacement/shrink of historical combined adoption or additional economic admission.
+Actual CLI exit0, digest/port/parser verification; actual issuer and certified qualification
+at Nov17 execution-date clock231days and explicit requested Nov18 scenario232days. No
+backdating/publication-date anchor/override: PNL200/BS250 unchanged. BTB VALID/PRESENT but
+FIELD_STALE; debtEbitda RESOLVED; certified Industrials NOT_QUALIFIED1/14. EV_REVENUE and
+EV_EBITDA null/CAPITAL_STRUCTURE_INCOMPLETE; DCF enterprise calculation does not supply
+per-share value. Gross5377.76PRESENT, current investments MISSING/NOT_REPORTED/null,
+net debt missing, no formula change/capital admission; zero invariants both clocks.
+Confidence0.7/0.0833/0.3199 and existing caps unchanged. Supplied4691.90 and6722 preserved,
+not selected. All prior supplied figures/identifiers/findings/dispositions remain in the
+unchanged preservation bundle. Original14/38matrix/twelveunmeasured unchanged; no12probe/
+25test repeat, G9/G15 or unrelated issuer investigation.
+
+Report `docs/integration/IID-S4-R6-KEC-CAPITAL-2026-11-17.md`; evidence
+`evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/`:8new focused evidence tests,3selected existing
+capital regressions, strict scoped TypeScript, actual two-clock assessments and preservation/
+checksum/ignore/link/diff checks. Validation-only floating-point expected-value assertion
+and omitted tsc JSON-resolution flag corrected transparently; no product change. Publish
+same branch/PR597, verify remote commit/tree/blobs/exact-head CI/clean state, no merge.
+**S4-R6 OPEN; G-4 OPEN**: numeric AVAILABLE criterion unmet; no ordinary PA-01 application-
+owner criterion/population/scope/accepted-withholding/final-status decision adopted.
+Single next source action: authoritative issuer March31 management net-debt reconciliation
+package with full relevant notes, restricted/eligible cash/current investments and buyer-
+credit/bills/acceptances overlap, including original note17 visual check. No repeated
+absence-as-zero search or unchanged-fact ingestion is needed for economic admission.
+
+Next free §16.307 / `CV-CORR-272` / `CHG-2026-11-06-35` / `V2239`.
