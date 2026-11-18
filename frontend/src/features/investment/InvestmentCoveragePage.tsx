@@ -78,6 +78,42 @@ function IdentityDependencyCell({ row }: { readonly row: InvestmentCoverageIssue
   return <span className="ok">resolved</span>;
 }
 
+/**
+ * `S4-R5` — the issuer's method availability, with history and latest period kept apart.
+ *
+ * The sector-level `usableMethods` counter is existential over the whole annual-period history, so it cannot tell a
+ * reader whether the NEWEST period supports a method. That is the distinction this cell renders: how many methods
+ * qualify at the latest period, how many qualify only on an earlier period, and how many never qualify. A missing
+ * block renders `not reported` rather than a zero, because "no data" and "zero methods" are different statements.
+ */
+function MethodAvailabilityCell({ row }: { readonly row: InvestmentCoverageIssuerRow }): JSX.Element {
+  const availability = row.methodAvailability;
+  if (availability === undefined) return <span className="muted">not reported</span>;
+  if (availability.basis === 'NO_SECTOR_METHODS') {
+    return <span className="muted">no method is declared for this sector</span>;
+  }
+  if (availability.basis === 'NO_ANNUAL_PERIODS') {
+    return <span className="muted">no annual period — every method withheld</span>;
+  }
+  return (
+    <span data-method-availability="SECTOR_METHODS">
+      <div>
+        {availability.latestPeriodAvailable.length} at latest
+        {availability.latestPeriodEnd !== null && <span className="muted"> ({availability.latestPeriodEnd})</span>}
+      </div>
+      <div className="muted">
+        {availability.earlierPeriodsOnly.length} earlier period(s) only &middot;{' '}
+        {availability.neverAvailable.length} never available
+      </div>
+      {availability.earlierPeriodsOnly.length > 0 && (
+        <div className="muted">
+          earlier only: {availability.earlierPeriodsOnly.join(', ')}
+        </div>
+      )}
+    </span>
+  );
+}
+
 export default function InvestmentCoveragePage(): JSX.Element {
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
 
@@ -297,6 +333,15 @@ export default function InvestmentCoveragePage(): JSX.Element {
           <> Outstanding: {report.outstandingSectors.join(', ')}.</>
         )}
       </p>
+      <p
+        className="muted"
+        data-availability-semantics={report.availabilitySemantics ?? 'UNSTATED'}
+        data-testid="availability-semantics"
+      >
+        Availability is <strong>historical</strong>: a method counts as usable when at least one eligible issuer and
+        annual period carries every input it declares. It is not a valuation, and it does not mean the latest period
+        supports the method — the <em>Method availability</em> column of the issuer table below keeps the two apart.
+      </p>
       <table>
         <thead>
           <tr>
@@ -335,6 +380,7 @@ export default function InvestmentCoveragePage(): JSX.Element {
               <th>Sector</th>
               <th>Periods</th>
               <th>Securities / prices / metrics</th>
+              <th>Method availability (historical vs latest period)</th>
               <th>Identity dependency</th>
             </tr>
           </thead>
@@ -360,6 +406,9 @@ export default function InvestmentCoveragePage(): JSX.Element {
                 </td>
                 <td>
                   {row.securities} / {row.prices} / {row.operatingMetrics}
+                </td>
+                <td>
+                  <MethodAvailabilityCell row={row} />
                 </td>
                 <td>
                   <IdentityDependencyCell row={row} />
@@ -408,7 +457,7 @@ export default function InvestmentCoveragePage(): JSX.Element {
             <td>{report.financialCoverage.outstandingSectors.join(', ') || 'none'}</td>
           </tr>
           <tr>
-            <td>Methods usable / withheld</td>
+            <td>Methods historically available / withheld</td>
             <td>
               {report.financialCoverage.usableMethods} / {report.financialCoverage.withheldMethods}
             </td>
@@ -427,6 +476,11 @@ export default function InvestmentCoveragePage(): JSX.Element {
           </tr>
         </tbody>
       </table>
+      <p className="muted">
+        Historically available counts a method once when ANY eligible issuer and annual period satisfies its declared
+        inputs; it is not a count of methods that would value on the latest period, and a withheld input is never
+        replaced by a zero or an older value.
+      </p>
       <p className="muted">{report.financialCoverage.note}</p>
 
       <h2>Notes</h2>

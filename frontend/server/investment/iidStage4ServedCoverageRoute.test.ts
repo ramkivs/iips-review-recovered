@@ -276,8 +276,13 @@ describe('IID Stage 4 — coverage readiness on installed data, served', () => {
     expect(body.identitySourcesAvailable).toBe(true);
     // Three notes since the reconciliation with `main` (2026-11-17): `main` states the dataset class as a note.
     // The dataset here was written by the ingestion CLI, so it is OPERATOR_SUPPLIED, and the third note says so.
-    expect(body.notes.length).toBe(3);
+    // `S4-R5` (2026-11-17) appended a fourth, LAST, stating the availability reading rule (`usableMethods` is
+    // historical, not latest-period readiness). It is appended rather than inserted so every earlier note keeps
+    // the position the reconciliation pinned.
+    expect(body.notes.length).toBe(4);
     expect(body.notes[2]).toBe(datasetClassStatement('OPERATOR_SUPPLIED'));
+    expect(body.notes[3]).toMatch(/^Method availability is HISTORICAL/);
+    expect(body.notes[3]).toMatch(/nothing is substituted with a zero or with an older value/);
     expect(
       body.notes.some((note) => note.startsWith('The eligible roster, listing map and corporate-action table could not be loaded')),
     ).toBe(false);

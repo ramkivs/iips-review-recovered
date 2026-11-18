@@ -232,7 +232,7 @@ prefix so they cannot be confused with Stage 2's or Stage 3's.
 | **S4-R2** | Transcribe Infosys' missing borrowings lines | **OPERATOR** (transcription) | **NEW.** `LONG_TERM_BORROWINGS` and `SHORT_TERM_BORROWINGS` were **never transcribed** for Infosys in any of the three periods, so `NET_DEBT` is not derivable and Technology's `EV_EBITDA` is withheld `STATEMENT_INPUT_MISSING`. This is a transcription-completeness gap, **not** a measurement, derivation or policy defect — `derive.ts` correctly refuses, because "an unreported input is never silently zero" | Transcribe both lines for the three periods from the filing and re-ingest. **Do not** widen the derivation | Technology's `EV_EBITDA` `AVAILABLE`, or a `NOT_REPORTED` recorded at source with its reason | One withheld method. Nothing structural |
 | **S4-R3** | Install quarterly periods, or more recent annual filings | **OPERATOR** (data) — this is `G-6` | **NEW.** All three issuers exceed the freshness window at the assessment clock: 958, 958 and 228 days against `VALUATION_POLICY.freshness.pnlDays = 200`. All three therefore carry `STALE_STATEMENTS` (HIGH) and a `MATERIAL_CONCERNS` quality verdict | Install quarterly data (`quarterlyPeriods` is 0 today) or newer annual filings | `quarterlyPeriods > 0`, or staleness within 200 days, and `STALE_STATEMENTS` no longer raised | **G-6**, and the currency of any valuation claim on this data. Not Stage 4's measurement |
 | **S4-R4** | Document that coverage "usable" does not mean "a valuation would be produced" | **IRR** (documentation) | **NEW — partially discharged.** The two layers answer different questions by design: coverage asks whether a method is computable for **any** issuer-period, assessment resolves **one latest instant** with a stricter input set. Both are correct; a reader could infer a valuation from a coverage row. Recorded in evidence §8.2 rather than in source, to keep the Stage 4 diff minimal and the validator's line pins stable | A source-level note in the coverage module stating the window difference | The note committed | Nothing. This is a misreading risk, not a defect |
-| **S4-R5** | Decide whether coverage availability should remain existential over annual periods | **OWNER** (measurement-policy decision) | **NEW.** `measureCoverage` declares a method `AVAILABLE` if **at least one** issuer-period has all its inputs. Consumer's `EV_EBITDA` therefore rests on **FY2023 alone** — the single year Marico's `LONG_TERM_BORROWINGS` was transcribed — while FY2022 and FY2024 do not support it. Same class as evidence §4.2's shape (b), on the method axis | A policy decision: keep existential availability (a dataset-capability statement) or require the latest period (a usability statement) | A recorded decision, and the code or the record amended to match | Nothing today. It is a semantics risk, and changing it silently would understate dataset capability |
+| **S4-R5** | Decide whether coverage availability should remain existential over annual periods | **OWNER** — **DECIDED 2026-11-17: retained** | **DISCHARGED.** `measureCoverage` declares a method `AVAILABLE` if **at least one** issuer-period has all its inputs. Consumer's `EV_EBITDA` therefore rests on **FY2023 alone** — the single year Marico's `LONG_TERM_BORROWINGS` was transcribed — while FY2022 and FY2024 do not support it. The owner **retained** those existential semantics and required **historical availability** and **latest-per-issuer-period readiness** to be kept distinct in what is served and displayed. Recorded, with evidence and the issuer-neutral reporting correction, in `IID-COVERAGE-AVAILABILITY-SEMANTICS-2026-11-17.md`; addendum at the foot of this table | Keep existential availability (a dataset-capability statement) and disclose readiness separately, or require the latest period | A recorded decision, and the code or the record amended to match | **Decision recorded and the reporting gap closed**: decision text, the shared `qualificationOf` predicate, the per-issuer `methodAvailability` block, relabelled counters on all four surfaces, and **10** new platform tests plus **7** new SPA tests. Measurement unchanged (digests identical); no formula, threshold, window, eligibility or withholding rule touched; nothing substitutes a zero or an older value |
 | **S4-R6** | Decide on operating metrics to unlock `TM_*`/`IN_*`/`BM_*` | **OWNER** with **OPERATOR** — this is `G-4` | **NEW, and named by §21 itself as a Stage 4 remaining item.** `operatingMetricRecords` is 0, so 14 of 38 method slots are withheld; Technology needs `TM_NRR`/`TM_RECURRING_REVENUE_PCT`, Industrials needs `IN_BOOK_TO_BILL`. Consumer declares no mandatory metrics and is unaffected | Supply validated operating-metric records, or record that these methods stay withheld for this population | `operatingMetricRecords > 0` with `validation VALID`, and the named methods `AVAILABLE` | **G-4**, and two withheld methods |
 | **S4-R7** | Add a lint over hand-authored rosters | **IRR** — this is the remainder of `G-14` | **NEW.** The read path now catches the defect class at runtime, which is the stronger position, but `G-14`'s literal complaint (*"no lint"*) is not yet answered statically | A repository validator that rejects an off-vocabulary `sector` in any committed roster, using the same `findInvalidIssuerSectors` authority | The lint failing on a deliberately respelled fixture roster | Nothing. `G-14` is substantially closed by the read path |
 | **S4-R8** | Fill corporate actions as events occur | **OPERATOR** — event-driven | **NEW, and named by §21 itself.** `merge.actions 0`, `corporateActions 0` | Record actions as they occur and re-publish | `corporateActions > 0` | Nothing today |
@@ -480,7 +480,9 @@ Win32 recovery fault-injection (never authorised).
     and 7 as *"(S) = synthetic fixture only"*, so no additional issuer is required for them, and scenario 8
     names its fixture limb outright. Correcting a misreading of a pinned requirement is an assessor's duty;
     choosing a population for the owner would not have been. **No owner decision was recorded, and none is
-    claimed** — S4-R5, S4-R6 and S2-R1 all remain open and unrecorded.
+    claimed** — S4-R5, S4-R6 and S2-R1 were all open and unrecorded *when this assessment was written*; the owner
+    has since decided S4-R5 itself (see the addendum at the foot of this document), which this assessment did not
+    record and does not claim.
 11. It does **not** supersede, correct or reinterpret any protected record, the O3 decision, or any prior
     governance decision. It supersedes **one position** — Stage 4's, which nothing previously assessed — says
     so in the header, and adds to everything else.
@@ -1236,8 +1238,68 @@ true and literally imprecise for a method that is `applicable: true` with a `NOT
 production-source change with its own record, which `S4-R4`'s authority does not include. Recorded here so the next
 reader does not rediscover it as a defect.
 
-**Nothing decided.** `S4-R5` remains **OPEN** (whether availability should remain existential over annual periods) and
-the document is written so that either answer leaves its contract true. The measurement-semantics question (whether
-`derive.ts` should admit a declared nil for `NET_DEBT`) remains reserved. `S4-R2` stays **CLOSED**; `S4-R3` and
-`S4-R3-Infosys` stay **OPEN**; `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` are unchanged. Stage 4 remains
-**PARTIALLY COMPLETE** and overall IID readiness remains **NOT READY**. The next Stage 4 roadmap item is **`S4-R5`**.
+**Nothing decided, as at this addendum's date.** `S4-R5` was **OPEN** when this section was written (whether
+availability should remain existential over annual periods) and the document is written so that either answer leaves
+its contract true — the owner has **since decided it**: see the `S4-R5` addendum at the foot of this document. The
+measurement-semantics question (whether `derive.ts` should admit a declared nil for `NET_DEBT`) remains reserved.
+`S4-R2` stays **CLOSED**; `S4-R3` and `S4-R3-Infosys` stay **OPEN**; `L-001` (3 of 13 sectors), `G-6`, `L-041`,
+`L-042` are unchanged. Stage 4 remains **PARTIALLY COMPLETE** and overall IID readiness remains **NOT READY**. The
+next Stage 4 roadmap item was **`S4-R5`**, which the addendum below now discharges.
+
+## Addendum (2026-11-17) — `S4-R5` is DECIDED (retained) and DISCHARGED: historical availability ≠ latest readiness
+
+**Scope.** IRR-only. **The `S4-R5` row above is replaced by its discharge record; the `S4-R1`, `S4-R2`, `S4-R3` and
+`S4-R4` rows and addenda are unchanged**, and no closure condition of theirs was relaxed. No coverage algorithm,
+derivation, assessment, valuation, freshness or confidence rule changed; no issuer was admitted, no dataset was built,
+no source was fetched and no host was touched.
+
+**The decision (owner, 2026-11-17).** *Retain existential annual-period coverage semantics.* A method is **historically
+`AVAILABLE`** when **at least one** eligible (issuer, annual period) pair satisfies the inputs it declares. That does
+**not** guarantee a valuation on the latest applicable data, and **historical method availability** and **latest
+assessment readiness** are kept **distinct** in what is computed, served and displayed. Missing, stale, incomplete or
+invalid *latest* inputs keep producing withholding/blocking outcomes: no zero substitution, no silent reuse of an older
+value, no weakened validation. Record:
+`docs/integration/IID-COVERAGE-AVAILABILITY-SEMANTICS-2026-11-17.md`; evidence:
+`evidence/real-issuer/S4-R5-HISTORICAL-VERSUS-LATEST-2026-11-17/`.
+
+**The measurement already implemented it, and that was verified rather than assumed.** `measureMethod`
+(`coverage/measure.ts:111-175`) was already existential — one qualifying pair is enough (`:146`, `:166`) — so the
+decision required **no** change to the algorithm. The measurement's output hashes **identically** before and after the
+edits on both served datasets: `84869d96…` / `b92ea944…` for `sha256:69bbc14e…` and `3a1142b2…` / `7f5dec15…` for
+`sha256:bdfb2527…`, and the first value of each pair reproduces the `S4-R4` record's digest exactly. Both declarations
+this item added were appended **below** every existing line of `measure.ts`, so this document's and `S4-R4`'s line
+references still resolve.
+
+**The gap it found, and the issuer-neutral correction.** The served report disclosed *counts* (`usableMethods`,
+`withheldMethods`, sector `stage`) and per-issuer *data* counts, but nothing joined them: no surface said that a usable
+method may rest on an **earlier** period, and the SPA label read "Methods usable / withheld". The correction is
+disclosure only, computed from fields that already existed:
+
+| Where | What it now says |
+|---|---|
+| `coverage/measure.ts` (`missingInputsFor` `:365`, `qualificationOf` `:407`) | one shared qualification predicate; the qualifying (issuer, period) pairs newest-first, the newest period, and whether that period itself qualifies — so the measurement and the disclosure cannot drift |
+| `coverage/investmentCoverage.ts` (row block `:133`, computed `:361`, attached `:566`; report marker `:216`/`:665`) | per issuer: `basis`, `latestPeriodEnd`, `annualPeriodsConsidered`, `primaryMethod` (**both** verdicts), and three disjoint lists — `latestPeriodAvailable`, `earlierPeriodsOnly`, `neverAvailable`; the report declares `availabilitySemantics: 'EXISTENTIAL_ANNUAL_PERIOD'` and appends one note stating the reading rule and the non-substitution prohibition |
+| `frontend/src/features/investment/InvestmentCoveragePage.tsx` | the Sector measurement section states that availability is historical; the issuer table gains *Method availability (historical vs latest period)* rendering *N at latest (period) · M earlier only · K never available* with the earlier-only ids listed; the counter is relabelled *Methods historically **available** / withheld*; an absent block renders `not reported`, never `0` |
+| `frontend/src/features/investment/IdentityCoveragePage.tsx`, `coverage/investmentCoverageView.ts`, `identity/coverageView.ts` | the **same** relabelled counter, and the coverage HTML view states the same reading rule — one label must not mean two things on two surfaces |
+
+**Regression.** `iips-platform/tests/investment/s4r5-availability-semantics.test.ts` — **10 tests**, all passing: the
+existential verdict is the live one; the same method is withheld (and the input named) once no period carries it; an
+earlier-only method is reported as earlier-only with the latest period named; latest-period readiness is independent of
+the historical verdict in the same issuer and sector; the primary method is stated both ways; the qualifying periods are
+named newest-first; a second issuer in a different sector takes the same generic path; an issuer with no annual period
+says so; the report declares its semantics and re-states the measurement unchanged; every issuer row carries the
+disclosure. SPA: `frontend/src/features/investment/investmentCoverageAvailability.test.tsx` — **7 tests**, plus the
+served-route suite updated for the appended note (`notes.length` 3 → 4, with the new note asserted). Full IID suite
+**1526/1526**; `iips-platform` `tsc --noEmit` clean; frontend `tsc --noEmit` reports no error in any file this item
+touched.
+
+**Measured on the served datasets.** On `sha256:69bbc14e…` Consumer's counter reads **3 usable / 0 withheld** while
+Marico is `latestPeriodAvailable: [DCF_FCFF, PE_RELATIVE]`, `earlierPeriodsOnly: [EV_EBITDA]` — the D1 example stated
+per issuer instead of implied. After the `S4-R3` refresh (`sha256:bdfb2527…`) Marico is latest-ready for all three: the
+same code, a different dataset, and the distinction legible in both directions. Infosys stays `neverAvailable:
+[EV_EBITDA, EV_REVENUE]` on both.
+
+**Statuses.** `S4-R2` **CLOSED**; `S4-R3`/`S4-R3-Infosys` **OPEN** (unchanged conditions); `S4-R4` **CLOSED** and its
+contract unchanged; `S4-R5` **DECIDED — DISCHARGED**; `L-001`, `G-6`, `L-041`, `L-042` unchanged; Stage 4
+**PARTIALLY COMPLETE**; IID readiness **NOT READY**. The next Stage 4 roadmap item is **`S4-R6`** (`G-4`, operating
+metrics).

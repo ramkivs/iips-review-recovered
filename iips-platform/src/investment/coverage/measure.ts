@@ -138,10 +138,10 @@ function measureMethod(
 
   for (const issuerId of issuerIds) {
     for (const period of periodsFor(issuerId)) {
-      const missingLineItems = requirement.lineItems.filter((item) => !presentLineItem(period, item));
-      const missingMetrics = requirement.metrics.filter(
-        (metricId) => !validMetric(content, issuerId, period.period.periodEnd, metricId),
-      );
+      // `S4-R5`: shared with `qualificationOf` (end of file), so the existential answer here cannot drift.
+      const missing = missingInputsFor(requirement, period, content);
+      const missingLineItems = missing.lineItems;
+      const missingMetrics = missing.metrics;
       if (missingLineItems.length === 0 && missingMetrics.length === 0) {
         available.push(issuerId);
         continue;
@@ -348,6 +348,102 @@ export function sectorVocabularyLines(report: CoverageReport): readonly string[]
     }),
     `  correct the sector at source and re-ingest; this measurement never rewrites a sector`,
   ];
+}
+
+/**
+ * `S4-R5` — the ONE definition of "this annual period qualifies for this method".
+ *
+ * A method's declared requirements are satisfied by a period when every declared line item is `PRESENT` (with a
+ * number, as filed or derived) and every declared operating metric is `VALID` at that period end. Nothing else is
+ * consulted: no policy, no threshold, no clock. `measureMethod` above and `qualificationOf` below both call this
+ * function, so the existential-availability answer and the per-issuer "does the LATEST period support it" answer
+ * cannot drift apart.
+ *
+ * Declared here rather than beside `measureMethod` so that no line above this point moves: the line references in
+ * the Stage 4 records (`S4-R2`, `S4-R4`) continue to resolve.
+ */
+function missingInputsFor(
+  requirement: MethodRequirement,
+  period: NormalizedPeriod,
+  content: DatasetContent,
+): { lineItems: LineItemId[]; metrics: MetricId[] } {
+  return {
+    lineItems: requirement.lineItems.filter((item) => !presentLineItem(period, item)),
+    metrics: requirement.metrics.filter(
+      (metricId) => !validMetric(content, period.issuerId, period.period.periodEnd, metricId),
+    ),
+  };
+}
+
+/** One (issuer, annual period) pair that satisfies a method's declared input requirements. */
+export interface MethodQualification {
+  readonly issuerId: string;
+  readonly periodEnd: string;
+}
+
+export interface MethodQualificationSummary {
+  /** Every qualifying pair, newest period first (ties by issuer id). Empty when nothing qualifies. */
+  readonly qualifyingPeriods: readonly MethodQualification[];
+  /** The newest annual period in scope — the one a latest-period reading looks at — or `null` for no data. */
+  readonly latestPeriod: MethodQualification | null;
+  /** Whether that newest period itself satisfies the declared requirements. `false` when there is no period. */
+  readonly latestPeriodQualified: boolean;
+}
+
+/**
+ * `S4-R5` — historical availability and latest-period qualification, from the same predicate.
+ *
+ * THE OWNER DECISION THIS SERVES. Coverage availability is **existential over annual periods**: a method is
+ * historically `AVAILABLE` when at least one eligible (issuer, annual period) pair satisfies its declared
+ * requirements, and that says nothing about the latest period. This function reports both facts separately —
+ * `qualifyingPeriods` is the historical answer, `latestPeriod`/`latestPeriodQualified` is what the newest period
+ * supports — and neither is a valuation statement: whether an assessment can compute a figure is decided by
+ * `assessment/engine.ts`, with its own instant, bridge, history and blend rules (`S4-R4`).
+ *
+ * DISCLOSURE ONLY. Nothing in this function feeds a valuation, a derived figure, a freshness decision or a
+ * measurement state; `measureMethod` above is unchanged in behaviour, and a non-qualifying period is never
+ * substituted with a zero or with an older period's values.
+ */
+export function qualificationOf(input: {
+  readonly requirement: MethodRequirement;
+  readonly issuerIds: readonly string[];
+  readonly annualPeriods: readonly NormalizedPeriod[];
+  readonly content: DatasetContent;
+}): MethodQualificationSummary {
+  const pairs: { issuerId: string; periodEnd: string; period: NormalizedPeriod }[] = [];
+  for (const issuerId of input.issuerIds) {
+    for (const period of input.annualPeriods) {
+      if (period.issuerId !== issuerId) continue;
+      pairs.push({ issuerId, periodEnd: period.period.periodEnd, period });
+    }
+  }
+  // Newest first; a tie on the period end is broken by issuer id so the answer cannot depend on input order.
+  pairs.sort((a, b) =>
+    a.periodEnd === b.periodEnd
+      ? a.issuerId < b.issuerId
+        ? -1
+        : a.issuerId > b.issuerId
+          ? 1
+          : 0
+      : a.periodEnd < b.periodEnd
+        ? 1
+        : -1,
+  );
+  const qualifyingPeriods: MethodQualification[] = [];
+  for (const pair of pairs) {
+    const missing = missingInputsFor(input.requirement, pair.period, input.content);
+    if (missing.lineItems.length === 0 && missing.metrics.length === 0) {
+      qualifyingPeriods.push({ issuerId: pair.issuerId, periodEnd: pair.periodEnd });
+    }
+  }
+  const first = pairs[0];
+  const latestPeriod = first === undefined ? null : { issuerId: first.issuerId, periodEnd: first.periodEnd };
+  const latestPeriodQualified =
+    latestPeriod !== null &&
+    qualifyingPeriods.some(
+      (entry) => entry.issuerId === latestPeriod.issuerId && entry.periodEnd === latestPeriod.periodEnd,
+    );
+  return { qualifyingPeriods, latestPeriod, latestPeriodQualified };
 }
 
 /* ====================================================================================================== *
