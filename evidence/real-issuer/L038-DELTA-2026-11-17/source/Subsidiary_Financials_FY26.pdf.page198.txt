@@ -1,0 +1,61 @@
+194
+
+
+
+
+
+
+
+
+
+
+                                                                     The company defines “in default” as amounts past due date                                                                             They are subsequently measured at amortised cost using the
+        or as amounts for which evidence indicates that the asset is                                            effective interest method.
+        credit impaired.
+                                                                                                                      Trade and other payables denominated in
+            Measurement and recognition of expected                                                             foreign currencies
+        credit losses                                                                                                      When trade payables are denominated in a foreign
+                                              The group makes use of a provision matrix as a practical          currency, the carrying amount of the payables are
+        expedient to the determination of expected credit losses on                                             determined in the foreign currency. The carrying amount
+        trade and other receivables. The provision matrix is based                                              is then translated to the Rand equivalent using the spot rate
+        on historic credit loss experience, adjusted for factors that                                           at the end of each reporting period. Any resulting foreign
+        are specific to the debtors, general economic conditions and                                            exchange gains or losses are recognised in profit or loss in
+        an assessment of both the current and forecast direction of                                             the other operating gains .
+        conditions at the reporting date, including the time value of
+        money, where appropriate.                                                                                                                        Cash and cash equivalents
+                                                      The group assumes that credit risk on a financial asset has Classification
+        increased significantly if it is more than 30 days due. The                                                                           Cash and cash equivalents consist of bank balances and
+        group considers a financial asset to be in default when:                                                short term deposits with original maturity of three months
+                                                                                                                or less and are classified as financial assets subsequently
+                                                                            -                                                                            the debtor is unlikely to pay its credit obligations to the measured at amortised cost (note 10).
+                group in full, without recourse by the group to actions
+                such as realising security (if any is held) or:                                                                                          Recognition and measurement
+                                                             -                                                             the financial asset is more than 90 days past due.                    Cash and cash equivalents are recognised when the
+                                                                                                                company receives cash and are initially measured at fair
+                                       An impairment gain or loss is recognised in profit or loss               value. Cash and cash equivalents are stated at carrying
+        with a corresponding adjustment to the carrying amount of                                               amount which is deemed to be fair value.
+        trade and other receivables, through use of a loss allowance                                   Derecognition
+        account. The impairment loss is included in operating expenses
+        in profit or loss as a movement in credit loss allowance.                                                                                        Financial assets
+                                                  Write off policy                                                                       The group derecognises a financial asset only when the
+                                                                                                                contractual rights to the cash flows from the asset expire, or
+                                       The group writes off a receivable when there is information              when it transfers the financial asset and substantially all the
+        indicating that the counterparty is in severe financial difficulty                                      risks and rewards of ownership of the asset to another party.
+        and there is no realistic prospect of recovery, e.g. when the                                           If the group neither transfers nor retains substantially all the
+        counterparty has been placed under liquidation or has entered                                           risks and rewards of ownership and continues to control
+        into bankruptcy proceedings. Receivables written off may still                                          the transferred asset, the group recognises its retained
+        be subject to enforcement activities under the group recovery                                           interest in the asset and an associated liability for amounts
+        procedures, taking into account legal advice where appropriate.                                         it may have to pay. If the group retains substantially all the
+        Any recoveries made are recognised in profit or loss.                                                   risks and rewards of ownership of a transferred financial
+                                                  Trade and other payables                                      asset, the group continues to recognise the financial asset
+                                                                                                                and also recognises a collateralised borrowing for the
+Classification                                                                                                  proceeds received.
+
+                                   Trade and other payables (note 13), excluding VAT and                                                                 Financial liabilities
+        amounts received in advance, are classified as financial                                                                                                   The group derecognises financial liabilities when, and only
+        liabilities subsequently measured at amortised cost.                                                    when, the group obligations are discharged, cancelled or
+
+                                                  Recognition and measurement                                   they expire. The difference between the carr ying amount of
+                                          They are recognised when the group becomes a party to                 the financial liability derecognised and the consideration
+        the contractual provisions, and are measured, at initial                                                paid and payable, including any non-cash assets transferred
+        recognition, at fair value plus transaction costs, if any.                                              or liabilities assumed, is recognised in profit or loss.

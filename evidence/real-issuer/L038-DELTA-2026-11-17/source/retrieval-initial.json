@@ -1,0 +1,70 @@
+{
+  "purpose": "L-038 delta since W07 2026-11-12; never admitted financial input",
+  "captureCommit": "fe81e8dd67ca86c2b0abaefd04a7f2f927678482",
+  "documents": [
+    {
+      "url": "https://marico.com/india/investors/annual-report",
+      "retrievedAtUTC": "2026-11-18T06:11:49.439192+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+      "interpretation": "incomplete retrieval; no evidence absence inferred"
+    },
+    {
+      "url": "https://marico.com/investorspdf/Draft_MGT-7_-_FY24.pdf",
+      "retrievedAtUTC": "2026-11-18T06:11:49.440754+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+      "interpretation": "incomplete retrieval; no evidence absence inferred"
+    },
+    {
+      "url": "https://marico.com/investorspdf/Draft_MGT-7_-_FY25.pdf",
+      "retrievedAtUTC": "2026-11-18T06:11:49.441563+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+      "interpretation": "incomplete retrieval; no evidence absence inferred"
+    },
+    {
+      "url": "https://marico.com/investorspdf/Draft_MGT-7_-_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:11:49.443737+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "interpretation": "retrieval failure, not proof of non-existence"
+    },
+    {
+      "url": "https://marico.com/investorspdf/MGT-7_-_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:11:50.409425+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+      "interpretation": "incomplete retrieval; no evidence absence inferred"
+    },
+    {
+      "url": "https://marico.com/investorspdf/MGT-7_-_FY25.pdf",
+      "retrievedAtUTC": "2026-11-18T06:12:49.514283+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+      "interpretation": "incomplete retrieval; no evidence absence inferred"
+    },
+    {
+      "url": "https://marico.com/investorspdf/Subsidiary_Financials_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:12:49.514611+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 200,
+      "finalUrl": "https://marico.com/investorspdf/Subsidiary_Financials_FY26.pdf",
+      "contentType": "application/pdf",
+      "lastModified": "Thu, 09 Jul 2026 05:34:19 GMT",
+      "bytes": 11217931,
+      "sha256": "6ae52ffe444465e6606bf1a6bcccd9a00b3bd3a427434576673347b8104a58ee",
+      "isPdf": true,
+      "error": "FileNotFoundError: [Errno 2] No such file or directory: 'pdfinfo'",
+      "interpretation": "incomplete retrieval; no evidence absence inferred"
+    },
+    {
+      "url": "https://marico.com/investorspdf/Marico_Annual_Report_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:12:49.514980+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "error": "URLError: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>",
+      "interpretation": "incomplete retrieval; no evidence absence inferred"
+    }
+  ]
+}

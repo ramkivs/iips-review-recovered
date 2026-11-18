@@ -1,0 +1,4173 @@
+{
+  "baselineCommit": "843f162b8ddb587e395f14e0dc0821286c348a0f",
+  "checkedOriginalFiles": 692,
+  "files": [
+    {
+      "path": "evidence/real-issuer/.gitattributes",
+      "baselineBlob": "cc00ec39c8aba8fe4b9d467cd68f818307928e96",
+      "currentBlob": "cc00ec39c8aba8fe4b9d467cd68f818307928e96",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/README.md",
+      "baselineBlob": "01140176c441ac552f907d02fc2496ae1886e7fd",
+      "currentBlob": "01140176c441ac552f907d02fc2496ae1886e7fd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/input/periods.csv",
+      "baselineBlob": "14d19ad8f77796677f59b92c7d89e93f0ea08eb5",
+      "currentBlob": "14d19ad8f77796677f59b92c7d89e93f0ea08eb5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/input/roster.json",
+      "baselineBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "currentBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/runs/bare-nil-attempt.json",
+      "baselineBlob": "3b56d4c0bde5c3aa009585b4a493d7f1229fe2a1",
+      "currentBlob": "3b56d4c0bde5c3aa009585b4a493d7f1229fe2a1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/runs/cli-dry-run-filing-evidence.txt",
+      "baselineBlob": "1e109eac8ee3c2a92e4a3a6dc4bf55e71f2ed7ac",
+      "currentBlob": "1e109eac8ee3c2a92e4a3a6dc4bf55e71f2ed7ac",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/runs/commands.txt",
+      "baselineBlob": "37856e3e24bc7fb5431d5627919aeef22d1c1527",
+      "currentBlob": "37856e3e24bc7fb5431d5627919aeef22d1c1527",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/runs/investment-suite.txt",
+      "baselineBlob": "f31fa7c780fd7f27ffbeb97de222d2a74d2a5509",
+      "currentBlob": "f31fa7c780fd7f27ffbeb97de222d2a74d2a5509",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/runs/nil-by-disclosure-tests.txt",
+      "baselineBlob": "f6282d9b625d89e6df6d7b3cfe00c8e190e495f5",
+      "currentBlob": "f6282d9b625d89e6df6d7b3cfe00c8e190e495f5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/runs/outcome-on-filing-evidence.json",
+      "baselineBlob": "904c124cbfed416168f1caf622250e8e57bef804",
+      "currentBlob": "904c124cbfed416168f1caf622250e8e57bef804",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/withdrawn/WHY-WITHDRAWN.md",
+      "baselineBlob": "62d85efaeec59c5559000edd59043c1923e18ef7",
+      "currentBlob": "62d85efaeec59c5559000edd59043c1923e18ef7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/withdrawn/cli-dry-run-UNSUPPORTED.txt",
+      "baselineBlob": "140f4a15235aaa8a0f6ae2f0731a49acc7c044d4",
+      "currentBlob": "140f4a15235aaa8a0f6ae2f0731a49acc7c044d4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/withdrawn/periods-nil-declared-UNSUPPORTED.csv",
+      "baselineBlob": "5f8682298e7d3e2f582f5da2f4910533d50378eb",
+      "currentBlob": "5f8682298e7d3e2f582f5da2f4910533d50378eb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/withdrawn/reassessment-summary-UNSUPPORTED.json",
+      "baselineBlob": "3e2eaa1c2668df24ae1d8519cd4e0ba848cfa480",
+      "currentBlob": "3e2eaa1c2668df24ae1d8519cd4e0ba848cfa480",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/README.md",
+      "baselineBlob": "3e4060e314b07bc9cc3050ea6a8338f2e53b9f47",
+      "currentBlob": "3e4060e314b07bc9cc3050ea6a8338f2e53b9f47",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/assessment-summary.json",
+      "baselineBlob": "c44be6269e98ec302c6d1d646544f9cce3616e6c",
+      "currentBlob": "c44be6269e98ec302c6d1d646544f9cce3616e6c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/chain-read.json",
+      "baselineBlob": "9db6ddc73c089ce1ffb8ab41bb10fe428aba2994",
+      "currentBlob": "9db6ddc73c089ce1ffb8ab41bb10fe428aba2994",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/cli-persist.json",
+      "baselineBlob": "b96fae292926468e2ad080ecbf62d7d37d21209c",
+      "currentBlob": "b96fae292926468e2ad080ecbf62d7d37d21209c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/commands.txt",
+      "baselineBlob": "d62a94fe094fca4af96fa614a703a64545d8326e",
+      "currentBlob": "d62a94fe094fca4af96fa614a703a64545d8326e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/coverage-technology.json",
+      "baselineBlob": "c8bbd169aeb769ba58a8d564f958d644511d6f24",
+      "currentBlob": "c8bbd169aeb769ba58a8d564f958d644511d6f24",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/dataset-manifest.json",
+      "baselineBlob": "eb8679070cc80ba3155db1d7c94f9829efe903ce",
+      "currentBlob": "eb8679070cc80ba3155db1d7c94f9829efe903ce",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/digest-comparison.json",
+      "baselineBlob": "919ce7f1ce11cc4e6bb4f98608a6e7bc5bbfea31",
+      "currentBlob": "919ce7f1ce11cc4e6bb4f98608a6e7bc5bbfea31",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/ingest.txt",
+      "baselineBlob": "c0a003a2f61df3cf6a4fd16bcd83addfd3bb9ff8",
+      "currentBlob": "c0a003a2f61df3cf6a4fd16bcd83addfd3bb9ff8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D2-POST-MERGE-REGRESSION-2026-11-06/runs/tests.txt",
+      "baselineBlob": "c430571173dd443683548232d3c855db76d6fc71",
+      "currentBlob": "c430571173dd443683548232d3c855db76d6fc71",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/README.md",
+      "baselineBlob": "f1b7dbc8a28075da3c14d3797f44f3bd094e2980",
+      "currentBlob": "f1b7dbc8a28075da3c14d3797f44f3bd094e2980",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/assessment-summary.json",
+      "baselineBlob": "2f2710d4f30185d7bd081903ca49e4b82705b228",
+      "currentBlob": "2f2710d4f30185d7bd081903ca49e4b82705b228",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/chain-read.json",
+      "baselineBlob": "bb8242d606f24d6b46054ab49031aeb0684e1161",
+      "currentBlob": "bb8242d606f24d6b46054ab49031aeb0684e1161",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/cli-persist.json",
+      "baselineBlob": "9ef8be5dac727dd0f8b51fc08f48820b156874d9",
+      "currentBlob": "9ef8be5dac727dd0f8b51fc08f48820b156874d9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/commands.txt",
+      "baselineBlob": "04ab4ad1afdc2bbf1c1edfdc5429bc34303079f1",
+      "currentBlob": "04ab4ad1afdc2bbf1c1edfdc5429bc34303079f1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/ingest.txt",
+      "baselineBlob": "796567a74b98e785316ad326c4bdf4f150aa11a0",
+      "currentBlob": "796567a74b98e785316ad326c4bdf4f150aa11a0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/payload-diff.json",
+      "baselineBlob": "a5f2920a7b05487a35a78390ce61d8af754f4143",
+      "currentBlob": "a5f2920a7b05487a35a78390ce61d8af754f4143",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/risk-before-after.json",
+      "baselineBlob": "85d92c438f85cd530de05c19f56fb1c466f60729",
+      "currentBlob": "85d92c438f85cd530de05c19f56fb1c466f60729",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/D3-RISK-REASON-SEMANTICS-2026-11-06/runs/tests.txt",
+      "baselineBlob": "3ecbb74595ba47721b16ba838d5d5605494b52d3",
+      "currentBlob": "3ecbb74595ba47721b16ba838d5d5605494b52d3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/README.md",
+      "baselineBlob": "7e4b96abafa168493a22d011ff883b3b60742339",
+      "currentBlob": "7e4b96abafa168493a22d011ff883b3b60742339",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/artifact/assessment-payload-head.json",
+      "baselineBlob": "c2590cea1dffaf6c7ac213f4d333009b84008c1f",
+      "currentBlob": "c2590cea1dffaf6c7ac213f4d333009b84008c1f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/artifact/payload-diff-vs-wi3.json",
+      "baselineBlob": "cc702fb511348371c4a7b9c4c3c26dfbb41cc00c",
+      "currentBlob": "cc702fb511348371c4a7b9c4c3c26dfbb41cc00c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/digests.json",
+      "baselineBlob": "b085846d9381819a444b1d304736842bd24dd6fd",
+      "currentBlob": "b085846d9381819a444b1d304736842bd24dd6fd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/A-STALE-LIMITATION-COUNTS.md",
+      "baselineBlob": "a9e45908bdd6e6df6415e4ea0f830334f25bfdf8",
+      "currentBlob": "a9e45908bdd6e6df6415e4ea0f830334f25bfdf8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/B-DATASET-CLASS-DIVERGENCE.md",
+      "baselineBlob": "232a39006bcae2b6047db0e35d584a8370c13715",
+      "currentBlob": "232a39006bcae2b6047db0e35d584a8370c13715",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/C-EV-BASIS-BRIDGE.md",
+      "baselineBlob": "480c82bf6c182facbbc961d341782e3e562536a1",
+      "currentBlob": "480c82bf6c182facbbc961d341782e3e562536a1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/01-ingest.txt",
+      "baselineBlob": "ba4f1e947d6b55fab0eaf5fa6fb9f3f9e438126c",
+      "currentBlob": "ba4f1e947d6b55fab0eaf5fa6fb9f3f9e438126c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/02-generate-head-clock.txt",
+      "baselineBlob": "51c0b0a8f9684f7c3f43d060b04ec9c031796be1",
+      "currentBlob": "51c0b0a8f9684f7c3f43d060b04ec9c031796be1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/03-generate-sameclock.txt",
+      "baselineBlob": "03e43bccd612d72533b65c3626057eeb26a47d19",
+      "currentBlob": "03e43bccd612d72533b65c3626057eeb26a47d19",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/04-read-back-head.txt",
+      "baselineBlob": "6ceb7807d1c19f1dc8aa7fadd190a0d6dcc7806c",
+      "currentBlob": "6ceb7807d1c19f1dc8aa7fadd190a0d6dcc7806c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/05-riv-generator.txt",
+      "baselineBlob": "e182a02c618162aef823a13bace02bc96dc9ad79",
+      "currentBlob": "e182a02c618162aef823a13bace02bc96dc9ad79",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/06-baselines.txt",
+      "baselineBlob": "99843b41950f884ba39fc590a3b29e098a685611",
+      "currentBlob": "99843b41950f884ba39fc590a3b29e098a685611",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/07-input-integrity.txt",
+      "baselineBlob": "4dc4fe8e299769e8f869ad2a35019fb2d79995b5",
+      "currentBlob": "4dc4fe8e299769e8f869ad2a35019fb2d79995b5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/cli-head-sameclock.json",
+      "baselineBlob": "58a3fab6529369822d10f1d90c8df8ed19f2ddff",
+      "currentBlob": "58a3fab6529369822d10f1d90c8df8ed19f2ddff",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/cli-head.json",
+      "baselineBlob": "f09c3fe6bf53437d168cc403fc3c45334b9c82e6",
+      "currentBlob": "f09c3fe6bf53437d168cc403fc3c45334b9c82e6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/runs/commands.txt",
+      "baselineBlob": "4316de21e1d260b2800534fc74971859ee1aa4a4",
+      "currentBlob": "4316de21e1d260b2800534fc74971859ee1aa4a4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/verification/dataset-class-divergence.json",
+      "baselineBlob": "b1e5bcef75348d4ae2892e3c9b05cf5aab554bda",
+      "currentBlob": "b1e5bcef75348d4ae2892e3c9b05cf5aab554bda",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/verification/independent-recomputation.json",
+      "baselineBlob": "15691523a91e7d16615af45c0193bdb30373e208",
+      "currentBlob": "15691523a91e7d16615af45c0193bdb30373e208",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/verification/mapping-census.json",
+      "baselineBlob": "726aa76602da4d9bcf48c92e600b6707c6d3974e",
+      "currentBlob": "726aa76602da4d9bcf48c92e600b6707c6d3974e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/README.md",
+      "baselineBlob": "c0330f86ecc3564c51b2f606d596fa4c0dbe2ca3",
+      "currentBlob": "c0330f86ecc3564c51b2f606d596fa4c0dbe2ca3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/artifact/authorized-policy-evidence.json",
+      "baselineBlob": "c0e2a62b5ae044376a2fe3d6ed3c51df759e3af9",
+      "currentBlob": "c0e2a62b5ae044376a2fe3d6ed3c51df759e3af9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/runs/01-generator-run.txt",
+      "baselineBlob": "9a606aa00b06bef98d0d8e73cecf98097fca1c28",
+      "currentBlob": "9a606aa00b06bef98d0d8e73cecf98097fca1c28",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/runs/02-guard-test.txt",
+      "baselineBlob": "f986c7e1998d2f9a2ae83da5d9df0326ea3358e5",
+      "currentBlob": "f986c7e1998d2f9a2ae83da5d9df0326ea3358e5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/IX-AUTHORIZED-VALUATION-POLICY-2026-11-06/runs/03-v2-schema-tests.txt",
+      "baselineBlob": "4ad141d1dc3cfded944838db8cbe065be1324e57",
+      "currentBlob": "4ad141d1dc3cfded944838db8cbe065be1324e57",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/README.md",
+      "baselineBlob": "8a64d98239750af09bf333b305cac19fa01042a4",
+      "currentBlob": "8a64d98239750af09bf333b305cac19fa01042a4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/README.md",
+      "baselineBlob": "4f720d6c802bf7678691d4a4011438fda9f6e9df",
+      "currentBlob": "4f720d6c802bf7678691d4a4011438fda9f6e9df",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/artifact/assessment-payload-v1.json",
+      "baselineBlob": "de4225e141cc28eba35a3fa7837cfa4a7fd8fc01",
+      "currentBlob": "de4225e141cc28eba35a3fa7837cfa4a7fd8fc01",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/artifact/assessment-payload-v2.json",
+      "baselineBlob": "1d2bc9b00a158fe5c0f783f9cfc85b9914915229",
+      "currentBlob": "1d2bc9b00a158fe5c0f783f9cfc85b9914915229",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/corporateActions.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/coverage-report.json",
+      "baselineBlob": "1a0d019111fc4cd11219f6af0e2b9efb23dc2dcb",
+      "currentBlob": "1a0d019111fc4cd11219f6af0e2b9efb23dc2dcb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/issuers.json",
+      "baselineBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "currentBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/issues.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/listings.json",
+      "baselineBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "currentBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/manifest.json",
+      "baselineBlob": "705bdf5e7df5f19efd2bfa4bf942321d4e19b134",
+      "currentBlob": "705bdf5e7df5f19efd2bfa4bf942321d4e19b134",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/operatingMetrics.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/periods.json",
+      "baselineBlob": "ef08ed91dfe4f4c28df1d4c131be68c4c1ad172f",
+      "currentBlob": "ef08ed91dfe4f4c28df1d4c131be68c4c1ad172f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/prices.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset-v1/securities.json",
+      "baselineBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "currentBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/corporateActions.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/coverage-report.json",
+      "baselineBlob": "448e4b370ed92b44aef8a69835f486206c0e6752",
+      "currentBlob": "448e4b370ed92b44aef8a69835f486206c0e6752",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/issuers.json",
+      "baselineBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "currentBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/issues.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/listings.json",
+      "baselineBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "currentBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/manifest.json",
+      "baselineBlob": "eb8679070cc80ba3155db1d7c94f9829efe903ce",
+      "currentBlob": "eb8679070cc80ba3155db1d7c94f9829efe903ce",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/operatingMetrics.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/periods.json",
+      "baselineBlob": "61263b89751812bf1f00efdc3e40dd9f23504848",
+      "currentBlob": "61263b89751812bf1f00efdc3e40dd9f23504848",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/prices.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/dataset/securities.json",
+      "baselineBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "currentBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/digests.json",
+      "baselineBlob": "9e59c024d912210145e0f864c23a9a084802f38c",
+      "currentBlob": "9e59c024d912210145e0f864c23a9a084802f38c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/corporate-actions.json",
+      "baselineBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "currentBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/eligible-roster.json",
+      "baselineBlob": "4d0550b7e9b951b027e5d6735c10236168864183",
+      "currentBlob": "4d0550b7e9b951b027e5d6735c10236168864183",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/identity/listing-map.json",
+      "baselineBlob": "f28848af57d46dce038d6587272677e41a35c85d",
+      "currentBlob": "f28848af57d46dce038d6587272677e41a35c85d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv",
+      "baselineBlob": "14d19ad8f77796677f59b92c7d89e93f0ea08eb5",
+      "currentBlob": "14d19ad8f77796677f59b92c7d89e93f0ea08eb5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input/roster.json",
+      "baselineBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "currentBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/mapping-coverage/line-item-coverage-v1.json",
+      "baselineBlob": "b71169b019b2a015ff84045f27deec3854110ff3",
+      "currentBlob": "b71169b019b2a015ff84045f27deec3854110ff3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/mapping-coverage/line-item-coverage-v2.json",
+      "baselineBlob": "1e7f7bebdc27441e1189cff38189d8ff09878b42",
+      "currentBlob": "1e7f7bebdc27441e1189cff38189d8ff09878b42",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/chain-read-v1.txt",
+      "baselineBlob": "d7429e0c5f91050e9b2cc1dc6021703486361e1a",
+      "currentBlob": "d7429e0c5f91050e9b2cc1dc6021703486361e1a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/chain-read-v2.txt",
+      "baselineBlob": "1db3efc05fded948d36c785a618635fd2324ddd9",
+      "currentBlob": "1db3efc05fded948d36c785a618635fd2324ddd9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/cli-unchanged-post-text-fix.json",
+      "baselineBlob": "1af0c8396dd52f89f4fc6a7c757033fec51bc704",
+      "currentBlob": "1af0c8396dd52f89f4fc6a7c757033fec51bc704",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/cli-v1-created-pre-fix.json",
+      "baselineBlob": "38f44f2866dc0704c9929884bf2588a941456998",
+      "currentBlob": "38f44f2866dc0704c9929884bf2588a941456998",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/cli-v2-created-after-lease-addition.json",
+      "baselineBlob": "adace8ccb04888db87c33bfb1b05ad20949f10c8",
+      "currentBlob": "adace8ccb04888db87c33bfb1b05ad20949f10c8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/cli-v2-unchanged-final.json",
+      "baselineBlob": "42e7235d9203e828ac6e8858759a7d83edd2b18a",
+      "currentBlob": "42e7235d9203e828ac6e8858759a7d83edd2b18a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/commands.txt",
+      "baselineBlob": "99a0898c78c8f355cce5c3e573dee388fd3ee388",
+      "currentBlob": "99a0898c78c8f355cce5c3e573dee388fd3ee388",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/runs/owner-carrier.json",
+      "baselineBlob": "42e4ec3bd2103ab81ee2f7ffc33f0415147e29c0",
+      "currentBlob": "42e4ec3bd2103ab81ee2f7ffc33f0415147e29c0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/README.md",
+      "baselineBlob": "012bc2dddae56628aa78c31528c9304b826cd382",
+      "currentBlob": "012bc2dddae56628aa78c31528c9304b826cd382",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/digests.json",
+      "baselineBlob": "f763bd95d24131f97b0239ec083d99208995f17d",
+      "currentBlob": "f763bd95d24131f97b0239ec083d99208995f17d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv",
+      "baselineBlob": "840b77dbe244448b6657cdf3905344f8dabd6064",
+      "currentBlob": "840b77dbe244448b6657cdf3905344f8dabd6064",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/roster.json",
+      "baselineBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "currentBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/01-assessment-before.json",
+      "baselineBlob": "f07ebdea1f9fbe4d6e2937baf3d02fce568d4ecc",
+      "currentBlob": "f07ebdea1f9fbe4d6e2937baf3d02fce568d4ecc",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/02-assessment-after.json",
+      "baselineBlob": "c57ea855dbb9180b60c66eb7fe1a615e36c1f121",
+      "currentBlob": "c57ea855dbb9180b60c66eb7fe1a615e36c1f121",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/03-ingest-corrected.txt",
+      "baselineBlob": "d9785a656b25b2df1c73c0e962dbf96020198c01",
+      "currentBlob": "d9785a656b25b2df1c73c0e962dbf96020198c01",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/04-coverage-technology.txt",
+      "baselineBlob": "62a0d32052479fe394006f7840d335ee99293bf5",
+      "currentBlob": "62a0d32052479fe394006f7840d335ee99293bf5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/README.md",
+      "baselineBlob": "027204796a9f37799adc38e05f25fb759c439810",
+      "currentBlob": "027204796a9f37799adc38e05f25fb759c439810",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/data-extraction.json",
+      "baselineBlob": "9ace4aa3c81089fd188403ee80da14e527eeb1f7",
+      "currentBlob": "9ace4aa3c81089fd188403ee80da14e527eeb1f7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/determination.json",
+      "baselineBlob": "dd71ab48fb3b2332a8d8b19c9b1a66aefaa18023",
+      "currentBlob": "dd71ab48fb3b2332a8d8b19c9b1a66aefaa18023",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/digests.json",
+      "baselineBlob": "d1630e685b57064056884a83b93b2e5e8adae8f8",
+      "currentBlob": "d1630e685b57064056884a83b93b2e5e8adae8f8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/periods.csv",
+      "baselineBlob": "e3db9e8f1571325be07381ac0a6ee074c7b67268",
+      "currentBlob": "e3db9e8f1571325be07381ac0a6ee074c7b67268",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/roster.json",
+      "baselineBlob": "60ad389403eed8cf70f35fd8d8e8cb8b0e08f45c",
+      "currentBlob": "60ad389403eed8cf70f35fd8d8e8cb8b0e08f45c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/periods.csv",
+      "baselineBlob": "da246cd9ce2561495c23255609e3ae81dfe7139e",
+      "currentBlob": "da246cd9ce2561495c23255609e3ae81dfe7139e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/roster.json",
+      "baselineBlob": "92883e90081f514440870d2fb7ab6fb4fcc07e97",
+      "currentBlob": "92883e90081f514440870d2fb7ab6fb4fcc07e97",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/probe/build_refresh.py",
+      "baselineBlob": "e4712c306d39a96a70fecc4f3aa5ac4a42f22d8e",
+      "currentBlob": "e4712c306d39a96a70fecc4f3aa5ac4a42f22d8e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/01-candidate-ingest-provision.txt",
+      "baselineBlob": "8cb63abac1496539a7946441de3facc1195a6a06",
+      "currentBlob": "8cb63abac1496539a7946441de3facc1195a6a06",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/02-refresh-test.txt",
+      "baselineBlob": "5eee2f121be21b7de6d1661400ae8869b63400ea",
+      "currentBlob": "5eee2f121be21b7de6d1661400ae8869b63400ea",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/03-source-census.json",
+      "baselineBlob": "a56c079c1878bcca66463cd7658027709aa0aee5",
+      "currentBlob": "a56c079c1878bcca66463cd7658027709aa0aee5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "baselineBlob": "3d00e9877c6580db39ec390657973a9a82c17ec3",
+      "currentBlob": "3d00e9877c6580db39ec390657973a9a82c17ec3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/05-gates.txt",
+      "baselineBlob": "7c4a563e229ef395c70e0c38c963b4842851fe19",
+      "currentBlob": "7c4a563e229ef395c70e0c38c963b4842851fe19",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/06-targeted-final.txt",
+      "baselineBlob": "d019f28bc6e3de836d0fa04cebe7f8acf9244e05",
+      "currentBlob": "d019f28bc6e3de836d0fa04cebe7f8acf9244e05",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-assessments-readonly.json",
+      "baselineBlob": "6a4def911a2dda4a26234b239e4b3682110d8e01",
+      "currentBlob": "6a4def911a2dda4a26234b239e4b3682110d8e01",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-coverage.json",
+      "baselineBlob": "3f8471e3671acb83e99801edae953427d8eb3142",
+      "currentBlob": "3f8471e3671acb83e99801edae953427d8eb3142",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-manifest.json",
+      "baselineBlob": "1b655f9739620dacb2d93a0b21a90e53bb612633",
+      "currentBlob": "1b655f9739620dacb2d93a0b21a90e53bb612633",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source-selection.json",
+      "baselineBlob": "4cfcfb582e5a032ca142da60a0f578e85ea8f935",
+      "currentBlob": "4cfcfb582e5a032ca142da60a0f578e85ea8f935",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "baselineBlob": "6d5510693b4fe090905b256991dd8e643e9a2a34",
+      "currentBlob": "6d5510693b4fe090905b256991dd8e643e9a2a34",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+      "baselineBlob": "451daed7bf7971f15c8fac1cd63b25c4232f8c2b",
+      "currentBlob": "451daed7bf7971f15c8fac1cd63b25c4232f8c2b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-selected-xbrl-facts.json",
+      "baselineBlob": "a8f56c0971c78dac00c9b7217510e2f177ca2fa2",
+      "currentBlob": "a8f56c0971c78dac00c9b7217510e2f177ca2fa2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "baselineBlob": "9a23a69787a39fdb8f396fc687c0eadddec2ac17",
+      "currentBlob": "9a23a69787a39fdb8f396fc687c0eadddec2ac17",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+      "baselineBlob": "9491cc8a7ed3b6f80fdd734e74cbca8677fbf96b",
+      "currentBlob": "9491cc8a7ed3b6f80fdd734e74cbca8677fbf96b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "baselineBlob": "95def2b35b2bcf1a372c141e22814de49f0ca889",
+      "currentBlob": "95def2b35b2bcf1a372c141e22814de49f0ca889",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "baselineBlob": "40e22ab5690716d6f24dc1471c8061cbb319ef26",
+      "currentBlob": "40e22ab5690716d6f24dc1471c8061cbb319ef26",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/page-map.json",
+      "baselineBlob": "4e229b7150d9f13bbb816015d226d11641787a1f",
+      "currentBlob": "4e229b7150d9f13bbb816015d226d11641787a1f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/README.md",
+      "baselineBlob": "f91220331631acf825d8db60d4a51950158de663",
+      "currentBlob": "f91220331631acf825d8db60d4a51950158de663",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/digests.json",
+      "baselineBlob": "a1b432b7aa3b25e7e9117040033f381144256318",
+      "currentBlob": "a1b432b7aa3b25e7e9117040033f381144256318",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/01-candidate-reproduction.txt",
+      "baselineBlob": "ea8aa2a383f9a5f5016eb49b545997daf3b4ae07",
+      "currentBlob": "ea8aa2a383f9a5f5016eb49b545997daf3b4ae07",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/02-freshness-per-issuer.json",
+      "baselineBlob": "9cd1aa2b0b4bb7d9f9d3e481c60eaaa4772711b3",
+      "currentBlob": "9cd1aa2b0b4bb7d9f9d3e481c60eaaa4772711b3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/03-assessment-slices.json",
+      "baselineBlob": "523f6d024495d230d23b1842c8adfffe1668d617",
+      "currentBlob": "523f6d024495d230d23b1842c8adfffe1668d617",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/05-coverage-freshness.json",
+      "baselineBlob": "213316a7934d9862e1b1bee10d0a62bc3b4d093a",
+      "currentBlob": "213316a7934d9862e1b1bee10d0a62bc3b4d093a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/06-install-and-serve-drill.txt",
+      "baselineBlob": "91c1099e3adf3491ea4676841e1ae09ddc013bb1",
+      "currentBlob": "91c1099e3adf3491ea4676841e1ae09ddc013bb1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/README.md",
+      "baselineBlob": "c127ac0f9111c3b97e78c5879f4f71230e13552a",
+      "currentBlob": "c127ac0f9111c3b97e78c5879f4f71230e13552a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/runs/ADMITTED-bdfb2527-coverage-summary.txt",
+      "baselineBlob": "219c20533e5cb20232d35cd4d4b166f2d80e787a",
+      "currentBlob": "219c20533e5cb20232d35cd4d4b166f2d80e787a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/runs/S4R2-69bbc14e-coverage-summary.txt",
+      "baselineBlob": "c9ef7aefcc3a67b7a05bc6ca4b4f693a70c836cf",
+      "currentBlob": "c9ef7aefcc3a67b7a05bc6ca4b4f693a70c836cf",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/runs/coverage-versus-assessment.json",
+      "baselineBlob": "c4d71e85c20af1ab444410f664a6f2fb544ce2ea",
+      "currentBlob": "c4d71e85c20af1ab444410f664a6f2fb544ce2ea",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R5-HISTORICAL-VERSUS-LATEST-2026-11-17/README.md",
+      "baselineBlob": "5d754c92791460d0e117b5199dc7536a14d0e5e5",
+      "currentBlob": "5d754c92791460d0e117b5199dc7536a14d0e5e5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R5-HISTORICAL-VERSUS-LATEST-2026-11-17/runs/availability-by-issuer.json",
+      "baselineBlob": "8a80b80db1e5b1db242e4b62a9914e0fa6f6905d",
+      "currentBlob": "8a80b80db1e5b1db242e4b62a9914e0fa6f6905d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/README.md",
+      "baselineBlob": "8ac8b3e16500f930f7acf5a99e2f1c08398d9b3e",
+      "currentBlob": "8ac8b3e16500f930f7acf5a99e2f1c08398d9b3e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/capability-probes.json",
+      "baselineBlob": "1023c739c96378608275acafd5efc8e28aa97de4",
+      "currentBlob": "1023c739c96378608275acafd5efc8e28aa97de4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-census.json",
+      "baselineBlob": "f7802a37b2ac8181a834997c9ba92d04eebada85",
+      "currentBlob": "f7802a37b2ac8181a834997c9ba92d04eebada85",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+      "baselineBlob": "0a084fd96c8374661b74f5580fb5c11bdb4f472a",
+      "currentBlob": "0a084fd96c8374661b74f5580fb5c11bdb4f472a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/README.md",
+      "baselineBlob": "8eb356e25af531a648629817227533398cde95d3",
+      "currentBlob": "8eb356e25af531a648629817227533398cde95d3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/candidate-events.json",
+      "baselineBlob": "f0fbb37ee6d299d977b91156f643c226b1c142f0",
+      "currentBlob": "f0fbb37ee6d299d977b91156f643c226b1c142f0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/census.json",
+      "baselineBlob": "ad6f65d69a5daf60fd1408f32a5113fbb6879a95",
+      "currentBlob": "ad6f65d69a5daf60fd1408f32a5113fbb6879a95",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/digest-comparison.json",
+      "baselineBlob": "3cc4f40abf55620368bba4d04349da736ed409d8",
+      "currentBlob": "3cc4f40abf55620368bba4d04349da736ed409d8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/validation.txt",
+      "baselineBlob": "3c17ecfc10e1be3c041a145e6674da8bb9fd9a22",
+      "currentBlob": "3c17ecfc10e1be3c041a145e6674da8bb9fd9a22",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/README.md",
+      "baselineBlob": "1d1aba8ed0bc962c053cea915858de6d85466ec1",
+      "currentBlob": "1d1aba8ed0bc962c053cea915858de6d85466ec1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/artifact/assessment-payload-vii.json",
+      "baselineBlob": "ac40f34e0f515cd059b9437624361bf171bc0d5a",
+      "currentBlob": "ac40f34e0f515cd059b9437624361bf171bc0d5a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/artifact/payload-diff-vs-wi3.json",
+      "baselineBlob": "ad321c12054cefc98eb9dcd8a9890c246fd7a771",
+      "currentBlob": "ad321c12054cefc98eb9dcd8a9890c246fd7a771",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/digests.json",
+      "baselineBlob": "364d1b31a163544bf92fbd4ae3e6a7d2867a8ebe",
+      "currentBlob": "364d1b31a163544bf92fbd4ae3e6a7d2867a8ebe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/01-ingest.txt",
+      "baselineBlob": "f805bef73756553b7daea8cb208450557449eb28",
+      "currentBlob": "f805bef73756553b7daea8cb208450557449eb28",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/02-generate.txt",
+      "baselineBlob": "f73b572dc4e44c9365502fa6c5bcddb71f93b257",
+      "currentBlob": "f73b572dc4e44c9365502fa6c5bcddb71f93b257",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/03-payload-readback.txt",
+      "baselineBlob": "70832027085580d76c6ae9b2a45cb5dfb6e1da93",
+      "currentBlob": "70832027085580d76c6ae9b2a45cb5dfb6e1da93",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/04-replay.txt",
+      "baselineBlob": "69607f9994d45a815214670cda6b7cf065d28bbe",
+      "currentBlob": "69607f9994d45a815214670cda6b7cf065d28bbe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/05-verification.txt",
+      "baselineBlob": "59aa188cca6f68b47cc5502fcfb46ae693b55156",
+      "currentBlob": "59aa188cca6f68b47cc5502fcfb46ae693b55156",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/cli-vii-created.json",
+      "baselineBlob": "7555fdedd7dbf0a48c983478993264dcc21cef72",
+      "currentBlob": "7555fdedd7dbf0a48c983478993264dcc21cef72",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/cli-vii-replay.json",
+      "baselineBlob": "9cb9dd349bca2a55443f7fec3baecc502ae6de0a",
+      "currentBlob": "9cb9dd349bca2a55443f7fec3baecc502ae6de0a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VII-VALUATION-INTEGRITY-2026-11-06/runs/commands.txt",
+      "baselineBlob": "98f24eb6b434ec28f28ff01fd887be675497b4e6",
+      "currentBlob": "98f24eb6b434ec28f28ff01fd887be675497b4e6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/README.md",
+      "baselineBlob": "86c04ab8952efd3a35d81b932665ed5f039e0038",
+      "currentBlob": "86c04ab8952efd3a35d81b932665ed5f039e0038",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/artifact/valuation-decision-scenarios.json",
+      "baselineBlob": "d0126b3e169618f491f52d2caae2ad733ded99df",
+      "currentBlob": "d0126b3e169618f491f52d2caae2ad733ded99df",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/digests.json",
+      "baselineBlob": "7bbe08efb90e2a96c3cc5fd2f4cd17e7b6e23af2",
+      "currentBlob": "7bbe08efb90e2a96c3cc5fd2f4cd17e7b6e23af2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/runs/01-scenarios.txt",
+      "baselineBlob": "7a9f43c2947efe91b83645b2a0a4bd22eb9ddf17",
+      "currentBlob": "7a9f43c2947efe91b83645b2a0a4bd22eb9ddf17",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/runs/02-baseline-crosscheck.txt",
+      "baselineBlob": "edf12c01f2559bfa0e58616d72bf71ace110553d",
+      "currentBlob": "edf12c01f2559bfa0e58616d72bf71ace110553d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/runs/03-tests.txt",
+      "baselineBlob": "7acf6e7edfb5117d630998d047cac4b7db705f79",
+      "currentBlob": "7acf6e7edfb5117d630998d047cac4b7db705f79",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/VIII-VALUATION-DECISIONS-2026-11-06/runs/commands.txt",
+      "baselineBlob": "3b9fc70abe538face02d140195fe35b891781456",
+      "currentBlob": "3b9fc70abe538face02d140195fe35b891781456",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/README.md",
+      "baselineBlob": "bce2bcc08ad4a26e6edfbed326697acd3eee3190",
+      "currentBlob": "bce2bcc08ad4a26e6edfbed326697acd3eee3190",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/artifact/assessment-payload-l035-v3.json",
+      "baselineBlob": "b24839be61bd267fd617d7a10da7ac8952370936",
+      "currentBlob": "b24839be61bd267fd617d7a10da7ac8952370936",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/determination-l035.json",
+      "baselineBlob": "5a119660ddad5f698ebdeee945494468a50d0069",
+      "currentBlob": "5a119660ddad5f698ebdeee945494468a50d0069",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/digests.json",
+      "baselineBlob": "1f351c0cdd67c8f064b983588bbbd3dc2f9a7c45",
+      "currentBlob": "1f351c0cdd67c8f064b983588bbbd3dc2f9a7c45",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/01-reproduction-prefix.txt",
+      "baselineBlob": "df70e8d2e88075b8e683dd4ba25d01749e47e6f4",
+      "currentBlob": "df70e8d2e88075b8e683dd4ba25d01749e47e6f4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/02-v3-unbound-refused.txt",
+      "baselineBlob": "95d412aa9825ce9e95a386844567db869e7a4574",
+      "currentBlob": "95d412aa9825ce9e95a386844567db869e7a4574",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/03-mismatch-refused.txt",
+      "baselineBlob": "1177dd3db35d60978a06a0287267c872617a320e",
+      "currentBlob": "1177dd3db35d60978a06a0287267c872617a320e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/04-bound-accepted.txt",
+      "baselineBlob": "90f860ada3300713702510de6b0de25846c3364f",
+      "currentBlob": "90f860ada3300713702510de6b0de25846c3364f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/05-wi3-byte-identity.txt",
+      "baselineBlob": "c1abd4409b8460f8c3cd9293b0a9ba02dacf699b",
+      "currentBlob": "c1abd4409b8460f8c3cd9293b0a9ba02dacf699b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/06-generate-persist-readback.txt",
+      "baselineBlob": "10cc029127939a958ed11777276a1ab699dbfdf1",
+      "currentBlob": "10cc029127939a958ed11777276a1ab699dbfdf1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/07-tests.txt",
+      "baselineBlob": "29af3fdd31dd920b455a2a8fc12ce439f0a901d6",
+      "currentBlob": "29af3fdd31dd920b455a2a8fc12ce439f0a901d6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/08-typecheck.txt",
+      "baselineBlob": "e9bc39cf8b9e54879e28bcceab8ee7077605a125",
+      "currentBlob": "e9bc39cf8b9e54879e28bcceab8ee7077605a125",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/09-post-manifest-verification.txt",
+      "baselineBlob": "6f993abe759304610173ea928b5e2f5314b6f628",
+      "currentBlob": "6f993abe759304610173ea928b5e2f5314b6f628",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/10-clean-clone.txt",
+      "baselineBlob": "367ca1dfdf6caf819ba206137502f4f0b51a489e",
+      "currentBlob": "367ca1dfdf6caf819ba206137502f4f0b51a489e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/runs/commands.txt",
+      "baselineBlob": "2c3ec3ad774e43d8b3f5ba00e0db677abcac10f0",
+      "currentBlob": "2c3ec3ad774e43d8b3f5ba00e0db677abcac10f0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/source/grammar.txt",
+      "baselineBlob": "ee8ae4a1d6b8308942268672aaad8e078bce28ce",
+      "currentBlob": "ee8ae4a1d6b8308942268672aaad8e078bce28ce",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L035-NIL-BINDING-2026-11-07/source/review-record.json",
+      "baselineBlob": "c93c882e2e88deb31e1a1e415de28a756649c540",
+      "currentBlob": "c93c882e2e88deb31e1a1e415de28a756649c540",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/README.md",
+      "baselineBlob": "0fd1a9d35df20516c83539456d9e4e305e65d516",
+      "currentBlob": "0fd1a9d35df20516c83539456d9e4e305e65d516",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/access/attempts.json",
+      "baselineBlob": "28258f6902ee10b7bffb240bcb1de7a46a4e4902",
+      "currentBlob": "28258f6902ee10b7bffb240bcb1de7a46a4e4902",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/README.md",
+      "baselineBlob": "f2e9f7021fd9aa026ce0ed53c6d67b381958e716",
+      "currentBlob": "f2e9f7021fd9aa026ce0ed53c6d67b381958e716",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/page-map.json",
+      "baselineBlob": "3e9b4a44ff5766b2bfb8f09dc597e097bf3af91b",
+      "currentBlob": "3e9b4a44ff5766b2bfb8f09dc597e097bf3af91b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/quotes-verified.json",
+      "baselineBlob": "8e6e02b845d1f121e22739c1aa29f00596a66a64",
+      "currentBlob": "8e6e02b845d1f121e22739c1aa29f00596a66a64",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/control/fabricated-claim/source/source-bytes.json",
+      "baselineBlob": "1cd1b9680a6e7bde7792967c3460b4ef61577b89",
+      "currentBlob": "1cd1b9680a6e7bde7792967c3460b4ef61577b89",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/determination.json",
+      "baselineBlob": "6ee740dbde7735d7a2b727b2643715d68e875320",
+      "currentBlob": "6ee740dbde7735d7a2b727b2643715d68e875320",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/digests.json",
+      "baselineBlob": "013983c992aa7fe5b3b5bf43943d6c407522468c",
+      "currentBlob": "013983c992aa7fe5b3b5bf43943d6c407522468c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/01-s2-verification.json",
+      "baselineBlob": "f75f14e4b62ed6ebd95d93d0458acfde682f776d",
+      "currentBlob": "f75f14e4b62ed6ebd95d93d0458acfde682f776d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/01-s2-verification.txt",
+      "baselineBlob": "38274bfd201d3f1654804c2977773ea624155224",
+      "currentBlob": "38274bfd201d3f1654804c2977773ea624155224",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/02-control-verdict.txt",
+      "baselineBlob": "c2bb93f8a3b9ddbc560cfc05144986de8c55c16b",
+      "currentBlob": "c2bb93f8a3b9ddbc560cfc05144986de8c55c16b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/03-targeted-tests.txt",
+      "baselineBlob": "5c23f6495ff7fa725cb5e438898a373d15490f92",
+      "currentBlob": "5c23f6495ff7fa725cb5e438898a373d15490f92",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/04-existing-guards.txt",
+      "baselineBlob": "aa96feb23228ed8b74cd816da2785cfbedeabd7c",
+      "currentBlob": "aa96feb23228ed8b74cd816da2785cfbedeabd7c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/05-typecheck.txt",
+      "baselineBlob": "ae444aeb4644b4102af87a0faf627cf7f880f30f",
+      "currentBlob": "ae444aeb4644b4102af87a0faf627cf7f880f30f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/06-clean-clone.txt",
+      "baselineBlob": "7252b648b5fb4bf3cf59c3093b5dc8dd7489e0b5",
+      "currentBlob": "7252b648b5fb4bf3cf59c3093b5dc8dd7489e0b5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI10-L037-DEEP-PAGE-RETRIEVAL-2026-11-07/runs/07-manifest-verification.txt",
+      "baselineBlob": "8fdc3a483bccc119709b636c825ab844cc9bd7a1",
+      "currentBlob": "8fdc3a483bccc119709b636c825ab844cc9bd7a1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/README.md",
+      "baselineBlob": "4e9c612e9410b41b7aa05be7d173e83eca6526c7",
+      "currentBlob": "4e9c612e9410b41b7aa05be7d173e83eca6526c7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/determination.json",
+      "baselineBlob": "6c650c5a91134a7f2f0f0b2f968493d97810190c",
+      "currentBlob": "6c650c5a91134a7f2f0f0b2f968493d97810190c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/digests.json",
+      "baselineBlob": "d61131074221144ff1f6bced20b797c8766ca8ef",
+      "currentBlob": "d61131074221144ff1f6bced20b797c8766ca8ef",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/01-fy24-locator-report.txt",
+      "baselineBlob": "0be741c0fba9f50ef0dedd9dd408cfeaade23731",
+      "currentBlob": "0be741c0fba9f50ef0dedd9dd408cfeaade23731",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/02-fy2425-locator-report.txt",
+      "baselineBlob": "8bedfe6ff92105752e4561fb0a11155f1e24361f",
+      "currentBlob": "8bedfe6ff92105752e4561fb0a11155f1e24361f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/03-fy2526-locator-report.txt",
+      "baselineBlob": "3556b4d144999f07005d091b460b2c622a01116b",
+      "currentBlob": "3556b4d144999f07005d091b460b2c622a01116b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/runs/04-fy26-standalone-report.txt",
+      "baselineBlob": "21a643e584eda2a4f185d4711a0707e043394414",
+      "currentBlob": "21a643e584eda2a4f185d4711a0707e043394414",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy24-page189-tail-note12a-share-capital.txt",
+      "baselineBlob": "3219441269be3a4e0c0b2d3861620a12c958d8f6",
+      "currentBlob": "3219441269be3a4e0c0b2d3861620a12c958d8f6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy24-page190-note12b-reserves-and-surplus.txt",
+      "baselineBlob": "b493cff48f743430c8855a958d1584076cd387c5",
+      "currentBlob": "b493cff48f743430c8855a958d1584076cd387c5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy24-page254-statement-of-changes-capital-history.txt",
+      "baselineBlob": "88218d09dfb47bc796894f789a8a1f5b08841376",
+      "currentBlob": "88218d09dfb47bc796894f789a8a1f5b08841376",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy25-page185-note12a-consolidated-equity-share-capital.txt",
+      "baselineBlob": "1be0a8bf634d1c545ece0c4353400bbbd0921010",
+      "currentBlob": "1be0a8bf634d1c545ece0c4353400bbbd0921010",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy25-page186-note12a-continued.txt",
+      "baselineBlob": "71048eae22e67aad2cdb5411e94332f9cf473313",
+      "currentBlob": "71048eae22e67aad2cdb5411e94332f9cf473313",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy25-page229-standalone-note12a-share-capital.txt",
+      "baselineBlob": "fd4b4999442b3ace08a01d8949d41b367aa5e7a6",
+      "currentBlob": "fd4b4999442b3ace08a01d8949d41b367aa5e7a6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy25-page230-standalone-note12a-continued.txt",
+      "baselineBlob": "1a1992b9b5ec93b04f53514528178a25e1a26802",
+      "currentBlob": "1a1992b9b5ec93b04f53514528178a25e1a26802",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy25-page252-statement-of-changes-capital-history.txt",
+      "baselineBlob": "7397714ae187882526ca79ea726c386669c22d53",
+      "currentBlob": "7397714ae187882526ca79ea726c386669c22d53",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy26-page205-note12a-consolidated-equity-share-capital.txt",
+      "baselineBlob": "8ecca2f896d2a637fa64e44fc7b55e8247e26da4",
+      "currentBlob": "8ecca2f896d2a637fa64e44fc7b55e8247e26da4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy26-page250-standalone-note12a-share-capital.txt",
+      "baselineBlob": "8f571e50fd1183bb83fe0f7f762022f3da8f7950",
+      "currentBlob": "8f571e50fd1183bb83fe0f7f762022f3da8f7950",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy26-page251-standalone-note12a-continued.txt",
+      "baselineBlob": "9c5c8f7e99c090b17378bf0b24c49829c5f6f0e0",
+      "currentBlob": "9c5c8f7e99c090b17378bf0b24c49829c5f6f0e0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/fy26-page275-statement-of-changes-capital-history.txt",
+      "baselineBlob": "dd874e12f447048faa5e1196cdfbe2121719b2b9",
+      "currentBlob": "dd874e12f447048faa5e1196cdfbe2121719b2b9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/source/preference-mention-index.json",
+      "baselineBlob": "171397deb92bae7bbeea21721e1df2828e47ced4",
+      "currentBlob": "171397deb92bae7bbeea21721e1df2828e47ced4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/README.md",
+      "baselineBlob": "8c0359fd0399f286a1f2a20053405604f49043c4",
+      "currentBlob": "8c0359fd0399f286a1f2a20053405604f49043c4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/determination.json",
+      "baselineBlob": "9f7a1e0b5c26b0ea3fbb58cc8795e5f787cfbf7b",
+      "currentBlob": "9f7a1e0b5c26b0ea3fbb58cc8795e5f787cfbf7b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/digests.json",
+      "baselineBlob": "21e788ec2017eaf9a25e1a20e5056d9c9e4fa8a5",
+      "currentBlob": "21e788ec2017eaf9a25e1a20e5056d9c9e4fa8a5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/probe/runner-probe.py",
+      "baselineBlob": "9c4c37551f0319612d8f5631ca937ee250707f64",
+      "currentBlob": "9c4c37551f0319612d8f5631ca937ee250707f64",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/probe/test_fact_context.py",
+      "baselineBlob": "e0911ed58e35bb0c482634513872ec4d812298a4",
+      "currentBlob": "e0911ed58e35bb0c482634513872ec4d812298a4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/decisive-report.txt",
+      "baselineBlob": "fb6a4472409ddac9332aa9b5d3dbf49373bc39a1",
+      "currentBlob": "fb6a4472409ddac9332aa9b5d3dbf49373bc39a1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/discovery-report.txt",
+      "baselineBlob": "d520a9b3b22f50232c61e433e70731a4d97f4c14",
+      "currentBlob": "d520a9b3b22f50232c61e433e70731a4d97f4c14",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/fact-context-report.txt",
+      "baselineBlob": "54d74739c502e5dab4d3526dba3e980b88b0f826",
+      "currentBlob": "54d74739c502e5dab4d3526dba3e980b88b0f826",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/filings-report.txt",
+      "baselineBlob": "7a7ec89c9644205354fb0d4a7498223a45fbe481",
+      "currentBlob": "7a7ec89c9644205354fb0d4a7498223a45fbe481",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/followup-local-checks.txt",
+      "baselineBlob": "a9332c5f864625b383240b5021bcf847784c656f",
+      "currentBlob": "a9332c5f864625b383240b5021bcf847784c656f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/local-checks.txt",
+      "baselineBlob": "89d54a490e76005e97b02792a0c4ec8c5b6bf6db",
+      "currentBlob": "89d54a490e76005e97b02792a0c4ec8c5b6bf6db",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/original-log-hashes.json",
+      "baselineBlob": "5970bf415f7fa35b53dc85f0107054ed69479702",
+      "currentBlob": "5970bf415f7fa35b53dc85f0107054ed69479702",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/retrieval-report.txt",
+      "baselineBlob": "8c51bede5f9c1861771eb02d5239e871d921eab9",
+      "currentBlob": "8c51bede5f9c1861771eb02d5239e871d921eab9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/template-report.txt",
+      "baselineBlob": "fe8a1722f9afe638a2d0ea8b1ff877420ddb5b90",
+      "currentBlob": "fe8a1722f9afe638a2d0ea8b1ff877420ddb5b90",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/runs/xbrl-report.txt",
+      "baselineBlob": "7f4c6094cdf4f48866fe56a185e20a459badf99b",
+      "currentBlob": "7f4c6094cdf4f48866fe56a185e20a459badf99b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/source/march-consolidated-xbrl.gz",
+      "baselineBlob": "c2b0d43fc263bc96bde9ba984e69b2466bad9196",
+      "currentBlob": "c2b0d43fc263bc96bde9ba984e69b2466bad9196",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/source/march-rendered.gz",
+      "baselineBlob": "ad1643c0743d1dfa80fef9fbaf7236569b39f8a1",
+      "currentBlob": "ad1643c0743d1dfa80fef9fbaf7236569b39f8a1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/source/march-standalone-xbrl.gz",
+      "baselineBlob": "7a007b3bdba191f5464f5427f7484f6cc09b6383",
+      "currentBlob": "7a007b3bdba191f5464f5427f7484f6cc09b6383",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI12-L039-CURRENT-INVESTMENTS-2026-11-05/source/september-consolidated-xbrl.gz",
+      "baselineBlob": "e5c39dfed4057ae477c55dab4d880d634bc2beb6",
+      "currentBlob": "e5c39dfed4057ae477c55dab4d880d634bc2beb6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/README.md",
+      "baselineBlob": "fe534fa682d2bccb5ee1cf94b69c09850dee05d9",
+      "currentBlob": "fe534fa682d2bccb5ee1cf94b69c09850dee05d9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/artifact/assessment-payload-wi2.json",
+      "baselineBlob": "847f93746b23947ed2c8c151d1a9bbf1961cc897",
+      "currentBlob": "847f93746b23947ed2c8c151d1a9bbf1961cc897",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/artifact/payload-diff-vs-d3-baseline.json",
+      "baselineBlob": "9a65b52d8aa11c5a8854dbaa207d9a6c38c31d6a",
+      "currentBlob": "9a65b52d8aa11c5a8854dbaa207d9a6c38c31d6a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/corporateActions.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/coverage-report.json",
+      "baselineBlob": "5261f2c453212a02b8494adde5f3349e1236ddb3",
+      "currentBlob": "5261f2c453212a02b8494adde5f3349e1236ddb3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/issuers.json",
+      "baselineBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "currentBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/issues.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/listings.json",
+      "baselineBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "currentBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/manifest.json",
+      "baselineBlob": "c8c93d353a3cb98a8d20d16433f15f7b0708257e",
+      "currentBlob": "c8c93d353a3cb98a8d20d16433f15f7b0708257e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/operatingMetrics.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/periods.json",
+      "baselineBlob": "61263b89751812bf1f00efdc3e40dd9f23504848",
+      "currentBlob": "61263b89751812bf1f00efdc3e40dd9f23504848",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/prices.json",
+      "baselineBlob": "0da15f259f168aafa086a52b0a3e3cdf13e13b07",
+      "currentBlob": "0da15f259f168aafa086a52b0a3e3cdf13e13b07",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/dataset/securities.json",
+      "baselineBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "currentBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/digests.json",
+      "baselineBlob": "e0a313929b081836fede49c646c942df94feb81e",
+      "currentBlob": "e0a313929b081836fede49c646c942df94feb81e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/ingest-input/periods.csv",
+      "baselineBlob": "14d19ad8f77796677f59b92c7d89e93f0ea08eb5",
+      "currentBlob": "14d19ad8f77796677f59b92c7d89e93f0ea08eb5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/ingest-input/prices.json",
+      "baselineBlob": "9e8498a3a28b5479623e1d9be4868b845ac45abb",
+      "currentBlob": "9e8498a3a28b5479623e1d9be4868b845ac45abb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/ingest-input/roster.json",
+      "baselineBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "currentBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/01-ingest.txt",
+      "baselineBlob": "5a8f7eec606567016d06ed3b00b214dfc670a037",
+      "currentBlob": "5a8f7eec606567016d06ed3b00b214dfc670a037",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/02-generate.txt",
+      "baselineBlob": "9bad2cf95dfaf46fcc325df608462f717b65ba00",
+      "currentBlob": "9bad2cf95dfaf46fcc325df608462f717b65ba00",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/03-baseline-ingest.txt",
+      "baselineBlob": "cdce98ea3e07b7588c58a8cc5bf3578613b180eb",
+      "currentBlob": "cdce98ea3e07b7588c58a8cc5bf3578613b180eb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/04-baseline-d3-reconstruction.json",
+      "baselineBlob": "5707bd6f331e531f92b235111c8cee31745d0439",
+      "currentBlob": "5707bd6f331e531f92b235111c8cee31745d0439",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/04-baseline-d3-reconstruction.txt",
+      "baselineBlob": "6100084a92dc0d17dae8c041dfdbdcc99000cb95",
+      "currentBlob": "6100084a92dc0d17dae8c041dfdbdcc99000cb95",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/05-verification.txt",
+      "baselineBlob": "6d75616b7090f6399e20a7505d7cb0d003419176",
+      "currentBlob": "6d75616b7090f6399e20a7505d7cb0d003419176",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/06-payload-verify.json",
+      "baselineBlob": "41482047783a60f8e288d811a20470914a6fb3de",
+      "currentBlob": "41482047783a60f8e288d811a20470914a6fb3de",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/cli-wi2-created.json",
+      "baselineBlob": "de1e9b262fbf03c5bab6566f925f6255be4618a9",
+      "currentBlob": "de1e9b262fbf03c5bab6566f925f6255be4618a9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/cli-wi2-created.replay.json",
+      "baselineBlob": "26c061c67056e4c9ba36045c7ac2a5d6a7193322",
+      "currentBlob": "26c061c67056e4c9ba36045c7ac2a5d6a7193322",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/runs/commands.txt",
+      "baselineBlob": "19bdd77c61969ddb0260c9a10e6c6a20e5d97dbe",
+      "currentBlob": "19bdd77c61969ddb0260c9a10e6c6a20e5d97dbe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/source/bse-bhavcopy-2026-11-06-INFY-extract.csv",
+      "baselineBlob": "f86c5fddfea164f7ec3b366b18a04d1db85a5207",
+      "currentBlob": "f86c5fddfea164f7ec3b366b18a04d1db85a5207",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/source/retrieval.json",
+      "baselineBlob": "eead3c8bc38dbc5672cc0c7b4d2866876ac8f8ed",
+      "currentBlob": "eead3c8bc38dbc5672cc0c7b4d2866876ac8f8ed",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/README.md",
+      "baselineBlob": "2e07d9a5ac4fd8c0dac454888a56d2c0baae7785",
+      "currentBlob": "2e07d9a5ac4fd8c0dac454888a56d2c0baae7785",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/assessment-payload-wi3.json",
+      "baselineBlob": "f858590944e05f0f87ab21027cb14f492e2d3a64",
+      "currentBlob": "f858590944e05f0f87ab21027cb14f492e2d3a64",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/artifact/payload-diff-vs-wi2.json",
+      "baselineBlob": "8350b1b8a72fca7c5723753d69342c552818ddbf",
+      "currentBlob": "8350b1b8a72fca7c5723753d69342c552818ddbf",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/corporateActions.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/coverage-report.json",
+      "baselineBlob": "8fa75181003d4081f74c49ade4ca23ddc0f7b766",
+      "currentBlob": "8fa75181003d4081f74c49ade4ca23ddc0f7b766",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/issuers.json",
+      "baselineBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "currentBlob": "a5bb51e93d46df89b007883255a66288ff3e8cae",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/issues.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/listings.json",
+      "baselineBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "currentBlob": "f053b843ae1014cf3ce958bd4855a4dc64dfe44c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/manifest.json",
+      "baselineBlob": "78dc068c6c016a8df99df7fe30f778e78dcdaf3c",
+      "currentBlob": "78dc068c6c016a8df99df7fe30f778e78dcdaf3c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/operatingMetrics.json",
+      "baselineBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "currentBlob": "fe51488c7066f6687ef680d6bfaa4f7768ef205c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/periods.json",
+      "baselineBlob": "d7cf4b6fcc15752f8bc46efccf5a88c47b3a2a9a",
+      "currentBlob": "d7cf4b6fcc15752f8bc46efccf5a88c47b3a2a9a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/prices.json",
+      "baselineBlob": "0da15f259f168aafa086a52b0a3e3cdf13e13b07",
+      "currentBlob": "0da15f259f168aafa086a52b0a3e3cdf13e13b07",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/dataset/securities.json",
+      "baselineBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "currentBlob": "497cff8aab5244c4a896f3e1bc502162b00c55c0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/digests.json",
+      "baselineBlob": "84d97acd834f559879c0fbdbd13aa96a476b51fe",
+      "currentBlob": "84d97acd834f559879c0fbdbd13aa96a476b51fe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/identity/corporate-actions.json",
+      "baselineBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "currentBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/identity/eligible-roster.json",
+      "baselineBlob": "4d0550b7e9b951b027e5d6735c10236168864183",
+      "currentBlob": "4d0550b7e9b951b027e5d6735c10236168864183",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/identity/listing-map.json",
+      "baselineBlob": "f28848af57d46dce038d6587272677e41a35c85d",
+      "currentBlob": "f28848af57d46dce038d6587272677e41a35c85d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/periods.csv",
+      "baselineBlob": "9d379600070165ca1b506a84b1cbb85334d788ca",
+      "currentBlob": "9d379600070165ca1b506a84b1cbb85334d788ca",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/prices.json",
+      "baselineBlob": "9e8498a3a28b5479623e1d9be4868b845ac45abb",
+      "currentBlob": "9e8498a3a28b5479623e1d9be4868b845ac45abb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/roster.json",
+      "baselineBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "currentBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/01-ingest.txt",
+      "baselineBlob": "6d5826dc35e52c857994b5cc9deec142679cfdcd",
+      "currentBlob": "6d5826dc35e52c857994b5cc9deec142679cfdcd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/02-generate.txt",
+      "baselineBlob": "f2cac15168e63a0b56e3bc8b579098d2e5f190d3",
+      "currentBlob": "f2cac15168e63a0b56e3bc8b579098d2e5f190d3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/05-verification.txt",
+      "baselineBlob": "e853092faf7b222a0f53e43146c00c0993d9817b",
+      "currentBlob": "e853092faf7b222a0f53e43146c00c0993d9817b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/06-payload-verify.json",
+      "baselineBlob": "f05ed650b19347155b6149076bbc3fe3f16f4457",
+      "currentBlob": "f05ed650b19347155b6149076bbc3fe3f16f4457",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/07-clean-clone.txt",
+      "baselineBlob": "120a4beb2cbf6b1ae16dc4254bf9b1bba3445850",
+      "currentBlob": "120a4beb2cbf6b1ae16dc4254bf9b1bba3445850",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/cli-wi3-created.json",
+      "baselineBlob": "9bb21ee99ae3c31b7571f5bfa435728328a7dc24",
+      "currentBlob": "9bb21ee99ae3c31b7571f5bfa435728328a7dc24",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/cli-wi3-created.replay.json",
+      "baselineBlob": "2d932785abdd8cfa8df583d9314a96d33d4108c8",
+      "currentBlob": "2d932785abdd8cfa8df583d9314a96d33d4108c8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/runs/commands.txt",
+      "baselineBlob": "c65f99a49604d0e1392ae3f69d772c912c430e1b",
+      "currentBlob": "c65f99a49604d0e1392ae3f69d772c912c430e1b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/consol-fy24-note-2.11-liquidity-risk.txt",
+      "baselineBlob": "2356c005b312cd4c745a51ce6c30e9de1ddf1cba",
+      "currentBlob": "2356c005b312cd4c745a51ce6c30e9de1ddf1cba",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/consol-fy24-note-2.12-equity-share-capital.txt",
+      "baselineBlob": "dbd1a82bcaa6c3bbef29a3e063f6345592fefc71",
+      "currentBlob": "dbd1a82bcaa6c3bbef29a3e063f6345592fefc71",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/consol-fy24-note-2.9-cash-restricted.txt",
+      "baselineBlob": "d049bde5bbaa845e1556106dcfdfbbe068e5b1f0",
+      "currentBlob": "d049bde5bbaa845e1556106dcfdfbbe068e5b1f0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/source/quotes.json",
+      "baselineBlob": "6f6688e63c19080172831b4f62d9de6c090946d2",
+      "currentBlob": "6f6688e63c19080172831b4f62d9de6c090946d2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/README.md",
+      "baselineBlob": "1a20a3d0031a0526f7954f58be01ab32eca6a91b",
+      "currentBlob": "1a20a3d0031a0526f7954f58be01ab32eca6a91b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/artifact/investigation.json",
+      "baselineBlob": "dd14331eec1d589c4cdf372f3b36bd3670232ef4",
+      "currentBlob": "dd14331eec1d589c4cdf372f3b36bd3670232ef4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/digests.json",
+      "baselineBlob": "35742d25cdfc86a4abd4f7494e9385553c33ce29",
+      "currentBlob": "35742d25cdfc86a4abd4f7494e9385553c33ce29",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/runs/01-checks.txt",
+      "baselineBlob": "8ce9645e69122077117849be1962548f36db8628",
+      "currentBlob": "8ce9645e69122077117849be1962548f36db8628",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/runs/02-guard-test.txt",
+      "baselineBlob": "d7d93bad56836931911f863948deb42f1fb1a643",
+      "currentBlob": "d7d93bad56836931911f863948deb42f1fb1a643",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/runs/commands.txt",
+      "baselineBlob": "e03f90205cc22116140be3b9ffe370f35055068a",
+      "currentBlob": "e03f90205cc22116140be3b9ffe370f35055068a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/runs/targeted-tests.txt",
+      "baselineBlob": "68a074d2a7cf028e8567f461a5182db54d97f849",
+      "currentBlob": "68a074d2a7cf028e8567f461a5182db54d97f849",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy23-balance-sheet-investments.txt",
+      "baselineBlob": "4e9039af7a3eddbf7f7ca940f54bc08f911c21d7",
+      "currentBlob": "4e9039af7a3eddbf7f7ca940f54bc08f911c21d7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy23-note-2.19-other-income.txt",
+      "baselineBlob": "94bda555d5a3e4c05134dd37856ea343fdd1ca31",
+      "currentBlob": "94bda555d5a3e4c05134dd37856ea343fdd1ca31",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy23-note-2.25-cfs-annexure.txt",
+      "baselineBlob": "a55ca1c4bd777d369b32562e9fa5616b59309b3e",
+      "currentBlob": "a55ca1c4bd777d369b32562e9fa5616b59309b3e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy23-note-2.25-related-parties.txt",
+      "baselineBlob": "5e54da56e6c4ec065da0642db3a4b3c1e2ca30b8",
+      "currentBlob": "5e54da56e6c4ec065da0642db3a4b3c1e2ca30b8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy23-note-2.5-investments.txt",
+      "baselineBlob": "93b6242433de3396b274f74ab76d61863ce4427b",
+      "currentBlob": "93b6242433de3396b274f74ab76d61863ce4427b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy23-note-2.5.1-details.txt",
+      "baselineBlob": "4e2a96ecad7656cbde98bf6da62806ead7fdb08a",
+      "currentBlob": "4e2a96ecad7656cbde98bf6da62806ead7fdb08a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy23-pl-no-associates-line.txt",
+      "baselineBlob": "3c41ad94a30e2c0258ff1c3327cbc4c0c87eafc4",
+      "currentBlob": "3c41ad94a30e2c0258ff1c3327cbc4c0c87eafc4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-balance-sheet-investments.txt",
+      "baselineBlob": "6c483176b1af10f2295ecba1e4baf67e04c3342e",
+      "currentBlob": "6c483176b1af10f2295ecba1e4baf67e04c3342e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-note-1.3-basis-of-consolidation.txt",
+      "baselineBlob": "4687d9dee9e5ec7e66343c917ec3cfd6e9f18519",
+      "currentBlob": "4687d9dee9e5ec7e66343c917ec3cfd6e9f18519",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-note-2.19-other-income.txt",
+      "baselineBlob": "b983527807a859e6d0621df3f28d5e170ed05377",
+      "currentBlob": "b983527807a859e6d0621df3f28d5e170ed05377",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-note-2.25-cfs-annexure.txt",
+      "baselineBlob": "ce4335a26611611736239014f47798d143062703",
+      "currentBlob": "ce4335a26611611736239014f47798d143062703",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-note-2.25-related-parties.txt",
+      "baselineBlob": "59a522062365144528265e6ea8ac35136ea9ee8d",
+      "currentBlob": "59a522062365144528265e6ea8ac35136ea9ee8d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-note-2.5-investments.txt",
+      "baselineBlob": "faa6f5e8abfc3e5696e0128068f32333cc3680b4",
+      "currentBlob": "faa6f5e8abfc3e5696e0128068f32333cc3680b4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-note-2.5.1-details.txt",
+      "baselineBlob": "238b4effc58f7a3491d7e043552abefe7c0e577a",
+      "currentBlob": "238b4effc58f7a3491d7e043552abefe7c0e577a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-notes-2.13-to-2.27-sweep.txt",
+      "baselineBlob": "70b0627cea6cd10a78d295651858d8e8155dd53d",
+      "currentBlob": "70b0627cea6cd10a78d295651858d8e8155dd53d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/fy24-pl-no-associates-line.txt",
+      "baselineBlob": "ab5e856cc4cff909823a33dd31fbdcdd2e570669",
+      "currentBlob": "ab5e856cc4cff909823a33dd31fbdcdd2e570669",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI4-ASSOCIATES-CARRYING-VALUE-2026-11-06/source/quotes.json",
+      "baselineBlob": "d2e0cd6aa569e666fbf750cb55a76dc1d0a03341",
+      "currentBlob": "d2e0cd6aa569e666fbf750cb55a76dc1d0a03341",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/README.md",
+      "baselineBlob": "3bb570da414beb2f710a27d1a0aea8dbb90a9b13",
+      "currentBlob": "3bb570da414beb2f710a27d1a0aea8dbb90a9b13",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/artifact/assessment-payload-wi5.json",
+      "baselineBlob": "ddde644e0eef3f917cd35cfcfea12c9dbc39f757",
+      "currentBlob": "ddde644e0eef3f917cd35cfcfea12c9dbc39f757",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/artifact/superseded/assessment-payload-wi5-withdrawn-preference-nil.json",
+      "baselineBlob": "9c22d29d193f99db73750e4debb49b199424c129",
+      "currentBlob": "9c22d29d193f99db73750e4debb49b199424c129",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/digests.json",
+      "baselineBlob": "e4b48f329171a555149477b89ef73e50c7202524",
+      "currentBlob": "e4b48f329171a555149477b89ef73e50c7202524",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/identity/corporate-actions.json",
+      "baselineBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "currentBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/identity/eligible-roster.json",
+      "baselineBlob": "8b644b58c20e8462079f9eae73f78c75184f70ed",
+      "currentBlob": "8b644b58c20e8462079f9eae73f78c75184f70ed",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/identity/listing-map.json",
+      "baselineBlob": "b233f2db7a07b20f3acb9a1f15f0bc131b6bc969",
+      "currentBlob": "b233f2db7a07b20f3acb9a1f15f0bc131b6bc969",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/ingest-input/periods.csv",
+      "baselineBlob": "b87f55f148793d414b91268a3568e80d90fe5ed7",
+      "currentBlob": "b87f55f148793d414b91268a3568e80d90fe5ed7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/ingest-input/prices.json",
+      "baselineBlob": "c90388ed30493a87bd2cef15d029b9c7f93b4673",
+      "currentBlob": "c90388ed30493a87bd2cef15d029b9c7f93b4673",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/ingest-input/roster.json",
+      "baselineBlob": "20c20f2cdd9b51ad2559765222c50d00e18cf95e",
+      "currentBlob": "20c20f2cdd9b51ad2559765222c50d00e18cf95e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/01-ingest.txt",
+      "baselineBlob": "2f00f9978184a20ade964e9227e08251d5f2ddc6",
+      "currentBlob": "2f00f9978184a20ade964e9227e08251d5f2ddc6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/02-generate.txt",
+      "baselineBlob": "d1c875e66c38843a614d6422c227a39e5ea38626",
+      "currentBlob": "d1c875e66c38843a614d6422c227a39e5ea38626",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/03-guard-test.txt",
+      "baselineBlob": "851775836350612eab4f9b99e37228eb6724cf3d",
+      "currentBlob": "851775836350612eab4f9b99e37228eb6724cf3d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/04-typecheck.txt",
+      "baselineBlob": "959a292f0897837efbbd9f65a015751075a43d02",
+      "currentBlob": "959a292f0897837efbbd9f65a015751075a43d02",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/06-payload-verify.json",
+      "baselineBlob": "7945b5a3f58bfa28e5433f4c04ed7a4e8f063ad3",
+      "currentBlob": "7945b5a3f58bfa28e5433f4c04ed7a4e8f063ad3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/07-clean-clone.txt",
+      "baselineBlob": "56fc66d7ca1c16b32c7431f8b0de4bce42883a5e",
+      "currentBlob": "56fc66d7ca1c16b32c7431f8b0de4bce42883a5e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/cli-wi5-corrected.json",
+      "baselineBlob": "89748b793142f78d2eb5994c134d00849f6fc57b",
+      "currentBlob": "89748b793142f78d2eb5994c134d00849f6fc57b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/commands.txt",
+      "baselineBlob": "73eac82049dae3efdcf7191929f973b9863c11d2",
+      "currentBlob": "73eac82049dae3efdcf7191929f973b9863c11d2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/superseded/01-ingest-withdrawn-nil.txt",
+      "baselineBlob": "25ecc0b1deeafd4fcb02fd2d57f16cf3176c4d5e",
+      "currentBlob": "25ecc0b1deeafd4fcb02fd2d57f16cf3176c4d5e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/superseded/02-generate-withdrawn-nil.txt",
+      "baselineBlob": "325e8c81b244e4162b1089ce1a8a4dae8d6e1de7",
+      "currentBlob": "325e8c81b244e4162b1089ce1a8a4dae8d6e1de7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/runs/superseded/cli-wi5-withdrawn-nil.json",
+      "baselineBlob": "fcf570f2a31ac5983ce38d56e2aaa3e2fa652203",
+      "currentBlob": "fcf570f2a31ac5983ce38d56e2aaa3e2fa652203",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/consol-fy23-balance-sheet-borrowings.txt",
+      "baselineBlob": "40f20695355d71b5a60fc29be8e2d29459adee2a",
+      "currentBlob": "40f20695355d71b5a60fc29be8e2d29459adee2a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/consol-fy24-balance-sheet-borrowings.txt",
+      "baselineBlob": "288cdaa522755e8cf8f144abc4ac9e9cf9bf777d",
+      "currentBlob": "288cdaa522755e8cf8f144abc4ac9e9cf9bf777d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/consol-fy24-note-13-share-capital.txt",
+      "baselineBlob": "d92685d085da825a45a18bf7f8bf8f246324de4c",
+      "currentBlob": "d92685d085da825a45a18bf7f8bf8f246324de4c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/consol-fy24-note-40-financial-risk-management.txt",
+      "baselineBlob": "f2b8af50d06557a864b7a4067a43cbaba2dfc13c",
+      "currentBlob": "f2b8af50d06557a864b7a4067a43cbaba2dfc13c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/preference-capital-investigation.txt",
+      "baselineBlob": "fa31d9e8ae1d62c16899b0b6959295de0263342d",
+      "currentBlob": "fa31d9e8ae1d62c16899b0b6959295de0263342d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI5-PREFERENCE-CAPITAL-2026-11-07/source/quotes.json",
+      "baselineBlob": "49694453b5160b9f4b56123201a46abfc1a85273",
+      "currentBlob": "49694453b5160b9f4b56123201a46abfc1a85273",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/README.md",
+      "baselineBlob": "68183507f2c74fb74a23697dbd2d9074a1ad158f",
+      "currentBlob": "68183507f2c74fb74a23697dbd2d9074a1ad158f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/candidates.json",
+      "baselineBlob": "4a580135ae0ae9f092188da1871510f1932bc307",
+      "currentBlob": "4a580135ae0ae9f092188da1871510f1932bc307",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/digests.json",
+      "baselineBlob": "8a2357b4204992e1fc68dced4fccee995b2506ad",
+      "currentBlob": "8a2357b4204992e1fc68dced4fccee995b2506ad",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/runs/02-guard-test.txt",
+      "baselineBlob": "a3d3d6b76be691c473a0b3f8478b7390e88c2b40",
+      "currentBlob": "a3d3d6b76be691c473a0b3f8478b7390e88c2b40",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/runs/03-typecheck.txt",
+      "baselineBlob": "959a292f0897837efbbd9f65a015751075a43d02",
+      "currentBlob": "959a292f0897837efbbd9f65a015751075a43d02",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/runs/04-clean-clone.txt",
+      "baselineBlob": "7c3c5a442043642e5957b654ef1b1d64233f0143",
+      "currentBlob": "7c3c5a442043642e5957b654ef1b1d64233f0143",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/runs/commands.txt",
+      "baselineBlob": "64455d1198ff7f0a57ae181b246a0f17f5b136f4",
+      "currentBlob": "64455d1198ff7f0a57ae181b246a0f17f5b136f4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/source/access-blockers.txt",
+      "baselineBlob": "1f38225de65f966084bf331f2136ea10765e47fa",
+      "currentBlob": "1f38225de65f966084bf331f2136ea10765e47fa",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/source/newgen-fy24-note-19-borrowings.txt",
+      "baselineBlob": "0f83a5866102f352a534b5343043c0c21f68a452",
+      "currentBlob": "0f83a5866102f352a534b5343043c0c21f68a452",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/source/sasken-fy24-note-15-equity-share-capital.txt",
+      "baselineBlob": "544db7299603d54817eda5cf6b14fa2b29b35c6e",
+      "currentBlob": "544db7299603d54817eda5cf6b14fa2b29b35c6e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6-SECOND-ISSUER-NIL-SEARCH-2026-11-07/source/sasken-fy24-note-32-capital-management.txt",
+      "baselineBlob": "110d146c3ce4c0181510de19151af3435b4f2e49",
+      "currentBlob": "110d146c3ce4c0181510de19151af3435b4f2e49",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/README.md",
+      "baselineBlob": "b1451e5214694aace2ab328c63c817d3bd44e73a",
+      "currentBlob": "b1451e5214694aace2ab328c63c817d3bd44e73a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/artifact/assessment-payload-zensar-s2.json",
+      "baselineBlob": "d9a4b96ac40b54202af35fc8408c0e61fb7c7701",
+      "currentBlob": "d9a4b96ac40b54202af35fc8408c0e61fb7c7701",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/determination-s2.json",
+      "baselineBlob": "227620ebf3fddd3601aeefdd2588320161dedc17",
+      "currentBlob": "227620ebf3fddd3601aeefdd2588320161dedc17",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/digests.json",
+      "baselineBlob": "b56b67feab8def5cf68c34965cc87b2e7ae7d51b",
+      "currentBlob": "b56b67feab8def5cf68c34965cc87b2e7ae7d51b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/ingest-input/identity/corporate-actions.json",
+      "baselineBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "currentBlob": "3b0f1c8ee7ecec2915329d1eb4181a8abe33481e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/ingest-input/identity/eligible-roster.json",
+      "baselineBlob": "c14253713b62af24af34e5d94717a074b916c899",
+      "currentBlob": "c14253713b62af24af34e5d94717a074b916c899",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/ingest-input/identity/listing-map.json",
+      "baselineBlob": "94619ba3628d39abbc947a34df0ffab91a70fccd",
+      "currentBlob": "94619ba3628d39abbc947a34df0ffab91a70fccd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/ingest-input/periods.csv",
+      "baselineBlob": "adbb810938eef726e69000721be092f69b04700b",
+      "currentBlob": "adbb810938eef726e69000721be092f69b04700b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/ingest-input/roster.json",
+      "baselineBlob": "fa33849273d41468772c2257aa235c2ff27385b0",
+      "currentBlob": "fa33849273d41468772c2257aa235c2ff27385b0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/01-ingest.txt",
+      "baselineBlob": "7219fd971e7a11b605c67344b1c30a0fb27cfa64",
+      "currentBlob": "7219fd971e7a11b605c67344b1c30a0fb27cfa64",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/02-generate.txt",
+      "baselineBlob": "610481c09268aab4aad97788effa09cbe4805550",
+      "currentBlob": "610481c09268aab4aad97788effa09cbe4805550",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/03-guard-test.txt",
+      "baselineBlob": "727d6191b87261413f1cb8ef699f594a40e2e8bd",
+      "currentBlob": "727d6191b87261413f1cb8ef699f594a40e2e8bd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/04-typecheck.txt",
+      "baselineBlob": "275fc1bdfb5aa14c923b9f32385993ecce869347",
+      "currentBlob": "275fc1bdfb5aa14c923b9f32385993ecce869347",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/05-clean-clone.txt",
+      "baselineBlob": "e50ac432ecd02675e41cca031eccf5c645fc52b5",
+      "currentBlob": "e50ac432ecd02675e41cca031eccf5c645fc52b5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/cli-s2.json",
+      "baselineBlob": "09e96773b975f88b0456f72d7b65e981faef5c95",
+      "currentBlob": "09e96773b975f88b0456f72d7b65e981faef5c95",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/commands.txt",
+      "baselineBlob": "37bb48f2ae8835f731fa2d303594161953ce60a9",
+      "currentBlob": "37bb48f2ae8835f731fa2d303594161953ce60a9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/readback-stdout.txt",
+      "baselineBlob": "0eee4000948eb2213f31ab6d2bce30712ea73173",
+      "currentBlob": "0eee4000948eb2213f31ab6d2bce30712ea73173",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/runs/readback.json",
+      "baselineBlob": "ff8b09a1e70ca8fc1d6fcaf3709b5ed346a5515a",
+      "currentBlob": "ff8b09a1e70ca8fc1d6fcaf3709b5ed346a5515a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-balance-sheet-and-profit-and-loss.txt",
+      "baselineBlob": "1337f8ec8e9cce74af6531659925e8063c7066f9",
+      "currentBlob": "1337f8ec8e9cce74af6531659925e8063c7066f9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-note-11b-lease-liabilities.txt",
+      "baselineBlob": "b3978ea8e29f680e3320a7b7ac3006561bad47ec",
+      "currentBlob": "b3978ea8e29f680e3320a7b7ac3006561bad47ec",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-note-27-capital-management.txt",
+      "baselineBlob": "02bb08e0ac4e23805528c39603bc59a16fe12f3b",
+      "currentBlob": "02bb08e0ac4e23805528c39603bc59a16fe12f3b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-consolidated-statement-of-cash-flows.txt",
+      "baselineBlob": "fc375f3c1cafce0e503313efa5d644377db64deb",
+      "currentBlob": "fc375f3c1cafce0e503313efa5d644377db64deb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy23-isin-and-listing-identifiers.txt",
+      "baselineBlob": "01c776e8ee51935b15610818e6cb80a3bc056120",
+      "currentBlob": "01c776e8ee51935b15610818e6cb80a3bc056120",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-balance-sheet-and-profit-and-loss.txt",
+      "baselineBlob": "70bdcc72485623a72183a48cf5227226e7af62ee",
+      "currentBlob": "70bdcc72485623a72183a48cf5227226e7af62ee",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-note-11b-lease-liabilities.txt",
+      "baselineBlob": "f0f6831b77f90e0d3c6e03052045aadf1a9d7acc",
+      "currentBlob": "f0f6831b77f90e0d3c6e03052045aadf1a9d7acc",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-note-27-capital-management.txt",
+      "baselineBlob": "54c89d8463b4a3ce71952e37c3f6b5a61b5d7d53",
+      "currentBlob": "54c89d8463b4a3ce71952e37c3f6b5a61b5d7d53",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-note-33-lease-movement.txt",
+      "baselineBlob": "68fdb8e3784cb214cabe878afd290455abb8b69f",
+      "currentBlob": "68fdb8e3784cb214cabe878afd290455abb8b69f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-consolidated-statement-of-cash-flows.txt",
+      "baselineBlob": "53ded1dd8746e594928dbf8e72f0d1960ae694bc",
+      "currentBlob": "53ded1dd8746e594928dbf8e72f0d1960ae694bc",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/fy24-isin-and-listing-identifiers.txt",
+      "baselineBlob": "2b88bf3ff69289ec6a3f3fe2c5abc53a602b9f46",
+      "currentBlob": "2b88bf3ff69289ec6a3f3fe2c5abc53a602b9f46",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/page-map.json",
+      "baselineBlob": "92892fea505e0217b8d108699b458985a8205002",
+      "currentBlob": "92892fea505e0217b8d108699b458985a8205002",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/quotes-verified.json",
+      "baselineBlob": "eae950eacf3807255659e8e090aceed59807270f",
+      "currentBlob": "eae950eacf3807255659e8e090aceed59807270f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/retrieval-log-s2.txt",
+      "baselineBlob": "2646d7cc3868aea192d02b9e5a24af6aba0fa60f",
+      "currentBlob": "2646d7cc3868aea192d02b9e5a24af6aba0fa60f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-S2-CONSOLIDATED-PAGE-RECOVERY-2026-11-07/source/source-bytes.json",
+      "baselineBlob": "6fbd06de3e9539644ccaa67b452f5322b407f2ad",
+      "currentBlob": "6fbd06de3e9539644ccaa67b452f5322b407f2ad",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/README.md",
+      "baselineBlob": "3058306636a8984fd5bdca624a9ccb7e48698f81",
+      "currentBlob": "3058306636a8984fd5bdca624a9ccb7e48698f81",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/determination-supplemental.json",
+      "baselineBlob": "8165ea67e241d9f5c086c62e8af57a0f8ac6b37c",
+      "currentBlob": "8165ea67e241d9f5c086c62e8af57a0f8ac6b37c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/digests.json",
+      "baselineBlob": "21f0dfc642d635954f9f5b6f8ab0e8e260a28727",
+      "currentBlob": "21f0dfc642d635954f9f5b6f8ab0e8e260a28727",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/runs/02-guard-test.txt",
+      "baselineBlob": "9d13f5b36b91b4bfcef9bb816495a6eaab8003fd",
+      "currentBlob": "9d13f5b36b91b4bfcef9bb816495a6eaab8003fd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/runs/03-typecheck.txt",
+      "baselineBlob": "448198c22ed7a5bfcb28feb31d11ef9d9cb73d10",
+      "currentBlob": "448198c22ed7a5bfcb28feb31d11ef9d9cb73d10",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/runs/04-clean-clone.txt",
+      "baselineBlob": "3465337d282d19f8e72b5089764665f08031876b",
+      "currentBlob": "3465337d282d19f8e72b5089764665f08031876b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/runs/commands.txt",
+      "baselineBlob": "42eb36b10563d1f74270c0bcf3950d23e80ae27d",
+      "currentBlob": "42eb36b10563d1f74270c0bcf3950d23e80ae27d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/source/index-locator-corroboration.txt",
+      "baselineBlob": "b447aabb3892b7e2665eaa351f9a08ac886c9d68",
+      "currentBlob": "b447aabb3892b7e2665eaa351f9a08ac886c9d68",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/source/quotes-owner-reported.json",
+      "baselineBlob": "2f0c5ec80ddd540275ab7d81b74a2db0129336f0",
+      "currentBlob": "2f0c5ec80ddd540275ab7d81b74a2db0129336f0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-SUPPLEMENTAL-ZENSAR-CONSOLIDATED-2026-11-07/source/retrieval-log-supplemental.txt",
+      "baselineBlob": "0d453e55f0c488c3b7043bf95fc2c5eec8d2bb62",
+      "currentBlob": "0d453e55f0c488c3b7043bf95fc2c5eec8d2bb62",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/README.md",
+      "baselineBlob": "c69c52f167339f994f96334781add37f2977c555",
+      "currentBlob": "c69c52f167339f994f96334781add37f2977c555",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/determination.json",
+      "baselineBlob": "33dbfa1836f2a6a814d23f2012878f761bf5bae7",
+      "currentBlob": "33dbfa1836f2a6a814d23f2012878f761bf5bae7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/digests.json",
+      "baselineBlob": "d62361d3c6d12200e189e27b62d74444bffc8335",
+      "currentBlob": "d62361d3c6d12200e189e27b62d74444bffc8335",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/periods.json",
+      "baselineBlob": "a94917de1a44bc2d91d99be78a29188a3135c08d",
+      "currentBlob": "a94917de1a44bc2d91d99be78a29188a3135c08d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/runs/02-guard-test.txt",
+      "baselineBlob": "45c98814aba834328e6d9f0775a49c49c9818fbf",
+      "currentBlob": "45c98814aba834328e6d9f0775a49c49c9818fbf",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/runs/03-typecheck.txt",
+      "baselineBlob": "448198c22ed7a5bfcb28feb31d11ef9d9cb73d10",
+      "currentBlob": "448198c22ed7a5bfcb28feb31d11ef9d9cb73d10",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/runs/04-clean-clone.txt",
+      "baselineBlob": "0e58ee0451c738cd0695d088ab8c1cf9e8ee538e",
+      "currentBlob": "0e58ee0451c738cd0695d088ab8c1cf9e8ee538e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/runs/commands.txt",
+      "baselineBlob": "43be3ae2b8036acf75b6201572b1342a4b61fbe1",
+      "currentBlob": "43be3ae2b8036acf75b6201572b1342a4b61fbe1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/source/access-log.txt",
+      "baselineBlob": "10aa37f11961f846ccd5d2d762be5d653f2e1cf9",
+      "currentBlob": "10aa37f11961f846ccd5d2d762be5d653f2e1cf9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/source/cover-letter-and-index-extract.txt",
+      "baselineBlob": "f5f180a8a18aa88a386b8234aa239ed0943946c1",
+      "currentBlob": "f5f180a8a18aa88a386b8234aa239ed0943946c1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI6A-ZENSAR-PRIMARY-RECOVERY-2026-11-07/source/standalone-sentence-user-report.txt",
+      "baselineBlob": "542465959b466ee52407ca0b16373b3092b9cf23",
+      "currentBlob": "542465959b466ee52407ca0b16373b3092b9cf23",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/README.md",
+      "baselineBlob": "897a4460495e9b8bf678161c8c9661462eb76fd8",
+      "currentBlob": "897a4460495e9b8bf678161c8c9661462eb76fd8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/artifact/assessment-payload-marico-wi7.json",
+      "baselineBlob": "3c8789e1585e53d5606a22f66a8ffcedc231078b",
+      "currentBlob": "3c8789e1585e53d5606a22f66a8ffcedc231078b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/determination-wi7.json",
+      "baselineBlob": "5fef6c0f0effbc274e5f3089794f351f7206c3fe",
+      "currentBlob": "5fef6c0f0effbc274e5f3089794f351f7206c3fe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/digests.json",
+      "baselineBlob": "c723f5bfff43672ca8dc49a60547a1a8b6366799",
+      "currentBlob": "c723f5bfff43672ca8dc49a60547a1a8b6366799",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/data-extraction.json",
+      "baselineBlob": "15c865770c5370b819ff62207bb074f0cfa9df45",
+      "currentBlob": "15c865770c5370b819ff62207bb074f0cfa9df45",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity/corporate-actions.json",
+      "baselineBlob": "1e5efa1d7ff9f766a1078bf93118b52cee19eff1",
+      "currentBlob": "1e5efa1d7ff9f766a1078bf93118b52cee19eff1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity/eligible-roster.json",
+      "baselineBlob": "565688d4f87ccb0a589b5475f31ba6b01d940cef",
+      "currentBlob": "565688d4f87ccb0a589b5475f31ba6b01d940cef",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/identity/listing-map.json",
+      "baselineBlob": "a513cb021952ab1a663ff584d559acb0882343dc",
+      "currentBlob": "a513cb021952ab1a663ff584d559acb0882343dc",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/periods.csv",
+      "baselineBlob": "3b6a303b526ab7de9284265120ac6086e15bd86b",
+      "currentBlob": "3b6a303b526ab7de9284265120ac6086e15bd86b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input/roster.json",
+      "baselineBlob": "92883e90081f514440870d2fb7ab6fb4fcc07e97",
+      "currentBlob": "92883e90081f514440870d2fb7ab6fb4fcc07e97",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/01-ingest.txt",
+      "baselineBlob": "3289c94ddc1e2b13b7a6fcbfcb6bbfe774f6a97b",
+      "currentBlob": "3289c94ddc1e2b13b7a6fcbfcb6bbfe774f6a97b",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/02-generate.txt",
+      "baselineBlob": "4d8f1f4bc7f995625600fd72c55bb9643a233756",
+      "currentBlob": "4d8f1f4bc7f995625600fd72c55bb9643a233756",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/03-guard-test.txt",
+      "baselineBlob": "7e2ebb6da6050db3eeedcf92bb7d195f0f52f2ba",
+      "currentBlob": "7e2ebb6da6050db3eeedcf92bb7d195f0f52f2ba",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/04-typecheck.txt",
+      "baselineBlob": "4448df5288d23310b73f864cd35468f093fc9771",
+      "currentBlob": "4448df5288d23310b73f864cd35468f093fc9771",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/05-clean-clone.txt",
+      "baselineBlob": "9fab2a0b4ca02286942bc1091b639f3c6139c3ab",
+      "currentBlob": "9fab2a0b4ca02286942bc1091b639f3c6139c3ab",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/06-ci-check.txt",
+      "baselineBlob": "4df6fd3dccde43111849c05ba08a269de880cad1",
+      "currentBlob": "4df6fd3dccde43111849c05ba08a269de880cad1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/cli-wi7.json",
+      "baselineBlob": "6fa588181542a6a2d0f2e9d7e9ce3abe432adceb",
+      "currentBlob": "6fa588181542a6a2d0f2e9d7e9ce3abe432adceb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/commands.txt",
+      "baselineBlob": "437d0054d7456045d7310a6706ab42a87b17feb6",
+      "currentBlob": "437d0054d7456045d7310a6706ab42a87b17feb6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/readback-stdout.txt",
+      "baselineBlob": "ee3ceebe17a0c79f36d1a7a8cc1e91248cf85d74",
+      "currentBlob": "ee3ceebe17a0c79f36d1a7a8cc1e91248cf85d74",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/runs/readback.json",
+      "baselineBlob": "ee3ceebe17a0c79f36d1a7a8cc1e91248cf85d74",
+      "currentBlob": "ee3ceebe17a0c79f36d1a7a8cc1e91248cf85d74",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy23-auditor-opinion-consolidated-pdf-page125.txt",
+      "baselineBlob": "95d046e01bbe4294d4249df3af63c98c14adc5c9",
+      "currentBlob": "95d046e01bbe4294d4249df3af63c98c14adc5c9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy23-consolidated-balance-sheet-and-profit-and-loss-pdf-page129.txt",
+      "baselineBlob": "8d5245f27ef0b72915333c25c106ec484967abf1",
+      "currentBlob": "8d5245f27ef0b72915333c25c106ec484967abf1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy23-consolidated-cash-flow-pdf-page131.txt",
+      "baselineBlob": "6e956ff6f3d6dcdff7609df14de916c3d1c707a8",
+      "currentBlob": "6e956ff6f3d6dcdff7609df14de916c3d1c707a8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-auditor-opinion-consolidated-pdf-page169.txt",
+      "baselineBlob": "21cd90818de5120b195b34da4501ccd500053206",
+      "currentBlob": "21cd90818de5120b195b34da4501ccd500053206",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-auditor-opinion-consolidated-pdf-page170.txt",
+      "baselineBlob": "dfe55a78a712b227b0de59e15d0f3c45444a11ac",
+      "currentBlob": "dfe55a78a712b227b0de59e15d0f3c45444a11ac",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-consolidated-balance-sheet-and-profit-and-loss-pdf-page174.txt",
+      "baselineBlob": "e6e2ccf0d5df540b213af5201ca7b45cbe23f82c",
+      "currentBlob": "e6e2ccf0d5df540b213af5201ca7b45cbe23f82c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-consolidated-cash-flow-pdf-page176.txt",
+      "baselineBlob": "ca2ff6d206e1990ae1b79321cbfa48e3793d4768",
+      "currentBlob": "ca2ff6d206e1990ae1b79321cbfa48e3793d4768",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-identity-cin-brsr-pdf-page115.txt",
+      "baselineBlob": "1fecef9a46dd4246ce52f4f2722442483149d813",
+      "currentBlob": "1fecef9a46dd4246ce52f4f2722442483149d813",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-identity-exchange-codes-pdf-page5.txt",
+      "baselineBlob": "5fc9917e6e8346f020a2e08885c19eea44c785a8",
+      "currentBlob": "5fc9917e6e8346f020a2e08885c19eea44c785a8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-identity-listing-details-pdf-page159.txt",
+      "baselineBlob": "2100c977fe561bf32e7a08a527950cfae70e5473",
+      "currentBlob": "2100c977fe561bf32e7a08a527950cfae70e5473",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-notes-12c-and-13a-pdf-page191.txt",
+      "baselineBlob": "400de5580ad9a1d8ea5a0b07d751ec3af9b6ebfd",
+      "currentBlob": "400de5580ad9a1d8ea5a0b07d751ec3af9b6ebfd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/fy24-notes-13a-current-and-13b-pdf-page192.txt",
+      "baselineBlob": "e469691cb0eb6e38df29bae1463d82cc1f0683fe",
+      "currentBlob": "e469691cb0eb6e38df29bae1463d82cc1f0683fe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/identity-verified.json",
+      "baselineBlob": "66076794a32c4917e9ee5a20aa2f27de82bedde3",
+      "currentBlob": "66076794a32c4917e9ee5a20aa2f27de82bedde3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/page-map.json",
+      "baselineBlob": "37e2a6ce047b3b3294987efc041c272c0325a00f",
+      "currentBlob": "37e2a6ce047b3b3294987efc041c272c0325a00f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/source/source-bytes.json",
+      "baselineBlob": "d7c44a3cd3a5c601ab70ed21912adfc310b816fd",
+      "currentBlob": "d7c44a3cd3a5c601ab70ed21912adfc310b816fd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/README.md",
+      "baselineBlob": "2da793ddbe477c97564f374c62b44be76b11c731",
+      "currentBlob": "2da793ddbe477c97564f374c62b44be76b11c731",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/artifact/assessment-payload-marico-l038.json",
+      "baselineBlob": "ba2f161de4cd0bae9d5eb361e88f1260401e32b0",
+      "currentBlob": "ba2f161de4cd0bae9d5eb361e88f1260401e32b0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/determination-l038.json",
+      "baselineBlob": "0a35df1687dad8c12362d1137b44023a80bde323",
+      "currentBlob": "0a35df1687dad8c12362d1137b44023a80bde323",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/digests.json",
+      "baselineBlob": "849f2ba45f862d650f514cf6e9202266f1ffabc1",
+      "currentBlob": "849f2ba45f862d650f514cf6e9202266f1ffabc1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/data-extraction.json",
+      "baselineBlob": "ee8b98d606e3dacbcc7a5435b52208aec02eedb1",
+      "currentBlob": "ee8b98d606e3dacbcc7a5435b52208aec02eedb1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/identity/corporate-actions.json",
+      "baselineBlob": "1e5efa1d7ff9f766a1078bf93118b52cee19eff1",
+      "currentBlob": "1e5efa1d7ff9f766a1078bf93118b52cee19eff1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/identity/eligible-roster.json",
+      "baselineBlob": "565688d4f87ccb0a589b5475f31ba6b01d940cef",
+      "currentBlob": "565688d4f87ccb0a589b5475f31ba6b01d940cef",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/identity/listing-map.json",
+      "baselineBlob": "a513cb021952ab1a663ff584d559acb0882343dc",
+      "currentBlob": "a513cb021952ab1a663ff584d559acb0882343dc",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/periods.csv",
+      "baselineBlob": "92fc7a82314a30fdfdc6970f042afbf68f06bebb",
+      "currentBlob": "92fc7a82314a30fdfdc6970f042afbf68f06bebb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input/roster.json",
+      "baselineBlob": "92883e90081f514440870d2fb7ab6fb4fcc07e97",
+      "currentBlob": "92883e90081f514440870d2fb7ab6fb4fcc07e97",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/01-ingest.txt",
+      "baselineBlob": "9b1d194f5789736febf1cdb40dfa9d21d1708715",
+      "currentBlob": "9b1d194f5789736febf1cdb40dfa9d21d1708715",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/02-generate.txt",
+      "baselineBlob": "e7f222fe0da65585eb652bf7a008d6472ed89566",
+      "currentBlob": "e7f222fe0da65585eb652bf7a008d6472ed89566",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/03-readback.json",
+      "baselineBlob": "5a8ec0a90522689455ff8cd15168bca80a95da61",
+      "currentBlob": "5a8ec0a90522689455ff8cd15168bca80a95da61",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/04-payload-diff.json",
+      "baselineBlob": "6c4fdc2d70dd6628524e81df2bb2cbdfaa4eede0",
+      "currentBlob": "6c4fdc2d70dd6628524e81df2bb2cbdfaa4eede0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/05-tests.txt",
+      "baselineBlob": "a47f2c5ce9a90ba112fb0a3984568199c66d3402",
+      "currentBlob": "a47f2c5ce9a90ba112fb0a3984568199c66d3402",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/06-typecheck.txt",
+      "baselineBlob": "93911e37008fbf3f763317c7cf79610c3b79034f",
+      "currentBlob": "93911e37008fbf3f763317c7cf79610c3b79034f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/07-post-manifest-verification.txt",
+      "baselineBlob": "09bd64d1aa2820362cf4836768fbf1e9f7709c85",
+      "currentBlob": "09bd64d1aa2820362cf4836768fbf1e9f7709c85",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/08-clean-clone.txt",
+      "baselineBlob": "975a4121b0bf4cddcb5bab853d31c476a87525e3",
+      "currentBlob": "975a4121b0bf4cddcb5bab853d31c476a87525e3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/09-reproduce-from-committed-input.txt",
+      "baselineBlob": "f5d366f7105dfc466bdee58b9698f57d70eb86dd",
+      "currentBlob": "f5d366f7105dfc466bdee58b9698f57d70eb86dd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/10-net-debt-reconciliation.txt",
+      "baselineBlob": "04f2a06d6c26dc8674692d5622ca64aaf78a1906",
+      "currentBlob": "04f2a06d6c26dc8674692d5622ca64aaf78a1906",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/runs/commands.txt",
+      "baselineBlob": "65dde4a927f8ce7821bf7674d4907d992680a9fe",
+      "currentBlob": "65dde4a927f8ce7821bf7674d4907d992680a9fe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/caption-search-log.txt",
+      "baselineBlob": "a60e8a925f61856e22e30191acc87d68b1d37c0d",
+      "currentBlob": "a60e8a925f61856e22e30191acc87d68b1d37c0d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fetch-log.txt",
+      "baselineBlob": "ca665bf529a6ff6ab7f24fe86eeda800667874ee",
+      "currentBlob": "ca665bf529a6ff6ab7f24fe86eeda800667874ee",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy23-consolidated-balance-sheet-and-profit-and-loss-pdf-page129.txt",
+      "baselineBlob": "61212111592b465567d5dc0ee8fb1193f8ace0ae",
+      "currentBlob": "61212111592b465567d5dc0ee8fb1193f8ace0ae",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy23-note-29-capital-management-company-level-pdf-page209.txt",
+      "baselineBlob": "b993664960e5e5133c341f85c33c4ceda034c04f",
+      "currentBlob": "b993664960e5e5133c341f85c33c4ceda034c04f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy23-note-29-capital-management-pdf-page163.txt",
+      "baselineBlob": "2ca301b1f6317189a8d962646f2726f8926fb6ef",
+      "currentBlob": "2ca301b1f6317189a8d962646f2726f8926fb6ef",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy23-notes-13a-current-and-13b-pdf-page150.txt",
+      "baselineBlob": "2f1d19819628f1a9f0adcdd35f54c4086a772385",
+      "currentBlob": "2f1d19819628f1a9f0adcdd35f54c4086a772385",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy23-notes-13a-non-current-borrowings-and-maturity-pdf-page149.txt",
+      "baselineBlob": "071a8428fc6f4c15743298c8faf4044151ed33a7",
+      "currentBlob": "071a8428fc6f4c15743298c8faf4044151ed33a7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy24-consolidated-balance-sheet-and-profit-and-loss-pdf-page174.txt",
+      "baselineBlob": "2fa1553eef0b1001202c399583300b4e07394d64",
+      "currentBlob": "2fa1553eef0b1001202c399583300b4e07394d64",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy24-note-12a-authorised-and-issued-share-capital-pdf-page189.txt",
+      "baselineBlob": "dc00001346b7f5313d868bd115f6df3c948203b3",
+      "currentBlob": "dc00001346b7f5313d868bd115f6df3c948203b3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy24-notes-13a-current-and-13b-pdf-page192.txt",
+      "baselineBlob": "eeee4baa5638581b33ea7249d5aad0ddf310d331",
+      "currentBlob": "eeee4baa5638581b33ea7249d5aad0ddf310d331",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/fy24-notes-13a-non-current-borrowings-and-maturity-pdf-page191.txt",
+      "baselineBlob": "69be4d52d23496215e521fcca9a7122facb2c711",
+      "currentBlob": "69be4d52d23496215e521fcca9a7122facb2c711",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/page-map.json",
+      "baselineBlob": "8648ab83f33ddf89adcc8609e4cc552739cce3f2",
+      "currentBlob": "8648ab83f33ddf89adcc8609e4cc552739cce3f2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/source/source-bytes.json",
+      "baselineBlob": "fd3030329d34b85c27b80d97bd80de5d37f3c5d1",
+      "currentBlob": "fd3030329d34b85c27b80d97bd80de5d37f3c5d1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/README.md",
+      "baselineBlob": "8d72169902e16279fc901793b9795b123a7d3be3",
+      "currentBlob": "8d72169902e16279fc901793b9795b123a7d3be3",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/determination-l038-residual.json",
+      "baselineBlob": "2d79e18b9fedbc29f4237b114e9384a352d0aecf",
+      "currentBlob": "2d79e18b9fedbc29f4237b114e9384a352d0aecf",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/digests.json",
+      "baselineBlob": "e563ed99a8c2c82c3096c6ebbda9c54b715b4ea4",
+      "currentBlob": "e563ed99a8c2c82c3096c6ebbda9c54b715b4ea4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/probe/cash-side-scan.py",
+      "baselineBlob": "4dceeef15d45b14926678908c487bdcba4292108",
+      "currentBlob": "4dceeef15d45b14926678908c487bdcba4292108",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/probe/preference-re-read.py",
+      "baselineBlob": "887f96f8d3659ffe484fd15ef10194e4a5a9e4b9",
+      "currentBlob": "887f96f8d3659ffe484fd15ef10194e4a5a9e4b9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/probe/probe.ts",
+      "baselineBlob": "eb75d68778b11a233a9486d048e5d2fe8bde3dd0",
+      "currentBlob": "eb75d68778b11a233a9486d048e5d2fe8bde3dd0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/01-probe.txt",
+      "baselineBlob": "668e09768e53699404300a6f7ffd61fb4dec5be2",
+      "currentBlob": "668e09768e53699404300a6f7ffd61fb4dec5be2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/02-published-payload-block.txt",
+      "baselineBlob": "cbf0df635c18224dc196c8438dad54386df73fee",
+      "currentBlob": "cbf0df635c18224dc196c8438dad54386df73fee",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/03-cash-side-corpus-scan.txt",
+      "baselineBlob": "f7d634a25b1ac0864527d5c31fdaf33bb802adef",
+      "currentBlob": "f7d634a25b1ac0864527d5c31fdaf33bb802adef",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/04-preference-capital-re-read.txt",
+      "baselineBlob": "a6f6f63171f336293a72894c95e6345f1c6f9227",
+      "currentBlob": "a6f6f63171f336293a72894c95e6345f1c6f9227",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/05-targeted-tests.txt",
+      "baselineBlob": "139ab7b7689334b95fb5db591bfc798cb2667ef0",
+      "currentBlob": "139ab7b7689334b95fb5db591bfc798cb2667ef0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/06-typecheck.txt",
+      "baselineBlob": "ac985202627e01713de6b69d1fc2ed65a1235f0f",
+      "currentBlob": "ac985202627e01713de6b69d1fc2ed65a1235f0f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/07-manifest-and-payload-verification.txt",
+      "baselineBlob": "f1b5b001030c3b1e7105143b313af316d9a54bf8",
+      "currentBlob": "f1b5b001030c3b1e7105143b313af316d9a54bf8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/08-clean-clone.txt",
+      "baselineBlob": "855834dd3dda88d3a1d592e2c8db3a179cb58945",
+      "currentBlob": "855834dd3dda88d3a1d592e2c8db3a179cb58945",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI7-L038-RESIDUAL-2026-11-08/runs/commands.txt",
+      "baselineBlob": "80fcf97fa1675957d05c5538564b3d8f94c84bf6",
+      "currentBlob": "80fcf97fa1675957d05c5538564b3d8f94c84bf6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/README.md",
+      "baselineBlob": "acbb1f87462d9227583940298531b1425a79aa6e",
+      "currentBlob": "acbb1f87462d9227583940298531b1425a79aa6e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/artifact/assessment-payload-kec-wi8-l040-corrected.json",
+      "baselineBlob": "7b4f711f9b1f31fa3dd8e9759421dd4179959b5c",
+      "currentBlob": "7b4f711f9b1f31fa3dd8e9759421dd4179959b5c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/artifact/assessment-payload-kec-wi8.json",
+      "baselineBlob": "a3c0f773a7f5c2da39c939f33ed7c86fef6d4c44",
+      "currentBlob": "a3c0f773a7f5c2da39c939f33ed7c86fef6d4c44",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/determination-l040-correction.json",
+      "baselineBlob": "314f94b32afe8a43ab2ef50f60220effd2357a27",
+      "currentBlob": "314f94b32afe8a43ab2ef50f60220effd2357a27",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/determination-wi8.json",
+      "baselineBlob": "9dd45b2878918042e62d960d15893f8774efb653",
+      "currentBlob": "9dd45b2878918042e62d960d15893f8774efb653",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/digests.json",
+      "baselineBlob": "f16c4b62ec40ca0ddf982e037e1d2ed342434ce5",
+      "currentBlob": "f16c4b62ec40ca0ddf982e037e1d2ed342434ce5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/data-extraction.json",
+      "baselineBlob": "74d5875f82e99890379086744fcd3897fa420879",
+      "currentBlob": "74d5875f82e99890379086744fcd3897fa420879",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/corporate-actions.json",
+      "baselineBlob": "d3f8cf8d4f168d966249ae53bbe2d1ccfce7ac41",
+      "currentBlob": "d3f8cf8d4f168d966249ae53bbe2d1ccfce7ac41",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/eligible-roster.json",
+      "baselineBlob": "e1a14e5b7de622f322b3a264503ed63907dd939e",
+      "currentBlob": "e1a14e5b7de622f322b3a264503ed63907dd939e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity/listing-map.json",
+      "baselineBlob": "5bc12e91c7a7419dd3be40c0f74ef2492c067813",
+      "currentBlob": "5bc12e91c7a7419dd3be40c0f74ef2492c067813",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/periods.csv",
+      "baselineBlob": "0885f5c3a2b08818b12420c09930e92a6aa94b81",
+      "currentBlob": "0885f5c3a2b08818b12420c09930e92a6aa94b81",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/roster.json",
+      "baselineBlob": "60ad389403eed8cf70f35fd8d8e8cb8b0e08f45c",
+      "currentBlob": "60ad389403eed8cf70f35fd8d8e8cb8b0e08f45c",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/01-ingest.txt",
+      "baselineBlob": "68592b4e7a01899f6a86c390d40ecc571a307ecd",
+      "currentBlob": "68592b4e7a01899f6a86c390d40ecc571a307ecd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/02-generate.txt",
+      "baselineBlob": "cf606c76c468f68a9948a387695241f2e89916f0",
+      "currentBlob": "cf606c76c468f68a9948a387695241f2e89916f0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/03-chain-read.txt",
+      "baselineBlob": "aa3cfaf66a12aaaa5040f226896187eb5ffea7e0",
+      "currentBlob": "aa3cfaf66a12aaaa5040f226896187eb5ffea7e0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/03-generate-again.txt",
+      "baselineBlob": "7d665472a19bd30557ae0dc7abe0c383b9e64327",
+      "currentBlob": "7d665472a19bd30557ae0dc7abe0c383b9e64327",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/04-payload-findings.json",
+      "baselineBlob": "0174b777b6cc26559925cf7bc3b2220b86dc2c65",
+      "currentBlob": "0174b777b6cc26559925cf7bc3b2220b86dc2c65",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/05-guard-test.txt",
+      "baselineBlob": "c251b05f96e4e13f5526d18fd6add1b859182025",
+      "currentBlob": "c251b05f96e4e13f5526d18fd6add1b859182025",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/06-typecheck.txt",
+      "baselineBlob": "d56c37b98c78f94dafa7d7979fe19fa7011cdc5a",
+      "currentBlob": "d56c37b98c78f94dafa7d7979fe19fa7011cdc5a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/07-clean-clone.txt",
+      "baselineBlob": "580dbe70201753bdf3e964cf2c43b2750cb967f6",
+      "currentBlob": "580dbe70201753bdf3e964cf2c43b2750cb967f6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/08-ci-check.txt",
+      "baselineBlob": "3654ebb7926b46e8460e4c6aa4f61bffb05d0758",
+      "currentBlob": "3654ebb7926b46e8460e4c6aa4f61bffb05d0758",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/09-l040-corrected-ingest.txt",
+      "baselineBlob": "408117874c0e3f53665343620e9e81beae7319b5",
+      "currentBlob": "408117874c0e3f53665343620e9e81beae7319b5",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/10-l040-corrected-generate.json",
+      "baselineBlob": "80a50cf7475f5e456827a11f5045a7247ba3f07e",
+      "currentBlob": "80a50cf7475f5e456827a11f5045a7247ba3f07e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/10-l040-corrected-generate.txt",
+      "baselineBlob": "fbbdd2ef845711ff3277af6cb5853434977d4eee",
+      "currentBlob": "fbbdd2ef845711ff3277af6cb5853434977d4eee",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/11-l040-corrected-readback.txt",
+      "baselineBlob": "800ceb9ea35b7f7d648056a6c03b688347a69681",
+      "currentBlob": "800ceb9ea35b7f7d648056a6c03b688347a69681",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/11-l040-readback.json",
+      "baselineBlob": "39b56537c8233cff41a8434c58a3b732cf3c4514",
+      "currentBlob": "39b56537c8233cff41a8434c58a3b732cf3c4514",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/12-l040-payload-diff.json",
+      "baselineBlob": "758d22c20972245e922e36c36cb48fbc4f00b10d",
+      "currentBlob": "758d22c20972245e922e36c36cb48fbc4f00b10d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/13-l040-tests.txt",
+      "baselineBlob": "54bb7f19923e190e1f628c3ccff1e9e54a1bde8a",
+      "currentBlob": "54bb7f19923e190e1f628c3ccff1e9e54a1bde8a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/14-l040-typecheck.txt",
+      "baselineBlob": "e7957db2df912351b75a8e54cc4664bcdbdc4082",
+      "currentBlob": "e7957db2df912351b75a8e54cc4664bcdbdc4082",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/15-l040-clean-clone.txt",
+      "baselineBlob": "6a06c461c3a269d310bda7e621c88f70d58b4b46",
+      "currentBlob": "6a06c461c3a269d310bda7e621c88f70d58b4b46",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/16-l040-ci-check.txt",
+      "baselineBlob": "21a5a4408f28d45df78e8571550695d9c406062f",
+      "currentBlob": "21a5a4408f28d45df78e8571550695d9c406062f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/17-l040-commands.txt",
+      "baselineBlob": "010673b3875108148ffac2c3e37ba09d832371c6",
+      "currentBlob": "010673b3875108148ffac2c3e37ba09d832371c6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/cli-wi8-unchanged.json",
+      "baselineBlob": "462114011718c63847a4c8837ba33c761150306e",
+      "currentBlob": "462114011718c63847a4c8837ba33c761150306e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/cli-wi8.json",
+      "baselineBlob": "88d4df7ab9f5216405fa1dfb61abab9fc1d8daf0",
+      "currentBlob": "88d4df7ab9f5216405fa1dfb61abab9fc1d8daf0",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/commands.txt",
+      "baselineBlob": "ef2b5728e9574b2a0d9688a45c2a81f0a3960081",
+      "currentBlob": "ef2b5728e9574b2a0d9688a45c2a81f0a3960081",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/readback-stdout.txt",
+      "baselineBlob": "2afdb7b94f612e12cbf3f2ec144fc1f4d35d3e94",
+      "currentBlob": "2afdb7b94f612e12cbf3f2ec144fc1f4d35d3e94",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/runs/readback.json",
+      "baselineBlob": "1cb21071ecf6fe115f3a96150659abfcff649990",
+      "currentBlob": "1cb21071ecf6fe115f3a96150659abfcff649990",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-balance-sheet-and-profit-and-loss-pdf-page110.txt",
+      "baselineBlob": "c1b30dfba825ff7ab48f261959f4656943807a20",
+      "currentBlob": "c1b30dfba825ff7ab48f261959f4656943807a20",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-cash-flow-financing-pdf-page112.txt",
+      "baselineBlob": "7df39cd9f05f6e5e38ca9c2f16a67545f2cfd875",
+      "currentBlob": "7df39cd9f05f6e5e38ca9c2f16a67545f2cfd875",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-consolidated-cash-flow-operating-and-investing-pdf-page111.txt",
+      "baselineBlob": "e7920b5e19ad7e627454555bb9ab8028cb171a15",
+      "currentBlob": "e7920b5e19ad7e627454555bb9ab8028cb171a15",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy25-note-30-borrowings-pdf-page129.txt",
+      "baselineBlob": "037203bbcfbd76528870152f2c470066e53d1cfe",
+      "currentBlob": "037203bbcfbd76528870152f2c470066e53d1cfe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-accounting-policy-ind-as-basis-pdf-page120.txt",
+      "baselineBlob": "960ead0b60312d5a5cfc58bed47bff7b8b01bc2f",
+      "currentBlob": "960ead0b60312d5a5cfc58bed47bff7b8b01bc2f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-auditor-opinion-consolidated-pdf-page111.txt",
+      "baselineBlob": "7acb412a424fbd3bff70387cc9b95329a024d93f",
+      "currentBlob": "7acb412a424fbd3bff70387cc9b95329a024d93f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-auditor-signature-and-firm-details-pdf-page115.txt",
+      "baselineBlob": "2db502f5f0bcb7de4f3b9c85657200ee094d87c4",
+      "currentBlob": "2db502f5f0bcb7de4f3b9c85657200ee094d87c4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-balance-sheet-and-profit-and-loss-pdf-page117.txt",
+      "baselineBlob": "de2b62b6069a4ff15d979f57e7c9ca50df268ee4",
+      "currentBlob": "de2b62b6069a4ff15d979f57e7c9ca50df268ee4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt",
+      "baselineBlob": "1a1c202875bf2af04c89a7b33b82cb69239c5f14",
+      "currentBlob": "1a1c202875bf2af04c89a7b33b82cb69239c5f14",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-consolidated-cash-flow-operating-and-investing-pdf-page118.txt",
+      "baselineBlob": "fde7d7b16b8dd29311bf35ef1469a959c08cbb9a",
+      "currentBlob": "fde7d7b16b8dd29311bf35ef1469a959c08cbb9a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-identity-isin-and-listing-pdf-page107.txt",
+      "baselineBlob": "c54b294640edb6e88d9a649ef5e234126c16d332",
+      "currentBlob": "c54b294640edb6e88d9a649ef5e234126c16d332",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-mdna-key-metrics-pdf-page28.txt",
+      "baselineBlob": "ec13e3687c357be1033a75775371dc94532d1be1",
+      "currentBlob": "ec13e3687c357be1033a75775371dc94532d1be1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-note-30-borrowings-pdf-page136.txt",
+      "baselineBlob": "c207b16412e4c8eb48d37175cf551419ae216a78",
+      "currentBlob": "c207b16412e4c8eb48d37175cf551419ae216a78",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt",
+      "baselineBlob": "e93ba961fd9643ae871aec612b1b7f651a81f7f6",
+      "currentBlob": "e93ba961fd9643ae871aec612b1b7f651a81f7f6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/fy26-order-intake-and-order-book-pdf-page6.txt",
+      "baselineBlob": "d2eedc8f949c3c1fc85589dbe1896e5d493c1fc1",
+      "currentBlob": "d2eedc8f949c3c1fc85589dbe1896e5d493c1fc1",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/identity-nse-corroboration.json",
+      "baselineBlob": "aecd583aa6930e88ed3f6ed62c5e48f5483c174d",
+      "currentBlob": "aecd583aa6930e88ed3f6ed62c5e48f5483c174d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/page-map.json",
+      "baselineBlob": "9248bd56b5649e598fd97414700204e2f7de3081",
+      "currentBlob": "9248bd56b5649e598fd97414700204e2f7de3081",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/source-bytes.json",
+      "baselineBlob": "166aaf03eafcb41f8787422b49dbf9f2ece06be6",
+      "currentBlob": "166aaf03eafcb41f8787422b49dbf9f2ece06be6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/README.md",
+      "baselineBlob": "852d92cb9514366f34373900edab6a1c36df2cf4",
+      "currentBlob": "852d92cb9514366f34373900edab6a1c36df2cf4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/determination-l039.json",
+      "baselineBlob": "ba0576bef8d1ea4e27df661e6c2bfe1aa07bdba8",
+      "currentBlob": "ba0576bef8d1ea4e27df661e6c2bfe1aa07bdba8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/digests.json",
+      "baselineBlob": "2f8eda10be539b9aab15b9325045e89e2c0c2bbe",
+      "currentBlob": "2f8eda10be539b9aab15b9325045e89e2c0c2bbe",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/runs/01-reverification-ingest.txt",
+      "baselineBlob": "7c149db1419292cd4032ac711054e161697e93ee",
+      "currentBlob": "7c149db1419292cd4032ac711054e161697e93ee",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/runs/02-reverification-generate.txt",
+      "baselineBlob": "a493a1a40683548d3fc0b8c5f9a20f02ecfe582f",
+      "currentBlob": "a493a1a40683548d3fc0b8c5f9a20f02ecfe582f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/runs/03-readback.json",
+      "baselineBlob": "f18ee249dfdb2f734133db085df375aa12cb81ca",
+      "currentBlob": "f18ee249dfdb2f734133db085df375aa12cb81ca",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/runs/04-tests.txt",
+      "baselineBlob": "1a6e01bc49a2e561e9bae089ac8741cdbaf766ce",
+      "currentBlob": "1a6e01bc49a2e561e9bae089ac8741cdbaf766ce",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/runs/05-typecheck.txt",
+      "baselineBlob": "d153dce511e2bc555e0f59279557a8c03801004e",
+      "currentBlob": "d153dce511e2bc555e0f59279557a8c03801004e",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/runs/06-post-manifest-verification.txt",
+      "baselineBlob": "96835fa44ac72e3fbc3c97b5df043989d62ada57",
+      "currentBlob": "96835fa44ac72e3fbc3c97b5df043989d62ada57",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/runs/commands.txt",
+      "baselineBlob": "4bbb6e4bc1fe20fdc97638bd662e697c112d60e2",
+      "currentBlob": "4bbb6e4bc1fe20fdc97638bd662e697c112d60e2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/caption-search-log.txt",
+      "baselineBlob": "45142fe3b92e0f735ed962f7ae354cd99ae30123",
+      "currentBlob": "45142fe3b92e0f735ed962f7ae354cd99ae30123",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy25-consolidated-balance-sheet-pdf-page110.txt",
+      "baselineBlob": "c1b30dfba825ff7ab48f261959f4656943807a20",
+      "currentBlob": "c1b30dfba825ff7ab48f261959f4656943807a20",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy25-consolidated-cash-flow-operating-and-investing-pdf-page111.txt",
+      "baselineBlob": "e7920b5e19ad7e627454555bb9ab8028cb171a15",
+      "currentBlob": "e7920b5e19ad7e627454555bb9ab8028cb171a15",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy25-note-54-ind-as-107-financial-instrument-classification-pdf-page137.txt",
+      "baselineBlob": "05a89a247c7be49e8fc6b49b23422a97dfdfcb8d",
+      "currentBlob": "05a89a247c7be49e8fc6b49b23422a97dfdfcb8d",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy25-notes-17-to-19-cash-bank-balances-and-other-financial-assets-pdf-page124.txt",
+      "baselineBlob": "7654bf799bab01e3339df4f5fdc091e42cd73904",
+      "currentBlob": "7654bf799bab01e3339df4f5fdc091e42cd73904",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-consolidated-balance-sheet-pdf-page117.txt",
+      "baselineBlob": "de2b62b6069a4ff15d979f57e7c9ca50df268ee4",
+      "currentBlob": "de2b62b6069a4ff15d979f57e7c9ca50df268ee4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt",
+      "baselineBlob": "1a1c202875bf2af04c89a7b33b82cb69239c5f14",
+      "currentBlob": "1a1c202875bf2af04c89a7b33b82cb69239c5f14",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-consolidated-cash-flow-operating-and-investing-pdf-page118.txt",
+      "baselineBlob": "fde7d7b16b8dd29311bf35ef1469a959c08cbb9a",
+      "currentBlob": "fde7d7b16b8dd29311bf35ef1469a959c08cbb9a",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-note-19-other-financial-assets-pdf-page132.txt",
+      "baselineBlob": "a53fb6044f9ae22fbd1d4997254465fb3593f3e2",
+      "currentBlob": "a53fb6044f9ae22fbd1d4997254465fb3593f3e2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-note-54-ind-as-107-financial-instrument-classification-pdf-page145.txt",
+      "baselineBlob": "f21f50730d890dccb45e2313eb2cd033aa1a10eb",
+      "currentBlob": "f21f50730d890dccb45e2313eb2cd033aa1a10eb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt",
+      "baselineBlob": "e93ba961fd9643ae871aec612b1b7f651a81f7f6",
+      "currentBlob": "e93ba961fd9643ae871aec612b1b7f651a81f7f6",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/fy26-notes-15-to-18-inventories-cash-and-bank-balances-pdf-page131.txt",
+      "baselineBlob": "7538254b0b82b6dc591aafe64a6cbf24081ffe6f",
+      "currentBlob": "7538254b0b82b6dc591aafe64a6cbf24081ffe6f",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/page-map.json",
+      "baselineBlob": "8b8034d50ce0e40230003cdbdb8d3d7b8ea159a4",
+      "currentBlob": "8b8034d50ce0e40230003cdbdb8d3d7b8ea159a4",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI8-L039-CASH-SIDE-2026-11-07/source/source-bytes.json",
+      "baselineBlob": "ff86e765a1d7a418c82b39719fcda006fb4f3add",
+      "currentBlob": "ff86e765a1d7a418c82b39719fcda006fb4f3add",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/README.md",
+      "baselineBlob": "25cb301b1dbadf64088a99685d11bff479e068a9",
+      "currentBlob": "25cb301b1dbadf64088a99685d11bff479e068a9",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/artifact/assessment-payload-l036.json",
+      "baselineBlob": "db05a20a7391e221e2e846d5d8a1353e1ef75abd",
+      "currentBlob": "db05a20a7391e221e2e846d5d8a1353e1ef75abd",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/determination-l036.json",
+      "baselineBlob": "8864d68009bb93b62bb893c0621b82d5fc1f78fc",
+      "currentBlob": "8864d68009bb93b62bb893c0621b82d5fc1f78fc",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/digests.json",
+      "baselineBlob": "b608a2e0c88cd1214114a5455ac9eaa0bfce9430",
+      "currentBlob": "b608a2e0c88cd1214114a5455ac9eaa0bfce9430",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/01-ingest-rerun.txt",
+      "baselineBlob": "4c8c5ff12f3996368e02b4c67471fcbd020609fb",
+      "currentBlob": "4c8c5ff12f3996368e02b4c67471fcbd020609fb",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/02-generate-persist.txt",
+      "baselineBlob": "d56a6779dd13aa6d6dee38ade33918bb347dce82",
+      "currentBlob": "d56a6779dd13aa6d6dee38ade33918bb347dce82",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/03-readback.json",
+      "baselineBlob": "63b27feea3285a94044c6e947ca86b6106443cd7",
+      "currentBlob": "63b27feea3285a94044c6e947ca86b6106443cd7",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/04-v2-operator-path.txt",
+      "baselineBlob": "41a42992ef67d39c5710b428745d019fc7c8e602",
+      "currentBlob": "41a42992ef67d39c5710b428745d019fc7c8e602",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/05-review-control.txt",
+      "baselineBlob": "75fa98986c34131048142ad651ac2ef727180b30",
+      "currentBlob": "75fa98986c34131048142ad651ac2ef727180b30",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/06-tests.txt",
+      "baselineBlob": "b9e2a23200a7b606d498b62c5beabd45297b59ef",
+      "currentBlob": "b9e2a23200a7b606d498b62c5beabd45297b59ef",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/07-typecheck.txt",
+      "baselineBlob": "fc6c5deb7458c34059c6aca544c1a060372d3cd8",
+      "currentBlob": "fc6c5deb7458c34059c6aca544c1a060372d3cd8",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/08-post-manifest-verification.txt",
+      "baselineBlob": "b58dc6f93ec3b6214ad4c17a8d409569935d9c63",
+      "currentBlob": "b58dc6f93ec3b6214ad4c17a8d409569935d9c63",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/09-clean-clone.txt",
+      "baselineBlob": "b7ea47bdc2334b8fdb42b5a9fd297b4e11a0c327",
+      "currentBlob": "b7ea47bdc2334b8fdb42b5a9fd297b4e11a0c327",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/runs/commands.txt",
+      "baselineBlob": "b1a518c72356c46bbbb73cc6e4c918cdcdfa55f2",
+      "currentBlob": "b1a518c72356c46bbbb73cc6e4c918cdcdfa55f2",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/source/source-map.json",
+      "baselineBlob": "b6768bc38c4ee2c5a9d10d57ba4b9f8b8499d536",
+      "currentBlob": "b6768bc38c4ee2c5a9d10d57ba4b9f8b8499d536",
+      "unchanged": true
+    },
+    {
+      "path": "evidence/real-issuer/WI9-L036-ASSOCIATES-2026-11-07/source/verification-greps.txt",
+      "baselineBlob": "d502c1bb859678fb5dd0d1b7ea645061a53a5288",
+      "currentBlob": "d502c1bb859678fb5dd0d1b7ea645061a53a5288",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/index.ts",
+      "baselineBlob": "aa30dd5e46263cd3fdb3edfe13eb862c77080aed",
+      "currentBlob": "aa30dd5e46263cd3fdb3edfe13eb862c77080aed",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/artifacts/scopeToken.ts",
+      "baselineBlob": "7c0c6138549b12658a99d4e048d3d7e6a3a0ce9a",
+      "currentBlob": "7c0c6138549b12658a99d4e048d3d7e6a3a0ce9a",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/adequacy.ts",
+      "baselineBlob": "396dc181fae08e0218bc18d0e9273e57a3c17d83",
+      "currentBlob": "396dc181fae08e0218bc18d0e9273e57a3c17d83",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/capitalStructure.ts",
+      "baselineBlob": "7716e58db1c37c929037e5510793288dee52bde1",
+      "currentBlob": "7716e58db1c37c929037e5510793288dee52bde1",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/confidence.ts",
+      "baselineBlob": "f90f7a36023ff7c7c3a6d2a21f3640c0c4cbdfba",
+      "currentBlob": "f90f7a36023ff7c7c3a6d2a21f3640c0c4cbdfba",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/dividends.ts",
+      "baselineBlob": "d1e35570b98c98fae857279335a984ea7a577739",
+      "currentBlob": "d1e35570b98c98fae857279335a984ea7a577739",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/engine.ts",
+      "baselineBlob": "267f24d46f72fecf99dead3293a5480c6da3e024",
+      "currentBlob": "267f24d46f72fecf99dead3293a5480c6da3e024",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/explain.ts",
+      "baselineBlob": "f6a55b3e9a3343b10eee866942f6fd6f9f884579",
+      "currentBlob": "f6a55b3e9a3343b10eee866942f6fd6f9f884579",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/freshness.ts",
+      "baselineBlob": "83daed3519855cb91d941ce1e586e68294f739a8",
+      "currentBlob": "83daed3519855cb91d941ce1e586e68294f739a8",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/index.ts",
+      "baselineBlob": "7764b641092e40e58c642a82a64dc2034145290e",
+      "currentBlob": "7764b641092e40e58c642a82a64dc2034145290e",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/intrinsic.ts",
+      "baselineBlob": "83a79cd5c716d767c5887bc02b950931000c395a",
+      "currentBlob": "83a79cd5c716d767c5887bc02b950931000c395a",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/margin.ts",
+      "baselineBlob": "732cdcd8fa4548fe3540479c6afc921f79da03bc",
+      "currentBlob": "732cdcd8fa4548fe3540479c6afc921f79da03bc",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/methods.ts",
+      "baselineBlob": "8a369b6baa2d3271a7eaa3aeeccb666f40527d6f",
+      "currentBlob": "8a369b6baa2d3271a7eaa3aeeccb666f40527d6f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/moat.ts",
+      "baselineBlob": "fcf3c8b913cac36ce17bd139f9b2e3834a7922c1",
+      "currentBlob": "fcf3c8b913cac36ce17bd139f9b2e3834a7922c1",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/periods.ts",
+      "baselineBlob": "10378c3f838d6736792b79b65f7e219022b655d6",
+      "currentBlob": "10378c3f838d6736792b79b65f7e219022b655d6",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policy.ts",
+      "baselineBlob": "0d02d0e6775e2de8489eed4bc80b3e93730097f9",
+      "currentBlob": "0d02d0e6775e2de8489eed4bc80b3e93730097f9",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/policyReview.ts",
+      "baselineBlob": "8c1d550e1ad00427a5697337cbbb82538f3c18d6",
+      "currentBlob": "8c1d550e1ad00427a5697337cbbb82538f3c18d6",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/risk.ts",
+      "baselineBlob": "2c0256b412c53fd01d270d2326c4acbd3c80cc69",
+      "currentBlob": "2c0256b412c53fd01d270d2326c4acbd3c80cc69",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/types.ts",
+      "baselineBlob": "1228df0e92bf98251fcfce32d8215cc040858d53",
+      "currentBlob": "1228df0e92bf98251fcfce32d8215cc040858d53",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/view.ts",
+      "baselineBlob": "35ec35135cb16ad84b72f37b979b3043a821bf2e",
+      "currentBlob": "35ec35135cb16ad84b72f37b979b3043a821bf2e",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/cli/build-s4-r3-candidate.ts",
+      "baselineBlob": "b807c7f227bbc99228d5ac78bcaa385c4c63b9cc",
+      "currentBlob": "b807c7f227bbc99228d5ac78bcaa385c4c63b9cc",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/cli/ingest.ts",
+      "baselineBlob": "9a2646963a5f3799db5faf4e99caa60df0a202fc",
+      "currentBlob": "9a2646963a5f3799db5faf4e99caa60df0a202fc",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/cli/install-verified-dataset.ts",
+      "baselineBlob": "52cb54043223a533bd60703730b33e9ddf4b6895",
+      "currentBlob": "52cb54043223a533bd60703730b33e9ddf4b6895",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/cli/provision-identity.ts",
+      "baselineBlob": "23e0ecd180013642891613d18649d9c781d291d5",
+      "currentBlob": "23e0ecd180013642891613d18649d9c781d291d5",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-installed-dataset.ts",
+      "baselineBlob": "b01e1715ad90f207d2124d19a325cd505f1028c4",
+      "currentBlob": "b01e1715ad90f207d2124d19a325cd505f1028c4",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/cli/verify-retrieval-evidence.ts",
+      "baselineBlob": "2a841363616428a29c1b95b2e5803741e1443430",
+      "currentBlob": "2a841363616428a29c1b95b2e5803741e1443430",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/disposition.ts",
+      "baselineBlob": "ff9a9f12c7cb581b92d17ba4186295554ca770f2",
+      "currentBlob": "ff9a9f12c7cb581b92d17ba4186295554ca770f2",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/ids.ts",
+      "baselineBlob": "ef8a00f61080f3d4acf70e2e97c4c6ad5d51e0ec",
+      "currentBlob": "ef8a00f61080f3d4acf70e2e97c4c6ad5d51e0ec",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/index.ts",
+      "baselineBlob": "4abc6b05ace655e136c989e1832adbccc492cf3a",
+      "currentBlob": "4abc6b05ace655e136c989e1832adbccc492cf3a",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/invariants.ts",
+      "baselineBlob": "4a737d1f5e28b259eeb1acaeb903107000da6e3f",
+      "currentBlob": "4a737d1f5e28b259eeb1acaeb903107000da6e3f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/lineItems.ts",
+      "baselineBlob": "2ec482264b18d3bf593b27c3a0f8c83bb27ab7c9",
+      "currentBlob": "2ec482264b18d3bf593b27c3a0f8c83bb27ab7c9",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/nilBinding.ts",
+      "baselineBlob": "155812c7af8907f0b1c4ffb329b0264568ea3599",
+      "currentBlob": "155812c7af8907f0b1c4ffb329b0264568ea3599",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/observation.ts",
+      "baselineBlob": "2cc59fb1339df0be67d863df5d2acaff7d274485",
+      "currentBlob": "2cc59fb1339df0be67d863df5d2acaff7d274485",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/operatingMetrics.ts",
+      "baselineBlob": "4dc0f8f44f9fb5538362b6f89deb522c76e8f3d4",
+      "currentBlob": "4dc0f8f44f9fb5538362b6f89deb522c76e8f3d4",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/contracts/period.ts",
+      "baselineBlob": "660f518d00271e6042bc586b2b360e0adb57af43",
+      "currentBlob": "660f518d00271e6042bc586b2b360e0adb57af43",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverage.ts",
+      "baselineBlob": "1a5d169386fa1bc5e671a2453f4b8442de9da828",
+      "currentBlob": "1a5d169386fa1bc5e671a2453f4b8442de9da828",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageEndpoint.ts",
+      "baselineBlob": "8fea422664f1c838a08a741e581fa4eda27cbb37",
+      "currentBlob": "8fea422664f1c838a08a741e581fa4eda27cbb37",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverageView.ts",
+      "baselineBlob": "0d608fae5b5b5f96c2ec5f5d13e12603ed826f12",
+      "currentBlob": "0d608fae5b5b5f96c2ec5f5d13e12603ed826f12",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/measure.ts",
+      "baselineBlob": "9237b5a65de688ba1b5e2d6df1b5646f723b4f65",
+      "currentBlob": "9237b5a65de688ba1b5e2d6df1b5646f723b4f65",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/methodMatrix.ts",
+      "baselineBlob": "477e016be429fbc679651dadb87f61bdbb5e0ab3",
+      "currentBlob": "477e016be429fbc679651dadb87f61bdbb5e0ab3",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/engine.ts",
+      "baselineBlob": "855722ff6c7c43b1c16ed3e510f5d2b489623aa7",
+      "currentBlob": "855722ff6c7c43b1c16ed3e510f5d2b489623aa7",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/gates.ts",
+      "baselineBlob": "c895e4f0c0a103475c9bbda34ddfb1a356f192ee",
+      "currentBlob": "c895e4f0c0a103475c9bbda34ddfb1a356f192ee",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/index.ts",
+      "baselineBlob": "53575839ba81efcf25e4c382577e9c9b747c6ee8",
+      "currentBlob": "53575839ba81efcf25e4c382577e9c9b747c6ee8",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/limits.ts",
+      "baselineBlob": "b9e447573270d60f33ad9a6cd626f7e1374c4d7c",
+      "currentBlob": "b9e447573270d60f33ad9a6cd626f7e1374c4d7c",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/policy.ts",
+      "baselineBlob": "c2b6da5748e879919468ed08164fe94b7850e86f",
+      "currentBlob": "c2b6da5748e879919468ed08164fe94b7850e86f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/portfolioImplication.ts",
+      "baselineBlob": "1e3a6114a123de4c4779e65402d27fa3636e8a66",
+      "currentBlob": "1e3a6114a123de4c4779e65402d27fa3636e8a66",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/rationale.ts",
+      "baselineBlob": "3e99798c83e74dda4ce76e87f5592fcdbfa01c37",
+      "currentBlob": "3e99798c83e74dda4ce76e87f5592fcdbfa01c37",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/subject.ts",
+      "baselineBlob": "4944d7416c8b0cdd5dd686cdb706a2d05eeb5297",
+      "currentBlob": "4944d7416c8b0cdd5dd686cdb706a2d05eeb5297",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/types.ts",
+      "baselineBlob": "d81dbbc4e34b9d085b458327e4bcd4dcc86562b0",
+      "currentBlob": "d81dbbc4e34b9d085b458327e4bcd4dcc86562b0",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/disposition/verbs.ts",
+      "baselineBlob": "f087a7acda5f4c3ce0b6fe40935d86437babbf97",
+      "currentBlob": "f087a7acda5f4c3ce0b6fe40935d86437babbf97",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/execution/execute.ts",
+      "baselineBlob": "8f79b1a4a448d1aabe09fd051e1e7e70ecdf5aeb",
+      "currentBlob": "8f79b1a4a448d1aabe09fd051e1e7e70ecdf5aeb",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/execution/index.ts",
+      "baselineBlob": "79af87d4e08e348cb429acadafc8f1e225b41f2e",
+      "currentBlob": "79af87d4e08e348cb429acadafc8f1e225b41f2e",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/execution/inputs.ts",
+      "baselineBlob": "689f3d31f83c4fb53864c6dc618a4a24a592b5b3",
+      "currentBlob": "689f3d31f83c4fb53864c6dc618a4a24a592b5b3",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/execution/types.ts",
+      "baselineBlob": "8bf1577301e5917f332878f5136d7886c125dd30",
+      "currentBlob": "8bf1577301e5917f332878f5136d7886c125dd30",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/authorizationRecords.ts",
+      "baselineBlob": "ccb58857afce17d3b1c6266e6d88350893dcc39f",
+      "currentBlob": "ccb58857afce17d3b1c6266e6d88350893dcc39f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/canonical.ts",
+      "baselineBlob": "ae6f37541b1395d5b9b004eade27cef0aeeda7fd",
+      "currentBlob": "ae6f37541b1395d5b9b004eade27cef0aeeda7fd",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/datasetClass.ts",
+      "baselineBlob": "84cc5958f3df0e8266703ee9f7101cbff13906e5",
+      "currentBlob": "84cc5958f3df0e8266703ee9f7101cbff13906e5",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/derive.ts",
+      "baselineBlob": "966cd64378b1a9a2e355c92952ac323f1bab3921",
+      "currentBlob": "966cd64378b1a9a2e355c92952ac323f1bab3921",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/errors.ts",
+      "baselineBlob": "24b0376f3651808271db8f6b5fbf9d2e8491cb27",
+      "currentBlob": "24b0376f3651808271db8f6b5fbf9d2e8491cb27",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/manifest.ts",
+      "baselineBlob": "7ee0292c5ec3e78f272959de8c470b7271e88ddd",
+      "currentBlob": "7ee0292c5ec3e78f272959de8c470b7271e88ddd",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/fundamentals/types.ts",
+      "baselineBlob": "8f6656004adb5eceb6cd62c774c9e2b1e121cffe",
+      "currentBlob": "8f6656004adb5eceb6cd62c774c9e2b1e121cffe",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/corporateActions.ts",
+      "baselineBlob": "9aeb1d192705b6a633ccc4066ffbdd6450a32eb1",
+      "currentBlob": "9aeb1d192705b6a633ccc4066ffbdd6450a32eb1",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverage.ts",
+      "baselineBlob": "114985cc144dea23cb6e581cf3651cc466a5103f",
+      "currentBlob": "114985cc144dea23cb6e581cf3651cc466a5103f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageEndpoint.ts",
+      "baselineBlob": "5510cb62db85c225166dba4c84fde72a529d8124",
+      "currentBlob": "5510cb62db85c225166dba4c84fde72a529d8124",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/coverageView.ts",
+      "baselineBlob": "76b1029198442bca7d112b4b6ce3f0ed0de2f575",
+      "currentBlob": "76b1029198442bca7d112b4b6ce3f0ed0de2f575",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/d114Projection.ts",
+      "baselineBlob": "becf129623e7d308dd2362cc7b98a254415462c3",
+      "currentBlob": "becf129623e7d308dd2362cc7b98a254415462c3",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/index.ts",
+      "baselineBlob": "720d539101c919269c2b8641da0fd628b3f5df6a",
+      "currentBlob": "720d539101c919269c2b8641da0fd628b3f5df6a",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/provision.ts",
+      "baselineBlob": "679dbe76c6d892b6d4b40096c17d62abd1c3e7dd",
+      "currentBlob": "679dbe76c6d892b6d4b40096c17d62abd1c3e7dd",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/resolver.ts",
+      "baselineBlob": "6808da15e5f85fc18a29a003aaf22e7d71fc6784",
+      "currentBlob": "6808da15e5f85fc18a29a003aaf22e7d71fc6784",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/runtime.ts",
+      "baselineBlob": "7ecae561fccc7763728fa3830ee9fa12ae145837",
+      "currentBlob": "7ecae561fccc7763728fa3830ee9fa12ae145837",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/sources.ts",
+      "baselineBlob": "d20fb277edff203ebaa9b38f641fda76d05f786d",
+      "currentBlob": "d20fb277edff203ebaa9b38f641fda76d05f786d",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/identity/types.ts",
+      "baselineBlob": "4bbed48ed6be87b1e71c02563a5ae22742a6a468",
+      "currentBlob": "4bbed48ed6be87b1e71c02563a5ae22742a6a468",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/builder.ts",
+      "baselineBlob": "cbd8fd18ecb3d2ae55c8e8f2734218986a646c1c",
+      "currentBlob": "cbd8fd18ecb3d2ae55c8e8f2734218986a646c1c",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/csv.ts",
+      "baselineBlob": "51f23137799ace39fcd026161cf42e268b064b0b",
+      "currentBlob": "51f23137799ace39fcd026161cf42e268b064b0b",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/multiInput.ts",
+      "baselineBlob": "b0e1bd031a45787fedb418e5b2e9e75f8481355f",
+      "currentBlob": "b0e1bd031a45787fedb418e5b2e9e75f8481355f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/sectorValidation.ts",
+      "baselineBlob": "e8c4068fe12162d847a063c36ce25038fd3b1a9c",
+      "currentBlob": "e8c4068fe12162d847a063c36ce25038fd3b1a9c",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/writer.ts",
+      "baselineBlob": "d5bf1501198aabb72f4c0b8ddb71d25a2225a80d",
+      "currentBlob": "d5bf1501198aabb72f4c0b8ddb71d25a2225a80d",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xbrl.ts",
+      "baselineBlob": "cbf32ede0d63b70535ae76e6b18bdb5fd4cdf8ec",
+      "currentBlob": "cbf32ede0d63b70535ae76e6b18bdb5fd4cdf8ec",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/xml.ts",
+      "baselineBlob": "9f0a9cc0e68ac50ad00beef7459c06e5a86b2675",
+      "currentBlob": "9f0a9cc0e68ac50ad00beef7459c06e5a86b2675",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/port/fundamentalsReadPort.ts",
+      "baselineBlob": "b6b198b8c5f068021061c8d3644e592003855f6f",
+      "currentBlob": "b6b198b8c5f068021061c8d3644e592003855f6f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/port/localSnapshotStore.ts",
+      "baselineBlob": "7c2123da078b6ba041f328914d245e76429edb9b",
+      "currentBlob": "7c2123da078b6ba041f328914d245e76429edb9b",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/evidence.ts",
+      "baselineBlob": "f5b38c473d5638ce712fe6457577f44a171f0154",
+      "currentBlob": "f5b38c473d5638ce712fe6457577f44a171f0154",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/index.ts",
+      "baselineBlob": "d679918c89d899f21a00583ac2be025f81c00dd0",
+      "currentBlob": "d679918c89d899f21a00583ac2be025f81c00dd0",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/mapping.ts",
+      "baselineBlob": "2aa682b87c9ce61bf3a264465f311b8626aa2057",
+      "currentBlob": "2aa682b87c9ce61bf3a264465f311b8626aa2057",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/qualify.ts",
+      "baselineBlob": "19a20652b44daa6851a8d6e502cd644c2f89841f",
+      "currentBlob": "19a20652b44daa6851a8d6e502cd644c2f89841f",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/render.ts",
+      "baselineBlob": "5c40584b478333b2cbba8c3e3379b09336eaa4d3",
+      "currentBlob": "5c40584b478333b2cbba8c3e3379b09336eaa4d3",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/resolve.ts",
+      "baselineBlob": "94f5f8f31f4f5af652cf5668fec92f2403a7314a",
+      "currentBlob": "94f5f8f31f4f5af652cf5668fec92f2403a7314a",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/qualification/types.ts",
+      "baselineBlob": "3c88950cff6023635460db6dd239d9159a8d9b90",
+      "currentBlob": "3c88950cff6023635460db6dd239d9159a8d9b90",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalBundle.ts",
+      "baselineBlob": "9bede9ab34f080bcee52ca64cf4d740ca9448502",
+      "currentBlob": "9bede9ab34f080bcee52ca64cf4d740ca9448502",
+      "unchanged": true
+    },
+    {
+      "path": "iips-platform/src/investment/sources/retrievalEvidence.ts",
+      "baselineBlob": "8be7313613bad88d65a519325d0e61671b2954a6",
+      "currentBlob": "8be7313613bad88d65a519325d0e61671b2954a6",
+      "unchanged": true
+    }
+  ],
+  "appendOnlyDocuments": [
+    {
+      "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+      "historicalBytes": 315786,
+      "historicalPrefixByteIdentical": true
+    },
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "historicalBytes": 4217435,
+      "historicalPrefixByteIdentical": true
+    }
+  ],
+  "successorDatasetCreated": false,
+  "productionCodeChanged": false,
+  "L039InvestigationStarted": false
+}

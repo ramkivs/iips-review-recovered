@@ -3219,3 +3219,54 @@ append-only register requires.
 **Boundaries confirmed.** IRR repository only; no IPD change; `L-041` not reopened; W05 and source-rights decisions
 untouched; `main` not modified and no PR merged; valuation arithmetic unchanged; no authority beyond the recorded
 decision exercised.
+
+
+## 17.30 L-038 — Marico preference-capital delta after W07: subsidiary source inspected, no qualifying A/B/C evidence; OPEN (`2026-11-17`)
+
+**Authority and preserved findings.** Baseline is remote main at PR #592 merge (exact commit in the new record).
+§§17.23–17.24, W07 `W07-FINANCIAL-LIMITATION-RESOLUTION-2026-11-12.md` §3 and tracker §16.282 govern; W07's
+last documented evidence cutoff is **2026-11-12**. Historical sections remain verbatim. The three audited consolidated
+annual reports' authorised capital and equity-only issued presentation do not establish issued preference capital;
+Note12(a)(v)'s “includes” remains non-exhaustive. W07's unsigned pre-AGM standalone MGT-7s cannot establish the group
+position. **PREFERENCE_CAPITAL remains MISSING / NOT_REPORTED / null; L-038 OPEN.** The existing debt/cash alignment
+owner decisions and implementation stay **CLOSED**; no policy question is reopened and L-040 remains preserved.
+
+**Delta, not a rerun of 793 pages.** Record:
+`IID-L038-MARICO-PREFERENCE-CAPITAL-DELTA-2026-11-17.md` §§1–7. Evidence:
+`evidence/real-issuer/L038-DELTA-2026-11-17/`. Current issuer directory and targeted draft/final MGT-7 URL candidates
+were checked. FY24/FY25 documents remain draft controls, not authenticated final MCA filings; tested FY26/final
+locations returned 404, **not proof of non-existence elsewhere**. FY26 parent annual-report bytes/page count equal
+the WI12 record; only identity/metadata rechecked. A **703-page FY26 subsidiary-financial compilation**, new to the
+documented L-038 source inspection, was retrieved and capital-indexed: **127 hit pages**, first **40** retained for bounded review,
+not a complete all-entity audit. It includes mixed subsidiary/separate/subgroup scopes and currencies; ordinary-share
+wording and isolated issued-capital amounts are not consolidated preference nil. July2026 PDF metadata does not
+establish publication after W07 or a filing date. No post-cutoff publication date or authenticated MCA SRN/challan was
+obtained. The limited search is explicitly not an exhaustive MCA registry search. Source/transport limitations and
+all 52 fresh extract hashes are retained, not converted into a non-existence claim.
+
+**A/B/C assessment.** **A NOT SATISFIED**: no qualifying consolidated issued preference amount. **B NOT SATISFIED**:
+no explicit audited consolidated group-wide nil declaration obtained. **C NOT SATISFIED**: signed/final parent filing
+and authenticated receipt not obtained, complete period-specific audited subsidiary/preference-class/consolidation
+reconciliation not established, and governed cross-scope owner acceptance **NOT MADE**. If C is pursued, acceptance
+remains **PENDING**, not supplied by the agent or implied by safe withholding. Signed standalone zero alone would
+still be insufficient. New sources are **DISCOVERY_ONLY_NOT_ADMITTED**; public accessibility is not independent rights
+verification. No provider/licence/O3/source-rights expansion or fabricated nil binding.
+
+**Disposition and verification.** No production code/input/dataset/payload changed; **no successor dataset created**.
+Existing original, debt-completeness and refresh-candidate Marico inputs were replayed **in memory only** using
+canonical loader/builder/digest/assessment paths. Every consolidated PREFERENCE_CAPITAL row (3+3+5) remains
+MISSING/NOT_REPORTED/null. Capital blocks retain the missing claim; intrinsic stays null; real bridges refuse first
+on existing netDebt blockers. A separately labelled synthetic regression isolates preferenceCapital and demonstrates
+its independent bridge/sensitivity refusal. No diagnostic enterprise numerator is represented as real valuation.
+Existing nil binding refuses unacknowledged standalone→consolidated scope. New tests **9/9**; existing L-038/L-040/
+nil-binding/ingestion **107/107**; W07 L-038-only **2/2**; full IID **1582/1582**; typecheck and applicable static checks
+PASS; whitespace PASS. Generated reports preserve replay digests, provenance and limitations; no digest hand-authored.
+Publication/CI/remote verification follows in completion reporting, not predicted by this entry.
+
+**External action/status.** Obtain an explicit audited consolidated amount/nil for each relevant period/group,
+or authenticated signed/final statutory parent filing plus complete audited subsidiary/group scope support and
+explicit owner cross-scope NilBinding acceptance. Subsidiary compilation discovery is not that reconciliation;
+historical redemption, omitted captions, authorised amounts, arithmetic residuals and carry-forward remain forbidden.
+**L-038 OPEN / UNRESOLVED_PENDING_EXTERNAL_EVIDENCE.** No missing→zero, standalone substitution or withholding
+relaxation. **L-039 untouched and not begun**; it is the next separate work item. No IPD/cross-repo operation or
+production host activity. Next free §17.31.

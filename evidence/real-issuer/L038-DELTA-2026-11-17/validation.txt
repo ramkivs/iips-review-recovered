@@ -1,0 +1,101 @@
+L-038 local validation — no new admitted financial evidence; no successor dataset or host operation
+
+$ cd iips-platform && tsx --test tests/investment/l038DeltaMissingPreservation.test.ts
+exit 0
+  ...
+1..1
+# tests 9
+# suites 1
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 414.228065
+
+$ cd iips-platform && tsx --test tests/investment/l038MaricoDebtCompleteness.test.ts tests/investment/l038CashSideAlignment.test.ts tests/investment/l040ValuationZeroSubstitution.test.ts tests/investment/nil-binding.test.ts tests/investment/ingestion.test.ts
+exit 0
+  ...
+1..26
+# tests 107
+# suites 26
+# pass 107
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3538.995126
+
+$ cd iips-platform && tsx --test --test-name-pattern='W07 — L-038' tests/investment/w07FinancialLimitationResolution.test.ts
+exit 0
+  ...
+1..1
+# tests 2
+# suites 1
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 681.207014
+
+$ cd iips-platform && tsx --test tests/investment/*.test.ts
+exit 0
+  ...
+1..328
+# tests 1582
+# suites 328
+# pass 1582
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 48423.29482
+
+$ python -m unittest discover -s tests/validation -p test_cap03_artifact_classification.py -v
+exit 0
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.010s
+
+OK
+
+$ python -m unittest discover -s tests/validation -p test_irr_workflow_triggers.py -v
+exit 0
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.007s
+
+OK
+
+$ python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py
+exit 0
+PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation
+PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified
+LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS
+DURABLE IRR RETENTION: WAIVER AUTHORIZED — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The distinct original verification-output file may be absent under PA act IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01; the transcript remains separate. A sealed S04 bundle and Windows readback are still NOT PERFORMED by this static validator.
+U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN
+REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1
+
+$ python -m unittest discover -s tests/validation -p test_cap03_recovery_release_audit.py -v
+exit 0
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.508s
+
+OK
+
+$ cd iips-platform && tsc --noEmit
+TypeScript 5.4.5; exit 0; no diagnostics
+
+$ python -m py_compile docs/integration/cap03-p1-f9/validate_windows10_host_profile.py scripts/l038_delta_source_probe.py
+exit 0
+
+$ git diff --check
+exit 0 (rechecked after staging)
+
+Pure in-memory replay: PASS; missing-value-verification.json. No writeDataset or successor dataset.
+
+Original production/real-issuer evidence blobs unchanged and register/tracker historical prefixes retained: PASS; safeguards.json.
+
+Initial static-history check failed in shallow clone; git fetch --unshallow --prune origin restored required baseline objects and all static suites were rerun successfully. No gate waived.

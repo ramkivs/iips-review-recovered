@@ -23715,3 +23715,56 @@ change or production operation. S4-R8 is the last registered numbered item; next
 operator/owner/event-driven actions**, not an invented S4-R9 or a claim of overall Stage 4 closure.
 
 Next free §16.299 / `CV-CORR-264` / `CHG-2026-11-06-27` / `V2205`.
+
+
+## 16.299 `CV-CORR-264` — L-038 Marico preference-capital delta investigated; OPEN pending qualifying external evidence (`2026-11-17`; `CHG-2026-11-06-27`; `V2205`–`V2210`)
+
+**Baseline and cutoff (`V2205`).** Remote main at PR #592 merge, fetched/equal to clean HEAD before work; exact
+machine-derived baseline in `docs/integration/IID-L038-MARICO-PREFERENCE-CAPITAL-DELTA-2026-11-17.md` §1 and
+`evidence/real-issuer/L038-DELTA-2026-11-17/baseline-and-provenance.json`. IRR only. Limitation register
+§§17.23–17.24, W07 §3 and tracker §16.282 reused, not superseded by stale progress rows. W07 last documented cutoff
+**2026-11-12**. Three audited parent consolidated reports' silence remains insufficient; authorised != issued;
+Note12(a)(v) “includes” is not exhaustive; unsigned pre-AGM standalone drafts cannot establish group nil. Debt/cash
+alignment owner decisions and implementation remain **CLOSED**, not reopened. L-040 correction preserved.
+
+**Source delta (`V2206`).** Current issuer directory and finite draft/final MGT-7 candidates checked. FY24/FY25
+draft controls retrieved with targeted capital/draft/signature pages; no authenticated signed post-AGM MCA return
+or filing receipt obtained. Tested FY26/final locations return 404, not global non-existence. FY26 parent annual
+report byte identity matches WI12; only metadata/digest control, no repeat 793-page investigation. Newly inspected
+issuer-hosted FY26 subsidiary compilation: **703 pages**, **127 capital-keyword hit pages**, first **40** retained for bounded review, not full all-subsidiary audit. Mixed currencies and subsidiary/separate/subgroup scopes cannot supply a
+parent consolidated preference amount or nil. July PDF metadata is not a post-cutoff publication/filing date.
+
+**Provenance/rights (`V2207`).** Evidence contains per-candidate URL/status/period/scope/locator/class/amount,
+signature/finality uncertainty, group completeness, raw PDF hashes and **52 extract hashes** verified after retrieval.
+Initial TLS/PDF-tool failures preserved; bounded retry succeeded. GitHub runner retrieval/artifact transport was
+investigative only; temporary workflow removed from final tree, pinned source-probe utility retained. No raw PDFs
+committed. Search/HTML parser/MCA access limits explicit. All fresh sources **DISCOVERY_ONLY_NOT_ADMITTED**;
+no public accessibility→rights assumption, provider admission, O3 or source-rights expansion, owner acceptance or
+new financial observation. Newly inspected does not mean newly published after W07.
+
+**Closure paths (`V2208`).** **A/B/C all NOT SATISFIED**. No qualifying consolidated issued amount, no explicit
+audited consolidated group nil, and no complete signed statutory-parent + supporting all-subsidiary/period evidence
+package. C additionally needs explicit governed cross-scope NilBinding owner acceptance, **PENDING IF PURSUED —
+NOT MADE**. The agent does not insert acceptedBy or substitute technical withholding for owner approval. The
+subsidiary compilation is an evidence lead, not proof of a complete group nil or a waiver of the missing signed
+parent filing. No claim that evidence does not exist outside this finite search.
+
+**Data/valuation (`V2209`).** **PREFERENCE_CAPITAL = MISSING / NOT_REPORTED / null**, unchanged. No data or
+production-source change; **no fabricated successor dataset**. Pure in-memory replay of existing WI7,
+debt-completeness and refresh-candidate Marico inputs retains all 3+3+5 missing rows, missing assessment capital,
+null intrinsic and safely refused enterprise-to-equity bridge. Real bridge refuses first on existing netDebt;
+separate synthetic isolation demonstrates missing preference independently blocks bridge/sensitivity. Standalone
+nil without acknowledgement still rejects. Production-generated replay digests and exact results in
+`missing-value-verification.json`; no before/after data-change digest invented. Unrelated issuers/periods unchanged.
+
+**Validation/status (`V2210`).** New **9/9**; existing L-038/L-040/nil-binding/ingestion **107/107**; W07 L-038-only
+**2/2**; full IID **1582/1582**; platform TypeScript noEmit PASS; Python compile/CAP-03 static and 7+4+23 static unit
+tests PASS; diff whitespace PASS. TypeScript tests are local, not falsely labelled CI. Append-only register
+**§17.30**, historical §16.282/§§17.23–17.24 preserved. CI/PR/merge/remote blob and ancestry verification are reported
+after publication. **L-038 OPEN — UNRESOLVED_PENDING_EXTERNAL_EVIDENCE**. External action: audited consolidated
+amount/nil for the relevant group/period, or authenticated final statutory filing plus audited subsidiary/group
+reconciliation and owner cross-scope acceptance. No zero inference, authorised-capital substitution, residual,
+carry-forward, scope substitution, period-rule or withholding relaxation. **L-039 untouched/not begun**, next separate
+work item only. No IPD/cross-repo write or production operation. Stage 4 readiness not upgraded.
+
+Next free §16.300 / `CV-CORR-265` / `CHG-2026-11-06-28` / `V2211`.

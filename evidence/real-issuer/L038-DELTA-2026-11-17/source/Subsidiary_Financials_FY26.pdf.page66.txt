@@ -1,0 +1,66 @@
+62
+
+
+
+
+
+
+
+
+
+
+                                  On consolidation, exchange differences arising from the                                                        Discounting of lease payments
+       translation of the net investment in foreign operations are                                                                The Group uses the interest rate implicit in the lease or,
+       taken to equity.                                                                                if that rate cannot be readily determined, the Group’s
+
+                                                                                                       weighted average incremental borrowing rate (“IBR”).
+5.                                                JUDGMENTS EMPLOYED IN APPLYING                                     Management has applied judgments and estimates to
+       ACCOUNTING POLICIES                                                                             determine the IBR, using borrowing rates that certain
+
+                                                    Following are the judgments made in applying accounting financial institutions would charge the Group against
+       policies, that affect the application of the Group’s accounting                                 financing the different types of assets it leases over different
+       policies and the amounts recognised in the consolidated                                         terms and different ranges of values. IBR is further adjusted
+       financial statements:                                                                           for Group’s specific risk, term risk and underlying asset risk.
+
+                                                 Classification of financial assets                       Recognition of revenue and allocation of
+                                   The classification of financial assets at initial recognition       transaction price
+       depends on the financial asset’s contractual cash                                                                                         Identification of performance obligations
+       flow characteristics and the Group’s business model                                                                               The Group determined that the sale of goods is provided
+       for managing them.                                                                              as a single component to customers and accordingly it
+
+Impairment                                                                                             becomes single performance obligation in respect of the
+             At each reporting date, management conducts an                                            goods being sold.
+
+       assessment of property, plant and equipment and intangible                                                                                              Determine timing of satisfaction of performance
+       assets to determine whether there are any indications that                                      obligation
+       they may be impaired. In the absence of such indications,                                                                                        The Group concluded that the revenue from sales of goods
+       no further action is taken. If such indications do exist,                                       is to be recognised at a point in time when the control of
+       an analysis of each asset is undertaken to determine its                                        the goods has transferred to the customers. Payment of
+       net recoverable amount and, if this is below its carrying                                       the transaction price is due immediately at the point the
+       amount, a provision is made.                                                                    customer purchases the goods.
+
+                                             The Group applies expected credit loss model to measure
+       loss allowance in case of financial assets on the basis of                              6.                                                KEY SOURCES OF ESTIMATION
+       12-month expected credit losses or Lifetime expected credit                                     UNCERTAINTY
+       losses depending on credit risk characteristics and how                                                                    Following are the key assumptions made concerning the
+       changes in economic factors affect expected credit losses,                                      future and other key sources of estimation uncertainty at
+       which are determined on a probability-weighted basis.                                           the reporting date that have a significant risk of causing
+
+Leases                                                                                                 a material adjustment to the carrying amounts of assets
+                                                  Determining the lease term                           and liabilities within the next financial year. Actual results
+                                                                                                       may differ from these estimates. Estimates and underlying
+                                                                            The Group determines the lease term as the non-cancellable assumptions are reviewed on an ongoing basis and are
+       term of the lease, together with any periods covered by an                                      consistent with the Group’s risk management. Revisions to
+       option to extend the lease if it is reasonably certain to be                                    estimates are recognised prospectively.
+       exercised, or any periods covered by an option to terminate
+       the lease, if it is reasonably certain not to be exercised.                                     Carrying values of property, plant and
+                              The Group has the option, under some of its leases to                    equipment
+       lease the assets for additional years. The Group applies                                                                         Residual values are assumed to be zero unless a reliable
+       judgement in evaluating whether it is reasonably certain                                        estimate of the current value can be obtained for similar
+       to exercise the option to renew. The Group considers all                                        assets of ages and conditions that are reasonably expected
+       relevant factors that create an economic incentive for it to                                    to exist at the end of the assets’ estimated useful lives.
+       exercise the renewal. After the commencement date, the                                                                                    Inventory provisions
+       Group reassesses the lease term if there is a significant
+       event or change in circumstances that is within its control                                                                                     Management regularly undertakes a review of the Group’s
+       and affects its ability to exercise (or not to exercise) the                                    inventory, stated at AED 15,679,865 (previous year
+       option to renew.                                                                                AED 13,727,728) in order to assess the likely realisation

@@ -1,0 +1,560 @@
+{
+  "purpose": "L-038 delta since W07 2026-11-12; never admitted financial input",
+  "captureCommit": "e6843c073dcaeda1b2bf2e9d4f4461617f7b4275",
+  "documents": [
+    {
+      "url": "https://marico.com/india/investors/annual-report",
+      "retrievedAtUTC": "2026-11-18T06:15:38.527769+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 200,
+      "finalUrl": "https://marico.com/india/investors/annual-report",
+      "bytes": 49391,
+      "sha256": "4323f10dea60943c4d3b8fc6f0520cd0a473975bedb0adcf6b08d2ebbecb1f29",
+      "candidateLinks": [
+        "https://marico.com/_next/static/chunks/app/%5Blocale%5D/investors/annual-report/page-c67f9c274c34b190.js",
+        "https://marico.com/india/investors/annual-report",
+        "https://marico.com/investors/annual-report"
+      ],
+      "isPdf": false,
+      "interpretation": "HTML/non-PDF is not the requested statutory filing; no absence conclusion"
+    },
+    {
+      "url": "https://marico.com/investorspdf/Draft_MGT-7_-_FY24.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:38.528014+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 200,
+      "finalUrl": "https://marico.com/investorspdf/Draft_MGT-7_-_FY24.pdf",
+      "bytes": 1669633,
+      "sha256": "7c6d62b089fa9831a95a355f6fa2db7404b3e8144d4c85b0a0666ae664125b3a",
+      "isPdf": true,
+      "pdfMetadata": {
+        "/Author": "Mansi Kalwadia - Marico India Limited",
+        "/CreationDate": "D:20250603152321+05'30'",
+        "/ModDate": "D:20250605182544+05'30'",
+        "/Producer": "Microsoft: Print To PDF",
+        "/Title": "Draft Form_MGT_7 Copy.pdf"
+      },
+      "pdfPages": 77,
+      "signatureFields": {},
+      "signatureInspection": "PDF signature fields inspected, NOT cryptographic/MCA receipt authentication",
+      "extracts": [
+        {
+          "pdfPage": 1,
+          "path": "Draft_MGT-7_-_FY24.pdf.page1.txt",
+          "extractSha256": "ef7f1f81d67055d2c413f288901d972ea6d45ccbd6d756e5ef05f1d995945da1"
+        },
+        {
+          "pdfPage": 2,
+          "path": "Draft_MGT-7_-_FY24.pdf.page2.txt",
+          "extractSha256": "d485377657ebd7f9571ccf587c977de4e903d04fcc777b2771ace0b4960bb59d"
+        },
+        {
+          "pdfPage": 4,
+          "path": "Draft_MGT-7_-_FY24.pdf.page4.txt",
+          "extractSha256": "2e35a90a509761f21d7f6a708564e903eea50713907f16e3d93b6d14b4fc3ac9"
+        },
+        {
+          "pdfPage": 7,
+          "path": "Draft_MGT-7_-_FY24.pdf.page7.txt",
+          "extractSha256": "601fbe538f09c89617241a5ef8f3616107f6b30b42d5236c0e7d700c6e99dc81"
+        },
+        {
+          "pdfPage": 14,
+          "path": "Draft_MGT-7_-_FY24.pdf.page14.txt",
+          "extractSha256": "a9f701a9734c60d3d944edcd9d6202448c05691a282dd99157884745e2e7e3e3"
+        },
+        {
+          "pdfPage": 17,
+          "path": "Draft_MGT-7_-_FY24.pdf.page17.txt",
+          "extractSha256": "993583b3b9e20f071c5057998c8539af82b66c1cfc949c53721ceca90f5dbf75"
+        }
+      ]
+    },
+    {
+      "url": "https://marico.com/investorspdf/Draft_MGT-7_-_FY25.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:38.528211+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 200,
+      "finalUrl": "https://marico.com/investorspdf/Draft_MGT-7_-_FY25.pdf",
+      "bytes": 1164848,
+      "sha256": "5d97d66e557dab26a670bdc26d5d27fa714534a12e774ad630a7212358e6bb1e",
+      "isPdf": true,
+      "pdfMetadata": {
+        "/Author": "nitya.prashanth",
+        "/CreationDate": "D:20250711190504+05'30'",
+        "/Creator": "Adobe LiveCycle Designer 11.0",
+        "/ModDate": "D:20250711191036+05'30'",
+        "/Producer": "Acrobat Distiller 24.0 (Windows)",
+        "/Title": "Form_MGT_7.pdf"
+      },
+      "pdfPages": 62,
+      "signatureFields": {},
+      "signatureInspection": "PDF signature fields inspected, NOT cryptographic/MCA receipt authentication",
+      "extracts": [
+        {
+          "pdfPage": 1,
+          "path": "Draft_MGT-7_-_FY25.pdf.page1.txt",
+          "extractSha256": "25730e1ce055e27709e0379317194eb95db67620ee7dc4d6833fd0899d52cabb"
+        },
+        {
+          "pdfPage": 2,
+          "path": "Draft_MGT-7_-_FY25.pdf.page2.txt",
+          "extractSha256": "b292dd4fbcff53aa820b9adbbcd75959488b692e4ce7e03809eaa9776c4dbae9"
+        },
+        {
+          "pdfPage": 4,
+          "path": "Draft_MGT-7_-_FY25.pdf.page4.txt",
+          "extractSha256": "2dade6db1cc91bcc1901e1003cbacf565fb28f454f84862324943a8dd08c495b"
+        },
+        {
+          "pdfPage": 7,
+          "path": "Draft_MGT-7_-_FY25.pdf.page7.txt",
+          "extractSha256": "48281f1327d2f1fbcdde9e04c743581caf3d4f2560472395a0aaa0cb3ed08d0f"
+        },
+        {
+          "pdfPage": 13,
+          "path": "Draft_MGT-7_-_FY25.pdf.page13.txt",
+          "extractSha256": "3e12b7d1b9343ff94d17614c07f0216fdd4b85fcc9b845a599bda8b0c5ec57a7"
+        },
+        {
+          "pdfPage": 17,
+          "path": "Draft_MGT-7_-_FY25.pdf.page17.txt",
+          "extractSha256": "9ec8b2186579ffe60be893f7474ad1b6cbf2851fbd7347144f5c1a7d175a8151"
+        }
+      ]
+    },
+    {
+      "url": "https://marico.com/investorspdf/Draft_MGT-7_-_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:38.528776+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 404,
+      "finalUrl": "https://marico.com/investorspdf/Draft_MGT-7_-_FY26.pdf",
+      "bytes": 45,
+      "sha256": "b59f420d193065bf9ee5e2d6ea87f14a0bfb0ce591e5283aee3b327cab44f908",
+      "interpretation": "HTTP non-success, not source content or non-existence proof"
+    },
+    {
+      "url": "https://marico.com/investorspdf/MGT-7_-_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:39.365094+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 404,
+      "finalUrl": "https://marico.com/investorspdf/MGT-7_-_FY26.pdf",
+      "bytes": 45,
+      "sha256": "b59f420d193065bf9ee5e2d6ea87f14a0bfb0ce591e5283aee3b327cab44f908",
+      "interpretation": "HTTP non-success, not source content or non-existence proof"
+    },
+    {
+      "url": "https://marico.com/investorspdf/MGT-7_-_FY25.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:39.589698+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 404,
+      "finalUrl": "https://marico.com/investorspdf/MGT-7_-_FY25.pdf",
+      "bytes": 45,
+      "sha256": "b59f420d193065bf9ee5e2d6ea87f14a0bfb0ce591e5283aee3b327cab44f908",
+      "interpretation": "HTTP non-success, not source content or non-existence proof"
+    },
+    {
+      "url": "https://marico.com/investorspdf/Subsidiary_Financials_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:40.262815+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 200,
+      "finalUrl": "https://marico.com/investorspdf/Subsidiary_Financials_FY26.pdf",
+      "bytes": 11217931,
+      "sha256": "6ae52ffe444465e6606bf1a6bcccd9a00b3bd3a427434576673347b8104a58ee",
+      "isPdf": true,
+      "pdfMetadata": {
+        "/CreationDate": "D:20260708210458+05'30'",
+        "/Creator": "Adobe InDesign 21.4 (Windows)",
+        "/ModDate": "D:20260709003445+05'30'",
+        "/Producer": "Adobe PDF Library 18.0",
+        "/Title": "",
+        "/Trapped": "/False"
+      },
+      "pdfPages": 703,
+      "capitalHitPages": [
+        10,
+        12,
+        15,
+        19,
+        26,
+        27,
+        53,
+        60,
+        62,
+        64,
+        65,
+        66,
+        73,
+        83,
+        86,
+        90,
+        93,
+        94,
+        97,
+        103,
+        106,
+        113,
+        119,
+        122,
+        128,
+        136,
+        144,
+        146,
+        152,
+        166,
+        167,
+        168,
+        183,
+        189,
+        191,
+        198,
+        200,
+        209,
+        210,
+        217,
+        225,
+        227,
+        234,
+        235,
+        245,
+        250,
+        258,
+        262,
+        263,
+        270,
+        271,
+        275,
+        294,
+        296,
+        299,
+        300,
+        305,
+        316,
+        320,
+        323,
+        327,
+        328,
+        335,
+        358,
+        362,
+        366,
+        368,
+        374,
+        375,
+        376,
+        383,
+        384,
+        385,
+        397,
+        398,
+        399,
+        411,
+        415,
+        418,
+        419,
+        422,
+        426,
+        428,
+        435,
+        436,
+        437,
+        456,
+        466,
+        469,
+        470,
+        473,
+        476,
+        478,
+        485,
+        486,
+        487,
+        488,
+        514,
+        518,
+        522,
+        525,
+        527,
+        531,
+        541,
+        550,
+        555,
+        557,
+        559,
+        567,
+        569,
+        576,
+        577,
+        578,
+        593,
+        594,
+        611,
+        615,
+        620,
+        624,
+        627,
+        629,
+        630,
+        636,
+        659,
+        661,
+        678,
+        691
+      ],
+      "pageCountExtracted": 703,
+      "extractLimitPages": 40,
+      "truncatedSelection": true,
+      "extracts": [
+        {
+          "pdfPage": 10,
+          "path": "Subsidiary_Financials_FY26.pdf.page10.txt",
+          "extractSha256": "e057726faeafb03cd7e5ca27b14ff491a019b0ade8932de4e2104f9da21c4d59"
+        },
+        {
+          "pdfPage": 12,
+          "path": "Subsidiary_Financials_FY26.pdf.page12.txt",
+          "extractSha256": "64473f318ea6850641dc85599fcf0511fd68a55078a98f313f406d90781e296b"
+        },
+        {
+          "pdfPage": 15,
+          "path": "Subsidiary_Financials_FY26.pdf.page15.txt",
+          "extractSha256": "f63765083a534336dc6398e7732f604f1c2dd419d2bb44be1c6f92bd31036cae"
+        },
+        {
+          "pdfPage": 19,
+          "path": "Subsidiary_Financials_FY26.pdf.page19.txt",
+          "extractSha256": "9841337ae0ae233bf1702d9cd00cec29485f11e0e0fd9cf9c08ac321aeb2fffa"
+        },
+        {
+          "pdfPage": 26,
+          "path": "Subsidiary_Financials_FY26.pdf.page26.txt",
+          "extractSha256": "d0f75b510e632d2bed6663d8afc0ca64397f6a7c2cb2fe563876121d676b509e"
+        },
+        {
+          "pdfPage": 27,
+          "path": "Subsidiary_Financials_FY26.pdf.page27.txt",
+          "extractSha256": "1449946c9759a72f09d98a2dd1e64d859fc6f2e12645c54c3852c87212a5cbbd"
+        },
+        {
+          "pdfPage": 53,
+          "path": "Subsidiary_Financials_FY26.pdf.page53.txt",
+          "extractSha256": "78ee6e4fe74b668ab1e922ef7bb0f15208251ab4c12b715830edc79edb7f8e34"
+        },
+        {
+          "pdfPage": 60,
+          "path": "Subsidiary_Financials_FY26.pdf.page60.txt",
+          "extractSha256": "b02a9abfe340854b076ce55298299df222e80b44203b2da7ec78005a49c13c55"
+        },
+        {
+          "pdfPage": 62,
+          "path": "Subsidiary_Financials_FY26.pdf.page62.txt",
+          "extractSha256": "154af9b04fe1dd4de5e45f3b21333af617bb114c0ad7c7373cd0836beebf73c4"
+        },
+        {
+          "pdfPage": 64,
+          "path": "Subsidiary_Financials_FY26.pdf.page64.txt",
+          "extractSha256": "83c4a8fb8b2c8549b4215578c06ea6ab6c638fc9b434a6bcb8779830bc12a1ce"
+        },
+        {
+          "pdfPage": 65,
+          "path": "Subsidiary_Financials_FY26.pdf.page65.txt",
+          "extractSha256": "12d32fdd1242648e546e69b8351ddcdea421eeb4156509e768ccabdc8b726bc7"
+        },
+        {
+          "pdfPage": 66,
+          "path": "Subsidiary_Financials_FY26.pdf.page66.txt",
+          "extractSha256": "2fc86623a97a3eefb4c244937dfd1b7db63bf2ec6d08428170903ad2f38e7aa4"
+        },
+        {
+          "pdfPage": 73,
+          "path": "Subsidiary_Financials_FY26.pdf.page73.txt",
+          "extractSha256": "5a74378d6ab950c5e60f25e8d80dccd4c7f4f91879e7b42ad5b2becd2701d8de"
+        },
+        {
+          "pdfPage": 83,
+          "path": "Subsidiary_Financials_FY26.pdf.page83.txt",
+          "extractSha256": "fe88e63b297b57c7e1557f1b6ce852c53b12505133da2f27453037442421e68e"
+        },
+        {
+          "pdfPage": 86,
+          "path": "Subsidiary_Financials_FY26.pdf.page86.txt",
+          "extractSha256": "08906cd0931319ed651a40a9881c6980a7c1cc8f34ece077af00e80cdc422ec7"
+        },
+        {
+          "pdfPage": 90,
+          "path": "Subsidiary_Financials_FY26.pdf.page90.txt",
+          "extractSha256": "597edc237c2e14db73dacb6b0235e608dcebe54d11ae408c4a3b7463821ac40d"
+        },
+        {
+          "pdfPage": 93,
+          "path": "Subsidiary_Financials_FY26.pdf.page93.txt",
+          "extractSha256": "c9a3aebf5301e946332b2ebdda3454286d966d4568c34804148d5bf9b7da84ce"
+        },
+        {
+          "pdfPage": 94,
+          "path": "Subsidiary_Financials_FY26.pdf.page94.txt",
+          "extractSha256": "c86c308edf539358d33e8a8b72d8dfd4f0ab7aee4d6e5a142f1b40d670992a5b"
+        },
+        {
+          "pdfPage": 97,
+          "path": "Subsidiary_Financials_FY26.pdf.page97.txt",
+          "extractSha256": "b288f1ee1ca2c94bc2bf1fe06c3cdf14312429a55b2dfb025538359cb5cefbe7"
+        },
+        {
+          "pdfPage": 103,
+          "path": "Subsidiary_Financials_FY26.pdf.page103.txt",
+          "extractSha256": "031b6c74b315af82424448d6ce524f1e7af5aec94e7bb61d400bb814cbd32d8b"
+        },
+        {
+          "pdfPage": 106,
+          "path": "Subsidiary_Financials_FY26.pdf.page106.txt",
+          "extractSha256": "07b609b0edd57eb42288aa4253d465eed99a4c03cfd5db1031a78d20eb8dbdaf"
+        },
+        {
+          "pdfPage": 113,
+          "path": "Subsidiary_Financials_FY26.pdf.page113.txt",
+          "extractSha256": "2efb5f4a72935c363fb1d5aed1f0587b297cdfdb6d95531c7b284523495abd66"
+        },
+        {
+          "pdfPage": 119,
+          "path": "Subsidiary_Financials_FY26.pdf.page119.txt",
+          "extractSha256": "75a67088ce87f68d0864788f4bfa0663db117597f46906f1bd7696a09e33b165"
+        },
+        {
+          "pdfPage": 122,
+          "path": "Subsidiary_Financials_FY26.pdf.page122.txt",
+          "extractSha256": "44bd5573d7a025a7c92211983f86a6ca8b21cde6d0f6bf6c942dd7001b334288"
+        },
+        {
+          "pdfPage": 128,
+          "path": "Subsidiary_Financials_FY26.pdf.page128.txt",
+          "extractSha256": "cb2ed7019cf0f39a63d7d95b025d3b06bd2fb662ec1c3cdcf55ea7e6d49f945c"
+        },
+        {
+          "pdfPage": 136,
+          "path": "Subsidiary_Financials_FY26.pdf.page136.txt",
+          "extractSha256": "64aecd645c9223870a1a4424dacb488bf1c1c147264da85e1390feb399e5fb1c"
+        },
+        {
+          "pdfPage": 144,
+          "path": "Subsidiary_Financials_FY26.pdf.page144.txt",
+          "extractSha256": "bb83765ffb27f155349cb838eca6dcf3d1f82c647062438c515d426c2703b1f1"
+        },
+        {
+          "pdfPage": 146,
+          "path": "Subsidiary_Financials_FY26.pdf.page146.txt",
+          "extractSha256": "d260d9373439901ab3834b0703d468100bd9e190b1615b4345837c6f5e327083"
+        },
+        {
+          "pdfPage": 152,
+          "path": "Subsidiary_Financials_FY26.pdf.page152.txt",
+          "extractSha256": "8f9104763f601b632c9bc58bf164cb1d6ff82134825a9aedeea82b8386e6e2c3"
+        },
+        {
+          "pdfPage": 166,
+          "path": "Subsidiary_Financials_FY26.pdf.page166.txt",
+          "extractSha256": "493e0b91d99880ec3d5c07475e8fe4843f2010057554c917d47e0232e845991f"
+        },
+        {
+          "pdfPage": 167,
+          "path": "Subsidiary_Financials_FY26.pdf.page167.txt",
+          "extractSha256": "4b2e3d190e6660b68e259943c548001e3566692b2e866b5fa6bea5dc22877af9"
+        },
+        {
+          "pdfPage": 168,
+          "path": "Subsidiary_Financials_FY26.pdf.page168.txt",
+          "extractSha256": "b6c1be19b9f1a40077b7ffbd1d26e3ccb512e7e818b36d62575bb66de15be3ed"
+        },
+        {
+          "pdfPage": 183,
+          "path": "Subsidiary_Financials_FY26.pdf.page183.txt",
+          "extractSha256": "61d44bb22cb085e6541eb4a339c6023b97e965f9332ec353433757bae4be3b80"
+        },
+        {
+          "pdfPage": 189,
+          "path": "Subsidiary_Financials_FY26.pdf.page189.txt",
+          "extractSha256": "fe13e749b21282c58ddcf18089f9836b1e11f3f5d7b9c272bdb3b44f21a853e5"
+        },
+        {
+          "pdfPage": 191,
+          "path": "Subsidiary_Financials_FY26.pdf.page191.txt",
+          "extractSha256": "9a8a32ca9977995f404d7af623c06b860bb968e6c85e033b580ae8144ac0d0cf"
+        },
+        {
+          "pdfPage": 198,
+          "path": "Subsidiary_Financials_FY26.pdf.page198.txt",
+          "extractSha256": "08a7c984a232fc4f65d74023dcb63dc2d734817d31972cc4084cf11c6c1f0c8c"
+        },
+        {
+          "pdfPage": 200,
+          "path": "Subsidiary_Financials_FY26.pdf.page200.txt",
+          "extractSha256": "6c9e0cd51c676741d719be12a2133befc182eb928c92ed49445f5a7c7233e077"
+        },
+        {
+          "pdfPage": 209,
+          "path": "Subsidiary_Financials_FY26.pdf.page209.txt",
+          "extractSha256": "374435e3f540111343c8161c5843bd3ba6a6a42cd46a825f35ddd44b3a59b37a"
+        },
+        {
+          "pdfPage": 210,
+          "path": "Subsidiary_Financials_FY26.pdf.page210.txt",
+          "extractSha256": "2dedcb7321f31a13f643e35cbb640b8e22859314c1bb18e528bad0d015bc0d26"
+        },
+        {
+          "pdfPage": 217,
+          "path": "Subsidiary_Financials_FY26.pdf.page217.txt",
+          "extractSha256": "e938a90d4b6060ee283bbbf3cbda8a575fcd091b200039ab241eaa7d4276fd53"
+        }
+      ]
+    },
+    {
+      "url": "https://marico.com/investorspdf/Marico_Annual_Report_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:40.505146+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 200,
+      "finalUrl": "https://marico.com/investorspdf/Marico_Annual_Report_FY26.pdf",
+      "bytes": 21282741,
+      "sha256": "7ea5e097b415f4fa226d32cad95cdc6435a88c58e43c2db10d4de7b31103ec4f",
+      "isPdf": true,
+      "pdfMetadata": {
+        "/CreationDate": "D:20260708200819+05'30'",
+        "/Creator": "Adobe InDesign 21.4 (Macintosh)",
+        "/ModDate": "D:20260708234754+05'30'",
+        "/Producer": "Adobe PDF Library 18.0",
+        "/Trapped": "/False"
+      },
+      "pdfPages": 279,
+      "inspection": "metadata and byte digest only; existing FY26 report is a prior-evidence control",
+      "extracts": []
+    },
+    {
+      "url": "https://www.marico.com/investorspdf/Draft_MGT-7_-_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:54.269145+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 404,
+      "finalUrl": "https://marico.com/investorspdf/Draft_MGT-7_-_FY26.pdf",
+      "bytes": 45,
+      "sha256": "b59f420d193065bf9ee5e2d6ea87f14a0bfb0ce591e5283aee3b327cab44f908",
+      "interpretation": "HTTP non-success, not source content or non-existence proof"
+    },
+    {
+      "url": "https://www.marico.com/investorspdf/MGT-7_-_FY26.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:54.269612+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 404,
+      "finalUrl": "https://marico.com/investorspdf/MGT-7_-_FY26.pdf",
+      "bytes": 45,
+      "sha256": "b59f420d193065bf9ee5e2d6ea87f14a0bfb0ce591e5283aee3b327cab44f908",
+      "interpretation": "HTTP non-success, not source content or non-existence proof"
+    },
+    {
+      "url": "https://www.marico.com/investorspdf/MGT-7_-_FY25.pdf",
+      "retrievedAtUTC": "2026-11-18T06:15:54.269963+00:00",
+      "purpose": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "status": 404,
+      "finalUrl": "https://marico.com/investorspdf/MGT-7_-_FY25.pdf",
+      "bytes": 45,
+      "sha256": "b59f420d193065bf9ee5e2d6ea87f14a0bfb0ce591e5283aee3b327cab44f908",
+      "interpretation": "HTTP non-success, not source content or non-existence proof"
+    }
+  ]
+}

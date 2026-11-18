@@ -1,0 +1,28 @@
+{
+  "baselineCommit": "843f162b8ddb587e395f14e0dc0821286c348a0f",
+  "previousEvidenceCutoff": "2026-11-12 (W07 report, not a claim of a complete worldwide filing cutoff)",
+  "branch": "arena/dea7aba4-iips-review-recovered",
+  "governingEntries": [
+    "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md \u00a7\u00a717.23\u201317.24",
+    "docs/integration/W07-FINANCIAL-LIMITATION-RESOLUTION-2026-11-12.md \u00a7\u00a73.1\u20133.4, 7",
+    "master tracker \u00a716.282"
+  ],
+  "captureRuns": [
+    44249537298,
+    44250008327
+  ],
+  "transportOnlyRuns": [
+    44249890712,
+    44250153228,
+    44250255123
+  ],
+  "lineage": "Public issuer bytes -> pinned Python probe on own IRR branch -> metadata/hashes/bounded pdftotext-equivalent pypdf layout extracts -> Actions artifact -> API annotation transport; extract SHA256 verified independently after transport. Failed initial requests preserved, later curl retries succeeded. No new data admitted.",
+  "rightsAndAdmission": "DISCOVERY_ONLY_NOT_ADMITTED: public accessibility is not a rights grant or independent rights verification. No PDF redistributed, no licence/provider/O3 expansion. Existing source rights remain unchanged.",
+  "priorEvidenceBlobs": {
+    "docs/integration/W07-FINANCIAL-LIMITATION-RESOLUTION-2026-11-12.md": "71f1718fc1791acc29d6e3d11165c058c32257e9",
+    "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/determination.json": "6c650c5a91134a7f2f0f0b2f968493d97810190c",
+    "evidence/real-issuer/WI12-L038-PREFERENCE-CAPITAL-2026-11-08/digests.json": "d61131074221144ff1f6bced20b797c8766ca8ef",
+    "iips-platform/src/investment/assessment/capitalStructure.ts": "7716e58db1c37c929037e5510793288dee52bde1",
+    "iips-platform/src/investment/contracts/nilBinding.ts": "155812c7af8907f0b1c4ffb329b0264568ea3599"
+  }
+}

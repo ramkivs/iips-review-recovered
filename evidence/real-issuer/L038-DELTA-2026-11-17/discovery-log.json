@@ -1,0 +1,29 @@
+{
+  "purpose": "Discovery only; none of these search results is admitted financial evidence",
+  "queries": [
+    {"query": "site.marico.com MGT 2026", "finding": "No qualifying official final Marico return located; unrelated/third-party results are not statutory evidence."},
+    {"query": "Marico signed MGT-7 2025 2026 annual return preference shares", "finding": "Returned the already-known FY25 draft and unrelated issuers; none admitted."},
+    {"query": "site:marico.com/investorspdf/ MGT 2025-26", "finding": "No signed final Marico return located; update/manual/CSR results do not establish preference capital."},
+    {"query": "Marico preference 2026 nil consolidated", "finding": "Prior IRR records and a rating narrative, neither a new audited consolidated nil; a BSE AGM transcript was identified."},
+    {"query": "Marico MGT-7 signed", "finding": "Known FY24/FY25 draft URLs returned. No authenticated MCA filed copy obtained."},
+    {"query": "Marico preference capital November 2026", "finding": "Prior records, broker/stock pages and a November 6 results transcript link. No directly responsive consolidated preference-capital clarification located; no broker/market-page values used."}
+  ],
+  "directory": {
+    "url": "https://marico.com/india/investors/annual-report",
+    "browserFinding": "Current displayed page links FY26 parent annual report and Subsidiary_Financials_FY26.pdf, plus FY25 parent report. This is a listing, not a group nil statement.",
+    "rawByteDigest": "See source/retrieval.json for independently fetched directory bytes. Browser-parsed text and runner HTML are different representations; no equality claimed.",
+    "limits": "Static href discovery records a Next.js page script, not a complete authenticated filing index; dynamic content/search discovery is not proof that a final filing is absent."
+  },
+  "otherCandidate": {
+    "url": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/121dcb24-a30f-4b04-a4da-61e000007040.pdf",
+    "identity": "Marico Limited, cover dated August 25, 2026, transcript of August 6, 2026 AGM",
+    "inspection": "Browser fetch first returned chunk only; cover and meeting introduction. Prior-to-cutoff source, not new since W07; no complete transcript negative finding claimed.",
+    "status": "Cover displays digital-signature text for Vinay M A; no cryptographic verification performed. It is an AGM transcript, not an MCA MGT-7 receipt or audited group capital schedule.",
+    "scopeAndAmount": "No qualifying issued consolidated preference amount/nil established by the inspected chunk.",
+    "digest": null,
+    "digestReason": "Primary bytes not acquired through this browser fetch; no digest invented. Not used as admissible financial evidence.",
+    "rightsAdmission": "DISCOVERY_ONLY_NOT_ADMITTED; public location is not independent source-rights verification."
+  },
+  "registryLimit": "No authenticated MCA SRN/challan or complete signed filing package obtained; no claim of a complete MCA registry search. Credentials/payment/authorisation not requested or bypassed.",
+  "temporalLimit": "Newly inspected does not mean newly published after W07. PDF creation/modification metadata and retrieval times are not filing dates. No post-cutoff publication date is authenticated."
+}
