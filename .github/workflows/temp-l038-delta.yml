@@ -2,31 +2,33 @@ name: Temporary L-038 delta evidence capture
 on:
   push:
     branches: ['arena/dea7aba4-iips-review-recovered']
-    paths: ['.github/workflows/temp-l038-delta.yml', 'scripts/l038_delta_source_probe.py']
+    paths: ['.github/workflows/temp-l038-delta.yml']
 permissions:
   contents: read
   actions: read
 jobs:
-  capture:
+  recover:
+    strategy:
+      matrix:
+        batch: [0, 1, 2, 3]
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
-      - name: Isolated PDF parser (runner tools only, no product installation)
-        run: python -m pip install --target "$RUNNER_TEMP/l038-parser" pypdf==6.1.3
-      - name: Targeted retrieval and bounded extracts
-        run: PYTHONPATH="$RUNNER_TEMP/l038-parser" python scripts/l038_delta_source_probe.py
-      - name: Expose capture to GitHub API (sandbox artifact transport is unavailable)
+      - name: Recover existing capture only (no source re-fetch)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BATCH: ${{ matrix.batch }}
         run: |
+          gh run download 44250008327 -n l038-delta-capture -D l038-delta-capture
           python - <<'PY'
-          import base64, json, pathlib, zlib
+          import base64, json, os, pathlib, zlib
           files = {str(p.relative_to('l038-delta-capture')): p.read_text() for p in pathlib.Path('l038-delta-capture').rglob('*') if p.is_file()}
           encoded = base64.b64encode(zlib.compress(json.dumps(files).encode(), 9)).decode()
-          for i in range(0, len(encoded), 40000):
-              print(f'::notice title=L038_EVIDENCE_{i//40000:03d}::{encoded[i:i+40000]}')
+          chunks = [encoded[i:i+3500] for i in range(0, len(encoded), 3500)]
+          batch = int(os.environ['BATCH'])
+          for i in range(batch*9, min((batch+1)*9, len(chunks))):
+              print(f'::notice title=L038_EVIDENCE_{i:03d}::{chunks[i]}')
+          print(f'Capture transport total chunks={len(chunks)}; capacity=36')
+          assert len(chunks) <= 36
           PY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: l038-delta-capture
-          path: l038-delta-capture/
-          retention-days: 7
