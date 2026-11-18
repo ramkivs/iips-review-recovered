@@ -5,7 +5,10 @@
  * portfolio creation or use), 11 (coverage percentages use distinct issuers and identified
  * eligible-holding denominators), 12 (a portfolio beyond 200 holdings uses the same lifecycle
  * without requiring all datasets upfront) — plus negative tests for malformed manifests and
- * rights records that disagree with the dataset manifest.
+ * rights records that disagree with the dataset manifest; coverage by analytical method (the
+ * roadmap's method dimension) kept apart from the acquisition-method source breakdown; the
+ * separate entitlement and retention verdicts in the report; and what the identity gate does and
+ * does not establish about W04.
  */
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
@@ -19,7 +22,12 @@ import {
   type DatasetCatalogEntry,
   type IssuerLifecycleInput,
 } from '../../src/investment/lifecycle/issuerLifecycle';
-import { buildLifecycleReport, renderLifecycleSummary } from '../../src/investment/lifecycle/reporting';
+import {
+  METHOD_NOT_DETERMINABLE,
+  buildLifecycleReport,
+  renderLifecycleSummary,
+} from '../../src/investment/lifecycle/reporting';
+import { SECTOR_METHODS } from '../../src/investment/coverage/methodMatrix';
 import { buildRightsRecord } from '../../src/investment/lifecycle/rightsRecord';
 import type { IdentityObservation } from '../../src/investment/identity/types';
 import { openLocalSnapshot } from '../../src/investment/port/localSnapshotStore';
@@ -251,7 +259,7 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     assert.equal(report.unresolved[0]!.portfolioRevision, 'rev-9');
   });
 
-  test('coverage is reported by sector and by acquisition method alongside the by-issuer figures', () => {
+  test('coverage is reported by sector and by analytical method; acquisition method is a separate source breakdown', () => {
     const observations = [
       holding('H-001', 'portfolio-one', ISSUER_A),
       holding('H-002', 'portfolio-one', ISSUER_A),
@@ -277,14 +285,49 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     assert.equal(unspecified.issuers, 1);
     assert.equal(unspecified.holdingsWithFinancialData, 0);
 
-    // By acquisition method: the recorded method of the provisioned dataset; NOT_PROVISIONED for the rest.
+    // By ANALYTICAL method — the roadmap's method dimension. The keys are the governed matrix's
+    // methods for the issuer's sector, never an acquisition route.
+    const methodKeys = report.coverageByAnalyticalMethod.map((entry) => entry.key);
+    assert.deepEqual(
+      [...methodKeys].sort(),
+      [...SECTOR_METHODS.Technology.map((requirement) => requirement.methodId), METHOD_NOT_DETERMINABLE].sort(),
+    );
+    assert.ok(report.coverageByAnalyticalMethod.every((entry) => entry.basis === 'ANALYTICAL_METHOD'));
+    const dcf = report.coverageByAnalyticalMethod.find((entry) => entry.key === 'DCF_FCFF')!;
+    assert.equal(dcf.issuers, 1);
+    assert.equal(dcf.holdings, 2);
+    assert.equal(dcf.holdingsWithFinancialData, 2);
+    assert.equal(dcf.percent, 100);
+    assert.match(dcf.note, /provisional pending W10/);
+    // A method whose declared input the dataset lacks is NOT covered, although the issuer has a
+    // suitable dataset: method coverage is not the same figure as dataset coverage.
+    const evEbitda = report.coverageByAnalyticalMethod.find((entry) => entry.key === 'EV_EBITDA')!;
+    assert.equal(evEbitda.holdings, 2);
+    assert.equal(evEbitda.holdingsWithFinancialData, 0);
+    assert.equal(evEbitda.percent, 0);
+    // The issuer with no dataset has no nameable method. It is reported, not dropped, and not covered.
+    const undeterminable = report.coverageByAnalyticalMethod.find((entry) => entry.key === METHOD_NOT_DETERMINABLE)!;
+    assert.equal(undeterminable.issuers, 1);
+    assert.equal(undeterminable.holdings, 1);
+    assert.equal(undeterminable.holdingsWithFinancialData, 0);
+    assert.match(undeterminable.note, /no method coverage is claimed/);
+
+    // By acquisition method: SOURCE/RIGHTS evidence, explicitly not the method dimension.
     const provisioned = report.coverageByAcquisitionMethod.find((entry) => entry.key === 'SYNTHETIC_GENERATION')!;
     assert.equal(provisioned.basis, 'ACQUISITION_METHOD');
     assert.equal(provisioned.holdings, 2);
     assert.equal(provisioned.holdingsWithFinancialData, 2);
+    assert.match(provisioned.note, /not the roadmap method dimension/);
     const notProvisioned = report.coverageByAcquisitionMethod.find((entry) => entry.key === 'NOT_PROVISIONED')!;
     assert.equal(notProvisioned.holdings, 1);
     assert.equal(notProvisioned.holdingsWithFinancialData, 0);
+    assert.match(notProvisioned.note, /not the roadmap method dimension/);
+    // The two axes share no key: an acquisition route is never reported as a method.
+    assert.ok(!report.coverageByAcquisitionMethod.some((entry) => methodKeys.includes(entry.key)));
+
+    const summary = renderLifecycleSummary(report);
+    assert.match(summary, /coverage by analytical method \[DCF_FCFF\] \(provisional pending W10\): 2\/2 holdings = 100%/);
+    assert.match(summary, /source\/rights — by acquisition method \[SYNTHETIC_GENERATION\] \(not the method dimension\)/);
 
     // Dimension entries cover identity-passed holdings only — the unresolved holding is itemised.
     const dimensionHoldings = report.coverageBySector.reduce((total, entry) => total + entry.holdings, 0);
@@ -318,6 +361,109 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     assert.equal(report.thetaF.isPerDatasetQualificationThreshold, false);
     assert.equal(report.thetaF.assertionStatus, 'NO_DEFENSIBLE_VALUE_ASSERTED');
     assert.equal(report.thetaF.w20GateOpen, false, 'the W20 gate fails closed');
+  });
+
+  test('entitlement and retention are reported separately, per issuer, beside the combined status', () => {
+    // Retention unverified, every entitlement purpose permitted: a dataset that is entitled but
+    // whose retention was not established. The combined status must fail closed AND the report
+    // must still show which of the two verdicts failed.
+    const retentionUnknown = operatorAssertedRightsRecord(AS_OF, { RETENTION: 'UNKNOWN' });
+    const result = lifecycle({
+      observations: [holding('H-001', 'portfolio-one', ISSUER_A), holding('H-002', 'portfolio-one', ISSUER_B)],
+      datasets: [
+        suitableEntry([ISSUER_A], {
+          datasetVersion: 'sha256:abab000000000000000000000000000000000000000000000000000000000000',
+          sourceRights: { state: 'OPERATOR_ASSERTED', basis: 'terms recorded', note: '' },
+          rights: retentionUnknown,
+        }),
+        suitableEntry([ISSUER_B], { datasetVersion: 'sha256:cdcd000000000000000000000000000000000000000000000000000000000000' }),
+      ],
+    });
+    const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
+
+    const rowA = result.issuers.find((row) => row.issuerId === ISSUER_A)!;
+    assert.equal(rowA.selectedDatasetVersion, null, 'unverified retention fails closed: the dataset is not selected');
+    assert.ok(rowA.states.includes('RIGHTS_UNKNOWN'));
+
+    const a = report.rightsAssessments.find((entry) => entry.issuerId === ISSUER_A)!;
+    assert.equal(a.status, 'UNKNOWN');
+    assert.equal(a.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE', 'entitlement is visibly satisfied');
+    assert.equal(a.retentionStatus, 'UNKNOWN', 'retention is visibly the verdict that failed');
+    assert.equal(a.entitlementReason, retentionUnknown.entitlementReason);
+    assert.equal(a.retentionReason, retentionUnknown.retentionReason);
+    const b = report.rightsAssessments.find((entry) => entry.issuerId === ISSUER_B)!;
+    assert.equal(b.status, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(b.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(b.retentionStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+
+    // Counted per verdict, never merged into one figure.
+    assert.deepEqual(report.rightsVerdicts.entitlement, { eligible: 2, restricted: 0, unknown: 0 });
+    assert.deepEqual(report.rightsVerdicts.retention, { eligible: 1, restricted: 0, unknown: 1 });
+
+    // Only the holding whose dataset passed BOTH verdicts carries financial data.
+    assert.equal(report.financialRatio.numerator, 1);
+    const summary = renderLifecycleSummary(report);
+    assert.match(summary, /entitlement eligible 2 \/ restricted 0 \/ unknown 0; retention eligible 1 \/ restricted 0 \/ unknown 1/);
+  });
+});
+
+describe('W05 — the identity gate: what RESOLVED does and does not establish about W04', () => {
+  test('a holding with a symbol but no ISIN and no exchange is not resolved and contributes nothing', () => {
+    // The shape of a persisted holding whose stored security identity is null: an ACTIVE symbol
+    // of a real roster issuer, no ISIN, no exchange. The issuer even has a suitable dataset.
+    const nullIdentity: IdentityObservation = {
+      ...holding('H-NULL', 'portfolio-one', ISSUER_A),
+      isin: null,
+      exchange: null,
+      series: null,
+      raw: { symbol: SYMBOLS[ISSUER_A]!, quantity: 10, securityIdentity: null },
+    };
+    const result = lifecycle({
+      portfolios: [{ portfolioId: 'portfolio-one', portfolioRevision: 'rev-9' }],
+      observations: [nullIdentity],
+      datasets: [suitableEntry([ISSUER_A])],
+    });
+    const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
+
+    assert.equal(result.issuers.length, 0, 'the holding reaches no issuer row — it is never matched by symbol or name alone');
+    assert.equal(result.unresolved.length, 1);
+    assert.equal(result.unresolved[0]!.observationId, 'H-NULL');
+    assert.equal(result.unresolved[0]!.state, 'UNMATCHED');
+    assert.equal(result.unresolved[0]!.reason, 'NO_IDENTIFIER_PROVIDED');
+    assert.equal(report.financialRatio.identityPassedHoldings, 0);
+    assert.equal(report.financialRatio.numerator, 0, 'an identity-failed holding contributes nothing, even though its issuer has data');
+    assert.equal(report.financialRatio.denominator, 1);
+    assert.deepEqual(
+      { isin: report.identityBasis.isin, exchangeSymbol: report.identityBasis.exchangeSymbol },
+      { isin: 0, exchangeSymbol: 0 },
+    );
+  });
+
+  test('an exchange-and-symbol match is RESOLVED by the resolver and is disclosed as such — not as an ISIN identity', () => {
+    // This is the limit of the gate. With no ISIN but an exchange and an active symbol the
+    // resolver returns RESOLVED, so the lifecycle counts the holding. RESOLVED is therefore not
+    // the same statement as "the holding has a stored security identity": the lifecycle does not
+    // enforce the W04 numerator bound, it discloses the basis so a reconciliation can.
+    const bySymbol: IdentityObservation = {
+      ...holding('H-SYM', 'portfolio-one', ISSUER_A),
+      isin: null,
+      raw: { symbol: SYMBOLS[ISSUER_A]!, quantity: 10 },
+    };
+    const result = lifecycle({
+      observations: [bySymbol, holding('H-ISIN', 'portfolio-one', ISSUER_A)],
+      datasets: [suitableEntry([ISSUER_A])],
+    });
+    const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
+
+    const row = result.issuers[0]!;
+    assert.equal(row.holdings.length, 2);
+    assert.equal(row.holdings.find((entry) => entry.observationId === 'H-SYM')!.resolutionBasis, 'EXCHANGE_SYMBOL');
+    assert.equal(row.holdings.find((entry) => entry.observationId === 'H-ISIN')!.resolutionBasis, 'ISIN');
+    assert.equal(report.identityBasis.isin, 1);
+    assert.equal(report.identityBasis.exchangeSymbol, 1);
+    assert.match(report.identityBasis.note, /does not read the W04 census/);
+    assert.ok(report.notes.some((note) => /not by itself a reconciliation to W04/.test(note)));
+    assert.match(renderLifecycleSummary(report), /identity basis of resolved holdings: ISIN 1, exchange-and-symbol 1 \(not a W04 reconciliation\)/);
   });
 });
 
@@ -428,7 +574,13 @@ describe('W05 — negative tests: malformed manifests and inconsistent rights ev
     const row = result.issuers[0]!;
     assert.equal(row.selectedDatasetVersion, null);
     assert.ok(row.states.includes('RIGHTS_UNKNOWN'));
-    assert.match(row.candidates[0]!.qualification.evidence.rights.statusReason, /inconsistent with the dataset manifest/);
+    const rights = row.candidates[0]!.qualification.evidence.rights;
+    assert.match(rights.statusReason, /inconsistent with the dataset manifest/);
+    // Neither separate verdict is taken from inconsistent evidence: both fail closed with a reason.
+    assert.equal(rights.entitlementStatus, 'UNKNOWN');
+    assert.equal(rights.retentionStatus, 'UNKNOWN');
+    assert.match(rights.entitlementReason, /entitlement fails closed/);
+    assert.match(rights.retentionReason, /retention fails closed/);
   });
 
   test('an unknown-rights dataset (no declaration) never becomes suitable', () => {

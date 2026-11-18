@@ -5,15 +5,18 @@
  * incomplete statements), 7 (standalone vs consolidated), 8 (missing/nil/zero/unmapped distinct),
  * 9 (accounting limitations retained and consequential), 10 (reproducible from recorded
  * evidence and rules) — plus the threshold mechanism: documented, testable, configurable, and
- * never treated as approved.
+ * never treated as approved; the separate entitlement and retention verdicts carried through
+ * qualification; and coverage by analytical method (disclosure only, provisional pending W10).
  */
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
   DEFAULT_QUALIFICATION_POLICY,
+  effectiveRightsStatus,
   qualifyIssuerDataset,
   qualificationFromEvidence,
+  rightsBlockOf,
   type IssuerDatasetQualification,
   type QualificationInput,
 } from '../../src/investment/lifecycle/qualification';
@@ -28,6 +31,7 @@ import {
 import { rightsRecordFromManifest } from '../../src/investment/lifecycle/rightsRecord';
 import { present } from '../../src/investment/contracts/observation';
 import { sectorRequirements } from '../../src/investment/coverage/measure';
+import { SECTOR_METHODS } from '../../src/investment/coverage/methodMatrix';
 import {
   ISSUER_A,
   annualPeriod,
@@ -45,14 +49,7 @@ const AS_OF_FRESH = '2026-09-15'; // FY2026 (ended 2026-03-31) is 168 days old �
 const AS_OF_STALE = '2026-11-17'; // the same period is 231 days old — outside it
 
 function rightsSummary() {
-  const record = syntheticRightsRecord(AS_OF_FRESH);
-  return {
-    manifestRightsState: record.manifestRightsState,
-    datasetClass: record.datasetClass,
-    status: record.status,
-    statusReason: record.statusReason,
-    acquisitionMethod: record.evidence.acquisitionMethod,
-  };
+  return rightsBlockOf(syntheticRightsRecord(AS_OF_FRESH));
 }
 
 function qualify(overrides: Partial<QualificationInput> = {}, asOf: string = AS_OF_FRESH): IssuerDatasetQualification {
@@ -84,15 +81,7 @@ describe('W05 — dataset qualification: a successful import is not qualificatio
     const unknownRights = rightsRecordFromManifest(undefined, AS_OF_FRESH);
     assert.equal(unknownRights.status, 'UNKNOWN');
 
-    const qualification = qualify({
-      rights: {
-        manifestRightsState: unknownRights.manifestRightsState,
-        datasetClass: unknownRights.datasetClass,
-        status: unknownRights.status,
-        statusReason: unknownRights.statusReason,
-        acquisitionMethod: unknownRights.evidence.acquisitionMethod,
-      },
-    });
+    const qualification = qualify({ rights: rightsBlockOf(unknownRights) });
 
     assert.equal(qualification.technicallyValid, true, 'the import itself is valid');
     assert.ok(qualification.failedGates.includes('RIGHTS_ELIGIBLE'));
@@ -105,10 +94,9 @@ describe('W05 — dataset qualification: a successful import is not qualificatio
     const unknownRights = rightsRecordFromManifest({ state: 'UNKNOWN', basis: '', note: '' }, AS_OF_FRESH);
     const qualification = qualify({
       rights: {
+        ...rightsBlockOf(unknownRights),
         manifestRightsState: 'UNKNOWN',
         datasetClass: 'UNKNOWN',
-        status: unknownRights.status,
-        statusReason: unknownRights.statusReason,
         acquisitionMethod: 'UNKNOWN',
       },
     });
@@ -279,7 +267,11 @@ describe('W05 — the per-dataset qualification ruleset is documented and testab
     assert.match(threshold.provenance.role, /no product-owner approval dependency/);
     assert.ok(threshold.provenance.rationale.length > 0);
     assert.ok(threshold.provenance.impact.length > 0);
-    assert.match(threshold.provenance.impact, /0 of 64 holdings/);
+    // The impact statement keeps the two censuses apart: the only measurement on record is the
+    // historical one over the Dhan CSV, and nothing is claimed as measured against revision 1.
+    assert.match(threshold.provenance.impact, /0 of 65 ISIN-resolved rows of the published 68-row Dhan CSV/);
+    assert.match(threshold.provenance.impact, /No financial-data coverage of the W04 revision-1 holdings \(64 holdings\) has been measured/);
+    assert.doesNotMatch(threshold.provenance.impact, /0 of 64/, 'no 0-of-64 figure is presented: revision 1 was never processed');
     // The numeric gates are the ALREADY-GOVERNED policy values, not new inventions.
     assert.equal(threshold.policy.adequacy.minimumAnnualPeriods, DEFAULT_QUALIFICATION_POLICY.adequacy.minimumAnnualPeriods);
     assert.equal(threshold.policy.adequacy.sufficientFieldCoveragePct, DEFAULT_QUALIFICATION_POLICY.adequacy.sufficientFieldCoveragePct);
@@ -382,8 +374,10 @@ describe('W05 — θF is the portfolio-wide ratio that gates W20: not a per-data
   });
 
   test('a holding contributes to the financial ratio only if its own identity passes', () => {
-    // 64 holdings (the W04 revision-1 denominator), one identity-passed holding with data:
-    // the numerator is therefore at most one — exactly the roadmap rule.
+    // ARITHMETIC CHECK WITH ILLUSTRATIVE INPUTS — not a measurement. The numbers are typed in here
+    // (64 is the size of the W04 revision-1 census); no revision-1 holding was processed and this
+    // test is no evidence of real coverage. It shows only that the function never admits more
+    // holdings with data than holdings whose identity passed.
     const ratio = financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 1, totalHoldings: 64 });
     assert.equal(ratio.numerator, 1);
     assert.equal(ratio.denominator, 64);
@@ -411,6 +405,201 @@ describe('W05 — θF is the portfolio-wide ratio that gates W20: not a per-data
     const below = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 1, totalHoldings: 4 });
     assert.equal(evaluateW20Gate(below, syntheticAsserted).open, false);
     assert.equal(THETA_F.value, null, 'the exported θF record itself asserts no value');
+  });
+
+  test('the θF condition is evaluated on the unrounded ratio and never opens on an empty denominator', () => {
+    // Synthetic mechanism values only — not an asserted θF.
+    const asserted = (value: number) => ({
+      ...THETA_F,
+      assertionStatus: 'ASSERTED_FROM_OBSERVED_EVIDENCE' as const,
+      value,
+    });
+
+    // 1999 of 2000 is 99.95%. It DISPLAYS as 100.0 but does not reach 100: rounding is display only.
+    const justBelow = financialRatio({ identityPassedHoldings: 2000, holdingsWithFinancialData: 1999, totalHoldings: 2000 });
+    assert.equal(justBelow.percent, 100, 'the displayed figure rounds up');
+    assert.equal(evaluateW20Gate(justBelow, asserted(100)).open, false, 'the gate does not evaluate the rounded figure');
+    const exactly = financialRatio({ identityPassedHoldings: 2000, holdingsWithFinancialData: 2000, totalHoldings: 2000 });
+    assert.equal(evaluateW20Gate(exactly, asserted(100)).open, true);
+
+    // An empty denominator is "not applicable", never 100% and never a pass — even at θF = 0.
+    const empty = financialRatio({ identityPassedHoldings: 0, holdingsWithFinancialData: 0, totalHoldings: 0 });
+    const emptyGate = evaluateW20Gate(empty, asserted(0));
+    assert.equal(emptyGate.open, false);
+    assert.match(emptyGate.reason, /not applicable/);
+    assert.match(emptyGate.reason, /fail closed/);
+  });
+});
+
+describe('W05 — entitlement and retention stay separate through qualification', () => {
+  test('the evidence snapshot carries both verdicts and their reasons beside the combined status', () => {
+    const record = operatorAssertedRightsRecord(AS_OF_FRESH, { RETENTION: 'UNKNOWN' });
+    assert.equal(record.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(record.retentionStatus, 'UNKNOWN');
+
+    const qualification = qualify({ rights: rightsBlockOf(record) });
+    const rights = qualification.evidence.rights;
+
+    // Nothing is dropped at the qualification seam: entitlement is still visibly satisfied and
+    // retention is still visibly the verdict that fails.
+    assert.equal(rights.status, 'UNKNOWN');
+    assert.equal(rights.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(rights.entitlementReason, record.entitlementReason);
+    assert.equal(rights.retentionStatus, 'UNKNOWN');
+    assert.equal(rights.retentionReason, record.retentionReason);
+    assert.match(rights.retentionReason, /retention fails closed/);
+
+    // The combined fail-closed result and its accepted wording are unchanged.
+    const gate = qualification.gates.find((entry) => entry.gate === 'RIGHTS_ELIGIBLE')!;
+    assert.equal(gate.passed, false);
+    assert.equal(gate.reason, record.statusReason);
+    assert.deepEqual(qualificationFromEvidence(qualification.evidence), qualification, 'both verdicts are part of the reproducible evidence');
+  });
+
+  test('entitlement failing with retention satisfied is equally visible, and equally fails closed', () => {
+    const record = operatorAssertedRightsRecord(AS_OF_FRESH, { ANALYSIS: 'NOT_PERMITTED' });
+    const qualification = qualify({ rights: rightsBlockOf(record) });
+    const rights = qualification.evidence.rights;
+    assert.equal(rights.entitlementStatus, 'RESTRICTED');
+    assert.equal(rights.retentionStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(rights.status, 'RESTRICTED');
+    assert.ok(qualification.failedGates.includes('RIGHTS_ELIGIBLE'));
+  });
+
+  test('a rights block whose combined status is more permissive than a separate verdict fails closed', () => {
+    const eligible = rightsSummary();
+    assert.equal(effectiveRightsStatus(eligible), 'ELIGIBLE_LOCAL_PERSONAL_USE');
+
+    // A hand-built block claiming ELIGIBLE overall while retention is unknown is inconsistent.
+    const inconsistent = { ...eligible, retentionStatus: 'UNKNOWN' as const, retentionReason: 'retention not verified' };
+    assert.equal(effectiveRightsStatus(inconsistent), 'UNKNOWN');
+    const qualification = qualify({ rights: inconsistent });
+    const gate = qualification.gates.find((entry) => entry.gate === 'RIGHTS_ELIGIBLE')!;
+    assert.equal(gate.passed, false);
+    assert.match(gate.reason, /more permissive than its separate verdicts/);
+    assert.match(gate.reason, /fails closed/);
+    assert.equal(
+      applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT').decision,
+      'BELOW_THRESHOLD',
+    );
+
+    // RESTRICTED in either verdict is never outranked by an ELIGIBLE combined status.
+    assert.equal(effectiveRightsStatus({ ...eligible, entitlementStatus: 'RESTRICTED' }), 'RESTRICTED');
+    // UNKNOWN is the worst and wins over RESTRICTED.
+    assert.equal(effectiveRightsStatus({ ...eligible, entitlementStatus: 'RESTRICTED', retentionStatus: 'UNKNOWN' }), 'UNKNOWN');
+  });
+
+  test('a rights block with a verdict missing altogether is never read as permission', () => {
+    // An evidence snapshot recorded without the separate verdicts (or with a value outside the
+    // vocabulary) cannot be shown to have had retention assessed: it fails closed.
+    const { retentionStatus: _retention, ...withoutRetention } = rightsSummary();
+    const damaged = withoutRetention as unknown as ReturnType<typeof rightsSummary>;
+    assert.equal(effectiveRightsStatus(damaged), 'UNKNOWN');
+    assert.ok(qualify({ rights: damaged }).failedGates.includes('RIGHTS_ELIGIBLE'));
+
+    const offVocabulary = { ...rightsSummary(), entitlementStatus: 'FINE' } as unknown as ReturnType<typeof rightsSummary>;
+    assert.equal(effectiveRightsStatus(offVocabulary), 'UNKNOWN');
+  });
+});
+
+describe('W05 — coverage by analytical method: the roadmap method dimension, disclosure only', () => {
+  test('each method the governed matrix declares for the sector is measured against the dataset', () => {
+    const qualification = qualify();
+    const block = qualification.methodCoverage;
+
+    assert.equal(block.requirementStatus, 'PROVISIONAL_PENDING_W10', 'method requirements are never presented as settled');
+    assert.match(block.note, /provisional pending W10/);
+    assert.match(block.note, /not a gate/);
+    assert.equal(block.sector, 'Technology');
+    assert.equal(block.sectorDeterminable, true);
+    assert.equal(block.seriesScope, qualification.seriesScope);
+
+    // The methods are the governed matrix's, in its order — nothing is invented here.
+    const declared = SECTOR_METHODS.Technology;
+    assert.deepEqual(block.methods.map((method) => method.methodId), declared.map((requirement) => requirement.methodId));
+    for (const [index, method] of block.methods.entries()) {
+      assert.deepEqual(method.requiredLineItems, [...declared[index]!.lineItems]);
+      assert.deepEqual(method.requiredMetricIds, [...declared[index]!.metrics]);
+      assert.equal(method.role, declared[index]!.role);
+      assert.equal(method.latestPeriodEnd, '2026-03-31');
+    }
+    // Method coverage is NOT dataset qualification. This dataset meets the per-dataset ruleset,
+    // yet one declared method is not covered: the fixture carries no NET_DEBT, which EV/EBITDA
+    // declares. The absent input stays absent — it is not read as zero to make the method pass.
+    const covered = block.methods.filter((method) => method.latestPeriodQualified).map((method) => method.methodId);
+    assert.deepEqual(covered, ['DCF_FCFF', 'PE_RELATIVE', 'EV_REVENUE']);
+    const evEbitda = block.methods.find((method) => method.methodId === 'EV_EBITDA')!;
+    assert.ok(evEbitda.requiredLineItems.includes('NET_DEBT'));
+    assert.equal(evEbitda.latestPeriodQualified, false);
+    assert.deepEqual(evEbitda.qualifyingPeriodEnds, []);
+    assert.equal(
+      applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT').decision,
+      'MEETS_THRESHOLD',
+      'the per-dataset ruleset result is unchanged by the method disclosure',
+    );
+    assert.match(block.note, /3 of 4 method\(s\) declared for Technology/);
+    assert.deepEqual(qualificationFromEvidence(qualification.evidence).methodCoverage, block, 'method coverage is reproducible from the evidence');
+  });
+
+  test('a method is distinguished from its neighbours: a missing input fails only the methods that declare it', () => {
+    // EPS_DILUTED is declared by the P/E method only. Missing must stay missing — never zero.
+    const periods = threeCompleteAnnuals(ISSUER_A).map((period) =>
+      period.period.periodEnd === '2026-03-31'
+        ? annualPeriod(ISSUER_A, 2026, completeItems({ EPS_DILUTED: syntheticMissing('NOT_REPORTED') }))
+        : period,
+    );
+    const block = qualify({ periods }).methodCoverage;
+    const byId = new Map(block.methods.map((method) => [method.methodId, method]));
+
+    const pe = byId.get('PE_RELATIVE')!;
+    assert.ok(pe.requiredLineItems.includes('EPS_DILUTED'));
+    assert.equal(pe.latestPeriodQualified, false, 'a missing declared input does not qualify the method');
+    assert.ok(!pe.qualifyingPeriodEnds.includes('2026-03-31'));
+    assert.ok(pe.qualifyingPeriodEnds.length > 0, 'earlier periods that hold the input are still reported, as history');
+
+    const dcf = byId.get('DCF_FCFF')!;
+    assert.ok(!dcf.requiredLineItems.includes('EPS_DILUTED'));
+    assert.equal(dcf.latestPeriodQualified, true, 'a method that does not declare the input is unaffected');
+  });
+
+  test('a method needing an operating metric is not covered when the metric is absent', () => {
+    const evRevenue = SECTOR_METHODS.Technology.find((requirement) => requirement.methodId === 'EV_REVENUE')!;
+    assert.ok(evRevenue.metrics.length > 0, 'the fixture method declares operating metrics');
+    const dropped = evRevenue.metrics[0]!;
+    const metrics = completeMetrics(ISSUER_A, 'Technology').filter((metric) => metric.metricId !== dropped);
+
+    const block = qualify({ operatingMetrics: metrics }).methodCoverage;
+    const byId = new Map(block.methods.map((method) => [method.methodId, method]));
+    assert.equal(byId.get('EV_REVENUE')!.latestPeriodQualified, false);
+    assert.equal(byId.get('DCF_FCFF')!.latestPeriodQualified, true);
+  });
+
+  test('method coverage is a disclosure: it adds no gate and changes no qualification result', () => {
+    const complete = qualify();
+    const periods = threeCompleteAnnuals(ISSUER_A).map((period) =>
+      period.period.periodEnd === '2026-03-31'
+        ? annualPeriod(ISSUER_A, 2026, completeItems({ EPS_DILUTED: syntheticMissing('NOT_REPORTED') }))
+        : period,
+    );
+    const partial = qualify({ periods });
+
+    assert.deepEqual(
+      partial.gates.map((entry) => entry.gate),
+      complete.gates.map((entry) => entry.gate),
+      'no method gate exists',
+    );
+    assert.ok(!partial.gates.some((entry) => /METHOD/.test(entry.gate)));
+    assert.ok(partial.methodCoverage.methods.some((method) => !method.latestPeriodQualified));
+  });
+
+  test('an unrecorded or off-vocabulary sector names no methods and claims no method coverage', () => {
+    for (const sector of [null, 'Space-Tourism']) {
+      const block = qualify({ sector }).methodCoverage;
+      assert.equal(block.sectorDeterminable, false);
+      assert.deepEqual(block.methods, []);
+      assert.equal(block.requirementStatus, 'PROVISIONAL_PENDING_W10');
+      assert.match(block.note, /cannot be determined and no method coverage is claimed/);
+    }
   });
 });
 

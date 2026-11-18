@@ -30,6 +30,22 @@
  * establishes the required-metric set — is NOT established. The set is therefore provisional
  * pending W10 and must not be presented as settled (`MetricCompletenessBlock.requiredSetStatus`).
  *
+ * COVERAGE BY ANALYTICAL METHOD. The roadmap's W05 deliverable is "issuer/sector/method coverage",
+ * and the roadmap uses "method" for the applicable ANALYSIS and its method-specific mandatory
+ * inputs — not for how the data was acquired. `MethodCoverageBlock` therefore reports, per
+ * valuation method the governed method matrix declares for the issuer's sector
+ * (`coverage/methodMatrix.ts` `SECTOR_METHODS`), whether the dataset holds that method's declared
+ * inputs, using the ONE existing predicate (`coverage/measure.ts` `qualificationOf`, `S4-R5`).
+ * It is a DISCLOSURE: it is not a gate, it changes no qualification result, and — like the metric
+ * set — the method requirements are provisional pending W10.
+ *
+ * ENTITLEMENT AND RETENTION STAY SEPARATE. The rights block recorded in the evidence snapshot
+ * carries the entitlement verdict and the retention verdict SIDE BY SIDE with the combined status
+ * (`QualificationRightsBlock`). The combined fail-closed semantics are unchanged; the two verdicts
+ * are evidence the W05 dossier needs and are no longer dropped at this seam. A block whose
+ * combined status is more permissive than either verdict is inconsistent and fails closed
+ * (`effectiveRightsStatus`).
+ *
  * It reuses, and does not reimplement: `selectSeries` (period/scope algebra), `assessFreshness`
  * and `periodSequenceGaps` (freshness-policy/1.0.0), `buildCompleteness` and `buildQuality`
  * (adequacy and quality gates), `periodObservation` (presence/missing/nil semantics) and the
@@ -49,8 +65,9 @@ import { buildCompleteness, buildQuality, REQUIRED_ITEMS, type CompletenessOptio
 import type { CompletenessBlock, QualityBlock, SeriesSelection } from '../assessment/types';
 import { FRESHNESS_POLICY_VERSION, POLICY_VERSION } from '../assessment/types';
 import { VALUATION_POLICY } from '../assessment/policy';
-import { sectorRequirements } from '../coverage/measure';
-import type { AcquisitionMethod, RightsStatus } from './rightsRecord';
+import { qualificationOf, sectorRequirements } from '../coverage/measure';
+import { SECTOR_METHODS, type MethodId, type MethodRole } from '../coverage/methodMatrix';
+import type { AcquisitionMethod, DatasetRightsRecord, RightsStatus } from './rightsRecord';
 
 export const QUALIFICATION_RULESET = 'qualification/1.0.0' as const;
 
@@ -83,6 +100,69 @@ export const DEFAULT_QUALIFICATION_POLICY: QualificationPolicyConfig = Object.fr
   }),
 });
 
+/* ------------------------------------------------------------------- rights */
+
+/**
+ * The rights evidence a qualification records. `status` is the combined verdict — the fail-closed
+ * worst of entitlement and retention, exactly as `lifecycle/rightsRecord.ts` derives it. The two
+ * separate verdicts travel WITH it, each with its reason, so the dossier can show that retention
+ * was assessed alongside entitlement and not assumed from it.
+ */
+export interface QualificationRightsBlock {
+  readonly manifestRightsState: SourceRightsState;
+  readonly datasetClass: DatasetClass;
+  /** Combined verdict: the fail-closed worst of `entitlementStatus` and `retentionStatus`. */
+  readonly status: RightsStatus;
+  readonly statusReason: string;
+  /** Entitlement verdict (acquisition, local storage, processing, analysis, display). */
+  readonly entitlementStatus: RightsStatus;
+  readonly entitlementReason: string;
+  /** Retention verdict (the RETENTION purpose and the expiry/review window). */
+  readonly retentionStatus: RightsStatus;
+  readonly retentionReason: string;
+  /**
+   * How the material reached the operator, as the rights record states it. This is source/rights
+   * evidence. It is NOT the roadmap's "method" coverage dimension — that is the analytical method
+   * (`MethodCoverageBlock`).
+   */
+  readonly acquisitionMethod: AcquisitionMethod;
+}
+
+/** Take the rights block from a rights record without dropping either separate verdict. */
+export function rightsBlockOf(record: DatasetRightsRecord): QualificationRightsBlock {
+  return {
+    manifestRightsState: record.manifestRightsState,
+    datasetClass: record.datasetClass,
+    status: record.status,
+    statusReason: record.statusReason,
+    entitlementStatus: record.entitlementStatus,
+    entitlementReason: record.entitlementReason,
+    retentionStatus: record.retentionStatus,
+    retentionReason: record.retentionReason,
+    acquisitionMethod: record.evidence.acquisitionMethod,
+  };
+}
+
+const RIGHTS_STATUSES: readonly RightsStatus[] = ['ELIGIBLE_LOCAL_PERSONAL_USE', 'RESTRICTED', 'UNKNOWN'];
+
+/**
+ * The rights status a consumer may rely on: the fail-closed worst of the combined status and the
+ * two separate verdicts. For a block taken from a rights record this IS the combined status. For a
+ * hand-built or damaged block it can only be MORE restrictive: `UNKNOWN` when any of the three is
+ * `UNKNOWN` or is not a recognised status at all, otherwise `RESTRICTED` when any is `RESTRICTED`.
+ * A missing verdict is never read as permission.
+ */
+export function effectiveRightsStatus(
+  rights: Pick<QualificationRightsBlock, 'status' | 'entitlementStatus' | 'retentionStatus'>,
+): RightsStatus {
+  const verdicts: readonly unknown[] = [rights.status, rights.entitlementStatus, rights.retentionStatus];
+  if (verdicts.some((verdict) => verdict === 'UNKNOWN' || !(RIGHTS_STATUSES as readonly unknown[]).includes(verdict))) {
+    return 'UNKNOWN';
+  }
+  if (verdicts.some((verdict) => verdict === 'RESTRICTED')) return 'RESTRICTED';
+  return 'ELIGIBLE_LOCAL_PERSONAL_USE';
+}
+
 /* ------------------------------------------------------------------- inputs */
 
 export interface QualificationInput {
@@ -110,15 +190,8 @@ export interface QualificationInput {
   readonly issues: readonly IngestionIssue[];
   /** Integrity of the dataset files, as verified at read time. */
   readonly integrity: { readonly ok: boolean; readonly detail: string | null };
-  /** The rights record built for this dataset (`lifecycle/rightsRecord.ts`). */
-  readonly rights: {
-    readonly manifestRightsState: SourceRightsState;
-    readonly datasetClass: DatasetClass;
-    readonly status: RightsStatus;
-    readonly statusReason: string;
-    /** The recorded acquisition method, carried so coverage can be reported BY ACQUISITION METHOD. */
-    readonly acquisitionMethod: AcquisitionMethod;
-  };
+  /** The rights record built for this dataset (`lifecycle/rightsRecord.ts`), both verdicts kept. */
+  readonly rights: QualificationRightsBlock;
   readonly asOf: string;
   readonly policy?: QualificationPolicyConfig;
 }
@@ -143,7 +216,7 @@ export interface QualificationEvidenceSnapshot {
     readonly dataAsOf: string | null;
     readonly knownAsOf: string | null;
   };
-  readonly rights: QualificationInput['rights'];
+  readonly rights: QualificationRightsBlock;
   readonly sector: string | null;
   readonly periods: readonly NormalizedPeriod[];
   readonly operatingMetrics: readonly OperatingMetricRecord[];
@@ -232,6 +305,49 @@ export interface MetricCompletenessBlock {
   readonly note: string;
 }
 
+/**
+ * One analytical (valuation) method's declared inputs, measured against this issuer's dataset.
+ * `latestPeriodQualified` answers "does the NEWEST annual period of the series actually used hold
+ * every declared input"; `qualifyingPeriodEnds` is the historical answer. Both come from the one
+ * existing predicate (`S4-R5`): every declared line item `PRESENT` with a number, every declared
+ * operating metric `VALID` at that period end. A missing, nil, unvalidated or withheld input does
+ * not qualify, and nothing is converted to zero to make it qualify.
+ */
+export interface MethodInputCoverage {
+  readonly methodId: MethodId;
+  readonly role: MethodRole;
+  readonly requiredLineItems: readonly string[];
+  readonly requiredMetricIds: readonly string[];
+  /** The newest annual period end of the series used, or `null` when there is no annual period. */
+  readonly latestPeriodEnd: string | null;
+  readonly latestPeriodQualified: boolean;
+  /** Annual period ends of the series used that hold every declared input, newest first. */
+  readonly qualifyingPeriodEnds: readonly string[];
+}
+
+/**
+ * Coverage BY ANALYTICAL METHOD for one issuer in one dataset — the roadmap's "method" dimension.
+ * The methods are those the governed method matrix declares for the issuer's sector; nothing is
+ * invented here. DISCLOSURE ONLY: no gate reads this block and it is not a valuation statement
+ * (whether an assessment can compute a figure is `assessment/engine.ts`'s decision, `S4-R4`).
+ */
+export interface MethodCoverageBlock {
+  /**
+   * The standing of the method requirements themselves. W10 establishes the per-engine input
+   * matrix and is not established, so the declared inputs are provisional and must not be
+   * presented as the settled "mandatory inputs for the applicable analysis".
+   */
+  readonly requirementStatus: 'PROVISIONAL_PENDING_W10';
+  readonly sector: string | null;
+  /** False when the sector is not a governed sector: the applicable methods cannot be named. */
+  readonly sectorDeterminable: boolean;
+  /** The statement scope of the series the inputs were read from. */
+  readonly seriesScope: StatementScope;
+  /** One entry per method declared for the sector, in matrix order. Empty when undeterminable. */
+  readonly methods: readonly MethodInputCoverage[];
+  readonly note: string;
+}
+
 export interface IssuerDatasetQualification {
   readonly ruleset: typeof QUALIFICATION_RULESET;
   readonly datasetVersion: string;
@@ -249,6 +365,8 @@ export interface IssuerDatasetQualification {
   readonly valueSemantics: ValueSemanticsCounts;
   /** Required operating-metric completeness for the issuer's sector. */
   readonly metricCompleteness: MetricCompletenessBlock;
+  /** Coverage by analytical method for the issuer's sector. Disclosure only; provisional pending W10. */
+  readonly methodCoverage: MethodCoverageBlock;
   readonly periodsCovered: {
     readonly annual: readonly string[];
     readonly quarterly: readonly string[];
@@ -288,6 +406,10 @@ function evidenceSnapshotOf(input: QualificationInput): QualificationEvidenceSna
       datasetClass: input.rights.datasetClass,
       status: input.rights.status,
       statusReason: input.rights.statusReason,
+      entitlementStatus: input.rights.entitlementStatus,
+      entitlementReason: input.rights.entitlementReason,
+      retentionStatus: input.rights.retentionStatus,
+      retentionReason: input.rights.retentionReason,
       acquisitionMethod: input.rights.acquisitionMethod,
     },
     periods: input.periods.filter((period) => period.issuerId === input.issuerId),
@@ -406,6 +528,65 @@ function countMetricCompleteness(evidence: QualificationEvidenceSnapshot): Metri
 }
 
 /**
+ * Coverage by analytical method for the issuer's sector, over the annual periods of the series
+ * actually used (`seriesScope`). The requirement set is the governed method matrix and the
+ * predicate is `qualificationOf` — both reused. An undeterminable sector yields no methods and
+ * says so; it never yields "no requirements".
+ */
+function assessMethodCoverage(evidence: QualificationEvidenceSnapshot, seriesScope: StatementScope): MethodCoverageBlock {
+  const sector = evidence.sector;
+  const sectorDeterminable = typeof sector === 'string' && (SECTOR_NAMES as readonly string[]).includes(sector);
+  const provisional =
+    'the method requirements are the governed method matrix and are provisional pending W10 (W10 is not established); this is a disclosure, not a gate and not a valuation statement';
+  if (!sectorDeterminable) {
+    return {
+      requirementStatus: 'PROVISIONAL_PENDING_W10',
+      sector: typeof sector === 'string' ? sector : null,
+      sectorDeterminable: false,
+      seriesScope,
+      methods: [],
+      note: `the issuer sector is not a governed sector (or is not recorded), so the applicable analytical methods cannot be determined and no method coverage is claimed; ${provisional}`,
+    };
+  }
+
+  const annualPeriods = evidence.periods.filter(
+    (period) => period.period.periodType === 'ANNUAL' && period.period.statementScope === seriesScope,
+  );
+  // `qualificationOf` reads only the periods it is handed and `content.operatingMetrics`.
+  const content = {
+    issuers: [],
+    securities: [],
+    listings: [],
+    periods: annualPeriods,
+    prices: [],
+    corporateActions: [],
+    operatingMetrics: evidence.operatingMetrics,
+    issues: [],
+  };
+  const methods: MethodInputCoverage[] = SECTOR_METHODS[sector as SectorName].map((requirement) => {
+    const summary = qualificationOf({ requirement, issuerIds: [evidence.issuerId], annualPeriods, content });
+    return {
+      methodId: requirement.methodId,
+      role: requirement.role,
+      requiredLineItems: [...requirement.lineItems],
+      requiredMetricIds: [...requirement.metrics],
+      latestPeriodEnd: summary.latestPeriod === null ? null : summary.latestPeriod.periodEnd,
+      latestPeriodQualified: summary.latestPeriodQualified,
+      qualifyingPeriodEnds: [...new Set(summary.qualifyingPeriods.map((entry) => entry.periodEnd))],
+    };
+  });
+  const qualified = methods.filter((method) => method.latestPeriodQualified).map((method) => method.methodId);
+  return {
+    requirementStatus: 'PROVISIONAL_PENDING_W10',
+    sector: sector as string,
+    sectorDeterminable: true,
+    seriesScope,
+    methods,
+    note: `${qualified.length} of ${methods.length} method(s) declared for ${sector as string} hold every declared input in the newest annual period${qualified.length === 0 ? '' : ` (${qualified.join(', ')})`}; ${provisional}`,
+  };
+}
+
+/**
  * The assessment core. A PURE function of the recorded evidence: same snapshot, same result —
  * byte for byte, including `evidenceDigest`.
  */
@@ -438,6 +619,8 @@ export function qualificationFromEvidence(evidence: QualificationEvidenceSnapsho
 
   const valueSemantics = countValueSemantics(series, evidence.issues);
   const metricCompleteness = countMetricCompleteness(evidence);
+  const methodCoverage = assessMethodCoverage(evidence, series.statementScope);
+  const rightsStatus = effectiveRightsStatus(evidence.rights);
 
   const accountingLimitations: QualificationFinding[] = [
     ...quality.flags.map((flag) => ({
@@ -489,8 +672,13 @@ export function qualificationFromEvidence(evidence: QualificationEvidenceSnapsho
     },
     {
       gate: 'RIGHTS_ELIGIBLE',
-      passed: evidence.rights.status === 'ELIGIBLE_LOCAL_PERSONAL_USE',
-      reason: evidence.rights.statusReason,
+      // Fail closed on the worst of the combined status and the two separate verdicts. For a block
+      // taken from a rights record the three always agree and the reason is the accepted wording.
+      passed: rightsStatus === 'ELIGIBLE_LOCAL_PERSONAL_USE',
+      reason:
+        rightsStatus === evidence.rights.status
+          ? evidence.rights.statusReason
+          : `the recorded combined rights status ${String(evidence.rights.status)} is more permissive than its separate verdicts (entitlement ${String(evidence.rights.entitlementStatus)}, retention ${String(evidence.rights.retentionStatus)}); the rights gate fails closed on ${rightsStatus}`,
     },
     {
       gate: 'FRESH_WITHIN_POLICY',
@@ -547,6 +735,7 @@ export function qualificationFromEvidence(evidence: QualificationEvidenceSnapsho
     quality,
     valueSemantics,
     metricCompleteness,
+    methodCoverage,
     periodsCovered: {
       annual: series.annual.map((period) => period.periodEnd),
       quarterly: series.quarterly.map((period) => period.periodEnd),

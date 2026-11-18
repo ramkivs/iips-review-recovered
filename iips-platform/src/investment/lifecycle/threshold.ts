@@ -65,7 +65,7 @@ export const DATASET_QUALIFICATION_THRESHOLD: QualificationThreshold = Object.fr
     rationale:
       'A dataset should support financial analysis only when its integrity and provenance are verified, its source rights are eligible, its periods are identified and adequate, its series is fresh under the governed freshness policy, and no blocking accounting limitation is recorded. The numeric gates reuse valuation-policy/1.0.0 values so no unreviewed threshold is introduced.',
     impact:
-      'Against the current evidence position (the 2026-11-12 provisioning evidence, restated against the W04 revision-1 denominator: 0 of 64 holdings covered) this ruleset yields zero qualified issuers, which is the truthful result and does not block portfolio use.',
+      'No financial-data coverage of the W04 revision-1 holdings (64 holdings) has been measured. The only measurement on record is the historical 2026-11-12 one over a different census: 0 of 65 ISIN-resolved rows of the published 68-row Dhan CSV matched an issuer with a dataset. Until revision 1 is actually processed this ruleset has no real issuer to qualify; that position is unmeasured, not a coverage result, and does not block portfolio use.',
   }),
   requiredGates: Object.freeze({
     // A statement-level read needs trustworthy, identified, adequate statements with eligible rights.
@@ -255,7 +255,11 @@ export const THETA_F: PortfolioRatioThreshold = Object.freeze({
 });
 
 export interface FinancialRatioInput {
-  /** Holdings whose OWN identity passed resolution. A holding failing identity never contributes. */
+  /**
+   * Holdings whose OWN identity passed. A holding failing identity never contributes. This
+   * function checks arithmetic only: WHICH holdings passed identity is decided by the caller's
+   * resolution, and reconciling that count to the W04 census is not done here.
+   */
   readonly identityPassedHoldings: number;
   /** Holdings with financial data available. Must be ≤ `identityPassedHoldings`. */
   readonly holdingsWithFinancialData: number;
@@ -267,7 +271,7 @@ export interface FinancialRatio {
   readonly numerator: number;
   readonly denominator: number;
   readonly identityPassedHoldings: number;
-  /** 0–100, one decimal. */
+  /** 0–100, one decimal. FOR DISPLAY ONLY — the gate evaluates the unrounded ratio. */
   readonly percent: number;
   readonly numeratorRule: string;
 }
@@ -311,10 +315,13 @@ export interface W20GateResult {
 }
 
 /**
- * The W20 gate θF governs. Fail CLOSED: while no defensible θF value is asserted the gate stays
- * shut. When θF is asserted from observed evidence under the standing grant, the gate opens only
- * when the observed portfolio-wide ratio reaches the asserted value. No approval is involved at
- * any point, and this gate is not a W05 condition.
+ * The θF condition of the W20 gate. Fail CLOSED: while no defensible θF value is asserted the
+ * condition stays shut. When θF is asserted from observed evidence under the standing grant, it is
+ * met only when the observed portfolio-wide ratio reaches the asserted value — evaluated on the
+ * UNROUNDED ratio (the roadmap rounds for display only), and never met on an empty denominator
+ * (an empty eligible set is "not applicable / W20 blocked", never 100%). No approval is involved
+ * at any point, and this is not a W05 condition. W20 itself also requires θI, θA and θM, which
+ * this function does not evaluate: `open` here means "the θF condition is met", nothing more.
  */
 export function evaluateW20Gate(ratio: FinancialRatio, thetaF: PortfolioRatioThreshold = THETA_F): W20GateResult {
   if (thetaF.assertionStatus !== 'ASSERTED_FROM_OBSERVED_EVIDENCE' || thetaF.value === null) {
@@ -327,13 +334,23 @@ export function evaluateW20Gate(ratio: FinancialRatio, thetaF: PortfolioRatioThr
         'θF is set from observed evidence under the standing grant, and W20 stays closed (fail closed)',
     };
   }
-  const open = ratio.percent >= thetaF.value;
+  if (ratio.denominator === 0) {
+    return {
+      gate: 'W20',
+      open: false,
+      thetaFAssertionStatus: thetaF.assertionStatus,
+      reason:
+        'the portfolio holding count is zero, so the financial ratio is not applicable; an empty denominator never meets θF and W20 stays closed (fail closed)',
+    };
+  }
+  // Exact comparison of numerator/denominator against θF (percent): no rounded figure is evaluated.
+  const open = ratio.numerator * 100 >= thetaF.value * ratio.denominator;
   return {
     gate: 'W20',
     open,
     thetaFAssertionStatus: thetaF.assertionStatus,
     reason: open
-      ? `the observed portfolio-wide financial ratio ${ratio.percent}% reaches the θF value ${thetaF.value}% asserted from observed evidence under the standing grant`
-      : `the observed portfolio-wide financial ratio ${ratio.percent}% is below the θF value ${thetaF.value}% asserted from observed evidence under the standing grant`,
+      ? `the observed portfolio-wide financial ratio ${ratio.numerator}/${ratio.denominator} (displayed as ${ratio.percent}%) reaches the θF value ${thetaF.value}% asserted from observed evidence under the standing grant`
+      : `the observed portfolio-wide financial ratio ${ratio.numerator}/${ratio.denominator} (displayed as ${ratio.percent}%) is below the θF value ${thetaF.value}% asserted from observed evidence under the standing grant`,
   };
 }

@@ -24,6 +24,21 @@
  * Unknown rights fail closed. Datasets provision PROGRESSIVELY: a portfolio — including one with
  * more than 200 holdings — is fully supported with any subset of its issuers covered.
  *
+ * THE IDENTITY GATE, AND WHAT IT IS NOT. A holding reaches an issuer row only when
+ * `resolveIdentity` returns `RESOLVED` for the observation it was handed. That is the same
+ * resolver the holding-identity surface uses (`toHoldingObservation` in
+ * `frontend/server/investment/sources.ts`). `RESOLVED` IS NOT THE SAME STATEMENT AS "W04
+ * IDENTITY-PASSED" and this module does not make it one:
+ *   - the resolver resolves on an ISIN, and — when a row carries NO ISIN — on exchange and symbol.
+ *     A row with no ISIN, a symbol and no exchange cannot resolve (tested). A row with no ISIN but
+ *     an exchange and an active symbol CAN resolve, with basis `EXCHANGE_SYMBOL` (tested);
+ *   - this module resolves whatever observations the caller supplies. It does not read the W04
+ *     census and does not check that the observations are a W04 revision's persisted holdings.
+ * So the lifecycle does not, by itself, reconcile to W04 and enforces no W04 numerator bound. The
+ * basis of every resolution is carried on the holding (`HoldingReference.resolutionBasis`) and
+ * totalled in the report so an exchange-and-symbol match is never mistaken for an ISIN match.
+ * Reconciling a run to the W04 revision remains outstanding operator work.
+ *
  * REUSE, NOT REIMPLEMENTATION. Identity resolution is `identity/resolver.ts`; per-issuer dataset
  * assessment is `lifecycle/qualification.ts` (which itself reuses the period, freshness,
  * completeness and quality machinery); rights are `lifecycle/rightsRecord.ts` over the existing
@@ -45,6 +60,8 @@ import {
 } from './rightsRecord';
 import {
   qualifyIssuerDataset,
+  effectiveRightsStatus,
+  rightsBlockOf,
   DEFAULT_QUALIFICATION_POLICY,
   type IssuerDatasetQualification,
   type QualificationPolicyConfig,
@@ -175,6 +192,12 @@ export interface HoldingReference {
   readonly portfolioId: string;
   readonly portfolioRevision: string;
   readonly securityId: string | null;
+  /**
+   * How the resolver established this holding's identity. Carried verbatim from the resolver so an
+   * exchange-and-symbol match is never mistaken for an ISIN match. Disclosure: this module does
+   * not decide whether a basis satisfies W04 — that is the W04 reconciliation.
+   */
+  readonly resolutionBasis: 'ISIN' | 'EXCHANGE_SYMBOL' | null;
   readonly quantity: number | null;
 }
 
@@ -273,7 +296,8 @@ function issuerKeyBasisOf(issuerId: string): 'CIN' | 'EQUITY_ISIN' | null {
 /** Candidate states, derived from the qualification gates. Order is stable; every state is listed. */
 function statesOf(qualification: IssuerDatasetQualification): IssuerCoverageState[] {
   const states: IssuerCoverageState[] = [];
-  const rightsStatus = qualification.evidence.rights.status;
+  // The fail-closed worst of the combined status and the separate entitlement/retention verdicts.
+  const rightsStatus = effectiveRightsStatus(qualification.evidence.rights);
   if (!qualification.evidence.integrity.ok) states.push('UNAVAILABLE');
   if (rightsStatus === 'UNKNOWN') states.push('RIGHTS_UNKNOWN');
   else if (rightsStatus === 'RESTRICTED') states.push('RIGHTS_RESTRICTED');
@@ -376,6 +400,7 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
       portfolioId: observation.portfolioId ?? '',
       portfolioRevision,
       securityId: resolution.securityId,
+      resolutionBasis: resolution.resolutionBasis,
       quantity: observation.quantity,
     };
     if (bucket === undefined) holdingsByIssuer.set(resolution.issuerId, [reference]);
@@ -419,6 +444,11 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
               datasetClass: 'UNKNOWN',
               status: 'UNKNOWN',
               statusReason: `the rights record is inconsistent with the dataset manifest and fails closed: ${message}`,
+              // Neither verdict can be taken from inconsistent evidence: both fail closed.
+              entitlementStatus: 'UNKNOWN',
+              entitlementReason: `entitlement fails closed: the rights record is inconsistent with the dataset manifest (${message})`,
+              retentionStatus: 'UNKNOWN',
+              retentionReason: `retention fails closed: the rights record is inconsistent with the dataset manifest (${message})`,
               acquisitionMethod: 'UNKNOWN',
             },
             asOf,
@@ -436,13 +466,8 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
         operatingMetrics: coverage.operatingMetrics ?? [],
         issues: entry.issues ?? [],
         integrity: entry.integrity,
-        rights: {
-          manifestRightsState: rights.manifestRightsState,
-          datasetClass: rights.datasetClass,
-          status: rights.status,
-          statusReason: rights.statusReason,
-          acquisitionMethod: rights.evidence.acquisitionMethod,
-        },
+        // Combined status AND the separate entitlement/retention verdicts — none is dropped here.
+        rights: rightsBlockOf(rights),
         asOf,
         policy,
       });
