@@ -4,6 +4,8 @@
 **Audit record date:** 2026-11-17 (UTC). GitHub records returned merge/run timestamps on 2026-11-18; those timestamps are preserved, not silently rewritten to match the record date. This is a **commit-bounded** audit, not a claim about what existed at midnight on 17 November.
 **Repository / branch:** `ramkivs/iips-review-recovered`, `arena/5461e5b5-iips-review-recovered`.
 **Assessed baseline:** `2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c` = fetched `origin/main` = starting branch HEAD (PR #594).
+**Late remote refresh:** main advanced during publication to `70f76134deba91de4ddca9e932542231b298cdf9` (PR #596); independently reviewed, preserved verbatim, and reconciled on this same branch. No implementation/data changes; §11 records the delta.
+
 **Evidence:** [`evidence/iid/STAGE4-INDEPENDENT-AUDIT-2026-11-17/`](../../evidence/iid/STAGE4-INDEPENDENT-AUDIT-2026-11-17/README.md).
 
 ## 1. Conclusion, with the four requested classifications kept separate
@@ -192,3 +194,13 @@ This is an evidence requirement for any real event claimed, **not** permission f
 **Next adopted operational stage:** roadmap **C.2**, reaffirmed by **C.3**, names **Stage 5 — end-to-end integration**. Its exact hard portfolio prerequisite is **IPD active binding provisioning/verification D5 plus IPC peer/live portfolio read D6**; only after IPD confirmation may the operator set the binding declaration, and an actual portfolio read must verify the path. NP-04 completion §9 agrees and retains Stage-4 residuals in parallel. This existing adoption is **not a Stage-4 completion certificate** and this audit neither starts Stage 5 nor supplies cross-repository authority.
 
 **Final answer:** Stage 4 remains **PARTIALLY COMPLETE**, not formally fully closed; existing partial/open/source/host items above remain. The next numbered Stage-4 task does not exist. The latest Stage-4 residual action is the source-backed event/operator sequence quoted above, with R6 and other residuals parallel; the adopted next operational stage is Stage 5 subject to its actual technical prerequisites. Audit publication changes none of those decisions.
+
+## 11. Late publication refresh — PR #596, no inferred new acceptance
+
+After the initial audit commit/push, a fresh fetch returned main **`70f76134deba91de4ddca9e932542231b298cdf9`**, merge of **PR #596** (2026-11-18T08:18:30Z). Its two-file delta is the W05 Q1–Q7 rights addendum and an unnumbered tracker entry. It changes **no implementation, dataset, identity input, limitation status or Stage-4 acceptance**. The existing Q7 PA-directed evidence-limited closure is preserved, **not rendered or extended by this auditor**; W05 remains NOT COMPLETE/NOT ACCEPTED. Its limits on automated retrieval, direct NSE filing links and redistribution are not treated as a source licence.
+
+Both upstream files are incorporated unchanged. The tracker conflict was resolved as the **complete new-main tracker byte prefix followed by this audit's §16.301 receipt**; the upstream unnumbered entry consumes no CV/CHG/V identifier. No governance content is rewritten. `publication-delta.json` pins both remote blobs and the PR read-back. The original 194-file inventory and test logs remain explicitly bound to the execution baseline `2ec2e75…`; implementation/data bytes are identical at the late main, so there is no unsupported claim of rerunning all suites after a code change.
+
+Publication was narrowed to **verification metadata**: digests, counts, states, boolean check outcomes, source locators and test receipts. No copied filing-row text or full computed coverage/assessment payload dump remains in the final audit bundle. The metadata-only probe was independently rerun and matches the original observation projection; all **131** source/arithmetic/disclosure checks still pass. Worked financial figures quoted in this report refer to the already-published item records, not a newly minted artifact or redistribution authorization. Original source files/artifacts and upstream decisions remain untouched. The initial audit commit remains in Git history; this narrowing does not claim to erase that private-branch publication.
+
+**Effect on conclusion/next action: none.** Stage 4 PARTIALLY COMPLETE; no R9; R8 event/source sequence and the parallel residuals stand. Stage 5 remains the adopted next operational activity, not a certificate that Stage 4 is complete.

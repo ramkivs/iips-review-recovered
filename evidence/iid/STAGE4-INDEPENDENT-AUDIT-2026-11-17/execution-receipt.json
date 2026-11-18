@@ -165,5 +165,16 @@
       "python -m unittest discover -s tests/validation -p test_cap03_recovery_release_audit.py -v"
     ],
     "boundary": "Existing static validator and mocked/offline unit tests, not an actual recovery-release download or host profile execution."
+  },
+  "latePublicationDelta": {
+    "main": "70f76134deba91de4ddca9e932542231b298cdf9",
+    "pr": 596,
+    "record": "publication-delta.json",
+    "implementationAndDatasetBytesUnchanged": true,
+    "metadataOnlyProbeRerunExit": 0,
+    "metadataProjectionMatchesOriginalObservation": true,
+    "sourceChecks": 131,
+    "sourceCheckFailures": 0,
+    "noFreshFullSuiteAfterDocumentationOnlyReconciliation": true
   }
 }
