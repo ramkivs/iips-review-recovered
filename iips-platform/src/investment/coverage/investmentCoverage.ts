@@ -28,7 +28,9 @@ import { assessFreshness } from '../assessment/freshness';
 import { selectSeries } from '../assessment/periods';
 import { VALUATION_POLICY } from '../assessment/policy';
 import { FRESHNESS_POLICY_VERSION } from '../assessment/types';
-import { measureCoverage, type CoverageReport, type SectorMeasurement } from './measure';
+import { measureCoverage, qualificationOf, type CoverageReport, type SectorMeasurement } from './measure';
+import { SECTOR_METHODS, type MethodRequirement } from './methodMatrix';
+import type { DatasetContent } from '../fundamentals/types';
 import type { InvalidSectorReason } from '../ingestion/sectorValidation';
 import {
   buildFinancialCoverageDisclosure,
@@ -111,6 +113,39 @@ export interface InvestmentCoverageIssuerRow {
     readonly policyVersion: string;
     readonly sequenceGapCount: number;
   };
+  /**
+   * `S4-R5` — HISTORICAL METHOD AVAILABILITY versus LATEST-PERIOD QUALIFICATION, for this issuer alone.
+   *
+   * The owner decision of `S4-R5` retains existential annual-period coverage semantics: a method is historically
+   * `AVAILABLE` when at least ONE eligible (issuer, annual period) pair satisfies its declared inputs. That is a
+   * statement about the dataset's history — it is NOT a statement that the latest period supports the method, and
+   * it is NOT a statement that an assessment would produce a figure (see `S4-R4`).
+   *
+   * The three method lists below therefore keep the two questions apart, using the same predicate the measurement
+   * uses (`qualificationOf` in `./measure`):
+   *   `latestPeriodAvailable` — qualifies at the newest annual period on record;
+   *   `earlierPeriodsOnly`    — qualifies on an earlier period but NOT at the newest one (historically available,
+   *                             not latest-ready);
+   *   `neverAvailable`        — no period qualifies; the measurement withholds it, and nothing here supplies a zero
+   *                             or an older value in place of a missing input.
+   * Nothing in this block feeds a valuation, a derived figure or a freshness decision; it is disclosure only.
+   */
+  readonly methodAvailability: {
+    /** Why the lists are what they are: no sector methods for this issuer's sector, or no annual period at all. */
+    readonly basis: 'SECTOR_METHODS' | 'NO_SECTOR_METHODS' | 'NO_ANNUAL_PERIODS';
+    /** The newest annual period end in scope — the period a latest-period reading looks at. */
+    readonly latestPeriodEnd: string | null;
+    readonly annualPeriodsConsidered: number;
+    /** The sector's PRIMARY method, stated both ways so the distinction is readable at a glance. */
+    readonly primaryMethod: {
+      readonly methodId: string;
+      readonly historicallyAvailable: boolean;
+      readonly availableAtLatestPeriod: boolean;
+    } | null;
+    readonly latestPeriodAvailable: readonly string[];
+    readonly earlierPeriodsOnly: readonly string[];
+    readonly neverAvailable: readonly string[];
+  };
   /** Ingestion issue codes that touch this issuer. Empty when the issuer's data is clean. */
   readonly issueCodes: readonly string[];
   /**
@@ -177,6 +212,8 @@ export interface InvestmentCoverageReport {
     readonly latestPeriodEnd: string | null;
   };
   /** Sector-level method measurement — the "investment coverage" position per sector. */
+  /** `S4-R5` — the availability semantics in force for this report's method states. See the note above `sectors`. */
+  readonly availabilitySemantics: 'EXISTENTIAL_ANNUAL_PERIOD';
   readonly sectors: readonly SectorMeasurement[];
   readonly measuredSectors: number;
   readonly totalSectors: number;
@@ -315,6 +352,88 @@ function freshnessFor(
 }
 
 /**
+ * `S4-R5` — one issuer's historical-versus-latest method availability, from the measurement's own predicate.
+ *
+ * Both answers come from `qualificationOf`, so this row cannot disagree with the sector measurement about whether
+ * an input set is satisfied. The recommendation is the sector's PRIMARY method only; a sector with no declared
+ * methods (an off-vocabulary sector name, which the report already discloses separately) says so via `basis`.
+ */
+function methodAvailabilityFor(
+  issuerId: string,
+  sector: string,
+  annualPeriods: readonly NormalizedPeriod[],
+  content: DatasetContent,
+): InvestmentCoverageIssuerRow['methodAvailability'] {
+  const requirements: readonly MethodRequirement[] =
+    (SECTOR_METHODS as Readonly<Record<string, readonly MethodRequirement[]>>)[sector] ?? [];
+  if (requirements.length === 0) {
+    return {
+      basis: 'NO_SECTOR_METHODS',
+      latestPeriodEnd: null,
+      annualPeriodsConsidered: annualPeriods.length,
+      primaryMethod: null,
+      latestPeriodAvailable: [],
+      earlierPeriodsOnly: [],
+      neverAvailable: [],
+    };
+  }
+  if (annualPeriods.length === 0) {
+    // No annual period means nothing can qualify: every method is withheld, and the row says why rather than
+    // reporting an empty (and therefore ambiguous) set of lists.
+    const declaredPrimary = requirements.find((requirement) => requirement.role === 'PRIMARY');
+    return {
+      basis: 'NO_ANNUAL_PERIODS',
+      latestPeriodEnd: null,
+      annualPeriodsConsidered: 0,
+      primaryMethod:
+        declaredPrimary === undefined
+          ? null
+          : { methodId: declaredPrimary.methodId, historicallyAvailable: false, availableAtLatestPeriod: false },
+      latestPeriodAvailable: [],
+      earlierPeriodsOnly: [],
+      neverAvailable: requirements.map((requirement) => requirement.methodId).sort(),
+    };
+  }
+
+  const latestPeriodAvailable: string[] = [];
+  const earlierPeriodsOnly: string[] = [];
+  const neverAvailable: string[] = [];
+  let latestPeriodEnd: string | null = null;
+  let primaryMethod: InvestmentCoverageIssuerRow['methodAvailability']['primaryMethod'] = null;
+
+  for (const requirement of requirements) {
+    const summary = qualificationOf({
+      requirement,
+      issuerIds: [issuerId],
+      annualPeriods,
+      content,
+    });
+    if (summary.latestPeriod !== null) latestPeriodEnd = summary.latestPeriod.periodEnd;
+    const historicallyAvailable = summary.qualifyingPeriods.length > 0;
+    if (!historicallyAvailable) neverAvailable.push(requirement.methodId);
+    else if (summary.latestPeriodQualified) latestPeriodAvailable.push(requirement.methodId);
+    else earlierPeriodsOnly.push(requirement.methodId);
+    if (requirement.role === 'PRIMARY' && primaryMethod === null) {
+      primaryMethod = {
+        methodId: requirement.methodId,
+        historicallyAvailable,
+        availableAtLatestPeriod: summary.latestPeriodQualified,
+      };
+    }
+  }
+
+  return {
+    basis: 'SECTOR_METHODS',
+    latestPeriodEnd,
+    annualPeriodsConsidered: annualPeriods.length,
+    primaryMethod,
+    latestPeriodAvailable: latestPeriodAvailable.sort(),
+    earlierPeriodsOnly: earlierPeriodsOnly.sort(),
+    neverAvailable: neverAvailable.sort(),
+  };
+}
+
+/**
  * Build the investment-coverage report.
  *
  * Deterministic for identical inputs. Every number is read from the supplied dataset; nothing is
@@ -341,19 +460,20 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
 
   // The sector measurement needs the same content shape `measureCoverage` consumes. It is derived
   // here from the supplied records, never from a second read of the store.
-  const sectorReport: CoverageReport = measureCoverage(
-    {
-      issuers: [...issuers],
-      securities: [...securities],
-      listings: [],
-      periods: [...periods],
-      prices: [...prices],
-      corporateActions: [],
-      operatingMetrics: [...operatingMetrics],
-      issues: [...issues],
-    },
-    { datasetVersion: manifestRef?.datasetVersion ?? 'NONE', generatedAt },
-  );
+  const content: DatasetContent = {
+    issuers: [...issuers],
+    securities: [...securities],
+    listings: [],
+    periods: [...periods],
+    prices: [...prices],
+    corporateActions: [],
+    operatingMetrics: [...operatingMetrics],
+    issues: [...issues],
+  };
+  const sectorReport: CoverageReport = measureCoverage(content, {
+    datasetVersion: manifestRef?.datasetVersion ?? 'NONE',
+    generatedAt,
+  });
 
   const securitiesByIssuer = new Map<string, SecurityRecord[]>();
   for (const security of securities) {
@@ -443,6 +563,12 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
         latestPeriodEnd: periodEnds.length > 0 ? periodEnds[periodEnds.length - 1] : null,
         earliestPeriodEnd: periodEnds.length > 0 ? periodEnds[0] : null,
         freshness: freshnessFor(issuer.issuerId, periods, asOf),
+        methodAvailability: methodAvailabilityFor(
+          issuer.issuerId,
+          issuer.sector,
+          issuerPeriods.filter((period) => periodTypeOf(period) === 'ANNUAL'),
+          content,
+        ),
         issueCodes,
         identityDependency,
         identityDependencyDetail:
@@ -520,8 +646,23 @@ export function buildInvestmentCoverageReport(input: InvestmentCoverageInput): I
     );
   }
 
+  /*
+   * `S4-R5` — the reading instruction the report did not previously carry, appended LAST so every note already
+   * published keeps its position. `usableMethods` and a sector stage are facts about the whole annual-period
+   * history; they are neither a latest-period readiness statement nor a valuation.
+   */
+  notes.push(
+    'Method availability is HISTORICAL, and existential over annual periods: a method is available when at least one eligible issuer and annual period carries every input it declares. It is not a statement that the latest period supports the method, and it is not a statement that an assessment would produce a figure. Each issuer row separates the two: `latestPeriodAvailable` (qualifies at the newest annual period), `earlierPeriodsOnly` (available historically, not at the newest period) and `neverAvailable` (no period qualifies). Missing, stale, incomplete or invalid latest inputs keep withholding or blocking; nothing is substituted with a zero or with an older value.',
+  );
+
   return {
     reportVersion: 1,
+    /**
+     * `S4-R5` — a machine-readable statement of WHICH availability semantics this report was measured under, so a
+     * reader (or a regression test) never has to infer it from prose. Existential over annual periods, retained by
+     * owner decision; the value is a constant and changes only if that decision changes.
+     */
+    availabilitySemantics: 'EXISTENTIAL_ANNUAL_PERIOD' as const,
     asOf,
     generatedAt,
     dataset: {

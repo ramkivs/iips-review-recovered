@@ -23470,10 +23470,84 @@ no value is overstated, zeroed or approximated, and the payload names the blocke
 would be a production-source change outside this item's authority; it is recorded so the next reader does not
 rediscover it as a defect.
 
-**Nothing decided.** `S4-R5` remains **OPEN** (existential availability versus latest-period availability), and the
-document is written so that either answer leaves its contract true; the measurement-semantics question about
-`derive.ts` admitting a declared nil remains reserved. `S4-R2` stays **CLOSED**; `S4-R3`/`S4-R3-Infosys` stay
-**OPEN**; `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged. Stage 4 remains **PARTIALLY COMPLETE**,
-overall IID readiness **NOT READY**, and the next Stage 4 roadmap item is **`S4-R5`**.
+**Nothing decided, as at this section's date.** `S4-R5` was **OPEN** when this section was written (existential
+availability versus latest-period availability), and the document is written so that either answer leaves its contract
+true — the owner has **since decided it** in `§16.296`, which leaves every statement above true. The
+measurement-semantics question about `derive.ts` admitting a declared nil remains reserved. `S4-R2` stays **CLOSED**;
+`S4-R3`/`S4-R3-Infosys` stay **OPEN**; `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged. Stage 4 remained
+**PARTIALLY COMPLETE** and overall IID readiness **NOT READY** at that point; the next Stage 4 roadmap item was
+**`S4-R5`**, which `§16.296` now discharges.
 
-Next free §16.296 / `CV-CORR-261` / `CHG-2026-11-06-24` / `V2182`.
+## 16.296 `CV-CORR-261` — IID Stage 4 `S4-R5` decided and discharged: coverage availability stays existential, and "historically available" is served and drawn apart from "ready at the latest period" (`2026-11-17`; `CHG-2026-11-06-24`; `V2182`–`V2189`)
+
+**Decision (`V2182`).** *Retain existential annual-period coverage semantics.* A method is **historically `AVAILABLE`**
+when **at least one** eligible (issuer, annual period) pair carries every input it declares. That is a dataset-capability
+statement; it does **not** guarantee a valuation on the latest applicable data. **Historical method availability** and
+**latest assessment readiness** are kept **distinct** in what is computed, served and displayed. Missing, stale,
+incomplete or invalid *latest* inputs keep producing withholding/blocking outcomes: no zero substitution, no silent
+reuse of an older value, no weakened validation. Scope: **IRR only**. Record:
+`docs/integration/IID-COVERAGE-AVAILABILITY-SEMANTICS-2026-11-17.md`. Register: Stage 4 `S4-R5` row replaced by its
+discharge record plus an addendum at the foot of `IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md`.
+
+**The measurement already implemented it — verified, not assumed (`V2183`).** `measureMethod`
+(`coverage/measure.ts:111-175`) was already existential: an issuer is pushed into `available` on the first qualifying
+period (`:146`) and the method is `AVAILABLE` when that set is non-empty (`:166`). No policy, threshold, window,
+formula, derivation or eligibility rule was edited. The measurement's output hashes **identically** before and after
+the edits on both served datasets — `84869d96…` / `b92ea944…` on `sha256:69bbc14e…` and `3a1142b2…` / `7f5dec15…`
+on `sha256:bdfb2527…` — and the first value of each pair reproduces `§16.295`'s recorded measurement digest exactly.
+Both declarations this item added to `measure.ts` were appended **below** every existing line, so `§16.295`'s and
+`S4-R4`'s line references to that file still resolve (`measureMethod` unchanged at 111; `available.push` at 146).
+
+**The gap it found (`V2184`).** The served report disclosed counts (`usableMethods`, `withheldMethods`, sector `stage`)
+and per-issuer data counts, but **nothing joined them**: no surface said a usable method may rest on an **earlier**
+annual period, no per-issuer statement existed of what the latest period supports, and the SPA label read *"Methods
+usable / withheld"* — a label that invites exactly the wrong reading. On `sha256:69bbc14e…` the Consumer counter reads
+**3 usable / 0 withheld** while Marico is latest-ready for **two** of the three, the third (`EV_EBITDA`) resting on
+FY2023 alone. Both statements were correct; only the presentation conflated them.
+
+**The correction — disclosure only, from fields that already existed (`V2185`).** `qualificationOf` (`measure.ts:407`)
+plus one shared predicate `missingInputsFor` (`:365`) expose the qualifying (issuer, period) pairs newest-first, the
+newest period and whether that period itself qualifies. `coverage/investmentCoverage.ts` adds a per-issuer
+`methodAvailability` block (type `:133`, computed `:361`, attached `:566`: `basis`, `latestPeriodEnd`,
+`annualPeriodsConsidered`, `primaryMethod` with **both** verdicts, and three disjoint lists — `latestPeriodAvailable`,
+`earlierPeriodsOnly`, `neverAvailable`), declares `availabilitySemantics: 'EXISTENTIAL_ANNUAL_PERIOD'` (`:216`/`:665`)
+and **appends** one note stating the reading rule and the non-substitution prohibition. `frontend` gains the optional
+projection fields, a Sector-measurement disclosure sentence, an issuer column *Method availability (historical vs
+latest period)* rendering *N at latest · M earlier only · K never available* with the earlier-only ids, and a relabelled
+counter *Methods historically available / withheld* — matched on `IdentityCoveragePage` and both server HTML views so no
+label means two things on two surfaces. An absent block renders `not reported`, never `0`.
+
+**Tests (`V2186`).** `iips-platform/tests/investment/s4r5-availability-semantics.test.ts` — **10 tests**: existential
+verdict is live; withheld-and-named once no period qualifies; earlier-only reported as such with the latest period
+named; latest readiness independent in the same issuer and sector; primary method stated both ways; qualifying periods
+named newest-first; a second issuer in a different sector takes the same generic path (no issuer-specific code); an
+issuer with no annual period says so; the report declares its semantics and re-states the measurement unchanged; every
+issuer row carries the disclosure. SPA: `frontend/src/features/investment/investmentCoverageAvailability.test.tsx` —
+**7 tests**; `frontend/server/investment/iidStage4ServedCoverageRoute.test.ts` updated for the appended note
+(`notes.length` 3 → 4, new note asserted at index 3 so every earlier note keeps its position).
+
+**Measured (`V2187`).** `evidence/real-issuer/S4-R5-HISTORICAL-VERSUS-LATEST-2026-11-17/` (README +
+`runs/availability-by-issuer.json`), both datasets re-ingested from their committed inputs at clock 2026-11-17:
+`69bbc14e…` Marico `latestPeriodAvailable [DCF_FCFF, PE_RELATIVE]` / `earlierPeriodsOnly [EV_EBITDA]`, KEC
+`[… EV_EBITDA]` / `[]` / `never [EV_REVENUE]`, Infosys `[DCF_FCFF, PE_RELATIVE]` / `[]` / `never [EV_EBITDA,
+EV_REVENUE]`; `bdfb2527…` Marico all three latest-ready. The served sector counters equal `measureCoverage`'s own on
+both (`existentialCheck: true`), and the HTML view carries the relabelled counter on both.
+
+**Validation (`V2188`).** IID suite **1526/1526** (1516 + 10); `iips-platform` `tsc --noEmit` clean; `git diff --check`
+clean; CAP-03 static validator PASS. Frontend: `vitest` **7/7** on the new suite, **11/11** on the served-coverage route,
+and the investment-feature directory green apart from files that cannot resolve the un-installable private
+broker-import artefacts; `tsc --noEmit` reports **no error in any file this item touched** (24 errors, all in
+broker-import paths that need the private `.cache` build). Those environment limits are stated, not worked around.
+
+**Nothing else moved, and nothing was pre-empted (`V2189`).** No change from existential to latest-period coverage; no
+valuation formula, weight, threshold, cap or freshness-window change; no weakening of assessment eligibility or
+withholding; no missing→zero and no substitution of an older value; no issuer admission, dataset construction,
+source-rights change, O3 authorisation, host install or production operation; no issuer-specific branch. `S4-R2` stays
+**CLOSED**; `S4-R3`/`S4-R3-Infosys` stay **OPEN** with their conditions untouched; `S4-R4` stays **CLOSED** with its
+contract unchanged (its header and reserved-decision section now record the outcome instead of calling `S4-R5` open);
+`L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged; Stage 4 remains **PARTIALLY COMPLETE**; overall IID
+readiness **NOT READY**. Remaining limitation: the disclosure is per issuer and method id, not a per-period series, so
+*which* earlier year carries an earlier-only method still needs the coverage evidence. Next Stage 4 roadmap item is
+**`S4-R6`** (`G-4`, operating metrics), then `S4-R7`/`S4-R8`.
+
+Next free §16.297 / `CV-CORR-262` / `CHG-2026-11-06-25` / `V2190`.

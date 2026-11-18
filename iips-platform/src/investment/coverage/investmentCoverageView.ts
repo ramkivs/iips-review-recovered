@@ -272,6 +272,10 @@ ${counts}
 
 <h2>Sector measurement</h2>
 <p class="muted">${report.measuredSectors} of ${report.totalSectors} sector(s) measured.${outstanding}</p>
+<p class="muted">Availability is HISTORICAL: a method counts as usable when at least one eligible issuer and
+annual period carries every input it declares. It is not a valuation, and it does not mean the latest period
+supports the method; the investment-coverage report keeps those two questions apart per issuer, in that report's
+methodAvailability block.</p>
 <table>
 <tr><th>Sector</th><th>Stage</th><th>Issuers</th></tr>
 ${sectorRows(report)}
@@ -288,7 +292,7 @@ ${issues}
 <table>
 <tr><td>Sectors measured</td><td>${financial.measuredSectors} of ${financial.totalSectors}</td></tr>
 <tr><td>Outstanding sectors</td><td>${escapeHtml(financial.outstandingSectors.join(', ') || 'none')}</td></tr>
-<tr><td>Methods usable / withheld</td><td>${financial.usableMethods} / ${financial.withheldMethods}</td></tr>
+<tr><td>Methods historically available / withheld</td><td>${financial.usableMethods} / ${financial.withheldMethods}</td></tr>
 <tr><td>XBRL tags mapped</td><td>${financial.xbrlMappedTags}</td></tr>
 <tr><td>Derivable line items</td><td>${financial.derivationItems}</td></tr>
 <tr><td>Dataset</td><td>${escapeHtml(financial.datasetClass)}</td></tr>

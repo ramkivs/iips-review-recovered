@@ -68,6 +68,28 @@ export interface InvestmentCoverageIssuerRow {
     readonly policyVersion: string;
     readonly sequenceGapCount: number;
   };
+  /**
+   * `S4-R5` — HISTORICAL method availability versus LATEST-PERIOD qualification, for this issuer.
+   *
+   * Optional in this projection because older served reports predate it; the server always sends it. The three
+   * lists answer different questions and must not be merged: `latestPeriodAvailable` qualifies at the newest
+   * annual period, `earlierPeriodsOnly` is historically available but NOT latest-ready (the case the sector-level
+   * `usableMethods` counter silently mixes in), and `neverAvailable` has no qualifying period at all. None of
+   * them is a valuation statement.
+   */
+  readonly methodAvailability?: {
+    readonly basis: 'SECTOR_METHODS' | 'NO_SECTOR_METHODS' | 'NO_ANNUAL_PERIODS';
+    readonly latestPeriodEnd: string | null;
+    readonly annualPeriodsConsidered: number;
+    readonly primaryMethod: {
+      readonly methodId: string;
+      readonly historicallyAvailable: boolean;
+      readonly availableAtLatestPeriod: boolean;
+    } | null;
+    readonly latestPeriodAvailable: readonly string[];
+    readonly earlierPeriodsOnly: readonly string[];
+    readonly neverAvailable: readonly string[];
+  };
   readonly issueCodes: readonly string[];
   /**
    * `null` means "not evaluated" — the identity sources could not be loaded, so no binding could be
@@ -106,6 +128,11 @@ export interface InvestmentCoverageSectorRow {
 
 export interface InvestmentCoverageReport {
   readonly reportVersion: 1;
+  /**
+   * `S4-R5` — which availability semantics the method states were measured under. Optional in this projection so a
+   * report served before the field existed still types; the server always sends `EXISTENTIAL_ANNUAL_PERIOD`.
+   */
+  readonly availabilitySemantics?: 'EXISTENTIAL_ANNUAL_PERIOD';
   readonly asOf: string;
   readonly generatedAt: string;
   readonly dataset: {

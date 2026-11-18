@@ -344,7 +344,9 @@ export default function IdentityCoveragePage(): JSX.Element {
             <td>{report.financialCoverage.outstandingSectors.join(', ') || 'none'}</td>
           </tr>
           <tr>
-            <td>Methods usable / withheld</td>
+            {/* `S4-R5`: the same existential-over-history counter, so it carries the same label as the
+                investment-coverage page. It is not a latest-period readiness count. */}
+            <td>Methods historically available / withheld</td>
             <td>
               {report.financialCoverage.usableMethods} / {report.financialCoverage.withheldMethods}
             </td>

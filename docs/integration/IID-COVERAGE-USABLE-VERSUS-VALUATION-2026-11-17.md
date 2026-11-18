@@ -7,8 +7,10 @@ source-level note in the coverage module stating the window difference"*, *"the 
 long-form explanation both point at.
 
 **Authority:** IRR-only. No IPD write, no issuer admitted, no source re-downloaded, no production behaviour changed.
-**Nothing here decides anything**: `S4-R5` remains an **OPEN owner decision**, and this document is written so that
-either answer to it leaves every statement below true (see §12).
+**Nothing here decides anything**: at the time of writing `S4-R5` was an **OPEN owner decision**, and this document
+is written so that either answer leaves every statement below true (see §12). **Update (2026-11-17):** the owner has
+since **retained existential annual-period semantics** — `S4-R5` is decided in
+`IID-COVERAGE-AVAILABILITY-SEMANTICS-2026-11-17.md`; nothing below changes, and §14 records the outcome.
 
 **Base:** `main` `5b67827385d7ea8378cfd7dcf5c13274a5cf9904`. Every figure below was produced at that head by the
 commands in §14 and reproduces from the committed inputs named there.
@@ -45,7 +47,7 @@ Read from the code, not from the label:
 2. **A method is `AVAILABLE` when at least one (issuer, annual period) pair carries every declared input.**
    `measureMethod` loops issuers × annual periods and pushes the issuer into `available` as soon as one period is
    complete for that issuer; `if (available.length > 0)` returns `AVAILABLE` (`measure.ts:111-175`). This is the
-   **existential window**, and it is the subject of the pending `S4-R5` decision — not of this one.
+   **existential window**; `S4-R5` retained it by owner decision (2026-11-17), so this remains the rule in force.
 3. **"Present" means a number, and only a number.** `presentLineItem` requires
    `presence === 'PRESENT' && value !== null` (`measure.ts:94-97`). A declared nil, a `MISSING: NOT_REPORTED` cell and
    a `NOT_COMPUTABLE` derivation are all *not present* to coverage.
@@ -309,10 +311,12 @@ is documentation, and editing that sentence would be a production-source *behavi
 change record. An operator reading it should prefer the field-level state over the sentence.
 
 **Reserved decisions (not taken, not pre-empted).**
-- **`S4-R5` (OWNER, OPEN)** — whether coverage availability should remain **existential** over annual periods or become
-  a statement about the **latest** period. Everything in §5 (D1) and §7 is written to describe the *current* rule and
-  to remain true under either outcome: if `S4-R5` adopts "latest", Consumer's `EV_EBITDA` on `69bbc14e…` becomes
-  `WITHHELD` and the D1 example disappears — the *contract* in §12 does not change.
+- **`S4-R5` (OWNER, DECIDED 2026-11-17)** — coverage availability **remains existential** over annual periods; the
+  owner did not adopt a latest-period rule. Recorded with evidence and the reporting correction in
+  `IID-COVERAGE-AVAILABILITY-SEMANTICS-2026-11-17.md`. §5 (D1) and §7 therefore describe the rule **in force**, and
+  Consumer's `EV_EBITDA` on `69bbc14e…` stays `AVAILABLE` while being *earlier-period-only* at the latest period —
+  a distinction the report now states per issuer instead of leaving to the counter. The *contract* in §12 is
+  unchanged.
 - **`S4-R6`/`G-4` (OWNER + OPERATOR)** — whether to supply operating metrics; that would make D4 live and would change
   the `MANDATORY_METRIC_MISSING` reasons, not this distinction.
 - **A measurement-semantics decision** — whether `derive.ts` should admit a declared nil for `NET_DEBT`. That would
@@ -358,7 +362,8 @@ outputs verbatim, with digests, so the tables above can be checked without re-de
 
 ## 16. What this document does not claim
 
-That `S4-R5` is decided. That coverage should change. That `derive.ts` should admit nils. That any valuation is current
+That `S4-R5` was decided *by this document* (the owner decided it in the record named in §14). That coverage should
+change. That `derive.ts` should admit nils. That any valuation is current
 (`S4-R3` is OPEN). That the population is complete (`L-001`: 3 of 13 sectors). That a divergence is a defect — none of
 the six is: each is two correct answers to two different questions, and the only fault this document addresses is a
 reader being left to guess which question a row answered.

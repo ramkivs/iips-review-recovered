@@ -162,7 +162,7 @@ ${successorRows}
 <table>
 <tr><td>Sectors measured</td><td>${financial.measuredSectors} of ${financial.totalSectors}</td></tr>
 <tr><td>Outstanding sectors</td><td>${escapeHtml(financial.outstandingSectors.join(', ') || 'none')}</td></tr>
-<tr><td>Methods usable / withheld</td><td>${financial.usableMethods} / ${financial.withheldMethods}</td></tr>
+<tr><td>Methods historically available / withheld</td><td>${financial.usableMethods} / ${financial.withheldMethods}</td></tr>
 <tr><td>XBRL tags mapped</td><td>${financial.xbrlMappedTags}</td></tr>
 <tr><td>Derivable line items</td><td>${financial.derivationItems}</td></tr>
 <tr><td>Unmapped tags seen</td><td>${escapeHtml(financial.unmappedTagsObserved.join(', ') || 'none recorded in this run')}</td></tr>

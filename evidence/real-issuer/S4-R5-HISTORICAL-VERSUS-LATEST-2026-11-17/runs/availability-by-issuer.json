@@ -1,0 +1,293 @@
+{
+  "S4R2-69bbc14e": {
+    "datasetVersion": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+    "availabilitySemantics": "EXISTENTIAL_ANNUAL_PERIOD",
+    "sectors": [
+      {
+        "sector": "Auto",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Banking",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Capital Markets",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Consumer",
+        "stage": "G1_ENABLED",
+        "usable": 3,
+        "withheld": 0
+      },
+      {
+        "sector": "Energy",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Healthcare",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Hospitality",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Industrials",
+        "stage": "G2_PARTIAL",
+        "usable": 2,
+        "withheld": 1
+      },
+      {
+        "sector": "Insurance",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 2
+      },
+      {
+        "sector": "Materials",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Technology",
+        "stage": "G2_PARTIAL",
+        "usable": 2,
+        "withheld": 2
+      },
+      {
+        "sector": "Telecom",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 2
+      },
+      {
+        "sector": "Utilities",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      }
+    ],
+    "existentialCheck": true,
+    "issuers": [
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "legalName": "Marico Limited",
+        "sector": "Consumer",
+        "latestPeriodEnd": "2024-03-31",
+        "primaryMethod": {
+          "methodId": "DCF_FCFF",
+          "historicallyAvailable": true,
+          "availableAtLatestPeriod": true
+        },
+        "latestPeriodAvailable": [
+          "DCF_FCFF",
+          "PE_RELATIVE"
+        ],
+        "earlierPeriodsOnly": [
+          "EV_EBITDA"
+        ],
+        "neverAvailable": []
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "legalName": "KEC International Limited",
+        "sector": "Industrials",
+        "latestPeriodEnd": "2026-03-31",
+        "primaryMethod": {
+          "methodId": "DCF_FCFF",
+          "historicallyAvailable": true,
+          "availableAtLatestPeriod": true
+        },
+        "latestPeriodAvailable": [
+          "DCF_FCFF",
+          "EV_EBITDA"
+        ],
+        "earlierPeriodsOnly": [],
+        "neverAvailable": [
+          "EV_REVENUE"
+        ]
+      },
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "legalName": "Infosys Limited",
+        "sector": "Technology",
+        "latestPeriodEnd": "2024-03-31",
+        "primaryMethod": {
+          "methodId": "DCF_FCFF",
+          "historicallyAvailable": true,
+          "availableAtLatestPeriod": true
+        },
+        "latestPeriodAvailable": [
+          "DCF_FCFF",
+          "PE_RELATIVE"
+        ],
+        "earlierPeriodsOnly": [],
+        "neverAvailable": [
+          "EV_EBITDA",
+          "EV_REVENUE"
+        ]
+      }
+    ],
+    "htmlHasHistoricalLabel": true
+  },
+  "ADMITTED-bdfb2527": {
+    "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+    "availabilitySemantics": "EXISTENTIAL_ANNUAL_PERIOD",
+    "sectors": [
+      {
+        "sector": "Auto",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Banking",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Capital Markets",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Consumer",
+        "stage": "G1_ENABLED",
+        "usable": 3,
+        "withheld": 0
+      },
+      {
+        "sector": "Energy",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Healthcare",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Hospitality",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Industrials",
+        "stage": "G2_PARTIAL",
+        "usable": 2,
+        "withheld": 1
+      },
+      {
+        "sector": "Insurance",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 2
+      },
+      {
+        "sector": "Materials",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      },
+      {
+        "sector": "Technology",
+        "stage": "G2_PARTIAL",
+        "usable": 2,
+        "withheld": 2
+      },
+      {
+        "sector": "Telecom",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 2
+      },
+      {
+        "sector": "Utilities",
+        "stage": "UNMEASURED",
+        "usable": 0,
+        "withheld": 3
+      }
+    ],
+    "existentialCheck": true,
+    "issuers": [
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "legalName": "Marico Limited",
+        "sector": "Consumer",
+        "latestPeriodEnd": "2026-03-31",
+        "primaryMethod": {
+          "methodId": "DCF_FCFF",
+          "historicallyAvailable": true,
+          "availableAtLatestPeriod": true
+        },
+        "latestPeriodAvailable": [
+          "DCF_FCFF",
+          "EV_EBITDA",
+          "PE_RELATIVE"
+        ],
+        "earlierPeriodsOnly": [],
+        "neverAvailable": []
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "legalName": "KEC International Limited",
+        "sector": "Industrials",
+        "latestPeriodEnd": "2026-03-31",
+        "primaryMethod": {
+          "methodId": "DCF_FCFF",
+          "historicallyAvailable": true,
+          "availableAtLatestPeriod": true
+        },
+        "latestPeriodAvailable": [
+          "DCF_FCFF",
+          "EV_EBITDA"
+        ],
+        "earlierPeriodsOnly": [],
+        "neverAvailable": [
+          "EV_REVENUE"
+        ]
+      },
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "legalName": "Infosys Limited",
+        "sector": "Technology",
+        "latestPeriodEnd": "2024-03-31",
+        "primaryMethod": {
+          "methodId": "DCF_FCFF",
+          "historicallyAvailable": true,
+          "availableAtLatestPeriod": true
+        },
+        "latestPeriodAvailable": [
+          "DCF_FCFF",
+          "PE_RELATIVE"
+        ],
+        "earlierPeriodsOnly": [],
+        "neverAvailable": [
+          "EV_EBITDA",
+          "EV_REVENUE"
+        ]
+      }
+    ],
+    "htmlHasHistoricalLabel": true
+  }
+}
