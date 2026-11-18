@@ -129,7 +129,12 @@ jobs:
         continue-on-error: true
         env:
           GIT_TERMINAL_PROMPT: '0'
-          GIT_CONFIG_COUNT: '4'
+          # Git for Windows configures a credential manager in its SYSTEM config. An interactive
+          # helper on a headless runner is at best a delay and at worst the reason an otherwise
+          # authorized request is refused, so the helper list is explicitly cleared here and the
+          # scoped authorization header below is the only credential in play.
+          GCM_INTERACTIVE: 'never'
+          GIT_CONFIG_COUNT: '5'
           GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
           GIT_CONFIG_VALUE_0: git+ssh://git@github.com/
           GIT_CONFIG_KEY_1: url.https://github.com/.insteadOf
@@ -138,6 +143,8 @@ jobs:
           GIT_CONFIG_VALUE_2: 'git@github.com:'
           GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
           GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
+          GIT_CONFIG_KEY_4: credential.helper
+          GIT_CONFIG_VALUE_4: ''
         run: |
           set -o pipefail
           npm ci --no-audit --no-fund 2>&1 | tee "$RUNNER_TEMP/npm-ci.log"
@@ -150,7 +157,8 @@ jobs:
         if: ${{ steps.npm-ci.outcome != 'success' }}
         env:
           GIT_TERMINAL_PROMPT: '0'
-          GIT_CONFIG_COUNT: '4'
+          GCM_INTERACTIVE: 'never'
+          GIT_CONFIG_COUNT: '5'
           GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
           GIT_CONFIG_VALUE_0: git+ssh://git@github.com/
           GIT_CONFIG_KEY_1: url.https://github.com/.insteadOf
@@ -159,28 +167,55 @@ jobs:
           GIT_CONFIG_VALUE_2: 'git@github.com:'
           GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
           GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
+          GIT_CONFIG_KEY_4: credential.helper
+          GIT_CONFIG_VALUE_4: ''
         run: |
-          echo "::error title=windows install::npm ci failed on the Windows runner; details follow as annotations"
+          # The runner's bash is errexit: every probe below is allowed to fail, because a failed
+          # probe is exactly what is being reported. (An earlier revision of this step died on its
+          # own first failing probe and reported nothing.)
+          set +e
+          IPD_HTTPS='https://github.com/ramkivs/iips-production-market-data.git'
+          DIAG="$RUNNER_TEMP/install-diagnosis.txt"
+          : > "$DIAG"
+
+          probe () {
+            label="$1"; shift
+            "$@" >"$RUNNER_TEMP/probe.out" 2>"$RUNNER_TEMP/probe.err"
+            status=$?
+            reason="$(tail -n 4 "$RUNNER_TEMP/probe.err" | tr '\n' ' ')"
+            {
+              echo "  ${label}: exit ${status}"
+              [ -n "$reason" ] && echo "    stderr: ${reason}"
+            } >> "$DIAG"
+          }
+
           {
             echo "git: $(git --version 2>&1)"
             echo "npm: $(npm --version 2>&1) | node: $(node --version 2>&1)"
             echo "url rewrites in force:"
             git config --get-regexp '^url\.' 2>&1 | sed 's/^/  /'
-            echo "extraheader configured for the IPD repository: $(git config --get-regexp '^http\..*extraheader$' >/dev/null 2>&1 && echo yes || echo no)"
-            echo "direct authenticated probe of the private repository:"
-            git ls-remote --heads https://github.com/ramkivs/iips-production-market-data.git >/dev/null 2>"$RUNNER_TEMP/probe.err"
-            probe_status=$?
-            if [ "$probe_status" -eq 0 ]; then
-              echo "  git ls-remote: OK (authenticated read of the private repository works on this runner)"
-            else
-              probe_reason="$(tail -n 3 "$RUNNER_TEMP/probe.err" | tr '\n' ' ')"
-              echo "  git ls-remote: exit $probe_status -> $probe_reason"
-            fi
+            echo "credential configuration visible to git (no values are secrets here):"
+            git config --show-origin --get-regexp '^credential' 2>&1 | sed 's/^/  /'
+            echo "IPD authorization header configured: $(git config --get-regexp '^http\..*extraheader$' >/dev/null 2>&1 && echo yes || echo no)"
+            echo "probes of the private repository over HTTPS:"
+          } >> "$DIAG" 2>&1
+
+          probe 'ls-remote (this step env)' git ls-remote --heads "$IPD_HTTPS"
+          probe 'ls-remote (helper cleared on the command line)' git -c credential.helper= ls-remote --heads "$IPD_HTTPS"
+          probe 'ls-remote (no system config)' env GIT_CONFIG_NOSYSTEM=1 git ls-remote --heads "$IPD_HTTPS"
+
+          GIT_CURL_VERBOSE=1 git ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/verbose.out" 2>&1
+          {
+            echo "HTTP status lines from a verbose attempt:"
+            grep -E '^< HTTP|^< WWW-Authenticate' "$RUNNER_TEMP/verbose.out" 2>/dev/null | sed 's/^/  /'
+            grep -iE 'fatal|error|denied|Could not read' "$RUNNER_TEMP/verbose.out" 2>/dev/null | head -n 6 | sed 's/^/  /'
             echo "npm ci output (last 40 lines):"
-            tail -n 40 "$RUNNER_TEMP/npm-ci.log" 2>/dev/null | sed 's/^/  /'
-          } > "$RUNNER_TEMP/install-diagnosis.txt" 2>&1
-          # One annotation per line, bounded: annotations are the retrievable channel.
-          head -n 60 "$RUNNER_TEMP/install-diagnosis.txt" | while IFS= read -r line; do
+          } >> "$DIAG" 2>&1
+          tail -n 40 "$RUNNER_TEMP/npm-ci.log" 2>/dev/null | sed 's/^/  /' >> "$DIAG"
+
+          echo "::error title=windows install::npm ci failed on the Windows runner; the diagnosis follows as annotations"
+          head -n 70 "$DIAG" | while IFS= read -r line; do
+            # Authorization material is masked by the runner, and no probe prints it deliberately.
             echo "::error title=windows install detail::${line}"
           done
           exit 1
