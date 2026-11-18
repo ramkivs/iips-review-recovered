@@ -23888,3 +23888,40 @@ unchanged; audit bundle narrowed to verification metadata (no copied filing-row 
 payload dump); metadata-only probe rerun and 131 checks pass. Report §11 / `publication-delta.json`.
 
 Next free §16.302 / `CV-CORR-267` / `CHG-2026-11-06-30` / `V2222`.
+
+
+## 16.302 S4-R6 / G-4 closure-requirements review only — no owner decision, both OPEN (`2026-11-17`)
+
+**Trace:** `CV-CORR-267` / `CHG-2026-11-06-30` / `V2222`–`V2225`.
+
+**Preserved completed work (`V2222`).** PR #591's matrix, source search, census, twelve synthetic
+probes, 25-test capability result and no-production-defect finding are complete and unchanged.
+None was repeated. Review baseline `5fac71be58e53ad39d9d06b2e3769785114d9fe6`; fetched main
+`70f76134deba91de4ddca9e932542231b298cdf9`; designated branch unchanged. Only S4-R6 closure
+requirements reviewed; no other item, code, source data, dataset, host state or decision changed.
+
+**Determination (`V2223`).** The numeric criterion requires real VALID observations AND the
+named methods AVAILABLE, for an explicit closure scope. Route A can satisfy both recorded
+formulations but currently has no real metric evidence. Addressing both current live targets
+needs Infosys TM_NRR plus TM_RECURRING_REVENUE_PCT and KEC IN_BOOK_TO_BILL, correct annual
+issuer/period/scope and actual qualifying results; one arbitrary row is insufficient. Twelve
+other metric-gated slots remain in unmeasured sectors; no issuer expansion inferred.
+
+**Remaining choice (`V2224`).** Bare "keep withheld" cannot pass the numeric test. Route B can
+close the decision item only if the existing owner/operator explicitly adopts the alternative
+criterion and final bounded accepted limitation, with S4-R6/G-4 dispositions stated; no data
+remediation claimed. PA-01 makes this an ordinary maintenance choice, not a new approval
+ceremony. Ramki is explicitly the application acceptance/decision owner in O1 §1; no owner
+is invented. Smallest action: one explicit S4-R6-only instruction selecting criterion, scope
+and disposition; if A retained, real data/results remain necessary. No such instruction
+was given by asking for investigation. **S4-R6 OPEN; G-4 OPEN.**
+
+**Publication verification (`V2225`).** Focused result:
+`docs/integration/IID-S4-R6-CLOSURE-REQUIREMENTS-2026-11-17.md`; supporting identities, criterion
+locators, original PR read-back and publication-only checks:
+`evidence/iid/S4-R6-CLOSURE-REQUIREMENTS-2026-11-17/`. Original evidence and register wording
+are preserved, not rewritten. New document/link/metadata/preservation checks only; no repeat
+of completed implementation, operating-metric investigation, probes or tests. Publication
+updates existing PR #597 on the designated branch; no merge authorized.
+
+Next free §16.303 / `CV-CORR-268` / `CHG-2026-11-06-31` / `V2226`.

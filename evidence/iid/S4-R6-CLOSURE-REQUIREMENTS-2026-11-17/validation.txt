@@ -1,0 +1,24 @@
+S4-R6 closure-requirements follow-up — documentation/publication verification only
+Review baseline: 5fac71be58e53ad39d9d06b2e3769785114d9fe6
+Fetched main: 70f76134deba91de4ddca9e932542231b298cdf9
+
+These are new record/metadata/preservation checks, not repeated PR #591 product tests.
+Read original record/evidence; obtained gh pr view 591 merge metadata; no source retrieval.
+Commands/methods: Python stdlib json/hashlib/re and pathlib; git branch/diff/show/ls-files;
+exact SHA-256/byte comparisons and line-locator checks; local Markdown link resolution.
+No dependencies installed, product tests/probes executed, code changed, dataset built,
+operating metrics entered, host touched or owner decision made.
+
+PASS — designated current branch
+PASS — entire pre-task tracker byte prefix preserved
+PASS — only focused new record/evidence and append-only tracker receipt differ from pre-task baseline
+PASS — all 10 pinned original records/evidence/test files unchanged; no original capability tests executed
+PASS — six criterion/authority quotations have exact original line locators
+PASS — new report and evidence README local links resolve
+PASS — PR #591 merged read-back, no new owner choice, OPEN/OPEN explicit
+PASS — required route/decision/source/scope/next-action statements present
+
+All 8 new publication checks PASS. Final git diff --check and SHA256SUMS verification
+are run after staging; remote publication/read-back and CI receipt are reported on PR #597.
+Historical record/evidence timestamp 2026-11-18 preserved; follow-up record date 2026-11-17.
+S4-R6 OPEN; G-4 OPEN.
