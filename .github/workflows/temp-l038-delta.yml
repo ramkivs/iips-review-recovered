@@ -1,0 +1,20 @@
+name: Temporary L-038 delta evidence capture
+on:
+  push:
+    branches: ['arena/dea7aba4-iips-review-recovered']
+    paths: ['.github/workflows/temp-l038-delta.yml', 'scripts/l038_delta_source_probe.py']
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Capture targeted Marico public evidence only (no installation, no data admission)
+        run: python scripts/l038_delta_source_probe.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: l038-delta-capture
+          path: l038-delta-capture/
+          retention-days: 7
