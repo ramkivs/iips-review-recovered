@@ -12,11 +12,12 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Recover existing capture through annotations (no repeat source retrieval)
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Isolated PDF parser (runner tools only, no product installation)
+        run: python -m pip install --target "$RUNNER_TEMP/l038-parser" pypdf==6.1.3
+      - name: Targeted retrieval and bounded extracts
+        run: PYTHONPATH="$RUNNER_TEMP/l038-parser" python scripts/l038_delta_source_probe.py
+      - name: Expose capture to GitHub API (sandbox artifact transport is unavailable)
         run: |
-          gh run download 44249537298 -n l038-delta-capture -D l038-delta-capture
           python - <<'PY'
           import base64, json, pathlib, zlib
           files = {str(p.relative_to('l038-delta-capture')): p.read_text() for p in pathlib.Path('l038-delta-capture').rglob('*') if p.is_file()}

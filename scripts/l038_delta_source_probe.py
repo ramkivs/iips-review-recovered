@@ -1,5 +1,5 @@
 """L-038 targeted public-source delta probe; no data admission, no financial ingestion.
-Run in an internet-capable evidence runner with Python 3 and poppler already present.
+Run in an internet-capable evidence runner with Python 3 and pypdf 6.1.3 in an isolated tool directory.
 Only Marico issuer URLs are fetched. Raw PDFs remain temporary; hashes, link discovery,
 metadata and bounded relevant page extracts are retained. No installations or credentials.
 """
@@ -14,6 +14,7 @@ import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
+from pypdf import PdfReader
 from datetime import datetime, timezone
 
 OUT = pathlib.Path('l038-delta-capture')
@@ -35,11 +36,17 @@ def fetch(url):
     stamp = datetime.now(timezone.utc).isoformat()
     row = {'url': url, 'retrievedAtUTC': stamp, 'purpose': 'DISCOVERY_ONLY_NOT_ADMITTED'}
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 L038 evidence-delta research'})
-        with urllib.request.urlopen(req, timeout=75) as resp:
-            data = resp.read(45_000_001)
-            row.update(status=resp.status, finalUrl=resp.url, contentType=resp.headers.get('Content-Type'),
-                       lastModified=resp.headers.get('Last-Modified'), bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
+        result = subprocess.run(['curl', '-L', '--max-time', '55', '--retry', '1', '-sS',
+                                 '-A', 'Mozilla/5.0', '-w', '\n%{http_code}\n%{url_effective}', url], capture_output=True)
+        parts = result.stdout.rsplit(b'\n', 2)
+        if result.returncode or len(parts) != 3:
+            row.update(error=result.stderr.decode(errors='replace'), interpretation='retrieval failed, not non-existence')
+            return row
+        data, status, final = parts
+        row.update(status=int(status), finalUrl=final.decode(), bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
+        if int(status) != 200:
+            row['interpretation'] = 'HTTP non-success, not source content or non-existence proof'
+            return row
         if len(data) > 45_000_000:
             row['error'] = 'size limit, do not interpret as complete source'
             return row
@@ -55,31 +62,28 @@ def fetch(url):
         with tempfile.TemporaryDirectory() as temp:
             p = pathlib.Path(temp) / 'document.pdf'
             p.write_bytes(data)
-            row['pdfinfo'] = subprocess.check_output(['pdfinfo', str(p)], text=True, stderr=subprocess.STDOUT)
+            reader = PdfReader(str(p))
+            row['pdfMetadata'] = {str(k): str(v) for k, v in (reader.metadata or {}).items()}
+            row['pdfPages'] = len(reader.pages)
             if 'MGT' in url:
-                # Only the form (not the shareholder attachment), targeted identity/draft/capital/signature pages.
-                text = subprocess.check_output(['pdftotext', '-layout', '-f', '1', '-l', '20', str(p), '-'], text=True)
-                pages = text.split('\f')
-                selected = [(i + 1, t) for i, t in enumerate(pages) if re.search(
+                selected = [(i + 1, reader.pages[i].extract_text(extraction_mode='layout') or '')
+                            for i in range(min(20, len(reader.pages)))]
+                selected = [(i, t) for i, t in selected if re.search(
                     r'Corporate Identification|draft MGT|Preference share capital|To be digitally signed|signature|Annual general meeting', t, re.I)]
-                row['signatureInspection'] = 'pdfsig output below is diagnostic only; no MCA SRN/challan independently authenticated'
-                try:
-                    row['pdfsig'] = subprocess.check_output(['pdfsig', str(p)], text=True, stderr=subprocess.STDOUT)
-                except subprocess.CalledProcessError as ex:
-                    row['pdfsig'] = ex.output
+                fields = reader.get_fields() or {}
+                row['signatureFields'] = {str(k): str(v) for k, v in fields.items() if str(v.get('/FT')) == '/Sig'}
+                row['signatureInspection'] = 'PDF signature fields inspected, NOT cryptographic/MCA receipt authentication'
             elif 'Annual_Report' in url:
-                # Byte identity check only. Do not re-run the earlier 793-page investigation.
                 row['inspection'] = 'metadata and byte digest only; existing FY26 report is a prior-evidence control'
                 selected = []
             else:
-                # Index the new candidate, retaining capital/declaration evidence only, not a full republication.
-                text = subprocess.check_output(['pdftotext', '-layout', str(p), '-'], text=True)
-                pages = text.split('\f')
-                hits = [(i + 1, t) for i, t in enumerate(pages) if re.search(
-                    r'preference|share capital|issued.{0,30}paid|redeem|convertible|cancel', t, re.I)]
+                hits = []
+                for i, page in enumerate(reader.pages):
+                    text = page.extract_text(extraction_mode='layout') or ''
+                    if re.search(r'preference|share capital|issued.{0,30}paid|redeem|convertible|cancel', text, re.I):
+                        hits.append((i + 1, text))
                 row['capitalHitPages'] = [i for i, _ in hits]
-                row['pageCountExtracted'] = len([t for t in pages if t.strip()])
-                # Bound publication; a hit page is not group completeness or an audited nil.
+                row['pageCountExtracted'] = len(reader.pages)
                 selected = hits[:40]
                 row['extractLimitPages'] = 40
                 row['truncatedSelection'] = len(hits) > 40
@@ -102,6 +106,9 @@ def fetch(url):
 if __name__ == '__main__':
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         records = list(pool.map(fetch, URLS))
+    retry_urls = [r['url'].replace('https://marico.com/', 'https://www.marico.com/') for r in records if r.get('status') != 200]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+        records += list(pool.map(fetch, retry_urls))
     # Discover exact issuer links before considering any additional candidate, not a blind URL sweep.
     linked = sorted(set(x for row in records for x in row.get('candidateLinks', [])
                         if urllib.parse.urlparse(x).hostname in ('marico.com', 'www.marico.com')
