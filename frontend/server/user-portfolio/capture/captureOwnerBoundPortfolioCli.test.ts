@@ -157,15 +157,24 @@ afterEach(() => {
   rmSync(outputRoot, { recursive: true, force: true });
 });
 
+/**
+ * Runs the CLI with an explicit platform.
+ *
+ * The MOCKED group declares `'linux'` together with the POSIX endpoint in `ENV`: a consistent pair
+ * that never connects (the transport is injected), so it behaves identically on every host. The
+ * SYNTHETIC-PEER group must instead declare the HOST platform, because it binds and connects to a
+ * real local endpoint of the host's class — see `HOST_PLATFORM` below.
+ */
 async function runCli(
   argv: string[],
   transport: CaptureTransport | undefined,
   env: NodeJS.ProcessEnv = ENV,
+  platform: NodeJS.Platform = 'linux',
 ): Promise<{ result: CliResult; io: Console }> {
   const io = consoleCapture();
   const result = await runCaptureCli(argv, {
     env,
-    platform: 'linux',
+    platform,
     transport,
     sleep: async () => undefined,
     io: { out: (line) => io.out.push(line), err: (line) => io.err.push(line) },
@@ -408,6 +417,15 @@ describe('CLI validation — before any connection', () => {
 });
 
 describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD, not evidence)', () => {
+  /**
+   * This group binds a REAL local endpoint and connects to it, so the platform the CLI validates
+   * against has to be the platform the endpoint was created for: the host's. Declaring any other
+   * platform is a contradiction the resolver correctly refuses — on Windows a `\\.\pipe\` endpoint
+   * validated as `'linux'` is `ENDPOINT_NOT_CONFIGURED`, so all four cases below exited 2 instead
+   * of reaching the peer at all. The endpoint and the declared platform now come from one place.
+   */
+  const HOST_PLATFORM: NodeJS.Platform = process.platform;
+
   let endpoint: LocalIpcEndpoint;
   let peer: SyntheticPeer | null = null;
 
@@ -433,7 +451,7 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
   it('runs the full sequence through real framing and marks the result as not evidence', async () => {
     peer = await startSyntheticPeer(endpoint.path);
     // No transport injected: the CLI uses the existing callIpc with the endpoint from the environment.
-    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint.path));
+    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint.path), HOST_PLATFORM);
 
     expect(result.exitCode).toBe(0);
     expect(peer.operations).toEqual(['portfolio.list', 'portfolio.get', 'portfolio.revisions', 'portfolio.get']);
@@ -452,7 +470,7 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
 
   it('recaptures once when the first attempt is inconsistent', async () => {
     peer = await startSyntheticPeer(endpoint.path, 'FIRST_ATTEMPT_INCONSISTENT');
-    const { result } = await runCli(['--output-root', outputRoot, '--retry-delay-ms', '0'], undefined, peerEnvironment(endpoint.path));
+    const { result } = await runCli(['--output-root', outputRoot, '--retry-delay-ms', '0'], undefined, peerEnvironment(endpoint.path), HOST_PLATFORM);
 
     expect(result.exitCode).toBe(0);
     expect(peer.operations).toHaveLength(8);
@@ -465,7 +483,7 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
 
   it('reports a zero-byte close as a binding or authorization refusal', async () => {
     peer = await startSyntheticPeer(endpoint.path, 'CLASS_P');
-    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint.path));
+    const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(endpoint.path), HOST_PLATFORM);
 
     expect(result.exitCode).toBe(11);
     expect(peer.operations).toEqual(['portfolio.list']);
@@ -478,7 +496,7 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
     // (exit 2), not the connection failure (exit 10) this case is about.
     const unbound = createLocalIpcEndpoint({ label: 'w11-dep1-peer', name: 'nobody-listening' });
     try {
-      const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(unbound.path));
+      const { result } = await runCli(['--output-root', outputRoot], undefined, peerEnvironment(unbound.path), HOST_PLATFORM);
 
       expect(result.exitCode).toBe(10);
       expect(result.outcome).toBe('IPC_CONNECTION_FAILURE');
