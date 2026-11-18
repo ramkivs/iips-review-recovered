@@ -1,0 +1,29 @@
+{
+  "limitation": "L-039",
+  "status": "OPEN",
+  "externalEvidenceStatus": "UNRESOLVED_PENDING_EXTERNAL_EVIDENCE",
+  "issuer": "KEC International Limited",
+  "statementScope": "CONSOLIDATED",
+  "instant": "2026-03-31",
+  "currentInvestments": {
+    "presence": "MISSING",
+    "reason": "NOT_REPORTED",
+    "value": null
+  },
+  "closurePaths": {
+    "A": "NOT_SATISFIED",
+    "B": "NOT_SATISFIED",
+    "C": "NOT_SATISFIED"
+  },
+  "ownerDecisionMade": false,
+  "newFinancialEvidenceAdmitted": false,
+  "successorDatasetWritten": false,
+  "productionCodeChanged": false,
+  "economicZeroVerified": false,
+  "templateDefaultProven": false,
+  "roundedNonzeroCurrentInvestmentsProven": false,
+  "applicableFull2026IndAsDtsVerified": false,
+  "official2026OtherThanBankCoreObtained": true,
+  "precision": "explicit decimals=-7, finite accuracy; no precision attribute; zero-INF inference does not apply",
+  "externalAction": "Admissible same-instant audited/filed consolidated amount or explicit economic nil; alternatively authoritative applicable taxonomy/population semantics with sufficient issuer/exchange confirmation of economic zero. Rights/admission and any owner decision remain required."
+}

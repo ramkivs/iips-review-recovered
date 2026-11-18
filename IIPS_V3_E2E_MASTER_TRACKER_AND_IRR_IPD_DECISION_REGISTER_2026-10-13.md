@@ -23768,3 +23768,60 @@ carry-forward, scope substitution, period-rule or withholding relaxation. **L-03
 work item only. No IPD/cross-repo write or production operation. Stage 4 readiness not upgraded.
 
 Next free §16.300 / `CV-CORR-265` / `CHG-2026-11-06-28` / `V2211`.
+
+## 16.300 `CV-CORR-265` — L-039 KEC current-investments delta investigated; OPEN pending qualifying semantics/amount/nil (`2026-11-17`; `CHG-2026-11-06-28`; `V2211`–`V2216`)
+
+**Baseline/governance (`V2211`).** IRR only; designated branch `arena/3c6fd35e-iips-review-recovered`, clean HEAD
+and fetched main both `ed839d116d1d7363431e7d771e2f90dcbb9b330c` (PR #593). Reconciled register§17.25 and
+tracker§16.283 fact-level follow-ups, original421-page WI8/WI12 bundles, W07 ingestion corrections, Nov16
+PR #568 reconciliation carrying #563 unchanged, and subsequent KEC refresh candidate. W07 datedNov12 and
+Nov16 publication are not an exhaustive source cutoff; nominalWI12 Nov5/runnerNov8 discrepancy preserved.
+SessionNov17/runnerNov18 observations explicitly distinguished. L-038's separate delta not reopened.
+
+**Facts/corrections (`V2212`).** March XML raw77,918B/SHA133f0cf1…19d21 (not W07 190,118B), one zero,
+OneI/2026-03-31/INR/decimals=-7/no precision/nil/dimensions; consolidated/audited at filing level. Current assets
+reconcile₹19,390.60crore; ₹49,000 noncurrent Note10 is rounding counterexample only. Exact direct-child OneI INR
+filter finds16zero facts, not proof16defaults; prior counts use different filters. September instant2026-09-30,
+H1FY27 (not2025); no scope/period mixing. W07 “Exact” finite-accuracy figures and proved-blank-cell wording are
+qualified append-only. Gross debt data remains₹5,377.76crore, not stale₹5,103.23summary. Cash₹411.26crore intact.
+
+**Taxonomy/standard (`V2213`).** Fresh official NSE IndAS package2025; **BSE labelled-IndAS download contains
+2026 core but AS/OtherThanBank entry/roles**, partially verifying an official2026 concept without establishing
+applicable IndAS DTS/version mapping. Old blanket“no2026 published” assertion superseded, not replaced by a
+false matching-package claim. Raw ZIPs/hash/member readback capture type/period/balance/nillable/no fixed/default,
+label/references/calculation/presentation/dimension-default arcs. Tested NSE2026 entry404/SEBI530 not nonexistence.
+Official XBRL2.1 §4.6.5 explicit-7 is accuracy to₹1crore, half-quantum₹0.5crore for nearest-rounding illustration;
+precision→inferred-decimals zero-INF special case does not override supplied decimals. Not exact nil; not proof
+nonzero/default. Need actual issuer/exchange semantics, not just a schema.
+
+**Source/rights delta (`V2214`).** Same March XML/rendered/FY26annual hashes verified. Selected notes reread;
+no repeat421-page negative search. Current issuer actual annual/quarterly indexes, earnings page, NSE integrated
+metadata and announcements inspected; latest observed noticeNov12 is meeting context, no admissible March
+amount/nil obtained. September PDF hash same as prior, different instant. BSE403 retained; archive/notice HTTP2
+failures overcome by HTTP1.1/user-agent retry. Nested archive contains legacy2018/2019/2020 and integrated2025
+IndAS, not applicable2026. One-page transcript intimation/meeting notice not full transcript or amount/nil confirmation. Candidate-by-candidate owners/URLs/dates/scope/locators/audit status/raw+compressed hashes/rights
+and admission in delta bundle. All fresh candidates **DISCOVERY_ONLY_NOT_ADMITTED**; public access != rights,
+owner acceptance, provider/O3 or execution authority. No private correspondence or owner adjudication.
+
+**Closure/data/dependency (`V2215`).** A/B/C **all NOT SATISFIED**; historical C-indeterminate not closureC.
+**CURRENT_INVESTMENTS MISSING / NOT_REPORTED / null; L-039 OPEN / UNRESOLVED_PENDING_EXTERNAL_EVIDENCE**.
+Read-only canonical in-memory replay WI8 3rows + refresh5rows: missing cash aggregates/net debt, withheld per-share,
+intrinsic/sensitivity preserved; diagnostic EV and valid independent components survive. Before/repeated digests
+WI8 `sha256:0df73ead…82ab`, refresh `sha256:65ad58cd…45bd`; historical corrected payload `fc50c53e…f370`
+unchanged. No successor dataset or persisted artifact. Current WI8 identity loader's entries/actions failure is
+explicit; historical carrier used only for financial replay, no current identity qualification/repair/persistence.
+No zero/scope/period/KPI/residual/asset substitution. Existing same-instant and L-040 protections unchanged;
+L-038 debt/cash decisions remain CLOSED and preference/nil completeness independent. External action: qualifying
+filed/audited March consolidated amount/nil, or applicable2026 IndAS taxonomy+population/rounding semantics and
+issuer/exchange confirmation validating economic zero, followed by rights and any necessary owner decision.
+
+**Validation/publication (`V2216`).** New7/7; existing targeted L039/L040/W07/ingestion/cash alignment86/86;
+WI8 35/35; retained contextPython7/7; fullIID1589/1589; platform noEmit PASS. Static/offline/hash/preservation checks
+and exact commands in `evidence/real-issuer/L039-DELTA-2026-11-17/validation.txt`. Register append§17.31;
+historical records and all original issuer/data/artifact/source files retained byte-identical. No production
+financial code/data or IPD operation. Temporary capture/transport workflows removed in final tree. PR/check/
+merge/independent remote ancestry/blob readback reported after publication, not predicted. Full record:
+`docs/integration/IID-L039-KEC-CURRENT-INVESTMENTS-DELTA-2026-11-17.md`. No other limitation begun or readiness
+upgraded. Investigation complete, limitation **OPEN**.
+
+Next free §16.301 / `CV-CORR-266` / `CHG-2026-11-06-29` / `V2217`.
