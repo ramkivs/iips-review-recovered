@@ -1,0 +1,66 @@
+90
+
+
+
+
+
+
+
+
+
+
+           Loss allowances are measured on either of the                                                                                                               The maximum period considered when estimating expected
+       following basis:                                                                                   credit losses is the maximum contractual period over which
+                                                                                                          the Company is exposed to credit risk.
+                                            12-month expected credit loss: expected credit loss
+               that result from possible default events within 12                                                               At each reporting date, the Company assesses whether
+               months after the reporting date; and                                                       financial assets carried at amortised cost are credit-
+                                                                                                          impaired. A financial asset is ‘credit-impaired’ when one or
+                                   Lifetime expected credit loss: expected credit loss                    more events that have a detrimental impact on the estimated
+               that result from all possible default events over the                                      future cash flows of the financial assets have occurred.
+               expected life of a financial instrument.
+                                                                                                             Loss allowances for financial assets measured at
+              The Company measures the loss allowance at an                                               amortised cost are deducted from the gross carrying
+       amount equal to lifetime expected credit losses, except                                            amount of the asset.
+       for the following which are measured as 12-month
+       expected credit losses:                                                                    Offsetting
+
+                                                Bank balances, due from a related party and other                                                                        Financial assets and liabilities are offset and the net amount
+               receivables for which credit risk (i.e. the risk of default                                reported in the statement of financial position when there is
+               occurring over the expected life of the financial                                          a legally enforceable right to offset the recognised amounts
+               instrument) has not increased significantly since                                          and there is an intention to settle on a net basis, or realise
+               initial recognition.                                                                       the asset and settle the liability simultaneously.
+
+                                           The Company has elected to measure loss allowances for Equity
+       trade receivables at an amount equal to lifetime expected                                                                                              Share capital is recorded at the value of proceeds received
+       credit losses. The Company applies a simplified approach                                           towards interest in share capital of the Company.
+       in calculating expected credit losses. The Company does                                    m)                                                 Fair value measurement
+       not track changes in credit risk, but instead recognises a
+       loss allowance based on lifetime expected credit losses                                                               The Company also discloses the fair value of financial
+       at each reporting date. The Company has established a                                              instruments measured at amortised cost.
+       provision matrix that is based on its historical credit loss
+       experience, adjusted for for ward-looking factors specific to                                                                                     The fair value is the price that would be received to sell an
+       the debtors and the economic environment.                                                          asset or paid to transfer a liability in an orderly transaction
+                                                                                                          between market participants at the measurement date.
+                                  When determining whether the credit risk of a financial                 The fair value measurement is based on the presumption
+       asset has increased significantly since initial recognition                                        that the transaction to sell the asset or transfer the liability
+       and when estimating expected credit losses, the Company                                            takes place either:
+       considers reasonable and supportive information that is
+       relevant and available without undue cost or effort. This                                                                                                     In the principal market for the asset or liability or
+       includes both quantitative and qualitative information and                                                                         In the absence of a principal market, in the most
+       analysis, based on the Company’s historical experience                                                     advantageous market for the asset or liability.
+       and informed credit assessment and including forward
+       looking information.                                                                                                                   The fair value of an asset or a liability is measured using
+                                      The Company assumes that the credit risk on a financial             assumptions that the market participants would use when
+       asset has increased significantly if it is more than                                               pricing the asset or liability, assuming that the market
+       90 days past due.                                                                                  participants act in their best economic interests.
+
+           The Company considers a financial asset to be                                          n)                                                 Events after the reporting period
+
+       in default when:                                                                                                         If the Company receives information after the reporting
+                                                                                                          period, but prior to the date of authorisation for issue of the
+                                                                       The customer is unlikely to pay its credit obligations to financial statements, about conditions that existed at the end
+               the Company in full, without recourse by the Company                                       of the reporting period, it assesses whether the information
+               to actions such as realising security (if any is held); or                                 affects the amounts that it recognises in its financial
+                                                                                                          statements. The Company adjusts the amounts recognised
+                                                                  The financial asset is more than 365 days past due.in its financial statements to reflect any adjusting events after

@@ -1,0 +1,64 @@
+196
+
+
+
+
+
+
+
+
+
+
+1.12 Share capital and equity                                                                                                                                   The nature of the goods invoiced are primarily of hair care
+                                                                 Ordinar y shares are recognised at the value issued for and and health products.
+        classified as ‘share capital’ in equity. Any amounts received                                                    Due to the nature of the bulk supply of goods and
+        from the issue of shares in excess of par value is classified                                       quality controls in place, there is minimal obligation for
+        as ‘share premium’ in equity.                                                                       returns of inventor y.
+
+                                            Dividends are recognised as a liability in the company in           There are no significant judgements required in
+        which they are declared and remain unpaid.                                                          the application of IFRS 15 due to the nature of the
+1.13 Revenue from contracts with customers                                                                  goods being sold.
+
+                     Revenue is recognised upon transfer of control when                            1.14 Cost of sales
+        performance obligations to customers are met in an                                                                                 When inventories are sold, the carrying amount of those
+        amount that reflects the consideration the company                                                  inventories is recognised as an expense in the period in
+        expects to receive in exchange for the goods or services                                            which the related revenue is recognised. The amount of
+        rendered. To recognise revenue, we apply the following                                              any write-down of inventories to net realisable value and
+        five step approach:                                                                                 all losses of inventories are recognised as an expense in
+                                                             (1)                                                             identify the contract with a customer,the period the write-down or loss occurs. The amount of
+                                                                                                            any reversal of any write-down of inventories, arising
+                                                             (2)                                                             identify the performance obligations in the contract,from an increase in net realisable value, is recognised as
+                                                                                                            a reduction in the amount of inventories recognised as an
+                                                             (3)                                                             determine the transaction price,expense in the period in which the reversal occurs.
+
+                        (4)                        allocate the transaction price to the performance 1.15 Employee benefits
+                obligations in the contract, and                                                                                                      Short-term employee benefits
+
+    (5)    recognize revenues when a performance                                                                                     The cost of short-term employee benefits are recognised
+                obligation is satisfied.                                                                    in the period in which the service is rendered and are
+                               At contract inception, the group assesses its promise to                     not discounted.
+
+        transfer goods and services to a customer to identify                                       1.16 Translation of foreign currencies
+        separate performance obligations. The group applies                                                                                           Foreign currency transactions
+        judgement to determine whether each good and service
+        promised to a customer are capable of being distinct,                                                            A foreign currency transaction is recorded, on initial
+        and are distinct in the context of the contract, if not, the                                        recognition in Rands, by applying to the foreign currency
+        promised goods and ser vices are combined and accounted                                             amount the spot exchange rate between the functional
+        as a single performance obligation. The group allocates                                             currency and the foreign currency at the date of
+        the arrangement consideration to separately identifiable                                            the transaction.
+        performance obligation based on their relative stand-alone                                                                                               At the end of the reporting period:
+        selling price or residual method. Stand-alone selling prices
+        are determined based on sale prices for the components                                                                                                   foreign currency monetar y items are translated using
+        when it is regularly sold separately.                                                                        the closing rate;
+
+                               Revenue performance obligations are met at a point in                                                           non-monetary items that are measured in terms of
+        time when the good is available for use or delivered to the                                                  historical cost in a foreign currency are translated using
+        customer location. Control is transferred when the customer                                                  the exchange rate at the date of the transaction; and
+        takes ownership of the good. Export revenues are recorded
+        when the relevant incoterms of each contract is met. Rebates                                                                                                          non-monetar y items that are measured at fair value in
+        and discounts are recorded against revenue and receivables                                                   a foreign currency are translated using the exchange
+        when the specific terms of each contract have been met.                                                      rates at the date when the fair value was determined.
+
+                        Depending on the customer profile, sale contracts are                                                                                     Exchange differences arising on the settlement of monetar y
+        entered into on a variety of payment terms from cash on                                             items or on translating monetar y items at rates different from
+        deliver y, 30 days, 60 days etc.                                                                    those at which they were translated on initial recognition

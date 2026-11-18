@@ -1,0 +1,250 @@
+{
+  "algorithm": "SHA256",
+  "method": "generated from retained file bytes; excludes this manifest",
+  "files": {
+    "README.md": {
+      "sha256": "40671aeabda8cb5ff031c40619089b49a91a0472183a31de8dc81784dc8fbdf2",
+      "bytes": 4181
+    },
+    "baseline-and-provenance.json": {
+      "sha256": "e2a34592c4ec628229393d044b5f8bbcb3f981dfb5116360334e7be531ebd9ff",
+      "bytes": 1828
+    },
+    "candidate-assessment.json": {
+      "sha256": "7bdaced9a843ccd13d2eb4b0ddb933840aa5ebc013364352365a9110f78571c6",
+      "bytes": 28761
+    },
+    "discovery-log.json": {
+      "sha256": "0f493cd91c6cfa86f2c7cc37caa057a858bc20374ab9b4f48aeac449d6c90616",
+      "bytes": 3273
+    },
+    "missing-value-verification.json": {
+      "sha256": "ca371d1f5ad8f3c5d73957f0aa78efffdeaa0d449d4bc108a9048cf16e1f617f",
+      "bytes": 33146
+    },
+    "safeguards.json": {
+      "sha256": "2d59f2439ba2916139874f84a2237344e12ccce13f6215fb18156d958754d629",
+      "bytes": 185603
+    },
+    "source/Draft_MGT-7_-_FY24.pdf.page1.txt": {
+      "sha256": "ef7f1f81d67055d2c413f288901d972ea6d45ccbd6d756e5ef05f1d995945da1",
+      "bytes": 1941
+    },
+    "source/Draft_MGT-7_-_FY24.pdf.page14.txt": {
+      "sha256": "a9f701a9734c60d3d944edcd9d6202448c05691a282dd99157884745e2e7e3e3",
+      "bytes": 4055
+    },
+    "source/Draft_MGT-7_-_FY24.pdf.page17.txt": {
+      "sha256": "993583b3b9e20f071c5057998c8539af82b66c1cfc949c53721ceca90f5dbf75",
+      "bytes": 5788
+    },
+    "source/Draft_MGT-7_-_FY24.pdf.page2.txt": {
+      "sha256": "d485377657ebd7f9571ccf587c977de4e903d04fcc777b2771ace0b4960bb59d",
+      "bytes": 2097
+    },
+    "source/Draft_MGT-7_-_FY24.pdf.page4.txt": {
+      "sha256": "2e35a90a509761f21d7f6a708564e903eea50713907f16e3d93b6d14b4fc3ac9",
+      "bytes": 3557
+    },
+    "source/Draft_MGT-7_-_FY24.pdf.page7.txt": {
+      "sha256": "601fbe538f09c89617241a5ef8f3616107f6b30b42d5236c0e7d700c6e99dc81",
+      "bytes": 1716
+    },
+    "source/Draft_MGT-7_-_FY25.pdf.page1.txt": {
+      "sha256": "25730e1ce055e27709e0379317194eb95db67620ee7dc4d6833fd0899d52cabb",
+      "bytes": 8424
+    },
+    "source/Draft_MGT-7_-_FY25.pdf.page13.txt": {
+      "sha256": "3e12b7d1b9343ff94d17614c07f0216fdd4b85fcc9b845a599bda8b0c5ec57a7",
+      "bytes": 4090
+    },
+    "source/Draft_MGT-7_-_FY25.pdf.page17.txt": {
+      "sha256": "9ec8b2186579ffe60be893f7474ad1b6cbf2851fbd7347144f5c1a7d175a8151",
+      "bytes": 3480
+    },
+    "source/Draft_MGT-7_-_FY25.pdf.page2.txt": {
+      "sha256": "b292dd4fbcff53aa820b9adbbcd75959488b692e4ce7e03809eaa9776c4dbae9",
+      "bytes": 5313
+    },
+    "source/Draft_MGT-7_-_FY25.pdf.page4.txt": {
+      "sha256": "2dade6db1cc91bcc1901e1003cbacf565fb28f454f84862324943a8dd08c495b",
+      "bytes": 7494
+    },
+    "source/Draft_MGT-7_-_FY25.pdf.page7.txt": {
+      "sha256": "48281f1327d2f1fbcdde9e04c743581caf3d4f2560472395a0aaa0cb3ed08d0f",
+      "bytes": 5137
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page10.txt": {
+      "sha256": "e057726faeafb03cd7e5ca27b14ff491a019b0ade8932de4e2104f9da21c4d59",
+      "bytes": 38676
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page103.txt": {
+      "sha256": "031b6c74b315af82424448d6ce524f1e7af5aec94e7bb61d400bb814cbd32d8b",
+      "bytes": 24679
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page106.txt": {
+      "sha256": "07b609b0edd57eb42288aa4253d465eed99a4c03cfd5db1031a78d20eb8dbdaf",
+      "bytes": 11457
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page113.txt": {
+      "sha256": "2efb5f4a72935c363fb1d5aed1f0587b297cdfdb6d95531c7b284523495abd66",
+      "bytes": 18324
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page119.txt": {
+      "sha256": "75a67088ce87f68d0864788f4bfa0663db117597f46906f1bd7696a09e33b165",
+      "bytes": 4273
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page12.txt": {
+      "sha256": "64473f318ea6850641dc85599fcf0511fd68a55078a98f313f406d90781e296b",
+      "bytes": 18267
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page122.txt": {
+      "sha256": "44bd5573d7a025a7c92211983f86a6ca8b21cde6d0f6bf6c942dd7001b334288",
+      "bytes": 6345
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page128.txt": {
+      "sha256": "cb2ed7019cf0f39a63d7d95b025d3b06bd2fb662ec1c3cdcf55ea7e6d49f945c",
+      "bytes": 18228
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page136.txt": {
+      "sha256": "64aecd645c9223870a1a4424dacb488bf1c1c147264da85e1390feb399e5fb1c",
+      "bytes": 20170
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page144.txt": {
+      "sha256": "bb83765ffb27f155349cb838eca6dcf3d1f82c647062438c515d426c2703b1f1",
+      "bytes": 3967
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page146.txt": {
+      "sha256": "d260d9373439901ab3834b0703d468100bd9e190b1615b4345837c6f5e327083",
+      "bytes": 6296
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page15.txt": {
+      "sha256": "f63765083a534336dc6398e7732f604f1c2dd419d2bb44be1c6f92bd31036cae",
+      "bytes": 13932
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page152.txt": {
+      "sha256": "8f9104763f601b632c9bc58bf164cb1d6ff82134825a9aedeea82b8386e6e2c3",
+      "bytes": 35552
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page166.txt": {
+      "sha256": "493e0b91d99880ec3d5c07475e8fe4843f2010057554c917d47e0232e845991f",
+      "bytes": 22725
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page167.txt": {
+      "sha256": "4b2e3d190e6660b68e259943c548001e3566692b2e866b5fa6bea5dc22877af9",
+      "bytes": 10433
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page168.txt": {
+      "sha256": "b6c1be19b9f1a40077b7ffbd1d26e3ccb512e7e818b36d62575bb66de15be3ed",
+      "bytes": 20506
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page183.txt": {
+      "sha256": "61d44bb22cb085e6541eb4a339c6023b97e965f9332ec353433757bae4be3b80",
+      "bytes": 7748
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page189.txt": {
+      "sha256": "fe13e749b21282c58ddcf18089f9836b1e11f3f5d7b9c272bdb3b44f21a853e5",
+      "bytes": 24272
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page19.txt": {
+      "sha256": "9841337ae0ae233bf1702d9cd00cec29485f11e0e0fd9cf9c08ac321aeb2fffa",
+      "bytes": 9117
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page191.txt": {
+      "sha256": "9a8a32ca9977995f404d7af623c06b860bb968e6c85e033b580ae8144ac0d0cf",
+      "bytes": 24562
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page198.txt": {
+      "sha256": "08a7c984a232fc4f65d74023dcb63dc2d734817d31972cc4084cf11c6c1f0c8c",
+      "bytes": 7879
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page200.txt": {
+      "sha256": "6c9e0cd51c676741d719be12a2133befc182eb928c92ed49445f5a7c7233e077",
+      "bytes": 7574
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page209.txt": {
+      "sha256": "374435e3f540111343c8161c5843bd3ba6a6a42cd46a825f35ddd44b3a59b37a",
+      "bytes": 17921
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page210.txt": {
+      "sha256": "2dedcb7321f31a13f643e35cbb640b8e22859314c1bb18e528bad0d015bc0d26",
+      "bytes": 29433
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page217.txt": {
+      "sha256": "e938a90d4b6060ee283bbbf3cbda8a575fcd091b200039ab241eaa7d4276fd53",
+      "bytes": 10833
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page26.txt": {
+      "sha256": "d0f75b510e632d2bed6663d8afc0ca64397f6a7c2cb2fe563876121d676b509e",
+      "bytes": 29430
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page27.txt": {
+      "sha256": "1449946c9759a72f09d98a2dd1e64d859fc6f2e12645c54c3852c87212a5cbbd",
+      "bytes": 38075
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page53.txt": {
+      "sha256": "78ee6e4fe74b668ab1e922ef7bb0f15208251ab4c12b715830edc79edb7f8e34",
+      "bytes": 35316
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page60.txt": {
+      "sha256": "b02a9abfe340854b076ce55298299df222e80b44203b2da7ec78005a49c13c55",
+      "bytes": 8204
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page62.txt": {
+      "sha256": "154af9b04fe1dd4de5e45f3b21333af617bb114c0ad7c7373cd0836beebf73c4",
+      "bytes": 7981
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page64.txt": {
+      "sha256": "83c4a8fb8b2c8549b4215578c06ea6ab6c638fc9b434a6bcb8779830bc12a1ce",
+      "bytes": 8165
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page65.txt": {
+      "sha256": "12d32fdd1242648e546e69b8351ddcdea421eeb4156509e768ccabdc8b726bc7",
+      "bytes": 8889
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page66.txt": {
+      "sha256": "2fc86623a97a3eefb4c244937dfd1b7db63bf2ec6d08428170903ad2f38e7aa4",
+      "bytes": 7558
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page73.txt": {
+      "sha256": "5a74378d6ab950c5e60f25e8d80dccd4c7f4f91879e7b42ad5b2becd2701d8de",
+      "bytes": 22942
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page83.txt": {
+      "sha256": "fe88e63b297b57c7e1557f1b6ce852c53b12505133da2f27453037442421e68e",
+      "bytes": 3936
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page86.txt": {
+      "sha256": "08906cd0931319ed651a40a9881c6980a7c1cc8f34ece077af00e80cdc422ec7",
+      "bytes": 18216
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page90.txt": {
+      "sha256": "597edc237c2e14db73dacb6b0235e608dcebe54d11ae408c4a3b7463821ac40d",
+      "bytes": 7694
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page93.txt": {
+      "sha256": "c9a3aebf5301e946332b2ebdda3454286d966d4568c34804148d5bf9b7da84ce",
+      "bytes": 7874
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page94.txt": {
+      "sha256": "c86c308edf539358d33e8a8b72d8dfd4f0ab7aee4d6e5a142f1b40d670992a5b",
+      "bytes": 7937
+    },
+    "source/Subsidiary_Financials_FY26.pdf.page97.txt": {
+      "sha256": "b288f1ee1ca2c94bc2bf1fe06c3cdf14312429a55b2dfb025538359cb5cefbe7",
+      "bytes": 14261
+    },
+    "source/retrieval-initial.json": {
+      "sha256": "80007d72134f54a6a0a7caeb8e4541f4bb211743da1ea609642663188bc35a51",
+      "bytes": 3583
+    },
+    "source/retrieval.json": {
+      "sha256": "6469b2555516b84a9aa392ab5f4c563d859d38e2424caa30911a165c0ef74b75",
+      "bytes": 19438
+    },
+    "validation.txt": {
+      "sha256": "d94520ac58da0063bb058243838cf1fc6de5d382cc4242f071c21ab97e159109",
+      "bytes": 3484
+    }
+  }
+}

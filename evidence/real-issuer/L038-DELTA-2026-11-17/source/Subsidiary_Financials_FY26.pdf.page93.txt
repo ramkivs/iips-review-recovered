@@ -1,0 +1,63 @@
+                                                                                                                                                                                             89
+
+
+
+
+
+
+
+
+
+
+        outstanding. This assessment is referred to as the SPPI test                                                                             The following accounting policies apply to the subsequent
+        and is performed at an instrument level.                                                            measurement of financial assets and liabilities.
+
+                          The Company’s business model for managing financial                                                                         Financial assets
+        assets refers to how it manages its financial assets in order                                                                                 Financial assets at amortised cost
+        to generate cash flows. The business model determines                                                                Financial assets that meet the following conditions are
+        whether cash flows will result from collecting contractual                                          subsequently measured at amortised cost less impairment
+        cashflows, selling the financial assets, or both.                                                   loss and deferred income, if any (except for those
+
+                                      Financial liabilities are classified as financial liabilities at      assets that are designated as at fair value through other
+        fair value through profit or loss or at amortised cost. The                                         comprehensive income on initial recognition) using the
+        Company determines the classification of its financial                                              effective interest method.
+        liabilities at initial recognition.
+                                                                                                                             1.                         the asset is held within a business model whose
+Recognition                                                                                                         objective is to hold assets in order to collect contractual
+                         Financial assets and financial liabilities are recognised                                  cash flows; and
+        when, and only when, the Company becomes a party to the                                                           2.                      the contractual terms of the instrument give rise
+        contractual provisions of the instrument. Regular purchases                                                 to cash flows on specified dates that are solely
+        and sales of financial assets are recognised on trade-date,                                                 payments of principal and profit on the principal
+        the date on which the Company commits to purchase or                                                        amount outstanding.
+        sell the asset.
+Derecognition                                                                                          All other financial assets are subsequently
+                                                                                                            measured at fair value.
+                                                             Financial assets are de-recognised when, and only when,
+                                                                                                                                    Interest income, foreign exchange gains and losses and
+                                                                   The contractual rights to receive cash flows expire orimpairment are recognised in profit or loss. Any gain or
+                                                                                                            loss on derecognition is recognised in profit or loss.
+                                                                             The Company has transferred its rights to receive cash
+                flows from the asset or has assumed an obligation to                                                                                                        The financial assets at amortised cost comprise of trade and
+                pay the received cash flows in full without material                                        other receivables, due from a related party and cash and
+                delay to a third party under a ‘pass-through’                                               cash equivalents.
+                arrangement; and either
+                                                                                                                                                      Financial liabilities
+                                                              (a)                               the Company has transferred substantially all                   All financial liabilities are subsequently measured at
+                        the risks and rewards of the asset, or                                              amortised cost using the effective interest method or at fair
+                              (b)               the Company has neither transferred nor                     value through profit or loss.
+                        retained substantially all the risks and rewards of                                                                           Financial liabilities at amortised cost
+                        the asset, but has transferred control of the asset.
+                                                                                                                Financial liabilities at amortised cost comprise of
+                      Financial liabilities are de-recognised when, and only                                trade payables.
+        when, they are extinguished i.e. when obligation specified                                                                                    Impairment of financial assets
+        in the contract is discharged, cancelled or expired.
+Measurement                                                                                                           The Company recognises an allowance for expected
+                                                                                                            credit losses for all debt instruments not held at fair value
+                                            A financial asset (unless it is a trade receivable without a    through profit or loss. Expected credit losses are based
+        significant financing component that is initially measured at                                       on the difference between the contractual cash flows due
+        the transaction price) is initially measured at fair value plus,                                    in accordance with the contract and all the cash flows
+        for an item not at fair value through profit or loss, transaction                                   that the Company expects to receive, discounted at an
+        costs that are directly attributable to its acquisition.                                            approximation of the original effective interest rate. The
+        Transactions costs of financial assets carried at fair value                                        expected cash flows will include cash flows from the sale
+        through profit or loss are expensed in profit or loss.                                              of collateral held or other credit enhancements that are
+                                                                                                            integral to the contractual terms.

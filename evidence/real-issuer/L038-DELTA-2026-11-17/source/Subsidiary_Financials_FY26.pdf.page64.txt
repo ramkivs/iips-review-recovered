@@ -1,0 +1,66 @@
+60
+
+
+
+
+
+
+
+
+
+
+                  (b)                  the Group has neither transferred nor retained                                                              Financial liabilities at amortised cost consists of short-term
+               substantially all the risks and rewards of the asset, but                                  borrowings, trade and other payables, lease liabilities
+               has transferred control of the asset.                                                      (current and non-current) and due to related parties.
+
+                      Financial liabilities are de-recognised when, and only                                                                        Impairment of financial assets
+       when, they are extinguished i.e when obligation specified                                                                    The Group recognised an allowance for expected credit
+       in the contract is discharged, cancelled or expired.                                               losses for all financial assets not held at fair value through
+Measurement                                                                                               profit or loss. Expected credit losses are based on the
+                                                                                                          difference between the contractual cash flows due in
+                                            A financial asset (unless it is a trade receivable without a  accordance with the contract and all the cash flows that the
+       significant financing component that is initially measured at                                      Group expects to receive, discounted at an approximation
+       the transaction price) is initially measured at fair value plus,                                   of the original effective interest rate. The expected cash
+       for an item not at fair value through profit or loss, transaction                                  flows will include cash flows from the sale of collateral
+       costs that are directly attributable to its acquisition.                                           held or other credit enhancements that are integral to the
+       Transactions costs of financial assets carried at fair value                                       contractual terms.
+       through profit or loss are expensed in profit or loss.
+                                             The following accounting policies apply to the subsequent            Loss allowances are measured on either of the
+       measurement of financial assets and liabilities.                                                   following basis:
+
+                                                                                                                       -                     12-month expected credit losses: expected credit
+                                                  Financial assets                                                losses that result from possible default events within
+                                                  Financial assets at amortised cost                              12 months after the reporting date; and
+
+                         Financial assets that meet the following conditions are                                                                      -                                                    Lifetime expected credit losses: expected credit losses
+       subsequently measured at amortised cost less impairment                                                    that result from all possible default events over the
+       loss and deferred income, if any (except for those                                                         expected life of a financial instrument.
+       assets that are designated as at fair value through other
+       comprehensive income on initial recognition) using the                                                                                                The Group measures loss allowance at an amount equal to
+       effective interest method.                                                                         lifetime ECLs, except for the following which are measured
+                                                                                                          as 12-month ECLs:
+                         1.                         the asset is held within a business model whose
+               objective is to hold assets in order to collect contractual                                            -                    Bank balances, other financial assets and other
+               cash flows; and                                                                                    receivables for which credit risk (i.e. the risk of default
+                      2.                      the contractual terms of the instrument give rise                   occurring over the expected life of the financial
+               to cash flows on specified dates that are solely                                                   instrument) has not increased significantly since
+               payments of principal and profit on the principal                                                  initial recognition.
+
+               amount outstanding.                                                                                                                                       The Group has elected to measure loss allowances for trade
+                                                                                                          receivables at an amount equal to lifetime ECLs. The Group
+   All other financial assets are subsequently                                                            applies a simplified approach in calculating expected credit
+       measured at fair value.                                                                            losses. The Group does not track changes in credit risk,
+                                Interest income, foreign exchange gains and losses and                    but instead recognises a loss allowance based on lifetime
+       impairment are recognised in profit or loss. Any gain or                                           expected credit losses at each reporting date. The Group has
+       loss on derecognition is recognised in profit or loss.                                             established a provision matrix that is based on its historical
+                                                                                                          credit loss experience, adjusted for for ward-looking factors
+                                 The financial assets at amortised cost comprise of trade                 specific to the debtors and the economic environment.
+       and other receivables, other financial assets and cash and                                                                   When determining whether the credit risk of a financial
+       cash equivalents.                                                                                  asset has increased significantly since initial recognition
+
+                                                  Financial liabilities                                   and when estimating ECLs, the Group considers reasonable
+                  All financial liabilities are subsequently measured at                                  and supportive information that is relevant and available
+       amortised cost using the effective interest method or at fair                                      without undue cost or effort. This includes both quantitative
+       value through profit or loss.                                                                      and qualitative information and analysis, based on
+                                                                                                          the Group’s historical experience and informed credit
+                                                                                                          assessment and including for ward looking information.

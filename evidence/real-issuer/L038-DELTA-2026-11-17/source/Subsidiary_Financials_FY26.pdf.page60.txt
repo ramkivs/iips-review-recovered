@@ -1,0 +1,65 @@
+56
+
+
+
+
+
+
+
+
+
+
+c)                                                         Impairment of tangible and intangible assetse)                                                 Staff benefits
+                      At each reporting date, the management reviews the                                                 The Group provides staff end-of-service benefits to its
+       carrying amounts of its tangible (including right-of-use                                          employees as per the applicable local laws. The entitlement
+       assets) and intangible assets to determine whether there is                                       to these benefits is based on the employees’ last drawn
+       any indication that those assets have suffered an impairment                                      basic salary and length of services which is accrued over
+       loss. If any such indication exists, the recoverable amount of                                    the period of employment. Provision for staff end-of-ser vice
+       the asset is estimated in order to determine the extent of the                                    benefits is disclosed as non-current liability.
+       impairment loss if any. Where it is not possible to estimate
+       the recoverable amount of an individual asset, the acquirer                                                                                               Provision is also made for employees’ entitlement to annual
+       estimates the recoverable amount of the cash-generating                                           leave and air fare for eligible employees as per the policy
+       unit to which the asset belongs.                                                                  of the Group. Provision relating to annual leave and air
+                                                                                                         fare are disclosed as current liability as employees are
+                                     Recoverable amount is the higher of fair value less costs           entitled to redeem these benefits at any point of time after
+       to sell and value-in-use. In assessing value-in-use, the                                          the reporting period.
+       estimated future cash flows are discounted to their present                               f)                                                 Statutory reserve
+       value using a pre-tax discount rate that reflects current
+       market assessments of the time value of money and the risks                                                           Statutory reserve is created by appropriating the profit
+       specific to the asset.                                                                            of the limited liability companies incorporated in UAE
+                                             If the recoverable amount of an asset (or cash-generating   and Egypt as required by the respective Commercial
+       unit) is estimated to be less than its carrying amount, the                                       Companies Laws, as amended. The respective companies
+       carrying amount of the asset (cash-generating unit) is                                            can discontinue such annual transfers when the reserve
+       reduced to its recoverable amount. An impairment loss is                                          totals the limits prescribed in the respective Commercial
+       recognised immediately in profit or loss, unless the relevant                                     Companies Laws, as amended. The reser ve is not available
+       asset is carried at a revalued amount, in which case the                                          for distribution except as provided in the Law. During the
+       impairment loss is treated as a revaluation decrease.                                             year, no transfer of statutory reserve has been made as
+                                                                                                         the statutor y reser ve has reached the mandator y threshold
+                    Where an impairment loss subsequently reverses, the                                  prescribed by the relevant local laws or on account of loss
+       carrying amount of the asset (cash-generating unit) is                                            incurred by the entities.
+
+       increased to the revised estimate of its recoverable amount,                              g)                                                 Revenue recognition
+       so that the increased carr ying amount does not exceed the                                                              The Group is in the business of trading of beauty and
+       carrying amount that would have been determined had                                               personal care, hair care, food and health care products,
+       no impairment loss been recognised for the asset (cash-                                           dried vegetables, and fruits.
+       generating unit) in prior years. A reversal of an impairment
+       loss is recognised immediately in profit or loss, unless the                                                                                   Revenue from contracts with customers is recognised when
+       relevant asset is carried at a revalued amount, in which                                          the control of the goods is transferred to the customer
+       case the reversal of the impairment loss is treated as a                                          at an amount that reflects the consideration to which
+       revaluation increase.                                                                             the Group expects to be entitled in exchange for those
+d)Inventories                                                                                            goods or ser vices.
+
+                             Inventories of raw materials and packing materials are                                                                                                                The Group recognises revenue from contracts with customers
+       valued at the lower of cost and net realisable value. Cost                                        based on a five-step model as set out in IFRS 15:
+       is arrived at using the Weighted Average Cost (WAC)
+       method and includes invoice value plus applicable                                                                                1.                                       Identify the contracts with a customer: A contract is
+       landing charges less discounts. Net realisable value is                                                   defined as an agreement between two or more parties
+       based on estimated selling price less any estimated cost of                                               that creates enforceable rights and obligations and
+       completion and disposal.                                                                                  sets out the criteria for ever y contract that must be met.
+
+                                                       Work-in-progress goods are valued at cost of input valued                                          2.                                         Identify the performance obligations in the contract:
+       at Weighted Average Cost (WAC) basis plus overheads up                                                    A performance obligation is a promise in a contract
+       till the stage of completion. Finished goods are stated at                                                with a customer to transfer a good to the customer.
+       lower of cost and net realizable value. Cost comprises of                                                                                               3.                                                              Determine the transaction price: The transaction price
+       direct materials valued at Weighted Average Cost (WAC),                                                   is the amount of consideration to which the Group
+       labour and other attributable overheads.

@@ -1,0 +1,65 @@
+                                                                                                                                                                                                         61
+
+
+
+
+
+
+
+
+
+
+                                                       The Group assumes that the credit risk on a financial asset                                             The fair value of an asset or a liability is measured using
+        has increased significantly if it is more than 30 days past due.                                           assumptions that the market participants would use when
+                                                                                                                   pricing the asset or liability, assuming that the market
+                                                                           The Group considers a financial asset to be in default when:participant’s act in their best economic interests.
+
+                                 -                                 The customer/borrower is unlikely to pay its credit r)                                                 Events after the reporting period
+                 obligations to the Group in full, without recourse                                                           If the Group receives information after the reporting
+                 by the Group to actions such as realising security (if                                            period, but prior to the date of authorisation for issue of
+                 any is held); or                                                                                  the consolidated financial statements, about conditions that
+
+                                                             -                                                             The financial asset is more than 180 days past due.existed at the end of the reporting period, it assesses whether
+                                                                                                                   the information affects the amounts that it recognises in its
+                                                                     The maximum period considered when estimating expected consolidated financial statements. The Group adjusts the
+        credit losses is the maximum contractual period over which                                                 amounts recognised in its consolidated financial statements
+        the Group is exposed to credit risk.                                                                       to reflect any adjusting events after the reporting period
+                    At each reporting date, the Group assesses whether                                             and update the disclosures that relate to those conditions
+        financial assets carried at amortised cost are credit-                                                     in light of the new information. For non-adjusting events
+        impaired. A financial asset is ‘credit-impaired’ when one or                                               after the reporting period, the Group does not change the
+        more events that have a detrimental impact on the estimated                                                amounts recognised in its consolidated financial statements,
+        future cash flows of the financial assets have occurred.                                                   but discloses the nature of the non-adjusting event and an
+                                                                                                                   estimate of its financial effect, or a statement that such an
+                                                          Loss allowances for financial assets measured at amortised estimate cannot be made, if applicable.
+        cost are deducted from the gross carrying amount of the                                           s)                                                 Foreign currency transactions
+        asset. For financial assets carried at fair value through other
+        comprehensive income, the loss allowance is recognised                                                                                              Transactions and balances
+        in other comprehensive income, instead of reducing the                                                              Foreign currency transactions are translated into the
+        carr ying amount of the asset.                                                                             functional currency using the exchange rates prevailing
+Offsetting                                                                                                         at the dates of the transactions or valuation where items
+                                                                                                                   are re-measured. Foreign exchange gains and losses
+                                              Financial assets and liabilities are offset and the net amount       resulting from the settlement of such transactions and from
+        reported in the consolidated statement of financial position                                               the translation at year-end exchange rates of monetary
+        when there is a legally enforceable right to offset the recognised                                         assets and liabilities denominated in foreign currencies are
+        amounts and there is an intention to settle on a net basis, or                                             recognised in the consolidated statement of profit or loss.
+        realise the asset and settle the liability simultaneously.                                                 Foreign exchange gains and losses are presented in the
+Equity                                                                                                             consolidated statement of profit or loss.
+
+                                                            Share capital is recorded at the value of proceeds received                                                   Group entities
+        towards interest in share capital of the Establishment.                                                                                       The results and financial position of all the Group entities
+q)                                                 Fair value measurement                                          (none of which has the currency of a hyperinflationary
+                                                                                                                   economy) that have a functional currency different from the
+                                                The Group discloses the fair value of financial instruments        presentation currency are translated into the presentation
+        measured at amortised cost.                                                                                currency as follows:
+
+                                                       The fair value is the price that would be received to sell an                                                  -                                                 Assets and liabilities for each consolidated statement
+        asset or paid to transfer a liability in an orderly transaction                                                    of financial position presented are translated at the
+        between market participants at the measurement date.                                                               closing rate at the date of the consolidated statement
+        The fair value measurement is based on the presumption                                                             of financial position;
+        that the transaction to sell the asset or transfer the liability
+        takes place either:                                                                                                                     -                                      Income and expenses for each statement of income
+                                                                                                                           are translated at average exchange rates; and
+                                                                   In the principal market for the asset or liability or
+                                                                                                                                                     -                                           All resulting exchange differences are recognised in
+                                        In the absence of a principal market, in the most                                  other comprehensive income.
+                 advantageous market for the asset or liability.
