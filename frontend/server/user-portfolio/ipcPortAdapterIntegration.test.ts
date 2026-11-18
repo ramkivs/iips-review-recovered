@@ -93,12 +93,22 @@ function startPeer(
       socket.on('error', () => undefined);
       const chunks: Buffer[] = [];
       let answered = false;
+      // Tracks whether `write` put a response frame in flight. The Windows "stay open, let the
+      // client destroy it" rule exists ONLY to protect a frame already handed to the pipe from the
+      // libuv shutdown/forced-break race; it does not apply to a bare `end()` with nothing ever
+      // written (Class P — refused before authorization, zero bytes). That close carries nothing to
+      // lose, so it must happen for real on every platform: a peer that calls `socket.end()` without
+      // writing is simulating a connection the far side closed immediately, and the client is
+      // waiting on exactly that close (or a timeout) to classify the outcome. Suppressing it
+      // unconditionally left the pipe open forever on Windows and the client never resolved.
+      let wroteData = false;
       const peerSocket: PeerSocket = {
         write: (data: Buffer) => {
+          wroteData = true;
           socket.write(data);
         },
         end: () => {
-          if (kind === 'windows-named-pipe') {
+          if (kind === 'windows-named-pipe' && wroteData) {
             // The pipe stays open: the real client destroys its socket once the full response
             // frame has arrived, and `close()` below destroys any straggler. Ending here would
             // trigger the libuv pipe shutdown/forced-break path before delivery completes.
