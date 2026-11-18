@@ -23825,3 +23825,44 @@ merge/independent remote ancestry/blob readback reported after publication, not 
 upgraded. Investigation complete, limitation **OPEN**.
 
 Next free §16.301 / `CV-CORR-266` / `CHG-2026-11-06-29` / `V2217`.
+
+
+## 16.301 Independent entire Stage-4 scope audit — evidence snapshot, no closure/decision (`2026-11-17`)
+
+**Trace:** `CV-CORR-266` / `CHG-2026-11-06-29` / `V2217`–`V2221`.
+
+**Baseline/scope (`V2217`).** Fetched remote main before assessment: `2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c`
+(PR #594), designated branch `arena/5461e5b5-iips-review-recovered`. Read requested S4-R3 reassessment,
+pinned primary blob (SHA verified), complete Stage-4 register/addenda, PA-01, later O1/NP-04/limitation
+records, actual source/tests and merged-PR metadata. Eight numbered items S4-R1–S4-R8, subordinate
+S4-R3-Infosys, ten demos, acceptance clauses, inherited R/S2-R/D registers and baseline G-1…G-15
+crosswalk accounted for. Remote timestamps on 18-Nov preserved; record is commit-bounded.
+
+**Findings (`V2218`).** Stage 4 PARTIALLY COMPLETE; no new acceptance or status act. R4/R5/R7 completed
+and recorded closed/discharged; R2 recorded closed on assessment path with coverage still withholding;
+R1/R3 and R3-Infosys partial/open; R6 and R8 investigations completed but underlying requirements OPEN.
+Literal demo acceptance not fully proved (scenario 1 holding/UI limb, 5/10 portfolio limbs, 9 PARTIAL
+expectation vs SUFFICIENT output). Original-filing/source-check and current host claims remain qualified
+or UNVERIFIED. Complete discrepancy register in report; no historical prose/status cell corrected.
+
+**Authority/dependencies (`V2219`).** Apply PA-01 prospectively: no revived recurring O3 ceremony, O1
+satisfied, L-041/L-042 formally RESOLVED, D2/D3 operator-reported completion not independently accessed.
+D4/D5/D6 and current R-1/R-2 captures remain outstanding/unverified. NP-04's bdfb2527 report is not a
+verified successful installation receipt. L-031/L-038/L-039 remain OPEN; no source, nil, rights or
+policy inference. Last Stage-4 row is R8 (no R9): event-specific source/date/identity/terms → validation,
+publication/readback/real proof; R6 and other residuals parallel. Adopted roadmap C.2/C.3 separately
+names Stage 5 next operational activity, D5/D6/live portfolio read hard prerequisite; not Stage-4 closure.
+
+**Execution (`V2220`).** Full platform IID 1589/1589; regression 678/678; platform typecheck exit 0;
+roster lint 19/0. Read/in-memory probe reproduced 3ad82918, bdfb2527 and 69bbc14e content digests,
+three sectors/seven historically available slots, zero operating metrics/actions and stale annual bases.
+GitHub PR/check/merge ancestry metadata read; frontend full CI 44239076051 success at R5 head, not a
+fresh frontend/Windows/browser run. Failed harness setup attempts disclosed in receipt.
+
+**Publication/boundary (`V2221`).** Main audit: `docs/integration/IID-STAGE4-INDEPENDENT-SCOPE-AUDIT-2026-11-17.md`;
+checksummed supporting evidence: `evidence/iid/STAGE4-INDEPENDENT-AUDIT-2026-11-17/`. Audit-only
+publication; no product code/tests/config, real-issuer input/dataset, installed root, host state,
+portfolio database, identity, IPD, limitation status or governance decision changed. This receipt
+records findings only, not acceptance, source admission or a new roadmap. No merge authorized.
+
+Next free §16.302 / `CV-CORR-267` / `CHG-2026-11-06-30` / `V2222`.

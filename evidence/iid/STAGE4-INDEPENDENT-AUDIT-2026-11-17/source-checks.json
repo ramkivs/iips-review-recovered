@@ -1,0 +1,1004 @@
+{
+  "boundary": "Checks prove committed-file identity/arithmetic/withholding disclosure, not PDF authenticity, rights, host state or universal absence of fabrication. Source row locators supplement, not replace, the existing cell/XBRL tests.",
+  "checks": [
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/README.md",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/data-extraction.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/determination.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/periods.csv",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/roster.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/periods.csv",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/roster.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/probe/build_refresh.py",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/01-candidate-ingest-provision.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/02-refresh-test.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/03-source-census.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/05-gates.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/06-targeted-final.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-assessments-readonly.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-coverage.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-manifest.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-selected-xbrl-facts.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/page-map.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source-selection.json",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy25-bs-pnl",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy25-cf",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy26-bs-pnl",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy26-cf",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "kec-q1-pnl",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "kec-q2-bs",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "Marico FY2025 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 2116,
+        "FINANCE_COSTS": 53,
+        "DEPRECIATION_AND_AMORTISATION": 178
+      },
+      "expectedCrore": 2347,
+      "recordedCrore": 2347,
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "Marico FY2026 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 2277,
+        "FINANCE_COSTS": 53,
+        "DEPRECIATION_AND_AMORTISATION": 202
+      },
+      "expectedCrore": 2532,
+      "recordedCrore": 2532,
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "Marico FY2026 free cash flow",
+      "formula": "OCF - capital expenditure",
+      "inputsCrore": {
+        "OPERATING_CASH_FLOW": 2084,
+        "CAPITAL_EXPENDITURE": 319
+      },
+      "expectedCrore": 1765,
+      "recordedCrore": 1765,
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "KEC Q1 FY27 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 89.9,
+        "FINANCE_COSTS": 164.03,
+        "DEPRECIATION_AND_AMORTISATION": 50.82
+      },
+      "expectedCrore": 304.75,
+      "recordedCrore": 304.75,
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "KEC Q2 FY27 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "inputsCrore": {
+        "PROFIT_BEFORE_TAX": 40.88,
+        "FINANCE_COSTS": 190.66,
+        "DEPRECIATION_AND_AMORTISATION": 53.01
+      },
+      "expectedCrore": 284.55,
+      "recordedCrore": 284.55,
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "KEC Q2 FY27 total income",
+      "formula": "revenue from operations + other income",
+      "inputsCrore": {
+        "REVENUE_FROM_OPERATIONS": 5467.71,
+        "OTHER_INCOME": 13.27
+      },
+      "expectedCrore": 5480.9800000000005,
+      "recordedCrore": 5480.98,
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Auto",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Auto",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Auto",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Banking",
+      "method": "RESIDUAL_INCOME",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Banking",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Banking",
+      "method": "DIVIDEND_DISCOUNT",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Capital Markets",
+      "method": "P_AUM",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Capital Markets",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Capital Markets",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Energy",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Energy",
+      "method": "EV_EBITDAX",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Energy",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Healthcare",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Healthcare",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Healthcare",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Hospitality",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Hospitality",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Hospitality",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Industrials",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Insurance",
+      "method": "P_EMBEDDED_VALUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Insurance",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Materials",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Materials",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Materials",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Technology",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Technology",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Telecom",
+      "method": "EV_SUBSCRIBER",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Telecom",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Utilities",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Utilities",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Utilities",
+      "method": "REGULATED_ASSET_BASE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Auto",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Auto",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Auto",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Banking",
+      "method": "RESIDUAL_INCOME",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Banking",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Banking",
+      "method": "DIVIDEND_DISCOUNT",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Capital Markets",
+      "method": "P_AUM",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Capital Markets",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Capital Markets",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Energy",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Energy",
+      "method": "EV_EBITDAX",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Energy",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Healthcare",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Healthcare",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Healthcare",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Hospitality",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Hospitality",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Hospitality",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Industrials",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Insurance",
+      "method": "P_EMBEDDED_VALUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Insurance",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Materials",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Materials",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Materials",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Technology",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Technology",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Telecom",
+      "method": "EV_SUBSCRIBER",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Telecom",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Utilities",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Utilities",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Utilities",
+      "method": "REGULATED_ASSET_BASE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Auto",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Auto",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Auto",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Banking",
+      "method": "RESIDUAL_INCOME",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Banking",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Banking",
+      "method": "DIVIDEND_DISCOUNT",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Capital Markets",
+      "method": "P_AUM",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Capital Markets",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Capital Markets",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Energy",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Energy",
+      "method": "EV_EBITDAX",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Energy",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Healthcare",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Healthcare",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Healthcare",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Hospitality",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Hospitality",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Hospitality",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Industrials",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Insurance",
+      "method": "P_EMBEDDED_VALUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Insurance",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Materials",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Materials",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Materials",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Technology",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Technology",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Telecom",
+      "method": "EV_SUBSCRIBER",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Telecom",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Utilities",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Utilities",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Utilities",
+      "method": "REGULATED_ASSET_BASE",
+      "ok": true
+    }
+  ],
+  "sourceRowLocators": [
+    {
+      "check": "Marico FY2025 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "lines": [
+        {
+          "line": 36,
+          "text": "Deferred tax assets (net)                                                                                               7                             57                            68      Finance costs                                                                                                          25                             53                            73"
+        },
+        {
+          "line": 37,
+          "text": "Non current tax assets (net)                                                                                           17                            108                            95      Depreciation and amortization expense                                                                                  23                            178                          158"
+        },
+        {
+          "line": 42,
+          "text": "Inventories                                                                                                              9                          1,235                         1,336     Profit before tax                                                                                                                                 2,116                        1,937"
+        }
+      ],
+      "note": "Human-audited source-row evidence; row text retained rather than substituting a claimed PDF reading."
+    },
+    {
+      "check": "Marico FY2026 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "lines": [
+        {
+          "line": 36,
+          "text": "Deferred tax assets (net)                                                                                         7                      125                           57      Finance costs                                                                                        25                         53                            53"
+        },
+        {
+          "line": 37,
+          "text": "Non current tax assets (net)                                                                                     17                      114                          108      Depreciation and amortization expense                                                                23                        202                           178"
+        },
+        {
+          "line": 41,
+          "text": "Inventories                                                                                                         9                   1,611                        1,235     Profit before tax                                                                                                           2,277                         2,116"
+        }
+      ],
+      "note": "Human-audited source-row evidence; row text retained rather than substituting a claimed PDF reading."
+    },
+    {
+      "check": "Marico FY2026 free cash flow",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "lines": [
+        {
+          "line": 55,
+          "text": "  Net cash generated from operating activities (A)                                             2,084                1,363"
+        },
+        {
+          "line": 57,
+          "text": "  Payment for property, plant and equipment and intangible assets                                (319)                (161)"
+        }
+      ],
+      "note": "Human-audited source-row evidence; row text retained rather than substituting a claimed PDF reading."
+    },
+    {
+      "check": "KEC Q1 FY27 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "lines": [
+        {
+          "line": 25,
+          "text": "       (v) Finance costs                                                                    164.03             169.85             151.12            663.60"
+        },
+        {
+          "line": 26,
+          "text": "       (vi) Depreciation and amortisation expense                                            50.82              50.58              45.86            197.38"
+        },
+        {
+          "line": 31,
+          "text": "  7 Profit after exceptional items and before tax (5-6)                                      89.90             257.73             158.51            789.14"
+        }
+      ],
+      "note": "Human-audited source-row evidence; row text retained rather than substituting a claimed PDF reading."
+    },
+    {
+      "check": "KEC Q2 FY27 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-selected-xbrl-facts.json",
+      "lines": [
+        {
+          "line": 101,
+          "text": "      \"name\": \"FinanceCosts\","
+        },
+        {
+          "line": 108,
+          "text": "      \"name\": \"DepreciationDepletionAndAmortisationExpense\","
+        },
+        {
+          "line": 143,
+          "text": "      \"name\": \"ProfitBeforeTax\","
+        },
+        {
+          "line": 248,
+          "text": "      \"name\": \"FinanceCosts\","
+        },
+        {
+          "line": 255,
+          "text": "      \"name\": \"DepreciationDepletionAndAmortisationExpense\","
+        },
+        {
+          "line": 290,
+          "text": "      \"name\": \"ProfitBeforeTax\","
+        }
+      ],
+      "note": "Human-audited source-row evidence; row text retained rather than substituting a claimed PDF reading."
+    }
+  ],
+  "failed": []
+}

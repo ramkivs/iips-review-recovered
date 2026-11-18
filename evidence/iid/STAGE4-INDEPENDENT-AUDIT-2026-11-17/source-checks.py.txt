@@ -1,0 +1,28 @@
+from pathlib import Path
+import json,hashlib,math
+root=Path.cwd(); bundle=root/'evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14'
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+checks=[]
+for name,row in json.loads((bundle/'digests.json').read_text())['files'].items():
+ p=bundle/name
+ checks.append({'kind':'refresh manifest file','path':str(p.relative_to(root)),'ok':p.exists() and sha(p)==row['sha256'] and p.stat().st_size==row['bytes']})
+for name,row in json.loads((bundle/'source/page-map.json').read_text()).items():
+ p=bundle/row['file']; origin=root/row['originReport']; txt=origin.read_text(); a=txt.index(row['beginMarker'])+len(row['beginMarker']);b=txt.index(row['endMarker'],a);block=txt[a:b].strip()
+ checks.append({'kind':'page excerpt/committed origin identity','name':name,'path':str(p.relative_to(root)),'ok':sha(p)==row['sha256'] and sha(origin)==row['originReportSha256'] and block in p.read_text()})
+for row in json.loads((bundle/'runs/04-derived-handchecks.json').read_text())['checks']:
+ vals=list(row['inputsCrore'].values());expected=vals[0]-vals[1] if row['formula']=='OCF - capital expenditure' else sum(vals)
+ checks.append({'kind':'hand formula arithmetic','name':row['name'],'formula':row['formula'],'inputsCrore':row['inputsCrore'],'expectedCrore':expected,'recordedCrore':row['resultCrore'],'ok':math.isclose(expected,row['resultCrore'],rel_tol=0,abs_tol=1e-8)})
+# Exact source row locators for five of those values. These are committed extracted pages, not original PDFs.
+anchors=[('Marico FY2025 EBITDA','source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt',['Profit before tax','Finance costs','Depreciation']),('Marico FY2026 EBITDA','source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt',['Profit before tax','Finance costs','Depreciation']),('Marico FY2026 free cash flow','source/marico-fy26-consolidated-cash-flow-pdf-page192.txt',['Net cash generated from operating activities','Payment for property']),('KEC Q1 FY27 EBITDA','source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt',['before tax','Finance costs','Depreciation'])]
+anchors.append(('KEC Q2 FY27 EBITDA','source/kec-q2-fy27-selected-xbrl-facts.json',['ProfitBeforeTax','FinanceCosts','DepreciationDepletionAndAmortisationExpense']))
+locators=[]
+for name,path,terms in anchors:
+ lines=(bundle/path).read_text().splitlines();hits=[{'line':i+1,'text':line} for i,line in enumerate(lines) if any(t.lower() in line.lower() for t in terms)]
+ locators.append({'check':name,'source':str((bundle/path).relative_to(root)),'lines':hits,'note':'Human-audited source-row evidence; row text retained rather than substituting a claimed PDF reading.'})
+measurement=json.loads((root/'.local/stage4-audit/measurement.json').read_text())
+for d in measurement['datasets']:
+ for s in d['measurement']['sectors']:
+  for m in s['methods']:
+   if m['state']=='WITHHELD':checks.append({'kind':'withheld reason','dataset':d['label'],'sector':s['sector'],'method':m['methodId'],'ok':bool(m['reason']) and bool(m['missing'])})
+result={'boundary':'Checks prove committed-file identity/arithmetic/withholding disclosure, not PDF authenticity, rights, host state or universal absence of fabrication. Source row locators supplement, not replace, the existing cell/XBRL tests.','checks':checks,'sourceRowLocators':locators,'failed':[c for c in checks if not c['ok']]}
+print(json.dumps(result,indent=2));assert not result['failed']

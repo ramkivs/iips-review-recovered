@@ -1,0 +1,30 @@
+// Audit-only read/in-memory probe. Never calls a writer, provisioner, installer or mint CLI.
+import {resolve} from 'node:path';
+import {loadInputBundle} from '../../iips-platform/src/investment/cli/ingest';
+import {mergeInputBundles} from '../../iips-platform/src/investment/ingestion/multiInput';
+import {buildDatasetContent} from '../../iips-platform/src/investment/ingestion/builder';
+import {computeContentDigest} from '../../iips-platform/src/investment/fundamentals/manifest';
+import {measureCoverage} from '../../iips-platform/src/investment/coverage/measure';
+import {buildInvestmentCoverageReport} from '../../iips-platform/src/investment/coverage/investmentCoverage';
+import {assessCompany} from '../../iips-platform/src/investment/assessment/engine';
+import {SECTOR_METHODS} from '../../iips-platform/src/investment/coverage/methodMatrix';
+const root=resolve(__dirname,'../..');
+const ev=resolve(root,'evidence/real-issuer');
+const orig=['REL-1-INFOSYS-2026-11-06/ingest-input','WI7-CONSUMER-MARICO-2026-11-07/ingest-input','WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input'];
+const refresh=[orig[0],'S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico','S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec'];
+const s4r2=['S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input',orig[1],orig[2]];
+const out:any={baseline:'2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c',clock:'2026-11-17',evidenceClass:'sandbox read-only in-memory, not host installation',metricSlots:Object.entries(SECTOR_METHODS).flatMap(([sector,ms])=>ms.filter(m=>m.metrics.length).map(m=>({sector,method:m.methodId,metrics:m.metrics}))),datasets:[]};
+for(const [label,paths] of [['historical',orig],['refresh-candidate',refresh],['s4r2-repository',s4r2]] as const){
+ const merged=mergeInputBundles(paths.map(p=>loadInputBundle(resolve(ev,p))));
+ const content=buildDatasetContent(merged.inputs);
+ const datasetVersion=computeContentDigest(content);
+ const measurement=measureCoverage(content,{datasetVersion,generatedAt:'2026-11-17T00:00:00.000Z'});
+ const report=buildInvestmentCoverageReport({asOf:'2026-11-17',generatedAt:'2026-11-17T00:00:00.000Z',manifest:null,...content,identitySourcesAvailable:false});
+ const assessments=content.issuers.map(issuer=>{
+  const security=content.securities.find(s=>s.issuerId===issuer.issuerId)!;
+  const {payload,violations}=assessCompany({issuerId:issuer.issuerId,legalName:issuer.legalName,sector:issuer.sector,securityId:security.securityId,sectorSubsegment:issuer.subSegment,dataset:content,datasetVersion,contentDigest:datasetVersion,provider:'audit in-memory committed evidence',identity:{bindingRef:'audit-only-not-a-resolved-identity',rosterVersion:'audit-placeholder',listingMapVersion:'audit-placeholder',corporateActionTableVersion:'audit-placeholder'},generatedAt:'2026-11-17T00:00:00.000Z',knownAsOf:'2026-11-17'});
+  return {issuerId:issuer.issuerId,violations,completeness:payload.completeness,quality:payload.quality,capitalStructure:payload.fundamentals.capitalStructure,confidence:payload.confidence,valuation:payload.valuation};
+ });
+ out.datasets.push({label,inputs:merged.provenance,datasetVersion,counts:{issuers:content.issuers.length,periods:content.periods.length,annual:content.periods.filter(p=>p.period.periodType==='ANNUAL').length,quarterly:content.periods.filter(p=>p.period.periodType==='QUARTER').length,operatingMetrics:content.operatingMetrics.length,corporateActions:content.corporateActions.length,issues:content.issues.length},measurement,issuerReport:report.issuers,assessments});
+}
+console.log(JSON.stringify(out,null,2));
