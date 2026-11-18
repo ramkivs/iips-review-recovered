@@ -1,0 +1,515 @@
+{
+  "generatedAt": "2026-11-18T00:00:00.000Z",
+  "source": "iips-platform/src/investment/coverage/methodMatrix.ts (SECTOR_METHODS) + contracts/operatingMetrics.ts (OPERATING_METRICS)",
+  "totalSlots": 38,
+  "metricGatedSlots": 14,
+  "statementOnlySlots": 24,
+  "distinctMetricsRequired": 24,
+  "vocabularySize": 33,
+  "metricsNeverRequiredByAnyMethod": [
+    "BM_CAR",
+    "BM_CASA",
+    "BM_NNPA",
+    "CM_NET_FLOWS",
+    "HM_ADR",
+    "HM_OCCUPANCY",
+    "IM_COMBINED_RATIO",
+    "IM_PERSISTENCY",
+    "IN_ORDER_BOOK"
+  ],
+  "slots": [
+    {
+      "sector": "Technology",
+      "methodId": "EV_REVENUE",
+      "role": "CROSS_CHECK",
+      "declaredMetrics": [
+        "TM_NRR",
+        "TM_RECURRING_REVENUE_PCT"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "TM_NRR",
+          "label": "Net revenue retention",
+          "sector": "Technology",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 300
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Trailing NRR for the cohort"
+        },
+        {
+          "id": "TM_RECURRING_REVENUE_PCT",
+          "label": "Recurring revenue share",
+          "sector": "Technology",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 100
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Recurring revenue / total revenue"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Industrials",
+      "methodId": "EV_REVENUE",
+      "role": "CROSS_CHECK",
+      "declaredMetrics": [
+        "IN_BOOK_TO_BILL"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "IN_BOOK_TO_BILL",
+          "label": "Book to bill",
+          "sector": "Industrials",
+          "unit": "RATIO",
+          "range": {
+            "min": 0,
+            "max": 10
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Orders received / revenue"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Materials",
+      "methodId": "NAV_RESERVES",
+      "role": "CROSS_CHECK",
+      "declaredMetrics": [
+        "MM_RESERVE_LIFE",
+        "MM_COST_POSITION"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "MM_RESERVE_LIFE",
+          "label": "Reserve life",
+          "sector": "Materials",
+          "unit": "YEARS",
+          "range": {
+            "min": 0,
+            "max": 200
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Reserves / annual production"
+        },
+        {
+          "id": "MM_COST_POSITION",
+          "label": "Cost position quartile",
+          "sector": "Materials",
+          "unit": "INDEX",
+          "range": {
+            "min": 1,
+            "max": 4
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "1 = lowest-cost quartile"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Utilities",
+      "methodId": "REGULATED_ASSET_BASE",
+      "role": "SECONDARY",
+      "declaredMetrics": [
+        "UM_RAB",
+        "UM_ALLOWED_ROE"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "UM_RAB",
+          "label": "Regulated asset base",
+          "sector": "Utilities",
+          "unit": "INR_CRORE",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Regulated asset base as approved"
+        },
+        {
+          "id": "UM_ALLOWED_ROE",
+          "label": "Allowed ROE",
+          "sector": "Utilities",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 40
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Regulator-allowed return on equity"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Auto",
+      "methodId": "EV_REVENUE",
+      "role": "CROSS_CHECK",
+      "declaredMetrics": [
+        "AU_CAPACITY_UTILISATION",
+        "AU_MARKET_SHARE"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "AU_CAPACITY_UTILISATION",
+          "label": "Capacity utilisation",
+          "sector": "Auto",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 100
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Utilised capacity / installed capacity"
+        },
+        {
+          "id": "AU_MARKET_SHARE",
+          "label": "Market share",
+          "sector": "Auto",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 100
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Segment market share"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Energy",
+      "methodId": "EV_EBITDAX",
+      "role": "SECONDARY",
+      "declaredMetrics": [
+        "EM_LIFTING_COST"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "EM_LIFTING_COST",
+          "label": "Lifting cost",
+          "sector": "Energy",
+          "unit": "INR",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Cost per barrel of oil equivalent"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Energy",
+      "methodId": "NAV_RESERVES",
+      "role": "CROSS_CHECK",
+      "declaredMetrics": [
+        "EM_RESERVE_REPLACEMENT"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "EM_RESERVE_REPLACEMENT",
+          "label": "Reserve replacement",
+          "sector": "Energy",
+          "unit": "RATIO",
+          "range": {
+            "min": 0,
+            "max": 10
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Reserves added / production"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Healthcare",
+      "methodId": "EV_EBITDA",
+      "role": "SECONDARY",
+      "declaredMetrics": [
+        "HC_OCCUPANCY",
+        "HC_ARPOB"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "HC_OCCUPANCY",
+          "label": "Bed occupancy",
+          "sector": "Healthcare",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 100
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Occupied bed days / available bed days"
+        },
+        {
+          "id": "HC_ARPOB",
+          "label": "ARPOB",
+          "sector": "Healthcare",
+          "unit": "INR",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Average revenue per occupied bed"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Hospitality",
+      "methodId": "EV_EBITDA",
+      "role": "SECONDARY",
+      "declaredMetrics": [
+        "HM_REVPAR"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "HM_REVPAR",
+          "label": "RevPAR",
+          "sector": "Hospitality",
+          "unit": "INR",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Room revenue / available room nights (≈ ADR × occupancy)"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Banking",
+      "methodId": "RESIDUAL_INCOME",
+      "role": "PRIMARY",
+      "declaredMetrics": [
+        "BM_NIM",
+        "BM_GNPA",
+        "BM_CET1"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "BM_NIM",
+          "label": "Net interest margin",
+          "sector": "Banking",
+          "unit": "PERCENT",
+          "range": {
+            "min": -10,
+            "max": 25
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Net interest income / average interest-earning assets"
+        },
+        {
+          "id": "BM_GNPA",
+          "label": "Gross NPA ratio",
+          "sector": "Banking",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 100
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Gross NPAs / gross advances"
+        },
+        {
+          "id": "BM_CET1",
+          "label": "CET-1 ratio",
+          "sector": "Banking",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 60
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Common equity tier 1 / risk-weighted assets"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Banking",
+      "methodId": "PB_RELATIVE",
+      "role": "SECONDARY",
+      "declaredMetrics": [
+        "BM_GNPA"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "BM_GNPA",
+          "label": "Gross NPA ratio",
+          "sector": "Banking",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 100
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Gross NPAs / gross advances"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Insurance",
+      "methodId": "P_EMBEDDED_VALUE",
+      "role": "PRIMARY",
+      "declaredMetrics": [
+        "IM_EMBEDDED_VALUE",
+        "IM_VNB_MARGIN",
+        "IM_SOLVENCY"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "IM_EMBEDDED_VALUE",
+          "label": "Embedded value",
+          "sector": "Insurance",
+          "unit": "INR_CRORE",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Reported embedded value"
+        },
+        {
+          "id": "IM_VNB_MARGIN",
+          "label": "VNB margin",
+          "sector": "Insurance",
+          "unit": "PERCENT",
+          "range": {
+            "min": -50,
+            "max": 100
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Value of new business / annualised premium equivalent"
+        },
+        {
+          "id": "IM_SOLVENCY",
+          "label": "Solvency ratio",
+          "sector": "Insurance",
+          "unit": "RATIO",
+          "range": {
+            "min": 0,
+            "max": 20
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Available solvency / required solvency"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Capital Markets",
+      "methodId": "P_AUM",
+      "role": "PRIMARY",
+      "declaredMetrics": [
+        "CM_AUM",
+        "CM_COST_TO_INCOME"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "CM_AUM",
+          "label": "Assets under management",
+          "sector": "Capital Markets",
+          "unit": "INR_CRORE",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Closing AUM as reported"
+        },
+        {
+          "id": "CM_COST_TO_INCOME",
+          "label": "Cost to income",
+          "sector": "Capital Markets",
+          "unit": "PERCENT",
+          "range": {
+            "min": 0,
+            "max": 200
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Operating cost / operating income"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    },
+    {
+      "sector": "Telecom",
+      "methodId": "EV_SUBSCRIBER",
+      "role": "PRIMARY",
+      "declaredMetrics": [
+        "TL_SUBSCRIBERS",
+        "TL_ARPU"
+      ],
+      "metricDefinitions": [
+        {
+          "id": "TL_SUBSCRIBERS",
+          "label": "Subscribers",
+          "sector": "Telecom",
+          "unit": "COUNT",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Active subscriber base"
+        },
+        {
+          "id": "TL_ARPU",
+          "label": "ARPU",
+          "sector": "Telecom",
+          "unit": "INR",
+          "range": {
+            "min": 0,
+            "max": null
+          },
+          "minimumSourceClass": "OPERATOR_ENTERED",
+          "definition": "Average revenue per user per month"
+        }
+      ],
+      "requiredPeriod": "an ANNUAL period end for an issuer in this sector, matching the metric record period_end and statement_scope",
+      "mandatory": true,
+      "conditional": false
+    }
+  ]
+}

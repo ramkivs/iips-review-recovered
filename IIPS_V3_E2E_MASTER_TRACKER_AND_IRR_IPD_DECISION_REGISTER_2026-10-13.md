@@ -23547,7 +23547,100 @@ source-rights change, O3 authorisation, host install or production operation; no
 contract unchanged (its header and reserved-decision section now record the outcome instead of calling `S4-R5` open);
 `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged; Stage 4 remains **PARTIALLY COMPLETE**; overall IID
 readiness **NOT READY**. Remaining limitation: the disclosure is per issuer and method id, not a per-period series, so
-*which* earlier year carries an earlier-only method still needs the coverage evidence. Next Stage 4 roadmap item is
-**`S4-R6`** (`G-4`, operating metrics), then `S4-R7`/`S4-R8`.
+*which* earlier year carries an earlier-only method still needs the coverage evidence. Next Stage 4 roadmap item was
+**`S4-R6`** (`G-4`, operating metrics), then `S4-R7`/`S4-R8`; `S4-R6` has since been investigated in `§16.297`, which
+leaves every statement above true and records the item still **OPEN** on its owner decision.
 
-Next free §16.297 / `CV-CORR-262` / `CHG-2026-11-06-25` / `V2190`.
+## 16.297 `CV-CORR-262` — IID Stage 4 `S4-R6` investigated: the 14-slot operating-metric matrix is fixed from source, the capability is proven unchanged, no admissible source value exists, and `G-4` stays OPEN with the owner decision outstanding (`2026-11-18`; `CHG-2026-11-06-25`; `V2190`–`V2196`)
+
+**Baseline (`V2190`).** `f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e` (`main` = merge of PR #590 / `S4-R5`), clean worktree.
+Scope: **IRR only**. Record: `docs/integration/IID-S4-R6-OPERATING-METRICS-2026-11-18.md`. Evidence:
+`evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/` (`runs/metric-requirement-matrix.json`,
+`runs/metric-census.json`, `runs/capability-probes.json`). Register: Stage 4 `S4-R6` row updated to record the
+investigation, plus an addendum at the foot of that document. **No production source file changed** — the item's
+source diff is empty, and that is a finding, not an omission.
+
+**The requirement set, derived not quoted (`V2191`).** The register's "14 of 38" is confirmed from `SECTOR_METHODS`
+(`coverage/methodMatrix.ts`) and `OPERATING_METRICS` (`contracts/operatingMetrics.ts`), and the slots are enumerated:
+Technology `EV_REVENUE` (`TM_NRR`, `TM_RECURRING_REVENUE_PCT`); Industrials `EV_REVENUE` (`IN_BOOK_TO_BILL`);
+Materials `NAV_RESERVES` (`MM_RESERVE_LIFE`, `MM_COST_POSITION`); Utilities `REGULATED_ASSET_BASE` (`UM_RAB`,
+`UM_ALLOWED_ROE`); Auto `EV_REVENUE` (`AU_CAPACITY_UTILISATION`, `AU_MARKET_SHARE`); Energy `EV_EBITDAX`
+(`EM_LIFTING_COST`) and `NAV_RESERVES` (`EM_RESERVE_REPLACEMENT`); Healthcare `EV_EBITDA` (`HC_OCCUPANCY`,
+`HC_ARPOB`); Hospitality `EV_EBITDA` (`HM_REVPAR`); Banking `RESIDUAL_INCOME` (`BM_NIM`, `BM_GNPA`, `BM_CET1`) and
+`PB_RELATIVE` (`BM_GNPA`); Insurance `P_EMBEDDED_VALUE` (`IM_EMBEDDED_VALUE`, `IM_VNB_MARGIN`, `IM_SOLVENCY`);
+Capital Markets `P_AUM` (`CM_AUM`, `CM_COST_TO_INCOME`); Telecom `EV_SUBSCRIBER` (`TL_SUBSCRIBERS`, `TL_ARPU`).
+**24** of the **33** vocabulary ids are required; **nine** are required by no method (`BM_CAR`, `BM_CASA`, `BM_NNPA`,
+`CM_NET_FLOWS`, `HM_ADR`, `HM_OCCUPANCY`, `IM_COMBINED_RATIO`, `IM_PERSISTENCY`, `IN_ORDER_BOOK`). Every declared
+metric carries `minimumSourceClass: OPERATOR_ENTERED`; the requirement is **mandatory** (no conditional construct in
+`MethodRequirement.metrics`), the unit and range are the metric definition's own, and the period must be an **annual**
+period end the dataset carries for that issuer.
+
+**The census (`V2192`).** Both served datasets re-ingested at clock 2026-11-18: **0** operating-metric records, no
+`VENDOR` observation, no metric-related ingestion issue. `git ls-files` finds **one** metric-bearing file in the entire
+repository — the synthetic 7-row test fixture (2 synthetic issuers, a deliberate GNPA/NNPA inconsistency) — so the
+recorded zero is a fact about the repository rather than a reporting artefact. The two live gated slots are Technology
+`EV_REVENUE` `WITHHELD` `MANDATORY_METRIC_MISSING [TM_NRR, TM_RECURRING_REVENUE_PCT]` and Industrials `EV_REVENUE`
+`WITHHELD` `MANDATORY_METRIC_MISSING [IN_BOOK_TO_BILL]`; the other **twelve** are `UNMEASURED` for want of an admitted
+issuer. Consumer's `operatingMetricCoveragePct 100` means *nothing was required* (`measure.ts:250`), and is recorded as
+such rather than as evidence of data.
+
+**Source and rights (`V2193`).** No admissible source-backed value exists in this repository for any of the 14 slots.
+`REL-1` records that Infosys does not disclose `TM_NRR`/`TM_RECURRING_REVENUE_PCT` "in a form this dataset can carry"
+and that neither is imputed from a segment note; `WI8` §7 records that the FY2025-26 report prints order intake
+₹25,280 crore and order book ₹36,267 crore but **no book-to-bill ratio** and **no prior-year intake**, and that division
+is forbidden ("D-2 forbids arithmetic invention of a metric, and one year's intake is not a ratio"). The remaining
+twelve slots have no admitted issuer, so no issuer source for them is committed either. This states what the
+repository holds; it is **not** a claim that such values are unpublished. No provider admitted, `O3` untouched,
+source-rights records unchanged, **no web-derived figure used**, nothing fabricated, estimated, backfilled,
+extrapolated or substituted.
+
+**Capability, verified and unchanged (`V2194`).** `iips-platform/tests/investment/s4r6-operating-metric-gating.test.ts`
+— **25 issuer-neutral tests**, plus twelve deterministic probes: a well-formed `OPERATOR_ENTERED` row is ingested
+`VALID` with lineage; `UNKNOWN_METRIC`, `UNKNOWN_ISSUER`, `SOURCE_REF_REQUIRED` and `INVALID_SOURCE_CLASS` are errors
+and never become availability; `UNIT_MISMATCH`, `OUT_OF_RANGE`, empty value, conflict and cross-field inconsistency each
+withhold the method with a named reason and never a zero; a metric at a period the dataset does not carry is retained,
+warned about (`METRIC_PERIOD_NOT_IN_DATASET`) and gates nothing; a two-metric method needs both metrics; a `VENDOR`
+observation is retained and coverage-counted yet **never opens the assessment** (the declared source floor is applied
+there, and the refusal names the metric and says the source class is too weak), while a metric from another sector's
+vocabulary is retained but inert at both layers — so "does a below-floor or wrong-sector observation unlock anything?"
+is answered **no** at the measurement layer and, for the below-floor case, at the assessment layer too, in a regression
+test rather than in prose; a previously
+unseen issuer (created inside the test) satisfies the same declaration through the same code path, and
+`issuersAvailable` names exactly who qualified, so a quarantined issuer neither is credited nor poisons a clean one.
+**No defect was found that prevents a required behaviour, so no logic was changed.** Two detection gaps are recorded
+and deliberately not "fixed": there is no metric/issuer-sector consistency check (a `TM_NRR` on a Hospitality issuer is
+accepted `VALID` and permanently inert; adding a warning would flip that issuer's served row to `ISSUED_DATA` through
+`issuerIdOfIssue`), and `period_end` is not format-validated (a malformed end simply never matches a period, so it is
+fail-safe).
+
+**The two layers stay distinct (`V2195`).** `layerProbes` demonstrate `S4-R4`'s D4 live on one synthetic observation:
+coverage reports `AVAILABLE` for all three source classes, while the assessment refuses `VENDOR` as
+`MANDATORY_METRIC_MISSING: HM_REVPAR (source class too weak)` (`assessment/methods.ts:147`) and refuses
+`OPERATOR_ENTERED`/`COMPUTED_FROM_STATEMENTS` on a history rule (`INSUFFICIENT_HISTORY`). A `VENDOR` metric would not
+unlock the assessment even if it unlocked coverage. `S4-R4`'s contract is unchanged and not reopened.
+
+**`G-4` determination (`V2196`).** **`G-4` remains OPEN.** The register's closure evidence — `operatingMetricRecords > 0`
+with `validation VALID` **and** the named methods `AVAILABLE` — is unmet on both clauses, and there is no partial metric
+set to be partially closed by. Capability is not a `G-4` acceptance criterion and is not presented as one. **Option B
+(keep these methods withheld for this population) cannot close `G-4` against that test**: it produces no valid record
+and leaves every named method `WITHHELD`, so it would record a **controlled limitation**. The repository states the
+`S4-R6` closure test **two ways** — the register's numeric evidence above, and `S4-R3` reassessment §4's "validated
+metric records **or** a recorded decision to keep methods withheld" — and this item does not choose between them,
+because choosing would redefine acceptance on the owner's behalf. Until the owner decides **both** the disposition (A
+admit specified source-supported metrics under the existing source-admission controls / B keep withheld) **and** which
+closure test governs, `G-4` stays OPEN with the ambiguity recorded. The affected methods and the maximum live effect are
+named exactly: two slots can move for the current population (Technology `EV_REVENUE`, Industrials `EV_REVENUE`); the
+other twelve additionally need issuers admitted in their sectors (`O3`), so metrics alone cannot change them. An
+operator's technical withholding is **not** owner approval, and nothing here claims closure because withholding is safe.
+
+**Nothing else moved (`V2196`).** No valuation formula, weight, threshold, cap, freshness window, method requirement or
+withholding rule changed; no missing→zero and no substitution; no issuer admission, dataset construction, source-rights
+change, `O3` authorisation, host install, production operation or cross-repository write; no issuer-specific branch;
+`S4-R2` stays **CLOSED**; `S4-R3`/`S4-R3-Infosys` stay **OPEN**; `S4-R4` **CLOSED**; `S4-R5` **DECIDED — DISCHARGED**;
+`S4-R7` complete; `S4-R8` open (event-driven); `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged; Stage 4
+remains **PARTIALLY COMPLETE**; overall IID readiness **NOT READY**. Remaining operator actions: a source-backed metric
+file for the two live slots (with `source_ref` document+locator), issuer admission for the other twelve sectors, and the
+owner's A/B disposition plus the closure-test question. Next Stage 4 roadmap item is **`S4-R7`** (already discharged),
+then **`S4-R8`** (corporate actions), with `S4-R6`'s owner decision outstanding in parallel.
+
+Next free §16.298 / `CV-CORR-263` / `CHG-2026-11-06-26` / `V2197`.

@@ -1,0 +1,405 @@
+{
+  "note": "Each probe runs the REAL ingestion parser and measurement on the committed synthetic fixture, with only the operating-metric CSV replaced. No real issuer, no admitted value.",
+  "generatedAt": "2026-11-18T00:00:00.000Z",
+  "dataset": "sha256:synthetic-fixture (iips-platform/tests/investment/fixtures)",
+  "slot": "Hospitality / EV_EBITDA (declares HM_REVPAR only)",
+  "probes": {
+    "P1-valid": {
+      "metricRecords": [
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "VALID",
+          "presence": "PRESENT",
+          "value": 6407,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": []
+        }
+      ],
+      "ingestionIssues": [],
+      "sector": {
+        "stage": "G1_ENABLED",
+        "operatingMetricCoveragePct": 100
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "AVAILABLE",
+        "reason": null,
+        "missing": [],
+        "issuersAvailable": [
+          "IN:EQISIN:IN0000000045"
+        ]
+      }
+    },
+    "P2-absent": {
+      "metricRecords": [],
+      "ingestionIssues": [],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P3-missing-value": {
+      "metricRecords": [
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "UNVALIDATED",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "MISSING_VALUE"
+          ]
+        }
+      ],
+      "ingestionIssues": [],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "METRIC_UNVALIDATED",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P4-wrong-unit": {
+      "metricRecords": [
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "UNVALIDATED",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "UNIT_MISMATCH: HM_REVPAR is INR, received PERCENT"
+          ]
+        }
+      ],
+      "ingestionIssues": [],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "METRIC_UNVALIDATED",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P5-out-of-range": {
+      "metricRecords": [
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "UNVALIDATED",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "OUT_OF_RANGE: HM_REVPAR=-5 outside [0, null]"
+          ]
+        }
+      ],
+      "ingestionIssues": [],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "METRIC_UNVALIDATED",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P6-no-source-ref": {
+      "metricRecords": [],
+      "ingestionIssues": [
+        "ERROR/SOURCE_REF_REQUIRED"
+      ],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P7-unknown-metric": {
+      "metricRecords": [],
+      "ingestionIssues": [
+        "ERROR/UNKNOWN_METRIC"
+      ],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P8-period-not-in-dataset": {
+      "metricRecords": [
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "VALID",
+          "presence": "PRESENT",
+          "value": 6407,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2025-03-31",
+          "issues": []
+        }
+      ],
+      "ingestionIssues": [
+        "WARNING/METRIC_PERIOD_NOT_IN_DATASET"
+      ],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P9-conflict": {
+      "metricRecords": [
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "CONFLICT",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "SOURCE_CONFLICT_UNRESOLVED"
+          ]
+        },
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "CONFLICT",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-2",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "SOURCE_CONFLICT_UNRESOLVED"
+          ]
+        }
+      ],
+      "ingestionIssues": [
+        "ERROR/OPERATING_METRIC_CONFLICT"
+      ],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "METRIC_UNVALIDATED",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P10-cross-field": {
+      "metricRecords": [
+        {
+          "metricId": "HM_OCCUPANCY",
+          "validation": "UNVALIDATED",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "RevPAR (2000) inconsistent with ADR (8600) × occupancy (74.5%) = 6407.00"
+          ]
+        },
+        {
+          "metricId": "HM_ADR",
+          "validation": "UNVALIDATED",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "RevPAR (2000) inconsistent with ADR (8600) × occupancy (74.5%) = 6407.00"
+          ]
+        },
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "UNVALIDATED",
+          "presence": "MISSING",
+          "value": null,
+          "sourceClass": "COMPUTED_FROM_STATEMENTS",
+          "sourceRef": "",
+          "periodEnd": "2026-03-31",
+          "issues": [
+            "RevPAR (2000) inconsistent with ADR (8600) × occupancy (74.5%) = 6407.00"
+          ]
+        }
+      ],
+      "ingestionIssues": [
+        "ERROR/OPERATING_METRIC_CROSS_FIELD"
+      ],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "METRIC_UNVALIDATED",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P11-wrong-sector-metric": {
+      "metricRecords": [
+        {
+          "metricId": "TM_NRR",
+          "validation": "VALID",
+          "presence": "PRESENT",
+          "value": 110,
+          "sourceClass": "OPERATOR_ENTERED",
+          "sourceRef": "probe-note-1",
+          "periodEnd": "2026-03-31",
+          "issues": []
+        }
+      ],
+      "ingestionIssues": [],
+      "sector": {
+        "stage": "G2_PARTIAL",
+        "operatingMetricCoveragePct": 0
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "WITHHELD",
+        "reason": "MANDATORY_METRIC_MISSING",
+        "missing": [
+          "HM_REVPAR"
+        ],
+        "issuersAvailable": []
+      }
+    },
+    "P12-vendor-observation": {
+      "metricRecords": [
+        {
+          "metricId": "HM_REVPAR",
+          "validation": "VALID",
+          "presence": "PRESENT",
+          "value": 6407,
+          "sourceClass": "VENDOR",
+          "sourceRef": "vendor-feed-1",
+          "periodEnd": "2026-03-31",
+          "issues": []
+        }
+      ],
+      "ingestionIssues": [],
+      "sector": {
+        "stage": "G1_ENABLED",
+        "operatingMetricCoveragePct": 100
+      },
+      "method": {
+        "methodId": "EV_EBITDA",
+        "state": "AVAILABLE",
+        "reason": null,
+        "missing": [],
+        "issuersAvailable": [
+          "IN:EQISIN:IN0000000045"
+        ]
+      }
+    }
+  },
+  "layerProbes": {
+    "note": "Coverage vs assessment for the same synthetic observation. The assessment reason for OPERATOR_ENTERED is a history rule, not a metric rule.",
+    "rows": [
+      {
+        "sourceClass": "OPERATOR_ENTERED",
+        "coverage": {
+          "state": "AVAILABLE",
+          "reason": null
+        },
+        "assessment": {
+          "applicable": false,
+          "notApplicableReason": "INSUFFICIENT_HISTORY: three annual EBITDA observations are required for a mid-cycle figure"
+        }
+      },
+      {
+        "sourceClass": "VENDOR",
+        "coverage": {
+          "state": "AVAILABLE",
+          "reason": null
+        },
+        "assessment": {
+          "applicable": false,
+          "notApplicableReason": "MANDATORY_METRIC_MISSING: HM_REVPAR (source class too weak)"
+        }
+      },
+      {
+        "sourceClass": "COMPUTED_FROM_STATEMENTS",
+        "coverage": {
+          "state": "AVAILABLE",
+          "reason": null
+        },
+        "assessment": {
+          "applicable": false,
+          "notApplicableReason": "INSUFFICIENT_HISTORY: three annual EBITDA observations are required for a mid-cycle figure"
+        }
+      }
+    ]
+  }
+}
