@@ -5,14 +5,25 @@ on:
     paths: ['.github/workflows/temp-l038-delta.yml', 'scripts/l038_delta_source_probe.py']
 permissions:
   contents: read
+  actions: read
 jobs:
   capture:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Capture targeted Marico public evidence only (no installation, no data admission)
-        run: python scripts/l038_delta_source_probe.py
+      - name: Recover existing capture through annotations (no repeat source retrieval)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 44249537298 -n l038-delta-capture -D l038-delta-capture
+          python - <<'PY'
+          import base64, json, pathlib, zlib
+          files = {str(p.relative_to('l038-delta-capture')): p.read_text() for p in pathlib.Path('l038-delta-capture').rglob('*') if p.is_file()}
+          encoded = base64.b64encode(zlib.compress(json.dumps(files).encode(), 9)).decode()
+          for i in range(0, len(encoded), 40000):
+              print(f'::notice title=L038_EVIDENCE_{i//40000:03d}::{encoded[i:i+40000]}')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: l038-delta-capture
