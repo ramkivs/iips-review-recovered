@@ -134,16 +134,26 @@ jobs:
 
           # An extraheader inherited from the checkout, the runner image or a previous step would be
           # sent ALONGSIDE the scoped one, producing a duplicate Authorization header and a 400.
-          # Remove any broad github.com entry that survives the checkout above (counts, not values),
-          # so the scoped IPD header configured at install time is the only one in play.
+          # Remove any broad github.com entry that survives the checkout above and require that none
+          # remains. The runner's bash is errexit AND pipefail, and `git config` exits 1 when
+          # nothing matches — which is precisely the healthy case here — so every lookup is wrapped
+          # instead of being left to abort the step.
+          set +e
           for scope in 'http.https://github.com/.extraheader' 'http.https://github.com.extraheader'; do
-            before="$(git config --local --get-all "$scope" 2>/dev/null | wc -l | tr -d ' ')"
-            git config --local --unset-all "$scope" 2>/dev/null || true
-            echo "cleared ${scope}: ${before} inherited entr(y/ies)"
+            inherited="$(git config --local --get-all "$scope" 2>/dev/null)"
+            inherited_count="$(printf '%s' "$inherited" | grep -c .)"
+            git config --local --unset-all "$scope" >/dev/null 2>&1
+            echo "cleared ${scope}: ${inherited_count} inherited"
           done
-          remaining="$(git config --get-regexp '^http\..*github\.com.*extraheader$' 2>/dev/null | wc -l | tr -d ' ')"
-          echo "github.com extraheader entries still configured: ${remaining}"
-          test "$remaining" -eq 0 || { echo '::error title=IPD auth header::a broad github.com authorization header is still configured and would be sent twice'; exit 1; }
+          remaining="$(git config --get-regexp '^http\..*extraheader$' 2>/dev/null)"
+          set -e
+          if [ -n "$remaining" ]; then
+            # Key names only; values are redacted here and masked by the runner anyway.
+            keys="$(printf '%s' "$remaining" | sed 's/ .*//' | tr '\n' '|')"
+            echo "::error title=IPD auth header::an inherited authorization header is still configured and would be sent twice: ${keys}"
+            exit 1
+          fi
+          echo 'No inherited github.com authorization header remains, so the scoped IPD header is the only one that will be sent.'
 
       - name: Install dependencies from the committed lockfile
         id: npm-ci
@@ -204,8 +214,10 @@ jobs:
           outcome='${{ steps.npm-ci.outcome }}'
           echo "::notice title=windows install outcome::npm ci outcome=${outcome} | git=$(git --version 2>&1 | fold) | npm=$(npm --version 2>&1 | fold) | node=$(node --version 2>&1 | fold)"
 
-          if [ "$outcome" = "success" ]; then
-            echo '::notice title=windows install::dependencies installed from the committed lockfile on Windows'
+          # 'skipped' means an earlier step already failed and the job is red for that reason; this
+          # step must not add a second, obscuring failure of its own.
+          if [ "$outcome" = "success" ] || [ "$outcome" = "skipped" ]; then
+            echo "::notice title=windows install::install outcome=${outcome}; nothing to diagnose"
             exit 0
           fi
 
