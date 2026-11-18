@@ -1,31 +1,30 @@
 /**
- * W05-D — the qualification-threshold mechanism.
+ * W05-D — the per-dataset qualification ruleset mechanism, and θF (kept strictly separate).
  *
- * WHAT EXISTS AND WHAT DOES NOT. W05 asks for a documented, TESTABLE qualification-threshold
- * mechanism — and explicitly forbids inventing a numerical threshold and silently treating it as
- * approved. No product-owner-approved qualification threshold exists in the governing records
- * (the 2026-11-12 W05 qualification record leaves θF UNESTABLISHED and W20 BLOCKED on it). This
- * module therefore implements the MECHANISM — configurable thresholds, named gates, reproducible
- * and explainable decisions — and carries the threshold VALUE as a documented PROPOSAL whose
- * approval is an explicit outstanding product-owner decision.
+ * TWO DIFFERENT THINGS, NEVER CONFLATED (authoritative roadmap reconciliation 2026-11-17):
  *
- * THE MECHANISM:
- *   - a `QualificationThreshold` names the gates each analysis purpose requires, plus the numeric
- *     adequacy/freshness configuration it applies;
- *   - `applyQualificationThreshold` is a pure function of (qualification result, threshold,
- *     purpose) and returns a decision with every gate outcome and the configuration it used;
- *   - the threshold is CONFIGURABLE: callers may override any field; the default is the proposal
- *     below, which draws its numbers from `valuation-policy/1.0.0` — the ALREADY-GOVERNED policy
- *     values — rather than inventing new ones;
- *   - every result carries `approvalStatus: 'PROPOSED_NOT_APPROVED'`. Meeting the proposed
- *     threshold is a technical result, never a product-owner approval, and the distinction between
- *     "technically valid", "meets the proposed threshold" and "qualified by approval" is preserved
- *     on the face of the output.
+ *   1. THE PER-DATASET RULESET (`DATASET_QUALIFICATION_THRESHOLD` +
+ *      `applyQualificationThreshold`): which qualification gates each analysis purpose requires,
+ *      plus the numeric adequacy/freshness configuration it applies. It is a documented, testable,
+ *      configurable TECHNICAL mechanism with named gates, reproducible decisions and no silent
+ *      approximation. It is NOT θF, it carries no approval axis of any kind, and meeting it is a
+ *      per-dataset technical result only.
  *
- * REPRODUCIBILITY. The application refuses to compute against a policy configuration that differs
- * from the one the qualification was recorded under: a threshold evaluated against evidence
- * gathered under different numbers would not be reproducible, so it reports `CONFIGURATION_MISMATCH`
- * instead of deciding.
+ *   2. θF (`THETA_F`): the PORTFOLIO-WIDE financial ratio that gates W20. Per the authoritative
+ *      roadmap (W05 at lines 148–149 of the IPD roadmap at main
+ *      `2685562522f1a2fd1d745a7857f771bf21453315`, blob `7affba55a5ba568333fdc2961a322c2f76b4c671`,
+ *      per the IPD reconciliation record `d418ce2`), θF is:
+ *        - a portfolio-wide ratio, NOT a per-dataset qualification threshold;
+ *        - NOT a W05 condition — W05 must not carry a product-owner approval dependency for it
+ *          and none is introduced here;
+ *        - set from observed evidence under the standing grant;
+ *        - currently without a defensible value: the roadmap records that no defensible value can
+ *          yet be asserted, so none is asserted here and the W20 gate stays CLOSED (fail closed).
+ *
+ * REPRODUCIBILITY. The per-dataset application refuses to compute against a policy configuration
+ * that differs from the one the qualification was recorded under: a ruleset evaluated against
+ * evidence gathered under different numbers would not be reproducible, so it reports
+ * `CONFIGURATION_MISMATCH` instead of deciding.
  */
 import type { QualificationGateId, IssuerDatasetQualification, QualificationPolicyConfig } from './qualification';
 import { DEFAULT_QUALIFICATION_POLICY, QUALIFICATION_RULESET } from './qualification';
@@ -34,25 +33,16 @@ import { DEFAULT_QUALIFICATION_POLICY, QUALIFICATION_RULESET } from './qualifica
 export const ANALYSIS_PURPOSES = Object.freeze(['STATEMENT_ANALYSIS', 'VALUATION_INPUT', 'PRICE_SENSITIVE_ANALYSIS'] as const);
 export type AnalysisPurpose = (typeof ANALYSIS_PURPOSES)[number];
 
-/**
- * The approval status of a threshold value. This build has exactly one status:
- * `PROPOSED_NOT_APPROVED`. There is no `APPROVED` member and none may be added by a caller —
- * approval is a product-owner decision recorded outside this code, and W05 remains IN PROGRESS
- * until it is made.
- */
-export type ThresholdApprovalStatus = 'PROPOSED_NOT_APPROVED';
-
 export interface QualificationThreshold {
   readonly thresholdId: string;
   readonly ruleset: typeof QUALIFICATION_RULESET;
-  readonly approvalStatus: ThresholdApprovalStatus;
-  /** Where the proposal comes from, why, what it would change, and exactly what is still decided. */
+  /** Where the ruleset comes from, what role it plays, why, and what applying it would change. */
   readonly provenance: {
-    readonly proposedBy: string;
+    readonly source: string;
+    /** States plainly that this per-dataset ruleset is NOT θF and has no approval axis. */
+    readonly role: string;
     readonly rationale: string;
     readonly impact: string;
-    /** The exact outstanding decision, stated so it can be put to the product owner verbatim. */
-    readonly outstandingDecision: string;
   };
   /** Which gates each purpose requires, on top of the shared baseline. */
   readonly requiredGates: Readonly<Record<AnalysisPurpose, readonly QualificationGateId[]>>;
@@ -61,23 +51,21 @@ export interface QualificationThreshold {
 }
 
 /**
- * The proposal. Its numbers are `valuation-policy/1.0.0`'s governed values (minimum 3 annual
- * periods; sufficient field coverage 0.8; P&L window 200 days; balance-sheet window 250 days) —
- * no NEW numerical threshold is invented here. What is proposed is the MAPPING of those governed
- * values plus the named gates onto an approval-grade qualification decision.
+ * The default per-dataset ruleset. Its numbers are `valuation-policy/1.0.0`'s governed values
+ * (minimum 3 annual periods; sufficient field coverage 0.8; P&L window 200 days; balance-sheet
+ * window 250 days) — no NEW numerical threshold is invented here. What the ruleset fixes is the
+ * MAPPING of those governed values plus the named gates onto a per-dataset technical decision.
  */
-export const PROPOSED_QUALIFICATION_THRESHOLD: QualificationThreshold = Object.freeze({
-  thresholdId: 'W05-THF-PROPOSAL-1',
+export const DATASET_QUALIFICATION_THRESHOLD: QualificationThreshold = Object.freeze({
+  thresholdId: 'W05-DATASET-RULESET-1',
   ruleset: QUALIFICATION_RULESET,
-  approvalStatus: 'PROPOSED_NOT_APPROVED' as const,
   provenance: Object.freeze({
-    proposedBy: 'W05 implementation 2026-11-17 (technical proposal; not an approval)',
+    source: 'W05 implementation 2026-11-17 (technical ruleset), reconciled against the authoritative IPD roadmap 2026-11-17',
+    role: 'per-dataset qualification ruleset — NOT θF. θF is the portfolio-wide ratio that gates W20 (see THETA_F); it is not a per-dataset qualification threshold, is not a W05 condition, and carries no product-owner approval dependency. This ruleset has no approval axis either: meeting it is a technical result.',
     rationale:
       'A dataset should support financial analysis only when its integrity and provenance are verified, its source rights are eligible, its periods are identified and adequate, its series is fresh under the governed freshness policy, and no blocking accounting limitation is recorded. The numeric gates reuse valuation-policy/1.0.0 values so no unreviewed threshold is introduced.',
     impact:
-      'With this proposal, the 2026-11-12 evidence position (0/65 holdings covered; five evidence issuers stale with UNKNOWN rights) would yield zero qualified issuers, which is the truthful result and does not block portfolio use.',
-    outstandingDecision:
-      'PRODUCT-OWNER DECISION OUTSTANDING: approve (or amend) qualification threshold θF for financial-dataset qualification. Until that decision is recorded, every result of this mechanism is PROPOSED_NOT_APPROVED and W05 Qualification is not accepted. No approved numerical threshold may be inferred from this proposal.',
+      'Against the current evidence position (the 2026-11-12 provisioning evidence, restated against the W04 revision-1 denominator: 0 of 64 holdings covered) this ruleset yields zero qualified issuers, which is the truthful result and does not block portfolio use.',
   }),
   requiredGates: Object.freeze({
     // A statement-level read needs trustworthy, identified, adequate statements with eligible rights.
@@ -124,14 +112,12 @@ export interface ThresholdGateOutcome {
 export interface ThresholdApplication {
   readonly thresholdId: string;
   readonly ruleset: typeof QUALIFICATION_RULESET;
-  readonly approvalStatus: ThresholdApprovalStatus;
   /**
-   * The approval effect is always NONE: meeting a PROPOSED_NOT_APPROVED threshold never
-   * constitutes qualification by approval.
+   * A per-dataset TECHNICAL result only. This is not θF and never constitutes an approval of any
+   * kind — the ruleset has no approval axis and none may be added by a caller.
    */
-  readonly approvalEffect: 'NONE';
+  readonly decision: 'MEETS_THRESHOLD' | 'BELOW_THRESHOLD' | 'CONFIGURATION_MISMATCH';
   readonly purpose: AnalysisPurpose;
-  readonly decision: 'MEETS_PROPOSED_THRESHOLD' | 'BELOW_PROPOSED_THRESHOLD' | 'CONFIGURATION_MISMATCH';
   readonly gateOutcomes: readonly ThresholdGateOutcome[];
   readonly failedGates: readonly QualificationGateId[];
   /** The exact numeric configuration the decision was computed under. */
@@ -142,10 +128,10 @@ export interface ThresholdApplication {
 }
 
 /**
- * Apply a threshold to a qualification result for one purpose. Pure and reproducible.
+ * Apply the per-dataset ruleset to a qualification result for one purpose. Pure and reproducible.
  *
  * The application evaluates the purpose's required gates against the qualification's recorded
- * gates, and additionally checks the numeric adequacy configuration. If the threshold's policy
+ * gates, and additionally checks the numeric adequacy configuration. If the ruleset's policy
  * differs from the policy the qualification was recorded under, the decision is
  * `CONFIGURATION_MISMATCH` — reproducibility is not sacrificed for an answer.
  */
@@ -158,8 +144,6 @@ export function applyQualificationThreshold(
   const base = {
     thresholdId: threshold.thresholdId,
     ruleset: threshold.ruleset,
-    approvalStatus: threshold.approvalStatus,
-    approvalEffect: 'NONE' as const,
     purpose,
     configurationUsed,
     evidenceDigest: qualification.evidenceDigest,
@@ -179,8 +163,8 @@ export function applyQualificationThreshold(
       gateOutcomes: [],
       failedGates: [],
       explanation:
-        `the threshold's policy configuration differs from the configuration qualification ${qualification.evidenceDigest} was recorded under; ` +
-        're-run the qualification under the threshold configuration before applying it, so the decision stays reproducible',
+        `the ruleset's policy configuration differs from the configuration qualification ${qualification.evidenceDigest} was recorded under; ` +
+        're-run the qualification under the ruleset configuration before applying it, so the decision stays reproducible',
     };
   }
 
@@ -194,7 +178,7 @@ export function applyQualificationThreshold(
     };
   });
 
-  // The numeric adequacy configuration is re-checked here, not assumed: the threshold owns it.
+  // The numeric adequacy configuration is re-checked here, not assumed: the ruleset owns it.
   const annualPeriods = qualification.periodsCovered.annual.length;
   const numericChecks: ThresholdGateOutcome[] = [];
   if (annualPeriods < configurationUsed.adequacy.minimumAnnualPeriods) {
@@ -214,12 +198,142 @@ export function applyQualificationThreshold(
 
   const allOutcomes = [...gateOutcomes, ...numericChecks];
   const failedGates = [...new Set(allOutcomes.filter((outcome) => !outcome.passed).map((outcome) => outcome.gate))];
-  const decision: ThresholdApplication['decision'] = failedGates.length === 0 ? 'MEETS_PROPOSED_THRESHOLD' : 'BELOW_PROPOSED_THRESHOLD';
+  const decision: ThresholdApplication['decision'] = failedGates.length === 0 ? 'MEETS_THRESHOLD' : 'BELOW_THRESHOLD';
 
   const explanation =
-    `threshold ${threshold.thresholdId} (${threshold.approvalStatus}) applied for ${purpose} to qualification ${qualification.evidenceDigest}: ` +
+    `ruleset ${threshold.thresholdId} applied for ${purpose} to qualification ${qualification.evidenceDigest}: ` +
     allOutcomes.map((outcome) => `${outcome.gate}=${outcome.passed ? 'PASS' : 'FAIL'} (${outcome.reason})`).join('; ') +
-    `; decision ${decision}; approval effect NONE — no approved qualification threshold exists (θF unestablished)`;
+    `; decision ${decision}; a per-dataset technical result only — this ruleset is not θF and confers no approval`;
 
   return { ...base, decision, gateOutcomes: allOutcomes, failedGates, explanation };
+}
+
+/* --------------------------------------------------------------------------- θF */
+
+/**
+ * How θF currently stands. `NO_DEFENSIBLE_VALUE_ASSERTED` is the state the authoritative roadmap
+ * records today ("no defensible value can yet be asserted"); `ASSERTED_FROM_OBSERVED_EVIDENCE`
+ * exists so the gate mechanism is testable and future-proof, but no value is asserted in this
+ * build and none may be inferred from it.
+ */
+export type ThetaFAssertionStatus = 'NO_DEFENSIBLE_VALUE_ASSERTED' | 'ASSERTED_FROM_OBSERVED_EVIDENCE';
+
+/**
+ * θF — the portfolio-wide financial ratio that gates W20. NOT a per-dataset qualification
+ * threshold; NOT a W05 condition. Set from observed evidence under the standing grant.
+ */
+export interface PortfolioRatioThreshold {
+  readonly id: 'W05-THF-PORTFOLIO-RATIO';
+  readonly semantics: 'PORTFOLIO_WIDE_RATIO';
+  readonly gates: 'W20';
+  readonly isW05Condition: false;
+  readonly isPerDatasetQualificationThreshold: false;
+  readonly assertionStatus: ThetaFAssertionStatus;
+  /** A ratio value in PERCENT (0–100). `null` while no defensible value can be asserted. */
+  readonly value: number | null;
+  readonly settingRule: 'SET_FROM_OBSERVED_EVIDENCE_UNDER_THE_STANDING_GRANT';
+  readonly source: string;
+  readonly note: string;
+}
+
+export const THETA_F: PortfolioRatioThreshold = Object.freeze({
+  id: 'W05-THF-PORTFOLIO-RATIO',
+  semantics: 'PORTFOLIO_WIDE_RATIO',
+  gates: 'W20',
+  isW05Condition: false,
+  isPerDatasetQualificationThreshold: false,
+  assertionStatus: 'NO_DEFENSIBLE_VALUE_ASSERTED' as const,
+  value: null,
+  settingRule: 'SET_FROM_OBSERVED_EVIDENCE_UNDER_THE_STANDING_GRANT' as const,
+  source:
+    'authoritative roadmap reconciliation 2026-11-17: IPD roadmap at main 2685562522f1a2fd1d745a7857f771bf21453315 ' +
+    '(blob 7affba55a5ba568333fdc2961a322c2f76b4c671, W05 lines 148–149), IPD reconciliation record d418ce2',
+  note:
+    'θF is the portfolio-wide financial ratio that gates W20. It is not a per-dataset qualification threshold and not a W05 condition. ' +
+    'It is set from observed evidence under the standing grant; no defensible value can yet be asserted, so none is asserted here. ' +
+    'No product-owner approval dependency attaches to θF and none may be introduced for it.',
+});
+
+export interface FinancialRatioInput {
+  /** Holdings whose OWN identity passed resolution. A holding failing identity never contributes. */
+  readonly identityPassedHoldings: number;
+  /** Holdings with financial data available. Must be ≤ `identityPassedHoldings`. */
+  readonly holdingsWithFinancialData: number;
+  /** The portfolio holding count (the W04 revision for IIPS coverage). */
+  readonly totalHoldings: number;
+}
+
+export interface FinancialRatio {
+  readonly numerator: number;
+  readonly denominator: number;
+  readonly identityPassedHoldings: number;
+  /** 0–100, one decimal. */
+  readonly percent: number;
+  readonly numeratorRule: string;
+}
+
+/**
+ * The portfolio-wide financial ratio θF gates on. A holding contributes to the numerator ONLY if
+ * its own identity passes; inputs that would violate that rule are refused, never silently
+ * clamped. The denominator is the portfolio holding count.
+ */
+export function financialRatio(input: FinancialRatioInput): FinancialRatio {
+  for (const [name, value] of Object.entries(input)) {
+    if (!Number.isInteger(value) || value < 0) {
+      throw new RangeError(`${name} must be a non-negative integer, got ${String(value)}`);
+    }
+  }
+  const { identityPassedHoldings, holdingsWithFinancialData, totalHoldings } = input;
+  if (holdingsWithFinancialData > identityPassedHoldings) {
+    throw new RangeError(
+      'a holding contributes to the financial ratio only if its own identity passes: holdingsWithFinancialData cannot exceed identityPassedHoldings',
+    );
+  }
+  if (identityPassedHoldings > totalHoldings) {
+    throw new RangeError('identityPassedHoldings cannot exceed totalHoldings');
+  }
+  return {
+    numerator: holdingsWithFinancialData,
+    denominator: totalHoldings,
+    identityPassedHoldings,
+    percent: totalHoldings === 0 ? 0 : Number(((holdingsWithFinancialData / totalHoldings) * 100).toFixed(1)),
+    numeratorRule:
+      'a holding contributes to the financial ratio only if its own identity passes; unresolved holdings never contribute, ' +
+      'and the denominator is the portfolio holding count (the W04 revision for IIPS coverage)',
+  };
+}
+
+export interface W20GateResult {
+  readonly gate: 'W20';
+  readonly open: boolean;
+  readonly thetaFAssertionStatus: ThetaFAssertionStatus;
+  readonly reason: string;
+}
+
+/**
+ * The W20 gate θF governs. Fail CLOSED: while no defensible θF value is asserted the gate stays
+ * shut. When θF is asserted from observed evidence under the standing grant, the gate opens only
+ * when the observed portfolio-wide ratio reaches the asserted value. No approval is involved at
+ * any point, and this gate is not a W05 condition.
+ */
+export function evaluateW20Gate(ratio: FinancialRatio, thetaF: PortfolioRatioThreshold = THETA_F): W20GateResult {
+  if (thetaF.assertionStatus !== 'ASSERTED_FROM_OBSERVED_EVIDENCE' || thetaF.value === null) {
+    return {
+      gate: 'W20',
+      open: false,
+      thetaFAssertionStatus: thetaF.assertionStatus,
+      reason:
+        `no defensible θF value can yet be asserted (${thetaF.assertionStatus}); ` +
+        'θF is set from observed evidence under the standing grant, and W20 stays closed (fail closed)',
+    };
+  }
+  const open = ratio.percent >= thetaF.value;
+  return {
+    gate: 'W20',
+    open,
+    thetaFAssertionStatus: thetaF.assertionStatus,
+    reason: open
+      ? `the observed portfolio-wide financial ratio ${ratio.percent}% reaches the θF value ${thetaF.value}% asserted from observed evidence under the standing grant`
+      : `the observed portfolio-wide financial ratio ${ratio.percent}% is below the θF value ${thetaF.value}% asserted from observed evidence under the standing grant`,
+  };
 }

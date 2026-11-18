@@ -321,3 +321,53 @@ describe('W05 — test 13: existing source-rights classification behaviour is un
     assert.match(datasetClassStatement('SYNTHETIC_REFERENCE'), /mechanics only/);
   });
 });
+
+describe('W05 — retention is verified alongside entitlement, each fail closed', () => {
+  test('an eligible record reports entitlement and retention verdicts separately', () => {
+    const record = operatorAssertedRightsRecord(AS_OF);
+    assert.equal(record.status, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(record.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(record.retentionStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.ok(record.entitlementReason.length > 0);
+    assert.match(record.retentionReason, /retention is permitted/);
+
+    const synthetic = syntheticRightsRecord(AS_OF);
+    assert.equal(synthetic.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(synthetic.retentionStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+  });
+
+  test('unverified retention fails closed even when entitlement is fully permitted', () => {
+    const record = buildRightsRecord(
+      {
+        manifestRights: { state: 'OPERATOR_ASSERTED', basis: 'terms recorded', note: '' },
+        evidence: evidence(),
+        permissions: permissions({ RETENTION: 'UNKNOWN' }),
+      },
+      AS_OF,
+    );
+    assert.equal(record.status, 'UNKNOWN', 'the combined status is the fail-closed worst of both verdicts');
+    assert.equal(record.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE', 'entitlement is verified on its own');
+    assert.equal(record.retentionStatus, 'UNKNOWN');
+    assert.match(record.retentionReason, /retention fails closed/);
+    assert.match(record.statusReason, /RETENTION/);
+  });
+
+  test('denied or expired retention restricts the record and names the reason', () => {
+    const denied = buildRightsRecord(
+      {
+        manifestRights: { state: 'OPERATOR_ASSERTED', basis: 'terms recorded', note: '' },
+        evidence: evidence(),
+        permissions: permissions({ RETENTION: 'NOT_PERMITTED' }),
+      },
+      AS_OF,
+    );
+    assert.equal(denied.retentionStatus, 'RESTRICTED');
+    assert.match(denied.retentionReason, /RETENTION explicitly not permitted/);
+
+    const expired = operatorAssertedRightsRecord(AS_OF, {}, { expiry: '2026-01-01', reviewBy: 'operator' });
+    assert.equal(expired.retentionStatus, 'RESTRICTED');
+    assert.match(expired.retentionReason, /expired or fell due for review/);
+    assert.equal(expired.status, 'RESTRICTED', 'the combined status follows the retention verdict');
+    assert.equal(expired.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+  });
+});

@@ -20,9 +20,15 @@
  * `evidenceDigest` is the canonical digest of the snapshot, so two runs over the same evidence
  * produce identical results and the result can be re-derived later without the original files.
  *
- * WHAT IT DOES NOT DO. It does not decide the qualification THRESHOLD: that lives in
- * `threshold.ts` as a documented, configurable PROPOSAL awaiting product-owner approval, because
- * no approved numerical threshold exists and W05 forbids inventing one.
+ * WHAT IT DOES NOT DO. It does not decide θF. θF is the PORTFOLIO-WIDE financial ratio that gates
+ * W20 — not a per-dataset qualification threshold and not a W05 condition (authoritative roadmap
+ * reconciliation 2026-11-17); it lives in `threshold.ts` beside the separate per-dataset
+ * ruleset mechanism, and no product-owner approval dependency exists for it.
+ *
+ * REQUIRED METRICS ARE PROVISIONAL. The operating-metric requirement set used here is drawn from
+ * the governed method-matrix (`coverage/measure.ts` `sectorRequirements`), but W10 — which
+ * establishes the required-metric set — is NOT established. The set is therefore provisional
+ * pending W10 and must not be presented as settled (`MetricCompletenessBlock.requiredSetStatus`).
  *
  * It reuses, and does not reimplement: `selectSeries` (period/scope algebra), `assessFreshness`
  * and `periodSequenceGaps` (freshness-policy/1.0.0), `buildCompleteness` and `buildQuality`
@@ -44,7 +50,7 @@ import type { CompletenessBlock, QualityBlock, SeriesSelection } from '../assess
 import { FRESHNESS_POLICY_VERSION, POLICY_VERSION } from '../assessment/types';
 import { VALUATION_POLICY } from '../assessment/policy';
 import { sectorRequirements } from '../coverage/measure';
-import type { RightsStatus } from './rightsRecord';
+import type { AcquisitionMethod, RightsStatus } from './rightsRecord';
 
 export const QUALIFICATION_RULESET = 'qualification/1.0.0' as const;
 
@@ -110,6 +116,8 @@ export interface QualificationInput {
     readonly datasetClass: DatasetClass;
     readonly status: RightsStatus;
     readonly statusReason: string;
+    /** The recorded acquisition method, carried so coverage can be reported BY ACQUISITION METHOD. */
+    readonly acquisitionMethod: AcquisitionMethod;
   };
   readonly asOf: string;
   readonly policy?: QualificationPolicyConfig;
@@ -188,16 +196,24 @@ export interface ValueSemanticsCounts {
 }
 
 /**
- * Required operating-metric completeness. The requirement set is the GOVERNED method-matrix
- * requirement for the issuer's sector (`coverage/measure.ts` `sectorRequirements`) — reused, never
- * re-invented. Missing, nil and zero stay distinct: a nil disclosure or a reported zero is a
- * REPORT; only a metric with no report of any kind is missing.
+ * Required operating-metric completeness. The requirement set is drawn from the GOVERNED
+ * method-matrix requirement for the issuer's sector (`coverage/measure.ts` `sectorRequirements`) —
+ * reused, never re-invented — but W10, which establishes the required-metric set, is NOT
+ * established (authoritative roadmap reconciliation 2026-11-17): the set is PROVISIONAL pending
+ * W10 (`requiredSetStatus`) and must not be presented as settled. Missing, nil and zero stay
+ * distinct: a nil disclosure or a reported zero is a REPORT; only a metric with no report of any
+ * kind is missing.
  */
 export interface MetricCompletenessBlock {
   /** The issuer's sector as recorded by the dataset. `null` when not recorded. */
   readonly sector: string | null;
   /** True when the sector is one of the governed `SECTOR_NAMES`. */
   readonly sectorDeterminable: boolean;
+  /**
+   * The standing of the required-metric SET itself: `PROVISIONAL_PENDING_W10` while W10 is not
+   * established. The mechanics above are settled; the SET is not.
+   */
+  readonly requiredSetStatus: 'PROVISIONAL_PENDING_W10';
   /** Metric ids the governed method matrix requires for this sector. Empty when undeterminable. */
   readonly requiredMetricIds: readonly string[];
   /** Required metrics with at least one report (present, zero or nil disclosure). */
@@ -272,6 +288,7 @@ function evidenceSnapshotOf(input: QualificationInput): QualificationEvidenceSna
       datasetClass: input.rights.datasetClass,
       status: input.rights.status,
       statusReason: input.rights.statusReason,
+      acquisitionMethod: input.rights.acquisitionMethod,
     },
     periods: input.periods.filter((period) => period.issuerId === input.issuerId),
     sector: input.sector === undefined ? null : (input.sector as string | null),
@@ -375,15 +392,16 @@ function countMetricCompleteness(evidence: QualificationEvidenceSnapshot): Metri
   return {
     sector: typeof sector === 'string' ? sector : null,
     sectorDeterminable,
+    requiredSetStatus: 'PROVISIONAL_PENDING_W10',
     requiredMetricIds,
     reportedMetricIds,
     missingMetricIds,
     observationCounts: counts,
     note: !sectorDeterminable
-      ? 'the issuer sector is not a governed sector (or is not recorded), so the required metric set cannot be established; the metric gate fails closed and no metric completeness is claimed'
+      ? 'the issuer sector is not a governed sector (or is not recorded), so the required metric set cannot be established; the metric gate fails closed and no metric completeness is claimed; the required-metric set itself is provisional pending W10 (W10 is not established)'
       : missingMetricIds.length === 0
-        ? `all ${requiredMetricIds.length} sector-required metric(s) carry at least one report`
-        : `sector-required metric(s) with no report of any kind: ${missingMetricIds.join(', ')}; a nil disclosure or reported zero counts as a report, a missing value never does`,
+        ? `all ${requiredMetricIds.length} sector-required metric(s) carry at least one report (the required-metric set is provisional pending W10 — W10 is not established)`
+        : `sector-required metric(s) with no report of any kind: ${missingMetricIds.join(', ')}; a nil disclosure or reported zero counts as a report, a missing value never does; the required-metric set is provisional pending W10 (W10 is not established)`,
   };
 }
 

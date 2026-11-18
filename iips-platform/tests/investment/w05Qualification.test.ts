@@ -18,8 +18,11 @@ import {
   type QualificationInput,
 } from '../../src/investment/lifecycle/qualification';
 import {
-  PROPOSED_QUALIFICATION_THRESHOLD,
+  DATASET_QUALIFICATION_THRESHOLD,
+  THETA_F,
   applyQualificationThreshold,
+  evaluateW20Gate,
+  financialRatio,
   type QualificationThreshold,
 } from '../../src/investment/lifecycle/threshold';
 import { rightsRecordFromManifest } from '../../src/investment/lifecycle/rightsRecord';
@@ -48,6 +51,7 @@ function rightsSummary() {
     datasetClass: record.datasetClass,
     status: record.status,
     statusReason: record.statusReason,
+    acquisitionMethod: record.evidence.acquisitionMethod,
   };
 }
 
@@ -86,13 +90,14 @@ describe('W05 — dataset qualification: a successful import is not qualificatio
         datasetClass: unknownRights.datasetClass,
         status: unknownRights.status,
         statusReason: unknownRights.statusReason,
+        acquisitionMethod: unknownRights.evidence.acquisitionMethod,
       },
     });
 
     assert.equal(qualification.technicallyValid, true, 'the import itself is valid');
     assert.ok(qualification.failedGates.includes('RIGHTS_ELIGIBLE'));
-    const decision = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
-    assert.equal(decision.decision, 'BELOW_PROPOSED_THRESHOLD');
+    const decision = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(decision.decision, 'BELOW_THRESHOLD');
     assert.ok(decision.failedGates.includes('RIGHTS_ELIGIBLE'));
   });
 
@@ -104,6 +109,7 @@ describe('W05 — dataset qualification: a successful import is not qualificatio
         datasetClass: 'UNKNOWN',
         status: unknownRights.status,
         statusReason: unknownRights.statusReason,
+        acquisitionMethod: 'UNKNOWN',
       },
     });
     assert.equal(qualification.technicallyValid, true);
@@ -127,8 +133,8 @@ describe('W05 — dataset qualification: a successful import is not qualificatio
     assert.equal(qualification.freshness.valuationBasis?.periodEnd, '2026-03-31');
     assert.ok((qualification.freshness.valuationBasis?.daysSincePeriodEnd ?? 0) > 200);
 
-    const decision = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
-    assert.equal(decision.decision, 'BELOW_PROPOSED_THRESHOLD');
+    const decision = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(decision.decision, 'BELOW_THRESHOLD');
     assert.ok(decision.failedGates.includes('FRESH_WITHIN_POLICY'));
   });
 
@@ -238,10 +244,10 @@ describe('W05 — dataset qualification: a successful import is not qualificatio
 
     // It affects qualification WHERE REQUIRED: valuation input is refused; the gate list per purpose
     // is the threshold's documented mapping.
-    const valuation = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
-    assert.equal(valuation.decision, 'BELOW_PROPOSED_THRESHOLD');
+    const valuation = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(valuation.decision, 'BELOW_THRESHOLD');
     assert.ok(valuation.failedGates.includes('NO_BLOCKING_ACCOUNTING_LIMITATIONS'));
-    const statements = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'STATEMENT_ANALYSIS');
+    const statements = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'STATEMENT_ANALYSIS');
     assert.ok(
       statements.gateOutcomes.every((outcome) => outcome.gate !== 'NO_BLOCKING_ACCOUNTING_LIMITATIONS'),
       'the statement-analysis purpose does not require the no-blocking-limitations gate — the difference is explicit, not hidden',
@@ -264,54 +270,55 @@ describe('W05 — dataset qualification: a successful import is not qualificatio
   });
 });
 
-describe('W05 — the qualification-threshold mechanism is documented, testable and NOT approved', () => {
-  test('the proposal names its rationale, impact and the exact outstanding decision', () => {
-    const threshold = PROPOSED_QUALIFICATION_THRESHOLD;
-    assert.equal(threshold.approvalStatus, 'PROPOSED_NOT_APPROVED');
-    assert.match(threshold.provenance.outstandingDecision, /PRODUCT-OWNER DECISION OUTSTANDING/);
-    assert.match(threshold.provenance.outstandingDecision, /θF/);
+describe('W05 — the per-dataset qualification ruleset is documented and testable, and it is NOT θF', () => {
+  test('the ruleset states its role and carries no approval axis of any kind', () => {
+    const threshold = DATASET_QUALIFICATION_THRESHOLD;
+    assert.ok(!('approvalStatus' in threshold), 'no approval status exists on the per-dataset ruleset');
+    assert.match(threshold.provenance.role, /NOT θF/);
+    assert.match(threshold.provenance.role, /not a per-dataset qualification threshold/);
+    assert.match(threshold.provenance.role, /no product-owner approval dependency/);
     assert.ok(threshold.provenance.rationale.length > 0);
     assert.ok(threshold.provenance.impact.length > 0);
+    assert.match(threshold.provenance.impact, /0 of 64 holdings/);
     // The numeric gates are the ALREADY-GOVERNED policy values, not new inventions.
     assert.equal(threshold.policy.adequacy.minimumAnnualPeriods, DEFAULT_QUALIFICATION_POLICY.adequacy.minimumAnnualPeriods);
     assert.equal(threshold.policy.adequacy.sufficientFieldCoveragePct, DEFAULT_QUALIFICATION_POLICY.adequacy.sufficientFieldCoveragePct);
     assert.equal(threshold.policy.freshness.pnlDays, DEFAULT_QUALIFICATION_POLICY.freshness.pnlDays);
   });
 
-  test('meeting the proposed threshold is a technical result with NO approval effect', () => {
+  test('meeting the ruleset is a per-dataset technical result, never an approval', () => {
     const qualification = qualify();
-    const application = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    const application = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
 
-    assert.equal(application.decision, 'MEETS_PROPOSED_THRESHOLD');
-    assert.equal(application.approvalStatus, 'PROPOSED_NOT_APPROVED');
-    assert.equal(application.approvalEffect, 'NONE');
-    assert.match(application.explanation, /approval effect NONE/);
+    assert.equal(application.decision, 'MEETS_THRESHOLD');
+    assert.ok(!('approvalStatus' in application), 'no approval axis exists on the application');
+    assert.match(application.explanation, /not θF and confers no approval/);
     assert.equal(application.evidenceDigest, qualification.evidenceDigest);
   });
 
   test('the threshold is configurable, and a configuration mismatch refuses to decide', () => {
     const stricter: QualificationThreshold = {
-      ...PROPOSED_QUALIFICATION_THRESHOLD,
+      ...DATASET_QUALIFICATION_THRESHOLD,
       thresholdId: 'W05-THF-TEST-STRICTER',
       policy: {
-        ...PROPOSED_QUALIFICATION_THRESHOLD.policy,
-        adequacy: { ...PROPOSED_QUALIFICATION_THRESHOLD.policy.adequacy, minimumAnnualPeriods: 5 },
+        ...DATASET_QUALIFICATION_THRESHOLD.policy,
+        adequacy: { ...DATASET_QUALIFICATION_THRESHOLD.policy.adequacy, minimumAnnualPeriods: 5 },
       },
     };
     const application = applyQualificationThreshold(qualify(), stricter, 'VALUATION_INPUT');
     assert.equal(application.decision, 'CONFIGURATION_MISMATCH');
-    assert.match(application.explanation, /re-run the qualification under the threshold configuration/);
+    assert.match(application.explanation, /re-run the qualification under the ruleset configuration/);
   });
 
   test('the application is reproducible and explainable', () => {
     const qualification = qualify();
-    const first = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'PRICE_SENSITIVE_ANALYSIS');
-    const second = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'PRICE_SENSITIVE_ANALYSIS');
+    const first = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'PRICE_SENSITIVE_ANALYSIS');
+    const second = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'PRICE_SENSITIVE_ANALYSIS');
     assert.deepEqual(first, second);
     for (const outcome of first.gateOutcomes) {
       assert.match(first.explanation, new RegExp(`${outcome.gate}=(PASS|FAIL)`));
     }
-    assert.equal(first.gateOutcomes.length, PROPOSED_QUALIFICATION_THRESHOLD.requiredGates.PRICE_SENSITIVE_ANALYSIS.length);
+    assert.equal(first.gateOutcomes.length, DATASET_QUALIFICATION_THRESHOLD.requiredGates.PRICE_SENSITIVE_ANALYSIS.length);
   });
 
   test('quarterly periods are identified and distinguished from annual periods', () => {
@@ -340,6 +347,70 @@ describe('W05 — the qualification-threshold mechanism is documented, testable 
     const expired = operatorAssertedRightsRecord(AS_OF_FRESH, {}, { expiry: '2026-01-01', reviewBy: 'operator' });
     assert.equal(expired.status, 'RESTRICTED');
     assert.match(expired.statusReason, /expired|review/i);
+
+    // Retention is verified ALONGSIDE entitlement: a fully entitled record with unverified
+    // retention fails closed on retention alone, and the two verdicts stay separately visible.
+    const unverifiedRetention = operatorAssertedRightsRecord(AS_OF_FRESH, { RETENTION: 'UNKNOWN' });
+    assert.equal(unverifiedRetention.status, 'UNKNOWN');
+    assert.equal(unverifiedRetention.entitlementStatus, 'ELIGIBLE_LOCAL_PERSONAL_USE');
+    assert.equal(unverifiedRetention.retentionStatus, 'UNKNOWN');
+    assert.match(unverifiedRetention.retentionReason, /retention fails closed/);
+  });
+});
+
+describe('W05 — θF is the portfolio-wide ratio that gates W20: not a per-dataset threshold, not a W05 condition', () => {
+  test('θF carries the roadmap semantics verbatim and asserts no value', () => {
+    assert.equal(THETA_F.semantics, 'PORTFOLIO_WIDE_RATIO');
+    assert.equal(THETA_F.gates, 'W20');
+    assert.equal(THETA_F.isW05Condition, false);
+    assert.equal(THETA_F.isPerDatasetQualificationThreshold, false);
+    assert.equal(THETA_F.assertionStatus, 'NO_DEFENSIBLE_VALUE_ASSERTED');
+    assert.equal(THETA_F.value, null, 'no defensible value can yet be asserted, so none is asserted');
+    assert.equal(THETA_F.settingRule, 'SET_FROM_OBSERVED_EVIDENCE_UNDER_THE_STANDING_GRANT');
+    assert.match(THETA_F.note, /not a per-dataset qualification threshold/);
+    assert.match(THETA_F.note, /not a W05 condition/);
+    assert.match(THETA_F.note, /No product-owner approval dependency/);
+  });
+
+  test('the W20 gate fails closed while no defensible θF value is asserted', () => {
+    const ratio = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 3, totalHoldings: 64 });
+    const gate = evaluateW20Gate(ratio);
+    assert.equal(gate.open, false);
+    assert.equal(gate.thetaFAssertionStatus, 'NO_DEFENSIBLE_VALUE_ASSERTED');
+    assert.match(gate.reason, /no defensible θF value can yet be asserted/);
+    assert.match(gate.reason, /fail closed/);
+  });
+
+  test('a holding contributes to the financial ratio only if its own identity passes', () => {
+    // 64 holdings (the W04 revision-1 denominator), one identity-passed holding with data:
+    // the numerator is therefore at most one — exactly the roadmap rule.
+    const ratio = financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 1, totalHoldings: 64 });
+    assert.equal(ratio.numerator, 1);
+    assert.equal(ratio.denominator, 64);
+    assert.equal(ratio.percent, 1.6);
+    assert.match(ratio.numeratorRule, /only if its own identity passes/);
+    assert.throws(
+      () => financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 2, totalHoldings: 64 }),
+      /only if its own identity passes/,
+      'inputs violating the identity rule are refused, never silently clamped',
+    );
+    const none = financialRatio({ identityPassedHoldings: 0, holdingsWithFinancialData: 0, totalHoldings: 64 });
+    assert.equal(none.percent, 0);
+  });
+
+  test('the gate mechanism itself is testable once θF is asserted from observed evidence (synthetic values only)', () => {
+    // Mechanism check with synthetic numbers — NOT an asserted θF value and not a claim: the
+    // authoritative position remains "no defensible value can yet be asserted".
+    const syntheticAsserted = {
+      ...THETA_F,
+      assertionStatus: 'ASSERTED_FROM_OBSERVED_EVIDENCE' as const,
+      value: 50,
+    };
+    const reaching = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 2, totalHoldings: 4 });
+    assert.equal(evaluateW20Gate(reaching, syntheticAsserted).open, true);
+    const below = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 1, totalHoldings: 4 });
+    assert.equal(evaluateW20Gate(below, syntheticAsserted).open, false);
+    assert.equal(THETA_F.value, null, 'the exported θF record itself asserts no value');
   });
 });
 
@@ -353,6 +424,12 @@ describe('W05 — required operating-metric completeness is assessed, not assume
     const qualification = qualify({ operatingMetrics: incompleteMetrics });
 
     assert.equal(qualification.metricCompleteness.sectorDeterminable, true);
+    assert.equal(
+      qualification.metricCompleteness.requiredSetStatus,
+      'PROVISIONAL_PENDING_W10',
+      'the required-metric SET is provisional pending W10 and is never presented as settled',
+    );
+    assert.match(qualification.metricCompleteness.note, /provisional pending W10/);
     assert.deepEqual(qualification.metricCompleteness.missingMetricIds, [dropped]);
     assert.equal(qualification.metricCompleteness.reportedMetricIds.length, required.length - 1);
     assert.match(qualification.metricCompleteness.note, new RegExp(dropped));
@@ -360,11 +437,11 @@ describe('W05 — required operating-metric completeness is assessed, not assume
     assert.equal(gate.passed, false);
 
     // It is consequential WHERE REQUIRED: valuation input is refused; statement analysis is not.
-    const valuation = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
-    assert.equal(valuation.decision, 'BELOW_PROPOSED_THRESHOLD');
+    const valuation = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'VALUATION_INPUT');
+    assert.equal(valuation.decision, 'BELOW_THRESHOLD');
     assert.ok(valuation.failedGates.includes('REQUIRED_METRICS_PRESENT'));
-    const statements = applyQualificationThreshold(qualification, PROPOSED_QUALIFICATION_THRESHOLD, 'STATEMENT_ANALYSIS');
-    assert.equal(statements.decision, 'MEETS_PROPOSED_THRESHOLD');
+    const statements = applyQualificationThreshold(qualification, DATASET_QUALIFICATION_THRESHOLD, 'STATEMENT_ANALYSIS');
+    assert.equal(statements.decision, 'MEETS_THRESHOLD');
   });
 
   test('a nil disclosure or reported zero is a report — missing stays distinct', () => {

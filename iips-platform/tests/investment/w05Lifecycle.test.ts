@@ -183,7 +183,8 @@ describe('W05-A — test 2: missing datasets never block portfolio creation or u
     assert.equal(report.coveragePercentages[0]!.percent, 0);
     const rendered = renderLifecycleSummary(report);
     assert.match(rendered, /3 total, 3 eligible/);
-    assert.match(rendered, /PROPOSED_NOT_APPROVED/);
+    assert.match(rendered, /NO_DEFENSIBLE_VALUE_ASSERTED/);
+    assert.match(rendered, /W20 gate: CLOSED/);
   });
 });
 
@@ -224,7 +225,7 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     assert.equal(byQualified!.basis, 'DISTINCT_ISSUERS');
     assert.equal(byQualified!.numerator, 1);
     assert.equal(byQualified!.denominator, 3);
-    assert.match(byQualified!.excludes, /proposed, not approved/);
+    assert.match(byQualified!.excludes, /per-dataset technical mechanism/);
 
     assert.equal(byHolding!.basis, 'ELIGIBLE_HOLDINGS');
     assert.equal(byHolding!.numerator, 2, 'the two Aarav holdings share one suitable dataset');
@@ -248,6 +249,75 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     assert.notEqual(report.unresolved[0]!.state, 'RESOLVED');
     assert.ok(report.unresolved[0]!.reason !== null, 'the unresolved case names its reason');
     assert.equal(report.unresolved[0]!.portfolioRevision, 'rev-9');
+  });
+
+  test('coverage is reported by sector and by acquisition method alongside the by-issuer figures', () => {
+    const observations = [
+      holding('H-001', 'portfolio-one', ISSUER_A),
+      holding('H-002', 'portfolio-one', ISSUER_A),
+      holding('H-003', 'portfolio-one', ISSUER_B),
+      unresolvedHolding('H-006', 'portfolio-one'),
+    ];
+
+    const result = lifecycle({
+      portfolios: [{ portfolioId: 'portfolio-one', portfolioRevision: 'rev-9' }],
+      observations,
+      datasets: [suitableEntry([ISSUER_A], { datasetVersion: 'sha256:eeee000000000000000000000000000000000000000000000000000000000000' })],
+    });
+    const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
+
+    // By sector: the provisioned issuer's recorded sector; the unprovisioned issuer is UNSPECIFIED.
+    const technology = report.coverageBySector.find((entry) => entry.key === 'Technology')!;
+    assert.equal(technology.basis, 'SECTOR');
+    assert.equal(technology.issuers, 1);
+    assert.equal(technology.holdings, 2);
+    assert.equal(technology.holdingsWithFinancialData, 2);
+    assert.equal(technology.percent, 100);
+    const unspecified = report.coverageBySector.find((entry) => entry.key === 'UNSPECIFIED')!;
+    assert.equal(unspecified.issuers, 1);
+    assert.equal(unspecified.holdingsWithFinancialData, 0);
+
+    // By acquisition method: the recorded method of the provisioned dataset; NOT_PROVISIONED for the rest.
+    const provisioned = report.coverageByAcquisitionMethod.find((entry) => entry.key === 'SYNTHETIC_GENERATION')!;
+    assert.equal(provisioned.basis, 'ACQUISITION_METHOD');
+    assert.equal(provisioned.holdings, 2);
+    assert.equal(provisioned.holdingsWithFinancialData, 2);
+    const notProvisioned = report.coverageByAcquisitionMethod.find((entry) => entry.key === 'NOT_PROVISIONED')!;
+    assert.equal(notProvisioned.holdings, 1);
+    assert.equal(notProvisioned.holdingsWithFinancialData, 0);
+
+    // Dimension entries cover identity-passed holdings only — the unresolved holding is itemised.
+    const dimensionHoldings = report.coverageBySector.reduce((total, entry) => total + entry.holdings, 0);
+    assert.equal(dimensionHoldings, 3, 'the unresolved holding is outside every dimension entry and named under `unresolved`');
+  });
+
+  test('the financial ratio is identity-gated and θF rides on the report without a W05 condition', () => {
+    const observations = [
+      holding('H-001', 'portfolio-one', ISSUER_A),
+      holding('H-002', 'portfolio-one', ISSUER_A),
+      holding('H-003', 'portfolio-one', ISSUER_B),
+      unresolvedHolding('H-006', 'portfolio-one'),
+    ];
+
+    const result = lifecycle({
+      portfolios: [{ portfolioId: 'portfolio-one', portfolioRevision: 'rev-9' }],
+      observations,
+      datasets: [suitableEntry([ISSUER_A], { datasetVersion: 'sha256:eeee000000000000000000000000000000000000000000000000000000000000' })],
+    });
+    const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
+
+    assert.equal(report.financialRatio.numerator, 2, 'only identity-passed holdings served by a suitable dataset contribute');
+    assert.equal(report.financialRatio.denominator, 4, 'the denominator is the portfolio holding count');
+    assert.equal(report.financialRatio.identityPassedHoldings, 3);
+    assert.equal(report.financialRatio.percent, 50);
+    assert.match(report.financialRatio.numeratorRule, /only if its own identity passes/);
+
+    assert.equal(report.thetaF.semantics, 'PORTFOLIO_WIDE_RATIO');
+    assert.equal(report.thetaF.gates, 'W20');
+    assert.equal(report.thetaF.isW05Condition, false, 'θF is not a W05 condition');
+    assert.equal(report.thetaF.isPerDatasetQualificationThreshold, false);
+    assert.equal(report.thetaF.assertionStatus, 'NO_DEFENSIBLE_VALUE_ASSERTED');
+    assert.equal(report.thetaF.w20GateOpen, false, 'the W20 gate fails closed');
   });
 });
 

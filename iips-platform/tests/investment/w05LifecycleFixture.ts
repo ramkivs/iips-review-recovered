@@ -161,7 +161,8 @@ export function metricRecord(
 
 /**
  * A report (present value) for every metric the governed method matrix requires for the sector —
- * the requirement set is `sectorRequirements`', reused, never re-invented.
+ * the requirement set is `sectorRequirements`', reused, never re-invented, and PROVISIONAL pending
+ * W10 (W10 is not established; the set must not be presented as settled).
  */
 export function completeMetrics(
   issuerId: string,

@@ -24,6 +24,10 @@
  * `NOT_AUTHORISED`, exactly as `AuthorizationReference.redistribution` is. Recording an evidence
  * claim is not authorising a use.
  *
+ * RETENTION IS VERIFIED ALONGSIDE ENTITLEMENT (authoritative roadmap reconciliation 2026-11-17).
+ * The record derives an entitlement verdict and a retention verdict separately — each fail closed —
+ * and combines them by fail-closed worst-of; retention is never assumed from entitlement.
+ *
  * SOURCE DOCUMENTS STAY OUT OF THE REPOSITORY. `evidenceRefs` and `documentReference` hold
  * references, digests and metadata only — never filing text. This mirrors the W05 source-rights and
  * repository-exposure assessment: permitted metadata and digests may be committed; source documents
@@ -123,6 +127,17 @@ export interface DatasetRightsRecord {
   readonly status: RightsStatus;
   /** Why the status is what it is. Always populated. */
   readonly statusReason: string;
+  /**
+   * Retention is VERIFIED ALONGSIDE entitlement (authoritative roadmap reconciliation 2026-11-17),
+   * not folded into one undifferentiated verdict: the two verdicts are derived separately, each
+   * fail closed, and the combined `status` above is the fail-closed worst of both. Entitlement
+   * covers acquisition/storage/processing/analysis/display; retention covers the RETENTION purpose
+   * and the expiry/review window.
+   */
+  readonly entitlementStatus: RightsStatus;
+  readonly entitlementReason: string;
+  readonly retentionStatus: RightsStatus;
+  readonly retentionReason: string;
   /**
    * Closed constant. This mechanism never claims to have verified a third party's terms, matching
    * `AuthorizationReference.independentSourceRightsVerification`.
@@ -253,7 +268,12 @@ export function buildRightsRecord(input: RightsRecordInput, asOf: string): Datas
     throw new RightsRecordError('MALFORMED_EVIDENCE', `restrictions.expiry must be an ISO calendar date or null, got "${String(restrictions.expiry)}"`);
   }
 
-  const { status, statusReason } = deriveStatus(manifestRights, permissions as PurposePermissions, restrictions, asOf);
+  const { status, statusReason, entitlementStatus, entitlementReason, retentionStatus, retentionReason } = deriveStatuses(
+    manifestRights,
+    permissions as PurposePermissions,
+    restrictions,
+    asOf,
+  );
 
   return {
     manifestRights,
@@ -264,12 +284,20 @@ export function buildRightsRecord(input: RightsRecordInput, asOf: string): Datas
     restrictions,
     status,
     statusReason,
+    entitlementStatus,
+    entitlementReason,
+    retentionStatus,
+    retentionReason,
     independentSourceRightsVerification: 'NOT_CLAIMED',
     redistributionAuthorisation: 'NOT_AUTHORISED',
   };
 }
 
-/** The purposes local personal analysis needs. Redistribution is deliberately NOT among them. */
+/**
+ * The purposes local personal analysis needs. Redistribution is deliberately NOT among them.
+ * Entitlement (acquisition/storage/processing/analysis/display) and retention are derived
+ * SEPARATELY below — retention is verified alongside entitlement, never assumed from it.
+ */
 const LOCAL_USE_PURPOSES: readonly RightsPurpose[] = Object.freeze([
   'ACQUISITION',
   'LOCAL_STORAGE',
@@ -279,32 +307,103 @@ const LOCAL_USE_PURPOSES: readonly RightsPurpose[] = Object.freeze([
   'RETENTION',
 ]);
 
-function deriveStatus(
+/** Entitlement purposes: what may be DONE with the material. Retention is verified separately. */
+const ENTITLEMENT_PURPOSES: readonly RightsPurpose[] = Object.freeze([
+  'ACQUISITION',
+  'LOCAL_STORAGE',
+  'PROCESSING',
+  'ANALYSIS',
+  'DISPLAY',
+]);
+
+interface DerivedStatuses {
+  status: RightsStatus;
+  statusReason: string;
+  entitlementStatus: RightsStatus;
+  entitlementReason: string;
+  retentionStatus: RightsStatus;
+  retentionReason: string;
+}
+
+/**
+ * Derive the combined status AND the two verdicts the roadmap requires side by side: entitlement
+ * and retention, each fail closed. The combined status is the fail-closed worst of both verdicts
+ * and of the manifest declaration; its reason strings are the accepted wording.
+ */
+function deriveStatuses(
   manifestRights: SourceRightsDeclaration,
   permissions: PurposePermissions,
   restrictions: RightsRestrictions,
   asOf: string,
-): { status: RightsStatus; statusReason: string } {
+): DerivedStatuses {
   if (manifestRights.state === 'UNKNOWN') {
     return {
       status: 'UNKNOWN',
       statusReason: 'the dataset carries no source-rights declaration; an absent declaration is UNKNOWN, and nothing is not permission',
+      entitlementStatus: 'UNKNOWN',
+      entitlementReason: 'the dataset carries no source-rights declaration; entitlement fails closed and nothing is not permission',
+      retentionStatus: 'UNKNOWN',
+      retentionReason: 'the dataset carries no source-rights declaration; retention fails closed and nothing is not permission',
     };
   }
 
   const unknownPurposes = LOCAL_USE_PURPOSES.filter((purpose) => permissions[purpose] === 'UNKNOWN');
+  const deniedPurposes = LOCAL_USE_PURPOSES.filter((purpose) => permissions[purpose] === 'NOT_PERMITTED');
+
+  // Entitlement verdict: the non-retention local-use purposes only.
+  const entitlementUnknown = ENTITLEMENT_PURPOSES.filter((purpose) => permissions[purpose] === 'UNKNOWN');
+  const entitlementDenied = ENTITLEMENT_PURPOSES.filter((purpose) => permissions[purpose] === 'NOT_PERMITTED');
+  let entitlementStatus: RightsStatus;
+  let entitlementReason: string;
+  if (entitlementUnknown.length > 0) {
+    entitlementStatus = 'UNKNOWN';
+    entitlementReason = `entitlement fails closed: no recorded permission for ${entitlementUnknown.join(', ')}`;
+  } else if (entitlementDenied.length > 0) {
+    entitlementStatus = 'RESTRICTED';
+    entitlementReason = `entitlement is restricted: ${entitlementDenied.join(', ')} explicitly not permitted`;
+  } else {
+    entitlementStatus = 'ELIGIBLE_LOCAL_PERSONAL_USE';
+    entitlementReason = `the ${manifestRights.state} declaration and the recorded per-purpose permissions support local personal use; redistribution is never authorised`;
+  }
+
+  // Retention verdict: the RETENTION purpose and the expiry/review window, verified alongside
+  // entitlement and never inferred from it.
+  let retentionStatus: RightsStatus;
+  let retentionReason: string;
+  if (permissions.RETENTION === 'UNKNOWN') {
+    retentionStatus = 'UNKNOWN';
+    retentionReason = 'retention fails closed: no recorded RETENTION permission';
+  } else if (permissions.RETENTION === 'NOT_PERMITTED') {
+    retentionStatus = 'RESTRICTED';
+    retentionReason = 'retention is restricted: RETENTION explicitly not permitted';
+  } else if (restrictions.expiry !== null && restrictions.expiry <= asOf) {
+    retentionStatus = 'RESTRICTED';
+    retentionReason = `retention expired or fell due for review on ${restrictions.expiry}${restrictions.reviewBy === null ? '' : ` (review by ${restrictions.reviewBy})`}`;
+  } else {
+    retentionStatus = 'ELIGIBLE_LOCAL_PERSONAL_USE';
+    retentionReason = `retention is permitted under the recorded RETENTION permission${restrictions.expiry === null ? ' with no recorded expiry' : ` until ${restrictions.expiry}${restrictions.reviewBy === null ? '' : ` (review by ${restrictions.reviewBy})`}`}`;
+  }
+
+  // Combined status: the fail-closed worst of both verdicts, with the accepted wording preserved.
   if (unknownPurposes.length > 0) {
     return {
       status: 'UNKNOWN',
       statusReason: `rights fail closed: no recorded permission for ${unknownPurposes.join(', ')}`,
+      entitlementStatus,
+      entitlementReason,
+      retentionStatus,
+      retentionReason,
     };
   }
 
-  const deniedPurposes = LOCAL_USE_PURPOSES.filter((purpose) => permissions[purpose] === 'NOT_PERMITTED');
   if (deniedPurposes.length > 0) {
     return {
       status: 'RESTRICTED',
       statusReason: `use is restricted: ${deniedPurposes.join(', ')} explicitly not permitted`,
+      entitlementStatus,
+      entitlementReason,
+      retentionStatus,
+      retentionReason,
     };
   }
 
@@ -312,12 +411,20 @@ function deriveStatus(
     return {
       status: 'RESTRICTED',
       statusReason: `the recorded permission expired or fell due for review on ${restrictions.expiry}${restrictions.reviewBy === null ? '' : ` (review by ${restrictions.reviewBy})`}`,
+      entitlementStatus,
+      entitlementReason,
+      retentionStatus,
+      retentionReason,
     };
   }
 
   return {
     status: 'ELIGIBLE_LOCAL_PERSONAL_USE',
     statusReason: `the ${manifestRights.state} declaration and the recorded per-purpose permissions support local personal use only; redistribution is never authorised`,
+    entitlementStatus,
+    entitlementReason,
+    retentionStatus,
+    retentionReason,
   };
 }
 
