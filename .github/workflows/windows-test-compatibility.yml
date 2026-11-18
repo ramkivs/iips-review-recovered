@@ -255,81 +255,135 @@ jobs:
       # ---------------------------------------------------------------- Issue A
       # Each group writes its own Vitest JSON summary and is guarded by the repository's own
       # zero-test/false-green assert, so a group that collected nothing cannot pass silently.
+      # Each affected group is reported independently: `continue-on-error` keeps a failure in one
+      # group from hiding the result of the others (an earlier run skipped Issue C entirely because
+      # Issue B failed). The job is still failed at the end by the gate step below whenever any
+      # group did not pass, and .ci/assert-tests.js still catches the zero-test/false-green class.
       - name: 'Issue A — SQLite resource lifecycle (temporary stores must be deletable)'
+        id: vitest-sqlite
+        continue-on-error: true
         run: |
+          set +e
           npx vitest run \
-            --reporter=default --reporter=json --outputFile.json=.vitest-windows-sqlite.json \
+            --reporter=default --reporter=json --outputFile.json=vitest-windows-sqlite.json \
             server/reports/persistence-port.test.ts \
             server/reports-transport.test.ts \
             server/investment/disposition-transport.test.ts \
             server/investment/investment-transport.test.ts \
             server/investment/cli/generate-investment-artifacts.test.ts \
             server/investment/iidStage4S4R1Scenarios.test.ts
-          node .ci/assert-tests.js .vitest-windows-sqlite.json
+          status=$?
+          set -e
+          node .ci/assert-tests.js vitest-windows-sqlite.json || status=1
+          exit "$status"
 
       # ---------------------------------------------------------------- Issue B
       - name: 'Issue B — local IPC endpoints (named pipe on Windows, unix socket on POSIX)'
+        id: vitest-ipc
+        continue-on-error: true
         run: |
+          set +e
           npx vitest run \
-            --reporter=default --reporter=json --outputFile.json=.vitest-windows-ipc.json \
+            --reporter=default --reporter=json --outputFile.json=vitest-windows-ipc.json \
             server/user-portfolio/testing/localIpcEndpoint.test.ts \
             server/user-portfolio/capture/testing/syntheticIpcPeer.test.ts \
             server/user-portfolio/ipcClient.test.ts \
             server/user-portfolio/userPortfolioDirectP1Integration.test.ts \
             server/user-portfolio/capture/ownerBoundPortfolioCapture.test.ts \
             server/user-portfolio/capture/captureOwnerBoundPortfolioCli.test.ts
-          node .ci/assert-tests.js .vitest-windows-ipc.json
+          status=$?
+          set -e
+          node .ci/assert-tests.js vitest-windows-ipc.json || status=1
+          exit "$status"
 
       # ---------------------------------------------------------------- Issue C
       - name: 'Issue C — separate-process restart proof (portable child invocation)'
+        id: vitest-child
+        continue-on-error: true
         run: |
+          set +e
           npx vitest run \
-            --reporter=default --reporter=json --outputFile.json=.vitest-windows-child.json \
+            --reporter=default --reporter=json --outputFile.json=vitest-windows-child.json \
             server/broker-import/brokerImportEvidenceRestart.test.ts
-          node .ci/assert-tests.js .vitest-windows-child.json
+          status=$?
+          set -e
+          node .ci/assert-tests.js vitest-windows-child.json || status=1
+          exit "$status"
 
+      # The job log is served from blob storage that a review environment may not be able to fetch,
+      # so a failing Windows run has to be diagnosable from the API alone: per-test failures are
+      # emitted as bounded single-line annotations (folded, %-escaped, never more than a fixed
+      # number per group) alongside the step summary table.
       - name: Summarize the Windows run
         if: ${{ !cancelled() }}
         run: |
           node --input-type=module -e "
             import { appendFileSync, readFileSync } from 'node:fs';
             const groups = [
-              ['SQLite resource lifecycle', '.vitest-windows-sqlite.json'],
-              ['Local IPC endpoints', '.vitest-windows-ipc.json'],
-              ['Child-process restart', '.vitest-windows-child.json'],
+              ['SQLite resource lifecycle', 'vitest-windows-sqlite.json'],
+              ['Local IPC endpoints', 'vitest-windows-ipc.json'],
+              ['Child-process restart', 'vitest-windows-child.json'],
             ];
-            const lines = ['### Windows focused compatibility', '', '| Group | Total | Passed | Failed | Skipped | Files |', '|---|---|---|---|---|---|'];
+            const fold = (text, max) => String(text ?? '')
+              .replace(/[\r\n]+/g, ' | ').replace(/%/g, '%25').slice(0, max);
+            const lines = ['### Windows focused compatibility', '',
+              '| Group | Files | Total | Passed | Failed | Skipped |', '|---|---|---|---|---|---|'];
             for (const [label, file] of groups) {
               let summary;
               try { summary = JSON.parse(readFileSync(file, 'utf8')); }
-              catch { lines.push('| ' + label + ' | report missing | | | | |'); continue; }
-              lines.push('| ' + label + ' | ' + summary.numTotalTests + ' | ' + summary.numPassedTests + ' | ' + summary.numFailedTests + ' | ' + (summary.numPendingTests ?? 0) + ' | ' + summary.numTotalTestSuites + ' |');
+              catch {
+                lines.push('| ' + label + ' | report missing | | | | |');
+                console.log('::error title=Windows ' + fold(label, 40) + '::no Vitest summary was produced');
+                continue;
+              }
+              lines.push('| ' + label + ' | ' + summary.numTotalTestSuites + ' | ' + summary.numTotalTests
+                + ' | ' + summary.numPassedTests + ' | ' + summary.numFailedTests
+                + ' | ' + (summary.numPendingTests ?? 0) + ' |');
+              console.log('::notice title=Windows ' + fold(label, 40)
+                + '::files=' + summary.numTotalTestSuites + ' total=' + summary.numTotalTests
+                + ' passed=' + summary.numPassedTests + ' failed=' + summary.numFailedTests
+                + ' skipped=' + (summary.numPendingTests ?? 0) + ' success=' + summary.success);
+              let shown = 0;
+              for (const file of summary.testResults ?? []) {
+                for (const test of file.assertionResults ?? []) {
+                  if (test.status === 'passed') continue;
+                  if (shown >= 12) continue;
+                  shown += 1;
+                  console.log('::error title=Windows ' + fold(label, 40) + ' failure ' + shown
+                    + '::' + fold(test.fullName ?? test.title, 160) + ' [' + fold(test.status, 12) + '] '
+                    + fold((test.failureMessages ?? []).join(' // '), 600));
+                }
+              }
+              if (shown >= 12) console.log('::error title=Windows ' + fold(label, 40)
+                + '::further failures omitted; see the uploaded Vitest summary');
             }
             appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
             console.log(lines.join('\n'));
-            // Annotations as well as the step summary: the job log itself is served from blob
-            // storage, which a review environment may not be able to fetch.
-            for (const [label, file] of groups) {
-              let summary;
-              try { summary = JSON.parse(readFileSync(file, 'utf8')); }
-              catch { console.log('::error title=Windows ' + label + '::no Vitest summary was produced'); continue; }
-              console.log('::notice title=Windows ' + label + '::files=' + summary.numTotalTestSuites
-                + ' total=' + summary.numTotalTests + ' passed=' + summary.numPassedTests
-                + ' failed=' + summary.numFailedTests + ' skipped=' + (summary.numPendingTests ?? 0)
-                + ' success=' + summary.success);
-            }
           "
 
+      # Generated, never committed (same class as frontend/.vitest-report.json). Named without a
+      # leading dot because actions/upload-artifact ignores hidden files.
       - name: Upload the Windows Vitest summaries
-        # Only when the groups actually ran: uploading nothing is not evidence, and a second
-        # failure here would only obscure the failure that caused it.
-        if: ${{ !cancelled() && hashFiles('frontend/.vitest-windows-*.json') != '' }}
+        if: ${{ !cancelled() && hashFiles('frontend/vitest-windows-*.json') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: windows-focused-vitest-summaries-${{ github.run_id }}
           path: |
-            frontend/.vitest-windows-sqlite.json
-            frontend/.vitest-windows-ipc.json
-            frontend/.vitest-windows-child.json
+            frontend/vitest-windows-sqlite.json
+            frontend/vitest-windows-ipc.json
+            frontend/vitest-windows-child.json
           if-no-files-found: error
           retention-days: 14
+
+      - name: Require every affected group to have passed
+        if: ${{ !cancelled() }}
+        run: |
+          sqlite='${{ steps.vitest-sqlite.outcome }}'
+          ipc='${{ steps.vitest-ipc.outcome }}'
+          child='${{ steps.vitest-child.outcome }}'
+          echo "group outcomes: sqlite=$sqlite ipc=$ipc child=$child"
+          if [ "$sqlite" != success ] || [ "$ipc" != success ] || [ "$child" != success ]; then
+            echo "::error title=windows focused compatibility::at least one affected group did not pass on Windows"
+            exit 1
+          fi
+          echo 'All three affected groups passed on the Windows runner.'

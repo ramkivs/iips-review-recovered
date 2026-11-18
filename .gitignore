@@ -153,6 +153,11 @@ vite.config.ts.timestamp-*
 .iips-data/
 # CI: Vitest JSON summary consumed by .github/workflows/ci.yml (CV-42); generated, never committed
 frontend/.vitest-report.json
+# CI: per-group Vitest summaries consumed by windows-test-compatibility.yml; generated, never
+# committed. Named without a leading dot because actions/upload-artifact ignores hidden files.
+frontend/vitest-windows-sqlite.json
+frontend/vitest-windows-ipc.json
+frontend/vitest-windows-child.json
 
 # Python bytecode from the evidence generators
 __pycache__/
