@@ -153,8 +153,8 @@ jobs:
       # storage that a review environment may not be able to reach, annotations are not. This step
       # reports the platform facts, the URL rewrite rules actually in force (never a credential)
       # and the tail of the install output, then fails the job.
-      - name: Report an install failure as annotations
-        if: ${{ steps.npm-ci.outcome != 'success' }}
+      - name: Diagnose the install (always; fails the job only when the install did)
+        if: ${{ always() }}
         env:
           GIT_TERMINAL_PROMPT: '0'
           GCM_INTERACTIVE: 'never'
@@ -170,54 +170,45 @@ jobs:
           GIT_CONFIG_KEY_4: credential.helper
           GIT_CONFIG_VALUE_4: ''
         run: |
-          # The runner's bash is errexit: every probe below is allowed to fail, because a failed
-          # probe is exactly what is being reported. (An earlier revision of this step died on its
-          # own first failing probe and reported nothing.)
+          # Job logs are served from blob storage that a review environment may not be able to
+          # fetch, and a long stream of one-line annotations gets truncated. So the diagnosis is
+          # emitted as a SMALL NUMBER OF SINGLE-LINE annotations, each self-contained, with
+          # newlines folded to '|' and '%' escaped as the workflow-command syntax requires.
+          # Nothing here may abort the step before it has reported: errexit is off and every
+          # command tolerates failure.
           set +e
           IPD_HTTPS='https://github.com/ramkivs/iips-production-market-data.git'
-          DIAG="$RUNNER_TEMP/install-diagnosis.txt"
-          : > "$DIAG"
+          fold () { tr -d '\r' | tr '\n' '|' | sed -e 's/%/%25/g' -e 's/AUTHORIZATION: basic [A-Za-z0-9+/=]*/AUTHORIZATION: basic REDACTED/g'; }
 
-          probe () {
-            label="$1"; shift
-            "$@" >"$RUNNER_TEMP/probe.out" 2>"$RUNNER_TEMP/probe.err"
-            status=$?
-            reason="$(tail -n 4 "$RUNNER_TEMP/probe.err" | tr '\n' ' ')"
-            {
-              echo "  ${label}: exit ${status}"
-              [ -n "$reason" ] && echo "    stderr: ${reason}"
-            } >> "$DIAG"
-          }
+          outcome='${{ steps.npm-ci.outcome }}'
+          echo "::notice title=windows install outcome::npm ci outcome=${outcome} | git=$(git --version 2>&1 | fold) | npm=$(npm --version 2>&1 | fold) | node=$(node --version 2>&1 | fold)"
 
-          {
-            echo "git: $(git --version 2>&1)"
-            echo "npm: $(npm --version 2>&1) | node: $(node --version 2>&1)"
-            echo "url rewrites in force:"
-            git config --get-regexp '^url\.' 2>&1 | sed 's/^/  /'
-            echo "credential configuration visible to git (no values are secrets here):"
-            git config --show-origin --get-regexp '^credential' 2>&1 | sed 's/^/  /'
-            echo "IPD authorization header configured: $(git config --get-regexp '^http\..*extraheader$' >/dev/null 2>&1 && echo yes || echo no)"
-            echo "probes of the private repository over HTTPS:"
-          } >> "$DIAG" 2>&1
+          if [ "$outcome" = "success" ]; then
+            echo '::notice title=windows install::dependencies installed from the committed lockfile on Windows'
+            exit 0
+          fi
 
-          probe 'ls-remote (this step env)' git ls-remote --heads "$IPD_HTTPS"
-          probe 'ls-remote (helper cleared on the command line)' git -c credential.helper= ls-remote --heads "$IPD_HTTPS"
-          probe 'ls-remote (no system config)' env GIT_CONFIG_NOSYSTEM=1 git ls-remote --heads "$IPD_HTTPS"
+          cfg="$(git config --show-origin --get-regexp '^(url|http|credential)\.' 2>&1 | fold)"
+          echo "::error title=windows git config in force::${cfg}"
+
+          tail_install="$(tail -n 30 "$RUNNER_TEMP/npm-ci.log" 2>&1 | fold)"
+          echo "::error title=windows npm ci output tail::${tail_install}"
+
+          git ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/p1.out" 2>"$RUNNER_TEMP/p1.err"
+          p1=$?
+          git -c credential.helper= ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/p2.out" 2>"$RUNNER_TEMP/p2.err"
+          p2=$?
+          GIT_CONFIG_NOSYSTEM=1 git ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/p3.out" 2>"$RUNNER_TEMP/p3.err"
+          p3=$?
+          echo "::error title=windows private-repo probes::step-env exit=${p1} stderr=$(tail -n 3 "$RUNNER_TEMP/p1.err" 2>&1 | fold) // helper-cleared exit=${p2} stderr=$(tail -n 3 "$RUNNER_TEMP/p2.err" 2>&1 | fold) // no-system-config exit=${p3} stderr=$(tail -n 3 "$RUNNER_TEMP/p3.err" 2>&1 | fold)"
 
           GIT_CURL_VERBOSE=1 git ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/verbose.out" 2>&1
-          {
-            echo "HTTP status lines from a verbose attempt:"
-            grep -E '^< HTTP|^< WWW-Authenticate' "$RUNNER_TEMP/verbose.out" 2>/dev/null | sed 's/^/  /'
-            grep -iE 'fatal|error|denied|Could not read' "$RUNNER_TEMP/verbose.out" 2>/dev/null | head -n 6 | sed 's/^/  /'
-            echo "npm ci output (last 40 lines):"
-          } >> "$DIAG" 2>&1
-          tail -n 40 "$RUNNER_TEMP/npm-ci.log" 2>/dev/null | sed 's/^/  /' >> "$DIAG"
+          http_lines="$(grep -E '^< HTTP|^< WWW-Authenticate|^\* (Connected|ALPN)' "$RUNNER_TEMP/verbose.out" 2>/dev/null | head -n 8 | fold)"
+          fatal_lines="$(grep -iE 'fatal|could not read|denied|invalid username or password|terminal prompts' "$RUNNER_TEMP/verbose.out" 2>/dev/null | head -n 6 | fold)"
+          echo "::error title=windows verbose git attempt::http=${http_lines} // fatal=${fatal_lines}"
 
-          echo "::error title=windows install::npm ci failed on the Windows runner; the diagnosis follows as annotations"
-          head -n 70 "$DIAG" | while IFS= read -r line; do
-            # Authorization material is masked by the runner, and no probe prints it deliberately.
-            echo "::error title=windows install detail::${line}"
-          done
+          # The job must fail when the install did: a compatibility run with no dependencies
+          # installed has verified nothing, and reporting that as a pass would be a false green.
           exit 1
 
       - name: Verify all private dependencies resolve to their committed pins
@@ -297,7 +288,9 @@ jobs:
           "
 
       - name: Upload the Windows Vitest summaries
-        if: ${{ !cancelled() }}
+        # Only when the groups actually ran: uploading nothing is not evidence, and a second
+        # failure here would only obscure the failure that caused it.
+        if: ${{ !cancelled() && hashFiles('frontend/.vitest-windows-*.json') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: windows-focused-vitest-summaries-${{ github.run_id }}
