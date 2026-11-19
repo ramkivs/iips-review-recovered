@@ -28,6 +28,7 @@ import {
   loadAuthoritativeNp04Persistence,
   NP04_BOUNDARY,
   NP04_DATABASE_PATH_ENV,
+  openNp04Persistence,
   PersistenceBoundaryError,
 } from './persistence-port';
 import { adaptNp04Store, resolveAuthoritativeNp04Port } from './np04-adapter';
@@ -180,15 +181,27 @@ describe('five-operation contract against the real governed store', () => {
   });
 
   it('resolves the admitted port through the runtime resolver when configured', async () => {
-    process.env[NP04_DATABASE_PATH_ENV] = path.join(tempDir(), 'reports-resolver.db');
+    const dir = tempDir();
+    process.env[NP04_DATABASE_PATH_ENV] = path.join(dir, 'reports-resolver.db');
     // `G-11` hardening: a resolver call that must BRING A STORE INTO EXISTENCE states INITIALISE.
     // The same call with READ fails closed on this absent path (see persistence-port.test.ts).
-    const port = await loadAuthoritativeNp04Persistence('INITIALISE');
-    expect(port).not.toBeNull();
-    const binding = new ReportsPersistence(port);
-    const created = binding.persistNew(OWNER_A, inputFor(11));
-    expect(binding.resolve(OWNER_A, created.reportId).reportKey).toBe(
-      composeReportContent(inputFor(11)).reportKey,
-    );
+    //
+    // Ownership here is explicit and request-scoped: the handle this resolution opens is released
+    // in the `finally` below, BEFORE the afterEach hook removes `dir`. On Windows an UNRELEASED
+    // handle makes reports-resolver.db — and its directory — undeletable with EBUSY, which is the
+    // failure this case used to reproduce; deterministic disposal is what makes the teardown correct
+    // rather than only accidentally green on POSIX.
+    const scope = await openNp04Persistence('INITIALISE');
+    expect(scope).not.toBeNull();
+    const opened = scope!;
+    try {
+      const binding = new ReportsPersistence(opened.port);
+      const created = binding.persistNew(OWNER_A, inputFor(11));
+      expect(binding.resolve(OWNER_A, created.reportId).reportKey).toBe(
+        composeReportContent(inputFor(11)).reportKey,
+      );
+    } finally {
+      opened.release();
+    }
   });
 });

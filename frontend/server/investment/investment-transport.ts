@@ -25,7 +25,7 @@ import { companyScopeToken } from '../../../iips-platform/src/investment/artifac
 import { parseIssuerId } from '../../../iips-platform/src/investment/contracts/ids';
 import { respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
+import { acquireReadPort } from '../reports/persistence-port.js';
 import {
   ASSESSMENT_REPORT_TYPE,
   InvestmentArtifactError,
@@ -296,13 +296,12 @@ export async function handleInvestmentRequest(
     return true;
   }
 
-  // 3. Governed persistence boundary. Absent ⇒ 503. No substitute store is constructed.
-  let port: unknown;
-  try {
-    port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
-  } catch {
-    port = null;
-  }
+  // 3. Governed persistence boundary. Absent ⇒ 503. No substitute store is constructed. Resolve this
+  //    request's READ port through the ownership-aware helper: a resolver-opened handle is disposed in
+  //    the `finally` at the end of this handler; an injected `deps.loadPort` is caller-owned and is
+  //    never closed here.
+  const acquired = await acquireReadPort(deps.loadPort);
+  const port = acquired.port;
   if (port === null || port === undefined) {
     respondJsonOrHead(req, res, 503, INVESTMENT_TRANSPORT_ERRORS.persistenceUnavailable);
     return true;
@@ -338,5 +337,9 @@ export async function handleInvestmentRequest(
     const { status, body } = mapError(error);
     respondJsonOrHead(req, res, status, body);
     return true;
+  } finally {
+    // Deterministic disposal after the last store operation, on success and mapped failure alike.
+    // A resolver-opened handle is closed exactly once; an injected port's disposer is a no-op.
+    acquired.release();
   }
 }

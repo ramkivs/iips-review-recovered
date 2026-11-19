@@ -23,7 +23,7 @@ import type http from 'node:http';
 import { loadRuntimeIdentitySources } from '../../../iips-platform/src/investment/identity/runtime';
 import type { SourceLoadResult } from '../../../iips-platform/src/investment/identity/sources';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
+import { acquireReadPort } from '../reports/persistence-port.js';
 import { ASSESSMENT_REPORT_TYPE, createInvestmentArtifactService } from './investmentArtifacts.js';
 import {
   MAX_QUERY_LENGTH,
@@ -109,13 +109,21 @@ export async function loadAssessmentInventory(
   try {
     const owner = (deps.resolveOwner ?? resolveReportsOwnerContext)();
     if (owner === null) return null;
-    const port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
-    if (port === null || port === undefined) return null;
-    const service = createInvestmentArtifactService({
-      port,
-      owner: { tenantId: owner.tenantId, userId: owner.ownerUserId },
-    });
-    return availabilityFromInventory(service.inventory(ASSESSMENT_REPORT_TYPE));
+    // Ownership-aware READ-port resolution: a resolver-opened handle is disposed in the `finally`
+    // below; an injected `deps.loadPort` is caller-owned and never closed here. Disposal runs on
+    // every exit — the null guard, the returned inventory, or an error caught by the outer block.
+    const acquired = await acquireReadPort(deps.loadPort);
+    try {
+      const port = acquired.port;
+      if (port === null || port === undefined) return null;
+      const service = createInvestmentArtifactService({
+        port,
+        owner: { tenantId: owner.tenantId, userId: owner.ownerUserId },
+      });
+      return availabilityFromInventory(service.inventory(ASSESSMENT_REPORT_TYPE));
+    } finally {
+      acquired.release();
+    }
   } catch {
     return null;
   }

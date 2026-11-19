@@ -56,18 +56,27 @@ export {
 // Reports owns no storage; the port is provided by whoever owns the process.
 export {
   PersistenceBoundaryError,
+  acquireReadPort,
   assertNp04PersistencePort,
   loadAuthoritativeNp04Persistence,
   loadReadOnlyNp04Persistence,
   NP04_BOUNDARY,
   NP04_DATABASE_PATH_ENV,
   np04OpenOptions,
+  openNp04Persistence,
+  openReadOnlyNp04Persistence,
+  releaseAllNp04Databases,
+  releaseNp04DatabasesUnderDirectory,
+  countOpenNp04Databases,
+  withNp04Persistence,
+  type AcquiredReadPort,
   type Np04ArtifactContent,
   type Np04AuthenticatedOwner,
   type Np04BoundaryDescriptor,
   type Np04GovernedArtifact,
   type Np04OpenIntent,
   type Np04OpenOptions,
+  type Np04PersistenceScope,
   type Np04QueryOptions,
   type Np04QueryPage,
   type Np04ReportId,
@@ -85,7 +94,9 @@ export {
 } from './persistence.js';
 
 export {
+  acquireAuthoritativeNp04Port,
   adaptNp04Store,
   resolveAuthoritativeNp04Port,
+  type Np04Acquisition,
   type Np04Resolution,
 } from './np04-adapter.js';

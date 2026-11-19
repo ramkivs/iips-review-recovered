@@ -26,14 +26,17 @@ import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  acquireReadPort,
   countOpenNp04Databases,
   loadAuthoritativeNp04Persistence,
   loadReadOnlyNp04Persistence,
   NP04_DATABASE_PATH_ENV,
   np04OpenOptions,
+  openNp04Persistence,
   PersistenceBoundaryError,
   releaseAllNp04Databases,
   releaseNp04DatabasesUnderDirectory,
+  withNp04Persistence,
 } from './persistence-port.js';
 
 const SERVER_ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -378,5 +381,177 @@ describe('source fences', () => {
       .filter((file) => /\bloadAuthoritativeNp04Persistence\(\s*\)/.test(stripComments(readFileSync(file, 'utf8'))))
       .map((file) => relative(SERVER_ROOT, file));
     expect(offenders).toEqual([]);
+  });
+});
+
+
+/* ------------------------------------------------------------------ *
+ * Request-scoped ownership — openNp04Persistence / withNp04Persistence
+ * ------------------------------------------------------------------ */
+
+describe('request-scoped ownership (openNp04Persistence / withNp04Persistence)', () => {
+  /** Point the server-owned seam at a stand-in database file that already exists (READ precondition). */
+  function seed(name: string): void {
+    const dbPath = join(workDir, name);
+    mkdirSync(dirname(dbPath), { recursive: true });
+    writeFileSync(dbPath, 'stand-in-database');
+    process.env[NP04_DATABASE_PATH_ENV] = dbPath;
+  }
+
+  it('holds its handle locally — never in the process-wide register — and disposes idempotently', async () => {
+    seed('scoped/local.db');
+    const capture = newCapture();
+    const baseline = countOpenNp04Databases();
+    const scope = await openNp04Persistence('READ', { importModule: standInModule(capture) });
+    expect(scope).not.toBeNull();
+    // Scoped handles are owned by the returned object, not recorded globally: a busy server
+    // accumulates nothing in the register no matter how many requests resolve.
+    expect(countOpenNp04Databases()).toBe(baseline);
+    (scope as NonNullable<typeof scope>).release();
+    expect(capture.closed).toBe(1);
+    // Idempotent: a second dispose closes nothing further and never throws.
+    (scope as NonNullable<typeof scope>).release();
+    expect(capture.closed).toBe(1);
+  });
+
+  it('repeated resolutions open and close in lockstep, accumulating nothing (the bounded-lifecycle proof)', async () => {
+    seed('scoped/repeat.db');
+    const capture = newCapture();
+    const overrides = { importModule: standInModule(capture) };
+    const baseline = countOpenNp04Databases();
+    const results: number[] = [];
+    for (let i = 0; i < 10; i += 1) {
+      const value = await withNp04Persistence(
+        'READ',
+        async (port) => {
+          expect(typeof port.queryByOwner).toBe('function');
+          return i;
+        },
+        overrides,
+      );
+      results.push(value as number);
+      // After EVERY single request the register is still empty: nothing leaked between requests.
+      expect(countOpenNp04Databases()).toBe(baseline);
+    }
+    expect(results).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(countOpenNp04Databases()).toBe(baseline);
+    expect(capture.closed).toBe(10);
+  });
+
+  it('concurrent resolutions are independent and each disposes exactly its own handle', async () => {
+    seed('scoped/concurrent.db');
+    const capture = newCapture();
+    const overrides = { importModule: standInModule(capture) };
+    const baseline = countOpenNp04Databases();
+    const settled = await Promise.all(
+      [0, 1, 2, 3, 4].map((k) => withNp04Persistence('READ', async () => `result-${k}`, overrides)),
+    );
+    expect(settled).toEqual(['result-0', 'result-1', 'result-2', 'result-3', 'result-4']);
+    expect(countOpenNp04Databases()).toBe(baseline);
+    expect(capture.closed).toBe(5);
+  });
+
+  it('a failure thrown AFTER opening still disposes the handle and propagates the operational error', async () => {
+    seed('scoped/fail-after-open.db');
+    const capture = newCapture();
+    const baseline = countOpenNp04Databases();
+    await expect(
+      withNp04Persistence(
+        'READ',
+        () => {
+          throw new Error('boom-after-open');
+        },
+        { importModule: standInModule(capture) },
+      ),
+    ).rejects.toThrow('boom-after-open');
+    // Disposed despite the throw — and nothing left behind in the register.
+    expect(countOpenNp04Databases()).toBe(baseline);
+    expect(capture.closed).toBe(1);
+  });
+
+  it('a refusal to dispose SURFACES when there is no operational error (never suppressed)', async () => {
+    seed('scoped/refuse-close.db');
+    const capture = newCapture();
+    await expect(
+      withNp04Persistence('READ', () => 'operation-succeeded', {
+        importModule: standInModule(capture, { throwOnClose: true }),
+      }),
+    ).rejects.toBeInstanceOf(PersistenceBoundaryError);
+  });
+
+  it('when BOTH the operation and the disposal fail, the operational error wins and carries the disposal reason', async () => {
+    seed('scoped/both-fail.db');
+    const capture = newCapture();
+    let caught: unknown;
+    try {
+      await withNp04Persistence(
+        'READ',
+        () => {
+          throw new Error('primary-operational-failure');
+        },
+        { importModule: standInModule(capture, { throwOnClose: true }) },
+      );
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught).toBeInstanceOf(Error);
+    expect((caught as Error).message).toContain('primary-operational-failure');
+    // The cleanup failure is reported, not hidden — attached because ES2020 has no Error#cause.
+    expect((caught as { np04DisposalFailure?: unknown }).np04DisposalFailure).toBeDefined();
+  });
+
+  it('after a scoped resolution releases, its directory deletes without force (the Windows EBUSY invariant)', async () => {
+    const dir = join(workDir, 'scoped', 'deletable');
+    const dbPath = join(dir, 'store.db');
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(dbPath, 'stand-in-database');
+    process.env[NP04_DATABASE_PATH_ENV] = dbPath;
+    const capture = newCapture();
+    const baseline = countOpenNp04Databases();
+    await withNp04Persistence(
+      'READ',
+      async (port) => {
+        expect(typeof port.resolveById).toBe('function');
+      },
+      { importModule: standInModule(capture) },
+    );
+    // Nothing resolver-opened remains to hold the file: this is the platform-independent condition
+    // that makes the directory deletable on Windows, where an open handle blocks the unlink. The
+    // real `EBUSY` proof runs on the Windows CI image against the genuine package; here we pin the
+    // lifecycle that prevents it.
+    expect(countOpenNp04Databases()).toBe(baseline);
+    expect(capture.closed).toBe(1);
+    rmSync(dir, { recursive: true }); // deliberately NO `force`: an open handle would break this
+    expect(existsSync(dir)).toBe(false);
+  });
+
+  it('acquireReadPort treats an injected loader as CALLER-OWNED and never closes what it returns', async () => {
+    let injectedClosed = 0;
+    const injectedPort = {
+      close: (): void => {
+        injectedClosed += 1;
+      },
+    };
+    const acquired = await acquireReadPort(async () => injectedPort);
+    expect(acquired.port).toBe(injectedPort);
+    acquired.release();
+    acquired.release();
+    // Caller-owned store: the disposer is a no-op, however often it is invoked.
+    expect(injectedClosed).toBe(0);
+  });
+
+  it('acquireReadPort fails closed when no store can be resolved, and its disposer is then a harmless no-op', async () => {
+    delete process.env[NP04_DATABASE_PATH_ENV];
+    const acquired = await acquireReadPort();
+    expect(acquired.port).toBeNull();
+    expect(() => acquired.release()).not.toThrow();
+  });
+
+  it('acquireReadPort degrades a THROWING injected loader to unavailable rather than crashing the request', async () => {
+    const acquired = await acquireReadPort(async () => {
+      throw new Error('injected-loader-exploded');
+    });
+    expect(acquired.port).toBeNull();
+    expect(() => acquired.release()).not.toThrow();
   });
 });

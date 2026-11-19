@@ -24,7 +24,7 @@ import { companyScopeToken } from '../../../iips-platform/src/investment/artifac
 import { parseIssuerId } from '../../../iips-platform/src/investment/contracts/ids.js';
 import { respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
+import { acquireReadPort } from '../reports/persistence-port.js';
 import { ASSESSMENT_REPORT_TYPE, InvestmentArtifactError } from './investmentArtifacts.js';
 import { CHANGE_REPORT_TYPE } from './changeComposition.js';
 import { createChangeService, type ChangeService, type PairComparison } from './changeService.js';
@@ -286,6 +286,10 @@ export async function handleChangeRequest(
   }
 
   let service: ChangeService;
+  // Non-null only when THIS handler opened the READ handle itself — i.e. no injected service and
+  // no injected port. Injected resources are caller-owned and must not be closed here; the body's
+  // `finally` disposes a resolver-opened handle on every exit path.
+  let releaseReadPort: (() => void) | null = null;
   if (deps.service !== undefined) {
     service = deps.service;
   } else {
@@ -298,16 +302,14 @@ export async function handleChangeRequest(
       respondOwnerContextUnavailableUncached(res);
       return true;
     }
-    let port: unknown;
-    try {
-      port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
-    } catch {
-      port = null;
-    }
+    const acquired = await acquireReadPort(deps.loadPort);
+    const port = acquired.port;
     if (port === null || port === undefined) {
       respondJsonOrHead(req, res, 503, CHANGE_TRANSPORT_ERRORS.persistenceUnavailable);
       return true;
     }
+    // A no-op for an injected `deps.loadPort`; the real disposer for a handle this resolver opened.
+    releaseReadPort = acquired.release;
     service = createChangeService({ port, owner: { tenantId: owner.tenantId, userId: owner.ownerUserId } });
   }
 
@@ -379,5 +381,9 @@ export async function handleChangeRequest(
     const { status, body } = mapError(error);
     respondJsonOrHead(req, res, status, body);
     return true;
+  } finally {
+    // Dispose a resolver-opened handle after the last store operation; null (injected service) or a
+    // no-op (injected port) means there is nothing this handler owns to close.
+    if (releaseReadPort !== null) releaseReadPort();
   }
 }
