@@ -1,9 +1,9 @@
 # G-9 / L-033 — Option A selected; implementation blocked by calendar evidence
 
-**Record date:** 2026-11-17 (UTC).  
-**Application owner:** Ramki.  
-**Repository / branch:** `ramkivs/iips-review-recovered` / `arena/5461e5b5-iips-review-recovered`.  
-**Verified remote baseline:** `fdd31f67c49f456cccbf1de7f1c24db7de9f6c65`, tree `6a7ede7c3d3fb40d0d8fa69f8ee8b3b1379e857a`; PR #597 OPEN.  
+**Record date:** 2026-11-17 (UTC).
+**Application owner:** Ramki.
+**Repository / branch:** `ramkivs/iips-review-recovered` / `arena/5461e5b5-iips-review-recovered`.
+**Verified remote baseline:** `fdd31f67c49f456cccbf1de7f1c24db7de9f6c65`, tree `6a7ede7c3d3fb40d0d8fa69f8ee8b3b1379e857a`; PR #597 OPEN.
 **Outcome:** owner policy choice recorded; runtime implementation STOPPED at the explicit calendar prerequisite. **L-033 remains OPEN.**
 
 ## 1. Owner instruction and scope
@@ -52,7 +52,7 @@ Once established, implement the rule and reconcile R-6.4 with the exact counting
 
 - `npm ci --ignore-scripts --prefix iips-platform`: PASS, six packages, zero vulnerabilities; dependency definitions/lockfile unchanged.
 - From `iips-platform`: `node_modules/.bin/tsx --test tests/investment/assessment-price.test.ts tests/investment/assessment-view.test.ts`: **17 tests PASS**, zero failed/skipped. These are regressions for the unchanged runtime, not proof of five-trading-day behavior. No exchange-holiday, exact-five-session or new future-price acceptance tests were fabricated while the prerequisite is missing.
-- Publication preflight verifies relative document links, preserved original L-033 text, unchanged design/source/tests/lockfiles, and `git diff --check`. Exact commit/tree/changed remote blobs and CI result are to be reported in the existing PR after publication.
+- Publication preflight verified relative document links, preserved original L-033 text and unchanged design/source/tests/lockfiles. Initial CI run **44493232658** passed the source/evidence/release checks but failed changed-file whitespace: four Markdown hard-break lines in this new document had trailing spaces, which the initial unstaged diff check did not cover while the document was untracked. The trailing spaces were removed; the complete baseline-to-head diff is checked on the correction. No runtime defect or test failure is hidden. Exact final commit/tree/changed remote blobs and CI result are reported in the existing PR after publication.
 
 ## 5. Disposition
 
