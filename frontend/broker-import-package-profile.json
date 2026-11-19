@@ -2,21 +2,25 @@
   "profileSchema": "IIPS_BROKER_IMPORT_PACKAGE_PROFILE_V1",
   "comment": [
     "Single source of truth for the IRR iips-broker-import alias and its published artifact guard.",
-    "The alias and primary package pin IPD PR #148 merge 1aee57fe093b4fb15eaf3a9ac67532ee40262fe2.",
-    "PR #148 publishes the broker-import IPC request and outcome types via ./portfolio-ui.",
+    "The alias now pins IPD PR #178 head 9d03a35b4d4d79972c466c2c8e45e8c9270524d4, NOT YET MERGED to IPD main.",
+    "PR #178 wires PR #177's daily-snapshot/partial-acceptance persistence through the existing",
+    "portfolio.importBroker IPC operation and publishes its request/outcome types via ./portfolio-ui.",
     "Materialization copies only IPD published artifacts; identity, IPC and persistence remain IPD-owned.",
-    "NP-04 remains pinned independently. Historical PR #146 provenance is in the previous receipt."
+    "NP-04 remains pinned independently. Historical PR #146/#148 provenance is in the previous receipts."
   ],
   "aliasDependency": "iips-broker-import",
   "aliasRepository": "ramkivs/iips-production-market-data",
-  "aliasCommit": "1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
-  "aliasSpecifier": "github:ramkivs/iips-production-market-data#1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
+  "aliasCommit": "9d03a35b4d4d79972c466c2c8e45e8c9270524d4",
+  "aliasSpecifier": "github:ramkivs/iips-production-market-data#9d03a35b4d4d79972c466c2c8e45e8c9270524d4",
   "aliasProvenance": {
-    "mergedPullRequest": 148,
-    "mergeCommit": "1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
-    "headCommit": "adc6cacc9dcafa4a31e00a257cc13fa10c4a56e2",
-    "supersededAliasCommit": "d5e20c15059267a3f824b015e37d652084de5a01",
-    "record": "docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR146-2026-11-09.md"
+    "sourcePullRequest": 178,
+    "sourcePullRequestState": "OPEN_NOT_MERGED",
+    "sourcePullRequestTitle": "Route approved partial acceptance through broker-import IPC",
+    "headCommit": "9d03a35b4d4d79972c466c2c8e45e8c9270524d4",
+    "headCommitVerification": "Remotely verified read-only via api.github.com: PR #178 head sha matches this commit; commit check-runs (executed test count, journal ubuntu-latest, journal windows-latest, typecheck . build . test) all completed/success as of verification time.",
+    "supersededAliasCommit": "1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
+    "record": "docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-PR178-2026-11-19.md",
+    "caution": "This pin tracks an OPEN IPD pull request, not IPD main. If PR #178 is amended, its head commit SHA changes and this pin must be re-verified against the new SHA before trusting it again."
   },
   "installedRoot": "node_modules/iips-broker-import",
   "publishedRoot": "dist/package",

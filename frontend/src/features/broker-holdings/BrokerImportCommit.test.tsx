@@ -15,6 +15,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { BrokerImportRequest } from 'iips-production-market-data/portfolio-ui';
 import { BrokerImportCommit } from './BrokerImportCommit';
 import type { PreparedBrokerImport } from '../../api/brokerImportStage4';
+import type { PreparedFullSnapshotImport } from '../../api/brokerFullSnapshotImport';
 
 const DIGEST = '1'.repeat(64);
 const LINEAGE = '2'.repeat(64);
@@ -41,6 +42,28 @@ const duplicate = {
   ok: true, disposition: 'ALREADY_IMPORTED_NO_OP', revision: 1, noOp: true, storeEffect: 'NONE',
   holdingsPersisted: 1, totalMarketValue: 8000, contributions: 0, message: 'already imported',
 };
+
+const fullSnapshotPrepared: PreparedFullSnapshotImport = {
+  ...prepared,
+  fullSnapshot: true,
+  clientIdentityPreview: { evaluated: 2, resolved: 1, unresolved: 1, ambiguous: 0 },
+};
+
+const partialAcceptanceSummary = {
+  importId: 'i'.repeat(64),
+  totalRows: 2,
+  resolvedCount: 1,
+  unresolvedCount: 1,
+  resolvedMarketValue: 8000,
+  refusedHoldings: [{
+    symbol: 'UNKNOWNCO', quantity: 3, averageBuyPrice: 10, currentPrice: 11, marketValue: 33,
+    sourceBroker: 'DHAN', lineageDigest: '3'.repeat(64), reason: 'NO_AUTHORITATIVE_IDENTIFIER_MATCH',
+  }],
+  duplicateSymbols: [] as { symbol: string; occurrences: number }[],
+  summaryDigest: 'f'.repeat(64),
+};
+
+const partialAcceptanceRequired = { outcome: 'PARTIAL_ACCEPTANCE_REQUIRED', storeEffect: 'NONE', summary: partialAcceptanceSummary };
 
 const PORTFOLIO_SUMMARY: Record<string, unknown> = {
   portfolioId: 'E2E_SYNTHETIC', portfolioName: 'E2E_SYNTHETIC', revision: 1, totalMarketValue: 8000,
@@ -240,5 +263,111 @@ describe('BrokerImportCommit — one click, one POST, honest receipt', () => {
     expect(screen.queryByTestId('commit-receipt')).not.toBeInTheDocument();
     expect(screen.queryByTestId('commit-readback')).not.toBeInTheDocument();
     expect(h.commits).toHaveLength(2);
+  });
+});
+
+describe('BrokerImportCommit — PR #177/#178 full daily snapshot opt-in', () => {
+  it('disables the full-snapshot toggle when no full-snapshot preparation is available', async () => {
+    harness();
+    render(<BrokerImportCommit prepared={prepared} fullSnapshotPrepared={null} onSuccess={() => {}} onBusyChange={() => {}} />);
+    await screen.findByText('E2E_SYNTHETIC (revision 1)');
+    expect(screen.getByTestId('full-snapshot-toggle')).toBeDisabled();
+    expect(screen.getByTestId('full-snapshot-toggle')).not.toBeChecked();
+  });
+
+  it('switching to full-snapshot mode uses its holdings and shows the local, non-authoritative identity estimate', async () => {
+    const h = harness();
+    render(<BrokerImportCommit prepared={prepared} fullSnapshotPrepared={fullSnapshotPrepared} onSuccess={() => {}} onBusyChange={() => {}} />);
+    await screen.findByText('E2E_SYNTHETIC (revision 1)');
+    fireEvent.click(screen.getByTestId('full-snapshot-toggle'));
+    expect(screen.getByTestId('client-identity-preview')).toHaveTextContent('1 of 2 rows resolved locally');
+    fireEvent.change(screen.getByLabelText('Destination portfolio'), { target: { value: 'E2E_SYNTHETIC' } });
+    fireEvent.click(screen.getByTestId('commit-holdings'));
+    await screen.findByTestId('commit-receipt');
+    const sent = JSON.parse(h.commits[0]!) as Record<string, unknown>;
+    expect(sent.fullSnapshot).toBe(true);
+  });
+
+  it('on PARTIAL_ACCEPTANCE_REQUIRED, writes nothing and shows the exact resolved/unresolved summary', async () => {
+    const h = harness({ status: 428, body: partialAcceptanceRequired });
+    render(<BrokerImportCommit prepared={prepared} fullSnapshotPrepared={fullSnapshotPrepared} onSuccess={() => {}} onBusyChange={() => {}} />);
+    await screen.findByText('E2E_SYNTHETIC (revision 1)');
+    fireEvent.click(screen.getByTestId('full-snapshot-toggle'));
+    fireEvent.change(screen.getByLabelText('Destination portfolio'), { target: { value: 'E2E_SYNTHETIC' } });
+    fireEvent.click(screen.getByTestId('commit-holdings'));
+    const panel = await screen.findByTestId('partial-acceptance-panel');
+    expect(panel).toHaveTextContent('1');
+    expect(panel).toHaveTextContent('UNKNOWNCO');
+    expect(panel).toHaveTextContent('NO_AUTHORITATIVE_IDENTIFIER_MATCH');
+    expect(screen.queryByTestId('commit-receipt')).not.toBeInTheDocument();
+    expect(h.commits).toHaveLength(1);
+    // Nothing is committed yet; the explicit commit button is disabled while approval is pending.
+    expect(screen.getByTestId('commit-holdings')).toBeDisabled();
+  });
+
+  it('approving resubmits with partialAcceptance bound to IPD’s exact summaryDigest, never a recomputed one', async () => {
+    const h = harness({ status: 428, body: partialAcceptanceRequired });
+    render(<BrokerImportCommit prepared={prepared} fullSnapshotPrepared={fullSnapshotPrepared} onSuccess={() => {}} onBusyChange={() => {}} />);
+    await screen.findByText('E2E_SYNTHETIC (revision 1)');
+    fireEvent.click(screen.getByTestId('full-snapshot-toggle'));
+    fireEvent.change(screen.getByLabelText('Destination portfolio'), { target: { value: 'E2E_SYNTHETIC' } });
+    fireEvent.click(screen.getByTestId('commit-holdings'));
+    await screen.findByTestId('partial-acceptance-panel');
+    h.setStatus(200, {
+      ...committed,
+      revision: 2, snapshotState: 'PARTIALLY_ACCEPTED', unresolvedCount: 1,
+      reconciliation: { observed: 1, exitedZeroQuantity: 0, carriedForwardAbsent: 0, unresolved: 1, stale: false, complete: false, totalMarketValue: 8000, absent: [] },
+    });
+    fireEvent.click(screen.getByTestId('approve-partial-acceptance'));
+    await screen.findByTestId('commit-receipt');
+    expect(h.commits).toHaveLength(2);
+    const resubmitted = JSON.parse(h.commits[1]!) as { partialAcceptance?: Record<string, unknown> };
+    expect(resubmitted.partialAcceptance).toMatchObject({ approved: true, summaryDigest: partialAcceptanceSummary.summaryDigest, approvedBy: 'local-operator' });
+    expect(screen.getByTestId('commit-snapshot-state')).toHaveTextContent('PARTIALLY_ACCEPTED');
+    expect(screen.getByTestId('commit-snapshot-state')).toHaveTextContent('1 row(s) remain unresolved');
+    expect(screen.getByTestId('commit-reconciliation')).toHaveTextContent('1 observed');
+  });
+
+  it('declining the partial-acceptance panel writes nothing and clears the pending summary', async () => {
+    const h = harness({ status: 428, body: partialAcceptanceRequired });
+    render(<BrokerImportCommit prepared={prepared} fullSnapshotPrepared={fullSnapshotPrepared} onSuccess={() => {}} onBusyChange={() => {}} />);
+    await screen.findByText('E2E_SYNTHETIC (revision 1)');
+    fireEvent.click(screen.getByTestId('full-snapshot-toggle'));
+    fireEvent.change(screen.getByLabelText('Destination portfolio'), { target: { value: 'E2E_SYNTHETIC' } });
+    fireEvent.click(screen.getByTestId('commit-holdings'));
+    await screen.findByTestId('partial-acceptance-panel');
+    fireEvent.click(screen.getByTestId('decline-partial-acceptance'));
+    expect(screen.queryByTestId('partial-acceptance-panel')).not.toBeInTheDocument();
+    expect(h.commits).toHaveLength(1);
+    expect(screen.queryByTestId('commit-receipt')).not.toBeInTheDocument();
+  });
+
+  it('blocks approval when duplicate symbol rows are present', async () => {
+    const withDuplicates = {
+      outcome: 'PARTIAL_ACCEPTANCE_REQUIRED', storeEffect: 'NONE',
+      summary: { ...partialAcceptanceSummary, duplicateSymbols: [{ symbol: 'INFY', occurrences: 2 }] },
+    };
+    harness({ status: 428, body: withDuplicates });
+    render(<BrokerImportCommit prepared={prepared} fullSnapshotPrepared={fullSnapshotPrepared} onSuccess={() => {}} onBusyChange={() => {}} />);
+    await screen.findByText('E2E_SYNTHETIC (revision 1)');
+    fireEvent.click(screen.getByTestId('full-snapshot-toggle'));
+    fireEvent.change(screen.getByLabelText('Destination portfolio'), { target: { value: 'E2E_SYNTHETIC' } });
+    fireEvent.click(screen.getByTestId('commit-holdings'));
+    const panel = await screen.findByTestId('partial-acceptance-panel');
+    expect(panel.parentElement).toHaveTextContent('Duplicate symbol rows block this snapshot');
+    expect(screen.getByTestId('approve-partial-acceptance')).toBeDisabled();
+  });
+
+  it('switching the mode toggle clears a stale refusal or pending approval from the other mode', async () => {
+    const h = harness({ status: 428, body: partialAcceptanceRequired });
+    render(<BrokerImportCommit prepared={prepared} fullSnapshotPrepared={fullSnapshotPrepared} onSuccess={() => {}} onBusyChange={() => {}} />);
+    await screen.findByText('E2E_SYNTHETIC (revision 1)');
+    fireEvent.click(screen.getByTestId('full-snapshot-toggle'));
+    fireEvent.change(screen.getByLabelText('Destination portfolio'), { target: { value: 'E2E_SYNTHETIC' } });
+    fireEvent.click(screen.getByTestId('commit-holdings'));
+    await screen.findByTestId('partial-acceptance-panel');
+    h.setStatus(200, committed);
+    fireEvent.click(screen.getByTestId('full-snapshot-toggle'));
+    expect(screen.queryByTestId('partial-acceptance-panel')).not.toBeInTheDocument();
   });
 });

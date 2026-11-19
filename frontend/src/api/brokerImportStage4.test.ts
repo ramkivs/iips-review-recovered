@@ -11,7 +11,7 @@
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { BrokerIngressResult } from 'iips-production-market-data/portfolio-ui';
-import { commitBrokerImport, prepareBrokerImport } from './brokerImportStage4';
+import { buildPartialAcceptanceApproval, commitBrokerImport, prepareBrokerImport } from './brokerImportStage4';
 
 const DIGEST = 'e'.repeat(64);
 const LINEAGE = 'f'.repeat(64);
@@ -186,6 +186,80 @@ describe('commitBrokerImport — one POST, honest outcomes', () => {
     }
   });
 
+  it('surfaces a 428 PARTIAL_ACCEPTANCE_REQUIRED body as the distinct partial-acceptance outcome, never a refusal', async () => {
+    const summary = {
+      importId: 'i'.repeat(64),
+      totalRows: 2,
+      resolvedCount: 1,
+      unresolvedCount: 1,
+      resolvedMarketValue: 8000,
+      refusedHoldings: [{
+        symbol: 'UNKNOWNCO', quantity: 3, averageBuyPrice: 10, currentPrice: 11, marketValue: 33,
+        sourceBroker: 'DHAN', lineageDigest: 'd'.repeat(64), reason: 'NO_AUTHORITATIVE_IDENTIFIER_MATCH',
+      }],
+      duplicateSymbols: [],
+      summaryDigest: 'f'.repeat(64),
+    };
+    const fetchMock = vi.fn(async () => jsonResponse(428, { outcome: 'PARTIAL_ACCEPTANCE_REQUIRED', storeEffect: 'NONE', summary }));
+    vi.stubGlobal('fetch', fetchMock);
+    const outcome = await commitBrokerImport({ ...prepared, portfolioId: 'PERSONAL', expectedRevision: 0, fullSnapshot: true, importId: summary.importId });
+    expect(outcome).toEqual({ ok: 'partial-acceptance-required', summary, status: 428 });
+  });
+
+  it('treats a 428 body that does not validate as the published summary shape as unknown', async () => {
+    const malformed = [
+      { outcome: 'PARTIAL_ACCEPTANCE_REQUIRED', storeEffect: 'NONE', summary: { totalRows: 2 } },
+      { outcome: 'PARTIAL_ACCEPTANCE_REQUIRED', storeEffect: 'NONE' },
+      { outcome: 'SOMETHING_ELSE', storeEffect: 'NONE', summary: {} },
+      'not-json-shaped',
+    ];
+    for (const body of malformed) {
+      const fetchMock = vi.fn(async () => jsonResponse(428, body));
+      vi.stubGlobal('fetch', fetchMock);
+      const outcome = await commitBrokerImport({ ...prepared, portfolioId: 'PERSONAL', expectedRevision: 0 });
+      expect(outcome, JSON.stringify(body)).toEqual({ ok: false, outcome: 'OUTCOME_UNKNOWN', status: 428 });
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('relays a daily-snapshot success carrying snapshotState/unresolvedCount/reconciliation verbatim', async () => {
+    const success = {
+      ok: true, disposition: 'SAVED_NEW_BATCH', revision: 2, noOp: false, storeEffect: 'REVISION_COMMITTED',
+      holdingsPersisted: 1, totalMarketValue: 8000, contributions: 1, message: 'ok',
+      snapshotState: 'PARTIALLY_ACCEPTED', unresolvedCount: 1,
+      reconciliation: { observed: 1, exitedZeroQuantity: 0, carriedForwardAbsent: 0, unresolved: 1, stale: false, complete: false, totalMarketValue: 8000, absent: [] },
+    };
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(200, success)));
+    const outcome = await commitBrokerImport({ ...prepared, portfolioId: 'PERSONAL', expectedRevision: 0 });
+    expect(outcome).toEqual({ ok: true, result: success });
+  });
+
+  it('refuses a self-contradictory snapshot success (PARTIALLY_ACCEPTED with zero unresolvedCount)', async () => {
+    const contradictory = {
+      ok: true, disposition: 'SAVED_NEW_BATCH', revision: 2, noOp: false, storeEffect: 'REVISION_COMMITTED',
+      holdingsPersisted: 1, totalMarketValue: 8000, contributions: 1, message: 'ok',
+      snapshotState: 'PARTIALLY_ACCEPTED', unresolvedCount: 0,
+    };
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(200, contradictory)));
+    const outcome = await commitBrokerImport({ ...prepared, portfolioId: 'PERSONAL', expectedRevision: 0 });
+    expect(outcome).toEqual({ ok: false, outcome: 'OUTCOME_UNKNOWN', status: 200 });
+  });
+
+  it('maps the PR #177/#178 additive refusal codes', async () => {
+    for (const [status, body, outcome] of [
+      [422, { outcome: 'REFUSED_DUPLICATE_ROWS', storeEffect: 'NONE' }, 'REFUSED_DUPLICATE_ROWS'],
+      [422, { outcome: 'REFUSED_EMPTY_SNAPSHOT', storeEffect: 'NONE' }, 'REFUSED_EMPTY_SNAPSHOT'],
+      [400, { outcome: 'REFUSED_INVALID_SOURCE_DIGEST', storeEffect: 'NONE' }, 'REFUSED_INVALID_SOURCE_DIGEST'],
+      [409, { outcome: 'REFUSED_APPROVAL_MISMATCH', storeEffect: 'NONE' }, 'REFUSED_APPROVAL_MISMATCH'],
+    ] as const) {
+      const fetchMock = vi.fn(async () => jsonResponse(status, body));
+      vi.stubGlobal('fetch', fetchMock);
+      const result = await commitBrokerImport({ ...prepared, portfolioId: 'PERSONAL', expectedRevision: 0 });
+      expect(result, JSON.stringify(body)).toEqual({ ok: false, outcome, status });
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('reports a lost acknowledgement and a malformed body as unknown, never success, with no retry', async () => {
     const cases: Array<[() => Promise<Response>]> = [
       [async () => { throw new Error('network lost'); }],
@@ -201,5 +275,29 @@ describe('commitBrokerImport — one POST, honest outcomes', () => {
       expect(fetchMock).toHaveBeenCalledTimes(1);
       vi.unstubAllGlobals();
     }
+  });
+});
+
+describe('buildPartialAcceptanceApproval — binds to IPD’s own digest, never recomputes it', () => {
+  it('round-trips the exact summaryDigest the operator was shown, with approved:true literal', () => {
+    const summary = {
+      importId: 'i'.repeat(64), totalRows: 2, resolvedCount: 1, unresolvedCount: 1,
+      resolvedMarketValue: 8000, refusedHoldings: [], duplicateSymbols: [], summaryDigest: 'f'.repeat(64),
+    };
+    const approval = buildPartialAcceptanceApproval(summary, 'local-operator', '2026-11-08T09:20:00.000Z');
+    expect(approval).toEqual({
+      approved: true, approvedAt: '2026-11-08T09:20:00.000Z', approvedBy: 'local-operator', summaryDigest: 'f'.repeat(64),
+    });
+  });
+
+  it('defaults approvedAt to the current instant when omitted', () => {
+    const summary = {
+      importId: 'i'.repeat(64), totalRows: 1, resolvedCount: 0, unresolvedCount: 1,
+      resolvedMarketValue: 0, refusedHoldings: [], duplicateSymbols: [], summaryDigest: 'a'.repeat(64),
+    };
+    const before = Date.now();
+    const approval = buildPartialAcceptanceApproval(summary, 'local-operator');
+    expect(Number.isFinite(Date.parse(approval.approvedAt))).toBe(true);
+    expect(Date.parse(approval.approvedAt)).toBeGreaterThanOrEqual(before);
   });
 });
