@@ -1,4 +1,4 @@
-// IPD PR #178 broker-import IPC contract pin — 9d03a35b4d4d79972c466c2c8e45e8c9270524d4 (OPEN, not yet merged to IPD main).
+// IPD broker-import IPC contract pin — 12a3d625d0ad603cb0bd9cea46bae314942ee40f (MERGED IPD main; merge commit of PR #178).
 //
 // This project no longer COMPILES the alias's raw TypeScript sources. The merged IPD manifest
 // declares `files: ["dist/package"]`, so the installed `iips-broker-import` alias publishes only

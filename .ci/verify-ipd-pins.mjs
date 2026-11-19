@@ -11,7 +11,7 @@ const lock = readJson(resolve(frontend, 'package-lock.json'));
 const installedLock = readJson(resolve(frontend, 'node_modules/.package-lock.json'));
 
 const pinned = {
-  'iips-broker-import': '9d03a35b4d4d79972c466c2c8e45e8c9270524d4',
+  'iips-broker-import': '12a3d625d0ad603cb0bd9cea46bae314942ee40f',
   'iips-np04-governed-persistence': '2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
   'iips-production-market-data': '1ce6a829a7ce65550356a0071c108a60f2d813be',
 };

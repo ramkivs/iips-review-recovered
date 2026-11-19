@@ -1,6 +1,6 @@
 {
   "schema": "IIPS_BROKER_IMPORT_PUBLICATION_VERIFICATION_V1",
-  "commit": "9d03a35b4d4d79972c466c2c8e45e8c9270524d4",
+  "commit": "12a3d625d0ad603cb0bd9cea46bae314942ee40f",
   "fileCount": 214,
   "packageJsonSha256": "39112f6a553b03b4c21ee119e819a3a2f2561f577c3d59cec5e69f006ac7836a",
   "publishedInventorySha256": "3fd2efaa51e5b49b32675acbe2df2445ec99b67033ea88803fd9601b9f94227d",
