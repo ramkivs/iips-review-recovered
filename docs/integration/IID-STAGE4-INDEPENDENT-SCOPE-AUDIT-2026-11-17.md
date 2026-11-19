@@ -153,7 +153,7 @@ Outstanding Stage-5 evidence remains live holdings → identity → dataset → 
 | **G-6 no quarters** | Historical zero no longer universal; KEC two-quarter refresh exists, **PARTIAL**; freshness still OPEN |
 | **G-7 vocabulary split** | Runtime rejection/visible read-path issue **delivered**. No forced mapping from certified baseline spelling to canonical vocabulary |
 | **G-8 real corporate actions** | **OPEN**, R8/L-031; not PA-01 G-8 nor formal-closure AC-X6 G-8 |
-| **G-9 price freshness design drift** | Existing L-033 limitation, no Stage-4 policy change or closure established; not R3's statement-age capability |
+| **G-9 price freshness design drift** | Existing L-033 limitation, **OPEN**. Owner subsequently selected **Option A: five trading days**; runtime implementation stopped because an authoritative calendar/counting mechanism is not established. [Decision/blocker record](IID-L033-FIVE-TRADING-DAYS-OWNER-DECISION-2026-11-17.md). No runtime policy change or closure; not R3's statement-age capability and not a new backlog item |
 | **G-10 JS-free route mismatch** | **Corrected/delivered**, register §14 / #584: independent identity/investment HTML+JSON routes, route tests. Not a claim of host browser acceptance |
 | **G-11 stored/served chain absent** | **RESOLVED in-tree and recorded**, register §15.6, hardening §16, #584. Windows storage is operator-reported; HTTP proof is dependency-complete CI. No host/browser conflation |
 | **G-12 fresh holding prices** | No prices in audited combined assemblies; no current fresh holding-price/MoS acceptance proved. Adjacent operational residual, not fixed by R3 statement-age reporting |

@@ -1179,6 +1179,8 @@ respectively stand exactly as §15 left them.
   `iips-platform/src/investment/assessment/policy.ts` (`freshness.priceMaxAgeDays: 7`).
 - **Last status update:** 2026-11-06 (opened).
 
+**Owner-decision follow-up (2026-11-17; original record above preserved):** Ramki explicitly selected **Option A: retain design R-6.4's five-trading-day price-freshness rule**. The policy choice is no longer outstanding. The same instruction requires stopping the affected implementation if an authoritative calendar/counting mechanism cannot be established. Remote baseline `fdd31f67c49f456cccbf1de7f1c24db7de9f6c65` contains no established authoritative exchange-session calendar/counting mechanism; the related Dhan records propose a future calendar rather than supply one. **Runtime work stopped at that prerequisite. L-033 remains OPEN**, with the owner choice settled but implementation blocked. The unchanged runtime still uses seven calendar days and `mos-policy/1.0.0`; this is not an approved fallback or a claim of five-trading-day compliance. No calendar was fabricated and no weekday approximation introduced. Before implementation resumes, establish the calendar's authority, exchange mapping, coverage/version and exact counting convention; then implement, version and validate the selected rule. [Decision, blocker, source references and 17 passing unchanged-runtime regression tests](IID-L033-FIVE-TRADING-DAYS-OWNER-DECISION-2026-11-17.md). G-9 remains the baseline crosswalk to L-033, separate from R3 statement-age capability; no unrelated limitation or Stage-4 acceptance changes.
+
 ### 16.5 What §16 does not change
 
 | Entry / item | Effect of this section |
