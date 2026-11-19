@@ -16,6 +16,18 @@
   else from the operator-supplied -CategoryMapFile (holdingId -> category), else the row is
   flagged and the capture FAILS validation. Nothing is guessed.
 
+  2026-11-19 correction (evidence-driven; W05-SCRIPT-HELPERS.psm1 ConvertTo-W05CensusRows):
+  the served response carries 65 items - the 64 DHAN_PORTFOLIO census rows plus one AIIL
+  default-portfolio item - and projects the stored identity under the flat dotted key
+  'securityIdentity.securityId' with an explicit `securityIdentity: null` for holdings that
+  have none. The census extraction therefore (A) reads exactly the served 'securityIdentity.securityId'
+  field into storedSecurityIdentity and preserves explicit nulls as unresolved, never inferring
+  identity from symbols, company names, registry membership, identityStatus, resolutionDisposition,
+  resolver outputs or row position; (B) scopes rows to -PortfolioId and records every other
+  portfolio's item as excluded; (C) records raw 'portfolioRevision' exactly as the source
+  projection serves it and fails closed when it is absent - never fabricated or substituted;
+  (D) writes every JSON file as UTF-8 without a BOM so the Step 2 JSON reader parses it.
+
 .EXAMPLE
   $r = .\W05-STEP1-CAPTURE-REVISION1-IDENTITIES.ps1 -RepoRoot C:\iips\iips-review-recovered `
        -BaseUrl http://127.0.0.1:8790 -AsOf 2026-09-15 -OutDir C:\iips\w05\bundle
@@ -76,7 +88,7 @@ try {
   $uri = $BaseUrl.TrimEnd('/') + '/api/investment/coverage?asOf=' + $AsOf
   $http = Get-W05Http -Uri $uri -TimeoutSeconds $TimeoutSeconds
   $responsePath = Join-Path $outFull 'identities-route-response.json'
-  Set-Content -LiteralPath $responsePath -Value $http.Body -Encoding UTF8
+  Write-W05Utf8NoBom -Path $responsePath -Text $http.Body
   Add-W05Check -Id 'response-captured' -Ok ($http.Status -eq 200) `
     -Detail ('GET ' + $http.Uri + ' -> HTTP ' + $http.Status.ToString() + '; raw body preserved at identities-route-response.json') -Checks $checks
 
@@ -84,6 +96,8 @@ try {
   $categoryCounts = @{ QUALIFIED = 0; AMBIGUOUS = 0; MISSING_OR_UNRESOLVED = 0; EXPIRED_OR_INELIGIBLE = 0; UNAVAILABLE = 0 }
   $uncategorized = @()
   $rowsJson = @()
+  $excludedItems = @()
+  $missingRevisionRows = @()
   $sourceVersions = $null
   $generatedAt = ''
   $reportedAsOf = ''
@@ -120,47 +134,29 @@ try {
         foreach ($property in $mapValue.PSObject.Properties) { $categoryMap[$property.Name] = $property.Value }
       }
 
-      foreach ($item in $items) {
-        $raw = $item.raw
-        $holdingId = '{0}' -f $item.observationId
-        $category = $null
-        $rawCategory = '{0}' -f $raw.category
-        if ($rawCategory -in @('QUALIFIED', 'AMBIGUOUS', 'MISSING_OR_UNRESOLVED', 'EXPIRED_OR_INELIGIBLE', 'UNAVAILABLE')) {
-          $category = $rawCategory
-        }
-        if ($null -eq $category -and $categoryMap.ContainsKey($holdingId)) {
-          $mapped = '{0}' -f $categoryMap[$holdingId]
-          if ($mapped -in @('QUALIFIED', 'AMBIGUOUS', 'MISSING_OR_UNRESOLVED', 'EXPIRED_OR_INELIGIBLE', 'UNAVAILABLE')) {
-            $category = $mapped
-          }
-        }
-        if ($null -eq $category) {
-          $uncategorized += $holdingId
-        }
-        if ($null -ne $category) {
-          $categoryCounts[$category] = $categoryCounts[$category] + 1
-        }
-        $row = [ordered]@{
-          holdingId              = $holdingId
-          portfolioId            = '{0}' -f $item.portfolioId
-          portfolioRevision      = '{0}' -f $raw.portfolioRevision
-          symbol                 = $raw.symbol
-          isin                   = $raw.isin
-          exchange               = $raw.exchange
-          quantity               = $raw.quantity
-          storedSecurityIdentity = $raw.storedSecurityIdentity
-          category               = $category
-        }
-        $rowsJson += [pscustomobject]$row
-        $rowCount = $rowCount + 1
-      }
+      # Census-row extraction per the served evidence (2026-11-19 correction):
+      # stored identity from raw.'securityIdentity.securityId', explicit nulls preserved,
+      # rows scoped to -PortfolioId (other portfolios recorded as excluded), and the served
+      # raw 'portfolioRevision' recorded exactly - never fabricated.
+      $extraction = ConvertTo-W05CensusRows -Items $items -PortfolioId $PortfolioId -CategoryMap $categoryMap
+      $rowsJson = @()
+      foreach ($row in $extraction.Rows) { $rowsJson += $row }
+      $uncategorized = @()
+      foreach ($holdingId in $extraction.Uncategorized) { $uncategorized += $holdingId }
+      $excludedItems = @()
+      foreach ($excludedItem in $extraction.Excluded) { $excludedItems += $excludedItem }
+      $missingRevisionRows = @()
+      foreach ($holdingId in $extraction.MissingRevisionRows) { $missingRevisionRows += $holdingId }
+      $categoryCounts = $extraction.CategoryCounts
+      $rowCount = 0
+      foreach ($row in $rowsJson) { $rowCount = $rowCount + 1 }
     }
   }
 
   # W04 record validation — a mismatch is itself the finding and the run stops here.
   $countsOk = $rowCount -eq $ExpectedRowCount
   Add-W05Check -Id 'row-count-matches-w04' -Ok $countsOk `
-    -Detail ($rowCount.ToString() + ' row(s) in the response; the W04 record expects ' + $ExpectedRowCount.ToString()) -Checks $checks
+    -Detail ($rowCount.ToString() + ' row(s) in the response; the W04 record expects ' + $ExpectedRowCount.ToString() + '; ' + $excludedItems.Count.ToString() + ' item(s) outside ' + $PortfolioId + ' excluded') -Checks $checks
   $categoriesOk = ($categoryCounts['QUALIFIED'] -eq $ExpectedQualified) -and ($categoryCounts['AMBIGUOUS'] -eq $ExpectedAmbiguous) `
     -and ($categoryCounts['MISSING_OR_UNRESOLVED'] -eq $ExpectedMissingOrUnresolved) -and ($categoryCounts['EXPIRED_OR_INELIGIBLE'] -eq $ExpectedExpiredOrIneligible) `
     -and ($categoryCounts['UNAVAILABLE'] -eq $ExpectedUnavailable)
@@ -168,6 +164,8 @@ try {
     -Detail ('QUALIFIED ' + $categoryCounts['QUALIFIED'].ToString() + ', AMBIGUOUS ' + $categoryCounts['AMBIGUOUS'].ToString() + ', MISSING_OR_UNRESOLVED ' + $categoryCounts['MISSING_OR_UNRESOLVED'].ToString() + ', EXPIRED_OR_INELIGIBLE ' + $categoryCounts['EXPIRED_OR_INELIGIBLE'].ToString() + ', UNAVAILABLE ' + $categoryCounts['UNAVAILABLE'].ToString() + '; expected ' + $ExpectedQualified.ToString() + '/' + $ExpectedAmbiguous.ToString() + '/' + $ExpectedMissingOrUnresolved.ToString() + '/' + $ExpectedExpiredOrIneligible.ToString() + '/' + $ExpectedUnavailable.ToString()) -Checks $checks
   Add-W05Check -Id 'every-row-categorized' -Ok ($uncategorized.Count -eq 0) `
     -Detail ('rows without a five-category value: ' + ($uncategorized -join ', ') + ' (supply -CategoryMapFile; the script never maps states to categories)') -Checks $checks
+  Add-W05Check -Id 'portfolio-revision-recorded' -Ok ($missingRevisionRows.Count -eq 0) `
+    -Detail ('rows without a served portfolioRevision (never fabricated, never substituted): ' + ($missingRevisionRows -join ', ')) -Checks $checks
 
   $portfolioOk = $true
   foreach ($row in $rowsJson) {
@@ -176,14 +174,16 @@ try {
   Add-W05Check -Id 'portfolio-identity' -Ok ($portfolioOk -and $rowCount -gt 0) `
     -Detail ('every row belongs to ' + $PortfolioId) -Checks $checks
 
-  $OK = $countsOk -and $categoriesOk -and ($uncategorized.Count -eq 0) -and $portfolioOk -and ($http.Status -eq 200) -and ($transportCommit -ne '')
+  $OK = $countsOk -and $categoriesOk -and ($uncategorized.Count -eq 0) -and ($missingRevisionRows.Count -eq 0) -and $portfolioOk -and ($http.Status -eq 200) -and ($transportCommit -ne '')
   $statusLabel = 'OK'
   if (-not $OK) { $statusLabel = 'FAILED-VALIDATION' }
   if ($http.Status -eq 503) { $statusLabel = 'CAPTURED-UNAVAILABLE' }
 
   # Evidence bundle. The raw response is preserved first and never rewritten.
+  # Every JSON file is written as UTF-8 WITHOUT a BOM (Write-W05Utf8NoBom) so the
+  # Step 2 JSON reader (Node JSON.parse) can parse it.
   $rowsPath = Join-Path $outFull 'census-rows.json'
-  Set-Content -LiteralPath $rowsPath -Value ((ConvertTo-Json -InputObject $rowsJson -Depth 6) + "`n") -Encoding UTF8
+  Write-W05Utf8NoBom -Path $rowsPath -Text ((ConvertTo-Json -InputObject $rowsJson -Depth 6) + "`n")
   $expectedPath = Join-Path $outFull 'w04-census-expected.json'
   $expectedDoc = [ordered]@{
     total      = $ExpectedRowCount
@@ -196,7 +196,7 @@ try {
     }
     source     = 'W04 census record as published (tracker record); counts validated against the captured response'
   }
-  Set-Content -LiteralPath $expectedPath -Value ((ConvertTo-Json -InputObject $expectedDoc -Depth 4) + "`n") -Encoding UTF8
+  Write-W05Utf8NoBom -Path $expectedPath -Text ((ConvertTo-Json -InputObject $expectedDoc -Depth 4) + "`n")
   $provenancePath = Join-Path $outFull 'provenance.json'
   $provenanceDoc = [ordered]@{
     capturedAt       = $capturedAt
@@ -212,8 +212,10 @@ try {
     rowCount         = $rowCount
     categoryCounts   = [pscustomobject]$categoryCounts
     categoryMapFile  = $CategoryMapFile
+    excludedItems    = @($excludedItems)
+    missingRevisionRows = @($missingRevisionRows)
   }
-  Set-Content -LiteralPath $provenancePath -Value ((ConvertTo-Json -InputObject $provenanceDoc -Depth 6) + "`n") -Encoding UTF8
+  Write-W05Utf8NoBom -Path $provenancePath -Text ((ConvertTo-Json -InputObject $provenanceDoc -Depth 6) + "`n")
 
   $digestFiles = @{}
   foreach ($name in @('census-rows.json', 'w04-census-expected.json', 'provenance.json', 'identities-route-response.json')) {
@@ -221,7 +223,7 @@ try {
     $digestFiles[$name] = [ordered]@{ sha256 = (Get-W05Sha256 -Path $filePath); bytes = (Get-Item -LiteralPath $filePath).Length }
   }
   $digestsPath = Join-Path $outFull 'input-digests.json'
-  Set-Content -LiteralPath $digestsPath -Value ((ConvertTo-Json -InputObject ([ordered]@{ algorithm = 'SHA-256'; files = [pscustomobject]$digestFiles }) -Depth 4) + "`n") -Encoding UTF8
+  Write-W05Utf8NoBom -Path $digestsPath -Text ((ConvertTo-Json -InputObject ([ordered]@{ algorithm = 'SHA-256'; files = [pscustomobject]$digestFiles }) -Depth 4) + "`n")
 }
 catch {
   $statusLabel = 'FAILED-EXCEPTION'
@@ -237,12 +239,15 @@ $result = [pscustomobject]@{
   asOf          = $AsOf
   outDir        = $OutDir
   transportCommit = $transportCommit
+  rowCount      = $rowCount
+  excludedItems = @($excludedItems)
+  missingRevisionRows = @($missingRevisionRows)
   checks        = @($checks)
   error         = $errorText
   note          = 'The raw response is preserved at identities-route-response.json whatever the outcome. A capture marked CAPTURED-UNAVAILABLE is evidence of the documented 503 state, not a completed input bundle.'
 }
 $reportPath = Join-Path $OutDir 'capture-report.json'
 if (Test-Path -LiteralPath $OutDir) {
-  Set-Content -LiteralPath $reportPath -Value ((ConvertTo-Json -InputObject $result -Depth 6) + "`n") -Encoding UTF8
+  Write-W05Utf8NoBom -Path $reportPath -Text ((ConvertTo-Json -InputObject $result -Depth 6) + "`n")
 }
 Write-Output $result

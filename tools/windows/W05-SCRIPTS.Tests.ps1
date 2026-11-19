@@ -166,3 +166,204 @@ Describe 'W05 scripts — mandatory coding rules (source scan)' {
     }
   }
 }
+
+function New-W05Step1FixtureItems {
+  # The served 65-item shape (operator evidence 2026-11-19): 64 DHAN_PORTFOLIO items -
+  # one populated flat 'securityIdentity.securityId' and 63 explicit `securityIdentity: null` -
+  # plus one AIIL default-portfolio item. Synthetic stand-in values only.
+  $items = @()
+  $populatedRaw = [pscustomobject]@{
+    symbol                           = 'FIXTURE-SYM-1'
+    isin                             = 'FIXTURE-ISIN-1'
+    exchange                         = 'NSE'
+    quantity                         = 2.0
+    'securityIdentity.securityId'    = 'ISIN:INE415A01038:EQ'
+    'securityIdentity.isin'          = 'INE415A01038'
+    'securityIdentity.series'        = 'EQ'
+    'securityIdentity.isinAuthority' = 'NON_AUTHORITATIVE'
+    portfolioRevision                = 1
+  }
+  $items += [pscustomobject]@{
+    observationId = 'holding:DHAN_PORTFOLIO:0001'
+    portfolioId   = 'DHAN_PORTFOLIO'
+    raw           = $populatedRaw
+  }
+  $index = 2
+  while ($index -le 64) {
+    $nullRaw = [pscustomobject]@{
+    symbol            = ('FIXTURE-SYM-' + $index.ToString())
+      isin              = $null
+      exchange          = $null
+      quantity          = 1.0
+      securityIdentity  = $null
+      portfolioRevision = 1
+    }
+    $items += [pscustomobject]@{
+      observationId = ('holding:DHAN_PORTFOLIO:' + $index.ToString().PadLeft(4, '0'))
+      portfolioId   = 'DHAN_PORTFOLIO'
+      raw           = $nullRaw
+    }
+    $index = $index + 1
+  }
+  $aiilRaw = [pscustomobject]@{
+    symbol            = 'FIXTURE-AIIL-SYM'
+    isin              = $null
+    exchange          = $null
+    quantity          = 1.0
+    securityIdentity  = $null
+    portfolioRevision = 1
+  }
+  $items += [pscustomobject]@{
+    observationId = 'holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001'
+    portfolioId   = 'PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2'
+    raw           = $aiilRaw
+  }
+  Write-Output -NoEnumerate $items
+}
+
+function New-W05Step1FixtureMap {
+  # The operator-built category map: QUALIFIED for the one populated row (from the served
+  # stored identity), MISSING_OR_UNRESOLVED for the 63 explicit-null rows. Never inferred.
+  $map = @{}
+  $map['holding:DHAN_PORTFOLIO:0001'] = 'QUALIFIED'
+  $index = 2
+  while ($index -le 64) {
+    $map[('holding:DHAN_PORTFOLIO:' + $index.ToString().PadLeft(4, '0'))] = 'MISSING_OR_UNRESOLVED'
+    $index = $index + 1
+  }
+  Write-Output $map
+}
+
+Describe 'W05 STEP1 — census extraction honours the served evidence (2026-11-19 corrections)' {
+  BeforeAll {
+    Import-Module (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Force
+    $script:FixtureItems = New-W05Step1FixtureItems
+    $script:FixtureMap = New-W05Step1FixtureMap
+    $script:Extraction = ConvertTo-W05CensusRows -Items $script:FixtureItems -PortfolioId 'DHAN_PORTFOLIO' -CategoryMap $script:FixtureMap
+  }
+
+  It 'captures the 64 DHAN_PORTFOLIO items as exactly 64 census rows' {
+    $rowCount = 0
+    foreach ($row in $script:Extraction.Rows) { $rowCount = $rowCount + 1 }
+    $rowCount | Should -Be 64
+  }
+
+  It 'excludes the AIIL default-portfolio item from the W05 scope and records the exclusion' {
+    $excludedCount = 0
+    foreach ($excludedItem in $script:Extraction.Excluded) { $excludedCount = $excludedCount + 1 }
+    $excludedCount | Should -Be 1
+    $script:Extraction.Excluded[0].observationId | Should -Be 'holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001'
+    $script:Extraction.Excluded[0].portfolioId | Should -Be 'PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2'
+    foreach ($row in $script:Extraction.Rows) {
+      $row.portfolioId | Should -Be 'DHAN_PORTFOLIO'
+    }
+  }
+
+  It 'maps the populated securityIdentity.securityId into the stored identity: QUALIFIED 1' {
+    $first = $script:Extraction.Rows[0]
+    $first.holdingId | Should -Be 'holding:DHAN_PORTFOLIO:0001'
+    $first.storedSecurityIdentity | Should -Be 'ISIN:INE415A01038:EQ'
+    $first.category | Should -Be 'QUALIFIED'
+    $script:Extraction.CategoryCounts['QUALIFIED'] | Should -Be 1
+    $script:Extraction.CategoryCounts['AMBIGUOUS'] | Should -Be 0
+    $script:Extraction.CategoryCounts['EXPIRED_OR_INELIGIBLE'] | Should -Be 0
+    $script:Extraction.CategoryCounts['UNAVAILABLE'] | Should -Be 0
+  }
+
+  It 'preserves the 63 explicit null identities as unresolved: MISSING_OR_UNRESOLVED 63' {
+    $second = $script:Extraction.Rows[1]
+    $second.storedSecurityIdentity | Should -BeNullOrEmpty
+    $second.category | Should -Be 'MISSING_OR_UNRESOLVED'
+    $script:Extraction.CategoryCounts['MISSING_OR_UNRESOLVED'] | Should -Be 63
+    $nullIdentityCount = 0
+    foreach ($row in $script:Extraction.Rows) {
+      if ($null -eq $row.storedSecurityIdentity) { $nullIdentityCount = $nullIdentityCount + 1 }
+    }
+    $nullIdentityCount | Should -Be 63
+  }
+
+  It 'never infers identity from resolver outputs, identityStatus, resolutionDisposition or descriptive fields' {
+    $decoyRaw = [pscustomobject]@{
+      symbol                = 'FIXTURE-DECOY-SYM'
+      isin                  = 'FIXTURE-DECOY-ISIN'
+      exchange              = 'NSE'
+      quantity              = 3.0
+      identityStatus        = 'RESOLVED'
+      resolutionDisposition = 'CANONICAL_P04'
+      securityIdentity      = $null
+      portfolioRevision     = 1
+    }
+    $decoy = [pscustomobject]@{
+      observationId = 'holding:DHAN_PORTFOLIO:9001'
+      portfolioId   = 'DHAN_PORTFOLIO'
+      binding       = [pscustomobject]@{ issuerId = 'FIXTURE-ISSUER'; securityId = 'ISIN:FIXTURE:EQ'; listingId = 'FIXTURE-LISTING' }
+      resolution    = [pscustomobject]@{ state = 'RESOLVED' }
+      raw           = $decoyRaw
+    }
+    $decoyExtraction = ConvertTo-W05CensusRows -Items @($decoy) -PortfolioId 'DHAN_PORTFOLIO' -CategoryMap @{}
+    $decoyExtraction.Rows[0].storedSecurityIdentity | Should -BeNullOrEmpty
+    $uncategorizedCount = 0
+    foreach ($holdingId in $decoyExtraction.Uncategorized) { $uncategorizedCount = $uncategorizedCount + 1 }
+    $uncategorizedCount | Should -Be 1
+    $decoyExtraction.Uncategorized[0] | Should -Be 'holding:DHAN_PORTFOLIO:9001'
+  }
+
+  It 'records the served portfolio revision exactly and never fabricates or substitutes one' {
+    $script:Extraction.Rows[0].portfolioRevision | Should -Be '1'
+    $script:Extraction.Rows[63].portfolioRevision | Should -Be '1'
+    $missingRaw = [pscustomobject]@{
+      symbol           = 'FIXTURE-NOREV-SYM'
+      isin             = $null
+      exchange         = $null
+      quantity         = 1.0
+      securityIdentity = $null
+    }
+    $missingItem = [pscustomobject]@{
+      observationId = 'holding:DHAN_PORTFOLIO:9002'
+      portfolioId   = 'DHAN_PORTFOLIO'
+      raw           = $missingRaw
+    }
+    $missingExtraction = ConvertTo-W05CensusRows -Items @($missingItem) -PortfolioId 'DHAN_PORTFOLIO' -CategoryMap @{}
+    $missingExtraction.Rows[0].portfolioRevision | Should -BeNullOrEmpty
+    $missingCount = 0
+    foreach ($holdingId in $missingExtraction.MissingRevisionRows) { $missingCount = $missingCount + 1 }
+    $missingCount | Should -Be 1
+    $missingExtraction.MissingRevisionRows[0] | Should -Be 'holding:DHAN_PORTFOLIO:9002'
+  }
+}
+
+Describe 'W05 STEP1 — JSON output is UTF-8 without BOM, parseable by the Step 2 reader' {
+  BeforeAll {
+    Import-Module (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Force
+  }
+
+  It 'Write-W05Utf8NoBom writes BOM-free text that the Step 2 JSON reader parses' {
+    $probePath = Join-Path $TestDrive 'probe.json'
+    $probeText = '{"portfolioId":"DHAN_PORTFOLIO","rows":[]}'
+    Write-W05Utf8NoBom -Path $probePath -Text $probeText
+    $bytes = [System.IO.File]::ReadAllBytes($probePath)
+    $hasBom = $false
+    if ($bytes.Length -ge 3) {
+      if ($bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF) { $hasBom = $true }
+    }
+    $hasBom | Should -BeFalse
+    [System.IO.File]::ReadAllText($probePath) | Should -Be $probeText
+    # The Step 2 reader is Node JSON.parse over the utf8 file text (run-census-reconciliation.ts).
+    $readerPath = Join-Path $TestDrive 'step2-reader-probe.js'
+    Write-W05Utf8NoBom -Path $readerPath -Text 'JSON.parse(require("fs").readFileSync(process.argv[2], "utf8"))'
+    $native = Invoke-W05Native -FilePath 'node' -ArgumentList @($readerPath, $probePath) -WorkingDirectory $TestDrive -TimeoutSeconds 30
+    $native.TimedOut | Should -BeFalse
+    $native.ExitCode | Should -Be 0
+  }
+
+  It 'every JSON file Step 1 writes goes through Write-W05Utf8NoBom, never Set-Content' {
+    $source = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'W05-STEP1-CAPTURE-REVISION1-IDENTITIES.ps1') -Raw
+    $code = [regex]::Replace($source, '<#.*?#>', '', 'Singleline')
+    $code = [regex]::Replace($code, '(?m)#.*$', '')
+    $code = [regex]::Replace($code, "'[^']*'", "''")
+    $code = [regex]::Replace($code, '"[^"]*"', '""')
+    $code | Should -Not -Match 'Set-Content' -Because 'PS 5.1 Set-Content -Encoding UTF8 emits a BOM the Step 2 reader rejects'
+    $writeSites = [regex]::Matches($code, 'Write-W05Utf8NoBom')
+    $writeSites.Count | Should -BeGreaterThan 5
+  }
+}

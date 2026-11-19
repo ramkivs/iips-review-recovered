@@ -125,3 +125,140 @@ function Get-W05Http {
     ErrorText = $errorText
   }
 }
+
+function Write-W05Utf8NoBom {
+  <#
+  .SYNOPSIS
+    Write text as UTF-8 WITHOUT a byte-order mark.
+
+  .DESCRIPTION
+    Windows PowerShell 5.1 `Set-Content -Encoding UTF8` emits a BOM, and the Step 2
+    JSON reader is Node's `JSON.parse`, which rejects a BOM-prefixed document (the
+    driver exits 2 with UnreadableBundle - the pinned 2026-11-19 capture incident).
+    Every JSON file a W05 Windows script writes goes through this helper so the
+    document is BOM-free and parseable by the Step 2 reader on the first attempt.
+  #>
+  param(
+    [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$Path,
+    [Parameter(Mandatory = $true)][AllowEmptyString()][AllowNull()][string]$Text
+  )
+  $directory = Split-Path -Parent $Path
+  if ($directory -ne '') {
+    if (-not (Test-Path -LiteralPath $directory)) {
+      New-Item -ItemType Directory -Path $directory -Force | Out-Null
+    }
+  }
+  [System.IO.File]::WriteAllText($Path, $Text, [System.Text.UTF8Encoding]::new($false))
+}
+
+function ConvertTo-W05CensusRows {
+  <#
+  .SYNOPSIS
+    Project served coverage items into W05-W04 section 4 census rows, scoped to the target portfolio.
+
+  .DESCRIPTION
+    Census extraction rules (the 2026-11-19 evidence-driven correction of the capture):
+    - Scope: only items whose portfolioId is exactly the target portfolio (case-sensitive)
+      become rows. Items of any other portfolio (the AIIL default-portfolio item served
+      alongside the census portfolio) are recorded in Excluded and never counted as rows.
+    - Stored identity: the served populated shape carries the flat dotted key
+      'securityIdentity.securityId' on item.raw. An explicit `securityIdentity: null` or an
+      absent key means no stored identity and is preserved as an unresolved null. Identity
+      is NEVER inferred from symbols, company names, registry membership, identityStatus,
+      resolutionDisposition, resolver outputs or row position.
+    - Revision: item.raw carries 'portfolioRevision' when the source projection supplies the
+      portfolio's real revision. It is recorded exactly as stored and never invented; an item
+      without it is listed in MissingRevisionRows so the capture fails closed instead of
+      fabricating a revision.
+    - Category: raw.category when it is one of the five governance categories, else the
+      per-holding entry of the operator-built category map, else null (listed in
+      Uncategorized; the capture refuses to pass validation).
+    Items are `ConvertFrom-Json` shaped (PSCustomObject), as served by the identities route.
+  #>
+  param(
+    [Parameter(Mandatory = $true)][AllowEmptyCollection()]$Items,
+    [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$PortfolioId,
+    [Parameter(Mandatory = $true)][hashtable]$CategoryMap
+  )
+  $rows = @()
+  $excluded = @()
+  $uncategorized = @()
+  $missingRevision = @()
+  $categoryCounts = [ordered]@{
+    QUALIFIED             = 0
+    AMBIGUOUS             = 0
+    MISSING_OR_UNRESOLVED = 0
+    EXPIRED_OR_INELIGIBLE = 0
+    UNAVAILABLE           = 0
+  }
+  $vocabulary = @('QUALIFIED', 'AMBIGUOUS', 'MISSING_OR_UNRESOLVED', 'EXPIRED_OR_INELIGIBLE', 'UNAVAILABLE')
+  foreach ($item in $Items) {
+    $holdingId = '{0}' -f $item.observationId
+    $itemPortfolio = '{0}' -f $item.portfolioId
+    $inScope = $itemPortfolio -ceq $PortfolioId
+    if (-not $inScope) {
+      $excluded += [pscustomobject]@{
+        observationId = $holdingId
+        portfolioId   = $itemPortfolio
+      }
+    }
+    if ($inScope) {
+      $raw = $item.raw
+      if ($null -eq $raw) {
+        $raw = [pscustomobject]@{}
+      }
+      $category = $null
+      $rawCategory = '{0}' -f $raw.category
+      if ($vocabulary -ccontains $rawCategory) {
+        $category = $rawCategory
+      }
+      if ($null -eq $category -and $CategoryMap.ContainsKey($holdingId)) {
+        $mapped = '{0}' -f $CategoryMap[$holdingId]
+        if ($vocabulary -ccontains $mapped) {
+          $category = $mapped
+        }
+      }
+      if ($null -eq $category) {
+        $uncategorized += $holdingId
+      }
+      if ($null -ne $category) {
+        $categoryCounts[$category] = $categoryCounts[$category] + 1
+      }
+      $storedIdentity = $null
+      $identityProperty = $raw.PSObject.Properties['securityIdentity.securityId']
+      if ($null -ne $identityProperty) {
+        $identityValue = '{0}' -f $identityProperty.Value
+        if ($identityValue -ne '') {
+          $storedIdentity = $identityValue
+        }
+      }
+      $revision = $null
+      $revisionProperty = $raw.PSObject.Properties['portfolioRevision']
+      if ($null -ne $revisionProperty) {
+        $revision = '{0}' -f $revisionProperty.Value
+      }
+      if ($null -eq $revision -or $revision -eq '') {
+        $missingRevision += $holdingId
+      }
+      $row = [ordered]@{
+        holdingId              = $holdingId
+        portfolioId            = $itemPortfolio
+        portfolioRevision      = $revision
+        symbol                 = $raw.symbol
+        isin                   = $raw.isin
+        exchange               = $raw.exchange
+        quantity               = $raw.quantity
+        storedSecurityIdentity = $storedIdentity
+        category               = $category
+      }
+      $rows += [pscustomobject]$row
+    }
+  }
+  Write-Output -NoEnumerate ([pscustomobject]@{
+    Rows                = $rows
+    Excluded            = $excluded
+    Uncategorized       = $uncategorized
+    MissingRevisionRows = $missingRevision
+    CategoryCounts      = $categoryCounts
+  })
+}
