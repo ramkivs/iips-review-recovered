@@ -17,8 +17,9 @@ import { useMemo, useRef, useState } from 'react';
 import { freezeEvidenceSubmission, type EvidenceSubmission } from '../../api/brokerEvidenceSubmission';
 import { retainAndVerifyEvidence, type RetentionResult } from '../../api/brokerEvidenceRetention';
 import { previewBrokerHoldings, type BrokerHoldingsPreview as Preview, type BrokerPreviewRow } from '../../api/brokerHoldingsPreview';
-import { prepareBrokerImport, type PreparedBrokerImport } from '../../api/brokerImportStage4';
-import type { BrokerImportSuccess } from 'iips-production-market-data/portfolio-ui';
+import { prepareBrokerImport, type PreparedBrokerImport, type Stage4SuccessResult } from '../../api/brokerImportStage4';
+import { prepareFullSnapshotBrokerImport, type PreparedFullSnapshotImport } from '../../api/brokerFullSnapshotImport';
+
 import {
   BrokerChip,
   BrokerDisclosure,
@@ -100,7 +101,13 @@ export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowC
   const [snapshot, setSnapshot] = useState<EvidenceSubmission | null>(null);
   const [retention, setRetention] = useState<RetentionResult>({ state: 'NOT_RETAINED' });
   const [prepared, setPrepared] = useState<PreparedBrokerImport | null>(null);
-  const [committed, setCommitted] = useState<BrokerImportSuccess | null>(null);
+  // IPD PR #177/#178 daily-snapshot opt-in: prepared independently of `prepared` above, since
+  // it runs a SEPARATE ingress pass with identity resolution relaxed (see
+  // `brokerFullSnapshotImport.ts`). Null whenever the file could not be prepared as a complete,
+  // valid full-snapshot book; the operator's explicit toggle (in `BrokerImportCommit`) decides
+  // whether it is ever used, never this component.
+  const [fullSnapshotPrepared, setFullSnapshotPrepared] = useState<PreparedFullSnapshotImport | null>(null);
+  const [committed, setCommitted] = useState<Stage4SuccessResult | null>(null);
   const [committing, setCommitting] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [query, setQuery] = useState('');
@@ -135,6 +142,7 @@ export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowC
     setPreview(null);
     setSnapshot(null);
     setPrepared(null);
+    setFullSnapshotPrepared(null);
     setCommitted(null);
     originalRecordDigest.current = undefined;
     setRetention({ state: 'NOT_RETAINED' });
@@ -151,6 +159,7 @@ export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowC
     setPreview(null);
     setSnapshot(null);
     setPrepared(null);
+    setFullSnapshotPrepared(null);
     setCommitted(null);
     originalRecordDigest.current = undefined;
     setRetention({ state: 'NOT_RETAINED' });
@@ -167,12 +176,17 @@ export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowC
       const content = await file.text();
       // A clear or newer selection must not restore a stale personal-financial-data preview.
       if (current !== sequence.current) return;
+      const asOf = new Date().toISOString();
       let commitPayload: PreparedBrokerImport | null = null;
-      const result = previewBrokerHoldings(content, file.name, new Date().toISOString(), ingress => {
+      const result = previewBrokerHoldings(content, file.name, asOf, ingress => {
         if (allowCommit) commitPayload = prepareBrokerImport(ingress);
       });
       setPreview(result);
       setPrepared(commitPayload);
+      // Prepared independently (a separate ingress pass with identity resolution relaxed — see
+      // `brokerFullSnapshotImport.ts`), using the SAME content/fileName/asOf so both payloads
+      // describe the identical source bytes. Only ever used if the operator explicitly opts in.
+      setFullSnapshotPrepared(allowCommit ? prepareFullSnapshotBrokerImport(content, file.name, asOf) : null);
       if (result.status.startsWith('PARSED_') && result.holdings.length) {
         try {
           const dto = freezeEvidenceSubmission(file.name, result);
@@ -639,7 +653,8 @@ export function BrokerHoldingsPreview({ allowCommit = false }: { readonly allowC
       {retentionStatusPanel}
       {allowCommit && preview ? (
         <BrokerImportCommit key={`${preview.contentDigest}-${preview.asOf}`}
-          prepared={prepared} onSuccess={setCommitted} onBusyChange={setCommitting} />
+          prepared={prepared} fullSnapshotPrepared={fullSnapshotPrepared}
+          onSuccess={setCommitted} onBusyChange={setCommitting} />
       ) : null}
       {retentionPanel}
     </>

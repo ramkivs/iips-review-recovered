@@ -230,6 +230,92 @@ describe('brokerImportHttp — Stage 4 refusal and unknown mapping', () => {
   });
 });
 
+describe('brokerImportHttp — PR #177/#178 daily-snapshot additive mapping', () => {
+  function partialAcceptanceSummary(overrides: Record<string, unknown> = {}) {
+    return {
+      importId: 'i'.repeat(64),
+      totalRows: 2,
+      resolvedCount: 1,
+      unresolvedCount: 1,
+      resolvedMarketValue: 8000,
+      refusedHoldings: [{
+        symbol: 'UNKNOWNCO', quantity: 3, averageBuyPrice: 10, currentPrice: 11, marketValue: 33,
+        sourceBroker: 'DHAN', lineageDigest: 'e'.repeat(64), reason: 'NO_AUTHORITATIVE_IDENTIFIER_MATCH',
+      }],
+      duplicateSymbols: [],
+      summaryDigest: 'f'.repeat(64),
+      ...overrides,
+    };
+  }
+
+  function partialAcceptanceRequired(summary: Record<string, unknown>): IpcCallResult {
+    return successFrame({ ok: false, code: 'PARTIAL_ACCEPTANCE_REQUIRED', message: 'x', storeEffect: 'NONE', summary });
+  }
+
+  it('maps a well-shaped PARTIAL_ACCEPTANCE_REQUIRED to 428 with the summary relayed verbatim, nothing written', async () => {
+    const summary = partialAcceptanceSummary();
+    const result = await callHandler(PATH, jsonPost(stage4Body({ fullSnapshot: true, importId: summary.importId })), {
+      ipc: partialAcceptanceRequired(summary),
+    });
+    expect(result.status).toBe(428);
+    expect(result.json).toEqual({ outcome: 'PARTIAL_ACCEPTANCE_REQUIRED', storeEffect: 'NONE', summary });
+    expect(result.calls).toHaveLength(1);
+  });
+
+  it('treats an inconsistent PARTIAL_ACCEPTANCE_REQUIRED (wrong storeEffect) as OUTCOME_UNKNOWN, never 428', async () => {
+    const summary = partialAcceptanceSummary();
+    const inconsistent = successFrame({ ok: false, code: 'PARTIAL_ACCEPTANCE_REQUIRED', message: 'x', storeEffect: 'REVISION_COMMITTED', summary });
+    const result = await callHandler(PATH, jsonPost(stage4Body()), { ipc: inconsistent });
+    expect(result.status).toBe(503);
+    expect(result.json).toEqual({ outcome: 'OUTCOME_UNKNOWN', retried: false });
+  });
+
+  it('accepts a resubmission carrying partialAcceptance and relays IPD’s PARTIALLY_ACCEPTED success', async () => {
+    const summary = partialAcceptanceSummary();
+    const approved = committed({
+      revision: 2, importId: summary.importId, snapshotState: 'PARTIALLY_ACCEPTED', unresolvedCount: 1,
+      reconciliation: { observed: 1, exitedZeroQuantity: 0, carriedForwardAbsent: 0, unresolved: 1, stale: false, complete: false, totalMarketValue: 8000, absent: [] },
+    });
+    const body = stage4Body({
+      fullSnapshot: true,
+      importId: summary.importId,
+      partialAcceptance: { approved: true, approvedAt: '2026-11-08T09:20:00.000Z', approvedBy: 'local-operator', summaryDigest: summary.summaryDigest },
+    });
+    const result = await callHandler(PATH, jsonPost(body), { ipc: successFrame(approved) });
+    expect(result.status).toBe(200);
+    expect(result.json).toEqual(approved);
+    expect(result.calls[0].payload).toEqual({ portfolioId: 'E2E_SYNTHETIC', ...body });
+  });
+
+  it('maps the PR #177/#178 additive refusal codes to their documented status', async () => {
+    const cases: ReadonlyArray<readonly [string, number]> = [
+      ['REFUSED_DUPLICATE_ROWS', 422],
+      ['REFUSED_EMPTY_SNAPSHOT', 422],
+      ['REFUSED_INVALID_SOURCE_DIGEST', 400],
+      ['REFUSED_APPROVAL_MISMATCH', 409],
+    ];
+    for (const [code, status] of cases) {
+      const result = await callHandler(PATH, jsonPost(stage4Body({ fullSnapshot: true })), { ipc: classA(code) });
+      expect(result.status, code).toBe(status);
+      expect(result.json, code).toEqual({ outcome: code, storeEffect: 'NONE' });
+    }
+  });
+
+  it('refuses a malformed partialAcceptance shape before any socket, with zero IPC calls', async () => {
+    for (const body of [
+      { ...stage4Body(), partialAcceptance: { approved: 'yes', approvedAt: 'a', approvedBy: 'b', summaryDigest: 'f'.repeat(64) } },
+      { ...stage4Body(), partialAcceptance: { approved: true, approvedAt: 'a', approvedBy: 'b' } },
+      { ...stage4Body(), fullSnapshot: 'true' },
+      { ...stage4Body(), importId: '' },
+    ]) {
+      const result = await callHandler(PATH, jsonPost(body), { ipc: successFrame(committed()) });
+      expect(result.status, JSON.stringify(body).slice(0, 80)).toBe(400);
+      expect(result.json).toEqual({ outcome: 'INVALID_REQUEST', storeEffect: 'NONE' });
+      expect(result.calls).toHaveLength(0);
+    }
+  });
+});
+
 describe('brokerImportHttp — Stage 4 body admission before any socket', () => {
   it('refuses a provenance-bearing body that fails validation, with zero IPC calls', async () => {
     for (const body of [
