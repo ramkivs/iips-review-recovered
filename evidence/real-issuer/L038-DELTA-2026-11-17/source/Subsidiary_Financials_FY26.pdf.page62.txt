@@ -1,0 +1,69 @@
+58
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                             the exercise price of a purchase option reasonably       it is probable that an outflow of economic benefits will be
+               certain to be exercised by the Group; and                                              required to settle the obligation and a reliable estimate can
+                                                                                                      be made of the amount of the obligation.
+                               payments of penalties for terminating the lease,
+               if the lease term reflects the Group exercising the                                                                             The amount recognised as a provision is the best estimate
+               option to terminate.                                                                   of the consideration required to settle the present obligation
+                         The Group uses its incremental borrowing rate as the                         at the reporting date taking into account the risks and
+       discount rate in calculating the present value of lease                                        uncertainties surrounding the obligation. Where a provision
+       payments and uses the incremental borrowing rate at the                                        is measured using the cash flow estimated to settle the
+       commencement date of the lease if the profit rate implicit in                                  present obligation, its carr ying amount is the present value
+       the lease is not readily determinable. Further, the carrying                                   of those cash flows.
+
+       amount of lease liabilities is remeasured if there is a                                                                                                           When some or all of the economic benefits required to settle
+       modification, a change in the lease term, a change in the                                      a provision are expected to be recovered from a third party,
+       in-substance lease payments or a change in the assessment                                      the receivable is recognised as an asset if it is virtually
+       to purchase the underlying asset.                                                              certain that reimbursement will be received and the amount
+                                                                                                      of receivable can be measured reliably.
+                                            Each lease payment is allocated between the liability and
+       finance cost. The finance cost is charged to profit or loss                             l)                                                 Contingencies and commitments
+       over the lease period so as to produce a constant periodic                                                                                                Contingent liabilities are not recognised in the consolidated
+       rate of interest on the remaining balance of the liability                                     financial statements. They are disclosed unless the
+       for each period.                                                                               possibility of an outflow of resources embodying economic
+                                                  Short-term leases                                   benefits is remote. A contingent asset is not recognised in
+                                                                                                      the consolidated financial statements but disclosed when an
+               The Group applies the short-term lease recognition                                     inflow of economic benefits is probable.
+       exemption to its short-term leases (i.e., those leases that have
+       a lease term of 12 months or less from the commencement                                 m)                                                 Value added tax
+       date and do not contain a purchase option). Lease                                                                                      The Group pays Value Added Tax (VAT) on every taxable
+       payments on short-term leases are recognised as expense                                        supply and deemed supply, in accordance with the
+       on a straight-line basis over the lease term.                                                  applicable commercial VAT laws. Non-recoverable input
+i)                                                 Cash and cash equivalents                          VAT is charged to the relevant expenditure category or
+                   Cash and cash equivalents comprise cash on hand,                                   included in costs of non-current assets. The Group files its
+       bank balances in current accounts, bank deposits free of                                       VAT returns and computes the payable tax (which is output
+       encumbrance with a maturity date of three months or less                                       tax less input tax) for the allotted tax periods and deposits
+       from the date of deposit and highly liquid investments with                                    the same within the prescribed due dates of filing VAT return
+       a maturity date of three months or less from the date of                                       and tax payment. VAT receivable and VAT payable are
+                                                                                                      offset and the net amount is reported in the consolidated
+       investment that are readily convertible to known amount                                        statement of financial position as the Group has a legally
+       of cash and which are subject to an insignificant risk of                                      enforceable right to offset the recognised amounts and has
+       changes in value.                                                                              the intention to settle the same on net basis.
+
+j)                                                 Borrowing costs                             n)                                                 Income and deferred tax
+                        Borrowing costs are recognised as an expense in the                                                                Tax expense for the year comprises of current income tax
+       period in which they are incurred except those that are                                        and deferred tax. Current tax is measured by the amount
+       attributable to the acquisition and construction of an asset                                   of tax expected to be paid to the federal tax authorities
+       that necessarily takes a substantial period to get ready for                                   on the taxable profits after considering tax allowances and
+       its intended use (“qualifying asset”). Such borrowing costs                                    exemptions and applying the applicable tax rates and laws.
+       are capitalised as part of the related qualifying asset up to                                  Deferred tax is recognised on the temporary differences
+       the date the qualifying asset is ready for use.                                                between the accounting base and the tax base for the year
+k)Provisions                                                                                          and quantified using the tax rates and tax laws enacted or
+                                                                                                      substantively enacted as on the balance sheet date.
+                                         A provision is recognised when the Group has a present
+       obligation (legal or constructive) as a result of a past event,

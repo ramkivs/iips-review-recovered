@@ -23547,7 +23547,299 @@ source-rights change, O3 authorisation, host install or production operation; no
 contract unchanged (its header and reserved-decision section now record the outcome instead of calling `S4-R5` open);
 `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged; Stage 4 remains **PARTIALLY COMPLETE**; overall IID
 readiness **NOT READY**. Remaining limitation: the disclosure is per issuer and method id, not a per-period series, so
-*which* earlier year carries an earlier-only method still needs the coverage evidence. Next Stage 4 roadmap item is
-**`S4-R6`** (`G-4`, operating metrics), then `S4-R7`/`S4-R8`.
+*which* earlier year carries an earlier-only method still needs the coverage evidence. Next Stage 4 roadmap item was
+**`S4-R6`** (`G-4`, operating metrics), then `S4-R7`/`S4-R8`; `S4-R6` has since been investigated in `§16.297`, which
+leaves every statement above true and records the item still **OPEN** on its owner decision.
 
-Next free §16.297 / `CV-CORR-262` / `CHG-2026-11-06-25` / `V2190`.
+## 16.297 `CV-CORR-262` — IID Stage 4 `S4-R6` investigated: the 14-slot operating-metric matrix is fixed from source, the capability is proven unchanged, no admissible source value exists, and `G-4` stays OPEN with the owner decision outstanding (`2026-11-18`; `CHG-2026-11-06-25`; `V2190`–`V2196`)
+
+**Baseline (`V2190`).** `f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e` (`main` = merge of PR #590 / `S4-R5`), clean worktree.
+Scope: **IRR only**. Record: `docs/integration/IID-S4-R6-OPERATING-METRICS-2026-11-18.md`. Evidence:
+`evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/` (`runs/metric-requirement-matrix.json`,
+`runs/metric-census.json`, `runs/capability-probes.json`). Register: Stage 4 `S4-R6` row updated to record the
+investigation, plus an addendum at the foot of that document. **No production source file changed** — the item's
+source diff is empty, and that is a finding, not an omission.
+
+**The requirement set, derived not quoted (`V2191`).** The register's "14 of 38" is confirmed from `SECTOR_METHODS`
+(`coverage/methodMatrix.ts`) and `OPERATING_METRICS` (`contracts/operatingMetrics.ts`), and the slots are enumerated:
+Technology `EV_REVENUE` (`TM_NRR`, `TM_RECURRING_REVENUE_PCT`); Industrials `EV_REVENUE` (`IN_BOOK_TO_BILL`);
+Materials `NAV_RESERVES` (`MM_RESERVE_LIFE`, `MM_COST_POSITION`); Utilities `REGULATED_ASSET_BASE` (`UM_RAB`,
+`UM_ALLOWED_ROE`); Auto `EV_REVENUE` (`AU_CAPACITY_UTILISATION`, `AU_MARKET_SHARE`); Energy `EV_EBITDAX`
+(`EM_LIFTING_COST`) and `NAV_RESERVES` (`EM_RESERVE_REPLACEMENT`); Healthcare `EV_EBITDA` (`HC_OCCUPANCY`,
+`HC_ARPOB`); Hospitality `EV_EBITDA` (`HM_REVPAR`); Banking `RESIDUAL_INCOME` (`BM_NIM`, `BM_GNPA`, `BM_CET1`) and
+`PB_RELATIVE` (`BM_GNPA`); Insurance `P_EMBEDDED_VALUE` (`IM_EMBEDDED_VALUE`, `IM_VNB_MARGIN`, `IM_SOLVENCY`);
+Capital Markets `P_AUM` (`CM_AUM`, `CM_COST_TO_INCOME`); Telecom `EV_SUBSCRIBER` (`TL_SUBSCRIBERS`, `TL_ARPU`).
+**24** of the **33** vocabulary ids are required; **nine** are required by no method (`BM_CAR`, `BM_CASA`, `BM_NNPA`,
+`CM_NET_FLOWS`, `HM_ADR`, `HM_OCCUPANCY`, `IM_COMBINED_RATIO`, `IM_PERSISTENCY`, `IN_ORDER_BOOK`). Every declared
+metric carries `minimumSourceClass: OPERATOR_ENTERED`; the requirement is **mandatory** (no conditional construct in
+`MethodRequirement.metrics`), the unit and range are the metric definition's own, and the period must be an **annual**
+period end the dataset carries for that issuer.
+
+**The census (`V2192`).** Both served datasets re-ingested at clock 2026-11-18: **0** operating-metric records, no
+`VENDOR` observation, no metric-related ingestion issue. `git ls-files` finds **one** metric-bearing file in the entire
+repository — the synthetic 7-row test fixture (2 synthetic issuers, a deliberate GNPA/NNPA inconsistency) — so the
+recorded zero is a fact about the repository rather than a reporting artefact. The two live gated slots are Technology
+`EV_REVENUE` `WITHHELD` `MANDATORY_METRIC_MISSING [TM_NRR, TM_RECURRING_REVENUE_PCT]` and Industrials `EV_REVENUE`
+`WITHHELD` `MANDATORY_METRIC_MISSING [IN_BOOK_TO_BILL]`; the other **twelve** are `UNMEASURED` for want of an admitted
+issuer. Consumer's `operatingMetricCoveragePct 100` means *nothing was required* (`measure.ts:250`), and is recorded as
+such rather than as evidence of data.
+
+**Source and rights (`V2193`).** No admissible source-backed value exists in this repository for any of the 14 slots.
+`REL-1` records that Infosys does not disclose `TM_NRR`/`TM_RECURRING_REVENUE_PCT` "in a form this dataset can carry"
+and that neither is imputed from a segment note; `WI8` §7 records that the FY2025-26 report prints order intake
+₹25,280 crore and order book ₹36,267 crore but **no book-to-bill ratio** and **no prior-year intake**, and that division
+is forbidden ("D-2 forbids arithmetic invention of a metric, and one year's intake is not a ratio"). The remaining
+twelve slots have no admitted issuer, so no issuer source for them is committed either. This states what the
+repository holds; it is **not** a claim that such values are unpublished. No provider admitted, `O3` untouched,
+source-rights records unchanged, **no web-derived figure used**, nothing fabricated, estimated, backfilled,
+extrapolated or substituted.
+
+**Capability, verified and unchanged (`V2194`).** `iips-platform/tests/investment/s4r6-operating-metric-gating.test.ts`
+— **25 issuer-neutral tests**, plus twelve deterministic probes: a well-formed `OPERATOR_ENTERED` row is ingested
+`VALID` with lineage; `UNKNOWN_METRIC`, `UNKNOWN_ISSUER`, `SOURCE_REF_REQUIRED` and `INVALID_SOURCE_CLASS` are errors
+and never become availability; `UNIT_MISMATCH`, `OUT_OF_RANGE`, empty value, conflict and cross-field inconsistency each
+withhold the method with a named reason and never a zero; a metric at a period the dataset does not carry is retained,
+warned about (`METRIC_PERIOD_NOT_IN_DATASET`) and gates nothing; a two-metric method needs both metrics; a `VENDOR`
+observation is retained and coverage-counted yet **never opens the assessment** (the declared source floor is applied
+there, and the refusal names the metric and says the source class is too weak), while a metric from another sector's
+vocabulary is retained but inert at both layers — so "does a below-floor or wrong-sector observation unlock anything?"
+is answered **no** at the measurement layer and, for the below-floor case, at the assessment layer too, in a regression
+test rather than in prose; a previously
+unseen issuer (created inside the test) satisfies the same declaration through the same code path, and
+`issuersAvailable` names exactly who qualified, so a quarantined issuer neither is credited nor poisons a clean one.
+**No defect was found that prevents a required behaviour, so no logic was changed.** Two detection gaps are recorded
+and deliberately not "fixed": there is no metric/issuer-sector consistency check (a `TM_NRR` on a Hospitality issuer is
+accepted `VALID` and permanently inert; adding a warning would flip that issuer's served row to `ISSUED_DATA` through
+`issuerIdOfIssue`), and `period_end` is not format-validated (a malformed end simply never matches a period, so it is
+fail-safe).
+
+**The two layers stay distinct (`V2195`).** `layerProbes` demonstrate `S4-R4`'s D4 live on one synthetic observation:
+coverage reports `AVAILABLE` for all three source classes, while the assessment refuses `VENDOR` as
+`MANDATORY_METRIC_MISSING: HM_REVPAR (source class too weak)` (`assessment/methods.ts:147`) and refuses
+`OPERATOR_ENTERED`/`COMPUTED_FROM_STATEMENTS` on a history rule (`INSUFFICIENT_HISTORY`). A `VENDOR` metric would not
+unlock the assessment even if it unlocked coverage. `S4-R4`'s contract is unchanged and not reopened.
+
+**`G-4` determination (`V2196`).** **`G-4` remains OPEN.** The register's closure evidence — `operatingMetricRecords > 0`
+with `validation VALID` **and** the named methods `AVAILABLE` — is unmet on both clauses, and there is no partial metric
+set to be partially closed by. Capability is not a `G-4` acceptance criterion and is not presented as one. **Option B
+(keep these methods withheld for this population) cannot close `G-4` against that test**: it produces no valid record
+and leaves every named method `WITHHELD`, so it would record a **controlled limitation**. The repository states the
+`S4-R6` closure test **two ways** — the register's numeric evidence above, and `S4-R3` reassessment §4's "validated
+metric records **or** a recorded decision to keep methods withheld" — and this item does not choose between them,
+because choosing would redefine acceptance on the owner's behalf. Until the owner decides **both** the disposition (A
+admit specified source-supported metrics under the existing source-admission controls / B keep withheld) **and** which
+closure test governs, `G-4` stays OPEN with the ambiguity recorded. The affected methods and the maximum live effect are
+named exactly: two slots can move for the current population (Technology `EV_REVENUE`, Industrials `EV_REVENUE`); the
+other twelve additionally need issuers admitted in their sectors (`O3`), so metrics alone cannot change them. An
+operator's technical withholding is **not** owner approval, and nothing here claims closure because withholding is safe.
+
+**Nothing else moved (`V2196`).** No valuation formula, weight, threshold, cap, freshness window, method requirement or
+withholding rule changed; no missing→zero and no substitution; no issuer admission, dataset construction, source-rights
+change, `O3` authorisation, host install, production operation or cross-repository write; no issuer-specific branch;
+`S4-R2` stays **CLOSED**; `S4-R3`/`S4-R3-Infosys` stay **OPEN**; `S4-R4` **CLOSED**; `S4-R5` **DECIDED — DISCHARGED**;
+`S4-R7` complete; `S4-R8` open (event-driven); `L-001` (3 of 13 sectors), `G-6`, `L-041`, `L-042` unchanged; Stage 4
+remains **PARTIALLY COMPLETE**; overall IID readiness **NOT READY**. Remaining operator actions: a source-backed metric
+file for the two live slots (with `source_ref` document+locator), issuer admission for the other twelve sectors, and the
+owner's A/B disposition plus the closure-test question. Next Stage 4 roadmap item is **`S4-R7`** (already discharged),
+then **`S4-R8`** (corporate actions), with `S4-R6`'s owner decision outstanding in parallel.
+
+Next free §16.298 / `CV-CORR-263` / `CHG-2026-11-06-26` / `V2197`.
+
+
+## 16.298 `CV-CORR-263` — IID Stage 4 S4-R8 corporate-actions G-8 investigated; real limb OPEN/event-driven (`2026-11-17`; `CHG-2026-11-06-26`; `V2197`–`V2204`)
+
+**Baseline/criterion (`V2197`).** Current authoritative remote main, PR #591 merge, clean before edits; exact
+machine-recorded baseline in `docs/integration/IID-S4-R8-CORPORATE-ACTIONS-2026-11-17.md` §1 and evidence census.
+IRR only. Governing roadmap row S4-R8: **Record actions as they occur and re-publish**, closure evidence
+**`corporateActions > 0`**, OPERATOR/event-driven. L-031 §16.2 remains OPEN and requires a real declared-action
+price guard/factor demonstration. Corporate-actions G-8 is not PA-01's authority-collapse G-8 or AC-X6's closed
+fixture-size G-8; no acceptance ceremony is added and no evidence criterion weakened.
+
+**Synthetic evidence (`V2198`).** Scenario 7 **DEMONSTRATED — SYNTHETIC_FIXTURE**, unchanged three tests reused.
+Existing corporate-action/source/scenario-matrix tests **77/77**. No fixture or scenario-demo test rewritten;
+no synthetic action credited as real coverage.
+
+**Census (`V2199`).** `evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/census.json`: 597 baseline files
+under real-issuer evidence, including source extracts and retrieval reports, plus all 13 corporate-action tables
+across the repository (11 real-evidence tables empty, 2 synthetic fixtures carrying 3/9 actions). All inspected
+paths/blob ids and discovery-hit line locators recorded. Admitted population remains Infosys/Marico/KEC, not Zensar
+or controls. Historical and refresh-candidate inputs separately replayed/read back: **0 corporateActions** each.
+The refresh remains a candidate, not new O3 authority. Primary PDFs absent; no network source used.
+
+**Sources/rights (`V2200`).** `candidate-events.json`: 13 discovery candidate/group rows, not 13 validated events;
+classes (1)/(2)/(3)/(4)/(5) = **0/2/6/0/5**, zero admissible canonical events. Infosys Note 2.12 gives an aggregate
+five-year purchased/extinguished-share reference, not individual dates/terms/factors. Marico retrieval reports give
+month-level historical bonuses (equity/preference), a 2007 split and preference redemption, without day-level
+event/historical security detail or event admission; predating measured periods does not prove continuity.
+KEC QIP, Marico ESOP and cash-dividend references cannot be relabelled into unsupported action types. KEC brand
+accounting under an earlier Scheme lacks predecessor/successor/event dates/allocations. Every row records exact
+source+locator, original terms, known/missing fields, applicability, lineage and required operator action. Existing
+OPERATOR_ASSERTED rights are not independent third-party verification or automatic new event admission. No O3 or
+rights expansion, no guessed effective date/factor/successor/fraction handling. Source absence is not non-occurrence.
+
+**Capability (`V2201`).** Identity sources already validate canonical fields and reconcile successor **issuer**
+weights; read/factor/coverage paths and price-comparability guard inspected. Schema has no announcement-date,
+successor-security or fraction/residual fields and no DIVIDEND/QIP/ESOP type. SourceRef is preserved but does not
+prove rights/locator truth; legacy sourceRef default persists. Different-id semantic conflicts require source
+interpretation. Existing validation/display tolerances (1e-6/1e-9) unchanged; no claim of exact equivalence at the
+boundary. L-031's real guard/factor limb remains unexercised. No unrelated identity or assessment behaviour edited.
+
+**Correction/tests (`V2202`).** Dataset-side corporate actions bypassed identity validation. Small issuer-neutral
+fix: extract/reuse record validator in dataset assembly without JSON round-trip; check supplied subject security
+ownership and require explicit canonical dataset fields (no comparability-boolean default bypass); withhold **the whole action file** on error, including --allow-errors partial publication. Shared
+validator rejects non-positive ratios and duplicate successor issuer ids. No thresholds/formulas changed. Valid
+original records/source refs preserved. New **22-test** suite covers malformed fields/dates/factors/ratios, duplicate
+or conflicting ids, security mismatches, all-or-nothing rejection, two-issuer exact persistence/read-back, untouched
+unrelated content and CLI no-write/explicit-partial withholding. Full IID **1573/1573**; platform `tsc --noEmit`
+PASS; CAP-03 static validator, Python compile and 7+4+23 static unit tests PASS; diff whitespace PASS.
+
+**Real read-back/integrity (`V2203`).** Real event demonstration **NOT PERFORMED**, no admissible record. Both
+zero-action real-input datasets verified through production CLI/readDataset. `digest-comparison.json` records
+production-computed baseline-source vs corrected-source replay digests: identical for historical and refreshed
+candidate inputs, including sourceRights. No durable dataset, source, issuer, listing, holding or valuation changed.
+Synthetic two-issuer read-back is labelled regression evidence only. No host or production operation.
+
+**Determination/remaining actions (`V2204`).** **C: G-8 OPEN/event-driven**, not A and not a global B/non-occurrence
+claim. The literal numeric criterion is false (0); the real declared-action guard/factor evidence is absent.
+Completed investigation and safe correction do not close the real-data criterion. Operator must supply exact
+event-specific authorised source/locator, dates/historical identity/terms and applicable successor/fraction rules,
+validate/transcribe through canonical workflow, publish/read back and demonstrate real acceptance with before/after
+digests. Unsupported semantics require a governed decision, not invented mappings. This publication needs no
+unnecessary approval checkpoint. CI/PR/remote verification results follow in the completion report, not a prediction.
+
+Readiness register updated by **append-only addendum**; historical row/criterion retained. L-031 OPEN; Stage 4
+**PARTIALLY COMPLETE**; IID **NOT READY**. S4-R2 CLOSED, S4-R3/Infosys OPEN, S4-R4 CLOSED, S4-R5 discharged,
+S4-R6 investigated/G-4 OPEN with outstanding owner decision, S4-R7 discharged; none reopened. No IPD/cross-repo
+write, provider admission, O3/rights expansion, issuer-specific code, valuation/coverage/freshness/portfolio policy
+change or production operation. S4-R8 is the last registered numbered item; next work is **existing residual
+operator/owner/event-driven actions**, not an invented S4-R9 or a claim of overall Stage 4 closure.
+
+Next free §16.299 / `CV-CORR-264` / `CHG-2026-11-06-27` / `V2205`.
+
+
+## 16.299 `CV-CORR-264` — L-038 Marico preference-capital delta investigated; OPEN pending qualifying external evidence (`2026-11-17`; `CHG-2026-11-06-27`; `V2205`–`V2210`)
+
+**Baseline and cutoff (`V2205`).** Remote main at PR #592 merge, fetched/equal to clean HEAD before work; exact
+machine-derived baseline in `docs/integration/IID-L038-MARICO-PREFERENCE-CAPITAL-DELTA-2026-11-17.md` §1 and
+`evidence/real-issuer/L038-DELTA-2026-11-17/baseline-and-provenance.json`. IRR only. Limitation register
+§§17.23–17.24, W07 §3 and tracker §16.282 reused, not superseded by stale progress rows. W07 last documented cutoff
+**2026-11-12**. Three audited parent consolidated reports' silence remains insufficient; authorised != issued;
+Note12(a)(v) “includes” is not exhaustive; unsigned pre-AGM standalone drafts cannot establish group nil. Debt/cash
+alignment owner decisions and implementation remain **CLOSED**, not reopened. L-040 correction preserved.
+
+**Source delta (`V2206`).** Current issuer directory and finite draft/final MGT-7 candidates checked. FY24/FY25
+draft controls retrieved with targeted capital/draft/signature pages; no authenticated signed post-AGM MCA return
+or filing receipt obtained. Tested FY26/final locations return 404, not global non-existence. FY26 parent annual
+report byte identity matches WI12; only metadata/digest control, no repeat 793-page investigation. Newly inspected
+issuer-hosted FY26 subsidiary compilation: **703 pages**, **127 capital-keyword hit pages**, first **40** retained for bounded review, not full all-subsidiary audit. Mixed currencies and subsidiary/separate/subgroup scopes cannot supply a
+parent consolidated preference amount or nil. July PDF metadata is not a post-cutoff publication/filing date.
+
+**Provenance/rights (`V2207`).** Evidence contains per-candidate URL/status/period/scope/locator/class/amount,
+signature/finality uncertainty, group completeness, raw PDF hashes and **52 extract hashes** verified after retrieval.
+Initial TLS/PDF-tool failures preserved; bounded retry succeeded. GitHub runner retrieval/artifact transport was
+investigative only; temporary workflow removed from final tree, pinned source-probe utility retained. No raw PDFs
+committed. Search/HTML parser/MCA access limits explicit. All fresh sources **DISCOVERY_ONLY_NOT_ADMITTED**;
+no public accessibility→rights assumption, provider admission, O3 or source-rights expansion, owner acceptance or
+new financial observation. Newly inspected does not mean newly published after W07.
+
+**Closure paths (`V2208`).** **A/B/C all NOT SATISFIED**. No qualifying consolidated issued amount, no explicit
+audited consolidated group nil, and no complete signed statutory-parent + supporting all-subsidiary/period evidence
+package. C additionally needs explicit governed cross-scope NilBinding owner acceptance, **PENDING IF PURSUED —
+NOT MADE**. The agent does not insert acceptedBy or substitute technical withholding for owner approval. The
+subsidiary compilation is an evidence lead, not proof of a complete group nil or a waiver of the missing signed
+parent filing. No claim that evidence does not exist outside this finite search.
+
+**Data/valuation (`V2209`).** **PREFERENCE_CAPITAL = MISSING / NOT_REPORTED / null**, unchanged. No data or
+production-source change; **no fabricated successor dataset**. Pure in-memory replay of existing WI7,
+debt-completeness and refresh-candidate Marico inputs retains all 3+3+5 missing rows, missing assessment capital,
+null intrinsic and safely refused enterprise-to-equity bridge. Real bridge refuses first on existing netDebt;
+separate synthetic isolation demonstrates missing preference independently blocks bridge/sensitivity. Standalone
+nil without acknowledgement still rejects. Production-generated replay digests and exact results in
+`missing-value-verification.json`; no before/after data-change digest invented. Unrelated issuers/periods unchanged.
+
+**Validation/status (`V2210`).** New **9/9**; existing L-038/L-040/nil-binding/ingestion **107/107**; W07 L-038-only
+**2/2**; full IID **1582/1582**; platform TypeScript noEmit PASS; Python compile/CAP-03 static and 7+4+23 static unit
+tests PASS; diff whitespace PASS. TypeScript tests are local, not falsely labelled CI. Append-only register
+**§17.30**, historical §16.282/§§17.23–17.24 preserved. CI/PR/merge/remote blob and ancestry verification are reported
+after publication. **L-038 OPEN — UNRESOLVED_PENDING_EXTERNAL_EVIDENCE**. External action: audited consolidated
+amount/nil for the relevant group/period, or authenticated final statutory filing plus audited subsidiary/group
+reconciliation and owner cross-scope acceptance. No zero inference, authorised-capital substitution, residual,
+carry-forward, scope substitution, period-rule or withholding relaxation. **L-039 untouched/not begun**, next separate
+work item only. No IPD/cross-repo write or production operation. Stage 4 readiness not upgraded.
+
+Next free §16.300 / `CV-CORR-265` / `CHG-2026-11-06-28` / `V2211`.
+
+## 16.300 `CV-CORR-265` — L-039 KEC current-investments delta investigated; OPEN pending qualifying semantics/amount/nil (`2026-11-17`; `CHG-2026-11-06-28`; `V2211`–`V2216`)
+
+**Baseline/governance (`V2211`).** IRR only; designated branch `arena/3c6fd35e-iips-review-recovered`, clean HEAD
+and fetched main both `ed839d116d1d7363431e7d771e2f90dcbb9b330c` (PR #593). Reconciled register§17.25 and
+tracker§16.283 fact-level follow-ups, original421-page WI8/WI12 bundles, W07 ingestion corrections, Nov16
+PR #568 reconciliation carrying #563 unchanged, and subsequent KEC refresh candidate. W07 datedNov12 and
+Nov16 publication are not an exhaustive source cutoff; nominalWI12 Nov5/runnerNov8 discrepancy preserved.
+SessionNov17/runnerNov18 observations explicitly distinguished. L-038's separate delta not reopened.
+
+**Facts/corrections (`V2212`).** March XML raw77,918B/SHA133f0cf1…19d21 (not W07 190,118B), one zero,
+OneI/2026-03-31/INR/decimals=-7/no precision/nil/dimensions; consolidated/audited at filing level. Current assets
+reconcile₹19,390.60crore; ₹49,000 noncurrent Note10 is rounding counterexample only. Exact direct-child OneI INR
+filter finds16zero facts, not proof16defaults; prior counts use different filters. September instant2026-09-30,
+H1FY27 (not2025); no scope/period mixing. W07 “Exact” finite-accuracy figures and proved-blank-cell wording are
+qualified append-only. Gross debt data remains₹5,377.76crore, not stale₹5,103.23summary. Cash₹411.26crore intact.
+
+**Taxonomy/standard (`V2213`).** Fresh official NSE IndAS package2025; **BSE labelled-IndAS download contains
+2026 core but AS/OtherThanBank entry/roles**, partially verifying an official2026 concept without establishing
+applicable IndAS DTS/version mapping. Old blanket“no2026 published” assertion superseded, not replaced by a
+false matching-package claim. Raw ZIPs/hash/member readback capture type/period/balance/nillable/no fixed/default,
+label/references/calculation/presentation/dimension-default arcs. Tested NSE2026 entry404/SEBI530 not nonexistence.
+Official XBRL2.1 §4.6.5 explicit-7 is accuracy to₹1crore, half-quantum₹0.5crore for nearest-rounding illustration;
+precision→inferred-decimals zero-INF special case does not override supplied decimals. Not exact nil; not proof
+nonzero/default. Need actual issuer/exchange semantics, not just a schema.
+
+**Source/rights delta (`V2214`).** Same March XML/rendered/FY26annual hashes verified. Selected notes reread;
+no repeat421-page negative search. Current issuer actual annual/quarterly indexes, earnings page, NSE integrated
+metadata and announcements inspected; latest observed noticeNov12 is meeting context, no admissible March
+amount/nil obtained. September PDF hash same as prior, different instant. BSE403 retained; archive/notice HTTP2
+failures overcome by HTTP1.1/user-agent retry. Nested archive contains legacy2018/2019/2020 and integrated2025
+IndAS, not applicable2026. One-page transcript intimation/meeting notice not full transcript or amount/nil confirmation. Candidate-by-candidate owners/URLs/dates/scope/locators/audit status/raw+compressed hashes/rights
+and admission in delta bundle. All fresh candidates **DISCOVERY_ONLY_NOT_ADMITTED**; public access != rights,
+owner acceptance, provider/O3 or execution authority. No private correspondence or owner adjudication.
+
+**Closure/data/dependency (`V2215`).** A/B/C **all NOT SATISFIED**; historical C-indeterminate not closureC.
+**CURRENT_INVESTMENTS MISSING / NOT_REPORTED / null; L-039 OPEN / UNRESOLVED_PENDING_EXTERNAL_EVIDENCE**.
+Read-only canonical in-memory replay WI8 3rows + refresh5rows: missing cash aggregates/net debt, withheld per-share,
+intrinsic/sensitivity preserved; diagnostic EV and valid independent components survive. Before/repeated digests
+WI8 `sha256:0df73ead…82ab`, refresh `sha256:65ad58cd…45bd`; historical corrected payload `fc50c53e…f370`
+unchanged. No successor dataset or persisted artifact. Current WI8 identity loader's entries/actions failure is
+explicit; historical carrier used only for financial replay, no current identity qualification/repair/persistence.
+No zero/scope/period/KPI/residual/asset substitution. Existing same-instant and L-040 protections unchanged;
+L-038 debt/cash decisions remain CLOSED and preference/nil completeness independent. External action: qualifying
+filed/audited March consolidated amount/nil, or applicable2026 IndAS taxonomy+population/rounding semantics and
+issuer/exchange confirmation validating economic zero, followed by rights and any necessary owner decision.
+
+**Validation/publication (`V2216`).** New7/7; existing targeted L039/L040/W07/ingestion/cash alignment86/86;
+WI8 35/35; retained contextPython7/7; fullIID1589/1589; platform noEmit PASS. Static/offline/hash/preservation checks
+and exact commands in `evidence/real-issuer/L039-DELTA-2026-11-17/validation.txt`. Register append§17.31;
+historical records and all original issuer/data/artifact/source files retained byte-identical. No production
+financial code/data or IPD operation. Temporary capture/transport workflows removed in final tree. PR/check/
+merge/independent remote ancestry/blob readback reported after publication, not predicted. Full record:
+`docs/integration/IID-L039-KEC-CURRENT-INVESTMENTS-DELTA-2026-11-17.md`. No other limitation begun or readiness
+upgraded. Investigation complete, limitation **OPEN**.
+
+Next free §16.301 / `CV-CORR-266` / `CHG-2026-11-06-29` / `V2217`.
+
+## W05 Q1–Q7 addendum — rights evidence and bounded operating positions (2026-11-17)
+
+**Documentation-only tracker entry.** See [W05 rights questions Q1–Q7 addendum](docs/integration/W05-RIGHTS-QUESTIONS-Q1-Q7-ADDENDUM-2026-11-17.md). This supplemental entry is kept outside the numbered CV-CORR/CHG/V sequence; it consumes no such identifier and changes no code, dataset, source evidence, O3/PA-01 authorization, limitation entry, or acceptance state.
+
+**Current status.** W05 remains **IN PROGRESS — NOT COMPLETE — NOT ACCEPTED**. The earlier W05 assessment snapshot recorded `L-041`/`L-042` OPEN; subsequent merged Stage 4 records and the current authoritative limitation register mark both RESOLVED. Preserve that historical distinction; do not reopen either limitation. O3 remains Infosys, Marico and KEC only; AGI is not admitted. The 63 unresolved holdings remain unresolved. No redistribution authorization, new issuer, S4-R3 candidate installation, or W04 reopening is made.
+
+| Question | Bounded recorded position | Still open / prohibited |
+|---|---|---|
+| Q1 | Local single-user personal-app use is the operating scope. | No automatic NSE clause 8 exemption or resolution of “electronic retrieval system.” |
+| Q2 | Copyright Act 1957 §52(1)(a)(i) and its electronic-storage Explanation are recorded. | No conclusion that it overrides website contracts. |
+| Q3 | No BSE personal-download permission established; issuer IR for BSE-only securities, BSE as locator/cross-check, is an operating choice. | No legal determination of permission. |
+| Q4 | AGI IR materials/results, reviewed privacy policy and disclaimer recorded. | No inference that other terms are absent; assess issuer by issuer; AGI remains unadmitted. |
+| Q5 | Existing records evidence NSE endpoint requests on 2026-11-08; they appear within clause 9 wording, without a breach finding. | Do not repeat automated NSE retrieval or publish direct NSE filing links; interpretation remains open. |
+| Q6 | Preserve O3/PA-01 and existing local personal-analysis/transcription scope. | Source PDFs, filing-page text, derived datasets and computed artefacts are not authorized for redistribution. |
+| Q7 | The October 15, 2026 consolidation is identified. The supplied Third Amendment Gazette was visually inspected; Gazette pp. 2–3 verify changes confined to Regulation 62A. Gazette p. 1 dates publication October 14, 2026 (notification dated October 12), not October 15. | **CLOSED — PA-directed, evidence-limited disposition.** At the user’s explicit direction, the available evidence and its limitations are accepted as final for this single-user, non-production laptop application. The October consolidation page exposes metadata only and PDF extraction ends at Regulation 17; current text for Regulations 33/34/46, Regulation 34 deadlines, amendment annotations and reliable page numbers remain unverified. The FAQ is a limited cross-check, not a substitute. No 21-working-day deadline is adopted as current. This is an operating decision, not a legal determination. Disclosure duties are not copyright/download/redistribution permission. |
+
+**Verification limits.** The October 15, 2026 SEBI consolidation HTML page exposed title/date metadata only; available direct-PDF extraction stops at Regulation 17. Regulations 33/34/46 were not inspected. The supplied three-page Third Amendment Gazette was added at a gitignored local-only workspace path, SHA-256 verified and visually inspected; Gazette pp. 2–3 confirm changes confined to Regulation 62A. `git diff --check` and relative-document-link checks pass. Q7 is CLOSED by the user’s PA direction as an evidence-limited operating decision; the required consolidated clauses and their annotations/deadlines remain unavailable and unverified. W05 overall remains IN PROGRESS — NOT COMPLETE — NOT ACCEPTED. Repository publication of this documentation does not change that status or assert legal verification.

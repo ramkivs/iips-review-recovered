@@ -160,10 +160,14 @@ afterEach(() => {
 /**
  * Runs the CLI with an explicit platform.
  *
- * The MOCKED group declares `'linux'` together with the POSIX endpoint in `ENV`: a consistent pair
- * that never connects (the transport is injected), so it behaves identically on every host. The
- * SYNTHETIC-PEER group must instead declare the HOST platform, because it binds and connects to a
- * real local endpoint of the host's class — see `HOST_PLATFORM` below.
+ * The MOCKED group below declares `'linux'` together with the POSIX endpoint in `ENV`: a
+ * consistent pair that never connects (the transport is injected), so it behaves identically on
+ * every host. The SYNTHETIC-PEER group binds and connects to a REAL local endpoint, so it must
+ * instead declare the HOST platform — see `HOST_PLATFORM` on that group below. Validating a real
+ * endpoint against a platform other than the one it was created for is a contradiction the
+ * production resolver correctly refuses (a `\\.\pipe\` path is not POSIX-absolute, and a POSIX
+ * socket path is not a Windows named pipe), which previously surfaced as every synthetic-peer
+ * case exiting 2 (CONFIGURATION_INVALID) before any connection was attempted.
  */
 async function runCli(
   argv: string[],
@@ -419,10 +423,8 @@ describe('CLI validation — before any connection', () => {
 describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD, not evidence)', () => {
   /**
    * This group binds a REAL local endpoint and connects to it, so the platform the CLI validates
-   * against has to be the platform the endpoint was created for: the host's. Declaring any other
-   * platform is a contradiction the resolver correctly refuses — on Windows a `\\.\pipe\` endpoint
-   * validated as `'linux'` is `ENDPOINT_NOT_CONFIGURED`, so all four cases below exited 2 instead
-   * of reaching the peer at all. The endpoint and the declared platform now come from one place.
+   * against has to be the platform the endpoint was created for: the host's. See `runCli`'s own
+   * doc comment above for why the MOCKED group keeps `'linux'` instead.
    */
   const HOST_PLATFORM: NodeJS.Platform = process.platform;
 
@@ -430,9 +432,11 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
   let peer: SyntheticPeer | null = null;
 
   beforeEach(() => {
-    // Platform-aware endpoint selection: a POSIX socket path in a fresh temporary directory here,
-    // a `\\.\pipe\` name on Windows. The SAME string is handed to the listening peer and to the
-    // client's environment, which is what makes the two sides agree by construction.
+    // Platform-aware endpoint selection — the same helper `ipcPortAdapterIntegration.test.ts`
+    // uses: a POSIX socket path in a fresh temporary directory on POSIX, a `\\.\pipe\` name on
+    // Windows. The SAME string is handed to the listening peer and to the client's environment,
+    // which is what makes the two sides agree by construction instead of each guessing the
+    // other's endpoint class.
     endpoint = createLocalIpcEndpoint({ label: 'w11-dep1-peer' });
   });
 
@@ -470,7 +474,12 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
 
   it('recaptures once when the first attempt is inconsistent', async () => {
     peer = await startSyntheticPeer(endpoint.path, 'FIRST_ATTEMPT_INCONSISTENT');
-    const { result } = await runCli(['--output-root', outputRoot, '--retry-delay-ms', '0'], undefined, peerEnvironment(endpoint.path), HOST_PLATFORM);
+    const { result } = await runCli(
+      ['--output-root', outputRoot, '--retry-delay-ms', '0'],
+      undefined,
+      peerEnvironment(endpoint.path),
+      HOST_PLATFORM,
+    );
 
     expect(result.exitCode).toBe(0);
     expect(peer.operations).toHaveLength(8);
@@ -502,6 +511,9 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
       expect(result.outcome).toBe('IPC_CONNECTION_FAILURE');
       expect(existsSync(unbound.path)).toBe(false);
       expect(result.exactCapturePath).toBeNull();
+      // Nothing was started on this endpoint, so there is nothing to close and nothing to report as
+      // serving — the failure mode that previously produced a second `Cannot read properties of
+      // undefined (reading 'close')` on top of the real connection failure.
       expect(peer).toBeNull();
     } finally {
       unbound.dispose();

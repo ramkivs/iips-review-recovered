@@ -1,0 +1,62 @@
+142
+
+
+
+
+
+
+
+
+
+
+22- New issuances and amendments to the Egyptian Accounting Standards
+
+On 6 March 2023, the Prime Minister's Decree No. (883) of 2023 was issued amending some provisions of the Egyptian accounting
+standards, and on 3 March 2024, another decision was issued by the Prime Minister No. (636) of 2024 amending some other
+provisions of the Egyptian accounting standards, and the following is a summar y of the most important of those amendments:
+
+New or reissued                Summary of the most significant                                  Impact on
+standards                      amendments                                                       the financial               Effective date
+                                                                                                statements
+Egyptian Accounting            1-                                           This standard determines the principles of There is no impact The amendments to the amendment
+Standard No.                        recognition of insurance contracts falling                  on the company’s            of addition of the option to use the
+(50) “Insurance                     within the scope of this standard, and                      financial                   fair value model apply to financial
+Contracts”.                         determines their measurement, presentation,                 statements.                 periods commencing on or after
+                                    and disclosure. The objective of the standard                                           January 1, 2024 with early
+                                    is to ensure that the Company provides                                                  adaption allowed retrospectively by
+                                    appropriate information that truthfully                                                 recognizing the cumulative impact of
+                                    reflects those contracts. This information                                              the application of the fair value model
+                                    provides users with the basis for assessing                                             initially by adding it to the opening
+                                    the impact of insurance contracts on the                                                balance of retained earnings/losses
+                                    Company’s financial position, financial                                                 as at the beginning of the financial
+                                    performance, and cash flows.                                                            period in which the Company applies
+                               2-                                         Egyptian Accounting Standard No. (50)             this model for the first time.
+                                    replaces and cancels Egyptian Accounting
+                                    Standard No. 37 “Insurance Contracts”.
+                                    Any reference to Egyptian Accounting
+                                    Standard No. (37) in other Egyptian
+                                    Accounting Standards to be replaced by
+                                    Egyptian Accounting Standard No. (50).
+                               3-                                         The following Egyptian Accounting
+                                    Standards have been amended to comply
+                                    with the requirements of the application of
+                                    Egyptian Accounting Standard No. (50)
+                                    “Insurance Contracts”, as follows:
+                                                                        -                                         Egyptian Accounting Standard No.
+                                         (10) “Fixed Assets “.
+                                                                        -                                         Egyptian Accounting Standard No.
+                                         (23) “Intangible Assets”.
+                                                                        -                                         Egyptian Accounting Standard No.
+                                         (34) “ Investment property“.
+Egyptian Accounting            The Egyptian Accounting Standard No. (34)                        There is no impact          The amendments of adding the
+Standard No. (34)              “Investment Property” was reissued in 2024, to                   on the company’s            option to use the fair value model are
+amended2024                    amend the fair value application mechanism                       financial                   effective for financial periods starting
+”Investment Property“          by the mandate of recognizing the gain or                        statements.                 on or after January 1, 2023
+                               loss arising from the change in the fair value                                               retrospectively, cumulative impact
+                               of the investment property in the statement                                                  of the preliminar y applying of the fair
+                               of profit or loss for the period in which the                                                value model shall be added to the
+                               change arises or through the statement of other                                              balance of retained earnings
+                               comprehensive income for one time in the life                                                or losses at the beginning of
+                               of the asset or investment, taking into account                                              the financial period in which
+                               paragraphs (35a) and (35b) of the standard.                                                  the Company applies this
+                                                                                                                            model for the first time.

@@ -1,0 +1,19 @@
+{
+  "method": "Production CLI temporary re-ingestion + readDataset + computeContentDigest, once with baseline source, once corrected. No durable data modified.",
+  "datasets": [
+    {
+      "label": "historical_admitted",
+      "before": "sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83",
+      "after": "sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83",
+      "equal": true,
+      "corporateActions": 0
+    },
+    {
+      "label": "refresh_candidate_NOT_new_O3_authority",
+      "before": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+      "after": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+      "equal": true,
+      "corporateActions": 0
+    }
+  ]
+}

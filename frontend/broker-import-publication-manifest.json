@@ -1,9 +1,9 @@
 {
   "schema": "IIPS_BROKER_IMPORT_PUBLICATION_VERIFICATION_V1",
-  "commit": "1aee57fe093b4fb15eaf3a9ac67532ee40262fe2",
-  "fileCount": 206,
-  "packageJsonSha256": "af7d0d49fb016733492bb9d238332df6ab11f5811ec2d48d0fff24c0f065de2c",
-  "publishedInventorySha256": "e01818a368451d80305bbdbd58ff2cce481d17c4ef0cd69f947f6b6c48f0840f",
+  "commit": "9d03a35b4d4d79972c466c2c8e45e8c9270524d4",
+  "fileCount": 214,
+  "packageJsonSha256": "39112f6a553b03b4c21ee119e819a3a2f2561f577c3d59cec5e69f006ac7836a",
+  "publishedInventorySha256": "3fd2efaa51e5b49b32675acbe2df2445ec99b67033ea88803fd9601b9f94227d",
   "inventoryDigestDefinition": "SHA256 of UTF-8 JSON array with sorted keys,compact separators,paths sorted lexically; not npm tarball SRI",
   "exports": {
     "./portfolio-ui": {
@@ -66,8 +66,8 @@
     },
     {
       "path": "frontend/src/features/portfolio/import/adapters/dhan-holdings-adapter.js",
-      "bytes": 8730,
-      "sha256": "d3f2bd907025f67f1f252a262dd4f0bc0f75d00c5dbe542d2c2d2eb7ac38e769"
+      "bytes": 9879,
+      "sha256": "3cfe793a2c2705121f9e78d05a42788b1f4bc757807a6365e2171ec291d79194"
     },
     {
       "path": "frontend/src/features/portfolio/import/adapters/groww-holdings-adapter.d.ts",
@@ -116,8 +116,8 @@
     },
     {
       "path": "frontend/src/features/portfolio/import/broker-holdings-mapper.js",
-      "bytes": 18306,
-      "sha256": "22222331cf9fb0c9dd9c8997b510e4c73e9d4d10b3875646a1e91db6d370154f"
+      "bytes": 19313,
+      "sha256": "1283838800254e2aa8bbcf214445231da65e0b0b78e4b3640d3f12962e01be2f"
     },
     {
       "path": "frontend/src/features/portfolio/import/broker-identity-assessment.d.ts",
@@ -136,8 +136,18 @@
     },
     {
       "path": "frontend/src/features/portfolio/import/broker-import-ingress.js",
-      "bytes": 21249,
-      "sha256": "4fdbb67a094a761d4434d9bacee33ba57b94ffbcd0fd232f0a0f2c98a189b713"
+      "bytes": 22739,
+      "sha256": "cc9ce3edb9fb18274206647f6238a8c4945c9de20d7f1cafd9d12205ccb966e6"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/daily-snapshot-view.d.ts",
+      "bytes": 3796,
+      "sha256": "90265220972239b8516123f56d1dd30009a2aa1f2514ed7fafa84594a77f2f06"
+    },
+    {
+      "path": "frontend/src/features/portfolio/import/daily-snapshot-view.js",
+      "bytes": 3726,
+      "sha256": "5094cce305d2c099b3cc432199ff77d53d9d5423cb1a9b34bbaf32320b759d01"
     },
     {
       "path": "frontend/src/features/portfolio/import/index.d.ts",
@@ -151,8 +161,8 @@
     },
     {
       "path": "frontend/src/features/portfolio/import/types.d.ts",
-      "bytes": 8123,
-      "sha256": "24dc6a860020e7ea4613c8f9ae475889d6e293c990cb8bbf8015dfb1a69c7d6c"
+      "bytes": 10272,
+      "sha256": "92ae7fee3623174f358a760a21196d0d4728b222c65e2c7eeeb60e4db27a3d8f"
     },
     {
       "path": "frontend/src/features/portfolio/import/types.js",
@@ -161,13 +171,13 @@
     },
     {
       "path": "frontend/src/features/portfolio/import/ui-broker-import-view-model.d.ts",
-      "bytes": 7361,
-      "sha256": "c26626bd01abb88fd646c89441d7a6722c9a5623c7ca75166e59043d9447df48"
+      "bytes": 9293,
+      "sha256": "a0e3fe10ff37eb117101bd0803df4fdbe5ec1298a2983f04d420a74451aa29ac"
     },
     {
       "path": "frontend/src/features/portfolio/import/ui-broker-import-view-model.js",
-      "bytes": 19382,
-      "sha256": "0d1c900dd5e53819df26243c3a84322bd731ef4bbf371e1043eb76fb1dfb8619"
+      "bytes": 24032,
+      "sha256": "cc7d95daf7b2aa5e8c717a11c38c14c894b409b8e8896e6f1e02fcd56931952f"
     },
     {
       "path": "frontend/src/features/portfolio/index.d.ts",
@@ -191,8 +201,8 @@
     },
     {
       "path": "frontend/src/features/portfolio/portfolio-store.d.ts",
-      "bytes": 4369,
-      "sha256": "f3d6ad68295c1e330e683d109ddec2f318c3a067e6df90a17f6fe8913f7401b1"
+      "bytes": 4789,
+      "sha256": "d7f227b4d8e524a1b4841ca637b3a7300e314a0b52c73129e50aa0092212c599"
     },
     {
       "path": "frontend/src/features/portfolio/portfolio-store.js",
@@ -201,8 +211,8 @@
     },
     {
       "path": "frontend/src/features/portfolio/portfolioStorePort.d.ts",
-      "bytes": 10242,
-      "sha256": "cf06c466d23d9065796e1d52cd56ef8354d7fe08d0e4197906c405135339b952"
+      "bytes": 11074,
+      "sha256": "e177cd70d66a9204fb02db3ae6f6aeb68b90f802f834c746d76305458ee814a4"
     },
     {
       "path": "frontend/src/features/portfolio/portfolioStorePort.js",
@@ -211,8 +221,8 @@
     },
     {
       "path": "src/contracts/broker_import_ipc.d.ts",
-      "bytes": 3696,
-      "sha256": "b9243c9584acca84ab1f3a9dcf6e807c4f661e909d350999ef9ea6d8419b59b0"
+      "bytes": 9564,
+      "sha256": "6003cb4d8834067c3252935c3fa6311f54a9045c8c7f82e38cf8eb387024016f"
     },
     {
       "path": "src/contracts/broker_import_ipc.js",
@@ -691,23 +701,23 @@
     },
     {
       "path": "src/providers/dhan/dhan_api_client.d.ts",
-      "bytes": 4516,
-      "sha256": "cbea9d742c077f7eb1f6c9ceefa8191db9c61add559e7696f2d734abc05b3f1e"
+      "bytes": 7508,
+      "sha256": "1eb899add11445a92455c1891617b4b4075c4fc2eb63be8934f2503fdeb439a7"
     },
     {
       "path": "src/providers/dhan/dhan_api_client.js",
-      "bytes": 10745,
-      "sha256": "38af009aebe1b89fa3e3739cf5a1d6ac499c0de8792d2930794b090215d042cf"
+      "bytes": 26505,
+      "sha256": "5807100557fba1ff8232faa9b3ee9c285c432932caa60e2e54c02af863d271e5"
     },
     {
       "path": "src/providers/dhan/dhan_config.d.ts",
-      "bytes": 4830,
-      "sha256": "e5dbba1b35dc3308a7254f6b4a7ddfeb1190d292e177f3bed73ad58b584c3347"
+      "bytes": 5868,
+      "sha256": "8ea6b83b1952d9eed7afb9f12cab4e5f13b9b9e10bdabfe29a2cb0c027a5110f"
     },
     {
       "path": "src/providers/dhan/dhan_config.js",
-      "bytes": 8480,
-      "sha256": "7111b9649b8e134314bc17e9610f15d9feabddcf4ce19732f7f789e558337f13"
+      "bytes": 11152,
+      "sha256": "e1e8a808cb4ad06d8fcd0ce4d5ecd752a7aaa96e97820fb1489708578783061d"
     },
     {
       "path": "src/providers/dhan/dhan_dto.d.ts",
@@ -746,8 +756,8 @@
     },
     {
       "path": "src/providers/dhan/dhan_historical_adapter.js",
-      "bytes": 5828,
-      "sha256": "304190c2dc68d13220f10f7aaf44d2334e52c00f2acbe7929870d884a2dba14c"
+      "bytes": 6483,
+      "sha256": "21a592bd24d0df2821a9cd091a5be63509cd8eaa91ebdc0c81b1fee89e273eb8"
     },
     {
       "path": "src/providers/dhan/dhan_historical_dto.d.ts",
@@ -821,33 +831,33 @@
     },
     {
       "path": "src/providers/dhan/dhan_market_data_http.d.ts",
-      "bytes": 5623,
-      "sha256": "70e535c15c854486d7af38c6a0dcfc7df85df667652d736b86444aed9f71cc6c"
+      "bytes": 10381,
+      "sha256": "180052576459610961ff695db9e2eade68a10afdb0fa48eb71b0ec2f9e3f0518"
     },
     {
       "path": "src/providers/dhan/dhan_market_data_http.js",
-      "bytes": 24168,
-      "sha256": "706b63a28717f8b075d2577b01155e2fa0e3f67b2f8cab4be93c992a56d6b966"
+      "bytes": 37916,
+      "sha256": "ea44608c8757a4abc922fd1dcc882fab7d0dc998f35292af06aeace619501eca"
     },
     {
       "path": "src/providers/dhan/dhan_market_data_service.d.ts",
-      "bytes": 4790,
-      "sha256": "a4ccd3625a2ffa65504ad6c57e733ee260ccb0599d9fc6fe858432a8131d9fea"
+      "bytes": 12381,
+      "sha256": "5e98d0c828302b54f60f550df43f6b81ff2d3d160386c0ecd5992df227e698b5"
     },
     {
       "path": "src/providers/dhan/dhan_market_data_service.js",
-      "bytes": 9524,
-      "sha256": "6414696f55535d75bd2715bf9111629044b1e879b625642789a74e0ba961154f"
+      "bytes": 36710,
+      "sha256": "17f3bb10dd558f4024492ca1705096f2d41912c7a8a5e3655cf1e1ad1d70b995"
     },
     {
       "path": "src/providers/dhan/dhan_market_data_source.d.ts",
-      "bytes": 2804,
-      "sha256": "22893126d097bb6265490ff2d79daa3f753c5e28f1ecf53524af605cc323d392"
+      "bytes": 3000,
+      "sha256": "ba80f4f63ce8fab9ac053202e5018e85a10bc07c19ca308d92a8d63e15decb77"
     },
     {
       "path": "src/providers/dhan/dhan_market_data_source.js",
-      "bytes": 6287,
-      "sha256": "b334ccbffd65f6638ebdcd5f25eb6451406d33da42268266034eed091f09a902"
+      "bytes": 7048,
+      "sha256": "900acd44c4b12a874a90826b3a400a9dd63f9e4fcad26c8c20844c7822b97cc0"
     },
     {
       "path": "src/providers/dhan/dhan_normalizer.d.ts",
@@ -861,13 +871,33 @@
     },
     {
       "path": "src/providers/dhan/dhan_operational_controls.d.ts",
-      "bytes": 6599,
-      "sha256": "48df7197cb8f403819e442b64979e6728da3bc580d36bd9f5d2e89ab659da549"
+      "bytes": 7320,
+      "sha256": "a669694d883b0495f5d79299d9bb2869dc393534455de7d869b34369be5719e0"
     },
     {
       "path": "src/providers/dhan/dhan_operational_controls.js",
-      "bytes": 12362,
-      "sha256": "6027e0b93f00d7bdcd661c875385ffe30b15e3d3aa9f91474b6e75879c933c4c"
+      "bytes": 14167,
+      "sha256": "4cc4594ed5fdf42d2c07eee34c7dd4ad4d77b751661e964b835038f68ad09997"
+    },
+    {
+      "path": "src/providers/dhan/dhan_provider_state.d.ts",
+      "bytes": 4655,
+      "sha256": "98f1467a60a8ee3a632fee91a53b4adb07983226a22a8e436d1241cc440708d0"
+    },
+    {
+      "path": "src/providers/dhan/dhan_provider_state.js",
+      "bytes": 5321,
+      "sha256": "3e76f682098784efab4f4b944e7a324222f00403b3d64fa723b621199f3bc4ed"
+    },
+    {
+      "path": "src/providers/dhan/dhan_provider_state_recorder.d.ts",
+      "bytes": 6658,
+      "sha256": "8f9fcae2ac6ba1dde46fbcf9368f57b9c8a20c1bc2d089a1f9cfeec5fc863083"
+    },
+    {
+      "path": "src/providers/dhan/dhan_provider_state_recorder.js",
+      "bytes": 8456,
+      "sha256": "b241eeeedb4718052d9b210e04098f4c64db7d13d32cd6d778cea695ccc8a84f"
     },
     {
       "path": "src/providers/dhan/dhan_security_identity_service.d.ts",
@@ -880,14 +910,24 @@
       "sha256": "6d039f8b480ee7d18036947ee76551baa6eaac3d3beb0d02cb97e9c074967ddf"
     },
     {
+      "path": "src/providers/dhan/dhan_utc_timestamp.d.ts",
+      "bytes": 2606,
+      "sha256": "8a6d17101d41e25b089d2307311e7ae060da9304870fbf3c8dce9fcb40eaa82f"
+    },
+    {
+      "path": "src/providers/dhan/dhan_utc_timestamp.js",
+      "bytes": 6851,
+      "sha256": "9b50b6180f32c749a4634c57f16f812e0c14a6967c2c6a615ef297d920391e7f"
+    },
+    {
       "path": "src/providers/dhan/package.d.ts",
-      "bytes": 4871,
-      "sha256": "03c2136bb45832d24dc969cab534dec650d10f4afcc9a4c10729f102fca75422"
+      "bytes": 6156,
+      "sha256": "f7eaa522b9a248642a5b29b655fa747c274ea143372996d6a7ff1d768e313f5f"
     },
     {
       "path": "src/providers/dhan/package.js",
-      "bytes": 3068,
-      "sha256": "a76d609ed112d9602c2ed43940936df60ee8e453b2abcdb0206b92274696dd32"
+      "bytes": 3566,
+      "sha256": "bf25094614c889d52850f65409827eab51d7f4441a0088b9ed689392d0148b63"
     },
     {
       "path": "src/providers/market_data_route.d.ts",
@@ -931,13 +971,13 @@
     },
     {
       "path": "src/security/secret_ref.d.ts",
-      "bytes": 942,
-      "sha256": "c4953a6f9f3805876b60a539aa969ce50a40926cd95648103947ee8ecdf28579"
+      "bytes": 4405,
+      "sha256": "6a5e7978328dfe58b0570e5f8ef7d423edebd645d571c67c8fa623713201d8eb"
     },
     {
       "path": "src/security/secret_ref.js",
-      "bytes": 1909,
-      "sha256": "a12e89a7c902a7a04f56246f42eab484b81ed8927b243a799161e2a8c60ee341"
+      "bytes": 7099,
+      "sha256": "6f07e875bbddb4cc9609fb7edfc2a524f578564503576cbeffcbbc5c69ecd2fa"
     },
     {
       "path": "src/spi/provider_spi.d.ts",
@@ -1031,8 +1071,8 @@
     },
     {
       "path": "src/ui/portfolio_ui_package.d.ts",
-      "bytes": 6771,
-      "sha256": "cd5b7f254fcbd176a61f8699802530be7224aeecec8c9f81310b9fbb57a2b3fc"
+      "bytes": 7079,
+      "sha256": "859a40e46af58d47eca8442f9a1dd9a89f8ccf5138f2c92e8aecfa88c85afb92"
     },
     {
       "path": "src/ui/portfolio_ui_package.js",

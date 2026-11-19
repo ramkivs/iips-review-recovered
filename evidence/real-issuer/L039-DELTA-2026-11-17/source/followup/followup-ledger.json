@@ -1,0 +1,134 @@
+{
+  "sources": [
+    {
+      "name": "issuer-actual-results",
+      "url": "https://www.kecrpg.com/financial-annual-results",
+      "retrievedAtUTC": "2026-11-18T06:39:44.877511+00:00",
+      "owner": "KEC International",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "rights": "public retrieval is not owner admission, redistribution or execution authorization",
+      "http": 200,
+      "finalUrl": "https://www.kecrpg.com/financial-annual-results",
+      "bytes": 49264,
+      "rawSha256": "51d47bda12d6378661dc24990a81bc00cf24f8035d35f52257c4ea616cf262b5",
+      "path": "issuer-actual-results.gz",
+      "compressedSha256": "911014f8f7dc217d7545b32a0bd9b6e25f2a8a6943b9721ea7818ba18d122eca",
+      "discoveryLinks": [
+        "/financial-annual-results",
+        "KEC%20data/Investor%20relations/Yearly%20reports/Annual%20Report%20FY%202018-19.pdf",
+        "KEC%20data/Investor%20relations/Yearly%20reports/KEC%20Annual%20Report%202019-20.pdf",
+        "KEC%20data/Investor%20relations/Yearly%20reports/KEC%20Annual%20Report%202020-21.pdf",
+        "KEC%20data/Investor%20relations/Yearly%20reports/KEC%20Annual%20Report%20FY2021_22.pdf",
+        "https://www.kecrpg.com/annual-accounts-of-subsidiaries",
+        "https://www.kecrpg.com/financial-annual-results",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/Annual Report FY 2018-19 (1).jpg",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/COVER PICfy20.jpg",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/KEC Annual Report 2023-24.jpg",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/KEC Annual Report FY2021_22-1_pages-to-jpg-0001.jpg",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/KEC Annual Report FY2022_23.pdf",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/KEC International IR_FY2020-21-Spread view-page-001.jpg",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/KEC_Annual_Report_2024-25.jpg",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/KEC_Annual_Report_2025-26.jpg",
+        "https://www.kecrpg.com/public//media/annualReportMedia/thumbnail/ar_2017_18.png",
+        "https://www.kecrpg.com/quarterly-results",
+        "media/annualReportMedia/Annual Report FY 2017-18-Final1.pdf",
+        "media/annualReportMedia/KEC Annual Report 2023-24.pdf",
+        "media/annualReportMedia/KEC Annual Report FY2022_23.pdf",
+        "public/media/annualReportMedia/KEC_Annual_Report_2024-25.pdf",
+        "public/media/annualReportMedia/KEC_Annual_Report_2025-26.pdf"
+      ]
+    },
+    {
+      "name": "issuer-actual-quarterly",
+      "url": "https://www.kecrpg.com/quarterly-results",
+      "retrievedAtUTC": "2026-11-18T06:39:44.878040+00:00",
+      "owner": "KEC International",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "rights": "public retrieval is not owner admission, redistribution or execution authorization",
+      "http": 200,
+      "finalUrl": "https://www.kecrpg.com/quarterly-results",
+      "bytes": 93910,
+      "rawSha256": "c13dc8addf49a606d87fc9247bdb47f48ef92087ff2f847ad4172d7d1c70fd64",
+      "path": "issuer-actual-quarterly.gz",
+      "compressedSha256": "37ef28fe2d035325bd34e3176463e745d847c9c714823d56dfedb7f015926f67",
+      "discoveryLinks": [
+        "/financial-annual-results",
+        "https://www.kecrpg.com/annual-accounts-of-subsidiaries",
+        "https://www.kecrpg.com/financial-annual-results",
+        "https://www.kecrpg.com/public//media/bannerImageMedia/QUARTERLY RESULTS.png",
+        "https://www.kecrpg.com/quarterly-results"
+      ]
+    },
+    {
+      "name": "issuer-earnings",
+      "url": "https://www.kecrpg.com/press-release/earnings/financial-performance-for-quarter-&-half-year-ended-30-september-2026-02-11",
+      "retrievedAtUTC": "2026-11-18T06:39:44.878714+00:00",
+      "owner": "KEC International",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "rights": "public retrieval is not owner admission, redistribution or execution authorization",
+      "http": 200,
+      "finalUrl": "https://www.kecrpg.com/press-release/earnings/financial-performance-for-quarter-&-half-year-ended-30-september-2026-02-11",
+      "bytes": 79837,
+      "rawSha256": "6d31e2f7c3283edfaa45249cfad96f5d7370cf8755388e2557101a0b6140d13f",
+      "path": "issuer-earnings.gz",
+      "compressedSha256": "712af5984fce0a94af59fec3c168588becf2315b9eed1a78bbc72bb749cfc500",
+      "discoveryLinks": [
+        "/financial-annual-results"
+      ]
+    },
+    {
+      "name": "bse-otherthanbank",
+      "url": "https://www.bseindia.com/downloads1/Intg_filing_Financial_Other_than_Banks.zip",
+      "retrievedAtUTC": "2026-11-18T06:39:44.879123+00:00",
+      "owner": "BSE",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "rights": "public retrieval is not owner admission, redistribution or execution authorization",
+      "http": 404,
+      "finalUrl": "https://www.bseindia.com/downloads1/Intg_filing_Financial_Other_than_Banks.zip",
+      "bytes": 8368,
+      "rawSha256": "ac9e9d6b21a6c3cefaed359d134530e15c9cdd434a353d59731df8883fc0bc17",
+      "path": "bse-otherthanbank.gz",
+      "compressedSha256": "15668e330ce3a65764e9d832f3b6888e60c19db4e59567e495633e0e4d4b8061",
+      "interpretation": "HTTP failure, not nonexistence"
+    },
+    {
+      "name": "sebi-entry-otherthanbank",
+      "url": "https://www.sebi.gov.in/xbrl/2026-01-31/IntegratedFinance_OtherThanBank/in-capmkt-ent-2026-01-31.xsd",
+      "retrievedAtUTC": "2026-11-18T06:39:44.880466+00:00",
+      "owner": "SEBI",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "rights": "public retrieval is not owner admission, redistribution or execution authorization",
+      "http": 530,
+      "finalUrl": "https://www.sebi.gov.in/xbrl/2026-01-31/IntegratedFinance_OtherThanBank/in-capmkt-ent-2026-01-31.xsd",
+      "bytes": 2586,
+      "rawSha256": "6fae5ba78c79f64493dd949046c72400cea54b3c918a9b3336a644ee0c2468e1",
+      "path": "sebi-entry-otherthanbank.gz",
+      "compressedSha256": "8ffb16503ccb2eab716e4f1ab8f0ebf72c478104370c19007f5832cfbe68b3c2",
+      "interpretation": "HTTP failure, not nonexistence"
+    },
+    {
+      "name": "transcript",
+      "url": "https://nsearchives.nseindia.in/corporate/KEC_06112026155134_SE_Intimation_Transcript.pdf",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "http": 0,
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "meeting",
+      "url": "https://nsearchives.nseindia.in/corporate/KEC_12112026182139_AnalystMeetIntimation.pdf",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "http": 0,
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "archive": {
+    "url": "https://nsearchives.nseindia.com//web/mediaattachment/2026-07/Taxonomy_Archives_20260731164437.zip",
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+    "nestedPackages": [],
+    "error": "BadZipFile('File is not a zip file')"
+  }
+}

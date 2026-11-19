@@ -46,6 +46,17 @@
  *   Timeout / fault       → 503 {outcome:'OUTCOME_UNKNOWN', retried:false} — distinct, no resend
  *   Unrepresentable result→ 503 {outcome:'OUTCOME_UNKNOWN', reason:'UNREPRESENTABLE_RESULT'}
  *
+ * DAILY-SNAPSHOT ADDITIVE MAPPING (IPD PR #177/#178, carried on the same `portfolio.importBroker`
+ * operation when the request carries `fullSnapshot`/`importId`/`partialAcceptance`)
+ *   PARTIAL_ACCEPTANCE_REQUIRED → 428 {outcome, storeEffect:'NONE', summary} — nothing written;
+ *                           the summary (with its digest) must be shown to the operator and
+ *                           approved before a resubmission carrying that digest can proceed
+ *   REFUSED_APPROVAL_MISMATCH → 409 (the supplied approval does not bind to the current summary)
+ *   REFUSED_DUPLICATE_ROWS / REFUSED_EMPTY_SNAPSHOT → 422
+ *   REFUSED_INVALID_SOURCE_DIGEST → 400
+ *   snapshotState / unresolvedCount / reconciliation, when present, are relayed verbatim on a
+ *   200 success exactly as IPD computed them; IRR never recomputes or infers any of the three.
+ *
  * EVIDENCE RESPONSE MAPPING (AMEND-01 §8.1(5)–(6), §8.3(15)–(16))
  *   retained record in scope → 200, the record's EVIDENCE FIELDS ONLY (both partition keys withheld)
  *                              plus the retention disclosure clause 14 requires and the O-1
@@ -295,10 +306,21 @@ function respondToStage4Outcome(res: http.ServerResponse, outcome: Stage4Transpo
     sendJson(res, 503, { outcome: 'OUTCOME_UNKNOWN', retried: false });
     return;
   }
+  if (outcome.kind === 'PARTIAL_ACCEPTANCE_REQUIRED') {
+    // Nothing was written (storeEffect NONE, asserted by interpretStage4Result). 428 Precondition
+    // Required: the operator must see and explicitly approve this exact summary before the same
+    // request, carrying that approval, can proceed. Never a 2xx: the browser must not treat the
+    // resolved rows as saved.
+    sendJson(res, 428, { outcome: 'PARTIAL_ACCEPTANCE_REQUIRED', storeEffect: 'NONE', summary: outcome.summary });
+    return;
+  }
   const status: Record<string, number> = {
     WRITE_NOT_AUTHORIZED: 503, REVISION_CONFLICT: 409, RESOURCE_UNAVAILABLE: 404,
     INVALID_REQUEST: 400, REFUSED_UNRESOLVED_IDENTITY: 422, REFUSED_STORE_GUARD: 422,
     UNAVAILABLE: 503,
+    // PR #177/#178 additive daily-snapshot refusal codes.
+    REFUSED_DUPLICATE_ROWS: 422, REFUSED_EMPTY_SNAPSHOT: 422, REFUSED_INVALID_SOURCE_DIGEST: 400,
+    REFUSED_APPROVAL_MISMATCH: 409,
   };
   sendJson(res, status[outcome.code] ?? 503, {
     outcome: status[outcome.code] ? outcome.code : 'UNAVAILABLE',

@@ -14,10 +14,7 @@
 import net from 'node:net';
 
 import { IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION } from '../../ipcClient.js';
-import {
-  localIpcEndpointKindFor,
-  type LocalIpcEndpointKind,
-} from '../../testing/localIpcEndpoint.js';
+import { localIpcEndpointKindFor, type LocalIpcEndpointKind } from '../../testing/localIpcEndpoint.js';
 import { SYNTHETIC_FIXTURE_PORTFOLIO_PREFIX } from '../ownerBoundPortfolioCapture.js';
 
 export const SYNTHETIC_PORTFOLIO_ID = `${SYNTHETIC_FIXTURE_PORTFOLIO_PREFIX}-PORTFOLIO`;
@@ -32,11 +29,15 @@ export type SyntheticPeerMode =
 
 export interface SyntheticPeer {
   readonly path: string;
-  /** The local endpoint class this peer is listening on, for the platform in use. */
+  /**
+   * The local endpoint class this peer is listening on, for the platform in use. Exposed so a
+   * test can assert the peer and the client resolved the SAME endpoint class — neither side fell
+   * back to a different transport behind the other's back.
+   */
   readonly kind: LocalIpcEndpointKind;
   /** Operations received, in order. */
   readonly operations: string[];
-  /** Idempotent: closes a started peer exactly once and releases its sockets. */
+  /** Idempotent: closes a started peer exactly once, destroys its live sockets and stops serving. */
   close(): Promise<void>;
 }
 
@@ -127,15 +128,18 @@ function frameOf(value: unknown): Buffer {
  * operation is closed with zero bytes.
  *
  * `kind` selects the RESPONSE-DELIVERY policy and defaults to the host platform's local endpoint
- * class, which is the same choice the production client makes in `resolveIpcEndpoint`: on POSIX
- * the peer half-closes with the frame, and on Windows it writes the frame and leaves the pipe
- * open, because ending a named pipe triggers the libuv shutdown/forced-break path before the
- * client has read the response (IPD's flush-guard policy, mirrored). A test may state the kind
- * explicitly to exercise that policy on a host whose own class differs.
+ * class, the same choice the production client makes in `resolveIpcEndpoint`: on POSIX the peer
+ * half-closes with the frame, and on Windows it writes the frame and leaves the pipe open, because
+ * ending a named pipe immediately after a write can trigger the libuv shutdown/forced-break path
+ * before the client has read the response (the same reason the production client itself never
+ * ends a Windows named-pipe connection after writing — see `callIpc` in `ipcClient.ts`). The
+ * zero-byte closes below (Class P and the "not a read this fixture serves" refusal) write nothing
+ * first, so there is nothing to protect and they end for real on every platform.
  *
- * A peer that fails to start is NEVER returned: the promise rejects with the endpoint class and
- * the underlying reason, so a caller cannot close — or report success for — a peer that does not
- * exist.
+ * A peer that FAILS TO START is never returned: the promise rejects with the endpoint class and
+ * the underlying reason, so a caller cannot `close()` — or report success for — a peer that does
+ * not exist. The endpoint PATH handed in is owned by the caller, so this fixture does not dispose
+ * it on failure; the caller releases what it allocated (see the CLI and Direct P1 harnesses).
  */
 export function startSyntheticPeer(
   endpointPath: string,
@@ -195,8 +199,9 @@ export function startSyntheticPeer(
         }
         const frame = frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result });
         if (kind === 'windows-named-pipe') {
-          // Written, and the pipe stays open: the client destroys it once the full frame has
-          // arrived. Ending it here would break the pipe before the response is delivered.
+          // Written, and the pipe stays open: the real client destroys its socket once it has
+          // read the full frame (it tracks the declared length itself). Ending it here would
+          // race the pipe shut before the response is delivered.
           socket.write(frame);
           return;
         }
@@ -207,11 +212,11 @@ export function startSyntheticPeer(
     const onStartupError = (error: Error): void => {
       if (settled) return;
       settled = true;
-      // Swallow any further error from a server that never listened: rejecting is the report.
+      // Swallow any further error from a server that never listened: rejecting IS the report.
       server.removeListener('error', onStartupError);
       server.on('error', () => undefined);
-      // The underlying reason is carried in the message: this project compiles against the
-      // ES2020 lib, where `Error` takes no `cause` option.
+      // The underlying reason is carried in the message: this project compiles against the ES2020
+      // lib, where `Error` takes no `cause` option.
       rejectStart(
         new Error(
           `the synthetic peer could not listen on the ${kind} endpoint '${endpointPath}': `

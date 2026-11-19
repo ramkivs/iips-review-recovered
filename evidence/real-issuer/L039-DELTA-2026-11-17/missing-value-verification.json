@@ -1,0 +1,942 @@
+{
+  "method": "loadInputs -> buildDatasetContent -> computeContentDigest -> assessCompany, memory only",
+  "sessionDate": "2026-11-17",
+  "noSuccessorDataset": true,
+  "records": [
+    {
+      "inputPath": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input",
+      "beforeReplayContentDigest": "sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab",
+      "afterReplayContentDigest": "sha256:0df73eadcc3a751572ae03aa6d9711d94650fb2cb0567b990dc4242cf19782ab",
+      "periods": [
+        {
+          "period": {
+            "fiscalYear": 2024,
+            "periodType": "ANNUAL",
+            "periodStart": "2023-04-01",
+            "periodEnd": "2024-03-31",
+            "statementScope": "CONSOLIDATED"
+          },
+          "filingRef": "KEC-INDAS-CONSOL-FY25-AR-COMPARATIVE",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2024-03-31"
+          }
+        },
+        {
+          "period": {
+            "fiscalYear": 2025,
+            "periodType": "ANNUAL",
+            "periodStart": "2024-04-01",
+            "periodEnd": "2025-03-31",
+            "statementScope": "CONSOLIDATED"
+          },
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR-COMPARATIVE",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2025-03-31"
+          }
+        },
+        {
+          "period": {
+            "fiscalYear": 2026,
+            "periodType": "ANNUAL",
+            "periodStart": "2025-04-01",
+            "periodEnd": "2026-03-31",
+            "statementScope": "CONSOLIDATED"
+          },
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2026-03-31"
+          }
+        }
+      ],
+      "capitalStructure": {
+        "netDebt": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "grossDebt": {
+          "value": 53777600000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "capital-structure/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "cashAndInvestments": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "leaseLiabilities": {
+          "value": 2745299999.9999995,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "KEC-INDAS-CONSOL-FY26-AR",
+            "filedAt": "2026-05-16"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+        },
+        "leaseTreatment": "IND_AS_116_CAPITALISED",
+        "pre116Comparative": false,
+        "minorityInterest": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "preferenceCapital": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "associatesAndJV": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "dilutedShares": {
+          "value": 266193406.5934066,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DATASET",
+            "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "shareCountPeriod": "2026-03-31",
+        "shareCountBasis": "REPORTED_EPS",
+        "dilutionProxy": true,
+        "components": {
+          "shortTermBorrowings": {
+            "value": 42062600000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "currentMaturities": {
+            "value": 2356000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "longTermBorrowings": {
+            "value": 6613700000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "leaseLiabilities": {
+            "value": 2745299999.9999995,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "cashAndCashEquivalents": {
+            "value": 4112600000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "nonControllingInterest": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "restrictedCash": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          },
+          "associatesAndJV": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          }
+        },
+        "equityBridge": {
+          "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+          "policyVersion": "associates-treatment/1.0.0",
+          "treatment": "POLICY_ZERO_UNAVAILABLE",
+          "substitutedInputs": [
+            {
+              "input": "associatesAndJV",
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "treatment": "POLICY_ZERO"
+            }
+          ],
+          "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+        },
+        "associatesJVReview": {
+          "reviewPolicyVersion": "associates-review/1.0.0",
+          "treatmentPolicyVersion": "associates-treatment/1.0.0",
+          "reviewAgeDays": 180,
+          "clockStart": "2026-03-31",
+          "clockStartBasis": "DATASET_PERIOD_END",
+          "reviewDueOn": "2026-09-27",
+          "treatment": "POLICY_ZERO",
+          "status": "REVIEW_DUE",
+          "reviewRequired": true,
+          "reason": "The associates/JV carrying value has been unavailable since the evidence date 2026-03-31, and the 180-day treatment review fell due on 2026-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence."
+        }
+      },
+      "intrinsic": null,
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "applicable": true,
+          "notApplicableReason": null,
+          "output": {
+            "perShareLow": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "perShareMid": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "note": "enterprise-to-equity conversion blocked by netDebt"
+            },
+            "perShareHigh": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "basis": "FCFF base 9184155840, WACC 10.68%, g 4.00%, 5y horizon"
+          },
+          "inputs": [
+            {
+              "name": "ebit",
+              "observation": {
+                "value": 14527400000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "DATASET",
+                  "ref": "derived:EBIT@in-fin/1.0.0"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "DERIVED",
+                "note": "Profit before tax plus finance costs"
+              },
+              "role": "PRIMARY"
+            },
+            {
+              "name": "depreciationAndAmortisation",
+              "observation": {
+                "value": 1973800000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "FILING",
+                  "ref": "KEC-INDAS-CONSOL-FY26-AR",
+                  "filedAt": "2026-05-16"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "AS_FILED",
+                "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+              },
+              "role": "PRIMARY"
+            },
+            {
+              "name": "capitalExpenditure",
+              "observation": {
+                "value": 3286800000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "FILING",
+                  "ref": "KEC-INDAS-CONSOL-FY26-AR",
+                  "filedAt": "2026-05-16"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "AS_FILED",
+                "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+              },
+              "role": "PRIMARY"
+            }
+          ],
+          "assumptions": {
+            "wacc": 0.10677961,
+            "terminalGrowth": 0.04,
+            "taxRate": 0.2517,
+            "horizon": 5,
+            "baseFcff": 9184155840
+          },
+          "allowsImputation": false,
+          "formulaId": "DCF_FCFF",
+          "formulaVersion": "1.0.0",
+          "evidenceIds": [
+            "EV-DCF_FCFF"
+          ]
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "applicable": false,
+          "notApplicableReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+          "output": null,
+          "inputs": [
+            {
+              "name": "ebitda",
+              "observation": {
+                "value": 16501200000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "DATASET",
+                  "ref": "derived:EBITDA@in-fin/1.0.0"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "DERIVED",
+                "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+              },
+              "role": "PRIMARY"
+            },
+            {
+              "name": "netDebt",
+              "observation": {
+                "value": null,
+                "presence": "MISSING",
+                "reason": "NOT_REPORTED"
+              },
+              "role": "SECONDARY"
+            }
+          ],
+          "assumptions": {},
+          "allowsImputation": false,
+          "formulaId": "EV_EBITDA",
+          "formulaVersion": "1.0.0",
+          "evidenceIds": []
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "applicable": false,
+          "notApplicableReason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL",
+          "output": null,
+          "inputs": [],
+          "assumptions": {},
+          "allowsImputation": false,
+          "formulaId": "EV_REVENUE",
+          "formulaVersion": "1.0.0",
+          "evidenceIds": []
+        }
+      ],
+      "sensitivity": [
+        {
+          "methodId": "DCF_FCFF",
+          "baseWaccBps": 1068,
+          "baseGrowthBps": 400,
+          "withheld": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "note": "enterprise-to-equity conversion blocked by netDebt"
+          },
+          "points": [
+            {
+              "waccBps": 968,
+              "growthBps": 300,
+              "value": null,
+              "enterpriseValue": 134168309666.93964
+            },
+            {
+              "waccBps": 968,
+              "growthBps": 400,
+              "value": null,
+              "enterpriseValue": 152499910747.68918
+            },
+            {
+              "waccBps": 968,
+              "growthBps": 500,
+              "value": null,
+              "enterpriseValue": 178597430408.12576
+            },
+            {
+              "waccBps": 1068,
+              "growthBps": 300,
+              "value": null,
+              "enterpriseValue": 116878425982.32823
+            },
+            {
+              "waccBps": 1068,
+              "growthBps": 400,
+              "value": null,
+              "enterpriseValue": 129992950487.77222
+            },
+            {
+              "waccBps": 1068,
+              "growthBps": 500,
+              "value": null,
+              "enterpriseValue": 147671107145.82513
+            },
+            {
+              "waccBps": 1168,
+              "growthBps": 300,
+              "value": null,
+              "enterpriseValue": 103570033962.74876
+            },
+            {
+              "waccBps": 1168,
+              "growthBps": 400,
+              "value": null,
+              "enterpriseValue": 113340450224.59354
+            },
+            {
+              "waccBps": 1168,
+              "growthBps": 500,
+              "value": null,
+              "enterpriseValue": 125991673877.1135
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "durableDatasetWritten": false,
+      "newFinancialEvidenceAdmitted": false
+    },
+    {
+      "inputPath": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+      "beforeReplayContentDigest": "sha256:65ad58cd3f8070d77f76965098e416e9dc1ddab6fed54923436065a18a7f45bd",
+      "afterReplayContentDigest": "sha256:65ad58cd3f8070d77f76965098e416e9dc1ddab6fed54923436065a18a7f45bd",
+      "periods": [
+        {
+          "period": {
+            "fiscalYear": 2024,
+            "periodType": "ANNUAL",
+            "periodStart": "2023-04-01",
+            "periodEnd": "2024-03-31",
+            "statementScope": "CONSOLIDATED"
+          },
+          "filingRef": "KEC-INDAS-CONSOL-FY25-AR-COMPARATIVE",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2024-03-31"
+          }
+        },
+        {
+          "period": {
+            "fiscalYear": 2025,
+            "periodType": "ANNUAL",
+            "periodStart": "2024-04-01",
+            "periodEnd": "2025-03-31",
+            "statementScope": "CONSOLIDATED"
+          },
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR-COMPARATIVE",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2025-03-31"
+          }
+        },
+        {
+          "period": {
+            "fiscalYear": 2026,
+            "periodType": "ANNUAL",
+            "periodStart": "2025-04-01",
+            "periodEnd": "2026-03-31",
+            "statementScope": "CONSOLIDATED"
+          },
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2026-03-31"
+          }
+        },
+        {
+          "period": {
+            "fiscalYear": 2027,
+            "periodType": "QUARTER",
+            "periodStart": "2026-04-01",
+            "periodEnd": "2026-06-30",
+            "statementScope": "CONSOLIDATED",
+            "quarterForm": "DISCRETE",
+            "quarterIndex": 1
+          },
+          "filingRef": "KEC-INDAS-CONSOL-Q1-FY27-OUTCOME",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2026-06-30"
+          }
+        },
+        {
+          "period": {
+            "fiscalYear": 2027,
+            "periodType": "QUARTER",
+            "periodStart": "2026-07-01",
+            "periodEnd": "2026-09-30",
+            "statementScope": "CONSOLIDATED",
+            "quarterForm": "DISCRETE",
+            "quarterIndex": 2
+          },
+          "filingRef": "KEC-INDAS-CONSOL-Q2-FY27-OUTCOME-XBRL",
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2026-09-30"
+          }
+        }
+      ],
+      "capitalStructure": {
+        "netDebt": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "grossDebt": {
+          "value": 53777600000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "capital-structure/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "cashAndInvestments": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "leaseLiabilities": {
+          "value": 2745299999.9999995,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "KEC-INDAS-CONSOL-FY26-AR",
+            "filedAt": "2026-05-16"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+        },
+        "leaseTreatment": "IND_AS_116_CAPITALISED",
+        "pre116Comparative": false,
+        "minorityInterest": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "preferenceCapital": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "associatesAndJV": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "dilutedShares": {
+          "value": 266193406.5934066,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DATASET",
+            "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "shareCountPeriod": "2026-03-31",
+        "shareCountBasis": "REPORTED_EPS",
+        "dilutionProxy": true,
+        "components": {
+          "shortTermBorrowings": {
+            "value": 42062600000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "currentMaturities": {
+            "value": 2356000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "longTermBorrowings": {
+            "value": 6613700000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "leaseLiabilities": {
+            "value": 2745299999.9999995,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "cashAndCashEquivalents": {
+            "value": 4112600000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "KEC-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-16"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "currentInvestments": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "nonControllingInterest": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "restrictedCash": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          },
+          "associatesAndJV": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          }
+        },
+        "equityBridge": {
+          "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+          "policyVersion": "associates-treatment/1.0.0",
+          "treatment": "POLICY_ZERO_UNAVAILABLE",
+          "substitutedInputs": [
+            {
+              "input": "associatesAndJV",
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "treatment": "POLICY_ZERO"
+            }
+          ],
+          "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+        },
+        "associatesJVReview": {
+          "reviewPolicyVersion": "associates-review/1.0.0",
+          "treatmentPolicyVersion": "associates-treatment/1.0.0",
+          "reviewAgeDays": 180,
+          "clockStart": "2026-03-31",
+          "clockStartBasis": "DATASET_PERIOD_END",
+          "reviewDueOn": "2026-09-27",
+          "treatment": "POLICY_ZERO",
+          "status": "REVIEW_DUE",
+          "reviewRequired": true,
+          "reason": "The associates/JV carrying value has been unavailable since the evidence date 2026-03-31, and the 180-day treatment review fell due on 2026-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence."
+        }
+      },
+      "intrinsic": null,
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "applicable": true,
+          "notApplicableReason": null,
+          "output": {
+            "perShareLow": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "perShareMid": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "note": "enterprise-to-equity conversion blocked by netDebt"
+            },
+            "perShareHigh": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "basis": "FCFF base 9184155840, WACC 10.68%, g 4.00%, 5y horizon"
+          },
+          "inputs": [
+            {
+              "name": "ebit",
+              "observation": {
+                "value": 14527400000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "DATASET",
+                  "ref": "derived:EBIT@in-fin/1.0.0"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "DERIVED",
+                "note": "Profit before tax plus finance costs"
+              },
+              "role": "PRIMARY"
+            },
+            {
+              "name": "depreciationAndAmortisation",
+              "observation": {
+                "value": 1973800000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "FILING",
+                  "ref": "KEC-INDAS-CONSOL-FY26-AR",
+                  "filedAt": "2026-05-16"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "AS_FILED",
+                "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+              },
+              "role": "PRIMARY"
+            },
+            {
+              "name": "capitalExpenditure",
+              "observation": {
+                "value": 3286800000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "FILING",
+                  "ref": "KEC-INDAS-CONSOL-FY26-AR",
+                  "filedAt": "2026-05-16"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "AS_FILED",
+                "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+              },
+              "role": "PRIMARY"
+            }
+          ],
+          "assumptions": {
+            "wacc": 0.10677961,
+            "terminalGrowth": 0.04,
+            "taxRate": 0.2517,
+            "horizon": 5,
+            "baseFcff": 9184155840
+          },
+          "allowsImputation": false,
+          "formulaId": "DCF_FCFF",
+          "formulaVersion": "1.0.0",
+          "evidenceIds": [
+            "EV-DCF_FCFF"
+          ]
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "applicable": false,
+          "notApplicableReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable",
+          "output": null,
+          "inputs": [
+            {
+              "name": "ebitda",
+              "observation": {
+                "value": 16501200000,
+                "presence": "PRESENT",
+                "source": {
+                  "kind": "DATASET",
+                  "ref": "derived:EBITDA@in-fin/1.0.0"
+                },
+                "periodEnd": "2026-03-31",
+                "basis": "DERIVED",
+                "note": "Profit before tax plus finance costs plus depreciation and amortisation"
+              },
+              "role": "PRIMARY"
+            },
+            {
+              "name": "netDebt",
+              "observation": {
+                "value": null,
+                "presence": "MISSING",
+                "reason": "NOT_REPORTED"
+              },
+              "role": "SECONDARY"
+            }
+          ],
+          "assumptions": {},
+          "allowsImputation": false,
+          "formulaId": "EV_EBITDA",
+          "formulaVersion": "1.0.0",
+          "evidenceIds": []
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "applicable": false,
+          "notApplicableReason": "MANDATORY_METRIC_MISSING: IN_BOOK_TO_BILL",
+          "output": null,
+          "inputs": [],
+          "assumptions": {},
+          "allowsImputation": false,
+          "formulaId": "EV_REVENUE",
+          "formulaVersion": "1.0.0",
+          "evidenceIds": []
+        }
+      ],
+      "sensitivity": [
+        {
+          "methodId": "DCF_FCFF",
+          "baseWaccBps": 1068,
+          "baseGrowthBps": 400,
+          "withheld": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "note": "enterprise-to-equity conversion blocked by netDebt"
+          },
+          "points": [
+            {
+              "waccBps": 968,
+              "growthBps": 300,
+              "value": null,
+              "enterpriseValue": 134168309666.93964
+            },
+            {
+              "waccBps": 968,
+              "growthBps": 400,
+              "value": null,
+              "enterpriseValue": 152499910747.68918
+            },
+            {
+              "waccBps": 968,
+              "growthBps": 500,
+              "value": null,
+              "enterpriseValue": 178597430408.12576
+            },
+            {
+              "waccBps": 1068,
+              "growthBps": 300,
+              "value": null,
+              "enterpriseValue": 116878425982.32823
+            },
+            {
+              "waccBps": 1068,
+              "growthBps": 400,
+              "value": null,
+              "enterpriseValue": 129992950487.77222
+            },
+            {
+              "waccBps": 1068,
+              "growthBps": 500,
+              "value": null,
+              "enterpriseValue": 147671107145.82513
+            },
+            {
+              "waccBps": 1168,
+              "growthBps": 300,
+              "value": null,
+              "enterpriseValue": 103570033962.74876
+            },
+            {
+              "waccBps": 1168,
+              "growthBps": 400,
+              "value": null,
+              "enterpriseValue": 113340450224.59354
+            },
+            {
+              "waccBps": 1168,
+              "growthBps": 500,
+              "value": null,
+              "enterpriseValue": 125991673877.1135
+            }
+          ]
+        }
+      ],
+      "violations": [],
+      "durableDatasetWritten": false,
+      "newFinancialEvidenceAdmitted": false
+    }
+  ],
+  "publishedArtifactSha256": "fc50c53e08814d7851d7b9bb569ddf1eb4eec19ad7508c3c16db9b13a943f370",
+  "identityLoadResult": {
+    "available": false,
+    "issues": [
+      {
+        "file": "corporate-actions.json",
+        "code": "MISSING_REQUIRED_ARRAY",
+        "subject": "actions",
+        "detail": "required array \"actions\" is missing"
+      }
+    ]
+  },
+  "identityBoundary": "Historical payload carrier reused only for read-only financial assessment; current identity loader failure retained, no qualification/persistence claimed"
+}

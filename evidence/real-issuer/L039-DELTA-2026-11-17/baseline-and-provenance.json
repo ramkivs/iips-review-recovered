@@ -1,0 +1,41 @@
+{
+  "repository": "ramkivs/iips-review-recovered",
+  "branch": "arena/3c6fd35e-iips-review-recovered",
+  "baselineMain": "ed839d116d1d7363431e7d771e2f90dcbb9b330c",
+  "initialHeadEqualsRemoteMain": true,
+  "initialWorkingTreeClean": true,
+  "sessionDate": "2026-11-17",
+  "runnerDateObserved": "2026-11-18",
+  "priorDocumentedEvidenceCutoff": "W07 2026-11-12; reconciled and merged through PR568 on Nov16, not a new all-source cutoff",
+  "reconciliationMerge": "064195397dfdb32bf0f34a461b02fd6b9f9a8df0",
+  "governing": [
+    "register 17.25 plus fact follow-up",
+    "tracker16.283 plus follow-up",
+    "W07 sections4-6",
+    "PR563 supersession comment https://github.com/ramkivs/iips-review-recovered/pull/563#issuecomment-6926287805",
+    "PR568 https://github.com/ramkivs/iips-review-recovered/pull/568",
+    "WI8-INDUSTRIALS-KEC-2026-11-07",
+    "WI8-L039-CASH-SIDE-2026-11-07",
+    "WI12-L039-CURRENT-INVESTMENTS-2026-11-05",
+    "S4-R3-FILING-REFRESH-2026-11-14 KEC candidate"
+  ],
+  "captureRuns": [
+    44252483819,
+    44252676184,
+    44252957977,
+    44253064059,
+    44253288034,
+    44253496825,
+    44253700695,
+    44253837652
+  ],
+  "transport": "GitHub check annotations: original capture step limited to 10 notices; deterministic artifact-only matrix recovery, no source re-fetch for transport",
+  "rights": "All new candidates discovery only, not admitted; no owner decision",
+  "probeRevisions": [
+    "751b867",
+    "1bf1d92",
+    "94548d2",
+    "c0f4204"
+  ],
+  "finalAccessRetry": "HTTP1.1 and Mozilla/5.0 overcame HTTP2 stream failures; retained both failed and successful attempts"
+}

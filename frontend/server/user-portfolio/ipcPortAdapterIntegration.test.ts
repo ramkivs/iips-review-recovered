@@ -6,34 +6,35 @@
  * `ipcPortAdapter.ts`.
  *
  * WHAT THIS PROVES. The unit suite drives `IpcUserPortfolioPort` through an injected transport.
- * This file drives the SAME adapter through the REAL `callIpc` implementation over a REAL unix
- * socket with a minimal contract-v1 peer: framing, caps, one-request-per-connection, refusal
- * classification and the fail-closed owner-context precondition all execute end to end. It is the
- * readiness evidence that the seam is ready for a FUTURE authorized composition — it composes
- * nothing itself.
+ * This file drives the SAME adapter through the REAL `callIpc` implementation over a REAL local
+ * IPC endpoint — a Unix-domain socket on POSIX, a Windows named pipe on win32, selected by
+ * `createLocalIpcEndpoint` the same way the production client resolves one — with a minimal
+ * contract-v1 peer: framing, caps, one-request-per-connection, refusal classification and the
+ * fail-closed owner-context precondition all execute end to end. It is the readiness evidence
+ * that the seam is ready for a FUTURE authorized composition — it composes nothing itself.
  *
  * WHAT THIS DOES NOT DO: this test exercises the adapter alone, not the HTTP route composition or
- * the user's Windows named pipe/database. The Direct P1 HTTP integration is covered separately by
- * `userPortfolioDirectP1Integration.test.ts`; this synthetic Unix-socket peer creates no database.
- * The pre-closure v1→G2 gap matrix below remains historical, and every malformed result still
- * asserts refusal rather than a fabricated acceptance.
+ * the user's database. The Direct P1 HTTP integration is covered separately by
+ * `userPortfolioDirectP1Integration.test.ts`; this synthetic local-endpoint peer creates no
+ * database. The pre-closure v1→G2 gap matrix below remains historical, and every malformed result
+ * still asserts refusal rather than a fabricated acceptance.
  *
  * @vitest-environment node
  */
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import net from 'node:net';
-import { mkdtempSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
 
-import { IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION } from './ipcClient.js';
+import { IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION, type IpcEndpointTarget } from './ipcClient.js';
 import { IpcUserPortfolioPort, V1_TO_G2_ENVELOPE_GAP } from './ipcPortAdapter.js';
 import { G2Error } from './userPortfolioContract.js';
 import type { G2Scope } from './userPortfolioPort.js';
 import { BINDING_PRECONDITION_SETTING } from './ownerContextFromBinding.js';
+import { createLocalIpcEndpoint, type LocalIpcEndpointKind } from './testing/localIpcEndpoint.js';
 
 /* ------------------------------------------------------------------ *
- * Contract-v1 peer fixture (unix socket; one connection in, one frame out)
+ * Contract-v1 peer fixture (real local IPC endpoint — a unix socket on POSIX, a Windows
+ * named pipe on win32, both selected the same way the production client resolves one;
+ * one connection in, one frame out)
  * ------------------------------------------------------------------ */
 
 interface PeerRequest {
@@ -41,8 +42,16 @@ interface PeerRequest {
   readonly envelope: Record<string, unknown> | null;
 }
 
+/** What a `respond` callback may do to the accepted connection: write a frame, end it, or both. */
+interface PeerSocket {
+  write(data: Buffer): void;
+  end(): void;
+}
+
 interface Peer {
   readonly path: string;
+  /** The local endpoint class this peer is actually listening on, for the host platform. */
+  readonly kind: LocalIpcEndpointKind;
   readonly requests: PeerRequest[];
   connections(): number;
   close(): Promise<void>;
@@ -60,56 +69,98 @@ function frameOf(value: unknown): Buffer {
  * Starts a v1 peer that answers every connection's first request exactly once, then closes.
  * `respond` returns the response value to frame, or `null` to close with zero bytes (Class P),
  * or never answers (timeout fixture).
+ *
+ * The endpoint is reserved through `createLocalIpcEndpoint`, the same helper the production
+ * client's own endpoint tests use: a Unix-domain socket path on POSIX, a `\\.\pipe\` name on
+ * Windows — never a TCP port, and never a second platform-specific abstraction. Framing is read
+ * off `data` by length prefix rather than waiting for the client to end its side, because the
+ * real `callIpc` client keeps a Windows named pipe open after writing the request (ending it
+ * there would race the pipe shut before the response is delivered) and only half-closes on POSIX.
  */
 function startPeer(
-  respond: (request: Record<string, unknown> | null, socket: net.Socket) => void,
+  respond: (request: Record<string, unknown> | null, socket: PeerSocket) => void,
 ): Promise<Peer> {
   return new Promise((resolveStart, rejectStart) => {
-    const dir = mkdtempSync(join(tmpdir(), 'iips-g3-irr-ipc-e2e-'));
-    const path = join(dir, 'ipd-peer.sock');
+    const endpoint = createLocalIpcEndpoint({ label: 'g3-irr-ipc-e2e' });
+    const { kind, path } = endpoint;
     const requests: PeerRequest[] = [];
     let accepted = 0;
-    const live: net.Socket[] = [];
+    const live = new Set<net.Socket>();
     const server = net.createServer({ allowHalfOpen: true }, (socket) => {
       accepted += 1;
-      live.push(socket);
-      const chunks: Buffer[] = [];
-      socket.on('data', (chunk: Buffer) => chunks.push(chunk));
+      live.add(socket);
+      socket.on('close', () => live.delete(socket));
       socket.on('error', () => undefined);
-      socket.on('end', () => {
-        const buffer = Buffer.concat(chunks);
-        let envelope: Record<string, unknown> | null = null;
-        if (buffer.byteLength >= IPC_LENGTH_PREFIX_BYTES) {
-          const declared = buffer.readUInt32BE(0);
-          if (buffer.byteLength >= IPC_LENGTH_PREFIX_BYTES + declared) {
-            try {
-              envelope = JSON.parse(
-                buffer.subarray(IPC_LENGTH_PREFIX_BYTES, IPC_LENGTH_PREFIX_BYTES + declared).toString('utf8'),
-              ) as Record<string, unknown>;
-            } catch {
-              envelope = null;
-            }
+      const chunks: Buffer[] = [];
+      let answered = false;
+      // Tracks whether `write` put a response frame in flight. The Windows "stay open, let the
+      // client destroy it" rule exists ONLY to protect a frame already handed to the pipe from the
+      // libuv shutdown/forced-break race; it does not apply to a bare `end()` with nothing ever
+      // written (Class P — refused before authorization, zero bytes). That close carries nothing to
+      // lose, so it must happen for real on every platform: a peer that calls `socket.end()` without
+      // writing is simulating a connection the far side closed immediately, and the client is
+      // waiting on exactly that close (or a timeout) to classify the outcome. Suppressing it
+      // unconditionally left the pipe open forever on Windows and the client never resolved.
+      let wroteData = false;
+      const peerSocket: PeerSocket = {
+        write: (data: Buffer) => {
+          wroteData = true;
+          socket.write(data);
+        },
+        end: () => {
+          if (kind === 'windows-named-pipe' && wroteData) {
+            // The pipe stays open: the real client destroys its socket once the full response
+            // frame has arrived, and `close()` below destroys any straggler. Ending here would
+            // trigger the libuv pipe shutdown/forced-break path before delivery completes.
+            return;
           }
+          socket.end();
+        },
+      };
+      socket.on('data', (chunk: Buffer) => {
+        if (answered) return;
+        chunks.push(chunk);
+        const buffer = Buffer.concat(chunks);
+        if (buffer.byteLength < IPC_LENGTH_PREFIX_BYTES) return;
+        const declared = buffer.readUInt32BE(0);
+        if (buffer.byteLength < IPC_LENGTH_PREFIX_BYTES + declared) return;
+        answered = true;
+
+        let envelope: Record<string, unknown> | null = null;
+        try {
+          envelope = JSON.parse(
+            buffer.subarray(IPC_LENGTH_PREFIX_BYTES, IPC_LENGTH_PREFIX_BYTES + declared).toString('utf8'),
+          ) as Record<string, unknown>;
+        } catch {
+          envelope = null;
         }
         requests.push({ raw: buffer, envelope });
         try {
-          respond(envelope, socket);
+          respond(envelope, peerSocket);
         } catch {
           socket.destroy();
         }
       });
     });
     server.once('error', (error: Error) => rejectStart(error));
-    server.listen({ path }, () => {
+    server.listen(path, () => {
+      let closed = false;
       resolveStart({
         path,
+        kind,
         requests,
         connections: () => accepted,
         close: () =>
           new Promise<void>((resolveClose) => {
+            if (closed) {
+              resolveClose();
+              return;
+            }
+            closed = true;
             for (const s of live) s.destroy();
+            live.clear();
             server.close(() => {
-              rmSync(dir, { recursive: true, force: true });
+              endpoint.dispose();
               resolveClose();
             });
           }),
@@ -120,7 +171,7 @@ function startPeer(
 
 /** Success responder: echo the operation, carry the given result. */
 function succeedWith(result: unknown) {
-  return (request: Record<string, unknown> | null, socket: net.Socket): void => {
+  return (request: Record<string, unknown> | null, socket: PeerSocket): void => {
     const op = request && typeof request.op === 'string' ? request.op : 'portfolio.list';
     socket.write(frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result }));
     socket.end();
@@ -128,7 +179,7 @@ function succeedWith(result: unknown) {
 }
 
 function refuseWith(outcome: string) {
-  return (request: Record<string, unknown> | null, socket: net.Socket): void => {
+  return (request: Record<string, unknown> | null, socket: PeerSocket): void => {
     const op = request && typeof request.op === 'string' ? request.op : 'portfolio.list';
     socket.write(frameOf({ v: IPC_PROTOCOL_VERSION, ok: false, op, outcome }));
     socket.end();
@@ -141,10 +192,15 @@ function refuseWith(outcome: string) {
 
 const SCOPE: G2Scope = { tenantHint: 'irr-local-tenant' };
 
+/** The REAL endpoint target for this peer: `unix-socket` on POSIX, `windows-named-pipe` on win32 — never hard-coded. */
+function targetFor(peer: Peer): IpcEndpointTarget {
+  return { kind: peer.kind, path: peer.path, source: 'absolute-path' };
+}
+
 function portOver(peer: Peer, precondition?: { bindingProvisioned: boolean }, timeoutMs?: number): IpcUserPortfolioPort {
   return new IpcUserPortfolioPort({
     precondition: precondition ?? { bindingProvisioned: true },
-    target: { kind: 'unix-socket', path: peer.path, source: 'absolute-path' },
+    target: targetFor(peer),
     ...(timeoutMs !== undefined ? { timeoutMs } : {}),
   });
 }
@@ -369,7 +425,7 @@ describe('ipcPortAdapter — end-to-end over the real ipcClient and a contract-v
     try {
       // No precondition override: the default, read from the (cleared) server-owned setting.
       const port = new IpcUserPortfolioPort({
-        target: { kind: 'unix-socket', path: peer.path, source: 'absolute-path' },
+        target: targetFor(peer),
       });
       const error = await expectG2Error(() => port.listPortfolios({ scope: SCOPE }));
       expect(error.reason).toBe('UPSTREAM_UNAVAILABLE');

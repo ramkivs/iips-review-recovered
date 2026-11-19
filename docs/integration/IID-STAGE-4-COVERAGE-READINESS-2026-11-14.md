@@ -233,7 +233,7 @@ prefix so they cannot be confused with Stage 2's or Stage 3's.
 | **S4-R3** | Install quarterly periods, or more recent annual filings | **OPERATOR** (data) — this is `G-6` | **NEW.** All three issuers exceed the freshness window at the assessment clock: 958, 958 and 228 days against `VALUATION_POLICY.freshness.pnlDays = 200`. All three therefore carry `STALE_STATEMENTS` (HIGH) and a `MATERIAL_CONCERNS` quality verdict | Install quarterly data (`quarterlyPeriods` is 0 today) or newer annual filings | `quarterlyPeriods > 0`, or staleness within 200 days, and `STALE_STATEMENTS` no longer raised | **G-6**, and the currency of any valuation claim on this data. Not Stage 4's measurement |
 | **S4-R4** | Document that coverage "usable" does not mean "a valuation would be produced" | **IRR** (documentation) | **NEW — partially discharged.** The two layers answer different questions by design: coverage asks whether a method is computable for **any** issuer-period, assessment resolves **one latest instant** with a stricter input set. Both are correct; a reader could infer a valuation from a coverage row. Recorded in evidence §8.2 rather than in source, to keep the Stage 4 diff minimal and the validator's line pins stable | A source-level note in the coverage module stating the window difference | The note committed | Nothing. This is a misreading risk, not a defect |
 | **S4-R5** | Decide whether coverage availability should remain existential over annual periods | **OWNER** — **DECIDED 2026-11-17: retained** | **DISCHARGED.** `measureCoverage` declares a method `AVAILABLE` if **at least one** issuer-period has all its inputs. Consumer's `EV_EBITDA` therefore rests on **FY2023 alone** — the single year Marico's `LONG_TERM_BORROWINGS` was transcribed — while FY2022 and FY2024 do not support it. The owner **retained** those existential semantics and required **historical availability** and **latest-per-issuer-period readiness** to be kept distinct in what is served and displayed. Recorded, with evidence and the issuer-neutral reporting correction, in `IID-COVERAGE-AVAILABILITY-SEMANTICS-2026-11-17.md`; addendum at the foot of this table | Keep existential availability (a dataset-capability statement) and disclose readiness separately, or require the latest period | A recorded decision, and the code or the record amended to match | **Decision recorded and the reporting gap closed**: decision text, the shared `qualificationOf` predicate, the per-issuer `methodAvailability` block, relabelled counters on all four surfaces, and **10** new platform tests plus **7** new SPA tests. Measurement unchanged (digests identical); no formula, threshold, window, eligibility or withholding rule touched; nothing substitutes a zero or an older value |
-| **S4-R6** | Decide on operating metrics to unlock `TM_*`/`IN_*`/`BM_*` | **OWNER** with **OPERATOR** — this is `G-4` | **NEW, and named by §21 itself as a Stage 4 remaining item.** `operatingMetricRecords` is 0, so 14 of 38 method slots are withheld; Technology needs `TM_NRR`/`TM_RECURRING_REVENUE_PCT`, Industrials needs `IN_BOOK_TO_BILL`. Consumer declares no mandatory metrics and is unaffected | Supply validated operating-metric records, or record that these methods stay withheld for this population | `operatingMetricRecords > 0` with `validation VALID`, and the named methods `AVAILABLE` | **G-4**, and two withheld methods |
+| **S4-R6** | Decide on operating metrics to unlock `TM_*`/`IN_*`/`BM_*` | **OWNER** with **OPERATOR** — this is `G-4`. **Investigated 2026-11-18; decision still OPEN** | **INVESTIGATED — `G-4` remains OPEN, owner decision outstanding.** `operatingMetricRecords` is **0** on both served datasets and no real-issuer bundle in this repository carries a metric row (the only committed metric file is a **synthetic** 7-row fixture), so **14 of 38** method slots are metric-gated; **two** of them are live — Technology `EV_REVENUE` (`TM_NRR` + `TM_RECURRING_REVENUE_PCT`) and Industrials `EV_REVENUE` (`IN_BOOK_TO_BILL`), both `WITHHELD` `MANDATORY_METRIC_MISSING`; the other **twelve** are `UNMEASURED` for want of an admitted issuer. Consumer declares no mandatory metric and is unaffected. The generic ingestion/validation/gating path was **verified, not changed** — 25 new tests plus 12 capability probes; **no defect prevents any required behaviour**, so the source diff of this item is empty. Source evidence: Infosys does not disclose NRR/recurring-revenue share in a carryable form (`REL-1` §operating metrics), and KEC prints order intake/order book but **not** a book-to-bill ratio, which the record forbids deriving by division (`WI8` §7) | Supply validated operating-metric records, or record that these methods stay withheld for this population | `operatingMetricRecords > 0` with `validation VALID`, and the named methods `AVAILABLE` | **`G-4` stays OPEN**: option B alone satisfies neither clause of the stated closure evidence and would record a **controlled limitation**, not a closure. The repository states the `S4-R6` closure test **two ways** (this row's numeric evidence vs `S4-R3` reassessment §4's "…or a recorded decision to keep methods withheld"); which governs is itself an owner decision and is **not** resolved here. See `IID-S4-R6-OPERATING-METRICS-2026-11-18.md` §7 |
 | **S4-R7** | Add a lint over hand-authored rosters | **IRR** — this is the remainder of `G-14` | **NEW.** The read path now catches the defect class at runtime, which is the stronger position, but `G-14`'s literal complaint (*"no lint"*) is not yet answered statically | A repository validator that rejects an off-vocabulary `sector` in any committed roster, using the same `findInvalidIssuerSectors` authority | The lint failing on a deliberately respelled fixture roster | Nothing. `G-14` is substantially closed by the read path |
 | **S4-R8** | Fill corporate actions as events occur | **OPERATOR** — event-driven | **NEW, and named by §21 itself.** `merge.actions 0`, `corporateActions 0` | Record actions as they occur and re-publish | `corporateActions > 0` | Nothing today |
 
@@ -1303,3 +1303,111 @@ same code, a different dataset, and the distinction legible in both directions. 
 contract unchanged; `S4-R5` **DECIDED — DISCHARGED**; `L-001`, `G-6`, `L-041`, `L-042` unchanged; Stage 4
 **PARTIALLY COMPLETE**; IID readiness **NOT READY**. The next Stage 4 roadmap item is **`S4-R6`** (`G-4`, operating
 metrics).
+
+## Addendum (2026-11-18) — `S4-R6` investigated: the 14-slot matrix is fixed, the capability is proven, the source evidence is absent, the owner decision is OUTSTANDING (`G-4` stays OPEN)
+
+**Scope.** IRR-only. **The `S4-R6` row above is updated in place only to record its investigation; the `S4-R1`,
+`S4-R2`, `S4-R3`, `S4-R4` and `S4-R5` rows and their addenda are unchanged**, and no closure condition of theirs was
+relaxed. No issuer was admitted, no dataset built, no source fetched, **no operating metric was entered**, no host was
+touched, and no valuation formula, weight, threshold, cap, freshness rule or method requirement changed.
+
+**Baseline.** `f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e` (`main` = merge of PR #590 / `S4-R5`), clean worktree.
+**Record:** `IID-S4-R6-OPERATING-METRICS-2026-11-18.md`. **Evidence:**
+`evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/` (`metric-requirement-matrix.json`, `metric-census.json`,
+`capability-probes.json`).
+
+**The requirement set, derived rather than quoted (`V2190`).** The register's "14 of 38" is confirmed from
+`SECTOR_METHODS` and the exact slots listed: Technology `EV_REVENUE`; Industrials `EV_REVENUE`; Materials
+`NAV_RESERVES`; Utilities `REGULATED_ASSET_BASE`; Auto `EV_REVENUE`; Energy `EV_EBITDAX` and `NAV_RESERVES`;
+Healthcare `EV_EBITDA`; Hospitality `EV_EBITDA`; Banking `RESIDUAL_INCOME` and `PB_RELATIVE`; Insurance
+`P_EMBEDDED_VALUE`; Capital Markets `P_AUM`; Telecom `EV_SUBSCRIBER`. **24** of the **33** vocabulary ids are required;
+**nine** are required by no method. Every declared metric carries `minimumSourceClass: 'OPERATOR_ENTERED'`; the
+requirement is **mandatory** with no conditional construct, the unit and range come from the metric definition, and the
+period must be an **annual** period end the dataset carries for that issuer.
+
+**The census (`V2191`).** Both served datasets re-ingested at clock 2026-11-18: **0** operating-metric records, no
+`VENDOR`, no metric-related ingestion issue. `git ls-files` finds **one** metric file in the whole repository — the
+synthetic 7-row test fixture (2 synthetic issuers, a deliberate GNPA/NNPA inconsistency). So the recorded zero is a
+fact about the repository, not a reporting artefact. A **Consumer 100 %** metric coverage means *nothing was required*
+(`coverage/measure.ts:250`), and is recorded as such rather than as evidence of data.
+
+**Source and rights (`V2192`).** No admissible source-backed metric exists in this repository for any of the 14 slots.
+Technology: `REL-1` states the issuer does not disclose `TM_NRR`/`TM_RECURRING_REVENUE_PCT` "in a form this dataset can
+carry" and that neither is imputed from a segment note. Industrials: `WI8` §7 states the FY2025-26 report prints order
+intake ₹25,280 crore and order book ₹36,267 crore but **no book-to-bill ratio** and **no prior-year intake**, and that
+division is forbidden ("D-2 forbids arithmetic invention of a metric, and one year's intake is not a ratio"). The other
+twelve slots have **no admitted issuer** in this repository, so no issuer source for them is committed either. This is a
+statement about the repository's evidence, not proof that the values do not exist publicly. No provider was admitted,
+`O3` is untouched, the source-rights records are unchanged, and **no web-derived figure was used**.
+
+**Capability, verified and unchanged (`V2193`).** Twelve deterministic probes plus a **25-test** issuer-neutral suite
+(`iips-platform/tests/investment/s4r6-operating-metric-gating.test.ts`) establish: a well-formed `OPERATOR_ENTERED` row
+is ingested `VALID` with lineage; `UNKNOWN_METRIC`, `UNKNOWN_ISSUER`, `SOURCE_REF_REQUIRED`, `INVALID_SOURCE_CLASS` are
+errors and never become availability; `UNIT_MISMATCH`/`OUT_OF_RANGE`/missing value/conflict/cross-field each withhold the
+method with a named reason and never a zero; a metric at a period the dataset does not carry is retained, warned about and
+gates nothing; a two-metric method needs both; a `VENDOR` observation is retained and coverage-counted yet **never opens
+the assessment** (the source floor is applied there and the refusal names the metric) and a metric from another sector's
+vocabulary is retained but inert at both layers; and a **previously unseen issuer** satisfies the same declaration through
+the same code path, with `issuersAvailable` naming exactly who qualified. **No defect was found that prevents any
+required behaviour, so no production source changed** — the item's source diff is empty.
+
+**Two observations, recorded and not "fixed" (`V2194`).** (a) There is no metric/issuer-sector consistency check: a
+`TM_NRR` entered for a Hospitality issuer is accepted `VALID`, silently inert (it can never unlock anything), and adding
+a warning would flip that issuer's served row to `ISSUED_DATA` through `issuerIdOfIssue` — a behaviour change outside
+this item's need. (b) `period_end` is not format-validated; a malformed end simply never matches a period, so it is
+fail-safe and gates nothing. Both are detection gaps, neither blocks a required behaviour.
+
+**The two layers stay distinct (`V2195`).** `layerProbes` demonstrates `S4-R4`'s D4 live: for the same synthetic
+observation, coverage reports `AVAILABLE` for all three source classes while the assessment refuses `VENDOR` as
+`MANDATORY_METRIC_MISSING: HM_REVPAR (source class too weak)` (`assessment/methods.ts:147`). A `VENDOR` metric would
+therefore not unlock the assessment even if it unlocked coverage. `S4-R4`'s contract is unchanged and not reopened.
+
+**`G-4` determination (`V2196`).** **`G-4` remains OPEN.** The register's closure evidence — `operatingMetricRecords > 0`
+with `validation VALID` **and** the named methods `AVAILABLE` — is unmet on both clauses, and there is no partial metric
+set to be partially closed by. **Option B (keep withheld) cannot close `G-4` against that test**: it produces no valid
+record and leaves every named method `WITHHELD`, so it would record a **controlled limitation**. The repository states
+the test **two ways** — the register's numeric evidence and `S4-R3` reassessment §4's "validated metric records **or** a
+recorded decision to keep methods withheld" — and this item does **not** choose between them, because choosing would
+redefine acceptance on the owner's behalf. Until the owner decides both the disposition (A/B) **and** which closure test
+governs, `G-4` stays OPEN with the ambiguity recorded. Nothing here claims closure because the system can withhold
+safely.
+
+**Statuses.** `S4-R1` substantially discharged; `S4-R2` **CLOSED**; `S4-R3`/`S4-R3-Infosys` **OPEN**; `S4-R4` **CLOSED**;
+`S4-R5` **DECIDED — DISCHARGED**; **`S4-R6` INVESTIGATED, decision OUTSTANDING, `G-4` OPEN**; `S4-R7` complete;
+`S4-R8` open (event-driven); `L-001`, `G-6`, `L-041`, `L-042` unchanged. Stage 4 remains **PARTIALLY COMPLETE**; overall
+IID readiness **NOT READY**. The next Stage 4 roadmap item is **`S4-R7`** (already discharged) and then **`S4-R8`**
+(corporate actions), with `S4-R6`'s owner decision outstanding in parallel.
+
+
+## Addendum (2026-11-17) — S4-R8 corporate-actions G-8 investigated; OPEN/event-driven
+
+This addendum updates the **status of S4-R8 only**; the historical registration row and its criterion are preserved.
+Record: `IID-S4-R8-CORPORATE-ACTIONS-2026-11-17.md` (§§1–10). Evidence:
+`evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/`. Tracker §16.298 / `CV-CORR-263` / `V2197`–`V2204`.
+Baseline: remote main at PR #591 merge (exact commit in the record and machine-generated census).
+
+| Item | Current finding | Literal criterion | Determination |
+|---|---|---|---|
+| S4-R8 / corporate-actions G-8 | **INVESTIGATED — OPEN/event-driven**. 597-file evidence census, 13 discovery candidate/group rows, zero admissible canonical events. Both temporary real-input dataset read-backs contain 0 actions. | **`corporateActions > 0`**, record as events occur and re-publish; L-031 additionally needs a real declared-action guard/factor demonstration. | **C**, not A: sources reference historical buybacks/bonuses/split/redemption and other distributions/issues, but event-level evidence/admission/schema support is insufficient. No global non-occurrence claim. |
+
+**Synthetic result unchanged:** scenario 7 remains DEMONSTRATED on **SYNTHETIC_FIXTURE**, with its three original
+tests untouched and reused. Never counted as real issuer coverage. The real-event limb is **NOT DEMONSTRATED**.
+
+**Safe issuer-neutral correction:** dataset assembly now reuses the identity record validator instead of bypassing
+it, withholds the whole action file on any error even for explicit partial dataset publication, and verifies supplied
+subject security ownership. Canonical dataset fields must be explicit, so legacy identity defaults cannot let a
+missing boolean bypass the comparability guard. Shared validation rejects non-positive ratios and duplicate successor issuer ids.
+Valid originals/provenance retained; **22 new tests**, existing corporate-action/source/scenario run **77/77**,
+full IID **1573/1573**, platform typecheck and CAP-03 static validation pass. Original/corrected production replay
+returns identical digests for both real-input datasets; no real input or historical evidence changed.
+
+**Not claimed:** successor-security exchange/fraction processing, independent source rights, a real guard firing,
+complete action history or acceptance of the supplemental refresh as new O3 authority. No synthetic event entered,
+no new provider, rights expansion, valuation/freshness/portfolio change, host operation, IPD write or cross-repo sync.
+L-031 **OPEN**; G-8 **OPEN**; S4-R2 through S4-R7 not reopened. Stage 4 **PARTIALLY COMPLETE**, IID **NOT READY**.
+
+**Next action:** owner/operator obtains event-specific source/locator, exact dates/historical identity/terms and
+applicable rights/admission, then transcribes, validates, publishes, independently reads back and demonstrates the
+real criterion with before/after digests. Unsupported schema semantics require a governed decision, not a guessed
+mapping. S4-R8 is the last numbered Stage 4 roadmap row: **no next numbered item is registered**; remaining work is
+the existing residual/event-driven/operator/owner actions, including the outstanding S4-R6 decision.

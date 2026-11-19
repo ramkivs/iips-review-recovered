@@ -1,0 +1,953 @@
+{
+  "method": "existing inputs -> loadInputs/buildDatasetContent/computeContentDigest/assessCompany in memory; no writeDataset or dataset directory",
+  "clock": "2026-11-17T00:00:00.000Z",
+  "records": [
+    {
+      "inputPath": "evidence/real-issuer/WI7-CONSUMER-MARICO-2026-11-07/ingest-input",
+      "datasetContentDigest": "sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0",
+      "repeatedReplayDigest": "sha256:04c96303e269108803b2a5efef565eae2940ecb649b4f34998d01106a9cc6bd0",
+      "durableDatasetWritten": false,
+      "newFinancialEvidenceAdmitted": false,
+      "periods": [
+        {
+          "periodEnd": "2022-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY23-AR-COMPARATIVE",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2022-03-31"
+          }
+        },
+        {
+          "periodEnd": "2023-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2023-03-31"
+          }
+        },
+        {
+          "periodEnd": "2024-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2024-03-31"
+          }
+        }
+      ],
+      "violations": [],
+      "capitalStructure": {
+        "netDebt": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "grossDebt": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "cashAndInvestments": {
+          "value": 4870000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "capital-structure/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "leaseLiabilities": {
+          "value": 1450000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+            "filedAt": "2024-05-06"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+        },
+        "leaseTreatment": "IND_AS_116_CAPITALISED",
+        "pre116Comparative": false,
+        "minorityInterest": {
+          "value": 3370000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+            "filedAt": "2024-05-06"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+        },
+        "preferenceCapital": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "associatesAndJV": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "dilutedShares": {
+          "value": 1295713035.8705163,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DATASET",
+            "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "DERIVED"
+        },
+        "shareCountPeriod": "2024-03-31",
+        "shareCountBasis": "REPORTED_EPS",
+        "dilutionProxy": true,
+        "components": {
+          "shortTermBorrowings": {
+            "value": 3830000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "currentMaturities": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "longTermBorrowings": {
+            "value": 20000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE"
+          },
+          "leaseLiabilities": {
+            "value": 1450000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "cashAndCashEquivalents": {
+            "value": 2280000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "currentInvestments": {
+            "value": 2590000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "nonControllingInterest": {
+            "value": 3370000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "restrictedCash": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          },
+          "associatesAndJV": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          }
+        },
+        "equityBridge": {
+          "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+          "policyVersion": "associates-treatment/1.0.0",
+          "treatment": "POLICY_ZERO_UNAVAILABLE",
+          "substitutedInputs": [
+            {
+              "input": "associatesAndJV",
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "treatment": "POLICY_ZERO"
+            }
+          ],
+          "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+        },
+        "associatesJVReview": {
+          "reviewPolicyVersion": "associates-review/1.0.0",
+          "treatmentPolicyVersion": "associates-treatment/1.0.0",
+          "reviewAgeDays": 180,
+          "clockStart": "2024-03-31",
+          "clockStartBasis": "DATASET_PERIOD_END",
+          "reviewDueOn": "2024-09-27",
+          "treatment": "POLICY_ZERO",
+          "status": "REVIEW_DUE",
+          "reviewRequired": true,
+          "reason": "The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence."
+        }
+      },
+      "diagnosticBridge": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED",
+        "note": "enterprise-to-equity conversion blocked by netDebt"
+      },
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "output": {
+            "perShareLow": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "perShareMid": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "note": "enterprise-to-equity conversion blocked by netDebt"
+            },
+            "perShareHigh": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "basis": "FCFF base 13541622333, WACC 10.68%, g 4.00%, 5y horizon"
+          }
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "output": {
+            "perShareLow": {
+              "value": 181.69066666666666,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "basis": "DERIVED"
+            },
+            "perShareMid": {
+              "value": 227.11333333333332,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "periodEnd": "2024-03-31",
+              "basis": "DERIVED"
+            },
+            "perShareHigh": {
+              "value": 272.53599999999994,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "basis": "DERIVED"
+            },
+            "basis": "normalised EPS 10.32 × P/E 22"
+          }
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "output": null
+        }
+      ],
+      "intrinsic": null
+    },
+    {
+      "inputPath": "evidence/real-issuer/WI7-L038-DEBT-COMPLETENESS-2026-11-07/ingest-input",
+      "datasetContentDigest": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc",
+      "repeatedReplayDigest": "sha256:433358f3968616b89d89dc551f34660252f8be355866526495baaa93f764f9fc",
+      "durableDatasetWritten": false,
+      "newFinancialEvidenceAdmitted": false,
+      "periods": [
+        {
+          "periodEnd": "2022-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY23-AR-COMPARATIVE",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2022-03-31"
+          }
+        },
+        {
+          "periodEnd": "2023-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2023-03-31"
+          }
+        },
+        {
+          "periodEnd": "2024-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2024-03-31"
+          }
+        }
+      ],
+      "violations": [],
+      "capitalStructure": {
+        "netDebt": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "PERIOD_MISMATCH",
+          "note": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established"
+        },
+        "grossDebt": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "PERIOD_MISMATCH",
+          "note": "debt components resolve to different period ends (shortTermBorrowings@2024-03-31, currentMaturities@2023-03-31, longTermBorrowings@2023-03-31, leaseLiabilities@2024-03-31), so no single balance-sheet instant is established"
+        },
+        "cashAndInvestments": {
+          "value": 4870000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "capital-structure/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "leaseLiabilities": {
+          "value": 1450000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+            "filedAt": "2024-05-06"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+        },
+        "leaseTreatment": "IND_AS_116_CAPITALISED",
+        "pre116Comparative": false,
+        "minorityInterest": {
+          "value": 3370000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+            "filedAt": "2024-05-06"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+        },
+        "preferenceCapital": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "associatesAndJV": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "dilutedShares": {
+          "value": 1295713035.8705163,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DATASET",
+            "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+          },
+          "periodEnd": "2024-03-31",
+          "basis": "DERIVED"
+        },
+        "shareCountPeriod": "2024-03-31",
+        "shareCountBasis": "REPORTED_EPS",
+        "dilutionProxy": true,
+        "components": {
+          "shortTermBorrowings": {
+            "value": 3830000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "currentMaturities": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE"
+          },
+          "longTermBorrowings": {
+            "value": 20000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2023-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE"
+          },
+          "leaseLiabilities": {
+            "value": 1450000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "cashAndCashEquivalents": {
+            "value": 2280000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "currentInvestments": {
+            "value": 2590000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "nonControllingInterest": {
+            "value": 3370000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY24-AR",
+              "filedAt": "2024-05-06"
+            },
+            "periodEnd": "2024-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY24-AR"
+          },
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "restrictedCash": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          },
+          "associatesAndJV": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          }
+        },
+        "equityBridge": {
+          "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+          "policyVersion": "associates-treatment/1.0.0",
+          "treatment": "POLICY_ZERO_UNAVAILABLE",
+          "substitutedInputs": [
+            {
+              "input": "associatesAndJV",
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "treatment": "POLICY_ZERO"
+            }
+          ],
+          "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+        },
+        "associatesJVReview": {
+          "reviewPolicyVersion": "associates-review/1.0.0",
+          "treatmentPolicyVersion": "associates-treatment/1.0.0",
+          "reviewAgeDays": 180,
+          "clockStart": "2024-03-31",
+          "clockStartBasis": "DATASET_PERIOD_END",
+          "reviewDueOn": "2024-09-27",
+          "treatment": "POLICY_ZERO",
+          "status": "REVIEW_DUE",
+          "reviewRequired": true,
+          "reason": "The associates/JV carrying value has been unavailable since the evidence date 2024-03-31, and the 180-day treatment review fell due on 2024-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence."
+        }
+      },
+      "diagnosticBridge": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "PERIOD_MISMATCH",
+        "note": "enterprise-to-equity conversion blocked by netDebt"
+      },
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "output": {
+            "perShareLow": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "PERIOD_MISMATCH"
+            },
+            "perShareMid": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "PERIOD_MISMATCH",
+              "note": "enterprise-to-equity conversion blocked by netDebt"
+            },
+            "perShareHigh": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "PERIOD_MISMATCH"
+            },
+            "basis": "FCFF base 13541622333, WACC 10.68%, g 4.00%, 5y horizon"
+          }
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "output": {
+            "perShareLow": {
+              "value": 181.69066666666666,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "basis": "DERIVED"
+            },
+            "perShareMid": {
+              "value": 227.11333333333332,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "periodEnd": "2024-03-31",
+              "basis": "DERIVED"
+            },
+            "perShareHigh": {
+              "value": 272.53599999999994,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "basis": "DERIVED"
+            },
+            "basis": "normalised EPS 10.32 × P/E 22"
+          }
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "output": null
+        }
+      ],
+      "intrinsic": null
+    },
+    {
+      "inputPath": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+      "datasetContentDigest": "sha256:4d2a54a97cbd072ae9d1a4bcc9933cfce4671aac70b15846d634b5870dbd7fb5",
+      "repeatedReplayDigest": "sha256:4d2a54a97cbd072ae9d1a4bcc9933cfce4671aac70b15846d634b5870dbd7fb5",
+      "durableDatasetWritten": false,
+      "newFinancialEvidenceAdmitted": false,
+      "periods": [
+        {
+          "periodEnd": "2022-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY23-AR-COMPARATIVE",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2022-03-31"
+          }
+        },
+        {
+          "periodEnd": "2023-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR-COMPARATIVE",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2023-03-31"
+          }
+        },
+        {
+          "periodEnd": "2024-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY24-AR",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2024-03-31"
+          }
+        },
+        {
+          "periodEnd": "2025-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY25-AR",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2025-03-31"
+          }
+        },
+        {
+          "periodEnd": "2026-03-31",
+          "filingRef": "MARICO-INDAS-CONSOL-FY26-AR",
+          "statementScope": "CONSOLIDATED",
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": "2026-03-31"
+          }
+        }
+      ],
+      "violations": [],
+      "capitalStructure": {
+        "netDebt": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "grossDebt": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "cashAndInvestments": {
+          "value": 23520000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DERIVED",
+            "ref": "capital-structure/1.0.0"
+          },
+          "basis": "DERIVED"
+        },
+        "leaseLiabilities": {
+          "value": 2020000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+            "filedAt": "2026-05-05"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+        },
+        "leaseTreatment": "IND_AS_116_CAPITALISED",
+        "pre116Comparative": false,
+        "minorityInterest": {
+          "value": 2840000000,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "FILING",
+            "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+            "filedAt": "2026-05-05"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "AS_FILED",
+          "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+        },
+        "preferenceCapital": {
+          "value": null,
+          "presence": "MISSING",
+          "reason": "NOT_REPORTED"
+        },
+        "associatesAndJV": {
+          "value": null,
+          "presence": "NOT_COMPUTABLE",
+          "reason": "NOT_REPORTED"
+        },
+        "dilutedShares": {
+          "value": 1296541574.6872702,
+          "presence": "PRESENT",
+          "source": {
+            "kind": "DATASET",
+            "ref": "derived:DILUTED_SHARES@in-fin/1.0.0"
+          },
+          "periodEnd": "2026-03-31",
+          "basis": "DERIVED"
+        },
+        "shareCountPeriod": "2026-03-31",
+        "shareCountBasis": "REPORTED_EPS",
+        "dilutionProxy": true,
+        "components": {
+          "shortTermBorrowings": {
+            "value": 3550000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-05"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+          },
+          "currentMaturities": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "longTermBorrowings": {
+            "value": 0,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-05"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+          },
+          "leaseLiabilities": {
+            "value": 2020000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-05"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+          },
+          "cashAndCashEquivalents": {
+            "value": 4040000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-05"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+          },
+          "currentInvestments": {
+            "value": 19480000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-05"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+          },
+          "nonControllingInterest": {
+            "value": 2840000000,
+            "presence": "PRESENT",
+            "source": {
+              "kind": "FILING",
+              "ref": "MARICO-INDAS-CONSOL-FY26-AR",
+              "filedAt": "2026-05-05"
+            },
+            "periodEnd": "2026-03-31",
+            "basis": "AS_FILED",
+            "filingRef": "MARICO-INDAS-CONSOL-FY26-AR"
+          },
+          "preferenceCapital": {
+            "value": null,
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED"
+          },
+          "restrictedCash": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          },
+          "associatesAndJV": {
+            "value": null,
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED"
+          }
+        },
+        "equityBridge": {
+          "formula": "equityValue = enterpriseValue − netDebt − minorityInterest − preferenceCapital + associatesAndJV",
+          "policyVersion": "associates-treatment/1.0.0",
+          "treatment": "POLICY_ZERO_UNAVAILABLE",
+          "substitutedInputs": [
+            {
+              "input": "associatesAndJV",
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "treatment": "POLICY_ZERO"
+            }
+          ],
+          "note": "Associates/JV carrying value is not recorded in the dataset schema (NOT_COMPUTABLE: NOT_REPORTED), so the enterprise-to-equity bridge substitutes zero for that term under policy associates-treatment/1.0.0. This is a policy substitution, not an issuer-reported nil: equity value is understated by any associates/JV carrying value the issuer reports."
+        },
+        "associatesJVReview": {
+          "reviewPolicyVersion": "associates-review/1.0.0",
+          "treatmentPolicyVersion": "associates-treatment/1.0.0",
+          "reviewAgeDays": 180,
+          "clockStart": "2026-03-31",
+          "clockStartBasis": "DATASET_PERIOD_END",
+          "reviewDueOn": "2026-09-27",
+          "treatment": "POLICY_ZERO",
+          "status": "REVIEW_DUE",
+          "reviewRequired": true,
+          "reason": "The associates/JV carrying value has been unavailable since the evidence date 2026-03-31, and the 180-day treatment review fell due on 2026-09-27. The owner must obtain current issuer evidence for the carrying value, or explicitly reconsider the POLICY_ZERO treatment; the flag itself changes no value, no nil and no confidence."
+        }
+      },
+      "diagnosticBridge": {
+        "value": null,
+        "presence": "NOT_COMPUTABLE",
+        "reason": "NOT_REPORTED",
+        "note": "enterprise-to-equity conversion blocked by netDebt"
+      },
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "output": {
+            "perShareLow": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "perShareMid": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED",
+              "note": "enterprise-to-equity conversion blocked by netDebt"
+            },
+            "perShareHigh": {
+              "value": null,
+              "presence": "NOT_COMPUTABLE",
+              "reason": "NOT_REPORTED"
+            },
+            "basis": "FCFF base 15918949000, WACC 10.68%, g 4.00%, 5y horizon"
+          }
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "output": {
+            "perShareLow": {
+              "value": 220.46933333333334,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "basis": "DERIVED"
+            },
+            "perShareMid": {
+              "value": 275.58666666666664,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "periodEnd": "2026-03-31",
+              "basis": "DERIVED"
+            },
+            "perShareHigh": {
+              "value": 330.70399999999995,
+              "presence": "PRESENT",
+              "source": {
+                "kind": "DERIVED",
+                "ref": "valuation-methods/1.0.0"
+              },
+              "basis": "DERIVED"
+            },
+            "basis": "normalised EPS 12.53 × P/E 22"
+          }
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "output": null
+        }
+      ],
+      "intrinsic": null
+    }
+  ],
+  "standaloneScopeGuard": {
+    "problems": [
+      {
+        "severity": "ERROR",
+        "code": "NIL_SCOPE_NUANCE_UNACKNOWLEDGED",
+        "detail": "the quoted sentence speaks for STANDALONE_COMPANY but the row is CONSOLIDATED; quoting another scope is legal only with acceptedBy=<who accepted the mapping>"
+      }
+    ],
+    "acceptable": false
+  }
+}

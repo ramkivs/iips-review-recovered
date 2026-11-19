@@ -1,0 +1,73 @@
+140
+
+
+
+
+
+
+
+
+
+
+
+
+                                        Deferred tax is provided using the balance sheet liability method, providing for temporary differences between the carrying
+         amounts of assets and liabilities for financial reporting purposes and the amounts used for taxation purposes. The amount of
+         deferred tax provided is based on the expected manner of realization or settlement of the carr ying amount of assets and liabilities,
+         using tax rates enacted or substantively enacted at the balance sheet date.
+
+                                                          A deferred tax asset is recognized only to the extent that it is probable that future taxable profits will be available against which
+         the asset can be utilized. Deferred tax assets are reduced to the extent that it is no longer probable that the related tax benefit
+         will be realized
+
+19-9 Legal reserve
+
+                                                             As per the Company’s statutes, 5% of the annual net profit is set aside to form a legal reser ve; the transfer to such reser ve ceases
+         once it reaches 50% of the Company’s issued share capital. If the reser ve falls below 50%, the Company should resume setting
+         aside 5% of its annual net profit. The reser ve can be utilized in covering losses or increasing the Company’s share capital.
+
+19-10 Finance and finance costs
+                                                             The Company’s finance income and finance costs include:
+
+
+                                                                    Interested in income.
+
+
+                                                                    Interest expense.
+
+
+                                                                    Dividends income.
+
+
+                                                                    The foreign currency gain or loss on financial assets and financial liabilities
+
+
+                                                                    The fair value loss on contingent consideration is classified as financial liability.
+
+
+                                                                    Hedge ineffectiveness recognized in profit or loss; and
+
+
+                                                                                The reclassification of net gains and losses previously recognized in OCI on cash flow hedges of interest rate risk and foreign
+                  currency risk for borrowings.
+
+
+                                                                        Interest income or expense is recognized under the effective interest method. Dividend income is recognized in profit or loss
+                  on the date on which the company’s right to receive payment is established.
+
+
+                                                                       The ‘effective interest rate’ is the rate that exactly discounts estimated future cash payments or receipts through the expected
+                  life of the financial instrument to:
+
+
+                                                                    The gross carr ying amount of the financial asset; or
+
+
+                                                                    The amortized cost of the financial liability.
+
+
+                                                         In calculating interest income and expense, the effective interest rate is applied to the gross carrying amount of the asset
+                  (when the asset is not credit-impaired) or to the amortized cost of the liability. However, for financial assets that have become
+                  credit-impaired subsequent to initial recognition, interest income is calculated by applying the effective interest rate to the
+                  amortized cost of the financial asset. If the asset is no longer credit-impaired, then the calculation of interest income reverts
+                  to the gross basis.

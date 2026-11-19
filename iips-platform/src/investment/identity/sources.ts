@@ -630,7 +630,17 @@ export function validateCorporateActionTable(
   const rawActions = readRequiredArray(root, 'actions', file, 'actions', issues);
   if (rawActions === null) return { table: null, issues };
 
-  const issuerIds = new Set(roster.issuers.map((issuer) => issuer.issuerId));
+  return validateCorporateActionRecords(rawActions, new Set(roster.issuers.map((issuer) => issuer.issuerId)));
+}
+
+/** Shared fail-closed record validation for identity files and dataset ingestion. No JSON round-trip:
+ * non-finite runtime numbers must be rejected, not converted to null before validation. */
+export function validateCorporateActionRecords(
+  rawActions: readonly unknown[],
+  issuerIds: ReadonlySet<string>,
+): { table: CorporateActionTable | null; issues: readonly SourceIssue[] } {
+  const file = 'corporate-actions.json' as const;
+  const issues: SourceIssue[] = [];
   const actions: CorporateActionRecord[] = [];
   const seen = new Set<string>();
 
@@ -708,6 +718,11 @@ export function validateCorporateActionTable(
     });
     if (successorInvalid || successors.some((successor) => successor.issuerId === '' || !Number.isFinite(successor.ratio))) {
       issues.push(issue(file, 'SUCCESSOR_INVALID', subject, 'each successor needs an issuerId and a numeric ratio'));
+      continue;
+    }
+    if (successors.some((successor) => successor.ratio <= 0) ||
+        new Set(successors.map((successor) => successor.issuerId)).size !== successors.length) {
+      issues.push(issue(file, 'SUCCESSOR_INVALID', subject, 'successor ratios must be positive and issuerIds distinct'));
       continue;
     }
     if (successors.length > 0) {

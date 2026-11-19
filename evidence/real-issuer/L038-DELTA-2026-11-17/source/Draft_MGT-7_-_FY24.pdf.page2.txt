@@ -1,0 +1,64 @@
+        (a) Details of stock exchanges where shares are listed
+
+        S. No.                               Stock Exchange Name                                             Code
+
+       1
+
+       2
+
+
+
+         (b) CIN of the Registrar and Transfer Agent                                                                                     Pre-fill
+
+        Name of the Registrar and Transfer Agent
+
+
+
+
+        Registered office address of the Registrar and Transfer Agents
+
+
+
+
+
+  (vii) *Financial year From date        01/04/2023                    (DD/MM/YYYY)   To date             31/03/2024                (DD/MM/YYYY)
+
+   (viii) *Whether Annual general meeting (AGM) held                                    Yes               No
+
+
+        (a) If yes, date of AGM
+
+        (b) Due date of AGM                      30/09/2024
+
+        (c) Whether any extension for AGM granted                                            Yes               No
+        (f) Specify the reasons for not holding the same
+
+
+
+
+
+  II. PRINCIPAL BUSINESS ACTIVITIES OF THE COMPANY
+
+
+          *Number of business activities           2
+
+
+
+     S.No      Main           Description of Main Activity group         Business        Description of Business Activity                    % of turnover
+               Activity                                                  Activity                                                            of the
+               group code                                                Code                                                                company
+
+               C                                                         C1
+
+               C                                                         C13
+
+
+
+ III. PARTICULARS OF HOLDING, SUBSIDIARY AND ASSOCIATE COMPANIES
+      (INCLUDING JOINT VENTURES)
+
+*No. of Companies for which information is to be given                     21                      Pre-fill All
+
+
+
+                                                                                                                                                   Page 2 of 18

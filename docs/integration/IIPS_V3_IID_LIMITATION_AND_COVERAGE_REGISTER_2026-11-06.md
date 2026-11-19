@@ -3219,3 +3219,115 @@ append-only register requires.
 **Boundaries confirmed.** IRR repository only; no IPD change; `L-041` not reopened; W05 and source-rights decisions
 untouched; `main` not modified and no PR merged; valuation arithmetic unchanged; no authority beyond the recorded
 decision exercised.
+
+
+## 17.30 L-038 — Marico preference-capital delta after W07: subsidiary source inspected, no qualifying A/B/C evidence; OPEN (`2026-11-17`)
+
+**Authority and preserved findings.** Baseline is remote main at PR #592 merge (exact commit in the new record).
+§§17.23–17.24, W07 `W07-FINANCIAL-LIMITATION-RESOLUTION-2026-11-12.md` §3 and tracker §16.282 govern; W07's
+last documented evidence cutoff is **2026-11-12**. Historical sections remain verbatim. The three audited consolidated
+annual reports' authorised capital and equity-only issued presentation do not establish issued preference capital;
+Note12(a)(v)'s “includes” remains non-exhaustive. W07's unsigned pre-AGM standalone MGT-7s cannot establish the group
+position. **PREFERENCE_CAPITAL remains MISSING / NOT_REPORTED / null; L-038 OPEN.** The existing debt/cash alignment
+owner decisions and implementation stay **CLOSED**; no policy question is reopened and L-040 remains preserved.
+
+**Delta, not a rerun of 793 pages.** Record:
+`IID-L038-MARICO-PREFERENCE-CAPITAL-DELTA-2026-11-17.md` §§1–7. Evidence:
+`evidence/real-issuer/L038-DELTA-2026-11-17/`. Current issuer directory and targeted draft/final MGT-7 URL candidates
+were checked. FY24/FY25 documents remain draft controls, not authenticated final MCA filings; tested FY26/final
+locations returned 404, **not proof of non-existence elsewhere**. FY26 parent annual-report bytes/page count equal
+the WI12 record; only identity/metadata rechecked. A **703-page FY26 subsidiary-financial compilation**, new to the
+documented L-038 source inspection, was retrieved and capital-indexed: **127 hit pages**, first **40** retained for bounded review,
+not a complete all-entity audit. It includes mixed subsidiary/separate/subgroup scopes and currencies; ordinary-share
+wording and isolated issued-capital amounts are not consolidated preference nil. July2026 PDF metadata does not
+establish publication after W07 or a filing date. No post-cutoff publication date or authenticated MCA SRN/challan was
+obtained. The limited search is explicitly not an exhaustive MCA registry search. Source/transport limitations and
+all 52 fresh extract hashes are retained, not converted into a non-existence claim.
+
+**A/B/C assessment.** **A NOT SATISFIED**: no qualifying consolidated issued preference amount. **B NOT SATISFIED**:
+no explicit audited consolidated group-wide nil declaration obtained. **C NOT SATISFIED**: signed/final parent filing
+and authenticated receipt not obtained, complete period-specific audited subsidiary/preference-class/consolidation
+reconciliation not established, and governed cross-scope owner acceptance **NOT MADE**. If C is pursued, acceptance
+remains **PENDING**, not supplied by the agent or implied by safe withholding. Signed standalone zero alone would
+still be insufficient. New sources are **DISCOVERY_ONLY_NOT_ADMITTED**; public accessibility is not independent rights
+verification. No provider/licence/O3/source-rights expansion or fabricated nil binding.
+
+**Disposition and verification.** No production code/input/dataset/payload changed; **no successor dataset created**.
+Existing original, debt-completeness and refresh-candidate Marico inputs were replayed **in memory only** using
+canonical loader/builder/digest/assessment paths. Every consolidated PREFERENCE_CAPITAL row (3+3+5) remains
+MISSING/NOT_REPORTED/null. Capital blocks retain the missing claim; intrinsic stays null; real bridges refuse first
+on existing netDebt blockers. A separately labelled synthetic regression isolates preferenceCapital and demonstrates
+its independent bridge/sensitivity refusal. No diagnostic enterprise numerator is represented as real valuation.
+Existing nil binding refuses unacknowledged standalone→consolidated scope. New tests **9/9**; existing L-038/L-040/
+nil-binding/ingestion **107/107**; W07 L-038-only **2/2**; full IID **1582/1582**; typecheck and applicable static checks
+PASS; whitespace PASS. Generated reports preserve replay digests, provenance and limitations; no digest hand-authored.
+Publication/CI/remote verification follows in completion reporting, not predicted by this entry.
+
+**External action/status.** Obtain an explicit audited consolidated amount/nil for each relevant period/group,
+or authenticated signed/final statutory parent filing plus complete audited subsidiary/group scope support and
+explicit owner cross-scope NilBinding acceptance. Subsidiary compilation discovery is not that reconciliation;
+historical redemption, omitted captions, authorised amounts, arithmetic residuals and carry-forward remain forbidden.
+**L-038 OPEN / UNRESOLVED_PENDING_EXTERNAL_EVIDENCE.** No missing→zero, standalone substitution or withholding
+relaxation. **L-039 untouched and not begun**; it is the next separate work item. No IPD/cross-repo operation or
+production host activity. Next free §17.31.
+
+## 17.31 `L-039` — KEC March consolidated current-investments delta: finite accuracy verified; economic zero still unconfirmed (`2026-11-17`)
+
+**Append-only reconciliation; supersedes stale summaries, not historical evidence.** Baseline remote main/clean
+HEAD `ed839d116d1d7363431e7d771e2f90dcbb9b330c` (PR #593). Governing §17.25 fact-level follow-up,
+tracker §16.283 follow-up, WI8 original 421-page and WI12 retained source bundles, W07 §4 and November16
+PR #568 reconciliation are read together. The context gap is already closed; source meaning is not. W07's
+Nov12 investigation date and Nov16 merge are not an exhaustive external cutoff. Session date Nov17; runner
+observations Nov18, recorded without backdating. No repeat all-page caption search or L-038 investigation.
+
+**New evidence/precision.** March XML, rendering and FY26 annual report freshly hash-match retained bodies.
+Actual March XML length **77,918 bytes**, not W07's190,118. One CurrentInvestments lexical0, OneI/2026-03-31,
+INR, decimals=-7, no precision/nil/dimensions; filing-level consolidated audited selection retained. Official
+XBRL2.1 §§4.6.5–4.6.7 confirms explicit finite decimals gives accuracy to ₹1crore; zero does **not** acquire
+INF via the special precision→inferred-decimals rule. Nearest-rounding half-quantum ₹0.5crore is an accuracy
+illustration, not a reported balance. CurrentFinancialAssets ₹19,390.60crore reconciliation still holds;
+₹49,000 **non-current** Note10 counterexample warns against exact-nil inference, not proof current investments
+are nonzero. Repeated omitted captions/zeros do not prove blank-cell population or default utility behavior.
+September instance instant is **2026-09-30 (H1 FY27)**, not2025; no later-period substitution.
+
+**Taxonomy delta.** Official NSE IndAS download remains2025 (raw ZIP SHA
+`d06512f59f06a6ca126a90f185884a5679c9c666c0ab1c9d38b32449004c0441`). **BSE's item7 labelled IndAS now
+serves a2026 core/package** (SHA `fcb8254212c771e951b6633a5e95d747770af9a62cd3859c5be69688310efb13`),
+but metadata/entry/roles identify **IntegratedFinance_OtherThanBank / AS**, not matching IndAS. Concept remains
+monetaryItemType/instant/debit/nillable=true, with no numeric schema default/fixed; label/reference/presentation/
+calculation and seven dimension-default arcs are retained for both packages. Different networks are not silently
+interchanged or date-substituted. This **supersedes a global “no2026 taxonomy published” assertion**, but does
+not establish the applicable full2026 IndAS DTS, imports/version mapping, issuer population semantics or nil.
+NSE relative entry404, tested SEBI entries/core530 and BSE announcements403 are bounded access results,
+never global nonexistence. Archive/notice HTTP2 failures were overcome by bounded HTTP1.1/user-agent retry;
+archive nested IndAS packages are2018/2019/2020 legacy and2025 integrated, not applicable2026 IndAS. Nov12
+meeting notice and one-page transcript intimation supply no March amount/nil; full transcript not claimed read.
+Outer/nested hashes, inventories, metadata and all attempts are retained. Fresh issuer/exchange context produced no admissible March amount/nil;
+no issuer/exchange confirmation obtained. Public access != source admission/rights/owner approval.
+
+**Closure/data/owner.** A admissible same-instant consolidated amount **NOT SATISFIED**; B explicit admissible
+economic nil **NOT SATISFIED**; C applicable taxonomy + filing semantics + sufficient confirmation validating
+economic zero **NOT SATISFIED**. Historical “C — indeterminate” is not closureC. A verified numeric zero may be
+PRESENT; ambiguous zero is neither rejected merely for zero nor admitted by wish. **CURRENT_INVESTMENTS =
+MISSING / NOT_REPORTED / value:null; L-039 OPEN / UNRESOLVED_PENDING_EXTERNAL_EVIDENCE**. No owner decision,
+nil/acceptedBy, source admission, rights expansion or successor dataset. No bank/other/noncurrent asset,
+restricted balance, KPI, standalone, residual or period substitution. L-038 completed delta, closed debt/cash
+alignment decisions, nil/capital completeness and L-040 protections unchanged.
+
+**Canonical verification/preservation.** Existing WI8 (3 rows) and refresh-candidate KEC (5 rows) replay through
+loadInputs/buildDatasetContent/computeContentDigest/assessCompany in memory only. Missing current investments,
+cash-and-investments/net debt and per-share/intrinsic withholding retained; gross debt **₹5,377.76crore** and
+cash **₹411.26crore**, diagnostic enterprise-value points and other independent outputs preserved. This corrects
+W07's stale₹5,103.23 summary, not debt data. Replay digests WI8 `sha256:0df73ead…82ab`, refresh
+`sha256:65ad58cd…45bd`, and published corrected payload SHA `fc50c53e…f370` unchanged. Historical identity loader
+fails old corporate-actions entries/actions contract: recorded, not repaired; historical payload carrier reused
+for financial-only assessment, **no current identity qualification/persistence claim**. No financial production
+code/data or existing evidence blob change. New7/7, targeted86/86, WI8 35/35, retained Python7/7, fullIID1589/1589,
+platform noEmit PASS; further static/provenance/hash verification and publication receipts in the delta bundle.
+
+Full record: `docs/integration/IID-L039-KEC-CURRENT-INVESTMENTS-DELTA-2026-11-17.md`; evidence
+`evidence/real-issuer/L039-DELTA-2026-11-17/` (candidate dispositions, raw/compressed hashes, official taxonomy
+ZIPs/readback, standards, access failures/retries, canonical replay, validation and preservation manifest).
+External action: filed/audited same-instant consolidated amount/nil or authoritative applicable2026 IndAS DTS
+and issuer/exchange confirmation distinguishing economic nil, rounded nonzero and default artifact; rights and
+any necessary owner decision must be qualified before admission. No closure, IPD act or other limitation begun.

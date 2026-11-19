@@ -1,7 +1,7 @@
 /**
- * Direct P1 integration test: composed IRR HTTP reads traverse the real IPC client over a LOCAL
- * endpoint to a contract-v1 peer — a Unix-domain socket path on POSIX, a Windows named pipe on
- * Windows, selected by `testing/localIpcEndpoint.ts` and handed unchanged to both sides.
+ * Direct P1 integration test: composed IRR HTTP reads traverse the real IPC client over a REAL
+ * local endpoint to a contract-v1 peer — a Unix-domain socket path on POSIX, a Windows named pipe
+ * on Windows, selected by `testing/localIpcEndpoint.ts` and handed unchanged to both sides.
  * No SQLite database or IPD provisioning code is used.
  * @vitest-environment node
  */
@@ -13,12 +13,7 @@ import type { AddressInfo } from 'node:net';
 import { handleUserPortfolioRequest } from '../user-portfolio-transport.js';
 import { IPC_ENDPOINT_SETTING, IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION } from './ipcClient.js';
 import { BINDING_PRECONDITION_SETTING } from './ownerContextFromBinding.js';
-import {
-  createLocalIpcEndpoint,
-  localIpcEndpointKindFor,
-  type LocalIpcEndpoint,
-  type LocalIpcEndpointKind,
-} from './testing/localIpcEndpoint.js';
+import { createLocalIpcEndpoint, localIpcEndpointKindFor, type LocalIpcEndpointKind } from './testing/localIpcEndpoint.js';
 
 function frameOf(value: unknown): Buffer {
   const body = Buffer.from(JSON.stringify(value), 'utf8');
@@ -50,119 +45,130 @@ interface Peer {
 }
 
 /**
- * The endpoint reserved for the peer. Held at module scope so a teardown can release it even when
- * the peer itself never started — the failure mode that previously produced a second, misleading
+ * Starts the contract-v1 peer on a REAL local endpoint selected by `createLocalIpcEndpoint()` —
+ * a Unix-domain socket path on POSIX, a `\\.\pipe\` name on Windows, the same platform-aware
+ * helper `ipcPortAdapterIntegration.test.ts` and `captureOwnerBoundPortfolioCli.test.ts` already
+ * use on this branch. A `.sock` filesystem path is not a valid Windows endpoint — `listen` fails
+ * there with `EACCES` — so a second, duplicate abstraction is never built here.
+ *
+ * Requests are framed by the declared length prefix on `data`, not by waiting for the client's
+ * `end`: the real `callIpc` client only half-closes after writing on POSIX, but on a Windows
+ * named pipe it keeps writing-side open and waits for the response, so an `end`-triggered peer
+ * would never see a complete request there. For the same reason, a response frame is written and,
+ * on a Windows named pipe, the connection is left open for the client to destroy once it has read
+ * the full frame — ending it immediately after `write` risks the libuv shutdown/forced-break race
+ * that can drop an unflushed frame before delivery (the same policy `ipcClient.ts`'s own client
+ * already follows, and the one `ipcPortAdapterIntegration.test.ts`'s peer fixture follows).
+ *
+ * A peer that FAILS TO START is never returned: the promise rejects with the endpoint class and
+ * the underlying reason and RELEASES the endpoint it allocated, so a caller cannot `close()` — or
+ * report success for — a peer that does not exist, and no temporary directory is leaked behind the
+ * failure. This is the mode that previously produced a second, misleading
  * `Cannot read properties of undefined (reading 'close')` on top of the real listen error.
  */
-let peerEndpoint: LocalIpcEndpoint | null = null;
+function startPeer(): Promise<Peer> {
+  return new Promise((resolveStart, rejectStart) => {
+    let settled = false;
+    const endpoint = createLocalIpcEndpoint({ label: 'direct-p1-irr' });
+    const { kind, path }: { kind: LocalIpcEndpointKind; path: string } = endpoint;
+    const requests: Array<Record<string, unknown>> = [];
+    const live = new Set<net.Socket>();
+    const server = net.createServer({ allowHalfOpen: true }, (socket) => {
+      live.add(socket);
+      socket.on('close', () => live.delete(socket));
+      socket.on('error', () => undefined);
+      const chunks: Buffer[] = [];
+      let answered = false;
 
-async function startPeer(): Promise<Peer> {
-  const endpoint = createLocalIpcEndpoint({ label: 'direct-p1-irr', name: 'ipd-peer' });
-  peerEndpoint = endpoint;
-  const requests: Array<Record<string, unknown>> = [];
-  const live = new Set<net.Socket>();
+      socket.on('data', (chunk: Buffer) => {
+        if (answered) return;
+        chunks.push(chunk);
+        const buffer = Buffer.concat(chunks);
+        if (buffer.byteLength < IPC_LENGTH_PREFIX_BYTES) return;
+        const declared = buffer.readUInt32BE(0);
+        if (buffer.byteLength < IPC_LENGTH_PREFIX_BYTES + declared) return;
+        answered = true;
 
-  const server = net.createServer({ allowHalfOpen: true }, (socket) => {
-    live.add(socket);
-    socket.on('close', () => live.delete(socket));
-    socket.on('error', () => undefined);
-    const chunks: Buffer[] = [];
-    let replied = false;
-
-    const dispatch = (): void => {
-      if (replied) return;
-      const requestBuffer = Buffer.concat(chunks);
-      if (requestBuffer.byteLength < IPC_LENGTH_PREFIX_BYTES) return;
-      const size = requestBuffer.readUInt32BE(0);
-      if (requestBuffer.byteLength < IPC_LENGTH_PREFIX_BYTES + size) return;
-      replied = true;
-      try {
-        const request = JSON.parse(
-          requestBuffer.subarray(IPC_LENGTH_PREFIX_BYTES, IPC_LENGTH_PREFIX_BYTES + size).toString('utf8'),
-        ) as Record<string, unknown>;
-        requests.push(request);
-        const op = String(request.op);
-        let result: unknown;
-        if (op === 'portfolio.list') result = [summary];
-        else if (op === 'portfolio.get') result = { ...summary, holdings: [], contributions: [] };
-        else if (op === 'portfolio.revisions') {
-          result = [{
-            revision: 1,
-            operation: 'INITIAL',
-            committedAt: '2026-11-01T00:00:00.000Z',
-            totalMarketValue: 0,
-            provenanceDigest: '',
-            holdingsCount: 0,
-          }];
-        } else result = null;
-        const frame = frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result });
-        if (endpoint.kind === 'windows-named-pipe') {
-          // Written, and the pipe stays open: ending a named pipe here triggers the libuv
-          // shutdown/forced-break path before the client has read the response. The client
-          // destroys its end once the complete frame has arrived.
-          socket.write(frame);
-          return;
+        try {
+          const request = JSON.parse(
+            buffer.subarray(IPC_LENGTH_PREFIX_BYTES, IPC_LENGTH_PREFIX_BYTES + declared).toString('utf8'),
+          ) as Record<string, unknown>;
+          requests.push(request);
+          const op = String(request.op);
+          let result: unknown;
+          if (op === 'portfolio.list') result = [summary];
+          else if (op === 'portfolio.get') result = { ...summary, holdings: [], contributions: [] };
+          else if (op === 'portfolio.revisions') {
+            result = [{
+              revision: 1,
+              operation: 'INITIAL',
+              committedAt: '2026-11-01T00:00:00.000Z',
+              totalMarketValue: 0,
+              provenanceDigest: '',
+              holdingsCount: 0,
+            }];
+          } else result = null;
+          const frame = frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result });
+          if (kind === 'windows-named-pipe') {
+            socket.write(frame);
+          } else {
+            socket.end(frame);
+          }
+        } catch {
+          socket.destroy();
         }
-        socket.write(frame);
-        socket.end();
-      } catch {
-        socket.destroy();
-      }
-    };
-
-    // POSIX clients half-close before reading, so `end` is the delivery point there; Windows
-    // clients keep the pipe open, so the frame is dispatched as soon as it is complete.
-    socket.on('data', (chunk: Buffer) => {
-      chunks.push(chunk);
-      dispatch();
+      });
     });
-    socket.on('end', () => dispatch());
-  });
 
-  await new Promise<void>((resolve, reject) => {
     const onStartupError = (error: Error): void => {
+      if (settled) return;
+      settled = true;
+      // Swallow any further error from a server that never listened: rejecting IS the report.
       server.removeListener('error', onStartupError);
       server.on('error', () => undefined);
-      // A peer that never listened owns nothing: release the endpoint and report the real cause,
-      // including which local endpoint class was being asked to listen.
+      // This peer owns the endpoint it just reserved; a peer that never listened must release it
+      // rather than leak a temporary directory. The underlying reason is carried in the message:
+      // this project compiles against the ES2020 lib, where `Error` takes no `cause` option.
       endpoint.dispose();
-      peerEndpoint = null;
-      reject(
+      rejectStart(
         new Error(
-          `the Direct P1 peer could not listen on the ${endpoint.kind} endpoint '${endpoint.path}': `
+          `the Direct P1 peer could not listen on the ${kind} endpoint '${path}': `
             + `${error.name}: ${error.message}`,
         ),
       );
     };
+
     server.once('error', onStartupError);
-    server.listen(endpoint.path, () => {
+    server.listen(path, () => {
+      if (settled) return;
+      settled = true;
       server.removeListener('error', onStartupError);
+      // A started peer stays observable but must not take the run down: socket-level faults are
+      // the client's to report, and `close()` destroys every live socket.
       server.on('error', () => undefined);
-      resolve();
+
+      let closed = false;
+      resolveStart({
+        path,
+        kind,
+        requests,
+        close: () =>
+          new Promise<void>((resolveClose) => {
+            if (closed) {
+              resolveClose();
+              return;
+            }
+            closed = true;
+            for (const s of live) s.destroy();
+            live.clear();
+            server.close(() => {
+              endpoint.dispose();
+              resolveClose();
+            });
+          }),
+      });
     });
   });
-
-  let closed = false;
-  return {
-    path: endpoint.path,
-    kind: endpoint.kind,
-    requests,
-    close: () =>
-      new Promise<void>((resolve) => {
-        if (closed) {
-          resolve();
-          return;
-        }
-        closed = true;
-        for (const socket of live) socket.destroy();
-        live.clear();
-        server.close(() => {
-          endpoint.dispose();
-          if (peerEndpoint === endpoint) peerEndpoint = null;
-          resolve();
-        });
-      }),
-  };
 }
 
 describe('Direct P1 IRR HTTP-to-IPC integration', () => {
@@ -191,6 +197,10 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
       .toContain('#1ce6a829a7ce65550356a0071c108a60f2d813be');
   });
 
+  // Undefined until each resource actually starts: if `startPeer()` throws (e.g. the endpoint
+  // could not be bound), `peer` is never assigned, and `afterAll` still runs. Calling `.close()`
+  // on an uninitialized peer would throw `TypeError: Cannot read properties of undefined` and mask
+  // the real startup failure, so teardown below only closes what actually started.
   let peer: Peer | undefined;
   let server: http.Server | undefined;
   let baseUrl: string;
@@ -209,15 +219,9 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
   });
 
   afterAll(async () => {
-    if (server !== undefined) await new Promise<void>((resolve) => server!.close(() => resolve()));
-    // Close ONLY a peer that started. If `startPeer` rejected there is nothing to close, and the
-    // endpoint it reserved has already been released by the rejection path — a teardown that
-    // reaches for an undefined peer hides the real startup failure behind its own TypeError.
+    if (server !== undefined) await new Promise<void>((resolve) => server?.close(() => resolve()));
+    // Close ONLY a peer that started; a rejected `startPeer` already released its endpoint.
     if (peer !== undefined) await peer.close();
-    else if (peerEndpoint !== null) {
-      peerEndpoint.dispose();
-      peerEndpoint = null;
-    }
     if (savedEndpoint === undefined) delete process.env[IPC_ENDPOINT_SETTING];
     else process.env[IPC_ENDPOINT_SETTING] = savedEndpoint;
     if (savedBinding === undefined) delete process.env[BINDING_PRECONDITION_SETTING];
@@ -249,22 +253,22 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     expect(revisions.status).toBe(200);
     expect(await revisions.json()).toMatchObject({ revisions: [{ revision: 1, createdAt: '2026-11-01T00:00:00.000Z' }] });
 
-    // `beforeAll` either started the peer or failed the suite, so the peer exists here.
-    const startedPeer = peer as Peer;
-    expect(startedPeer.requests).toHaveLength(3);
-    expect(startedPeer.requests.map((request) => request.op)).toEqual([
+    // `beforeAll` has already run by the time this test body executes, so `peer` is assigned
+    // unless it threw — in which case vitest reports that failure instead of running this test.
+    expect(peer!.requests).toHaveLength(3);
+    expect(peer!.requests.map((request) => request.op)).toEqual([
       'portfolio.list', 'portfolio.get', 'portfolio.revisions',
     ]);
-    for (const request of startedPeer.requests) {
+    for (const request of peer!.requests) {
       const serialized = JSON.stringify(request).toLowerCase();
       for (const forbidden of ['owner', 'tenant', 'principal', 'applicationuserid', 'authorization']) {
         expect(serialized).not.toContain(forbidden);
       }
     }
-    expect(Object.keys(startedPeer.requests[0]).sort()).toEqual(['op', 'v']);
-    expect(startedPeer.requests[1].payload).toEqual({ portfolioId: 'p-1' });
-    // The endpoint class the peer served is the class this platform's client resolves: both sides
+    expect(Object.keys(peer!.requests[0]).sort()).toEqual(['op', 'v']);
+    expect(peer!.requests[1].payload).toEqual({ portfolioId: 'p-1' });
+    // The endpoint class the peer served is the class THIS platform's client resolves: both sides
     // were handed the same string, and neither fell back to a different transport.
-    expect(startedPeer.kind).toBe(localIpcEndpointKindFor());
+    expect(peer!.kind).toBe(localIpcEndpointKindFor());
   });
 });

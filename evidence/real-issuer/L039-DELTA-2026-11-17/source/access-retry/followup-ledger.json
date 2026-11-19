@@ -1,0 +1,121 @@
+{
+  "sources": [
+    {
+      "name": "transcript",
+      "url": "https://nsearchives.nseindia.com/corporate/KEC_06112026155134_SE_Intimation_Transcript.pdf",
+      "retrievedAtUTC": "2026-11-18T06:45:43.126652+00:00",
+      "curlExit": 0,
+      "stderr": "",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "http": 200,
+      "bytes": 311664,
+      "rawSha256": "9320d386a6b1f18924ae658e3dfe45e5709aee4ae1c9beaacfa8c6e6b38695d9",
+      "pages": 1,
+      "hitPages": [],
+      "inspection": "All pages keyword scanned; bounded hits retained, management KPI not canonical balance"
+    },
+    {
+      "name": "meeting",
+      "url": "https://nsearchives.nseindia.com/corporate/KEC_12112026182139_AnalystMeetIntimation.pdf",
+      "retrievedAtUTC": "2026-11-18T06:45:43.620081+00:00",
+      "curlExit": 0,
+      "stderr": "",
+      "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+      "http": 200,
+      "bytes": 302562,
+      "rawSha256": "aecfddb97a6644717ea7caa93f914c31a1d58d7260a8ff3f4872405cc7c96d59",
+      "pages": 1,
+      "hitPages": [],
+      "inspection": "All pages keyword scanned; bounded hits retained, management KPI not canonical balance"
+    }
+  ],
+  "archive": {
+    "url": "https://nsearchives.nseindia.com//web/mediaattachment/2026-07/Taxonomy_Archives_20260731164437.zip",
+    "retrievedAtUTC": "2026-11-18T06:45:42.784399+00:00",
+    "curlExit": 0,
+    "stderr": "",
+    "bytes": 8922025,
+    "rawSha256": "b5fcb7e20e3bee034c58c45af8f19a3425d7a524938b5c09190a6651043ff182",
+    "admission": "DISCOVERY_ONLY_NOT_ADMITTED",
+    "nestedPackages": [
+      {
+        "member": "Taxonomy Archives/Financial result - Ind AS.zip",
+        "bytes": 257709,
+        "sha256": "c27ceefb1a07e7689f26014232fb0f1f80e4b035779838fb6e74f84ae9b1e87a",
+        "path": "archive-0.gz",
+        "compressedSha256": "e209a4425bc4ac3ef8f8e96e7dabb0b18d96cbdf254bc7f5da5123745033dd27",
+        "members": [
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/Calculation/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/Calculation/in-bse-fin-cal-2018-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/Definition/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/Definition/in-bse-fin-def-2018-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/in-bse-fin-2018-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/in-bse-fin-label-2018-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/in-bse-fin-ref-2018-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/in-bse-fin-roles-2018-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/in-bse-fin-types-2018-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/Ind-AS_entry_point_2018-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/Presentation/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2018-03-31/Presentation/in-bse-fin-pre-2018-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/Calculation/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/Calculation/in-bse-fin-cal-2019-09-30.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/Definition/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/Definition/in-bse-fin-def-2019-09-30.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/in-bse-fin-2019-09-30.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/in-bse-fin-label-2019-09-30.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/in-bse-fin-ref-2019-09-30.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/in-bse-fin-roles-2019-09-30.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/in-bse-fin-types-2019-09-30.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/Ind-AS_entry_point_2019-09-30.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/Presentation/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2019-03-30/Presentation/in-bse-fin-pre-2019-09-30.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/Calculation/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/Calculation/in-bse-fin-cal-2020-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/Definition/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/Definition/in-bse-fin-def-2020-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/in-bse-fin-2020-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/in-bse-fin-label-2020-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/in-bse-fin-ref-2020-03-31.xml",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/in-bse-fin-roles-2020-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/in-bse-fin-types-2020-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/Ind-AS_entry_point_2020-03-31.xsd",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/Presentation/",
+          "Financial result - Ind AS/Ind AS Taxonomy_2020-03-31/Presentation/in-bse-fin-pre-2020-03-31.xml"
+        ],
+        "metadata": {}
+      },
+      {
+        "member": "Taxonomy Archives/Integrated filing (Finance) - Ind As.zip",
+        "bytes": 110866,
+        "sha256": "a926ed0010759c396a229f484e1ddab1030ab7195330396abbcab405b890ada2",
+        "path": "archive-1.gz",
+        "compressedSha256": "304d7ad39342c6b217725ea9051ee3aa44efb9b07b0300b5b744d6e2b66eecf0",
+        "members": [
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/core/",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/core/in-capmkt.xsd",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/core/in-capmkt-lab.xml",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/core/in-capmkt-types.xsd",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/in-capmkt-cal-2025-01-31.xml",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/in-capmkt-def-2025-01-31.xml",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/in-capmkt-ent-2025-01-31.xsd",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/in-capmkt-pre-2025-01-31.xml",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/in-capmkt-ref-2025-01-31.xml",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/in-capmkt-roles-2025-01-31.xsd",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/META-INF/",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/META-INF/catalog.xml",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/META-INF/taxonomyPackage.xml"
+        ],
+        "metadata": {
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/IntegratedFinance_IndAS/in-capmkt-ent-2025-01-31.xsd": "\ufeff<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!--Generated by - Taxonomy Creator [Microvista Technologies] [Convert2xbrl]-->\r\n<xsd:schema xmlns=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:in-capmkt-ent=\"http://www.sebi.gov.in/xbrl/IntegratedFinance_IndAS/2025-01-31/in-capmkt/in-capmkt-ent\" xmlns:link=\"http://www.xbrl.org/2003/linkbase\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xbrli=\"http://www.xbrl.org/2003/instance\" targetNamespace=\"http://www.sebi.gov.in/xbrl/IntegratedFinance_IndAS/2025-01-31/in-capmkt/in-capmkt-ent\" attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\">\r\n  <xsd:annotation>\r\n    <xsd:appinfo>\r\n      <link:linkbaseRef xlink:type=\"simple\" xlink:href=\"in-capmkt-cal-2025-01-31.xml\" xlink:role=\"http://www.xbrl.org/2003/role/calculationLinkbaseRef\" xlink:arcrole=\"http://www.w3.org/1999/xlink/properties/linkbase\" />\r\n      <link:linkbaseRef xlink:type=\"simple\" xlink:href=\"in-capmkt-def-2025-01-31.xml\" xlink:role=\"http://www.xbrl.org/2003/role/definitionLinkbaseRef\" xlink:arcrole=\"http://www.w3.org/1999/xlink/properties/linkbase\" />\r\n      <link:linkbaseRef xlink:type=\"simple\" xlink:href=\"../core/in-capmkt-lab.xml\" xlink:role=\"http://www.xbrl.org/2003/role/labelLinkbaseRef\" xlink:arcrole=\"http://www.w3.org/1999/xlink/properties/linkbase\" />\r\n      <link:linkbaseRef xlink:type=\"simple\" xlink:href=\"in-capmkt-pre-2025-01-31.xml\" xlink:role=\"http://www.xbrl.org/2003/role/presentationLinkbaseRef\" xlink:arcrole=\"http://www.w3.org/1999/xlink/properties/linkbase\" />\r\n      <link:linkbaseRef xlink:type=\"simple\" xlink:href=\"in-capmkt-ref-2025-01-31.xml\" xlink:role=\"http://www.xbrl.org/2003/role/referenceLinkbaseRef\" xlink:arcrole=\"http://www.w3.org/1999/xlink/properties/linkbase\" />\r\n    </xsd:appinfo>\r\n  </xsd:annotation>\r\n  <xsd:import namespace=\"http://xbrl.org/2005/xbrldt\" schemaLocation=\"http://www.xbrl.org/2005/xbrldt-2005.xsd\" />\r\n  <xsd:import namespace=\"http://www.sebi.gov.in/xbrl/IntegratedFinance_IndAS/2025-01-31/in-capmkt-roles\" schemaLocation=\"in-capmkt-roles-2025-01-31.xsd\" />\r\n  <xsd:import namespace=\"http://www.sebi.gov.in/xbrl/2025-01-31/in-capmkt-types\" schemaLocation=\"../core/in-capmkt-types.xsd\" />\r\n  <xsd:import namespace=\"http://www.sebi.gov.in/xbrl/2025-01-31/in-capmkt\" schemaLocation=\"../core/in-capmkt.xsd\" />\r\n  <xsd:import namespace=\"http://www.xbrl.org/2006/ref\" schemaLocation=\"http://www.xbrl.org/2006/ref-2006-02-27.xsd\" />\r\n  <xsd:import namespace=\"http://www.w3.org/1999/xlink\" schemaLocation=\"http://www.xbrl.org/2003/xlink-2003-12-31.xsd\" />\r\n</xsd:schema>",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/META-INF/catalog.xml": "<catalog xmlns=\"urn:oasis:names:tc:entity:xmlns:xml:catalog\">\n<rewriteURI rewritePrefix=\"../\" uriStartString=\"http://www.sebi.gov.in/xbrl/2025-01-31/\"/>\n</catalog>",
+          "Integrated filing (Finance) - Ind As/Integrated filing (Finance) _Ind As_2025-01-31/META-INF/taxonomyPackage.xml": "\ufeff<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!--Updated by Microvista Technologies Pvt. Ltd. -->\r\n<tp:taxonomyPackage xmlns:tp=\"http://xbrl.org/2016/taxonomy-package\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xml:lang=\"en\" xsi:schemaLocation=\"http://xbrl.org/2016/taxonomy-package http://www.xbrl.org/2016/taxonomy-package.xsd\">\r\n\t<tp:identifier lang=\"en\">http://www.sebi.gov.in/xbrl/2025-01-31</tp:identifier>\r\n\t<tp:name lang=\"en\">Integrated Filing Finance Taxonomy</tp:name>\r\n\t<tp:description lang=\"en\">Integrated Filing Finance Taxonomy for Disclosure of Related Party Transactions ( Regulations 23(9)), Quarterly disclosure of outstanding default on loans / debt securities (Regulations 30 r/w section V-B of the Master Circular), Statement of Deviation and Variation (Regulations 32(1)),Financial results as per Ind AS (Regulations 33(3)) </tp:description>\r\n\t<tp:version>1.0</tp:version>\r\n\t<tp:publisher lang=\"en\">Securities and Exchange Board of India</tp:publisher>\r\n\t<tp:publisherURL>http://www.sebi.gov.in</tp:publisherURL>\r\n\t<tp:publisherCountry>IN</tp:publisherCountry>\r\n\t<tp:publicationDate>2025-01-31</tp:publicationDate>\r\n\t<tp:entryPoints>\r\n\t\t<tp:entryPoint>\r\n\t\t\t<tp:name lang=\"en\">Integrated Filing Finance Taxonomy</tp:name>\r\n\t\t\t<tp:entryPointDocument href=\"http://www.sebi.gov.in/xbrl/2025-01-31/IntegratedFinance_IndAS/in-capmkt-ent-2025-01-31.xsd\" />\r\n\t\t</tp:entryPoint>\r\n\t</tp:entryPoints>\r\n</tp:taxonomyPackage>"
+        }
+      }
+    ]
+  }
+}
