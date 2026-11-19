@@ -31,7 +31,7 @@ import type http from 'node:http';
 
 import { openDatabase, GovernedArtifactStore } from 'iips-np04-governed-persistence/persistence';
 import { adaptNp04Store } from '../../reports/np04-adapter.js';
-import { loadAuthoritativeNp04Persistence } from '../../reports/persistence-port.js';
+import { loadAuthoritativeNp04Persistence, releaseNp04DatabasesUnderDirectory } from '../../reports/persistence-port.js';
 import { INVESTMENT_TRANSPORT_ERRORS, handleInvestmentRequest } from '../investment-transport.js';
 import { createInvestmentArtifactService } from '../investmentArtifacts.js';
 import { M1_ISSUER_ID } from '../demo/m1Data.js';
@@ -488,6 +488,15 @@ export async function runDemonstration(outDir: string): Promise<DemoOutcome> {
   writeFileSync(join(runsDir, 'create-v1.json'), `${JSON.stringify(create.summary, null, 2)}\n`, 'utf8');
   writeFileSync(join(runsDir, 'rerun-identical.json'), `${JSON.stringify(unchanged.summary, null, 2)}\n`, 'utf8');
   writeFileSync(join(runsDir, 'changed-input-v2.json'), `${JSON.stringify(version2.summary, null, 2)}\n`, 'utf8');
+
+  // Deterministic disposal BEFORE teardown. The demo opens handles two ways: directly — each closed in
+  // its own `finally` above — and through the mint CLI, which registers the store it opens under this
+  // root (the transport-mediated reads of the tampered copy already dispose their own handle). Release
+  // everything this resolver opened under the demo root now, so `env.cleanup()` below can delete that
+  // directory without an open-handle lock — `EBUSY` on Windows, where an unlink cannot remove a file
+  // that is still open. POSIX hides the same leak, which is why this must be explicit rather than read
+  // off a green local run. A refusal to close propagates; nothing here suppresses a cleanup failure.
+  releaseNp04DatabasesUnderDirectory(env.root);
 
   env.cleanup();
 

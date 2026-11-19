@@ -42,6 +42,7 @@
  */
 
 import { statSync } from 'node:fs';
+import { isAbsolute, relative, resolve, sep } from 'node:path';
 
 /** An NP-04 stored artifact identity. Globally unique; never derived from canonical content. */
 export type Np04ReportId = string;
@@ -368,17 +369,30 @@ export interface Np04LoaderOverrides {
   readonly importModule?: () => Promise<Record<string, unknown>>;
 }
 
-export async function loadAuthoritativeNp04Persistence(
-  intent: Np04OpenIntent = 'READ',
-  overrides: Np04LoaderOverrides = {},
-): Promise<ReportsPersistencePort | null> {
+interface ComposedNp04Persistence {
+  readonly port: ReportsPersistencePort;
+  /** The handle THIS resolver opened, or null when the module exposed a prebuilt port we do not own. */
+  readonly database: unknown;
+  readonly path: string;
+}
+
+/**
+ * The composition steps, factored so the LIFECYCLE policy can differ between callers without
+ * duplicating the fail-closed guards. Returns null whenever a live authoritative store cannot be
+ * produced in THIS process; otherwise the validated port plus the handle we opened (or null when
+ * the module handed us a prebuilt port we did not construct and therefore must NEVER close). Any
+ * composition failure closes the half-built handle right here, so neither lifecycle leaks one.
+ */
+async function composeNp04Persistence(
+  intent: Np04OpenIntent,
+  overrides: Np04LoaderOverrides,
+): Promise<ComposedNp04Persistence | null> {
   const openOptions = np04OpenOptions(intent);
   const databasePath = serverOwnedDatabasePath();
   if (databasePath === null) return null; // no server-owned path -> fail closed
 
-  // A READ must not bring a store into existence. Checked BEFORE the module is imported and before
-  // `openDatabase` is called, so an absent store costs a `stat` and nothing else — and so that a
-  // read path can never be the reason a database file or its directory appears.
+  // A READ must not bring a store into existence: checked before the module is imported and before
+  // `openDatabase` is called, so an absent store costs a `stat` and nothing else.
   if (intent === 'READ' && !isExistingRegularFile(databasePath)) return null;
 
   const specifier = ['iips-np04-governed-persistence', 'persistence'].join('/');
@@ -388,15 +402,17 @@ export async function loadAuthoritativeNp04Persistence(
       ? await overrides.importModule()
       : ((await import(/* @vite-ignore */ specifier)) as Record<string, unknown>);
   } catch {
-    return null; // package/subpath unavailable in this process -> fail closed (see NP04_BOUNDARY)
+    return null; // package/subpath unavailable in this process -> fail closed
   }
 
-  // A module that already exposes a constructed port is accepted as-is.
+  // A module that already exposes a constructed port is accepted AS-IS. We opened nothing for it,
+  // so `database` is null and no lifecycle — tracked or scoped — will ever try to close it.
   try {
-    return assertNp04PersistencePort(mod.GovernedArtifactStore ?? mod);
+    const port = assertNp04PersistencePort(mod.GovernedArtifactStore ?? mod);
+    return { port, database: null, path: databasePath };
   } catch {
-    // Expected for the authoritative shape: `GovernedArtifactStore` is a CLASS, and its five
-    // operations live on the prototype, so the class itself is not a port. Construct it below.
+    // Expected for the authoritative shape: `GovernedArtifactStore` is a CLASS whose operations
+    // live on the prototype, so the class itself is not a port. Construct it below.
   }
 
   const StoreClass = mod.GovernedArtifactStore;
@@ -410,10 +426,310 @@ export async function loadAuthoritativeNp04Persistence(
       ...openOptions,
     });
     const store = new (StoreClass as new (db: unknown) => unknown)(database);
-    return assertNp04PersistencePort(store);
+    const port = assertNp04PersistencePort(store);
+    return { port, database, path: databasePath };
   } catch {
     // Ownership of the handle transfers only with a validated port: close it if we failed.
     closeQuietly(database);
     return null;
   }
+}
+
+export async function loadAuthoritativeNp04Persistence(
+  intent: Np04OpenIntent = 'READ',
+  overrides: Np04LoaderOverrides = {},
+): Promise<ReportsPersistencePort | null> {
+  const composed = await composeNp04Persistence(intent, overrides);
+  if (composed === null) return null;
+  // LONG-LIVED ownership: the handle is recorded so a later teardown (an owner deleting a temporary
+  // store, a process shutting down) can dispose it. REQUEST-SCOPED callers must NOT use this entry
+  // point — see `openNp04Persistence` / `withNp04Persistence`, which dispose their own handle and
+  // never touch this register, so a busy server accumulates nothing here. An unreleased long-lived
+  // handle keeps the database file open for the life of the process, which on Windows makes that
+  // file — and any directory containing it — undeletable (`EBUSY`) however the deletion is tried.
+  if (composed.database !== null) trackOpenedDatabase(composed.database, composed.path);
+  return composed.port;
+}
+
+/**
+ * One REQUEST-SCOPED resolution of the authoritative NP-04 store.
+ *
+ * Unlike `loadAuthoritativeNp04Persistence`, the handle a scope owns is held HERE, not in a
+ * process-wide register: the only reference to it is this object, so nothing accumulates globally.
+ * A repeated or concurrent stream of resolutions opens and closes in lockstep instead of growing
+ * without bound — which is precisely why request handlers use this form rather than the loader.
+ */
+export interface Np04PersistenceScope {
+  /** The validated five-operation port to use. */
+  readonly port: ReportsPersistencePort;
+  /** The intent this scope was opened with (telemetry only; the port enforces nothing further). */
+  readonly intent: Np04OpenIntent;
+  /**
+   * Close the handle THIS scope opened, deterministically and exactly once. Later calls do
+   * nothing. A close that refuses THROWS — a cleanup failure is reported, never swallowed, retried
+   * or delayed. A scope built over a prebuilt port the module exposed releases nothing, because
+   * this resolver never opened it.
+   */
+  release(): void;
+}
+
+/** Build the idempotent, throwing disposer for one handle this resolver opened (or did not). */
+function scopedRelease(database: unknown): () => void {
+  let released = false;
+  return (): void => {
+    if (released) return;
+    released = true;
+    const close = (database as { close?: unknown } | null)?.close;
+    if (typeof close !== 'function') return; // nothing this resolver can dispose
+    (close as () => void).call(database); // a refusing close propagates to the caller
+  };
+}
+
+/**
+ * Resolve ONE request-scoped authoritative NP-04 store, or null when none can be produced in THIS
+ * process (the same fail-closed conditions as the loader). The returned scope OWNS its handle and
+ * the caller must call `release()` after the last store operation; `withNp04Persistence` does this
+ * automatically and is the preferred form for a single logical operation.
+ */
+export async function openNp04Persistence(
+  intent: Np04OpenIntent = 'READ',
+  overrides: Np04LoaderOverrides = {},
+): Promise<Np04PersistenceScope | null> {
+  const composed = await composeNp04Persistence(intent, overrides);
+  if (composed === null) return null;
+  return { port: composed.port, intent, release: scopedRelease(composed.database) };
+}
+
+/** The read-intent scoped resolver, named so read call sites read as what they are. */
+export const openReadOnlyNp04Persistence = (
+  overrides: Np04LoaderOverrides = {},
+): Promise<Np04PersistenceScope | null> => openNp04Persistence('READ', overrides);
+
+/**
+ * The READ port a request resolved, paired with how to dispose it.
+ *
+ * `port` is `null` when no authoritative store is available in this process. `release` is the
+ * deterministic disposer for the handle THIS resolver opened — or a no-op when the port was INJECTED
+ * by the caller (through `deps.loadPort`), because an injected store is caller-owned: whoever built
+ * it owns its lifecycle, and closing it here would tear down a resource somebody else still needs
+ * (every transport test builds its own store over a database it opens itself).
+ */
+export interface AcquiredReadPort {
+  /** `null` when unavailable; otherwise the validated five-operation port. */
+  readonly port: unknown;
+  /** Dispose a resolver-opened handle exactly once; a no-op for an injected (caller-owned) port. */
+  release(): void;
+}
+
+/**
+ * Resolve the READ port for ONE request, deciding ownership correctly up front.
+ *
+ * - With an injected `loadPort`: run it, treat the result as caller-owned, and return a `release`
+ *   that does nothing. A throwing loader degrades to `null` (fail closed), exactly as before.
+ * - Without one: open a request-scoped store through `openReadOnlyNp04Persistence`, whose `release`
+ *   closes precisely the handle this resolver opened and touches nothing else.
+ *
+ * Either way the returned object lets a request handler put `acquired.release()` in a `finally` and
+ * be correct on both the success and the error path without ever guessing who owns the handle.
+ */
+export async function acquireReadPort(
+  loadPort?: () => Promise<unknown>,
+): Promise<AcquiredReadPort> {
+  const noop = (): void => undefined;
+  if (loadPort !== undefined) {
+    let port: unknown = null;
+    try {
+      port = await loadPort();
+    } catch {
+      port = null;
+    }
+    return { port: port === undefined ? null : port, release: noop };
+  }
+  const scope = await openReadOnlyNp04Persistence();
+  if (scope === null) return { port: null, release: noop };
+  return { port: scope.port, release: scope.release };
+}
+
+/**
+ * Open a request-scoped store, run `use` against it, and ALWAYS dispose the handle afterwards —
+ * whether `use` returns normally or throws. This is the deterministic-acquisition primitive that
+ * replaces "resolve and forget": the handle is closed after the LAST store operation on both the
+ * success and the error path, so a busy server accumulates no open handles and, on Windows, leaves
+ * no locked file behind.
+ *
+ * Error policy: the operational error from `use` always WINS — it is what actually ended the
+ * request. A SECONDARY failure to dispose is reported, not hidden: with no pending operational
+ * error it is raised as a `PersistenceBoundaryError`; with one, it is attached to the original
+ * error as `np04DisposalFailure` (this project targets ES2020, which has neither `Error#cause` nor
+ * `AggregateError`). Nothing here is swallowed, retried or delayed.
+ */
+export async function withNp04Persistence<R>(
+  intent: Np04OpenIntent,
+  use: (port: ReportsPersistencePort) => R | Promise<R>,
+  overrides: Np04LoaderOverrides = {},
+): Promise<R | null> {
+  const scope = await openNp04Persistence(intent, overrides);
+  if (scope === null) return null;
+
+  let result: R | undefined;
+  let primaryError: unknown;
+  let hadPrimaryError = false;
+  try {
+    result = await use(scope.port);
+  } catch (error) {
+    hadPrimaryError = true;
+    primaryError = error;
+  }
+
+  try {
+    scope.release();
+  } catch (releaseError) {
+    if (hadPrimaryError) {
+      (primaryError as { np04DisposalFailure?: unknown }).np04DisposalFailure = describeError(releaseError);
+    } else {
+      throw new PersistenceBoundaryError('a request-scoped NP-04 handle failed to release', {
+        cause: describeError(releaseError),
+      });
+    }
+  }
+
+  if (hadPrimaryError) throw primaryError;
+  return result as R;
+}
+
+/* ------------------------------------------------------------------ *
+ * Deterministic release of the database handles THIS resolver opened
+ * ------------------------------------------------------------------ */
+
+/**
+ * One handle this resolver opened, and the path it was opened at.
+ *
+ * The resolver's contract is unchanged by this record: it still opens exactly the handle the
+ * admitted NP-04 `openDatabase` produces, and it still hands that handle to the caller inside a
+ * validated port. What the record adds is *accountability* — the resolver is the only party that
+ * knows which handles it opened, so it is the only party that can say which ones are still open.
+ */
+interface OpenedNp04Database {
+  readonly path: string;
+  readonly database: unknown;
+  released: boolean;
+}
+
+/** Handles opened and not yet released. Deliberately process-local and never exported raw. */
+const openedDatabases = new Set<OpenedNp04Database>();
+
+function trackOpenedDatabase(database: unknown, databasePath: string): void {
+  openedDatabases.add({ path: databasePath, database, released: false });
+}
+
+/**
+ * How many handles this resolver has opened and not yet released.
+ *
+ * Telemetry for the owners of those handles (a test tearing down a temporary store, an operator
+ * script finishing a run). It reads no filesystem state and opens nothing.
+ */
+export function countOpenNp04Databases(): number {
+  let open = 0;
+  for (const entry of openedDatabases) if (!entry.released) open += 1;
+  return open;
+}
+
+/**
+ * Close one tracked handle.
+ *
+ * A close that throws is NOT swallowed and NOT retried silently: the entry stays tracked (so the
+ * count above still reports it) and the error is collected for the caller to surface. A handle
+ * whose database exposes no `close` counts as released — there is nothing this resolver can do
+ * about a dependency that offers no disposal operation, and pretending otherwise would be a lie.
+ */
+function closeTracked(entry: OpenedNp04Database): void {
+  if (entry.released) return;
+  const close = (entry.database as { close?: unknown } | null | undefined)?.close;
+  if (typeof close !== 'function') {
+    entry.released = true;
+    return;
+  }
+  (close as () => void).call(entry.database);
+  entry.released = true;
+}
+
+function describeError(error: unknown): string {
+  return error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+}
+
+/** True when `candidate` is `rootDirectory` itself or lives inside it, by the host's path rules. */
+function isInsideDirectory(candidate: string, rootDirectory: string): boolean {
+  // Windows paths are case-insensitive; comparing them case-sensitively would miss a handle the
+  // caller plainly owns (for example a temporary directory reached through `%TEMP%` vs `%Temp%`).
+  const normalize = (value: string): string => (process.platform === 'win32' ? value.toLowerCase() : value);
+  const root = normalize(resolve(rootDirectory));
+  const target = normalize(resolve(candidate));
+  if (target === root) return true;
+  const relation = relative(root, target);
+  if (relation.length === 0) return true;
+  if (isAbsolute(relation)) return false; // a different root/drive: not contained
+  return relation !== '..' && !relation.startsWith(`..${sep}`);
+}
+
+function releaseEntries(entries: readonly OpenedNp04Database[], scope: string): number {
+  const failures: string[] = [];
+  let released = 0;
+  for (const entry of entries) {
+    try {
+      closeTracked(entry);
+      released += 1;
+    } catch (error) {
+      failures.push(`${entry.path} -> ${describeError(error)}`);
+    }
+  }
+  if (failures.length > 0) {
+    // Reported, never suppressed: a cleanup failure that is hidden becomes a locked file somebody
+    // else has to diagnose.
+    throw new PersistenceBoundaryError(`could not release every NP-04 database handle ${scope}`, {
+      failures: Object.freeze(failures),
+      released,
+    });
+  }
+  for (const entry of entries) {
+    if (entry.released) openedDatabases.delete(entry);
+  }
+  return released;
+}
+
+/**
+ * Release every handle this resolver opened for a database at — or under — `rootDirectory`.
+ *
+ * This is the deterministic disposal step an owner of a TEMPORARY store must perform before
+ * deleting that store's directory: the resolver may have opened handles the owner never saw
+ * (each transport request and each CLI run resolves its own), and on Windows an open handle is
+ * enough to make the file and its directory undeletable. POSIX hides the same leak — `unlink`
+ * succeeds on an open file — which is exactly why this must be explicit rather than inferred
+ * from a green POSIX run.
+ *
+ * Returns how many handles were closed. Throws a `PersistenceBoundaryError` listing every handle
+ * that refused to close; no failure is suppressed, and no delay, retry loop or `force` flag is
+ * substituted for disposal.
+ */
+export function releaseNp04DatabasesUnderDirectory(rootDirectory: string): number {
+  if (typeof rootDirectory !== 'string' || rootDirectory.trim().length === 0) {
+    throw new PersistenceBoundaryError('a directory is required to release NP-04 database handles', {});
+  }
+  const scoped: OpenedNp04Database[] = [];
+  for (const entry of openedDatabases) {
+    if (!entry.released && isInsideDirectory(entry.path, rootDirectory)) scoped.push(entry);
+  }
+  return releaseEntries(scoped, `under ${rootDirectory}`);
+}
+
+/**
+ * Release every handle this resolver opened, wherever it was opened.
+ *
+ * The whole-process form of the scoped release above, for an owner that is finished with every
+ * store it configured (a teardown that does not want to enumerate paths, or a script exiting).
+ * Same contract: returns the number closed, throws with every failure listed.
+ */
+export function releaseAllNp04Databases(): number {
+  const all: OpenedNp04Database[] = [];
+  for (const entry of openedDatabases) if (!entry.released) all.push(entry);
+  return releaseEntries(all, 'opened by this resolver');
 }

@@ -1,6 +1,8 @@
 /**
- * Direct P1 integration test: composed IRR HTTP reads traverse the real IPC client over a local
- * Unix socket to a contract-v1 peer. No SQLite database or IPD provisioning code is used.
+ * Direct P1 integration test: composed IRR HTTP reads traverse the real IPC client over a REAL
+ * local endpoint to a contract-v1 peer — a Unix-domain socket path on POSIX, a Windows named pipe
+ * on Windows, selected by `testing/localIpcEndpoint.ts` and handed unchanged to both sides.
+ * No SQLite database or IPD provisioning code is used.
  * @vitest-environment node
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -11,7 +13,7 @@ import type { AddressInfo } from 'node:net';
 import { handleUserPortfolioRequest } from '../user-portfolio-transport.js';
 import { IPC_ENDPOINT_SETTING, IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION } from './ipcClient.js';
 import { BINDING_PRECONDITION_SETTING } from './ownerContextFromBinding.js';
-import { createLocalIpcEndpoint, type LocalIpcEndpointKind } from './testing/localIpcEndpoint.js';
+import { createLocalIpcEndpoint, localIpcEndpointKindFor, type LocalIpcEndpointKind } from './testing/localIpcEndpoint.js';
 
 function frameOf(value: unknown): Buffer {
   const body = Buffer.from(JSON.stringify(value), 'utf8');
@@ -35,7 +37,10 @@ const summary = {
 
 interface Peer {
   readonly path: string;
+  /** Which local endpoint class this peer is serving, for the platform under test. */
+  readonly kind: LocalIpcEndpointKind;
   readonly requests: Array<Record<string, unknown>>;
+  /** Idempotent: closes a started peer once, destroys its sockets and releases its endpoint. */
   close(): Promise<void>;
 }
 
@@ -54,9 +59,16 @@ interface Peer {
  * the full frame — ending it immediately after `write` risks the libuv shutdown/forced-break race
  * that can drop an unflushed frame before delivery (the same policy `ipcClient.ts`'s own client
  * already follows, and the one `ipcPortAdapterIntegration.test.ts`'s peer fixture follows).
+ *
+ * A peer that FAILS TO START is never returned: the promise rejects with the endpoint class and
+ * the underlying reason and RELEASES the endpoint it allocated, so a caller cannot `close()` — or
+ * report success for — a peer that does not exist, and no temporary directory is leaked behind the
+ * failure. This is the mode that previously produced a second, misleading
+ * `Cannot read properties of undefined (reading 'close')` on top of the real listen error.
  */
 function startPeer(): Promise<Peer> {
   return new Promise((resolveStart, rejectStart) => {
+    let settled = false;
     const endpoint = createLocalIpcEndpoint({ label: 'direct-p1-irr' });
     const { kind, path }: { kind: LocalIpcEndpointKind; path: string } = endpoint;
     const requests: Array<Record<string, unknown>> = [];
@@ -107,11 +119,38 @@ function startPeer(): Promise<Peer> {
         }
       });
     });
-    server.once('error', (error: Error) => rejectStart(error));
+
+    const onStartupError = (error: Error): void => {
+      if (settled) return;
+      settled = true;
+      // Swallow any further error from a server that never listened: rejecting IS the report.
+      server.removeListener('error', onStartupError);
+      server.on('error', () => undefined);
+      // This peer owns the endpoint it just reserved; a peer that never listened must release it
+      // rather than leak a temporary directory. The underlying reason is carried in the message:
+      // this project compiles against the ES2020 lib, where `Error` takes no `cause` option.
+      endpoint.dispose();
+      rejectStart(
+        new Error(
+          `the Direct P1 peer could not listen on the ${kind} endpoint '${path}': `
+            + `${error.name}: ${error.message}`,
+        ),
+      );
+    };
+
+    server.once('error', onStartupError);
     server.listen(path, () => {
+      if (settled) return;
+      settled = true;
+      server.removeListener('error', onStartupError);
+      // A started peer stays observable but must not take the run down: socket-level faults are
+      // the client's to report, and `close()` destroys every live socket.
+      server.on('error', () => undefined);
+
       let closed = false;
       resolveStart({
         path,
+        kind,
         requests,
         close: () =>
           new Promise<void>((resolveClose) => {
@@ -181,6 +220,7 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
 
   afterAll(async () => {
     if (server !== undefined) await new Promise<void>((resolve) => server?.close(() => resolve()));
+    // Close ONLY a peer that started; a rejected `startPeer` already released its endpoint.
     if (peer !== undefined) await peer.close();
     if (savedEndpoint === undefined) delete process.env[IPC_ENDPOINT_SETTING];
     else process.env[IPC_ENDPOINT_SETTING] = savedEndpoint;
@@ -227,5 +267,8 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     }
     expect(Object.keys(peer!.requests[0]).sort()).toEqual(['op', 'v']);
     expect(peer!.requests[1].payload).toEqual({ portfolioId: 'p-1' });
+    // The endpoint class the peer served is the class THIS platform's client resolves: both sides
+    // were handed the same string, and neither fell back to a different transport.
+    expect(peer!.kind).toBe(localIpcEndpointKindFor());
   });
 });

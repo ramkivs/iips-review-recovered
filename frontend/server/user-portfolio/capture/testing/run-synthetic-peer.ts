@@ -22,8 +22,11 @@ if (endpointPath === undefined || endpointPath.length === 0) {
     () => {
       process.stdout.write('SYNTHETIC TEST PEER READY (not IPD; not evidence)\n');
     },
-    () => {
-      process.stderr.write('the synthetic test peer could not listen on the endpoint\n');
+    (error: unknown) => {
+      // Observable, and bounded: the reason a peer did not start (an endpoint class this platform
+      // refuses, a name already taken) is exactly what a harness needs. Nothing secret is in it.
+      const reason = error instanceof Error ? error.message : String(error);
+      process.stderr.write(`the synthetic test peer could not listen on the endpoint: ${reason}\n`);
       process.exitCode = 1;
     },
   );

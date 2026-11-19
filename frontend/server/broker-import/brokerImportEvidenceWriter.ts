@@ -13,6 +13,7 @@
  * exit: 0 on full success; 1 with a stderr diagnostic otherwise (no partial stdout).
  */
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 import { previewBrokerHoldings } from '../../src/api/brokerHoldingsPreview';
 import {
@@ -71,7 +72,9 @@ if (retained.duplicate) {
   }
 }
 
-const journalPath = `${dataDir}/journal.ndjson`;
+// `path.join`, not a template with a hard-coded separator: the store address arrives from the
+// test's temporary directory, which is a Windows path on a Windows runner.
+const journalPath = path.join(dataDir, 'journal.ndjson');
 const journalBytes = fs.existsSync(journalPath) ? fs.statSync(journalPath).size : 0;
 
 process.stdout.write(`${JSON.stringify({

@@ -14,6 +14,7 @@ import {
   assertNp04PersistencePort,
   loadAuthoritativeNp04Persistence,
   NP04_BOUNDARY,
+  openNp04Persistence,
   PersistenceBoundaryError,
   type Np04OpenIntent,
   type ReportsPersistencePort,
@@ -55,6 +56,32 @@ export async function resolveAuthoritativeNp04Port(
     return { available: false, reason: NP04_BOUNDARY.blocker, boundary: NP04_BOUNDARY };
   }
   return { available: true, port };
+}
+
+/**
+ * Resolve a REQUEST-SCOPED authoritative NP-04 port, or fail closed with the exact boundary.
+ *
+ * The request-boundary form of `resolveAuthoritativeNp04Port`. It resolves through
+ * `openNp04Persistence`, which owns its handle LOCALLY rather than in a process-wide register, and
+ * hands back a `release` that deterministically disposes that ONE handle on success or error alike.
+ * A caller MUST call `release()` after its last store operation — typically in a `finally` — so a
+ * busy Reports surface accumulates no open handles and, on Windows, leaves no locked file behind.
+ * Like the loader-backed resolver it never returns a substitute implementation, and it never closes
+ * a store it did not open itself.
+ */
+export type Np04Acquisition =
+  | { readonly available: true; readonly port: ReportsPersistencePort; release(): void }
+  | { readonly available: false; readonly reason: string; readonly boundary: typeof NP04_BOUNDARY };
+
+export async function acquireAuthoritativeNp04Port(
+  /** Same `G-11` intent as `resolveAuthoritativeNp04Port`: READ by default, INITIALISE only to write. */
+  intent: Np04OpenIntent = 'READ',
+): Promise<Np04Acquisition> {
+  const scope = await openNp04Persistence(intent);
+  if (scope === null) {
+    return { available: false, reason: NP04_BOUNDARY.blocker, boundary: NP04_BOUNDARY };
+  }
+  return { available: true, port: scope.port, release: scope.release };
 }
 
 /** Re-exported so callers compose the port without reaching into the port module. */

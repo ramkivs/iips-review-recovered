@@ -21,7 +21,11 @@ import {
   materialiseReportsOwnerCarrier,
 } from './reports-owner-carrier';
 import { REPORTS_OWNER_PATH_ENV } from './reports-owner-resolver';
-import { loadAuthoritativeNp04Persistence, NP04_DATABASE_PATH_ENV } from './reports/persistence-port';
+import {
+  loadAuthoritativeNp04Persistence,
+  NP04_DATABASE_PATH_ENV,
+  releaseNp04DatabasesUnderDirectory,
+} from './reports/persistence-port';
 
 const temporaryDirs: string[] = [];
 const savedOwnerPath = process.env[REPORTS_OWNER_PATH_ENV];
@@ -42,7 +46,14 @@ afterEach(() => {
 
   while (temporaryDirs.length > 0) {
     const dir = temporaryDirs.pop();
-    if (dir !== undefined) fs.rmSync(dir, { recursive: true, force: true });
+    if (dir === undefined) continue;
+    // Every handle the NP-04 resolver opened for this suite's own temporary store is closed
+    // BEFORE the directory is deleted. Each request through `handleReportsRequest` resolves its
+    // own port, and an unreleased handle keeps `reports.db` open — which on Windows makes the
+    // file and its directory undeletable (`EBUSY`) regardless of `force: true`, while POSIX
+    // hides the same leak because `unlink` succeeds on an open file.
+    releaseNp04DatabasesUnderDirectory(dir);
+    fs.rmSync(dir, { recursive: true, force: true });
   }
 });
 

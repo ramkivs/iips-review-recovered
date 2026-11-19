@@ -1,0 +1,389 @@
+name: Windows test compatibility (focused)
+
+# WHY THIS WORKFLOW EXISTS
+#   A read-only Windows 11 diagnostic (Node v22.16.0, Vitest 2.1.9, 2026-11-17) reproduced three
+#   platform-specific failures in this repository's own test infrastructure:
+#     A. SQLite lifecycle — temporary database files stayed OPEN while their directories were
+#        deleted, so `rmSync` failed with `EBUSY: resource busy or locked, unlink`. POSIX hides
+#        this: `unlink` succeeds on an open file, so a green Linux run says nothing about it.
+#     B. Local IPC endpoints — test fixtures listened on POSIX `.sock` paths, which Windows
+#        rejects with `listen EACCES`; the client contract itself already accepts a `\\.\pipe\`
+#        named-pipe path, so the endpoint FORM was the incompatibility, not the protocol.
+#     C. Child-process restart — the proof spawned `node_modules/.bin/vite-node`, which on Windows
+#        is a cmd-shim rather than an executable image, so the child never started (`status: null`)
+#        and the failure message discarded the only informative field (`child.error`).
+#
+#   Linux CI cannot verify any of the three. This job runs the AFFECTED groups on a real
+#   GitHub-hosted Windows runner, and only those groups: the repository's other Windows-hostile
+#   baselines (a frozen owner-context digest, a runbook pin row, valuation and provenance fixtures)
+#   are separately owned and deliberately out of scope here, so this job does not run the full
+#   suite and does not rebaseline anything.
+#
+# WHAT THIS JOB NEVER DOES
+#   - No credentials, no vendor request, no Dhan connectivity, no quota consumption.
+#   - No production service is started or stopped; no operational database or evidence is touched.
+#   - It writes nothing to the repository: the checkout is read-only, every store the tests use is
+#     a temporary directory the tests create and delete, and the only uploaded artifact is the
+#     Vitest JSON summary of this job's own run.
+#   - It does not replace the Linux validation in `ci.yml`, which still runs the full suite.
+
+on:
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - '.ci/**'
+      - '.github/workflows/windows-test-compatibility.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.ci/**'
+      - '.github/workflows/windows-test-compatibility.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-compat-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-focused:
+    name: Windows runner · SQLite lifecycle · local IPC · child-process restart
+    runs-on: windows-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        # Git Bash ships with the Windows runner image: the same `npm`, `node`, `gh` and POSIX
+        # text tools the Linux job uses, so the two jobs stay comparable step for step.
+        shell: bash
+        working-directory: frontend
+    steps:
+      - name: Check out the exact commit under test
+        uses: actions/checkout@v4
+        with:
+          # Same as the Linux job in ci.yml. `persist-credentials` defaults to true, which writes a
+          # BROAD `http.https://github.com/.extraheader` into .git/config; git applies extraheader
+          # entries additively rather than letting the repository-scoped one below replace it, so
+          # the request would carry two Authorization headers and GitHub would answer 400
+          # (`remote: Duplicate header: "Authorization"`) — which is exactly what the first two
+          # Windows runs did inside `npm ci`.
+          persist-credentials: false
+
+      # Same toolchain pair the Linux job pins (Node 22 + npm 10, lockfileVersion 3), so a
+      # difference in result is attributable to the platform and not to the toolchain.
+      - name: Set up Node 22 / npm 10 with the lockfile-keyed cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Record the platform under test
+        run: |
+          node --version
+          npm --version
+          npx vitest --version
+          echo "runner image: ${ImageVersion:-unknown}"
+          echo "runner os:    ${RUNNER_OS:-unknown} / ${RUNNER_ARCH:-unknown}"
+          # The platform facts the three issues turn on, reported by Node itself rather than by a
+          # shell builtin that differs per image.
+          node -p "'node platform: ' + process.platform + ' ' + process.arch + ' | os release: ' + require('node:os').release() + ' | tmpdir: ' + require('node:os').tmpdir()"
+          # The endpoint class the IPC fixtures must select on this runner, stated by the code
+          # under test rather than assumed here.
+          node -p "'expected local IPC endpoint class: ' + (process.platform === 'win32' ? 'windows-named-pipe' : 'unix-socket')"
+
+      # The pinned private dependencies are git refs of one private repository. The token is minted
+      # per run, scoped to Contents read on that single repository, used only through step-local
+      # environment variables, and never persisted to Git config, the checkout, or an artifact.
+      - name: Create read-only IPD installation token
+        id: ipd-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.IRR_IPD_APP_CLIENT_ID }}
+          private-key: ${{ secrets.IRR_IPD_APP_PRIVATE_KEY }}
+          owner: ramkivs
+          repositories: iips-production-market-data
+          permission-contents: read
+
+      - name: Verify the scoped token can read the private IPD repository
+        env:
+          GH_TOKEN: ${{ steps.ipd-token.outputs.token }}
+        run: |
+          test "$(gh api repos/ramkivs/iips-production-market-data --jq '.private')" = true
+          echo 'Verified the scoped token reads a private IPD repository.'
+
+      - name: Prepare temporary IPD Git authorization header
+        id: ipd-git-auth
+        env:
+          IPD_APP_TOKEN: ${{ steps.ipd-token.outputs.token }}
+        run: |
+          # `tr -d` rather than `base64 -w0`: the wrapping flag is a GNU option and must not be a
+          # portability assumption in a job whose whole purpose is portability.
+          auth_b64="$(printf 'x-access-token:%s' "$IPD_APP_TOKEN" | base64 | tr -d '\n')"
+          echo "::add-mask::$IPD_APP_TOKEN"
+          echo "::add-mask::$auth_b64"
+          echo "header=AUTHORIZATION: basic $auth_b64" >> "$GITHUB_OUTPUT"
+          # Self-check, reporting sizes and counts only — never a value. An output that did not
+          # reach the runner would otherwise surface two steps later as an unauthenticated 403.
+          echo "auth_b64 length: ${#auth_b64}"
+          test "${#auth_b64}" -gt 20 || { echo '::error title=IPD auth header::encoded authorization header is implausibly short'; exit 1; }
+          echo "GITHUB_OUTPUT entries: $(grep -c '^header=AUTHORIZATION: basic ' "$GITHUB_OUTPUT")"
+          test "$(grep -c '^header=AUTHORIZATION: basic ' "$GITHUB_OUTPUT")" -eq 1
+
+          # An extraheader inherited from the checkout, the runner image or a previous step would be
+          # sent ALONGSIDE the scoped one, producing a duplicate Authorization header and a 400.
+          # Remove any broad github.com entry that survives the checkout above and require that none
+          # remains. The runner's bash is errexit AND pipefail, and `git config` exits 1 when
+          # nothing matches — which is precisely the healthy case here — so every lookup is wrapped
+          # instead of being left to abort the step.
+          set +e
+          for scope in 'http.https://github.com/.extraheader' 'http.https://github.com.extraheader'; do
+            inherited="$(git config --local --get-all "$scope" 2>/dev/null)"
+            inherited_count="$(printf '%s' "$inherited" | grep -c .)"
+            git config --local --unset-all "$scope" >/dev/null 2>&1
+            echo "cleared ${scope}: ${inherited_count} inherited"
+          done
+          remaining="$(git config --get-regexp '^http\..*extraheader$' 2>/dev/null)"
+          set -e
+          if [ -n "$remaining" ]; then
+            # Key names only; values are redacted here and masked by the runner anyway.
+            keys="$(printf '%s' "$remaining" | sed 's/ .*//' | tr '\n' '|')"
+            echo "::error title=IPD auth header::an inherited authorization header is still configured and would be sent twice: ${keys}"
+            exit 1
+          fi
+          echo 'No inherited github.com authorization header remains, so the scoped IPD header is the only one that will be sent.'
+
+      - name: Install dependencies from the committed lockfile
+        id: npm-ci
+        continue-on-error: true
+        env:
+          GIT_TERMINAL_PROMPT: '0'
+          # Git for Windows configures a credential manager in its SYSTEM config. An interactive
+          # helper on a headless runner is at best a delay and at worst the reason an otherwise
+          # authorized request is refused, so the helper list is explicitly cleared here and the
+          # scoped authorization header below is the only credential in play.
+          GCM_INTERACTIVE: 'never'
+          GIT_CONFIG_COUNT: '5'
+          GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_0: git+ssh://git@github.com/
+          GIT_CONFIG_KEY_1: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_1: ssh://git@github.com/
+          GIT_CONFIG_KEY_2: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_2: 'git@github.com:'
+          GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
+          GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
+          GIT_CONFIG_KEY_4: credential.helper
+          GIT_CONFIG_VALUE_4: ''
+        run: |
+          set -o pipefail
+          npm ci --no-audit --no-fund 2>&1 | tee "$RUNNER_TEMP/npm-ci.log"
+
+      # A failed install must be diagnosable from the API alone: job logs are served from blob
+      # storage that a review environment may not be able to reach, annotations are not. This step
+      # reports the platform facts, the URL rewrite rules actually in force (never a credential)
+      # and the tail of the install output, then fails the job.
+      - name: Diagnose the install (always; fails the job only when the install did)
+        if: ${{ always() }}
+        env:
+          GIT_TERMINAL_PROMPT: '0'
+          GCM_INTERACTIVE: 'never'
+          GIT_CONFIG_COUNT: '5'
+          GIT_CONFIG_KEY_0: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_0: git+ssh://git@github.com/
+          GIT_CONFIG_KEY_1: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_1: ssh://git@github.com/
+          GIT_CONFIG_KEY_2: url.https://github.com/.insteadOf
+          GIT_CONFIG_VALUE_2: 'git@github.com:'
+          GIT_CONFIG_KEY_3: http.https://github.com/ramkivs/iips-production-market-data.git/.extraheader
+          GIT_CONFIG_VALUE_3: ${{ steps.ipd-git-auth.outputs.header }}
+          GIT_CONFIG_KEY_4: credential.helper
+          GIT_CONFIG_VALUE_4: ''
+        run: |
+          # Job logs are served from blob storage that a review environment may not be able to
+          # fetch, and a long stream of one-line annotations gets truncated. So the diagnosis is
+          # emitted as a SMALL NUMBER OF SINGLE-LINE annotations, each self-contained, with
+          # newlines folded to '|' and '%' escaped as the workflow-command syntax requires.
+          # Nothing here may abort the step before it has reported: errexit is off and every
+          # command tolerates failure.
+          set +e
+          IPD_HTTPS='https://github.com/ramkivs/iips-production-market-data.git'
+          fold () { tr -d '\r' | tr '\n' '|' | sed -e 's/%/%25/g' -e 's/AUTHORIZATION: basic [A-Za-z0-9+/=]*/AUTHORIZATION: basic REDACTED/g'; }
+
+          outcome='${{ steps.npm-ci.outcome }}'
+          echo "::notice title=windows install outcome::npm ci outcome=${outcome} | git=$(git --version 2>&1 | fold) | npm=$(npm --version 2>&1 | fold) | node=$(node --version 2>&1 | fold)"
+
+          # 'skipped' means an earlier step already failed and the job is red for that reason; this
+          # step must not add a second, obscuring failure of its own.
+          if [ "$outcome" = "success" ] || [ "$outcome" = "skipped" ]; then
+            echo "::notice title=windows install::install outcome=${outcome}; nothing to diagnose"
+            exit 0
+          fi
+
+          cfg="$(git config --show-origin --get-regexp '^(url|http|credential)\.' 2>&1 | fold)"
+          echo "::error title=windows git config in force::${cfg}"
+
+          tail_install="$(tail -n 30 "$RUNNER_TEMP/npm-ci.log" 2>&1 | fold)"
+          echo "::error title=windows npm ci output tail::${tail_install}"
+
+          git ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/p1.out" 2>"$RUNNER_TEMP/p1.err"
+          p1=$?
+          git -c credential.helper= ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/p2.out" 2>"$RUNNER_TEMP/p2.err"
+          p2=$?
+          GIT_CONFIG_NOSYSTEM=1 git ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/p3.out" 2>"$RUNNER_TEMP/p3.err"
+          p3=$?
+          echo "::error title=windows private-repo probes::step-env exit=${p1} stderr=$(tail -n 3 "$RUNNER_TEMP/p1.err" 2>&1 | fold) // helper-cleared exit=${p2} stderr=$(tail -n 3 "$RUNNER_TEMP/p2.err" 2>&1 | fold) // no-system-config exit=${p3} stderr=$(tail -n 3 "$RUNNER_TEMP/p3.err" 2>&1 | fold)"
+
+          GIT_CURL_VERBOSE=1 git ls-remote --heads "$IPD_HTTPS" >"$RUNNER_TEMP/verbose.out" 2>&1
+          http_lines="$(grep -E '^< HTTP|^< WWW-Authenticate|^\* (Connected|ALPN)' "$RUNNER_TEMP/verbose.out" 2>/dev/null | head -n 8 | fold)"
+          fatal_lines="$(grep -iE 'fatal|could not read|denied|invalid username or password|terminal prompts' "$RUNNER_TEMP/verbose.out" 2>/dev/null | head -n 6 | fold)"
+          echo "::error title=windows verbose git attempt::http=${http_lines} // fatal=${fatal_lines}"
+
+          # The job must fail when the install did: a compatibility run with no dependencies
+          # installed has verified nothing, and reporting that as a pass would be a false green.
+          exit 1
+
+      - name: Verify all private dependencies resolve to their committed pins
+        run: node ../.ci/verify-ipd-pins.mjs
+
+      # The broker-import consumer surface is materialized from the pinned alias before any test
+      # runs, exactly as `pretest:ci` does on Linux; the restart proof imports it.
+      - name: Materialize the pinned broker-import alias
+        run: npm run build:broker-import
+
+      # ---------------------------------------------------------------- Issue A
+      # Each group writes its own Vitest JSON summary and is guarded by the repository's own
+      # zero-test/false-green assert, so a group that collected nothing cannot pass silently.
+      # Each affected group is reported independently: `continue-on-error` keeps a failure in one
+      # group from hiding the result of the others (an earlier run skipped Issue C entirely because
+      # Issue B failed). The job is still failed at the end by the gate step below whenever any
+      # group did not pass, and .ci/assert-tests.js still catches the zero-test/false-green class.
+      - name: 'Issue A — SQLite resource lifecycle (temporary stores must be deletable)'
+        id: vitest-sqlite
+        continue-on-error: true
+        run: |
+          set +e
+          npx vitest run \
+            --reporter=default --reporter=json --outputFile.json=vitest-windows-sqlite.json \
+            server/reports/persistence-port.test.ts \
+            server/reports-transport.test.ts \
+            server/investment/disposition-transport.test.ts \
+            server/investment/investment-transport.test.ts \
+            server/investment/cli/generate-investment-artifacts.test.ts \
+            server/investment/iidStage4S4R1Scenarios.test.ts
+          status=$?
+          set -e
+          node .ci/assert-tests.js vitest-windows-sqlite.json || status=1
+          exit "$status"
+
+      # ---------------------------------------------------------------- Issue B
+      - name: 'Issue B — local IPC endpoints (named pipe on Windows, unix socket on POSIX)'
+        id: vitest-ipc
+        continue-on-error: true
+        run: |
+          set +e
+          npx vitest run \
+            --reporter=default --reporter=json --outputFile.json=vitest-windows-ipc.json \
+            server/user-portfolio/testing/localIpcEndpoint.test.ts \
+            server/user-portfolio/capture/testing/syntheticIpcPeer.test.ts \
+            server/user-portfolio/ipcClient.test.ts \
+            server/user-portfolio/userPortfolioDirectP1Integration.test.ts \
+            server/user-portfolio/capture/ownerBoundPortfolioCapture.test.ts \
+            server/user-portfolio/capture/captureOwnerBoundPortfolioCli.test.ts
+          status=$?
+          set -e
+          node .ci/assert-tests.js vitest-windows-ipc.json || status=1
+          exit "$status"
+
+      # ---------------------------------------------------------------- Issue C
+      - name: 'Issue C — separate-process restart proof (portable child invocation)'
+        id: vitest-child
+        continue-on-error: true
+        run: |
+          set +e
+          npx vitest run \
+            --reporter=default --reporter=json --outputFile.json=vitest-windows-child.json \
+            server/broker-import/brokerImportEvidenceRestart.test.ts
+          status=$?
+          set -e
+          node .ci/assert-tests.js vitest-windows-child.json || status=1
+          exit "$status"
+
+      # The job log is served from blob storage that a review environment may not be able to fetch,
+      # so a failing Windows run has to be diagnosable from the API alone: per-test failures are
+      # emitted as bounded single-line annotations (folded, %-escaped, never more than a fixed
+      # number per group) alongside the step summary table.
+      - name: Summarize the Windows run
+        if: ${{ !cancelled() }}
+        run: |
+          node --input-type=module -e "
+            import { appendFileSync, readFileSync } from 'node:fs';
+            const groups = [
+              ['SQLite resource lifecycle', 'vitest-windows-sqlite.json'],
+              ['Local IPC endpoints', 'vitest-windows-ipc.json'],
+              ['Child-process restart', 'vitest-windows-child.json'],
+            ];
+            const fold = (text, max) => String(text ?? '')
+              .replace(/[\r\n]+/g, ' | ').replace(/%/g, '%25').slice(0, max);
+            const lines = ['### Windows focused compatibility', '',
+              '| Group | Files | Total | Passed | Failed | Skipped |', '|---|---|---|---|---|---|'];
+            for (const [label, file] of groups) {
+              let summary;
+              try { summary = JSON.parse(readFileSync(file, 'utf8')); }
+              catch {
+                lines.push('| ' + label + ' | report missing | | | | |');
+                console.log('::error title=Windows ' + fold(label, 40) + '::no Vitest summary was produced');
+                continue;
+              }
+              lines.push('| ' + label + ' | ' + summary.numTotalTestSuites + ' | ' + summary.numTotalTests
+                + ' | ' + summary.numPassedTests + ' | ' + summary.numFailedTests
+                + ' | ' + (summary.numPendingTests ?? 0) + ' |');
+              console.log('::notice title=Windows ' + fold(label, 40)
+                + '::files=' + summary.numTotalTestSuites + ' total=' + summary.numTotalTests
+                + ' passed=' + summary.numPassedTests + ' failed=' + summary.numFailedTests
+                + ' skipped=' + (summary.numPendingTests ?? 0) + ' success=' + summary.success);
+              let shown = 0;
+              for (const file of summary.testResults ?? []) {
+                for (const test of file.assertionResults ?? []) {
+                  if (test.status === 'passed') continue;
+                  if (shown >= 12) continue;
+                  shown += 1;
+                  console.log('::error title=Windows ' + fold(label, 40) + ' failure ' + shown
+                    + '::' + fold(test.fullName ?? test.title, 160) + ' [' + fold(test.status, 12) + '] '
+                    + fold((test.failureMessages ?? []).join(' // '), 600));
+                }
+              }
+              if (shown >= 12) console.log('::error title=Windows ' + fold(label, 40)
+                + '::further failures omitted; see the uploaded Vitest summary');
+            }
+            appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+            console.log(lines.join('\n'));
+          "
+
+      # Generated, never committed (same class as frontend/.vitest-report.json). Named without a
+      # leading dot because actions/upload-artifact ignores hidden files.
+      - name: Upload the Windows Vitest summaries
+        if: ${{ !cancelled() && hashFiles('frontend/vitest-windows-*.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-focused-vitest-summaries-${{ github.run_id }}
+          path: |
+            frontend/vitest-windows-sqlite.json
+            frontend/vitest-windows-ipc.json
+            frontend/vitest-windows-child.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Require every affected group to have passed
+        if: ${{ !cancelled() }}
+        run: |
+          sqlite='${{ steps.vitest-sqlite.outcome }}'
+          ipc='${{ steps.vitest-ipc.outcome }}'
+          child='${{ steps.vitest-child.outcome }}'
+          echo "group outcomes: sqlite=$sqlite ipc=$ipc child=$child"
+          if [ "$sqlite" != success ] || [ "$ipc" != success ] || [ "$child" != success ]; then
+            echo "::error title=windows focused compatibility::at least one affected group did not pass on Windows"
+            exit 1
+          fi
+          echo 'All three affected groups passed on the Windows runner.'

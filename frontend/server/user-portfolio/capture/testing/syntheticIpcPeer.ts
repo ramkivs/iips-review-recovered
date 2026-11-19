@@ -29,8 +29,15 @@ export type SyntheticPeerMode =
 
 export interface SyntheticPeer {
   readonly path: string;
+  /**
+   * The local endpoint class this peer is listening on, for the platform in use. Exposed so a
+   * test can assert the peer and the client resolved the SAME endpoint class — neither side fell
+   * back to a different transport behind the other's back.
+   */
+  readonly kind: LocalIpcEndpointKind;
   /** Operations received, in order. */
   readonly operations: string[];
+  /** Idempotent: closes a started peer exactly once, destroys its live sockets and stops serving. */
   close(): Promise<void>;
 }
 
@@ -128,6 +135,11 @@ function frameOf(value: unknown): Buffer {
  * ends a Windows named-pipe connection after writing — see `callIpc` in `ipcClient.ts`). The
  * zero-byte closes below (Class P and the "not a read this fixture serves" refusal) write nothing
  * first, so there is nothing to protect and they end for real on every platform.
+ *
+ * A peer that FAILS TO START is never returned: the promise rejects with the endpoint class and
+ * the underlying reason, so a caller cannot `close()` — or report success for — a peer that does
+ * not exist. The endpoint PATH handed in is owned by the caller, so this fixture does not dispose
+ * it on failure; the caller releases what it allocated (see the CLI and Direct P1 harnesses).
  */
 export function startSyntheticPeer(
   endpointPath: string,
@@ -135,6 +147,7 @@ export function startSyntheticPeer(
   kind: LocalIpcEndpointKind = localIpcEndpointKindFor(),
 ): Promise<SyntheticPeer> {
   return new Promise((resolveStart, rejectStart) => {
+    let settled = false;
     const operations: string[] = [];
     const live = new Set<net.Socket>();
     let getCount = 0;
@@ -196,14 +209,45 @@ export function startSyntheticPeer(
       });
     });
 
-    server.once('error', rejectStart);
+    const onStartupError = (error: Error): void => {
+      if (settled) return;
+      settled = true;
+      // Swallow any further error from a server that never listened: rejecting IS the report.
+      server.removeListener('error', onStartupError);
+      server.on('error', () => undefined);
+      // The underlying reason is carried in the message: this project compiles against the ES2020
+      // lib, where `Error` takes no `cause` option.
+      rejectStart(
+        new Error(
+          `the synthetic peer could not listen on the ${kind} endpoint '${endpointPath}': `
+            + `${error.name}: ${error.message}`,
+        ),
+      );
+    };
+
+    server.once('error', onStartupError);
     server.listen(endpointPath, () => {
+      if (settled) return;
+      settled = true;
+      server.removeListener('error', onStartupError);
+      // A started peer stays observable but must not take the run down: socket-level faults are
+      // the client's to report, and `close()` destroys every live socket.
+      server.on('error', () => undefined);
+
+      let closed = false;
       resolveStart({
         path: endpointPath,
+        kind,
         operations,
         close: () =>
           new Promise<void>((resolveClose) => {
+            if (closed) {
+              resolveClose();
+              return;
+            }
+            closed = true;
             for (const socket of live) socket.destroy();
+            live.clear();
             server.close(() => resolveClose());
           }),
       });

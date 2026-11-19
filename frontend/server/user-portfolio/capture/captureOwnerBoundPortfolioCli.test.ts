@@ -511,6 +511,10 @@ describe('CLI over the existing callIpc against the SYNTHETIC test peer (not IPD
       expect(result.outcome).toBe('IPC_CONNECTION_FAILURE');
       expect(existsSync(unbound.path)).toBe(false);
       expect(result.exactCapturePath).toBeNull();
+      // Nothing was started on this endpoint, so there is nothing to close and nothing to report as
+      // serving — the failure mode that previously produced a second `Cannot read properties of
+      // undefined (reading 'close')` on top of the real connection failure.
+      expect(peer).toBeNull();
     } finally {
       unbound.dispose();
     }

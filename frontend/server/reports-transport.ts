@@ -27,9 +27,9 @@ import {
   ReportsPersistence,
 } from './reports/persistence';
 import {
+  acquireAuthoritativeNp04Port,
   NP04_BOUNDARY,
   PersistenceBoundaryError,
-  resolveAuthoritativeNp04Port,
 } from './reports/np04-adapter';
 import type { ComposeReportContentInput } from './reports/composition';
 
@@ -220,13 +220,18 @@ export async function handleReportsRequest(
   // already exist, so it can never create the directory, create the database or migrate it; a POST
   // is the surface's write operation and keeps the ability to provision the store it is about to
   // write to (unchanged behaviour for the surface's documented write contract).
-  const resolution = await resolveAuthoritativeNp04Port(method === 'POST' ? 'INITIALISE' : 'READ');
-  if (!resolution.available) {
-    sendJson(res, 503, { error: 'persistence-unavailable', reason: resolution.reason });
+  const acquisition = await acquireAuthoritativeNp04Port(method === 'POST' ? 'INITIALISE' : 'READ');
+  if (!acquisition.available) {
+    sendJson(res, 503, { error: 'persistence-unavailable', reason: acquisition.reason });
     return;
   }
 
-  const persistence = new ReportsPersistence(resolution.port);
+  const persistence = new ReportsPersistence(acquisition.port);
+  // This request owns exactly this handle for as long as it touches the store. Capture its disposer
+  // BEFORE the `try` so the `finally` below can release it without depending on narrowing across the
+  // block — and dispose it on EVERY exit path (success or mapped error), so a busy surface
+  // accumulates no open handles and, on Windows, leaves no locked database file behind.
+  const releasePersistence = acquisition.release;
   const ownerPair = { tenantId: owner.tenantId, userId: owner.ownerUserId };
 
   try {
@@ -314,5 +319,11 @@ export async function handleReportsRequest(
               ? 'persistence-unavailable'
               : 'reports-transport-error';
     sendJson(res, status, { error: errorMsg });
+  } finally {
+    // Deterministic disposal after the last store operation. Runs exactly once on every path — a
+    // route handler's `return`, the mapped-failure `catch` above, or an unexpected throw alike. A
+    // refusal here propagates rather than being swallowed, but it cannot mask an operational error,
+    // because the `catch` has already turned that one into a response.
+    releasePersistence();
   }
 }

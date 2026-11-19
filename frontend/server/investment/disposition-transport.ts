@@ -21,7 +21,7 @@ import type http from 'node:http';
 import { parseSecurityId } from '../../../iips-platform/src/investment/contracts/ids.js';
 import { respondOwnerContextUnavailableUncached, sendJson } from '../owner-scoped-http.js';
 import { resolveReportsOwnerContext, type ReportsOwnerContext } from '../reports-owner-resolver.js';
-import { loadReadOnlyNp04Persistence } from '../reports/persistence-port.js';
+import { acquireReadPort } from '../reports/persistence-port.js';
 import {
   DISPOSITION_REPORT_TYPE,
 } from './dispositionComposition.js';
@@ -294,12 +294,11 @@ export async function handleDispositionRequest(
     return true;
   }
 
-  let port: unknown;
-  try {
-    port = await (deps.loadPort ?? loadReadOnlyNp04Persistence)();
-  } catch {
-    port = null;
-  }
+  // Resolve this request's READ port through the ownership-aware helper: a resolver-opened handle is
+  // disposed in the `finally` at the end of this handler; an injected `deps.loadPort` is caller-owned
+  // and is never closed here.
+  const acquired = await acquireReadPort(deps.loadPort);
+  const port = acquired.port;
   if (port === null || port === undefined) {
     respondJsonOrHead(req, res, 503, DISPOSITION_TRANSPORT_ERRORS.persistenceUnavailable);
     return true;
@@ -343,5 +342,9 @@ export async function handleDispositionRequest(
     const { status, body } = mapError(error);
     respondJsonOrHead(req, res, status, body);
     return true;
+  } finally {
+    // Deterministic disposal after the last store operation, on success and mapped failure alike.
+    // A resolver-opened handle is closed exactly once; an injected port's disposer is a no-op.
+    acquired.release();
   }
 }
