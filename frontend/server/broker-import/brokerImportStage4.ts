@@ -6,7 +6,8 @@
  * existing P04/Stage 4 consumer and independent durable write guard. The legacy
  * `portfolio.save` path remains separately fail-closed.
  *
- * IPD PR #178 pin (9d03a35b4d4d79972c466c2c8e45e8c9270524d4, OPEN as of this pin) additively
+ * IPD PR #178 pin (MERGED main 12a3d625d0ad603cb0bd9cea46bae314942ee40f; PR head was
+ * 9d03a35b4d4d79972c466c2c8e45e8c9270524d4) additively
  * wires the already-accepted PR #177 daily-snapshot / partial-acceptance persistence through
  * this SAME operation. Two payload generations now share `portfolio.importBroker`:
  *

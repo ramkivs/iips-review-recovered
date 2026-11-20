@@ -1,37 +1,62 @@
 /**
- * Local, hand-declared mirror of IPD PR #177/#178's additive partial-acceptance wire types.
+ * Local, hand-declared mirror of IPD's additive partial-acceptance wire types.
  *
- * WHY THIS FILE EXISTS, RATHER THAN IMPORTING FROM A PACKAGE:
+ * RE-VERIFIED 2026-11-19 against the MERGED IPD main commit
+ * `12a3d625d0ad603cb0bd9cea46bae314942ee40f` (merge commit of IPD PR #178; tree
+ * `89c14d48a3ab48b772bd59a9a3903b2c4e2f278d`, byte-identical to the PR head
+ * `9d03a35b4d4d79972c466c2c8e45e8c9270524d4` this file was originally copied from — so
+ * no field below changed when the pin advanced).
  *
- * This project depends on TWO npm aliases of the SAME upstream repository pinned at TWO
+ * WHY THIS FILE STILL EXISTS, RATHER THAN IMPORTING FROM THE PACKAGE:
+ *
+ * This project depends on THREE npm aliases of the SAME upstream repository pinned at three
  * DIFFERENT commits: `iips-production-market-data` (the long-standing, separately-governed pin
- * this project's broker-import wire contract already consumes, commit
- * `1ce6a829a7ce65550356a0071c108a60f2d813be`) and `iips-broker-import` (the alias newly pinned
- * to the PR #178 commit `9d03a35b4d4d79972c466c2c8e45e8c9270524d4`, consumed by the ingress/
- * mapping pipeline under `.cache/broker-import`). Both packages' own `package.json` declare the
- * IDENTICAL `name`/`version` (`iips-production-market-data@1.0.0`) because they really are the
- * same published package at two different commits. TypeScript's module resolution treats that
- * identical `name@version` as ONE "Package ID" and silently coalesces the two — importing a type
- * from `iips-broker-import/portfolio-ui` in the same compilation unit as a type from
- * `iips-production-market-data/portfolio-ui` resolves BOTH to whichever copy's declaration file
- * TypeScript's resolution cache populated first, non-deterministically serving the OLD package's
- * (pre-#178) declarations even for an explicit `iips-broker-import` import. Verified directly
- * with `tsc --traceResolution`: the reported Package ID for a from `iips-broker-import/portfolio-ui`
- * import is `iips-production-market-data/dist/package/src/ui/portfolio_ui_package.d.ts@1.0.0`.
+ * this project's broker-import wire contract consumes, commit
+ * `1ce6a829a7ce65550356a0071c108a60f2d813be`), `iips-broker-import` (the alias pinned to the
+ * merged PR #178 commit `12a3d625d0ad603cb0bd9cea46bae314942ee40f`, consumed by the ingress/
+ * mapping pipeline under `.cache/broker-import`), and `iips-np04-governed-persistence`.
  *
- * Advancing `iips-production-market-data`'s own separately-governed pin to the #178 commit would
- * resolve this cleanly, but that pin is deliberately independent (see `.ci/verify-ipd-pins.mjs`)
- * and used far more broadly than this one feature; changing it is a materially larger, separate
- * decision outside the scope authorized so far.
+ * All of them declare the IDENTICAL `name`/`version` (`iips-production-market-data@1.0.0`)
+ * because they really are the same published package at different commits. TypeScript's module
+ * resolution computes a "Package ID" from that `name@version` alone (not from the npm alias
+ * directory), so when one compilation unit imports a type from
+ * `iips-broker-import/portfolio-ui` AND a type from
+ * `iips-production-market-data/portfolio-ui`, TypeScript treats them as the same package and
+ * coalesces the resolution, serving the OLDER package's declarations for BOTH imports.
  *
- * Until that decision is made, this file is the single IRR-owned source of truth for the
- * additive partial-acceptance TYPES ONLY (no runtime code). Every field below is copied
- * VERBATIM from IPD's published `broker_import_ipc.d.ts` at commit
- * `9d03a35b4d4d79972c466c2c8e45e8c9270524d4` (diffed against the pinned
- * `iips-production-market-data` package to confirm the base contract is unchanged — only these
- * fields are additive). This confers no authority and skips no validation: every shape is still
- * independently re-checked at the untrusted IPC/HTTP boundary by
+ * This was re-tested directly on 2026-11-19 after the pin advanced to merged main, and it is
+ * still reproducible. `tsc --traceResolution` reports for an explicit
+ * `iips-broker-import/portfolio-ui` import:
+ *
+ *   resolved to '…/node_modules/iips-broker-import/dist/package/src/ui/portfolio_ui_package.d.ts'
+ *   with Package ID 'iips-production-market-data/dist/package/src/ui/portfolio_ui_package.d.ts@1.0.0'
+ *
+ * and, in a program that also imports `iips-production-market-data/portfolio-ui`, the NEW
+ * import then FAILS to see the additive members:
+ *
+ *   error TS2305: Module '"iips-broker-import/portfolio-ui"' has no exported member
+ *                 'BrokerPartialAcceptanceApproval'
+ *   error TS2339: Property 'snapshotState' does not exist on type 'BrokerImportSuccess'
+ *
+ * The same import succeeds when the older alias is NOT in the program, which is exactly why this
+ * is easy to get wrong and why the mirror is not simply deleted. Advancing
+ * `iips-production-market-data`'s own separately-governed pin to the merged commit would resolve
+ * the collision at the root, but that pin is independently verified by name in
+ * `.ci/verify-ipd-pins.mjs` and consumed far more broadly than this one feature; changing it is a
+ * materially larger, separate decision that has NOT been authorised.
+ *
+ * Until that decision is made, this file remains the single IRR-owned source of truth for the
+ * additive partial-acceptance TYPES ONLY (no runtime code). Every shared type below was
+ * field-for-field re-diffed on 2026-11-19 against IPD's published `broker_import_ipc.d.ts` at
+ * `12a3d625` and is identical: `BrokerDailyFields`, `BrokerPartialAcceptanceApproval`,
+ * `BrokerSnapshotUnresolvedRow`, `BrokerSnapshotAbsentHolding`,
+ * `BrokerPartialAcceptanceSummary`, `BrokerSnapshotReconciliation`, and the
+ * `BrokerSnapshotState` union. This confers no authority and skips no validation: every shape is
+ * still independently re-checked at the untrusted IPC/HTTP boundary by
  * `brokerImportStage4.ts`'s own validators, exactly as for any other externally-sourced type.
+ *
+ * `BrokerImportSuccessWithSnapshot` is NOT an IPD type and has no published counterpart — it is
+ * the IRR-side composition of the additive optional success fields, kept here deliberately.
  */
 
 /** The four broker-reported daily fields carried by the Dhan detailed export. */
