@@ -163,3 +163,34 @@ code change. The demo pipeline was deliberately left unbound (it runs synthetic 
 - PR #597 remains open and unmerged; nothing in this work modifies or merges it. No change was made in IPD.
   No duplicate calendar was created in IRR — the only calendar-shaped data in this repository is test
   fixtures, labelled as such.
+
+## 6. Addendum (2026-11-19): anonymous-access investigation — no in-session bypass exists
+
+At the owner's direction, genuinely anonymous access was attempted before concluding that administrator
+action is required. Findings, in the order attempted:
+
+1. **No client-side configuration exists to disable the injection.** The sandbox exports no
+   `HTTP(S)_PROXY` variables, has no `~/.curlrc`, no `gh` hosts file and no credential helpers; the only
+   GitHub configuration is the opaque session token. The credential handling therefore happens in the
+   transparent network egress, not in any inspectable client configuration.
+2. **Clean-client anonymous access changes nothing.** With a completely empty environment (`env -i`), no
+   token, no credential helper and `--noproxy '*'`, two independent HTTP clients (curl and Python
+   `http.client` over direct TLS) both receive GitHub 403 "Resource not accessible by integration" for
+   `ramkivs/iips-production-market-data`, while `octocat/Hello-World` and `ramkivs/iips-review-recovered`
+   return 200 in the same runs.
+3. **Client credentials never reach GitHub.** Sending a deliberately bogus `Authorization: Bearer` header
+   still returns 200 for `iips-review-recovered` and 403-by-integration for the IPD repository; GitHub
+   would have answered 401 "Bad credentials" had it seen the client's header. The proxy strips/replaces
+   client credentials and presents the Arena GitHub App installation credential for the owner's namespace.
+4. **No alternate public-read route bypasses it.** jsDelivr and Statically (public GitHub file CDNs),
+   githack and Sourcegraph raw mirrors all fail — sandbox egress refuses non-allowlisted hosts at TLS and
+   the page fetcher cannot retrieve them; npm carries no IPD package; SSH and git-protocol egress are
+   closed. Repeating the earlier git/API/raw attempts would meet the same proxy, so they were not repeated.
+
+**Exact unavailable capability:** making any GitHub request — anonymous or otherwise — under an identity
+other than the Arena GitHub App installation for repositories in the session owner's namespace, and egress
+to any host outside the session allowlist. Both are proxy/session properties; neither is changeable from
+inside this session, and this record does not pretend otherwise. The unblocking action remains exactly one
+of §2's administrator options. Everything on the IRR side is ready for the moment one is granted:
+`--price-calendar` supply, digest verification, binding and five-session assessment are implemented and
+tested (1668/1668).

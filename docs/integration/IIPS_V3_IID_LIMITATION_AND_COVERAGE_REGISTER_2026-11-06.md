@@ -3401,3 +3401,24 @@ remaining closure condition is byte-level verification of `calendars/ipd-equity-
 `6b50f068…` once one administrator action above is taken, followed by a production run supplying the
 verified artifact and recording its SHA-256 in the L-033 record. No other limitation status changed; PR #597
 remains open and unmerged; IPD untouched. Next free §17.34.
+
+## 17.34 `L-033` — anonymous-access investigation: no in-session bypass exists (`2026-11-19`)
+
+**Append-only update; no earlier text altered.** At the owner's direction, genuinely anonymous IPD access
+was attempted before resting on the administrator action recorded at §17.33. Evidence: the sandbox has no
+proxy environment variables, curl config, `gh` hosts file or credential helpers to reconfigure (the
+credential handling is in the transparent egress, not the client); with a completely empty environment and
+two independent HTTP clients, `ramkivs/iips-production-market-data` still returns GitHub 403 "Resource not
+accessible by integration" while `octocat/Hello-World` and this repository return 200; a deliberately bogus
+client `Authorization` header is never seen by GitHub (200/403 exactly as without it), proving the proxy
+strips client credentials and presents the Arena GitHub App installation credential for the owner's
+namespace; public GitHub file CDNs (jsDelivr, Statically), githack and Sourcegraph mirrors are unreachable
+from this egress, npm carries no IPD package, and SSH/git-protocol egress is closed. **The exact unavailable
+capability is therefore: any GitHub request under an identity other than the Arena GitHub App installation
+for owner-namespace repositories, and any egress outside the session allowlist — both proxy/session
+properties that cannot be changed from inside this session.** No bypass or supported configuration exists
+here; the earlier attempts were not repeated because they meet the same proxy. **Status: `L-033` stays
+`OPEN`**; the sole unblocking action remains one administrator option from §17.33 (Arena GitHub App grant
+on `ramkivs/iips-production-market-data`, session allowlist addition, or owner-controlled artifact supply),
+after which closure is the mechanical `--price-calendar` run already implemented and tested. No other
+limitation changed; IPD untouched; PR #597 unmerged. Next free §17.35.
