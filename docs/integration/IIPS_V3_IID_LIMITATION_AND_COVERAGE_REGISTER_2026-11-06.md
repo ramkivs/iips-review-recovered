@@ -3457,3 +3457,27 @@ is wired for digest-pinned supply (§17.33), the full artifact content is semant
 and the artifact digest is pinned (this section); full IID suite 1668/1668. First production use of the
 file is an operational act protected by the pin, not part of this limitation. **`L-033` is `RESOLVED`.**
 No other limitation status changed; IPD untouched; PR #597 remains open and unmerged. Next free §17.37.
+
+## 17.37 G-15 — baseline crosswalk disclosure for `L-002`/`L-009`: historical wording flagged, current count 22, no status change (`2026-11-19`)
+
+**Append-only entry; no earlier text or status cell altered.** Full record:
+`docs/integration/IID-G15-BASELINE-CROSSWALK-DISCLOSURE-2026-11-19.md`, at branch head
+`53be3f15d074a591c2634f88d76096b918a20f0a`. G-15 (baseline §24 G-1…G-15, cited by CPII-01 from the
+unmerged 11-November assessment branch) is disclosed for its two register subjects. **L-002 historical
+wording** ("20 XBRL tags", `OPEN`, 2026-11-06) is retained unedited and flagged — as §17.26 already
+recorded — while the **current count is 22 keys** in `XBRL_TAG_MAP`
+(`iips-platform/src/investment/ingestion/xbrl.ts:61`, verified by module import at this head; the two V2
+associates/JV tags are the documented 20 → 22 step, defect A evidence in
+`evidence/real-issuer/HEAD-REVALIDATION-INFOSYS-2026-11-12/findings/A-STALE-LIMITATION-COUNTS.md`), and
+every reader-facing count is now code-derived or pinned to the code (`identity/coverage.ts`,
+`investmentCoverage.ts:743`, CLI `limitationsForDatasetClass`, pinned `frontend/src/api/investment.ts`;
+platform pins re-run 18/18). **L-009 historical wording** ("No real issuer has been assessed", `OPEN`) is
+retained unedited and flagged; the later real-input evidence is **WI-3 Infosys, WI-7 Marico, WI-8 KEC**,
+all evidence-bundle assessments — WI-7/WI-8 persistence is inside their governed evidence runs, and the
+only operated-environment persistence (Infosys, owner's Windows NP-04 store, 2026-11-15) is
+operator-reported and not independently inspected here, so bundle assessments are not claimed as
+persisted operational assessments. **Disposition: `L-002` and `L-009` remain `OPEN`; no closure,
+downgrade or adjudication; no tag-map expansion, derivation or ingestion change (docs-only).** G-15's own
+§24 text was not inspectable from this branch (unmerged `arena/iid-coverage-readiness-report-2026-11-11`
+@ `31a9b01e`, per CPII-01) and is recorded as a limitation, not inferred. No other limitation changed.
+Next free §17.38.
