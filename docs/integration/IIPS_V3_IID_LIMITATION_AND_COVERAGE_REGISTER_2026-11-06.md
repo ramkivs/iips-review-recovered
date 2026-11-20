@@ -3503,3 +3503,28 @@ persistence and separate-process readbacks (different stores; no issuer is descr
 operated product on bundle evidence, and the Infosys NP-04 record remains operator-reported). **G-15 is
 COMPLETE as a scope-completeness disclosure.** `L-002` and `L-009` remain `OPEN` — no closure, downgrade
 or adjudication; no tag-map, derivation or ingestion change (docs-only). Next free §17.39.
+
+### 17.39 2026-11-19 — S4-R3 re-measured at the 2026-11-19 clock; no newer authorised filing supply exists; S4-R3 and S4-R3-Infosys remain OPEN
+
+**Implemented/reported:** Data Supply + Proof re-check of `S4-R3` (periods and freshness) at repository HEAD
+`fe9f3b454e017586ce472447a6e74d5a961048f8`, recorded in
+`evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-19/` (README + `digests.json` + run records).
+A census of every committed `evidence/**/periods.csv` and the remote HEAD found **no newer authorised
+period for any issuer**: Infosys FY2024 (2024-03-31), Marico FY2026 (2026-03-31), KEC newest quarter
+2026-09-30 / annual 2026-03-31 — identical to the 2026-11-17 position, so no new source-rights/admission
+question arose and no period or value was invented. The O3-admitted candidate was rebuilt into a new
+directory outside the repository and re-verified byte-for-byte (`--build` PASS 16/16, `--verify-only`
+PASS): digest `sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b`, 3 issuers,
+11 annual + 2 quarterly periods, 0 ingestion issues — **candidate verification only; not installed**.
+Freshness was re-measured under the unchanged `freshness-policy/1.0.0` windows (200/250 days; last
+permissible annual period end 2026-05-03): all three annual valuation bases remain **STALE**
+(`VALUATION_BASIS_BEYOND_PNL_WINDOW`) — Infosys 963 days, Marico 233 days, KEC 233 days (each +2 days of
+clock arithmetic over 2026-11-17). KEC's Q2 FY2027 quarter (2026-09-30, filed 2026-11-02, 50 days) is
+consecutive and gap-free as the latest reported observation and does **not** freshen its annual basis;
+zero sequence gaps in all admitted series. Verification: freshness suites **23/23**, full `test:iid`
+**1668/1668**, platform `tsc --noEmit` PASS.
+**Deliberately not claimed:** any newer filing admitted; `S4-R3` complete; `S4-R3-Infosys` complete
+(no newer supported Infosys filing exists — FY2025/FY2026 annuals and later quarters remain
+untranscribed/unadmitted, exact blocker unchanged); any installation, live verification or acceptance.
+No freshness policy, clock basis or period definition changed; no IPD file touched; no PR merged.
+**Disposition:** `L-043` / `S4-R3` remains `OPEN`; `S4-R3-Infosys` remains `OPEN`. Next free §17.40.

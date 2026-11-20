@@ -1411,3 +1411,14 @@ applicable rights/admission, then transcribes, validates, publishes, independent
 real criterion with before/after digests. Unsupported schema semantics require a governed decision, not a guessed
 mapping. S4-R8 is the last numbered Stage 4 roadmap row: **no next numbered item is registered**; remaining work is
 the existing residual/event-driven/operator/owner actions, including the outstanding S4-R6 decision.
+
+**Addendum — S4-R3 re-measured at the 2026-11-19 clock (2026-11-19).** The `S4-R3` row above is **not
+closed**. A full census of committed evidence found **no newer authorised filing period** for Infosys,
+Marico or KEC; the O3-admitted candidate `sha256:bdfb2527…` was rebuilt outside the repository and
+re-verified byte-for-byte (16/16 checks, `--verify-only` PASS; not installed). At the 2026-11-19 clock
+under the unchanged 200-day window (last permissible annual period end 2026-05-03) all three annual
+valuation bases remain `STALE` (Infosys 963 d, Marico 233 d, KEC 233 d), KEC's consecutive Q2 FY2027
+quarter (50 d) remains a separate latest-reported observation, and all series have zero sequence gaps.
+Freshness suites 23/23, full IID regression 1668/1668, typecheck PASS. Evidence:
+`evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-19/`; register §17.39. `S4-R3` stays **OPEN**
+(freshness limb unmet) and `S4-R3-Infosys` stays **OPEN** (no newer supported Infosys filing).

@@ -1,0 +1,65 @@
+{
+  "schema": "S4-R3-FRESHNESS-EVIDENCE-DIGESTS/1",
+  "scope": "2026-11-19 re-measurement: O3-admitted S4-R3 candidate re-verification and freshness determination at the 2026-11-19 clock; unchanged freshness-policy/1.0.0 windows (200/250 days).",
+  "recordedAt": "2026-11-19",
+  "files": {
+    "README.md": {
+      "sha256": "sha256:e3df4bd669105eea10795ffd4ccc00cf860cf6b6319c4001ccab47a2e86526d0",
+      "bytes": 7936
+    },
+    "verified-candidate-verification.json": {
+      "sha256": "sha256:ac5d14e83030564f00b7ed3e38854caf0f6898b25c579b77ed05098f94c2eca8",
+      "bytes": 4780
+    },
+    "runs/2026-11-19-candidate-build.json": {
+      "sha256": "sha256:caebfb2ec531a3d7a4f740ac32b8ff8f9be6692495635b847634f6c9f9f45003",
+      "bytes": 4780
+    },
+    "runs/2026-11-19-candidate-verify-only.json": {
+      "sha256": "sha256:c390e68698897a3636d1527c9545deeb61b9e8e8913f32aa70fc8ba288316223",
+      "bytes": 4780
+    },
+    "runs/2026-11-19-freshness.json": {
+      "sha256": "sha256:9af0cf0a12d5572a5308007626220ab4394d357fee3a20e2caab0fc27e0726e6",
+      "bytes": 2560
+    }
+  },
+  "admittedDatasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "measurements": {
+    "Infosys": "UNVERIFIED record-only (no candidate or serving host operated in this session)",
+    "Marico": "UNVERIFIED record-only",
+    "KEC": "UNVERIFIED record-only"
+  },
+  "candidateRebuild": {
+    "build": "PASS (16/16 checks)",
+    "verifyOnly": "PASS",
+    "installed": [
+      "NONE"
+    ],
+    "overallIidReadiness": "NOT_READY"
+  },
+  "freshnessAtClock": {
+    "asOf": "2026-11-19",
+    "Infosys": {
+      "valuationBasisAnnualPeriodEnd": "2024-03-31",
+      "days": 963,
+      "status": "STALE"
+    },
+    "Marico": {
+      "valuationBasisAnnualPeriodEnd": "2026-03-31",
+      "days": 233,
+      "status": "STALE"
+    },
+    "KEC": {
+      "valuationBasisAnnualPeriodEnd": "2026-03-31",
+      "days": 233,
+      "status": "STALE",
+      "latestQuarter": "2026-09-30 (50 days, separate from valuation basis)"
+    }
+  },
+  "noNewerAuthorisedData": {
+    "searched": "all committed evidence periods.csv inventories + remote HEAD at measurement time",
+    "newerPeriodsFound": 0
+  },
+  "windowsInstallState": "NO_WINDOWS_CHANGE_OR_INSTALLATION performed in this work item"
+}

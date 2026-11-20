@@ -1,0 +1,100 @@
+{
+  "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "asOf": "2026-11-19",
+  "windows": {
+    "pnlDays": 200,
+    "balanceSheetDays": 250,
+    "priceMaxAgeTradingSessions": 5
+  },
+  "issuers": {
+    "Infosys Limited": {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasis": {
+        "kind": "ANNUAL",
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "daysSincePeriodEnd": 963,
+        "withinPnlWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2024-03-31",
+        "filedAt": "2024-04-18",
+        "daysSincePeriodEnd": 963
+      },
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2024-03-31",
+        "2023-03-31",
+        "2022-03-31"
+      ],
+      "quarterlyPeriodEnds": []
+    },
+    "Marico Limited": {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasis": {
+        "kind": "ANNUAL",
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "daysSincePeriodEnd": 233,
+        "withinPnlWindow": false
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "daysSincePeriodEnd": 233
+      },
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31",
+        "2023-03-31",
+        "2022-03-31"
+      ],
+      "quarterlyPeriodEnds": []
+    },
+    "KEC International Limited": {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasis": {
+        "kind": "ANNUAL",
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "daysSincePeriodEnd": 233,
+        "withinPnlWindow": false
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "daysSincePeriodEnd": 50
+      },
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31"
+      ],
+      "quarterlyPeriodEnds": [
+        "2026-06-30",
+        "2026-09-30"
+      ]
+    }
+  }
+}

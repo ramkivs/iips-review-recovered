@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "tool": "build-s4-r3-candidate",
+  "generatedAt": "2026-11-20T06:18:06.989Z",
+  "result": "PASS",
+  "outputDir": "/tmp/s4r3-2026-11-19/candidate",
+  "datasetDir": "/tmp/s4r3-2026-11-19/candidate/investment/dataset",
+  "expectedCandidateDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "actualCandidateDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "buildClock": "2026-11-14T00:00:00.000Z",
+  "authoritativePipeline": "src/investment/cli/ingest.ts",
+  "ledgerSha256": "3647c9397bc7e1577ea1255aa6fcbe72418a3bc0fe23c439269c55a6891265bc",
+  "inputs": [
+    {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input",
+      "inputDigest": "sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c"
+    },
+    {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+      "inputDigest": "sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d"
+    },
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "inputDir": "/home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec",
+      "inputDigest": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a"
+    }
+  ],
+  "checks": [
+    {
+      "id": "admitted-input-digests",
+      "ok": true,
+      "detail": "3/3 exact input bundles and 6/6 consumed files match"
+    },
+    {
+      "id": "enclosing-evidence-ledger",
+      "ok": true,
+      "detail": "26 entries and ledger SHA-256 match"
+    },
+    {
+      "id": "reader-and-manifest-integrity",
+      "ok": true,
+      "detail": "8 declared files verified"
+    },
+    {
+      "id": "exact-o3-candidate-digest",
+      "ok": true,
+      "detail": "expected sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b; actual sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b"
+    },
+    {
+      "id": "recorded-manifest-comparable-fields",
+      "ok": true,
+      "detail": "content-bearing manifest fields match the recorded candidate; audit paths may differ by checkout"
+    },
+    {
+      "id": "dataset-file-census",
+      "ok": true,
+      "detail": "10 files; expected 8 content + manifest + coverage"
+    },
+    {
+      "id": "admitted-issuer-identities",
+      "ok": true,
+      "detail": "3 admitted issuer identities resolved"
+    },
+    {
+      "id": "security-identity-resolution",
+      "ok": true,
+      "detail": "3 securities resolve to admitted issuers"
+    },
+    {
+      "id": "listing-resolution",
+      "ok": true,
+      "detail": "5 listings resolve without overlap"
+    },
+    {
+      "id": "corporate-actions",
+      "ok": true,
+      "detail": "empty admitted corporate-action table preserved"
+    },
+    {
+      "id": "operating-metrics-and-prices",
+      "ok": true,
+      "detail": "no unsupported metric or price was fabricated"
+    },
+    {
+      "id": "period-validation",
+      "ok": true,
+      "detail": "13 unique periods = 11 ANNUAL + 2 QUARTER"
+    },
+    {
+      "id": "ingestion-issues",
+      "ok": true,
+      "detail": "0 ingestion issues"
+    },
+    {
+      "id": "derived-coverage-report",
+      "ok": true,
+      "detail": "coverage-report.json matches the authoritative recomputation for the verified content"
+    },
+    {
+      "id": "runtime-coverage-read",
+      "ok": true,
+      "detail": "authoritative coverage read loads the candidate; this is not installation or overall readiness"
+    },
+    {
+      "id": "file-level-digest-ledger",
+      "ok": true,
+      "detail": "10/10 package files match available expectations"
+    }
+  ],
+  "boundaries": {
+    "windowsInstallation": "NOT_EXECUTED",
+    "existingWindowsDataset": "UNTOUCHED",
+    "stage2Provisioning": "NOT_EXECUTED",
+    "portfolioDatabase": "NOT_ACCESSED",
+    "gitHubDatasetPublication": "NOT_PERFORMED",
+    "overallIidReadiness": "NOT_READY"
+  },
+  "limitations": {
+    "L041": "OPEN",
+    "L042": "OPEN",
+    "freshness": [
+      {
+        "issuerId": "IN:CIN:L85110KA1981PLC013115",
+        "flags": [
+          "STALE_STATEMENTS",
+          "STALE_DATA"
+        ]
+      },
+      {
+        "issuerId": "IN:CIN:L15140MH1988PLC049208",
+        "flags": [
+          "STALE_STATEMENTS",
+          "STALE_DATA"
+        ]
+      },
+      {
+        "issuerId": "IN:CIN:L45200MH2005PLC152061",
+        "flags": [
+          "STALE_STATEMENTS",
+          "STALE_DATA"
+        ]
+      }
+    ],
+    "pdfToTranscriptionVerification": "NOT_CLAIMED",
+    "independentSourceRightsVerification": "NOT_CLAIMED"
+  }
+}
