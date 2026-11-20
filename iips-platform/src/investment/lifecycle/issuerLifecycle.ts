@@ -220,6 +220,41 @@ export interface UnresolvedHolding {
   readonly detail: string | null;
 }
 
+/** A holding excluded from the roadmap's eligible set E, with its documented reason. */
+export interface EligibleSetExclusion {
+  readonly observationId: string;
+  readonly reason: string;
+}
+
+/**
+ * The roadmap's ELIGIBLE SET E (holdings in scope under documented product-scope rules), supplied
+ * as a designation: the named product-scope basis, plus every holding excluded from E and why.
+ * Membership of E is a roadmap/product-scope matter; this module applies the designation and
+ * never decides it. When no designation is supplied, E equals every holding supplied to the run —
+ * disclosed as `designated: false`, never presented as a product-scope ruling.
+ */
+export interface EligibleSetDesignation {
+  readonly basis: string;
+  readonly exclusions: readonly EligibleSetExclusion[];
+}
+
+/** An E-excluded holding as the run itemises it — never folded into an aggregate. */
+export interface EligibleSetExcludedHolding {
+  readonly observationId: string;
+  readonly portfolioId: string;
+  readonly portfolioRevision: string;
+  readonly reason: string;
+}
+
+export interface EligibleSetSummary {
+  /** False when no designation was supplied: E equals every supplied holding, as before. */
+  readonly designated: boolean;
+  readonly basis: string;
+  /** |E| — the roadmap's denominator. */
+  readonly size: number;
+  readonly exclusions: readonly EligibleSetExcludedHolding[];
+}
+
 export interface IssuerDatasetCandidate {
   readonly datasetVersion: string;
   readonly sourceLabel: string;
@@ -265,12 +300,17 @@ export interface IssuerLifecycleResult {
   readonly asOf: string;
   readonly issuers: readonly IssuerCoverageRow[];
   readonly unresolved: readonly UnresolvedHolding[];
-  /** Every holding reference considered (resolved and unresolved). */
+  /** Every holding supplied to the run: resolved, unresolved and outside E. */
   readonly totalHoldings: number;
-  /** Holdings that resolved to an eligible issuer. */
-  readonly eligibleHoldings: number;
-  /** Distinct issuers the eligible holdings resolve to. */
+  /**
+   * Holdings that resolved to an issuer. NOT the roadmap's eligible set E — see `eligibleSet`.
+   * (Renamed from `eligibleHoldings` to end that conflation.)
+   */
+  readonly identityResolvedHoldings: number;
+  /** Distinct issuers the identity-resolved holdings resolve to. */
   readonly distinctIssuers: number;
+  /** The roadmap's eligible set E as designated (or "every supplied holding" when undesignated). */
+  readonly eligibleSet: EligibleSetSummary;
   readonly policy: QualificationPolicyConfig;
   readonly notes: readonly string[];
 }
@@ -282,6 +322,11 @@ export interface IssuerLifecycleInput {
   /** The established security-to-issuer mapping. `null` means identity cannot be resolved — disclosed, never guessed. */
   readonly identitySources: IdentitySources | null;
   readonly datasets: readonly DatasetCatalogEntry[];
+  /**
+   * The roadmap's eligible-set designation (product-scope rules). Absent means E equals every
+   * holding supplied to the run — the previous behaviour, disclosed as undesignated.
+   */
+  readonly eligibleSet?: EligibleSetDesignation;
   readonly policy?: QualificationPolicyConfig;
 }
 
@@ -367,10 +412,38 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
 
   const notes: string[] = [];
   const unresolved: UnresolvedHolding[] = [];
+  const excludedFromEligibleSet: EligibleSetExcludedHolding[] = [];
   const holdingsByIssuer = new Map<string, HoldingReference[]>();
+
+  // The eligible-set designation is APPLIED here, never decided here. First exclusion wins for a
+  // duplicated id; anything inconsistent is disclosed in a note, never silently dropped.
+  const exclusionByObservation = new Map<string, string>();
+  for (const exclusion of input.eligibleSet?.exclusions ?? []) {
+    if (exclusionByObservation.has(exclusion.observationId)) {
+      notes.push(`eligible-set designation names observation ${exclusion.observationId} more than once; the first exclusion applies.`);
+      continue;
+    }
+    exclusionByObservation.set(exclusion.observationId, exclusion.reason);
+  }
+  const suppliedObservationIds = new Set(input.observations.map((observation) => observation.observationId));
+  for (const exclusion of exclusionByObservation.keys()) {
+    if (!suppliedObservationIds.has(exclusion)) {
+      notes.push(`eligible-set designation excludes observation ${exclusion}, which was not supplied to this run; the exclusion has no effect here.`);
+    }
+  }
 
   for (const observation of input.observations) {
     const portfolioRevision = revisionByPortfolio.get(observation.portfolioId ?? '') ?? '';
+    const exclusionReason = exclusionByObservation.get(observation.observationId);
+    if (exclusionReason !== undefined) {
+      excludedFromEligibleSet.push({
+        observationId: observation.observationId,
+        portfolioId: observation.portfolioId ?? '',
+        portfolioRevision,
+        reason: exclusionReason,
+      });
+      continue;
+    }
     if (input.identitySources === null) {
       unresolved.push({
         observationId: observation.observationId,
@@ -521,7 +594,19 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
     });
   }
 
-  const eligibleHoldings = rows.reduce((total, row) => total + row.holdings.length, 0);
+  const identityResolvedHoldings = rows.reduce((total, row) => total + row.holdings.length, 0);
+  const eligibleSetDesignated = input.eligibleSet !== undefined;
+  const eligibleSetSize = input.observations.length - excludedFromEligibleSet.length;
+  if (excludedFromEligibleSet.length > 0) {
+    notes.push(
+      `${excludedFromEligibleSet.length} holding(s) are outside the roadmap's eligible set E under the supplied product-scope designation; they are itemised in eligibleSet.exclusions and never contribute to any ratio.`,
+    );
+  }
+  if (!eligibleSetDesignated) {
+    notes.push(
+      'no eligible-set designation was supplied; E equals every holding supplied to this run. This is NOT a product-scope ruling, and the roadmap eligible-set denominator is only as good as the designation supplied.',
+    );
+  }
   if (unresolved.length > 0) {
     notes.push(
       `${unresolved.length} holding(s) could not be resolved to an issuer through the established mapping and are excluded from issuer denominators; they are listed individually under "unresolved".`,
@@ -538,8 +623,14 @@ export function buildIssuerLifecycle(input: IssuerLifecycleInput): IssuerLifecyc
     issuers: rows,
     unresolved,
     totalHoldings: input.observations.length,
-    eligibleHoldings,
+    identityResolvedHoldings,
     distinctIssuers: rows.length,
+    eligibleSet: {
+      designated: eligibleSetDesignated,
+      basis: input.eligibleSet?.basis ?? 'NOT_DESIGNATED — E equals every holding supplied to the run',
+      size: eligibleSetSize,
+      exclusions: excludedFromEligibleSet,
+    },
     policy,
     notes,
   };
