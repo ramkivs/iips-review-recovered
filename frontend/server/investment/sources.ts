@@ -55,6 +55,7 @@ export function toHoldingObservation(
   portfolioId: string,
   holding: G2HoldingView,
   index: number,
+  portfolioRevision?: number | null,
 ): IdentityObservation {
   const projected = projectD114SecurityIdentity({
     securityIdentity: holding.securityIdentity,
@@ -81,6 +82,15 @@ export function toHoldingObservation(
     raw.securityIdentity = null;
   } else if (projected.kind === 'rejected') {
     raw.securityIdentityMalformed = true;
+  }
+  // W05 census capture (2026-11-19): the portfolio revision is a `G2PortfolioView`
+  // property (`revision`) that no `G2HoldingView` carries, and the identity route
+  // previously did not project it at all. The census records `portfolioRevision`
+  // per row exactly as stored, so project the portfolio's real revision when the
+  // caller supplies it; when it is not supplied it stays absent — never invent or
+  // substitute a value (the capture fails closed on a missing revision).
+  if (typeof portfolioRevision === 'number' && Number.isFinite(portfolioRevision)) {
+    raw.portfolioRevision = portfolioRevision;
   }
 
   return {
@@ -165,7 +175,7 @@ export function createHoldingsProvider(options: CoverageSourceOptions = {}) {
     for (const summary of summaries) {
       const view = await port.getPortfolio({ scope, portfolioId: summary.portfolioId });
       view.holdings.forEach((holding, index) => {
-        observations.push(toHoldingObservation(summary.portfolioId, holding, index));
+        observations.push(toHoldingObservation(summary.portfolioId, holding, index, view.revision));
       });
     }
     return observations;

@@ -365,7 +365,7 @@ describe('W05 — θF is the portfolio-wide ratio that gates W20: not a per-data
   });
 
   test('the W20 gate fails closed while no defensible θF value is asserted', () => {
-    const ratio = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 3, totalHoldings: 64 });
+    const ratio = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 3, eligibleSetSize: 64, totalHoldings: 64 });
     const gate = evaluateW20Gate(ratio);
     assert.equal(gate.open, false);
     assert.equal(gate.thetaFAssertionStatus, 'NO_DEFENSIBLE_VALUE_ASSERTED');
@@ -378,18 +378,53 @@ describe('W05 — θF is the portfolio-wide ratio that gates W20: not a per-data
     // (64 is the size of the W04 revision-1 census); no revision-1 holding was processed and this
     // test is no evidence of real coverage. It shows only that the function never admits more
     // holdings with data than holdings whose identity passed.
-    const ratio = financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 1, totalHoldings: 64 });
+    const ratio = financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 1, eligibleSetSize: 64, totalHoldings: 64 });
     assert.equal(ratio.numerator, 1);
     assert.equal(ratio.denominator, 64);
     assert.equal(ratio.percent, 1.6);
-    assert.match(ratio.numeratorRule, /only if its own identity passes/);
+    assert.match(ratio.numeratorRule, /only if it is in the roadmap's eligible set E and its own identity passes/);
     assert.throws(
-      () => financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 2, totalHoldings: 64 }),
+      () => financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 2, eligibleSetSize: 64, totalHoldings: 64 }),
       /only if its own identity passes/,
       'inputs violating the identity rule are refused, never silently clamped',
     );
-    const none = financialRatio({ identityPassedHoldings: 0, holdingsWithFinancialData: 0, totalHoldings: 64 });
+    const none = financialRatio({ identityPassedHoldings: 0, holdingsWithFinancialData: 0, eligibleSetSize: 64, totalHoldings: 64 });
     assert.equal(none.percent, 0);
+  });
+
+  test("the ratio's denominator is the roadmap eligible set E — never every holding supplied to the run", () => {
+    // The run supplies 100 holdings; the product-scope designation admits 80 to E. The denominator
+    // is 80, and the 20 exclusions are itemised by the lifecycle, never folded into the ratio.
+    const ratio = financialRatio({ identityPassedHoldings: 80, holdingsWithFinancialData: 40, eligibleSetSize: 80, totalHoldings: 100 });
+    assert.equal(ratio.denominator, 80);
+    assert.equal(ratio.denominatorBasis, 'ELIGIBLE_SET_E');
+    assert.equal(ratio.eligibleSetSize, 80);
+    assert.equal(ratio.totalHoldingsSupplied, 100);
+    assert.equal(ratio.percent, 50);
+    assert.match(ratio.numeratorRule, /eligible set E/);
+
+    // A holding outside E can never contribute: the counts are refused, never silently clamped.
+    assert.throws(
+      () => financialRatio({ identityPassedHoldings: 81, holdingsWithFinancialData: 40, eligibleSetSize: 80, totalHoldings: 100 }),
+      /eligible set E/,
+    );
+    // E can never exceed the holdings supplied to the run.
+    assert.throws(
+      () => financialRatio({ identityPassedHoldings: 1, holdingsWithFinancialData: 1, eligibleSetSize: 2, totalHoldings: 1 }),
+      /cannot exceed every holding supplied/,
+    );
+
+    // An empty E is "not applicable" — never 0% presented as a measurement and NEVER 100%.
+    const empty = financialRatio({ identityPassedHoldings: 0, holdingsWithFinancialData: 0, eligibleSetSize: 0, totalHoldings: 100 });
+    assert.equal(empty.notApplicable, true);
+    assert.equal(empty.percent, 0);
+    assert.equal(empty.denominator, 0);
+    assert.equal(empty.totalHoldingsSupplied, 100);
+    const syntheticAsserted = { ...THETA_F, assertionStatus: 'ASSERTED_FROM_OBSERVED_EVIDENCE' as const, value: 0 };
+    const emptyGate = evaluateW20Gate(empty, syntheticAsserted);
+    assert.equal(emptyGate.open, false);
+    assert.match(emptyGate.reason, /eligible set E is empty/);
+    assert.match(emptyGate.reason, /fail closed/);
   });
 
   test('the gate mechanism itself is testable once θF is asserted from observed evidence (synthetic values only)', () => {
@@ -400,9 +435,9 @@ describe('W05 — θF is the portfolio-wide ratio that gates W20: not a per-data
       assertionStatus: 'ASSERTED_FROM_OBSERVED_EVIDENCE' as const,
       value: 50,
     };
-    const reaching = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 2, totalHoldings: 4 });
+    const reaching = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 2, eligibleSetSize: 4, totalHoldings: 4 });
     assert.equal(evaluateW20Gate(reaching, syntheticAsserted).open, true);
-    const below = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 1, totalHoldings: 4 });
+    const below = financialRatio({ identityPassedHoldings: 4, holdingsWithFinancialData: 1, eligibleSetSize: 4, totalHoldings: 4 });
     assert.equal(evaluateW20Gate(below, syntheticAsserted).open, false);
     assert.equal(THETA_F.value, null, 'the exported θF record itself asserts no value');
   });
@@ -416,18 +451,30 @@ describe('W05 — θF is the portfolio-wide ratio that gates W20: not a per-data
     });
 
     // 1999 of 2000 is 99.95%. It DISPLAYS as 100.0 but does not reach 100: rounding is display only.
-    const justBelow = financialRatio({ identityPassedHoldings: 2000, holdingsWithFinancialData: 1999, totalHoldings: 2000 });
+    const justBelow = financialRatio({ identityPassedHoldings: 2000, holdingsWithFinancialData: 1999, eligibleSetSize: 2000, totalHoldings: 2000 });
     assert.equal(justBelow.percent, 100, 'the displayed figure rounds up');
     assert.equal(evaluateW20Gate(justBelow, asserted(100)).open, false, 'the gate does not evaluate the rounded figure');
-    const exactly = financialRatio({ identityPassedHoldings: 2000, holdingsWithFinancialData: 2000, totalHoldings: 2000 });
+    const exactly = financialRatio({ identityPassedHoldings: 2000, holdingsWithFinancialData: 2000, eligibleSetSize: 2000, totalHoldings: 2000 });
     assert.equal(evaluateW20Gate(exactly, asserted(100)).open, true);
 
-    // An empty denominator is "not applicable", never 100% and never a pass — even at θF = 0.
-    const empty = financialRatio({ identityPassedHoldings: 0, holdingsWithFinancialData: 0, totalHoldings: 0 });
-    const emptyGate = evaluateW20Gate(empty, asserted(0));
+    // An empty eligible set E is "not applicable", never 100% and never a pass — even at θF = 0,
+    // and even when holdings WERE supplied to the run (they were excluded from E by designation).
+    const syntheticZero = { ...THETA_F, assertionStatus: 'ASSERTED_FROM_OBSERVED_EVIDENCE' as const, value: 0 };
+    const empty = financialRatio({ identityPassedHoldings: 0, holdingsWithFinancialData: 0, eligibleSetSize: 0, totalHoldings: 0 });
+    const emptyGate = evaluateW20Gate(empty, syntheticZero);
     assert.equal(emptyGate.open, false);
     assert.match(emptyGate.reason, /not applicable/);
     assert.match(emptyGate.reason, /fail closed/);
+    const emptyByDesignation = financialRatio({
+      identityPassedHoldings: 0,
+      holdingsWithFinancialData: 0,
+      eligibleSetSize: 0,
+      totalHoldings: 64,
+    });
+    assert.equal(emptyByDesignation.notApplicable, true);
+    assert.equal(emptyByDesignation.totalHoldingsSupplied, 64, 'supplied holdings are disclosed, never used as the denominator');
+    const emptyByDesignationGate = evaluateW20Gate(emptyByDesignation, syntheticZero);
+    assert.equal(emptyByDesignationGate.open, false, 'an empty E never opens W20, whatever θF says');
   });
 });
 

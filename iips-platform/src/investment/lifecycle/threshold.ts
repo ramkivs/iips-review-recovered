@@ -258,28 +258,42 @@ export interface FinancialRatioInput {
   /**
    * Holdings whose OWN identity passed. A holding failing identity never contributes. This
    * function checks arithmetic only: WHICH holdings passed identity is decided by the caller's
-   * resolution, and reconciling that count to the W04 census is not done here.
+   * resolution, and reconciling that count to the W04 census is not done here. Counts E members
+   * only.
    */
   readonly identityPassedHoldings: number;
-  /** Holdings with financial data available. Must be ≤ `identityPassedHoldings`. */
+  /** Holdings with financial data available. Must be ≤ `identityPassedHoldings`. E members only. */
   readonly holdingsWithFinancialData: number;
-  /** The portfolio holding count (the W04 revision for IIPS coverage). */
+  /**
+   * |E| — the roadmap's ELIGIBLE SET (holdings in scope under the documented product-scope rules).
+   * The financial ratio's denominator is |E|, NOT every holding supplied to the run. An empty E
+   * makes the ratio NOT APPLICABLE — never 0% and never 100%.
+   */
+  readonly eligibleSetSize: number;
+  /** Every holding supplied to the run, including any outside E. Disclosure only. */
   readonly totalHoldings: number;
 }
 
 export interface FinancialRatio {
   readonly numerator: number;
+  /** |E|. The roadmap's eligible-set denominator. */
   readonly denominator: number;
+  readonly eligibleSetSize: number;
+  readonly totalHoldingsSupplied: number;
   readonly identityPassedHoldings: number;
-  /** 0–100, one decimal. FOR DISPLAY ONLY — the gate evaluates the unrounded ratio. */
+  /** 0–100, one decimal, FOR DISPLAY ONLY — the gate evaluates the unrounded ratio. */
   readonly percent: number;
+  /** True when |E| = 0: the ratio is not applicable, never 0% and never 100%. */
+  readonly notApplicable: boolean;
+  readonly denominatorBasis: 'ELIGIBLE_SET_E';
   readonly numeratorRule: string;
 }
 
 /**
- * The portfolio-wide financial ratio θF gates on. A holding contributes to the numerator ONLY if
- * its own identity passes; inputs that would violate that rule are refused, never silently
- * clamped. The denominator is the portfolio holding count.
+ * The portfolio-wide financial ratio θF gates on. A holding contributes ONLY if it is in the
+ * roadmap's eligible set E AND its own identity passes; inputs that would violate either rule are
+ * refused, never silently clamped. The denominator is |E| — every holding supplied to the run is
+ * NOT the denominator. An empty E is "not applicable / W20 blocked", never 100%.
  */
 export function financialRatio(input: FinancialRatioInput): FinancialRatio {
   for (const [name, value] of Object.entries(input)) {
@@ -287,23 +301,33 @@ export function financialRatio(input: FinancialRatioInput): FinancialRatio {
       throw new RangeError(`${name} must be a non-negative integer, got ${String(value)}`);
     }
   }
-  const { identityPassedHoldings, holdingsWithFinancialData, totalHoldings } = input;
+  const { identityPassedHoldings, holdingsWithFinancialData, eligibleSetSize, totalHoldings } = input;
   if (holdingsWithFinancialData > identityPassedHoldings) {
     throw new RangeError(
       'a holding contributes to the financial ratio only if its own identity passes: holdingsWithFinancialData cannot exceed identityPassedHoldings',
     );
   }
-  if (identityPassedHoldings > totalHoldings) {
-    throw new RangeError('identityPassedHoldings cannot exceed totalHoldings');
+  if (identityPassedHoldings > eligibleSetSize) {
+    throw new RangeError(
+      "a holding contributes to the financial ratio only if it is in the roadmap's eligible set E: identityPassedHoldings cannot exceed eligibleSetSize",
+    );
+  }
+  if (eligibleSetSize > totalHoldings) {
+    throw new RangeError('the eligible set E cannot exceed every holding supplied to the run');
   }
   return {
     numerator: holdingsWithFinancialData,
-    denominator: totalHoldings,
+    denominator: eligibleSetSize,
+    eligibleSetSize,
+    totalHoldingsSupplied: totalHoldings,
     identityPassedHoldings,
-    percent: totalHoldings === 0 ? 0 : Number(((holdingsWithFinancialData / totalHoldings) * 100).toFixed(1)),
+    percent: eligibleSetSize === 0 ? 0 : Number(((holdingsWithFinancialData / eligibleSetSize) * 100).toFixed(1)),
+    notApplicable: eligibleSetSize === 0,
+    denominatorBasis: 'ELIGIBLE_SET_E',
     numeratorRule:
-      'a holding contributes to the financial ratio only if its own identity passes; unresolved holdings never contribute, ' +
-      'and the denominator is the portfolio holding count (the W04 revision for IIPS coverage)',
+      "a holding contributes to the financial ratio only if it is in the roadmap's eligible set E and its own identity passes; " +
+      'holdings outside E and unresolved holdings never contribute, the denominator is |E| (holdings in scope under the documented ' +
+      'product-scope rules), and an empty E is not applicable — never 0% and never 100%',
   };
 }
 
@@ -334,13 +358,13 @@ export function evaluateW20Gate(ratio: FinancialRatio, thetaF: PortfolioRatioThr
         'θF is set from observed evidence under the standing grant, and W20 stays closed (fail closed)',
     };
   }
-  if (ratio.denominator === 0) {
+  if (ratio.denominator === 0 || ratio.notApplicable) {
     return {
       gate: 'W20',
       open: false,
       thetaFAssertionStatus: thetaF.assertionStatus,
       reason:
-        'the portfolio holding count is zero, so the financial ratio is not applicable; an empty denominator never meets θF and W20 stays closed (fail closed)',
+        "the roadmap's eligible set E is empty, so the financial ratio is not applicable; an empty E never meets θF and W20 stays closed (fail closed)",
     };
   }
   // Exact comparison of numerator/denominator against θF (percent): no rounded figure is evaluated.

@@ -27,17 +27,19 @@
  * an aggregate.
  *
  * THE FINANCIAL RATIO. The portfolio-wide financial ratio θF gates on is reported here with its
- * rule on the face of the output: a holding contributes to the numerator ONLY IF ITS OWN IDENTITY
- * PASSES. Unresolved holdings never contribute; the denominator is every holding the run was
- * given. WHAT THIS REPORT DOES NOT ESTABLISH: "identity passes" here means the resolver returned
- * `RESOLVED` for the observation supplied; the report does not read the W04 census and does not
- * check that the observations are the W04 revision's persisted holdings, so it is not by itself a
- * reconciliation to W04 (`identityBasis` discloses how each identity was established). The
- * roadmap's eligible set `E` (holdings in scope under documented product-scope rules) is not
- * modelled either: the denominator is all supplied holdings, and `eligibleHoldings` below means
- * "resolved to an issuer", not the roadmap's `E`. And "holds financial data" means "served by a
- * dataset meeting the per-dataset ruleset", whose required-input set is provisional pending W10 —
- * method-specific mandatory inputs are disclosed per method, not folded into the ratio.
+ * rule on the face of the output: a holding contributes to the numerator ONLY IF IT IS IN THE
+ * ROADMAP'S ELIGIBLE SET E AND ITS OWN IDENTITY PASSES. The denominator is |E| — holdings in scope
+ * under the documented product-scope rules — not every holding supplied to the run; an empty E is
+ * "not applicable", never 0% and never 100%. E is modelled as a designation the run applies but
+ * never decides (`eligibleSet`: basis, |E|, itemised exclusions; `designated: false` when none was
+ * supplied). WHAT THIS REPORT DOES NOT ESTABLISH: "identity passes" here means the resolver
+ * returned `RESOLVED` for the observation supplied; the report does not read the W04 census and
+ * does not check that the observations are the W04 revision's persisted holdings, so it is not by
+ * itself a reconciliation to W04 (`identityBasis` discloses how each identity was established;
+ * `identityResolvedHoldings` counts "resolved to an issuer" and is NOT the roadmap's E). And
+ * "holds financial data" means "served by a dataset meeting the per-dataset ruleset", whose
+ * required-input set is provisional pending W10 — method-specific mandatory inputs are disclosed
+ * per method, not folded into the ratio.
  *
  * θF STATUS. The report carries θF's standing verbatim: θF is the PORTFOLIO-WIDE ratio that gates
  * W20 — not a per-dataset qualification threshold and not a W05 condition. It is set from observed
@@ -47,6 +49,7 @@
  * PROGRESS — NOT ACCEPTED until actual coverage is evidenced.
  */
 import type {
+  EligibleSetSummary,
   IssuerCoverageRow,
   IssuerCoverageState,
   IssuerLifecycleResult,
@@ -65,8 +68,11 @@ export interface CoveragePercentage {
   readonly label: string;
   readonly numerator: number;
   readonly denominator: number;
-  /** Which denominator this percentage is over. Never implicit. */
-  readonly basis: 'DISTINCT_ISSUERS' | 'ELIGIBLE_HOLDINGS';
+  /**
+   * Which denominator this percentage is over. Never implicit. `ELIGIBLE_SET_E` is the roadmap's
+   * eligible-set denominator; `IDENTITY_RESOLVED_HOLDINGS` is "resolved to an issuer" and is NOT E.
+   */
+  readonly basis: 'DISTINCT_ISSUERS' | 'IDENTITY_RESOLVED_HOLDINGS' | 'ELIGIBLE_SET_E';
   /** 0–100, one decimal. Zero denominator yields 0 and is called out, not hidden. */
   readonly percent: number;
   /** What sits outside this denominator, named. Empty when nothing is excluded. */
@@ -115,9 +121,13 @@ export interface RightsAssessmentEntry {
 export interface PortfolioSummary {
   readonly portfolioId: string;
   readonly portfolioRevision: string;
+  /** Every holding supplied to this portfolio's run: resolved, unresolved and outside E. */
   readonly totalHoldings: number;
-  readonly eligibleHoldings: number;
+  /** Holdings that resolved to an issuer. NOT the roadmap's eligible set E. */
+  readonly identityResolvedHoldings: number;
   readonly unresolvedHoldings: number;
+  /** Holdings excluded from E by the product-scope designation. */
+  readonly excludedFromEligibleSet: number;
   readonly distinctIssuers: number;
   readonly issuersWithSuitableDataset: number;
   readonly issuersNeedingProvisioning: number;
@@ -136,11 +146,20 @@ export interface LifecycleReport {
   };
   /** The portfolio-wide financial ratio θF gates on, with its identity rule on the face of it. */
   readonly financialRatio: FinancialRatio;
+  /**
+   * The roadmap's eligible set E as the run applied it: the product-scope basis, |E|, and every
+   * exclusion itemised. `designated: false` means E equals every supplied holding — not a ruling.
+   */
+  readonly eligibleSet: EligibleSetSummary;
   readonly denominators: {
     readonly totalHoldings: number;
-    readonly eligibleHoldings: number;
+    /** Holdings that resolved to an issuer. NOT the roadmap's E. */
+    readonly identityResolvedHoldings: number;
+    /** |E| — the roadmap's eligible-set denominator. */
+    readonly eligibleSetSize: number;
     readonly distinctIssuers: number;
     readonly unresolvedHoldings: number;
+    readonly excludedFromEligibleSet: number;
   };
   /**
    * How the identity of the resolved holdings was established, as the resolver recorded it. An
@@ -225,7 +244,8 @@ function acquisitionMethodOfRow(row: IssuerCoverageRow): string {
 export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generatedAt: string): LifecycleReport {
   const rows = lifecycle.issuers;
   const distinctIssuers = rows.length;
-  const eligibleHoldings = lifecycle.eligibleHoldings;
+  const identityResolvedHoldings = lifecycle.identityResolvedHoldings;
+  const eligibleSetSize = lifecycle.eligibleSet.size;
 
   const issuersWithExistingDataset = rows.filter((row) => row.candidates.length > 0).length;
   const issuersNeedingProvisioning = rows.filter((row) => row.provisioning !== null).length;
@@ -239,11 +259,13 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
     .reduce((total, row) => total + row.holdings.length, 0);
 
   // The financial ratio θF gates on. The rule is enforced by construction: only identity-passed
-  // holdings reach the rows above (unresolved holdings are itemised separately and never
-  // contribute), and `financialRatio` refuses inputs that would violate it.
+  // holdings in the roadmap's eligible set E reach the rows above (unresolved and E-excluded
+  // holdings are itemised separately and never contribute), and `financialRatio` refuses inputs
+  // that would violate it. |E| is the denominator — not every supplied holding.
   const ratio = financialRatio({
-    identityPassedHoldings: eligibleHoldings,
+    identityPassedHoldings: identityResolvedHoldings,
     holdingsWithFinancialData,
+    eligibleSetSize,
     totalHoldings: lifecycle.totalHoldings,
   });
   const w20 = evaluateW20Gate(ratio);
@@ -269,13 +291,25 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
         'nothing is excluded from the denominator; the ruleset is a per-dataset technical mechanism, and θF is the separate portfolio-wide ratio that gates W20 with no defensible value asserted',
     },
     {
-      id: 'eligible-holding-coverage',
-      label: 'Eligible holdings served by a suitable, reused issuer dataset',
+      id: 'identity-resolved-holding-coverage',
+      label: 'Holdings resolved to an issuer that are served by a suitable, reused issuer dataset (NOT the eligible-set denominator)',
       numerator: holdingsWithFinancialData,
-      denominator: eligibleHoldings,
-      basis: 'ELIGIBLE_HOLDINGS',
-      percent: percent(holdingsWithFinancialData, eligibleHoldings),
-      excludes: `${lifecycle.unresolved.length} unresolved holding(s) excluded from the eligible-holdings denominator`,
+      denominator: identityResolvedHoldings,
+      basis: 'IDENTITY_RESOLVED_HOLDINGS',
+      percent: percent(holdingsWithFinancialData, identityResolvedHoldings),
+      excludes: `${lifecycle.unresolved.length} unresolved holding(s) and ${lifecycle.eligibleSet.exclusions.length} eligible-set exclusion(s) are outside this denominator; "resolved to an issuer" is not the roadmap's E`,
+    },
+    {
+      id: 'eligible-set-coverage',
+      label: 'Roadmap eligible-set E holdings served by a suitable, reused issuer dataset (the θF denominator basis)',
+      numerator: holdingsWithFinancialData,
+      denominator: eligibleSetSize,
+      basis: 'ELIGIBLE_SET_E',
+      percent: percent(holdingsWithFinancialData, eligibleSetSize),
+      excludes:
+        eligibleSetSize === 0
+          ? 'E is empty (designation excluded every supplied holding): the ratio is not applicable — never 0% and never 100%'
+          : `${lifecycle.eligibleSet.exclusions.length} holding(s) excluded from E under the product-scope designation (${lifecycle.eligibleSet.basis}), itemised in eligibleSet.exclusions`,
     },
   ];
 
@@ -402,8 +436,9 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
     readonly portfolioId: string;
     portfolioRevision: string;
     totalHoldings: number;
-    eligibleHoldings: number;
+    identityResolvedHoldings: number;
     unresolvedHoldings: number;
+    excludedFromEligibleSet: number;
     readonly issuers: Set<string>;
     readonly issuersWithSuitableDataset: Set<string>;
     readonly issuersNeedingProvisioning: Set<string>;
@@ -416,8 +451,9 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
       portfolioId,
       portfolioRevision,
       totalHoldings: 0,
-      eligibleHoldings: 0,
+      identityResolvedHoldings: 0,
       unresolvedHoldings: 0,
+      excludedFromEligibleSet: 0,
       issuers: new Set(),
       issuersWithSuitableDataset: new Set(),
       issuersNeedingProvisioning: new Set(),
@@ -429,7 +465,7 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
     for (const holding of row.holdings) {
       const accumulator = accumulatorFor(holding.portfolioId, holding.portfolioRevision);
       accumulator.totalHoldings += 1;
-      accumulator.eligibleHoldings += 1;
+      accumulator.identityResolvedHoldings += 1;
       accumulator.issuers.add(row.issuerId);
       if (row.selectedDatasetVersion !== null) accumulator.issuersWithSuitableDataset.add(row.issuerId);
       if (row.provisioning !== null) accumulator.issuersNeedingProvisioning.add(row.issuerId);
@@ -440,13 +476,19 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
     accumulator.totalHoldings += 1;
     accumulator.unresolvedHoldings += 1;
   }
+  for (const exclusion of lifecycle.eligibleSet.exclusions) {
+    const accumulator = accumulatorFor(exclusion.portfolioId, exclusion.portfolioRevision);
+    accumulator.totalHoldings += 1;
+    accumulator.excludedFromEligibleSet += 1;
+  }
   const portfolioSummaries: PortfolioSummary[] = [...portfolioMap.values()]
     .map((accumulator) => ({
       portfolioId: accumulator.portfolioId,
       portfolioRevision: accumulator.portfolioRevision,
       totalHoldings: accumulator.totalHoldings,
-      eligibleHoldings: accumulator.eligibleHoldings,
+      identityResolvedHoldings: accumulator.identityResolvedHoldings,
       unresolvedHoldings: accumulator.unresolvedHoldings,
+      excludedFromEligibleSet: accumulator.excludedFromEligibleSet,
       distinctIssuers: accumulator.issuers.size,
       issuersWithSuitableDataset: accumulator.issuersWithSuitableDataset.size,
       issuersNeedingProvisioning: accumulator.issuersNeedingProvisioning.size,
@@ -458,7 +500,10 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
     'every coverage percentage names its denominator basis; duplicate holdings of the same issuer share one issuer dataset and are never counted as separate datasets.',
   );
   notes.push(
-    'a holding contributes to the financial ratio only if its own identity passes; unresolved holdings never contribute and are itemised under `unresolved`.',
+    "a holding contributes to the financial ratio only if it is in the roadmap's eligible set E and its own identity passes; unresolved and E-excluded holdings never contribute and are itemised under `unresolved` and `eligibleSet.exclusions`.",
+  );
+  notes.push(
+    'the θF denominator is |E| (the roadmap\'s eligible set, holdings in scope under the documented product-scope rules) — not every holding supplied to the run; an empty E makes the ratio not applicable, never 0% and never 100%.',
   );
   notes.push(
     'coverage is reported by issuer, by sector and by analytical method (the roadmap method dimension; method requirements are provisional pending W10); the breakdown by acquisition method is source/rights evidence and is not the method dimension; dimension entries cover identity-passed holdings only.',
@@ -482,11 +527,14 @@ export function buildLifecycleReport(lifecycle: IssuerLifecycleResult, generated
       w20GateReason: w20.reason,
     },
     financialRatio: ratio,
+    eligibleSet: lifecycle.eligibleSet,
     denominators: {
       totalHoldings: lifecycle.totalHoldings,
-      eligibleHoldings,
+      identityResolvedHoldings,
+      eligibleSetSize,
       distinctIssuers,
       unresolvedHoldings: lifecycle.unresolved.length,
+      excludedFromEligibleSet: lifecycle.eligibleSet.exclusions.length,
     },
     identityBasis,
     counts: {
@@ -536,11 +584,21 @@ export function renderLifecycleSummary(report: LifecycleReport): string {
   lines.push(`W20 gate: ${report.thetaF.w20GateOpen ? 'OPEN' : 'CLOSED'} — ${report.thetaF.w20GateReason}`);
   lines.push(
     `financial ratio: ${report.financialRatio.numerator}/${report.financialRatio.denominator} = ${report.financialRatio.percent}% ` +
-      `(identity-passed holdings: ${report.financialRatio.identityPassedHoldings}; rule: ${report.financialRatio.numeratorRule})`,
+      `(basis: ${report.financialRatio.denominatorBasis}; identity-passed holdings: ${report.financialRatio.identityPassedHoldings}; ` +
+      `holdings supplied: ${report.financialRatio.totalHoldingsSupplied}${report.financialRatio.notApplicable ? '; NOT APPLICABLE — eligible set E is empty, never 0% and never 100%' : ''})`,
   );
   lines.push(
-    `holdings: ${report.denominators.totalHoldings} total, ${report.denominators.eligibleHoldings} eligible, ${report.denominators.unresolvedHoldings} unresolved; distinct issuers: ${report.denominators.distinctIssuers}`,
+    `holdings: ${report.denominators.totalHoldings} supplied, ${report.denominators.identityResolvedHoldings} identity-resolved (NOT the eligible set E), ` +
+      `${report.denominators.unresolvedHoldings} unresolved, ${report.denominators.excludedFromEligibleSet} excluded from E; ` +
+      `distinct issuers: ${report.denominators.distinctIssuers}`,
   );
+  lines.push(
+    `eligible set E: ${report.eligibleSet.designated ? 'designated' : 'NOT designated (E equals every supplied holding)'} — ` +
+      `basis: ${report.eligibleSet.basis}; |E| = ${report.eligibleSet.size}; exclusions: ${report.eligibleSet.exclusions.length}`,
+  );
+  for (const exclusion of report.eligibleSet.exclusions) {
+    lines.push(`  E exclusion: ${exclusion.observationId} (${exclusion.portfolioId}@${exclusion.portfolioRevision}) — ${exclusion.reason}`);
+  }
   for (const coverage of report.coveragePercentages) {
     lines.push(
       `${coverage.id}: ${coverage.numerator}/${coverage.denominator} ${coverage.basis} = ${coverage.percent}%` +
