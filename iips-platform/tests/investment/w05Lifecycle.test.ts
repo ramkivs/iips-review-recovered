@@ -175,7 +175,7 @@ describe('W05-A — test 2: missing datasets never block portfolio creation or u
     });
 
     assert.equal(result.totalHoldings, 3);
-    assert.equal(result.eligibleHoldings, 3);
+    assert.equal(result.identityResolvedHoldings, 3);
     assert.equal(result.distinctIssuers, 3);
     for (const row of result.issuers) {
       assert.deepEqual(row.states, ['MISSING']);
@@ -190,7 +190,7 @@ describe('W05-A — test 2: missing datasets never block portfolio creation or u
     assert.equal(report.counts.issuersNeedingProvisioning, 3);
     assert.equal(report.coveragePercentages[0]!.percent, 0);
     const rendered = renderLifecycleSummary(report);
-    assert.match(rendered, /3 total, 3 eligible/);
+    assert.match(rendered, /3 supplied, 3 identity-resolved/);
     assert.match(rendered, /NO_DEFENSIBLE_VALUE_ASSERTED/);
     assert.match(rendered, /W20 gate: CLOSED/);
   });
@@ -219,11 +219,12 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
 
     assert.equal(report.denominators.totalHoldings, 6);
-    assert.equal(report.denominators.eligibleHoldings, 5, 'the unresolved holding is excluded and named');
-    assert.equal(report.denominators.distinctIssuers, 3, 'five eligible holdings resolve to three issuers');
+    assert.equal(report.denominators.identityResolvedHoldings, 5, 'the unresolved holding is excluded and named');
+    assert.equal(report.denominators.eligibleSetSize, 6, 'undesignated E equals every supplied holding');
+    assert.equal(report.denominators.distinctIssuers, 3, 'five identity-resolved holdings resolve to three issuers');
     assert.equal(report.denominators.unresolvedHoldings, 1);
 
-    const [byIssuer, byQualified, byHolding] = report.coveragePercentages;
+    const [byIssuer, byQualified, byHolding, byEligibleSet] = report.coveragePercentages;
     assert.equal(byIssuer!.basis, 'DISTINCT_ISSUERS');
     assert.equal(byIssuer!.numerator, 1);
     assert.equal(byIssuer!.denominator, 3);
@@ -235,16 +236,23 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     assert.equal(byQualified!.denominator, 3);
     assert.match(byQualified!.excludes, /per-dataset technical mechanism/);
 
-    assert.equal(byHolding!.basis, 'ELIGIBLE_HOLDINGS');
+    assert.equal(byHolding!.basis, 'IDENTITY_RESOLVED_HOLDINGS');
     assert.equal(byHolding!.numerator, 2, 'the two Aarav holdings share one suitable dataset');
     assert.equal(byHolding!.denominator, 5);
     assert.match(byHolding!.excludes, /1 unresolved holding/);
 
+    // The roadmap's eligible-set denominator is separate and never conflated with "resolved".
+    assert.equal(byEligibleSet!.basis, 'ELIGIBLE_SET_E');
+    assert.equal(byEligibleSet!.numerator, 2);
+    assert.equal(byEligibleSet!.denominator, 6);
+    assert.equal(byEligibleSet!.percent, 33.3);
+
     // Per-portfolio: distinct issuers per portfolio, not per holding.
     const one = report.portfolioSummaries.find((summary) => summary.portfolioId === 'portfolio-one')!;
     assert.equal(one.totalHoldings, 4);
-    assert.equal(one.eligibleHoldings, 3);
+    assert.equal(one.identityResolvedHoldings, 3);
     assert.equal(one.unresolvedHoldings, 1);
+    assert.equal(one.excludedFromEligibleSet, 0);
     assert.equal(one.distinctIssuers, 2, 'Aarav counted once although held twice');
     assert.equal(one.issuersWithSuitableDataset, 1);
     const two = report.portfolioSummaries.find((summary) => summary.portfolioId === 'portfolio-two')!;
@@ -350,10 +358,14 @@ describe('W05-E — test 11: coverage percentages use explicit, distinct denomin
     const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
 
     assert.equal(report.financialRatio.numerator, 2, 'only identity-passed holdings served by a suitable dataset contribute');
-    assert.equal(report.financialRatio.denominator, 4, 'the denominator is the portfolio holding count');
+    assert.equal(report.financialRatio.denominator, 4, 'the denominator is |E| — undesignated, every supplied holding');
+    assert.equal(report.financialRatio.denominatorBasis, 'ELIGIBLE_SET_E');
+    assert.equal(report.financialRatio.eligibleSetSize, 4);
+    assert.equal(report.financialRatio.totalHoldingsSupplied, 4);
     assert.equal(report.financialRatio.identityPassedHoldings, 3);
     assert.equal(report.financialRatio.percent, 50);
-    assert.match(report.financialRatio.numeratorRule, /only if its own identity passes/);
+    assert.match(report.financialRatio.numeratorRule, /eligible set E and its own identity passes/);
+    assert.equal(report.eligibleSet.designated, false, 'no designation was supplied; E equals every supplied holding');
 
     assert.equal(report.thetaF.semantics, 'PORTFOLIO_WIDE_RATIO');
     assert.equal(report.thetaF.gates, 'W20');
@@ -490,7 +502,7 @@ describe('W05-A — test 12: portfolios beyond 200 holdings on the same lifecycl
     });
 
     assert.equal(result.totalHoldings, 221);
-    assert.equal(result.eligibleHoldings, 220);
+    assert.equal(result.identityResolvedHoldings, 220);
     assert.equal(result.distinctIssuers, 5);
     const rowA = result.issuers.find((row) => row.issuerId === ISSUER_A)!;
     assert.equal(rowA.holdings.length, 44, '44 Aarav holdings across three portfolios share one dataset');
@@ -499,8 +511,8 @@ describe('W05-A — test 12: portfolios beyond 200 holdings on the same lifecycl
 
     const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
     assert.equal(report.denominators.distinctIssuers, 5);
-    assert.equal(report.denominators.eligibleHoldings, 220);
-    const byHolding = report.coveragePercentages.find((entry) => entry.id === 'eligible-holding-coverage')!;
+    assert.equal(report.denominators.identityResolvedHoldings, 220);
+    const byHolding = report.coveragePercentages.find((entry) => entry.id === 'identity-resolved-holding-coverage')!;
     assert.equal(byHolding.numerator, 44);
     assert.equal(byHolding.denominator, 220);
     assert.equal(report.portfolioSummaries.length, 3);
@@ -656,5 +668,118 @@ describe('W05 — negative tests: malformed manifests and inconsistent rights ev
     assert.ok(row.states.includes('RIGHTS_RESTRICTED'));
     assert.ok(!row.states.includes('RIGHTS_UNKNOWN'), 'restricted and unknown are distinct states');
     assert.equal(row.selectedDatasetVersion, null);
+  });
+});
+
+describe('W05 — the roadmap eligible set E is a designation the run applies but never decides', () => {
+  test('excluded holdings are itemised and never appear in rows, unresolved, or any numerator', () => {
+    const observations = [
+      holding('H-001', 'portfolio-one', ISSUER_A),
+      holding('H-002', 'portfolio-one', ISSUER_A),
+      holding('H-003', 'portfolio-one', ISSUER_B),
+      holding('H-004', 'portfolio-one', ISSUER_C),
+      unresolvedHolding('H-005', 'portfolio-one'),
+      unresolvedHolding('H-006', 'portfolio-one'),
+    ];
+
+    const result = lifecycle({
+      portfolios: [{ portfolioId: 'portfolio-one', portfolioRevision: 'rev-1' }],
+      observations,
+      datasets: [suitableEntry([ISSUER_A], { datasetVersion: 'sha256:ffff000000000000000000000000000000000000000000000000000000000000' })],
+      eligibleSet: {
+        basis: 'documented product-scope rules (test designation)',
+        exclusions: [
+          { observationId: 'H-003', reason: 'out of product scope' },
+          { observationId: 'H-005', reason: 'instrument class excluded by scope rule' },
+          { observationId: 'H-999', reason: 'names a holding that was not supplied' },
+        ],
+      },
+    });
+
+    // |E| = 6 supplied − 2 named exclusions in this run (the dangling one has no effect here).
+    assert.equal(result.eligibleSet.designated, true);
+    assert.equal(result.eligibleSet.basis, 'documented product-scope rules (test designation)');
+    assert.equal(result.eligibleSet.size, 4);
+    assert.equal(result.totalHoldings, 6, 'every supplied holding is still accounted');
+    assert.equal(result.identityResolvedHoldings, 3, 'H-001/H-002/H-004 resolve; H-003 is outside E — neither resolved nor unresolved');
+    assert.equal(result.unresolved.length, 1, 'only H-006 (in E) is unresolved; excluded H-005 is itemised under exclusions');
+    // Every exclusion is itemised with its reason, never folded into an aggregate.
+    assert.equal(result.eligibleSet.exclusions.length, 2);
+    const excludedIds = result.eligibleSet.exclusions.map((entry) => entry.observationId).sort();
+    assert.deepEqual(excludedIds, ['H-003', 'H-005']);
+    assert.ok(result.eligibleSet.exclusions.every((entry) => entry.reason.length > 0));
+    // Excluded holdings never appear as issuer rows or as unresolved.
+    const rowIds = result.issuers.flatMap((row) => row.holdings.map((entry) => entry.observationId));
+    assert.ok(!rowIds.includes('H-003'));
+    assert.ok(!rowIds.includes('H-005'));
+    const unresolvedIds = result.unresolved.map((entry) => entry.observationId);
+    assert.ok(!unresolvedIds.includes('H-003'));
+    assert.ok(!unresolvedIds.includes('H-005'));
+    assert.deepEqual(unresolvedIds, ['H-006']);
+    // The dangling exclusion and its no-effect are disclosed.
+    assert.ok(result.notes.some((note) => /H-999/.test(note) && /not supplied to this run/.test(note)));
+
+    // The ratio denominator is |E| = 4, never the 6 supplied holdings.
+    const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
+    assert.equal(report.denominators.eligibleSetSize, 4);
+    assert.equal(report.denominators.excludedFromEligibleSet, 2);
+    assert.equal(report.financialRatio.denominator, 4);
+    assert.equal(report.financialRatio.denominatorBasis, 'ELIGIBLE_SET_E');
+    assert.equal(report.financialRatio.totalHoldingsSupplied, 6);
+    assert.equal(report.financialRatio.numerator, 2, 'only the two Aarav holdings in E with data contribute');
+    assert.equal(report.financialRatio.percent, 50);
+    assert.equal(report.eligibleSet.exclusions.length, 2);
+    const byEligibleSet = report.coveragePercentages.find((entry) => entry.id === 'eligible-set-coverage')!;
+    assert.equal(byEligibleSet.denominator, 4);
+    assert.equal(byEligibleSet.numerator, 2);
+
+    // Per-portfolio accounting keeps the exclusions visible beside the other dispositions.
+    const one = report.portfolioSummaries.find((summary) => summary.portfolioId === 'portfolio-one')!;
+    assert.equal(one.totalHoldings, 6);
+    assert.equal(one.identityResolvedHoldings, 3);
+    assert.equal(one.unresolvedHoldings, 1);
+    assert.equal(one.excludedFromEligibleSet, 2);
+  });
+
+  test('excluding every holding makes the ratio not applicable — never 0% and never 100%', () => {
+    const result = lifecycle({
+      portfolios: [{ portfolioId: 'portfolio-one', portfolioRevision: 'rev-1' }],
+      observations: [holding('H-001', 'portfolio-one', ISSUER_A), unresolvedHolding('H-002', 'portfolio-one')],
+      datasets: [],
+      eligibleSet: {
+        basis: 'test: nothing in scope',
+        exclusions: [
+          { observationId: 'H-001', reason: 'out of scope' },
+          { observationId: 'H-002', reason: 'out of scope' },
+        ],
+      },
+    });
+    assert.equal(result.eligibleSet.size, 0);
+    assert.equal(result.issuers.length, 0);
+    assert.equal(result.unresolved.length, 0);
+    assert.equal(result.eligibleSet.exclusions.length, 2);
+
+    const report = buildLifecycleReport(result, `${AS_OF}T00:00:00.000Z`);
+    assert.equal(report.financialRatio.notApplicable, true);
+    assert.equal(report.financialRatio.percent, 0);
+    assert.equal(report.financialRatio.denominator, 0);
+    assert.equal(report.financialRatio.totalHoldingsSupplied, 2);
+    const rendered = renderLifecycleSummary(report);
+    assert.match(rendered, /NOT APPLICABLE — eligible set E is empty/);
+    const byEligibleSet = report.coveragePercentages.find((entry) => entry.id === 'eligible-set-coverage')!;
+    assert.match(byEligibleSet.excludes, /not applicable — never 0% and never 100%/);
+  });
+
+  test('no designation means E equals every supplied holding — disclosed as undesignated, never a ruling', () => {
+    const result = lifecycle({
+      portfolios: [{ portfolioId: 'portfolio-one', portfolioRevision: 'rev-1' }],
+      observations: [holding('H-001', 'portfolio-one', ISSUER_A), unresolvedHolding('H-002', 'portfolio-one')],
+      datasets: [],
+    });
+    assert.equal(result.eligibleSet.designated, false);
+    assert.match(result.eligibleSet.basis, /NOT_DESIGNATED/);
+    assert.equal(result.eligibleSet.size, 2);
+    assert.ok(result.notes.some((note) => /no eligible-set designation was supplied/.test(note)));
+    assert.ok(result.notes.some((note) => /NOT a product-scope ruling/.test(note)));
   });
 });
