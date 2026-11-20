@@ -1,0 +1,22 @@
+# Mechanism demonstration under the FICTITIOUS test policy of IPD (tests/support/irr_identity_approval_fixture.ts).
+# No record in the name of the governed approver is involved. The four records exist in memory only.
+# IPD checkout: commit 901e4791e271cafdb777d56f9f66f6867b3f60c6, built; staging A and staging B are those of files 01 and 02.
+# sandbox clock: 2026-11-15T19:27:42Z; Node v22.22.3; network namespace without interfaces (unshare -rn)
+
+$ node mechanism-demonstration-fictitious-authority.mjs <IPD checkout> <staging A> <staging B>
+tool: commit 901e4791e271cafdb777d56f9f66f6867b3f60c6; unmodified true
+policy used here: TEST-POLICY-NOT-GOVERNED; approver TEST_AUTHORITY_NOT_A_PERSON (fictitious)
+staging A (published manifest): P7 69a918f78791114e8fb036ddfd2a2005facdddf785a7496bc28f541fd4964769; gate accepted true; IRR 08411bcd6d782a601fe5c82cc9983d076831148d
+staging B (previous manifest):  P7 13bd2ef18b3dc79ed3d78e78126c4c4ee431e83665847bcb948f6184e14078bc; gate accepted true; IRR 08411bcd6d782a601fe5c82cc9983d076831148d
+record OLD binds P7 13bd2ef18b3dc79ed3d78e78126c4c4ee431e83665847bcb948f6184e14078bc
+record NEW binds P7 69a918f78791114e8fb036ddfd2a2005facdddf785a7496bc28f541fd4964769
+generation fields that differ between the two records: [p7ManifestSha256]
+file digests equal in both records: true
+1. record OLD vs staging A (the open dependency): authorizesInstallation false; failures [GENERATION_MISMATCH]; compared: staged true, gate true, tool true
+    GENERATION_MISMATCH: the approval is for another generation than the staged one; differing: p7ManifestSha256
+2. record NEW vs staging A (a record for the published manifest): authorizesInstallation true; failures []; compared: staged true, gate true, tool true
+3. record NEW vs staging B (negative control): authorizesInstallation false; failures [GENERATION_MISMATCH]; compared: staged true, gate true, tool true
+    GENERATION_MISMATCH: the approval is for another generation than the staged one; differing: p7ManifestSha256
+4. record OLD vs staging B (the earlier state): authorizesInstallation true; failures []; compared: staged true, gate true, tool true
+EXPECTED PATTERN (1 refused GENERATION_MISMATCH only; 2 authorizes; 3 refused GENERATION_MISMATCH only; 4 authorizes): CONFIRMED
+exit code: 0
