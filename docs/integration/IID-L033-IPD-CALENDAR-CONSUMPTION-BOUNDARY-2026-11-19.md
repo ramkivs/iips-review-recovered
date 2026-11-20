@@ -194,3 +194,35 @@ inside this session, and this record does not pretend otherwise. The unblocking 
 of §2's administrator options. Everything on the IRR side is ready for the moment one is granted:
 `--price-calendar` supply, digest verification, binding and five-session assessment are implemented and
 tested (1668/1668).
+
+## 7. Addendum (2026-11-19): full artifact content supplied by the owner — semantic verification
+
+The owner has now supplied the complete content of `calendars/ipd-equity-2026.v2026-11-19.2.json` in-session.
+It was verified field by field against the consumption boundary of §3:
+
+- **Identity:** `schemaVersion: 1`, `id: "IPD-EQUITY-2026-BOUNDED"`, `version: "2026-11-19.2"` — exactly the
+  identity the IRR caller pins by default. `reviewedBy` and the `boundedModel` authority (owner instruction
+  continuing IPD commit `618f5459…`) are present as provenance narrative.
+- **Coverage:** `qualification.continuousCoverage` declares exactly one interval per segment — `NSE_EQ` and
+  `BSE_EQ`, both `2026-11-01`–`2026-11-19`. `annualHolidayEvidence` is explicitly `closureDatesOnly` with
+  `doesNotEstablishContinuousCoverage`; `outsideCoverage` is `UNKNOWN/UNAVAILABLE` with no weekday,
+  elapsed-time or cross-venue fallback. Sparse closure rows (2026-01-15 … 2026-12-25, including 2026-11-24)
+  sit outside the interval and, under the implemented validation, do not extend coverage.
+- **November rows (both exchanges, identical):** 01 CLOSED weekend; 02–06 OPEN; 07 CLOSED (mock-only, not
+  live); **08 OPEN `EXCEPTIONAL_LIVE_SESSION`** (Sunday Muhurat, 14:20–15:35 + post-close 15:50–16:00);
+  09 OPEN; **10 CLOSED `EXCHANGE_HOLIDAY`** (Diwali-Balipratipada); 11–13 OPEN; 14–15 CLOSED (14 mock-only);
+  16–19 OPEN. Ordinary sessions 09:15–15:35 + 15:50–16:00. Every date in the coverage interval has exactly
+  one explicit row per exchange; OPEN rows carry same-day sessions, CLOSED rows carry none; 19 sourced
+  references are declared. This is precisely the session map the L-033 tests pin, so the counting results
+  (five-session boundary, sixth-session refusal, Sunday counted, mocks excluded) hold for the real content.
+- **Validator compatibility:** the artifact's extra qualification fields are structurally additive and are
+  ignored by the runtime checks; the content as supplied would pass `prepareCalendar` validation and the
+  verified-supply route unchanged.
+
+**Remaining limit, stated exactly:** chat transport renders the content (whitespace, `\_` escapes, markdown
+link wrapping, `&amp;`), so no byte-exact reconstruction exists here and **no SHA-256 of the original IPD
+file can be computed from this supply** — a digest over a reconstruction would attest the reconstruction,
+not the artifact, and none is recorded. Closure requires the original bytes (or their owner-computed
+SHA-256) through any workable channel, e.g. the file committed into this repository. At that point:
+`bindingFromVerifiedCalendarBytes` pins the digest, the production caller runs with `--price-calendar`,
+and this record gains the verified digest line. Until then L-033 remains `OPEN` on that single point.

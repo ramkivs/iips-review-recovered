@@ -3422,3 +3422,20 @@ here; the earlier attempts were not repeated because they meet the same proxy. *
 on `ramkivs/iips-production-market-data`, session allowlist addition, or owner-controlled artifact supply),
 after which closure is the mechanical `--price-calendar` run already implemented and tested. No other
 limitation changed; IPD untouched; PR #597 unmerged. Next free §17.35.
+
+## 17.35 `L-033` — full calendar content supplied and semantically verified; byte digest outstanding (`2026-11-19`)
+
+**Append-only update; no earlier text altered.** The owner supplied the complete content of
+`calendars/ipd-equity-2026.v2026-11-19.2.json` in-session. Verified against the §3 boundary: identity
+`IPD-EQUITY-2026-BOUNDED@2026-11-19.2` (schema 1); exactly one continuous-coverage interval per segment
+(`NSE_EQ`/`BSE_EQ`, 2026-11-01–2026-11-19); annual holiday evidence declared closure-dates-only and
+non-extending; November rows for both exchanges identical to the tested session map (exceptional OPEN
+Sunday 2026-11-08 Muhurat session, CLOSED 2026-11-10 Diwali-Balipratipada, mock-only 07/14 closed, sparse
+2026-11-24 row outside coverage); complete explicit rows inside coverage; 19 declared sources. The
+content would pass the implemented calendar validation and verified-supply route unchanged, and the
+counting results already tested hold for it. **Status: `L-033` stays `OPEN`** on one remaining point:
+chat rendering alters bytes (whitespace, escapes, link wrapping), so the original file's SHA-256 cannot
+be computed from this supply and no digest is recorded. Closure needs the original bytes — or their
+owner-computed SHA-256 — via any workable channel (e.g. the file committed into this repository), after
+which the pinned `--price-calendar` production run and digest recording complete L-033. No other
+limitation changed; IPD untouched; PR #597 unmerged. Next free §17.36.
