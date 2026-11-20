@@ -1442,3 +1442,15 @@ to published H1 FY2027 on all seven totals. Marico's latest reported period is n
 but its FY2026 **annual valuation basis remains STALE** (233 days) and no TTM bridge is available
 (2 of 4 discrete quarters; ANNUAL precedence) — `S4-R3` stays **OPEN** on the freshness limb for all
 three issuers. Evidence: `evidence/real-issuer/S4-R3-Marico-QUARTERLY-REFRESH-2026-11-19/`; register §17.41.
+
+**Addendum — S4-R3 closed by conditional governance waiver; S4-R3-Infosys CLOSED (2026-11-20).** The
+`S4-R3` row above is now closed **by waiver, not by freshness satisfaction**: adopting memorandum
+`O3-ADM-2026-Q4`, the operator granted a conditional waiver (through 31 May 2027) of the 200-day rule's
+governance consequence for the three issuers' FY2026 anchor, since no newer annual can legally exist
+until April–May 2027. The engine still measures all three annual bases **STALE** (233 days,
+`STALE_STATEMENTS` raised) under the unchanged policy — that output is not altered or citable as FRESH.
+TTM fallback was **not** authorised (Marico/KEC hold 2 of 4 DISCRETE quarters; Infosys none). Action 1
+of the memorandum was already discharged 2026-11-19 (§§17.40–17.41): `S4-R3-Infosys` is **CLOSED**.
+Waiver conditions and auto-reopening: register §17.42; determination:
+`IID-S4-R3-FRESHNESS-WAIVER-DETERMINATION-2026-11-20.md`. `S4-R3` **CLOSED (conditional waiver)**;
+Stage 4's remaining open items are unchanged.

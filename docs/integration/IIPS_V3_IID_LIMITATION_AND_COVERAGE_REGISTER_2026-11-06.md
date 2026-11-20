@@ -3581,3 +3581,28 @@ payload). No policy/TTM/basis-preference change; no Infosys/KEC governance chang
 RESOLVED status (§17.40) unaffected; no IPD file touched; no PR merged.
 **Disposition:** Marico quarterly coverage **ESTABLISHED in candidate** (quarterly-presence limb now
 met for Marico and KEC); `L-043` / `S4-R3` remains `OPEN` on the freshness limb. Next free §17.42.
+
+### 17.42 2026-11-20 — Conditional 200-day freshness waiver adopted (O3-ADM-2026-Q4): S4-R3 closed by governance waiver, S4-R3-Infosys CLOSED; engine staleness unchanged; TTM fallback not authorised
+
+**Implemented/reported:** Governance determination `docs/integration/IID-S4-R3-FRESHNESS-WAIVER-DETERMINATION-2026-11-20.md`
+adopting, as corrected there (§4 claim reconciliation), the operator's waiver memorandum `O3-ADM-2026-Q4`
+of 2026-11-20 against the 2026-11-19 baseline (§17.39–§17.41; candidate `sha256:3e42d98d…`). **Action 1
+ratified as already discharged:** Infosys FY2025/FY2026 and Marico Q1/Q2 FY2027 O3 successor admissions
+were implemented and published 2026-11-19 (commits `0f4268f`, `340afb2`); `S4-R3-Infosys` is **CLOSED**
+(register wording RESOLVED at §17.40), decoupled from Marico/KEC. **Action 2 granted at governance
+level only:** a conditional waiver of the 200-day annual rule's governance consequence for the FY2026
+anchor of Infosys, Marico and KEC **through 31 May 2027**, on the structural ground that no newer
+annual can legally exist until the April–May 2027 results season; conditions: Marico/KEC Q3 FY2027
+quarterly continuity (due Feb 2027), FY2027 annual ingestion in Apr–May 2027, automatic expiry/reopening
+on 31 May 2027. **Corrections recorded:** Infosys has zero admitted quarters (memorandum's Infosys
+quarterly/TTM claims not supported); Marico/KEC are not TTM-ready (2 of 4 DISCRETE quarters each);
+usage rights remain O3-restricted local personal use (not "unrestricted"); source verification remains
+operator-declared, independent verification `NOT_CLAIMED`. **TTM fallback alternative NOT authorised**
+(§3 of the determination): no four-quarter window exists and ANNUAL precedence governs; no engine change.
+**Deliberately not claimed:** any issuer FRESH; the freshness limb satisfied as measured — the engine
+still computes `STALE`/`STALE_STATEMENTS` at 233 days under the unchanged `freshness-policy/1.0.0`;
+any installation, live verification or acceptance; any code/policy/schema change. §§17.39–17.41 and both
+2026-11-19 O3 records preserved unmodified; their OPEN statements are historical as of their dates.
+**Disposition:** `S4-R3` **CLOSED BY CONDITIONAL GOVERNANCE WAIVER (2026-11-20, expires 31 May 2027)**;
+`L-043` **CLOSED BY CONDITIONAL WAIVER** on the same terms (auto-reopens if FY2027 annuals are not
+admitted by expiry); `S4-R3-Infosys` **CLOSED**. Next free §17.43.
