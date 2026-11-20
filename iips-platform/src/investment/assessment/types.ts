@@ -20,12 +20,13 @@ import type {
 } from '../contracts/observation';
 import type { PeriodType, QuarterForm, StatementScope } from '../contracts/period';
 import type { MethodId, MethodRole } from '../coverage/methodMatrix';
+import type { PriceFreshnessAssessment } from './exchangeCalendar';
 
 export const ASSESSMENT_SCHEMA_VERSION = 1 as const;
 export const MODEL_VERSION = 'assessment-engine/1.0.0' as const;
 export const POLICY_VERSION = 'valuation-policy/1.0.0' as const;
 export const FRESHNESS_POLICY_VERSION = 'freshness-policy/1.0.0' as const;
-export const MOS_POLICY_VERSION = 'mos-policy/1.0.0' as const;
+export const MOS_POLICY_VERSION = 'mos-policy/1.1.0' as const;
 
 export type {
   Adequacy,
@@ -155,6 +156,13 @@ export interface MarginOfSafetyBlock {
   readonly bandPolicyVersion: string;
   /** Why a price was refused, when it was. Null when the price was used. */
   readonly refusal: string | null;
+  /**
+   * L-033 (`mos-policy/1.1.0`): the five-trading-session freshness evaluation behind the refusal or acceptance —
+   * calendar identity and digest, the explicit exchange-segment mapping, both exchange-local dates and the
+   * counted sessions. Optional only so payloads stored under `mos-policy/1.0.0` remain readable; every payload
+   * this engine emits carries it.
+   */
+  readonly priceFreshness?: PriceFreshnessAssessment;
 }
 
 /* ---------------------------------------------------------------- sensitivity */

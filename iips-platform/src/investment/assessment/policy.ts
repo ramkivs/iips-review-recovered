@@ -213,8 +213,8 @@ export const VALUATION_POLICY = Object.freeze({
   freshness: Object.freeze({
     pnlDays: 200,
     balanceSheetDays: 250,
-    /** R-6.4: a price older than this many calendar days is refused, not carried forward. */
-    priceMaxAgeDays: 7,
+    /** R-6.4 / L-033: a price older than this many exchange trading sessions is refused, not carried forward. */
+    priceMaxAgeTradingSessions: 5,
   }),
 
   /** Margin-of-safety bands on `(intrinsicMid − price) / intrinsicMid`. */

@@ -675,11 +675,13 @@ describe('S4-R3 — the admitted population, measured', () => {
     for (const issuerId of [INFOSYS, MARICO, KEC]) assert.equal(facts[issuerId]?.gaps, 0, `${issuerId} has no sequence gap`);
   });
 
-  test('the freshness refactor does not move a byte of the S4-R2 assessment payload', () => {
+  test('the S4-R2 assessment payload reproduces exactly at its L-033-rebaselined digest', () => {
     /*
      * The engine now takes `dataAsOf`, `stalenessDays` and `staleBeyondPolicy` from `assessFreshness` instead of
-     * computing them inline. For a series with an annual period the arithmetic is the same, so the recorded S4-R2
-     * payload must reproduce exactly — this is the regression control for the refactor itself.
+     * computing them inline. For a series with an annual period the statement-freshness arithmetic is the same.
+     * The recorded digest was rebaselined once for L-033: `mos-policy/1.1.0` emits the five-trading-session
+     * `priceFreshness` evaluation (here UNAVAILABLE — this historical replay supplies no calendar binding and
+     * no price may be aged by a calendar-day fallback). Every other byte is the regression control.
      */
     const installed = install(
       [
@@ -696,11 +698,14 @@ describe('S4-R3 — the admitted population, measured', () => {
       listingMapVersion: 'sha256:admitted',
       corporateActionTableVersion: 'sha256:admitted',
     });
+    assert.equal(payload.valuation.marginOfSafety?.bandPolicyVersion, 'mos-policy/1.1.0');
+    assert.equal(payload.valuation.marginOfSafety?.priceFreshness?.status, 'UNAVAILABLE');
+    assert.equal(payload.valuation.marginOfSafety?.priceFreshness?.reason, 'PRICE_CALENDAR_UNAVAILABLE');
     const digest = createHash('sha256').update(JSON.stringify(payload)).digest('hex');
     assert.equal(
       digest,
-      '925b403622c9b667152effa64539036a8cbcea40229ef2b36c7f148c210e471e',
-      'the payload recorded by S4-R2 must still be the payload this code produces',
+      '1cac82ab2a19fa067ac48cda254f938de6ddbaafaa7f43a8284413be3798193f',
+      'the S4-R2 payload, rebaselined only for the L-033 price-freshness block, must still reproduce exactly',
     );
   });
 

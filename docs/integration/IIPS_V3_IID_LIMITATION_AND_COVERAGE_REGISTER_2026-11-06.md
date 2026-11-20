@@ -3331,3 +3331,42 @@ ZIPs/readback, standards, access failures/retries, canonical replay, validation 
 External action: filed/audited same-instant consolidated amount/nil or authoritative applicable2026 IndAS DTS
 and issuer/exchange confirmation distinguishing economic nil, rounded nonzero and default artifact; rights and
 any necessary owner decision must be qualified before admission. No closure, IPD act or other limitation begun.
+
+## 17.32 `L-033` — five trading sessions implemented against the bounded IPD calendar; exact-byte verification outstanding (`2026-11-19`)
+
+**Append-only update; §16.4's historical text is unaltered.** Governing facts: design R-6.4 (five trading
+days), the owner's Option A decision (PR #597 record, 2026-11-19), and the owner-supplied extract of the IPD
+artifact `calendars/ipd-equity-2026.v2026-11-19.2.json` (`IPD-EQUITY-2026-BOUNDED@2026-11-19.2`, continuous
+coverage `NSE_EQ`/`BSE_EQ` 2026-11-01–2026-11-19) from `ramkivs/iips-production-market-data` @
+`6b50f0686e033e3d03cb8995d137e862cbf9068c`. Full record:
+`docs/integration/IID-L033-IPD-CALENDAR-CONSUMPTION-BOUNDARY-2026-11-19.md`.
+
+**What changed.** `assessment/policy.ts` now carries `priceMaxAgeTradingSessions: 5` (the seven-calendar-day
+`priceMaxAgeDays` is deleted); `MOS_POLICY_VERSION` is `mos-policy/1.1.0`; the new
+`assessment/exchangeCalendar.ts` validates a caller-supplied calendar artifact and explicit
+security→exchange/segment binding (identity/version pins, provenance shape, one continuous-coverage interval,
+complete explicit day rows, listing verification) and counts OPEN sessions after the observation date through
+the assessment date on Asia/Kolkata dates, observation day excluded. `selectPrice()` refuses — with named
+reasons and no weekday or calendar-day fallback — on missing/mismatched/out-of-coverage calendars,
+non-session price dates and a sixth elapsed session; knowledge-cutoff and corporate-action guards are
+unchanged; every emitted margin-of-safety block carries the `priceFreshness` evaluation. Callers that supply
+no binding (frontend generator, demo pipeline) now refuse prices fail-closed; wiring the pinned IPD artifact
+into production callers is follow-on work. No `PriceRecord` schema change, so dataset content/digests are
+untouched. IPD was read-only throughout and was not modified; no duplicate calendar exists in IRR outside
+labelled test fixtures.
+
+**Verification.** New `assessment-calendar.test.ts` (14 tests: five-session boundary, sixth-session refusal
+across the 2026-11-10 holiday and 14–15 weekend, exceptional Sunday 2026-11-08 Muhurat session counted,
+mock Saturdays excluded, non-session price dates refused, Asia/Kolkata timestamp aging, independent NSE/BSE
+bindings, and the fail-closed set) plus updated `assessment-price.test.ts`. Two historical controls were
+rebaselined for this policy change only, with the reason recorded in place: the S4-R3 payload digest and the
+IX authorized-policy comparison (L-034/L-036 still reproduce member-for-member). Full IID suite
+**1665/1665**; `tsc --noEmit` clean; `git diff --check` clean.
+
+**Status.** **`L-033` stays `OPEN`.** The implementation satisfies R-6.4 whenever a valid in-coverage binding
+is supplied, but two closure conditions remain unmet: (1) the exact IPD artifact bytes at `6b50f068…` have
+not been verified from this session (read-only IPD access failed on every route; pasted extract text is not
+byte evidence, and the digest IRR computes covers the supplied object, not the IPD file); (2) no production
+caller yet wires the pinned artifact. Closing L-033 requires an authorised, digest-pinned IRR supply of
+those bytes and a production binding. No other limitation status is changed by this section; PR #597 remains
+open and unmerged. Next free §17.33.

@@ -17,6 +17,12 @@
  *
  * Nothing here asserts an issuer figure: the committed evidence carries no filed associates/JV carrying value, and
  * the V2 row is labelled as a schema demonstration, not as issuer data.
+ *
+ * L-033 reconciliation (2026-11-19): the committed artifact was generated under `mos-policy/1.0.0`. The live
+ * engine now refuses the 2026-11-06 price when no exchange-calendar binding is supplied (`mos-policy/1.1.0`),
+ * so the only members allowed to differ are the MoS-derived V2 comparison fields and the two structural
+ * digests. Everything the IX bundle exists to prove — the L-034 penalty and the L-036 review control — must
+ * still reproduce member for member.
  */
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -31,8 +37,24 @@ const committed = JSON.parse(readFileSync(ARTIFACT, 'utf8')) as Record<string, a
 const live = buildEvidencePackage() as Record<string, any>;
 
 describe('the committed package regenerates exactly', () => {
-  test('the artifact equals a fresh build from the committed Work Item 3 inputs', () => {
-    assert.deepEqual(live, committed);
+  test('the artifact equals a fresh build from the committed Work Item 3 inputs, apart from the L-033 MoS fields', () => {
+    const stripL033 = (pkg: Record<string, any>): Record<string, any> => {
+      const copy = structuredClone(pkg);
+      // Under mos-policy/1.1.0 with no calendar binding the price is refused, so the V2 comparison has no
+      // band or MoS to publish; the structural digests move with the payload that carries priceFreshness.
+      copy.l036.v2Dataset.schemaOnlyChanges.bandBefore = null;
+      copy.l036.v2Dataset.schemaOnlyChanges.bandAfter = null;
+      copy.l036.v2Dataset.schemaOnlyChanges.mosBefore = null;
+      copy.l036.v2Dataset.schemaOnlyChanges.mosAfter = null;
+      delete copy.regression.structuralDigestV1;
+      delete copy.regression.structuralDigestV2;
+      return copy;
+    };
+    assert.deepEqual(stripL033(live), stripL033(committed));
+    assert.equal(live.l036.v2Dataset.schemaOnlyChanges.bandBefore, null);
+    assert.equal(live.l036.v2Dataset.schemaOnlyChanges.mosBefore, null);
+    assert.match(live.regression.structuralDigestV1, /^[0-9a-f]{64}$/);
+    assert.notEqual(live.regression.structuralDigestV1, committed.regression.structuralDigestV1);
   });
 
   test('the package declares the authorised policy, not a proposal', () => {

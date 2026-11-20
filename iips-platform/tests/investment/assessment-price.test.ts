@@ -1,5 +1,5 @@
 /**
- * IID-2 — price alignment and margin of safety (AC-2.10, R-6, `mos-policy/1.0.0`).
+ * IID-2 — price alignment and margin of safety (AC-2.10, R-6, `mos-policy/1.1.0`).
  */
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -8,6 +8,7 @@ import { assessCompany } from '../../src/investment/assessment/engine';
 import { selectPrice } from '../../src/investment/assessment/margin';
 import type { CorporateActionRecord, PriceRecord } from '../../src/investment/fundamentals/types';
 import { techAssessmentInput, techDataset, TECH_ISSUER } from './assessmentFixtures';
+import { boundedIpdBinding, julyFixtureBinding } from './exchangeCalendarFixtures';
 
 const price = (overrides: Partial<PriceRecord> = {}): PriceRecord => ({
   securityId: TECH_ISSUER,
@@ -26,6 +27,7 @@ const alignment = (overrides: Partial<Parameters<typeof selectPrice>[0]> = {}) =
     securityId: TECH_ISSUER,
     prices: [price()],
     corporateActions: techDataset().corporateActions,
+    priceCalendar: julyFixtureBinding(TECH_ISSUER),
     knownAsOf: '2026-07-23T17:44:46Z',
     generatedAt: '2026-07-25',
     dataAsOf: '2026-06-30',
@@ -45,11 +47,19 @@ describe('AC-2.10 — a margin of safety requires a price inside the policy wind
   });
 
   test('a price older than the policy window is refused as stale, not used', () => {
-    const selection = alignment({ knownAsOf: '2026-07-01T09:00:00Z', prices: [price({ asOf: '2026-07-10' })] });
+    // 2026-11-09 → 2026-11-18 spans six OPEN sessions (11, 12, 13, 16, 17, 18) across the 10th holiday and
+    // the 14–15 weekend, so it is outside the five-session window even though it is nine calendar days.
+    const selection = alignment({
+      knownAsOf: '2026-11-01T09:00:00Z',
+      generatedAt: '2026-11-18',
+      priceCalendar: boundedIpdBinding(TECH_ISSUER),
+      prices: [price({ asOf: '2026-11-09' })],
+    });
     assert.equal(selection.refusal, 'PRICE_OUTSIDE_POLICY_WINDOW');
     assert.equal(selection.observation.presence, 'MISSING');
     assert.equal(selection.observation.reason, 'PRICE_STALE');
-    assert.match(selection.observation.note ?? '', /policy window is 7/);
+    assert.match(selection.observation.note ?? '', /6 trading sessions old; the policy window is 5 trading sessions/);
+    assert.equal(selection.freshness.tradingSessionsElapsed, 6);
   });
 
   test('a price that predates the knowledge cutoff is refused rather than read as foresight', () => {
@@ -108,7 +118,9 @@ describe('the band is a policy function of the margin, and the policy version tr
     const expected = (mid - 300) / mid;
     assert.ok(Math.abs((mos.mosVsMid.value ?? 0) - expected) < 1e-12);
     assert.ok((mos.mosVsLow.value ?? 0) > 0);
-    assert.equal(mos.bandPolicyVersion, 'mos-policy/1.0.0');
+    assert.equal(mos.bandPolicyVersion, 'mos-policy/1.1.0');
+    assert.equal(mos.priceFreshness?.status, 'WITHIN_WINDOW');
+    assert.equal(mos.priceFreshness?.tradingSessionsElapsed, 0);
     assert.equal(mos.refusal, null);
   });
 

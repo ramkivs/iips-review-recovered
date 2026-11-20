@@ -26,6 +26,7 @@ import type {
 import type { OperatingMetricRecord } from '../../src/investment/contracts/operatingMetrics';
 import type { SectorName } from '../../src/investment/contracts/operatingMetrics';
 import type { AssessCompanyInput } from '../../src/investment/assessment/engine';
+import { julyFixtureBinding } from './exchangeCalendarFixtures';
 
 export const TECH_ISSUER = 'IN:ISIN:IN0000000201';
 export const BANK_ISSUER = 'IN:ISIN:IN0000000301';
@@ -581,6 +582,9 @@ export function assessInput(
     },
     generatedAt: GENERATED_AT,
     knownAsOf: KNOWN_AS_OF,
+    // Synthetic fixtures are aged against a declared test calendar; production inputs must bind the pinned
+    // IPD calendar explicitly (L-033). A caller override replaces this binding wholesale.
+    priceCalendar: julyFixtureBinding(overrides.securityId),
     ...overrides,
   };
 }

@@ -237,8 +237,11 @@ export function buildEvidencePackage() {
     throw new Error(`the bridge delta ${deltaMid} is not the published weighting × carrying value / shares (${expectedDelta})`);
   }
 
-  const price = v1.payload.valuation.marginOfSafety?.price.value ?? 0;
-  const bandOf = (midValue: number): string | null => (midValue === 0 ? null : mosBandFor((midValue - price) / midValue));
+  const price = v1.payload.valuation.marginOfSafety?.price.value ?? null;
+  // L-033: a refused price (no calendar binding supplied to this reproduction) has no band. Substituting
+  // zero would fabricate a DEEP_DISCOUNT reading from an absent price.
+  const bandOf = (midValue: number): string | null =>
+    price === null || midValue === 0 ? null : mosBandFor((midValue - price) / midValue);
 
   return {
     schemaVersion: 1,

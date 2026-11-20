@@ -26,6 +26,7 @@ import { buildDividends } from './dividends';
 import { assessmentNarrative } from './explain';
 import { buildIntrinsic, buildSensitivity } from './intrinsic';
 import { buildMarginOfSafety, selectPrice } from './margin';
+import type { PriceCalendarBinding } from './exchangeCalendar';
 import { evaluateMethods, selectMethods, type MethodContext } from './methods';
 import { buildMoat } from './moat';
 import { restatementDisclosure, selectSeries } from './periods';
@@ -64,6 +65,12 @@ export interface AssessCompanyInput {
   /** Caller-supplied clock. The engine never reads one. */
   readonly generatedAt: string;
   readonly knownAsOf: string;
+  /**
+   * L-033: the explicit security → IPD exchange-calendar binding used to age the selected price in trading
+   * sessions. Supplied as data by the caller (the engine performs no I/O); absent or unverifiable bindings
+   * refuse the price rather than falling back to calendar days.
+   */
+  readonly priceCalendar?: PriceCalendarBinding;
   readonly dividendDeclarations?: readonly DividendDeclaration[];
   readonly sectorReference?: { readonly sectorRefId: string; readonly engineVerdict: string | null; readonly composite: number | null };
   readonly wacc?: number;
@@ -214,6 +221,8 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
     securityId: input.securityId,
     prices: input.dataset.prices,
     corporateActions: input.dataset.corporateActions,
+    listings: input.dataset.listings,
+    priceCalendar: input.priceCalendar,
     knownAsOf: input.knownAsOf,
     generatedAt: input.generatedAt,
     dataAsOf: series.annual[0]?.periodEnd ?? input.generatedAt.slice(0, 10),
@@ -367,6 +376,11 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
       `Associates/JV review required (${structure.associatesJVReview.status}): ${structure.associatesJVReview.reason} A review flag is not a carrying value: no figure has been established, no unavailable input has been converted into a nil, and the flag changes no valuation output.`,
     );
   }
+  if (price.freshness.status === 'UNAVAILABLE' && price.refusal !== null && price.refusal !== 'NO_PRICE_OBSERVATION') {
+    limitations.push(
+      `Price freshness under mos-policy/1.1.0 could not be established (${price.freshness.reason ?? price.refusal}): ${price.freshness.detail ?? 'the calendar binding or coverage was unavailable'}. The price was refused; no weekday or calendar-day fallback was used.`,
+    );
+  }
   const unimplemented = methods.filter((method) => method.notApplicableReason?.startsWith('METHOD_NOT_IMPLEMENTED_IN_ENGINE_V1'));
   if (unimplemented.length > 0) {
     limitations.push(
@@ -486,6 +500,7 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
     generatedAt: input.generatedAt,
     knownAsOf: input.knownAsOf,
     securityId: input.securityId,
+    priceCalendar: input.priceCalendar === undefined ? null : digestOf(input.priceCalendar),
     wacc: assumption.wacc,
     growth: assumption.growth,
     declarations: (input.dividendDeclarations ?? []).map((declaration) => ({ periodEnd: declaration.periodEnd, dps: declaration.dps })),

@@ -1,13 +1,15 @@
 /**
- * IID-2 — price alignment and margin of safety (R-6, `mos-policy/1.0.0`).
+ * IID-2 — price alignment and margin of safety (R-6, `mos-policy/1.1.0`).
  *
- * A margin of safety is only an answer if the price is the right price on the right day. Four refusals are
+ * A margin of safety is only an answer if the price is the right price on the right day. Five refusals are
  * enforced here, and each names itself in `refusal` so the surface can say why rather than showing a dash:
  *
  *   1. no price for the security at or before `generatedAt`           → `PRICE_UNAVAILABLE`
- *   2. price older than the policy window (default 7 calendar days)    → `PRICE_STALE`
+ *   2. price older than the policy window (5 trading sessions, L-033)  → `PRICE_STALE`
  *   3. price dated before `knownAsOf` (look-ahead)                     → `PRICE_STALE`
- *   4. a per-share-affecting corporate action between the price date and the period end with no applied
+ *   4. no verified calendar/mapping, a non-session price date, or a date outside the calendar's continuous
+ *      coverage                                                       → refused by its calendar reason
+ *   5. a per-share-affecting corporate action between the price date and the period end with no applied
  *      factor                                                        → `PRICE_STALE` (refused, not adjusted)
  *
  * No substitution of any kind is performed: not yesterday's close, not another listing's price, not an
@@ -15,7 +17,8 @@
  */
 import type { NumericObservation } from '../contracts/observation';
 import { missing, notComputable, present } from '../contracts/observation';
-import type { CorporateActionRecord, PriceRecord } from '../fundamentals/types';
+import type { CorporateActionRecord, ListingRecord, PriceRecord } from '../fundamentals/types';
+import { evaluatePriceFreshness, exchangeLocalDate, type PriceCalendarBinding, type PriceFreshnessAssessment } from './exchangeCalendar';
 import { MOS_POLICY_VERSION } from './types';
 import { VALUATION_POLICY, mosBandFor } from './policy';
 import type { IntrinsicRange, MarginOfSafetyBlock } from './types';
@@ -24,6 +27,9 @@ export interface PriceAlignmentInput {
   readonly securityId: string;
   readonly prices: readonly PriceRecord[];
   readonly corporateActions: readonly CorporateActionRecord[];
+  readonly listings?: readonly ListingRecord[];
+  /** L-033: the explicit security → exchange-calendar binding. Absent means the price cannot be aged. */
+  readonly priceCalendar?: PriceCalendarBinding;
   readonly knownAsOf: string;
   readonly generatedAt: string;
   readonly dataAsOf: string;
@@ -33,26 +39,44 @@ export interface PriceSelection {
   readonly observation: NumericObservation;
   readonly asOf: string | null;
   readonly refusal: string | null;
-}
-
-const DAY_MS = 24 * 60 * 60 * 1000;
-
-function daysBetween(earlier: string, later: string): number {
-  return Math.round((new Date(`${later}T00:00:00Z`).getTime() - new Date(`${earlier}T00:00:00Z`).getTime()) / DAY_MS);
+  readonly freshness: PriceFreshnessAssessment;
 }
 
 /** Choose the price the assessment is allowed to use, or refuse and say why. */
 export function selectPrice(input: PriceAlignmentInput): PriceSelection {
+  const assessmentDate = exchangeLocalDate(input.generatedAt);
+  const maxTradingSessions = VALUATION_POLICY.freshness.priceMaxAgeTradingSessions;
   const candidates = input.prices
     .filter((price) => price.securityId === input.securityId)
-    .filter((price) => price.asOf <= input.generatedAt)
-    .sort((a, b) => (a.asOf < b.asOf ? 1 : a.asOf > b.asOf ? -1 : 0));
+    .map((price) => ({ price, date: exchangeLocalDate(price.asOf) }))
+    .filter((candidate) => candidate.date !== null && assessmentDate !== null && candidate.date <= assessmentDate)
+    .sort((a, b) => (a.date! < b.date! ? 1 : a.date! > b.date! ? -1 : a.price.asOf < b.price.asOf ? 1 : a.price.asOf > b.price.asOf ? -1 : 0));
 
   if (candidates.length === 0) {
-    return { observation: missing('PRICE_UNAVAILABLE'), asOf: null, refusal: 'NO_PRICE_OBSERVATION' };
+    return {
+      observation: missing('PRICE_UNAVAILABLE'),
+      asOf: null,
+      refusal: 'NO_PRICE_OBSERVATION',
+      freshness: evaluatePriceFreshness({
+        binding: input.priceCalendar,
+        listings: input.listings,
+        securityId: input.securityId,
+        observationDate: null,
+        assessmentDate,
+        maxTradingSessions,
+      }),
+    };
   }
 
-  const price = candidates[0]!;
+  const { price, date: priceDate } = candidates[0]!;
+  const freshness = evaluatePriceFreshness({
+    binding: input.priceCalendar,
+    listings: input.listings,
+    securityId: input.securityId,
+    observationDate: priceDate,
+    assessmentDate,
+    maxTradingSessions,
+  });
   const source = {
     kind: 'MARKET_PRICE' as const,
     ref: price.sourceRef,
@@ -63,25 +87,42 @@ export function selectPrice(input: PriceAlignmentInput): PriceSelection {
       ? present(price.value, source, { basis: 'AS_FILED', periodEnd: price.asOf })
       : { ...present(price.value, source, { basis: 'AS_FILED', periodEnd: price.asOf }), note };
 
-  if (price.asOf < input.knownAsOf.slice(0, 10)) {
+  const knownDate = exchangeLocalDate(input.knownAsOf);
+  if (knownDate === null || priceDate! < knownDate) {
     return {
       observation: { ...asObservation('price predates the knowledge cutoff'), presence: 'MISSING', value: null, reason: 'PRICE_STALE' },
       asOf: price.asOf,
       refusal: 'PRICE_PREDATES_KNOWLEDGE_CUTOFF',
+      freshness,
     };
   }
 
-  const age = daysBetween(price.asOf, input.generatedAt.slice(0, 10));
-  if (age > VALUATION_POLICY.freshness.priceMaxAgeDays) {
+  if (freshness.status === 'UNAVAILABLE') {
+    const reason = freshness.reason ?? 'PRICE_CALENDAR_UNAVAILABLE';
     return {
       observation: {
-        ...asObservation(`price is ${age} days old; the policy window is ${VALUATION_POLICY.freshness.priceMaxAgeDays}`),
+        ...asObservation(freshness.detail ?? reason),
+        presence: 'MISSING',
+        value: null,
+        reason: reason === 'PRICE_ON_NON_SESSION_DATE' ? 'PRICE_STALE' : 'PRICE_UNAVAILABLE',
+      },
+      asOf: price.asOf,
+      refusal: reason,
+      freshness,
+    };
+  }
+
+  if (freshness.status === 'OUTSIDE_WINDOW') {
+    return {
+      observation: {
+        ...asObservation(freshness.detail ?? `price is more than ${maxTradingSessions} trading sessions old`),
         presence: 'MISSING',
         value: null,
         reason: 'PRICE_STALE',
       },
       asOf: price.asOf,
       refusal: 'PRICE_OUTSIDE_POLICY_WINDOW',
+      freshness,
     };
   }
 
@@ -106,10 +147,11 @@ export function selectPrice(input: PriceAlignmentInput): PriceSelection {
       },
       asOf: price.asOf,
       refusal: 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION',
+      freshness,
     };
   }
 
-  return { observation: asObservation(), asOf: price.asOf, refusal: null };
+  return { observation: asObservation(), asOf: price.asOf, refusal: null, freshness };
 }
 
 /** Margin of safety against the intrinsic midpoint and low, with the policy band. */
@@ -124,6 +166,7 @@ export function buildMarginOfSafety(price: PriceSelection, intrinsic: IntrinsicR
       band: null,
       bandPolicyVersion: MOS_POLICY_VERSION,
       refusal: price.refusal ?? 'INTRINSIC_WITHHELD',
+      priceFreshness: price.freshness,
     };
   }
 
@@ -138,6 +181,7 @@ export function buildMarginOfSafety(price: PriceSelection, intrinsic: IntrinsicR
       band: null,
       bandPolicyVersion: MOS_POLICY_VERSION,
       refusal: price.refusal ?? 'PRICE_UNAVAILABLE',
+      priceFreshness: price.freshness,
     };
   }
 
@@ -151,6 +195,7 @@ export function buildMarginOfSafety(price: PriceSelection, intrinsic: IntrinsicR
       band: null,
       bandPolicyVersion: MOS_POLICY_VERSION,
       refusal: 'INTRINSIC_WITHHELD',
+      priceFreshness: price.freshness,
     };
   }
 
@@ -171,5 +216,6 @@ export function buildMarginOfSafety(price: PriceSelection, intrinsic: IntrinsicR
     band: mosBandFor(mosMid),
     bandPolicyVersion: MOS_POLICY_VERSION,
     refusal: null,
+    priceFreshness: price.freshness,
   };
 }
