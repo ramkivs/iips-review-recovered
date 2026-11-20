@@ -19,6 +19,8 @@
  * weekend and an exchange holiday do not. Anything missing, mismatched or outside continuous coverage is
  * UNAVAILABLE and the caller must refuse the price rather than fall back to weekdays or calendar days.
  */
+import { createHash } from 'node:crypto';
+
 import type { Exchange } from '../contracts/ids';
 import { digestOf } from '../fundamentals/canonical';
 
@@ -439,4 +441,75 @@ export function evaluatePriceFreshness(input: {
     detail: null,
     tradingSessionsElapsed: elapsed,
   };
+}
+
+/* -------------------------------------------------------------------------------------------------- *
+ * Verified supply: exact bytes → binding.
+ *
+ * This is the only route by which calendar bytes become a binding. The caller supplies the artifact bytes
+ * it obtained through its own authorised channel together with the SHA-256 it pinned for those bytes
+ * (for the IPD calendar: repository `ramkivs/iips-production-market-data`, commit and artifact path in the
+ * provenance). The digest is computed over the exact bytes and must match before the JSON is even parsed;
+ * the parsed artifact must then pass the same preparation validation used at assessment time, so a supply
+ * error surfaces here, named, instead of degrading a later assessment. No network, no file I/O, and no
+ * fallback: any mismatch refuses the supply.
+ * -------------------------------------------------------------------------------------------------- */
+
+export interface VerifiedCalendarSupply {
+  /** The pinned digest of the exact artifact bytes, as `sha256:<64 hex>`. */
+  readonly expectedSha256: string;
+  /** Where the bytes came from. The verified byte digest is recorded into the binding's provenance. */
+  readonly provenance: ExchangeCalendarProvenance;
+  readonly expectedId: string;
+  readonly expectedVersion: string;
+  readonly securityId: string;
+  readonly exchange: Exchange;
+  readonly listingId?: string | null;
+}
+
+export type VerifiedCalendarBindingResult =
+  | { readonly ok: true; readonly binding: PriceCalendarBinding; readonly sha256: string }
+  | { readonly ok: false; readonly reason: string; readonly detail: string };
+
+export function bindingFromVerifiedCalendarBytes(
+  bytes: Uint8Array,
+  supply: VerifiedCalendarSupply,
+): VerifiedCalendarBindingResult {
+  if (!SHA256_PATTERN.test(supply.expectedSha256)) {
+    return {
+      ok: false,
+      reason: 'PRICE_CALENDAR_DIGEST_MISMATCH',
+      detail: 'the pinned calendar digest is not a sha256:<64 hex> value; supply refused',
+    };
+  }
+  const sha256 = `sha256:${createHash('sha256').update(bytes).digest('hex')}`;
+  if (sha256 !== supply.expectedSha256) {
+    return {
+      ok: false,
+      reason: 'PRICE_CALENDAR_DIGEST_MISMATCH',
+      detail: `calendar bytes hash to ${sha256}, not the pinned ${supply.expectedSha256}; supply refused`,
+    };
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(new TextDecoder().decode(bytes));
+  } catch {
+    return { ok: false, reason: 'PRICE_CALENDAR_INVALID', detail: 'the verified calendar bytes are not valid JSON' };
+  }
+  if (!isRecord(parsed)) {
+    return { ok: false, reason: 'PRICE_CALENDAR_INVALID', detail: 'the verified calendar bytes are not a JSON object' };
+  }
+  const binding: PriceCalendarBinding = {
+    calendar: parsed as unknown as ExchangeSessionCalendarArtifact,
+    provenance: { ...supply.provenance, sha256 },
+    expectedId: supply.expectedId,
+    expectedVersion: supply.expectedVersion,
+    securityId: supply.securityId,
+    listingId: supply.listingId ?? null,
+    exchange: supply.exchange,
+    segment: segmentForExchange(supply.exchange),
+  };
+  const preparation = prepareCalendar(binding);
+  if (!preparation.ok) return { ok: false, reason: preparation.reason, detail: preparation.detail };
+  return { ok: true, binding, sha256 };
 }

@@ -3370,3 +3370,34 @@ byte evidence, and the digest IRR computes covers the supplied object, not the I
 caller yet wires the pinned artifact. Closing L-033 requires an authorised, digest-pinned IRR supply of
 those bytes and a production binding. No other limitation status is changed by this section; PR #597 remains
 open and unmerged. Next free §17.33.
+
+## 17.33 `L-033` — access root cause established; verified-supply route and production caller wired (`2026-11-19`)
+
+**Append-only update; §17.32 and all earlier text unaltered.** Access investigation with control requests:
+the sandbox egress proxy presents an Arena GitHub App installation credential granted only to
+`iips-review-recovered` (session token is an opaque `aren…` proxy token). `ramkivs/iips-production-market-data`
+returns GitHub 403 "Resource not accessible by integration" even for credential-less API requests, 404 over
+HTML/codeload (repositories invisible to the presented credential), and a proxy 403 on git smart-HTTP, while
+an unrelated public repository reads anonymously (200) and codeload for this repository returns 200. SSH and
+git-protocol egress are closed. **This is an administrator-side session permission scope, not repository
+visibility and not an IRR runtime limitation.** Unblocking requires one of: Arena GitHub App installed on
+`ramkivs/iips-production-market-data` (read-only Contents), that repository added to the session allowlist,
+or the artifact supplied through an owner-controlled channel reachable from IRR.
+
+**Integration completed in IRR.** `exchangeCalendar.ts` gains `bindingFromVerifiedCalendarBytes()` — the
+single supply route: exact bytes + pinned SHA-256, digest verified before parsing, artifact re-validated,
+verified digest recorded in provenance; any mismatch refuses (`PRICE_CALENDAR_DIGEST_MISMATCH`). The
+production generator `frontend/server/investment/cli/generate-investment-artifacts.ts` accepts
+`--price-calendar`/`--price-calendar-sha256`/`--price-calendar-commit` (id/version overrides defaulting to
+`IPD-EQUITY-2026-BOUNDED@2026-11-19.2`), binds the verified artifact to the identity-resolved listing, and
+passes it to `assessCompany()`; without the flags, behaviour is unchanged and prices refuse fail-closed.
+No direct IPD runtime dependency, no runtime network access, no duplicate calendar. Three supply-mechanism
+tests added; full IID suite **1668/1668**, platform `tsc --noEmit` clean. Frontend typecheck/test suites
+cannot run in this sandbox (their IPD-pinned private dependencies are uninstallable under the same access
+restriction); the edited CLI file parses cleanly and the verified logic lives in the platform-typed helper.
+
+**Status.** **`L-033` stays `OPEN`.** The caller wiring condition is now satisfied as a mechanism; the sole
+remaining closure condition is byte-level verification of `calendars/ipd-equity-2026.v2026-11-19.2.json` at
+`6b50f068…` once one administrator action above is taken, followed by a production run supplying the
+verified artifact and recording its SHA-256 in the L-033 record. No other limitation status changed; PR #597
+remains open and unmerged; IPD untouched. Next free §17.34.

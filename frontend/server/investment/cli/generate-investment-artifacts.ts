@@ -28,6 +28,10 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 import { assessCompany } from '../../../../iips-platform/src/investment/assessment/engine';
+import {
+  bindingFromVerifiedCalendarBytes,
+  type PriceCalendarBinding,
+} from '../../../../iips-platform/src/investment/assessment/exchangeCalendar';
 import type { SectorName } from '../../../../iips-platform/src/investment/contracts/operatingMetrics';
 import { loadIdentitySources, IDENTITY_FILE_NAMES } from '../../../../iips-platform/src/investment/identity/sources';
 import { buildBinding, resolveIdentity } from '../../../../iips-platform/src/investment/identity/resolver';
@@ -152,6 +156,12 @@ interface CliArgs {
   readonly dryRun: boolean;
   readonly dbPath: string | null;
   readonly carrierPath: string | null;
+  /** L-033: operator-supplied, digest-pinned exchange-calendar artifact (IPD). Null = no binding supplied. */
+  readonly priceCalendarPath: string | null;
+  readonly priceCalendarSha256: string | null;
+  readonly priceCalendarCommit: string | null;
+  readonly priceCalendarId: string;
+  readonly priceCalendarVersion: string;
 }
 
 class CliFailure extends Error {
@@ -172,7 +182,9 @@ export function parseArgs(argv: readonly string[]): CliArgs {
     throw new CliFailure(
       'USAGE',
       'usage: generate-investment-artifacts.ts --issuer <issuerId> --data-dir <datasetDir> ' +
-        '[--identity-dir <dir>] [--db <path>] [--owner-carrier <path>] [--generated-at <iso>] [--out <file>] [--dry-run]',
+        '[--identity-dir <dir>] [--db <path>] [--owner-carrier <path>] [--generated-at <iso>] [--out <file>] [--dry-run] ' +
+        '[--price-calendar <artifact.json> --price-calendar-sha256 <sha256:...> --price-calendar-commit <40hex>] ' +
+        '[--price-calendar-id <id>] [--price-calendar-version <version>]',
     );
   }
   const env = process.env;
@@ -188,6 +200,11 @@ export function parseArgs(argv: readonly string[]): CliArgs {
     dryRun: argv.includes('--dry-run'),
     dbPath: get('--db') ?? null,
     carrierPath: get('--owner-carrier') ?? null,
+    priceCalendarPath: get('--price-calendar') === undefined ? null : resolve(get('--price-calendar')!),
+    priceCalendarSha256: get('--price-calendar-sha256') ?? null,
+    priceCalendarCommit: get('--price-calendar-commit') ?? null,
+    priceCalendarId: get('--price-calendar-id') ?? 'IPD-EQUITY-2026-BOUNDED',
+    priceCalendarVersion: get('--price-calendar-version') ?? '2026-11-19.2',
   };
 }
 
@@ -421,6 +438,55 @@ export async function runCli(
     }
     steps.push({ step: 'identity', status: 'OK', detail: `RESOLVED via ${resolution.resolutionBasis}` });
 
+    // ---- 2b price calendar (L-033) -----------------------------------------------------------
+    // The operator supplies the pinned IPD calendar artifact as a file plus the SHA-256 they pinned for
+    // those exact bytes and the IPD commit they came from. The bytes are verified before anything is
+    // bound; the binding names the resolved listing, so the security → exchange-segment mapping is the
+    // caller's explicit assertion, never an inference from a price source reference. No artifact supplied
+    // means no binding: the engine then refuses prices fail-closed under mos-policy/1.1.0.
+    let priceCalendar: PriceCalendarBinding | undefined;
+    if (args.priceCalendarPath !== null) {
+      if (args.priceCalendarSha256 === null || args.priceCalendarCommit === null) {
+        throw new CliFailure(
+          'PRICE_CALENDAR_SUPPLY_INCOMPLETE',
+          '--price-calendar requires --price-calendar-sha256 and --price-calendar-commit; an unpinned calendar is not consumable',
+        );
+      }
+      const listing = datasetRead.content.listings.find((entry) => entry.listingId === resolution.listingId);
+      if (listing === undefined) {
+        throw new CliFailure(
+          'PRICE_CALENDAR_MAPPING_UNAVAILABLE',
+          `resolved listing ${String(resolution.listingId)} is not in the dataset; no exchange mapping can be asserted`,
+        );
+      }
+      let calendarBytes: Buffer;
+      try {
+        calendarBytes = readFileSync(args.priceCalendarPath);
+      } catch {
+        throw new CliFailure('PRICE_CALENDAR_SUPPLY_INCOMPLETE', `cannot read calendar artifact at ${args.priceCalendarPath}`);
+      }
+      const verified = bindingFromVerifiedCalendarBytes(calendarBytes, {
+        expectedSha256: args.priceCalendarSha256,
+        provenance: {
+          repository: 'ramkivs/iips-production-market-data',
+          commit: args.priceCalendarCommit,
+          artifactPath: 'calendars/ipd-equity-2026.v2026-11-19.2.json',
+        },
+        expectedId: args.priceCalendarId,
+        expectedVersion: args.priceCalendarVersion,
+        securityId: resolution.securityId ?? args.issuer,
+        exchange: listing.exchange,
+        listingId: listing.listingId,
+      });
+      if (!verified.ok) throw new CliFailure(verified.reason, verified.detail);
+      priceCalendar = verified.binding;
+      steps.push({
+        step: 'price-calendar',
+        status: 'OK',
+        detail: `${verified.binding.expectedId}@${verified.binding.expectedVersion} for ${listing.exchange} (${verified.sha256})`,
+      });
+    }
+
     // ---- 3 assessment -----------------------------------------------------------------------
     const issuerRecord = sources.roster.issuers.find((entry) => entry.issuerId === args.issuer)!;
     const engineResult = assessCompany({
@@ -441,6 +507,7 @@ export async function runCli(
       },
       generatedAt,
       knownAsOf: manifest.knownAsOf ?? generatedAt,
+      priceCalendar,
     });
     const payload = engineResult.payload;
     assessment = {

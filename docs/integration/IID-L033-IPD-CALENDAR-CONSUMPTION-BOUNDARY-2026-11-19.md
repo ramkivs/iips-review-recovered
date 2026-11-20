@@ -22,7 +22,26 @@ does **not** ask the owner to supply the calendar again.
 
 Read-only access to IPD from this session failed on every route attempted (git clone/smart-HTTP 403, GitHub API
 403 "Resource not accessible by integration", TLS resets on raw hosts, 404s on codeload/npm mirrors). Those
-failures are access limits of this session, not evidence about IPD. Consequently:
+failures are access limits of this session, not evidence about IPD.
+
+**Root cause, established 2026-11-19 with control requests.** The sandbox egress proxy presents an Arena
+GitHub App installation credential for requests to the session owner's GitHub resources, and that installation
+is granted only to `iips-review-recovered`. Evidence: the session `GH_TOKEN` is an opaque Arena token
+(`aren…`, 24 chars) exchanged by the proxy; an unrelated public repository (`octocat/Hello-World`) reads
+anonymously with HTTP 200 while `ramkivs/iips-production-market-data` returns GitHub's 403 "Resource not
+accessible by integration" **even with no client credential sent**; the same repo returns 404 over HTML and
+codeload (GitHub hides repositories the presented credential cannot see) while codeload for
+`iips-review-recovered` returns 200; git smart-HTTP is refused by the proxy itself ("Write access to
+repository not granted"); SSH (port 22) and the git protocol (port 9418) are closed/reset at egress. This is
+an administrator-side session permission scope — the Arena GitHub App is not installed on, or the session is
+not allowlisted for, `ramkivs/iips-production-market-data`. It is **not** a statement about the repository's
+visibility (public, per the owner) and **not** an IRR runtime limitation. The administrator change that
+unblocks byte verification is any one of: install/grant the Arena GitHub App on
+`ramkivs/iips-production-market-data` with read-only Contents permission; add that repository to this
+session's repository allowlist; or supply the artifact through an owner-controlled channel reachable from
+IRR (for example the owner committing the digest-pinned artifact into IRR, or a registry publication). The
+work below therefore completes everything that does not depend on that grant, and stops exactly there.
+Consequently:
 
 - **Verified from the owner-supplied extract:** artifact identity `IPD-EQUITY-2026-BOUNDED`, version
   `2026-11-19.2`, schema 1; continuous coverage only for `NSE_EQ` and `BSE_EQ`, `2026-11-01`–`2026-11-19`;
@@ -85,6 +104,22 @@ Callers that do not supply a binding — today that includes the frontend artifa
 pipeline — now have their prices refused fail-closed. Wiring a pinned IPD calendar into those callers is
 deliberate follow-on work, not something this change smuggles in.
 
+**Caller integration completed 2026-11-19 (supply mechanism; the artifact itself remains to be supplied).**
+`bindingFromVerifiedCalendarBytes()` in `exchangeCalendar.ts` is the single verified-supply route: the
+caller provides the exact artifact bytes obtained through its own authorised channel plus the SHA-256 it
+pinned for those bytes; the digest is computed over the bytes and must match before the JSON is parsed, and
+the artifact must pass the same preparation validation used at assessment time, with the verified digest
+recorded into the binding's provenance. The production artifact generator
+(`frontend/server/investment/cli/generate-investment-artifacts.ts`) now accepts `--price-calendar`,
+`--price-calendar-sha256`, `--price-calendar-commit` (plus `--price-calendar-id`/`--price-calendar-version`
+overrides defaulting to the IPD `2026-11-19.2` identity): it verifies the supplied bytes, binds them to the
+identity-resolved listing (its exchange and listing id from the dataset — the caller's explicit mapping
+assertion), records a `price-calendar` step, and passes the binding into `assessCompany()`. With no
+`--price-calendar` flag nothing changes in shape: no binding is supplied and prices refuse fail-closed.
+There is no direct IPD runtime dependency and no network access at runtime; once an administrator grants
+one of the access routes in §2, supplying the verified artifact to production is a command-line act, not a
+code change. The demo pipeline was deliberately left unbound (it runs synthetic fixtures).
+
 ## 4. Tests and validation (2026-11-19)
 
 - New `iips-platform/tests/investment/assessment-calendar.test.ts` (14 tests) pins the boundary on the
@@ -103,17 +138,28 @@ deliberate follow-on work, not something this change smuggles in.
   computing a band).
 - Full IID suite: `npm run test:iid` — **1665/1665 passing**. TypeScript: `tsc --noEmit` — clean.
   `git diff --check` — clean.
+- Caller-integration follow-on (2026-11-19): three supply-mechanism tests added to
+  `assessment-calendar.test.ts` (pinned-digest bytes become a working binding; tampered bytes refuse with
+  `PRICE_CALENDAR_DIGEST_MISMATCH`; malformed pin and non-calendar bytes refuse at supply time). Full IID
+  suite now **1668/1668**; platform `tsc --noEmit` clean. The edited frontend CLI file parses cleanly; the
+  frontend's own typecheck/test suites cannot run in this sandbox because its dependencies include the
+  IPD-pinned private packages that the same access restriction makes uninstallable here — that is recorded,
+  not silently skipped, and the platform-typed helper carries the verified logic those suites would exercise.
 
 ## 5. Disposition
 
 - Option A (five trading days) remains the settled owner choice; it is not reopened.
 - The runtime is now compliant with R-6.4's five-trading-session rule **when a caller supplies a valid,
   in-coverage calendar binding**, and refuses the price otherwise. The seven-calendar-day rule is gone.
-- L-033 stays **`OPEN`** for one exact, repository-evidenced reason: the consumed calendar's identity rests
-  on the owner-supplied extract, not on verified IPD bytes. Closing L-033 requires (a) byte-level
-  verification of `calendars/ipd-equity-2026.v2026-11-19.2.json` at `6b50f068…` (SHA-256 against the pinned
-  commit) through an authorised IRR supply route, and (b) a production caller actually wiring that pinned
-  artifact as a binding. Neither is claimed here.
+- L-033 stays **`OPEN`** for one exact, evidenced reason: the consumed calendar's identity rests on the
+  owner-supplied extract, not on verified IPD bytes. Condition (b) from the original disposition — a
+  production caller wiring the pinned artifact as a binding — is now implemented as a mechanism (§3); what
+  remains is condition (a): byte-level verification of `calendars/ipd-equity-2026.v2026-11-19.2.json` at
+  `6b50f068…` (SHA-256 against the pinned commit), which requires exactly one administrator action from
+  §2 (Arena GitHub App grant on the IPD repository, session allowlist addition, or an owner-controlled
+  supply of the artifact into IRR). Once those bytes are in hand, closure is: compute the SHA-256, run the
+  production caller with `--price-calendar`/`--price-calendar-sha256`/`--price-calendar-commit`, and record
+  the verified digest in this document and the register. None of that is claimed yet.
 - PR #597 remains open and unmerged; nothing in this work modifies or merges it. No change was made in IPD.
   No duplicate calendar was created in IRR — the only calendar-shaped data in this repository is test
   fixtures, labelled as such.

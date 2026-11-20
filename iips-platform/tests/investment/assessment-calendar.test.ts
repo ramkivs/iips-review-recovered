@@ -9,8 +9,10 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert/strict';
 
+import { createHash } from 'node:crypto';
+
 import { selectPrice } from '../../src/investment/assessment/margin';
-import { evaluatePriceFreshness } from '../../src/investment/assessment/exchangeCalendar';
+import { bindingFromVerifiedCalendarBytes, evaluatePriceFreshness } from '../../src/investment/assessment/exchangeCalendar';
 import type { ListingRecord, PriceRecord } from '../../src/investment/fundamentals/types';
 import { boundedIpdBinding, boundedIpdCalendarFixture, priceCalendarBinding } from './exchangeCalendarFixtures';
 
@@ -182,5 +184,55 @@ describe('L-033 — fail-closed calendar boundary', () => {
     });
     assert.equal(first.calendarDigest, second.calendarDigest);
     assert.equal(first.tradingSessionsElapsed, 1);
+  });
+});
+
+describe('L-033 — verified calendar supply (exact bytes → binding)', () => {
+  // These tests pin the supply mechanism, not IPD byte identity: the bytes here are the test fixture's,
+  // and the pinned digest is computed from them in the test. Production supply must pin the digest of the
+  // actual IPD artifact bytes obtained through an authorised channel.
+  const fixtureBytes = new TextEncoder().encode(JSON.stringify(boundedIpdCalendarFixture()));
+  const fixtureSha256 = `sha256:${createHash('sha256').update(fixtureBytes).digest('hex')}`;
+  const supply = {
+    expectedSha256: fixtureSha256,
+    provenance: {
+      repository: 'ramkivs/iips-production-market-data',
+      commit: '6b50f0686e033e3d03cb8995d137e862cbf9068c',
+      artifactPath: 'calendars/ipd-equity-2026.v2026-11-19.2.json',
+    },
+    expectedId: 'IPD-EQUITY-2026-BOUNDED',
+    expectedVersion: '2026-11-19.2',
+    securityId: SECURITY,
+    exchange: 'BSE' as const,
+    listingId: null,
+  };
+
+  test('bytes matching the pinned digest become a binding that ages prices', () => {
+    const verified = bindingFromVerifiedCalendarBytes(fixtureBytes, supply);
+    assert.equal(verified.ok, true);
+    if (!verified.ok) return;
+    assert.equal(verified.sha256, fixtureSha256);
+    assert.equal(verified.binding.provenance?.sha256, fixtureSha256);
+    const result = selection('2026-11-18', '2026-11-19', { priceCalendar: verified.binding });
+    assert.equal(result.refusal, null);
+    assert.equal(result.freshness.tradingSessionsElapsed, 1);
+  });
+
+  test('bytes that do not match the pinned digest are refused at supply time', () => {
+    const tampered = new TextEncoder().encode(JSON.stringify({ ...boundedIpdCalendarFixture(), version: '1900-01-01.0' }));
+    const refused = bindingFromVerifiedCalendarBytes(tampered, supply);
+    assert.equal(refused.ok, false);
+    if (refused.ok) return;
+    assert.equal(refused.reason, 'PRICE_CALENDAR_DIGEST_MISMATCH');
+  });
+
+  test('a malformed pinned digest and non-calendar bytes are refused at supply time', () => {
+    assert.equal(bindingFromVerifiedCalendarBytes(fixtureBytes, { ...supply, expectedSha256: 'sha256:not-hex' }).ok, false);
+    const junk = new TextEncoder().encode('{"not":"a calendar"}');
+    const junkSha = `sha256:${createHash('sha256').update(junk).digest('hex')}`;
+    const refused = bindingFromVerifiedCalendarBytes(junk, { ...supply, expectedSha256: junkSha });
+    assert.equal(refused.ok, false);
+    if (refused.ok) return;
+    assert.equal(refused.reason, 'PRICE_CALENDAR_INVALID');
   });
 });
