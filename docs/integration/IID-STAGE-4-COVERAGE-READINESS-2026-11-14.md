@@ -1422,3 +1422,13 @@ quarter (50 d) remains a separate latest-reported observation, and all series ha
 Freshness suites 23/23, full IID regression 1668/1668, typecheck PASS. Evidence:
 `evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-19/`; register §17.39. `S4-R3` stays **OPEN**
 (freshness limb unmet) and `S4-R3-Infosys` stays **OPEN** (no newer supported Infosys filing).
+
+**Addendum — S4-R3-Infosys discharged on data supply; S4-R3 stays OPEN (2026-11-19).** The `S4-R3` row
+above is **not closed**. The operator supplied audited consolidated Infosys FY2025/FY2026 annuals; they
+were ingested as a digest-bound successor input (history/roster byte-preserved, FY2025 before FY2026)
+and O3 successor-admitted (`IID-O3-S4-R3-INFOSYS-SUCCESSOR-ADMISSION-2026-11-19.md`). New candidate
+`sha256:ce341a1254…` (13 annual + 2 quarterly, 0 issues; not installed). Infosys staleness at the
+2026-11-19 clock: **963 → 233 days**, parity with Marico/KEC — still `STALE`, `STALE_STATEMENTS` still
+raised for all three issuers, so `S4-R3` stays **OPEN** on the freshness limb. `S4-R3-Infosys` is
+**RESOLVED** as a data-supply residual (register §17.40). Evidence:
+`evidence/real-issuer/S4-R3-INFOSYS-REFRESH-2026-11-19/`.

@@ -1,0 +1,487 @@
+{
+  "datasetVersion": "sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003",
+  "contentDigest": "sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003",
+  "coverage": {
+    "annualPeriods": 13,
+    "corporateActions": 0,
+    "earliestPeriodEnd": "2022-03-31",
+    "issuers": 3,
+    "latestPeriodEnd": "2026-09-30",
+    "listings": 5,
+    "operatingMetricRecords": 0,
+    "prices": 0,
+    "quarterlyPeriods": 2,
+    "securities": 3
+  },
+  "issues": [],
+  "asOf": "2026-11-19",
+  "windows": {
+    "pnlDays": 200,
+    "balanceSheetDays": 250,
+    "priceMaxAgeTradingSessions": 5
+  },
+  "issuers": {
+    "Infosys Limited": {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasis": {
+        "kind": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-04-23",
+        "daysSincePeriodEnd": 233
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-04-23",
+        "daysSincePeriodEnd": 233
+      },
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31",
+        "2023-03-31",
+        "2022-03-31"
+      ],
+      "quarterlyPeriodEnds": [],
+      "infosysValues": [
+        {
+          "filedAt": "2023-04-13",
+          "rev": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2022-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 1216410000000
+          },
+          "netProfit": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2022-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 221460000000
+          },
+          "owners": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2022-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 221100000000
+          },
+          "epsB": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2022-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 52.52
+          },
+          "ta": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2022-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 1178850000000
+          },
+          "te": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2022-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 757360000000
+          }
+        },
+        {
+          "filedAt": "2023-04-13",
+          "rev": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2023-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 1467670000000
+          },
+          "netProfit": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2023-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 241080000000
+          },
+          "owners": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2023-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 240950000000
+          },
+          "epsB": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2023-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 57.63
+          },
+          "ta": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2023-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 1258160000000
+          },
+          "te": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY23",
+            "periodEnd": "2023-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2023-04-13",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY23"
+            },
+            "value": 757950000000
+          }
+        },
+        {
+          "filedAt": "2024-04-18",
+          "rev": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY24",
+            "periodEnd": "2024-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2024-04-18",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY24"
+            },
+            "value": 1536700000000
+          },
+          "netProfit": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY24",
+            "periodEnd": "2024-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2024-04-18",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY24"
+            },
+            "value": 262480000000
+          },
+          "owners": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY24",
+            "periodEnd": "2024-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2024-04-18",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY24"
+            },
+            "value": 262330000000
+          },
+          "epsB": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY24",
+            "periodEnd": "2024-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2024-04-18",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY24"
+            },
+            "value": 63.39
+          },
+          "ta": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY24",
+            "periodEnd": "2024-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2024-04-18",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY24"
+            },
+            "value": 1378140000000
+          },
+          "te": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY24",
+            "periodEnd": "2024-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2024-04-18",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY24"
+            },
+            "value": 884610000000
+          }
+        },
+        {
+          "filedAt": "2025-04-17",
+          "rev": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY25",
+            "periodEnd": "2025-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2025-04-17",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY25"
+            },
+            "value": 1629900000000
+          },
+          "netProfit": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY25",
+            "periodEnd": "2025-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2025-04-17",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY25"
+            },
+            "value": 267500000000
+          },
+          "owners": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY25",
+            "periodEnd": "2025-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2025-04-17",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY25"
+            },
+            "value": 267130000000
+          },
+          "epsB": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY25",
+            "periodEnd": "2025-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2025-04-17",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY25"
+            },
+            "value": 64.5
+          },
+          "ta": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY25",
+            "periodEnd": "2025-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2025-04-17",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY25"
+            },
+            "value": 1489030000000
+          },
+          "te": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY25",
+            "periodEnd": "2025-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2025-04-17",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY25"
+            },
+            "value": 962030000000
+          }
+        },
+        {
+          "filedAt": "2026-04-23",
+          "rev": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY26",
+            "periodEnd": "2026-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2026-04-23",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY26"
+            },
+            "value": 1786500000000
+          },
+          "netProfit": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY26",
+            "periodEnd": "2026-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2026-04-23",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY26"
+            },
+            "value": 294740000000
+          },
+          "owners": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY26",
+            "periodEnd": "2026-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2026-04-23",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY26"
+            },
+            "value": 294400000000
+          },
+          "epsB": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY26",
+            "periodEnd": "2026-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2026-04-23",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY26"
+            },
+            "value": 71.58
+          },
+          "ta": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY26",
+            "periodEnd": "2026-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2026-04-23",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY26"
+            },
+            "value": 1559670000000
+          },
+          "te": {
+            "basis": "AS_FILED",
+            "filingRef": "INFY-INDAS-CONSOL-FY26",
+            "periodEnd": "2026-03-31",
+            "presence": "PRESENT",
+            "source": {
+              "filedAt": "2026-04-23",
+              "kind": "FILING",
+              "ref": "INFY-INDAS-CONSOL-FY26"
+            },
+            "value": 932970000000
+          }
+        }
+      ]
+    },
+    "Marico Limited": {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasis": {
+        "kind": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "daysSincePeriodEnd": 233
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "daysSincePeriodEnd": 233
+      },
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31",
+        "2023-03-31",
+        "2022-03-31"
+      ],
+      "quarterlyPeriodEnds": []
+    },
+    "KEC International Limited": {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasis": {
+        "kind": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "daysSincePeriodEnd": 233
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "daysSincePeriodEnd": 50
+      },
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31"
+      ],
+      "quarterlyPeriodEnds": [
+        "2026-06-30",
+        "2026-09-30"
+      ]
+    }
+  }
+}

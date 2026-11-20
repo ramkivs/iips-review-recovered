@@ -1,0 +1,74 @@
+{
+  "schema": "S4-R3-INFOSYS-REFRESH-DIGESTS/1",
+  "scope": "Infosys FY2025/FY2026 successor ingestion, O3 successor admission identities, candidate ce341a12 verification and 2026-11-19 freshness determination; unchanged freshness-policy/1.0.0.",
+  "recordedAt": "2026-11-19",
+  "files": {
+    "data-extraction.json": {
+      "sha256": "cbeee514e0b5543f50f2d755149e87e41c8e252441a9cdde8be82b2fb2953c5a",
+      "bytes": 3225
+    },
+    "determination.json": {
+      "sha256": "2db31e688838b885ad384d88d575df2668657039b68be99ba6eb1844ee9a9585",
+      "bytes": 3806
+    },
+    "ingest-input/infosys/periods.csv": {
+      "sha256": "87728ec81892ec08cc707a651a9d00861ef7a0993f65f0db7346da9c55f2b8dd",
+      "bytes": 2148
+    },
+    "ingest-input/infosys/roster.json": {
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "bytes": 1157
+    },
+    "probe/build_infosys_refresh.py": {
+      "sha256": "9d447c3b07d5d049d245bf4153ede32417d4d10d2b2d323e0cad796208d162c4",
+      "bytes": 4537
+    },
+    "runs/01-candidate-ingest.txt": {
+      "sha256": "d74ea9d36a91223d99edbfc6d5b4eb708359c9d98b557e17f5fbedce0f1d7694",
+      "bytes": 2594
+    },
+    "runs/02-freshness-2026-11-19.json": {
+      "sha256": "a33062c5979d6eb61d108da281f894017d96bd24e8624743f492ec8447b680e3",
+      "bytes": 14521
+    },
+    "runs/03-derived-handchecks.json": {
+      "sha256": "ed9e1ff93e600a32258529177d885d78f5057106e5a706b602751b2fdb16e58e",
+      "bytes": 2655
+    },
+    "source/operator-supplied-payload-2026-11-19.json": {
+      "sha256": "590a9dec2ae94227d8494764e73f694318235e81ec09b882b3a3264cb950ab56",
+      "bytes": 3344
+    },
+    "source-selection.json": {
+      "sha256": "791f602f81d6b3dd08eb3e5ca51f651b346d25549b632d4124e42b7a1e02245f",
+      "bytes": 3371
+    }
+  },
+  "successorInputDigest": "sha256:93d2ddc3e1dbf1dec6d45ea17bbdedb48c9de21875178caf9ccbc23a6201a50f",
+  "candidateDatasetVersion": "sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003",
+  "supersededCandidateDatasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "freshnessAtClock": {
+    "asOf": "2026-11-19",
+    "Infosys": {
+      "valuationBasisAnnualPeriodEnd": "2026-03-31",
+      "filedAt": "2026-04-23",
+      "days": 233,
+      "status": "STALE",
+      "previousDays": 963
+    },
+    "Marico": {
+      "days": 233,
+      "status": "STALE"
+    },
+    "KEC": {
+      "days": 233,
+      "status": "STALE",
+      "latestQuarter": "2026-09-30 (separate from valuation basis)"
+    }
+  },
+  "tickets": {
+    "S4-R3-Infosys": "RESOLVED (data ingestion / O3 admission limb only)",
+    "S4-R3": "OPEN (freshness limb unmet for all issuers)"
+  },
+  "windowsInstallState": "NO_WINDOWS_CHANGE_OR_INSTALLATION performed in this work item"
+}

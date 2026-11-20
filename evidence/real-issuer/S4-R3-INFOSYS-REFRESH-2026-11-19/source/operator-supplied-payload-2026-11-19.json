@@ -1,0 +1,100 @@
+{
+  "entity": {
+    "name": "Infosys Limited",
+    "cin": "L85110KA1981PLC013115",
+    "isin": "INE009A01021",
+    "nse_symbol": "INFY",
+    "bse_scrip_code": "500209",
+    "accounting_standard": "Ind-AS / IFRS Consolidated",
+    "currency": "INR",
+    "unit_scale": "Crore",
+    "face_value_inr": 5
+  },
+  "governance": {
+    "ticket_id": "S4-R3-Infosys",
+    "o3_admission_required": true,
+    "permission_verified": true,
+    "permission_basis": "Public statutory financial disclosures filed under SEBI (LODR) Regulations, 2015 on BSE/NSE and Infosys Investor Relations",
+    "auditor": "Deloitte Haskins & Sells LLP",
+    "audit_opinion": "Unmodified"
+  },
+  "baseline_reference_fy2024": {
+    "fiscal_year": "FY2024",
+    "period_end": "2024-03-31",
+    "filing_date": "2024-04-18",
+    "revenue_from_operations": 153670,
+    "other_income_net": 4711,
+    "total_income": 158381,
+    "operating_profit_ebit": 31747,
+    "finance_cost": 470,
+    "profit_before_tax": 35988,
+    "total_tax_expense": 9740,
+    "total_pat": 26248,
+    "profit_attributable_to_owners": 26233,
+    "profit_attributable_to_nci": 15,
+    "basic_eps_inr": 63.39,
+    "diluted_eps_inr": 63.29,
+    "equity_attributable_to_owners": 88116,
+    "total_assets": 137814
+  },
+  "filings_to_ingest": [
+    {
+      "fiscal_year": "FY2025",
+      "period_type": "ANNUAL",
+      "period_start": "2024-04-01",
+      "period_end": "2025-03-31",
+      "filing_date": "2025-04-17",
+      "source_filing": "BSE/NSE Reg. 33 Audited Consolidated Results (FY2024-25)",
+      "income_statement": {
+        "revenue_from_operations": 162990,
+        "other_income_net": 3600,
+        "total_income": 166590,
+        "operating_profit_ebit": 34424,
+        "finance_cost": 416,
+        "profit_before_tax": 37608,
+        "total_tax_expense": 10858,
+        "total_pat": 26750,
+        "profit_attributable_to_owners": 26713,
+        "profit_attributable_to_nci": 37,
+        "basic_eps_inr": 64.50,
+        "diluted_eps_inr": 64.34
+      },
+      "balance_sheet": {
+        "equity_attributable_to_owners": 95818,
+        "non_controlling_interests": 385,
+        "total_equity": 96203,
+        "total_assets": 148903
+      }
+    },
+    {
+      "fiscal_year": "FY2026",
+      "period_type": "ANNUAL",
+      "period_start": "2025-04-01",
+      "period_end": "2026-03-31",
+      "filing_date": "2026-04-23",
+      "annual_report_filing_date": "2026-05-30",
+      "source_filing": "BSE/NSE Reg. 33 Audited Consolidated Results (FY2025-26)",
+      "income_statement": {
+        "revenue_from_operations": 178650,
+        "other_income_net": 4322,
+        "total_income": 182972,
+        "operating_profit_ebit": 36254,
+        "finance_cost": 416,
+        "profit_before_tax": 39995,
+        "total_tax_expense": 10521,
+        "total_pat": 29474,
+        "profit_attributable_to_owners": 29440,
+        "profit_attributable_to_nci": 34,
+        "basic_eps_inr": 71.58,
+        "diluted_eps_inr": 71.46
+      },
+      "balance_sheet": {
+        "equity_attributable_to_owners": 92852,
+        "non_controlling_interests": 445,
+        "total_equity": 93297,
+        "total_assets": 155967
+      },
+      "notes": "Includes ₹869 Cr income tax provision reversal upon dispute resolution (+₹1.03 impact on Basic EPS). Reported IFRS Operating Margin: 20.3% (Adjusted: 21.0%)."
+    }
+  ]
+}

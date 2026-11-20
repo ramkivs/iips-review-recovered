@@ -1,0 +1,55 @@
+{
+  "generatedOn": "2026-11-19",
+  "network": "NONE",
+  "historicalBundlesModified": false,
+  "ticket": "S4-R3-Infosys",
+  "candidateInputs": [
+    "evidence/real-issuer/S4-R3-INFOSYS-REFRESH-2026-11-19/ingest-input/infosys",
+    "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico",
+    "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec"
+  ],
+  "source": {
+    "kind": "OPERATOR_SUPPLIED_PAYLOAD",
+    "artifact": "source/operator-supplied-payload-2026-11-19.json",
+    "provenance": "Supplied by the operator (sole decision owner) in the S4-R3-Infosys work item of 2026-11-19 and preserved verbatim in this bundle before any transcription. No network fetch was performed and no filing PDF was retrieved in this session.",
+    "sourceType": "SEBI_LODR_REG33_AUDITED",
+    "permissionStatus": "PUBLIC_STATUTORY_FILING_VERIFIED",
+    "permissionBasisOperatorDeclared": "Public statutory financial disclosures filed under SEBI (LODR) Regulations, 2015 on BSE/NSE and Infosys Investor Relations",
+    "auditor": "Deloitte Haskins & Sells LLP",
+    "auditOpinion": "UNMODIFIED",
+    "independentSourceVerification": "NOT_CLAIMED: payload-to-filing (PDF/XBRL) verification was not performed in this session; the payload is operator-attested, exactly as recorded here. This mirrors the standing candidate-verification limitations (pdfToTranscriptionVerification / independentSourceRightsVerification: NOT_CLAIMED)."
+  },
+  "entityReconciliation": {
+    "cin": "L85110KA1981PLC013115 matches admitted roster issuerId IN:CIN:L85110KA1981PLC013115",
+    "isin": "INE009A01021 matches roster securityId IN:ISIN:INE009A01021",
+    "nse": "INFY matches listing IN:NSE:INFY:EQ:EQUITY",
+    "bse": "500209 matches listing IN:BSE:500209:EQ:EQUITY",
+    "currencyScale": "INR CRORE matches source_scale CRORE; per-share values INR"
+  },
+  "filings": [
+    {
+      "fiscalYear": "FY2025",
+      "filingRef": "INFY-INDAS-CONSOL-FY25",
+      "periodStart": "2024-04-01",
+      "periodEnd": "2025-03-31",
+      "filedAt": "2025-04-17",
+      "sourceFiling": "BSE/NSE Reg. 33 Audited Consolidated Results (FY2024-25)"
+    },
+    {
+      "fiscalYear": "FY2026",
+      "filingRef": "INFY-INDAS-CONSOL-FY26",
+      "periodStart": "2025-04-01",
+      "periodEnd": "2026-03-31",
+      "filedAt": "2026-04-23",
+      "annualReportFilingDate": "2026-05-30",
+      "sourceFiling": "BSE/NSE Reg. 33 Audited Consolidated Results (FY2025-26)",
+      "filedAtConvention": "filed_at records the Reg. 33 results filing date, the same convention as the FY2024 baseline (2024-04-18); the annual-report filing date is recorded here and is not the filed_at"
+    }
+  ],
+  "baselineAlignment": {
+    "reference": "REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv FY2024 row (INFY-INDAS-CONSOL-FY24, filed 2024-04-18)",
+    "payloadBaselineFieldsChecked": 14,
+    "payloadBaselineMismatches": 0,
+    "netIncomeMappingDetermination": "FY2024 baseline maps NET_PROFIT = 26248 (total PAT including NCI) and NET_PROFIT_ATTRIBUTABLE_TO_OWNERS = 26233 in a separate column (xbrl.ts: ProfitLossForPeriod -> NET_PROFIT; ProfitLossAttributableToOwnersOfParent -> NET_PROFIT_ATTRIBUTABLE_TO_OWNERS). The identical mapping is applied to FY2025/FY2026: total_pat -> NET_PROFIT, profit_attributable_to_owners -> NET_PROFIT_ATTRIBUTABLE_TO_OWNERS. No remapping was performed."
+  }
+}

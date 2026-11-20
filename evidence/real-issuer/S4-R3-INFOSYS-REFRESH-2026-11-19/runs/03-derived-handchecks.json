@@ -1,0 +1,69 @@
+{
+  "schema": "S4-R3-INFOSYS-REFRESH-HANDCHECKS/1",
+  "asOf": "2026-11-19",
+  "baselineAlignmentFY2024": {
+    "committedRow": "REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv FY2024",
+    "payloadBaselineFieldsMatching": 14,
+    "netProfitMapping": "NET_PROFIT=total PAT including NCI (26248); NET_PROFIT_ATTRIBUTABLE_TO_OWNERS=26233 (separate column); identical mapping applied to FY2025/FY2026"
+  },
+  "arithmetic": [
+    {
+      "check": "owners + NCI = total PAT",
+      "FY2025": "26713+37=26750 PASS",
+      "FY2026": "29440+34=29474 PASS"
+    },
+    {
+      "check": "PBT - tax = total PAT",
+      "FY2025": "37608-10858=26750 PASS",
+      "FY2026": "39995-10521=29474 PASS"
+    },
+    {
+      "check": "revenue + other income = total income",
+      "FY2025": "162990+3600=166590 PASS",
+      "FY2026": "178650+4322=182972 PASS"
+    },
+    {
+      "check": "equity attributable + NCI = total equity",
+      "FY2025": "95818+385=96203 PASS",
+      "FY2026": "92852+445=93297 PASS"
+    },
+    {
+      "check": "EBIT + other income - finance costs = PBT (EBIT not an ingested column)",
+      "FY2025": "34424+3600-416=37608 PASS",
+      "FY2026": "36254+4322-416=40160 vs PBT 39995: MISMATCH delta -165 in the non-ingested operating_profit_ebit field; recorded, not resolved by invention"
+    }
+  ],
+  "yoy": [
+    {
+      "series": "REVENUE_FROM_OPERATIONS",
+      "FY2025": "+6.07% (153670->162990)",
+      "FY2026": "+9.61% (162990->178650)"
+    },
+    {
+      "series": "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+      "FY2025": "+1.83% (26233->26713)",
+      "FY2026": "+10.21% (26713->29440)"
+    },
+    {
+      "series": "EPS_BASIC_INR",
+      "FY2025": "63.39->64.50",
+      "FY2026": "64.50->71.58"
+    }
+  ],
+  "sequence": "FY2025 ingested before FY2026; Infosys annual series 2022,2023,2024,2025,2026 consecutive, zero sequence gaps; YoY chain unbroken",
+  "candidate": {
+    "datasetVersion": "sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003",
+    "issuers": 3,
+    "annualPeriods": 13,
+    "quarterlyPeriods": 2,
+    "issues": 0,
+    "infosysSuccessorInputDigest": "sha256:93d2ddc3e1dbf1dec6d45ea17bbdedb48c9de21875178caf9ccbc23a6201a50f",
+    "maricoInputDigestUnchanged": "sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d",
+    "kecInputDigestUnchanged": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a"
+  },
+  "freshnessAt2026-11-19": {
+    "Infosys": "basis FY2026 2026-03-31 filed 2026-04-23, 233 days, STALE (was 963 days on FY2024 basis)",
+    "Marico": "233 days STALE (unchanged)",
+    "KEC": "233 days STALE annual basis (unchanged); quarters separate"
+  }
+}

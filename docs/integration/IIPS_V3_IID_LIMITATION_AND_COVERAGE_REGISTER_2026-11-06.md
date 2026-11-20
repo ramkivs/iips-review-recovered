@@ -3528,3 +3528,29 @@ zero sequence gaps in all admitted series. Verification: freshness suites **23/2
 untranscribed/unadmitted, exact blocker unchanged); any installation, live verification or acceptance.
 No freshness policy, clock basis or period definition changed; no IPD file touched; no PR merged.
 **Disposition:** `L-043` / `S4-R3` remains `OPEN`; `S4-R3-Infosys` remains `OPEN`. Next free §17.40.
+
+### 17.40 2026-11-19 — S4-R3-Infosys data-supply residual discharged: Infosys FY2025/FY2026 ingested and O3 successor-admitted; freshness still STALE; S4-R3 remains OPEN
+
+**Implemented/reported:** Data Supply + Proof for ticket `S4-R3-Infosys` only, recorded in
+`evidence/real-issuer/S4-R3-INFOSYS-REFRESH-2026-11-19/` and the additive O3 successor declaration
+`docs/integration/IID-O3-S4-R3-INFOSYS-SUCCESSOR-ADMISSION-2026-11-19.md`. The operator supplied audited
+consolidated Infosys annuals FY2025 (2025-03-31, filed 2025-04-17) and FY2026 (2026-03-31, filed
+2026-04-23) (payload preserved verbatim, SHA-256 `590a9dec…`; declared `SEBI_LODR_REG33_AUDITED` /
+`PUBLIC_STATUTORY_FILING_VERIFIED`, Deloitte Haskins & Sells LLP, UNMODIFIED). Schema alignment was
+confirmed before writing: FY2024 maps `NET_PROFIT` = total PAT incl. NCI (26,248) with owners' share in
+`NET_PROFIT_ATTRIBUTABLE_TO_OWNERS` (26,233); the identical mapping was applied (payload baseline
+reconciled 14/14 against the admitted FY2024 row). The successor input preserves admitted history and
+roster byte-for-byte, appends FY2025 then FY2026 (annual series 2022–2026 consecutive, zero gaps),
+carries only the 14 supplied line items (19 columns blank/`NOT_REPORTED`, nothing invented; one
+recorded FY2026 `operating_profit_ebit` bridge inconsistency Δ −165 in a non-ingested field), and is
+digest-bound: input `sha256:93d2ddc3…`, new candidate `sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003`
+(3 issuers, 13 annual + 2 quarterly, 0 issues; Marico/KEC input digests re-verified unchanged). At the
+2026-11-19 clock Infosys staleness moves **963 → 233 days** — parity with Marico/KEC, still **STALE**
+under the unchanged 200-day window; `STALE_STATEMENTS` remains raised for all three issuers.
+**Deliberately not claimed:** Infosys FRESH; `S4-R3` complete; any host installation, live verification
+or acceptance; independent PDF/XBRL-to-transcription verification (`NOT_CLAIMED` — operator-attested
+payload). No policy/clock/period-definition change; no Marico/KEC governance change; no IPD file
+touched; no PR merged.
+**Disposition:** `S4-R3-Infosys` data-supply residual **RESOLVED (2026-11-19, this section)** on data
+ingestion + O3 successor admission; `L-043` / `S4-R3` remains `OPEN` on the freshness limb (requires an
+annual period end ≥ 2026-05-03 at the assessment clock, in practice FY2027). Next free §17.41.

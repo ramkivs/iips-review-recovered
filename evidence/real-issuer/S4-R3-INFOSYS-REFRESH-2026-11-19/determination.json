@@ -1,0 +1,41 @@
+{
+  "bundle": "S4-R3 Infosys successor refresh (FY2025 + FY2026 audited consolidated annuals)",
+  "date": "2026-11-19",
+  "ticket": "S4-R3-Infosys",
+  "status": "DATA_SUPPLY_AND_O3_SUCCESSOR_ADMISSION_DISCHARGED__CANDIDATE_NOT_HOST_INSTALLED__FRESHNESS_STILL_STALE",
+  "supersedesCandidateDigest": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+  "candidateDatasetVersion": "sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003",
+  "historicalHostDatasetVersion": "sha256:3ad82918f1ca22317ef7e34e4b48b9356268b4a18028a0750f94d37676de2d83",
+  "inputs": {
+    "infosysSuccessor": {
+      "path": "evidence/real-issuer/S4-R3-INFOSYS-REFRESH-2026-11-19/ingest-input/infosys",
+      "inputDigest": "sha256:93d2ddc3e1dbf1dec6d45ea17bbdedb48c9de21875178caf9ccbc23a6201a50f",
+      "adds": ["FY2025 ANNUAL 2025-03-31 filed 2025-04-17", "FY2026 ANNUAL 2026-03-31 filed 2026-04-23"],
+      "historicalRowsPreservedByteForByte": true,
+      "rosterByteIdenticalToAdmitted": true
+    },
+    "maricoAdmittedUnchanged": "sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d",
+    "kecAdmittedUnchanged": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a"
+  },
+  "findings": {
+    "S4R3InfosysDataSupplyLimb": "DISCHARGED: two committed source-supported (operator-supplied, O3 successor-declared) Infosys annual periods FY2025/FY2026 now exist; the 963-day FY2024-only lag is cleared",
+    "S4R3FreshnessLimb": "NOT_MET for any issuer: at the 2026-11-19 clock all three annual valuation bases end 2026-03-31 = 233 days against the unchanged 200-day window; STALE_STATEMENTS remains raised for Infosys exactly as for Marico and KEC. Infosys is no longer stale by more than the other issuers; it is not FRESH",
+    "S4R3Overall": "REMAINS OPEN (register L-043): closure still requires an annual period end on or after 2026-05-03 at this clock (in practice FY2027, filed ~April 2027) or an owner policy decision outside this work item",
+    "MaricoKecGovernance": "UNTOUCHED: their admitted inputs, digests and statuses are unchanged; this ticket updates Infosys governance only",
+    "HostInstallation": "NOT_PERFORMED: candidate built and verified outside the repository only",
+    "SourceRights": "Operator-declared PUBLIC_STATUTORY_FILING_VERIFIED (SEBI LODR Reg. 33); independent PDF/XBRL-to-transcription verification NOT_CLAIMED in this session",
+    "PartialTranscription": "FY2025/FY2026 carry the 14 supplied line items only; 19 contract columns are blank (NOT_REPORTED) and were not invented"
+  },
+  "asOf": "2026-11-19",
+  "freshness": [
+    { "issuerId": "IN:CIN:L85110KA1981PLC013115", "valuationBasisPeriodEnd": "2026-03-31", "filedAt": "2026-04-23", "stalenessDays": 233, "status": "STALE", "previousStalenessDays": 963 },
+    { "issuerId": "IN:CIN:L15140MH1988PLC049208", "valuationBasisPeriodEnd": "2026-03-31", "filedAt": "2026-05-05", "stalenessDays": 233, "status": "STALE", "previousStalenessDays": 233 },
+    { "issuerId": "IN:CIN:L45200MH2005PLC152061", "valuationBasisPeriodEnd": "2026-03-31", "filedAt": "2026-05-16", "stalenessDays": 233, "status": "STALE", "latestQuarterPeriodEnd": "2026-09-30", "previousStalenessDays": 233 }
+  ],
+  "boundaries": [
+    "No freshness policy, assessment clock basis, accepted period definition, valuation policy, XBRL tag map, or ingestion-contract change",
+    "No historical evidence bundle modified; REL-1 Infosys input remains the admitted original and is preserved byte-for-byte inside the successor input",
+    "No host dataset installed or replaced; no portfolio database accessed; no IPD file touched; no PR merged",
+    "Admission is per exact digest under the O3 successor declaration of 2026-11-19; a different digest requires a fresh operator declaration"
+  ]
+}

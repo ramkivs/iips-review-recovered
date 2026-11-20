@@ -1,0 +1,51 @@
+{
+  "schema": "S4-R3-INFOSYS-REFRESH-EXTRACTION/1",
+  "generatedOn": "2026-11-19",
+  "probe": "probe/build_infosys_refresh.py (re-running reproduces ingest-input byte-for-byte)",
+  "columnMapping": {
+    "income_statement.revenue_from_operations": "REVENUE_FROM_OPERATIONS",
+    "income_statement.other_income_net": "OTHER_INCOME",
+    "income_statement.total_income": "TOTAL_INCOME",
+    "income_statement.finance_cost": "FINANCE_COSTS",
+    "income_statement.profit_before_tax": "PROFIT_BEFORE_TAX",
+    "income_statement.total_tax_expense": "TAX_EXPENSE",
+    "income_statement.total_pat": "NET_PROFIT",
+    "income_statement.profit_attributable_to_owners": "NET_PROFIT_ATTRIBUTABLE_TO_OWNERS",
+    "income_statement.basic_eps_inr": "EPS_BASIC",
+    "income_statement.diluted_eps_inr": "EPS_DILUTED",
+    "balance_sheet.equity_attributable_to_owners": "EQUITY_ATTRIBUTABLE_TO_OWNERS",
+    "balance_sheet.non_controlling_interests": "NON_CONTROLLING_INTEREST",
+    "balance_sheet.total_equity": "TOTAL_EQUITY",
+    "balance_sheet.total_assets": "TOTAL_ASSETS"
+  },
+  "notIngestedPayloadFields": {
+    "income_statement.operating_profit_ebit": "no EBIT column exists in the canonical periods.csv contract; recorded here only",
+    "income_statement.profit_attributable_to_nci": "no P&L NCI column exists; used only in the owners+NCI=total PAT handcheck",
+    "entity.face_value_inr / accounting_standard / annual_report_filing_date / notes": "governance/provenance metadata, preserved in source payload and source-selection.json"
+  },
+  "columnsLeftBlankNotInvented": [
+    "EMPLOYEE_BENEFIT_EXPENSE",
+    "OTHER_EXPENSES",
+    "DEPRECIATION_AND_AMORTISATION",
+    "CASH_AND_CASH_EQUIVALENTS",
+    "CURRENT_INVESTMENTS",
+    "TRADE_RECEIVABLES",
+    "TRADE_PAYABLES",
+    "PROPERTY_PLANT_AND_EQUIPMENT",
+    "CAPITAL_WORK_IN_PROGRESS",
+    "GOODWILL",
+    "INTANGIBLE_ASSETS",
+    "OPERATING_CASH_FLOW",
+    "CAPITAL_EXPENDITURE",
+    "INVESTING_CASH_FLOW",
+    "FINANCING_CASH_FLOW",
+    "DIVIDENDS_PAID",
+    "INCOME_TAX_PAID",
+    "NET_CASH_FLOW",
+    "LEASE_LIABILITIES"
+  ],
+  "blankSemantics": "Blank cells ingest as NOT_REPORTED (missing), never as zero and never carried forward from FY2024. FY2025/FY2026 periods therefore carry the supplied P&L and headline balance-sheet subset only; methods requiring the absent detail will withhold on those periods.",
+  "knownPayloadInconsistency": "FY2026 operating_profit_ebit 36254 + other_income_net 4322 - finance_cost 416 = 40160, against profit_before_tax 39995 (delta -165). operating_profit_ebit is not an ingested column, so no ingested value depends on it; the discrepancy is recorded here and in runs/03-derived-handchecks.json and was NOT resolved by inventing an adjusting item.",
+  "fy2026NotePreserved": "Payload note: includes INR 869 Cr income tax provision reversal upon dispute resolution (+INR 1.03 impact on Basic EPS); reported IFRS operating margin 20.3% (adjusted 21.0%). Values are ingested AS_FILED including the reversal; no adjusted variant was created.",
+  "transcriptionOrder": "FY2025 row appended before FY2026 row; historical FY2022-FY2024 rows preserved byte-for-byte ahead of them; roster.json byte-identical to the admitted REL-1 roster"
+}

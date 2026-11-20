@@ -1,0 +1,38 @@
+
+inputs         3 bundles merged into one dataset
+  /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-INFOSYS-REFRESH-2026-11-19/ingest-input/infosys
+    issuers      IN:CIN:L85110KA1981PLC013115
+    sectors      Technology
+    inputDigest  sha256:93d2ddc3e1dbf1dec6d45ea17bbdedb48c9de21875178caf9ccbc23a6201a50f  over 2 file(s)
+  /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico
+    issuers      IN:CIN:L15140MH1988PLC049208
+    sectors      Consumer
+    inputDigest  sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d  over 2 file(s)
+  /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec
+    issuers      IN:CIN:L45200MH2005PLC152061
+    sectors      Industrials
+    inputDigest  sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a  over 2 file(s)
+
+datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V1
+datasetVersion sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003
+dataset        /tmp/s4r3-infosys-2026-11-19/candidate/investment/dataset
+coverage       /tmp/s4r3-infosys-2026-11-19/candidate/investment/dataset/coverage-report.json
+
+dataset          sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003
+completed        3/13 sectors measured
+  Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Consumer         G1_ENABLED   usable 3  withheld 0  stmt 92.5%  metric 100%
+  Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+  Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+  Technology       G2_PARTIAL   usable 2  withheld 2  stmt 72.5%  metric 0%
+  Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+  Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+outstanding      Auto, Banking, Capital Markets, Energy, Healthcare, Hospitality, Insurance, Materials, Telecom, Utilities
+methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53
+sector vocabulary  every issuer carries one of the 13 canonical sectors; none was dropped
