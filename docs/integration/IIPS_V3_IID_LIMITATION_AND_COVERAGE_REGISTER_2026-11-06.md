@@ -3481,3 +3481,25 @@ downgrade or adjudication; no tag-map expansion, derivation or ingestion change 
 §24 text was not inspectable from this branch (unmerged `arena/iid-coverage-readiness-report-2026-11-11`
 @ `31a9b01e`, per CPII-01) and is recorded as a limitation, not inferred. No other limitation changed.
 Next free §17.38.
+
+## 17.38 G-15 — source comparison against the exact §24 baseline: disclosure completed (`2026-11-19`)
+
+**Append-only entry; no earlier text or status cell altered.** The historical baseline was retrieved from
+this repository and verified exactly: `31a9b01e574f2911cc2685e3d63dddcfb1194d62` :
+`docs/integration/IID-IDENTITY-AND-INVESTMENT-COVERAGE-READINESS-ASSESSMENT-2026-11-11.md` → blob
+`e6f756238089c6795c8568b37321f3e55ba60cb2`, SHA-256
+`baac4427e543ff7749694e7fb59a4b147cb415b2f7fe3330544ce22a5d0835b6` (122,093 bytes), matching the CPII-01
+citation; the baseline was not modified or republished. Its §24 G-15 ("Limitation register drift":
+L-002 "20 tags" vs code 22; L-009 vs three post-2026-11-06 real-issuer bundles; documentation class;
+consequence: stale register invites wrong decisions), with §25 items 1–2 (flag, do not rewrite, owner
+decides amendment; state both L-009 readings — bundles ≠ operated product) and G-11 (no operated store),
+was compared requirement by requirement against
+`docs/integration/IID-G15-BASELINE-CROSSWALK-DISCLOSURE-2026-11-19.md` §2.1: every element is covered.
+Two smallest documentation corrections complete it: §3.1 states the verified arithmetic — **22 keys
+resolving to 21 distinct line items** (the two V2 associates/JV component keys share one line item; the
+pre-V2 map was 20 keys / 20 items, so "20 distinct line items" today would be wrong against the code) —
+and §2.2 reconciles the baseline's "none persisted" with the WI-7/WI-8 bundles' governed evidence-run
+persistence and separate-process readbacks (different stores; no issuer is described as persisted in the
+operated product on bundle evidence, and the Infosys NP-04 record remains operator-reported). **G-15 is
+COMPLETE as a scope-completeness disclosure.** `L-002` and `L-009` remain `OPEN` — no closure, downgrade
+or adjudication; no tag-map, derivation or ingestion change (docs-only). Next free §17.39.

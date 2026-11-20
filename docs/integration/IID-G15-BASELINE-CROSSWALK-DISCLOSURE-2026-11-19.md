@@ -14,9 +14,20 @@ investment-coverage readiness assessment. On this branch that is cited, not held
 at branch `arena/iid-coverage-readiness-report-2026-11-11` @ `31a9b01e` (blob
 `e6f756238089c6795c8568b37321f3e55ba60cb2`, sha256
 `baac4427e543ff7749694e7fb59a4b147cb415b2f7fe3330544ce22a5d0835b6`), **not merged to `origin/main`**.
-G-15's own wording is therefore not inspectable from this repository; this disclosure covers the two
-register subjects G-15's scope-completeness question turns on — L-002 and L-009 — from evidence that is
-committed here. Nothing below restates G-15's text.
+**Source-comparison addendum (2026-11-19): the original was subsequently retrieved and verified exactly.**
+`git show 31a9b01e574f2911cc2685e3d63dddcfb1194d62:docs/integration/IID-IDENTITY-AND-INVESTMENT-COVERAGE-READINESS-ASSESSMENT-2026-11-11.md`
+yields blob `e6f756238089c6795c8568b37321f3e55ba60cb2` and SHA-256
+`baac4427e543ff7749694e7fb59a4b147cb415b2f7fe3330544ce22a5d0835b6` (122,093 bytes) — both matching the
+CPII-01 citation. The original §24 G-15 entry reads, in full: "**Limitation register drift** (see §25):
+`L-002` says \"20 tags\" vs code 22; `L-009` says \"No real issuer has been assessed\" vs three real-issuer
+evidence bundles post-2026-11-06", class "documentation (C)", consequence "stale register invites wrong
+decisions (e.g. re-scoping work as undone)", evidence "register L-002/L-009 vs `XBRL_TAG_MAP` (22) and WI
+bundles". Its §25 elaboration requires: (item 1) the L-002 drift be **flagged, not rewritten** — the owner
+decides whether to amend; (item 2) for L-009, **both readings be stated** — the three bundles produced
+real-input assessments "but none persisted", i.e. "Assessed in evidence bundles ≠ assessed in the operated
+product". §24 G-11 adds the operated-product sense of that sentence: no assessment version exists anywhere
+operational, and WI-3/WI-8 persisted nothing to an operated store. The requirement-by-requirement
+comparison follows in §2.1; the baseline file was not modified or republished.
 
 ## 2. The G-15 crosswalk entry (required disclosure)
 
@@ -34,6 +45,29 @@ Which statements are historical, current, or later-evidence: the register's L-00
 issuer" sentences are **historical** (true when written, retained as written); the **current** facts are
 the 22-key map and the code-derived reader counts; the **later evidence** is WI-3/WI-7/WI-8 and the NP-04
 persistence record, with the persistence qualification above.
+
+### 2.1 Requirement-by-requirement comparison against the original §24 G-15 (verified source)
+
+| Original G-15 / §25 requirement | Covered? | Where |
+|---|---|---|
+| Identify the L-002 drift: register "20 tags" vs code 22 | Yes | §2 row 1–2; §3 |
+| Identify the L-009 drift: register wording vs three post-2026-11-06 real-issuer bundles | Yes | §2 row 3–4; §4 |
+| Flag the drift; do not rewrite the register; amendment is the owner's decision (§25 item 1) | Yes | §2 rows 1, 3, 6; no register text or status cell changed |
+| State both L-009 readings: assessed in evidence bundles ≠ assessed in the operated product (§25 item 2) | Yes | §2 row 5; §4 — including the reconciliation in §4.1 below |
+| Consequence kept visible: a stale register invites wrong decisions | Yes | §1 (quoted), §2 row 1/3 flagging |
+| Evidence basis: register vs `XBRL_TAG_MAP` (22) and the WI bundles | Yes | §3 (code-verified count), §4 (bundle records) |
+| Explain the 20 → 22 difference at line-item level | **Added by this addendum** | §3.1 |
+
+### 2.2 Reconciling "none persisted" (§25 item 2, G-11) with the WI-7/WI-8 bundle readbacks
+
+The baseline's "none persisted" and the WI-7/WI-8 bundles' "persisted" are both accurate, about different
+stores. The bundles record governed pipeline runs that persisted an artifact into the evidence run's own
+store and read it back in a separate process against the chain head (WI-7 README: reportId, one version,
+head v1; WI-8 README §12: stored digest equals readback digest). The baseline records that none of this
+reached an **operated** store: `/investment/company/:issuerId` has never served a real chain (G-11). This
+disclosure therefore describes WI-7/WI-8 persistence as *governed evidence-run persistence* only, and no
+issuer — Infosys included — is described as persisted in the operated product on bundle evidence; the
+Infosys NP-04 record is separately classed as operator-reported (§4).
 
 ## 3. Verified current tag count (22) and the 20-versus-22 distinction
 
@@ -58,6 +92,18 @@ persistence record, with the persistence qualification above.
   L-036/V2; the associates/JV caption adds the two component tags (22)"), re-run for this record: **18/18
   passing**.
 
+### 3.1 Keys versus distinct line items (the exact shape of the 20 → 22 difference)
+
+Verified by importing the module at the addendum head: `XBRL_TAG_MAP` has **22 keys resolving to 21
+distinct `LineItemId` values** — the two V2 keys `InvestmentsInAssociates` and
+`InvestmentsInJointVentures` both map to the single line item
+`INVESTMENTS_IN_ASSOCIATES_AND_JOINT_VENTURES` (the component-summation rule in
+`ASSOCIATES_JV_COMPONENT_TAGS`). Before V2 the map had 20 keys and 20 distinct line items; V2 therefore
+added **two keys and one distinct line item**. (Any statement that the map resolves to "20 distinct line
+items" today would be wrong against the code: 20 was the pre-V2 count of both keys and items.) The
+register's historical "20" was accurate when written; the drift is that the code moved and the prose did
+not — which is the whole of the L-002 limb of G-15.
+
 ## 4. Persistence status of the later real-input evidence
 
 | Bundle | What it establishes | Persistence status |
@@ -80,13 +126,16 @@ register appendix are the only writes).
 ## 6. Conclusion and remaining limitations
 
 G-15's disclosure position is now explicit and evidence-backed: the historical L-002/L-009 wording is
-retained and flagged, the current count is 22 and code-derived wherever a reader sees it, the later
-real-input evidence (WI-3/WI-7/WI-8) is identified with its persistence qualification, and neither
-limitation's disposition is touched. Remaining evidence limitations: (i) G-15's own §24 text is on the
-unmerged 11-November branch and was not inspectable here — only its CPII-01 citation is; (ii) the NP-04
-Windows persistence is operator-reported and its store was not opened from this workspace; (iii) the
-frontend pin suites (`rivHeadRevalidation.test.ts`) could not be re-run in this sandbox (their IPD-pinned
-private dependencies are uninstallable here, as recorded under L-033) — the platform-side pins were
-re-run instead (18/18). **Completion of this record means the G-15 scope and disclosure position is
-accurately evidenced and published; it does not mean L-002 or L-009 is closed, nor that Stage 4 is
-complete.**
+retained and flagged, the current count is 22 keys (21 distinct line items) and code-derived wherever a
+reader sees it, the later real-input evidence (WI-3/WI-7/WI-8) is identified with its persistence
+qualification, and neither limitation's disposition is touched. The source-comparison addendum verified
+the original §24 baseline exactly (blob and SHA-256 matching the CPII-01 citation) and compared it
+requirement by requirement (§2.1): every element of the original G-15 is covered, with §3.1 and §2.2
+added to state the line-item arithmetic and the persistence reconciliation the original text implies.
+Remaining evidence limitations: (i) the NP-04 Windows persistence is operator-reported and its store was
+not opened from this workspace — recorded as a qualification inside the disclosure, not as a gap in it;
+(ii) the frontend pin suites (`rivHeadRevalidation.test.ts`) could not be re-run in this sandbox (their
+IPD-pinned private dependencies are uninstallable here, as recorded under L-033) — the platform-side
+pins were re-run instead (18/18). **G-15 status: COMPLETE as a scope-completeness disclosure.** That
+means the G-15 scope and disclosure position is accurately evidenced and published; it does not mean
+L-002 or L-009 is closed, nor that Stage 4 is complete.
