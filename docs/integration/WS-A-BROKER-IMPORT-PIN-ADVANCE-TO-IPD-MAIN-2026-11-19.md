@@ -164,3 +164,126 @@ No IPD repository writes. No portfolio import or portfolio data modification. No
 redesign of PR #177 persistence or the completed PR #601 workflow. No unrelated cleanup (a pre-existing
 test rewrites `evidence/iid/…/zero-socket-*.json` with fresh timestamps and ephemeral ports on every run;
 that churn was reverted, not committed). The IRR PR is not merged.
+
+---
+
+## 7. Post-merge verification and closeout (PR #602) — added 2026-11-20
+
+> **Scope of this section.** §1–§6 above are the **original pre-merge validation receipt**, preserved
+> verbatim and **not** re-asserted here. This section is a **documentation-only post-merge closeout**
+> recording the verified state of `main` after the IRR PR merged. It re-verifies *merge state and pin
+> identity only*; it does **not** re-run the test suite and makes **no** claim about test outcomes.
+> The single statement in §6 that this section supersedes is "The IRR PR is not merged."
+
+### 7.1 Merge verification (independent, read-only)
+
+| Check | Verified result |
+|---|---|
+| PR | **#602** — "Advance Broker Import dependency pin to merged IPD main" |
+| PR state | `closed`, **`merged: true`**, `merged_at 2026-11-20T05:37:19Z`, `merged_by ramkivs`, base `main` |
+| Source branch | `arena/pin-ipd-main-12a3d625-current-main` (still advertised on `origin`) |
+| **Candidate (PR head) commit** | `e636fb3bb998cfd875da9b41b188da1b1020175b` |
+| **Actual merge commit** | `a5476ca64ed7afc62fa8c0d9ead67795ba8850af` — *distinct from the candidate SHA; not assumed equal* |
+| Merge commit in `origin/main` | yes — `a5476ca` **is** the current `origin/main` tip |
+| Merge topology | true **two-parent merge**: `parent1 = 1a0e3fc7a843b199c3baecb4f4e617172d802d58` (prior `main`), `parent2 = e636fb3b…` (candidate) |
+| Candidate ancestry | `git merge-base --is-ancestor e636fb3b… origin/main` → **ANCESTOR=YES** |
+
+Evidence:
+
+```
+$ gh api repos/ramkivs/iips-review-recovered/pulls/602 \
+    --jq '{merged,merge_commit_sha,head_sha:.head.sha,head_ref:.head.ref,base_ref:.base.ref,merged_at,changed_files}'
+{"merged":true,"merge_commit_sha":"a5476ca64ed7afc62fa8c0d9ead67795ba8850af",
+ "head_sha":"e636fb3bb998cfd875da9b41b188da1b1020175b",
+ "head_ref":"arena/pin-ipd-main-12a3d625-current-main","base_ref":"main",
+ "merged_at":"2026-11-20T05:37:19Z","changed_files":9}
+
+$ git rev-parse a5476ca64ed7afc62fa8c0d9ead67795ba8850af^1 a5476ca64ed7afc62fa8c0d9ead67795ba8850af^2
+1a0e3fc7a843b199c3baecb4f4e617172d802d58
+e636fb3bb998cfd875da9b41b188da1b1020175b
+
+$ git merge-base --is-ancestor e636fb3bb998cfd875da9b41b188da1b1020175b origin/main && echo ANCESTOR=YES
+ANCESTOR=YES
+```
+
+### 7.2 Nine-file scope confirmation
+
+`git diff --name-only 1a0e3fc…a5476ca` (main before → after) yields **exactly nine files**, matching the
+approved set with no extras and none missing; the PR #602 API file list and the candidate commit's own
+diff (`e636fb3^1..e636fb3`) agree:
+
+1. `.ci/verify-ipd-pins.mjs` (modified)
+2. `docs/integration/WS-A-BROKER-IMPORT-PIN-ADVANCE-TO-IPD-MAIN-2026-11-19.md` (added — this record)
+3. `frontend/broker-import-package-profile.json` (modified)
+4. `frontend/broker-import-publication-manifest.json` (modified)
+5. `frontend/package-lock.json` (modified)
+6. `frontend/package.json` (modified)
+7. `frontend/server/broker-import/brokerImportStage4.ts` (modified)
+8. `frontend/server/broker-import/brokerPartialAcceptanceContract.ts` (modified)
+9. `frontend/tsconfig.broker-import.json` (modified)
+
+Totals: `+240 / −45`, `changed_files: 9`.
+
+### 7.3 Dependency alias verification in the merged tree (`a5476ca`)
+
+All three aliases verified at their required final states, cross-checked across every pin-bearing
+artifact — no pin was changed by this closeout:
+
+| Dependency alias | Required commit | Verified in merged tree |
+|---|---|---|
+| `iips-broker-import` | `12a3d625d0ad603cb0bd9cea46bae314942ee40f` | ✅ `package.json` L30; `.ci/verify-ipd-pins.mjs` L14; `package-lock.json` `resolved` L2342; publication manifest `"commit"`; package profile `aliasCommit`/`aliasSpecifier` |
+| `iips-np04-governed-persistence` | `2e11fa3b689d1a3674a5e4ba1f1de9a559e20494` | ✅ `package.json` L31; verifier L15; lock `resolved` L2352 — **preserved (unchanged)** |
+| `iips-production-market-data` | `1ce6a829a7ce65550356a0071c108a60f2d813be` | ✅ `package.json` L32; verifier L16; lock `resolved` L2364 — **preserved (unchanged)** |
+
+The two non-broker-import aliases are confirmed **preserved** exactly as §2 recorded. The package profile
+additionally records `supersededAliasCommit: 9d03a35b…` (the former PR-head pin), consistent with §1.
+
+### 7.4 Pin-verification check actually run in this closeout
+
+`node .ci/verify-ipd-pins.mjs` was **not executed** here: it asserts against the *installed* tree
+(`frontend/node_modules/.package-lock.json` plus per-package `existsSync`), and the private GitHub
+dependencies are not installed in this verification environment, so a run would fail for environmental
+reasons unrelated to pin correctness. Instead the same manifest + committed-lockfile assertions were run
+statically against the merged tree:
+
+```
+$ node /tmp/verify-pins-static.mjs   # mirrors verify-ipd-pins.mjs, installed-lock assertions skipped
+STATIC-VERIFIED iips-broker-import at 12a3d625d0ad603cb0bd9cea46bae314942ee40f (package.json + committed package-lock.json)
+STATIC-VERIFIED iips-np04-governed-persistence at 2e11fa3b689d1a3674a5e4ba1f1de9a559e20494 (package.json + committed package-lock.json)
+STATIC-VERIFIED iips-production-market-data at 1ce6a829a7ce65550356a0071c108a60f2d813be (package.json + committed package-lock.json)
+note: installed-lock/per-package existsSync assertions skipped (private deps not installed in this environment)
+rc=0
+```
+
+The verifier's own hard-coded `pinned` map in the merged tree matches all three required values, so the
+CI-enforced check and the committed state are consistent. §5's original `node .ci/verify-ipd-pins.mjs`
+result stands as the pre-merge record and is **not** re-asserted here.
+
+### 7.5 Explicit non-claims
+
+- This closeout is **documentation/state verification only**. It did **not** re-run `test:ci`, the Broker
+  Import suite, `tsc`, or the build, and it makes **no** claim that their results changed.
+- It does **not** claim that any previously known full-suite failures were resolved. §5's figures
+  (3219 passed / 1 skipped / 0 failed, etc.) are the **original** validation as recorded pre-merge and are
+  carried forward unchanged, not re-verified.
+- §4's contract-mirror disposition (**KEPT**, Package-ID collision) is unchanged and not revisited; the
+  root fix (advancing `iips-production-market-data`'s separately-governed pin) remains **not authorised**.
+
+### 7.6 Preservation
+
+- The two in-progress IID evidence files were left **untouched** — blob hashes identical before and after
+  this closeout: `evidence/iid/IID-AC-X2-ZERO-SOCKET-2026-11-06/zero-socket-control.json`
+  (`1a4e82b1af2222ece0311005ad5672f4aa2bb5ec`) and `…/zero-socket-test.json`
+  (`d6b09521b07da87a3b17a251c70e64c2ccf5d322`). Not staged, committed, reverted, or modified.
+- No IID source, tests, evidence, or implementation was modified; IID remains a separate workstream.
+- No dependency pin, IPD repository content, W05 evidence, lockfile, or unrelated IRR work was altered.
+  The only change is this documentation update, made on a dedicated branch opened as a **review-only** PR
+  against `main` (deliberately **not** merged).
+
+### 7.7 Final status
+
+**MERGED — POST-MERGE VERIFICATION COMPLETE.** Every required post-merge verification passed: PR #602
+merged; merge commit `a5476ca64ed7afc62fa8c0d9ead67795ba8850af` present in `origin/main`; candidate
+`e636fb3bb998cfd875da9b41b188da1b1020175b` confirmed an ancestor; exactly the nine approved files merged;
+and all three dependency aliases verified at their required commits with the two non-broker-import aliases
+preserved.
