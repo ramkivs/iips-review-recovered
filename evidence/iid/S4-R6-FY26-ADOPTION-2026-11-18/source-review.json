@@ -1,0 +1,59 @@
+{
+  "classification": "independent verification metadata; supplied scope claims remain attributed",
+  "infosysExhaustiveFullFilingReviewIndependentlyEstablished": false,
+  "priorReview": "evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/ and docs/integration/IID-S4-R6-FY26-RECONCILIATION-2026-11-18.md, unchanged; earlier independently examined sections reused without repeating whole investigations",
+  "newOriginalArtifactInspections": [
+    {
+      "url": "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/2025-26/consolidated.pdf",
+      "title": "Consolidated Financial Statements under Indian Accounting Standards (Ind AS) for the year ended March 31, 2026",
+      "readerChunksExamined": [0, 2, 4, 5, 6, 7, 8, 9, 10],
+      "locators": ["Index", "Independent Auditor’s Report including signature April23,2026", "Consolidated Balance Sheet printed316–317", "Consolidated Statement of Profit and Loss printed318–319", "Consolidated Statement of Changes in Equity including printed324", "Consolidated Statement of Cash Flows printed325–326", "Overview notes1.1–1.5", "note2.1 business combinations (partial)"],
+      "admissionUse": "New FY26 IndAS statement row; exact source-date2026-04-23 is report approval/signature, not independently verified exchange filing date. CRORE-to-INR normalization once. Leases6016+3160; tax10521 also explicit CF adjustment. No borrowing nil declaration fabricated from absent rows or MD&A-only wording; no gross capex mapped from net-of-sale expenditure.",
+      "limit": "Reader parses first30PDFpages. Index-located note2.18 printed363–365 and note2.9 printed341 not newly page-read. Complete original PDF bytes not locally present/hashed. This does not establish exhaustive notes/whole-annual-report review."
+    },
+    {
+      "url": "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/2025-26/value-creation-model.pdf",
+      "readerChunksExamined": [0],
+      "locators": ["Approaching value creation / Social and Relationship Capital / Outcomes"],
+      "verified": "443 new client accounts,1965 active clients,+3.1% constant-currency revenue growth; no same-cohort dollar retention bridge in this extract"
+    },
+    {
+      "url": "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/2025-26/managements-discussion-and-analysis.pdf",
+      "readerChunksExamined": [3],
+      "locators": ["6. Segmental profitability / Business segments – Consolidated", "7. Liquidity", "10. Key financial ratios and footnote3"],
+      "verificationUse": "Rechecked to bind newly adopted FY26 numbers, not repeated original metric investigation. Aggregate revenue178650cr,+9.6%; liquidity says no outstanding borrowings and debt-ratio footnote says debt only lease liabilities. No automatic section=BS nil binding asserted for a narrative statement."
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1067491/000119312526270520/infy-20260331.htm",
+      "secAccession": "0001193125-26-270520",
+      "readerChunksExamined": [25,118],
+      "locators": ["Item3.D / fixed-price and outcome-based pricing risks / Our client contracts can typically be terminated without cause", "Item18 / note2.11 Revenue from operations / Accounting policy"],
+      "verificationUse": "Adds named risk-factor coverage to supplied audit; reconfirms IFRS contract-recognition distinctions for adoption, without treating recognition as recurring classification.",
+      "limit": "Original HTML has138readerchunks; not fully inspected. Prior Item4 OurClients, Item5 Revenues and note2.11 disaggregation/RPO coverage retained; supplied full Item3.D/4/5/18 audit not independently certified exhaustive."
+    },
+    {
+      "url": "https://www.kecrpg.com/press-release/earnings/financial-performance-for-quarter-&-year-ended-31-march-2026",
+      "title": "Financial Performance for Quarter & Year ended 31 March 2026",
+      "sourceDate": "2026-05-16",
+      "locators": ["Consolidated Net Debt and Net Working Capital"],
+      "verifiedWording": "Net Debt including Acceptances stands at Rs. 6,722 crore as on 31 Mar’26",
+      "limit": "Headline confirms consolidated period and acceptance inclusion, not full debt/cash/lease/buyer-credit definition. No new source text copied beyond this short identifying quotation."
+    },
+    {
+      "url": "https://www.kecrpg.com/media/corporatePresentationFilesMedia/Corporate%20Presentation%20Q4%20FY26.pdf",
+      "title": "Corporate Presentation / KEC International Limited / 16 May 2026",
+      "readerChunksExamined": [0,2,3],
+      "locators": ["Borrowings & Working Capital - Consolidated / 31-Mar-26 column"],
+      "verified": "Rounded net debt4601, interest-bearing acceptances2121, total6722. December4865+1941=6806; March25 comparison3051+1507=4558. No unrounded cash-offset/lease/buyer-credit bridge supplied in examined table.",
+      "rightsBoundary": "Presentation disclaimer restrictive; no slide/source copy redistributed. Only locator and factual reconciliation metadata retained."
+    }
+  ],
+  "preservedOriginalPageArtifactsExamined": {
+    "root": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/source/",
+    "originalPdfSha256": "ba638897313ac1fe5b7da42d7a95dac5f9efec1d1a203f88d9f963622ba3c820",
+    "files": ["fy26-consolidated-balance-sheet-and-profit-and-loss-pdf-page117.txt", "fy26-note-30-borrowings-pdf-page136.txt", "fy26-consolidated-cash-flow-financing-and-reconciliation-pdf-page119.txt", "fy26-notes-09-to-10-intangible-assets-and-investments-pdf-page129.txt"],
+    "verification": "Existing page-map identities checked; not newly fetched complete original bytes. Note10 investments on this page are NON-CURRENT; not evidence of a current-investments zero. CF financing borrowings5113.14 vs BS5103.23 differ9.91; no unsupported reconciliation guessed."
+  },
+  "remainingKecOriginalNotesUnavailable": ["note17 detailed cash composition", "note18 other bank/deposit restrictions", "note25/26 detail beyond BS totals", "note30.2 continuation for buyer-credit classification", "note31 lease detail beyond BS/CF totals", "note33 acceptances and bills discounted detail", "note34 other financial liability detail"],
+  "adoptionLimit": "Only independently inspected direct facts admitted. Supplied audit claims preserved, not parser-certified. No publication-date freshness anchor, no policy changes, no owner-runtime/production installation."
+}

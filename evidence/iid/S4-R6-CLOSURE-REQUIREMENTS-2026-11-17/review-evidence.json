@@ -1,0 +1,207 @@
+{
+  "recordType": "Existing-evidence/criteria review only, not a new metric investigation, source search or test run",
+  "reviewBaseline": "5fac71be58e53ad39d9d06b2e3769785114d9fe6",
+  "fetchedMain": "70f76134deba91de4ddca9e932542231b298cdf9",
+  "branch": "arena/5461e5b5-iips-review-recovered",
+  "originalInvestigation": {
+    "mergeCommit": {
+      "oid": "deb94ee9918be5ed1043cc4b7f6c1309337233a7"
+    },
+    "mergedAt": "2026-11-18T05:19:21Z",
+    "number": 591,
+    "state": "MERGED",
+    "title": "IID Stage 4 S4-R6 (G-4): operating-metric matrix derived from source, capability proven unchanged, no admissible source value, G-4 stays OPEN on the owner decision",
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/591"
+  },
+  "evidenceFiles": [
+    {
+      "path": "docs/integration/IID-S4-R6-OPERATING-METRICS-2026-11-18.md",
+      "gitBlob": "0cc77d031a81fcd1b16d0b83b44f39155b2a4d36",
+      "sha256": "60810f6319e4cb710b7b722045a9562b304acff602f2a5d5c5129854b4786222",
+      "bytes": 25216,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "docs/integration/IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md",
+      "gitBlob": "1ff168c6f07c8e2adbeed73f476919140c706af3",
+      "sha256": "9aecf096436d6a2cd987b0fc5f36371acdf767065b973fb3a02c13a1ebe5d3de",
+      "bytes": 133099,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "docs/integration/IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md",
+      "gitBlob": "112fbf90e64db866a5caffefa44800325e3c970c",
+      "sha256": "55f7f0e3579b867050e2e8cf9108f7354967bd013ffa0517b866c3efe097e6fb",
+      "bytes": 32467,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md",
+      "gitBlob": "0428a50a72a44165bf8592a17fd1ab6d23ca05b2",
+      "sha256": "b15cc92010685999bb669074607082d55f85bcee373273873177be6334b94c79",
+      "bytes": 17428,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "docs/integration/IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md",
+      "gitBlob": "79e5add65d26835365d24abd04c15d4785fd5bc3",
+      "sha256": "062dccac1144f544d778f0da111c4b01042daa8c54a58d909f88f8e327de17fc",
+      "bytes": 27348,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/README.md",
+      "gitBlob": "8ac8b3e16500f930f7acf5a99e2f1c08398d9b3e",
+      "sha256": "5e869d6c5898325f43c25ebe3c83be99c80c3fe74b82427d4a9ddb7940a551ab",
+      "bytes": 4924,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+      "gitBlob": "0a084fd96c8374661b74f5580fb5c11bdb4f472a",
+      "sha256": "49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62",
+      "bytes": 14798,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-census.json",
+      "gitBlob": "f7802a37b2ac8181a834997c9ba92d04eebada85",
+      "sha256": "c8c13dec3d174aad6e63695f4f8f7c101c194b2431c27a3fb858c894535a54dd",
+      "bytes": 13843,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/capability-probes.json",
+      "gitBlob": "1023c739c96378608275acafd5efc8e28aa97de4",
+      "sha256": "b154465e6201e18a9a6731376d5861844ca88328656b649a67dfbb8fbc7f94b5",
+      "bytes": 10806,
+      "unchangedFromReviewBaseline": true
+    },
+    {
+      "path": "iips-platform/tests/investment/s4r6-operating-metric-gating.test.ts",
+      "gitBlob": "b6c389a9407f58eeca3b5772f640848b684ca0fd",
+      "sha256": "51ac1b1fbff1bd7b6cae9d9e1fa96a21ae63393c8607053139b4808dc5cc43e8",
+      "bytes": 26397,
+      "unchangedFromReviewBaseline": true
+    }
+  ],
+  "criteria": [
+    {
+      "path": "docs/integration/IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md",
+      "line": 236,
+      "quote": "`operatingMetricRecords > 0` with `validation VALID`, and the named methods `AVAILABLE`",
+      "meaning": "Numeric criterion: records AND actual method availability, not arbitrary positive count alone."
+    },
+    {
+      "path": "docs/integration/IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md",
+      "line": 54,
+      "quote": "Validated metric records or a recorded decision to keep methods withheld.",
+      "meaning": "Alternative closure formulation, unresolved against numeric criterion."
+    },
+    {
+      "path": "docs/integration/IID-S4-R6-OPERATING-METRICS-2026-11-18.md",
+      "line": 240,
+      "endLine": 242,
+      "quote": "   limitation**; under the permissive reading it would close `G-4` by decision alone. **Which reading governs is\n   itself an owner decision**, and until it is taken `G-4` stays `OPEN` with the ambiguity recorded here rather than\n   silently resolved.",
+      "meaning": "Original \u00a77.2 expressly leaves the governing closure criterion to an owner decision; no implicit option B closure."
+    },
+    {
+      "path": "docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md",
+      "line": 65,
+      "quote": "**SIMPLIFIED** to ordinary maintenance choices the owner makes directly.",
+      "meaning": "PA-01 policy row G-6 expressly covers S4-R6, no new approval ceremony."
+    },
+    {
+      "path": "docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md",
+      "line": 67,
+      "quote": "**COLLAPSED to one authority: the owner/operator.**",
+      "meaning": "PA-01 policy row G-8: no separate approver."
+    },
+    {
+      "path": "docs/integration/IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md",
+      "line": 33,
+      "quote": "Ramki is the sole decision owner for all architectural, governance, authorization, acceptance and",
+      "meaning": "Explicit name/authority, read with next line on this application."
+    }
+  ],
+  "recordedEvidenceSummary": {
+    "evidenceClass": "Reused PR #591 observations, NOT fresh measurements",
+    "totalSlots": 38,
+    "metricGatedSlots": 14,
+    "datasets": [
+      {
+        "label": "S4R2-69bbc14e",
+        "datasetVersion": "sha256:69bbc14e99cea0e24be568fa923971e7c0536009ab19056f09bf272d437c6fe2",
+        "operatingMetricRecords": 0,
+        "liveMetricGapRows": [
+          {
+            "sector": "Technology",
+            "methodId": "EV_REVENUE",
+            "sectorHasIssuer": true,
+            "stage": "G2_PARTIAL",
+            "operatingMetricCoveragePct": 0,
+            "state": "WITHHELD",
+            "reason": "MANDATORY_METRIC_MISSING",
+            "missing": [
+              "TM_NRR",
+              "TM_RECURRING_REVENUE_PCT"
+            ]
+          },
+          {
+            "sector": "Industrials",
+            "methodId": "EV_REVENUE",
+            "sectorHasIssuer": true,
+            "stage": "G2_PARTIAL",
+            "operatingMetricCoveragePct": 0,
+            "state": "WITHHELD",
+            "reason": "MANDATORY_METRIC_MISSING",
+            "missing": [
+              "IN_BOOK_TO_BILL"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "ADMITTED-bdfb2527",
+        "datasetVersion": "sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b",
+        "operatingMetricRecords": 0,
+        "liveMetricGapRows": [
+          {
+            "sector": "Technology",
+            "methodId": "EV_REVENUE",
+            "sectorHasIssuer": true,
+            "stage": "G2_PARTIAL",
+            "operatingMetricCoveragePct": 0,
+            "state": "WITHHELD",
+            "reason": "MANDATORY_METRIC_MISSING",
+            "missing": [
+              "TM_NRR",
+              "TM_RECURRING_REVENUE_PCT"
+            ]
+          },
+          {
+            "sector": "Industrials",
+            "methodId": "EV_REVENUE",
+            "sectorHasIssuer": true,
+            "stage": "G2_PARTIAL",
+            "operatingMetricCoveragePct": 0,
+            "state": "WITHHELD",
+            "reason": "MANDATORY_METRIC_MISSING",
+            "missing": [
+              "IN_BOOK_TO_BILL"
+            ]
+          }
+        ]
+      }
+    ],
+    "completedCapabilityEvidence": "Original record \u00a75: 12 synthetic probes and 25 tests; NOT rerun; not real metric evidence."
+  },
+  "conclusion": {
+    "S4-R6": "OPEN",
+    "G-4": "OPEN",
+    "routeA": "Sufficient when scoped numeric evidence is actually met; currently absent. A choice alone does not close.",
+    "routeB": "Bare withholding instruction insufficient under numeric test; prospective owner adoption of alternative criterion plus final bounded acceptance can close the decision item, not manufacture data. G-4 disposition must be explicit.",
+    "decisionMadeByThisReview": false,
+    "smallestNextAction": "Ramki gives one explicit S4-R6-only disposition/criterion/scope instruction; immediate no-metric decision closure requires express accepted-limitation alternative."
+  }
+}

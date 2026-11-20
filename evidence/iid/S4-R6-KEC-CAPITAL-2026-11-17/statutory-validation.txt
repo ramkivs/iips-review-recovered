@@ -1,0 +1,18 @@
+Baseline d9a68b02629e421c75f409ca5abdfd19592a0f1d, tree368a2aaddffc13bec44ea8ec1588302bc474e3c0. Same designated branch/PR597 OPEN; no merge.
+Source: user attachment KEC_Consolidated_Notes_Verified_Extract.txt, SHA2565b1c7244fdbc22182e42b174b2d726b0897a2cd8ad58ef8a2dd7f48f4aeafd0e. Complete supplied page sections126,131,134–138,144–147 inspected; Note19 uses retained full PDF132 extract. Not an independent visual/original-PDF or whole-report certificate. Source text stays local ignored.
+
+PASS preflight/recovery:70 restored files all byte-identical to current remote head, backed up ignored before safe fast-forward; no unrelated edits lost.
+PASS npm ci --ignore-scripts, cwd iips-platform:6packages,0vulnerabilities; lockfile unchanged.
+PASS iips-platform/node_modules/.bin/tsx evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/restore-statutory-snapshot.ts
+Restores only exact previously published content digest sha256:a62f95f81a923e72fb6b4e0220bb8852d08191d14e94b1997a12bbfe8d4a0daf; no CLI/operating-metric-CSV ingestion, no BTB admission, no combined-dataset replacement. Refuses mismatch; does not overwrite existing directory.
+PASS iips-platform/node_modules/.bin/tsx evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/verify-statutory.ts
+Actual assessCompany and qualifyIssuerToEngines at Nov17 execution-date clock231days and explicit Nov18 scenario232days. Before/after content digest and every dataset file hash identical. Actual method/qualification/freshness/confidence outcomes deep-equal prior published outcomes; unique FY26 row/BTB record; zero invariants. Full computed payloads ignored/local only. No source-sidecar value injected into a canonical field.
+PASS python -m unittest discover -s evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17 -p test_statutory.py -v:10tests, all passed including private-source check (no skips locally).
+PASS (cwd iips-platform) node_modules/.bin/tsx --test --test-name-pattern='net debt is built from named components|restricted cash is never silently|an issuer with no balance sheet' tests/investment/assessment-capital.test.ts:3selected existing regressions,3passed.
+PASS iips-platform/node_modules/.bin/tsc --noEmit --strict --skipLibCheck --resolveJsonModule --target ES2022 --module commonjs --moduleResolution node --esModuleInterop --types node --typeRoots iips-platform/node_modules/@types evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/restore-statutory-snapshot.ts evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/verify-statutory.ts
+PASS original14/38matrix hash49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62;160prior adoption/L039/implementation preservation hashes. No12probe/25test/census rerun.
+PASS bundle checksums, report/evidence relative links, source/dataset ignore boundaries, git diff --check and baseline-file preservation checks (publication preflight).
+
+One inspection command initially used root-relative paths while cwd was iips-platform and reported path errors; it made no file changes. npm ci in that call succeeded. The source inspection was rerun from repository root successfully. No test or product defect was masked.
+CI: existing IRR-only static workflow triggered by tracker update; not the standalone platform suite. Exact remote commit/tree/all changed blobs/exact-head CI and final clean state to be verified in PR597 publication receipt after push.
+No canonical numeric amendment or new economic observation, no schema/formula/freshness/confidence/source-rights change, no new owner decision. Current investments MISSING/NOT_REPORTED/null. S4-R6/G-4 OPEN.

@@ -1,0 +1,56 @@
+test_entire_existing_history_only_reported_false_positive_changes (test_cap03_artifact_classification.ArtifactClassification.test_entire_existing_history_only_reported_false_positive_changes) ... ok
+test_exact_iid_artifact_and_authoritative_provenance (test_cap03_artifact_classification.ArtifactClassification.test_exact_iid_artifact_and_authoritative_provenance) ... ok
+test_existing_admission_and_separate_direct_boundaries_remain (test_cap03_artifact_classification.ArtifactClassification.test_existing_admission_and_separate_direct_boundaries_remain) ... ok
+test_genuine_identity_families_still_strict (test_cap03_artifact_classification.ArtifactClassification.test_genuine_identity_families_still_strict) ... ok
+test_misplaced_or_unknown_p1_is_not_admitted_by_classifier (test_cap03_artifact_classification.ArtifactClassification.test_misplaced_or_unknown_p1_is_not_admitted_by_classifier) ... ok
+test_real_admission_gate_rejects_misplaced_p1 (test_cap03_artifact_classification.ArtifactClassification.test_real_admission_gate_rejects_misplaced_p1) ... ok
+test_unrelated_identity_and_locations_not_filename_substrings (test_cap03_artifact_classification.ArtifactClassification.test_unrelated_identity_and_locations_not_filename_substrings) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.010s
+
+OK
+test_main_only_push_and_no_unrelated_evidence_expansion (test_irr_workflow_triggers.ReceiptWorkflowRouting.test_main_only_push_and_no_unrelated_evidence_expansion) ... ok
+test_receipts_do_not_select_product_or_windows_fixtures (test_irr_workflow_triggers.ReceiptWorkflowRouting.test_receipts_do_not_select_product_or_windows_fixtures) ... ok
+test_receipts_trigger_static_pr_and_main_push_individually (test_irr_workflow_triggers.ReceiptWorkflowRouting.test_receipts_trigger_static_pr_and_main_push_individually) ... ok
+test_static_self_and_regression_changes_trigger_checks (test_irr_workflow_triggers.ReceiptWorkflowRouting.test_static_self_and_regression_changes_trigger_checks) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.006s
+
+OK
+PASS: exact PA-authorized Windows 10 profile, evidence-gated pre-start retries, and post-marker no-retry controls
+PASS: S04 source validates PA-06 L2a evidence and defines a read-only current-dist match; no build/install/probe invocation
+PASS: admitted S2 authority, pin, completeness, hashes, build/test/package records and publication transcript verified
+LIMIT: this is IRR-only static validation; no PowerShell parse, IPD inspection, current-dist check, S2 rerun or U-5 PASS
+DURABLE IRR RETENTION: WAIVER AUTHORIZED — hosted release audit 41220038505 independently verified four release-asset hashes and 1,140 ZIP payload hashes against the original inventory. The distinct original verification-output file may be absent under PA act IIPS-V3-CAP03-PA-BLANKET-WAIVER-ONE-PASS-AUTHORIZATION-2026-11-01-01; the transcript remains separate. A sealed S04 bundle and Windows readback are still NOT PERFORMED by this static validator.
+U-5 remains NOT RUN; exact emitted-entry closure and emitted-migration probes remain NOT RUN
+REVISION_7_SCRIPT_SHA256=6639633855300cd645248ce597bb2c867b5cdbf6045947bf4281721bb1cde6d1
+test_archive_summary_does_not_flag_unrelated_bundle_as_issuer_material (test_cap03_recovery_release_audit.ArchiveContentTriage.test_archive_summary_does_not_flag_unrelated_bundle_as_issuer_material) ... ok
+test_archive_summary_flags_document_like_members_and_exact_agi_markers (test_cap03_recovery_release_audit.ArchiveContentTriage.test_archive_summary_flags_document_like_members_and_exact_agi_markers) ... ok
+test_an_asset_that_the_api_streams_itself_is_accepted (test_cap03_recovery_release_audit.AuthenticatedDownload.test_an_asset_that_the_api_streams_itself_is_accepted) ... ok
+test_the_four_assets_are_downloaded_with_the_token_and_the_token_stops_at_the_api (test_cap03_recovery_release_audit.AuthenticatedDownload.test_the_four_assets_are_downloaded_with_the_token_and_the_token_stops_at_the_api) ... ok
+test_a_malformed_token_never_reaches_an_error_message (test_cap03_recovery_release_audit.AuthenticationFailure.test_a_malformed_token_never_reaches_an_error_message) ... ok
+test_a_refusal_by_the_storage_host_names_the_host_and_not_the_signed_address (test_cap03_recovery_release_audit.AuthenticationFailure.test_a_refusal_by_the_storage_host_names_the_host_and_not_the_signed_address) ... ok
+test_a_rejected_token_fails_closed_and_is_not_disclosed (test_cap03_recovery_release_audit.AuthenticationFailure.test_a_rejected_token_fails_closed_and_is_not_disclosed) ... ok
+test_a_token_without_the_permission_reports_the_permission_github_names (test_cap03_recovery_release_audit.AuthenticationFailure.test_a_token_without_the_permission_reports_the_permission_github_names) ... ok
+test_the_token_is_refused_for_an_address_outside_the_api (test_cap03_recovery_release_audit.AuthenticationFailure.test_the_token_is_refused_for_an_address_outside_the_api) ... ok
+test_without_a_token_no_credential_is_sent_and_the_private_release_is_refused (test_cap03_recovery_release_audit.AuthenticationFailure.test_without_a_token_no_credential_is_sent_and_the_private_release_is_refused) ... ok
+test_a_digest_identity_or_size_that_github_reports_differently_is_refused_before_that_asset_is_requested (test_cap03_recovery_release_audit.HashMismatch.test_a_digest_identity_or_size_that_github_reports_differently_is_refused_before_that_asset_is_requested) ... ok
+test_a_shorter_body_and_a_longer_body_are_refused (test_cap03_recovery_release_audit.HashMismatch.test_a_shorter_body_and_a_longer_body_are_refused) ... ok
+test_downloaded_bytes_with_another_digest_are_refused (test_cap03_recovery_release_audit.HashMismatch.test_downloaded_bytes_with_another_digest_are_refused) ... ok
+test_the_token_comes_from_GITHUB_TOKEN_and_is_not_printed (test_cap03_recovery_release_audit.MainUsesTheEnvironmentToken.test_the_token_comes_from_GITHUB_TOKEN_and_is_not_printed) ... ok
+test_without_GITHUB_TOKEN_the_summary_says_so (test_cap03_recovery_release_audit.MainUsesTheEnvironmentToken.test_without_GITHUB_TOKEN_the_summary_says_so) ... ok
+test_a_release_that_lacks_an_asset_is_refused_before_any_download (test_cap03_recovery_release_audit.MissingAssets.test_a_release_that_lacks_an_asset_is_refused_before_any_download) ... ok
+test_a_release_with_an_extra_or_renamed_asset_is_refused (test_cap03_recovery_release_audit.MissingAssets.test_a_release_with_an_extra_or_renamed_asset_is_refused) ... ok
+test_an_asset_that_the_api_does_not_return_is_refused (test_cap03_recovery_release_audit.MissingAssets.test_an_asset_that_the_api_does_not_return_is_refused) ... ok
+test_the_release_and_its_four_assets_are_pinned_as_before (test_cap03_recovery_release_audit.PinnedReleaseAndTokenHandling.test_the_release_and_its_four_assets_are_pinned_as_before) ... ok
+test_the_source_never_prints_writes_or_forwards_the_token (test_cap03_recovery_release_audit.PinnedReleaseAndTokenHandling.test_the_source_never_prints_writes_or_forwards_the_token) ... ok
+test_the_audit_step_receives_the_workflow_token_and_no_stored_secret (test_cap03_recovery_release_audit.WorkflowWiring.test_the_audit_step_receives_the_workflow_token_and_no_stored_secret) ... ok
+test_the_only_permission_is_read_access_to_contents (test_cap03_recovery_release_audit.WorkflowWiring.test_the_only_permission_is_read_access_to_contents) ... ok
+test_these_tests_run_before_the_audit_and_both_files_trigger_the_workflow (test_cap03_recovery_release_audit.WorkflowWiring.test_these_tests_run_before_the_audit_and_both_files_trigger_the_workflow) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.524s
+
+OK

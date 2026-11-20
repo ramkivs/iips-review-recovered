@@ -1,0 +1,519 @@
+{
+  "baseline": "d93c6d623a7cafb721cdc211f07d2315b18aa2b0",
+  "assessmentClock": "2026-11-18",
+  "dataset": {
+    "datasetVersion": "sha256:590b3ea9602248ca63be2701144c492cc00e0d252285be2c5b816159e462e1cf",
+    "contentDigest": "sha256:590b3ea9602248ca63be2701144c492cc00e0d252285be2c5b816159e462e1cf",
+    "schema": "IIPS_INVESTMENT_FUNDAMENTALS_V1",
+    "sourceRightsState": "OPERATOR_ASSERTED",
+    "coverage": {
+      "annualPeriods": 10,
+      "corporateActions": 0,
+      "earliestPeriodEnd": "2022-03-31",
+      "issuers": 3,
+      "latestPeriodEnd": "2026-03-31",
+      "listings": 5,
+      "operatingMetricRecords": 3,
+      "prices": 0,
+      "quarterlyPeriods": 0,
+      "securities": 3
+    },
+    "inputProvenance": [
+      {
+        "files": [
+          {
+            "name": "operating-metrics.csv",
+            "sha256": "44c0c0c28b69931355a76fd202c8d7ba9b25484b86f5e886ab5bd4d2edda0e22"
+          },
+          {
+            "name": "periods.csv",
+            "sha256": "14e9961955f225b236031197291aa6ac4dfd2ec5a07dfa86e57edb0800c84123"
+          },
+          {
+            "name": "roster.json",
+            "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+          }
+        ],
+        "inputDigest": "sha256:f8c84465f5e7a8c582fa46c0ae37bf94362773e6649d40f9eb87e4c8e4158c85",
+        "inputDir": "/home/user/iips-review-recovered/LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/infosys",
+        "issuerIds": [
+          "IN:CIN:L85110KA1981PLC013115"
+        ],
+        "sectors": [
+          "Technology"
+        ]
+      },
+      {
+        "files": [
+          {
+            "name": "periods.csv",
+            "sha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4"
+          },
+          {
+            "name": "roster.json",
+            "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+          }
+        ],
+        "inputDigest": "sha256:725e8eadc10b6d113ab069122f4728f2744773e8d62b187044c20a0aa1e2ad24",
+        "inputDir": "/home/user/iips-review-recovered/LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/marico",
+        "issuerIds": [
+          "IN:CIN:L15140MH1988PLC049208"
+        ],
+        "sectors": [
+          "Consumer"
+        ]
+      },
+      {
+        "files": [
+          {
+            "name": "operating-metrics.csv",
+            "sha256": "3954c2472323939d36dd3056f86b715ef94840c2bddae27fad12f3dd5c1230c7"
+          },
+          {
+            "name": "periods.csv",
+            "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd"
+          },
+          {
+            "name": "roster.json",
+            "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+          }
+        ],
+        "inputDigest": "sha256:1d876b2317d735460a508e3102f101e537eb1af2196ddc0b2e567b82cbcda720",
+        "inputDir": "/home/user/iips-review-recovered/LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-adoption/input/kec",
+        "issuerIds": [
+          "IN:CIN:L45200MH2005PLC152061"
+        ],
+        "sectors": [
+          "Industrials"
+        ]
+      }
+    ]
+  },
+  "canonicalReadBackDigestVerified": true,
+  "ownerRuntimeInstalled": false,
+  "committedFullDataset": false,
+  "historicalFY24Present": true,
+  "infosysActiveAnnualAnchor": "2026-03-31",
+  "assessments": [
+    {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "sector": "Technology",
+      "certifiedEngineQualification": {
+        "engineId": "sector.technology",
+        "state": "NOT_QUALIFIED",
+        "codes": [
+          "ENGINE_REQUIRED_INPUT_UNRESOLVED"
+        ],
+        "requiredInputs": 14,
+        "requiredResolved": 0
+      },
+      "datasetVersion": "sha256:590b3ea9602248ca63be2701144c492cc00e0d252285be2c5b816159e462e1cf",
+      "asOf": {
+        "generatedAt": "2026-11-18T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-18",
+        "stalenessDays": 232,
+        "staleBeyondPolicy": true
+      },
+      "selectedAnnualPeriods": [
+        {
+          "periodEnd": "2026-03-31",
+          "filingRef": "INFY-INDAS-CONSOL-FY26-S4R6-ADOPTION"
+        },
+        {
+          "periodEnd": "2024-03-31",
+          "filingRef": "INFY-INDAS-CONSOL-FY24"
+        },
+        {
+          "periodEnd": "2023-03-31",
+          "filingRef": "INFY-INDAS-CONSOL-FY23"
+        },
+        {
+          "periodEnd": "2022-03-31",
+          "filingRef": "INFY-INDAS-CONSOL-FY23"
+        }
+      ],
+      "metrics": [
+        {
+          "metricId": "TM_NRR",
+          "periodEnd": "2026-03-31",
+          "presence": "MISSING",
+          "numericValue": null,
+          "reason": "NOT_REPORTED",
+          "validation": "UNVALIDATED",
+          "issues": [
+            "MISSING_VALUE"
+          ],
+          "sourceRef": "INFY-FY26-S4R6-NONDISCLOSURE-AUDIT",
+          "disposition": "UNAVAILABLE"
+        },
+        {
+          "metricId": "TM_RECURRING_REVENUE_PCT",
+          "periodEnd": "2026-03-31",
+          "presence": "MISSING",
+          "numericValue": null,
+          "reason": "NOT_REPORTED",
+          "validation": "UNVALIDATED",
+          "issues": [
+            "MISSING_VALUE"
+          ],
+          "sourceRef": "INFY-FY26-S4R6-NONDISCLOSURE-AUDIT",
+          "disposition": "UNAVAILABLE"
+        }
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "INSUFFICIENT_HISTORY: three annual periods of EBIT, D&A and capex are required for a cash-flow base"
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "applicable": true,
+          "outputPresent": true,
+          "reason": null
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+        }
+      ],
+      "fieldQualification": [
+        {
+          "field": "nrr",
+          "source": {
+            "kind": "OPERATING_METRIC",
+            "metricId": "TM_NRR"
+          },
+          "freshnessKind": "PNL",
+          "limitDays": 200,
+          "outcome": "STALE",
+          "codes": [
+            "FIELD_STALE"
+          ],
+          "note": "The latest period end 2026-03-31 is 232 days before 2026-11-18; the P&L window is 200 days (freshness-policy/1.0.0: P&L value no older than 200 days after period end).",
+          "valueForwarded": false
+        },
+        {
+          "field": "recurringRevenuePct",
+          "source": {
+            "kind": "OPERATING_METRIC",
+            "metricId": "TM_RECURRING_REVENUE_PCT"
+          },
+          "freshnessKind": "PNL",
+          "limitDays": 200,
+          "outcome": "STALE",
+          "codes": [
+            "FIELD_STALE"
+          ],
+          "note": "The latest period end 2026-03-31 is 232 days before 2026-11-18; the P&L window is 200 days (freshness-policy/1.0.0: P&L value no older than 200 days after period end).",
+          "valueForwarded": false
+        }
+      ],
+      "capitalStructure": {
+        "grossDebtPresence": "NOT_COMPUTABLE",
+        "grossDebtReason": "PERIOD_MISMATCH",
+        "netDebtPresence": "NOT_COMPUTABLE",
+        "netDebtReason": "PERIOD_MISMATCH",
+        "components": {
+          "shortTermBorrowings": {
+            "presence": "NIL_BY_DISCLOSURE",
+            "reason": "DECLARED_NIL_IN_SOURCE",
+            "periodEnd": "2024-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY24"
+          },
+          "currentMaturities": {
+            "presence": "NIL_BY_DISCLOSURE",
+            "reason": "DECLARED_NIL_IN_SOURCE",
+            "periodEnd": "2024-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY24"
+          },
+          "longTermBorrowings": {
+            "presence": "NIL_BY_DISCLOSURE",
+            "reason": "DECLARED_NIL_IN_SOURCE",
+            "periodEnd": "2024-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY24"
+          },
+          "leaseLiabilities": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY26-S4R6-ADOPTION"
+          },
+          "cashAndCashEquivalents": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY26-S4R6-ADOPTION"
+          },
+          "currentInvestments": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY26-S4R6-ADOPTION"
+          },
+          "nonControllingInterest": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY26-S4R6-ADOPTION"
+          },
+          "preferenceCapital": {
+            "presence": "NIL_BY_DISCLOSURE",
+            "reason": "DECLARED_NIL_IN_SOURCE",
+            "periodEnd": "2024-03-31",
+            "sourceRef": "INFY-INDAS-CONSOL-FY24"
+          },
+          "restrictedCash": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "periodEnd": null,
+            "sourceRef": null
+          },
+          "associatesAndJV": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "periodEnd": null,
+            "sourceRef": null
+          }
+        }
+      },
+      "confidence": {
+        "dataConfidence": 0.813,
+        "modelConfidence": 0.425,
+        "combined": 0.4932,
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "assumptionCaps": [
+          {
+            "cap": "POLICY_DEFAULT_MULTIPLE",
+            "basis": "POLICY_DEFAULT",
+            "category": "TARGET_MULTIPLE",
+            "applied": true,
+            "factor": null,
+            "penaltyRate": 0.15,
+            "triggers": [
+              {
+                "methodId": "PE_RELATIVE",
+                "assumption": "targetMultiple"
+              }
+            ],
+            "reason": null
+          }
+        ],
+        "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_MULTIPLE 0.15) and are capped at one aggregate reduction of 0.35 — applied once here, 0.15, so ×0.85, with no minimum-confidence floor"
+      },
+      "invariantViolations": 0
+    },
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "sector": "Industrials",
+      "certifiedEngineQualification": {
+        "engineId": "sector.industrials",
+        "state": "NOT_QUALIFIED",
+        "codes": [
+          "ENGINE_REQUIRED_INPUT_UNRESOLVED"
+        ],
+        "requiredInputs": 14,
+        "requiredResolved": 1
+      },
+      "datasetVersion": "sha256:590b3ea9602248ca63be2701144c492cc00e0d252285be2c5b816159e462e1cf",
+      "asOf": {
+        "generatedAt": "2026-11-18T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-18",
+        "stalenessDays": 232,
+        "staleBeyondPolicy": true
+      },
+      "selectedAnnualPeriods": [
+        {
+          "periodEnd": "2026-03-31",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR"
+        },
+        {
+          "periodEnd": "2025-03-31",
+          "filingRef": "KEC-INDAS-CONSOL-FY26-AR-COMPARATIVE"
+        },
+        {
+          "periodEnd": "2024-03-31",
+          "filingRef": "KEC-INDAS-CONSOL-FY25-AR-COMPARATIVE"
+        }
+      ],
+      "metrics": [
+        {
+          "metricId": "IN_BOOK_TO_BILL",
+          "periodEnd": "2026-03-31",
+          "presence": "PRESENT",
+          "numericValue": "WITHHELD_FROM_PUBLIC_RECEIPT",
+          "reason": null,
+          "validation": "VALID",
+          "issues": [],
+          "sourceRef": "KEC-FY26-BTB-S4R6-RECONCILIATION",
+          "disposition": "SOURCE_SUPPORTED"
+        }
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "applicable": true,
+          "outputPresent": true,
+          "reason": null
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "applicable": false,
+          "outputPresent": false,
+          "reason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+        }
+      ],
+      "fieldQualification": [
+        {
+          "field": "bookToBill",
+          "source": {
+            "kind": "OPERATING_METRIC",
+            "metricId": "IN_BOOK_TO_BILL"
+          },
+          "freshnessKind": "PNL",
+          "limitDays": 200,
+          "outcome": "STALE",
+          "codes": [
+            "FIELD_STALE"
+          ],
+          "note": "The latest period end 2026-03-31 is 232 days before 2026-11-18; the P&L window is 200 days (freshness-policy/1.0.0: P&L value no older than 200 days after period end).",
+          "valueForwarded": false
+        },
+        {
+          "field": "debtEbitda",
+          "source": {
+            "kind": "DERIVATION",
+            "derivationId": "GROSS_DEBT_TO_EBITDA_X"
+          },
+          "freshnessKind": "BALANCE_SHEET",
+          "limitDays": 250,
+          "outcome": "RESOLVED",
+          "codes": [],
+          "note": "Resolved using same-period filed debt components and EBITDA; numeric score input not redistributed",
+          "valueForwarded": true
+        }
+      ],
+      "capitalStructure": {
+        "grossDebtPresence": "PRESENT",
+        "grossDebtReason": null,
+        "netDebtPresence": "MISSING",
+        "netDebtReason": "NOT_REPORTED",
+        "components": {
+          "shortTermBorrowings": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "currentMaturities": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "longTermBorrowings": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "leaseLiabilities": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "cashAndCashEquivalents": {
+            "presence": "PRESENT",
+            "reason": null,
+            "periodEnd": "2026-03-31",
+            "sourceRef": "KEC-INDAS-CONSOL-FY26-AR"
+          },
+          "currentInvestments": {
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": null,
+            "sourceRef": null
+          },
+          "nonControllingInterest": {
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": null,
+            "sourceRef": null
+          },
+          "preferenceCapital": {
+            "presence": "MISSING",
+            "reason": "NOT_REPORTED",
+            "periodEnd": null,
+            "sourceRef": null
+          },
+          "restrictedCash": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "periodEnd": null,
+            "sourceRef": null
+          },
+          "associatesAndJV": {
+            "presence": "NOT_COMPUTABLE",
+            "reason": "NOT_REPORTED",
+            "periodEnd": null,
+            "sourceRef": null
+          }
+        }
+      },
+      "confidence": {
+        "dataConfidence": 0.7,
+        "modelConfidence": 0.0833,
+        "combined": 0.3199,
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ],
+        "assumptionCaps": [
+          {
+            "cap": "POLICY_DEFAULT_WACC",
+            "basis": "POLICY_DEFAULT",
+            "category": "DISCOUNT_RATE",
+            "applied": true,
+            "factor": null,
+            "penaltyRate": 0.2,
+            "triggers": [
+              {
+                "methodId": "DCF_FCFF",
+                "assumption": "discountRate"
+              }
+            ],
+            "reason": null
+          }
+        ],
+        "formula": "combined = 0.6 × dataConfidence + 0.4 × modelConfidence, then multiplied by each cap factor (ADEQUACY_PARTIAL 0.85, ADEQUACY_INSUFFICIENT 0.6, STALE_DATA 0.9, DILUTION_PROXY 0.98, DIVIDEND_SOURCE_CONFLICT 0.95, HIGH_METHOD_DISAGREEMENT 0.85), rounded to 4 dp; R-4.3 policy-default penalties apply additively by assumption category (POLICY_DEFAULT_WACC 0.2) and are capped at one aggregate reduction of 0.35 — applied once here, 0.2, so ×0.8, with no minimum-confidence floor"
+      },
+      "invariantViolations": 0
+    }
+  ],
+  "engineScoringExecuted": false,
+  "publicationDateAnchorUsed": false,
+  "freshnessOverrideUsed": false
+}

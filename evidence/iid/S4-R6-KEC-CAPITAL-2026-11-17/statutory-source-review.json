@@ -1,0 +1,498 @@
+{
+  "baseline": "d9a68b02629e421c75f409ca5abdfd19592a0f1d",
+  "source": {
+    "fileName": "KEC_Consolidated_Notes_Verified_Extract.txt",
+    "sha256": "5b1c7244fdbc22182e42b174b2d726b0897a2cd8ad58ef8a2dd7f48f4aeafd0e",
+    "bytes": 70665,
+    "origin": "User-uploaded text extract; heading Verified is user-supplied, not an independent certificate",
+    "verification": "Inspected complete supplied page sections126,131,134\u2013138,144\u2013147; compared overlapping figures with retained issuer PDF extracts. Original PDF/rendered pages not supplied; no independent visual or whole-report audit claimed.",
+    "reportingBasis": "KEC International consolidated FY26 ended2026-03-31; FY25 comparative; INR crore; audited statements dated2026-05-16 as retained signature evidence PDF119",
+    "privateOnly": true,
+    "pages": [
+      {
+        "pdfPage": 126,
+        "textSha256": "cca6c318beda8f542a46049e3e7f2e4eb220c8109040d394b2beacc2db4b5a88"
+      },
+      {
+        "pdfPage": 131,
+        "textSha256": "0df34dbfb68438c1f13368001879ec16dc6cd3a49c58dc498cb522dc6f766676"
+      },
+      {
+        "pdfPage": 134,
+        "textSha256": "b68b4a82b039aaa8fae6f8d46dc377d63ae1b6145d763b84c71fa850f23979af"
+      },
+      {
+        "pdfPage": 135,
+        "textSha256": "169eae70dd5b7d9eca84d83fb4ce6dfc9b1011887066f8a836a193bdc1c99049"
+      },
+      {
+        "pdfPage": 136,
+        "textSha256": "463f37aeb6e599f75563b774b7dd7101ee6b094dc894765c6599caa448ab488c"
+      },
+      {
+        "pdfPage": 137,
+        "textSha256": "3d50fc9ab3d81f54b9f4a68aa3940365d7d23449c43c48ab1a1615398850a823"
+      },
+      {
+        "pdfPage": 138,
+        "textSha256": "103c69bf77468f1080e3bae5b0c73f642ca00a7b2101b8a916f6f3da4fbd3a96"
+      },
+      {
+        "pdfPage": 144,
+        "textSha256": "fb2eb5dfe69dd24ccebbd6483277b9fbb03ba70a824a1d72691e117ac2f4dfd8"
+      },
+      {
+        "pdfPage": 145,
+        "textSha256": "fcafd81c32a9d474fb4e506f3526b654ec54962d77e135a64094275d71f77fc4"
+      },
+      {
+        "pdfPage": 146,
+        "textSha256": "f94eff9f4274773d60d6a046ded5de840843c7d3e5faa9de47b0bc21db79c200"
+      },
+      {
+        "pdfPage": 147,
+        "textSha256": "db555b3d245b71349c5f0adce6d46d4f6fc1f93cf0b57ca83a965088a18a8d33"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "note": "25",
+      "pdfPage": 134,
+      "printedPage": "265",
+      "item": "Non-current borrowings",
+      "FY26": "661.37",
+      "FY25": "358.46",
+      "unit": "INR_CRORE",
+      "treatment": "Already admitted LONG_TERM_BORROWINGS; gross term loans less maturities"
+    },
+    {
+      "note": "25",
+      "pdfPage": 134,
+      "printedPage": "265",
+      "item": "Secured term loans before current maturities",
+      "FY26": "103.12",
+      "FY25": "46.00",
+      "unit": "INR_CRORE",
+      "treatment": "Subtract10.78/2.70 current portion; do not double count"
+    },
+    {
+      "note": "25",
+      "pdfPage": 134,
+      "printedPage": "265",
+      "item": "Unsecured term loans before current maturities",
+      "FY26": "793.85",
+      "FY25": "432.56",
+      "unit": "INR_CRORE",
+      "treatment": "Subtract224.82/117.40 current portion; do not double count"
+    },
+    {
+      "note": "30",
+      "pdfPage": 136,
+      "printedPage": "269",
+      "item": "Current borrowings",
+      "FY26": "4441.86",
+      "FY25": "3342.64",
+      "unit": "INR_CRORE",
+      "treatment": "Already represented as short-term4206.26/3222.54 plus maturities235.60/120.10; reject4451.77"
+    },
+    {
+      "note": "30.2(a)",
+      "pdfPage": 137,
+      "printedPage": "270\u2013271",
+      "item": "Secured other short-term bank borrowings",
+      "FY26": "597.54",
+      "FY25": "579.40",
+      "unit": "INR_CRORE",
+      "treatment": "Contains PCFC/FCNR552.89/493.75 and buyer credit44.65/51.91; FY25 subsidiary32.43+1.31 also included"
+    },
+    {
+      "note": "30.2(a)(ii)",
+      "pdfPage": 137,
+      "printedPage": "270\u2013271",
+      "item": "Saudi jointly-controlled-operation buyer credit",
+      "FY26": "44.65",
+      "FY25": "51.91",
+      "unit": "INR_CRORE",
+      "treatment": "Already in597.54; no separate addition"
+    },
+    {
+      "note": "30.2(a)(iii)",
+      "pdfPage": 137,
+      "printedPage": "270\u2013271",
+      "item": "KEC Asian Cables buyer/packing credit/FCNR",
+      "FY26": "Nil",
+      "FY25": "32.43",
+      "unit": "INR_CRORE",
+      "treatment": "Narrow subsidiary disclosure, not all group buyer credit nil"
+    },
+    {
+      "note": "30.2(a)(iv)",
+      "pdfPage": 137,
+      "printedPage": "270\u2013271",
+      "item": "KEC Asian Cables debtors bill discounting",
+      "FY26": "Nil",
+      "FY25": "1.31",
+      "unit": "INR_CRORE",
+      "treatment": "Narrow subsidiary nil; no general financing nil inference"
+    },
+    {
+      "note": "26",
+      "pdfPage": 135,
+      "printedPage": "266",
+      "item": "Non-current leases",
+      "FY26": "220.60",
+      "FY25": "211.48",
+      "unit": "INR_CRORE",
+      "treatment": "Already included in canonical aggregate leases"
+    },
+    {
+      "note": "31",
+      "pdfPage": 137,
+      "printedPage": "271",
+      "item": "Current leases",
+      "FY26": "53.93",
+      "FY25": "44.90",
+      "unit": "INR_CRORE",
+      "treatment": "Already included in canonical aggregate leases"
+    },
+    {
+      "note": "52",
+      "pdfPage": 144,
+      "printedPage": "284",
+      "item": "Total leases",
+      "FY26": "274.53",
+      "FY25": "256.38",
+      "unit": "INR_CRORE",
+      "treatment": "Reconciles current plus non-current once"
+    },
+    {
+      "note": "17",
+      "pdfPage": 131,
+      "printedPage": "259",
+      "item": "Cash and equivalents",
+      "FY26": "411.26",
+      "FY25": "545.69",
+      "unit": "INR_CRORE",
+      "treatment": "Keep filed total; no additional restriction subtraction"
+    },
+    {
+      "note": "17",
+      "pdfPage": 131,
+      "printedPage": "259",
+      "item": "Repatriation-restricted cash within CCE",
+      "FY26": "1.54",
+      "FY25": "3.48",
+      "unit": "INR_CRORE",
+      "treatment": "Evidence only; not all CCE unrestricted"
+    },
+    {
+      "note": "18",
+      "pdfPage": 131,
+      "printedPage": "259",
+      "item": "Other bank balances",
+      "FY26": "100.67",
+      "FY25": "110.24",
+      "unit": "INR_CRORE",
+      "treatment": "Not an extra canonical cash offset or investment substitute"
+    },
+    {
+      "note": "18(i)",
+      "pdfPage": 131,
+      "printedPage": "259",
+      "item": "Unpaid dividend bank balances",
+      "FY26": "3.06",
+      "FY25": "3.02",
+      "unit": "INR_CRORE",
+      "treatment": "Earmarked; excluded from additional offsets"
+    },
+    {
+      "note": "18(ii)",
+      "pdfPage": 131,
+      "printedPage": "259",
+      "item": "Deposits original maturity above3 below12months",
+      "FY26": "3.20",
+      "FY25": "27.48",
+      "unit": "INR_CRORE",
+      "treatment": "Not <3month CCE, not labelled earmarked; no canonical eligibility established"
+    },
+    {
+      "note": "18(iii)",
+      "pdfPage": 131,
+      "printedPage": "259",
+      "item": "Margin/security bank balances",
+      "FY26": "94.41",
+      "FY25": "79.74",
+      "unit": "INR_CRORE",
+      "treatment": "Restricted/security; excluded from additional offsets"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Other current financial assets",
+      "FY26": "276.90",
+      "FY25": "144.42",
+      "unit": "INR_CRORE",
+      "treatment": "Existing retained full-page extract, not in upload; not cash"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Sundry deposits",
+      "FY26": "107.53",
+      "FY25": "68.73",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Accrued fixed-deposit interest",
+      "FY26": "7.59",
+      "FY25": "4.38",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Insurance claims",
+      "FY26": "1.25",
+      "FY25": "0.94",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "MTM forward/commodity gains",
+      "FY26": "104.19",
+      "FY25": "23.94",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Reimbursable expenses gross",
+      "FY26": "63.60",
+      "FY25": "51.24",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Expected credit loss allowance on reimbursables",
+      "FY26": "7.26",
+      "FY25": "5.68",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Reimbursable expenses net",
+      "FY26": "56.34",
+      "FY25": "45.56",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "19",
+      "pdfPage": 132,
+      "printedPage": "260",
+      "item": "Other assets, others",
+      "FY26": "-",
+      "FY25": "0.87",
+      "unit": "INR_CRORE",
+      "treatment": "No additional cash offset: sundry-deposit liquidity/eligibility not established; other captions are not cash principal"
+    },
+    {
+      "note": "33",
+      "pdfPage": 138,
+      "printedPage": "273",
+      "item": "Interest-bearing trade acceptances",
+      "FY26": "2120.74",
+      "FY25": "1507.27",
+      "unit": "INR_CRORE",
+      "treatment": "Separately presented, not automatically canonical debt;0\u2013180days"
+    },
+    {
+      "note": "33(iii)",
+      "pdfPage": 138,
+      "printedPage": "273",
+      "item": "Non-interest-bearing supplier finance within trade payables",
+      "FY26": "1737.37",
+      "FY25": "NOT_PROVIDED_TRANSITIONAL_RELIEF",
+      "unit": "INR_CRORE",
+      "treatment": "Subset of Note32 trade payables, not extra acceptances or extra debt"
+    },
+    {
+      "note": "32",
+      "pdfPage": 138,
+      "printedPage": "272",
+      "item": "Trade payables",
+      "FY26": "8703.25",
+      "FY25": "8996.21",
+      "unit": "INR_CRORE",
+      "treatment": "Includes non-interest supplier-finance arrangements; do not add them again"
+    },
+    {
+      "note": "34(a)",
+      "pdfPage": 138,
+      "printedPage": "273",
+      "item": "Interest accrued but not due on borrowings",
+      "FY26": "9.91",
+      "FY25": "5.56",
+      "unit": "INR_CRORE",
+      "treatment": "Separately classified in other financial liabilities; not silently mapped to current borrowings"
+    },
+    {
+      "note": "34(b)",
+      "pdfPage": 138,
+      "printedPage": "273",
+      "item": "Interest accrued on trade acceptances",
+      "FY26": "6.22",
+      "FY25": "8.01",
+      "unit": "INR_CRORE",
+      "treatment": "Explains liquidity carrying amount2126.96/1515.28; no double counting"
+    },
+    {
+      "note": "34",
+      "pdfPage": 138,
+      "printedPage": "273",
+      "item": "Other financial liabilities total",
+      "FY26": "115.68",
+      "FY25": "97.28",
+      "unit": "INR_CRORE",
+      "treatment": "Contains interest sublines; no wholesale debt mapping"
+    },
+    {
+      "note": "53",
+      "pdfPage": 144,
+      "printedPage": "285",
+      "item": "Debt including accrued borrowing interest and leases",
+      "FY26": "5387.67",
+      "FY25": "3963.04",
+      "unit": "INR_CRORE",
+      "treatment": "Issuer-reported definition; not a canonical gross-debt override"
+    },
+    {
+      "note": "53",
+      "pdfPage": 144,
+      "printedPage": "285",
+      "item": "Cash deduction in gearing table",
+      "FY26": "411.26",
+      "FY25": "545.69",
+      "unit": "INR_CRORE",
+      "treatment": "Table explicitly deducts Note17 only; narrative also names Note18"
+    },
+    {
+      "note": "53",
+      "pdfPage": 144,
+      "printedPage": "285",
+      "item": "Reported net debt",
+      "FY26": "4976.41",
+      "FY25": "3417.35",
+      "unit": "INR_CRORE",
+      "treatment": "Reported value verified in supplied extract; not admitted as IID NET_DEBT"
+    },
+    {
+      "note": "53",
+      "pdfPage": 144,
+      "printedPage": "285",
+      "item": "Total equity",
+      "FY26": "6159.69",
+      "FY25": "5347.45",
+      "unit": "INR_CRORE",
+      "treatment": "Equity, not debt"
+    },
+    {
+      "note": "53",
+      "pdfPage": 144,
+      "printedPage": "285",
+      "item": "Net debt/equity",
+      "FY26": "0.81",
+      "FY25": "0.64",
+      "unit": "RATIO",
+      "treatment": "Reported ratio; unit RATIO"
+    },
+    {
+      "note": "54A",
+      "pdfPage": 145,
+      "printedPage": "286",
+      "item": "Borrowings including accrued interest",
+      "FY26": "5113.14",
+      "FY25": "3706.66",
+      "unit": "INR_CRORE",
+      "treatment": "5103.23+9.91 /3701.10+5.56; carrying amount not undiscounted maturity total"
+    },
+    {
+      "note": "54B.2",
+      "pdfPage": 147,
+      "printedPage": "291",
+      "item": "Borrowing contractual undiscounted maturity total",
+      "FY26": "5292.97",
+      "FY25": "3824.10",
+      "unit": "INR_CRORE",
+      "treatment": "FY26 buckets4505.53+661.44+126.00+dash; not principal"
+    },
+    {
+      "note": "54B.2",
+      "pdfPage": 147,
+      "printedPage": "291",
+      "item": "Trade-acceptance carrying and contractual amount",
+      "FY26": "2126.96",
+      "FY25": "1515.28",
+      "unit": "INR_CRORE",
+      "treatment": "Includes Note34(b) accrued interest; source explicitly prints in both columns"
+    },
+    {
+      "note": "54B.2",
+      "pdfPage": 147,
+      "printedPage": "291",
+      "item": "Other financial liabilities after interest reclassification",
+      "FY26": "99.55",
+      "FY25": "83.71",
+      "unit": "INR_CRORE",
+      "treatment": "115.68\u22129.91\u22126.22 /97.28\u22125.56\u22128.01"
+    }
+  ],
+  "determinations": {
+    "accruedBorrowingInterestDifference": "RESOLVED_BY_NOTE34_A_9.91",
+    "acceptanceDifference": "RESOLVED_BY_NOTE34_B_6.22",
+    "acceptanceDifferenceFY25": "RESOLVED_BY_NOTE34_B_8.01",
+    "buyerCredit44_65": "INCLUDED_IN_NOTE30_597.54_NOT_ADDITIONAL",
+    "supplierFinance1737_37": "NON_INTEREST_BEARING_SUBSET_OF_NOTE32_PAYABLES",
+    "note53NumericalNetDebt": "4976.41_REPORTED_NOT_IID_ADMITTED",
+    "note53NarrativeTableDifference": "UNRESOLVED_DISCLOSED_NARRATIVE_NAMES_NOTE18_TABLE_DEDUCTS_ONLY_NOTE17",
+    "managementBridge": "ARITHMETIC_COMPATIBILITY_NOT_VERIFIED_MANAGEMENT_DEFINITION",
+    "currentInvestments": "MISSING_NOT_REPORTED_NULL_UNCHANGED",
+    "note17ExtractArithmetic": "UNRESOLVED_1.20_DIFFERENCE_IN_BOTH_EXTRACTS_REQUIRES_ORIGINAL_VISUAL_OR_ISSUER_CORRECTION",
+    "FY25InterestRiskTable": "54B.1_prints3701.11_vs_notes25plus30_3701.10_difference0.01_preserved_not_adjusted",
+    "newCanonicalNumericAdmissions": 0
+  },
+  "rejectedPriorSummaryAssertions": [
+    "Current borrowings4451.77",
+    "Borrowings5113.14 labelled all principal",
+    "Cash411.26 labelled all unrestricted",
+    "Deposits3.20 labelled other earmarked balances",
+    "Trade acceptances2120.74 labelled embedded ordinary trade payables",
+    "Management bridge arithmetic labelled verified exact management policy"
+  ],
+  "closure": {
+    "S4-R6": "OPEN",
+    "G-4": "OPEN",
+    "ownerDecisionMade": false,
+    "numericClosureMet": false
+  }
+}

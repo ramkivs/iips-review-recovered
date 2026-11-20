@@ -1,0 +1,30 @@
+{
+  "initialExecutionBaseline": "2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c",
+  "lateFetchedMain": "70f76134deba91de4ddca9e932542231b298cdf9",
+  "upstreamPR": {
+    "headRefOid": "e95ce4124d3b45435e489ba6875a11bef1ccf885",
+    "mergeCommit": {
+      "oid": "70f76134deba91de4ddca9e932542231b298cdf9"
+    },
+    "mergedAt": "2026-11-18T08:18:30Z",
+    "number": 596,
+    "state": "MERGED",
+    "title": "docs: publish PA-directed Q7 closure",
+    "url": "https://github.com/ramkivs/iips-review-recovered/pull/596"
+  },
+  "delta": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "gitBlob": "c41b68548314a5ff21797af135e6848988b7fb54",
+      "bytes": 4231917,
+      "sha256": "28419673c6a2b92defc2ff857cd84860e66df1b1abdd2ccd23068fbc016f79dc"
+    },
+    {
+      "path": "docs/integration/W05-RIGHTS-QUESTIONS-Q1-Q7-ADDENDUM-2026-11-17.md",
+      "gitBlob": "43ffb3b849ee16159b641777fb8443c8caca4652",
+      "bytes": 21592,
+      "sha256": "05caface72368cdfa825e3233933264d202e845b55d017b9baf5b8c83506ae7d"
+    }
+  ],
+  "effect": "Upstream W05 rights clarification/Q7 evidence-limited closure only; no Stage-4 code/data/status change. Preserve decision verbatim, do not re-adjudicate. Metadata-only audit publication; no source-row text or full computed payload dump. Tests remain bound to unchanged implementation at original execution baseline."
+}

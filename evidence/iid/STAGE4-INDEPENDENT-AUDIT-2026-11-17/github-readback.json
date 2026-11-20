@@ -1,0 +1,973 @@
+{
+  "baseline": "2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c",
+  "pullRequests": [
+    {
+      "number": 562,
+      "title": "WI-13: head re-validation of Infosys \u2014 record L-041 + L-042, correct the L-002 notice count",
+      "state": "CLOSED",
+      "mergedAt": null,
+      "headRefOid": "f98732e1861ff8b384183c30c11e4d1adbc2dc95",
+      "mergeCommit": null,
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/562",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-14T11:28:56Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/43589958965/job/132432375272",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-14T11:25:34Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": null
+    },
+    {
+      "number": 568,
+      "title": "Identity projection (D114), W05, W07, W10, W11, Windows named-pipe IPC fix, tracker \u00a716.285 \u2014 reconciled with main (supersedes #563)",
+      "state": "MERGED",
+      "mergedAt": "2026-11-16T19:03:51Z",
+      "headRefOid": "7f53974e44c4ee89d4d253758b15bf15ac3a5a25",
+      "mergeCommit": {
+        "oid": "064195397dfdb32bf0f34a461b02fd6b9f9a8df0"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/568",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-16T18:58:58Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/43934385694/job/133535003311",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-16T18:58:16Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-16T19:00:32Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/43934385661/job/133535003896",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-16T18:58:16Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 574,
+      "title": "W05: reconcile the IID line with main; a dataset can name its O3 record",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T08:22:47Z",
+      "headRefOid": "889ec4e1f44b50758b40d9e586d5a7a1a333a1fe",
+      "mergeCommit": {
+        "oid": "735770dfd30d6806fc97e348417da568b6b0ed33"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/574",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T08:06:31Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44043819805/job/133904513892",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T08:05:50Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T08:09:23Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44043819879/job/133904515316",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-17T08:05:50Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 575,
+      "title": "IID S4-R1 second pass (0f9b9ae): the one IID commit that PR #574 did not carry",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T09:04:43Z",
+      "headRefOid": "d819b6e5a771a50ed2adc8ed6ecccc7b80798206",
+      "mergeCommit": {
+        "oid": "75e8195b1e9f40379a15834bc4754ea0d8f28fcf"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/575",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T09:03:00Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44051579468/job/133930452177",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-17T09:00:26Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 576,
+      "title": "W05 record: read-back of PR #574 on main, and a correction about PR #562",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T09:03:43Z",
+      "headRefOid": "11fb41faad1e7cc25df1cf861f0d1997811601cc",
+      "mergeCommit": {
+        "oid": "db710552d5ce76a86b4bf8dae91bd527d1b8ba6d"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/576",
+      "statusCheckRollup": [],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 578,
+      "title": "W05: statement source, source rights and repository exposure assessment",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T10:21:56Z",
+      "headRefOid": "fc96425d4cf941256075eebeda869d79cbd12cee",
+      "mergeCommit": {
+        "oid": "e35a39fbdc3cd4098a6d91e7595910c62137c3b4"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/578",
+      "statusCheckRollup": [],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 579,
+      "title": "W05: D1 confirmed, D2 implemented (IRR private, verified), two corrections to the assessment; tracker \u00a716.290",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T12:25:29Z",
+      "headRefOid": "f8a812ffb1377edf06adbf353e9b4a28c01e1a7e",
+      "mergeCommit": {
+        "oid": "0d4d9f207724df1a520ecc6dbd6a31ed035806ca"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/579",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T12:22:47Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44082445196/job/134036189708",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T12:22:00Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 581,
+      "title": "ci: authenticate private IPD dependencies read-only",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T14:15:26Z",
+      "headRefOid": "5256c3d73dd9d9e2c4c3f8ca49fa6243b74b24ee",
+      "mergeCommit": {
+        "oid": "ea20e3ccbda527559afdaa22c6739e41acb1c9c5"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/581",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T14:04:42Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44099057607/job/134093823217",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T14:03:59Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T14:08:32Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44099057538/job/134093823337",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-17T14:03:58Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 582,
+      "title": "L-042: Option B for MethodOutput.basis + L-014 identity re-baseline (register \u00a717.29; reconciled with L-041 \u00a717.27)",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T15:54:16Z",
+      "headRefOid": "25788279f700c547bcc4826ab7b4179a45970ba9",
+      "mergeCommit": {
+        "oid": "a45c9f7d7c961b42911903300f8599c824e855f8"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/582",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T15:04:08Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44108720574/job/134128115211",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-17T14:57:00Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 583,
+      "title": "docs: record authenticated private dependency PR receipts",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T14:46:59Z",
+      "headRefOid": "afeb0e7cf6288b9d88722e1fc34ddefb2b32d1fc",
+      "mergeCommit": {
+        "oid": "37dffe7dc2a72552d13479dca531b55ecb89ddb8"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/583",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T14:46:42Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44106711496/job/134120914319",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T14:46:05Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 584,
+      "title": "IID: G-10 JS-free coverage routes, G-11 served-chain verification, G-11 hardening, SPA sector count",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T18:26:37Z",
+      "headRefOid": "2eb1137427b23325565e3dbf16a148111c0ab493",
+      "mergeCommit": {
+        "oid": "037d29ad09a29f68f567b68c3823f2a28715b666"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/584",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T18:26:21Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44146749532/job/134263858915",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-17T18:20:23Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 586,
+      "title": "IID S4-R2: Infosys borrowings transcribed, Technology EV_EBITDA applied, borrowing mechanism proved reusable",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T19:30:43Z",
+      "headRefOid": "d1b78e62e219802fc20151ccc7ffbc8ffb7ac806",
+      "mergeCommit": {
+        "oid": "d71b025d24940b2694cad945be4a227fa2aabba8"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/586",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T19:24:46Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44158135507/job/134304319871",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T19:23:55Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T19:30:09Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44158135613/job/134304323934",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-17T19:23:55Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 587,
+      "title": "IID Stage 4 S4-R3 \u2014 financial-data freshness as a reusable capability (measured; item stays OPEN)",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T20:04:01Z",
+      "headRefOid": "bccfd8761d175cc4656cbc3622a5bd2c88d05b54",
+      "mergeCommit": {
+        "oid": "011c601651c9c4fea4eab2906cfad0a09eb5c15f"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/587",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T19:57:59Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44164089370/job/134325369561",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T19:57:16Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T20:03:44Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44164089491/job/134325373647",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-17T19:57:15Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 588,
+      "title": "S4-R3 tracker: record the publication, CI and merge receipt for \u00a716.294",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T20:05:16Z",
+      "headRefOid": "516890ff989b1fd6b6d488a2ce7e3a559f898222",
+      "mergeCommit": {
+        "oid": "5b67827385d7ea8378cfd7dcf5c13274a5cf9904"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/588",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T20:05:07Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44165363737/job/134329846030",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T20:04:23Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 589,
+      "title": "IID Stage 4 S4-R4 \u2014 commit that coverage `usable` is not a valuation",
+      "state": "MERGED",
+      "mergedAt": "2026-11-17T20:30:28Z",
+      "headRefOid": "f171fff402d83d5036d1c2c5e494d9dc9fbdf886",
+      "mergeCommit": {
+        "oid": "84ea8a136ffab8c0dcb055e84a2a9f048f1385ad"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/589",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-17T20:30:09Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44169784423/job/134345499113",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-17T20:29:13Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 590,
+      "title": "IID Stage 4 S4-R5: coverage availability stays existential; serve historical vs latest-period readiness apart",
+      "state": "MERGED",
+      "mergedAt": "2026-11-18T04:41:33Z",
+      "headRefOid": "063670e56d9a459617456dee23380e4ab25f4d9e",
+      "mergeCommit": {
+        "oid": "f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/590",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T04:35:55Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44238337862/job/134579799873",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-18T04:35:09Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T04:41:14Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44238337875/job/134579800046",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "startedAt": "2026-11-18T04:35:09Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 591,
+      "title": "IID Stage 4 S4-R6 (G-4): operating-metric matrix derived from source, capability proven unchanged, no admissible source value, G-4 stays OPEN on the owner decision",
+      "state": "MERGED",
+      "mergedAt": "2026-11-18T05:19:21Z",
+      "headRefOid": "c57d82346325a191cc807ad24697ef51627a0d44",
+      "mergeCommit": {
+        "oid": "deb94ee9918be5ed1043cc4b7f6c1309337233a7"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/591",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T05:19:08Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44243319085/job/134596153095",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-18T05:18:24Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 592,
+      "title": "S4-R8: corporate-actions evidence census, fail-closed ingestion; G-8 OPEN",
+      "state": "MERGED",
+      "mergedAt": "2026-11-18T06:01:21Z",
+      "headRefOid": "2163e811bcd10f4ee7c42a9f4ccc4b208cfb77ed",
+      "mergeCommit": {
+        "oid": "843f162b8ddb587e395f14e0dc0821286c348a0f"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/592",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T06:01:10Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44248163959/job/134612064775",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-18T06:00:30Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 593,
+      "title": "L-038: Marico preference-capital delta investigation; retain OPEN",
+      "state": "MERGED",
+      "mergedAt": "2026-11-18T06:27:32Z",
+      "headRefOid": "fc8340ec8960f1dc6846ce59f9f20dd6e7e77fe8",
+      "mergeCommit": {
+        "oid": "ed839d116d1d7363431e7d771e2f90dcbb9b330c"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/593",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T06:27:18Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44251325678/job/134622454248",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-18T06:26:22Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    },
+    {
+      "number": 594,
+      "title": "L-039: KEC taxonomy/precision delta; preserve missing and OPEN",
+      "state": "MERGED",
+      "mergedAt": "2026-11-18T06:51:04Z",
+      "headRefOid": "cfc3b8af9d56dcb8fd974b02550871b4a4481c8a",
+      "mergeCommit": {
+        "oid": "2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c"
+      },
+      "url": "https://github.com/ramkivs/iips-review-recovered/pull/594",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T06:50:48Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44254266359/job/134632058502",
+          "name": "Python compile \u00b7 source/evidence/tracker validation",
+          "startedAt": "2026-11-18T06:50:06Z",
+          "status": "COMPLETED",
+          "workflowName": "CAP-03 Revision 7 IRR-only static checks"
+        }
+      ],
+      "mergeCommitIsAncestorOfAuditBase": true
+    }
+  ],
+  "recentMainRuns": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-18T06:51:07Z",
+      "databaseId": 44254395841,
+      "headSha": "2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c",
+      "name": "CAP-03 Revision 7 IRR-only static checks",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44254395841"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-18T06:27:34Z",
+      "databaseId": 44251476203,
+      "headSha": "ed839d116d1d7363431e7d771e2f90dcbb9b330c",
+      "name": "CAP-03 Revision 7 IRR-only static checks",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44251476203"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-18T06:01:24Z",
+      "databaseId": 44248286178,
+      "headSha": "843f162b8ddb587e395f14e0dc0821286c348a0f",
+      "name": "CAP-03 Revision 7 IRR-only static checks",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44248286178"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-18T05:19:24Z",
+      "databaseId": 44243443213,
+      "headSha": "deb94ee9918be5ed1043cc4b7f6c1309337233a7",
+      "name": "CAP-03 Revision 7 IRR-only static checks",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44243443213"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-18T04:41:36Z",
+      "databaseId": 44239075897,
+      "headSha": "f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e",
+      "name": "CAP-03 Revision 7 IRR-only static checks",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44239075897"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-18T04:41:36Z",
+      "databaseId": 44239076051,
+      "headSha": "f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44239076051"
+    }
+  ],
+  "frontendCI": {
+    "run": {
+      "id": 44239076051,
+      "name": "CI",
+      "node_id": "WFR_kwLOT3tSGM8AAAAKTNq60w",
+      "head_branch": "main",
+      "head_sha": "f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e",
+      "path": ".github/workflows/ci.yml",
+      "display_title": "Merge pull request #590 from ramkivs/arena/ca11ba03-iips-review-recov\u2026",
+      "run_number": 946,
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "workflow_id": 384606870,
+      "check_suite_id": 119754749208,
+      "check_suite_node_id": "CS_kwDOT3tSGM8AAAAb4fB1GA",
+      "url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/runs/44239076051",
+      "html_url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44239076051",
+      "pull_requests": [],
+      "created_at": "2026-11-18T04:41:36Z",
+      "updated_at": "2026-11-18T04:47:19Z",
+      "actor": {
+        "login": "ramkivs",
+        "id": 302525469,
+        "node_id": "U_kgDOEggsHQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/302525469?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ramkivs",
+        "html_url": "https://github.com/ramkivs",
+        "followers_url": "https://api.github.com/users/ramkivs/followers",
+        "following_url": "https://api.github.com/users/ramkivs/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ramkivs/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ramkivs/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ramkivs/subscriptions",
+        "organizations_url": "https://api.github.com/users/ramkivs/orgs",
+        "repos_url": "https://api.github.com/users/ramkivs/repos",
+        "events_url": "https://api.github.com/users/ramkivs/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ramkivs/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "run_attempt": 1,
+      "referenced_workflows": [],
+      "run_started_at": "2026-11-18T04:41:36Z",
+      "triggering_actor": {
+        "login": "ramkivs",
+        "id": 302525469,
+        "node_id": "U_kgDOEggsHQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/302525469?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ramkivs",
+        "html_url": "https://github.com/ramkivs",
+        "followers_url": "https://api.github.com/users/ramkivs/followers",
+        "following_url": "https://api.github.com/users/ramkivs/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ramkivs/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ramkivs/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ramkivs/subscriptions",
+        "organizations_url": "https://api.github.com/users/ramkivs/orgs",
+        "repos_url": "https://api.github.com/users/ramkivs/repos",
+        "events_url": "https://api.github.com/users/ramkivs/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ramkivs/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "jobs_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/runs/44239076051/jobs",
+      "logs_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/runs/44239076051/logs",
+      "check_suite_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/check-suites/119754749208",
+      "artifacts_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/runs/44239076051/artifacts",
+      "cancel_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/runs/44239076051/cancel",
+      "rerun_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/runs/44239076051/rerun",
+      "previous_attempt_url": null,
+      "workflow_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/workflows/384606870",
+      "head_commit": {
+        "id": "f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e",
+        "tree_id": "5a36e2b77c96c2a6e0f55a94f1c47c0e149f8c6c",
+        "message": "Merge pull request #590 from ramkivs/arena/ca11ba03-iips-review-recovered\n\nIID Stage 4 S4-R5: coverage availability stays existential; serve historical vs latest-period readiness apart",
+        "timestamp": "2026-11-18T04:41:32Z",
+        "author": {
+          "name": "ramkivs",
+          "email": "sairam260573@gmail.com"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com"
+        }
+      },
+      "repository": {
+        "id": 1333482008,
+        "node_id": "R_kgDOT3tSGA",
+        "name": "iips-review-recovered",
+        "full_name": "ramkivs/iips-review-recovered",
+        "private": true,
+        "owner": {
+          "login": "ramkivs",
+          "id": 302525469,
+          "node_id": "U_kgDOEggsHQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/302525469?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ramkivs",
+          "html_url": "https://github.com/ramkivs",
+          "followers_url": "https://api.github.com/users/ramkivs/followers",
+          "following_url": "https://api.github.com/users/ramkivs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ramkivs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ramkivs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ramkivs/subscriptions",
+          "organizations_url": "https://api.github.com/users/ramkivs/orgs",
+          "repos_url": "https://api.github.com/users/ramkivs/repos",
+          "events_url": "https://api.github.com/users/ramkivs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ramkivs/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/ramkivs/iips-review-recovered",
+        "description": "recovered from Arena on 14-08-2026",
+        "fork": false,
+        "url": "https://api.github.com/repos/ramkivs/iips-review-recovered",
+        "forks_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/forks",
+        "keys_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/teams",
+        "hooks_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/hooks",
+        "issue_events_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/events",
+        "assignees_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/tags",
+        "blobs_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/languages",
+        "stargazers_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/stargazers",
+        "contributors_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/contributors",
+        "subscribers_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/subscribers",
+        "subscription_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/subscription",
+        "commits_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/merges",
+        "archive_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/downloads",
+        "issues_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/labels{/name}",
+        "releases_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/deployments"
+      },
+      "head_repository": {
+        "id": 1333482008,
+        "node_id": "R_kgDOT3tSGA",
+        "name": "iips-review-recovered",
+        "full_name": "ramkivs/iips-review-recovered",
+        "private": true,
+        "owner": {
+          "login": "ramkivs",
+          "id": 302525469,
+          "node_id": "U_kgDOEggsHQ",
+          "avatar_url": "https://avatars.githubusercontent.com/u/302525469?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/ramkivs",
+          "html_url": "https://github.com/ramkivs",
+          "followers_url": "https://api.github.com/users/ramkivs/followers",
+          "following_url": "https://api.github.com/users/ramkivs/following{/other_user}",
+          "gists_url": "https://api.github.com/users/ramkivs/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/ramkivs/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/ramkivs/subscriptions",
+          "organizations_url": "https://api.github.com/users/ramkivs/orgs",
+          "repos_url": "https://api.github.com/users/ramkivs/repos",
+          "events_url": "https://api.github.com/users/ramkivs/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/ramkivs/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "html_url": "https://github.com/ramkivs/iips-review-recovered",
+        "description": "recovered from Arena on 14-08-2026",
+        "fork": false,
+        "url": "https://api.github.com/repos/ramkivs/iips-review-recovered",
+        "forks_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/forks",
+        "keys_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/keys{/key_id}",
+        "collaborators_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/collaborators{/collaborator}",
+        "teams_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/teams",
+        "hooks_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/hooks",
+        "issue_events_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/issues/events{/number}",
+        "events_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/events",
+        "assignees_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/assignees{/user}",
+        "branches_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/branches{/branch}",
+        "tags_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/tags",
+        "blobs_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/blobs{/sha}",
+        "git_tags_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/tags{/sha}",
+        "git_refs_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/refs{/sha}",
+        "trees_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/trees{/sha}",
+        "statuses_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/statuses/{sha}",
+        "languages_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/languages",
+        "stargazers_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/stargazers",
+        "contributors_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/contributors",
+        "subscribers_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/subscribers",
+        "subscription_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/subscription",
+        "commits_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/commits{/sha}",
+        "git_commits_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/git/commits{/sha}",
+        "comments_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/comments{/number}",
+        "issue_comment_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/issues/comments{/number}",
+        "contents_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/contents/{+path}",
+        "compare_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/compare/{base}...{head}",
+        "merges_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/merges",
+        "archive_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/{archive_format}{/ref}",
+        "downloads_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/downloads",
+        "issues_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/issues{/number}",
+        "pulls_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/pulls{/number}",
+        "milestones_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/milestones{/number}",
+        "notifications_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/notifications{?since,all,participating}",
+        "labels_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/labels{/name}",
+        "releases_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/releases{/id}",
+        "deployments_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/deployments"
+      }
+    },
+    "jobs": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 134582222228,
+          "run_id": 44239076051,
+          "workflow_name": "CI",
+          "head_branch": "main",
+          "run_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/runs/44239076051",
+          "run_attempt": 1,
+          "node_id": "CR_kwDOT3tSGM8AAAAfVbm9lA",
+          "head_sha": "f1bd346c22ff7e9ad44f83b097f4bcbf5d7b196e",
+          "url": "https://api.github.com/repos/ramkivs/iips-review-recovered/actions/jobs/134582222228",
+          "html_url": "https://github.com/ramkivs/iips-review-recovered/actions/runs/44239076051/job/134582222228",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-18T04:41:36Z",
+          "started_at": "2026-11-18T04:41:38Z",
+          "completed_at": "2026-11-18T04:47:18Z",
+          "name": "Typecheck \u00b7 Test \u00b7 Build",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-18T04:41:39Z",
+              "completed_at": "2026-11-18T04:41:41Z"
+            },
+            {
+              "name": "Check out the exact commit under test",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-18T04:41:41Z",
+              "completed_at": "2026-11-18T04:41:45Z"
+            },
+            {
+              "name": "Set up Node 22 / npm 10 with the lockfile-keyed cache",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-18T04:41:45Z",
+              "completed_at": "2026-11-18T04:41:48Z"
+            },
+            {
+              "name": "Create read-only IPD installation token",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-18T04:41:48Z",
+              "completed_at": "2026-11-18T04:41:49Z"
+            },
+            {
+              "name": "Verify the scoped token can read the private IPD repository",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-18T04:41:49Z",
+              "completed_at": "2026-11-18T04:41:49Z"
+            },
+            {
+              "name": "Prepare temporary IPD Git authorization header",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-18T04:41:49Z",
+              "completed_at": "2026-11-18T04:41:49Z"
+            },
+            {
+              "name": "Install dependencies from the committed lockfile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7,
+              "started_at": "2026-11-18T04:41:49Z",
+              "completed_at": "2026-11-18T04:42:41Z"
+            },
+            {
+              "name": "Verify all private dependencies resolve to their committed pins",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-18T04:42:41Z",
+              "completed_at": "2026-11-18T04:42:42Z"
+            },
+            {
+              "name": "Typecheck",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-18T04:42:42Z",
+              "completed_at": "2026-11-18T04:42:53Z"
+            },
+            {
+              "name": "Strict governed Screen replay server import closure",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-11-18T04:42:53Z",
+              "completed_at": "2026-11-18T04:43:03Z"
+            },
+            {
+              "name": "Run the full Vitest suite",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-11-18T04:43:03Z",
+              "completed_at": "2026-11-18T04:46:56Z"
+            },
+            {
+              "name": "Assert a non-zero, fully passing test run",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-11-18T04:46:56Z",
+              "completed_at": "2026-11-18T04:46:56Z"
+            },
+            {
+              "name": "Production build",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-11-18T04:46:56Z",
+              "completed_at": "2026-11-18T04:47:14Z"
+            },
+            {
+              "name": "Post Create read-only IPD installation token",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24,
+              "started_at": "2026-11-18T04:47:14Z",
+              "completed_at": "2026-11-18T04:47:15Z"
+            },
+            {
+              "name": "Post Set up Node 22 / npm 10 with the lockfile-keyed cache",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25,
+              "started_at": "2026-11-18T04:47:15Z",
+              "completed_at": "2026-11-18T04:47:15Z"
+            },
+            {
+              "name": "Post Check out the exact commit under test",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 26,
+              "started_at": "2026-11-18T04:47:15Z",
+              "completed_at": "2026-11-18T04:47:15Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 27,
+              "started_at": "2026-11-18T04:47:15Z",
+              "completed_at": "2026-11-18T04:47:15Z"
+            }
+          ],
+          "check_run_url": "https://api.github.com/repos/ramkivs/iips-review-recovered/check-runs/134582222228",
+          "labels": [
+            "ubuntu-latest"
+          ],
+          "runner_id": 1000002064,
+          "runner_name": "GitHub Actions 1000002064",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions"
+        }
+      ]
+    },
+    "rawLogDownload": "UNVERIFIED \u2014 download redirected to results-receiver.actions.githubusercontent.com and failed EOF; job/step metadata inspected instead"
+  }
+}

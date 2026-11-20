@@ -1,0 +1,73 @@
+// Isolated replay, not adoption of a new issuer population or capital observation.
+import assert from 'node:assert/strict';
+import {readFileSync, writeFileSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+import {readDataset} from '../../../iips-platform/src/investment/ingestion/writer';
+import {parseOperatingMetricsCsv} from '../../../iips-platform/src/investment/ingestion/builder';
+import {openLocalSnapshot} from '../../../iips-platform/src/investment/port/localSnapshotStore';
+import {computeContentDigest} from '../../../iips-platform/src/investment/fundamentals/manifest';
+import {assessCompany} from '../../../iips-platform/src/investment/assessment/engine';
+import {selectSeries} from '../../../iips-platform/src/investment/assessment/periods';
+import {FieldResolver} from '../../../iips-platform/src/investment/qualification/resolve';
+import {TRACKED_ENGINE_PROFILES} from '../../../iips-platform/src/investment/qualification/mapping';
+import {DEFAULT_QUALIFICATION_POLICY} from '../../../iips-platform/src/investment/qualification/types';
+import {qualifyIssuerToEngines} from '../../../iips-platform/src/investment/qualification/qualify';
+
+const root=resolve(__dirname,'../../..');
+const local=resolve(root,'LOCAL-ONLY-DO-NOT-PUBLISH/kec-final-source');
+const {manifest,content}=readDataset(join(local,'dataset'));
+assert.equal(manifest.contentDigest,computeContentDigest(content));
+assert.equal(manifest.datasetVersion,manifest.contentDigest);
+assert.equal(manifest.sourceRights?.state,'OPERATOR_ASSERTED');
+assert.equal(content.issuers.length,1);assert.equal(content.operatingMetrics.length,1);
+assert.equal(content.issues.filter(i=>i.severity==='ERROR').length,0);
+const issuer=content.issuers[0]!;const issuerId=issuer.issuerId;
+const port=openLocalSnapshot({dataDir:join(local,'dataset')});
+const metric=port.operatingMetricsFor(issuerId)[0]!;
+const parsed=parseOperatingMetricsCsv({name:'operating-metrics.csv',text:readFileSync(join(local,'input/kec/operating-metrics.csv'),'utf8')});
+assert.deepEqual(parsed.records,[metric]);assert.equal(parsed.issues.length,0);
+assert.equal(metric.metricId,'IN_BOOK_TO_BILL');assert.equal(metric.validation,'VALID');
+assert.equal(metric.observation.value,25280/23505.54);
+assert.equal(metric.periodEnd,'2026-03-31');assert.equal(metric.statementScope,'CONSOLIDATED');
+assert.equal(metric.sourceRef,'KEC-FY26-BTB-S4R6-RECONCILIATION');
+const series=selectSeries(content.periods,issuerId);
+const fy26=content.periods.find(p=>p.issuerId===issuerId&&p.period.periodEnd==='2026-03-31')!;
+assert.equal(series.annual[0]!.periodEnd,'2026-03-31');
+assert.equal(fy26.values.CURRENT_INVESTMENTS?.value??null,null);
+assert.equal(fy26.values.REVENUE_FROM_OPERATIONS?.value,23505.54*1e7);
+assert.equal(fy26.derived.EBITDA?.value,16_501_200_000); // PBT + finance + D&A, not operating headline 1659.
+assert.equal(fy26.values.EBITDA?.presence??'MISSING','MISSING');
+assert.equal(content.periods.filter(p=>p.issuerId===issuerId&&p.period.periodEnd==='2026-03-31').length,1);
+const profile=TRACKED_ENGINE_PROFILES.find(p=>p.sectorFamily==='Industrials')!;
+const runs=['2026-11-17','2026-11-18'].map(clock=>{
+ const result=assessCompany({issuerId,legalName:issuer.legalName,sector:issuer.sector,sectorSubsegment:issuer.subSegment,securityId:content.securities[0]!.securityId,dataset:content,datasetVersion:manifest.datasetVersion,contentDigest:manifest.contentDigest,provider:manifest.provider,identity:{bindingRef:'isolated-capital-verification-not-owner-install',rosterVersion:'verification-only',listingMapVersion:'verification-only',corporateActionTableVersion:'verification-only'},generatedAt:clock+'T00:00:00.000Z',knownAsOf:clock});
+ writeFileSync(join(local,'assessment-'+clock+'.json'),JSON.stringify(result,null,2)+'\n');
+ const {payload,violations}=result;const capital=payload.fundamentals.capitalStructure;
+ assert.equal(violations.length,0);assert.equal(payload.asOf.stalenessDays,clock==='2026-11-17'?231:232);
+ assert.equal(capital.grossDebt.value,5377.76*1e7);
+ assert.equal(capital.cashAndInvestments.presence,'MISSING');assert.equal(capital.netDebt.presence,'MISSING');
+ assert.equal(capital.components.currentInvestments?.presence,'MISSING');
+ assert.equal(capital.components.currentInvestments?.value,null);
+ assert.equal(capital.components.restrictedCash?.presence,'NOT_COMPUTABLE');
+ const dcf=payload.valuation.methods.find(m=>m.methodId==='DCF_FCFF')!;
+ assert.equal(dcf.applicable,true);assert.equal(dcf.output?.perShareMid.value,null);
+ assert.equal(dcf.output?.perShareMid.presence,'NOT_COMPUTABLE');
+ assert.equal(payload.valuation.intrinsic,null);
+ for(const methodId of ['EV_REVENUE','EV_EBITDA']){
+  const m=payload.valuation.methods.find(m=>m.methodId===methodId)!;
+  assert.equal(m.applicable,false);assert.equal(m.output,null);
+  assert.equal(m.notApplicableReason,'CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable');
+ }
+ const prior=content.periods.find(p=>p.issuerId===issuerId&&p.period.periodEnd===series.annual[1]?.periodEnd)??null;
+ const resolver=new FieldResolver(content,{content,issuerId,legalName:issuer.legalName,sector:issuer.sector,asOf:clock,datasetVersion:manifest.datasetVersion,period:fy26,prior,statementScope:fy26.period.statementScope,policy:DEFAULT_QUALIFICATION_POLICY},series,series.annual[0]!,series.annual[1]??null);
+ const fields=['bookToBill','debtEbitda'].map(field=>{
+  const mapping=profile.fields.find(m=>m.field===field)!;const r=resolver.resolve(mapping);
+  assert.equal(r.outcome,field==='bookToBill'?'STALE':'RESOLVED');
+  return {field,freshnessKind:mapping.freshnessKind,limitDays:mapping.freshnessKind==='PNL'?200:250,outcome:r.outcome,codes:r.codes,valueForwarded:r.value!==null};
+ });
+ const q=qualifyIssuerToEngines({content,issuerId,asOf:clock,datasetVersion:manifest.datasetVersion,engineIds:[profile.engineId]});
+ writeFileSync(join(local,'qualification-'+clock+'.json'),JSON.stringify(q,null,2)+'\n');
+ assert.equal(q.engines[0]!.state,'NOT_QUALIFIED');
+ return {clock,clockMeaning:clock==='2026-11-17'?'execution-date UTC assessment':'requested Nov18 scenario; not execution date',asOf:payload.asOf,fieldQualification:fields,certifiedQualification:q.engines.map(e=>({engineId:e.engineId,state:e.state,codes:e.codes,requiredInputs:e.requiredInputs,requiredResolved:e.requiredResolved})),methods:payload.valuation.methods.map(m=>({methodId:m.methodId,applicable:m.applicable,outputPresent:m.output!==null,reason:m.notApplicableReason})),capital:{grossDebtPresence:capital.grossDebt.presence,currentInvestments:capital.components.currentInvestments,restrictedCash:capital.components.restrictedCash,netDebtPresence:capital.netDebt.presence},confidence:payload.confidence,invariantViolations:violations.length};
+});
+console.log(JSON.stringify({baseline:'187783d047ed63da31fd00276d41423ba318b91d',isolatedReplay:true,newEconomicObservations:0,readBackDigestVerified:true,datasetVersion:manifest.datasetVersion,contentDigest:manifest.contentDigest,sourceRights:manifest.sourceRights?.state,issuerCount:content.issuers.length,annualPeriods:series.annual.map(p=>({periodEnd:p.periodEnd,filingRef:p.filingRef})),canonicalMetric:{id:metric.metricId,periodEnd:metric.periodEnd,validation:metric.validation,presence:metric.observation.presence,parserAndPortEqual:true},runs,ownerRuntimeInstalled:false,censusRerun:false,freshnessOverride:false},null,2));

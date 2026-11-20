@@ -1,0 +1,60 @@
+{
+  "currencyUnit": "INR_CRORE",
+  "periodEnd": "2026-03-31",
+  "statementScope": "CONSOLIDATED",
+  "supplied": {
+    "debtDescribedIncludingLeases": "5103.20",
+    "cashlike": "411.30",
+    "candidateNetDebt": "4691.90",
+    "managementIncludingAcceptances": "6722"
+  },
+  "audited": {
+    "borrowingsBeforeLeases": "5103.23",
+    "borrowingsIncludingAccruedInterest": "5113.14",
+    "leases": "274.53",
+    "grossDebtContract": "5377.76",
+    "cashEquivalents": "411.26",
+    "otherBankBalances": "100.67",
+    "repatriationRestrictedCCE": "1.54",
+    "unpaidDividendsBank": "3.06",
+    "deposits3To12Months": "3.20",
+    "marginSecurityBank": "94.41",
+    "currentInvestments": null,
+    "currentInvestmentsPresence": "MISSING",
+    "currentInvestmentsReason": "NOT_REPORTED",
+    "acceptancesAnnual": "2120.74",
+    "acceptancesMayResults": "2120.73",
+    "otherFinancialLiabilities": "115.68"
+  },
+  "managementRounded": {
+    "netDebt": "4601",
+    "interestBearingAcceptances": "2121",
+    "total": "6722"
+  },
+  "diagnosticsNotAdmissions": {
+    "interestClassificationDifference": "9.91",
+    "acceptanceVersionDifference": "0.01",
+    "cashNoteComponentDiscrepancy": "1.20",
+    "borrowingsLessCCE": "4691.97",
+    "borrowingsLessCCEAndOtherBanks": "4591.30",
+    "interestInclusiveBorrowingsLessCCEAndOtherBanks": "4601.21",
+    "abovePlusAnnualAcceptances": "6721.95",
+    "aboveVsRoundedManagementTotal": "-0.05",
+    "historicalCandidateGap": "2030.10",
+    "gapVersusAnnualAcceptances": "90.64",
+    "borrowingsLessCCEPlusAnnualAcceptances": "6812.71",
+    "aboveVsManagementTotal": "90.71",
+    "grossLessCCE": "4966.50",
+    "grossLessCCEPlusAnnualAcceptances": "7087.24",
+    "aboveVsManagementTotalIncludingLeases": "365.24"
+  },
+  "iidEbitda": "1650.12",
+  "operatingEbitdaExact": "1658.57",
+  "operatingEbitdaRounded": "1659",
+  "fullManagementDefinitionVerified": false,
+  "buyerCreditOverlapVerified": false,
+  "fullRelevantNotesInspected": false,
+  "newCapitalAdmission": false,
+  "S4-R6": "OPEN",
+  "G-4": "OPEN"
+}

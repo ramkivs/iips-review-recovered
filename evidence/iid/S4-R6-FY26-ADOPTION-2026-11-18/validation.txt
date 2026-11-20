@@ -1,0 +1,52 @@
+FY26 adoption — local verification receipt
+Baseline: d93c6d623a7cafb721cdc211f07d2315b18aa2b0
+Requested assessment clock: 2026-11-18T00:00:00.000Z
+Actual local dataset: sha256:590b3ea9602248ca63be2701144c492cc00e0d252285be2c5b816159e462e1cf
+
+PASS: preflight recovered44files byte-identical to published remote; backup then same-branch fast-forward.
+PASS: one normal CLI ingestion, exit0, no --allow-errors; exact command in execution.json.
+PASS: Infosys FY26 annual row plus two real null MISSING/NOT_REPORTED metric records admitted.
+PASS: historical Infosys CSV rows structurally equal; no FY24 overwrite; KEC statements byte unchanged.
+PASS: readDataset manifest file/content hashes and openLocalSnapshot metric record equality.
+PASS: actual assessments and issuer-specific qualifyIssuerToEngines on the read-back content.
+PASS: both assessment dataAsOf2026-03-31/age232; exact withheld EV_REVENUE reasons; invariants0each.
+PASS: both certified profiles NOT_QUALIFIED; no sector scoring execution.
+PASS: actual PNL200 field refusals FIELD_STALE; actual KEC BS250 debtEbitda RESOLVED.
+PASS: residual FY24 borrowing/preference references explicitly preserved; PERIOD_MISMATCH, no mixed debt sum.
+PASS: KEC gross debt5377.76crore from existing components, current investments still missing, no capital candidate admitted.
+PASS: actual combined confidence0.4932 Infosys /0.3199 KEC, named caps recorded, no override/publication anchor.
+PASS: 389preserved production/historical evidence/input identities; 4target source-page hashes match original page-map.
+PASS: new Markdown relative links and ignored-local-dataset boundary.
+PASS: final tsx verifier exit0; stdout byte-identical to published metadata receipt.
+
+New focused regressions:
+python evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/test_adoption.py -v
+test_actual_cli_readback_and_selection_not_proposed_record (__main__.AdoptionTests.test_actual_cli_readback_and_selection_not_proposed_record) ... ok
+test_actual_methods_qualification_and_invariants (__main__.AdoptionTests.test_actual_methods_qualification_and_invariants) ... ok
+test_both_missing_metrics_are_null_not_valid_zero (__main__.AdoptionTests.test_both_missing_metrics_are_null_not_valid_zero) ... ok
+test_complete_supplied_payload_attributed_and_retained (__main__.AdoptionTests.test_complete_supplied_payload_attributed_and_retained) ... ok
+test_freshness_is_field_specific_and_confidence_is_actual (__main__.AdoptionTests.test_freshness_is_field_specific_and_confidence_is_actual) ... ok
+test_kec_components_and_no_double_count_or_residual_guess (__main__.AdoptionTests.test_kec_components_and_no_double_count_or_residual_guess) ... ok
+test_no_silent_FY24_component_relabelling (__main__.AdoptionTests.test_no_silent_FY24_component_relabelling) ... ok
+test_original_census_and_twelve_slots_unchanged (__main__.AdoptionTests.test_original_census_and_twelve_slots_unchanged) ... ok
+test_preservation_and_publication_boundary (__main__.AdoptionTests.test_preservation_and_publication_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.014s
+
+OK
+
+Relevant existing regression selection (not original25tests/probes/census):
+Initial command from repository root:
+iips-platform/node_modules/.bin/tsx --test --test-name-pattern='a blank cell is MISSING|net debt is built from named|restricted cash is never|the consolidated series is chosen|each recorded input digest equals|a statement older than the frozen freshness window|revenue growth needs the immediately preceding' iips-platform/tests/investment/ingestion.test.ts iips-platform/tests/investment/assessment-capital.test.ts iips-platform/tests/investment/assessment-periods.test.ts iips-platform/tests/investment/multiInputIngestion.test.ts iips-platform/tests/investment/w10IssuerEngineQualification.test.ts
+Result:6PASS/1FAIL. Failure: selected multiInput digest test resolves ../evidence relative to package cwd; repo-root invocation looked at /home/user/evidence, roster absent. No data/product failure, no product code changed.
+Only the failed digest test rerun from iips-platform cwd:
+node_modules/.bin/tsx --test --test-name-pattern='each recorded input digest equals' tests/investment/multiInputIngestion.test.ts
+Result:1PASS/0FAIL. Seven selected relevant tests ultimately PASS; passed tests not repeated.
+
+Scoped strict TypeScript/import-closure check PASS/exit0:
+iips-platform/node_modules/.bin/tsc --noEmit --strict --skipLibCheck --esModuleInterop --resolveJsonModule --target ES2020 --module CommonJS --moduleResolution Node --typeRoots iips-platform/node_modules/@types evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/verify-adoption.ts
+No full product-suite/typecheck claim. npm ci --ignore-scripts completed,0vulnerabilities; no lockfile changes.
+
+Final staged whitespace/checksum checks performed before commit. Final remote commit/tree/all changed blobs and static CI checked after push, posted to PR597 rather than preclaimed here.
+S4-R6 OPEN; G-4 OPEN. No owner closure acceptance, host install or new policy decision.

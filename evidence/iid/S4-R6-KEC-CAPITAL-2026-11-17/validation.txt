@@ -1,0 +1,19 @@
+Execution UTC date: 2026-11-17. Requested Nov18 assessment is an explicit scenario, not the execution date.
+Baseline: 187783d047ed63da31fd00276d41423ba318b91d / tree4cfb5090d4936e4bc3669bd876cf7baff2ffdc55; PR597 OPEN.
+
+PASS npm ci --ignore-scripts (iips-platform): 6 packages; 0 vulnerabilities; dependency lock unchanged.
+PASS normal CLI, exit0/no --allow-errors: command pinned in execution.json. New isolated private KEC replay, not combined-dataset adoption or an additional economic observation.
+PASS tsx evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/verify.ts: read-back digest, parser/canonical/port equality, one FY26 row, derived EBITDA integer INR, existing BTB, actual assessCompany and qualifyIssuerToEngines at both clocks, zero invariants. Full payloads local/ignored only.
+PASS python -m unittest discover -s evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17 -p 'test_*.py' -v: 8 tests.
+PASS (cwd iips-platform) node_modules/.bin/tsx --test --test-name-pattern='net debt is built from named components|restricted cash is never silently|an issuer with no balance sheet' tests/investment/assessment-capital.test.ts: 3 selected existing tests; all passed. Not prior12probes/25tests rerun.
+PASS iips-platform/node_modules/.bin/tsc --noEmit --strict --skipLibCheck --resolveJsonModule --target ES2022 --module commonjs --moduleResolution node --esModuleInterop --types node --typeRoots iips-platform/node_modules/@types evidence/iid/S4-R6-KEC-CAPITAL-2026-11-17/verify.ts
+
+Corrected validation-only failures, retained transparently:
+- Added EBITDA assertion first used1650.12*1e7 in JS, yielding16501199999.999998 versus correct canonical16501200000. Fixed expected value to exact integer16_501_200_000. No product or data change; complete verifier passed after correction.
+- Initial standalone scoped tsc command omitted --resolveJsonModule and reported13 JSON import configuration errors. Reran with existing JSON-module resolution semantics; passed. No product/configuration change.
+
+PASS private path git check-ignore. No source PDFs, filing excerpts, canonical CSV values or full assessment payloads added to Git.
+PASS preservation hashes, unchanged original14/38matrix and prior adoption/L039 evidence.
+PASS bundle SHA256SUMS, relative deliverable links, git diff --check (publication preflight).
+CI is the existing IRR-only static workflow triggered by tracker change; exact-head result and remote commit/tree/blob verification belong in the PR597 publication receipt, not claimed by these local tests.
+No merge or owner-runtime installation performed. S4-R6/G-4 OPEN.

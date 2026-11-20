@@ -1,0 +1,180 @@
+{
+  "baseline": "2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c",
+  "branch": "arena/5461e5b5-iips-review-recovered",
+  "recordDate": "2026-11-17",
+  "remoteTimestamps": "Preserved as returned, including 2026-11-18; commit-bounded not midnight cutoff.",
+  "toolchain": {
+    "node": "v22.22.3",
+    "typescript": "5.4.5",
+    "tsx": "4.23.0",
+    "@types/node": "26.1.0"
+  },
+  "commands": [
+    {
+      "cwd": "iips-platform",
+      "command": "tsx --test --test-concurrency=1 tests/investment/*.test.ts",
+      "exit": 0,
+      "tests": 1589,
+      "pass": 1589,
+      "fail": 0,
+      "suites": 329,
+      "skipped": 0,
+      "log": "platform-iid.tap"
+    },
+    {
+      "cwd": "iips-platform",
+      "command": "tsx --test --test-concurrency=1 src/**/*.test.ts tests/regression/*.test.ts",
+      "exit": 0,
+      "tests": 678,
+      "pass": 678,
+      "fail": 0,
+      "skipped": 0,
+      "log": "platform-regression.tap"
+    },
+    {
+      "cwd": ".",
+      "command": "tsc --noEmit -p iips-platform/tsconfig.json",
+      "exit": 0,
+      "log": "platform-typecheck.txt"
+    },
+    {
+      "cwd": ".",
+      "command": "tsx iips-platform/scripts/lint-roster-sectors.ts --json",
+      "exit": 0,
+      "checked": 19,
+      "failed": 0,
+      "log": "roster-lint.json"
+    },
+    {
+      "cwd": ".",
+      "command": "tsx .local/stage4-audit/measure.ts",
+      "exit": 0,
+      "log": "measurement.json"
+    },
+    {
+      "cwd": ".",
+      "command": "python .local/stage4-audit/source-checks.py",
+      "exit": 0,
+      "checks": 131,
+      "failed": 0,
+      "log": "source-checks.json"
+    }
+  ],
+  "perSuiteReruns": {
+    "iidStage4ScenarioMatrix": {
+      "tests": 39,
+      "pass": 39,
+      "fail": 0,
+      "skipped": 0
+    },
+    "iidStage4FilingRefresh": {
+      "tests": 20,
+      "pass": 20,
+      "fail": 0,
+      "skipped": 0
+    },
+    "s4r2BorrowingsReuse": {
+      "tests": 25,
+      "pass": 25,
+      "fail": 0,
+      "skipped": 0
+    },
+    "s4r3Freshness": {
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "skipped": 0
+    },
+    "s4r5-availability-semantics": {
+      "tests": 10,
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0
+    },
+    "s4r6-operating-metric-gating": {
+      "tests": 25,
+      "pass": 25,
+      "fail": 0,
+      "skipped": 0
+    },
+    "s4r8-corporate-action-ingestion": {
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "skipped": 0
+    },
+    "rosterSectorLint": {
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0
+    },
+    "l041ClassifierReconciliation": {
+      "tests": 6,
+      "pass": 6,
+      "fail": 0,
+      "skipped": 0
+    }
+  },
+  "unsuccessfulSetups": [
+    {
+      "command": "selected nine IID suites invoked from repository root without child-process tsx discovery",
+      "result": "168 pass / 12 fail; missing tsx in subprocesses and path-sensitive root assumptions; not accepted as final result"
+    },
+    {
+      "command": "full IID glob from repository root (parallel, then serial)",
+      "result": "1209 pass / 132 fail, same wrong-working-directory fixture path failures; serial alone did not fix it"
+    },
+    {
+      "command": "full IID glob from iips-platform without explicit iips-platform/node_modules link",
+      "result": "1587 pass / 2 fail; Windows-driver source tests open explicit node_modules/tsx paths"
+    },
+    {
+      "command": "attempt to add platform dependency symlink using repository-root path while already in platform cwd",
+      "result": "ln failed; another 1587/2 run; then corrected cwd-relative link and final full 1589/0 run"
+    },
+    {
+      "command": "initial audit source-excerpt check included begin/end control markers in the verbatim body",
+      "result": "six check failures; harness corrected to compare body between markers, matching committed extractor contract; no source changed"
+    },
+    {
+      "command": "gh run view 44239076051 --log",
+      "result": "redirected log host EOF; run/job/step API metadata read instead, raw logs UNVERIFIED"
+    }
+  ],
+  "boundaries": {
+    "freshFrontendRun": false,
+    "windowsHostRun": false,
+    "currentHostState": "UNVERIFIED",
+    "datasetInstallOrRealMint": false,
+    "ipdWrite": false,
+    "codeDatasetIdentityGovernanceChanges": false,
+    "unmergedPrimaryBaseline": {
+      "blob": "e6f756238089c6795c8568b37321f3e55ba60cb2",
+      "bytes": 122093,
+      "sha256": "baac4427e543ff7749694e7fb59a4b147cb415b2f7fe3330544ce22a5d0835b6"
+    }
+  },
+  "additionalStaticValidation": {
+    "exit": 0,
+    "log": "static-checks.txt",
+    "commands": [
+      "python -m unittest discover -s tests/validation -p test_cap03_artifact_classification.py -v",
+      "python -m unittest discover -s tests/validation -p test_irr_workflow_triggers.py -v",
+      "python docs/integration/cap03-p1-f9/validate_windows10_host_profile.py",
+      "python -m unittest discover -s tests/validation -p test_cap03_recovery_release_audit.py -v"
+    ],
+    "boundary": "Existing static validator and mocked/offline unit tests, not an actual recovery-release download or host profile execution."
+  },
+  "latePublicationDelta": {
+    "main": "70f76134deba91de4ddca9e932542231b298cdf9",
+    "pr": 596,
+    "record": "publication-delta.json",
+    "implementationAndDatasetBytesUnchanged": true,
+    "metadataOnlyProbeRerunExit": 0,
+    "metadataProjectionMatchesOriginalObservation": true,
+    "sourceChecks": 131,
+    "sourceCheckFailures": 0,
+    "noFreshFullSuiteAfterDocumentationOnlyReconciliation": true
+  }
+}

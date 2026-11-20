@@ -1,0 +1,954 @@
+{
+  "boundary": "Checks prove committed-file identity/arithmetic/withholding disclosure, not PDF authenticity, rights, host state or universal absence of fabrication. Source row locators supplement, not replace, the existing cell/XBRL tests.",
+  "checks": [
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/README.md",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/data-extraction.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/determination.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/periods.csv",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/roster.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/periods.csv",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/roster.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/probe/build_refresh.py",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/01-candidate-ingest-provision.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/02-refresh-test.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/03-source-census.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/05-gates.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/06-targeted-final.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-assessments-readonly.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-coverage.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-manifest.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-selected-xbrl-facts.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/page-map.json",
+      "ok": true
+    },
+    {
+      "kind": "refresh manifest file",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source-selection.json",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy25-bs-pnl",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy25-cf",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy26-bs-pnl",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "marico-fy26-cf",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "kec-q1-pnl",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "ok": true
+    },
+    {
+      "kind": "page excerpt/committed origin identity",
+      "name": "kec-q2-bs",
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "Marico FY2025 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "reference": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "Marico FY2026 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "reference": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "Marico FY2026 free cash flow",
+      "formula": "OCF - capital expenditure",
+      "reference": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "KEC Q1 FY27 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "reference": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "KEC Q2 FY27 EBITDA",
+      "formula": "PBT + finance costs + D&A",
+      "reference": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "hand formula arithmetic",
+      "name": "KEC Q2 FY27 total income",
+      "formula": "revenue from operations + other income",
+      "reference": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Auto",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Auto",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Auto",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Banking",
+      "method": "RESIDUAL_INCOME",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Banking",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Banking",
+      "method": "DIVIDEND_DISCOUNT",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Capital Markets",
+      "method": "P_AUM",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Capital Markets",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Capital Markets",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Energy",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Energy",
+      "method": "EV_EBITDAX",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Energy",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Healthcare",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Healthcare",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Healthcare",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Hospitality",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Hospitality",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Hospitality",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Industrials",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Insurance",
+      "method": "P_EMBEDDED_VALUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Insurance",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Materials",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Materials",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Materials",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Technology",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Technology",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Telecom",
+      "method": "EV_SUBSCRIBER",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Telecom",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Utilities",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Utilities",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "historical",
+      "sector": "Utilities",
+      "method": "REGULATED_ASSET_BASE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Auto",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Auto",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Auto",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Banking",
+      "method": "RESIDUAL_INCOME",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Banking",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Banking",
+      "method": "DIVIDEND_DISCOUNT",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Capital Markets",
+      "method": "P_AUM",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Capital Markets",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Capital Markets",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Energy",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Energy",
+      "method": "EV_EBITDAX",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Energy",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Healthcare",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Healthcare",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Healthcare",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Hospitality",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Hospitality",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Hospitality",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Industrials",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Insurance",
+      "method": "P_EMBEDDED_VALUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Insurance",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Materials",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Materials",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Materials",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Technology",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Technology",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Telecom",
+      "method": "EV_SUBSCRIBER",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Telecom",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Utilities",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Utilities",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "refresh-candidate",
+      "sector": "Utilities",
+      "method": "REGULATED_ASSET_BASE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Auto",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Auto",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Auto",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Banking",
+      "method": "RESIDUAL_INCOME",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Banking",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Banking",
+      "method": "DIVIDEND_DISCOUNT",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Capital Markets",
+      "method": "P_AUM",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Capital Markets",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Capital Markets",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Energy",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Energy",
+      "method": "EV_EBITDAX",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Energy",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Healthcare",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Healthcare",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Healthcare",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Hospitality",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Hospitality",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Hospitality",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Industrials",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Insurance",
+      "method": "P_EMBEDDED_VALUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Insurance",
+      "method": "PE_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Materials",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Materials",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Materials",
+      "method": "NAV_RESERVES",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Technology",
+      "method": "EV_EBITDA",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Technology",
+      "method": "EV_REVENUE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Telecom",
+      "method": "EV_SUBSCRIBER",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Telecom",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Utilities",
+      "method": "DCF_FCFF",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Utilities",
+      "method": "PB_RELATIVE",
+      "ok": true
+    },
+    {
+      "kind": "withheld reason",
+      "dataset": "s4r2-repository",
+      "sector": "Utilities",
+      "method": "REGULATED_ASSET_BASE",
+      "ok": true
+    }
+  ],
+  "sourceRowLocators": [
+    {
+      "check": "Marico FY2025 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "lines": [
+        {
+          "line": 36
+        },
+        {
+          "line": 37
+        },
+        {
+          "line": 42
+        }
+      ],
+      "note": "Locator metadata only; no copied filing-row text."
+    },
+    {
+      "check": "Marico FY2026 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "lines": [
+        {
+          "line": 36
+        },
+        {
+          "line": 37
+        },
+        {
+          "line": 41
+        }
+      ],
+      "note": "Locator metadata only; no copied filing-row text."
+    },
+    {
+      "check": "Marico FY2026 free cash flow",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "lines": [
+        {
+          "line": 55
+        },
+        {
+          "line": 57
+        }
+      ],
+      "note": "Locator metadata only; no copied filing-row text."
+    },
+    {
+      "check": "KEC Q1 FY27 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "lines": [
+        {
+          "line": 25
+        },
+        {
+          "line": 26
+        },
+        {
+          "line": 31
+        }
+      ],
+      "note": "Locator metadata only; no copied filing-row text."
+    },
+    {
+      "check": "KEC Q2 FY27 EBITDA",
+      "source": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-selected-xbrl-facts.json",
+      "lines": [
+        {
+          "line": 101
+        },
+        {
+          "line": 108
+        },
+        {
+          "line": 143
+        },
+        {
+          "line": 248
+        },
+        {
+          "line": 255
+        },
+        {
+          "line": 290
+        }
+      ],
+      "note": "Locator metadata only; no copied filing-row text."
+    }
+  ],
+  "failed": [],
+  "publicationBoundary": "Verification metadata only; no source-row text or new financial payload. Historical source material and handchecks remain where already committed."
+}

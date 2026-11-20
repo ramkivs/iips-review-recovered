@@ -1,0 +1,20 @@
+{
+  "dir": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/identity",
+  "runtimeLoader": {
+    "available": false,
+    "issues": [
+      {
+        "file": "corporate-actions.json",
+        "code": "MISSING_REQUIRED_ARRAY",
+        "subject": "actions",
+        "detail": "required array \"actions\" is missing"
+      }
+    ]
+  },
+  "provisionerSourceRead": {
+    "ok": true,
+    "label": "WI8-INDUSTRIALS-KEC-2026-11-07",
+    "refusals": [],
+    "note": "Source read accepts empty-only legacy form; not a publish operation."
+  }
+}

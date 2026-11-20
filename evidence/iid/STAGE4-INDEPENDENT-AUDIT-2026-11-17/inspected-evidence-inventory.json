@@ -1,0 +1,1170 @@
+{
+  "baseline": "2ec2e75d0c1c042f646e94cb1ec6e0def21bfb6c",
+  "note": "Identity inventory of scope documents, all platform IID tests and S4 bundles, plus implementation anchors. Inclusion is a hash/read identity, not an assertion that every limitation was re-adjudicated.",
+  "files": [
+    {
+      "path": "IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md",
+      "gitBlob": "84fe94790db4e92a787f3856ee23de29e1eb21f4",
+      "bytes": 4227955,
+      "sha256": "cd62097107319732e7e6e193b4b0f45d279d204a7114e11c04604bb94f7e4a4f"
+    },
+    {
+      "path": "docs/integration/CPII-01-RUNTIME-TOPOLOGY-AND-READINESS-BOUNDARY-2026-11-13.md",
+      "gitBlob": "d1b11b8c39726e930aec628094059e77a737e5a8",
+      "bytes": 74671,
+      "sha256": "da9ffd31d6329807944563da4e01059bd19b3ccbb18bdac7ce20215e606e9f70"
+    },
+    {
+      "path": "docs/integration/IID-COVERAGE-AVAILABILITY-SEMANTICS-2026-11-17.md",
+      "gitBlob": "292c1315d313bd8b16c4f87cd4df19298c4b7ffd",
+      "bytes": 15700,
+      "sha256": "df68529928364ad78034ecbb43a9d9433b45c29f16fb2a31172ac1b163a56980"
+    },
+    {
+      "path": "docs/integration/IID-COVERAGE-USABLE-VERSUS-VALUATION-2026-11-17.md",
+      "gitBlob": "02885585f4c8b91107c85d1efa1ff2cf76bc0b65",
+      "bytes": 30941,
+      "sha256": "ad06fabb69ddf8db9669bd644c86e6cd193509d58af289bfe7aae1cb521ca849"
+    },
+    {
+      "path": "docs/integration/IID-L041-DATASET-CLASSIFIER-RECONCILIATION-2026-11-17.md",
+      "gitBlob": "25ab3b560609e6c1082b46a994f432d886808797",
+      "bytes": 20902,
+      "sha256": "5193f21ebefd2a7d206f6bd01259eb872aedcd9bcf8705b23f8a5f1031a62a57"
+    },
+    {
+      "path": "docs/integration/IID-L041-READ-MODEL-OWNER-CONFIRMATION-2026-11-17.md",
+      "gitBlob": "83486bc263365951169a3913768910e333edcf98",
+      "bytes": 19008,
+      "sha256": "6f30f59b7f3f6fc00914eb7af147c7c975f26459221dbe72a85a9a6ee2a43c76"
+    },
+    {
+      "path": "docs/integration/IID-NP04-FIRST-INFOSYS-PERSISTENCE-COMPLETION-2026-11-15.md",
+      "gitBlob": "432308114638048548d3aad020fbd6d40fe8141a",
+      "bytes": 16492,
+      "sha256": "27af66efa68a860a99f810c5619efe7ba5248181814f6a0f545640ad805bd0ac"
+    },
+    {
+      "path": "docs/integration/IID-O1-IDENTITY-GOVERNANCE-PA-DECISION-2026-11-16.md",
+      "gitBlob": "79e5add65d26835365d24abd04c15d4785fd5bc3",
+      "bytes": 27348,
+      "sha256": "062dccac1144f544d778f0da111c4b01042daa8c54a58d909f88f8e327de17fc"
+    },
+    {
+      "path": "docs/integration/IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md",
+      "gitBlob": "0428a50a72a44165bf8592a17fd1ab6d23ca05b2",
+      "bytes": 17428,
+      "sha256": "b15cc92010685999bb669074607082d55f85bcee373273873177be6334b94c79"
+    },
+    {
+      "path": "docs/integration/IID-S4-R1-SCENARIOS-1-5-9-10-EVIDENCE-2026-11-16.md",
+      "gitBlob": "e2dd7306cd82e8c17a2b53e73fa2bf47faa17ebb",
+      "bytes": 29034,
+      "sha256": "adc48dfab0df30ff08c0df845a61ac8d3aed8cabff3c603e54702c4da32c8433"
+    },
+    {
+      "path": "docs/integration/IID-S4-R3-CANDIDATE-BUILD-AND-VERIFICATION-2026-11-14.md",
+      "gitBlob": "342f01242b71fd7a209b080e5ab36e67504e4cc8",
+      "bytes": 12497,
+      "sha256": "dbab59dfb616fee93cae850166958d04991b8759eccf2318286e60417b4497ab"
+    },
+    {
+      "path": "docs/integration/IID-S4-R3-WINDOWS-HOST-BUILD-AND-VERIFICATION-EVIDENCE-2026-11-15.md",
+      "gitBlob": "8725494f35de37cbf9e3a4e31c1db12f5452b2b7",
+      "bytes": 23473,
+      "sha256": "bde774c4021f1f65520242be666fff2091800d7040072af1c6deb5a2d51ae897"
+    },
+    {
+      "path": "docs/integration/IID-S4-R3-WINDOWS-POWERSHELL-LOCAL-BUILD-2026-11-14.md",
+      "gitBlob": "95136193d80584438be0da7343d9dd8140677141",
+      "bytes": 23437,
+      "sha256": "7fb7835083d9314bed017214590a121d95e42893af95a8e999bab3e48d48376d"
+    },
+    {
+      "path": "docs/integration/IID-S4-R3-WINDOWS-READONLY-VERIFICATION-EVIDENCE-2026-11-15.md",
+      "gitBlob": "71af1f68ca0d829ecf9d370cec1c3fc33192e65d",
+      "bytes": 25338,
+      "sha256": "881fd06c5b32cb3f7284d11d9a86e2f0945bc89731dd03689021d03319a25f4e"
+    },
+    {
+      "path": "docs/integration/IID-S4-R6-OPERATING-METRICS-2026-11-18.md",
+      "gitBlob": "0cc77d031a81fcd1b16d0b83b44f39155b2a4d36",
+      "bytes": 25216,
+      "sha256": "60810f6319e4cb710b7b722045a9562b304acff602f2a5d5c5129854b4786222"
+    },
+    {
+      "path": "docs/integration/IID-S4-R8-CORPORATE-ACTIONS-2026-11-17.md",
+      "gitBlob": "e6af5713e55f041f4772ffda15682b84ad372e3e",
+      "bytes": 20376,
+      "sha256": "90edb943a7e4c72f6fa20ac3f7d9472791e6fbb2a06373a6436c5ef7c2be4173"
+    },
+    {
+      "path": "docs/integration/IID-STAGE-2-READINESS-REASSESSMENT-2026-11-14.md",
+      "gitBlob": "55dd7c8efe398ee505ce41a08e836e3b438f987e",
+      "bytes": 52218,
+      "sha256": "959a27cd0912f6954ecee8fcc5945d5c5f8bb961a335e1bf88068f36b4dff5a2"
+    },
+    {
+      "path": "docs/integration/IID-STAGE-3-INVESTMENT-DATASET-READINESS-2026-11-13.md",
+      "gitBlob": "35035e3ee0f94acceec7cead6a0b5c0121e2e1c6",
+      "bytes": 67809,
+      "sha256": "f74f2c6bc6334cd4ebceb565fdc38a1c7a50466d5ed29f022f454a18f1329b85"
+    },
+    {
+      "path": "docs/integration/IID-STAGE-3-READINESS-REASSESSMENT-2026-11-13.md",
+      "gitBlob": "4308ef3015e8cf2f5c14f35ee3b160e691a6144e",
+      "bytes": 57613,
+      "sha256": "5ca4d13933bfbaca1272a0df3db6401a3e8d9e365a80a92e56dc4b084188c5c5"
+    },
+    {
+      "path": "docs/integration/IID-STAGE-3-READINESS-REASSESSMENT-2026-11-14.md",
+      "gitBlob": "4f3cf088f9d228567de264b9f5e7357d862ccc1a",
+      "bytes": 49598,
+      "sha256": "fd1c142f9fa2d263b082b72e149a331246ee9da8cfb96f03ce02d5646e953b92"
+    },
+    {
+      "path": "docs/integration/IID-STAGE-4-COVERAGE-READINESS-2026-11-14.md",
+      "gitBlob": "1ff168c6f07c8e2adbeed73f476919140c706af3",
+      "bytes": 133099,
+      "sha256": "9aecf096436d6a2cd987b0fc5f36371acdf767065b973fb3a02c13a1ebe5d3de"
+    },
+    {
+      "path": "docs/integration/IID-STAGE2-WINDOWS-HOST-PROVISION-EVIDENCE-2026-11-14.md",
+      "gitBlob": "0ec932707c3b7118a0d0580943aae02388f66182",
+      "bytes": 39230,
+      "sha256": "c90e7893489b4ef4cdc35bdd866fffa25437a7dcdbab58d88cac67e7f020f1ed"
+    },
+    {
+      "path": "docs/integration/IID-STAGE3-WINDOWS-HOST-ACCEPTANCE-EVIDENCE-2026-11-14.md",
+      "gitBlob": "4b5c32c08e26109123cc56c2d6e3d743d42bf925",
+      "bytes": 26096,
+      "sha256": "24dd474c06f9e9f6df420599f12ef272c369e09831e84b9a6cb1f57f906c1781"
+    },
+    {
+      "path": "docs/integration/IID-STAGE3-WINDOWS-PESTER-LIFECYCLE-CORRECTION-2026-11-14.md",
+      "gitBlob": "d611cbb613c44f0e42140803d51bc4eecfb989fb",
+      "bytes": 34825,
+      "sha256": "ad261df9baf91f9e105545f7b5433465170f5682e54d3f1ec39e755ffbf42330"
+    },
+    {
+      "path": "docs/integration/IID-STAGE3-WINDOWS-VERIFY-LAYER1-CORRECTION-2026-11-14.md",
+      "gitBlob": "e2e9a50d3e12058046b380372d04b515c956bdb2",
+      "bytes": 28698,
+      "sha256": "a6334dee0218b22d8613b0e5cb17e9dce04444ecee0306f14a288b2d06c0b74f"
+    },
+    {
+      "path": "docs/integration/IID-STAGE4-COVERAGE-MEASUREMENT-EVIDENCE-2026-11-14.md",
+      "gitBlob": "bb6193c859ea775719736ee47be2ef5152a5c6f9",
+      "bytes": 78391,
+      "sha256": "5c61bba1b4a881d6fabbbd5c54a627f35ff17a46625378e127406ce5df488f15"
+    },
+    {
+      "path": "docs/integration/IID-STAGE4-S4-R3-FILING-REFRESH-EVIDENCE-2026-11-14.md",
+      "gitBlob": "31ee9a0519f79b7d5f4d1a67e95457eee312dab2",
+      "bytes": 8358,
+      "sha256": "2a2ecae146c8ffaf30c8f4833392d50ecae521cf9d84f8d883d93f8890e8c46a"
+    },
+    {
+      "path": "docs/integration/IID-STAGE4-S4-R3-READINESS-REASSESSMENT-2026-11-14.md",
+      "gitBlob": "112fbf90e64db866a5caffefa44800325e3c970c",
+      "bytes": 32467,
+      "sha256": "55f7f0e3579b867050e2e8cf9108f7354967bd013ffa0517b866c3efe097e6fb"
+    },
+    {
+      "path": "docs/integration/IID-STAGE4-S4-R3-REFRESH-DESIGN-2026-11-14.md",
+      "gitBlob": "cc54f1a3727b4aa9f8b9b529b9e4a04e1a05bbf5",
+      "bytes": 6645,
+      "sha256": "0a068fd782a058d19245f07e7ba2fa5b0d58942ecc4806477c3301740c316bf0"
+    },
+    {
+      "path": "docs/integration/IID-STAGE4-WINDOWS-VERIFICATION-PROCEDURE-2026-11-16.md",
+      "gitBlob": "e622a4a197d23d7f4f22edcf52d20d5a2e4e99e5",
+      "bytes": 52934,
+      "sha256": "065336d7fe5118207460365a1ee5dd22360b608705370215d1d53afcea1f4728"
+    },
+    {
+      "path": "docs/integration/IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md",
+      "gitBlob": "42488afee7462ff888bb124c08bc62f50d12234b",
+      "bytes": 108071,
+      "sha256": "c4734ce58b3dfb1657e0e39197b7a80e9eb7496e946779e4962a78ca8d755100"
+    },
+    {
+      "path": "docs/integration/IIPS_V3_IID_LIMITATION_AND_COVERAGE_REGISTER_2026-11-06.md",
+      "gitBlob": "15f03baa8201ad9fef45b320259ef6408dcbb7c2",
+      "bytes": 326561,
+      "sha256": "244c628b778480bffd90c88d4fca0ea637b07d350fc53adba785ed687f56c142"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/README.md",
+      "gitBlob": "012bc2dddae56628aa78c31528c9304b826cd382",
+      "bytes": 18111,
+      "sha256": "54edf9fbb492e37d6c0b572f7576db0e0e4db1ebfa217dd7894852238383d8f6"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/digests.json",
+      "gitBlob": "f763bd95d24131f97b0239ec083d99208995f17d",
+      "bytes": 2109,
+      "sha256": "45035ac46817f607188e6d1179ab849f186023b08d529dba3cdbabe62924e134"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv",
+      "gitBlob": "840b77dbe244448b6657cdf3905344f8dabd6064",
+      "bytes": 2306,
+      "sha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/roster.json",
+      "gitBlob": "0c579d301ce3f790da4a9adfc7428618f5f7058a",
+      "bytes": 1157,
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/01-assessment-before.json",
+      "gitBlob": "f07ebdea1f9fbe4d6e2937baf3d02fce568d4ecc",
+      "bytes": 5957,
+      "sha256": "b464e8fd2d6b30ef2c18c69e1c6913aacc2ea9f30a73d4a7ac45225e1289b076"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/02-assessment-after.json",
+      "gitBlob": "c57ea855dbb9180b60c66eb7fe1a615e36c1f121",
+      "bytes": 7613,
+      "sha256": "d47ba3038e21b983dfdc1a5ad3e0e5b4bedeb93d0ab9079f685d486b2fb76ae5"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/03-ingest-corrected.txt",
+      "gitBlob": "d9785a656b25b2df1c73c0e962dbf96020198c01",
+      "bytes": 2792,
+      "sha256": "c51d5f6265f6ed69bf7b8114a5a7d878f8875b4dcf6858bb36982a0f4402fe87"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/runs/04-coverage-technology.txt",
+      "gitBlob": "62a0d32052479fe394006f7840d335ee99293bf5",
+      "bytes": 2323,
+      "sha256": "d37aa035d6b9e07e1fecfcc51c5a065c414688466b44fbf8a0b96ad74e76edd6"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/README.md",
+      "gitBlob": "027204796a9f37799adc38e05f25fb759c439810",
+      "bytes": 5924,
+      "sha256": "2d6847861fe2c5ca26e4f24f67cfc961bea2d78a415c1e35be9f280d88d25dc6"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/data-extraction.json",
+      "gitBlob": "9ace4aa3c81089fd188403ee80da14e527eeb1f7",
+      "bytes": 31162,
+      "sha256": "ae6ebbee43e666908f489b7550f4ac306b7c00822f485f68f08fa74e648ef9b1"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/determination.json",
+      "gitBlob": "dd71ab48fb3b2332a8d8b19c9b1a66aefaa18023",
+      "bytes": 2029,
+      "sha256": "012ad0a7d652fa41cf16419990b706ea3d9b55ffcb543d7f4e6ae2e4720c93a5"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/digests.json",
+      "gitBlob": "d1630e685b57064056884a83b93b2e5e8adae8f8",
+      "bytes": 4131,
+      "sha256": "b41b0b106fe731d1b2420f72f05b2efa7e44e1a39ef185b4af063f441be92c63"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/periods.csv",
+      "gitBlob": "e3db9e8f1571325be07381ac0a6ee074c7b67268",
+      "bytes": 2637,
+      "sha256": "ff6e62fde3ec80143a759d2200cdd0f8fae64fc7113b9cb1da691b2baa37e46b"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec/roster.json",
+      "gitBlob": "60ad389403eed8cf70f35fd8d8e8cb8b0e08f45c",
+      "bytes": 2166,
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/periods.csv",
+      "gitBlob": "da246cd9ce2561495c23255609e3ae81dfe7139e",
+      "bytes": 2321,
+      "sha256": "df2e1d7182b9aa9d50ab2907342dc2f17330a1ac13fec5ad96a44fff68e41669"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico/roster.json",
+      "gitBlob": "92883e90081f514440870d2fb7ab6fb4fcc07e97",
+      "bytes": 1909,
+      "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/probe/build_refresh.py",
+      "gitBlob": "e4712c306d39a96a70fecc4f3aa5ac4a42f22d8e",
+      "bytes": 34592,
+      "sha256": "aa08f890a0f0e953fc2d277d2f8fa50521c4b759e3b9c73af62a60e6d72c450d"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/01-candidate-ingest-provision.txt",
+      "gitBlob": "8cb63abac1496539a7946441de3facc1195a6a06",
+      "bytes": 14539,
+      "sha256": "224383d806e31fa1e9ebaede9626797d073a731e0e671755514bb779a8b06e29"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/02-refresh-test.txt",
+      "gitBlob": "5eee2f121be21b7de6d1661400ae8869b63400ea",
+      "bytes": 21671,
+      "sha256": "9bcd1b9aa578ec0d3f8326f6732655844ac052e626b91658a10227d517768bb6"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/03-source-census.json",
+      "gitBlob": "a56c079c1878bcca66463cd7658027709aa0aee5",
+      "bytes": 1096,
+      "sha256": "2063269fc40bb6514d55a1c7eb24053227065fb190f2bfa3fb7ded42ef26407c"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/04-derived-handchecks.json",
+      "gitBlob": "3d00e9877c6580db39ec390657973a9a82c17ec3",
+      "bytes": 2961,
+      "sha256": "ac52c820bb2213b9865b32aca488d02d25ea7378cbbbedb1d76d8029a604982c"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/05-gates.txt",
+      "gitBlob": "7c4a563e229ef395c70e0c38c963b4842851fe19",
+      "bytes": 2197,
+      "sha256": "2d66975f67bcda9ae63fa3c85f0ade0bc61eca2258c4b2f70545532de16de3f0"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/06-targeted-final.txt",
+      "gitBlob": "d019f28bc6e3de836d0fa04cebe7f8acf9244e05",
+      "bytes": 24407,
+      "sha256": "7a1cc15739fbfdd03092ec4f9bec3b4a0b16679cbb5b6297a4a84f2739d03a4b"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-assessments-readonly.json",
+      "gitBlob": "6a4def911a2dda4a26234b239e4b3682110d8e01",
+      "bytes": 348083,
+      "sha256": "11d33bc85eafe0fc51ff909617183fcb1ff020e3b8c0f816e6b2bfe1cadda074"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-coverage.json",
+      "gitBlob": "3f8471e3671acb83e99801edae953427d8eb3142",
+      "bytes": 23129,
+      "sha256": "d32411d948c17a544db9ed66fd10c1dcd6ed8c1160ae549ec1c1c0196d10beee"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/runs/candidate-manifest.json",
+      "gitBlob": "1b655f9739620dacb2d93a0b21a90e53bb612633",
+      "bytes": 4464,
+      "sha256": "b921741942d4674ed968f2938917b588b07ae9dc6db12f2998cb7361727d90ba"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q1-fy27-consolidated-pnl-pdf-page6.txt",
+      "gitBlob": "6d5510693b4fe090905b256991dd8e643e9a2a34",
+      "bytes": 6921,
+      "sha256": "ba96ac2ecc2799c3f1f54f71b6134ed589fecce55e709b0a7fecd0afdce45f3c"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-consolidated-balance-sheet-pdf-page7.txt",
+      "gitBlob": "451daed7bf7971f15c8fac1cd63b25c4232f8c2b",
+      "bytes": 7374,
+      "sha256": "fa283d6fd04df7f691010e4d17e0e5cd7a380c173ca53d5a01fb8c7c87bee758"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/kec-q2-fy27-selected-xbrl-facts.json",
+      "gitBlob": "a8f56c0971c78dac00c9b7217510e2f177ca2fa2",
+      "bytes": 11788,
+      "sha256": "03a92679f40e9799f0fdbd56c5040db00e32e703cf063f2528f6bfd70bec1ce3"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-bs-pnl-pdf-page170.txt",
+      "gitBlob": "9a23a69787a39fdb8f396fc687c0eadddec2ac17",
+      "bytes": 28561,
+      "sha256": "0625ecd2839075ebf6eca88ae0f3c6f599c2ea27ef5438e3dbdeb1d78946b881"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy25-consolidated-cash-flow-pdf-page172.txt",
+      "gitBlob": "9491cc8a7ed3b6f80fdd734e74cbca8677fbf96b",
+      "bytes": 12849,
+      "sha256": "37b7226659377f07e62449a117fd7e5f6487fb4bf2e8557944d7a5ee43f4ccce"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-bs-pnl-pdf-page190.txt",
+      "gitBlob": "95def2b35b2bcf1a372c141e22814de49f0ca889",
+      "bytes": 25352,
+      "sha256": "925b7fce3d889070f8902c1499265bf83b541346b74b7dbbe7baeb0b79a6779c"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/marico-fy26-consolidated-cash-flow-pdf-page192.txt",
+      "gitBlob": "40e22ab5690716d6f24dc1471c8061cbb319ef26",
+      "bytes": 13333,
+      "sha256": "e0090d6e179d809f4f2b1be02e6258bc2fabb94705b70a9040683334642aafbe"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source/page-map.json",
+      "gitBlob": "4e229b7150d9f13bbb816015d226d11641787a1f",
+      "bytes": 3100,
+      "sha256": "8b3864b9949234eafe3d52d781605353f92dd92470d05b1a136b80b0c4bbd3f0"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/source-selection.json",
+      "gitBlob": "4cfcfb582e5a032ca142da60a0f578e85ea8f935",
+      "bytes": 1965,
+      "sha256": "831e94088e521ddbc981c644f6bf95d41c5c0ba35db81ce08b90b2665e1ec703"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/README.md",
+      "gitBlob": "f91220331631acf825d8db60d4a51950158de663",
+      "bytes": 21976,
+      "sha256": "70ed0e1ba20f43a79852c4dc7085002ba8a55d245ffbead3695ecd65eac9d3e4"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/digests.json",
+      "gitBlob": "a1b432b7aa3b25e7e9117040033f381144256318",
+      "bytes": 29094,
+      "sha256": "822f80a581f4d84801cada38d76c18499ae4fab766d0ea7b3dcbd0e975101e9d"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/01-candidate-reproduction.txt",
+      "gitBlob": "ea8aa2a383f9a5f5016eb49b545997daf3b4ae07",
+      "bytes": 3126,
+      "sha256": "fd8b696f604bdcb23c0dfff8f0263a9cea3e42623c301c5462eaa0e3beac7716"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/02-freshness-per-issuer.json",
+      "gitBlob": "9cd1aa2b0b4bb7d9f9d3e481c60eaaa4772711b3",
+      "bytes": 28773,
+      "sha256": "bb86ca8ad951f8af3370a5763478c4ff60b47dffc7d355df6547fe971badf6f1"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/03-assessment-slices.json",
+      "gitBlob": "523f6d024495d230d23b1842c8adfffe1668d617",
+      "bytes": 10464,
+      "sha256": "536823a5fb0b2171a12df178d5a2f6e898ef98beacb0b5de1e54732761618f5b"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/05-coverage-freshness.json",
+      "gitBlob": "213316a7934d9862e1b1bee10d0a62bc3b4d093a",
+      "bytes": 8284,
+      "sha256": "807b2e48db06b00fbbc02772cf08c4edf1396665ed57cdb53d3a92b4e8bc49fa"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R3-FRESHNESS-EVIDENCE-2026-11-17/runs/06-install-and-serve-drill.txt",
+      "gitBlob": "91c1099e3adf3491ea4676841e1ae09ddc013bb1",
+      "bytes": 8554,
+      "sha256": "95263d0484c07d7f21b1233c42942966693bb0e6327edaf456e89759cef54099"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/README.md",
+      "gitBlob": "c127ac0f9111c3b97e78c5879f4f71230e13552a",
+      "bytes": 7140,
+      "sha256": "31b9e64cd33bbc4ce8f0e732096722298e403eece91d21b4684fc66c66d2a55c"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/runs/ADMITTED-bdfb2527-coverage-summary.txt",
+      "gitBlob": "219c20533e5cb20232d35cd4d4b166f2d80e787a",
+      "bytes": 1761,
+      "sha256": "dbe33da1b94896543823bee95ad4475dedbaf3905bd31677c3886b7bdba3f46b"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/runs/S4R2-69bbc14e-coverage-summary.txt",
+      "gitBlob": "c9ef7aefcc3a67b7a05bc6ca4b4f693a70c836cf",
+      "bytes": 1761,
+      "sha256": "8cd327743ff2fc52eca8c470ab039d0ec31d9cefa9fea8880e2f0f82a1a1305d"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R4-COVERAGE-VERSUS-VALUATION-2026-11-17/runs/coverage-versus-assessment.json",
+      "gitBlob": "c4d71e85c20af1ab444410f664a6f2fb544ce2ea",
+      "bytes": 35543,
+      "sha256": "72517e4cd9e3c710f5e579484c8c5a3fc2b548ea2113b77698390f7c692a5245"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R5-HISTORICAL-VERSUS-LATEST-2026-11-17/README.md",
+      "gitBlob": "5d754c92791460d0e117b5199dc7536a14d0e5e5",
+      "bytes": 3566,
+      "sha256": "617587c97fb1fe79ec43ddc683de0b8c1f935d4dabe9841df5b4cb7a6faa9209"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R5-HISTORICAL-VERSUS-LATEST-2026-11-17/runs/availability-by-issuer.json",
+      "gitBlob": "8a80b80db1e5b1db242e4b62a9914e0fa6f6905d",
+      "bytes": 6953,
+      "sha256": "07aded4e1e9a41019d75bfc5c90d163a34ff796270b745fbcfbaaf9183fbe72c"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/README.md",
+      "gitBlob": "8ac8b3e16500f930f7acf5a99e2f1c08398d9b3e",
+      "bytes": 4924,
+      "sha256": "5e869d6c5898325f43c25ebe3c83be99c80c3fe74b82427d4a9ddb7940a551ab"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/capability-probes.json",
+      "gitBlob": "1023c739c96378608275acafd5efc8e28aa97de4",
+      "bytes": 10806,
+      "sha256": "b154465e6201e18a9a6731376d5861844ca88328656b649a67dfbb8fbc7f94b5"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-census.json",
+      "gitBlob": "f7802a37b2ac8181a834997c9ba92d04eebada85",
+      "bytes": 13843,
+      "sha256": "c8c13dec3d174aad6e63695f4f8f7c101c194b2431c27a3fb858c894535a54dd"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R6-OPERATING-METRICS-2026-11-18/runs/metric-requirement-matrix.json",
+      "gitBlob": "0a084fd96c8374661b74f5580fb5c11bdb4f472a",
+      "bytes": 14798,
+      "sha256": "49ba845c83cc6a2f0fc82a01fcc1a30e6d34de7ad4f06291cd37f782d82b1d62"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/README.md",
+      "gitBlob": "8eb356e25af531a648629817227533398cde95d3",
+      "bytes": 2278,
+      "sha256": "752e557096b5acf155d45becdce99b8c0414ba8b8de5a4ef8de154897f49c9b5"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/candidate-events.json",
+      "gitBlob": "f0fbb37ee6d299d977b91156f643c226b1c142f0",
+      "bytes": 27825,
+      "sha256": "623da5105577e53b080ea16a6f5909c075cc500f0d95ce3836fa78e02e3a82a0"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/census.json",
+      "gitBlob": "ad6f65d69a5daf60fd1408f32a5113fbb6879a95",
+      "bytes": 1149386,
+      "sha256": "62a19a34b9d7b4da2a59d6955cb332d7c2a9e88a762ae8ea08a0fef0e291266d"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/digest-comparison.json",
+      "gitBlob": "3cc4f40abf55620368bba4d04349da736ed409d8",
+      "bytes": 764,
+      "sha256": "6a2ef7dfb2ec26fd91e9342a2dd9aef1c0d590c190062df068959fa4a0f63fe3"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R8-CORPORATE-ACTIONS-2026-11-17/validation.txt",
+      "gitBlob": "3c17ecfc10e1be3c041a145e6674da8bb9fd9a22",
+      "bytes": 2966,
+      "sha256": "5d1f99b86d37d8dd56af977cf6851dbca72809f840e1fd4c1e99e663dda85c23"
+    },
+    {
+      "path": "frontend/server/investment/iidG11ServedChainTransport.test.ts",
+      "gitBlob": "79bab7e210c965a787374ea3d89d0ed030c19ae2",
+      "bytes": 14759,
+      "sha256": "d725e422fc7cb1c78bb85cc7b50ce70e141278c7d3490f3db23baa1c7ce6fc90"
+    },
+    {
+      "path": "frontend/server/investment/iidStage4S4R1Scenarios.test.ts",
+      "gitBlob": "c2866fb7ee31a16c7c2e6350be7ee766649b9295",
+      "bytes": 42044,
+      "sha256": "5092046ac0ec2fc00a7ff44210690f2e359a4519b5c43616e32651d0d3b737a9"
+    },
+    {
+      "path": "frontend/server/investment/iidStage4ServedCoverageRoute.test.ts",
+      "gitBlob": "1309998456de3168c8a60cd377d0d972b9026443",
+      "bytes": 20584,
+      "sha256": "294b232ceeec17576bea105ac342ba3146f64773853b3c5ac2edbbe9291d1794"
+    },
+    {
+      "path": "frontend/server/investment/runtimeReadiness.ts",
+      "gitBlob": "9b784f2053289c2e74262f0a6d4da7720d646a1e",
+      "bytes": 23551,
+      "sha256": "a72cccc3919d0111d9c0f38686914c1deaa54bd25106e7df873cf3b13cc73d63"
+    },
+    {
+      "path": "frontend/server/owner-scoped-http.ts",
+      "gitBlob": "fc4e9aef93ed0f8463a52c38e1de664629ff6d62",
+      "bytes": 4789,
+      "sha256": "e18b6a1b02e36cf0495b1c9df40af809d4c9e83f8b204651f340dee8f335c5d3"
+    },
+    {
+      "path": "frontend/server/reports/persistence-port.ts",
+      "gitBlob": "a5996d4aec01ed077d23e4910f0d88a3075c614c",
+      "bytes": 20955,
+      "sha256": "e4f6864e62f45150fc61bc38a5eece161972e3061628a95e8bc45c45877ca7a4"
+    },
+    {
+      "path": "frontend/src/features/investment/iid6Coverage.test.tsx",
+      "gitBlob": "c262fe7605666a2feb36a88a5c76cfb9796b2b21",
+      "bytes": 6848,
+      "sha256": "d4a7f022e6bfc415a483cfd15a302cfd4a09338f613242c45610e71ea66e9d10"
+    },
+    {
+      "path": "frontend/src/features/investment/iidCoverageSeparation.test.tsx",
+      "gitBlob": "e35ad7713ed6f8b23d94e586f2f3ba6b6f3a1c60",
+      "bytes": 12781,
+      "sha256": "e0c5363275a62e2a2c08b738daab6ee4911b8657504645babc9d3582c6bd054d"
+    },
+    {
+      "path": "frontend/src/features/investment/investmentCoverageAvailability.test.tsx",
+      "gitBlob": "c6447193ec3d8d0f13d480ec83e3aa8aab40a188",
+      "bytes": 8791,
+      "sha256": "8b233126f7038ac1c4fe29612911ba3426bdbf1108ae29f0f7836f81c3afa33c"
+    },
+    {
+      "path": "frontend/src/features/investment/investmentCoverageSectorCount.test.tsx",
+      "gitBlob": "9474a2db0dc14344e2b51385a34d28bdc1f729fa",
+      "bytes": 9806,
+      "sha256": "01cb610488367e9e24a17b514bd69778c820d361181e969b8ee7497bdb6641d5"
+    },
+    {
+      "path": "iips-platform/scripts/lint-roster-sectors.ts",
+      "gitBlob": "fc8605a5bd56523d5d4b67db02cbebb47d211475",
+      "bytes": 10578,
+      "sha256": "8f2b39658586eb54b5675e56079655130eb6810bb8cd633b625f5e6c3eaea180"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/adequacy.ts",
+      "gitBlob": "396dc181fae08e0218bc18d0e9273e57a3c17d83",
+      "bytes": 8487,
+      "sha256": "9147bd3c6dcaf420857af3c78a3a907350503619d1f4220f95f7b8822d08bcec"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/capitalStructure.ts",
+      "gitBlob": "7716e58db1c37c929037e5510793288dee52bde1",
+      "bytes": 27538,
+      "sha256": "ffa2c8edd5b1061a28e31fb24e70b16a9e44bd4c6bd817aa0cb8eeafd4f5ffea"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/engine.ts",
+      "gitBlob": "267f24d46f72fecf99dead3293a5480c6da3e024",
+      "bytes": 29873,
+      "sha256": "e4ee71d566a872cbb69c53cb24e7829c821418fc0d123f5cf0306c7189765be0"
+    },
+    {
+      "path": "iips-platform/src/investment/assessment/freshness.ts",
+      "gitBlob": "83daed3519855cb91d941ce1e586e68294f739a8",
+      "bytes": 15141,
+      "sha256": "404bce6df5587dc18dccba95ba818931b2481f4fde675dc81caa8580352792f9"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/investmentCoverage.ts",
+      "gitBlob": "1a5d169386fa1bc5e671a2453f4b8442de9da828",
+      "bytes": 36152,
+      "sha256": "e9d856c0edf0192526b72927f10b27d57183298df01dfea8fa73c66d34271866"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/measure.ts",
+      "gitBlob": "9237b5a65de688ba1b5e2d6df1b5646f723b4f65",
+      "bytes": 23692,
+      "sha256": "ba7afbe6ae5e86ccb2718c85619f6737ccf1b0391b023f815dd3d3aed98a4877"
+    },
+    {
+      "path": "iips-platform/src/investment/coverage/methodMatrix.ts",
+      "gitBlob": "477e016be429fbc679651dadb87f61bdbb5e0ab3",
+      "bytes": 5966,
+      "sha256": "b5649214152441bdeba90f807e85ca6cdb9da1243a4ecb1c44c7990ef7720305"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/builder.ts",
+      "gitBlob": "cbd8fd18ecb3d2ae55c8e8f2734218986a646c1c",
+      "bytes": 35398,
+      "sha256": "d947742404404670d149af570adaa2ccfd4f6b8f1dc861f78c4984418251de74"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/multiInput.ts",
+      "gitBlob": "b0e1bd031a45787fedb418e5b2e9e75f8481355f",
+      "bytes": 25743,
+      "sha256": "ab20d1b11f524efbebbc26f43af145ec23f0465a4f76006742a25f1b9e11a7af"
+    },
+    {
+      "path": "iips-platform/src/investment/ingestion/sectorValidation.ts",
+      "gitBlob": "e8c4068fe12162d847a063c36ce25038fd3b1a9c",
+      "bytes": 10811,
+      "sha256": "41978688da98e0c78d810759ca0871e34bcb58d808a1f892742be8422383d15a"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-capital.test.ts",
+      "gitBlob": "acda2f2bd2022b7d0ed056111c5e9fbd38579f22",
+      "bytes": 9306,
+      "sha256": "35cab13a0f13c89e1f86ee1e04e5ba9fd4b3ea408bf0562a986507e893e7f819"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-dividends.test.ts",
+      "gitBlob": "a6ed13fe474249ece2decfe69b2e0042ccbde3c2",
+      "bytes": 7019,
+      "sha256": "81fa503a4f76416329196da557823460da6fb6278ae01ca8f2be8c601f973b0f"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-engine.test.ts",
+      "gitBlob": "5e9b0a1910c72aba5f57fb29bcb4b7a9863f2ded",
+      "bytes": 14923,
+      "sha256": "ae9c2ed9c0b5806c658d06f573659de549a033edf3d5116ebb731443407efb42"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-moat.test.ts",
+      "gitBlob": "31be3a9ac51d49f1169f7a7c38f9386e4062c9fe",
+      "bytes": 5992,
+      "sha256": "10274787b0d8d27601deb57e4df57633878f6551686660386c5b5134c1212af5"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-periods.test.ts",
+      "gitBlob": "a98c3506c165ef3f3c2da04960a901a50fc8bd0a",
+      "bytes": 6454,
+      "sha256": "f2798c09284ee4c9105a03d5b81fe91f2d841f38a15dabcea2e1d986d4a95f41"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-price.test.ts",
+      "gitBlob": "ccf742da53380a2aa39b276e4288991efba59143",
+      "bytes": 6033,
+      "sha256": "598a21389300fba4991e60a0ae6c86e22efa2d166c8fae058468ae0116aca0ef"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-valuation-integrity.test.ts",
+      "gitBlob": "2cd67f22457738f1390a8bebd050fc62cdb6c6a2",
+      "bytes": 25045,
+      "sha256": "d2eb8b2f674e33540cfd362a8713e2212959da546224b5c3bd95e006a34108b1"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-valuation.test.ts",
+      "gitBlob": "efca792c2aaaba7b6091e0b9d2c3cc3a29418294",
+      "bytes": 20518,
+      "sha256": "d9649c4aba290de8a69c7a391bb7fbdaf81f74c0de5275523a32792ed6c34c8c"
+    },
+    {
+      "path": "iips-platform/tests/investment/assessment-view.test.ts",
+      "gitBlob": "2bcd26c1cd65f53290d865441b06639618a91e9e",
+      "bytes": 4794,
+      "sha256": "693b310ef53273f5aa1564062d4c9a2bd68abdce07ca00fcbca54fbcc79b6cc9"
+    },
+    {
+      "path": "iips-platform/tests/investment/authorizationRecords.test.ts",
+      "gitBlob": "3b5588d1d55ca08b6fe72cb0f7dafcb79bf8d1b8",
+      "bytes": 53315,
+      "sha256": "84974dab521bf9b58f70c6d2b82c13c457db374dd8587e6efc0a7b5ecba008cb"
+    },
+    {
+      "path": "iips-platform/tests/investment/authorizationReferenceIngestion.test.ts",
+      "gitBlob": "9500681313244c591f68c87364706ca9e26eee05",
+      "bytes": 45382,
+      "sha256": "091636eb984e9012677b6405fc4af45afe8ac698d19a8fb76fe8313e09d1877a"
+    },
+    {
+      "path": "iips-platform/tests/investment/boundary.test.ts",
+      "gitBlob": "0df43f9853eeb38a15948b1eb4fef6dbfde7b7e0",
+      "bytes": 6269,
+      "sha256": "13973956b742f13bb02fecb26db086fe0e922228bf799a6931f6edc59090000f"
+    },
+    {
+      "path": "iips-platform/tests/investment/cli.test.ts",
+      "gitBlob": "d4f6b4a1603fb633e438e8e0cecbc19f042a452f",
+      "bytes": 10301,
+      "sha256": "630ab788f5c85b8d2e406d37d1bef41578927a427dba1746318bb79bf60e80eb"
+    },
+    {
+      "path": "iips-platform/tests/investment/constraints.test.ts",
+      "gitBlob": "c009ec6d160a75be527095da954e9c043a75931b",
+      "bytes": 3326,
+      "sha256": "68d7079ce76c080cf8aea5f2b89fae7f4413cb4ebe931e63694c4dbf9f8fb7c1"
+    },
+    {
+      "path": "iips-platform/tests/investment/contracts.test.ts",
+      "gitBlob": "5b7c79debe46d1c78c6f28fe74037632c375cc85",
+      "bytes": 11373,
+      "sha256": "0118a6a4bd1ecc3547e1cff4e5b4b133e6673687d5c3bb2b966cf2c90d3a3598"
+    },
+    {
+      "path": "iips-platform/tests/investment/coverage.test.ts",
+      "gitBlob": "0f3d6fd767e41c89a4bab19a222098200c176798",
+      "bytes": 6230,
+      "sha256": "154c89bd0b13dc3c12137ea66822ecd7fea70b3acd41273fb7d1e6f6a8370591"
+    },
+    {
+      "path": "iips-platform/tests/investment/dataset-identity.test.ts",
+      "gitBlob": "17e967c7e834d341785017f94d6afae58fc71faf",
+      "bytes": 6639,
+      "sha256": "11134b0360e8a8940a61106bcf206831a0e4d5c6c07d41d0462ede7f6e60bf12"
+    },
+    {
+      "path": "iips-platform/tests/investment/dataset-schema-v2.test.ts",
+      "gitBlob": "0cdb0a017381b3317a424773251b7d7fa647a021",
+      "bytes": 9410,
+      "sha256": "8d3102077bcc4fd3f3d39cd9d0b55f7c8e61ea4a4dcfea4c7617c226005a83a1"
+    },
+    {
+      "path": "iips-platform/tests/investment/disposition-behaviour.test.ts",
+      "gitBlob": "4c74b7fc4c18cbbb6cc3f1dcb8377907ce568612",
+      "bytes": 10978,
+      "sha256": "ba1c8f93143ee9ed10600768556f7d3ef5ef5960ae40d0d2f47e25116dcbf9f8"
+    },
+    {
+      "path": "iips-platform/tests/investment/disposition-limits.test.ts",
+      "gitBlob": "6581cef37566046cab44acd76353bbcfd0e53292",
+      "bytes": 8866,
+      "sha256": "5376a3ae816ac1601d4dba72a8d018100249a768e2123dbf7fcc5aeb46be961f"
+    },
+    {
+      "path": "iips-platform/tests/investment/disposition-matrix.test.ts",
+      "gitBlob": "2d9422990107cd3bfd6c7ec49071354ef7cd7d20",
+      "bytes": 18322,
+      "sha256": "8615ea405c999406500c861888e1a90bab1373679fa7bc69af5e8184123413d8"
+    },
+    {
+      "path": "iips-platform/tests/investment/disposition-portfolio.test.ts",
+      "gitBlob": "ef273e07ca66324584b838b71c5eccd1501089be",
+      "bytes": 7599,
+      "sha256": "55cb524bf89776a25df5a33fd07dec02e84a111e7a2271be7fc3970814cbdc24"
+    },
+    {
+      "path": "iips-platform/tests/investment/disposition-rationale.test.ts",
+      "gitBlob": "c492a78c1abbd8bfddc76d7350fcde3e90827911",
+      "bytes": 9992,
+      "sha256": "15b85c14a58f64cd5ddcf3a040c2c1961a5a9588c20e411a26187359e4049cb8"
+    },
+    {
+      "path": "iips-platform/tests/investment/disposition-subject.test.ts",
+      "gitBlob": "73c3a5728678e4aeff4ab02be3a854457c3169e4",
+      "bytes": 5044,
+      "sha256": "ca01f70c5a4b61f50318c047065e30f62fee766f279bf69f3733f9453d26adbe"
+    },
+    {
+      "path": "iips-platform/tests/investment/identity-corporate-actions.test.ts",
+      "gitBlob": "0a50361091d3920f8adcf8afb7cb31ac19811601",
+      "bytes": 7648,
+      "sha256": "789a9685b8027ef01685fc426deafd40a753a56ce70ef6b154e0983cf32cd2ec"
+    },
+    {
+      "path": "iips-platform/tests/investment/identity-coverage.test.ts",
+      "gitBlob": "9f74a86b0900e2d90cca5ddacd5c25c0c9841195",
+      "bytes": 9457,
+      "sha256": "eec25d5c4bf5b7606d4b70fb6912a2bcc672c8c4601510a845c58d4e8fd9db78"
+    },
+    {
+      "path": "iips-platform/tests/investment/identity-endpoint.test.ts",
+      "gitBlob": "2d01d7386a7d7394f68927b3dc6b12f289f48dd7",
+      "bytes": 13921,
+      "sha256": "e1e60412ccc17c3ed3d19b984155fb3eefa85217126fd544a854da4ffc700bcb"
+    },
+    {
+      "path": "iips-platform/tests/investment/identity-resolver.test.ts",
+      "gitBlob": "1fadc9e216f28909e68c7c6e513a52eb426c6230",
+      "bytes": 15799,
+      "sha256": "68b0ad15295b302e4ee616ccc63c15b476c60536b279db6968caffd444d93255"
+    },
+    {
+      "path": "iips-platform/tests/investment/identity-runtime.test.ts",
+      "gitBlob": "a27f91bd2a9d28e27d8c82c11520233dfc5544de",
+      "bytes": 3108,
+      "sha256": "fb64c181fad117958a6716e6351d4110ea90a286663c20faf2c3eed8c8a3ea8b"
+    },
+    {
+      "path": "iips-platform/tests/investment/identity-sources.test.ts",
+      "gitBlob": "10a456d09be93ffc7a820f5bffe3b736009ebd3b",
+      "bytes": 11834,
+      "sha256": "422f8a9da06b9b5119641d31108780f4c405e4775c320fdaed65062dccdaedf4"
+    },
+    {
+      "path": "iips-platform/tests/investment/identityProvision.test.ts",
+      "gitBlob": "f3dcb544e8369a8274b0ff3e479db6a9faa6fbd0",
+      "bytes": 48052,
+      "sha256": "c59dfd85f60efecb6d72b44ae371475468ff80161e3db4eb28285fb394c8c48c"
+    },
+    {
+      "path": "iips-platform/tests/investment/iidStage4FilingRefresh.test.ts",
+      "gitBlob": "934a5f7ab0a4d33ef887431c09b5e0970a676c9a",
+      "bytes": 26596,
+      "sha256": "dda7dea3a72d7a5aa6108ea63ea36abaf18ea5b463bd356686fce6e329fcf351"
+    },
+    {
+      "path": "iips-platform/tests/investment/iidStage4ScenarioMatrix.test.ts",
+      "gitBlob": "f23825b0ac0703fbe9e717e56f2e71e1bb76b013",
+      "bytes": 61545,
+      "sha256": "1c0c4ed8d7d5f606da9954bce94827fbfb358b41542e96deae18ff82a8619f3b"
+    },
+    {
+      "path": "iips-platform/tests/investment/ingestion.test.ts",
+      "gitBlob": "1c79b7f72f48b299b83464f5d0a2ef502eaa736e",
+      "bytes": 18431,
+      "sha256": "0ac3b50c1309377591321c09af7e62a166223a405062977e990cfe746f1d8a1a"
+    },
+    {
+      "path": "iips-platform/tests/investment/installVerifiedDataset.test.ts",
+      "gitBlob": "1b8ed8b9c3d12b5d89752163baa012016e2d6d22",
+      "bytes": 44139,
+      "sha256": "b326093dce04409a8b721c90a51a4948e849e7c95c28f97f2a6fed1b6ef2e67e"
+    },
+    {
+      "path": "iips-platform/tests/investment/investment-coverage-endpoint.test.ts",
+      "gitBlob": "1435f06cdc24615cdd802a85c39ab53262b2fe02",
+      "bytes": 8692,
+      "sha256": "df738b4f7a5e0b18bb669651ebda9d7a302ae5de50795f28cf099c7ab7c250f6"
+    },
+    {
+      "path": "iips-platform/tests/investment/investment-coverage-html.test.ts",
+      "gitBlob": "0fbe25e7db0377e42f736fb7b3abe5bf404a461f",
+      "bytes": 11943,
+      "sha256": "b1315f70709b91c6861c66a0aac51a6e44b9516ea11c13a1b0c661f8d7c86694"
+    },
+    {
+      "path": "iips-platform/tests/investment/investment-coverage.test.ts",
+      "gitBlob": "fc55b21d883b490d8dee0a0be4c672f4ff5d830a",
+      "bytes": 12333,
+      "sha256": "6ce1086c919dcca2bb687db0f970f9bfae63624a98c8989664c6334077d79e66"
+    },
+    {
+      "path": "iips-platform/tests/investment/ixAuthorizedPolicy.test.ts",
+      "gitBlob": "e79a343dda14856ce420f21a3a2962c1441abc43",
+      "bytes": 7369,
+      "sha256": "e08c0513d4b20cfeb1ae75e5797ca028269da438a9e60fcb0a0e3e6de2fba769"
+    },
+    {
+      "path": "iips-platform/tests/investment/l038CashSideAlignment.test.ts",
+      "gitBlob": "d71f80fcf03e935caeddbc64c96a158d2058deed",
+      "bytes": 13421,
+      "sha256": "5e763273d59a817efbbce0c4e982bb4c8298f7b529ac24ab05e05e3398583a2e"
+    },
+    {
+      "path": "iips-platform/tests/investment/l038DeltaMissingPreservation.test.ts",
+      "gitBlob": "a08c067ab9661e569470cfac90d0db42bb3f8214",
+      "bytes": 5413,
+      "sha256": "5f1520c5cc0347f63a90bd9a8b14520bf5aeb8e64907d855f784df518b464954"
+    },
+    {
+      "path": "iips-platform/tests/investment/l038MaricoDebtCompleteness.test.ts",
+      "gitBlob": "f0163acdbb5b9ef8523df7d8a47d4d2fff5ee31c",
+      "bytes": 34984,
+      "sha256": "291ef43258af9d6e48266279ca5888f8a4a5a404c186a2e76f302dd34d7d5f71"
+    },
+    {
+      "path": "iips-platform/tests/investment/l039CashSideEvidence.test.ts",
+      "gitBlob": "df64d8626ef66a26449bda09edcb53eb9e2ca66f",
+      "bytes": 24336,
+      "sha256": "9f21f7c7d87fed2862276f5cb35c897f648ee61702d92a1085a8b465066022f2"
+    },
+    {
+      "path": "iips-platform/tests/investment/l039DeltaMissingPreservation.test.ts",
+      "gitBlob": "f387d3163b13812ef2ecc0b8dd736374bde4d402",
+      "bytes": 4870,
+      "sha256": "c30b9f3b7fb8c94ad1f0718714bc7f8b4e07d035647bcc967fe09bc232a5afb1"
+    },
+    {
+      "path": "iips-platform/tests/investment/l040ValuationZeroSubstitution.test.ts",
+      "gitBlob": "7503284eae874cedcca409590d0a54bd668fba80",
+      "bytes": 15637,
+      "sha256": "b88810f02697d99d692557b8af257432c65fac73d90ce7ef1f76fa16f4687333"
+    },
+    {
+      "path": "iips-platform/tests/investment/l041ClassifierReconciliation.test.ts",
+      "gitBlob": "8f9896497995f47009891753e98c9a56a72002b5",
+      "bytes": 6919,
+      "sha256": "2c2df5bd0fa9767d1c9af737e75f3f9a376b85e19b4a610d9676f55da35c8b67"
+    },
+    {
+      "path": "iips-platform/tests/investment/multiInputIngestion.test.ts",
+      "gitBlob": "f3290957822f15a0dbd9752e00cb769d6371315f",
+      "bytes": 52104,
+      "sha256": "75a6e7abc567d4755601e2c5cdb8b33972dd81e77c9e00681726ef5c4a86c757"
+    },
+    {
+      "path": "iips-platform/tests/investment/nil-binding.test.ts",
+      "gitBlob": "2f97014ea10def8f54d8cd022a167e18dd5ded27",
+      "bytes": 22427,
+      "sha256": "06771c315ebe835cd218804b718f89f13eb1936d68764a38cbd6f38fdf7c9d91"
+    },
+    {
+      "path": "iips-platform/tests/investment/nil-by-disclosure.test.ts",
+      "gitBlob": "34e5f645604d50443bb3f9d7a1697a53e170bc64",
+      "bytes": 29009,
+      "sha256": "3b0bc3f1988e811b8b73c9859fef0e14564873b935340e86e2b45e26939fcac7"
+    },
+    {
+      "path": "iips-platform/tests/investment/phase1IdentityReadiness.test.ts",
+      "gitBlob": "5be605b030c18979f1dd969a91837f6beb349731",
+      "bytes": 26426,
+      "sha256": "7324921a44f6b86ad697eed409bd734ce60ea8b84a4fb9afe095fd3247e5401f"
+    },
+    {
+      "path": "iips-platform/tests/investment/publicationAtomicity.test.ts",
+      "gitBlob": "ae54d203f48e503886e978a05cb1bbddace08968",
+      "bytes": 39237,
+      "sha256": "48d722296e8084fd5898c3741e001655dc7f669d963489b8676f6ac15eb9667c"
+    },
+    {
+      "path": "iips-platform/tests/investment/retrieval-evidence.test.ts",
+      "gitBlob": "50e7359466a9f6e6acd48b58f76df5d1e61a8221",
+      "bytes": 17406,
+      "sha256": "a2ec69da6bd9b340ccd0a800ea652e967b799e07ff32e363f7c2737121958e6e"
+    },
+    {
+      "path": "iips-platform/tests/investment/risk-evaluation.test.ts",
+      "gitBlob": "868dad34142f86a1cffb57791934a5c157b28860",
+      "bytes": 16034,
+      "sha256": "a92da64e51a8bfcff62a204391bddf20490d390e802e4b2c3245201ca8578efe"
+    },
+    {
+      "path": "iips-platform/tests/investment/rosterSectorLint.test.ts",
+      "gitBlob": "ddf2088f9b818e2bcb26b3324340bc6aab4af88d",
+      "bytes": 13089,
+      "sha256": "bb67c67218b280a2413c097ae101782a2d664a6879b7edf01205bc13e147c01f"
+    },
+    {
+      "path": "iips-platform/tests/investment/s4R3CandidateBuild.test.ts",
+      "gitBlob": "26c2bf3af880606ca304ad203d3371b89d9f62f7",
+      "bytes": 7763,
+      "sha256": "72ed2da6f8d3b2baf02a6d132543fd6b6a0194c4842ee76bc67ab5d8ac984a16"
+    },
+    {
+      "path": "iips-platform/tests/investment/s4r2BorrowingsReuse.test.ts",
+      "gitBlob": "ce0bfa62dc92f779eabe775a4759f5eb5fbb536b",
+      "bytes": 38016,
+      "sha256": "fa1d482cb8a11403f40628d6f69369d33cf11220e106a31bfacf754e28a5eb02"
+    },
+    {
+      "path": "iips-platform/tests/investment/s4r3Freshness.test.ts",
+      "gitBlob": "2e2289c143684a2a568aa169810608800eb75e5a",
+      "bytes": 38391,
+      "sha256": "be18756adcc66ccee8956216322648d12d263d703f60a420a5d19cdbaed7cdeb"
+    },
+    {
+      "path": "iips-platform/tests/investment/s4r5-availability-semantics.test.ts",
+      "gitBlob": "9c2f8fc8d055c206c8cf53bb810e9c00c9815e74",
+      "bytes": 15258,
+      "sha256": "dbf1f7fb6e577e55ba0951375992685ee45063a3f896a45adc5583aaf98abd34"
+    },
+    {
+      "path": "iips-platform/tests/investment/s4r6-operating-metric-gating.test.ts",
+      "gitBlob": "b6c389a9407f58eeca3b5772f640848b684ca0fd",
+      "bytes": 26397,
+      "sha256": "51ac1b1fbff1bd7b6cae9d9e1fa96a21ae63393c8607053139b4808dc5cc43e8"
+    },
+    {
+      "path": "iips-platform/tests/investment/s4r8-corporate-action-ingestion.test.ts",
+      "gitBlob": "2d80ad8566504e8c8921b80c84783229efe0b4c5",
+      "bytes": 7625,
+      "sha256": "b64793de7b2667edeb74d2bf553cdb343d88ef5d1a5db678c6449a953454af8d"
+    },
+    {
+      "path": "iips-platform/tests/investment/scope-token.test.ts",
+      "gitBlob": "c3c5edbd57de2c247994dbf480b7c328aa512c32",
+      "bytes": 6674,
+      "sha256": "7ba9c3f72a0052046607b70280372f17be1d62bdf4fb5bd872a4f5c4924b89b4"
+    },
+    {
+      "path": "iips-platform/tests/investment/sectorValidation.test.ts",
+      "gitBlob": "5c8a5ba52733820c9f7b662cb7378e6074ef6633",
+      "bytes": 23102,
+      "sha256": "820635591fbb1111d8c645ef6a29e68cc2683b46d21fec47a26fcff9c8bd7e90"
+    },
+    {
+      "path": "iips-platform/tests/investment/sectorVocabularyReadPath.test.ts",
+      "gitBlob": "b7fc0ff39395722af4146ab29fb52cb2eb2c4845",
+      "bytes": 36617,
+      "sha256": "b9973ad8ffb47952fb965dc59a2db9348414ff21402920f264048061d4951468"
+    },
+    {
+      "path": "iips-platform/tests/investment/verifyInstalledDataset.test.ts",
+      "gitBlob": "fc02a323477181649a422b4686086cf9f2f85de3",
+      "bytes": 33552,
+      "sha256": "e0505bb752fdef9fbf035e8cab9f74bdd2fdcb7b26fb404ef550a16033d9c18e"
+    },
+    {
+      "path": "iips-platform/tests/investment/viiiValuationDecisions.test.ts",
+      "gitBlob": "bc105c8b47778f4de5ebf0b557d545b365bf84f5",
+      "bytes": 11899,
+      "sha256": "b17888d5c9f0ae75bb3585d7fed3cf6dcd9849a8d2ce661e91b282637caff7e9"
+    },
+    {
+      "path": "iips-platform/tests/investment/w05CoverageSourceRights.test.ts",
+      "gitBlob": "f1a78613941338340d3d6f20a91bab74130e9e39",
+      "bytes": 9167,
+      "sha256": "247f46dafecf3181716806648b80b61f0c478faee985623f4aab5d6627927d78"
+    },
+    {
+      "path": "iips-platform/tests/investment/w05SourceRights.test.ts",
+      "gitBlob": "e6aad54457fc2587a422e609990f8a9119428281",
+      "bytes": 7838,
+      "sha256": "36dfbf378bad15a639d8825ed9567d71550e93c3744cbdbc5ac197ecf6a40a47"
+    },
+    {
+      "path": "iips-platform/tests/investment/w07FinancialLimitationResolution.test.ts",
+      "gitBlob": "f6f8aa862de427e0149258cd4e6113115d64da1f",
+      "bytes": 23348,
+      "sha256": "1de4ffa796f1ecb8508466f47b9689706886a9d2b3eaec9713e2776245e591fb"
+    },
+    {
+      "path": "iips-platform/tests/investment/w08SecurityToIssuerBridge.test.ts",
+      "gitBlob": "f7dbd531daee5097b459bdec80a0baab6db80586",
+      "bytes": 8149,
+      "sha256": "a8cbe702ee4531952746de9d692fbcafddeda4112191792225b344a9419c804c"
+    },
+    {
+      "path": "iips-platform/tests/investment/w10IssuerEngineMapping.test.ts",
+      "gitBlob": "48739a85dd97c56a83e0ff0cb97210120927b9e6",
+      "bytes": 14498,
+      "sha256": "0dbfce2e3a77fccfa514e82fc8efa39e5db76bef977959e018e27232e655f70f"
+    },
+    {
+      "path": "iips-platform/tests/investment/w10IssuerEngineQualification.test.ts",
+      "gitBlob": "69d020e2831d56b9810379c098bbc9b5e19f4772",
+      "bytes": 22150,
+      "sha256": "452d08161cca29f9d333e8071f193385b8a0cda5f504e857b387beef70c890d4"
+    },
+    {
+      "path": "iips-platform/tests/investment/w11IssuerEngineExecution.test.ts",
+      "gitBlob": "8426ddda408b16217d728ac99759e0388dcdfebf",
+      "bytes": 26840,
+      "sha256": "a125e37fc968c63731b5d335dba75184a4cc75b01bece83bb7cc6f3dd0b37e49"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi4AssociatesEvidence.test.ts",
+      "gitBlob": "10acc57c8b0b5c537d2580dba2bff2ba68374c63",
+      "bytes": 23708,
+      "sha256": "c7ac4667443f31a2f43cf9003dd6c178c491ee83effa0a3aa7cfc59f21e18c49"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi5PreferenceCapitalEvidence.test.ts",
+      "gitBlob": "dc821a1b03a3730f82856ff6aa90e3e89c55d3f4",
+      "bytes": 10170,
+      "sha256": "d92760075ffaf7bb9220215e299f7e3b71840698dfbb1f9f04209303938c0367"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi6SecondIssuerSearch.test.ts",
+      "gitBlob": "459cfda2e46b9f0a639278d0efed154f730ab0f2",
+      "bytes": 8373,
+      "sha256": "0ea14d9439cc7dab6f38f9d3adf0cd8a2dbc9f62e1f71e02e1e554225f935c8a"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi6aS2ConsolidatedPageEvidence.test.ts",
+      "gitBlob": "c7b57eb2348b912df5e1c4a1a5482a05e28ba70a",
+      "bytes": 18750,
+      "sha256": "644905b4d1be69cf9a9621145d24bca1629e4b880c2f4f59eae55801dd452c66"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi6aSupplementalZensar.test.ts",
+      "gitBlob": "5aff2f107a633b78adc9f9368d2936c76feb461d",
+      "bytes": 11671,
+      "sha256": "05d76ce0b4b02319d409c441f82051233a0fe7b43c49f5e41e54d3269a729a15"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi6aZensarRecovery.test.ts",
+      "gitBlob": "e5342e335c7c8c8e3bf5cf97a64ede276bf69356",
+      "bytes": 10452,
+      "sha256": "9390876d8a80eba7c1f2cdc5b97f37fadcaa97655d251a5b349560b76ed562d5"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi7ConsumerMarico.test.ts",
+      "gitBlob": "b8dbe6bb002db59446f38b17799c4be655a5c929",
+      "bytes": 21584,
+      "sha256": "5df92aa67b84a532c13b282e16b122739524a545e58fb82f6b4765734bf82ef9"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi8IndustrialsKec.test.ts",
+      "gitBlob": "64bb24896231d7bbb09c7323506508b850c12190",
+      "bytes": 35244,
+      "sha256": "a47238a05fd93ef3c2d79196fa841d275b77507dfd0559dd587efb99d62a8c75"
+    },
+    {
+      "path": "iips-platform/tests/investment/wi9AssociatesResolution.test.ts",
+      "gitBlob": "af3c47fa50d2c06f85c8fe688f6621b8451fef7c",
+      "bytes": 17802,
+      "sha256": "b60931ca13eee24ca73bd794f5550cf014cfceb113aa9d3079c6d489c378953d"
+    },
+    {
+      "path": "iips-platform/tests/investment/windowsIdentityProvisionScript.test.ts",
+      "gitBlob": "08d8ec7c9b53bc42cf630b155832c2da44413e6b",
+      "bytes": 45509,
+      "sha256": "922779076d203999d9b9c86802c69e02b7929e7d20f62b03cf179f9c81c1818d"
+    },
+    {
+      "path": "iips-platform/tests/investment/windowsS4R3CandidateBuildScript.test.ts",
+      "gitBlob": "2967a7c5e883f503a5a015daf511f1a06f153a3a",
+      "bytes": 24851,
+      "sha256": "d73bed53736c1fcfe004eedcc9f9419b8c8f292f6539b0cffe3ff6ee83e6a682"
+    },
+    {
+      "path": "iips-platform/tests/investment/windowsVerifyScript.test.ts",
+      "gitBlob": "6cd84e49da071096e77b06d557028ffeeb03483c",
+      "bytes": 39517,
+      "sha256": "da9fa35bf09d61b64539ed619d6bb5280d76961df3eb02577d4267f15130d862"
+    }
+  ]
+}

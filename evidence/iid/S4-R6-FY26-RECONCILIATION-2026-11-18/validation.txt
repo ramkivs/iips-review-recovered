@@ -1,0 +1,42 @@
+S4-R6/G-4 corrected FY26 reconciliation — final local verification
+Assessment clock: 2026-11-18T00:00:00.000Z; session entry date 2026-11-17.
+Baseline: 29a225cdaa5e041ab4d08de004e86ab46f52d6f2
+
+PASS: one actual normal CLI ingestion, exit0, no --allow-errors.
+PASS: manifest file digests/content digest verified by readDataset; read-port exact record equality.
+PASS: actual KEC metric VALID/PRESENT, issuer/period/consolidated/source floor/RATIO/formula/band assertions.
+PASS: canonical audited denominator INR normalization assertion.
+PASS: actual assessCompany for Infosys and KEC on read-back snapshot; zero invariant violations each.
+PASS: exact actual missing-metric (Infosys) and missing-net-debt (KEC) refusals, no output.
+PASS: actual bookToBill field qualification STALE/FIELD_STALE under unchanged PNL200day rule.
+PASS: target-only projection of automatic CLI coverage output retained separately from actual methods.
+PASS: ignored-local snapshot not owner-runtime install; no committed dataset or full payload publication.
+PASS: targeted tracked-CSV Infosys FY26 bundle lookup, no matches; latest existing FY24 not relabelled.
+PASS: 6 original statement/roster input files byte-equal to local copies.
+PASS: 377 preserved production/historical evidence/input files match baseline.
+PASS: PDF original-byte digest distinguished from preserved page-extract digest, hash equality verified.
+PASS: new relative Markdown links resolve; private snapshot git-ignore boundary holds.
+PASS: scoped strict TypeScript compile for the new verifier and its import closure:
+  iips-platform/node_modules/.bin/tsc --noEmit --strict --skipLibCheck --esModuleInterop --resolveJsonModule --target ES2020 --module CommonJS --moduleResolution Node --typeRoots iips-platform/node_modules/@types evidence/iid/S4-R6-FY26-RECONCILIATION-2026-11-18/verify-ingested-assessment.ts
+  Exit0. No full product-suite/typecheck claim.
+PASS: final tsx verifier exit0, byte-identical stdout to published assessment-verification.json.
+PASS: git diff --check (final staged version rechecked before commit).
+
+New metadata regressions only (not PR591 tests/probes/census):
+test_actual_methods_not_coverage_unlock (__main__.ReconciliationTests.test_actual_methods_not_coverage_unlock) ... ok
+test_actual_record_and_execution_identity (__main__.ReconciliationTests.test_actual_record_and_execution_identity) ... ok
+test_freshness_paths_and_dates (__main__.ReconciliationTests.test_freshness_paths_and_dates) ... ok
+test_infosys_period_not_relabelled (__main__.ReconciliationTests.test_infosys_period_not_relabelled) ... ok
+test_original_matrix_reused_and_overlay_scoped (__main__.ReconciliationTests.test_original_matrix_reused_and_overlay_scoped) ... ok
+test_preserved_historical_files_and_original_inputs (__main__.ReconciliationTests.test_preserved_historical_files_and_original_inputs) ... ok
+test_publication_scope_and_closure_text (__main__.ReconciliationTests.test_publication_scope_and_closure_text) ... ok
+test_source_binding_hash_types (__main__.ReconciliationTests.test_source_binding_hash_types) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.024s
+
+OK
+
+No rerun of original25 tests,12 probes or completed census/audit; no new product defect investigation.
+Existing GitHub static CI status is reported after push in PR597 comment, not preclaimed here.
+S4-R6 OPEN; G-4 OPEN; application-owner acceptance OUTSTANDING.

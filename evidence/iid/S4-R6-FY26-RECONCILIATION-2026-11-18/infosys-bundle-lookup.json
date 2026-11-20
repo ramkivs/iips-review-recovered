@@ -1,0 +1,26 @@
+{
+  "scope": "tracked periods.csv files only; no installed-host assertion; not a metric census",
+  "FY26matches": [],
+  "InfosysBundlePeriods": [
+    {
+      "path": "evidence/real-issuer/D2-NIL-BY-DISCLOSURE-2026-11-06/input/periods.csv",
+      "latestPeriodEnd": "2024-03-31"
+    },
+    {
+      "path": "evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input/periods.csv",
+      "latestPeriodEnd": "2024-03-31"
+    },
+    {
+      "path": "evidence/real-issuer/S4-R2-INFOSYS-BORROWINGS-2026-11-17/ingest-input/periods.csv",
+      "latestPeriodEnd": "2024-03-31"
+    },
+    {
+      "path": "evidence/real-issuer/WI2-PRICE-OBSERVATION-2026-11-06/ingest-input/periods.csv",
+      "latestPeriodEnd": "2024-03-31"
+    },
+    {
+      "path": "evidence/real-issuer/WI3-BORROWINGS-NIL-2026-11-06/ingest-input/periods.csv",
+      "latestPeriodEnd": "2024-03-31"
+    }
+  ]
+}

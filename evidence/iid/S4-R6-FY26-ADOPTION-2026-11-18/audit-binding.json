@@ -1,0 +1,31 @@
+{
+  "sourceRef": "INFY-FY26-S4R6-NONDISCLOSURE-AUDIT",
+  "issuerId": "IN:CIN:L85110KA1981PLC013115",
+  "metricIds": [
+    "TM_NRR",
+    "TM_RECURRING_REVENUE_PCT"
+  ],
+  "periodEnd": "2026-03-31",
+  "statementScope": "CONSOLIDATED",
+  "bindingClass": "repository evidence sidecar; not a parser-consumed schema extension",
+  "auditDateSupplied": "2026-11-18",
+  "exhaustiveReviewClaim": "SUPPLIED_NOT_INDEPENDENTLY_ESTABLISHED",
+  "boundEvidence": [
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/supplied-infosys-payload.json",
+      "sha256": "ae4a08ffc9927228ffe2e1ffb0ef763dc110ac3dcb2e25d890f7b2b95cec4539"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/supplied-review-and-mapping.md",
+      "sha256": "cf493b87dfbcf4c43b44c77076b8110db6998e19342035b7213629683f659e33"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/source-review.json",
+      "sha256": "65c1757874fe285cf94176e64130c199fde6c2f3f932e8e203b7d30ef1b43a70"
+    },
+    {
+      "path": "evidence/iid/S4-R6-FY26-ADOPTION-2026-11-18/infosys-field-map.json",
+      "sha256": "ed6ff3763fdb27b3626a5642ad7973e1f48a2e6f868045b1647368e1599c975b"
+    }
+  ]
+}

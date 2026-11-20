@@ -1,0 +1,27 @@
+{
+  "baseline": "187783d047ed63da31fd00276d41423ba318b91d",
+  "purpose": "Isolated KEC verification replay because prior ignored combined dataset is absent after recovery. Does not replace or shrink that historical dataset; no new economic observation. Infosys/Marico not re-investigated or re-assessed.",
+  "copyVerification": [
+    {
+      "source": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/roster.json",
+      "local": "LOCAL-ONLY-DO-NOT-PUBLISH/kec-final-source/input/kec/roster.json",
+      "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6",
+      "byteEqual": true
+    },
+    {
+      "source": "evidence/real-issuer/WI8-INDUSTRIALS-KEC-2026-11-07/ingest-input/periods.csv",
+      "local": "LOCAL-ONLY-DO-NOT-PUBLISH/kec-final-source/input/kec/periods.csv",
+      "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd",
+      "byteEqual": true
+    }
+  ],
+  "newCapitalAdmission": false,
+  "newEconomicObservations": 0,
+  "executionDateUTC": "2026-11-17",
+  "scenarioClock": "2026-11-18",
+  "rights": "Local personal-use operator assertion only; not a redistribution licence or owner-runtime adoption.",
+  "cliExitCode": 0,
+  "allowErrors": false,
+  "command": "iips-platform/node_modules/.bin/tsx iips-platform/src/investment/cli/ingest.ts --input LOCAL-ONLY-DO-NOT-PUBLISH/kec-final-source/input/kec --dataset-dir LOCAL-ONLY-DO-NOT-PUBLISH/kec-final-source/dataset --now 2026-11-17T00:00:00.000Z",
+  "ingestLogSha256": "ecda2d353011413c194b59586a5a89d858be99aa48e490ddb84be6d3b49ee8f7"
+}

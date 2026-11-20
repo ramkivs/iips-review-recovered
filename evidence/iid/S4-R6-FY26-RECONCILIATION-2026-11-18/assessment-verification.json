@@ -1,0 +1,229 @@
+{
+  "baseline": "29a225cdaa5e041ab4d08de004e86ab46f52d6f2",
+  "assessmentClock": "2026-11-18",
+  "execution": "actual CLI-ingested local personal-use snapshot, digest-verified read-back plus actual assessCompany; not installed owner runtime",
+  "dataset": {
+    "datasetVersion": "sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874",
+    "contentDigest": "sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874",
+    "sourceRightsState": "OPERATOR_ASSERTED",
+    "issuers": 3,
+    "operatingMetricRecords": 1,
+    "inputProvenance": [
+      {
+        "files": [
+          {
+            "name": "periods.csv",
+            "sha256": "97d7cf7ca366a049832756b59c6c5396f5166b10ed6ba5f54e88fe2f5260fc83"
+          },
+          {
+            "name": "roster.json",
+            "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4"
+          }
+        ],
+        "inputDigest": "sha256:351adad968349a11972bf640d97c11387c150a3351ed6ef81cd9aaca88c01bdf",
+        "inputDir": "/home/user/iips-review-recovered/LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/infosys",
+        "issuerIds": [
+          "IN:CIN:L85110KA1981PLC013115"
+        ],
+        "sectors": [
+          "Technology"
+        ]
+      },
+      {
+        "files": [
+          {
+            "name": "periods.csv",
+            "sha256": "6bb1eefa1977ae0a71b497bd6b22f9272479ebe8a04ca4007b78fe4011074ab4"
+          },
+          {
+            "name": "roster.json",
+            "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb"
+          }
+        ],
+        "inputDigest": "sha256:725e8eadc10b6d113ab069122f4728f2744773e8d62b187044c20a0aa1e2ad24",
+        "inputDir": "/home/user/iips-review-recovered/LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/marico",
+        "issuerIds": [
+          "IN:CIN:L15140MH1988PLC049208"
+        ],
+        "sectors": [
+          "Consumer"
+        ]
+      },
+      {
+        "files": [
+          {
+            "name": "operating-metrics.csv",
+            "sha256": "94476bd89adaded6edec209e9da2c101f460ec454803d9d9f19513cc96e86865"
+          },
+          {
+            "name": "periods.csv",
+            "sha256": "ff53786bd26908dab55e670f21f7070c5e36a34017e7db4aa6d2e285dd8691bd"
+          },
+          {
+            "name": "roster.json",
+            "sha256": "d36b27705ef67fccacb3a3a71812556144a52d447a46cef87e3961b39335c0c6"
+          }
+        ],
+        "inputDigest": "sha256:dd8a303c597251fd10a9cd1eba80883e51f59c3cb2cdbf9939e939d36fb818b8",
+        "inputDir": "/home/user/iips-review-recovered/LOCAL-ONLY-DO-NOT-PUBLISH/s4r6-fy26-reconciliation/input/kec",
+        "issuerIds": [
+          "IN:CIN:L45200MH2005PLC152061"
+        ],
+        "sectors": [
+          "Industrials"
+        ]
+      }
+    ]
+  },
+  "metricVerification": {
+    "metricId": "IN_BOOK_TO_BILL",
+    "issuerId": "IN:CIN:L45200MH2005PLC152061",
+    "periodEnd": "2026-03-31",
+    "scope": "CONSOLIDATED",
+    "unit": "RATIO",
+    "sourceClass": "OPERATOR_ENTERED",
+    "sourceRef": "KEC-FY26-BTB-S4R6-RECONCILIATION",
+    "observedAt": "2026-11-17",
+    "enteredAt": "2026-11-17",
+    "validation": "VALID",
+    "presence": "PRESENT",
+    "issues": [],
+    "exactFormulaEquality": true,
+    "roundsToSuppliedTwoDecimalValue": true,
+    "suppliedThirdScoringBand": true,
+    "readPortRecordEquality": true,
+    "identityInput": "RATIO passed unchanged to method mandatory-metric gate; not a valuation multiplier"
+  },
+  "assessments": [
+    {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "sector": "Technology",
+      "datasetVersion": "sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874",
+      "asOf": {
+        "generatedAt": "2026-11-18T00:00:00.000Z",
+        "dataAsOf": "2024-03-31",
+        "knownAsOf": "2026-11-18",
+        "stalenessDays": 962,
+        "staleBeyondPolicy": true
+      },
+      "metricIds": [],
+      "method": {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "outputPresent": false,
+        "midPresence": null,
+        "notApplicableReason": "MANDATORY_METRIC_MISSING: TM_NRR, TM_RECURRING_REVENUE_PCT"
+      },
+      "freshness": {
+        "status": "STALE",
+        "reasons": [
+          "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+        ],
+        "periodEnd": "2024-03-31",
+        "daysSincePeriodEnd": 962,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": false
+      },
+      "confidence": {
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC",
+          "POLICY_DEFAULT_MULTIPLE"
+        ],
+        "staleDataMultiplier": 0.9
+      },
+      "capitalStructure": {
+        "netDebtPresence": "PRESENT",
+        "currentInvestmentsPresence": "PRESENT"
+      },
+      "invariantViolations": 0
+    },
+    {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "sector": "Industrials",
+      "datasetVersion": "sha256:62dc04d1c19fa5824b358a749e554947cda439b3d59b7e6f9bd2f092e5030874",
+      "asOf": {
+        "generatedAt": "2026-11-18T00:00:00.000Z",
+        "dataAsOf": "2026-03-31",
+        "knownAsOf": "2026-11-18",
+        "stalenessDays": 232,
+        "staleBeyondPolicy": true
+      },
+      "metricIds": [
+        "IN_BOOK_TO_BILL"
+      ],
+      "method": {
+        "methodId": "EV_REVENUE",
+        "applicable": false,
+        "outputPresent": false,
+        "midPresence": null,
+        "notApplicableReason": "CAPITAL_STRUCTURE_INCOMPLETE: net debt is unavailable"
+      },
+      "freshness": {
+        "status": "STALE",
+        "reasons": [
+          "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+        ],
+        "periodEnd": "2026-03-31",
+        "daysSincePeriodEnd": 232,
+        "withinPnlWindow": false,
+        "withinBalanceSheetWindow": true
+      },
+      "confidence": {
+        "caps": [
+          "STALE_DATA",
+          "DILUTION_PROXY",
+          "POLICY_DEFAULT_WACC"
+        ],
+        "staleDataMultiplier": 0.9
+      },
+      "capitalStructure": {
+        "netDebtPresence": "MISSING",
+        "netDebtReason": "NOT_REPORTED",
+        "currentInvestmentsPresence": "MISSING"
+      },
+      "invariantViolations": 0
+    }
+  ],
+  "fieldQualification": {
+    "engineId": "sector.industrials",
+    "field": "bookToBill",
+    "transformation": "identity — the canonical observation is passed unchanged: no scaling, currency conversion, sign change or unit reinterpretation",
+    "freshnessKind": "PNL",
+    "outcome": "STALE",
+    "codes": [
+      "FIELD_STALE"
+    ],
+    "note": "The latest period end 2026-03-31 is 232 days before 2026-11-18; the P&L window is 200 days (freshness-policy/1.0.0: P&L value no older than 200 days after period end).",
+    "engineScoringExecuted": false
+  },
+  "liveCoverage": [
+    {
+      "sector": "Industrials",
+      "issuersAvailable": [
+        "IN:CIN:L45200MH2005PLC152061"
+      ],
+      "issuersConsidered": 1,
+      "methodId": "EV_REVENUE",
+      "missing": [],
+      "reason": null,
+      "role": "CROSS_CHECK",
+      "state": "AVAILABLE"
+    },
+    {
+      "sector": "Technology",
+      "issuersAvailable": [],
+      "issuersConsidered": 1,
+      "methodId": "EV_REVENUE",
+      "missing": [
+        "TM_NRR",
+        "TM_RECURRING_REVENUE_PCT"
+      ],
+      "reason": "MANDATORY_METRIC_MISSING",
+      "role": "CROSS_CHECK",
+      "state": "WITHHELD"
+    }
+  ],
+  "publicationBoundary": "No source/page text, canonical CSV/record values, full datasets or full computed assessment payloads redistributed."
+}
