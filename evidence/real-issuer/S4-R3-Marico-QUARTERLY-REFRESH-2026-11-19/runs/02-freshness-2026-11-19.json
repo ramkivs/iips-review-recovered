@@ -1,0 +1,147 @@
+{
+  "datasetVersion": "sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a",
+  "contentDigest": "sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a",
+  "coverage": {
+    "annualPeriods": 13,
+    "corporateActions": 0,
+    "earliestPeriodEnd": "2022-03-31",
+    "issuers": 3,
+    "latestPeriodEnd": "2026-09-30",
+    "listings": 5,
+    "operatingMetricRecords": 0,
+    "prices": 0,
+    "quarterlyPeriods": 4,
+    "securities": 3
+  },
+  "issues": [],
+  "asOf": "2026-11-19",
+  "windows": {
+    "pnlDays": 200,
+    "balanceSheetDays": 250,
+    "priceMaxAgeTradingSessions": 5
+  },
+  "issuers": {
+    "Infosys Limited": {
+      "issuerId": "IN:CIN:L85110KA1981PLC013115",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-04-23",
+        "daysSincePeriodEnd": 233
+      },
+      "latestReported": {
+        "periodType": "ANNUAL",
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-04-23",
+        "daysSincePeriodEnd": 233
+      },
+      "ttmAvailable": false,
+      "discreteQuarterCount": 0,
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31",
+        "2023-03-31",
+        "2022-03-31"
+      ],
+      "quarterly": []
+    },
+    "Marico Limited": {
+      "issuerId": "IN:CIN:L15140MH1988PLC049208",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-05",
+        "daysSincePeriodEnd": 233
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "daysSincePeriodEnd": 50
+      },
+      "ttmAvailable": false,
+      "discreteQuarterCount": 2,
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31",
+        "2023-03-31",
+        "2022-03-31"
+      ],
+      "quarterly": [
+        {
+          "end": "2026-06-30",
+          "form": "DISCRETE",
+          "rev": 39570000000,
+          "netProfit": 6520000000,
+          "owners": 6300000000,
+          "epsB": 4.87
+        },
+        {
+          "end": "2026-09-30",
+          "form": "DISCRETE",
+          "rev": 38970000000,
+          "netProfit": 5580000000,
+          "owners": 5500000000,
+          "epsB": 4.24
+        }
+      ]
+    },
+    "KEC International Limited": {
+      "issuerId": "IN:CIN:L45200MH2005PLC152061",
+      "status": "STALE",
+      "reasons": [
+        "VALUATION_BASIS_BEYOND_PNL_WINDOW"
+      ],
+      "valuationBasisKind": "ANNUAL",
+      "valuationBasis": {
+        "periodEnd": "2026-03-31",
+        "filedAt": "2026-05-16",
+        "daysSincePeriodEnd": 233
+      },
+      "latestReported": {
+        "periodType": "QUARTER",
+        "periodEnd": "2026-09-30",
+        "filedAt": "2026-11-02",
+        "daysSincePeriodEnd": 50
+      },
+      "ttmAvailable": false,
+      "discreteQuarterCount": 2,
+      "sequenceGaps": [],
+      "annualPeriodEnds": [
+        "2026-03-31",
+        "2025-03-31",
+        "2024-03-31"
+      ],
+      "quarterly": [
+        {
+          "end": "2026-06-30",
+          "form": "DISCRETE",
+          "rev": 50235400000,
+          "netProfit": 726200000,
+          "owners": null,
+          "epsB": 2.73
+        },
+        {
+          "end": "2026-09-30",
+          "form": "DISCRETE",
+          "rev": 54677100000,
+          "netProfit": 297400000,
+          "owners": null,
+          "epsB": 1.12
+        }
+      ]
+    }
+  }
+}

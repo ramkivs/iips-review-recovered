@@ -1432,3 +1432,13 @@ and O3 successor-admitted (`IID-O3-S4-R3-INFOSYS-SUCCESSOR-ADMISSION-2026-11-19.
 raised for all three issuers, so `S4-R3` stays **OPEN** on the freshness limb. `S4-R3-Infosys` is
 **RESOLVED** as a data-supply residual (register §17.40). Evidence:
 `evidence/real-issuer/S4-R3-INFOSYS-REFRESH-2026-11-19/`.
+
+**Addendum — Marico quarterly series ingested; S4-R3 stays OPEN (2026-11-19).** The `S4-R3` row above
+is **not closed**. The operator supplied reviewed consolidated Marico Q1/Q2 FY2027 quarters; they were
+ingested as a digest-bound successor input (historical cells preserved, Q1 before Q2, DISCRETE 1→2,
+zero gaps) and O3 successor-admitted (`IID-O3-S4-R3-Marico-QUARTERLY-SUCCESSOR-ADMISSION-2026-11-19.md`).
+New candidate `sha256:3e42d98d…` (13 annual + 4 quarterly, 0 issues; not installed). Q1+Q2 reconciles
+to published H1 FY2027 on all seven totals. Marico's latest reported period is now Q2 FY2027 (50 days),
+but its FY2026 **annual valuation basis remains STALE** (233 days) and no TTM bridge is available
+(2 of 4 discrete quarters; ANNUAL precedence) — `S4-R3` stays **OPEN** on the freshness limb for all
+three issuers. Evidence: `evidence/real-issuer/S4-R3-Marico-QUARTERLY-REFRESH-2026-11-19/`; register §17.41.

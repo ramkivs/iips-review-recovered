@@ -3554,3 +3554,30 @@ touched; no PR merged.
 **Disposition:** `S4-R3-Infosys` data-supply residual **RESOLVED (2026-11-19, this section)** on data
 ingestion + O3 successor admission; `L-043` / `S4-R3` remains `OPEN` on the freshness limb (requires an
 annual period end ≥ 2026-05-03 at the assessment clock, in practice FY2027). Next free §17.41.
+
+### 17.41 2026-11-19 — Marico Q1+Q2 FY2027 quarters ingested and O3 successor-admitted; TTM not available; annual basis still STALE; S4-R3 remains OPEN
+
+**Implemented/reported:** Data Supply + Proof for the `S4-R3` Marico quarterly series, recorded in
+`evidence/real-issuer/S4-R3-Marico-QUARTERLY-REFRESH-2026-11-19/` and the additive O3 successor
+declaration `docs/integration/IID-O3-S4-R3-Marico-QUARTERLY-SUCCESSOR-ADMISSION-2026-11-19.md`. The
+operator supplied reviewed consolidated Marico quarters Q1 FY2027 (2026-06-30, filed 2026-08-04) and
+Q2 FY2027 (2026-09-30, filed 2026-11-02) (payload preserved verbatim, SHA-256 `3cb61ea8…`; declared
+`SEBI_LODR_REG33_LIMITED_REVIEW` / `PUBLIC_STATUTORY_FILING_VERIFIED`, B S R & Co. LLP, UNMODIFIED).
+Schema alignment confirmed before writing: FY2026 maps `NET_PROFIT` = total PAT incl. NCI (1,813) with
+owners in `NET_PROFIT_ATTRIBUTABLE_TO_OWNERS` (1,762); identical mapping applied (Q1 652/630, Q2
+558/550). Successor input preserves every historical cell (additive `quarter_form`/`quarter_index`
+columns only), appends Q1 then Q2 as DISCRETE quarters, roster byte-identical; digest-bound: input
+`sha256:bf670d6e…`, new candidate `sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a`
+(13 annual + 4 quarterly, 0 issues; Infosys/KEC digests unchanged). Q1+Q2 reconciles to published
+H1 FY2027 on all seven totals (income 7,955; PAT 1,210; owners 1,180; EPS 9.11). **TTM determination:**
+not available and not enabled — TTM requires four DISCRETE quarters (Marico holds two; Q3/Q4 FY2026
+not in evidence, not invented) and basis precedence selects ANNUAL whenever an annual exists; FY2026
+anchor intact, Marico annual basis remains **STALE** at 233 days (2026-11-19 clock), flag documented
+to persist until the FY2027 annual (expected May 2027). Marico's latest *reported* period is now
+Q2 FY2027 (50 days), reported separately from its valuation basis, exactly as for KEC.
+**Deliberately not claimed:** Marico FRESH; `S4-R3` complete; any TTM basis enabled; host installation,
+live verification or acceptance; independent PDF/XBRL verification (`NOT_CLAIMED` — operator-attested
+payload). No policy/TTM/basis-preference change; no Infosys/KEC governance change; `S4-R3-Infosys`
+RESOLVED status (§17.40) unaffected; no IPD file touched; no PR merged.
+**Disposition:** Marico quarterly coverage **ESTABLISHED in candidate** (quarterly-presence limb now
+met for Marico and KEC); `L-043` / `S4-R3` remains `OPEN` on the freshness limb. Next free §17.42.

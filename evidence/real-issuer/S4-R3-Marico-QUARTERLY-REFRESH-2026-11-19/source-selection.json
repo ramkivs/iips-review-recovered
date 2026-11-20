@@ -1,0 +1,55 @@
+{
+  "generatedOn": "2026-11-19",
+  "network": "NONE",
+  "historicalBundlesModified": false,
+  "ticket": "S4-R3 (Marico quarterly series)",
+  "candidateInputs": [
+    "evidence/real-issuer/S4-R3-INFOSYS-REFRESH-2026-11-19/ingest-input/infosys",
+    "evidence/real-issuer/S4-R3-Marico-QUARTERLY-REFRESH-2026-11-19/ingest-input/marico",
+    "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec"
+  ],
+  "source": {
+    "kind": "OPERATOR_SUPPLIED_PAYLOAD",
+    "artifact": "source/operator-supplied-payload-2026-11-19.json",
+    "provenance": "Supplied by the operator (sole decision owner) in the Marico quarterly work item of 2026-11-19 and preserved verbatim in this bundle before any transcription. No network fetch was performed and no filing PDF was retrieved in this session.",
+    "sourceType": "SEBI_LODR_REG33_LIMITED_REVIEW",
+    "permissionStatus": "PUBLIC_STATUTORY_FILING_VERIFIED",
+    "permissionBasisOperatorDeclared": "Public statutory financial disclosures filed under SEBI (LODR) Regulations, 2015 on BSE/NSE and Marico Investor Relations",
+    "auditor": "B S R & Co. LLP",
+    "reviewOpinion": "UNMODIFIED",
+    "independentSourceVerification": "NOT_CLAIMED: payload-to-filing (PDF/XBRL) verification was not performed in this session; the payload is operator-attested, exactly as recorded here."
+  },
+  "entityReconciliation": {
+    "cin": "L15140MH1988PLC049208 matches admitted roster issuerId IN:CIN:L15140MH1988PLC049208",
+    "isin": "INE196A01026 matches roster securityId IN:ISIN:INE196A01026",
+    "nse": "MARICO matches roster listing",
+    "bse": "531642 matches roster listing",
+    "currencyScale": "INR CRORE matches source_scale CRORE; per-share values INR",
+    "annualAnchor": "FY2026 annual 2026-03-31 filed 2026-05-05, identical to the admitted successor row MARICO-INDAS-CONSOL-FY26-AR; anchor row preserved unchanged"
+  },
+  "filings": [
+    {
+      "periodLabel": "Q1 FY2027",
+      "filingRef": "MARICO-INDAS-CONSOL-Q1-FY27-RESULTS",
+      "periodType": "QUARTER (payload label QUARTERLY mapped to the contract token)",
+      "quarterForm": "DISCRETE",
+      "quarterIndex": 1,
+      "periodStart": "2026-04-01",
+      "periodEnd": "2026-06-30",
+      "filedAt": "2026-08-04",
+      "sourceFiling": "BSE/NSE Reg. 33 Unaudited Consolidated Financial Results (Quarter ended 30 June 2026)"
+    },
+    {
+      "periodLabel": "Q2 FY2027",
+      "filingRef": "MARICO-INDAS-CONSOL-Q2-FY27-RESULTS",
+      "periodType": "QUARTER (payload label QUARTERLY mapped to the contract token)",
+      "quarterForm": "DISCRETE",
+      "quarterIndex": 2,
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-09-30",
+      "filedAt": "2026-11-02",
+      "sourceFiling": "BSE/NSE Reg. 33 Unaudited Consolidated Financial Results (Quarter & Half Year ended 30 September 2026)"
+    }
+  ],
+  "netIncomeMappingDetermination": "Marico FY2026 annual row maps NET_PROFIT = 1813 (total PAT including NCI; PBT 2277 - tax 464 = 1813) and NET_PROFIT_ATTRIBUTABLE_TO_OWNERS = 1762 in a separate column. Identical mapping applied: Q1 total_pat 652 -> NET_PROFIT, owners 630 -> NET_PROFIT_ATTRIBUTABLE_TO_OWNERS; Q2 558 / 550. No remapping was performed."
+}

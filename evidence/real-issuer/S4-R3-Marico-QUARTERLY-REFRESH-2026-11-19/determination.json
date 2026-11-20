@@ -1,0 +1,41 @@
+{
+  "bundle": "S4-R3 Marico quarterly successor (Q1+Q2 FY2027 limited-review quarters alongside the FY2026 annual baseline)",
+  "date": "2026-11-19",
+  "ticket": "S4-R3",
+  "status": "QUARTERLY_SERIES_INGESTED_AND_O3_SUCCESSOR_ADMITTED__CANDIDATE_NOT_HOST_INSTALLED__ANNUAL_BASIS_STILL_STALE__TTM_NOT_AVAILABLE",
+  "supersedesCandidateDigest": "sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003",
+  "candidateDatasetVersion": "sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a",
+  "inputs": {
+    "maricoQuarterlySuccessor": {
+      "path": "evidence/real-issuer/S4-R3-Marico-QUARTERLY-REFRESH-2026-11-19/ingest-input/marico",
+      "inputDigest": "sha256:bf670d6efbe8c8444235ec199203078a26635670dd288fa6a0cfe2c67622d91c",
+      "adds": ["Q1 FY2027 QUARTER 2026-06-30 filed 2026-08-04", "Q2 FY2027 QUARTER 2026-09-30 filed 2026-11-02"],
+      "historicalCellsPreserved": true,
+      "rosterByteIdenticalToAdmitted": true
+    },
+    "infosysSuccessorUnchanged": "sha256:93d2ddc3e1dbf1dec6d45ea17bbdedb48c9de21875178caf9ccbc23a6201a50f",
+    "kecAdmittedUnchanged": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a"
+  },
+  "findings": {
+    "QuarterlyCoverage": "ESTABLISHED for Marico in candidate: 2 consecutive DISCRETE quarters, zero sequence gaps; candidate quarterlyPeriods 2 -> 4 (Marico 2 + KEC 2). Marico latest reported period is now Q2 FY2027 (2026-09-30, 50 days at the 2026-11-19 clock), mirroring KEC's coverage structure",
+    "H1Reconciliation": "Q1+Q2 reconciles to the published H1 FY2027 check on all seven supplied totals (revenue 7854, other income 101, total income 7955, total PAT 1210, owners PAT 1180, NCI 30, basic EPS 9.11)",
+    "TtmBridge": "NOT AVAILABLE / NOT ENABLED: TTM construction requires four DISCRETE quarters (periods.ts buildTtm); Marico holds two, and Q3/Q4 FY2026 quarters are not in evidence and were not invented. Basis precedence in freshness.ts also selects ANNUAL whenever an annual period exists, so no configuration change could substitute TTM here. No engine change was made or needed",
+    "AnnualFreshness": "UNCHANGED AND STALE: FY2026 annual basis 2026-03-31 is 233 days at the 2026-11-19 clock, beyond the unchanged 200-day window; STALE_STATEMENTS remains raised for Marico. The quarterly series does not freshen the annual valuation basis. FY2026 remains the latest published annual (status note: FY2027 annual due May 2027); the annual staleness flag is documented to persist until then",
+    "S4R3Overall": "REMAINS OPEN (register L-043): the quarterly-presence limb is now met for two issuers in candidate; the freshness limb is unmet for all three issuers",
+    "InfosysKecGovernance": "UNTOUCHED: inputs, digests and statuses unchanged",
+    "HostInstallation": "NOT_PERFORMED: candidate built and verified outside the repository only",
+    "SourceRights": "Operator-declared PUBLIC_STATUTORY_FILING_VERIFIED (SEBI LODR Reg. 33 limited review, B S R & Co. LLP, UNMODIFIED); independent PDF/XBRL-to-transcription verification NOT_CLAIMED in this session"
+  },
+  "asOf": "2026-11-19",
+  "freshness": [
+    { "issuerId": "IN:CIN:L15140MH1988PLC049208", "valuationBasisPeriodEnd": "2026-03-31", "filedAt": "2026-05-05", "stalenessDays": 233, "status": "STALE", "latestReportedPeriodEnd": "2026-09-30", "latestReportedDays": 50, "ttmAvailable": false },
+    { "issuerId": "IN:CIN:L85110KA1981PLC013115", "valuationBasisPeriodEnd": "2026-03-31", "filedAt": "2026-04-23", "stalenessDays": 233, "status": "STALE" },
+    { "issuerId": "IN:CIN:L45200MH2005PLC152061", "valuationBasisPeriodEnd": "2026-03-31", "filedAt": "2026-05-16", "stalenessDays": 233, "status": "STALE", "latestReportedPeriodEnd": "2026-09-30", "latestReportedDays": 50 }
+  ],
+  "boundaries": [
+    "No freshness policy, TTM construction rule, basis-preference rule, assessment clock basis, accepted period definition, valuation policy, XBRL tag map, or ingestion-contract change",
+    "No historical evidence bundle modified; the FY2026 annual anchor row is preserved cell-for-cell",
+    "No host dataset installed or replaced; no portfolio database accessed; no IPD file touched; no PR merged",
+    "Admission is per exact digest under the O3 successor declaration of 2026-11-19 (Marico quarterly record); a different digest requires a fresh operator declaration"
+  ]
+}

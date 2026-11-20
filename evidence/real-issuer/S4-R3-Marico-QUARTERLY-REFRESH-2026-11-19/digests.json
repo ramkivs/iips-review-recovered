@@ -1,0 +1,77 @@
+{
+  "schema": "S4-R3-Marico-QUARTERLY-DIGESTS/1",
+  "scope": "Marico Q1+Q2 FY2027 quarterly successor ingestion, O3 successor admission identities, candidate 3e42d98d verification, H1 reconciliation and 2026-11-19 freshness/TTM determination; unchanged freshness-policy/1.0.0 and TTM rules.",
+  "recordedAt": "2026-11-19",
+  "files": {
+    "README.md": {
+      "sha256": "3f6a5569e7ac13acd54c9cbb80c976bd4811b0e3384b76725c44e4041df0534e",
+      "bytes": 7371
+    },
+    "data-extraction.json": {
+      "sha256": "b9eb40aa7ce83d5cb3fc1784a7d9e8ffd659e93e828b5288cafd33a2571751fe",
+      "bytes": 2824
+    },
+    "determination.json": {
+      "sha256": "b9ee94c69ce23f1d6215afcda768929ef51a40990e5397b25a3ce5e020c0123b",
+      "bytes": 4362
+    },
+    "ingest-input/marico/periods.csv": {
+      "sha256": "59464d497418c2a989e7ed9e64446b103bf9fe5a3d214800871e0dda1cb014e6",
+      "bytes": 2784
+    },
+    "ingest-input/marico/roster.json": {
+      "sha256": "259c2f093b611af8e1541a78ea5e151cc2ab41cf93ef32bbfaa54fcb18c2cadb",
+      "bytes": 1909
+    },
+    "probe/build_marico_quarterly_refresh.py": {
+      "sha256": "10a2610406d99e05671d0fcf6092ebece62f49f27999c02e8bd59c4f32c367d3",
+      "bytes": 4527
+    },
+    "runs/01-candidate-ingest.txt": {
+      "sha256": "124a28b7b0f572f716aeaa184e2b696e173f5b41d82a5084279a7e5dc26971f2",
+      "bytes": 2606
+    },
+    "runs/02-freshness-2026-11-19.json": {
+      "sha256": "12fdf95dd2b99e36222862d9d715c93f8b6e9fb4c3eebccaaaa7b174fb488081",
+      "bytes": 3747
+    },
+    "runs/03-derived-handchecks.json": {
+      "sha256": "d17dc9488a092dd8e63304c22e33b487bbef6566ec434e167f5a9439bd48273b",
+      "bytes": 2807
+    },
+    "source/operator-supplied-payload-2026-11-19.json": {
+      "sha256": "3cb61ea83187163166cec98f8cc13b189d33f6159807fefb6cea4d4452fddc7b",
+      "bytes": 3029
+    },
+    "source-selection.json": {
+      "sha256": "758bb78907b5ba285e96bcdf61099b5e514fa068c85a5c295d8c46e1e70481b2",
+      "bytes": 3188
+    }
+  },
+  "successorInputDigest": "sha256:bf670d6efbe8c8444235ec199203078a26635670dd288fa6a0cfe2c67622d91c",
+  "candidateDatasetVersion": "sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a",
+  "supersededCandidateDatasetVersion": "sha256:ce341a125445de1f30b48d150a925151749b69623250e86bbc12c408a0bd0003",
+  "freshnessAtClock": {
+    "asOf": "2026-11-19",
+    "Marico": {
+      "valuationBasisAnnualPeriodEnd": "2026-03-31",
+      "days": 233,
+      "status": "STALE",
+      "latestReportedQuarter": "2026-09-30 (50 days, separate from valuation basis)",
+      "ttmAvailable": false
+    },
+    "Infosys": {
+      "days": 233,
+      "status": "STALE"
+    },
+    "KEC": {
+      "days": 233,
+      "status": "STALE"
+    }
+  },
+  "tickets": {
+    "S4-R3": "OPEN (freshness limb unmet for all issuers; Marico quarterly coverage established in candidate)",
+    "S4-R3-Infosys": "RESOLVED (register 17.40, unaffected)"
+  },
+  "windowsInstallState": "NO_WINDOWS_CHANGE_OR_INSTALLATION performed in this work item"
+}
