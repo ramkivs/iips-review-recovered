@@ -1,0 +1,17 @@
+{
+  "schema": "L031-WINDOW-COVERAGE-EXTRACTION/1",
+  "generatedOn": "2026-11-20",
+  "probe": "probe/build_window_coverage.py (re-running reproduces ingest-input byte-for-byte)",
+  "transcribed": {
+    "Share Buyback (Tender Offer)": "BUYBACK_TENDER record CA-INFY-BUYBACK-TENDER-2025-12-04: effectiveDate 2025-12-04 (extinguishment, when the share count changed); perShareComparable true; adjustmentFactor 1 with factorBasis stating no per-share restatement (mirrors the existing canonical buyback fixture semantics); successors []; sourceRef carries the SEBI post-buyback announcement identity and the preserved source path. Announcement/record dates remain in source evidence (no canonical fields)."
+  },
+  "preservedUnchanged": {
+    "CA-INFY-BONUS-2018-09-06": "the admitted 2018 BONUS record is carried into this successor input byte-faithfully; nothing about it was re-derived or altered"
+  },
+  "documentedNotTranscribed": {
+    "six cash dividends": "DIVIDEND is not a canonical CorporateActionType (the 2026-11-17 investigation's class-5 determination, unchanged). Cash dividends alter neither per-share nominal value nor share count, so they create no comparability break for the guard to police. They remain fully documented in the source artifact (dates, per-share amounts, locators). No schema extension was made to accommodate them.",
+    "ESOP/RSU allotments": "routine employee-plan allotments are not canonical action types; documented in the capital-base note only",
+    "explicit nil declaration": "preserved verbatim in the source artifact; a nil declaration is evidence, not a corporate-action record, and was not encoded as one"
+  },
+  "schemaChanges": "NONE."
+}

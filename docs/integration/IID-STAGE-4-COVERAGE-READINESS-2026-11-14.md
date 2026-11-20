@@ -1467,3 +1467,12 @@ guard fires on the real record (`UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` namin
 to window coverage (operator-declared Infosys table for 2024-03-31 → present). Evidence:
 `evidence/real-issuer/S4-R8-INFOSYS-BONUS-2018-2026-11-20/`; register §17.43. Stage 4 remains
 PARTIALLY COMPLETE; remaining open items unchanged.
+
+**Addendum — L-031 RESOLVED on operator-declared window coverage (2026-11-20).** The operator supplied
+the declared Infosys corporate-action table for 2024-03-31 → 2026-11-20 that §16.2 requires: explicit
+nil for share-multiplying/structural events, six documented cash dividends (not transcribed — no
+canonical `DIVIDEND` type), and the 2025 tender buyback transcribed as `BUYBACK_TENDER` (factor 1,
+non-restating). Candidate `sha256:d2b65bcc…` (corporateActions 2, read back; not installed). With the
+§17.43 real-action guard/factor demonstration, both L-031 limbs are met: `L-031` **RESOLVED**
+(register §17.44). `S4-R8`/`G-8` remain **CLOSED**. Evidence:
+`evidence/real-issuer/L031-INFOSYS-WINDOW-COVERAGE-2026-11-20/`. Stage 4 remains PARTIALLY COMPLETE.

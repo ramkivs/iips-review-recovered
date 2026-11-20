@@ -1,0 +1,30 @@
+{
+  "schema": "L031-WINDOW-COVERAGE-HANDCHECKS/1",
+  "asOf": "2026-11-20",
+  "nilDeclaration": "Explicit operator declaration: no bonus/split/rights/merger/demerger in 2024-03-31..2026-11-20; FV INR 5 unchanged throughout (source artifact, preserved verbatim)",
+  "buybackArithmetic": [
+    {
+      "check": "share bridge",
+      "value": "4,154,401,349 - 100,000,000 + 223,060 = 4,054,624,409 PASS"
+    },
+    {
+      "check": "consideration",
+      "value": "100,000,000 x INR 1,800 = INR 180,000,000,000 = INR 18,000 Cr PASS"
+    },
+    {
+      "check": "canonical treatment",
+      "value": "BUYBACK_TENDER effective 2025-12-04 (extinguishment), perShareComparable true, factor 1 (no per-share restatement), successors [] PASS"
+    }
+  ],
+  "dividends": "6 cash dividends declared in the window table (INR 28.00 FY24 final+special; 21.00 FY25 interim; 22.00 FY25 final; 23.00 FY26 interim; 25.00 FY26 final; 26.00 FY27 interim). DIVIDEND is not a canonical CorporateActionType and cash dividends alter neither per-share nominal value nor share count: documented in source evidence, NOT transcribed, no schema extension.",
+  "esopRsu": "Routine ESOP/RSU allotments documented in the capital-base note only; not canonical action types; not transcribed.",
+  "beforeAfter": {
+    "beforeCandidate": "sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5 (corporateActions 1)",
+    "afterCandidate": "sha256:d2b65bccd5d8ff289119068eb1c03f094a232c9ea6a754b060b76f9386f509bd (corporateActions 2)",
+    "infosysWindowInputDigest": "sha256:c8dd466608e93ceca26d924516d06ffa805c259f2b78eefbf402980029cc3b7f",
+    "maricoInputDigestUnchanged": "sha256:bf670d6efbe8c8444235ec199203078a26635670dd288fa6a0cfe2c67622d91c",
+    "kecInputDigestUnchanged": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a",
+    "datasetIssues": 0
+  },
+  "behaviour": "Buyback neither blocks an unadjusted demonstration price (perShareComparable) nor restates per-share points (factor 1); the 2018 bonus continues to restate pre-action points by 0.5. Guard acceptance limb for L-031 was demonstrated on the 2018 record (register 17.43)."
+}

@@ -69,7 +69,7 @@ responsible phase · evidence references · last status update.
 | L-028 | IID-5 | Change intelligence covers two report types; cross-model attribution is `UNAVAILABLE` | OPEN | 2026-11-06 |
 | L-029 | IID-5 | Materiality thresholds are published defaults; change reports have no substantive grammar | OPEN | 2026-11-06 |
 | L-030 | WI-2 | Price observation is single-exchange and operator-transcribed; no second feed corroborates it | OPEN | 2026-11-06 |
-| L-031 | WI-2 | Corporate-action table is empty, so "unadjusted price" is a dataset claim, not a verified history | OPEN | 2026-11-06 |
+| L-031 | WI-2 | Corporate-action table is empty, so "unadjusted price" is a dataset claim, not a verified history | RESOLVED (2026-11-20, §17.44) | 2026-11-06 |
 | L-032 | WI-2 | The alignment rule forces a contemporary price; the margin cannot be run against a period-matched historical price | OPEN | 2026-11-06 |
 | L-033 | WI-2 (observed) | `mos-policy` freshness window: design R-6.4 says five trading days, implementation uses seven calendar days | RESOLVED (2026-11-19, §17.36) | 2026-11-06 |
 
@@ -3632,3 +3632,28 @@ verification or acceptance; independent source-PDF verification. No schema/valid
 change; no IPD file touched; no PR merged.
 **Disposition:** `S4-R8` and corporate-actions `G-8` **CLOSED (2026-11-20)**; `L-031` remains **OPEN**,
 narrowed to the exact window-coverage requirement above. Next free §17.44.
+
+### 17.44 2026-11-20 — L-031 RESOLVED: operator-declared Infosys window table (2024-03-31 → 2026-11-20) admitted; buyback transcribed; both L-031 limbs demonstrated
+
+**Implemented/reported:** Data Supply + Proof discharging the narrowed `L-031` remainder from §17.43,
+recorded in `evidence/real-issuer/L031-INFOSYS-WINDOW-COVERAGE-2026-11-20/` and the additive O3 successor
+declaration `docs/integration/IID-O3-L031-INFOSYS-WINDOW-SUCCESSOR-ADMISSION-2026-11-20.md`. The operator
+supplied the declared window table §16.2 requires (preserved verbatim): an **explicit nil declaration**
+that no bonus/split/rights/merger/demerger altered per-share nominal value or share counts between
+2024-03-31 and 2026-11-20 (FV ₹5 unchanged), six documented cash dividends, and one tender-offer buyback
+(100,000,000 shares at ₹1,800 = ₹18,000 Cr; bridge 4,154,401,349 − 100,000,000 + 223,060 =
+4,054,624,409, exact). Only the canonically representable event was transcribed — `CA-INFY-BUYBACK-TENDER-2025-12-04`
+(`BUYBACK_TENDER`, `perShareComparable: true`, factor 1, no successors) — appended to the byte-preserved
+2018 BONUS record in a successor input (`sha256:c8dd4666…`); dividends and ESOP/RSU allotments documented,
+not transcribed (no `DIVIDEND` schema extension, per the 2026-11-17 class-5 determination). Candidate
+rebuilt and read back: `sha256:d2b65bccd5d8ff289119068eb1c03f094a232c9ea6a754b060b76f9386f509bd`,
+corporateActions **1 → 2**, 0 issues; buyback neither blocks an unadjusted price nor restates per-share
+points (new suite `l031InfosysWindowCoverage.test.ts`, 7 tests). With §17.43's real-action guard/factor
+demonstration, **both limbs of §16.2's required resolution are demonstrated**: an operator-declared table
+covering the window, and an acceptance test showing the guard fires on a real declared action with the
+factor applied, not guessed. The L-031 summary row is updated to RESOLVED, mirroring the L-033 treatment.
+**Deliberately not claimed:** independent verification of the declared table (operator-attested;
+PDF retrieval `NOT_CLAIMED`, locators preserved); coverage beyond 2026-11-20 (later in-window events take
+the same successor pattern); host installation, live verification or acceptance. No schema/policy change;
+no IPD file touched; no PR merged; `S4-R8`/`G-8` CLOSED status and S4-R3 waiver dispositions unchanged.
+**Disposition:** `L-031` **RESOLVED (2026-11-20, this section)**. Next free §17.45.

@@ -1,0 +1,83 @@
+{
+  "datasetVersion": "sha256:d2b65bccd5d8ff289119068eb1c03f094a232c9ea6a754b060b76f9386f509bd",
+  "contentDigest": "sha256:d2b65bccd5d8ff289119068eb1c03f094a232c9ea6a754b060b76f9386f509bd",
+  "coverage": {
+    "annualPeriods": 13,
+    "corporateActions": 2,
+    "earliestPeriodEnd": "2022-03-31",
+    "issuers": 3,
+    "latestPeriodEnd": "2026-09-30",
+    "listings": 5,
+    "operatingMetricRecords": 0,
+    "prices": 0,
+    "quarterlyPeriods": 4,
+    "securities": 3
+  },
+  "issues": [],
+  "readBackActions": [
+    {
+      "actionId": "CA-INFY-BONUS-2018-09-06",
+      "adjustmentFactor": 0.5,
+      "effectiveDate": "2018-09-06",
+      "factorBasis": "1:1 bonus issue: 1 new fully paid-up equity share (face value INR 5, unchanged) for every 1 existing share held on record date 2018-09-05; issued shares 2,184,127,091 -> 4,368,254,182 (exactly 2x), so pre-action per-share values convert to post-action terms by factor 0.5",
+      "perShareComparable": false,
+      "sourceRef": "NSE record-date intimation filed 2018-08-24 (board approval 2018-07-13; ex-date 2018-09-04; record date 2018-09-05); operator-supplied event record preserved at evidence/real-issuer/S4-R8-INFOSYS-BONUS-2018-2026-11-20/source/operator-supplied-event-2026-11-20.json",
+      "subjectIssuerId": "IN:CIN:L85110KA1981PLC013115",
+      "subjectSecurityId": "IN:ISIN:INE009A01021",
+      "successors": [],
+      "type": "BONUS"
+    },
+    {
+      "actionId": "CA-INFY-BUYBACK-TENDER-2025-12-04",
+      "adjustmentFactor": 1,
+      "effectiveDate": "2025-12-04",
+      "factorBasis": "Tender-offer buyback: 100,000,000 equity shares repurchased at INR 1,800/share (INR 18,000 crore) and extinguished 2025-12-04 (record date 2025-11-14); no per-share restatement — historical per-share values stand as filed, so the factor is 1",
+      "perShareComparable": true,
+      "sourceRef": "SEBI post-buyback public announcement (board approval 2025-09-11; public announcement 2025-11-13; extinguishment 2025-12-04); operator-declared window table preserved at evidence/real-issuer/L031-INFOSYS-WINDOW-COVERAGE-2026-11-20/source/operator-declared-window-table-2026-11-20.json",
+      "subjectIssuerId": "IN:CIN:L85110KA1981PLC013115",
+      "subjectSecurityId": "IN:ISIN:INE009A01021",
+      "successors": [],
+      "type": "BUYBACK_TENDER"
+    }
+  ],
+  "factorApplication": {
+    "points": [
+      {
+        "date": "2018-03-31",
+        "value": 100,
+        "adjustedValue": 50,
+        "state": "ADJUSTED",
+        "appliedActionIds": [
+          "CA-INFY-BONUS-2018-09-06",
+          "CA-INFY-BUYBACK-TENDER-2025-12-04"
+        ],
+        "blockedBy": []
+      },
+      {
+        "date": "2026-03-31",
+        "value": 80,
+        "adjustedValue": 80,
+        "state": "UNCHANGED",
+        "appliedActionIds": [],
+        "blockedBy": []
+      }
+    ],
+    "appliedAdjustments": [
+      {
+        "actionId": "CA-INFY-BONUS-2018-09-06",
+        "type": "BONUS",
+        "effectiveDate": "2018-09-06",
+        "factor": 0.5,
+        "factorBasis": "1:1 bonus issue: 1 new fully paid-up equity share (face value INR 5, unchanged) for every 1 existing share held on record date 2018-09-05; issued shares 2,184,127,091 -> 4,368,254,182 (exactly 2x), so pre-action per-share values convert to post-action terms by factor 0.5"
+      },
+      {
+        "actionId": "CA-INFY-BUYBACK-TENDER-2025-12-04",
+        "type": "BUYBACK_TENDER",
+        "effectiveDate": "2025-12-04",
+        "factor": 1,
+        "factorBasis": "Tender-offer buyback: 100,000,000 equity shares repurchased at INR 1,800/share (INR 18,000 crore) and extinguished 2025-12-04 (record date 2025-11-14); no per-share restatement — historical per-share values stand as filed, so the factor is 1"
+      }
+    ],
+    "notComparableAcross": []
+  }
+}

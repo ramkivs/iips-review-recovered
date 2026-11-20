@@ -1,0 +1,64 @@
+{
+  "schema": "L031-WINDOW-COVERAGE-DIGESTS/1",
+  "scope": "Operator-declared Infosys window table 2024-03-31..2026-11-20, buyback canonical transcription, candidate d2b65bcc verification; L-031 resolution evidence.",
+  "recordedAt": "2026-11-20",
+  "files": {
+    "README.md": {
+      "sha256": "e6f3e836f034212794dce774001f699c2a0a781e327541251b705f20bb611287",
+      "bytes": 4718
+    },
+    "data-extraction.json": {
+      "sha256": "0e75dad13d7a842b53ab3d1d108cc3efb7beafe0ee35b8edaa526806a79a955c",
+      "bytes": 1685
+    },
+    "determination.json": {
+      "sha256": "1b346432d84acbf662d427457d92a92ffde0a93a90468642d2f58abd3bd47e76",
+      "bytes": 3079
+    },
+    "ingest-input/infosys/corporate-actions.json": {
+      "sha256": "9364d39df722bbd68996b87dae6b7deef3e2a57903cbe2bd9a6b7b3ec13e79d6",
+      "bytes": 1839
+    },
+    "ingest-input/infosys/periods.csv": {
+      "sha256": "87728ec81892ec08cc707a651a9d00861ef7a0993f65f0db7346da9c55f2b8dd",
+      "bytes": 2148
+    },
+    "ingest-input/infosys/roster.json": {
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "bytes": 1157
+    },
+    "probe/build_window_coverage.py": {
+      "sha256": "6ffa12cc22795268bbd94b6e6bd2c162eace83548822294affb3a7b5b3e3fc90",
+      "bytes": 3927
+    },
+    "runs/01-candidate-ingest.txt": {
+      "sha256": "e2e9e9afe52cd385a079cefbcd1f5b66472c2def46d34a9b4e3b875d4acf75b2",
+      "bytes": 2609
+    },
+    "runs/02-readback-and-factor-application.json": {
+      "sha256": "150fb08f8c6153fa0725c81e9a7ba3871046a18e3ca6dcb28e4878a24c3daded",
+      "bytes": 3784
+    },
+    "runs/03-derived-handchecks.json": {
+      "sha256": "e5fd76b28b14c210f132d3e70de139864f1f790929aa13a07994cb33ad35614a",
+      "bytes": 2150
+    },
+    "source/operator-declared-window-table-2026-11-20.json": {
+      "sha256": "c9702d7275f25ddc0af78a1322a6d3e4f062d915ebfd9485f8ea28c02a6a2087",
+      "bytes": 5169
+    },
+    "source-selection.json": {
+      "sha256": "56f15d34412ec776132fec5c1db32bc74a4613e0de1d2a50617f6d66502e85ca",
+      "bytes": 2045
+    }
+  },
+  "successorInputDigest": "sha256:c8dd466608e93ceca26d924516d06ffa805c259f2b78eefbf402980029cc3b7f",
+  "candidateDatasetVersion": "sha256:d2b65bccd5d8ff289119068eb1c03f094a232c9ea6a754b060b76f9386f509bd",
+  "supersededCandidateDatasetVersion": "sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5",
+  "tickets": {
+    "L-031": "RESOLVED (2026-11-20, register 17.44)",
+    "S4-R8": "CLOSED (register 17.43, unchanged)",
+    "G-8": "CLOSED (register 17.43, unchanged)"
+  },
+  "windowsInstallState": "NO_WINDOWS_CHANGE_OR_INSTALLATION performed in this work item"
+}

@@ -1,0 +1,25 @@
+{
+  "generatedOn": "2026-11-20",
+  "network": "NONE",
+  "historicalBundlesModified": false,
+  "ticket": "L-031 (Infosys window coverage) / S4-R8 residual",
+  "candidateInputs": [
+    "evidence/real-issuer/L031-INFOSYS-WINDOW-COVERAGE-2026-11-20/ingest-input/infosys",
+    "evidence/real-issuer/S4-R3-Marico-QUARTERLY-REFRESH-2026-11-19/ingest-input/marico",
+    "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec"
+  ],
+  "source": {
+    "kind": "OPERATOR_DECLARED_WINDOW_TABLE",
+    "artifact": "source/operator-declared-window-table-2026-11-20.json",
+    "provenance": "Operator-declared corporate-action window table for Infosys 2024-03-31 to 2026-11-20, supplied in the S4-R8/L-031 work item of 2026-11-20 and preserved verbatim in this bundle before transcription. Referenced exchange/SEBI PDFs were not retrieved in this session; verification is operator-attested, independent PDF verification NOT_CLAIMED.",
+    "sourceType": "SEBI_LODR_CORPORATE_ANNOUNCEMENTS_AND_SEBI_BUYBACK_ANNOUNCEMENT",
+    "permissionStatus": "PUBLIC_STATUTORY_FILING (operator-declared public regulatory record)",
+    "independentSourceVerification": "NOT_CLAIMED"
+  },
+  "coverageEstablishment": {
+    "window": "2024-03-31 -> 2026-11-20, exactly the window L-031 (register 16.2) leaves unverified",
+    "explicitNilDeclaration": "No bonus issues, stock splits, rights issues, mergers or demergers altered per-share nominal value or multiplied share counts in the window; face value INR 5 unchanged throughout. This is an operator declaration, recorded as such; it is the 'operator-declared table covering the window' that L-031's required resolution names.",
+    "eventsDeclared": "6 cash dividends (documented, not canonically representable) and 1 tender-offer buyback (canonically representable, transcribed)",
+    "capitalBaseNote": "Share capital changed in the window only via routine ESOP/RSU allotments and the 2025-12-04 buyback extinguishment (bridge reconciles exactly: 4,154,401,349 - 100,000,000 + 223,060 = 4,054,624,409)"
+  }
+}

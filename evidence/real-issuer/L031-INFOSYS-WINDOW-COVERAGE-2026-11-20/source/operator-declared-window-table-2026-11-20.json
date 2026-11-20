@@ -1,0 +1,86 @@
+{
+  "provenance": "Operator-declared corporate-action window table for Infosys Limited, supplied in the S4-R8 / G-8 / L-031 work item of 2026-11-20 and preserved verbatim in this bundle before any transcription. The referenced exchange/SEBI PDFs were not retrieved in this session (sandbox egress is restricted); source verification is operator-attested, independent PDF verification NOT_CLAIMED.",
+  "declaration": {
+    "issuer": "Infosys Limited (NSE: INFY | BSE: 500209 | ISIN: INE009A01021)",
+    "window_start": "2024-03-31",
+    "window_end": "2026-11-20",
+    "explicit_nil_declaration": "Between 31 March 2024 and 20 November 2026, Infosys Limited executed no bonus issues, stock splits, rights issues, mergers, or demergers that altered per-share nominal value or multiplied share counts. No bonus issues, stock splits, rights issues, or demergers occurred for Infosys Limited (INE009A01021) in the window. Face value remained unchanged at INR 5 per equity share throughout the entire period.",
+    "capital_base_note": "Issued, subscribed, and paid-up equity share capital changed only due to periodic routine ESOP/RSU allotments under employee stock incentive plans and the extinguishment of 10,00,00,000 equity shares on 04 December 2025 following the INR 18,000 crore tender-offer buyback (reducing total issued shares from 4,15,44,01,349 as of the 14 Nov 2025 record date to 4,05,46,24,409 post-extinguishment, inclusive of 2,23,060 RSU shares allotted on 20 Nov 2025)."
+  },
+  "events": [
+    {
+      "announcement_date": "2024-04-18",
+      "action_type": "Final & Special Dividend (FY24)",
+      "terms": "INR 20.00 final + INR 8.00 special dividend (INR 28.00/share total) on FV INR 5",
+      "ex_date": "2024-05-31",
+      "record_date": "2024-05-31",
+      "effective_payment_date": "2024-07-01",
+      "evidence_locator": "https://www.infosys.com/investors/shareholder-services/documents/final-dividend-2023-24/resident-individual-shareholders-valid-pan.pdf"
+    },
+    {
+      "announcement_date": "2024-10-17",
+      "action_type": "Interim Dividend (FY25)",
+      "terms": "INR 21.00 per equity share of FV INR 5",
+      "ex_date": "2024-10-29",
+      "record_date": "2024-10-29",
+      "effective_payment_date": "2024-11-08",
+      "evidence_locator": "https://www.indmoney.com/stocks/dividend/infosys-ltd-dividend"
+    },
+    {
+      "announcement_date": "2025-04-17",
+      "action_type": "Final Dividend (FY25)",
+      "terms": "INR 22.00 per equity share of FV INR 5",
+      "ex_date": "2025-05-30",
+      "record_date": "2025-05-30",
+      "effective_payment_date": "2025-06-30",
+      "evidence_locator": "https://www.infosys.com/investors/shareholder-services/documents/final-dividend-2024-25/non-resident-shareholders.pdf"
+    },
+    {
+      "announcement_date": "2025-09-11 (Board) / 2025-11-13 (Public Announcement)",
+      "action_type": "Share Buyback (Tender Offer)",
+      "terms": "Repurchase of 10,00,00,000 equity shares at INR 1,800/share (INR 18,000 Cr); small shareholder entitlement 2:11",
+      "ex_date": "2025-11-14",
+      "record_date": "2025-11-14",
+      "effective_payment_date": "2025-12-04 (Extinguishment)",
+      "evidence_locator": "https://www.sebi.gov.in/sebi_data/commondocs/dec-2025/Infosys%20Limited-PoPA_p.pdf",
+      "share_count_bridge": {
+        "shares_at_record_date_2025-11-14": 4154401349,
+        "shares_extinguished": 100000000,
+        "rsu_shares_allotted_2025-11-20": 223060,
+        "shares_post_extinguishment": 4054624409
+      }
+    },
+    {
+      "announcement_date": "2025-10-16",
+      "action_type": "Interim Dividend (FY26)",
+      "terms": "INR 23.00 per equity share of FV INR 5",
+      "ex_date": "2025-10-27",
+      "record_date": "2025-10-27",
+      "effective_payment_date": "2025-11-07",
+      "evidence_locator": "https://www.indmoney.com/stocks/dividend/infosys-ltd-dividend"
+    },
+    {
+      "announcement_date": "2026-04-23",
+      "action_type": "Final Dividend (FY26)",
+      "terms": "INR 25.00 per equity share of FV INR 5",
+      "ex_date": "2026-06-10",
+      "record_date": "2026-06-10",
+      "effective_payment_date": "2026-06-25",
+      "evidence_locator": "https://www.indmoney.com/stocks/dividend/infosys-ltd-dividend"
+    },
+    {
+      "announcement_date": "2026-10-23",
+      "action_type": "Interim Dividend (FY27)",
+      "terms": "INR 26.00 per equity share of FV INR 5",
+      "ex_date": "2026-11-03",
+      "record_date": "2026-11-03",
+      "effective_payment_date": "2026-11-11",
+      "evidence_locator": "https://www.bseindia.com/stock-share-price/infosys-ltd/infy/500209/corp-announcements"
+    }
+  ],
+  "permissions": {
+    "status": "Public Regulatory Record",
+    "basis_operator_declared": "Mandatory public regulatory disclosures filed under SEBI regulations and the Companies Act, 2013 (exchange board-outcome filings, Infosys shareholder-services notices, SEBI post-buyback public announcement).",
+    "usage_governance": "Dataset usage remains governed by the O3 terms (local personal use only, single user, no redistribution); the operator's public-record statement is recorded as declared and does not widen O3 usage rights."
+  }
+}
