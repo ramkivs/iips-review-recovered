@@ -226,3 +226,34 @@ not the artifact, and none is recorded. Closure requires the original bytes (or 
 SHA-256) through any workable channel, e.g. the file committed into this repository. At that point:
 `bindingFromVerifiedCalendarBytes` pins the digest, the production caller runs with `--price-calendar`,
 and this record gains the verified digest line. Until then L-033 remains `OPEN` on that single point.
+
+## 8. Addendum (2026-11-19): owner CheckResult — pinned digest recorded; L-033 RESOLVED
+
+The owner supplied the CheckResult for the original artifact file (IPD @ `6b50f068…`,
+`calendars/ipd-equity-2026.v2026-11-19.2.json`):
+
+| Check | Result |
+|---|---|
+| File size | 55,065 bytes |
+| JSON parsing | PASS |
+| Calendar identity | `IPD-EQUITY-2026-BOUNDED` |
+| Version | `2026-11-19.2` |
+| Explicit calendar rows | 68 |
+| **SHA-256** | **`906dff760fd8043f72f2f2989f869fbd7f9a5a31e72a10ea986acac75467112e`** |
+
+The row count independently matches the verified content (34 per exchange: 13 annual closure rows, the 19
+November coverage rows, plus the sparse 2026-11-24 and 2026-12-25 rows). This digest is now the **pinned
+supply digest** for the artifact: `sha256:906dff760fd8043f72f2f2989f869fbd7f9a5a31e72a10ea986acac75467112e`.
+Any bytes presented to `bindingFromVerifiedCalendarBytes` / the production caller's `--price-calendar`
+route must hash to exactly this value or supply refuses (`PRICE_CALENDAR_DIGEST_MISMATCH`) — so the pin is
+enforced by code at first production use, not by trust in a narrative.
+
+Attestation basis, recorded honestly: this session still has no byte route to IPD (§6), so the digest is
+**owner-attested** (owner-run CheckResult over the original file) rather than independently recomputed
+here. Semantic verification of the full content (§7), the implemented five-session rule and its test
+evidence (1668/1668), and this pin together satisfy the closure conditions set at §5. The first production
+run supplying the file remains an operational act; the pin guarantees that whatever bytes are supplied are
+the attested artifact or are refused.
+
+**Disposition: L-033 is `RESOLVED`** (register §17.36; summary status cell updated, historical text
+unaltered). IPD untouched; PR #597 unmerged.

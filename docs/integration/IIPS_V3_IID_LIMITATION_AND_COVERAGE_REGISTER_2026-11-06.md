@@ -71,7 +71,7 @@ responsible phase · evidence references · last status update.
 | L-030 | WI-2 | Price observation is single-exchange and operator-transcribed; no second feed corroborates it | OPEN | 2026-11-06 |
 | L-031 | WI-2 | Corporate-action table is empty, so "unadjusted price" is a dataset claim, not a verified history | OPEN | 2026-11-06 |
 | L-032 | WI-2 | The alignment rule forces a contemporary price; the margin cannot be run against a period-matched historical price | OPEN | 2026-11-06 |
-| L-033 | WI-2 (observed) | `mos-policy` freshness window: design R-6.4 says five trading days, implementation uses seven calendar days | OPEN | 2026-11-06 |
+| L-033 | WI-2 (observed) | `mos-policy` freshness window: design R-6.4 says five trading days, implementation uses seven calendar days | RESOLVED (2026-11-19, §17.36) | 2026-11-06 |
 
 ---
 
@@ -3439,3 +3439,21 @@ be computed from this supply and no digest is recorded. Closure needs the origin
 owner-computed SHA-256 — via any workable channel (e.g. the file committed into this repository), after
 which the pinned `--price-calendar` production run and digest recording complete L-033. No other
 limitation changed; IPD untouched; PR #597 unmerged. Next free §17.36.
+
+## 17.36 `L-033` — owner-attested artifact digest pinned; five-session rule in force; `RESOLVED` (`2026-11-19`)
+
+**Append-only update; the summary status cell for `L-033` is the only earlier cell changed, per the §17.27
+precedent.** The owner supplied the CheckResult for the original artifact at IPD `6b50f068…`
+(`calendars/ipd-equity-2026.v2026-11-19.2.json`): 55,065 bytes, JSON parsing PASS, identity
+`IPD-EQUITY-2026-BOUNDED`, version `2026-11-19.2`, 68 explicit rows (34 per exchange — independently
+consistent with the content verified at §17.35), and **SHA-256
+`906dff760fd8043f72f2f2989f869fbd7f9a5a31e72a10ea986acac75467112e`**, now the pinned supply digest
+(`sha256:906dff…7112e`) recorded in the L-033 boundary document §8. The digest is owner-attested — this
+session has no byte route to IPD (§17.34) and did not independently recompute it — and it is enforced by
+code: any bytes supplied through `bindingFromVerifiedCalendarBytes` or the production caller's
+`--price-calendar` route must hash to the pin or supply refuses. Closure basis: `mos-policy/1.1.0`
+implements R-6.4's five trading sessions with fail-closed calendar binding (§17.32), the production caller
+is wired for digest-pinned supply (§17.33), the full artifact content is semantically verified (§17.35),
+and the artifact digest is pinned (this section); full IID suite 1668/1668. First production use of the
+file is an operational act protected by the pin, not part of this limitation. **`L-033` is `RESOLVED`.**
+No other limitation status changed; IPD untouched; PR #597 remains open and unmerged. Next free §17.37.
