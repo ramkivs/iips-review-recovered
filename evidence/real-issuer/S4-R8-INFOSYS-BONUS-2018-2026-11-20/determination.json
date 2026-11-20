@@ -1,0 +1,34 @@
+{
+  "bundle": "S4-R8 first real admitted corporate action — Infosys 1:1 bonus issue 2018",
+  "date": "2026-11-20",
+  "ticket": "S4-R8 / G-8 / L-031",
+  "status": "REAL_EVENT_ADMITTED_AND_DEMONSTRATED__S4R8_CLOSED__L031_REMAINS_OPEN_NARROWED__CANDIDATE_NOT_HOST_INSTALLED",
+  "supersedesCandidateDigest": "sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a",
+  "candidateDatasetVersion": "sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5",
+  "beforeAfter": { "corporateActions": "0 -> 1", "datasetIssues": 0 },
+  "inputs": {
+    "infosysEventSuccessor": {
+      "path": "evidence/real-issuer/S4-R8-INFOSYS-BONUS-2018-2026-11-20/ingest-input/infosys",
+      "inputDigest": "sha256:aa414045de21c6833aa57035768da14f92a302bfaaaac48767a28647e8954c52",
+      "adds": ["corporate-actions.json: CA-INFY-BONUS-2018-09-06 BONUS effective 2018-09-06 factor 0.5"],
+      "financialInputBytes": "periods.csv and roster.json byte-identical copies of the O3-admitted Infosys successor input (sha256 87728ec8... / 426e8478...)"
+    },
+    "maricoQuarterlySuccessorUnchanged": "sha256:bf670d6efbe8c8444235ec199203078a26635670dd288fa6a0cfe2c67622d91c",
+    "kecAdmittedUnchanged": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a"
+  },
+  "findings": {
+    "S4R8RoadmapLimb": "MET: corporateActions > 0 in the verified candidate, from a real, source-declared, O3 successor-admitted event; recorded and re-published as candidate evidence (not host-installed)",
+    "GuardFactorLimb": "DEMONSTRATED ON THE REAL RECORD (tests/investment/s4r8InfosysBonusEvent.test.ts, bundle runs/02): unadjusted demonstration price refused UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION naming CA-INFY-BONUS-2018-09-06; price carrying {factor 0.5, real actionId} accepted; adjustPerShareSeries restates the pre-action point by exactly 0.5; price leg is a labelled demonstration input",
+    "SuccessorWeights": "NOT APPLICABLE (BONUS, empty successors); nothing inferred",
+    "InvalidEvidence": "Corrupted variants (negative/zero factor, unknown issuer, invalid date, unsupported DIVIDEND type, duplicate id) rejected by validateCorporateActionRecords; dataset path withholds any rejected action file in full",
+    "L031": "REMAINS OPEN, narrowed: the acceptance limb (guard fires on a real declared action; factor applied, not guessed) is now demonstrated. The coverage limb is not: L-031 requires a feed/operator-declared table covering the Infosys window from 2024-03-31 forward, and a 2018 event establishes nothing about that window. Remaining requirement: an operator-declared table covering 2024-03-31 -> present (events, or an explicit declaration that no per-share-affecting action occurred in the window), admitted on this same pattern.",
+    "SourceRights": "Operator-declared public statutory record (SEBI LODR filings), factual reference/database indexing; dataset use remains O3 local-personal-use. Independent PDF retrieval/verification NOT_CLAIMED (locators preserved)",
+    "HostInstallation": "NOT_PERFORMED: candidate built and verified outside the repository only"
+  },
+  "boundaries": [
+    "No canonical schema extension; no validator/tolerance change; no freshness, valuation, price or calendar behaviour change",
+    "No historical bundle modified: the event input is an additive successor (financial bytes copied byte-for-byte); Marico/KEC inputs untouched",
+    "No other candidate from the 2026-11-17 census was admitted, relabelled or upgraded; Determination C stands for all of them",
+    "No host dataset installed or replaced; no portfolio database accessed; no IPD file touched; no PR merged"
+  ]
+}

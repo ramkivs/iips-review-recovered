@@ -1,0 +1,54 @@
+{
+  "provenance": "Operator-supplied documented event record for Infosys Limited's 1:1 Bonus Issue (2018), supplied in the S4-R8 / G-8 / L-031 work item of 2026-11-20 and preserved verbatim in this bundle before any transcription. The referenced exchange PDFs were not retrieved in this session (sandbox egress is restricted); source verification is operator-attested, independent PDF verification NOT_CLAIMED.",
+  "entity": {
+    "name": "Infosys Limited",
+    "cin": "L85110KA1981PLC013115",
+    "nse_symbol": "INFY",
+    "bse_scrip_code": "500209",
+    "security": "Fully paid-up Equity Shares of face value INR 5 each",
+    "isin": "INE009A01021",
+    "ads_note": "Corresponding 1:1 stock dividend on American Depositary Shares (NYSE: INFY; 1 ADS = 1 equity share). ADSs are not an admitted security in this repository and are not transcribed."
+  },
+  "event": {
+    "action_type": "Bonus Issue of Equity Shares",
+    "ratio": "1:1",
+    "terms": "1 new fully paid-up bonus equity share of INR 5 face value for every 1 existing fully paid-up equity share of INR 5 face value held as of the record date (September 5, 2018). Face value unchanged at INR 5 per share. Bonus shares issued at zero cost to shareholders by capitalizing INR 1,092 crore from retained earnings / free reserves.",
+    "pre_event_shares": 2184127091,
+    "pre_event_paid_up_capital_inr": 10920635455,
+    "post_event_shares": 4368254182,
+    "post_event_paid_up_capital_inr": 21841270910,
+    "capitalized_from_reserves_inr_crore": 1092,
+    "treasury_note": "Controlled trusts holding treasury shares were excluded from receiving bonus shares, though the standard equity share count doubled as shown in the board's capital structure disclosure (operator-supplied note, preserved as stated)."
+  },
+  "dates": {
+    "board_recommendation_announcement": "2018-07-13",
+    "shareholder_approval": "2018-08-22",
+    "record_date_intimation_filed": "2018-08-24",
+    "ex_bonus_date": "2018-09-04",
+    "record_date": "2018-09-05",
+    "allotment_effective_date": "2018-09-06",
+    "statutory_deadline_note": "Credited to shareholders' demat accounts immediately following the record date, ahead of the September 12, 2018 statutory deadline."
+  },
+  "official_sources": [
+    {
+      "kind": "NSE Corporate Filing (Record Date Intimation PDF)",
+      "title": "Notice of Record Date for issue of Bonus Shares / Stock Dividend",
+      "filed": "2018-08-24",
+      "regulation": "SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015",
+      "locator": "https://nsearchives.nseindia.com/corporate/listcontract1_2482018132730_InfosysLimited_NoticeofRecorddate_099.pdf",
+      "retrieved_in_session": false
+    },
+    {
+      "kind": "Company Annual Report / Exchange Filings",
+      "title": "Infosys FY 2018-19 Annual Report (Board's Report & Financial Statements); Q1 FY19 Board Meeting Outcome filings",
+      "locator": "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/infosys-ar-19.pdf",
+      "also_on": "www.bseindia.com (Scrip Code: 500209); www.infosys.com Investors -> Reports & Filings",
+      "retrieved_in_session": false
+    }
+  ],
+  "permissions": {
+    "status": "Public Regulatory Record",
+    "basis_operator_declared": "All referenced documents are mandatory public regulatory disclosures filed under SEBI regulations and the Companies Act, 2013. Public factual data from statutory exchange filings (dates, share counts, ISINs, and corporate action ratios) is publicly accessible for factual reference and database indexing.",
+    "usage_governance": "Dataset usage remains governed by the O3 terms (local personal use only, single user, no redistribution); the operator's public-record statement is recorded as declared and does not widen O3 usage rights."
+  }
+}

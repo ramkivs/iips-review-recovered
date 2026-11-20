@@ -1454,3 +1454,16 @@ of the memorandum was already discharged 2026-11-19 (§§17.40–17.41): `S4-R3-
 Waiver conditions and auto-reopening: register §17.42; determination:
 `IID-S4-R3-FRESHNESS-WAIVER-DETERMINATION-2026-11-20.md`. `S4-R3` **CLOSED (conditional waiver)**;
 Stage 4's remaining open items are unchanged.
+
+**Addendum — S4-R8 CLOSED on the first real admitted corporate action; L-031 narrowed (2026-11-20).**
+The `S4-R8` row's closure evidence is now demonstrated: the operator supplied a documented
+event-specific record for Infosys's 1:1 bonus issue (2018), transcribed onto the existing canonical
+contract with factor 0.5 derived from the exact share-count doubling (no schema change), O3
+successor-admitted (`IID-O3-S4-R8-INFOSYS-BONUS-SUCCESSOR-ADMISSION-2026-11-20.md`), and verified in
+candidate `sha256:a7638c6b…` (**corporateActions 0 → 1**, read back byte-faithful). The assessment
+guard fires on the real record (`UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` naming
+`CA-INFY-BONUS-2018-09-06`; factor-adjusted price accepted; pre-action point restated ×0.5) —
+`s4r8InfosysBonusEvent.test.ts` (9 tests). `S4-R8`/`G-8` **CLOSED**. `L-031` stays **OPEN**, narrowed
+to window coverage (operator-declared Infosys table for 2024-03-31 → present). Evidence:
+`evidence/real-issuer/S4-R8-INFOSYS-BONUS-2018-2026-11-20/`; register §17.43. Stage 4 remains
+PARTIALLY COMPLETE; remaining open items unchanged.

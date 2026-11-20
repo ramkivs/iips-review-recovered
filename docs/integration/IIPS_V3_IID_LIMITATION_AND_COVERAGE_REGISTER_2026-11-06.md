@@ -3606,3 +3606,29 @@ any installation, live verification or acceptance; any code/policy/schema change
 **Disposition:** `S4-R3` **CLOSED BY CONDITIONAL GOVERNANCE WAIVER (2026-11-20, expires 31 May 2027)**;
 `L-043` **CLOSED BY CONDITIONAL WAIVER** on the same terms (auto-reopens if FY2027 annuals are not
 admitted by expiry); `S4-R3-Infosys` **CLOSED**. Next free §17.43.
+
+### 17.43 2026-11-20 — First real corporate action admitted: Infosys 1:1 bonus (2018); S4-R8/G-8 CLOSED; L-031 remains OPEN (narrowed to window coverage)
+
+**Implemented/reported:** Data Supply + Proof for `S4-R8`/`G-8`/`L-031`, recorded in
+`evidence/real-issuer/S4-R8-INFOSYS-BONUS-2018-2026-11-20/` and the additive O3 successor declaration
+`docs/integration/IID-O3-S4-R8-INFOSYS-BONUS-SUCCESSOR-ADMISSION-2026-11-20.md`. The operator supplied a
+documented event-specific record for Infosys's 1:1 bonus issue (board 2018-07-13; record date
+2018-09-05; effective 2018-09-06; NSE intimation filed 2018-08-24; preserved verbatim, SHA-256
+`ab1e2600…`; PDF retrieval/verification `NOT_CLAIMED`, locators recorded). Identity at the event date is
+the admitted security (ISIN `INE009A01021`, FV ₹5 unchanged by a bonus). Transcribed onto the existing
+contract with **no schema change**: `CA-INFY-BONUS-2018-09-06`, `BONUS`, `perShareComparable: false`,
+**factor 0.5 derived** from the exact doubling of supplied share counts (2,184,127,091 → 4,368,254,182;
+paid-up capital and ₹1,092 Cr capitalization reconcile), successors none. Successor input preserves the
+admitted Infosys financial bytes and adds only `corporate-actions.json` (input `sha256:aa414045…`);
+candidate rebuilt and read back: `sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5`,
+**corporateActions 0 → 1**, 0 issues (Marico/KEC digests unchanged). Guard demonstrated **on the real
+record** (new test suite `s4r8InfosysBonusEvent.test.ts`, 9 tests): unadjusted demonstration price refused
+`UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` naming the real action id; factor-adjusted price accepted;
+pre-action per-share point restated by exactly 0.5; corrupted variants rejected. The 2026-11-17
+investigation (Determination C) is unchanged — none of its 13 candidates was admitted or relabelled.
+**Deliberately not claimed:** `L-031` complete — its window-coverage limb (operator-declared table
+covering Infosys 2024-03-31 → present) is not established by a 2018 event; host installation, live
+verification or acceptance; independent source-PDF verification. No schema/validator/tolerance/policy
+change; no IPD file touched; no PR merged.
+**Disposition:** `S4-R8` and corporate-actions `G-8` **CLOSED (2026-11-20)**; `L-031` remains **OPEN**,
+narrowed to the exact window-coverage requirement above. Next free §17.44.

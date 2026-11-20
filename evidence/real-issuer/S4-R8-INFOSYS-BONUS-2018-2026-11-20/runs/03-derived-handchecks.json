@@ -1,0 +1,57 @@
+{
+  "schema": "S4-R8-INFOSYS-BONUS-HANDCHECKS/1",
+  "asOf": "2026-11-20",
+  "eventIdentity": {
+    "issuer": "Infosys Limited IN:CIN:L85110KA1981PLC013115",
+    "securityAtEventDate": "Fully paid-up equity shares FV INR 5, ISIN INE009A01021 (bonus does not change ISIN or face value; identical to admitted roster security IN:ISIN:INE009A01021)",
+    "type": "BONUS (canonical CorporateActionType)"
+  },
+  "termsArithmetic": [
+    {
+      "check": "post = 2 x pre shares (1:1)",
+      "value": "2 x 2,184,127,091 = 4,368,254,182 PASS"
+    },
+    {
+      "check": "pre paid-up capital = shares x FV 5",
+      "value": "2,184,127,091 x 5 = INR 10,920,635,455 PASS (supplied 10,92,06,35,455)"
+    },
+    {
+      "check": "post paid-up capital = shares x FV 5",
+      "value": "4,368,254,182 x 5 = INR 21,841,270,910 PASS (supplied 21,84,12,70,910)"
+    },
+    {
+      "check": "capitalized reserves",
+      "value": "post - pre paid-up = INR 10,920,635,455 = INR 1,092.06 Cr PASS (supplied ~INR 1,092 Cr)"
+    },
+    {
+      "check": "adjustment factor derived",
+      "value": "pre/post = 2,184,127,091 / 4,368,254,182 = 0.5 exactly; positive-factor requirement PASS; factor is derived from declared terms, not guessed"
+    }
+  ],
+  "dates": {
+    "boardAnnouncement": "2018-07-13",
+    "shareholderApproval": "2018-08-22",
+    "recordDateIntimationFiled": "2018-08-24",
+    "exBonus": "2018-09-04",
+    "recordDate": "2018-09-05",
+    "effectiveDateTranscribed": "2018-09-06 (allotment/effective, per supplied record)",
+    "nonCanonicalDates": "announcement/approval/ex/record dates preserved in source evidence only; schema has no fields for them and none were invented"
+  },
+  "beforeAfter": {
+    "beforeCandidate": "sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a (corporateActions 0)",
+    "afterCandidate": "sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5 (corporateActions 1)",
+    "infosysEventInputDigest": "sha256:aa414045de21c6833aa57035768da14f92a302bfaaaac48767a28647e8954c52",
+    "maricoInputDigestUnchanged": "sha256:bf670d6efbe8c8444235ec199203078a26635670dd288fa6a0cfe2c67622d91c",
+    "kecInputDigestUnchanged": "sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a",
+    "datasetIssues": 0
+  },
+  "guardDemonstration": {
+    "record": "real read-back CA-INFY-BONUS-2018-09-06",
+    "unadjustedPrice": "REFUSED UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION (note names the real action id)",
+    "adjustedPrice": "ACCEPTED with adjustment {factor 0.5, corporateActionId CA-INFY-BONUS-2018-09-06}",
+    "factorApplication": "adjustPerShareSeries: 2018-03-31 point 100 -> 50 ADJUSTED; 2019-03-31 point 60 UNCHANGED; price/EPS consistency exact at factor 0.5",
+    "priceLeg": "demonstration input (calendar-valid fixture price); the corporate action is the real admitted record"
+  },
+  "successorWeights": "NOT APPLICABLE: BONUS carries empty successors; no successor mapping exists or was inferred",
+  "invalidEvidenceRejection": "validateCorporateActionRecords rejects negative/zero factor, unknown issuer, invalid date, unsupported type (DIVIDEND), duplicate actionId; dataset path withholds the whole rejected file (existing S4-R8 ingestion suites)"
+}

@@ -1,0 +1,95 @@
+{
+  "datasetVersion": "sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5",
+  "contentDigest": "sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5",
+  "coverage": {
+    "annualPeriods": 13,
+    "corporateActions": 1,
+    "earliestPeriodEnd": "2022-03-31",
+    "issuers": 3,
+    "latestPeriodEnd": "2026-09-30",
+    "listings": 5,
+    "operatingMetricRecords": 0,
+    "prices": 0,
+    "quarterlyPeriods": 4,
+    "securities": 3
+  },
+  "issues": [],
+  "readBackActions": [
+    {
+      "actionId": "CA-INFY-BONUS-2018-09-06",
+      "adjustmentFactor": 0.5,
+      "effectiveDate": "2018-09-06",
+      "factorBasis": "1:1 bonus issue: 1 new fully paid-up equity share (face value INR 5, unchanged) for every 1 existing share held on record date 2018-09-05; issued shares 2,184,127,091 -> 4,368,254,182 (exactly 2x), so pre-action per-share values convert to post-action terms by factor 0.5",
+      "perShareComparable": false,
+      "sourceRef": "NSE record-date intimation filed 2018-08-24 (board approval 2018-07-13; ex-date 2018-09-04; record date 2018-09-05); operator-supplied event record preserved at evidence/real-issuer/S4-R8-INFOSYS-BONUS-2018-2026-11-20/source/operator-supplied-event-2026-11-20.json",
+      "subjectIssuerId": "IN:CIN:L85110KA1981PLC013115",
+      "subjectSecurityId": "IN:ISIN:INE009A01021",
+      "successors": [],
+      "type": "BONUS"
+    }
+  ],
+  "factorApplication": {
+    "points": [
+      {
+        "date": "2018-03-31",
+        "value": 100,
+        "adjustedValue": 50,
+        "state": "ADJUSTED",
+        "appliedActionIds": [
+          "CA-INFY-BONUS-2018-09-06"
+        ],
+        "blockedBy": []
+      },
+      {
+        "date": "2019-03-31",
+        "value": 60,
+        "adjustedValue": 60,
+        "state": "UNCHANGED",
+        "appliedActionIds": [],
+        "blockedBy": []
+      }
+    ],
+    "appliedAdjustments": [
+      {
+        "actionId": "CA-INFY-BONUS-2018-09-06",
+        "type": "BONUS",
+        "effectiveDate": "2018-09-06",
+        "factor": 0.5,
+        "factorBasis": "1:1 bonus issue: 1 new fully paid-up equity share (face value INR 5, unchanged) for every 1 existing share held on record date 2018-09-05; issued shares 2,184,127,091 -> 4,368,254,182 (exactly 2x), so pre-action per-share values convert to post-action terms by factor 0.5"
+      }
+    ],
+    "notComparableAcross": []
+  },
+  "perShareConsistency": {
+    "consistent": true,
+    "tolerance": 0.0001,
+    "observations": [
+      {
+        "metric": "PRICE",
+        "before": 1000,
+        "after": 500,
+        "expectedAfter": 500,
+        "deviationPct": 0
+      },
+      {
+        "metric": "PER_SHARE_EARNINGS",
+        "before": 80,
+        "after": 40,
+        "expectedAfter": 40,
+        "deviationPct": 0
+      }
+    ]
+  },
+  "guard": {
+    "unadjustedPrice": {
+      "refusal": "UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION",
+      "reason": "PRICE_STALE",
+      "note": "unadjusted across CA-INFY-BONUS-2018-09-06"
+    },
+    "adjustedPrice": {
+      "refusal": null,
+      "value": 1450
+    },
+    "priceLegStatus": "DEMONSTRATION INPUT (calendar-valid fixture price); corporate action record is the real read-back record"
+  }
+}

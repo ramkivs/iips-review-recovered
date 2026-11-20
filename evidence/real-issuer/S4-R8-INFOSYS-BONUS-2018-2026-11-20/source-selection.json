@@ -1,0 +1,32 @@
+{
+  "generatedOn": "2026-11-20",
+  "network": "NONE",
+  "historicalBundlesModified": false,
+  "ticket": "S4-R8 / G-8 / L-031",
+  "candidateInputs": [
+    "evidence/real-issuer/S4-R8-INFOSYS-BONUS-2018-2026-11-20/ingest-input/infosys",
+    "evidence/real-issuer/S4-R3-Marico-QUARTERLY-REFRESH-2026-11-19/ingest-input/marico",
+    "evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec"
+  ],
+  "source": {
+    "kind": "OPERATOR_SUPPLIED_EVENT_RECORD",
+    "artifact": "source/operator-supplied-event-2026-11-20.json",
+    "provenance": "Documented event record supplied by the operator in the S4-R8 work item of 2026-11-20 and preserved verbatim in this bundle before transcription. The referenced NSE/annual-report PDFs were not retrieved in this session (sandbox egress is restricted to package/GitHub hosts); the exact locators are recorded in the source artifact.",
+    "sourceType": "SEBI_LODR_CORPORATE_ANNOUNCEMENT",
+    "permissionStatus": "PUBLIC_STATUTORY_FILING (operator-declared public regulatory record; factual reference and database indexing)",
+    "independentSourceVerification": "NOT_CLAIMED: PDF-to-record verification was not performed in this session; the event record is operator-attested, exactly as recorded here.",
+    "officialLocators": [
+      "https://nsearchives.nseindia.com/corporate/listcontract1_2482018132730_InfosysLimited_NoticeofRecorddate_099.pdf",
+      "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/infosys-ar-19.pdf"
+    ]
+  },
+  "eventEstablishment": {
+    "issuerAtEventDate": "Infosys Limited, CIN L85110KA1981PLC013115 (unchanged legal entity; identical to admitted roster issuer IN:CIN:L85110KA1981PLC013115)",
+    "securityAtEventDate": "Fully paid-up equity shares of INR 5 face value, ISIN INE009A01021. A bonus issue changes neither ISIN nor face value, so the historical instrument is the admitted security IN:ISIN:INE009A01021; no historical successor security is inferred. The parallel ADS stock dividend (NYSE) is not an admitted security and is not transcribed.",
+    "type": "BONUS (canonical CorporateActionType; unambiguous mapping from the declared 1:1 bonus terms)",
+    "datesEstablished": ["board announcement 2018-07-13", "shareholder approval 2018-08-22", "record-date intimation filed 2018-08-24", "ex-bonus 2018-09-04", "record date 2018-09-05", "allotment/effective 2018-09-06"],
+    "termsEstablished": "1:1 bonus; face value unchanged INR 5; shares 2,184,127,091 -> 4,368,254,182; INR 1,092 crore capitalized from reserves",
+    "treasuryTrustNote": "The supplied note that controlled trusts holding treasury shares were excluded from bonus allotment is preserved in the source artifact as stated. It does not alter the declared 1:1 ratio for the listed equity or the derived per-share factor, and no trust-level allocation was inferred or transcribed (the schema has no such field)."
+  },
+  "priorInvestigationRelation": "This event was NOT among the 13 discovery candidates of IID-S4-R8-CORPORATE-ACTIONS-2026-11-17 (which covered Infosys aggregate buyback share counts, not this bonus). It is a newly supplied event-specific record assessed fresh here; the earlier census is not repeated and its findings are unchanged."
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "S4-R8-INFOSYS-BONUS-DIGESTS/1",
+  "scope": "Infosys 1:1 bonus (2018) canonical transcription, O3 successor admission identities, candidate a7638c6b verification and real-record guard/factor demonstration.",
+  "recordedAt": "2026-11-20",
+  "files": {
+    "README.md": {
+      "sha256": "d74b26c89a91be6066e85014ae2e2b637947f1c0ee619db59c9d21c6c98f81b6",
+      "bytes": 6439
+    },
+    "data-extraction.json": {
+      "sha256": "c46b5873269e55757839cd9a48d8beb74e0b5b9da60e97dfff359c3a4ba5ac6d",
+      "bytes": 2219
+    },
+    "determination.json": {
+      "sha256": "ca109eb1709a2455932e4a7440fe7560614c1c95f439f9bd6ae162da8241d8c7",
+      "bytes": 3656
+    },
+    "ingest-input/infosys/corporate-actions.json": {
+      "sha256": "1351c192a6f22f1527b3f9bcc1058943cfe99ae3fa191b8785ad9f82361981e0",
+      "bytes": 930
+    },
+    "ingest-input/infosys/periods.csv": {
+      "sha256": "87728ec81892ec08cc707a651a9d00861ef7a0993f65f0db7346da9c55f2b8dd",
+      "bytes": 2148
+    },
+    "ingest-input/infosys/roster.json": {
+      "sha256": "426e8478bca1ffc3fd47a6a24995230cfbfc05ccd1df4b92fa774ba15c60f8b4",
+      "bytes": 1157
+    },
+    "probe/build_infosys_bonus_event.py": {
+      "sha256": "99b646a7fa2976508cc4e06b01bafefb695520a1317193fb1ef739f5a899bc3c",
+      "bytes": 3588
+    },
+    "runs/01-candidate-ingest.txt": {
+      "sha256": "a16d2fa39fc93fdb4d6845ba56d9b43d85c28b2debcaf83a68e65de0e3858ef4",
+      "bytes": 2603
+    },
+    "runs/02-readback-and-guard-demonstration.json": {
+      "sha256": "37db4d7d2953aeafdb16d094bd77be988f4f88d374668b538eff7c4c3c0ee637",
+      "bytes": 3206
+    },
+    "runs/03-derived-handchecks.json": {
+      "sha256": "eaaf4a3ba9c59a1accdbfa4e421e9f54763525c9694450163e07066c44b8f535",
+      "bytes": 3233
+    },
+    "source/operator-supplied-event-2026-11-20.json": {
+      "sha256": "ab1e2600201d8503a4ed2d789184cfa64c56ec0e101a393be585ebd9ae1bbef2",
+      "bytes": 3802
+    },
+    "source-selection.json": {
+      "sha256": "eba26c98414b14d5e7b73fbfbed98f5e279d12ac0bf38cc71463d2b215567ddc",
+      "bytes": 3247
+    }
+  },
+  "successorInputDigest": "sha256:aa414045de21c6833aa57035768da14f92a302bfaaaac48767a28647e8954c52",
+  "candidateDatasetVersion": "sha256:a7638c6b8f23b067ab84f580805b918aea4b902c8e324026c7c7c942c09f5ab5",
+  "supersededCandidateDatasetVersion": "sha256:3e42d98dad57de69ae4dba6f88c588da9114e6e829b21a811d35270b2c2de16a",
+  "tickets": {
+    "S4-R8": "CLOSED (2026-11-20)",
+    "G-8": "CLOSED (2026-11-20)",
+    "L-031": "OPEN (narrowed: window coverage 2024-03-31 -> present still required)"
+  },
+  "windowsInstallState": "NO_WINDOWS_CHANGE_OR_INSTALLATION performed in this work item"
+}

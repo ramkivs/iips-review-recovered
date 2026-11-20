@@ -1,0 +1,24 @@
+{
+  "schema": "S4-R8-INFOSYS-BONUS-EXTRACTION/1",
+  "generatedOn": "2026-11-20",
+  "probe": "probe/build_infosys_bonus_event.py (re-running reproduces ingest-input byte-for-byte)",
+  "canonicalRecord": {
+    "actionId": "CA-INFY-BONUS-2018-09-06",
+    "type": "BONUS <- declared 'Bonus Issue of Equity Shares'",
+    "effectiveDate": "2018-09-06 <- dates.allotment_effective_date (the canonical contract's single date; the moment the enlarged share base takes effect)",
+    "subjectIssuerId": "IN:CIN:L85110KA1981PLC013115",
+    "subjectSecurityId": "IN:ISIN:INE009A01021 (null/issuer-wide form not used: the event names the listed equity exactly)",
+    "perShareComparable": "false (a 1:1 bonus halves every per-share quantity across the boundary; comparability is restored only by applying the factor)",
+    "adjustmentFactor": "0.5, DERIVED = pre_event_shares / post_event_shares = 2,184,127,091 / 4,368,254,182 under the contract's pre->post per-share multiplier convention (cf. 1:5 split => 0.2). Positive-factor requirement satisfied. Not guessed: pinned by the exact doubling of the supplied share counts.",
+    "factorBasis": "free-form contract field carrying the declared 1:1 ratio, record date and share-count bridge",
+    "successors": "[] (BONUS issues shares of the same security; no successor issuer/security mapping exists)",
+    "sourceRef": "free-form contract field carrying the NSE intimation identity and the preserved source-evidence path"
+  },
+  "notTranscribed": {
+    "announcement/approval/ex/record dates": "the canonical contract has no fields for them; preserved in source/operator-supplied-event-2026-11-20.json, not forced into schema fields",
+    "ADS stock dividend": "NYSE ADSs are not an admitted security; recorded in source evidence only",
+    "treasury-trust exclusion": "preserved as a source note; no trust allocation semantics exist in the contract and none were invented",
+    "capitalized reserves / capital totals": "verification arithmetic only (runs/03-derived-handchecks.json); the contract carries the factor, not capital amounts"
+  },
+  "schemaChanges": "NONE. The event maps unambiguously onto the existing contract; the canonical schema was not extended or altered."
+}
