@@ -1487,3 +1487,8 @@ Two clarifications so this is not over-read:
   comparison, browser acceptance, the Stage 4 data residuals and Stage 5's end-to-end loop are unchanged,
   and the next adopted operational activity is still **Stage 5** (§C.2). No Stage 6 work, no IPD
   implementation, no PR merge and no new roadmap activity is authorized by this amendment.
+
+
+## C.4 L-031 candidate Windows build path — PUBLISHED (2026-11-20)
+
+The §17.44 candidate `sha256:d2b65bcc…` now has a separate repository-owned Windows PowerShell build/verification path (`IID-L031-WINDOWS-POWERSHELL-LOCAL-BUILD-2026-11-20.md`; wrapper `build-l031-candidate.ts`; driver `IID-L031-CANDIDATE-LOCAL-BUILD.ps1`), independently pinned and leaving the `bdfb2527…` builder intact. Windows host execution is **not** claimed; `D8`/`G-2` remain open pending operator installation and independent host read-back. No readiness status moves.
