@@ -1,0 +1,4105 @@
+
+> @iips/platform@0.1.0 test
+> tsx --test src/**/*.test.ts tests/regression/*.test.ts
+
+TAP version 13
+# Subtest: FixedClock returns fixed timestamp
+ok 1 - FixedClock returns fixed timestamp
+  ---
+  duration_ms: 0.669923
+  type: 'test'
+  ...
+# Subtest: DeterministicIdProvider is stable + prefixed
+ok 2 - DeterministicIdProvider is stable + prefixed
+  ---
+  duration_ms: 0.302842
+  type: 'test'
+  ...
+# Subtest: DeterministicIdProvider requires prefix
+ok 3 - DeterministicIdProvider requires prefix
+  ---
+  duration_ms: 0.301091
+  type: 'test'
+  ...
+# Subtest: deepFreeze makes nested objects immutable
+ok 4 - deepFreeze makes nested objects immutable
+  ---
+  duration_ms: 0.15389
+  type: 'test'
+  ...
+# Subtest: createIdProvider deterministic returns stable ids
+ok 5 - createIdProvider deterministic returns stable ids
+  ---
+  duration_ms: 0.173078
+  type: 'test'
+  ...
+# Subtest: plugin loader discovers, registers, initializes, executes, completes
+ok 6 - plugin loader discovers, registers, initializes, executes, completes
+  ---
+  duration_ms: 0.868343
+  type: 'test'
+  ...
+# Subtest: plugin loader rejects duplicate engine
+ok 7 - plugin loader rejects duplicate engine
+  ---
+  duration_ms: 0.125756
+  type: 'test'
+  ...
+# Subtest: plugin loader returns undefined for unknown engine
+ok 8 - plugin loader returns undefined for unknown engine
+  ---
+  duration_ms: 0.104928
+  type: 'test'
+  ...
+# Subtest: registry manager registers + lists six immutable registries
+ok 9 - registry manager registers + lists six immutable registries
+  ---
+  duration_ms: 0.70017
+  type: 'test'
+  ...
+# Subtest: registry rejects duplicates
+ok 10 - registry rejects duplicates
+  ---
+  duration_ms: 0.32741
+  type: 'test'
+  ...
+# Subtest: registry manager forces kind into the target registry
+ok 11 - registry manager forces kind into the target registry
+  ---
+  duration_ms: 0.097272
+  type: 'test'
+  ...
+# Subtest: versions are frozen
+ok 12 - versions are frozen
+  ---
+  duration_ms: 0.196259
+  type: 'test'
+  ...
+# Subtest: freezeAll produces immutable registries
+ok 13 - freezeAll produces immutable registries
+  ---
+  duration_ms: 0.199714
+  type: 'test'
+  ...
+# Subtest: replay reproduces a stored snapshot (V-C1)
+ok 14 - replay reproduces a stored snapshot (V-C1)
+  ---
+  duration_ms: 1.431137
+  type: 'test'
+  ...
+# Subtest: replay detects divergent output — byteIdentical is false (V-C2)
+ok 15 - replay detects divergent output — byteIdentical is false (V-C2)
+  ---
+  duration_ms: 0.230742
+  type: 'test'
+  ...
+# Subtest: replay returns undefined for unknown snapshot (V-C3)
+ok 16 - replay returns undefined for unknown snapshot (V-C3)
+  ---
+  duration_ms: 0.085852
+  type: 'test'
+  ...
+# Subtest: replay without executor returns reproduced=false, byteIdentical=false (V-C4)
+ok 17 - replay without executor returns reproduced=false, byteIdentical=false (V-C4)
+  ---
+  duration_ms: 0.154462
+  type: 'test'
+  ...
+# Subtest: replay without execution context returns reproduced=false, byteIdentical=false (V-C4b)
+ok 18 - replay without execution context returns reproduced=false, byteIdentical=false (V-C4b)
+  ---
+  duration_ms: 0.138319
+  type: 'test'
+  ...
+# Subtest: replayAll across multiple engines produces computed results (V-C5)
+ok 19 - replayAll across multiple engines produces computed results (V-C5)
+  ---
+  duration_ms: 0.360947
+  type: 'test'
+  ...
+# Subtest: mutation proof: literal true return would fail divergent test (V-C6)
+ok 20 - mutation proof: literal true return would fail divergent test (V-C6)
+  ---
+  duration_ms: 0.382509
+  type: 'test'
+  ...
+# Subtest: two independent stub plugins coexist without runtime modification
+ok 21 - two independent stub plugins coexist without runtime modification
+  ---
+  duration_ms: 2.239793
+  type: 'test'
+  ...
+# Subtest: runtime coordinator drives full lifecycle + snapshot
+ok 22 - runtime coordinator drives full lifecycle + snapshot
+  ---
+  duration_ms: 1.635391
+  type: 'test'
+  ...
+# Subtest: runtime throws for unknown engine
+ok 23 - runtime throws for unknown engine
+  ---
+  duration_ms: 0.324766
+  type: 'test'
+  ...
+# Subtest: snapshot service creates immutable snapshot
+ok 24 - snapshot service creates immutable snapshot
+  ---
+  duration_ms: 0.954407
+  type: 'test'
+  ...
+# Subtest: snapshot id is deterministic
+ok 25 - snapshot id is deterministic
+  ---
+  duration_ms: 0.193857
+  type: 'test'
+  ...
+# Subtest: snapshot store appends and retrieves
+ok 26 - snapshot store appends and retrieves
+  ---
+  duration_ms: 0.173277
+  type: 'test'
+  ...
+# Subtest: snapshot store rejects duplicate ids
+ok 27 - snapshot store rejects duplicate ids
+  ---
+  duration_ms: 0.348738
+  type: 'test'
+  ...
+# WP3-ACC1 golden dataset reproducibility PASS
+# WP3-ACC2 replay determinism PASS
+# WP3-ACC3 calibration isolation PASS
+# WP3-ACC4 evidence completeness PASS
+# Subtest: WP3-ACC1: every frozen golden bank reproduces the frozen expected output
+ok 28 - WP3-ACC1: every frozen golden bank reproduces the frozen expected output
+  ---
+  duration_ms: 2.853058
+  type: 'test'
+  ...
+# Subtest: WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+ok 29 - WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+  ---
+  duration_ms: 1.127953
+  type: 'test'
+  ...
+# Subtest: WP3-ACC3: changing calibration profile changes behavior without code changes
+ok 30 - WP3-ACC3: changing calibration profile changes behavior without code changes
+  ---
+  duration_ms: 0.297665
+  type: 'test'
+  ...
+# Subtest: WP3-ACC4: every verdict is traceable Metric→Band→Score→Pillar→Composite→Verdict
+ok 31 - WP3-ACC4: every verdict is traceable Metric→Band→Score→Pillar→Composite→Verdict
+  ---
+  duration_ms: 0.241586
+  type: 'test'
+  ...
+# WP3-ACC1 capital markets golden reproducibility PASS
+# WP3-ACC2 capital markets replay determinism PASS
+# WP3-ACC3 capital markets calibration isolation PASS
+# WP3-ACC4 capital markets evidence completeness PASS
+# Subtest: WP3-ACC1: every frozen golden firm reproduces the frozen expected output
+ok 32 - WP3-ACC1: every frozen golden firm reproduces the frozen expected output
+  ---
+  duration_ms: 3.075309
+  type: 'test'
+  ...
+# Subtest: WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+ok 33 - WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+  ---
+  duration_ms: 1.156668
+  type: 'test'
+  ...
+# Subtest: WP3-ACC3: changing calibration profile changes behavior without code changes
+ok 34 - WP3-ACC3: changing calibration profile changes behavior without code changes
+  ---
+  duration_ms: 0.330265
+  type: 'test'
+  ...
+# Subtest: WP3-ACC4: every verdict traceable Metric→Band→Score→Pillar→Composite→Verdict
+ok 35 - WP3-ACC4: every verdict traceable Metric→Band→Score→Pillar→Composite→Verdict
+  ---
+  duration_ms: 0.277581
+  type: 'test'
+  ...
+# Subtest: WP2-ACC1: capital markets manifest via shared ManifestLoader
+ok 36 - WP2-ACC1: capital markets manifest via shared ManifestLoader
+  ---
+  duration_ms: 0.898109
+  type: 'test'
+  ...
+# Subtest: WP2-ACC2: capital markets evidence via shared EvidencePipeline
+ok 37 - WP2-ACC2: capital markets evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.488273
+  type: 'test'
+  ...
+# Subtest: WP2-ACC3: capital markets transport via shared generic DTO
+ok 38 - WP2-ACC3: capital markets transport via shared generic DTO
+  ---
+  duration_ms: 0.299613
+  type: 'test'
+  ...
+# Subtest: WP2-ACC4: capital markets diagnostics + qualification + activation via shared framework
+ok 39 - WP2-ACC4: capital markets diagnostics + qualification + activation via shared framework
+  ---
+  duration_ms: 0.307507
+  type: 'test'
+  ...
+# Subtest: WP2-ACC5: THREE sectors coexist through the same framework without branching
+ok 40 - WP2-ACC5: THREE sectors coexist through the same framework without branching
+  ---
+  duration_ms: 2.415511
+  type: 'test'
+  ...
+# Subtest: WP1-ACC1: sector.capital-markets registers + executes through existing runtime
+ok 41 - WP1-ACC1: sector.capital-markets registers + executes through existing runtime
+  ---
+  duration_ms: 1.966603
+  type: 'test'
+  ...
+# Subtest: WP1-ACC2: capital markets produces snapshots + replays via shared services
+ok 42 - WP1-ACC2: capital markets produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.555581
+  type: 'test'
+  ...
+# Subtest: WP1-ACC3: THREE sectors coexist in the same runtime (Banking + Insurance + Capital Markets)
+ok 43 - WP1-ACC3: THREE sectors coexist in the same runtime (Banking + Insurance + Capital Markets)
+  ---
+  duration_ms: 1.681356
+  type: 'test'
+  ...
+# Subtest: WP1-ACC4: capital markets participates in registries (no new registry kind)
+ok 44 - WP1-ACC4: capital markets participates in registries (no new registry kind)
+  ---
+  duration_ms: 0.74526
+  type: 'test'
+  ...
+# Subtest: IES013-WP3-ACC1: metric evaluation
+ok 45 - IES013-WP3-ACC1: metric evaluation
+  ---
+  duration_ms: 2.510304
+  type: 'test'
+  ...
+# Subtest: IES013-WP3-ACC2..ACC6: all 10 frozen expected outputs reproduced exactly (golden regression)
+ok 46 - IES013-WP3-ACC2..ACC6: all 10 frozen expected outputs reproduced exactly (golden regression)
+  ---
+  duration_ms: 1.577854
+  type: 'test'
+  ...
+# Subtest: IES013-WP3-ACC7: override precedence applied deterministically (D10)
+ok 47 - IES013-WP3-ACC7: override precedence applied deterministically (D10)
+  ---
+  duration_ms: 0.454131
+  type: 'test'
+  ...
+# Subtest: IES013-WP3-ACC5: segment + business-model calibration isolates
+ok 48 - IES013-WP3-ACC5: segment + business-model calibration isolates
+  ---
+  duration_ms: 0.253659
+  type: 'test'
+  ...
+# Subtest: IES013-WP3-ACC8: evidence generated via shared pipeline
+ok 49 - IES013-WP3-ACC8: evidence generated via shared pipeline
+  ---
+  duration_ms: 0.139107
+  type: 'test'
+  ...
+# Subtest: IES013-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+ok 50 - IES013-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.11471
+  type: 'test'
+  ...
+# Subtest: IES013-WP3-ACC10: full engine replay-deterministic via shared services
+ok 51 - IES013-WP3-ACC10: full engine replay-deterministic via shared services
+  ---
+  duration_ms: 0.215815
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC1: consumer manifest via shared ManifestLoader
+ok 52 - IES013-WP2-ACC1: consumer manifest via shared ManifestLoader
+  ---
+  duration_ms: 1.213101
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC2: consumer evidence via shared EvidencePipeline
+ok 53 - IES013-WP2-ACC2: consumer evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.520012
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC3: consumer deterministic snapshot via shared Snapshot
+ok 54 - IES013-WP2-ACC3: consumer deterministic snapshot via shared Snapshot
+  ---
+  duration_ms: 1.007705
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC4: consumer replay byte-identical via shared Replay
+ok 55 - IES013-WP2-ACC4: consumer replay byte-identical via shared Replay
+  ---
+  duration_ms: 0.709316
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC5: consumer diagnostics via shared DiagnosticsService (observational)
+ok 56 - IES013-WP2-ACC5: consumer diagnostics via shared DiagnosticsService (observational)
+  ---
+  duration_ms: 0.222624
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC6: consumer qualification via shared QualificationService
+ok 57 - IES013-WP2-ACC6: consumer qualification via shared QualificationService
+  ---
+  duration_ms: 0.18103
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC7: consumer activation via shared ActivationService
+ok 58 - IES013-WP2-ACC7: consumer activation via shared ActivationService
+  ---
+  duration_ms: 0.250036
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC8: consumer transport via shared generic DTO
+ok 59 - IES013-WP2-ACC8: consumer transport via shared generic DTO
+  ---
+  duration_ms: 0.326424
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC9: NINE plugins coexist through the same framework without branching
+ok 60 - IES013-WP2-ACC9: NINE plugins coexist through the same framework without branching
+  ---
+  duration_ms: 4.626583
+  type: 'test'
+  ...
+# Subtest: IES013-WP2-ACC10: consumer replay determinism (identical metadata + evidence across independent runs)
+ok 61 - IES013-WP2-ACC10: consumer replay determinism (identical metadata + evidence across independent runs)
+  ---
+  duration_ms: 0.468016
+  type: 'test'
+  ...
+# Subtest: IES013-WP1-ACC1: sector.consumer registers + executes through the existing runtime
+ok 62 - IES013-WP1-ACC1: sector.consumer registers + executes through the existing runtime
+  ---
+  duration_ms: 1.789881
+  type: 'test'
+  ...
+# Subtest: IES013-WP1-ACC2: consumer produces snapshots + replays via shared services
+ok 63 - IES013-WP1-ACC2: consumer produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.573198
+  type: 'test'
+  ...
+# Subtest: IES013-WP1-ACC3: NINE plugins coexist (7 sectors + CSIP + Consumer)
+ok 64 - IES013-WP1-ACC3: NINE plugins coexist (7 sectors + CSIP + Consumer)
+  ---
+  duration_ms: 4.353094
+  type: 'test'
+  ...
+# Subtest: IES013-WP1-ACC4: consumer ontology metadata covers 8 dimensions (CSIP-compatible)
+ok 65 - IES013-WP1-ACC4: consumer ontology metadata covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.117355
+  type: 'test'
+  ...
+# Subtest: IES013-WP4-ACC1: golden regression — all 10 frozen expected outputs from the standards repo
+ok 66 - IES013-WP4-ACC1: golden regression — all 10 frozen expected outputs from the standards repo
+  ---
+  duration_ms: 3.643328
+  type: 'test'
+  ...
+# Subtest: IES013-WP4-ACC2: replay — byte-identical across repeated runs
+ok 67 - IES013-WP4-ACC2: replay — byte-identical across repeated runs
+  ---
+  duration_ms: 0.450211
+  type: 'test'
+  ...
+# Subtest: IES013-WP4-ACC3: validation fixtures — all 10 pass
+ok 68 - IES013-WP4-ACC3: validation fixtures — all 10 pass
+  ---
+  duration_ms: 0.664868
+  type: 'test'
+  ...
+# Subtest: IES013-WP4-ACC4: calibration integrity — frozen profile hash verified
+ok 69 - IES013-WP4-ACC4: calibration integrity — frozen profile hash verified
+  ---
+  duration_ms: 0.162932
+  type: 'test'
+  ...
+# Subtest: IES013-WP4-ACC5: override precedence — all override paths
+ok 70 - IES013-WP4-ACC5: override precedence — all override paths
+  ---
+  duration_ms: 0.696316
+  type: 'test'
+  ...
+# Subtest: IES013-WP4-ACC6: ontology registration — 8/8 dimensions
+ok 71 - IES013-WP4-ACC6: ontology registration — 8/8 dimensions
+  ---
+  duration_ms: 0.41346
+  type: 'test'
+  ...
+# Subtest: IES013-WP4-ACC7: evidence — complete for every provider
+ok 72 - IES013-WP4-ACC7: evidence — complete for every provider
+  ---
+  duration_ms: 1.346356
+  type: 'test'
+  ...
+# Subtest: WP3-ACC1: all 6 frozen portfolio expected outputs reproduced exactly (golden regression)
+ok 73 - WP3-ACC1: all 6 frozen portfolio expected outputs reproduced exactly (golden regression)
+  ---
+  duration_ms: 2.022809
+  type: 'test'
+  ...
+# Subtest: WP3-ACC2: sector exposure matches frozen expected outputs
+ok 74 - WP3-ACC2: sector exposure matches frozen expected outputs
+  ---
+  duration_ms: 0.577328
+  type: 'test'
+  ...
+# Subtest: WP3-ACC3: cross-sector ranking is deterministic (conviction desc, sector asc)
+ok 75 - WP3-ACC3: cross-sector ranking is deterministic (conviction desc, sector asc)
+  ---
+  duration_ms: 0.180251
+  type: 'test'
+  ...
+# Subtest: WP3-ACC4: allocation engine applies rule precedence deterministically (8 fixtures)
+ok 76 - WP3-ACC4: allocation engine applies rule precedence deterministically (8 fixtures)
+  ---
+  duration_ms: 0.548531
+  type: 'test'
+  ...
+# Subtest: WP3-ACC5: diversification analyzer matches all 5 fixtures (concentration + band)
+ok 77 - WP3-ACC5: diversification analyzer matches all 5 fixtures (concentration + band)
+  ---
+  duration_ms: 0.356268
+  type: 'test'
+  ...
+# Subtest: WP3-ACC6: opportunity engine surfaces Top-N with rationale
+ok 78 - WP3-ACC6: opportunity engine surfaces Top-N with rationale
+  ---
+  duration_ms: 0.153165
+  type: 'test'
+  ...
+# Subtest: WP3-ACC7: correlation engine uses platform metadata only (no price correlation)
+ok 79 - WP3-ACC7: correlation engine uses platform metadata only (no price correlation)
+  ---
+  duration_ms: 0.203721
+  type: 'test'
+  ...
+# Subtest: WP3-ACC8: reporting engine produces PDF-ready JSON for all report types
+ok 80 - WP3-ACC8: reporting engine produces PDF-ready JSON for all report types
+  ---
+  duration_ms: 0.136461
+  type: 'test'
+  ...
+# Subtest: WP3-ACC9: evidence builder emits the Cross-Sector Evidence Model hierarchy
+ok 81 - WP3-ACC9: evidence builder emits the Cross-Sector Evidence Model hierarchy
+  ---
+  duration_ms: 0.297221
+  type: 'test'
+  ...
+# Subtest: WP3-ACC10: full pipeline via the platform plugin is deterministic + replay-compatible
+ok 82 - WP3-ACC10: full pipeline via the platform plugin is deterministic + replay-compatible
+  ---
+  duration_ms: 1.355475
+  type: 'test'
+  ...
+# Subtest: WP3-ACC11: future sector participates via ontology registration (no CSIP logic change)
+ok 83 - WP3-ACC11: future sector participates via ontology registration (no CSIP logic change)
+  ---
+  duration_ms: 0.169861
+  type: 'test'
+  ...
+# Subtest: WP2-ACC1: CSIP manifest via shared ManifestLoader
+ok 84 - WP2-ACC1: CSIP manifest via shared ManifestLoader
+  ---
+  duration_ms: 1.88932
+  type: 'test'
+  ...
+# Subtest: WP2-ACC2: CSIP portfolio evidence via shared EvidencePipeline
+ok 85 - WP2-ACC2: CSIP portfolio evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.51274
+  type: 'test'
+  ...
+# Subtest: WP2-ACC3: CSIP portfolio transport via shared generic DTO
+ok 86 - WP2-ACC3: CSIP portfolio transport via shared generic DTO
+  ---
+  duration_ms: 0.313847
+  type: 'test'
+  ...
+# Subtest: WP2-ACC4: CSIP diagnostics + qualification + activation via shared framework
+ok 87 - WP2-ACC4: CSIP diagnostics + qualification + activation via shared framework
+  ---
+  duration_ms: 0.230364
+  type: 'test'
+  ...
+# Subtest: WP2-ACC5: CSIP produces portfolio evidence end-to-end via shared pipeline
+ok 88 - WP2-ACC5: CSIP produces portfolio evidence end-to-end via shared pipeline
+  ---
+  duration_ms: 1.296087
+  type: 'test'
+  ...
+# Subtest: WP2-ACC6: FIVE plugins coexist through the same framework without branching
+ok 89 - WP2-ACC6: FIVE plugins coexist through the same framework without branching
+  ---
+  duration_ms: 2.286526
+  type: 'test'
+  ...
+# Subtest: WP2-ACC7: CSIP replay determinism preserved (identical metadata + evidence across independent runs)
+ok 90 - WP2-ACC7: CSIP replay determinism preserved (identical metadata + evidence across independent runs)
+  ---
+  duration_ms: 0.807937
+  type: 'test'
+  ...
+# Subtest: WP1-ACC1: platform.cross-sector registers + executes through the existing runtime
+ok 91 - WP1-ACC1: platform.cross-sector registers + executes through the existing runtime
+  ---
+  duration_ms: 2.652731
+  type: 'test'
+  ...
+# Subtest: WP1-ACC2: CSIP consumes published engine outputs only (black box) + deterministic summary
+ok 92 - WP1-ACC2: CSIP consumes published engine outputs only (black box) + deterministic summary
+  ---
+  duration_ms: 0.911567
+  type: 'test'
+  ...
+# Subtest: WP1-ACC3: FIVE plugins coexist in the same runtime (Banking + Insurance + Capital Markets + Healthcare + CSIP)
+ok 93 - WP1-ACC3: FIVE plugins coexist in the same runtime (Banking + Insurance + Capital Markets + Healthcare + CSIP)
+  ---
+  duration_ms: 3.194733
+  type: 'test'
+  ...
+# Subtest: WP1-ACC4: CSIP produces replay-compatible execution via shared services
+ok 94 - WP1-ACC4: CSIP produces replay-compatible execution via shared services
+  ---
+  duration_ms: 0.651875
+  type: 'test'
+  ...
+# Subtest: WP4-ACC1: golden dataset regression — all 6 frozen expected outputs reproduced exactly
+ok 95 - WP4-ACC1: golden dataset regression — all 6 frozen expected outputs reproduced exactly
+  ---
+  duration_ms: 3.091086
+  type: 'test'
+  ...
+# Subtest: WP4-ACC2: replay dataset validation — identical rankings/allocations/reports/diversification/evidence (PF-05)
+ok 96 - WP4-ACC2: replay dataset validation — identical rankings/allocations/reports/diversification/evidence (PF-05)
+  ---
+  duration_ms: 0.438271
+  type: 'test'
+  ...
+# Subtest: WP4-ACC3: allocation fixtures — all 8 expected actions reproduced
+ok 97 - WP4-ACC3: allocation fixtures — all 8 expected actions reproduced
+  ---
+  duration_ms: 0.683161
+  type: 'test'
+  ...
+# Subtest: WP4-ACC4: diversification fixtures — all 5 expected concentration + band reproduced
+ok 98 - WP4-ACC4: diversification fixtures — all 5 expected concentration + band reproduced
+  ---
+  duration_ms: 0.409051
+  type: 'test'
+  ...
+# Subtest: WP4-ACC5: cross-sector evidence hierarchy validated
+ok 99 - WP4-ACC5: cross-sector evidence hierarchy validated
+  ---
+  duration_ms: 0.350321
+  type: 'test'
+  ...
+# Subtest: WP4-ACC6: deterministic repeatability across full pipeline runs
+ok 100 - WP4-ACC6: deterministic repeatability across full pipeline runs
+  ---
+  duration_ms: 0.252919
+  type: 'test'
+  ...
+# Subtest: IES011-WP3-ACC1: metric evaluation (WP3-ACC1)
+ok 101 - IES011-WP3-ACC1: metric evaluation (WP3-ACC1)
+  ---
+  duration_ms: 2.009283
+  type: 'test'
+  ...
+# Subtest: IES011-WP3-ACC2..ACC6: all 9 frozen expected outputs reproduced exactly (golden regression)
+ok 102 - IES011-WP3-ACC2..ACC6: all 9 frozen expected outputs reproduced exactly (golden regression)
+  ---
+  duration_ms: 1.374139
+  type: 'test'
+  ...
+# Subtest: IES011-WP3-ACC7: override precedence applied deterministically (D10)
+ok 103 - IES011-WP3-ACC7: override precedence applied deterministically (D10)
+  ---
+  duration_ms: 0.442599
+  type: 'test'
+  ...
+# Subtest: IES011-WP3-ACC5: segment + commodity calibration isolates (Calibration Resolution Order)
+ok 104 - IES011-WP3-ACC5: segment + commodity calibration isolates (Calibration Resolution Order)
+  ---
+  duration_ms: 0.280063
+  type: 'test'
+  ...
+# Subtest: IES011-WP3-ACC8: evidence generated via shared pipeline
+ok 105 - IES011-WP3-ACC8: evidence generated via shared pipeline
+  ---
+  duration_ms: 0.199272
+  type: 'test'
+  ...
+# Subtest: IES011-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+ok 106 - IES011-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.209383
+  type: 'test'
+  ...
+# Subtest: IES011-WP3-ACC10: full engine replay-deterministic via shared services
+ok 107 - IES011-WP3-ACC10: full engine replay-deterministic via shared services
+  ---
+  duration_ms: 0.231129
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC1: energy manifest via shared ManifestLoader
+ok 108 - IES011-WP2-ACC1: energy manifest via shared ManifestLoader
+  ---
+  duration_ms: 0.909408
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC2: energy evidence via shared EvidencePipeline
+ok 109 - IES011-WP2-ACC2: energy evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.405774
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC3: energy produces deterministic snapshot via shared Snapshot
+ok 110 - IES011-WP2-ACC3: energy produces deterministic snapshot via shared Snapshot
+  ---
+  duration_ms: 0.952574
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC4: energy replay byte-identical via shared Replay
+ok 111 - IES011-WP2-ACC4: energy replay byte-identical via shared Replay
+  ---
+  duration_ms: 0.551344
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC5: energy diagnostics via shared DiagnosticsService (observational)
+ok 112 - IES011-WP2-ACC5: energy diagnostics via shared DiagnosticsService (observational)
+  ---
+  duration_ms: 0.140125
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC6: energy transport via shared generic DTO
+ok 113 - IES011-WP2-ACC6: energy transport via shared generic DTO
+  ---
+  duration_ms: 0.272713
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC7: energy qualification via shared QualificationService
+ok 114 - IES011-WP2-ACC7: energy qualification via shared QualificationService
+  ---
+  duration_ms: 0.229347
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC8: energy activation via shared ActivationService
+ok 115 - IES011-WP2-ACC8: energy activation via shared ActivationService
+  ---
+  duration_ms: 0.13286
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC9: SEVEN plugins coexist through the same framework without branching
+ok 116 - IES011-WP2-ACC9: SEVEN plugins coexist through the same framework without branching
+  ---
+  duration_ms: 3.634642
+  type: 'test'
+  ...
+# Subtest: IES011-WP2-ACC10: energy replay determinism (identical metadata + evidence across independent runs)
+ok 117 - IES011-WP2-ACC10: energy replay determinism (identical metadata + evidence across independent runs)
+  ---
+  duration_ms: 0.549269
+  type: 'test'
+  ...
+# Subtest: IES011-WP1-ACC1: sector.energy registers + executes through the existing runtime
+ok 118 - IES011-WP1-ACC1: sector.energy registers + executes through the existing runtime
+  ---
+  duration_ms: 2.296827
+  type: 'test'
+  ...
+# Subtest: IES011-WP1-ACC2: energy produces snapshots + replays via shared services
+ok 119 - IES011-WP1-ACC2: energy produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.751592
+  type: 'test'
+  ...
+# Subtest: IES011-WP1-ACC3: SEVEN plugins coexist (Banking + Insurance + Capital Markets + Healthcare + Hospitality + CSIP + Energy)
+ok 120 - IES011-WP1-ACC3: SEVEN plugins coexist (Banking + Insurance + Capital Markets + Healthcare + Hospitality + CSIP + Energy)
+  ---
+  duration_ms: 4.904552
+  type: 'test'
+  ...
+# Subtest: IES011-WP1-ACC4: energy ontology metadata covers 8 dimensions (CSIP-compatible)
+ok 121 - IES011-WP1-ACC4: energy ontology metadata covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.19691
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC1: golden regression — all 9 frozen expected outputs from the standards repo
+ok 122 - IES011-WP4-ACC1: golden regression — all 9 frozen expected outputs from the standards repo
+  ---
+  duration_ms: 3.274496
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC2: expected outputs equality — exact match
+ok 123 - IES011-WP4-ACC2: expected outputs equality — exact match
+  ---
+  duration_ms: 0.903763
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC3: replay — byte-identical across repeated runs
+ok 124 - IES011-WP4-ACC3: replay — byte-identical across repeated runs
+  ---
+  duration_ms: 0.384488
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC4: validation fixtures — all 9 pass
+ok 125 - IES011-WP4-ACC4: validation fixtures — all 9 pass
+  ---
+  duration_ms: 0.620092
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC5: calibration isolation — deterministic segment differences
+ok 126 - IES011-WP4-ACC5: calibration isolation — deterministic segment differences
+  ---
+  duration_ms: 0.266697
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC6: override precedence — correct ordering
+ok 127 - IES011-WP4-ACC6: override precedence — correct ordering
+  ---
+  duration_ms: 0.279549
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC7: ontology registration — 8/8 dimensions
+ok 128 - IES011-WP4-ACC7: ontology registration — 8/8 dimensions
+  ---
+  duration_ms: 0.964005
+  type: 'test'
+  ...
+# Subtest: IES011-WP4-ACC8: evidence — complete for every provider
+ok 129 - IES011-WP4-ACC8: evidence — complete for every provider
+  ---
+  duration_ms: 0.691366
+  type: 'test'
+  ...
+# framework multi-plugin proof (A) PASS
+# transport neutrality (B) PASS
+# Subtest: REGRESSION A: multi-plugin framework proof — both stubs use manifest/diagnostics/qualification/activation through the same framework
+ok 130 - REGRESSION A: multi-plugin framework proof — both stubs use manifest/diagnostics/qualification/activation through the same framework
+  ---
+  duration_ms: 1.650111
+  type: 'test'
+  ...
+# Subtest: REGRESSION B: transport neutrality — DTOs have no banking-specific fields and serialize arbitrary sector payloads
+ok 131 - REGRESSION B: transport neutrality — DTOs have no banking-specific fields and serialize arbitrary sector payloads
+  ---
+  duration_ms: 0.687304
+  type: 'test'
+  ...
+# WP3-ACC1 healthcare golden reproducibility PASS
+# WP3-ACC2 healthcare replay determinism PASS
+# WP3-ACC3 healthcare calibration isolation PASS
+# WP3-ACC4 healthcare evidence + clinical-quality constraint PASS
+# Subtest: WP3-ACC1: every frozen golden provider reproduces the frozen expected output
+ok 132 - WP3-ACC1: every frozen golden provider reproduces the frozen expected output
+  ---
+  duration_ms: 3.095479
+  type: 'test'
+  ...
+# Subtest: WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+ok 133 - WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+  ---
+  duration_ms: 1.154625
+  type: 'test'
+  ...
+# Subtest: WP3-ACC3: changing calibration profile changes behavior without code changes
+ok 134 - WP3-ACC3: changing calibration profile changes behavior without code changes
+  ---
+  duration_ms: 0.407262
+  type: 'test'
+  ...
+# Subtest: WP3-ACC4: every verdict traceable + clinical-quality constraint applied
+ok 135 - WP3-ACC4: every verdict traceable + clinical-quality constraint applied
+  ---
+  duration_ms: 0.407005
+  type: 'test'
+  ...
+# Subtest: WP2-ACC1: healthcare manifest via shared ManifestLoader
+ok 136 - WP2-ACC1: healthcare manifest via shared ManifestLoader
+  ---
+  duration_ms: 0.858934
+  type: 'test'
+  ...
+# Subtest: WP2-ACC2: healthcare evidence via shared EvidencePipeline
+ok 137 - WP2-ACC2: healthcare evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.518324
+  type: 'test'
+  ...
+# Subtest: WP2-ACC3: healthcare transport via shared generic DTO
+ok 138 - WP2-ACC3: healthcare transport via shared generic DTO
+  ---
+  duration_ms: 0.345245
+  type: 'test'
+  ...
+# Subtest: WP2-ACC4: healthcare diagnostics + qualification + activation via shared framework
+ok 139 - WP2-ACC4: healthcare diagnostics + qualification + activation via shared framework
+  ---
+  duration_ms: 0.279291
+  type: 'test'
+  ...
+# Subtest: WP2-ACC5: FOUR sectors coexist through the same framework without branching
+ok 140 - WP2-ACC5: FOUR sectors coexist through the same framework without branching
+  ---
+  duration_ms: 2.757929
+  type: 'test'
+  ...
+# Subtest: WP1-ACC1: sector.healthcare registers + executes through existing runtime
+ok 141 - WP1-ACC1: sector.healthcare registers + executes through existing runtime
+  ---
+  duration_ms: 1.929138
+  type: 'test'
+  ...
+# Subtest: WP1-ACC2: healthcare produces snapshots + replays via shared services
+ok 142 - WP1-ACC2: healthcare produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.526831
+  type: 'test'
+  ...
+# Subtest: WP1-ACC3: FOUR sectors coexist in the same runtime (Banking + Insurance + Capital Markets + Healthcare)
+ok 143 - WP1-ACC3: FOUR sectors coexist in the same runtime (Banking + Insurance + Capital Markets + Healthcare)
+  ---
+  duration_ms: 2.31547
+  type: 'test'
+  ...
+# Subtest: WP1-ACC4: healthcare participates in registries (no new registry kind)
+ok 144 - WP1-ACC4: healthcare participates in registries (no new registry kind)
+  ---
+  duration_ms: 0.665228
+  type: 'test'
+  ...
+# Subtest: IES010-WP3-ACC1: all 9 frozen expected outputs reproduced exactly (golden regression)
+ok 145 - IES010-WP3-ACC1: all 9 frozen expected outputs reproduced exactly (golden regression)
+  ---
+  duration_ms: 2.860841
+  type: 'test'
+  ...
+# Subtest: IES010-WP3-ACC2: override precedence applied deterministically (D10)
+ok 146 - IES010-WP3-ACC2: override precedence applied deterministically (D10)
+  ---
+  duration_ms: 0.49178
+  type: 'test'
+  ...
+# Subtest: IES010-WP3-ACC3: business-model calibration isolates pillar weights
+ok 147 - IES010-WP3-ACC3: business-model calibration isolates pillar weights
+  ---
+  duration_ms: 0.217604
+  type: 'test'
+  ...
+# Subtest: IES010-WP3-ACC4: ontology registration covers 8 dimensions (CSIP-compatible)
+ok 148 - IES010-WP3-ACC4: ontology registration covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.151093
+  type: 'test'
+  ...
+# Subtest: IES010-WP3-ACC5: full engine is replay-deterministic via shared services
+ok 149 - IES010-WP3-ACC5: full engine is replay-deterministic via shared services
+  ---
+  duration_ms: 0.192191
+  type: 'test'
+  ...
+# Subtest: IES010-WP2-ACC1: hospitality manifest via shared ManifestLoader
+ok 150 - IES010-WP2-ACC1: hospitality manifest via shared ManifestLoader
+  ---
+  duration_ms: 1.026975
+  type: 'test'
+  ...
+# Subtest: IES010-WP2-ACC2: hospitality evidence via shared EvidencePipeline
+ok 151 - IES010-WP2-ACC2: hospitality evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.52023
+  type: 'test'
+  ...
+# Subtest: IES010-WP2-ACC3: hospitality transport via shared generic DTO
+ok 152 - IES010-WP2-ACC3: hospitality transport via shared generic DTO
+  ---
+  duration_ms: 0.309953
+  type: 'test'
+  ...
+# Subtest: IES010-WP2-ACC4: hospitality diagnostics + qualification + activation via shared framework
+ok 153 - IES010-WP2-ACC4: hospitality diagnostics + qualification + activation via shared framework
+  ---
+  duration_ms: 0.273046
+  type: 'test'
+  ...
+# Subtest: IES010-WP2-ACC5: hospitality produces replay-compatible evidence + snapshot via shared services
+ok 154 - IES010-WP2-ACC5: hospitality produces replay-compatible evidence + snapshot via shared services
+  ---
+  duration_ms: 1.160691
+  type: 'test'
+  ...
+# Subtest: IES010-WP2-ACC6: SIX plugins coexist through the same framework without branching
+ok 155 - IES010-WP2-ACC6: SIX plugins coexist through the same framework without branching
+  ---
+  duration_ms: 3.150156
+  type: 'test'
+  ...
+# Subtest: IES010-WP2-ACC7: hospitality replay determinism (identical metadata + evidence across independent runs)
+ok 156 - IES010-WP2-ACC7: hospitality replay determinism (identical metadata + evidence across independent runs)
+  ---
+  duration_ms: 0.860628
+  type: 'test'
+  ...
+# Subtest: IES010-WP1-ACC1: sector.hospitality registers + executes through the existing runtime
+ok 157 - IES010-WP1-ACC1: sector.hospitality registers + executes through the existing runtime
+  ---
+  duration_ms: 3.414658
+  type: 'test'
+  ...
+# Subtest: IES010-WP1-ACC2: hospitality produces snapshots + replays via shared services
+ok 158 - IES010-WP1-ACC2: hospitality produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.6569
+  type: 'test'
+  ...
+# Subtest: IES010-WP1-ACC3: SIX plugins coexist (Banking + Insurance + Capital Markets + Healthcare + CSIP + Hospitality)
+ok 159 - IES010-WP1-ACC3: SIX plugins coexist (Banking + Insurance + Capital Markets + Healthcare + CSIP + Hospitality)
+  ---
+  duration_ms: 3.606509
+  type: 'test'
+  ...
+# Subtest: IES010-WP1-ACC4: hospitality replay-compatible execution via shared services
+ok 160 - IES010-WP1-ACC4: hospitality replay-compatible execution via shared services
+  ---
+  duration_ms: 0.36546
+  type: 'test'
+  ...
+# Subtest: IES010-WP4-ACC1: golden regression — all 9 frozen expected outputs from the standards repo
+ok 161 - IES010-WP4-ACC1: golden regression — all 9 frozen expected outputs from the standards repo
+  ---
+  duration_ms: 3.297262
+  type: 'test'
+  ...
+# Subtest: IES010-WP4-ACC2: replay validation — identical composites/verdicts/pillars/overrides/evidence (PF-like repeated run)
+ok 162 - IES010-WP4-ACC2: replay validation — identical composites/verdicts/pillars/overrides/evidence (PF-like repeated run)
+  ---
+  duration_ms: 0.503015
+  type: 'test'
+  ...
+# Subtest: IES010-WP4-ACC3: all 9 validation fixtures (incl. override paths) reproduced
+ok 163 - IES010-WP4-ACC3: all 9 validation fixtures (incl. override paths) reproduced
+  ---
+  duration_ms: 0.569678
+  type: 'test'
+  ...
+# Subtest: IES010-WP4-ACC4: evidence completeness — every execution produces valid evidence
+ok 164 - IES010-WP4-ACC4: evidence completeness — every execution produces valid evidence
+  ---
+  duration_ms: 0.590272
+  type: 'test'
+  ...
+# Subtest: IES010-WP4-ACC5: ontology registration covers 8 dimensions (CSIP compatibility preserved)
+ok 165 - IES010-WP4-ACC5: ontology registration covers 8 dimensions (CSIP compatibility preserved)
+  ---
+  duration_ms: 0.291122
+  type: 'test'
+  ...
+# Subtest: IES014-WP3-ACC1: metric evaluation
+ok 166 - IES014-WP3-ACC1: metric evaluation
+  ---
+  duration_ms: 2.275936
+  type: 'test'
+  ...
+# Subtest: IES014-WP3-ACC2..ACC6: all 10 frozen expected outputs reproduced exactly (golden regression)
+ok 167 - IES014-WP3-ACC2..ACC6: all 10 frozen expected outputs reproduced exactly (golden regression)
+  ---
+  duration_ms: 1.690914
+  type: 'test'
+  ...
+# Subtest: IES014-WP3-ACC7: override precedence (min-rank) deterministic (D15/D10)
+ok 168 - IES014-WP3-ACC7: override precedence (min-rank) deterministic (D15/D10)
+  ---
+  duration_ms: 0.434865
+  type: 'test'
+  ...
+# Subtest: IES014-WP3-ACC5: subsegment + archetype calibration isolates
+ok 169 - IES014-WP3-ACC5: subsegment + archetype calibration isolates
+  ---
+  duration_ms: 1.329655
+  type: 'test'
+  ...
+# Subtest: IES014-WP3-ACC8: evidence generated via shared pipeline
+ok 170 - IES014-WP3-ACC8: evidence generated via shared pipeline
+  ---
+  duration_ms: 0.170983
+  type: 'test'
+  ...
+# Subtest: IES014-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+ok 171 - IES014-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.137862
+  type: 'test'
+  ...
+# Subtest: IES014-WP3-ACC10: full engine replay-deterministic via shared services
+ok 172 - IES014-WP3-ACC10: full engine replay-deterministic via shared services
+  ---
+  duration_ms: 0.228996
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC1: industrials manifest via shared ManifestLoader
+ok 173 - IES014-WP2-ACC1: industrials manifest via shared ManifestLoader
+  ---
+  duration_ms: 1.247808
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC2: industrials evidence via shared EvidencePipeline
+ok 174 - IES014-WP2-ACC2: industrials evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.523862
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC3: industrials deterministic snapshot via shared Snapshot
+ok 175 - IES014-WP2-ACC3: industrials deterministic snapshot via shared Snapshot
+  ---
+  duration_ms: 1.219593
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC4: industrials replay byte-identical via shared Replay
+ok 176 - IES014-WP2-ACC4: industrials replay byte-identical via shared Replay
+  ---
+  duration_ms: 0.715559
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC5: industrials diagnostics via shared DiagnosticsService (observational)
+ok 177 - IES014-WP2-ACC5: industrials diagnostics via shared DiagnosticsService (observational)
+  ---
+  duration_ms: 0.239945
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC6: industrials qualification via shared QualificationService
+ok 178 - IES014-WP2-ACC6: industrials qualification via shared QualificationService
+  ---
+  duration_ms: 0.169941
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC7: industrials activation via shared ActivationService
+ok 179 - IES014-WP2-ACC7: industrials activation via shared ActivationService
+  ---
+  duration_ms: 0.249274
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC8: industrials transport via shared generic DTO
+ok 180 - IES014-WP2-ACC8: industrials transport via shared generic DTO
+  ---
+  duration_ms: 0.340944
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC9: TEN plugins coexist through the same framework without branching
+ok 181 - IES014-WP2-ACC9: TEN plugins coexist through the same framework without branching
+  ---
+  duration_ms: 5.907732
+  type: 'test'
+  ...
+# Subtest: IES014-WP2-ACC10: industrials replay determinism (identical metadata + evidence across independent runs)
+ok 182 - IES014-WP2-ACC10: industrials replay determinism (identical metadata + evidence across independent runs)
+  ---
+  duration_ms: 0.672987
+  type: 'test'
+  ...
+# Subtest: IES014-WP1-ACC1: sector.industrials registers + executes through the existing runtime
+ok 183 - IES014-WP1-ACC1: sector.industrials registers + executes through the existing runtime
+  ---
+  duration_ms: 2.265565
+  type: 'test'
+  ...
+# Subtest: IES014-WP1-ACC2: industrials produces snapshots + replays via shared services
+ok 184 - IES014-WP1-ACC2: industrials produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.657653
+  type: 'test'
+  ...
+# Subtest: IES014-WP1-ACC3: TEN plugins coexist (8 sectors + CSIP + Industrials)
+ok 185 - IES014-WP1-ACC3: TEN plugins coexist (8 sectors + CSIP + Industrials)
+  ---
+  duration_ms: 6.700169
+  type: 'test'
+  ...
+# Subtest: IES014-WP1-ACC4: industrials ontology metadata covers 8 dimensions (CSIP-compatible)
+ok 186 - IES014-WP1-ACC4: industrials ontology metadata covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.275522
+  type: 'test'
+  ...
+# Subtest: IES014-WP4-ACC1: golden regression — all 10 frozen expected outputs from the standards repo
+ok 187 - IES014-WP4-ACC1: golden regression — all 10 frozen expected outputs from the standards repo
+  ---
+  duration_ms: 4.055903
+  type: 'test'
+  ...
+# Subtest: IES014-WP4-ACC2: replay — byte-identical across repeated runs
+ok 188 - IES014-WP4-ACC2: replay — byte-identical across repeated runs
+  ---
+  duration_ms: 0.459995
+  type: 'test'
+  ...
+# Subtest: IES014-WP4-ACC3: validation fixtures — all 10 pass
+ok 189 - IES014-WP4-ACC3: validation fixtures — all 10 pass
+  ---
+  duration_ms: 1.511467
+  type: 'test'
+  ...
+# Subtest: IES014-WP4-ACC4: calibration integrity — frozen profile hash verified
+ok 190 - IES014-WP4-ACC4: calibration integrity — frozen profile hash verified
+  ---
+  duration_ms: 0.228812
+  type: 'test'
+  ...
+# Subtest: IES014-WP4-ACC5: override precedence — all override paths
+ok 191 - IES014-WP4-ACC5: override precedence — all override paths
+  ---
+  duration_ms: 0.776938
+  type: 'test'
+  ...
+# Subtest: IES014-WP4-ACC6: ontology registration — 8/8 dimensions
+ok 192 - IES014-WP4-ACC6: ontology registration — 8/8 dimensions
+  ---
+  duration_ms: 0.323846
+  type: 'test'
+  ...
+# Subtest: IES014-WP4-ACC7: evidence — complete for every provider
+ok 193 - IES014-WP4-ACC7: evidence — complete for every provider
+  ---
+  duration_ms: 0.693098
+  type: 'test'
+  ...
+# WP3-ACC1 insurance golden dataset reproducibility PASS
+# WP3-ACC2 insurance replay determinism PASS
+# WP3-ACC3 insurance calibration isolation PASS
+# WP3-ACC4 insurance evidence completeness PASS
+# Subtest: WP3-ACC1: every frozen golden insurer reproduces the frozen expected output
+ok 194 - WP3-ACC1: every frozen golden insurer reproduces the frozen expected output
+  ---
+  duration_ms: 3.280661
+  type: 'test'
+  ...
+# Subtest: WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+ok 195 - WP3-ACC2: same dataset twice produces identical evidence + verdict (replay determinism)
+  ---
+  duration_ms: 1.290684
+  type: 'test'
+  ...
+# Subtest: WP3-ACC3: changing calibration profile changes behavior without code changes (calibration isolation)
+ok 196 - WP3-ACC3: changing calibration profile changes behavior without code changes (calibration isolation)
+  ---
+  duration_ms: 0.299253
+  type: 'test'
+  ...
+# Subtest: WP3-ACC4: every verdict traceable Metric→Band→Score→Pillar→Composite→Verdict
+ok 197 - WP3-ACC4: every verdict traceable Metric→Band→Score→Pillar→Composite→Verdict
+  ---
+  duration_ms: 0.27774
+  type: 'test'
+  ...
+# Subtest: WP2-ACC1: insurance manifest loaded through shared ManifestLoader
+ok 198 - WP2-ACC1: insurance manifest loaded through shared ManifestLoader
+  ---
+  duration_ms: 1.380572
+  type: 'test'
+  ...
+# Subtest: WP2-ACC2: insurance evidence produced through shared EvidencePipeline
+ok 199 - WP2-ACC2: insurance evidence produced through shared EvidencePipeline
+  ---
+  duration_ms: 0.297987
+  type: 'test'
+  ...
+# Subtest: WP2-ACC3: insurance transport via shared generic DTO
+ok 200 - WP2-ACC3: insurance transport via shared generic DTO
+  ---
+  duration_ms: 0.346363
+  type: 'test'
+  ...
+# Subtest: WP2-ACC4: insurance diagnostics + qualification + activation via shared framework
+ok 201 - WP2-ACC4: insurance diagnostics + qualification + activation via shared framework
+  ---
+  duration_ms: 0.396993
+  type: 'test'
+  ...
+# Subtest: WP2-ACC5: insurance + banking coexist through the same framework services without branching
+ok 202 - WP2-ACC5: insurance + banking coexist through the same framework services without branching
+  ---
+  duration_ms: 1.779559
+  type: 'test'
+  ...
+# Subtest: WP1-ACC1: sector.insurance registers + executes through existing runtime
+ok 203 - WP1-ACC1: sector.insurance registers + executes through existing runtime
+  ---
+  duration_ms: 1.708111
+  type: 'test'
+  ...
+# Subtest: WP1-ACC2: insurance produces snapshots + replays via shared services
+ok 204 - WP1-ACC2: insurance produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.579842
+  type: 'test'
+  ...
+# Subtest: WP1-ACC3: insurance coexists with banking in the same runtime
+ok 205 - WP1-ACC3: insurance coexists with banking in the same runtime
+  ---
+  duration_ms: 1.08238
+  type: 'test'
+  ...
+# Subtest: WP1-ACC4: insurance participates in registries (no new registry kind)
+ok 206 - WP1-ACC4: insurance participates in registries (no new registry kind)
+  ---
+  duration_ms: 0.620332
+  type: 'test'
+  ...
+# Subtest: REGRESSION: two independent stub plugins coexist without runtime modification
+ok 207 - REGRESSION: two independent stub plugins coexist without runtime modification
+  ---
+  duration_ms: 1.295464
+  type: 'test'
+  ...
+# Subtest: A10: frozen N4-SD, population boundary and cross-sector barrel are byte-identical to main
+ok 208 - A10: frozen N4-SD, population boundary and cross-sector barrel are byte-identical to main
+  ---
+  duration_ms: 1.668926
+  type: 'test'
+  ...
+# Subtest: A10: the screen module barrel is new and exports no replacement G5 comparator
+ok 209 - A10: the screen module barrel is new and exports no replacement G5 comparator
+  ---
+  duration_ms: 0.388033
+  type: 'test'
+  ...
+# Subtest: A10: assigned evaluator identity is explicit, deterministic and configuration-independent
+ok 210 - A10: assigned evaluator identity is explicit, deterministic and configuration-independent
+  ---
+  duration_ms: 0.182518
+  type: 'test'
+  ...
+# Subtest: A10 S1: NP12MBR v01 byte-exact member preimages and inputHash
+ok 211 - A10 S1: NP12MBR v01 byte-exact member preimages and inputHash
+  ---
+  duration_ms: 3.794991
+  type: 'test'
+  ...
+# Subtest: A10 S2: NP12MBR v01 byte-exact member preimages and inputHash
+ok 212 - A10 S2: NP12MBR v01 byte-exact member preimages and inputHash
+  ---
+  duration_ms: 0.700881
+  type: 'test'
+  ...
+# Subtest: A10 S3: NP12MBR v01 byte-exact member preimages and inputHash
+ok 213 - A10 S3: NP12MBR v01 byte-exact member preimages and inputHash
+  ---
+  duration_ms: 0.736931
+  type: 'test'
+  ...
+# Subtest: A10 S4: NP12MBR v01 byte-exact member preimages and inputHash
+ok 214 - A10 S4: NP12MBR v01 byte-exact member preimages and inputHash
+  ---
+  duration_ms: 0.613659
+  type: 'test'
+  ...
+# Subtest: A10 S5: NP12MBR v01 byte-exact member preimages and inputHash
+ok 215 - A10 S5: NP12MBR v01 byte-exact member preimages and inputHash
+  ---
+  duration_ms: 0.671019
+  type: 'test'
+  ...
+# Subtest: A10 S6: NP12MBR v01 byte-exact member preimages and inputHash
+ok 216 - A10 S6: NP12MBR v01 byte-exact member preimages and inputHash
+  ---
+  duration_ms: 0.768572
+  type: 'test'
+  ...
+# Subtest: A10 S1: NP12EXE v01 and NP12RES v01 byte-exact identities
+ok 217 - A10 S1: NP12EXE v01 and NP12RES v01 byte-exact identities
+  ---
+  duration_ms: 1.653827
+  type: 'test'
+  ...
+# Subtest: A10 S2: NP12EXE v01 and NP12RES v01 byte-exact identities
+ok 218 - A10 S2: NP12EXE v01 and NP12RES v01 byte-exact identities
+  ---
+  duration_ms: 0.82349
+  type: 'test'
+  ...
+# Subtest: A10 S3: NP12EXE v01 and NP12RES v01 byte-exact identities
+ok 219 - A10 S3: NP12EXE v01 and NP12RES v01 byte-exact identities
+  ---
+  duration_ms: 0.827246
+  type: 'test'
+  ...
+# Subtest: A10 S4: NP12EXE v01 and NP12RES v01 byte-exact identities
+ok 220 - A10 S4: NP12EXE v01 and NP12RES v01 byte-exact identities
+  ---
+  duration_ms: 0.530117
+  type: 'test'
+  ...
+# Subtest: A10 S5: NP12EXE v01 and NP12RES v01 byte-exact identities
+ok 221 - A10 S5: NP12EXE v01 and NP12RES v01 byte-exact identities
+  ---
+  duration_ms: 0.794743
+  type: 'test'
+  ...
+# Subtest: A10 S6: NP12EXE v01 and NP12RES v01 byte-exact identities
+ok 222 - A10 S6: NP12EXE v01 and NP12RES v01 byte-exact identities
+  ---
+  duration_ms: 0.637509
+  type: 'test'
+  ...
+# Subtest: A10: canonical decimal admits zero, integers and every fractional precision
+ok 223 - A10: canonical decimal admits zero, integers and every fractional precision
+  ---
+  duration_ms: 0.262194
+  type: 'test'
+  ...
+# Subtest: A10: canonical decimal rejects exponent, NaN, Infinity, range, precision and bad spelling
+ok 224 - A10: canonical decimal rejects exponent, NaN, Infinity, range, precision and bad spelling
+  ---
+  duration_ms: 0.384416
+  type: 'test'
+  ...
+# Subtest: A10: canonical decimal rejects >6dp and exponent specifically, and never rounds
+ok 225 - A10: canonical decimal rejects >6dp and exponent specifically, and never rounds
+  ---
+  duration_ms: 0.119782
+  type: 'test'
+  ...
+# Subtest: A10: canonical text is a bijection over the whole governed q domain
+ok 226 - A10: canonical text is a bijection over the whole governed q domain
+  ---
+  duration_ms: 8.993204
+  type: 'test'
+  ...
+# Subtest: A10: differential parity — canonical representation agrees with frozen N4-SD on every governed value
+ok 227 - A10: differential parity — canonical representation agrees with frozen N4-SD on every governed value
+  ---
+  duration_ms: 1.631629
+  type: 'test'
+  ...
+# Subtest: A10: differential parity — exact q and rejection behaviour over a governed sweep
+ok 228 - A10: differential parity — exact q and rejection behaviour over a governed sweep
+  ---
+  duration_ms: 64.093697
+  type: 'test'
+  ...
+# Subtest: A10: differential parity — N4-SD dedup and canonical bytes agree with the Screen-side key
+ok 229 - A10: differential parity — N4-SD dedup and canonical bytes agree with the Screen-side key
+  ---
+  duration_ms: 0.611832
+  type: 'test'
+  ...
+# Subtest: A10: growth availability is explicit, two-valued, and never inferred from a numeric zero
+ok 230 - A10: growth availability is explicit, two-valued, and never inferred from a numeric zero
+  ---
+  duration_ms: 0.271871
+  type: 'test'
+  ...
+# Subtest: A10: unavailable growth and available numeric zero both fail every growth operator
+ok 231 - A10: unavailable growth and available numeric zero both fail every growth operator
+  ---
+  duration_ms: 9.065044
+  type: 'test'
+  ...
+# Subtest: A10: growth predicates evaluate exactly, including the zero and unavailable sentinels
+ok 232 - A10: growth predicates evaluate exactly, including the zero and unavailable sentinels
+  ---
+  duration_ms: 1.046425
+  type: 'test'
+  ...
+# Subtest: A10: member validation maps every governed condition to its exact error code
+ok 233 - A10: member validation maps every governed condition to its exact error code
+  ---
+  duration_ms: 0.916314
+  type: 'test'
+  ...
+# Subtest: A10: structural member violations fail the execution and stay distinct from member invalidity
+ok 234 - A10: structural member violations fail the execution and stay distinct from member invalidity
+  ---
+  duration_ms: 0.755918
+  type: 'test'
+  ...
+# Subtest: A10: growth supplied while UNAVAILABLE is fail-closed, never silently dropped
+ok 235 - A10: growth supplied while UNAVAILABLE is fail-closed, never silently dropped
+  ---
+  duration_ms: 0.134841
+  type: 'test'
+  ...
+# Subtest: A10: member order is the governed G5 order, consumed verbatim
+ok 236 - A10: member order is the governed G5 order, consumed verbatim
+  ---
+  duration_ms: 0.553046
+  type: 'test'
+  ...
+# Subtest: A10: G5 is UTF-16 code-unit order and is NOT re-sorted into UTF-8 octet order
+ok 237 - A10: G5 is UTF-16 code-unit order and is NOT re-sorted into UTF-8 octet order
+  ---
+  duration_ms: 0.56847
+  type: 'test'
+  ...
+# Subtest: A10: repeated ordering is deterministic and independent of supplied order
+ok 238 - A10: repeated ordering is deterministic and independent of supplied order
+  ---
+  duration_ms: 2.993753
+  type: 'test'
+  ...
+# Subtest: A10: identical canonical input produces identical inputHash, executionId and resultId
+ok 239 - A10: identical canonical input produces identical inputHash, executionId and resultId
+  ---
+  duration_ms: 2.35101
+  type: 'test'
+  ...
+# Subtest: A10: timestamp and requestId variation never changes any identity
+ok 240 - A10: timestamp and requestId variation never changes any identity
+  ---
+  duration_ms: 0.923012
+  type: 'test'
+  ...
+# Subtest: A10: A8-S-02 pin — snapshotId and evidenceId are supplied verbatim and never generated
+ok 241 - A10: A8-S-02 pin — snapshotId and evidenceId are supplied verbatim and never generated
+  ---
+  duration_ms: 0.888748
+  type: 'test'
+  ...
+# Subtest: A10: member-input change changes inputHash; unrelated audit fields do not
+ok 242 - A10: member-input change changes inputHash; unrelated audit fields do not
+  ---
+  duration_ms: 1.064714
+  type: 'test'
+  ...
+# Subtest: A10: execution identity binds definition identity, version, digest and population
+ok 243 - A10: execution identity binds definition identity, version, digest and population
+  ---
+  duration_ms: 0.617102
+  type: 'test'
+  ...
+# Subtest: A10: execution identity is a hash-of-hashes over G5-ordered member bindings
+ok 244 - A10: execution identity is a hash-of-hashes over G5-ordered member bindings
+  ---
+  duration_ms: 0.433887
+  type: 'test'
+  ...
+# Subtest: A10: exact population binding — missing, extra and duplicate members fail closed
+ok 245 - A10: exact population binding — missing, extra and duplicate members fail closed
+  ---
+  duration_ms: 0.533861
+  type: 'test'
+  ...
+# Subtest: A10: contradictory predicates and zero matches are byte-identical; empty set is match-all
+ok 246 - A10: contradictory predicates and zero matches are byte-identical; empty set is match-all
+  ---
+  duration_ms: 0.674331
+  type: 'test'
+  ...
+# Subtest: A10: member error code is framed as T("") when status is not INVALID_MEMBER
+ok 247 - A10: member error code is framed as T("") when status is not INVALID_MEMBER
+  ---
+  duration_ms: 0.216095
+  type: 'test'
+  ...
+# Subtest: A10: A8-S-03 stays unresolved — no FAILED result is emitted, defined, or hashed
+ok 248 - A10: A8-S-03 stays unresolved — no FAILED result is emitted, defined, or hashed
+  ---
+  duration_ms: 0.317785
+  type: 'test'
+  ...
+# Subtest: A10: the Screen runtime never reaches through the supplied-input boundary
+ok 249 - A10: the Screen runtime never reaches through the supplied-input boundary
+  ---
+  duration_ms: 0.904097
+  type: 'test'
+  ...
+# Subtest: A10: the 13 canonical sector names are the governed vocabulary
+ok 250 - A10: the 13 canonical sector names are the governed vocabulary
+  ---
+  duration_ms: 0.229922
+  type: 'test'
+  ...
+# Subtest: A10: framing primitives are byte-based U32BE and strict UTF-8
+ok 251 - A10: framing primitives are byte-based U32BE and strict UTF-8
+  ---
+  duration_ms: 0.495323
+  type: 'test'
+  ...
+# Subtest: A10: the supplied boundary type carries no engine call and no producer composition
+ok 252 - A10: the supplied boundary type carries no engine call and no producer composition
+  ---
+  duration_ms: 0.262973
+  type: 'test'
+  ...
+# Subtest: N4: E01–E14 literal fixtures match the unchanged authoritative grammar blob
+ok 253 - N4: E01–E14 literal fixtures match the unchanged authoritative grammar blob
+  ---
+  duration_ms: 4.719654
+  type: 'test'
+  ...
+# Subtest: N4 E01: empty predicate collection — canonical semantics, exact published bytes and SHA-256
+ok 254 - N4 E01: empty predicate collection — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.942847
+  type: 'test'
+  ...
+# Subtest: N4 E02: one numeric predicate, integer 75 — canonical semantics, exact published bytes and SHA-256
+ok 255 - N4 E02: one numeric predicate, integer 75 — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.57856
+  type: 'test'
+  ...
+# Subtest: N4 E03: fractional operand 0.5 — canonical semantics, exact published bytes and SHA-256
+ok 256 - N4 E03: fractional operand 0.5 — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.504695
+  type: 'test'
+  ...
+# Subtest: N4 E04: six fractional digits, 75.123456 — canonical semantics, exact published bytes and SHA-256
+ok 257 - N4 E04: six fractional digits, 75.123456 — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.389177
+  type: 'test'
+  ...
+# Subtest: N4 E05: equivalent numeric spellings in separate inputs — canonical semantics, exact published bytes and SHA-256
+ok 258 - N4 E05: equivalent numeric spellings in separate inputs — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.579081
+  type: 'test'
+  ...
+# Subtest: N4 E06: multiple predicates in different input orders — canonical semantics, exact published bytes and SHA-256
+ok 259 - N4 E06: multiple predicates in different input orders — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.763693
+  type: 'test'
+  ...
+# Subtest: N4 E07: exact canonical duplicate removal — canonical semantics, exact published bytes and SHA-256
+ok 260 - N4 E07: exact canonical duplicate removal — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.247743
+  type: 'test'
+  ...
+# Subtest: N4 E08: negative zero and zero — canonical semantics, exact published bytes and SHA-256
+ok 261 - N4 E08: negative zero and zero — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.6224
+  type: 'test'
+  ...
+# Subtest: N4 E09: differing definitionId, including case significance — canonical semantics, exact published bytes and SHA-256
+ok 262 - N4 E09: differing definitionId, including case significance — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.330699
+  type: 'test'
+  ...
+# Subtest: N4 E10: differing version, preserving "01" — canonical semantics, exact published bytes and SHA-256
+ok 263 - N4 E10: differing version, preserving "01" — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.157914
+  type: 'test'
+  ...
+# Subtest: N4 E11: differing populationIdentity — canonical semantics, exact published bytes and SHA-256
+ok 264 - N4 E11: differing populationIdentity — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.134737
+  type: 'test'
+  ...
+# Subtest: N4 E12: Unicode spelling, precomposed scalar — canonical semantics, exact published bytes and SHA-256
+ok 265 - N4 E12: Unicode spelling, precomposed scalar — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.129823
+  type: 'test'
+  ...
+# Subtest: N4 E13: distinct decomposed Unicode spelling — canonical semantics, exact published bytes and SHA-256
+ok 266 - N4 E13: distinct decomposed Unicode spelling — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.15776
+  type: 'test'
+  ...
+# Subtest: N4 E14: meaningful leading and trailing whitespace — canonical semantics, exact published bytes and SHA-256
+ok 267 - N4 E14: meaningful leading and trailing whitespace — canonical semantics, exact published bytes and SHA-256
+  ---
+  duration_ms: 0.113804
+  type: 'test'
+  ...
+# Subtest: N4: the existing cross-sector barrel exports the isolated runtime type
+ok 268 - N4: the existing cross-sector barrel exports the isolated runtime type
+  ---
+  duration_ms: 0.075342
+  type: 'test'
+  ...
+# Subtest: N4: both opaque identifiers distinguish exact case, numeric-looking and semver-looking text
+ok 269 - N4: both opaque identifiers distinguish exact case, numeric-looking and semver-looking text
+  ---
+  duration_ms: 0.64627
+  type: 'test'
+  ...
+# Subtest: N4: both identifiers reject non-text without invoking coercion, aliases or defaults
+ok 270 - N4: both identifiers reject non-text without invoking coercion, aliases or defaults
+  ---
+  duration_ms: 0.717298
+  type: 'test'
+  ...
+# Subtest: N4: exact frozen White_Space set rejects blank identifiers but is preserved around non-blank text
+ok 271 - N4: exact frozen White_Space set rejects blank identifiers but is preserved around non-blank text
+  ---
+  duration_ms: 2.865768
+  type: 'test'
+  ...
+# Subtest: N4: literal BOM, NUL, controls, noncharacters, unassigned and supplementary scalars remain data
+ok 272 - N4: literal BOM, NUL, controls, noncharacters, unassigned and supplementary scalars remain data
+  ---
+  duration_ms: 1.212673
+  type: 'test'
+  ...
+# Subtest: N4: unpaired UTF-16 surrogates reject before UTF-8 replacement can collapse text
+ok 273 - N4: unpaired UTF-16 surrogates reject before UTF-8 replacement can collapse text
+  ---
+  duration_ms: 0.247694
+  type: 'test'
+  ...
+# Subtest: N4: identifier framing is byte-based U32BE, not UTF-16 length or naive concatenation
+ok 274 - N4: identifier framing is byte-based U32BE, not UTF-16 length or naive concatenation
+  ---
+  duration_ms: 0.259139
+  type: 'test'
+  ...
+# Subtest: N4: admitted decimal boundaries and all allowed fractional precisions canonicalize exactly
+ok 275 - N4: admitted decimal boundaries and all allowed fractional precisions canonicalize exactly
+  ---
+  duration_ms: 2.37243
+  type: 'test'
+  ...
+# Subtest: N4: all admitted negative-zero spellings normalize and deduplicate with positive zero
+ok 276 - N4: all admitted negative-zero spellings normalize and deduplicate with positive zero
+  ---
+  duration_ms: 0.899013
+  type: 'test'
+  ...
+# Subtest: N4: invalid decimal precision, syntax, range, exponent, NaN and infinities reject without rounding
+ok 277 - N4: invalid decimal precision, syntax, range, exponent, NaN and infinities reject without rounding
+  ---
+  duration_ms: 0.728672
+  type: 'test'
+  ...
+# Subtest: N4: missing/malformed content and predicate collections never become an empty collection
+ok 278 - N4: missing/malformed content and predicate collections never become an empty collection
+  ---
+  duration_ms: 0.33454
+  type: 'test'
+  ...
+# Subtest: N4: only the exact three fields and five operators are admitted, without aliases
+ok 279 - N4: only the exact three fields and five operators are admitted, without aliases
+  ---
+  duration_ms: 0.45986
+  type: 'test'
+  ...
+# Subtest: N4: complete field → operator → exact numeric ordering, independent of caller order and spelling
+ok 280 - N4: complete field → operator → exact numeric ordering, independent of caller order and spelling
+  ---
+  duration_ms: 9.859647
+  type: 'test'
+  ...
+# Subtest: N4: contradictions and non-identical redundancies remain, while only exact canonical triples collapse
+ok 281 - N4: contradictions and non-identical redundancies remain, while only exact canonical triples collapse
+  ---
+  duration_ms: 1.674692
+  type: 'test'
+  ...
+# Subtest: N4: deduplicated collection count uses U32BE beyond one octet and ends at the last operand
+ok 282 - N4: deduplicated collection count uses U32BE beyond one octet and ends at the last operand
+  ---
+  duration_ms: 3.037571
+  type: 'test'
+  ...
+# Subtest: N4: population reference needs an explicit exact binding, not just valid hex
+ok 283 - N4: population reference needs an explicit exact binding, not just valid hex
+  ---
+  duration_ms: 0.438583
+  type: 'test'
+  ...
+# Subtest: N4: real G1–G5 boundary supplies the binding; values/order stay outside Definition content
+ok 284 - N4: real G1–G5 boundary supplies the binding; values/order stay outside Definition content
+  ---
+  duration_ms: 0.418724
+  type: 'test'
+  ...
+# Subtest: N4: metadata, property order, members, results and digest itself never enter the preimage
+ok 285 - N4: metadata, property order, members, results and digest itself never enter the preimage
+  ---
+  duration_ms: 0.303434
+  type: 'test'
+  ...
+# Subtest: N4: canonical content is immutable and returned byte buffers cannot mutate future bytes/digests
+ok 286 - N4: canonical content is immutable and returned byte buffers cannot mutate future bytes/digests
+  ---
+  duration_ms: 0.172467
+  type: 'test'
+  ...
+# Subtest: N4: deterministic exact decimal round trips over 1000 scaled-integer samples
+ok 287 - N4: deterministic exact decimal round trips over 1000 scaled-integer samples
+  ---
+  duration_ms: 48.127959
+  type: 'test'
+  ...
+# Subtest: A13 GDS-01: all 13 certified sector engines execute and populate ScreenMemberInput from SnapshotStore
+ok 288 - A13 GDS-01: all 13 certified sector engines execute and populate ScreenMemberInput from SnapshotStore
+  ---
+  duration_ms: 14.405336
+  type: 'test'
+  ...
+# Subtest: A13 GDS-01: ScreenProducerAdapter never reads golden/expected fixture files and reflects live runtime input mutations
+ok 289 - A13 GDS-01: ScreenProducerAdapter never reads golden/expected fixture files and reflects live runtime input mutations
+  ---
+  duration_ms: 0.817429
+  type: 'test'
+  ...
+# Subtest: A13 GDS-01: SnapshotStore and supportingScores fail-closed checks
+ok 290 - A13 GDS-01: SnapshotStore and supportingScores fail-closed checks
+  ---
+  duration_ms: 0.488356
+  type: 'test'
+  ...
+# Subtest: A13 GDS-02: all five non-standard quality mappings and eight standard mappings are bound
+ok 291 - A13 GDS-02: all five non-standard quality mappings and eight standard mappings are bound
+  ---
+  duration_ms: 0.603268
+  type: 'test'
+  ...
+# Subtest: A13 GDS-03 & GDS-04: Banking and Healthcare always emit growthAvailability=UNAVAILABLE and growth=null
+ok 292 - A13 GDS-03 & GDS-04: Banking and Healthcare always emit growthAvailability=UNAVAILABLE and growth=null
+  ---
+  duration_ms: 0.614064
+  type: 'test'
+  ...
+# Subtest: A13 GDS-05: all-inputs-missing across all 11 input-backed engines emits UNAVAILABLE / null
+ok 293 - A13 GDS-05: all-inputs-missing across all 11 input-backed engines emits UNAVAILABLE / null
+  ---
+  duration_ms: 1.779949
+  type: 'test'
+  ...
+# Subtest: A13 GDS-05: partially available growth constituent inputs emit AVAILABLE with runtime growth score
+ok 294 - A13 GDS-05: partially available growth constituent inputs emit AVAILABLE with runtime growth score
+  ---
+  duration_ms: 2.316047
+  type: 'test'
+  ...
+# Subtest: A13 GDS-05: legitimate numeric zero growth remains AVAILABLE "0" and is distinct from UNAVAILABLE
+ok 295 - A13 GDS-05: legitimate numeric zero growth remains AVAILABLE "0" and is distinct from UNAVAILABLE
+  ---
+  duration_ms: 1.206208
+  type: 'test'
+  ...
+# Subtest: A13 GDS-06: 6dp half-to-even rounding, >6dp normalization, trailing-zero stripping, and rejection of non-finite/out-of-range values
+ok 296 - A13 GDS-06: 6dp half-to-even rounding, >6dp normalization, trailing-zero stripping, and rejection of non-finite/out-of-range values
+  ---
+  duration_ms: 0.923954
+  type: 'test'
+  ...
+# Subtest: A13 GDS-07: caller companyId resolution, fail-closed validation, and Insurance/Industrials IN-001 sector-scoped coexistence
+ok 297 - A13 GDS-07: caller companyId resolution, fail-closed validation, and Insurance/Industrials IN-001 sector-scoped coexistence
+  ---
+  duration_ms: 6.32706
+  type: 'test'
+  ...
+# Subtest: A13 GDS-08 & GDS-09: authoritative EngineRegistry metadata and runtime provenance
+ok 298 - A13 GDS-08 & GDS-09: authoritative EngineRegistry metadata and runtime provenance
+  ---
+  duration_ms: 1.964198
+  type: 'test'
+  ...
+# Subtest: A13 Determinism: repeated identical input produces identical inputHash, executionId, and resultId; timestamp/requestId variation and permutation do not alter identity; Date.now and Math.random are never called
+ok 299 - A13 Determinism: repeated identical input produces identical inputHash, executionId, and resultId; timestamp/requestId variation and permutation do not alter identity; Date.now and Math.random are never called
+  ---
+  duration_ms: 5.546557
+  type: 'test'
+  ...
+# Subtest: A13 A10 Differential Parity: ScreenProducerAdapter output matches direct A10 admitMember, memberPreimage, executionPreimage, and resultPreimage byte-for-byte
+ok 300 - A13 A10 Differential Parity: ScreenProducerAdapter output matches direct A10 admitMember, memberPreimage, executionPreimage, and resultPreimage byte-for-byte
+  ---
+  duration_ms: 4.909331
+  type: 'test'
+  ...
+# Subtest: A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines
+ok 301 - A13 Protected Surface: zero modifications to all 13 sector engines, N4-SD, N4-A10 runtime, CSIP, EngineRegistry, EngineApiAdapter, and certification baselines
+  ---
+  duration_ms: 54.33998
+  type: 'test'
+  ...
+# Subtest: A13 control: adapter pin admits only the approved addition and rejects every other protected change
+ok 302 - A13 control: adapter pin admits only the approved addition and rejects every other protected change
+  ---
+  duration_ms: 0.259446
+  type: 'test'
+  ...
+# Subtest: A13 Git control: exact approved release-note transition and exact adapter addition pass the repository assertion
+ok 303 - A13 Git control: exact approved release-note transition and exact adapter addition pass the repository assertion
+  ---
+  duration_ms: 168.469094
+  type: 'test'
+  ...
+# Subtest: A13 Git control: unapproved working release-note content fails
+ok 304 - A13 Git control: unapproved working release-note content fails
+  ---
+  duration_ms: 156.11531
+  type: 'test'
+  ...
+# Subtest: A13 Git control: old-content reversion is rejected even with NO release-note delta in index or working tree
+ok 305 - A13 Git control: old-content reversion is rejected even with NO release-note delta in index or working tree
+  ---
+  duration_ms: 176.415712
+  type: 'test'
+  ...
+# Subtest: A13 Git control: a staged release-note edit cannot hide behind restored approved working bytes
+ok 306 - A13 Git control: a staged release-note edit cannot hide behind restored approved working bytes
+  ---
+  duration_ms: 197.093985
+  type: 'test'
+  ...
+# Subtest: A13 Git control: missing release notes fail without needing a delta-only exception
+ok 307 - A13 Git control: missing release notes fail without needing a delta-only exception
+  ---
+  duration_ms: 163.723588
+  type: 'test'
+  ...
+# Subtest: A13 Git control: staged deletion of release notes fails
+ok 308 - A13 Git control: staged deletion of release notes fails
+  ---
+  duration_ms: 170.957214
+  type: 'test'
+  ...
+# Subtest: A13 Git control: release-note rename is a rejected deletion/addition, never rename permission
+ok 309 - A13 Git control: release-note rename is a rejected deletion/addition, never rename permission
+  ---
+  duration_ms: 176.081471
+  type: 'test'
+  ...
+# Subtest: A13 Git control: symlink-type index substitution fails even with the approved blob and regular working bytes
+ok 310 - A13 Git control: symlink-type index substitution fails even with the approved blob and regular working bytes
+  ---
+  duration_ms: 175.614412
+  type: 'test'
+  ...
+# Subtest: A13 Git control: executable release-note index mode fails with unchanged approved content
+ok 311 - A13 Git control: executable release-note index mode fails with unchanged approved content
+  ---
+  duration_ms: 183.974983
+  type: 'test'
+  ...
+# Subtest: A13 Git control: approved release-note bytes at a different protected path are not an exception
+ok 312 - A13 Git control: approved release-note bytes at a different protected path are not an exception
+  ---
+  duration_ms: 171.384375
+  type: 'test'
+  ...
+# Subtest: A13 control: release-note exception rejects wrong statuses and wrong paths, regardless of the supplied blob
+ok 313 - A13 control: release-note exception rejects wrong statuses and wrong paths, regardless of the supplied blob
+  ---
+  duration_ms: 0.256994
+  type: 'test'
+  ...
+# Subtest: A13 Git control: original inventory rejects staged addition in iips-platform/src/sector-engines/UNAPPROVED.ts
+ok 314 - A13 Git control: original inventory rejects staged addition in iips-platform/src/sector-engines/UNAPPROVED.ts
+  ---
+  duration_ms: 185.272045
+  type: 'test'
+  ...
+# Subtest: A13 Git control: original inventory rejects staged addition in iips-platform/src/integration/UNAPPROVED.ts
+ok 315 - A13 Git control: original inventory rejects staged addition in iips-platform/src/integration/UNAPPROVED.ts
+  ---
+  duration_ms: 179.009752
+  type: 'test'
+  ...
+# Subtest: A13 Git control: original inventory rejects staged addition in iips-cross-sector/UNAPPROVED.ts
+ok 316 - A13 Git control: original inventory rejects staged addition in iips-cross-sector/UNAPPROVED.ts
+  ---
+  duration_ms: 174.409799
+  type: 'test'
+  ...
+# Subtest: A13 Git control: original inventory rejects staged addition in program-v1.1-certification/UNAPPROVED.md
+ok 317 - A13 Git control: original inventory rejects staged addition in program-v1.1-certification/UNAPPROVED.md
+  ---
+  duration_ms: 177.267177
+  type: 'test'
+  ...
+# Subtest: A13 Git control: original inventory rejects staged addition in ies-a13-unapproved/UNAPPROVED.json
+ok 318 - A13 Git control: original inventory rejects staged addition in ies-a13-unapproved/UNAPPROVED.json
+  ---
+  duration_ms: 174.093064
+  type: 'test'
+  ...
+# Subtest: A13 Git control: untracked protected source addition also fails
+ok 319 - A13 Git control: untracked protected source addition also fails
+  ---
+  duration_ms: 153.063124
+  type: 'test'
+  ...
+# Subtest: A13 Git control: another protected modification remains rejected
+ok 320 - A13 Git control: another protected modification remains rejected
+  ---
+  duration_ms: 156.947593
+  type: 'test'
+  ...
+# Subtest: A13 Git control: staged protected modification cannot be hidden by original working bytes
+ok 321 - A13 Git control: staged protected modification cannot be hidden by original working bytes
+  ---
+  duration_ms: 185.48811
+  type: 'test'
+  ...
+# Subtest: A13 Git control: another protected deletion remains rejected
+ok 322 - A13 Git control: another protected deletion remains rejected
+  ---
+  duration_ms: 157.017756
+  type: 'test'
+  ...
+# Subtest: A13 Git control: protected rename cannot hide a deletion outside the inventory
+ok 323 - A13 Git control: protected rename cannot hide a deletion outside the inventory
+  ---
+  duration_ms: 309.663845
+  type: 'test'
+  ...
+# Subtest: A13 Git control: altered permitted adapter content fails
+ok 324 - A13 Git control: altered permitted adapter content fails
+  ---
+  duration_ms: 148.692449
+  type: 'test'
+  ...
+# Subtest: A13 Git control: deletion of the adapter cannot evade its pin by eliminating its historical addition
+ok 325 - A13 Git control: deletion of the adapter cannot evade its pin by eliminating its historical addition
+  ---
+  duration_ms: 162.818828
+  type: 'test'
+  ...
+# Subtest: A13 Git control: actual guard refuses baseline advance
+ok 326 - A13 Git control: actual guard refuses baseline advance
+  ---
+  duration_ms: 88.063408
+  type: 'test'
+  ...
+# Subtest: A13 Git control: actual guard refuses removed certification pathspec
+ok 327 - A13 Git control: actual guard refuses removed certification pathspec
+  ---
+  duration_ms: 92.774353
+  type: 'test'
+  ...
+# Subtest: A13 Git control: actual guard refuses removed --no-renames
+ok 328 - A13 Git control: actual guard refuses removed --no-renames
+  ---
+  duration_ms: 87.344799
+  type: 'test'
+  ...
+# Subtest: A13 Git control: directory substitution at the release-note path fails the working-tree type pin
+ok 329 - A13 Git control: directory substitution at the release-note path fails the working-tree type pin
+  ---
+  duration_ms: 168.841549
+  type: 'test'
+  ...
+# Subtest: A13 Git control: staged adapter alteration fails even when working content has its approved blob
+ok 330 - A13 Git control: staged adapter alteration fails even when working content has its approved blob
+  ---
+  duration_ms: 176.008518
+  type: 'test'
+  ...
+# Subtest: A13 Git control: --assume-unchanged cannot hide an unapproved protected edit
+ok 331 - A13 Git control: --assume-unchanged cannot hide an unapproved protected edit
+  ---
+  duration_ms: 187.912517
+  type: 'test'
+  ...
+# Subtest: A13 Git control: --skip-worktree cannot hide an unapproved protected edit
+ok 332 - A13 Git control: --skip-worktree cannot hide an unapproved protected edit
+  ---
+  duration_ms: 176.71425
+  type: 'test'
+  ...
+# Subtest: G1: canonical sector remains canonical
+ok 333 - G1: canonical sector remains canonical
+  ---
+  duration_ms: 1.358552
+  type: 'test'
+  ...
+# Subtest: G1: all 13 canonical values are accepted
+ok 334 - G1: all 13 canonical values are accepted
+  ---
+  duration_ms: 1.04177
+  type: 'test'
+  ...
+# Subtest: G1: lowercase sector normalizes to canonical
+ok 335 - G1: lowercase sector normalizes to canonical
+  ---
+  duration_ms: 0.106447
+  type: 'test'
+  ...
+# Subtest: G1: uppercase / mixed-case sector normalizes to canonical
+ok 336 - G1: uppercase / mixed-case sector normalizes to canonical
+  ---
+  duration_ms: 0.133583
+  type: 'test'
+  ...
+# Subtest: G1: surrounding whitespace is removed
+ok 337 - G1: surrounding whitespace is removed
+  ---
+  duration_ms: 0.091484
+  type: 'test'
+  ...
+# Subtest: G1: repeated internal whitespace collapses to single spaces
+ok 338 - G1: repeated internal whitespace collapses to single spaces
+  ---
+  duration_ms: 0.0758
+  type: 'test'
+  ...
+# Subtest: G1: documented examples normalize as governed
+ok 339 - G1: documented examples normalize as governed
+  ---
+  duration_ms: 0.134371
+  type: 'test'
+  ...
+# Subtest: G1: aliases are rejected, never silently mapped
+ok 340 - G1: aliases are rejected, never silently mapped
+  ---
+  duration_ms: 0.511966
+  type: 'test'
+  ...
+# Subtest: G1: unknown sector is rejected
+ok 341 - G1: unknown sector is rejected
+  ---
+  duration_ms: 0.389534
+  type: 'test'
+  ...
+# Subtest: G1: blank sector is rejected
+ok 342 - G1: blank sector is rejected
+  ---
+  duration_ms: 0.346708
+  type: 'test'
+  ...
+# Subtest: G1: normalization happens before identity comparison (K-3)
+ok 343 - G1: normalization happens before identity comparison (K-3)
+  ---
+  duration_ms: 0.207882
+  type: 'test'
+  ...
+# Subtest: G1: no permissive fallback to ONTOLOGY_METADATA defaults
+ok 344 - G1: no permissive fallback to ONTOLOGY_METADATA defaults
+  ---
+  duration_ms: 0.119487
+  type: 'test'
+  ...
+# Subtest: G2: uniqueness on the composite is what makes a repeat detectable
+ok 345 - G2: uniqueness on the composite is what makes a repeat detectable
+  ---
+  duration_ms: 0.111813
+  type: 'test'
+  ...
+# Subtest: G2: same sector + different reference id are distinct members
+ok 346 - G2: same sector + different reference id are distinct members
+  ---
+  duration_ms: 0.078509
+  type: 'test'
+  ...
+# Subtest: G2: different sector + same reference id are distinct members
+ok 347 - G2: different sector + same reference id are distinct members
+  ---
+  duration_ms: 0.081321
+  type: 'test'
+  ...
+# Subtest: G2: reference identifier remains opaque and byte-sensitive
+ok 348 - G2: reference identifier remains opaque and byte-sensitive
+  ---
+  duration_ms: 0.112949
+  type: 'test'
+  ...
+# Subtest: G2: opaque reference id containing delimiters does not collide
+ok 349 - G2: opaque reference id containing delimiters does not collide
+  ---
+  duration_ms: 0.061857
+  type: 'test'
+  ...
+# Subtest: G2: uniqueness is enforced across the whole population, not pairwise-locally
+ok 350 - G2: uniqueness is enforced across the whole population, not pairwise-locally
+  ---
+  duration_ms: 0.163645
+  type: 'test'
+  ...
+# Subtest: G3: exact duplicate is rejected
+ok 351 - G3: exact duplicate is rejected
+  ---
+  duration_ms: 0.069889
+  type: 'test'
+  ...
+# Subtest: G3: duplicate after sector normalization is rejected
+ok 352 - G3: duplicate after sector normalization is rejected
+  ---
+  duration_ms: 0.111212
+  type: 'test'
+  ...
+# Subtest: G3: duplicate with different raw sector casing is rejected
+ok 353 - G3: duplicate with different raw sector casing is rejected
+  ---
+  duration_ms: 0.060842
+  type: 'test'
+  ...
+# Subtest: G3: duplicate with surrounding sector whitespace is rejected
+ok 354 - G3: duplicate with surrounding sector whitespace is rejected
+  ---
+  duration_ms: 0.082562
+  type: 'test'
+  ...
+# Subtest: G3: conflicting member values with the same identity are rejected, not merged
+ok 355 - G3: conflicting member values with the same identity are rejected, not merged
+  ---
+  duration_ms: 1.806613
+  type: 'test'
+  ...
+# Subtest: G3: duplicates are not retained, overwritten, or silently deduplicated
+ok 356 - G3: duplicates are not retained, overwritten, or silently deduplicated
+  ---
+  duration_ms: 0.149465
+  type: 'test'
+  ...
+# Subtest: G3: rejection precedes canonicalization (K-2)
+ok 357 - G3: rejection precedes canonicalization (K-2)
+  ---
+  duration_ms: 0.081782
+  type: 'test'
+  ...
+# Subtest: G5: canonical order is (normalized sector ASC, reference identifier ASC)
+ok 358 - G5: canonical order is (normalized sector ASC, reference identifier ASC)
+  ---
+  duration_ms: 0.090401
+  type: 'test'
+  ...
+# Subtest: G5: identical membership in different input orders yields identical canonical representation
+ok 359 - G5: identical membership in different input orders yields identical canonical representation
+  ---
+  duration_ms: 0.258953
+  type: 'test'
+  ...
+# Subtest: G5: canonical order is independent of member values
+ok 360 - G5: canonical order is independent of member values
+  ---
+  duration_ms: 0.102788
+  type: 'test'
+  ...
+# Subtest: G5: canonical ordering is not the RankingEngine presentation order
+ok 361 - G5: canonical ordering is not the RankingEngine presentation order
+  ---
+  duration_ms: 0.778168
+  type: 'test'
+  ...
+# Subtest: G4: the same membership in different input orders produces the same identity
+ok 362 - G4: the same membership in different input orders produces the same identity
+  ---
+  duration_ms: 0.112135
+  type: 'test'
+  ...
+# Subtest: G4: adding a member produces a different identity
+ok 363 - G4: adding a member produces a different identity
+  ---
+  duration_ms: 0.103951
+  type: 'test'
+  ...
+# Subtest: G4: removing a member produces a different identity
+ok 364 - G4: removing a member produces a different identity
+  ---
+  duration_ms: 0.110562
+  type: 'test'
+  ...
+# Subtest: G4: changing a member governed identity produces a different identity
+ok 365 - G4: changing a member governed identity produces a different identity
+  ---
+  duration_ms: 0.077352
+  type: 'test'
+  ...
+# Subtest: G4: changing member values without changing membership does NOT alter identity
+ok 366 - G4: changing member values without changing membership does NOT alter identity
+  ---
+  duration_ms: 0.072387
+  type: 'test'
+  ...
+# Subtest: G4: caller/portfolio identity does not enter population identity
+ok 367 - G4: caller/portfolio identity does not enter population identity
+  ---
+  duration_ms: 0.369965
+  type: 'test'
+  ...
+# Subtest: G4: evaluation context does not enter population identity
+ok 368 - G4: evaluation context does not enter population identity
+  ---
+  duration_ms: 0.309572
+  type: 'test'
+  ...
+# Subtest: G4: materially different populations get different identities (evidenceId collision fixed)
+ok 369 - G4: materially different populations get different identities (evidenceId collision fixed)
+  ---
+  duration_ms: 0.311242
+  type: 'test'
+  ...
+# Subtest: G4: identity is deterministic across repeated runs
+ok 370 - G4: identity is deterministic across repeated runs
+  ---
+  duration_ms: 0.30871
+  type: 'test'
+  ...
+# Subtest: REGRESSION: golden dataset PF-01..PF-06 still reproduce frozen expected outputs
+ok 371 - REGRESSION: golden dataset PF-01..PF-06 still reproduce frozen expected outputs
+  ---
+  duration_ms: 0.606875
+  type: 'test'
+  ...
+# Subtest: REGRESSION: ranking presentation order (conviction DESC, sector ASC) is unchanged
+ok 372 - REGRESSION: ranking presentation order (conviction DESC, sector ASC) is unchanged
+  ---
+  duration_ms: 0.161043
+  type: 'test'
+  ...
+# Subtest: REGRESSION: aggregates are unchanged and duplicate-free populations are unaffected
+ok 373 - REGRESSION: aggregates are unchanged and duplicate-free populations are unaffected
+  ---
+  duration_ms: 0.133212
+  type: 'test'
+  ...
+# Subtest: REGRESSION: an empty population is valid and produces a stable identity
+ok 374 - REGRESSION: an empty population is valid and produces a stable identity
+  ---
+  duration_ms: 0.105913
+  type: 'test'
+  ...
+# Subtest: REGRESSION: plugin registration lifecycle Discovered->Registration->Initialization->Execution->Completion
+ok 375 - REGRESSION: plugin registration lifecycle Discovered->Registration->Initialization->Execution->Completion
+  ---
+  duration_ms: 0.909415
+  type: 'test'
+  ...
+# Subtest: REGRESSION: duplicate plugin rejected
+ok 376 - REGRESSION: duplicate plugin rejected
+  ---
+  duration_ms: 0.153961
+  type: 'test'
+  ...
+# Subtest: CERT-01: 11-plugin registration + host (10 sectors + CSIP) through the SAME PluginLoader
+ok 377 - CERT-01: 11-plugin registration + host (10 sectors + CSIP) through the SAME PluginLoader
+  ---
+  duration_ms: 1.789222
+  type: 'test'
+  ...
+# Subtest: CERT-02: all 11 plugins execute to COMPLETED through the SAME RuntimeCoordinator
+ok 378 - CERT-02: all 11 plugins execute to COMPLETED through the SAME RuntimeCoordinator
+  ---
+  duration_ms: 6.108496
+  type: 'test'
+  ...
+# Subtest: CERT-03: manifest loadable for all 11 plugins via shared ManifestLoader (no platform schema branch)
+ok 379 - CERT-03: manifest loadable for all 11 plugins via shared ManifestLoader (no platform schema branch)
+  ---
+  duration_ms: 0.309893
+  type: 'test'
+  ...
+# Subtest: CERT-04: qualification + activation for all 11 plugins via shared services
+ok 380 - CERT-04: qualification + activation for all 11 plugins via shared services
+  ---
+  duration_ms: 0.351247
+  type: 'test'
+  ...
+# Subtest: CERT-05: snapshots recorded for all 11 plugins via shared Snapshot (cross-sector isolation)
+ok 381 - CERT-05: snapshots recorded for all 11 plugins via shared Snapshot (cross-sector isolation)
+  ---
+  duration_ms: 1.156021
+  type: 'test'
+  ...
+# Subtest: CERT-06: replay reproduces every plugin snapshot (byte-identical, single ReplayService)
+ok 382 - CERT-06: replay reproduces every plugin snapshot (byte-identical, single ReplayService)
+  ---
+  duration_ms: 2.423928
+  type: 'test'
+  ...
+# Subtest: CERT-07: evidence produced for all 11 plugins via shared EvidencePipeline
+ok 383 - CERT-07: evidence produced for all 11 plugins via shared EvidencePipeline
+  ---
+  duration_ms: 0.95335
+  type: 'test'
+  ...
+# Subtest: CERT-08: diagnostics capture for a representative multi-sector execution
+ok 384 - CERT-08: diagnostics capture for a representative multi-sector execution
+  ---
+  duration_ms: 0.224231
+  type: 'test'
+  ...
+# Subtest: CERT-09: transport generic DTO serializes deterministically for representative sectors
+ok 385 - CERT-09: transport generic DTO serializes deterministically for representative sectors
+  ---
+  duration_ms: 0.698502
+  type: 'test'
+  ...
+# Subtest: CERT-10: cross-sector determinism — two full 11-plugin runs are byte-identical
+ok 386 - CERT-10: cross-sector determinism — two full 11-plugin runs are byte-identical
+  ---
+  duration_ms: 2.473501
+  type: 'test'
+  ...
+# Subtest: CERT-11: cross-sector isolation — each engine output is independent (no leakage between engines)
+ok 387 - CERT-11: cross-sector isolation — each engine output is independent (no leakage between engines)
+  ---
+  duration_ms: 1.355371
+  type: 'test'
+  ...
+# Subtest: CERT-12: zero platform specialization — a single shared runtime/framework/pluginloader serves all 11
+ok 388 - CERT-12: zero platform specialization — a single shared runtime/framework/pluginloader serves all 11
+  ---
+  duration_ms: 0.298432
+  type: 'test'
+  ...
+# Subtest: T2-CERT-01: simultaneous (co-hosted) execution — all 11 plugins COMPLETED in one runtime
+ok 389 - T2-CERT-01: simultaneous (co-hosted) execution — all 11 plugins COMPLETED in one runtime
+  ---
+  duration_ms: 10.146875
+  type: 'test'
+  ...
+# Subtest: T2-CERT-02: per-sector snapshot identity isolation — 11 distinct snapshotIds, each bound to its sector
+ok 390 - T2-CERT-02: per-sector snapshot identity isolation — 11 distinct snapshotIds, each bound to its sector
+  ---
+  duration_ms: 2.262493
+  type: 'test'
+  ...
+# Subtest: T2-CERT-03: per-sector evidence isolation — 11 distinct evidenceRefs, engine-scoped
+ok 391 - T2-CERT-03: per-sector evidence isolation — 11 distinct evidenceRefs, engine-scoped
+  ---
+  duration_ms: 2.785892
+  type: 'test'
+  ...
+# Subtest: T2-CERT-04: per-sector ontology registration isolation — each ontology-publishing sector exposes its own 8-dim UIO metadata
+ok 392 - T2-CERT-04: per-sector ontology registration isolation — each ontology-publishing sector exposes its own 8-dim UIO metadata
+  ---
+  duration_ms: 1.519887
+  type: 'test'
+  ...
+# Subtest: T2-CERT-05: no calibration/methodology leakage — order-independent (same outputs under different execution orders)
+ok 393 - T2-CERT-05: no calibration/methodology leakage — order-independent (same outputs under different execution orders)
+  ---
+  duration_ms: 2.520102
+  type: 'test'
+  ...
+# Subtest: T2-CERT-06: solo execution == co-hosted execution for ALL 10 sector engines
+ok 394 - T2-CERT-06: solo execution == co-hosted execution for ALL 10 sector engines
+  ---
+  duration_ms: 2.339129
+  type: 'test'
+  ...
+# Subtest: T2-CERT-07: repeated multi-sector execution is byte-identical
+ok 395 - T2-CERT-07: repeated multi-sector execution is byte-identical
+  ---
+  duration_ms: 3.39817
+  type: 'test'
+  ...
+# Subtest: T2-CERT-08: CSIP remains a consumer/integration boundary, not a sector-specific branch
+ok 396 - T2-CERT-08: CSIP remains a consumer/integration boundary, not a sector-specific branch
+  ---
+  duration_ms: 1.260376
+  type: 'test'
+  ...
+# Subtest: T3-CERT-01: 13-sector baseline executions reproduce the Program v1.1 Replay Baseline (composite + verdict)
+ok 397 - T3-CERT-01: 13-sector baseline executions reproduce the Program v1.1 Replay Baseline (composite + verdict)
+  ---
+  duration_ms: 11.01141
+  type: 'test'
+  ...
+# Subtest: T3-CERT-02: same input -> same output (deterministic computation across fresh processes)
+ok 398 - T3-CERT-02: same input -> same output (deterministic computation across fresh processes)
+  ---
+  duration_ms: 2.356808
+  type: 'test'
+  ...
+# Subtest: T3-CERT-03: same input -> same evidence (evidence determinism)
+ok 399 - T3-CERT-03: same input -> same evidence (evidence determinism)
+  ---
+  duration_ms: 2.22142
+  type: 'test'
+  ...
+# Subtest: T3-CERT-04: same input -> same metadata (execution-identity determinism)
+ok 400 - T3-CERT-04: same input -> same metadata (execution-identity determinism)
+  ---
+  duration_ms: 2.360885
+  type: 'test'
+  ...
+# Subtest: T3-CERT-05: snapshot -> replay reproduced for all 13 sectors (persistence/replay correctness)
+ok 401 - T3-CERT-05: snapshot -> replay reproduced for all 13 sectors (persistence/replay correctness)
+  ---
+  duration_ms: 4.09773
+  type: 'test'
+  ...
+# Subtest: T3-CERT-06: calibration version binding — calibration version is part of replay identity (stable), observed where exposed
+ok 402 - T3-CERT-06: calibration version binding — calibration version is part of replay identity (stable), observed where exposed
+  ---
+  duration_ms: 0.516687
+  type: 'test'
+  ...
+# Subtest: T3-CERT-07: contract version binding — each engine manifest declares its methodology version
+ok 403 - T3-CERT-07: contract version binding — each engine manifest declares its methodology version
+  ---
+  duration_ms: 0.624036
+  type: 'test'
+  ...
+# Subtest: T3-CERT-08: runtime configuration binding — fixed clock + deterministic id yield identical replay identity
+ok 404 - T3-CERT-08: runtime configuration binding — fixed clock + deterministic id yield identical replay identity
+  ---
+  duration_ms: 4.350563
+  type: 'test'
+  ...
+# Subtest: T3-CERT-09: cross-sector replay — all 13 sectors replay byte-identical through the shared runtime
+ok 405 - T3-CERT-09: cross-sector replay — all 13 sectors replay byte-identical through the shared runtime
+  ---
+  duration_ms: 1.833915
+  type: 'test'
+  ...
+# Subtest: T3-CERT-10: repeated replay — byte-identical across repeat calls
+ok 406 - T3-CERT-10: repeated replay — byte-identical across repeat calls
+  ---
+  duration_ms: 2.339781
+  type: 'test'
+  ...
+# Subtest: T3-CERT-11: fresh-process replay — new runtime reproduces the same output/evidence/metadata (no in-memory state effects)
+ok 407 - T3-CERT-11: fresh-process replay — new runtime reproduces the same output/evidence/metadata (no in-memory state effects)
+  ---
+  duration_ms: 1.29612
+  type: 'test'
+  ...
+# Subtest: C-CERT-01: 10-sector registration — every released sector is consumed by CSIP
+ok 408 - C-CERT-01: 10-sector registration — every released sector is consumed by CSIP
+  ---
+  duration_ms: 2.130926
+  type: 'test'
+  ...
+# Subtest: C-CERT-02: 8/8 ontology dimensions — every sector maps into the complete UIO
+ok 409 - C-CERT-02: 8/8 ontology dimensions — every sector maps into the complete UIO
+  ---
+  duration_ms: 0.217052
+  type: 'test'
+  ...
+# Subtest: C-CERT-03: schema compatibility — all sector mappings conform to the same NormalizedHolding schema
+ok 410 - C-CERT-03: schema compatibility — all sector mappings conform to the same NormalizedHolding schema
+  ---
+  duration_ms: 0.136748
+  type: 'test'
+  ...
+# Subtest: C-CERT-04: metadata completeness — required CSIP info retrievable for every sector
+ok 411 - C-CERT-04: metadata completeness — required CSIP info retrievable for every sector
+  ---
+  duration_ms: 0.125212
+  type: 'test'
+  ...
+# Subtest: C-CERT-05: registration determinism — same registrations -> identical CSIP result
+ok 412 - C-CERT-05: registration determinism — same registrations -> identical CSIP result
+  ---
+  duration_ms: 0.584755
+  type: 'test'
+  ...
+# Subtest: C-CERT-06: retrieval determinism — same sector/query -> identical result
+ok 413 - C-CERT-06: retrieval determinism — same sector/query -> identical result
+  ---
+  duration_ms: 0.299652
+  type: 'test'
+  ...
+# Subtest: C-CERT-07: sector neutrality — NO sector-specific CSIP execution branch (source inspection)
+ok 414 - C-CERT-07: sector neutrality — NO sector-specific CSIP execution branch (source inspection)
+  ---
+  duration_ms: 0.291248
+  type: 'test'
+  ...
+# Subtest: C-CERT-08: no specialization — CSIP does not invoke sector-engine-specific logic
+ok 415 - C-CERT-08: no specialization — CSIP does not invoke sector-engine-specific logic
+  ---
+  duration_ms: 0.1725
+  type: 'test'
+  ...
+# Subtest: C-CERT-09: isolation — sector A registration cannot contaminate sector B
+ok 416 - C-CERT-09: isolation — sector A registration cannot contaminate sector B
+  ---
+  duration_ms: 0.354901
+  type: 'test'
+  ...
+# Subtest: C-CERT-10: coexistence — all 10 sectors simultaneously available in one CSIP portfolio
+ok 417 - C-CERT-10: coexistence — all 10 sectors simultaneously available in one CSIP portfolio
+  ---
+  duration_ms: 0.502174
+  type: 'test'
+  ...
+# Subtest: C-CERT-11: cross-sector retrieval — CSIP retrieves comparable intelligence across sectors
+ok 418 - C-CERT-11: cross-sector retrieval — CSIP retrieves comparable intelligence across sectors
+  ---
+  duration_ms: 0.239559
+  type: 'test'
+  ...
+# Subtest: C-CERT-12: version handling — sector versions identifiable in source outputs; CSIP evidence carries provenance (FINDING: engineVersions stale)
+ok 419 - C-CERT-12: version handling — sector versions identifiable in source outputs; CSIP evidence carries provenance (FINDING: engineVersions stale)
+  ---
+  duration_ms: 0.690299
+  type: 'test'
+  ...
+# Subtest: C-CERT-13: historical compatibility — the four v1.0 engines remain consumable by CSIP
+ok 420 - C-CERT-13: historical compatibility — the four v1.0 engines remain consumable by CSIP
+  ---
+  duration_ms: 0.360217
+  type: 'test'
+  ...
+# Subtest: C-CERT-14: zero CSIP modification — certification requires no CSIP specialization/change (source inspection)
+ok 421 - C-CERT-14: zero CSIP modification — certification requires no CSIP specialization/change (source inspection)
+  ---
+  duration_ms: 0.153877
+  type: 'test'
+  ...
+# Subtest: A8-01: common execution pipeline — all 10 engines implement SectorPlugin (execute/onRegister/onInitialize)
+ok 422 - A8-01: common execution pipeline — all 10 engines implement SectorPlugin (execute/onRegister/onInitialize)
+  ---
+  duration_ms: 1.415297
+  type: 'test'
+  ...
+# Subtest: A8-02: platform/framework reuse — all 10 engines consume platform services (plugin/runtime/evidence)
+ok 423 - A8-02: platform/framework reuse — all 10 engines consume platform services (plugin/runtime/evidence)
+  ---
+  duration_ms: 1.747311
+  type: 'test'
+  ...
+# Subtest: A8-03: sector methodology isolation — all 10 have separate metrics/scoring/calibration/decision/evidence modules
+ok 424 - A8-03: sector methodology isolation — all 10 have separate metrics/scoring/calibration/decision/evidence modules
+  ---
+  duration_ms: 0.449814
+  type: 'test'
+  ...
+# Subtest: A8-04: calibration isolation — all 10 load a frozen calibration profile (not inline scoring)
+ok 425 - A8-04: calibration isolation — all 10 load a frozen calibration profile (not inline scoring)
+  ---
+  duration_ms: 0.468336
+  type: 'test'
+  ...
+# Subtest: A8-05: evidence standardization — all 10 evidence modules reuse the shared EvidencePipeline
+ok 426 - A8-05: evidence standardization — all 10 evidence modules reuse the shared EvidencePipeline
+  ---
+  duration_ms: 0.544075
+  type: 'test'
+  ...
+# Subtest: A8-06: replay determinism — all 10 engines record snapshots via the shared runtime
+ok 427 - A8-06: replay determinism — all 10 engines record snapshots via the shared runtime
+  ---
+  duration_ms: 0.597919
+  type: 'test'
+  ...
+# Subtest: A8-07: ontology registration consistency — 6 publish metadata (🟢), 4 legacy rely on CSIP mapper (🟡, finding)
+ok 428 - A8-07: ontology registration consistency — 6 publish metadata (🟢), 4 legacy rely on CSIP mapper (🟡, finding)
+  ---
+  duration_ms: 0.61103
+  type: 'test'
+  ...
+# Subtest: A8-08: frozen-oracle consumption — all 10 ship frozen golden/expected reference assets
+ok 429 - A8-08: frozen-oracle consumption — all 10 ship frozen golden/expected reference assets
+  ---
+  duration_ms: 0.375624
+  type: 'test'
+  ...
+# Subtest: A8-09: no sector-specific branching in platform — sector logic confined to sector-engines/
+ok 430 - A8-09: no sector-specific branching in platform — sector logic confined to sector-engines/
+  ---
+  duration_ms: 0.923465
+  type: 'test'
+  ...
+# Subtest: A8-10: no platform/framework/CSIP specialization — certification changed no platform file
+ok 431 - A8-10: no platform/framework/CSIP specialization — certification changed no platform file
+  ---
+  duration_ms: 0.358378
+  type: 'test'
+  ...
+# Subtest: FC-CORE: END-TO-END CONSTITUTIONAL EQUIVALENCE — v1.1 path (A) == v2.0 path (B) across all 10 sectors
+ok 432 - FC-CORE: END-TO-END CONSTITUTIONAL EQUIVALENCE — v1.1 path (A) == v2.0 path (B) across all 10 sectors
+  ---
+  duration_ms: 14.289033
+  type: 'test'
+  ...
+# Subtest: FC-CORE-2: full-chain determinism — RESULT -> Evidence -> Snapshot -> Replay -> DR restore -> RESULT'; RESULT === RESULT'
+ok 433 - FC-CORE-2: full-chain determinism — RESULT -> Evidence -> Snapshot -> Replay -> DR restore -> RESULT'; RESULT === RESULT'
+  ---
+  duration_ms: 2.45625
+  type: 'test'
+  ...
+# Subtest: FC-0: LTS Constitution — v1.1 immutable, WP-0 reproduces
+ok 434 - FC-0: LTS Constitution — v1.1 immutable, WP-0 reproduces
+  ---
+  duration_ms: 1.469737
+  type: 'test'
+  ...
+# Subtest: FC-1: distributed determinism — single-node == multi-node
+ok 435 - FC-1: distributed determinism — single-node == multi-node
+  ---
+  duration_ms: 0.50702
+  type: 'test'
+  ...
+# Subtest: FC-2: HA/DR — failure/recovery cannot change engine meaning
+ok 436 - FC-2: HA/DR — failure/recovery cannot change engine meaning
+  ---
+  duration_ms: 0.408763
+  type: 'test'
+  ...
+# Subtest: FC-3: live-data determinism — versioned snapshot remains the immutable input boundary
+ok 437 - FC-3: live-data determinism — versioned snapshot remains the immutable input boundary
+  ---
+  duration_ms: 0.487994
+  type: 'test'
+  ...
+# Subtest: FC-4: enterprise security — RBAC/tenancy/audit/data governance isolated
+ok 438 - FC-4: enterprise security — RBAC/tenancy/audit/data governance isolated
+  ---
+  duration_ms: 0.377101
+  type: 'test'
+  ...
+# Subtest: FC-5: marketplace trust — only certified deterministic capabilities enter execution
+ok 439 - FC-5: marketplace trust — only certified deterministic capabilities enter execution
+  ---
+  duration_ms: 0.382311
+  type: 'test'
+  ...
+# Subtest: FC-6: workflow composition — orchestration cannot become hidden decision logic
+ok 440 - FC-6: workflow composition — orchestration cannot become hidden decision logic
+  ---
+  duration_ms: 0.389779
+  type: 'test'
+  ...
+# Subtest: FC-7: SDK/API — public interfaces cannot bypass constitutional controls
+ok 441 - FC-7: SDK/API — public interfaces cannot bypass constitutional controls
+  ---
+  duration_ms: 0.619886
+  type: 'test'
+  ...
+# Subtest: FC-8: AI boundary — AI ON/OFF remains A === B
+ok 442 - FC-8: AI boundary — AI ON/OFF remains A === B
+  ---
+  duration_ms: 0.359984
+  type: 'test'
+  ...
+# Subtest: FC-9: end-to-end chain — live data -> workflow -> engine -> evidence -> replay -> distributed/HA/DR
+ok 443 - FC-9: end-to-end chain — live data -> workflow -> engine -> evidence -> replay -> distributed/HA/DR
+  ---
+  duration_ms: 1.865953
+  type: 'test'
+  ...
+# Subtest: FC-10: cross-sector — all 10 engines retain v1.1 semantics
+ok 444 - FC-10: cross-sector — all 10 engines retain v1.1 semantics
+  ---
+  duration_ms: 1.432239
+  type: 'test'
+  ...
+# Subtest: FC-11: performance/scaling — v2.0 characteristics compared against v1.1 baseline
+ok 445 - FC-11: performance/scaling — v2.0 characteristics compared against v1.1 baseline
+  ---
+  duration_ms: 0.33605
+  type: 'test'
+  ...
+# Subtest: FC-12: observability/audit — complete lineage across the v2.0 stack
+ok 446 - FC-12: observability/audit — complete lineage across the v2.0 stack
+  ---
+  duration_ms: 0.239289
+  type: 'test'
+  ...
+# Subtest: FC-13: migration/rollback — v1.1 <-> v2.0 coexistence reversible
+ok 447 - FC-13: migration/rollback — v1.1 <-> v2.0 coexistence reversible
+  ---
+  duration_ms: 0.450927
+  type: 'test'
+  ...
+# Subtest: FC-14: security/adversarial — supply chain, tenant, API, AI and distributed trust boundaries
+ok 448 - FC-14: security/adversarial — supply chain, tenant, API, AI and distributed trust boundaries
+  ---
+  duration_ms: 0.273521
+  type: 'test'
+  ...
+# Subtest: FC-15: clean-clone verification — certification passes from a fresh checkout
+ok 449 - FC-15: clean-clone verification — certification passes from a fresh checkout
+  ---
+  duration_ms: 0.088709
+  type: 'test'
+  ...
+# Subtest: FC-16: full regression — final v2.0 test baseline established
+ok 450 - FC-16: full regression — final v2.0 test baseline established
+  ---
+  duration_ms: 0.051569
+  type: 'test'
+  ...
+# Subtest: FC-17: architecture conformance — all v2.0 ADRs conform to the v1.1 constitution
+ok 451 - FC-17: architecture conformance — all v2.0 ADRs conform to the v1.1 constitution
+  ---
+  duration_ms: 0.045302
+  type: 'test'
+  ...
+# Subtest: FC-18: release readiness — documentation, manifests, hashes, tags, rollback, LTS coexistence
+ok 452 - FC-18: release readiness — documentation, manifests, hashes, tags, rollback, LTS coexistence
+  ---
+  duration_ms: 0.045584
+  type: 'test'
+  ...
+# Subtest: WP0-A1: 10-sector Replay Baseline reproduces (composite + verdict)
+ok 453 - WP0-A1: 10-sector Replay Baseline reproduces (composite + verdict)
+  ---
+  duration_ms: 13.20793
+  type: 'test'
+  ...
+# Subtest: WP0-A2: replay-baseline reproduction is byte-identical (metadata + evidence + snapshot) across fresh runs
+ok 454 - WP0-A2: replay-baseline reproduction is byte-identical (metadata + evidence + snapshot) across fresh runs
+  ---
+  duration_ms: 2.42964
+  type: 'test'
+  ...
+# Subtest: WP0-A3: replay reproduces the frozen snapshot for every sector
+ok 455 - WP0-A3: replay reproduces the frozen snapshot for every sector
+  ---
+  duration_ms: 3.026441
+  type: 'test'
+  ...
+# Subtest: WP0-A4: 12 MUST-PRESERVE constitutional invariants hold
+ok 456 - WP0-A4: 12 MUST-PRESERVE constitutional invariants hold
+  ---
+  duration_ms: 2.810357
+  type: 'test'
+  ...
+# Subtest: WP0-A5: performance baseline — no regression in single-sector warm execution
+ok 457 - WP0-A5: performance baseline — no regression in single-sector warm execution
+  ---
+  duration_ms: 6.323887
+  type: 'test'
+  ...
+# Subtest: WP0-A6: zero v1.1 modification — the harness only reads the frozen baseline and runs engines
+ok 458 - WP0-A6: zero v1.1 modification — the harness only reads the frozen baseline and runs engines
+  ---
+  duration_ms: 0.184292
+  type: 'test'
+  ...
+# Subtest: D-CERT-01: multi-node determinism — all 10 sectors reproduce the frozen baseline on EVERY node
+ok 459 - D-CERT-01: multi-node determinism — all 10 sectors reproduce the frozen baseline on EVERY node
+  ---
+  duration_ms: 12.142929
+  type: 'test'
+  ...
+# Subtest: D-CERT-02: deterministic context propagation — identical lineage/clock/id on any node -> identical snapshot + evidence ids
+ok 460 - D-CERT-02: deterministic context propagation — identical lineage/clock/id on any node -> identical snapshot + evidence ids
+  ---
+  duration_ms: 0.562492
+  type: 'test'
+  ...
+# Subtest: D-CERT-03: immutable execution inputs — the request is not mutated by execution
+ok 461 - D-CERT-03: immutable execution inputs — the request is not mutated by execution
+  ---
+  duration_ms: 0.248429
+  type: 'test'
+  ...
+# Subtest: D-CERT-04: snapshot ownership + persistence — each node owns a replayable, immutable snapshot
+ok 462 - D-CERT-04: snapshot ownership + persistence — each node owns a replayable, immutable snapshot
+  ---
+  duration_ms: 3.043674
+  type: 'test'
+  ...
+# Subtest: D-CERT-05: exactly-once/idempotent execution — same requestId + input on independent nodes -> identical result
+ok 463 - D-CERT-05: exactly-once/idempotent execution — same requestId + input on independent nodes -> identical result
+  ---
+  duration_ms: 0.451697
+  type: 'test'
+  ...
+# Subtest: D-CERT-06: node-failure + replay recovery — a fresh node with the same context recovers identical state via replay
+ok 464 - D-CERT-06: node-failure + replay recovery — a fresh node with the same context recovers identical state via replay
+  ---
+  duration_ms: 2.58724
+  type: 'test'
+  ...
+# Subtest: D-CERT-07: no cross-sector state leakage — each sector result independent on the same node
+ok 465 - D-CERT-07: no cross-sector state leakage — each sector result independent on the same node
+  ---
+  duration_ms: 1.489398
+  type: 'test'
+  ...
+# Subtest: D-CERT-08: no cross-node leakage — nodes with different lineages do not interfere
+ok 466 - D-CERT-08: no cross-node leakage — nodes with different lineages do not interfere
+  ---
+  duration_ms: 0.411135
+  type: 'test'
+  ...
+# Subtest: D-CERT-09: authenticated node identity — context is node-bound and deterministic
+ok 467 - D-CERT-09: authenticated node identity — context is node-bound and deterministic
+  ---
+  duration_ms: 0.502549
+  type: 'test'
+  ...
+# Subtest: D-CERT-10: WP-0 constitutional guard unchanged — single-node result equals frozen baseline (node == non-distributed)
+ok 468 - D-CERT-10: WP-0 constitutional guard unchanged — single-node result equals frozen baseline (node == non-distributed)
+  ---
+  duration_ms: 1.973026
+  type: 'test'
+  ...
+# O2-CERT-12 telemetry overhead: 0.0961 ms/trace (measured baseline, not SLA)
+# Subtest: O2-CERT-01: every execution has a correlation/trace identity
+ok 469 - O2-CERT-01: every execution has a correlation/trace identity
+  ---
+  duration_ms: 4.575624
+  type: 'test'
+  ...
+# Subtest: O2-CERT-02: dataVersion, provider, asOf, quality, completeness are traceable
+ok 470 - O2-CERT-02: dataVersion, provider, asOf, quality, completeness are traceable
+  ---
+  duration_ms: 0.721876
+  type: 'test'
+  ...
+# Subtest: O2-CERT-03: snapshot -> execution -> evidence -> replay lineage reconstructable
+ok 471 - O2-CERT-03: snapshot -> execution -> evidence -> replay lineage reconstructable
+  ---
+  duration_ms: 1.162733
+  type: 'test'
+  ...
+# Subtest: O2-CERT-04: distributed node transitions are observable
+ok 472 - O2-CERT-04: distributed node transitions are observable
+  ---
+  duration_ms: 0.204352
+  type: 'test'
+  ...
+# Subtest: O2-CERT-05: HA failover and DR recovery distinguishable from ordinary execution
+ok 473 - O2-CERT-05: HA failover and DR recovery distinguishable from ordinary execution
+  ---
+  duration_ms: 0.144398
+  type: 'test'
+  ...
+# Subtest: O2-CERT-06: provider failure observable without mutating engine semantics
+ok 474 - O2-CERT-06: provider failure observable without mutating engine semantics
+  ---
+  duration_ms: 0.171685
+  type: 'test'
+  ...
+# Subtest: O2-CERT-07: replay telemetry identifies the ORIGINAL data snapshot, not current market data
+ok 475 - O2-CERT-07: replay telemetry identifies the ORIGINAL data snapshot, not current market data
+  ---
+  duration_ms: 0.544198
+  type: 'test'
+  ...
+# Subtest: O2-CERT-08: sector identity remains isolated across the traced chain
+ok 476 - O2-CERT-08: sector identity remains isolated across the traced chain
+  ---
+  duration_ms: 8.948605
+  type: 'test'
+  ...
+# Subtest: O2-CERT-09: observability itself cannot modify deterministic outputs
+ok 477 - O2-CERT-09: observability itself cannot modify deterministic outputs
+  ---
+  duration_ms: 1.121768
+  type: 'test'
+  ...
+# Subtest: O2-CERT-10: telemetry compatible with the v1.1 observability contract
+ok 478 - O2-CERT-10: telemetry compatible with the v1.1 observability contract
+  ---
+  duration_ms: 0.375458
+  type: 'test'
+  ...
+# Subtest: O2-CERT-11: no sensitive data/secrets leak into telemetry
+ok 479 - O2-CERT-11: no sensitive data/secrets leak into telemetry
+  ---
+  duration_ms: 0.721288
+  type: 'test'
+  ...
+# Subtest: O2-CERT-12: observability overhead measured against existing baseline (not premature SLA)
+ok 480 - O2-CERT-12: observability overhead measured against existing baseline (not premature SLA)
+  ---
+  duration_ms: 97.508924
+  type: 'test'
+  ...
+# P-CERT-02 scaling (nodes -> throughput/sec): 1:11831.54 2:28225.98 4:30380.39 8:33792.78
+# P-CERT-06 scaling efficiency 4/1 nodes: 0.67x (recorded characteristic, not SLA)
+# P-CERT-08 memory delta (200 exec, 1 node): 0.516 MB
+# P-CERT-10 scaling table: [{"nodes":1,"mean":0.0308,"p50":0.0268,"p95":0.0564,"tps":32299.26},{"nodes":2,"mean":0.0304,"p50":0.0248,"p95":0.0417,"tps":32711.06},{"nodes":4,"mean":0.0342,"p50":0.0314,"p95":0.0625,"tps":28986.07},{"nodes":8,"mean":0.0352,"p50":0.032,"p95":0.0656,"tps":28231.08}]
+# Subtest: P-CERT-01: preserve v1.1 baseline — single-sector warm execution within guard threshold
+ok 481 - P-CERT-01: preserve v1.1 baseline — single-sector warm execution within guard threshold
+  ---
+  duration_ms: 10.701298
+  type: 'test'
+  ...
+# Subtest: P-CERT-02: 1->2->4->8 node scaling — healthy scaling, throughput grows
+ok 482 - P-CERT-02: 1->2->4->8 node scaling — healthy scaling, throughput grows
+  ---
+  duration_ms: 39.998143
+  type: 'test'
+  ...
+# Subtest: P-CERT-03: full-chain workload scales
+ok 483 - P-CERT-03: full-chain workload scales
+  ---
+  duration_ms: 6.114481
+  type: 'test'
+  ...
+# Subtest: P-CERT-04: p50/p95 latency measured per node count (not premature SLA)
+ok 484 - P-CERT-04: p50/p95 latency measured per node count (not premature SLA)
+  ---
+  duration_ms: 13.644838
+  type: 'test'
+  ...
+# Subtest: P-CERT-05: failure-under-load interaction preserves determinism
+ok 485 - P-CERT-05: failure-under-load interaction preserves determinism
+  ---
+  duration_ms: 3.675401
+  type: 'test'
+  ...
+# Subtest: P-CERT-06: scaling efficiency — v2.0 scaling is healthy (not a constitutional regression)
+ok 486 - P-CERT-06: scaling efficiency — v2.0 scaling is healthy (not a constitutional regression)
+  ---
+  duration_ms: 16.542592
+  type: 'test'
+  ...
+# Subtest: P-CERT-07: WP-0 constitutional guard is a hard gate — performance does not change engine semantics
+ok 487 - P-CERT-07: WP-0 constitutional guard is a hard gate — performance does not change engine semantics
+  ---
+  duration_ms: 0.919318
+  type: 'test'
+  ...
+# Subtest: P-CERT-08: memory footprint measured (scaling characteristics, not SLA)
+ok 488 - P-CERT-08: memory footprint measured (scaling characteristics, not SLA)
+  ---
+  duration_ms: 7.186768
+  type: 'test'
+  ...
+# Subtest: P-CERT-09: classification — no constitutional/correctness regression (🟢 or 🟡 only)
+ok 489 - P-CERT-09: classification — no constitutional/correctness regression (🟢 or 🟡 only)
+  ---
+  duration_ms: 3.510256
+  type: 'test'
+  ...
+# Subtest: P-CERT-10: scaling characteristics recorded (not SLA)
+ok 490 - P-CERT-10: scaling characteristics recorded (not SLA)
+  ---
+  duration_ms: 28.411077
+  type: 'test'
+  ...
+# Subtest: DG-CERT-01: data classification + tenant ownership + lineage
+ok 491 - DG-CERT-01: data classification + tenant ownership + lineage
+  ---
+  duration_ms: 0.71582
+  type: 'test'
+  ...
+# Subtest: DG-CERT-02: snapshot ownership + lineage (immutable, tenant-bound)
+ok 492 - DG-CERT-02: snapshot ownership + lineage (immutable, tenant-bound)
+  ---
+  duration_ms: 0.110836
+  type: 'test'
+  ...
+# Subtest: DG-CERT-03: retention/deletion policy
+ok 493 - DG-CERT-03: retention/deletion policy
+  ---
+  duration_ms: 0.08831
+  type: 'test'
+  ...
+# Subtest: DG-CERT-04: replay-data authorization — only owner tenant may access for replay
+ok 494 - DG-CERT-04: replay-data authorization — only owner tenant may access for replay
+  ---
+  duration_ms: 0.075479
+  type: 'test'
+  ...
+# Subtest: DG-CERT-05: cross-tenant data leakage prevention
+ok 495 - DG-CERT-05: cross-tenant data leakage prevention
+  ---
+  duration_ms: 0.187314
+  type: 'test'
+  ...
+# Subtest: DG-CERT-06: live-data provider governance — only governed providers feed the engine
+ok 496 - DG-CERT-06: live-data provider governance — only governed providers feed the engine
+  ---
+  duration_ms: 0.083188
+  type: 'test'
+  ...
+# Subtest: DG-CERT-07: evidence-data governance — evidence export requires classification + tenant + region
+ok 497 - DG-CERT-07: evidence-data governance — evidence export requires classification + tenant + region
+  ---
+  duration_ms: 0.123098
+  type: 'test'
+  ...
+# Subtest: DG-CERT-08: backup/DR data isolation + encryption/key boundaries
+ok 498 - DG-CERT-08: backup/DR data isolation + encryption/key boundaries
+  ---
+  duration_ms: 0.070214
+  type: 'test'
+  ...
+# Subtest: DG-CERT-09: data residency/region semantics
+ok 499 - DG-CERT-09: data residency/region semantics
+  ---
+  duration_ms: 0.194082
+  type: 'test'
+  ...
+# Subtest: DG-CERT-10: separation of operational metadata from engine inputs (constitutional test)
+ok 500 - DG-CERT-10: separation of operational metadata from engine inputs (constitutional test)
+  ---
+  duration_ms: 8.872239
+  type: 'test'
+  ...
+# Subtest: DR-CERT-01: backup export — the full snapshot + replay lineage is portable
+ok 501 - DR-CERT-01: backup export — the full snapshot + replay lineage is portable
+  ---
+  duration_ms: 9.297797
+  type: 'test'
+  ...
+# Subtest: DR-CERT-02: replay lineage — backup carries replayable snapshot identities
+ok 502 - DR-CERT-02: replay lineage — backup carries replayable snapshot identities
+  ---
+  duration_ms: 2.899461
+  type: 'test'
+  ...
+# Subtest: DR-CERT-03: restore — recovery node reconstructs identical state from backup (replay-based, no recompute)
+ok 503 - DR-CERT-03: restore — recovery node reconstructs identical state from backup (replay-based, no recompute)
+  ---
+  duration_ms: 2.023414
+  type: 'test'
+  ...
+# Subtest: DR-CERT-04: site failure recovery — a fresh site with the backup reproduces the frozen baseline
+ok 504 - DR-CERT-04: site failure recovery — a fresh site with the backup reproduces the frozen baseline
+  ---
+  duration_ms: 2.189457
+  type: 'test'
+  ...
+# Subtest: DR-CERT-05: RPO/RTO — measured recovery metrics (replay-based restoration)
+ok 505 - DR-CERT-05: RPO/RTO — measured recovery metrics (replay-based restoration)
+  ---
+  duration_ms: 3.251333
+  type: 'test'
+  ...
+# Subtest: DR-CERT-06: corruption detection — tampered snapshot is flagged
+ok 506 - DR-CERT-06: corruption detection — tampered snapshot is flagged
+  ---
+  duration_ms: 1.47428
+  type: 'test'
+  ...
+# Subtest: DR-CERT-07: quorum/recovery semantics — recovery requires a healthy site (deterministic)
+ok 507 - DR-CERT-07: quorum/recovery semantics — recovery requires a healthy site (deterministic)
+  ---
+  duration_ms: 2.653014
+  type: 'test'
+  ...
+# Subtest: DR-CERT-08: WP-0 compatibility — DR recovery restores the frozen baseline, not altered meaning
+ok 508 - DR-CERT-08: WP-0 compatibility — DR recovery restores the frozen baseline, not altered meaning
+  ---
+  duration_ms: 1.54471
+  type: 'test'
+  ...
+# Subtest: M-CERT-01: dual-run — same v1.1 workload executed through v1.1 and v2.0 paths
+ok 509 - M-CERT-01: dual-run — same v1.1 workload executed through v1.1 and v2.0 paths
+  ---
+  duration_ms: 11.460447
+  type: 'test'
+  ...
+# Subtest: M-CERT-02: semantic equivalence — composite, verdict, pillars, evidence equivalent across generations
+ok 510 - M-CERT-02: semantic equivalence — composite, verdict, pillars, evidence equivalent across generations
+  ---
+  duration_ms: 2.090934
+  type: 'test'
+  ...
+# Subtest: M-CERT-03: replay equivalence — v1.1 snapshots replay correctly in the v2.0 environment
+ok 511 - M-CERT-03: replay equivalence — v1.1 snapshots replay correctly in the v2.0 environment
+  ---
+  duration_ms: 2.13324
+  type: 'test'
+  ...
+# Subtest: M-CERT-04: migration — state/snapshots move without semantic transformation
+ok 512 - M-CERT-04: migration — state/snapshots move without semantic transformation
+  ---
+  duration_ms: 0.403688
+  type: 'test'
+  ...
+# Subtest: M-CERT-05: rollback — v2.0 execution can safely return to v1.1 with original result
+ok 513 - M-CERT-05: rollback — v2.0 execution can safely return to v1.1 with original result
+  ---
+  duration_ms: 0.35219
+  type: 'test'
+  ...
+# Subtest: M-CERT-06: version coexistence — v1.1 and v2.0 engine/runtime versions coexist
+ok 514 - M-CERT-06: version coexistence — v1.1 and v2.0 engine/runtime versions coexist
+  ---
+  duration_ms: 0.974419
+  type: 'test'
+  ...
+# Subtest: M-CERT-07: data lineage — original contract/calibration/data snapshot remains identifiable
+ok 515 - M-CERT-07: data lineage — original contract/calibration/data snapshot remains identifiable
+  ---
+  duration_ms: 0.16335
+  type: 'test'
+  ...
+# Subtest: M-CERT-08: tenant isolation — migration cannot cross tenant boundaries
+ok 516 - M-CERT-08: tenant isolation — migration cannot cross tenant boundaries
+  ---
+  duration_ms: 0.236924
+  type: 'test'
+  ...
+# Subtest: M-CERT-09: failure recovery — interrupted migration leaves no ambiguous state
+ok 517 - M-CERT-09: failure recovery — interrupted migration leaves no ambiguous state
+  ---
+  duration_ms: 0.55783
+  type: 'test'
+  ...
+# Subtest: M-CERT-10: WP-0 guard — frozen Replay Baseline remains byte-identical across generations
+ok 518 - M-CERT-10: WP-0 guard — frozen Replay Baseline remains byte-identical across generations
+  ---
+  duration_ms: 1.83011
+  type: 'test'
+  ...
+# Subtest: M-CERT-11: no methodology migration — migration moves state/config, not engine mathematics
+ok 519 - M-CERT-11: no methodology migration — migration moves state/config, not engine mathematics
+  ---
+  duration_ms: 0.199589
+  type: 'test'
+  ...
+# Subtest: M-CERT-12: zero v1.1 mutation — LTS artifacts remain immutable
+ok 520 - M-CERT-12: zero v1.1 mutation — LTS artifacts remain immutable
+  ---
+  duration_ms: 0.069515
+  type: 'test'
+  ...
+# Subtest: S-A3: no secrets committed in the platform source (secret-scan)
+ok 521 - S-A3: no secrets committed in the platform source (secret-scan)
+  ---
+  duration_ms: 14.161786
+  type: 'test'
+  ...
+# Subtest: S-A2: trust boundary — deterministic core is not mutated by foreign/security surface code
+ok 522 - S-A2: trust boundary — deterministic core is not mutated by foreign/security surface code
+  ---
+  duration_ms: 0.930959
+  type: 'test'
+  ...
+# Subtest: S-A4: snapshot/evidence immutability — integrity basis for tamper-evidence
+ok 523 - S-A4: snapshot/evidence immutability — integrity basis for tamper-evidence
+  ---
+  duration_ms: 1.913366
+  type: 'test'
+  ...
+# Subtest: S-A9: WP-0 constitutional guard still holds — deterministic core untouched by security work
+ok 524 - S-A9: WP-0 constitutional guard still holds — deterministic core untouched by security work
+  ---
+  duration_ms: 0.458639
+  type: 'test'
+  ...
+# Subtest: S-A10: zero v1.1 modification — security package is additive
+ok 525 - S-A10: zero v1.1 modification — security package is additive
+  ---
+  duration_ms: 0.088906
+  type: 'test'
+  ...
+# Subtest: H-CERT-01: HA startup — all 10 engines available across the cluster
+ok 526 - H-CERT-01: HA startup — all 10 engines available across the cluster
+  ---
+  duration_ms: 11.123876
+  type: 'test'
+  ...
+# Subtest: H-CERT-02: failover — execution resumes on another node after primary failure
+ok 527 - H-CERT-02: failover — execution resumes on another node after primary failure
+  ---
+  duration_ms: 0.785685
+  type: 'test'
+  ...
+# Subtest: H-CERT-03: determinism under failover — failover result == frozen baseline for all sectors
+ok 528 - H-CERT-03: determinism under failover — failover result == frozen baseline for all sectors
+  ---
+  duration_ms: 1.989708
+  type: 'test'
+  ...
+# Subtest: H-CERT-04: snapshot durability — snapshot survives node loss (identical identity on fresh cluster)
+ok 529 - H-CERT-04: snapshot durability — snapshot survives node loss (identical identity on fresh cluster)
+  ---
+  duration_ms: 1.263433
+  type: 'test'
+  ...
+# Subtest: H-CERT-05: replay after failover — result is replay-identical (frozen baseline preserved)
+ok 530 - H-CERT-05: replay after failover — result is replay-identical (frozen baseline preserved)
+  ---
+  duration_ms: 0.982794
+  type: 'test'
+  ...
+# Subtest: H-CERT-06: isolation — tenant/node/sector state cannot leak
+ok 531 - H-CERT-06: isolation — tenant/node/sector state cannot leak
+  ---
+  duration_ms: 1.557007
+  type: 'test'
+  ...
+# Subtest: H-CERT-07: split-brain prevention — a minority node refuses to execute (quorum guard)
+ok 532 - H-CERT-07: split-brain prevention — a minority node refuses to execute (quorum guard)
+  ---
+  duration_ms: 0.806417
+  type: 'test'
+  ...
+# Subtest: H-CERT-08: rolling restart — no semantic drift
+ok 533 - H-CERT-08: rolling restart — no semantic drift
+  ---
+  duration_ms: 0.814398
+  type: 'test'
+  ...
+# Subtest: H-CERT-09: configuration preservation — deterministic runtime configuration preserved across nodes
+ok 534 - H-CERT-09: configuration preservation — deterministic runtime configuration preserved across nodes
+  ---
+  duration_ms: 0.316408
+  type: 'test'
+  ...
+# Subtest: H-CERT-10: WP-0 guard + v1.1 zero modification
+ok 535 - H-CERT-10: WP-0 guard + v1.1 zero modification
+  ---
+  duration_ms: 0.317684
+  type: 'test'
+  ...
+# Subtest: L-CERT-01: immutable market-data snapshots + dataVersion/asOf identity
+ok 536 - L-CERT-01: immutable market-data snapshots + dataVersion/asOf identity
+  ---
+  duration_ms: 1.647454
+  type: 'test'
+  ...
+# Subtest: L-CERT-02: provider identity + data-quality/completeness status
+ok 537 - L-CERT-02: provider identity + data-quality/completeness status
+  ---
+  duration_ms: 0.137576
+  type: 'test'
+  ...
+# Subtest: L-CERT-03: deterministic snapshot creation — same fields -> same snapshot id
+ok 538 - L-CERT-03: deterministic snapshot creation — same fields -> same snapshot id
+  ---
+  duration_ms: 0.096071
+  type: 'test'
+  ...
+# Subtest: L-CERT-04: no live-data mutation inside an executing engine — input snapshot immutable through execution
+ok 539 - L-CERT-04: no live-data mutation inside an executing engine — input snapshot immutable through execution
+  ---
+  duration_ms: 3.267865
+  type: 'test'
+  ...
+# Subtest: L-CERT-05: same data snapshot -> identical engine result
+ok 540 - L-CERT-05: same data snapshot -> identical engine result
+  ---
+  duration_ms: 1.228511
+  type: 'test'
+  ...
+# Subtest: L-CERT-06: different data snapshot -> explicitly different input lineage, never silent drift
+ok 541 - L-CERT-06: different data snapshot -> explicitly different input lineage, never silent drift
+  ---
+  duration_ms: 0.136721
+  type: 'test'
+  ...
+# Subtest: L-CERT-07: replay uses the ORIGINAL data snapshot, not today-market data
+ok 542 - L-CERT-07: replay uses the ORIGINAL data snapshot, not today-market data
+  ---
+  duration_ms: 0.589616
+  type: 'test'
+  ...
+# Subtest: L-CERT-08: provider outage -> deterministic failure/fallback behavior
+ok 543 - L-CERT-08: provider outage -> deterministic failure/fallback behavior
+  ---
+  duration_ms: 0.091476
+  type: 'test'
+  ...
+# Subtest: L-CERT-09: stale-data detection + partial-data handling
+ok 544 - L-CERT-09: stale-data detection + partial-data handling
+  ---
+  duration_ms: 0.207554
+  type: 'test'
+  ...
+# Subtest: L-CERT-10: clock separation — market-data time (asOf) distinct from execution time
+ok 545 - L-CERT-10: clock separation — market-data time (asOf) distinct from execution time
+  ---
+  duration_ms: 0.305905
+  type: 'test'
+  ...
+# Subtest: L-CERT-11: WP-0 reproduction — same snapshot feeding the frozen baseline reproduces it exactly
+ok 546 - L-CERT-11: WP-0 reproduction — same snapshot feeding the frozen baseline reproduces it exactly
+  ---
+  duration_ms: 5.017577
+  type: 'test'
+  ...
+# Subtest: L-CERT-12: DR preserves and replays the data lineage
+ok 547 - L-CERT-12: DR preserves and replays the data lineage
+  ---
+  duration_ms: 0.696445
+  type: 'test'
+  ...
+# Subtest: E-CERT-01: identity — principals carry tenant + roles; authentication boundary
+ok 548 - E-CERT-01: identity — principals carry tenant + roles; authentication boundary
+  ---
+  duration_ms: 1.029391
+  type: 'test'
+  ...
+# Subtest: E-CERT-02: authorization correctness — RBAC grants/denies by role
+ok 549 - E-CERT-02: authorization correctness — RBAC grants/denies by role
+  ---
+  duration_ms: 0.150854
+  type: 'test'
+  ...
+# Subtest: E-CERT-03: tenant isolation — principal cannot access another tenant resource
+ok 550 - E-CERT-03: tenant isolation — principal cannot access another tenant resource
+  ---
+  duration_ms: 0.126817
+  type: 'test'
+  ...
+# Subtest: E-CERT-04: auditability — every check produces an immutable audit record
+ok 551 - E-CERT-04: auditability — every check produces an immutable audit record
+  ---
+  duration_ms: 0.236036
+  type: 'test'
+  ...
+# Subtest: E-CERT-05: resource quotas — enforcement independent of authorization
+ok 552 - E-CERT-05: resource quotas — enforcement independent of authorization
+  ---
+  duration_ms: 0.118486
+  type: 'test'
+  ...
+# Subtest: E-CERT-06: tenant-aware execution context — tenant metadata does NOT enter engine math (constitutional guard)
+ok 553 - E-CERT-06: tenant-aware execution context — tenant metadata does NOT enter engine math (constitutional guard)
+  ---
+  duration_ms: 5.190412
+  type: 'test'
+  ...
+# Subtest: E-CERT-07: WP-0 determinism — all sectors reproduce the frozen baseline under enterprise controls
+ok 554 - E-CERT-07: WP-0 determinism — all sectors reproduce the frozen baseline under enterprise controls
+  ---
+  duration_ms: 6.732506
+  type: 'test'
+  ...
+# Subtest: E-CERT-08: deterministic behavior independent of user/tenant metadata
+ok 555 - E-CERT-08: deterministic behavior independent of user/tenant metadata
+  ---
+  duration_ms: 0.444805
+  type: 'test'
+  ...
+# Subtest: E-CERT-09: security interaction with snapshots/replay/evidence/HA/DR
+ok 556 - E-CERT-09: security interaction with snapshots/replay/evidence/HA/DR
+  ---
+  duration_ms: 0.96277
+  type: 'test'
+  ...
+# Subtest: E-CERT-10: zero v1.1 modification + WP-0 guard
+ok 557 - E-CERT-10: zero v1.1 modification + WP-0 guard
+  ---
+  duration_ms: 0.247708
+  type: 'test'
+  ...
+# Subtest: AI-CERT-01: AI is advisory-only — explicit separation from the deterministic core
+ok 558 - AI-CERT-01: AI is advisory-only — explicit separation from the deterministic core
+  ---
+  duration_ms: 0.657351
+  type: 'test'
+  ...
+# Subtest: AI-CERT-02: no scoring authority — AI cannot calculate/replace sector-engine decisions
+ok 559 - AI-CERT-02: no scoring authority — AI cannot calculate/replace sector-engine decisions
+  ---
+  duration_ms: 1.697078
+  type: 'test'
+  ...
+# Subtest: AI-CERT-03: no methodology mutation — AI cannot modify methodology/calibration/reference assets
+ok 560 - AI-CERT-03: no methodology mutation — AI cannot modify methodology/calibration/reference assets
+  ---
+  duration_ms: 0.081565
+  type: 'test'
+  ...
+# Subtest: AI-CERT-04: no input mutation — AI cannot silently modify engine inputs
+ok 561 - AI-CERT-04: no input mutation — AI cannot silently modify engine inputs
+  ---
+  duration_ms: 0.374273
+  type: 'test'
+  ...
+# Subtest: AI-CERT-05: evidence-grounded explanations — every factual explanation traces to platform evidence
+ok 562 - AI-CERT-05: evidence-grounded explanations — every factual explanation traces to platform evidence
+  ---
+  duration_ms: 0.214701
+  type: 'test'
+  ...
+# Subtest: AI-CERT-06: hallucination containment — unsupported claims identified, not presented as fact
+ok 563 - AI-CERT-06: hallucination containment — unsupported claims identified, not presented as fact
+  ---
+  duration_ms: 0.072021
+  type: 'test'
+  ...
+# Subtest: AI-CERT-07: FLAGSHIP — AI enabled/disabled produces the SAME engine result (A === B)
+ok 564 - AI-CERT-07: FLAGSHIP — AI enabled/disabled produces the SAME engine result (A === B)
+  ---
+  duration_ms: 1.330629
+  type: 'test'
+  ...
+# Subtest: AI-CERT-08: AI failure isolation — AI outage cannot block/alter deterministic execution
+ok 565 - AI-CERT-08: AI failure isolation — AI outage cannot block/alter deterministic execution
+  ---
+  duration_ms: 0.266706
+  type: 'test'
+  ...
+# Subtest: AI-CERT-09: prompt/context isolation — tenant and sector data cannot leak across boundaries
+ok 566 - AI-CERT-09: prompt/context isolation — tenant and sector data cannot leak across boundaries
+  ---
+  duration_ms: 0.354469
+  type: 'test'
+  ...
+# Subtest: AI-CERT-10: auditability — AI request/context/model/version/output lineage recorded
+ok 567 - AI-CERT-10: auditability — AI request/context/model/version/output lineage recorded
+  ---
+  duration_ms: 0.486548
+  type: 'test'
+  ...
+# Subtest: AI-CERT-11: replay isolation — replay of a frozen engine execution does not depend on today AI output
+ok 568 - AI-CERT-11: replay isolation — replay of a frozen engine execution does not depend on today AI output
+  ---
+  duration_ms: 0.462342
+  type: 'test'
+  ...
+# Subtest: AI-CERT-12: workflow isolation — AI cannot inject hidden scoring logic into workflows
+ok 569 - AI-CERT-12: workflow isolation — AI cannot inject hidden scoring logic into workflows
+  ---
+  duration_ms: 0.353622
+  type: 'test'
+  ...
+# Subtest: AI-CERT-13: SDK/API isolation — AI cannot create an alternate decision path
+ok 570 - AI-CERT-13: SDK/API isolation — AI cannot create an alternate decision path
+  ---
+  duration_ms: 0.229473
+  type: 'test'
+  ...
+# Subtest: AI-CERT-14: marketplace isolation — AI cannot bypass WP-6 certification
+ok 571 - AI-CERT-14: marketplace isolation — AI cannot bypass WP-6 certification
+  ---
+  duration_ms: 0.053297
+  type: 'test'
+  ...
+# Subtest: AI-CERT-15: WP-0 hard gate — AI-assisted execution reproduces the frozen baseline exactly
+ok 572 - AI-CERT-15: WP-0 hard gate — AI-assisted execution reproduces the frozen baseline exactly
+  ---
+  duration_ms: 0.150117
+  type: 'test'
+  ...
+# Subtest: AI-CERT-16: adversarial testing — prompt injection/instruction conflict cannot change the verdict
+ok 573 - AI-CERT-16: adversarial testing — prompt injection/instruction conflict cannot change the verdict
+  ---
+  duration_ms: 0.196476
+  type: 'test'
+  ...
+# Subtest: AI-CERT-17: human authority boundary — recommendations remain recommendations
+ok 574 - AI-CERT-17: human authority boundary — recommendations remain recommendations
+  ---
+  duration_ms: 0.131687
+  type: 'test'
+  ...
+# Subtest: AI-CERT-18: full-platform regression — 467/467 starting baseline preserved
+ok 575 - AI-CERT-18: full-platform regression — 467/467 starting baseline preserved
+  ---
+  duration_ms: 0.051643
+  type: 'test'
+  ...
+# Subtest: MK-CERT-01: plugin registration — signed plugin has immutable manifest hash + signer
+ok 576 - MK-CERT-01: plugin registration — signed plugin has immutable manifest hash + signer
+  ---
+  duration_ms: 0.909252
+  type: 'test'
+  ...
+# Subtest: MK-CERT-02: certification gate — only certified+deterministic+non-blacklisted plugins load
+ok 577 - MK-CERT-02: certification gate — only certified+deterministic+non-blacklisted plugins load
+  ---
+  duration_ms: 0.162854
+  type: 'test'
+  ...
+# Subtest: MK-CERT-03: untrusted signer — not certified -> rejected
+ok 578 - MK-CERT-03: untrusted signer — not certified -> rejected
+  ---
+  duration_ms: 0.085158
+  type: 'test'
+  ...
+# Subtest: MK-CERT-04: blacklist revocation — revoked plugin rejected
+ok 579 - MK-CERT-04: blacklist revocation — revoked plugin rejected
+  ---
+  duration_ms: 0.090622
+  type: 'test'
+  ...
+# Subtest: MK-CERT-05: determinism verification — a deterministic plugin passes, a non-deterministic one fails
+ok 580 - MK-CERT-05: determinism verification — a deterministic plugin passes, a non-deterministic one fails
+  ---
+  duration_ms: 0.108857
+  type: 'test'
+  ...
+# Subtest: MK-CERT-06: determinism gate — a non-determinism-verified plugin cannot load even if certified
+ok 581 - MK-CERT-06: determinism gate — a non-determinism-verified plugin cannot load even if certified
+  ---
+  duration_ms: 0.086171
+  type: 'test'
+  ...
+# Subtest: MK-CERT-07: certified real engines load and reproduce their frozen oracle (WP-0 guard)
+ok 582 - MK-CERT-07: certified real engines load and reproduce their frozen oracle (WP-0 guard)
+  ---
+  duration_ms: 1.655423
+  type: 'test'
+  ...
+# Subtest: MK-CERT-08: dependency isolation — certified plugin runs isolated with its own snapshots/replay
+ok 583 - MK-CERT-08: dependency isolation — certified plugin runs isolated with its own snapshots/replay
+  ---
+  duration_ms: 0.776616
+  type: 'test'
+  ...
+# Subtest: MK-CERT-09: determinism across the marketplace gate — certified plugin result == frozen baseline
+ok 584 - MK-CERT-09: determinism across the marketplace gate — certified plugin result == frozen baseline
+  ---
+  duration_ms: 0.427525
+  type: 'test'
+  ...
+# Subtest: MK-CERT-10: security + zero v1.1 mutation (WP-15 prerequisite)
+ok 585 - MK-CERT-10: security + zero v1.1 mutation (WP-15 prerequisite)
+  ---
+  duration_ms: 0.33794
+  type: 'test'
+  ...
+# Subtest: WF-CERT-01: deterministic workflow definition + versioning
+ok 586 - WF-CERT-01: deterministic workflow definition + versioning
+  ---
+  duration_ms: 1.159895
+  type: 'test'
+  ...
+# Subtest: WF-CERT-02: deterministic execution order (topological)
+ok 587 - WF-CERT-02: deterministic execution order (topological)
+  ---
+  duration_ms: 0.653328
+  type: 'test'
+  ...
+# Subtest: WF-CERT-03: certified-plugin compatibility (WP-6) — workflow uses certified capabilities
+ok 588 - WF-CERT-03: certified-plugin compatibility (WP-6) — workflow uses certified capabilities
+  ---
+  duration_ms: 0.153812
+  type: 'test'
+  ...
+# Subtest: WF-CERT-04: IO contract validation — a transform only consumes declared upstream inputs
+ok 589 - WF-CERT-04: IO contract validation — a transform only consumes declared upstream inputs
+  ---
+  duration_ms: 0.158649
+  type: 'test'
+  ...
+# Subtest: WF-CERT-05: failure/retry semantics — retry does not duplicate semantic execution
+ok 590 - WF-CERT-05: failure/retry semantics — retry does not duplicate semantic execution
+  ---
+  duration_ms: 2.425133
+  type: 'test'
+  ...
+# Subtest: WF-CERT-06: snapshot/replay lineage across the entire workflow
+ok 591 - WF-CERT-06: snapshot/replay lineage across the entire workflow
+  ---
+  duration_ms: 0.373612
+  type: 'test'
+  ...
+# Subtest: WF-CERT-07: cross-tenant workflow isolation
+ok 592 - WF-CERT-07: cross-tenant workflow isolation
+  ---
+  duration_ms: 0.164679
+  type: 'test'
+  ...
+# Subtest: WF-CERT-08: workflow-level observability (execution count + per-node lineage)
+ok 593 - WF-CERT-08: workflow-level observability (execution count + per-node lineage)
+  ---
+  duration_ms: 1.106864
+  type: 'test'
+  ...
+# Subtest: WF-CERT-09: WP-0 frozen-oracle preservation for sector-engine nodes
+ok 594 - WF-CERT-09: WP-0 frozen-oracle preservation for sector-engine nodes
+  ---
+  duration_ms: 0.741188
+  type: 'test'
+  ...
+# Subtest: WF-CERT-10: rollback / version coexistence — multiple workflow versions coexist
+ok 595 - WF-CERT-10: rollback / version coexistence — multiple workflow versions coexist
+  ---
+  duration_ms: 0.316278
+  type: 'test'
+  ...
+# Subtest: WF-CERT-11: no hidden methodology or scoring logic inside workflow nodes
+ok 596 - WF-CERT-11: no hidden methodology or scoring logic inside workflow nodes
+  ---
+  duration_ms: 0.113412
+  type: 'test'
+  ...
+# Subtest: WF-CERT-12: full-platform regression — 440/440 starting baseline preserved
+ok 597 - WF-CERT-12: full-platform regression — 440/440 starting baseline preserved
+  ---
+  duration_ms: 0.059204
+  type: 'test'
+  ...
+# Subtest: API-CERT-01: stable API contracts — versioned request/response
+ok 598 - API-CERT-01: stable API contracts — versioned request/response
+  ---
+  duration_ms: 2.758698
+  type: 'test'
+  ...
+# Subtest: API-CERT-02: SDK/platform equivalence — API invocation == native runtime result
+ok 599 - API-CERT-02: SDK/platform equivalence — API invocation == native runtime result
+  ---
+  duration_ms: 0.50036
+  type: 'test'
+  ...
+# Subtest: API-CERT-03: authentication + authorization — API enforces WP-4, no bypass
+ok 600 - API-CERT-03: authentication + authorization — API enforces WP-4, no bypass
+  ---
+  duration_ms: 0.121579
+  type: 'test'
+  ...
+# Subtest: API-CERT-04: tenant isolation — no cross-tenant API access
+ok 601 - API-CERT-04: tenant isolation — no cross-tenant API access
+  ---
+  duration_ms: 0.127196
+  type: 'test'
+  ...
+# Subtest: API-CERT-05: idempotency — retries cannot create semantic duplicate executions
+ok 602 - API-CERT-05: idempotency — retries cannot create semantic duplicate executions
+  ---
+  duration_ms: 0.343815
+  type: 'test'
+  ...
+# Subtest: API-CERT-06: replay API — externally initiated replay bound to original snapshot/config
+ok 603 - API-CERT-06: replay API — externally initiated replay bound to original snapshot/config
+  ---
+  duration_ms: 0.222977
+  type: 'test'
+  ...
+# Subtest: API-CERT-07: evidence exposure — API consumer can trace execution -> evidence -> snapshot
+ok 604 - API-CERT-07: evidence exposure — API consumer can trace execution -> evidence -> snapshot
+  ---
+  duration_ms: 0.290095
+  type: 'test'
+  ...
+# Subtest: API-CERT-08: workflow API integration — API exposes composition without embedding workflow logic
+ok 605 - API-CERT-08: workflow API integration — API exposes composition without embedding workflow logic
+  ---
+  duration_ms: 0.924782
+  type: 'test'
+  ...
+# Subtest: API-CERT-09: marketplace integration — only certified capabilities exposed/loaded
+ok 606 - API-CERT-09: marketplace integration — only certified capabilities exposed/loaded
+  ---
+  duration_ms: 0.295283
+  type: 'test'
+  ...
+# Subtest: API-CERT-10: rate limiting/resource governance — operational, does not affect engine math
+ok 607 - API-CERT-10: rate limiting/resource governance — operational, does not affect engine math
+  ---
+  duration_ms: 0.5252
+  type: 'test'
+  ...
+# Subtest: API-CERT-11: backward compatibility — v1.1-compatible invocation remains available
+ok 608 - API-CERT-11: backward compatibility — v1.1-compatible invocation remains available
+  ---
+  duration_ms: 0.556597
+  type: 'test'
+  ...
+# Subtest: API-CERT-12: WP-0 hard gate — API-mediated execution reproduces the frozen baseline exactly
+ok 609 - API-CERT-12: WP-0 hard gate — API-mediated execution reproduces the frozen baseline exactly
+  ---
+  duration_ms: 0.296947
+  type: 'test'
+  ...
+# Subtest: API-CERT-13: no alternate decision authority — API layer contains no scoring/methodology logic
+ok 610 - API-CERT-13: no alternate decision authority — API layer contains no scoring/methodology logic
+  ---
+  duration_ms: 0.278371
+  type: 'test'
+  ...
+# Subtest: API-CERT-14: failure semantics — denial/timeout deterministic and auditable
+ok 611 - API-CERT-14: failure semantics — denial/timeout deterministic and auditable
+  ---
+  duration_ms: 0.189114
+  type: 'test'
+  ...
+# Subtest: API-CERT-15: full-platform regression — 452/452 starting baseline preserved
+ok 612 - API-CERT-15: full-platform regression — 452/452 starting baseline preserved
+  ---
+  duration_ms: 0.08871
+  type: 'test'
+  ...
+# Subtest: REGRESSION: six immutable versioned registries
+ok 613 - REGRESSION: six immutable versioned registries
+  ---
+  duration_ms: 1.087095
+  type: 'test'
+  ...
+# Subtest: REGRESSION: registry rejects duplicate ids
+ok 614 - REGRESSION: registry rejects duplicate ids
+  ---
+  duration_ms: 0.324723
+  type: 'test'
+  ...
+# Subtest: REGRESSION: runtime drives full lifecycle deterministically
+ok 615 - REGRESSION: runtime drives full lifecycle deterministically
+  ---
+  duration_ms: 0.964116
+  type: 'test'
+  ...
+# Subtest: REGRESSION: snapshot created immutable and replay reproduces identically
+ok 616 - REGRESSION: snapshot created immutable and replay reproduces identically
+  ---
+  duration_ms: 1.14775
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC1: metric evaluation + engine executes
+ok 617 - IES015-WP3-ACC1: metric evaluation + engine executes
+  ---
+  duration_ms: 2.532069
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC2: all 13 frozen expected outputs reproduced exactly (composite + verdict)
+ok 618 - IES015-WP3-ACC2: all 13 frozen expected outputs reproduced exactly (composite + verdict)
+  ---
+  duration_ms: 2.450964
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC3: pillars match frozen expected outputs (rounded 2dp)
+ok 619 - IES015-WP3-ACC3: pillars match frozen expected outputs (rounded 2dp)
+  ---
+  duration_ms: 0.542303
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC4: effective band-table resolution (calibrated ?? baseline, boundaries+scores together)
+ok 620 - IES015-WP3-ACC4: effective band-table resolution (calibrated ?? baseline, boundaries+scores together)
+  ---
+  duration_ms: 0.103301
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC5: TM-009 metric cardinality is 3 bands (terminal includes upper bound)
+ok 621 - IES015-WP3-ACC5: TM-009 metric cardinality is 3 bands (terminal includes upper bound)
+  ---
+  duration_ms: 0.127579
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC6: conservativeBandTable operator deterministic + composite-lowering (both directions)
+ok 622 - IES015-WP3-ACC6: conservativeBandTable operator deterministic + composite-lowering (both directions)
+  ---
+  duration_ms: 0.283036
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC7: hybrid + multi-subsegment resolution (single profile, no branch)
+ok 623 - IES015-WP3-ACC7: hybrid + multi-subsegment resolution (single profile, no branch)
+  ---
+  duration_ms: 0.180053
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC8: calibration isolation (common engine; calibration selects params only)
+ok 624 - IES015-WP3-ACC8: calibration isolation (common engine; calibration selects params only)
+  ---
+  duration_ms: 0.166625
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC9: override / min-rank deterministic
+ok 625 - IES015-WP3-ACC9: override / min-rank deterministic
+  ---
+  duration_ms: 0.35682
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC10: missing-data renormalization (missing primitive -> 0 + renormalized weights)
+ok 626 - IES015-WP3-ACC10: missing-data renormalization (missing primitive -> 0 + renormalized weights)
+  ---
+  duration_ms: 0.367698
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC11: composite round-half-to-even (raw 49.25 -> 49.2, not 49.3)
+ok 627 - IES015-WP3-ACC11: composite round-half-to-even (raw 49.25 -> 49.2, not 49.3)
+  ---
+  duration_ms: 0.158813
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC12: evidence complete for every provider + replay deterministic
+ok 628 - IES015-WP3-ACC12: evidence complete for every provider + replay deterministic
+  ---
+  duration_ms: 2.297654
+  type: 'test'
+  ...
+# Subtest: IES015-WP3-ACC13: ontology registration — 8/8 dimensions (CSIP-compatible)
+ok 629 - IES015-WP3-ACC13: ontology registration — 8/8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.093306
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC1: technology manifest via shared ManifestLoader
+ok 630 - IES015-WP2-ACC1: technology manifest via shared ManifestLoader
+  ---
+  duration_ms: 1.277239
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC2: technology evidence via shared EvidencePipeline
+ok 631 - IES015-WP2-ACC2: technology evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.495593
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC3: technology deterministic snapshot via shared Snapshot
+ok 632 - IES015-WP2-ACC3: technology deterministic snapshot via shared Snapshot
+  ---
+  duration_ms: 1.238495
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC4: technology replay byte-identical via shared Replay
+ok 633 - IES015-WP2-ACC4: technology replay byte-identical via shared Replay
+  ---
+  duration_ms: 0.630099
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC5: technology diagnostics via shared DiagnosticsService (observational)
+ok 634 - IES015-WP2-ACC5: technology diagnostics via shared DiagnosticsService (observational)
+  ---
+  duration_ms: 0.1775
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC6: technology qualification via shared QualificationService
+ok 635 - IES015-WP2-ACC6: technology qualification via shared QualificationService
+  ---
+  duration_ms: 0.161399
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC7: technology activation via shared ActivationService
+ok 636 - IES015-WP2-ACC7: technology activation via shared ActivationService
+  ---
+  duration_ms: 0.260943
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC8: technology transport via shared generic DTO
+ok 637 - IES015-WP2-ACC8: technology transport via shared generic DTO
+  ---
+  duration_ms: 0.38388
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC9: ELEVEN plugins coexist through the same framework without branching
+ok 638 - IES015-WP2-ACC9: ELEVEN plugins coexist through the same framework without branching
+  ---
+  duration_ms: 8.02768
+  type: 'test'
+  ...
+# Subtest: IES015-WP2-ACC10: technology replay determinism (identical metadata + evidence across independent runs)
+ok 639 - IES015-WP2-ACC10: technology replay determinism (identical metadata + evidence across independent runs)
+  ---
+  duration_ms: 0.639357
+  type: 'test'
+  ...
+# Subtest: IES015-WP1-ACC1: sector.technology registers + executes through the existing runtime
+ok 640 - IES015-WP1-ACC1: sector.technology registers + executes through the existing runtime
+  ---
+  duration_ms: 2.434923
+  type: 'test'
+  ...
+# Subtest: IES015-WP1-ACC2: technology produces snapshots + replays via shared services
+ok 641 - IES015-WP1-ACC2: technology produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.726188
+  type: 'test'
+  ...
+# Subtest: IES015-WP1-ACC3: ELEVEN plugins coexist (9 sectors + CSIP + Technology)
+ok 642 - IES015-WP1-ACC3: ELEVEN plugins coexist (9 sectors + CSIP + Technology)
+  ---
+  duration_ms: 7.051788
+  type: 'test'
+  ...
+# Subtest: IES015-WP1-ACC4: technology ontology metadata covers 8 dimensions (CSIP-compatible)
+ok 643 - IES015-WP1-ACC4: technology ontology metadata covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.216287
+  type: 'test'
+  ...
+# Subtest: IES015-WP4-ACC1: golden regression — all 13 frozen expected outputs from the standards repo
+ok 644 - IES015-WP4-ACC1: golden regression — all 13 frozen expected outputs from the standards repo
+  ---
+  duration_ms: 5.146206
+  type: 'test'
+  ...
+# Subtest: IES015-WP4-ACC2: replay — byte-identical across repeated runs (calibration version bound)
+ok 645 - IES015-WP4-ACC2: replay — byte-identical across repeated runs (calibration version bound)
+  ---
+  duration_ms: 1.333713
+  type: 'test'
+  ...
+# Subtest: IES015-WP4-ACC3: validation fixtures — all 13 provider scenarios pass (21 fixture scenarios incl. 8 contract-edge, of which the engine covers the 13 provider scenarios)
+ok 646 - IES015-WP4-ACC3: validation fixtures — all 13 provider scenarios pass (21 fixture scenarios incl. 8 contract-edge, of which the engine covers the 13 provider scenarios)
+  ---
+  duration_ms: 1.130862
+  type: 'test'
+  ...
+# Subtest: IES015-WP4-ACC4: calibration integrity — frozen profile hash verified against freeze manifest
+ok 647 - IES015-WP4-ACC4: calibration integrity — frozen profile hash verified against freeze manifest
+  ---
+  duration_ms: 0.205218
+  type: 'test'
+  ...
+# Subtest: IES015-WP4-ACC5: override precedence — min-rank deterministic
+ok 648 - IES015-WP4-ACC5: override precedence — min-rank deterministic
+  ---
+  duration_ms: 0.449285
+  type: 'test'
+  ...
+# Subtest: IES015-WP4-ACC6: ontology registration — 8/8 dimensions
+ok 649 - IES015-WP4-ACC6: ontology registration — 8/8 dimensions
+  ---
+  duration_ms: 0.306549
+  type: 'test'
+  ...
+# Subtest: IES015-WP4-ACC7: evidence — complete for every provider
+ok 650 - IES015-WP4-ACC7: evidence — complete for every provider
+  ---
+  duration_ms: 1.09746
+  type: 'test'
+  ...
+# Subtest: IES012-WP3-ACC1: metric evaluation (WP3-ACC1)
+ok 651 - IES012-WP3-ACC1: metric evaluation (WP3-ACC1)
+  ---
+  duration_ms: 2.026561
+  type: 'test'
+  ...
+# Subtest: IES012-WP3-ACC2..ACC6: all 11 frozen expected outputs reproduced exactly (golden regression)
+ok 652 - IES012-WP3-ACC2..ACC6: all 11 frozen expected outputs reproduced exactly (golden regression)
+  ---
+  duration_ms: 1.600807
+  type: 'test'
+  ...
+# Subtest: IES012-WP3-ACC7: override precedence applied deterministically (D10)
+ok 653 - IES012-WP3-ACC7: override precedence applied deterministically (D10)
+  ---
+  duration_ms: 0.386862
+  type: 'test'
+  ...
+# Subtest: IES012-WP3-ACC5: segment + regulatory calibration isolates
+ok 654 - IES012-WP3-ACC5: segment + regulatory calibration isolates
+  ---
+  duration_ms: 0.275466
+  type: 'test'
+  ...
+# Subtest: IES012-WP3-ACC8: evidence generated via shared pipeline
+ok 655 - IES012-WP3-ACC8: evidence generated via shared pipeline
+  ---
+  duration_ms: 0.149366
+  type: 'test'
+  ...
+# Subtest: IES012-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+ok 656 - IES012-WP3-ACC9: ontology registration covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.117309
+  type: 'test'
+  ...
+# Subtest: IES012-WP3-ACC10: full engine replay-deterministic via shared services
+ok 657 - IES012-WP3-ACC10: full engine replay-deterministic via shared services
+  ---
+  duration_ms: 0.185801
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC1: utilities manifest via shared ManifestLoader
+ok 658 - IES012-WP2-ACC1: utilities manifest via shared ManifestLoader
+  ---
+  duration_ms: 1.063697
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC2: utilities evidence via shared EvidencePipeline
+ok 659 - IES012-WP2-ACC2: utilities evidence via shared EvidencePipeline
+  ---
+  duration_ms: 0.633253
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC3: utilities deterministic snapshot via shared Snapshot
+ok 660 - IES012-WP2-ACC3: utilities deterministic snapshot via shared Snapshot
+  ---
+  duration_ms: 1.090795
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC4: utilities replay byte-identical via shared Replay
+ok 661 - IES012-WP2-ACC4: utilities replay byte-identical via shared Replay
+  ---
+  duration_ms: 0.647199
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC5: utilities diagnostics via shared DiagnosticsService (observational)
+ok 662 - IES012-WP2-ACC5: utilities diagnostics via shared DiagnosticsService (observational)
+  ---
+  duration_ms: 0.257731
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC6: utilities transport via shared generic DTO
+ok 663 - IES012-WP2-ACC6: utilities transport via shared generic DTO
+  ---
+  duration_ms: 0.307637
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC7: utilities qualification via shared QualificationService
+ok 664 - IES012-WP2-ACC7: utilities qualification via shared QualificationService
+  ---
+  duration_ms: 0.198203
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC8: utilities activation via shared ActivationService
+ok 665 - IES012-WP2-ACC8: utilities activation via shared ActivationService
+  ---
+  duration_ms: 0.133027
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC9: EIGHT plugins coexist through the same framework without branching
+ok 666 - IES012-WP2-ACC9: EIGHT plugins coexist through the same framework without branching
+  ---
+  duration_ms: 4.939654
+  type: 'test'
+  ...
+# Subtest: IES012-WP2-ACC10: utilities replay determinism (identical metadata + evidence across independent runs)
+ok 667 - IES012-WP2-ACC10: utilities replay determinism (identical metadata + evidence across independent runs)
+  ---
+  duration_ms: 0.648592
+  type: 'test'
+  ...
+# Subtest: IES012-WP1-ACC1: sector.utilities registers + executes through the existing runtime
+ok 668 - IES012-WP1-ACC1: sector.utilities registers + executes through the existing runtime
+  ---
+  duration_ms: 2.375337
+  type: 'test'
+  ...
+# Subtest: IES012-WP1-ACC2: utilities produces snapshots + replays via shared services
+ok 669 - IES012-WP1-ACC2: utilities produces snapshots + replays via shared services
+  ---
+  duration_ms: 0.780869
+  type: 'test'
+  ...
+# Subtest: IES012-WP1-ACC3: EIGHT plugins coexist (6 sectors + CSIP + Utilities)
+ok 670 - IES012-WP1-ACC3: EIGHT plugins coexist (6 sectors + CSIP + Utilities)
+  ---
+  duration_ms: 4.95007
+  type: 'test'
+  ...
+# Subtest: IES012-WP1-ACC4: utilities ontology metadata covers 8 dimensions (CSIP-compatible)
+ok 671 - IES012-WP1-ACC4: utilities ontology metadata covers 8 dimensions (CSIP-compatible)
+  ---
+  duration_ms: 0.221066
+  type: 'test'
+  ...
+# Subtest: IES012-WP4-ACC1: golden regression — all 11 frozen expected outputs from the standards repo
+ok 672 - IES012-WP4-ACC1: golden regression — all 11 frozen expected outputs from the standards repo
+  ---
+  duration_ms: 2.993235
+  type: 'test'
+  ...
+# Subtest: IES012-WP4-ACC2: replay — byte-identical across repeated runs
+ok 673 - IES012-WP4-ACC2: replay — byte-identical across repeated runs
+  ---
+  duration_ms: 0.388153
+  type: 'test'
+  ...
+# Subtest: IES012-WP4-ACC3: validation fixtures — all 11 pass
+ok 674 - IES012-WP4-ACC3: validation fixtures — all 11 pass
+  ---
+  duration_ms: 0.601216
+  type: 'test'
+  ...
+# Subtest: IES012-WP4-ACC4: calibration integrity — frozen profile hash verified
+ok 675 - IES012-WP4-ACC4: calibration integrity — frozen profile hash verified
+  ---
+  duration_ms: 0.149284
+  type: 'test'
+  ...
+# Subtest: IES012-WP4-ACC5: override precedence — all override paths
+ok 676 - IES012-WP4-ACC5: override precedence — all override paths
+  ---
+  duration_ms: 1.252127
+  type: 'test'
+  ...
+# Subtest: IES012-WP4-ACC6: ontology registration — 8/8 dimensions
+ok 677 - IES012-WP4-ACC6: ontology registration — 8/8 dimensions
+  ---
+  duration_ms: 0.306959
+  type: 'test'
+  ...
+# Subtest: IES012-WP4-ACC7: evidence — complete for every provider
+ok 678 - IES012-WP4-ACC7: evidence — complete for every provider
+  ---
+  duration_ms: 0.543171
+  type: 'test'
+  ...
+1..678
+# tests 678
+# suites 0
+# pass 678
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20315.524923

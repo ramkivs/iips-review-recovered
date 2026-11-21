@@ -1,0 +1,52 @@
+
+ RUN  v2.1.9 /tmp/w19-irr-execute/frontend
+
+ ✓ server/reports/persistence-port.test.ts (30 tests) 41ms
+(node:6457) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-transport.test.ts (8 tests) 214ms
+(node:6477) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/investment/investment-transport.test.ts (14 tests) 338ms
+ ✓ server/investment/iidG11ServedChainTransport.test.ts (23 tests) 401ms
+ ✓ server/owner-context-integration.test.ts (14 tests) 330ms
+(node:6538) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/reports-persistence-integration.test.ts (5 tests) 36ms
+(node:6654) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6687) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6719) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6752) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports-restart.test.ts (2 tests) 8979ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > Process 1 & 2 fail closed with 503 across processes when carrier is not provisioned 2350ms
+   ✓ NP-06 Reports — F-7 Separate-Process Durable HTTP Acceptance > proves F-7 durable HTTP lifecycle across 3 distinct OS processes 6628ms
+ ✓ server/owner-context-restart.test.ts (8 tests) 8423ms
+   ✓ F-3 mechanism — durability across a separate process > process 1 serves the owner context and writes through the real composed server 2005ms
+   ✓ F-3 mechanism — durability across a separate process > process 2 — a FRESH process — serves the same owner context from the same carrier 2019ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier was tampered with 1252ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > a restarted process serves NO owner context when the carrier is absent 2004ms
+   ✓ F-3 mechanism — fail-closed and recovery across a separate process > recovers across a separate process once the authorised carrier is restored 1137ms
+(node:6985) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ server/reports/real-report-persistence.test.ts (1 test) 127ms
+ ✓ server/broker-import/brokerImportEvidenceRestart.test.ts (3 tests) 5869ms
+   ✓ WS-A durable import evidence — separate-process restart > process B recovers the unresolved 68-row evidence after process A terminates 5863ms
+ ✓ server/persistence/consumer-restart-read.test.ts (3 tests) 8174ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 9 Watchlists: Process B reads the persisted watchlist through the real service after Process A terminated 3053ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 10 Collaboration: Process B reads the persisted thread and comment through the real service after Process A terminated 3075ms
+   ✓ CAP-01 — consumer-level post-restart reads (rows 9/10/11, separate processes) > row 11 Settings incl. reset: Process B reads the surviving update AND the reset-to-defaults through the real service after Process A terminated 2045ms
+ ✓ server/persistence/persistence-service.test.ts (21 tests) 16ms
+ ✓ server/persistence/persistence-restart-proof.test.ts (2 tests) 1937ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 1: Process B recovers Process A committed state after full termination 1001ms
+   ✓ PF-1 — separate-process restart proof (D-1 journal extension §3.8) > cycle 2: distinct fixture, identical recovery semantics (deterministic repeat) 935ms
+
+ Test Files  13 passed (13)
+      Tests  134 passed (134)
+   Start at  19:04:59
+   Duration  42.56s (transform 2.31s, setup 1.40s, collect 3.06s, tests 34.88s, environment 1.11s, prepare 655ms)
+
+JSON report written to /tmp/w19-execute-logs/frontend-vitest.json
