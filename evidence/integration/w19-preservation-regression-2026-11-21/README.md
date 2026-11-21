@@ -23,7 +23,7 @@ The IPD [current-portfolio execution roadmap](https://github.com/ramkivs/iips-pr
 | IPD RA-15 | Same IPD commit / date not supplied | Seven suites, reported | **52/52**, reported |
 | IPD owner isolation | Same IPD commit / date not supplied | Reported | **14/14**, reported |
 | IPD PIT durable readback | Same IPD commit / date not supplied | Reported | **34/34**, reported |
-| IPD full guarded regression | Same IPD commit / date not supplied | Reported; original command and TAP unavailable | **2,084 passed, 0 failed, 4 skipped; 2,088 total reported.** The handoff described 2,088 as executed, but 2,084 passed plus 4 skipped leaves 2,084 actually executed under the usual definition; original TAP is needed to resolve terminology. Counts may overlap focused suites and must not be added to them. |
+| IPD full guarded regression | Same IPD commit / date not supplied | Reported; original command and TAP unavailable | **2,088 total, 2,084 passed, 0 failed, 4 skipped; exit 0**, as reported. Counts may overlap focused suites and must not be added to them. |
 | IRR frontend persistence/restart | `9d7b4a49ff3f843244c5a3cea1b8e758aecbbdb0` / 2026-11-21 | Focused 13-file Vitest command in §3 | **134 passed, 0 failed, 0 skipped**, exit 0; [log](focused/frontend-vitest.log), [JSON](focused/frontend-vitest.json) |
 | IRR S4-R3 | Same IRR focused commit / 2026-11-21 | `cd iips-platform && ../frontend/node_modules/.bin/tsx --test tests/investment/s4R3CandidateBuild.test.ts` in canonical-path namespace | **10 passed, 0 failed, 0 skipped**, exit 0; [TAP](focused/s4-r3-rerun.tap) |
 | IRR frontend full guarded | `5cbfb0360a66ca7d23dff758f7c976d49650a081` / 2026-11-21 | `cd frontend && npm run test:ci` then `node .ci/assert-tests.js .vitest-report.json` | **3,315 passed, 0 failed, 1 skipped**, suite exit 0; guard PASS, exit 0. [log](advanced-main/frontend-full.log), [JSON](advanced-main/frontend-full.json), [guard](advanced-main/frontend-guard.log) |
@@ -90,4 +90,4 @@ The prior focused artifacts originally reported these hashes: `frontend-vitest.l
 
 ## 7. Review handoff
 
-Request the missing IPD-owned W-19 run record, exact protected-file identities and before/after SHA-256 pairs; reconcile its reported executed/total terminology; preserve the skipped live-data test and all qualifications above; and arrange independent technical review. Any later main must be assessed separately from these commit-bounded results. **W-19 remains OPEN — NOT ACCEPTED.**
+Request the missing IPD-owned W-19 run record and exact protected-file identities and before/after SHA-256 pairs; preserve the skipped live-data test and all qualifications above; and arrange independent technical review. Any later main must be assessed separately from these commit-bounded results. **W-19 remains OPEN — NOT ACCEPTED.**
