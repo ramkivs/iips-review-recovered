@@ -1520,4 +1520,3 @@ and D6 (live portfolio read on the host) are still the hard external prerequisit
 operator-owned; nothing here is host evidence. The next operational activity is still Stage 5 (§C.2):
 the host prerequisites are enumerated in the implementation record §9. No Stage 6 work, no IPD change,
 no pin advance and no Windows host provisioning is authorized by this amendment.
-
