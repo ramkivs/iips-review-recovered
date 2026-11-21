@@ -61,8 +61,24 @@ import { G2_IPC_ENDPOINT_SETTING } from './userPortfolioContract.js';
  * Contract v1 constants (transport / framing)
  * ------------------------------------------------------------------ */
 
-/** Wire protocol version. Only `1` exists; there is no negotiation (T-3, V-2). */
+/**
+ * Default wire protocol version. v1 is the frozen Gate 3 channel every existing
+ * consumer speaks; there is no negotiation (T-3, V-2). A caller that needs the
+ * D03 v2 read channel selects it explicitly per call (`protocolVersion: 2`); the
+ * response must then carry the same version, or the call is a transport fault.
+ */
 export const IPC_PROTOCOL_VERSION = 1;
+
+/**
+ * D03 v2 wire protocol version (IPD consumer contract 2.0.0 / frame `v = 2`).
+ *
+ * IID Stage 5 — the approved S1→D02 read-only relationship is dispatched by IPD
+ * only for `v = 2` frames. IRR sends it only for the closed read set below and
+ * only from the Stage 5 read ports; it is never the default and never negotiated.
+ */
+export const IPC_PROTOCOL_VERSION_V2 = 2;
+
+export type IpcProtocolVersion = typeof IPC_PROTOCOL_VERSION | typeof IPC_PROTOCOL_VERSION_V2;
 
 /** uint32 big-endian length prefix. */
 export const IPC_LENGTH_PREFIX_BYTES = 4;
@@ -122,6 +138,19 @@ export const IPC_WRITE_OPERATIONS: readonly IpcOperation[] = [
 export const IPC_OPERATIONS: readonly IpcOperation[] = [
   ...IPC_READ_OPERATIONS,
   ...IPC_WRITE_OPERATIONS,
+];
+
+/**
+ * The ONLY operations IRR may place on the wire under `v = 2`. A separate closed
+ * constant on purpose: a future v1 read addition must not silently become a v2
+ * operation. IPD additionally lists `portfolio.create` / `portfolio.save` in its
+ * v2 grammar and refuses both with `WRITE_NOT_AUTHORIZED`; IRR never sends them
+ * under v2 at all (refused before encoding).
+ */
+export const IPC_V2_READ_OPERATIONS: readonly IpcOperation[] = [
+  'portfolio.list',
+  'portfolio.get',
+  'portfolio.revisions',
 ];
 
 /**
@@ -417,10 +446,43 @@ export function resolveIpcEndpoint(
  * ------------------------------------------------------------------ */
 
 export interface IpcRequestEnvelope {
-  readonly v: 1;
+  readonly v: IpcProtocolVersion;
   readonly op: IpcOperation;
   readonly payload?: Record<string, unknown>;
   readonly requestId?: string;
+}
+
+/**
+ * D03 v2 request grammar, mirrored from IPD `validateV2Envelope` so that a frame
+ * IPD would refuse is never sent:
+ *
+ *   - the operation is in the closed v2 READ set (writes are refused here, before
+ *     any socket, which keeps mutation permissions unchanged on the IRR side);
+ *   - `portfolio.list` carries NO `payload` key at all;
+ *   - `portfolio.get` / `portfolio.revisions` carry exactly `{ portfolioId }`
+ *     with a non-blank string.
+ */
+function assertV2RequestGrammar(record: Record<string, unknown>): void {
+  const op = record.op as string;
+  if (!(IPC_V2_READ_OPERATIONS as readonly string[]).includes(op)) {
+    throw new IpcClientError('UNKNOWN_OPERATION', 'the operation is outside the closed v2 read set');
+  }
+  const hasPayload = Object.prototype.hasOwnProperty.call(record, 'payload');
+  if (op === 'portfolio.list') {
+    if (hasPayload) {
+      throw new IpcClientError('MALFORMED_ENVELOPE', 'v2 portfolio.list takes no payload');
+    }
+    return;
+  }
+  const payload = record.payload;
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    throw new IpcClientError('MALFORMED_ENVELOPE', `v2 ${op} requires a payload object`);
+  }
+  const keys = Object.keys(payload as Record<string, unknown>);
+  const portfolioId = (payload as Record<string, unknown>).portfolioId;
+  if (keys.length !== 1 || keys[0] !== 'portfolioId' || typeof portfolioId !== 'string' || portfolioId.trim().length === 0) {
+    throw new IpcClientError('MALFORMED_ENVELOPE', `v2 ${op} payload must be exactly { portfolioId }`);
+  }
 }
 
 /**
@@ -445,8 +507,8 @@ export function encodeRequestFrame(envelope: IpcRequestEnvelope): Buffer {
       throw new IpcClientError('MALFORMED_ENVELOPE', `unexpected envelope key: ${key}`);
     }
   }
-  if (record.v !== IPC_PROTOCOL_VERSION) {
-    throw new IpcClientError('MALFORMED_ENVELOPE', 'only wire protocol version 1 may be sent');
+  if (record.v !== IPC_PROTOCOL_VERSION && record.v !== IPC_PROTOCOL_VERSION_V2) {
+    throw new IpcClientError('MALFORMED_ENVELOPE', 'only wire protocol version 1 or 2 may be sent');
   }
   if (typeof record.op !== 'string' || !(IPC_OPERATIONS as readonly string[]).includes(record.op)) {
     throw new IpcClientError('UNKNOWN_OPERATION', 'the operation is outside the closed v1 set');
@@ -454,6 +516,7 @@ export function encodeRequestFrame(envelope: IpcRequestEnvelope): Buffer {
   if ((IPC_RESERVED_OPERATIONS as readonly string[]).includes(record.op)) {
     throw new IpcClientError('UNKNOWN_OPERATION', 'the operation is reserved and must not be sent');
   }
+  if (record.v === IPC_PROTOCOL_VERSION_V2) assertV2RequestGrammar(record);
 
   const body = Buffer.from(JSON.stringify(record), 'utf8');
   if (body.byteLength > IPC_REQUEST_MAX_BYTES) {
@@ -469,7 +532,7 @@ export function encodeRequestFrame(envelope: IpcRequestEnvelope): Buffer {
 }
 
 export interface IpcSuccessFrame {
-  readonly v: 1;
+  readonly v: IpcProtocolVersion;
   readonly ok: true;
   readonly op: IpcOperation;
   readonly requestId?: string;
@@ -477,7 +540,7 @@ export interface IpcSuccessFrame {
 }
 
 export interface IpcOutcomeFrame {
-  readonly v: 1;
+  readonly v: IpcProtocolVersion;
   readonly ok: false;
   readonly op: IpcOperation;
   readonly requestId?: string;
@@ -494,13 +557,19 @@ export type IpcResponseFrame = IpcSuccessFrame | IpcOutcomeFrame;
  * tenant or principal identifier appearing in a response would violate OC-6, so a
  * response carrying one is refused rather than surfaced.
  */
-export function parseResponseFrame(body: unknown): IpcResponseFrame {
+export function parseResponseFrame(
+  body: unknown,
+  expectedVersion: IpcProtocolVersion = IPC_PROTOCOL_VERSION,
+): IpcResponseFrame {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     throw new IpcClientError('TRANSPORT_FAULT', 'the response is not a JSON object');
   }
   const frame = body as Record<string, unknown>;
-  if (frame.v !== IPC_PROTOCOL_VERSION) {
-    throw new IpcClientError('TRANSPORT_FAULT', 'the response carries an unsupported protocol version');
+  // The response version must EQUAL the request version. There is no downgrade,
+  // no upgrade and no retry: a v1 answer to a v2 request (or the reverse) is a
+  // transport fault, because the two channels resolve the owner differently.
+  if (frame.v !== expectedVersion) {
+    throw new IpcClientError('TRANSPORT_FAULT', 'the response protocol version differs from the request');
   }
   if (typeof frame.op !== 'string') {
     throw new IpcClientError('TRANSPORT_FAULT', 'the response carries no operation');
@@ -523,7 +592,7 @@ export function parseResponseFrame(body: unknown): IpcResponseFrame {
 
   if (frame.ok === true) {
     return {
-      v: IPC_PROTOCOL_VERSION,
+      v: expectedVersion,
       ok: true,
       op: frame.op as IpcOperation,
       ...(typeof frame.requestId === 'string' ? { requestId: frame.requestId } : {}),
@@ -535,7 +604,7 @@ export function parseResponseFrame(body: unknown): IpcResponseFrame {
       throw new IpcClientError('TRANSPORT_FAULT', 'the refusal carries no outcome code');
     }
     return {
-      v: IPC_PROTOCOL_VERSION,
+      v: expectedVersion,
       ok: false,
       op: frame.op as IpcOperation,
       ...(typeof frame.requestId === 'string' ? { requestId: frame.requestId } : {}),
@@ -580,6 +649,12 @@ export interface IpcCallOptions {
   readonly timeoutMs?: number;
   /** Correlation id echoed by IPD. Never an authority. */
   readonly requestId?: string;
+  /**
+   * Wire protocol version for this call. Default `1` (every existing consumer).
+   * `2` selects the D03 v2 read channel: only `IPC_V2_READ_OPERATIONS` may be
+   * sent, and the response must answer with `v = 2`. Never negotiated.
+   */
+  readonly protocolVersion?: IpcProtocolVersion;
 }
 
 /**
@@ -595,8 +670,9 @@ export async function callIpc(
   payload: Record<string, unknown> | undefined,
   options: IpcCallOptions = {},
 ): Promise<IpcCallResult> {
+  const protocolVersion: IpcProtocolVersion = options.protocolVersion ?? IPC_PROTOCOL_VERSION;
   const envelope: IpcRequestEnvelope = {
-    v: IPC_PROTOCOL_VERSION,
+    v: protocolVersion,
     op,
     ...(payload !== undefined ? { payload } : {}),
     ...(options.requestId !== undefined ? { requestId: options.requestId } : {}),
@@ -678,7 +754,7 @@ export async function callIpc(
       const bytesReceived = IPC_LENGTH_PREFIX_BYTES + declared;
       let parsed: IpcResponseFrame;
       try {
-        parsed = parseResponseFrame(JSON.parse(body.toString('utf8')));
+        parsed = parseResponseFrame(JSON.parse(body.toString('utf8')), protocolVersion);
       } catch {
         settle(unknown('TRANSPORT_FAULT'));
         return;

@@ -51,6 +51,7 @@ import {
   isValidExpectedRevision,
   isValidPortfolioId,
   isValidPortfolioName,
+  type G2ContributionLedgerEntry,
   type G2DeleteResult,
   type G2FailureReason,
   type G2HoldingInput,
@@ -76,12 +77,16 @@ import {
   type OwnerContext,
 } from './ownerContextFromBinding.js';
 import {
+  IPC_PROTOCOL_VERSION,
+  IPC_PROTOCOL_VERSION_V2,
+  IPC_V2_READ_OPERATIONS,
   callIpc,
   resolveIpcEndpoint,
   type IpcCallResult,
   type IpcClassAOutcome,
   type IpcEndpointTarget,
   type IpcOperation,
+  type IpcProtocolVersion,
 } from './ipcClient.js';
 
 /* ------------------------------------------------------------------ *
@@ -210,8 +215,25 @@ export interface IpcPortAdapterOptions {
    * Defaults to `process.env`, which is the production posture.
    */
   readonly env?: NodeJS.ProcessEnv;
-  /** Injects the transport (tests only). Defaults to `callIpc`. */
-  readonly transport?: (op: IpcOperation, payload?: Record<string, unknown>) => Promise<IpcCallResult>;
+  /**
+   * Injects the transport (tests only). Defaults to `callIpc`. The third
+   * argument is the wire version this port speaks; existing seams that ignore
+   * it keep compiling and keep describing v1.
+   */
+  readonly transport?: (
+    op: IpcOperation,
+    payload?: Record<string, unknown>,
+    protocolVersion?: IpcProtocolVersion,
+  ) => Promise<IpcCallResult>;
+  /**
+   * IID Stage 5 — wire protocol version this port instance speaks. Default `1`
+   * (every existing consumer, unchanged). `2` is selected ONLY at the Stage 5
+   * read-path construction sites (`user-portfolio-transport.ts` GET route,
+   * `investment/sources.ts` holdings providers). A v2 port admits
+   * `IPC_V2_READ_OPERATIONS` only: its write methods fail closed before any I/O.
+   * There is no negotiation and no fallback between versions.
+   */
+  readonly protocolVersion?: IpcProtocolVersion;
 }
 
 /**
@@ -232,6 +254,14 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
   public readonly hasFallbackSurface: false = false;
 
   constructor(private readonly options: IpcPortAdapterOptions = {}) {}
+
+  /**
+   * The wire version every call from this instance uses (see options). A getter,
+   * not a field: the adapter still holds no state beyond its options bag.
+   */
+  public get protocolVersion(): IpcProtocolVersion {
+    return this.options.protocolVersion ?? IPC_PROTOCOL_VERSION;
+  }
 
   /* ---------------- reads ---------------- */
 
@@ -363,6 +393,21 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     payload: Record<string, unknown> | undefined,
     scope: unknown,
   ): Promise<IpcCallResult> {
+    // A v2 port is read-only by construction: anything outside the closed v2 read
+    // set is refused HERE, before the precondition check and before any socket,
+    // in the same G2 vocabulary IPD's own `WRITE_NOT_AUTHORIZED` maps to — so the
+    // outcome is identical whether refused locally or upstream, and no v2 write
+    // ever reaches the wire.
+    if (
+      this.protocolVersion === IPC_PROTOCOL_VERSION_V2 &&
+      !(IPC_V2_READ_OPERATIONS as readonly string[]).includes(op)
+    ) {
+      throw new G2Error(
+        'UPSTREAM_UNAVAILABLE',
+        `The v2 read port admits read operations only; ${op} was not made.`,
+      );
+    }
+
     // Fail closed before any I/O when IRR's local precondition is not established.
     const context: OwnerContext = ownerContextFromBinding(
       this.options.precondition ?? readBindingPrecondition(),
@@ -377,7 +422,7 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     void scope;
 
     const transport = this.options.transport;
-    if (transport) return transport(op, payload);
+    if (transport) return transport(op, payload, this.protocolVersion);
 
     // Read the endpoint per call (OC-5); never cached. The server-owned
     // environment is the same source the transport used for the binding
@@ -386,6 +431,7 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     return callIpc(op, payload, {
       target,
       ...(this.options.timeoutMs !== undefined ? { timeoutMs: this.options.timeoutMs } : {}),
+      ...(this.protocolVersion !== IPC_PROTOCOL_VERSION ? { protocolVersion: this.protocolVersion } : {}),
     });
   }
 
@@ -493,7 +539,17 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
     // DR-4r / DQ-3 scopes contribution projection out of the first read admission.
     // Do not coerce nullable IPD rows, omit them, or manufacture an empty list. An
     // actually empty provider list is passed through as-is; non-empty data refuses.
-    if ((record.contributions as unknown[]).length !== 0) {
+    //
+    // IID Stage 5 R-1 (approved 2026-11-21): on the v2 read channel ONLY, the
+    // upstream rows are IPD's validated ledger projection. They are re-validated
+    // row by row here (mirror of `contributionsValidated`) and carried in full on
+    // the additive read-only `contributionLedger`; a single non-conforming row
+    // refuses the whole view. The v1 rule below is untouched for v1 views.
+    const ledger: G2ContributionLedgerEntry[] | undefined =
+      this.protocolVersion === IPC_PROTOCOL_VERSION_V2
+        ? toG2ContributionLedger(record.contributions as unknown[])
+        : undefined;
+    if (ledger === undefined && (record.contributions as unknown[]).length !== 0) {
       throw new G2Error(
         'UPSTREAM_UNAVAILABLE',
         'The portfolio view contains non-empty contributions outside the authorized DR-4r mapping scope (contract-envelope violation).',
@@ -511,7 +567,11 @@ export class IpcUserPortfolioPort implements UserPortfolioPort {
       lastUpdated: record.lastUpdated as string,
       provenanceDigest: record.provenanceDigest as string,
       isSaved: record.isSaved as boolean,
-      contributions: record.contributions as G2PortfolioView['contributions'],
+      // v1: the (verified empty) upstream list. v2: the G24 batch-summary shape has
+      // no honest mapping from ledger rows, so it stays empty and the rows live,
+      // complete and validated, on `contributionLedger`.
+      contributions: ledger === undefined ? (record.contributions as G2PortfolioView['contributions']) : [],
+      ...(ledger !== undefined ? { contributionLedger: ledger } : {}),
     };
   }
 
@@ -613,6 +673,145 @@ function unwrapReceiptPortfolio(value: unknown, shape: string): unknown {
     throw new G2Error('UPSTREAM_UNAVAILABLE', `The ${shape} receipt carries no portfolio detail (contract-envelope violation).`);
   }
   return value;
+}
+
+/* ------------------------------------------------------------------ *
+ * IID Stage 5 R-1 — v2 contribution ledger validation (mirror of IPD
+ * `DurablePortfolioStore.contributionsValidated`, portfolio_store.ts @4716d0bc)
+ * ------------------------------------------------------------------ */
+
+const LEDGER_HEX_64 = /^[a-f0-9]{64}$/;
+/** Closed vocabulary of IPD `ContributionSemantics` (portfolio_store.ts @4716d0bc). */
+export const G2_CONTRIBUTION_SEMANTICS: readonly G2ContributionLedgerEntry['semantics'][] = [
+  'SAVED_NEW_BATCH',
+  'MERGED_INTO_EXISTING',
+  'RESET',
+  'REPLACE',
+];
+const LEDGER_REQUIRED_KEYS = [
+  'contributionId',
+  'amount',
+  'contributedAt',
+  'createdAt',
+  'fileName',
+  'sourceBroker',
+  'contentDigest',
+  'lineageDigest',
+  'importedAt',
+  'semantics',
+] as const;
+const LEDGER_OPTIONAL_KEYS = ['importId', 'snapshotState', 'unresolvedCount'] as const;
+
+function ledgerRefusal(index: number, field: string, requirement: string): G2Error {
+  return new G2Error(
+    'UPSTREAM_UNAVAILABLE',
+    `The v2 contribution ledger row ${index} field ${field} is not ${requirement}; ` +
+      'refusing the whole view rather than coercing, dropping or defaulting it (DR-4r / R-1).',
+  );
+}
+
+function isStoredInstant(value: unknown): value is string {
+  return typeof value === 'string' && value.trim().length > 0 && Number.isFinite(Date.parse(value));
+}
+
+function isNullOrNonBlank(value: unknown): value is string | null {
+  return value === null || (typeof value === 'string' && value.trim().length > 0);
+}
+
+function isNullOrHex64(value: unknown): value is string | null {
+  return value === null || (typeof value === 'string' && LEDGER_HEX_64.test(value));
+}
+
+/**
+ * Validates every upstream v2 contribution row and returns the ledger verbatim.
+ *
+ * Fail closed on: a non-object row, any key outside the closed set, a missing
+ * required key, a `contributionId` that is not 64-hex, a non-finite / negative /
+ * unsafe `amount`, an unparseable instant, a blank string where IPD stores
+ * non-blank-or-NULL, a digest that is neither NULL nor 64-hex, a semantics value
+ * outside the closed vocabulary, or a 007 field of the wrong type. `null` is
+ * preserved as `null`; nothing is substituted. An empty list yields an empty ledger.
+ */
+export function toG2ContributionLedger(rows: readonly unknown[]): G2ContributionLedgerEntry[] {
+  return rows.map((row, index) => {
+    if (!row || typeof row !== 'object' || Array.isArray(row)) {
+      throw ledgerRefusal(index, 'row', 'an object');
+    }
+    const record = row as Record<string, unknown>;
+    for (const key of Object.keys(record)) {
+      if (
+        !(LEDGER_REQUIRED_KEYS as readonly string[]).includes(key) &&
+        !(LEDGER_OPTIONAL_KEYS as readonly string[]).includes(key)
+      ) {
+        throw ledgerRefusal(index, key, 'a key of the validated ledger shape');
+      }
+    }
+    for (const key of LEDGER_REQUIRED_KEYS) {
+      if (!Object.prototype.hasOwnProperty.call(record, key)) {
+        throw ledgerRefusal(index, key, 'present');
+      }
+    }
+    if (typeof record.contributionId !== 'string' || !LEDGER_HEX_64.test(record.contributionId)) {
+      throw ledgerRefusal(index, 'contributionId', 'a 64-hex contribution identity');
+    }
+    if (
+      typeof record.amount !== 'number' ||
+      !Number.isFinite(record.amount) ||
+      record.amount < 0 ||
+      record.amount > Number.MAX_SAFE_INTEGER
+    ) {
+      throw ledgerRefusal(index, 'amount', 'a finite non-negative amount within the safe range');
+    }
+    if (!isStoredInstant(record.contributedAt)) throw ledgerRefusal(index, 'contributedAt', 'a UTC ISO-8601 instant');
+    if (!isStoredInstant(record.createdAt)) throw ledgerRefusal(index, 'createdAt', 'a UTC ISO-8601 instant');
+    if (!isNullOrNonBlank(record.fileName)) throw ledgerRefusal(index, 'fileName', 'a non-blank string or null');
+    if (!isNullOrNonBlank(record.sourceBroker)) throw ledgerRefusal(index, 'sourceBroker', 'a non-blank string or null');
+    if (!isNullOrHex64(record.contentDigest)) throw ledgerRefusal(index, 'contentDigest', 'a 64-hex digest or null');
+    if (!isNullOrHex64(record.lineageDigest)) throw ledgerRefusal(index, 'lineageDigest', 'a 64-hex digest or null');
+    if (record.importedAt !== null && !isStoredInstant(record.importedAt)) {
+      throw ledgerRefusal(index, 'importedAt', 'a UTC ISO-8601 instant or null');
+    }
+    if (
+      record.semantics !== null &&
+      !(G2_CONTRIBUTION_SEMANTICS as readonly unknown[]).includes(record.semantics)
+    ) {
+      throw ledgerRefusal(index, 'semantics', 'a value of the closed semantics vocabulary or null');
+    }
+    if (record.importId !== undefined && !isNullOrNonBlank(record.importId)) {
+      throw ledgerRefusal(index, 'importId', 'a non-blank string, null or absent');
+    }
+    if (record.snapshotState !== undefined && !isNullOrNonBlank(record.snapshotState)) {
+      throw ledgerRefusal(index, 'snapshotState', 'a non-blank string, null or absent');
+    }
+    if (
+      record.unresolvedCount !== undefined &&
+      record.unresolvedCount !== null &&
+      (typeof record.unresolvedCount !== 'number' ||
+        !Number.isInteger(record.unresolvedCount) ||
+        record.unresolvedCount < 0)
+    ) {
+      throw ledgerRefusal(index, 'unresolvedCount', 'a non-negative integer, null or absent');
+    }
+
+    const entry: G2ContributionLedgerEntry = {
+      contributionId: record.contributionId,
+      amount: record.amount,
+      contributedAt: record.contributedAt,
+      createdAt: record.createdAt,
+      fileName: record.fileName,
+      sourceBroker: record.sourceBroker,
+      contentDigest: record.contentDigest,
+      lineageDigest: record.lineageDigest,
+      importedAt: record.importedAt as string | null,
+      semantics: record.semantics as G2ContributionLedgerEntry['semantics'],
+      ...(record.importId !== undefined ? { importId: record.importId } : {}),
+      ...(record.snapshotState !== undefined ? { snapshotState: record.snapshotState } : {}),
+      ...(record.unresolvedCount !== undefined
+        ? { unresolvedCount: record.unresolvedCount as number | null }
+        : {}),
+    };
+    return entry;
+  });
 }
 
 function asRecord(value: unknown): Record<string, unknown> {

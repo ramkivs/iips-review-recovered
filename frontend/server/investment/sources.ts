@@ -13,6 +13,7 @@
  * be a wrong total.
  */
 import { IpcUserPortfolioPort } from '../user-portfolio/ipcPortAdapter.js';
+import { IPC_PROTOCOL_VERSION_V2 } from '../user-portfolio/ipcClient.js';
 import {
   isOwnerContextEstablished,
   ownerContextFromBinding,
@@ -167,7 +168,8 @@ export function createHoldingsProvider(options: CoverageSourceOptions = {}) {
     if (!isOwnerContextEstablished(ownerContextFromBinding(precondition, env))) {
       throw new Error('owner context not established: the server-owned binding carrier is not configured');
     }
-    const port = options.portFactory?.() ?? new IpcUserPortfolioPort({ precondition });
+    // IID Stage 5: read-only holdings through the D03 v2 read channel (S1→D02 relationship).
+    const port = options.portFactory?.() ?? new IpcUserPortfolioPort({ precondition, protocolVersion: IPC_PROTOCOL_VERSION_V2 });
     // An empty scope is intentional: IPD resolves the owner from its own active binding.
     const scope: G2Scope = {};
     const summaries: readonly G2PortfolioSummary[] = await port.listPortfolios({ scope });
@@ -197,7 +199,8 @@ export function createPortfolioHoldingsProvider(options: CoverageSourceOptions =
     if (!isOwnerContextEstablished(ownerContextFromBinding(precondition, env))) {
       throw new Error('owner context not established: the server-owned binding carrier is not configured');
     }
-    const port = options.portFactory?.() ?? new IpcUserPortfolioPort({ precondition });
+    // IID Stage 5: read-only holdings through the D03 v2 read channel (S1→D02 relationship).
+    const port = options.portFactory?.() ?? new IpcUserPortfolioPort({ precondition, protocolVersion: IPC_PROTOCOL_VERSION_V2 });
     const scope: G2Scope = {};
     const view = await port.getPortfolio({ scope, portfolioId });
     return view.holdings;
