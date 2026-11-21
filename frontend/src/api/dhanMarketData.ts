@@ -102,8 +102,8 @@ export interface DhanQuoteDto {
     readonly volume: number;
     readonly change: number;
     readonly pctChange: number;
-    readonly bid: number;
-    readonly ask: number;
+    readonly bid: number | null;
+    readonly ask: number | null;
     readonly vwap?: number;
     readonly turnover?: number;
     readonly tradeCount?: number;

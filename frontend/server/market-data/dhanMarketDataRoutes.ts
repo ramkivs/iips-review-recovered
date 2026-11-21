@@ -156,8 +156,8 @@ export interface DhanQuoteView {
     readonly volume: number;
     readonly change: number;
     readonly pctChange: number;
-    readonly bid: number;
-    readonly ask: number;
+    readonly bid: number | null;
+    readonly ask: number | null;
     readonly vwap?: number;
     readonly turnover?: number;
     readonly tradeCount?: number;
@@ -503,16 +503,37 @@ export function validateDhanHistoricalRequest(body: unknown): DhanHistoricalRequ
   };
 }
 
+// D-5 applies to the D01 wire schema, not the shared envelope default or D02.
+function isDepthPrice(value: unknown): value is number | null {
+  return value === null || (typeof value === 'number' && Number.isFinite(value) && value > 0);
+}
+
 /** Fail closed before projection: the transport client checks the outer response, not
  * the canonical envelope. Missing quote fields must not become fabricated zeroes. */
-function isCompleteQuoteEnvelope(value: unknown): boolean {
+function isCompleteQuoteEnvelope(value: unknown): value is Record<string, unknown> & {
+  payload: Record<string, unknown> & { bid: number | null; ask: number | null };
+  provenance: Record<string, unknown>;
+} {
   if (!value || typeof value !== 'object') return false;
   const record = value as Record<string, unknown>;
+  if (record.domain !== 'D01_QUOTES') return false;
   if (!record.payload || typeof record.payload !== 'object' || !record.provenance || typeof record.provenance !== 'object') return false;
   const payload = record.payload as Record<string, unknown>;
   const provenance = record.provenance as Record<string, unknown>;
+  const { bid, ask } = payload;
+  switch (record.schemaVersion) {
+    case '1.0.0': // The pinned producer uses the legacy numeric-only contract.
+      if (!Number.isFinite(bid) || !Number.isFinite(ask)) return false;
+      break;
+    case '2.0.0':
+      if (!isDepthPrice(bid) || !isDepthPrice(ask)) return false;
+      if (bid !== null && ask !== null && bid > ask) return false;
+      break;
+    default:
+      return false;
+  }
   return ['companyId', 'symbol', 'exchange', 'currency'].every(key => typeof payload[key] === 'string' && payload[key] !== '')
-    && ['ltp', 'open', 'high', 'low', 'previousClose', 'volume', 'change', 'pctChange', 'bid', 'ask']
+    && ['ltp', 'open', 'high', 'low', 'previousClose', 'volume', 'change', 'pctChange']
       .every(key => typeof payload[key] === 'number' && Number.isFinite(payload[key]))
     && ['qualityState', 'asOf', 'receivedAt', 'evaluatedAt'].every(key => typeof provenance[key] === 'string' && provenance[key] !== '');
 }
@@ -529,13 +550,11 @@ function isCompleteQuoteEnvelope(value: unknown): boolean {
 export function projectIpdQuoteEnvelope(
   envelope: unknown,
   transportFreshness: 'CURRENT' | 'STALE' | 'UNAVAILABLE' | undefined,
-  freshnessStatus: DhanFreshnessView | null = null,
-  freshnessStatusFailure: { readonly code: string; readonly message: string } | null = null,
   requestedSecurityId: string | null = null,
-): DhanQuoteView {
-  const record = (envelope ?? {}) as Record<string, unknown>;
-  const payload = (record.payload ?? {}) as Record<string, unknown>;
-  const provenance = (record.provenance ?? {}) as Record<string, unknown>;
+): DhanQuoteView | null {
+  if (!isCompleteQuoteEnvelope(envelope)) return null;
+  const record = envelope;
+  const { payload, provenance } = record;
 
   const qualityState = typeof provenance.qualityState === 'string' ? provenance.qualityState : 'UNAVAILABLE';
 
@@ -558,8 +577,8 @@ export function projectIpdQuoteEnvelope(
       volume: Number(payload.volume ?? 0),
       change: Number(payload.change ?? 0),
       pctChange: Number(payload.pctChange ?? 0),
-      bid: Number(payload.bid ?? 0),
-      ask: Number(payload.ask ?? 0),
+      bid: payload.bid,
+      ask: payload.ask,
       ...(typeof payload.vwap === 'number' ? { vwap: payload.vwap } : {}),
       ...(typeof payload.turnover === 'number' ? { turnover: payload.turnover } : {}),
       ...(typeof payload.tradeCount === 'number' ? { tradeCount: payload.tradeCount } : {}),
@@ -576,8 +595,8 @@ export function projectIpdQuoteEnvelope(
       vendorTier: typeof provenance.vendorTier === 'string' ? provenance.vendorTier : null,
     },
     providerQualification: IRR_PROVIDER_QUALIFICATION,
-    freshnessStatus,
-    freshnessStatusFailure,
+    freshnessStatus: null,
+    freshnessStatusFailure: null,
   };
 }
 
@@ -757,11 +776,12 @@ export async function handleDhanQuotesRequest(
     return;
   }
 
-  if (!isCompleteQuoteEnvelope(outcome.envelope)) {
+  const view = projectIpdQuoteEnvelope(outcome.envelope, outcome.freshness, validation.securityId);
+  if (!view) {
     sendJson(res, 502, {
       error: {
         code: 'MALFORMED_RESPONSE',
-        message: 'market-data transport returned an incomplete quote envelope',
+        message: 'market-data transport returned an invalid or unsupported D01 quote envelope',
         identityFailure: false,
         connectionAttempted: true,
       },
@@ -780,13 +800,7 @@ export async function handleDhanQuotesRequest(
   });
 
   sendJson(res, 200, {
-    data: projectIpdQuoteEnvelope(
-      outcome.envelope,
-      outcome.freshness,
-      freshness.status,
-      freshness.failure,
-      validation.securityId ?? null,
-    ),
+    data: { ...view, freshnessStatus: freshness.status, freshnessStatusFailure: freshness.failure },
   });
 }
 
