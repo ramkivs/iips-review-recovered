@@ -1,0 +1,324 @@
+{
+  "reviewed": [
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0001",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed against disagreements.json: census records ISIN:INE415A01038:EQ, but reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Confirmed as a disclosed census-versus-run disagreement; not treated as a run failure."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0002",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0003",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0004",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0005",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0006",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0007",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0008",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0009",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0010",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0011",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0012",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0013",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0014",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0015",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0016",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0017",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0018",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0019",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0020",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0021",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0022",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0023",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0024",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0025",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0026",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0027",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0028",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0029",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0030",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0031",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0032",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0033",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0034",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0035",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0036",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0037",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0038",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0039",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0040",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0041",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0042",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0043",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0044",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0045",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0046",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0047",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0048",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0049",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0050",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0051",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0052",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0053",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0054",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0055",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0056",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0057",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0058",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0059",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0060",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0061",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0062",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0063",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    },
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0064",
+      "disposition": "UNRESOLVED",
+      "note": "Reviewed holding-level row: census category is MISSING_OR_UNRESOLVED, no stored security identity is present, and reconciliation disposition is UNRESOLVED with no resolution basis or issuerId. Agreement state BOTH_UNIDENTIFIED; this is agreement on the absence of an identity, not successful identity resolution."
+    }
+  ]
+}
