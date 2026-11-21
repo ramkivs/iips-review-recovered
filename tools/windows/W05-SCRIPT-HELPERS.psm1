@@ -42,6 +42,77 @@ function Read-W05Json {
   Write-Output -NoEnumerate $value
 }
 
+function Get-W05ResponseShape {
+  <#
+  .SYNOPSIS
+    Classify one captured response body against the report contract of the route it came from.
+
+  .DESCRIPTION
+    W05 STEP4 structural validation, per route contract (the 2026-11-21 correction of the
+    capture validator - before it, both routes were checked against the identity report shape
+    (identitySources, items) and a valid investment report was misclassified as
+    unknown-json-shape):
+      /api/investment/coverage/investment -> InvestmentCoverageReport markers
+      /api/investment/coverage           -> IdentityCoverageReport markers
+    A documented error payload (error, asOf, issues) is recognised on any route. A report
+    shape is recognised only on HTTP 200: a 503 body is never a successful report capture,
+    whatever keys it carries.
+
+    Shapes: 'report', 'documented-error-payload', 'not-json', 'unknown-json-shape'.
+    Structural validation only; content expectations stay with the IRR-side review.
+  #>
+  param(
+    [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$BodyPath,
+    [Parameter(Mandatory = $true)][AllowEmptyCollection()][string[]]$ReportKeys,
+    [Parameter(Mandatory = $true)][ValidateRange(0, 599)][int]$Status
+  )
+  $shape = 'not-json'
+  $structuralOk = $false
+  $reportMatched = $false
+  $errorPresent = $false
+  $parsed = $false
+  $bodyValue = $null
+  try {
+    $bodyValue = Read-W05Json -Path $BodyPath
+    $parsed = $true
+  }
+  catch {
+    $parsed = $false
+  }
+  if ($parsed) {
+    $isReport = $false
+    if ($null -ne $bodyValue) {
+      $reportMatched = $true
+      foreach ($key in $ReportKeys) {
+        $property = $bodyValue.PSObject.Properties[$key]
+        $present = $false
+        if ($null -ne $property) {
+          if ($null -ne $property.Value) { $present = $true }
+        }
+        if (-not $present) { $reportMatched = $false }
+      }
+      $errorProperty = $bodyValue.PSObject.Properties['error']
+      if ($null -ne $errorProperty) {
+        if ($null -ne $errorProperty.Value) { $errorPresent = $true }
+      }
+      if ($reportMatched) {
+        if ($Status -eq 200) { $isReport = $true }
+      }
+    }
+    $shape = 'unknown-json-shape'
+    if ($errorPresent) { $shape = 'documented-error-payload' }
+    if ($isReport) { $shape = 'report' }
+    $structuralOk = $errorPresent
+    if ($isReport) { $structuralOk = $true }
+  }
+  Write-Output ([pscustomobject]@{
+    Shape         = $shape
+    StructuralOk  = $structuralOk
+    ReportMatched = $reportMatched
+    ErrorPresent  = $errorPresent
+  })
+}
+
 function ConvertTo-W05JsonArray {
   param([Parameter(Mandatory = $true)]$Value)
   # The corrected pattern: a foreach collection loop counts every element - and zero elements -
