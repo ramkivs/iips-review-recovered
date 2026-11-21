@@ -1,0 +1,2222 @@
+{
+  "driver": "run-census-reconciliation",
+  "driverVersion": 1,
+  "generatedAt": "2026-11-20T00:00:00.000Z",
+  "bundleDir": "C:\\TMP\\W05\\revision1-bundle-2026-11-20-categorized",
+  "provenance": {
+    "capturedAt": "2026-11-20T09:59:29.297Z",
+    "route": "/api/investment/coverage?asOf=2026-11-20",
+    "requestUri": "http://127.0.0.1:8787/api/investment/coverage?asOf=2026-11-20",
+    "asOf": "2026-11-20",
+    "generatedAt": "2026-11-20T00:00:00.000Z",
+    "portfolioId": "DHAN_PORTFOLIO",
+    "identitySources": {
+      "rosterVersion": "sha256:4baa4e596f84741018e03c08248faf89ff19a37b3d1877220d56dc27aafe7199",
+      "listingMapVersion": "sha256:b04416b290d1b6fe682717505f9ecd940e025ee6e0d6d1dc0f68f105604a0dca",
+      "corporateActionTableVersion": "sha256:0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819",
+      "rosterLabel": "IPD P04 security master export, NSE CM series EQ; batch BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001; master sha256 b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4; mapping IPD-IRR-IDENTITY-EXPORT-MAPPING-1; issuer-key supplement none",
+      "rosterDataClass": "OPERATOR_SUPPLIED",
+      "issuerCount": 2388,
+      "securityCount": 2388,
+      "listingCount": 2388,
+      "corporateActionCount": 0,
+      "corporateActionsEmpty": true
+    },
+    "transportCommit": "ea738f887b0c4c02d00a609ffd8760cc0517f79e",
+    "repoTreeClean": false,
+    "responseStatus": 200,
+    "rowCount": 64,
+    "categoryCounts": {
+      "QUALIFIED": 1,
+      "AMBIGUOUS": 0,
+      "MISSING_OR_UNRESOLVED": 63,
+      "EXPIRED_OR_INELIGIBLE": 0,
+      "UNAVAILABLE": 0
+    },
+    "categoryMapFile": "C:\\TMP\\W05\\revision1-category-map-2026-11-20.json",
+    "excludedItems": [
+      {
+        "observationId": "holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001",
+        "portfolioId": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2"
+      }
+    ],
+    "missingRevisionRows": []
+  },
+  "result": {
+    "asOf": "2026-11-20",
+    "rows": [
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0001",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "AGI",
+        "isin": null,
+        "exchange": null,
+        "quantity": 2,
+        "storedSecurityIdentity": "ISIN:INE415A01038:EQ",
+        "category": "QUALIFIED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0002",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "AJAXENGG",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0003",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "ARIHANTCAP",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0004",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "ARROWGREEN",
+        "isin": null,
+        "exchange": null,
+        "quantity": 12,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0005",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "ASHOKA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0006",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "ASKAUTOLTD",
+        "isin": null,
+        "exchange": null,
+        "quantity": 7,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0007",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "BANKBARODA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0008",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "BHARATCOAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 300,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0009",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "BLUEJET",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0010",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "CRAMC",
+        "isin": null,
+        "exchange": null,
+        "quantity": 55,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0011",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "DAMCAPITAL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 150,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0012",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "ECOSMOBLTY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0013",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "ELECON",
+        "isin": null,
+        "exchange": null,
+        "quantity": 22,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0014",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "EMAMILTD",
+        "isin": null,
+        "exchange": null,
+        "quantity": 25,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0015",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "EMSLIMITED",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0016",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "ENGINERSIN",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0017",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "EPACKPEB",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0018",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "FCL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0019",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "GATEWAY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 90,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0020",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "GEEKAYWIRE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 160,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0021",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "GENUSPOWER",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0022",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "GHCL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 27,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0023",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "GMRP&UI",
+        "isin": null,
+        "exchange": null,
+        "quantity": 110,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0024",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "GPPL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 160,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0025",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "GRAUWEIL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0026",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "HSCL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0027",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "IDFCFIRSTB",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0028",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "IGIL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0029",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "IIFLCAPS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0030",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "INDRAMEDCO",
+        "isin": null,
+        "exchange": null,
+        "quantity": 40,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0031",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "INTLCONV",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0032",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "JAIBALAJI",
+        "isin": null,
+        "exchange": null,
+        "quantity": 33,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0033",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "JAMNAAUTO",
+        "isin": null,
+        "exchange": null,
+        "quantity": 12,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0034",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "JKIL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0035",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "JPL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 110,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0036",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "KMSUGAR",
+        "isin": null,
+        "exchange": null,
+        "quantity": 142,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0037",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "KPEL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 40,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0038",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "KROSS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 5,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0039",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "LANDMARK",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0040",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "MATRIMONY",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0041",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "MONARCH",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0042",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "MUFTI",
+        "isin": null,
+        "exchange": null,
+        "quantity": 30,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0043",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "OSWALPUMPS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 35,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0044",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "PANAMAPET",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0045",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "PARADEEP",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0046",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "PDMJEPAPER",
+        "isin": null,
+        "exchange": null,
+        "quantity": 50,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0047",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "PRECWIRE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 5,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0048",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "PREMIERPOL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0049",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "RAJOOENG",
+        "isin": null,
+        "exchange": null,
+        "quantity": 200,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0050",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "RATEGAIN",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0051",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "SALASAR",
+        "isin": null,
+        "exchange": null,
+        "quantity": 336,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0052",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "SHAKTIPUMP",
+        "isin": null,
+        "exchange": null,
+        "quantity": 7,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0053",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "SHARDAMOTR",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0054",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "SIGMA",
+        "isin": null,
+        "exchange": null,
+        "quantity": 70,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0055",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "SIYSIL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0056",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "STEELCAS",
+        "isin": null,
+        "exchange": null,
+        "quantity": 10,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0057",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "SUZLON",
+        "isin": null,
+        "exchange": null,
+        "quantity": 70,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0058",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "THYROCARE",
+        "isin": null,
+        "exchange": null,
+        "quantity": 13,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0059",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "TITAGARH",
+        "isin": null,
+        "exchange": null,
+        "quantity": 4,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0060",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "VISHNU",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0061",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "VMM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0062",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "VSSL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 15,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0063",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "WAAREERTL",
+        "isin": null,
+        "exchange": null,
+        "quantity": 20,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0064",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "symbol": "WEBELSOLAR",
+        "isin": null,
+        "exchange": null,
+        "quantity": 100,
+        "storedSecurityIdentity": null,
+        "category": "MISSING_OR_UNRESOLVED"
+      }
+    ],
+    "entries": [
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0001",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 2,
+        "census": {
+          "category": "QUALIFIED",
+          "storedSecurityIdentity": "ISIN:INE415A01038:EQ"
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "CENSUS_ONLY",
+          "agrees": false,
+          "note": "the census stored a security identity for this holding but the run did not resolve it — a disclosed disagreement, not a run failure to hide"
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0002",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0003",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 50,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0004",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 12,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0005",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 100,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0006",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 7,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0007",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 100,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0008",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 300,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0009",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 15,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0010",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 55,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0011",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 150,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0012",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 100,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0013",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 22,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0014",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 25,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0015",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 15,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0016",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0017",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0018",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 100,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0019",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 90,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0020",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 160,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0021",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0022",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 27,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0023",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 110,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0024",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 160,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0025",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 50,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0026",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 15,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0027",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 50,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0028",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 15,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0029",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 15,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0030",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 40,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0031",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 100,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0032",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 33,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0033",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 12,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0034",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 20,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0035",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 110,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0036",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 142,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0037",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 40,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0038",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 5,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0039",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 20,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0040",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 20,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0041",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0042",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 30,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0043",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 35,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0044",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0045",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 20,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0046",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 50,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0047",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 5,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0048",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0049",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 200,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0050",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0051",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 336,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0052",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 7,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0053",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0054",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 70,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0055",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0056",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 10,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0057",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 70,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0058",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 13,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0059",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 4,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0060",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 15,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0061",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 100,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0062",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 15,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0063",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 20,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      },
+      {
+        "holdingId": "holding:DHAN_PORTFOLIO:0064",
+        "portfolioId": "DHAN_PORTFOLIO",
+        "portfolioRevision": "1",
+        "quantity": 100,
+        "census": {
+          "category": "MISSING_OR_UNRESOLVED",
+          "storedSecurityIdentity": null
+        },
+        "run": {
+          "disposition": "UNRESOLVED",
+          "resolutionBasis": null,
+          "issuerId": null,
+          "states": [],
+          "contributesToFinancialRatioNumerator": false
+        },
+        "identityAgreement": {
+          "state": "BOTH_UNIDENTIFIED",
+          "agrees": true,
+          "note": null
+        }
+      }
+    ],
+    "eligibleSet": {
+      "designated": false,
+      "basis": "NOT_DESIGNATED — E equals every holding supplied to the run",
+      "size": 64,
+      "exclusions": []
+    },
+    "summary": {
+      "rowsSupplied": 64,
+      "runResolved": 0,
+      "runUnresolved": 64,
+      "excludedFromEligibleSet": 0,
+      "contributesToFinancialRatioNumerator": 0,
+      "agreement": {
+        "BOTH_IDENTIFIED": 0,
+        "BOTH_UNIDENTIFIED": 63,
+        "CENSUS_ONLY": 1,
+        "RUN_ONLY": 0
+      },
+      "categoryByDisposition": [
+        {
+          "category": "QUALIFIED",
+          "resolved": 0,
+          "unresolved": 1,
+          "excludedFromEligibleSet": 0
+        },
+        {
+          "category": "AMBIGUOUS",
+          "resolved": 0,
+          "unresolved": 0,
+          "excludedFromEligibleSet": 0
+        },
+        {
+          "category": "MISSING_OR_UNRESOLVED",
+          "resolved": 0,
+          "unresolved": 63,
+          "excludedFromEligibleSet": 0
+        },
+        {
+          "category": "EXPIRED_OR_INELIGIBLE",
+          "resolved": 0,
+          "unresolved": 0,
+          "excludedFromEligibleSet": 0
+        },
+        {
+          "category": "UNAVAILABLE",
+          "resolved": 0,
+          "unresolved": 0,
+          "excludedFromEligibleSet": 0
+        }
+      ],
+      "headline": "per-holding reconciliation only; no revision-1 coverage figure is asserted until the run consumes the W04 revision-1 rows"
+    },
+    "notes": [
+      "the run's RESOLVED is not identity passed at W04: the resolver also resolves on exchange+symbol. Where the census stored no security identity and the run resolved on EXCHANGE_SYMBOL the two stories disagree, and the disagreement is itemised per holding under identityAgreement — never averaged away.",
+      "no revision-1 reconciliation figure exists from this run unless these rows ARE the W04 revision-1 rows; rows from any other census (for example the 68-row published Dhan CSV census) produce results about THAT census only. D1 keeps the censuses apart.",
+      "no eligible-set designation was supplied; E equals every holding supplied to this run. This is NOT a product-scope ruling, and the roadmap eligible-set denominator is only as good as the designation supplied.",
+      "64 holding(s) could not be resolved to an issuer through the established mapping and are excluded from issuer denominators; they are listed individually under \"unresolved\"."
+    ]
+  }
+}

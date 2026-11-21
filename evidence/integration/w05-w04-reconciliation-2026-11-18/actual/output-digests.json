@@ -1,0 +1,21 @@
+{
+  "algorithm": "SHA-256",
+  "files": {
+    "reconciliation-result.json": {
+      "sha256": "2f74537818e699f0751920a19347a975dccc89b90f69da6718eaed8b00d35766",
+      "bytes": 65869
+    },
+    "reconciliation-summary.txt": {
+      "sha256": "81456d7cb1e173a292bd6f1f6b4ca666a77db9060b1ce8d8193cc4bfe8a366d6",
+      "bytes": 8639
+    },
+    "holding-level.tsv": {
+      "sha256": "b1b4b5d6c282d00f773fb581807d1b93d97732396b704a1e166e432ef52be880",
+      "bytes": 8239
+    },
+    "disagreements.json": {
+      "sha256": "2bc9ffb285331e175cbb3493dc123df56b2895eb3d642a708ec9f30ed59a156f",
+      "bytes": 758
+    }
+  }
+}

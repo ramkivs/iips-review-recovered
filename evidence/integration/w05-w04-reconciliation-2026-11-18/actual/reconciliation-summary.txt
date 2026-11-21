@@ -1,0 +1,82 @@
+W05–W04 census reconciliation — as of 2026-11-20 (bundle: C:\TMP\W05\revision1-bundle-2026-11-20-categorized)
+rows supplied: 64; run resolved: 0; run unresolved: 64; excluded from E: 0
+contributes to financial-ratio numerator: 0
+eligible set: NOT designated — basis: NOT_DESIGNATED — E equals every holding supplied to the run; |E| = 64
+agreement: BOTH_IDENTIFIED 0; BOTH_UNIDENTIFIED 63; CENSUS_ONLY 1; RUN_ONLY 0
+category × run disposition:
+  QUALIFIED: resolved 0, unresolved 1, excluded 0
+  AMBIGUOUS: resolved 0, unresolved 0, excluded 0
+  MISSING_OR_UNRESOLVED: resolved 0, unresolved 63, excluded 0
+  EXPIRED_OR_INELIGIBLE: resolved 0, unresolved 0, excluded 0
+  UNAVAILABLE: resolved 0, unresolved 0, excluded 0
+holding-level entries:
+  holding:DHAN_PORTFOLIO:0001 [QUALIFIED] UNRESOLVED (no basis) agreement CENSUS_ONLY DISAGREES
+      the census stored a security identity for this holding but the run did not resolve it — a disclosed disagreement, not a run failure to hide
+  holding:DHAN_PORTFOLIO:0002 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0003 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0004 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0005 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0006 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0007 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0008 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0009 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0010 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0011 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0012 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0013 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0014 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0015 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0016 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0017 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0018 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0019 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0020 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0021 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0022 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0023 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0024 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0025 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0026 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0027 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0028 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0029 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0030 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0031 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0032 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0033 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0034 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0035 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0036 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0037 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0038 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0039 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0040 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0041 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0042 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0043 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0044 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0045 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0046 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0047 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0048 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0049 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0050 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0051 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0052 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0053 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0054 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0055 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0056 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0057 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0058 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0059 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0060 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0061 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0062 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0063 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+  holding:DHAN_PORTFOLIO:0064 [MISSING_OR_UNRESOLVED] UNRESOLVED (no basis) agreement BOTH_UNIDENTIFIED
+headline: per-holding reconciliation only; no revision-1 coverage figure is asserted until the run consumes the W04 revision-1 rows
+note: the run's RESOLVED is not identity passed at W04: the resolver also resolves on exchange+symbol. Where the census stored no security identity and the run resolved on EXCHANGE_SYMBOL the two stories disagree, and the disagreement is itemised per holding under identityAgreement — never averaged away.
+note: no revision-1 reconciliation figure exists from this run unless these rows ARE the W04 revision-1 rows; rows from any other census (for example the 68-row published Dhan CSV census) produce results about THAT census only. D1 keeps the censuses apart.
+note: no eligible-set designation was supplied; E equals every holding supplied to this run. This is NOT a product-scope ruling, and the roadmap eligible-set denominator is only as good as the designation supplied.
+note: 64 holding(s) could not be resolved to an issuer through the established mapping and are excluded from issuer denominators; they are listed individually under "unresolved".

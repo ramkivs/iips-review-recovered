@@ -1,0 +1,27 @@
+{
+  "count": 1,
+  "entries": [
+    {
+      "holdingId": "holding:DHAN_PORTFOLIO:0001",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "portfolioRevision": "1",
+      "quantity": 2,
+      "census": {
+        "category": "QUALIFIED",
+        "storedSecurityIdentity": "ISIN:INE415A01038:EQ"
+      },
+      "run": {
+        "disposition": "UNRESOLVED",
+        "resolutionBasis": null,
+        "issuerId": null,
+        "states": [],
+        "contributesToFinancialRatioNumerator": false
+      },
+      "identityAgreement": {
+        "state": "CENSUS_ONLY",
+        "agrees": false,
+        "note": "the census stored a security identity for this holding but the run did not resolve it — a disclosed disagreement, not a run failure to hide"
+      }
+    }
+  ]
+}
