@@ -1492,3 +1492,8 @@ Two clarifications so this is not over-read:
 ## C.4 L-031 candidate Windows build path — PUBLISHED (2026-11-20)
 
 The §17.44 candidate `sha256:d2b65bcc…` now has a separate repository-owned Windows PowerShell build/verification path (`IID-L031-WINDOWS-POWERSHELL-LOCAL-BUILD-2026-11-20.md`; wrapper `build-l031-candidate.ts`; driver `IID-L031-CANDIDATE-LOCAL-BUILD.ps1`), independently pinned and leaving the `bdfb2527…` builder intact. Windows host execution is **not** claimed; `D8`/`G-2` remain open pending operator installation and independent host read-back. No readiness status moves.
+
+
+## C.5 PA/PO Stage 4 acceptance for personal use — DECIDED (2026-11-21)
+
+Recorded in register §17.46: completed work is retained and reused (no repetition absent a demonstrated blocker/failure/regression); Stage 4 is **accepted for personal use** with its evidenced limitations carried — including that §8 independent persistence read-back (`OWNER_CONTEXT_UNAVAILABLE`) did **not** succeed and is not claimed. `D8`/`G-2` remain open; the next adopted operational activity remains **Stage 5**.
