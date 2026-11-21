@@ -45,7 +45,7 @@ function failureOf(e: unknown): { kind: DhanMarketDataFailureKind; message: stri
 }
 
 /** Formats a number for display, or 'unavailable' when it is not a usable number. */
-function num(value: number | undefined): number | null {
+function num(value: number | null | undefined): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
 
