@@ -806,6 +806,8 @@ M6   consumers adopted
 | **M5** | Coverage measured against the owner's actual holdings by exact identity; the pipeline re-run is byte-reproducible; one IRR quote-consumption boundary is the sole market-data caller |
 | **M6** | Each adopted consumer renders sourced / stale / unavailable / unmapped distinctly, with provenance and as-of, and no credential reaches the browser |
 
+**M4 trace interpretation — owner-approved, 2026-11-21:** For the M4 trace criterion above, the same IRR-generated `actionId` must reach IPD and be associated with IPD's local Dhan egress-attempt record. This demonstrates the local handoff and locally observed outcome; it does not prove Dhan received or processed the request. No trace ID header or parameter is sent to Dhan, and vendor-side correlation is not required for the approved IIPS architecture. See the [W-24 owner decision](DHAN-W24-OWNER-DECISION-PROPOSAL-2026-11-21.md#owner-decisions-m4-and-d-7-clarification--2026-11-21). This interpretation changes no M4 criterion, dependency or status; the other criteria remain independently applicable. M4 acceptance is not established, and W-24 implementation is not authorized by this record.
+
 ---
 
 ## 11. Recommended first implementation work item
