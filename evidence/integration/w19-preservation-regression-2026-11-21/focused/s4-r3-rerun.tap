@@ -1,0 +1,121 @@
+namespace repo root: /home/user/iips-review-recovered
+test temp dir: /tmp/w19-execute-test-data/s4
+TAP version 13
+# inputs         3 bundles merged into one dataset
+#   /home/user/iips-review-recovered/evidence/real-issuer/REL-1-INFOSYS-2026-11-06/ingest-input
+#     issuers      IN:CIN:L85110KA1981PLC013115
+#     sectors      Technology
+#     inputDigest  sha256:da0253c8813952a2bfef281b253147a585385dd873be3d9b77a1a8f0662c300c  over 2 file(s)
+#   /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/marico
+#     issuers      IN:CIN:L15140MH1988PLC049208
+#     sectors      Consumer
+#     inputDigest  sha256:31d8e5039c502cae98e9c68f6d8fb47aaec44712f81c7005f5f9b8bd4d09c63d  over 2 file(s)
+#   /home/user/iips-review-recovered/evidence/real-issuer/S4-R3-FILING-REFRESH-2026-11-14/ingest-input/kec
+#     issuers      IN:CIN:L45200MH2005PLC152061
+#     sectors      Industrials
+#     inputDigest  sha256:22ea501869731e52f734c765f933cce2637c7c6c00f2d9ada7d741b5b44c181a  over 2 file(s)
+# datasetSchema  IIPS_INVESTMENT_FUNDAMENTALS_V1
+# datasetVersion sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+# dataset        /tmp/w19-execute-test-data/s4/iid-s4-r3-candidate-build-tcFHK9/good/investment/dataset
+# coverage       /tmp/w19-execute-test-data/s4/iid-s4-r3-candidate-build-tcFHK9/good/investment/dataset/coverage-report.json
+# dataset          sha256:bdfb2527389d1e9701dd87125f053ee6197e286fa7602bc6a558e4c7fee0504b
+# completed        3/13 sectors measured
+#   Auto             UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Banking          UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Capital Markets  UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Consumer         G1_ENABLED   usable 3  withheld 0  stmt 92.5%  metric 100%
+#   Energy           UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Healthcare       UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Hospitality      UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Industrials      G2_PARTIAL   usable 2  withheld 1  stmt 100%  metric 0%
+#   Insurance        UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+#   Materials        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+#   Technology       G2_PARTIAL   usable 2  withheld 2  stmt 87.5%  metric 0%
+#   Telecom          UNMEASURED   usable 0  withheld 2  stmt 0%  metric 0%
+#   Utilities        UNMEASURED   usable 0  withheld 3  stmt 0%  metric 0%
+# outstanding      Auto, Banking, Capital Markets, Energy, Healthcare, Hospitality, Insurance, Materials, Telecom, Utilities
+# methods declared 38 across 13 sectors; metric ids in vocabulary 33; line items 53
+# sector vocabulary  every issuer carries one of the 13 canonical sectors; none was dropped
+# Subtest: S4-R3 candidate build — exact identity and package metadata
+    # Subtest: builds the exact admitted candidate through the authoritative CLI and writes only the new package
+    ok 1 - builds the exact admitted candidate through the authoritative CLI and writes only the new package
+      ---
+      duration_ms: 1.506075
+      type: 'test'
+      ...
+    # Subtest: verify-only re-reads the package and attests that nothing changed
+    ok 2 - verify-only re-reads the package and attests that nothing changed
+      ---
+      duration_ms: 29.966841
+      type: 'test'
+      ...
+    1..2
+ok 1 - S4-R3 candidate build — exact identity and package metadata
+  ---
+  duration_ms: 32.033054
+  type: 'suite'
+  ...
+# Subtest: S4-R3 candidate build — fail-closed refusals
+    # Subtest: refuses an existing destination without changing it
+    ok 1 - refuses an existing destination without changing it
+      ---
+      duration_ms: 2.658817
+      type: 'test'
+      ...
+    # Subtest: refuses an output inside the repository before creating it
+    ok 2 - refuses an output inside the repository before creating it
+      ---
+      duration_ms: 1.982448
+      type: 'test'
+      ...
+    # Subtest: refuses altered admitted input bytes before creating any output directory
+    ok 3 - refuses altered admitted input bytes before creating any output directory
+      ---
+      duration_ms: 1.570742
+      type: 'test'
+      ...
+    # Subtest: detects altered content and preserves the diagnostic bytes
+    ok 4 - detects altered content and preserves the diagnostic bytes
+      ---
+      duration_ms: 10.317742
+      type: 'test'
+      ...
+    # Subtest: detects a missing declared file
+    ok 5 - detects a missing declared file
+      ---
+      duration_ms: 3.792503
+      type: 'test'
+      ...
+    # Subtest: detects a wrong manifest identity
+    ok 6 - detects a wrong manifest identity
+      ---
+      duration_ms: 6.686451
+      type: 'test'
+      ...
+    # Subtest: detects a tampered file-level ledger even when the dataset itself still verifies
+    ok 7 - detects a tampered file-level ledger even when the dataset itself still verifies
+      ---
+      duration_ms: 18.655265
+      type: 'test'
+      ...
+    # Subtest: detects a stale or altered derived coverage report
+    ok 8 - detects a stale or altered derived coverage report
+      ---
+      duration_ms: 36.265302
+      type: 'test'
+      ...
+    1..8
+ok 2 - S4-R3 candidate build — fail-closed refusals
+  ---
+  duration_ms: 82.443321
+  type: 'suite'
+  ...
+1..2
+# tests 10
+# suites 2
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 599.128957
