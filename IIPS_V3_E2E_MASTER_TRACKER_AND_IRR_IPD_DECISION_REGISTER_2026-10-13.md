@@ -24174,4 +24174,41 @@ Next numeric prerequisite: authoritative same-period current-investment observat
 existing contract; separate issuer Note53 wording/management-definition and original Note17
 visual questions remain. Do not repeat completed9.91/6.22/supplierfinance/44.65 investigations.
 
-Next free §16.308 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.308 IID Stage 5 — IRR IPC v2 read channel + R-1 contribution ledger merged to `main` (2026-11-21)
+
+**IRR-only record. No IPD act, no IPD change, no identifier consumed** — an IID entry in the §16.287
+style; no `CV-CORR` / `CHG` / `V` identifier is taken from the CV series.
+
+**Merged.** PR **#606** `arena/6373b685-iips-review-recovered` → `main`, merge commit
+`a6df94ff18641789f67de662c6fc72d224479869` (parents `4c421b8bbfc26e6fe7f78f5379c48afa034b3e4a` main
+after PR #605, `462e3469fc4ddb3f67cfe4bc6b3b3da2fe1661fa` implementation), 2026-11-21T18:42:14Z, merge
+method `merge`, both PR workflows green on the head (CI run 44929443650 job 136942553412; Windows run
+44929443684 job 136943741558). Authority: PA/PO approval of R-1 in proposal `3719820`.
+
+**Content.** 14 files in `462e346` (`ipcClient.ts`, `ipcPortAdapter.ts`, `userPortfolioContract.ts`,
+`user-portfolio-transport.ts`, `investment/sources.ts`, 2 new test files, 3 adjusted test files, proposal
+disposition, implementation record, 2 artifacts) plus the 4 earlier Stage 5 evidence files from
+`979c1c6`/`d22f156`/`3719820`; the merge introduces exactly these 18 paths and nothing else (compare
+`4c421b8...a6df94f`). All 14 implementation blobs on `main` equal the `462e346` blobs (GitHub contents
+API). Pin `iips-production-market-data#1ce6a829…` unchanged in `package.json`, lockfile and
+`.ci/verify-ipd-pins.mjs`; sibling pins unchanged.
+
+**Semantics (one paragraph).** IRR speaks IPD D03 `v = 2` only from the Stage 5 read ports (GET
+user-portfolio route; `createHoldingsProvider`, `createPortfolioHoldingsProvider`), closed read set
+`portfolio.list|get|revisions`, request grammar mirrored from IPD `validateV2Envelope`, response version
+must equal request version, v2 writes refused before any socket. R-1: on the v2 path `toG2View` carries
+IPD's validated contribution rows on the additive read-only `contributionLedger` (closed key set, 64-hex
+ids/digests, finite non-negative amount, parseable instants, null-or-non-blank strings, closed
+semantics vocabulary); any bad row refuses the whole view; `contributions` stays `[]` on v2. v1 DR-4r
+rule and every v1 consumer unchanged.
+
+**Verification of record.** Full IRR suite 3295/3295 (223 files, 1 skipped); `tsc` clean; real IPD
+`main@4716d0bc` dispatcher + store harness 13/13 in both IPD env modes (`docs/integration/artifacts/
+iid-s5-real-ipd-v2-consumer-probe-2026-11-21.mts`, frames `…v2-captured-frames…json`); original v1
+control probe 6/6. Not live-runtime evidence.
+
+**Status.** Overall IID readiness **NOT READY**; D5/D6 host prerequisites unchanged and operator-owned
+(implementation record §9). No Stage 5 acceptance, no host readiness, no IPD change, no pin advance.
+Roadmap Part C §C.4 appended.
+
+Next free §16.309 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.

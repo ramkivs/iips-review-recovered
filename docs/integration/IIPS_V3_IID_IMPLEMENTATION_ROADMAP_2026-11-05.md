@@ -1487,3 +1487,37 @@ Two clarifications so this is not over-read:
   comparison, browser acceptance, the Stage 4 data residuals and Stage 5's end-to-end loop are unchanged,
   and the next adopted operational activity is still **Stage 5** (§C.2). No Stage 6 work, no IPD
   implementation, no PR merge and no new roadmap activity is authorized by this amendment.
+
+## C.4 Stage 5 — IRR IPC v2 read channel + R-1 contribution ledger MERGED to `main` (2026-11-21)
+
+The first Stage 5 code change on the IRR side is on authoritative `main`: PR **#606**, merge commit
+**`a6df94ff18641789f67de662c6fc72d224479869`** (parents `4c421b8b…` main, `462e3469…` implementation),
+merged 2026-11-21T18:42:14Z under the normal PR process with both GitHub workflows green on the PR head
+(`Typecheck · Test · Build`, `Windows runner · SQLite lifecycle · local IPC · child-process restart`).
+
+What it is: IRR now speaks the IPD D03 **v2 read channel** (`v = 2`, closed read set
+`portfolio.list|get|revisions`, response version must equal request version, v2 writes refused before
+encoding) from exactly the Stage 5 read ports — the GET user-portfolio route and the two investment
+holdings providers — and carries IPD's validated contribution rows on the additive, read-only
+`G2PortfolioView.contributionLedger` (**R-1**, PA/PO approved; row-by-row mirror of IPD
+`contributionsValidated`, any non-conforming row refuses the whole view). v1 is unchanged for every other
+consumer (personal write routes, broker-import save adapter, W11 capture). IPD, schemas, ownership,
+the IPC wire contract, mutation permissions and the dependency pin (`1ce6a829…`) are unchanged.
+
+Why it matters for Stage 5: the approved S1→D02 read-only relationship is dispatched by IPD **only** on
+`v = 2` (record `d22f156` F-1); before this change the Stage 5 detail read was refused by IRR's own DR-4r
+rule under v2 for every real portfolio (proposal `3719820` B-1). Both are now closed on the IRR side.
+
+Evidence of record: `IID-STAGE-5-IRR-CONSUMER-COMPATIBILITY-VERIFICATION-2026-11-21.md` (979c1c6),
+`IID-STAGE-5-IPD-RESPONSE-CONTRACT-VERIFICATION-2026-11-21.md` (d22f156, COMPATIBILITY CONFIRMED),
+`IID-STAGE-5-IRR-IPC-V2-ADOPTION-PROPOSAL-2026-11-21.md` (3719820, R-1 approved),
+`IID-STAGE-5-IRR-IPC-V2-R1-IMPLEMENTATION-RECORD-2026-11-21.md` (§7 merge receipt). Verification
+recorded there: full IRR suite 3295/3295; real IPD `main@4716d0bc` dispatcher+store harness 13/13 in
+both IPD env modes plus the v1 control 6/6; tracker §16.308.
+
+**What did not move.** Overall IID readiness remains **NOT READY**. D5 (IPD active binding on the host)
+and D6 (live portfolio read on the host) are still the hard external prerequisites and are
+operator-owned; nothing here is host evidence. The next operational activity is still Stage 5 (§C.2):
+the host prerequisites are enumerated in the implementation record §9. No Stage 6 work, no IPD change,
+no pin advance and no Windows host provisioning is authorized by this amendment.
+

@@ -23,6 +23,7 @@
 | W-12 (pin) | **NOT ADVANCED** — no technical dependency established (the IPC client imports nothing from the pinned packages). |
 | W-13 (real-dispatcher verification) | **EXECUTED** — 13/13 against IPD `main@4716d0bc` dispatcher + store, both env modes, plus the original 6/6 control. |
 | W-14 (host verification prerequisites) | **NOT STARTED** (out of scope; prerequisites listed in the implementation record §9). |
+| **Merge to `main`** | **DONE** — PR #606, merge commit `a6df94ff18641789f67de662c6fc72d224479869` (2026-11-21T18:42:14Z), both workflows green on the PR head and on `main` after merge; implementation record §7. |
 
 Implementation record: `docs/integration/IID-STAGE-5-IRR-IPC-V2-R1-IMPLEMENTATION-RECORD-2026-11-21.md`. Two test edits beyond §8 were required and are recorded there (§4.3): the pre-existing assertion that a `v: 2` request frame is refused, and the Direct P1 synthetic peer that answered `v: 1` regardless of the request — both described the pre-v2 world the approved decision changed.
 
