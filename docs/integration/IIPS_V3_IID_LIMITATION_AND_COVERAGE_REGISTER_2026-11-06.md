@@ -3683,3 +3683,28 @@ no IPD file touched; no PR merged; `S4-R8`/`G-8` CLOSED status and S4-R3 waiver 
 | Operator-asserted source rights; Dhan unconfigured | **Accepted (existing O3 terms).** | Unchanged by this decision; live market data is a later enhancement. |
 
 **Genuine technical blockers:** none identified. No code correction is made in this work item, and none is manufactured. **Next activity:** per roadmap §C.2 the next adopted operational activity is **Stage 5** (the end-to-end personal-use loop); preparatory operator host acts (candidate installation via §17.45, host `npm ci`, optional D4 carrier) may be taken in any order and do not gate Stage 5 planning. Overall IID readiness remains **NOT READY** until Stage 5 criteria are met. Next free §17.47.
+
+### 17.47 2026-11-21 — STAGE 4 — CLOSED / ACCEPTED (focused closure check)
+
+**Check performed (confirmation only; no test or evidence was repeated, and no new work was created).** Every identified Stage 4 work item was checked against the roadmap, this register, and the published Stage 4 evidence (`evidence/iid-stage4-2026-11-21`, verified §17.46). Result:
+
+| Item | Closure basis |
+|---|---|
+| S4-R1 (ten scenarios) | 8 demonstrated; scenarios 5/10 partial solely on the IPD-owned D5/D6 persisted-holdings leg — **resolved for Stage 4 by the §17.46 PA/PO acceptance**; IPD participation remains separately tracked for Stage 5, not a Stage 4 corrective action. Browser UI clauses were observed in the 2026-11-21 host evidence (§7). |
+| S4-R2 (Infosys borrowings transcription) | **Resolved by acceptance**: `EV/EBITDA` remains correctly withheld (`STATEMENT_INPUT_MISSING`); an accepted personal-use limitation. Optional future data supply; not mandatory. |
+| S4-R3 (freshness) | **CLOSED** by conditional governance waiver (§17.42); engine still computes `STALE` — never cited as `FRESH`. |
+| S4-R4 (coverage/valuation documentation) | **Resolved by acceptance**: discharged in evidence; residual is a reader-misinterpretation risk, not a defect. |
+| S4-R5 (availability semantics) | **DECIDED/DISCHARGED** (2026-11-17). |
+| S4-R6 / G-4 (operating metrics) | **Resolved by acceptance as a controlled limitation**: the metric-gated methods stay withheld for this population; the PA/PO does not require operating-metric supply for personal use. This records a limitation, not the numeric closure of G-4, which remains a separately tracked data limitation. |
+| S4-R7 (roster lint) | **COMPLETE** (2026-11-15). |
+| S4-R8 / G-8; L-031 | **CLOSED** (§17.43) / **RESOLVED** (§17.44); candidate build path published (§17.45). |
+| R-1 / R-2 (host readiness + served coverage captures) | **Completed** by the 2026-11-21 host evidence (§3 readiness capture; §6 10/10 HTTP 200; §7 browser routes) — used as obtained, not repeated. |
+| R-3 / S2-R2 | Optional, non-blocking, confirmed unavailable; not Stage 4 requirements. |
+| §8 `OWNER_CONTEXT_UNAVAILABLE` | **Preserved as an unsuccessful independent read-back — not a technical pass.** Accepted under §17.46; optional D4-carrier closure path remains available to the operator and is not mandatory Stage 4 work. |
+| D8 / G-2 | **Separately tracked and still OPEN** — explicitly *not* mandatory Stage 4 work and not closed by this entry; closure requires operator installation of `d2b65bcc…` plus independent host read-back. |
+
+**Determination.** Every identified Stage 4 item is completed or explicitly resolved through the PA/PO's personal single-user governance decision (§17.46). **No mandatory Stage 4 corrective action or verification remains outstanding.** Accepted limitations are preserved accurately above; no unsuccessful check is described as passed.
+
+## STAGE 4 — CLOSED / ACCEPTED (2026-11-21)
+
+Next activity: **Stage 5** (roadmap §C.2). Overall IID readiness remains **NOT READY** until Stage 5 criteria are met. Next free §17.48.

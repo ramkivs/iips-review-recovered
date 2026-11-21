@@ -1497,3 +1497,8 @@ The §17.44 candidate `sha256:d2b65bcc…` now has a separate repository-owned W
 ## C.5 PA/PO Stage 4 acceptance for personal use — DECIDED (2026-11-21)
 
 Recorded in register §17.46: completed work is retained and reused (no repetition absent a demonstrated blocker/failure/regression); Stage 4 is **accepted for personal use** with its evidenced limitations carried — including that §8 independent persistence read-back (`OWNER_CONTEXT_UNAVAILABLE`) did **not** succeed and is not claimed. `D8`/`G-2` remain open; the next adopted operational activity remains **Stage 5**.
+
+
+## C.6 Stage 4 closure — STAGE 4 — CLOSED / ACCEPTED (2026-11-21)
+
+Focused closure check recorded in register §17.47: every identified Stage 4 item is completed or resolved under the §17.46 PA/PO personal-use decision; no mandatory Stage 4 corrective action or verification remains. Accepted limitations (including the unsuccessful §8 independent read-back) are preserved, not re-described as passes. `D8`/`G-2` remain separately tracked and open. The next roadmap stage is **Stage 5**.
