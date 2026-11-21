@@ -135,3 +135,23 @@ Retain every existing prohibition, including secrets, tokens, `vault://` referen
 ### Governance and adoption boundaries
 
 The owner has approved the above interpretation and proposed policy clarification, but this document alone does **not** establish formal D-7 acceptance by both repository implementations. The authorized D-7 authority must record the exact amendment and its acceptance requirements, and repository-level adoption by both IRR and IPD must be evidenced before it is claimed. The previously approved IPD-first / IRR-second sequence remains a plan only; implementation and Windows acceptance require separate authorization. No live Dhan request is authorized by this record.
+
+---
+
+## Owner clarifications: response reference and internal transport — 2026-11-21
+
+The application owner approved the two clarifications below. They clarify the approved W-24 surfaces without rewriting the six owner decisions above or relaxing any existing disclosure or security prohibition.
+
+### 1. IRR response action reference — SERVER-SIDE ONLY
+
+The IRR response action reference may exist in IRR server-side response-handling context, but **must never be delivered to the browser**. It does not authorize browser access to diagnostic events, ring contents, operator readers or bearer credentials. All existing browser security restrictions remain in force.
+
+### 2. Internal IRR–IPD transport headers — APPROVED SURFACE
+
+Authenticated IRR–IPD loopback transport is an explicitly approved W-24 surface. Its concrete implementation-level protocol representation uses `X-IIPS-Trace-Version` and `X-IIPS-Action-Id` for the trace version and action ID, respectively. These names are recorded by this clarification; the original owner decision approved the transport surface but did **not** explicitly specify these names.
+
+- Require authenticated loopback transport and validate incoming identifiers before use; reject unsafe or invalid inputs without echoing them.
+- Preserve trace acknowledgement and fail-closed requirements: fail closed on missing, invalid or incompatible acknowledgements; do not silently claim trace coverage. Do not automatically retry after a trace-contract mismatch; the daemon may already have acted.
+- Never log these headers or serialize them into diagnostic events. Never send trace headers or identifiers to Dhan. Existing restrictions on secrets, tokens, paths, payloads, business identifiers and other prohibited information remain unchanged.
+
+These clarifications record owner intent; they do not themselves amend the canonical D-7 policy or establish acceptance by either repository of a later amendment. They make no runtime change and authorize no implementation or live Dhan call. The controlling roadmap, its criteria and dependencies remain unchanged: **W-24 remains OPEN; M4 acceptance is NOT ESTABLISHED; W-24 implementation is NOT AUTHORIZED.**
