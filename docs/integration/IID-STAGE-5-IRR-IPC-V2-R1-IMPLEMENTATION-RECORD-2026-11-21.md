@@ -129,9 +129,11 @@ Driver: `docs/integration/artifacts/iid-s5-real-ipd-v2-consumer-probe-2026-11-21
 - `ownerBoundPortfolioCapture.ts` (W11 operator capture) remains v1 by design (proposal §5.7); under governed IPD env its detail capture continues to record the DR-4r refusal.
 
 ## 9. Remaining prerequisites before a controlled Windows host verification (not started, not claimed)
-1. Merge of this branch to IRR `main` under IRR's own process (no PR opened here).
+1. ~~Merge of this branch to IRR `main` under IRR's own process (no PR opened here).~~ **DONE** — PR #606, merge `a6df94ff18641789f67de662c6fc72d224479869` (§7); receipt PR #607, merge `9d7b4a49ff3f843244c5a3cea1b8e758aecbbdb0`.
 2. IPD service build on the host matched to `4716d0bc` (`dist/` hashes in §1) by an operator.
 3. Host binding state: the five S1 components (`principalLabel`, `bindingId`, `membershipId`, `tenantId`, `canonicalOwnerId`) present and unrevoked — operator-owned; IRR cannot observe which component is missing and does not try to.
 4. `IIPS_G3_IPC_BINDING_PROVISIONED` and `IIPS_G2_IPC_ENDPOINT` set in the IRR server environment; `IIPS_LOCAL_PERSONAL_USE` **not** required for reads on either side.
 5. A written host-run scope: GET list/detail/revisions and holdings identity only; no write route exercised.
 6. Windows named-pipe endpoint class exercised on the host (the test peers here used the POSIX endpoint class of this sandbox; the client code path is the same `callIpc`).
+
+Items 2–6 are carried, unchanged, into the operator handoff `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-HANDOFF-2026-11-21.md` (§2 build identities, §3 D5, §4 D6, §5 persisted holdings and independent read-back, §8 outcome meanings). Nothing in them is IRR code.
