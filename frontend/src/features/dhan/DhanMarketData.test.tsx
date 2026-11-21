@@ -132,6 +132,21 @@ describe('DHAN-P3 quote surface', () => {
     expect(screen.getByTestId('dhan-quote-data-version').textContent).toBe('synthetic-fixture-v1');
   });
 
+  it.each([[null, null], [99, null], [null, 101], [99, 101]] as const)(
+    'renders bid %s and ask %s without substituting last traded price', async (bid, ask) => {
+      const quote = { ...quoteBody().data.quote, bid, ask };
+      vi.stubGlobal('fetch', okFetch(quoteBody({ quote })));
+      render(<DhanQuotes />);
+      await submitQuote();
+      await screen.findByTestId('dhan-quote-result');
+      for (const [label, expected] of [['Bid', bid], ['Ask', ask]] as const) {
+        const card = screen.getByText(label).closest('[data-testid="metric-card"]');
+        expect(card?.querySelector('[data-testid="metric-value"]')?.textContent)
+          .toBe(expected === null ? 'unavailable' : String(expected));
+      }
+    },
+  );
+
   it('publishes the provider qualification and never implies live qualification', async () => {
     vi.stubGlobal('fetch', okFetch(quoteBody()));
     render(<DhanQuotes />);

@@ -90,7 +90,7 @@ export function syntheticQuoteEnvelope(options: {
       qualityState,
     },
     timestamp: SYNTHETIC_RECEIVED_AT,
-    schemaVersion: 'synthetic-v1',
+    schemaVersion: '2.0.0',
   };
 }
 

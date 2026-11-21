@@ -31,6 +31,7 @@ import {
   syntheticBehaviourForRoute,
   syntheticHistoricalResult,
   syntheticQuoteEnvelope,
+  SYNTHETIC_QUOTE_PAYLOAD,
   type SyntheticRoute,
   type SyntheticScenario,
 } from './dhanSyntheticFixtures';
@@ -545,17 +546,48 @@ describe('DHAN-P3 freshness mapping', () => {
 describe('DHAN-P3 envelope projection', () => {
   it('projects a canonical envelope without inventing fields', () => {
     const view = projectIpdQuoteEnvelope(syntheticQuoteEnvelope({ qualityState: 'GOOD' }), 'CURRENT');
-    expect(view.quote?.ltp).toBe(100.6);
-    expect(view.freshness).toBe('SNAPSHOT');
-    expect(view.asOf).toBe('2026-11-06T10:15:00.000Z');
+    expect(view?.quote?.ltp).toBe(100.6);
+    expect(view?.freshness).toBe('SNAPSHOT');
+    expect(view?.asOf).toBe('2026-11-06T10:15:00.000Z');
   });
 
-  it('projects a missing payload as unavailable rather than as zeroes', () => {
-    const view = projectIpdQuoteEnvelope({}, undefined);
-    expect(view.freshness).toBe('UNAVAILABLE');
-    expect(view.qualityState).toBe('UNAVAILABLE');
-    expect(view.asOf).toBeNull();
-    expect(view.quote?.ltp).toBe(0);
+  const envelope = syntheticQuoteEnvelope({});
+  function projectDepth(bid: unknown, ask: unknown, schemaVersion = '2.0.0') {
+    return projectIpdQuoteEnvelope({ ...envelope, schemaVersion, payload: { ...SYNTHETIC_QUOTE_PAYLOAD, bid, ask } }, 'CURRENT');
+  }
+
+  it.each([[null, null], [null, 101], [99, null], [99, 101], [100, 100]] as const)(
+    'preserves D01 v2 bid %s and ask %s independently', (bid, ask) => {
+      expect(projectDepth(bid, ask)?.quote).toMatchObject({ bid, ask, ltp: 100.6 });
+    },
+  );
+
+  it.each([undefined, '100', false, 0, -1, NaN, Infinity, -Infinity])(
+    'refuses invalid side %s, even when the other side is unavailable', value => {
+      expect(projectDepth(value, null)).toBeNull();
+      expect(projectDepth(null, value)).toBeNull();
+    },
+  );
+
+  it('does not reinterpret legacy D01 numeric sides as nullable', () => {
+    expect(projectDepth(99, 101, '1.0.0')?.quote).toMatchObject({ bid: 99, ask: 101 });
+    expect(projectDepth(null, 101, '1.0.0')).toBeNull();
+    expect(projectDepth(99, null, '1.0.0')).toBeNull();
+  });
+
+  it.each(['bid', 'ask'] as const)('requires the %s key even when depth is unavailable', side => {
+    const payload: Record<string, unknown> = { ...SYNTHETIC_QUOTE_PAYLOAD };
+    delete payload[side];
+    expect(projectIpdQuoteEnvelope({ ...envelope, payload }, 'CURRENT')).toBeNull();
+  });
+
+  it('refuses crossed prices and missing or incompatible wire metadata', () => {
+    expect(projectDepth(101, 100)).toBeNull();
+    expect(projectIpdQuoteEnvelope({}, undefined)).toBeNull();
+    for (const schemaVersion of [undefined, '3.0.0']) {
+      expect(projectIpdQuoteEnvelope({ ...envelope, schemaVersion }, 'CURRENT')).toBeNull();
+    }
+    expect(projectIpdQuoteEnvelope({ ...envelope, domain: 'D02_OHLCV' }, 'CURRENT')).toBeNull();
   });
 
   it('projects a historical result without recomputing it', () => {
@@ -574,7 +606,7 @@ describe('DHAN-P3 envelope projection', () => {
 
     // A successful quote is NOT evidence of live provider connectivity. The qualification is
     // published alongside the data so a consumer cannot read one as the other.
-    expect(quoteView.providerQualification).toBe('SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED');
+    expect(quoteView?.providerQualification).toBe('SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED');
     expect(historicalView.providerQualification).toBe('SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED');
   });
 });
