@@ -367,3 +367,161 @@ Describe 'W05 STEP1 — JSON output is UTF-8 without BOM, parseable by the Step 
     $writeSites.Count | Should -BeGreaterThan 5
   }
 }
+
+function New-W05Step4InvestmentReport {
+  # InvestmentCoverageReport shape (coverage/investmentCoverage.ts): the investment route
+  # contract, including the identity disclosure fields exactly as the report carries them.
+  Write-Output ([pscustomobject]@{
+    reportVersion            = 1
+    asOf                     = '2026-09-15'
+    generatedAt              = '2026-09-15T00:00:00.000Z'
+    dataset                  = [pscustomobject]@{ datasetVersion = 'FIXTURE-DATASET'; datasetClass = 'OPERATOR_SUPPLIED'; issuers = 3 }
+    availabilitySemantics    = 'EXISTENTIAL_ANNUAL_PERIOD'
+    sectors                  = @()
+    measuredSectors          = 0
+    totalSectors             = 0
+    outstandingSectors       = @()
+    offVocabularyIssuers     = @()
+    issuers                  = @([pscustomobject]@{ issuerId = 'FIXTURE-ISSUER-1'; state = 'COVERED'; identityDependency = $null; identityDependencyDetail = 'FIXTURE detail' })
+    counts                   = [pscustomobject]@{ observed = 1; COVERED = 1; NO_FINANCIALS = 0; SECTOR_NOT_MEASURED = 0; ISSUED_DATA = 0 }
+    issues                   = @()
+    financialCoverage        = [pscustomobject]@{ datasetClass = 'OPERATOR_SUPPLIED'; measuredSectors = 0 }
+    statusLine               = 'FIXTURE'
+    notes                    = @()
+    identitySourcesAvailable = $true
+    identitySourceDetail     = $null
+  })
+}
+
+function New-W05Step4IdentityReport {
+  # IdentityCoverageReport shape (identity/coverage.ts): the identity route contract.
+  Write-Output ([pscustomobject]@{
+    reportVersion           = 1
+    asOf                    = '2026-09-15'
+    generatedAt             = '2026-09-15T00:00:00.000Z'
+    identitySources         = [pscustomobject]@{ rosterVersion = 'FIXTURE-ROSTER'; listingMapVersion = 'FIXTURE-LISTING'; corporateActionTableVersion = 'FIXTURE-CA' }
+    counts                  = [pscustomobject]@{ observed = 1; resolved = 1; unresolved = 0 }
+    bySource                = [pscustomobject]@{ HOLDING = 1 }
+    items                   = @([pscustomobject]@{ observationId = 'FIXTURE-OBS-1'; state = 'RESOLVED' })
+    unresolved              = @()
+    successorReconciliations = @()
+    financialCoverage       = [pscustomobject]@{ datasetClass = 'OPERATOR_SUPPLIED'; measuredSectors = 0 }
+    statusLine              = 'FIXTURE'
+    notes                   = @()
+  })
+}
+
+function New-W05Step4ErrorPayload {
+  # The documented error shape (error, asOf, issues) shared by both endpoints.
+  Write-Output ([pscustomobject]@{
+    error = 'observation-sources-unavailable'
+    asOf  = '2026-09-15'
+    issues = @([pscustomobject]@{ code = 'OBSERVATION_SOURCE_UNAVAILABLE'; subject = 'holdings/broker-preview/watchlist'; detail = 'FIXTURE' })
+  })
+}
+
+Describe 'W05 STEP4 — capture shape classification honours each route contract' {
+  BeforeAll {
+    Import-Module (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Force
+    $script:InvestmentKeys = @('reportVersion', 'dataset', 'issuers', 'identitySourcesAvailable')
+    $script:IdentityKeys = @('identitySources', 'items')
+    Write-W05Utf8NoBom -Path (Join-Path $TestDrive 'investment-report.json') -Text (ConvertTo-Json -InputObject (New-W05Step4InvestmentReport) -Depth 8)
+    Write-W05Utf8NoBom -Path (Join-Path $TestDrive 'identity-report.json') -Text (ConvertTo-Json -InputObject (New-W05Step4IdentityReport) -Depth 8)
+    Write-W05Utf8NoBom -Path (Join-Path $TestDrive 'error-payload.json') -Text (ConvertTo-Json -InputObject (New-W05Step4ErrorPayload) -Depth 8)
+    Write-W05Utf8NoBom -Path (Join-Path $TestDrive 'shapeless.json') -Text '{"hello":"world"}'
+    Write-W05Utf8NoBom -Path (Join-Path $TestDrive 'top-level-array.json') -Text '[{"error":"x"}]'
+    Write-W05Utf8NoBom -Path (Join-Path $TestDrive 'not-json.txt') -Text '{ this is not json'
+    $falseReport = New-W05Step4InvestmentReport
+    $falseReport.identitySourcesAvailable = $false
+    Write-W05Utf8NoBom -Path (Join-Path $TestDrive 'investment-report-false.json') -Text (ConvertTo-Json -InputObject $falseReport -Depth 8)
+  }
+
+  It 'a valid investment report is a report on the investment route contract (HTTP 200)' {
+    $r = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'investment-report.json') -ReportKeys $script:InvestmentKeys -Status 200
+    $r.Shape | Should -Be 'report'
+    $r.StructuralOk | Should -BeTrue
+    $r.ReportMatched | Should -BeTrue
+    $r.ErrorPresent | Should -BeFalse
+  }
+
+  It 'a valid identity report is a report on the identity route contract (HTTP 200)' {
+    $r = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'identity-report.json') -ReportKeys $script:IdentityKeys -Status 200
+    $r.Shape | Should -Be 'report'
+    $r.StructuralOk | Should -BeTrue
+    $r.ReportMatched | Should -BeTrue
+    $r.ErrorPresent | Should -BeFalse
+  }
+
+  It 'route-contract separation: an identity report body is unknown on the investment contract' {
+    $r = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'identity-report.json') -ReportKeys $script:InvestmentKeys -Status 200
+    $r.Shape | Should -Be 'unknown-json-shape'
+    $r.StructuralOk | Should -BeFalse
+    $r.ReportMatched | Should -BeFalse
+  }
+
+  It 'route-contract separation: an investment report body is unknown on the identity contract' {
+    $r = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'investment-report.json') -ReportKeys $script:IdentityKeys -Status 200
+    $r.Shape | Should -Be 'unknown-json-shape'
+    $r.StructuralOk | Should -BeFalse
+    $r.ReportMatched | Should -BeFalse
+  }
+
+  It 'documented error payloads are recognised on either contract (503 and 400)' {
+    $r1 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'error-payload.json') -ReportKeys $script:InvestmentKeys -Status 503
+    $r1.Shape | Should -Be 'documented-error-payload'
+    $r1.StructuralOk | Should -BeTrue
+    $r1.ErrorPresent | Should -BeTrue
+    $r2 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'error-payload.json') -ReportKeys $script:IdentityKeys -Status 400
+    $r2.Shape | Should -Be 'documented-error-payload'
+    $r2.StructuralOk | Should -BeTrue
+  }
+
+  It 'malformed responses are classified and never accepted' {
+    $r1 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'not-json.txt') -ReportKeys $script:InvestmentKeys -Status 200
+    $r1.Shape | Should -Be 'not-json'
+    $r1.StructuralOk | Should -BeFalse
+    $r2 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'shapeless.json') -ReportKeys $script:InvestmentKeys -Status 200
+    $r2.Shape | Should -Be 'unknown-json-shape'
+    $r2.StructuralOk | Should -BeFalse
+    $r3 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'top-level-array.json') -ReportKeys $script:IdentityKeys -Status 200
+    $r3.Shape | Should -Be 'unknown-json-shape'
+    $r3.StructuralOk | Should -BeFalse
+  }
+
+  It 'HTTP 503 is never treated as a successful report capture' {
+    $r1 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'investment-report.json') -ReportKeys $script:InvestmentKeys -Status 503
+    $r1.Shape | Should -Not -Be 'report'
+    $r1.Shape | Should -Be 'unknown-json-shape'
+    $r1.StructuralOk | Should -BeFalse
+    $r2 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'error-payload.json') -ReportKeys $script:IdentityKeys -Status 503
+    $r2.Shape | Should -Not -Be 'report'
+    $r2.Shape | Should -Be 'documented-error-payload'
+    $r3 = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'investment-report.json') -ReportKeys $script:InvestmentKeys -Status 200
+    $r3.Shape | Should -Be 'report'
+  }
+
+  It 'identitySourcesAvailable false is still a valid report marker value' {
+    $r = Get-W05ResponseShape -BodyPath (Join-Path $TestDrive 'investment-report-false.json') -ReportKeys $script:InvestmentKeys -Status 200
+    $r.Shape | Should -Be 'report'
+    $r.ReportMatched | Should -BeTrue
+  }
+
+  It 'the capture script fails closed on an unreachable host and preserves the artifact schema' {
+    $path = Join-Path $PSScriptRoot 'W05-STEP4-CAPTURE-HOST-COVERAGE.ps1'
+    $result = & $path -BaseUrl 'http://127.0.0.1:1' -AsOf '2026-09-15' -OutDir (Join-Path $TestDrive 'step4-out') -TimeoutSeconds 5
+    $result.result | Should -Be 'FAILED-VALIDATION'
+    $result.ok | Should -BeFalse
+    $outDir = Join-Path $TestDrive 'step4-out'
+    Test-Path -LiteralPath (Join-Path $outDir 'capture-investment.body.json') | Should -BeTrue
+    $rec = Get-Content -LiteralPath (Join-Path $outDir 'capture-investment.json') -Raw | ConvertFrom-Json
+    $rec.status | Should -Be 0
+    $rec.shape | Should -Be 'unreadable'
+    $names = @()
+    foreach ($property in $rec.PSObject.Properties) { $names += $property.Name }
+    foreach ($expected in @('route', 'requestUri', 'status', 'bodyFile', 'bodySha256', 'shape', 'capturedAt', 'errorText')) {
+      $names | Should -Contain $expected
+    }
+    Test-Path -LiteralPath (Join-Path $outDir 'capture-identity.json') | Should -BeTrue
+    Test-Path -LiteralPath (Join-Path $outDir 'capture-identity.body.json') | Should -BeTrue
+  }
+}

@@ -5,14 +5,23 @@
 .DESCRIPTION
   Captures GET <BaseUrl>/api/investment/coverage/investment?asOf=<AsOf> and
   GET <BaseUrl>/api/investment/coverage?asOf=<AsOf> — the two code-derived routes
-  (coverageEndpoint.ts, COVERAGE_ROUTES) — and publishes each response verbatim with its
-  status, SHA-256 body digest and capture time. The documented 503 payloads
-  (identity-sources-unavailable / observation-sources-unavailable) and the 400 invalid-asOf
-  payload are captured as evidence too; a non-200 is recorded, never normalised away.
+  (investmentCoverageEndpoint.ts INVESTMENT_COVERAGE_ROUTES and coverageEndpoint.ts
+  COVERAGE_ROUTES) — and publishes each response verbatim with its status, SHA-256 body
+  digest and capture time. The documented 503 payloads (identity-sources-unavailable /
+  observation-sources-unavailable) and the 400 invalid-asOf payload are captured as
+  evidence too; a non-200 is recorded, never normalised away.
 
-  Structural validation only: the body must parse as JSON and carry either the report shape
-  (identitySources, items) or one of the documented error shapes (error, asOf, issues).
-  Content expectations are left to the IRR-side review against the repository source.
+  Structural validation only, and per route contract (the 2026-11-21 correction — before
+  it, both routes were checked against the identity report shape (identitySources, items)
+  and a valid investment report was misclassified unknown-json-shape):
+    capture-investment.json -> InvestmentCoverageReport markers (reportVersion, dataset,
+      issuers, identitySourcesAvailable; coverage/investmentCoverage.ts)
+    capture-identity.json   -> IdentityCoverageReport markers (identitySources, items;
+      identity/coverage.ts)
+  plus the documented error shapes (error, asOf, issues) on either route. A report shape
+  is recognised only on HTTP 200: a 503 body is captured as evidence and is never a
+  successful report capture. Content expectations are left to the IRR-side review against
+  the repository source.
 
 .EXAMPLE
   $r = .\W05-STEP4-CAPTURE-HOST-COVERAGE.ps1 -BaseUrl http://127.0.0.1:8790 `
@@ -42,10 +51,21 @@ try {
   }
   $outFull = (Resolve-Path -LiteralPath $OutDir).Path
 
-  # Both routes from the code-derived coverage route table.
+  # Both routes from the code-derived coverage route tables, each with its OWN report
+  # contract (InvestmentCoverageReport markers vs IdentityCoverageReport markers).
   $routes = @(
-    [pscustomobject]@{ Name = 'capture-investment.json'; Body = 'capture-investment.body.json'; Path = '/api/investment/coverage/investment?asOf=' },
-    [pscustomobject]@{ Name = 'capture-identity.json'; Body = 'capture-identity.body.json'; Path = '/api/investment/coverage?asOf=' }
+    [pscustomobject]@{
+      Name       = 'capture-investment.json'
+      Body       = 'capture-investment.body.json'
+      Path       = '/api/investment/coverage/investment?asOf='
+      ReportKeys = @('reportVersion', 'dataset', 'issuers', 'identitySourcesAvailable')
+    },
+    [pscustomobject]@{
+      Name       = 'capture-identity.json'
+      Body       = 'capture-identity.body.json'
+      Path       = '/api/investment/coverage?asOf='
+      ReportKeys = @('identitySources', 'items')
+    }
   )
   $allCaptured = $true
   $allStructural = $true
@@ -60,23 +80,9 @@ try {
     $structuralOk = $false
     $shape = 'unreadable'
     if ($http.Status -gt 0) {
-      $parsed = $true
-      $bodyValue = $null
-      try {
-        $bodyValue = Read-W05Json -Path $bodyPath
-      }
-      catch {
-        $parsed = $false
-        $shape = 'not-json'
-      }
-      if ($parsed) {
-        $hasReport = ($null -ne $bodyValue.identitySources) -and ($null -ne $bodyValue.items)
-        $hasError = $null -ne $bodyValue.error
-        $structuralOk = $hasReport -or $hasError
-        $shape = 'report'
-        if (-not $hasReport -and $hasError) { $shape = 'documented-error-payload' }
-        if (-not $hasReport -and -not $hasError) { $shape = 'unknown-json-shape' }
-      }
+      $shapeResult = Get-W05ResponseShape -BodyPath $bodyPath -ReportKeys $route.ReportKeys -Status $http.Status
+      $shape = $shapeResult.Shape
+      $structuralOk = $shapeResult.StructuralOk
     }
     if (-not $structuralOk) { $allStructural = $false }
     if ($http.Status -eq 0) { $allCaptured = $false }
@@ -120,7 +126,7 @@ $result = [pscustomobject]@{
   outDir     = $OutDir
   checks     = @($checks)
   error      = $errorText
-  note       = 'Host evidence. Captured bodies are preserved verbatim whatever the status; the IRR-side review compares them against the repository source (coverageEndpoint.ts payloads).'
+  note       = 'Host evidence. Captured bodies are preserved verbatim whatever the status; the IRR-side review compares them against the repository source (coverageEndpoint.ts and investmentCoverageEndpoint.ts payloads).'
 }
 $reportPath = Join-Path $OutDir 'capture-report.json'
 if (Test-Path -LiteralPath $OutDir) {
