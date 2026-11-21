@@ -109,8 +109,19 @@ Driver: `docs/integration/artifacts/iid-s5-real-ipd-v2-consumer-probe-2026-11-21
 | Authorization, owner-isolation, mutation tests remain valid | ✔ | full suite 3295/3295; precondition fail-closed before I/O under v2; scope never transmitted (unchanged code path); v2 writes never reach a socket (unit, framing, real dispatcher) |
 | Real IPD dispatcher/store consumes v2 responses | ✔ (test-level) | §5.3, 13/13 + 6/6 control |
 
-## 7. Remote verification
-Recorded in the final report for this work item (commit SHA, `git ls-remote`, GitHub contents-API blob SHAs for the changed files). No PR opened.
+## 7. Remote verification and merge receipt (appended 2026-11-21 after merge)
+
+| Item | Value |
+| --- | --- |
+| Implementation commit | `462e3469fc4ddb3f67cfe4bc6b3b3da2fe1661fa` on `arena/6373b685-iips-review-recovered` (parent `3719820`); 14 files; 9 key blobs verified by contents API at publication |
+| PR | **#606** `arena/6373b685-iips-review-recovered` → `main`, opened 2026-11-21; `MERGEABLE` / `CLEAN`; no branch protection on `main` (no required reviews) |
+| PR checks on head `462e346` | `Typecheck · Test · Build` **pass** (run 44929443650, job 136942553412 — install, `verify-ipd-pins`, typecheck, replay-server closure, full Vitest suite, non-zero-pass assertion, production build all green); `Windows runner · SQLite lifecycle · local IPC · child-process restart` **pass** (run 44929443684, job 136943741558). First attempt had failed at the pre-install step "Verify the scoped token can read the private IPD repository" because the IPD repository was briefly public on 2026-11-21; it was private again at the re-run, and no workflow was changed by this work. |
+| `main` before merge | `4c421b8bbfc26e6fe7f78f5379c48afa034b3e4a` (PR #605, Dhan market-data files; no overlap with the 14 files; `6254399` is its ancestor) |
+| Merge | **`a6df94ff18641789f67de662c6fc72d224479869`**, method `merge`, 2026-11-21T18:42:14Z; parents `4c421b8` + `462e346`; `462e346` and `4c421b8` both ancestors of `main` |
+| Post-merge verification | all **14/14** implementation blobs on `main` equal the `462e346` blobs (GitHub contents API `?ref=main`); `compare 4c421b8...a6df94f` lists exactly the 18 branch paths (14 + the 4 earlier Stage 5 evidence files from `979c1c6`/`d22f156`/`3719820`) — nothing unrelated entered |
+| Pin on `main` | `iips-production-market-data#1ce6a829a7ce65550356a0071c108a60f2d813be` in `frontend/package.json` L32, lockfile (`resolved` present), `.ci/verify-ipd-pins.mjs` L16; sibling pins `12a3d625…`, `2e11fa3b…` unchanged |
+| Post-merge `main` workflows on `a6df94f` | `CI` run 44936965816 **success**; `Windows test compatibility (focused)` run 44936965692 **success** |
+| Documentation receipt | roadmap `IIPS_V3_IID_IMPLEMENTATION_ROADMAP_2026-11-05.md` §C.4; tracker `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` §16.308; proposal disposition updated; this section |
 
 ## 8. Risks / notes carried forward
 - A-1/A-2 (proposal §11) stand: a v2 success frame with an extra envelope key, or an IPD build without `validateV2Envelope`, fails closed to 503.
