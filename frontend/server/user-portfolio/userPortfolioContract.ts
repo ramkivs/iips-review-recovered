@@ -258,6 +258,53 @@ export interface G2PortfolioView {
   readonly provenanceDigest: string;
   readonly isSaved: boolean;
   readonly contributions: readonly G2Contribution[];
+  /**
+   * IID Stage 5 R-1 (PA/PO approved 2026-11-21; proposal `3719820` §6) — the
+   * validated contribution LEDGER of the IPD D03 v2 read channel, carried in
+   * full, read-only and additive.
+   *
+   * Present ONLY on a view produced by the v2 (`IPC_PROTOCOL_VERSION_V2`) read
+   * path. Absent on every v1 view, whose `contributions` semantics (DR-4r:
+   * empty passes, non-empty refuses) are unchanged. Under v2 the upstream ledger
+   * rows are validated row by row against the mirror of IPD
+   * `contributionsValidated` ({@link G2ContributionLedgerEntry}); any row outside
+   * that shape refuses the WHOLE view. Nothing is coerced, defaulted, dropped or
+   * synthesized: `null` stays `null`. `contributions` (the G24 batch-summary
+   * shape, which has no honest mapping from ledger rows) stays empty on v2.
+   */
+  readonly contributionLedger?: readonly G2ContributionLedgerEntry[];
+}
+
+/**
+ * Closed vocabulary of IPD `ContributionSemantics` (portfolio_store.ts). Type
+ * only: this module's runtime export set is frozen by the Gate 3 act, so the
+ * runtime list lives with the validator in `ipcPortAdapter.ts`.
+ */
+export type G2ContributionSemantics = 'SAVED_NEW_BATCH' | 'MERGED_INTO_EXISTING' | 'RESET' | 'REPLACE';
+
+/**
+ * One validated contribution ledger row as IPD's v2 `portfolio.get` projects it
+ * (`PortfolioContribution`, validated by `contributionsValidated`). Mirror, not
+ * reinterpretation: the same key names, the same nullability, the same closed
+ * semantics vocabulary. Legacy rows keep `null` provenance; the three 007 fields
+ * are optional because older IPD rows may omit them.
+ */
+export interface G2ContributionLedgerEntry {
+  /** 64-hex import content digest; the durable identity of the contribution. */
+  readonly contributionId: string;
+  /** Finite, non-negative, within the safe integer range. */
+  readonly amount: number;
+  readonly contributedAt: string;
+  readonly createdAt: string;
+  readonly fileName: string | null;
+  readonly sourceBroker: string | null;
+  readonly contentDigest: string | null;
+  readonly lineageDigest: string | null;
+  readonly importedAt: string | null;
+  readonly semantics: G2ContributionSemantics | null;
+  readonly importId?: string | null;
+  readonly snapshotState?: string | null;
+  readonly unresolvedCount?: number | null;
 }
 
 /**

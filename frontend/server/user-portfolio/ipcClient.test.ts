@@ -290,7 +290,8 @@ describe('ipcClient — framing', () => {
   it('refuses an unexpected envelope key, a wrong version and an unknown operation', () => {
     const cases: Array<[unknown, string]> = [
       [{ v: 1, op: 'portfolio.list', tenantId: 'x' }, 'CALLER_SUPPLIED_AUTHORITY'],
-      [{ v: 2, op: 'portfolio.list' }, 'MALFORMED_ENVELOPE'],
+      [{ v: 3, op: 'portfolio.list' }, 'MALFORMED_ENVELOPE'],
+      [{ v: '1', op: 'portfolio.list' }, 'MALFORMED_ENVELOPE'],
       [{ v: 1, op: 'portfolio.list', extra: 1 }, 'MALFORMED_ENVELOPE'],
       [{ v: 1, op: 'portfolio.purge' }, 'UNKNOWN_OPERATION'],
       [{ v: 1, op: '' }, 'UNKNOWN_OPERATION'],

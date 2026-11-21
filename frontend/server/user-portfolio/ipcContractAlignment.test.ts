@@ -53,7 +53,7 @@ import {
   isValidSaveMode,
   type G2SaveMode,
 } from './userPortfolioContract.js';
-import { IPC_PROTOCOL_VERSION, IPC_WRITE_OPERATIONS, type IpcOperation } from './ipcClient.js';
+import { IPC_PROTOCOL_VERSION, IPC_PROTOCOL_VERSION_V2, IPC_V2_READ_OPERATIONS, IPC_WRITE_OPERATIONS, type IpcOperation } from './ipcClient.js';
 import { IpcUserPortfolioPort, toWireHolding } from './ipcPortAdapter.js';
 import type { G2HoldingInput } from './userPortfolioContract.js';
 
@@ -67,6 +67,15 @@ describe('IRR speaks the IPD v1 wire channel', () => {
     // every v2 write refused by the dispatcher). Speaking v1 is what makes the
     // v1 revision and mode semantics the canonical ones for this path.
     expect(IPC_PROTOCOL_VERSION).toBe(1);
+  });
+
+  it('IID Stage 5: pins the SEPARATE v2 read channel to 2 and to the three reads — no write ever travels on it', () => {
+    // The default stays 1 (above). v2 exists ONLY for the Stage 5 S1→D02 read path and admits
+    // exactly the reads IPD dispatches through `readHoldingsPortfolio`; the write semantics
+    // asserted in this file are v1 semantics and are unaffected.
+    expect(IPC_PROTOCOL_VERSION_V2).toBe(2);
+    expect([...IPC_V2_READ_OPERATIONS]).toEqual(['portfolio.list', 'portfolio.get', 'portfolio.revisions']);
+    for (const write of IPC_WRITE_OPERATIONS) expect(IPC_V2_READ_OPERATIONS).not.toContain(write);
   });
 
   it('addresses the five v1 write operations, including reset, delete and the guarded broker import', () => {

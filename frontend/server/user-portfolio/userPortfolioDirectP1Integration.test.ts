@@ -11,7 +11,7 @@ import net from 'node:net';
 import { readFileSync } from 'node:fs';
 import type { AddressInfo } from 'node:net';
 import { handleUserPortfolioRequest } from '../user-portfolio-transport.js';
-import { IPC_ENDPOINT_SETTING, IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION } from './ipcClient.js';
+import { IPC_ENDPOINT_SETTING, IPC_LENGTH_PREFIX_BYTES, IPC_PROTOCOL_VERSION, IPC_PROTOCOL_VERSION_V2 } from './ipcClient.js';
 import { BINDING_PRECONDITION_SETTING } from './ownerContextFromBinding.js';
 import { createLocalIpcEndpoint, localIpcEndpointKindFor, type LocalIpcEndpointKind } from './testing/localIpcEndpoint.js';
 
@@ -108,7 +108,10 @@ function startPeer(): Promise<Peer> {
               holdingsCount: 0,
             }];
           } else result = null;
-          const frame = frameOf({ v: IPC_PROTOCOL_VERSION, ok: true, op, result });
+          // Answer on the channel the request arrived on, exactly as IPD's dispatcher does
+          // (`successFrame(op, result, requestId, 2)` for a v2 read). The GET read route speaks
+          // the D03 v2 read channel since IID Stage 5; the version actually sent is asserted below.
+          const frame = frameOf({ v: request.v === IPC_PROTOCOL_VERSION_V2 ? IPC_PROTOCOL_VERSION_V2 : IPC_PROTOCOL_VERSION, ok: true, op, result });
           if (kind === 'windows-named-pipe') {
             socket.write(frame);
           } else {
@@ -267,6 +270,9 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     }
     expect(Object.keys(peer!.requests[0]).sort()).toEqual(['op', 'v']);
     expect(peer!.requests[1].payload).toEqual({ portfolioId: 'p-1' });
+    // IID Stage 5: every GET read-route request is a v2 frame (the S1→D02 read channel); the
+    // v1 write channel is untouched and is not exercised by these routes.
+    expect(peer!.requests.map((request) => request.v)).toEqual([2, 2, 2]);
     // The endpoint class the peer served is the class THIS platform's client resolves: both sides
     // were handed the same string, and neither fell back to a different transport.
     expect(peer!.kind).toBe(localIpcEndpointKindFor());
