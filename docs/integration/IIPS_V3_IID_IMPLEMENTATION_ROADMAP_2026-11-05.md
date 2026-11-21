@@ -1520,3 +1520,29 @@ and D6 (live portfolio read on the host) are still the hard external prerequisit
 operator-owned; nothing here is host evidence. The next operational activity is still Stage 5 (§C.2):
 the host prerequisites are enumerated in the implementation record §9. No Stage 6 work, no IPD change,
 no pin advance and no Windows host provisioning is authorized by this amendment.
+
+## C.5 Stage 5 — receipt verified; D5/D6 Windows execution handoff prepared (2026-11-21)
+
+The §C.4 receipt is on `main`: PR **#607**, merge commit **`9d7b4a49ff3f843244c5a3cea1b8e758aecbbdb0`**
+(parents `a6df94ff…` + `9e24499a…`, 2026-11-21T18:53:09Z), four documentation files and nothing else;
+pin `1ce6a829…` unchanged. Records reconciled against the evidence: IPD S1→D02 is merged in IPD
+`main@4716d0bc` and dispatched on `v = 2` only (`d22f156` F-1); IRR's v2 consumer and R-1 are merged at
+`a6df94ff…`; compatibility (`979c1c6`, `d22f156`, 12 captured frames) and integration evidence (full suite
+3295/3295, real-dispatcher harness 13/13 + control 6/6, artifacts under `docs/integration/artifacts/`) are
+preserved on `main`; the implementation record §9 item 1 is closed, items 2–6 remain.
+
+The next operational milestone is **D5 + D6 on the Windows host**, and the execution order for it is
+`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-HANDOFF-2026-11-21.md`: IPD confirms the ACTIVE S1 binding (D5,
+IPD-owned); the operator then declares `IIPS_G3_IPC_BINDING_PROVISIONED=true` and sets
+`IIPS_G2_IPC_ENDPOINT` to the confirmed named pipe; the transport's GET list/detail/revisions, identity
+coverage and holdings-identity routes are captured over v2 against IPD's actually persisted holdings
+(D6); the existing W11 capture CLI performs the independent second-process read-back; agreement on
+`portfolioId`, `revision`, `provenanceDigest` and holdings count across transport, capture and IPD's own
+record is the criterion. The handoff reuses the Stage 4 host procedure's conventions, exercises no write
+route, creates no script and changes no configuration beyond those two variables.
+
+**What did not move.** Overall IID readiness remains **NOT READY**. D5/D6 are not closed by this
+amendment; nothing here is host evidence. Stage 5 acceptance remains subject to the outstanding operational
+evidence in NP-04 record §9.3 (F-3 carrier if watchlists, Marico/KEC mints, second comparable version,
+P6-B/D10 browser acceptance). No Stage 6 work, no IPD change, no pin advance and no Windows host
+provisioning is authorized by this amendment.

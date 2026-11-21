@@ -24211,4 +24211,37 @@ control probe 6/6. Not live-runtime evidence.
 (implementation record §9). No Stage 5 acceptance, no host readiness, no IPD change, no pin advance.
 Roadmap Part C §C.4 appended.
 
-Next free §16.309 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.309 IID Stage 5 — §16.308 receipt verified on `main`; D5/D6 Windows execution handoff prepared (2026-11-21)
+
+**IRR-only record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` / `CHG` /
+`V` identifier is taken from the CV series.
+
+**Receipt merged.** PR **#607** → `main`, merge commit `9d7b4a49ff3f843244c5a3cea1b8e758aecbbdb0`
+(parents `a6df94ff18641789f67de662c6fc72d224479869` + `9e24499aa2ffa1d920e55a89a6c694c67e2e4cdd`,
+2026-11-21T18:53:09Z). Verified: compare `a6df94ff...9d7b4a49` = exactly the four documentation paths
+(roadmap §C.4, this register §16.308, implementation record §7, proposal disposition); contents-API blobs
+on `main` equal the merged tree; the implementation merge hash `a6df94ff…` is referenced in all four;
+pin `iips-production-market-data#1ce6a829…` unchanged; `CAP-03 Revision 7 IRR-only static checks` success
+on `main` (run 44937942807).
+
+**Records reconciled.** IPD S1→D02 read relationship: merged in IPD `main@4716d0bc` (impl `e7ded933`,
+PR #184), v2-only dispatch (`d22f156` F-1) — recorded correctly. IRR v2 consumer + R-1: merged at
+`a6df94ff…` (§16.308) — recorded. Compatibility and integration evidence (`979c1c6`, `d22f156`; suite
+3295/3295; real-dispatcher 13/13 + 6/6; artifacts) — preserved on `main`. D5/D6: outstanding,
+operator/IPD-owned, as stated in roadmap §C.2/§C.4, NP-04 record §9.3 and implementation record §9.
+One stale line corrected: implementation record §9 item 1 ("merge … no PR opened here") now reads DONE.
+Stage 5 acceptance: **not claimed**; overall IID readiness **NOT READY** — consistent across all records.
+
+**Handoff published.** `docs/integration/IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-HANDOFF-2026-11-21.md`
+(PREPARED, NOT EXECUTED): §2 build identities (IRR ≥ `a6df94ff…`, pin `1ce6a829…`, IPD `4716d0bc`+ with
+`validateV2Envelope`/`readHoldingsPortfolio`), §3 D5 (IPD confirms the ACTIVE S1 binding; operator then
+sets `IIPS_G3_IPC_BINDING_PROVISIONED=true` + `IIPS_G2_IPC_ENDPOINT`), §4 D6 (v2 GET list/detail/revisions,
+identity coverage, holdings identities captured per the Stage 4 procedure conventions; expected shapes and
+every 503/404 meaning), §5 persisted holdings and independent read-back (existing W11 capture CLI, v1 by
+design; F-2 consequence per IPD env mode stated; agreement keys `portfolioId`/`revision`/`provenanceDigest`/
+holdings count), §8 outcome matrix, §9 what Stage 5 still needs. No write route; no new script; no
+configuration beyond the two variables. Roadmap Part C §C.5 appended.
+
+**Next milestone.** D5 confirmation by IPD, then D6 live v2 read on the Windows host per the handoff.
+
+Next free §16.310 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
