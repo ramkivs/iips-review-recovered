@@ -1,0 +1,502 @@
+{
+  "IPD env {} (governed v1) :: callIpc v2": {
+    "portfolio.list": {
+      "envelopeKeys": [
+        "ok",
+        "op",
+        "requestId",
+        "result",
+        "v"
+      ],
+      "allKeysDeep": [
+        "holdingsCount",
+        "isSaved",
+        "lastUpdated",
+        "ok",
+        "op",
+        "portfolioId",
+        "portfolioName",
+        "provenanceDigest",
+        "requestId",
+        "result",
+        "revision",
+        "totalMarketValue",
+        "v",
+        "weightSumPercentage"
+      ],
+      "body": {
+        "v": 2,
+        "ok": true,
+        "op": "portfolio.list",
+        "requestId": "probe",
+        "result": [
+          {
+            "portfolioId": "SHARED",
+            "portfolioName": "SHARED",
+            "revision": 1,
+            "lastUpdated": "2026-11-21T17:12:42.261Z",
+            "holdingsCount": 1,
+            "totalMarketValue": 11,
+            "weightSumPercentage": 100,
+            "provenanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "isSaved": false
+          }
+        ]
+      }
+    },
+    "portfolio.get": {
+      "envelopeKeys": [
+        "ok",
+        "op",
+        "requestId",
+        "result",
+        "v"
+      ],
+      "allKeysDeep": [
+        "active",
+        "amount",
+        "availableQty",
+        "averageBuyPrice",
+        "companyId",
+        "contentDigest",
+        "contributedAt",
+        "contributionId",
+        "contributions",
+        "createdAt",
+        "currentPrice",
+        "dpQty",
+        "fileName",
+        "holdings",
+        "holdingsCount",
+        "identityStatus",
+        "importId",
+        "importedAt",
+        "isSaved",
+        "lastUpdated",
+        "lineageDigest",
+        "marketValue",
+        "ok",
+        "op",
+        "pnlPercentage",
+        "portfolioId",
+        "portfolioName",
+        "profitLoss",
+        "provenanceDigest",
+        "quantity",
+        "reconciliationState",
+        "requestId",
+        "resolutionDisposition",
+        "result",
+        "revision",
+        "securityIdentity",
+        "semantics",
+        "snapshotState",
+        "sourceBroker",
+        "symbol",
+        "totalMarketValue",
+        "unresolvedCount",
+        "v",
+        "weightPercentage",
+        "weightSumPercentage"
+      ],
+      "body": {
+        "v": 2,
+        "ok": true,
+        "op": "portfolio.get",
+        "requestId": "probe",
+        "result": {
+          "portfolioId": "SHARED",
+          "portfolioName": "SHARED",
+          "revision": 1,
+          "lastUpdated": "2026-11-21T17:12:42.261Z",
+          "holdingsCount": 1,
+          "totalMarketValue": 11,
+          "weightSumPercentage": 100,
+          "provenanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "isSaved": false,
+          "holdings": [
+            {
+              "symbol": "SYN",
+              "companyId": "SYN",
+              "quantity": 1,
+              "averageBuyPrice": 10,
+              "currentPrice": 11,
+              "marketValue": 11,
+              "weightPercentage": 100,
+              "active": true,
+              "sourceBroker": "GENERIC",
+              "lineageDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identityStatus": "RESOLVED",
+              "resolutionDisposition": "CANONICAL_P04",
+              "securityIdentity": null,
+              "dpQty": null,
+              "availableQty": null,
+              "profitLoss": null,
+              "pnlPercentage": null,
+              "reconciliationState": null
+            }
+          ],
+          "contributions": [
+            {
+              "contributionId": "d3c965ba750edcccf18d6f676f2928e6cc69ef4024018efb40ebd80167ff1aa4",
+              "amount": 11,
+              "contributedAt": "2026-11-21T17:12:42.261Z",
+              "createdAt": "2026-11-21T17:12:42.261Z",
+              "fileName": null,
+              "sourceBroker": null,
+              "contentDigest": null,
+              "lineageDigest": null,
+              "importedAt": null,
+              "semantics": null,
+              "importId": null,
+              "snapshotState": null,
+              "unresolvedCount": null
+            }
+          ]
+        }
+      }
+    },
+    "portfolio.revisions": {
+      "envelopeKeys": [
+        "ok",
+        "op",
+        "requestId",
+        "result",
+        "v"
+      ],
+      "allKeysDeep": [
+        "committedAt",
+        "contentDigest",
+        "holdingsCount",
+        "ok",
+        "op",
+        "operation",
+        "provenanceDigest",
+        "requestId",
+        "result",
+        "revision",
+        "totalMarketValue",
+        "v"
+      ],
+      "body": {
+        "v": 2,
+        "ok": true,
+        "op": "portfolio.revisions",
+        "requestId": "probe",
+        "result": [
+          {
+            "revision": 1,
+            "operation": "INITIAL",
+            "committedAt": "2026-11-21T17:12:42.261Z",
+            "contentDigest": "d3c965ba750edcccf18d6f676f2928e6cc69ef4024018efb40ebd80167ff1aa4",
+            "totalMarketValue": 11,
+            "provenanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "holdingsCount": 1
+          }
+        ]
+      }
+    }
+  },
+  "IPD env {} (governed v1) :: v2 port detail": {
+    "contributions": [],
+    "contributionLedger": [
+      {
+        "contributionId": "d3c965ba750edcccf18d6f676f2928e6cc69ef4024018efb40ebd80167ff1aa4",
+        "amount": 11,
+        "contributedAt": "2026-11-21T17:12:42.261Z",
+        "createdAt": "2026-11-21T17:12:42.261Z",
+        "fileName": null,
+        "sourceBroker": null,
+        "contentDigest": null,
+        "lineageDigest": null,
+        "importedAt": null,
+        "semantics": null,
+        "importId": null,
+        "snapshotState": null,
+        "unresolvedCount": null
+      }
+    ],
+    "holdingKeys": [
+      "active",
+      "availableQty",
+      "averageBuyPrice",
+      "companyId",
+      "currentPrice",
+      "dpQty",
+      "identityStatus",
+      "lineageDigest",
+      "marketValue",
+      "pnlPercentage",
+      "profitLoss",
+      "quantity",
+      "reconciliationState",
+      "resolutionDisposition",
+      "securityIdentity",
+      "sourceBroker",
+      "symbol",
+      "weightPercentage"
+    ]
+  },
+  "IPD env {} (governed v1) :: IRR Stage 5 routes": {
+    "GET list": "200",
+    "GET detail": "200 contributions=[] ledger=1",
+    "GET revisions": "200",
+    "PUT holdings (IRR personal-use off)": "503 {\"error\":\"operation-not-admitted\"} connections=0"
+  },
+  "IPD env {} (governed v1) :: v1 port detail (control)": {
+    "ok": false,
+    "reason": "UPSTREAM_UNAVAILABLE"
+  },
+  "IPD env IIPS_LOCAL_PERSONAL_USE=1 (personal v1) :: callIpc v2": {
+    "portfolio.list": {
+      "envelopeKeys": [
+        "ok",
+        "op",
+        "requestId",
+        "result",
+        "v"
+      ],
+      "allKeysDeep": [
+        "holdingsCount",
+        "isSaved",
+        "lastUpdated",
+        "ok",
+        "op",
+        "portfolioId",
+        "portfolioName",
+        "provenanceDigest",
+        "requestId",
+        "result",
+        "revision",
+        "totalMarketValue",
+        "v",
+        "weightSumPercentage"
+      ],
+      "body": {
+        "v": 2,
+        "ok": true,
+        "op": "portfolio.list",
+        "requestId": "probe",
+        "result": [
+          {
+            "portfolioId": "SHARED",
+            "portfolioName": "SHARED",
+            "revision": 1,
+            "lastUpdated": "2026-11-21T17:12:42.401Z",
+            "holdingsCount": 1,
+            "totalMarketValue": 11,
+            "weightSumPercentage": 100,
+            "provenanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "isSaved": false
+          }
+        ]
+      }
+    },
+    "portfolio.get": {
+      "envelopeKeys": [
+        "ok",
+        "op",
+        "requestId",
+        "result",
+        "v"
+      ],
+      "allKeysDeep": [
+        "active",
+        "amount",
+        "availableQty",
+        "averageBuyPrice",
+        "companyId",
+        "contentDigest",
+        "contributedAt",
+        "contributionId",
+        "contributions",
+        "createdAt",
+        "currentPrice",
+        "dpQty",
+        "fileName",
+        "holdings",
+        "holdingsCount",
+        "identityStatus",
+        "importId",
+        "importedAt",
+        "isSaved",
+        "lastUpdated",
+        "lineageDigest",
+        "marketValue",
+        "ok",
+        "op",
+        "pnlPercentage",
+        "portfolioId",
+        "portfolioName",
+        "profitLoss",
+        "provenanceDigest",
+        "quantity",
+        "reconciliationState",
+        "requestId",
+        "resolutionDisposition",
+        "result",
+        "revision",
+        "securityIdentity",
+        "semantics",
+        "snapshotState",
+        "sourceBroker",
+        "symbol",
+        "totalMarketValue",
+        "unresolvedCount",
+        "v",
+        "weightPercentage",
+        "weightSumPercentage"
+      ],
+      "body": {
+        "v": 2,
+        "ok": true,
+        "op": "portfolio.get",
+        "requestId": "probe",
+        "result": {
+          "portfolioId": "SHARED",
+          "portfolioName": "SHARED",
+          "revision": 1,
+          "lastUpdated": "2026-11-21T17:12:42.401Z",
+          "holdingsCount": 1,
+          "totalMarketValue": 11,
+          "weightSumPercentage": 100,
+          "provenanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "isSaved": false,
+          "holdings": [
+            {
+              "symbol": "SYN",
+              "companyId": "SYN",
+              "quantity": 1,
+              "averageBuyPrice": 10,
+              "currentPrice": 11,
+              "marketValue": 11,
+              "weightPercentage": 100,
+              "active": true,
+              "sourceBroker": "GENERIC",
+              "lineageDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identityStatus": "RESOLVED",
+              "resolutionDisposition": "CANONICAL_P04",
+              "securityIdentity": null,
+              "dpQty": null,
+              "availableQty": null,
+              "profitLoss": null,
+              "pnlPercentage": null,
+              "reconciliationState": null
+            }
+          ],
+          "contributions": [
+            {
+              "contributionId": "d3c965ba750edcccf18d6f676f2928e6cc69ef4024018efb40ebd80167ff1aa4",
+              "amount": 11,
+              "contributedAt": "2026-11-21T17:12:42.401Z",
+              "createdAt": "2026-11-21T17:12:42.401Z",
+              "fileName": null,
+              "sourceBroker": null,
+              "contentDigest": null,
+              "lineageDigest": null,
+              "importedAt": null,
+              "semantics": null,
+              "importId": null,
+              "snapshotState": null,
+              "unresolvedCount": null
+            }
+          ]
+        }
+      }
+    },
+    "portfolio.revisions": {
+      "envelopeKeys": [
+        "ok",
+        "op",
+        "requestId",
+        "result",
+        "v"
+      ],
+      "allKeysDeep": [
+        "committedAt",
+        "contentDigest",
+        "holdingsCount",
+        "ok",
+        "op",
+        "operation",
+        "provenanceDigest",
+        "requestId",
+        "result",
+        "revision",
+        "totalMarketValue",
+        "v"
+      ],
+      "body": {
+        "v": 2,
+        "ok": true,
+        "op": "portfolio.revisions",
+        "requestId": "probe",
+        "result": [
+          {
+            "revision": 1,
+            "operation": "INITIAL",
+            "committedAt": "2026-11-21T17:12:42.401Z",
+            "contentDigest": "d3c965ba750edcccf18d6f676f2928e6cc69ef4024018efb40ebd80167ff1aa4",
+            "totalMarketValue": 11,
+            "provenanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "holdingsCount": 1
+          }
+        ]
+      }
+    }
+  },
+  "IPD env IIPS_LOCAL_PERSONAL_USE=1 (personal v1) :: v2 port detail": {
+    "contributions": [],
+    "contributionLedger": [
+      {
+        "contributionId": "d3c965ba750edcccf18d6f676f2928e6cc69ef4024018efb40ebd80167ff1aa4",
+        "amount": 11,
+        "contributedAt": "2026-11-21T17:12:42.401Z",
+        "createdAt": "2026-11-21T17:12:42.401Z",
+        "fileName": null,
+        "sourceBroker": null,
+        "contentDigest": null,
+        "lineageDigest": null,
+        "importedAt": null,
+        "semantics": null,
+        "importId": null,
+        "snapshotState": null,
+        "unresolvedCount": null
+      }
+    ],
+    "holdingKeys": [
+      "active",
+      "availableQty",
+      "averageBuyPrice",
+      "companyId",
+      "currentPrice",
+      "dpQty",
+      "identityStatus",
+      "lineageDigest",
+      "marketValue",
+      "pnlPercentage",
+      "profitLoss",
+      "quantity",
+      "reconciliationState",
+      "resolutionDisposition",
+      "securityIdentity",
+      "sourceBroker",
+      "symbol",
+      "weightPercentage"
+    ]
+  },
+  "IPD env IIPS_LOCAL_PERSONAL_USE=1 (personal v1) :: IRR Stage 5 routes": {
+    "GET list": "200",
+    "GET detail": "200 contributions=[] ledger=1",
+    "GET revisions": "200",
+    "PUT holdings (IRR personal-use off)": "503 {\"error\":\"operation-not-admitted\"} connections=0"
+  },
+  "IPD env IIPS_LOCAL_PERSONAL_USE=1 (personal v1) :: v1 port detail (control)": {
+    "ok": true,
+    "contributions": []
+  },
+  "mismatched principal label :: v2 vs v1": {
+    "v2": "CLASS_P",
+    "v1": "SUCCESS"
+  }
+}

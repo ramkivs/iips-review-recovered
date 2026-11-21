@@ -11,6 +11,23 @@
 
 ---
 
+## Disposition (updated 2026-11-21, after publication at `3719820`)
+
+| Item | Disposition |
+| --- | --- |
+| B-1 / W-08 | **RESOLVED — R-1 APPROVED by PA/PO** (implementation authorization for R-1 only). |
+| W-01..W-06 (v2 wire client, port adapter, three construction sites) | **IMPLEMENTED** as the technical dependency of R-1 — R-1 is defined as "on the v2 path only", which cannot exist without a v2 path; §5 was implemented exactly as written. |
+| W-08 (R-1 additive read-only `contributionLedger`, validated mirror of IPD `contributionsValidated`) | **IMPLEMENTED.** |
+| W-07, W-09, W-10 (v1 preservation, owner context, fail-closed matrix) | **VERIFIED unchanged** (full IRR suite + real-dispatcher control block). |
+| W-11 (IPD `IIPS_LOCAL_PERSONAL_USE`) | **VERIFIED**: v2 reads identical in both IPD env modes; IRR write gate untouched. |
+| W-12 (pin) | **NOT ADVANCED** — no technical dependency established (the IPC client imports nothing from the pinned packages). |
+| W-13 (real-dispatcher verification) | **EXECUTED** — 13/13 against IPD `main@4716d0bc` dispatcher + store, both env modes, plus the original 6/6 control. |
+| W-14 (host verification prerequisites) | **NOT STARTED** (out of scope; prerequisites listed in the implementation record §9). |
+
+Implementation record: `docs/integration/IID-STAGE-5-IRR-IPC-V2-R1-IMPLEMENTATION-RECORD-2026-11-21.md`. Two test edits beyond §8 were required and are recorded there (§4.3): the pre-existing assertion that a `v: 2` request frame is refused, and the Direct P1 synthetic peer that answered `v: 1` regardless of the request — both described the pre-v2 world the approved decision changed.
+
+---
+
 ## 0. Summary of the proposal in one paragraph
 
 Add a second, closed wire version (`v = 2`) to the existing hand-written IRR IPC client, selectable **per call** and **per port instance** (`protocolVersion: 1 | 2`, default `1`), admitting under `v = 2` exactly the three read operations IPD dispatches under D03 (`portfolio.list`, `portfolio.get`, `portfolio.revisions`) and nothing else; construct the two Stage 5 read ports (`user-portfolio-transport.ts` GET route port and `investment/sources.ts` holdings providers) with `protocolVersion: 2`; leave every other port and every `callIpc` caller at `v = 1` unchanged (no auto-negotiation, no fallback, response version must equal request version). The design is implementable as described for `portfolio.list` and `portfolio.revisions` with no semantic decision pending. For `portfolio.get` (and therefore both holdings providers) one genuine decision is pending and is reported as **blocker B-1**: IPD's v2 detail always carries IPD's *validated non-empty contribution rows* and is not affected by `IIPS_LOCAL_PERSONAL_USE`, while IRR's DR-4r rule in `toG2View` refuses any non-empty `contributions`; the two rules are both authorized, both verified by captured frames, and are incompatible on the v2 path. Resolving B-1 requires a rule decision that this proposal is not authorized to make; options are laid out in §6 with a recommendation.

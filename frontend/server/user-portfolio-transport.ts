@@ -36,7 +36,7 @@ import {
   type G2RevisionEntry,
 } from './user-portfolio/userPortfolioContract.js';
 import { IpcUserPortfolioPort } from './user-portfolio/ipcPortAdapter.js';
-import { IPC_ENDPOINT_SETTING, resolveIpcEndpoint } from './user-portfolio/ipcClient.js';
+import { IPC_ENDPOINT_SETTING, IPC_PROTOCOL_VERSION_V2, resolveIpcEndpoint } from './user-portfolio/ipcClient.js';
 import {
   isOwnerContextEstablished,
   ownerContextFromBinding,
@@ -453,9 +453,13 @@ export async function handleUserPortfolioRequest(
   // An empty scope is intentional: tenant hints are optional and never sent. IPD resolves the
   // active owner/membership from its own binding for each IPC request.
   const scope: G2Scope = {};
+  // IID Stage 5 (PA/PO 2026-11-21): the GET read route speaks the D03 v2 read channel, the only
+  // channel on which IPD dispatches the approved S1→D02 read-only relationship. Reads only —
+  // this port cannot issue a write. The personal write routes above stay on v1, unchanged.
   const port = deps.portFactory?.() ?? new IpcUserPortfolioPort({
     precondition: readBindingPrecondition(env),
     env,
+    protocolVersion: IPC_PROTOCOL_VERSION_V2,
   });
 
   try {
