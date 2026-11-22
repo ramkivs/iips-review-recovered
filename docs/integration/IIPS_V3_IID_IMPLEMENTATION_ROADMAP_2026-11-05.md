@@ -1892,3 +1892,32 @@ fixture-verified, NOT COMPLETE (CI real-store run; host `--dry-run` then recordi
 owner's policy values still not supplied — not invented). Stage 6 IN PROGRESS; S6-2…S6-5 untouched. Next action
 (owner): resolve the CI guard/visibility issue and read #622's checks; deliver #622 by manual synchronisation; run
 runbook §15.6 `--dry-run` on the host; decide F-1; author the limits values.
+
+## C.14 Stage 6 — F-1 decided FAIL CLOSED; owner's limits policy values recorded; host-verification protocol published; S6-1/S6-1b still NOT COMPLETE (2026-11-22, later pass)
+
+**Decision F-1 (owner, 2026-11-22): FAIL CLOSED.** A disposition for a holding whose existing `hd:` chain carries a
+different `limitsBasis` or `limitsPolicyVersion` stops with `CHAIN_PARAMETERS_DRIFT`; the chain is not overwritten or
+reused and no replacement chain is created automatically. This is the behaviour already implemented on PR #622
+(`holdingDisposition.ts` pre-write check, test `[3′]`); **no code change**. The alternatives named in §C.13 (new chain
+identity per policy; limits as provenance) are rejected for now. Record: S6-1 record §9.1; runbook §15.6; tracker §16.318.
+
+**Owner's policy values recorded** (S6-1 record §9.2, verbatim): `policyVersion limits-policy/2026-11`,
+`effectiveFrom 2026-11-01`, `singleNameMaxPct 8`, `sectorMaxPct { DEFAULT 25, Technology 20 }`; host location
+`C:\iips-data\investment\policies\limits-policy.json` (data root `C:\iips-data`). Not committed to the repository.
+Sandbox parse check of the exact text against the committed loader: `OPERATOR_FILE` / `OPERATOR_CONFIG` /
+`limits-policy/2026-11`, digest `bf8dd114…`; `Technology` cap 20, every other sector 25. A UTF-8 BOM makes the loader
+fail closed (`POLICY_INVALID`) — the record says how to write the file without one.
+
+**Host-verification protocol published** (S6-1 record §9.3; runbook §15.6 unchanged in substance): inspect any
+existing policy file before writing and do not overwrite a differing one; install; §15.3 demonstration with
+`--limits-policy-root C:\iips-data`; §15.6 `--dry-run` on one real holding; recording run (`RECORDED`, `CREATED`,
+`versionCount 1`); identical repeat (`UNCHANGED`, `wrote false`, `versionCount 1`). Any `CHAIN_PARAMETERS_DRIFT` ⇒ stop.
+
+**Also on PR #622 since §C.13:** the read-only Stage 6 Investment Controls and Architecture Gap Assessment
+(`docs/integration/IID-STAGE-6-INVESTMENT-CONTROLS-GAP-ASSESSMENT-2026-11-22.md`, commit `297b8b4`; eleven owner
+decisions D-1…D-11 of which D-1 = F-1 is now decided as above, D-2…D-11 remain open).
+
+**Not done (sandbox has no host access):** none of the host steps was executed; no policy installed; no holding tested;
+no disposition recorded. **Status:** S6-1 implemented, **NOT COMPLETE**; S6-1b implemented, **NOT COMPLETE**; Stage 6
+IN PROGRESS; S6-2…S6-5 untouched; PR #622 open, not merged. **Next action (owner):** run §9.3 steps 0–5 on the host and
+return the three JSON reports.

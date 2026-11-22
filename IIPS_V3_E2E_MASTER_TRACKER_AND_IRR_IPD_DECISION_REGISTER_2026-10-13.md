@@ -24603,4 +24603,32 @@ S6-2…S6-5 untouched; Stage 5 acceptance unchanged. PR #622 open, not merged, h
 checkout untouched. **Next action (owner):** resolve the CI guard/visibility issue and read #622's checks; decide F-1;
 deliver by manual synchronisation; run §15.6 `--dry-run` against a real portfolio and holding; author the limits values.
 
-Next free §16.318 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.318 IID Stage 6 — F-1 DECIDED by the owner: FAIL CLOSED on disposition-chain parameter drift; owner's limits policy values recorded; host-verification protocol published; S6-1/S6-1b NOT COMPLETE (2026-11-22, later pass)
+
+**Decision (owner, 2026-11-22) — F-1: FAIL CLOSED.** If an existing `hd:<portfolio>/<security>` chain carries a
+different `limitsBasis` or `limitsPolicyVersion`, `generate-holding-disposition` stops with `CHAIN_PARAMETERS_DRIFT`,
+does not overwrite or reuse the chain, and does not create a replacement chain automatically. Behaviour already
+implemented on PR #622 (`frontend/server/investment/holdingDisposition.ts` pre-write check; test `[3′]`; CI green on
+`8364270` / `297b8b4`); **no code change**. Alternatives (new chain identity per policy; limits as provenance) rejected
+for now. Recorded in S6-1 record §9.1, runbook §15.6, roadmap §C.14. D-1 of the Stage 6 gap assessment is thereby
+decided; D-2…D-11 remain open.
+
+**Owner's approved limits policy (recorded verbatim, S6-1 record §9.2; not committed; host path
+`C:\iips-data\investment\policies\limits-policy.json`):** `limits-policy/2026-11`, effective `2026-11-01`, single-name
+8 %, sector `DEFAULT` 25 % / `Technology` 20 %. Sandbox parse check against the committed loader: `OPERATOR_FILE` /
+`OPERATOR_CONFIG` / exact version / digest `bf8dd114299e34a91a102b8577a2a988cbc2dddd5762bf02f5320eaa42bebc7c`. BOM pitfall
+documented (fail-closed `POLICY_INVALID`).
+
+**Host protocol (S6-1 record §9.3):** inspect existing file → install (no overwrite of a differing file) → §15.3
+demonstration `--limits-policy-root C:\iips-data` → §15.6 `--dry-run` on one real holding → recording run → identical
+repeat `UNCHANGED`. Stop on `CHAIN_PARAMETERS_DRIFT`.
+
+**Evidence of this pass:** documentation only — S6-1 record §9 (+ §8.6 rows updated), runbook §15.6 paragraph, roadmap
+§C.14, this entry. No application code, no policy file in the repo, no IPD / IPO Screening Engine file, no scoring /
+verb / chain logic. Host steps **not executed** (no host access from the sandbox): no policy installed, no holding
+tested, nothing recorded.
+
+**Status.** S6-1 **NOT COMPLETE**; S6-1b **NOT COMPLETE**; Stage 6 IN PROGRESS; S6-2…S6-5 untouched; PR #622 open, not
+merged. **Next action (owner):** execute §9.3 steps 0–5 on the host; return the dry-run, recording and repeat reports.
+
+Next free §16.319 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.

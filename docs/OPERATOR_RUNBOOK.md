@@ -924,12 +924,15 @@ identity (issuer, security, listing, resolution basis, `securityState`), the ass
 reasons / caps applied, and what persistence did (`outcome`, `wrote`, head id, chain `versionCount`). Exit `0` =
 recorded, unchanged or dry run; `2` = stopped on a named condition, nothing written; `1` = unexpected failure.
 
-**One rule you will meet (finding F-1).** The limits `policyVersion` and `basis` are part of the disposition chain's
-identity (IID-4 `stableDispositionParameters`). If a holding's chain was recorded on `SYSTEM_DEFAULT` and you later add
-a policy file, the next run stops with `CHAIN_PARAMETERS_DRIFT` and writes nothing — a policy change cannot supersede
-that chain in place. Decide (as PA/PO) whether a policy change should open a new chain identity or whether the limits
-should move to provenance; the command does not decide for you. Recording real-holding dispositions **after** your
-policy exists avoids the situation.
+**One rule you will meet (finding F-1 — decided 2026-11-22: FAIL CLOSED).** The limits `policyVersion` and `basis`
+are part of the disposition chain's identity (IID-4 `stableDispositionParameters`). If a holding's chain was recorded
+under a different `limitsBasis` or `limitsPolicyVersion` than the one now in force, the run **stops with
+`CHAIN_PARAMETERS_DRIFT`** and writes nothing: the chain is not overwritten, not reused, and **no replacement chain is
+created automatically**. This is the owner's decision of record (S6-1 record §9.1), not a defect. Do not bypass it and
+do not open another chain for the same holding; report the drift detail (`drifted[]`, `headReportId`) and stop.
+Recording real-holding dispositions **after** your policy exists (§15.3) avoids the situation. The owner's approved
+policy and the exact host sequence (inspect the existing file first, install without a BOM, §15.3 check, §15.6 dry run,
+recording run, `UNCHANGED` repeat) are in the S6-1 record §9.2–§9.3.
 
 **Verification the owner still has to do on the host:** a `--dry-run` against a real portfolio and holding showing the
 real issuer id, the real assessment head and `limits.basis` as expected for your data root; then a recording run and a

@@ -242,6 +242,137 @@ this work; **both S6-1 and S6-1b stay NOT COMPLETE until the owner runs this on 
 |---|---|
 | S6-1 loading/validation of the operator policy | implemented; host verification pending (§7) |
 | S6-1b real-holding disposition generation | **implemented and fixture-verified in the sandbox (stand-in port); real-store run pending in CI; host verification pending** |
-| Finding F-1 (limits policy version is a chain parameter) | **OPEN — owner decision required** before a policy change can supersede an existing real-holding chain |
-| Owner's policy values | not supplied, not invented |
+| Finding F-1 (limits policy version is a chain parameter) | **DECIDED by the owner 2026-11-22 — FAIL CLOSED** (see §9.1); the implemented behaviour is retained unchanged |
+| Owner's policy values | **supplied by the owner 2026-11-22** (see §9.2); installation on the host and host verification pending |
 | PR #622 | open; not merged; CI visibility/guard issue owned by the owner |
+
+## 9. Owner decisions recorded (2026-11-22, later pass) — F-1, approved operator policy, host-verification protocol
+
+This section records two owner decisions and the verification protocol that follows from them. It changes **no
+code**: the behaviour decided in §9.1 is the behaviour `holdingDisposition.ts` already has, and the policy in §9.2 is
+installed on the **owner's host**, never in this repository. Nothing in this section was executed on the host from
+the sandbox session that wrote it (§9.4).
+
+### 9.1 F-1 — decision of record: FAIL CLOSED on chain-parameter drift
+
+**Decision (owner, 2026-11-22):** when a disposition is generated for a holding whose existing `hd:<portfolio>/<security>`
+chain was recorded under a different `limitsBasis` or `limitsPolicyVersion`, the run **stops with
+`CHAIN_PARAMETERS_DRIFT`**. The chain is **not overwritten**, **not reused** for a version under the new parameters,
+and **no replacement chain is created automatically**. The operator is told which parameter drifted (`head` vs `next`)
+and nothing is written.
+
+| Aspect | Decided | Implementation status (evidence) |
+|---|---|---|
+| Detection point | before any write | `frontend/server/investment/holdingDisposition.ts` L605–623: `stableDispositionParameters(previousHead.payload)` vs `stableDispositionParameters(payload)`; throws `HoldingDispositionFailure('CHAIN_PARAMETERS_DRIFT', …, { scopeToken, headReportId, drifted[] })` **before** `record()` — already so |
+| Overwrite / reuse of the chain | forbidden | nothing is appended; the artifact service's `CHAIN_SCOPE_DRIFT` refusal (`investmentArtifacts.ts` `assertChainOfScope`) remains the second line of defence — already so |
+| Automatic replacement chain | forbidden | no code path mints a different `scopeToken` for the same holding; none is added — already so |
+| CLI behaviour | stop, exit `2`, report the drift | `cli/generate-holding-disposition.ts` maps every `HoldingDispositionFailure` to exit `2` with the code and detail — already so |
+| Test of record | `[3′]` in `holdingDisposition.test.ts` (head on `SYSTEM_DEFAULT`, then operator policy ⇒ `CHAIN_PARAMETERS_DRIFT` naming `limitsPolicyVersion` / `limitsBasis`; chain still v1) | passes in CI on PR #622 (`8364270`, `297b8b4`) |
+
+**Consequence for operation.** A real-holding chain must be recorded **only after** the operator policy is installed
+(§9.2 → §9.3). If a chain already exists on `SYSTEM_DEFAULT` (none is known to exist on the host as of this record —
+no recording run has been reported), it stays as it is; what to do with such a chain (leave it, or open a new chain
+identity under a **separately authorised** procedure) is **not** decided here and is **not** automated. The
+`CHAIN_PARAMETERS_DRIFT` protection must not be bypassed.
+
+The other alternatives named when F-1 was opened (§8.1: "new chain identity per policy", "limits as provenance")
+are **rejected for now** — not implemented, not scheduled.
+
+### 9.2 Approved operator limits policy (owner's values — recorded verbatim, not authored here)
+
+```json
+{
+  "policyVersion": "limits-policy/2026-11",
+  "effectiveFrom": "2026-11-01",
+  "singleNameMaxPct": 8,
+  "sectorMaxPct": {
+    "DEFAULT": 25,
+    "Technology": 20
+  }
+}
+```
+
+**Host location (owner's Windows machine):** `C:\iips-data\investment\policies\limits-policy.json`, i.e. data root
+`C:\iips-data` (`IIPS_DATA_DIR=C:\iips-data` or `--data-root C:\iips-data`; §15.3 path rule `<root>/investment/policies/limits-policy.json`).
+The file is **not** committed to this repository and must not be.
+
+**Sandbox parse check of the exact JSON above (evidence that the document is accepted by the real loader; NOT a host
+verification):** `loadOperatorLimitsPolicy({ dataRoot: <scratch>, asOf: 2026-11-22T00:00:00Z })` on the committed
+`limitsPolicySource.ts` returned `source.kind OPERATOR_FILE`, `basis OPERATOR_CONFIG`, `policyVersion
+limits-policy/2026-11`, `effectiveFrom 2026-11-01T00:00:00.000Z`, `singleNameMaxPct 8`, `sectorMaxPct { DEFAULT: 25,
+Technology: 20 }`, `notes []`, digest `bf8dd114299e34a91a102b8577a2a988cbc2dddd5762bf02f5320eaa42bebc7c`;
+`sectorCapFor` ⇒ `Technology` 20, any other sector (incl. `UNCLASSIFIED`) 25. **The host run must show the same
+`policyVersion`** in every CLI report; the digest is not printed by the CLIs but is stored in the disposition payload
+(`limits.digest`, shown by `DispositionPanel` / `GET /api/investment/portfolio/<portfolioId>/holding/<securityId>`) — a
+different digest there means the file on disk differs from the approved text.
+
+**Known pitfall (fail-closed, so safe, but it will stop you):** the loader reads the file as UTF-8 and hands it to
+`JSON.parse`, which rejects a leading byte-order mark. Windows PowerShell 5.1 `Set-Content -Encoding UTF8` /
+`Out-File -Encoding UTF8` write a BOM; the result is `POLICY_INVALID` (`limits policy is not valid JSON`). Write the
+file without a BOM (PowerShell 7 `utf8`, or `[System.IO.File]::WriteAllText($p, $json, (New-Object System.Text.UTF8Encoding $false))`,
+or Notepad "UTF-8" — not "UTF-8 with BOM").
+
+### 9.3 Host-verification protocol (runbook §15.6, in order; owner executes; stop on the first non-zero exit)
+
+Pre-step — **inspect before writing**. If `C:\iips-data\investment\policies\limits-policy.json` already exists, read
+it and compare with §9.2 **before** writing anything. If it differs, do **not** overwrite: report its contents and
+resolve the conflict first (a differing `policyVersion` on a holding that already has a chain is exactly the F-1 case).
+
+```powershell
+# 0. inspect (report the output of this step)
+Test-Path 'C:\iips-data\investment\policies\limits-policy.json'
+Get-Content 'C:\iips-data\investment\policies\limits-policy.json' -Raw   # only if it exists
+
+# 1. install the approved policy (ONLY if the file is absent or already identical) — no BOM
+New-Item -ItemType Directory -Force 'C:\iips-data\investment\policies' | Out-Null
+$json = @'
+{
+  "policyVersion": "limits-policy/2026-11",
+  "effectiveFrom": "2026-11-01",
+  "singleNameMaxPct": 8,
+  "sectorMaxPct": {
+    "DEFAULT": 25,
+    "Technology": 20
+  }
+}
+'@
+[System.IO.File]::WriteAllText('C:\iips-data\investment\policies\limits-policy.json', $json, (New-Object System.Text.UTF8Encoding $false))
+
+# 2. confirm it loads as OPERATOR_CONFIG with the exact version (demonstration path, §15.3 — throwaway store, touches none of your data)
+cd <IRR checkout>\frontend
+npx tsx server/investment/cli/disposition-demonstration.ts --limits-policy-root C:\iips-data --out C:\iips-data\scratch\s6-1-demo
+#    expect in the evidence: limits.source.kind OPERATOR_FILE, limits.basis OPERATOR_CONFIG, limits.policyVersion limits-policy/2026-11;
+#    exit 2 with LimitsPolicyError means the file is malformed (check for a BOM, §9.2) — nothing is substituted
+
+# 3. dry run against ONE real holding (environment as for the server: IIPS_G2_IPC_ENDPOINT, IIPS_G3_IPC_BINDING_PROVISIONED=true,
+#    IIPS_NP04_DATABASE_PATH, IIPS_REPORTS_OWNER_PATH)
+npx tsx server/investment/cli/generate-holding-disposition.ts `
+  --portfolio <portfolioId> --holding symbol:<SYMBOL> `
+  --db $env:IIPS_NP04_DATABASE_PATH --owner-carrier $env:IIPS_REPORTS_OWNER_PATH `
+  --data-root C:\iips-data --dry-run --out C:\iips-data\scratch\s6-1b-dry-run.json
+#    inspect: status DRY_RUN; holding = the chosen row; identity.issuerId = the governed issuer;
+#    assessment.reportId = the existing assessment head; limits.basis OPERATOR_CONFIG, limits.policyVersion
+#    limits-policy/2026-11, limits.source.kind OPERATOR_FILE, caps 8 / 25 / Technology 20; previous = null (no chain yet)
+#    or a head whose carried basis/version are identical. If the output names CHAIN_PARAMETERS_DRIFT: STOP (§9.1).
+
+# 4. recording run (same arguments, without --dry-run)   expect: status RECORDED, persistence.outcome CREATED, wrote true, versionCount 1
+
+# 5. repeat step 4 unchanged                               expect: status UNCHANGED, wrote false, versionCount still 1, same headReportId
+```
+
+Keep the three JSON reports (dry run, recording, repeat). They are the S6-1/S6-1b completion evidence.
+
+### 9.4 What this pass did and did not do
+
+| Done (IRR repository, PR #622 branch) | Not done (requires the owner's host) |
+|---|---|
+| F-1 decision recorded here, runbook §15.6, roadmap §C.14, tracker §16.318 | installing the policy at `C:\iips-data\…` |
+| approved policy text recorded verbatim; sandbox parse check (§9.2) | the §15.3 demonstration dry run on the host |
+| host protocol written out (§9.3), including the inspect-before-write rule | the §15.6 dry run against a real holding |
+| no code, no scoring/verb/chain logic, no IPD / IPO Screening Engine, no policy file in the repo | the recording run and the `UNCHANGED` repeat |
+
+The sandbox that wrote this record has no access to the owner's Windows file system, portfolio store, NP-04 store or
+IPC endpoint, and cannot install the pinned IPD packages; therefore **none of steps 0–5 was executed**, no holding was
+tested, and **S6-1 and S6-1b remain NOT COMPLETE**. Completion is declared only when the owner's three reports show
+`OPERATOR_CONFIG` / `limits-policy/2026-11`, `RECORDED`, then `UNCHANGED` with `versionCount 1` (and, if checked,
+`limits.digest` `bf8dd114…` on the stored disposition).

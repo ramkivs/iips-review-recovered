@@ -247,7 +247,7 @@ the two MoS threshold tables noted in §1-B (intentional, documented separately)
 
 | # | Decision | Why it is yours |
 |---|---|---|
-| D-1 | **F-1**: when the limits policy changes, should an existing `hd:` chain be refused (current behaviour, `CHAIN_PARAMETERS_DRIFT`) or should a new chain / a policy-change version be minted? | Changes chain semantics (IID-4 stable parameters). |
+| D-1 | **F-1**: when the limits policy changes, should an existing `hd:` chain be refused (current behaviour, `CHAIN_PARAMETERS_DRIFT`) or should a new chain / a policy-change version be minted? — **Decided by the owner 2026-11-22: FAIL CLOSED** (refuse; no overwrite, no reuse, no automatic replacement chain). Record: S6-1 record §9.1. | Changes chain semantics (IID-4 stable parameters). |
 | D-2 | Merge PR #622 after host verification (`runbook §15.6`). | Owner's call per standing instruction. |
 | D-3 | Authorise `sectorMaxPct` key validation against the 13 canonical names (fail-closed or warn). | Changes what a policy file is allowed to contain. |
 | D-4 | Should `UNCLASSIFIED` be treated as a sector for cap purposes (today: yes, with the DEFAULT cap) or block capped verbs? | Policy meaning. |
