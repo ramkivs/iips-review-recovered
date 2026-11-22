@@ -162,6 +162,8 @@ It is **not** a prerequisite for the already-completed company-scoped Infosys mi
 | D10 / P6-B browser acceptance | IRR surface; **operator host** | P6-A §10: live portfolio read, valid identity, both carriers, stored/read-back assessment, dataset measured, host `--strict` exit 0; second version if change comparison is exercised | Recorded real browser journey: `/investment/company/IN:CIN:L85110KA1981PLC013115` renders chain; portfolio/identity/coverage surfaces honest; no 503 on accepted read path; change timeline if exercised | Blocked on D5/D6 and remaining host evidence |
 | Stage 6 routine investment intelligence | Operator process; IRR surfaces | Stage 5; limits policy/review cadence | Baseline §21 Stage 6 evidence | Not next; blocked behind Stage 5 |
 
+**Status update 2026-11-22** (`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`, operator-reported; roadmap §C.6; tracker §16.310): **D5 CONFIRMED** (IPD read-only verifier `VERIFIED`, DP-V1..V9; endpoint present and connectable; residual: D5-1 build-provenance hashes + IPD-side publication) and **D6 DEMONSTRATED** (all in-scope routes 200 over v2 with `contributionLedger` on the wire; W11 second-process capture exit 0; residual: recorded digest cross-comparison). **R-2 closed** (both coverage routes 200, holdings surface present). D4 evidenced only indirectly (identity coverage 200); R-1 readiness capture, the mints, the second version and D10/P6-B remain open. The table above is the definition of record and is not rewritten. Not Stage 5 acceptance; overall IID readiness NOT READY.
+
 ### 9.4 Existing blockers / incomplete decisions carried forward
 
 - IPD binding/IPC remains the hard external blocker for Stage 5's portfolio loop.

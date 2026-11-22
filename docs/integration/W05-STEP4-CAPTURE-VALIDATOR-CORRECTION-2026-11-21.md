@@ -63,6 +63,12 @@ That output is the verification evidence for this correction and is not reproduc
    renders the 503. The precondition is the server-owned setting
    `IIPS_G3_IPC_BINDING_PROVISIONED` (`frontend/server/user-portfolio/ownerContextFromBinding.ts:225`),
    fail-closed by default. Not modified here.
+   **Resolved 2026-11-22 — external prerequisite, not an implementation gap:** the "binding carrier" is
+   the IRR process-environment declaration (plus `IIPS_G2_IPC_ENDPOINT`, and the F-3 carrier at
+   `IIPS_OWNER_CONTEXT_PATH` for the watchlist surface, `sources.ts:213-215`); `OwnerContext` carries no
+   identity field and IPD resolves the S1 binding per request. With those set, the identity route
+   answered **200** on the host — `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` §3.1.
+   No code change was made.
 2. **Investment-report identity disclosure inconsistency.** The captured investment response
    carries `identitySourcesAvailable: true` and `identitySourceDetail: null` at top level,
    while each issuer row carries `identityDependency: null` with

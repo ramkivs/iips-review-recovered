@@ -1546,3 +1546,49 @@ amendment; nothing here is host evidence. Stage 5 acceptance remains subject to 
 evidence in NP-04 record §9.3 (F-3 carrier if watchlists, Marico/KEC mints, second comparable version,
 P6-B/D10 browser acceptance). No Stage 6 work, no IPD change, no pin advance and no Windows host
 provisioning is authorized by this amendment.
+
+## C.6 Stage 5 — D5 CONFIRMED and D6 DEMONSTRATED on the Windows host (operator-reported, 2026-11-22)
+
+The §C.5 handoff was executed by the owner on the Windows host; the evidence and its reconciliation against
+the D5/D6 criteria are in `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (operator-reported;
+Arena accessed no host, service, database or evidence directory). Build pair: IRR ≥ `a6df94ff…` (v2 + R-1),
+IPD `main@cbb116d2` (descendant of `4716d0bc`; IPC/persistence sources unchanged since). No code,
+configuration, pin or data change was made in either repository for this evidence.
+
+**D5 — CONFIRMED.** IPD's own read-only Direct P1 verifier returned `ok: true`, `status: VERIFIED`,
+DP-V1..DP-V9 all passed (one ACTIVE unrevoked S1 binding, attached membership, live five-component
+resolution, audit chain valid); the named-pipe endpoint was present (exactly one match) and independently
+connectable; the resolved owner holds persisted portfolios (nothing was created). The startup script already
+carried `IIPS_G3_IPC_BINDING_PROVISIONED=true` and `IIPS_G2_IPC_ENDPOINT`; no environment change was needed.
+**Residual, named precisely (record §7.1):** D5-1 build provenance — the running service's compiled-module
+hashes (`dist\src\ipc\dispatch.js`, `dist\src\persistence\portfolio_store.js`,
+`dist\src\persistence\binding.js`) are not recorded, and IPD has not published the confirmation in its own
+records (its roadmap entry still reads OPERATIONAL EVIDENCE PENDING). A process command line does not attest
+a build; the v2 S1 read is behavioural evidence of the build, recorded as an inference.
+
+**D6 — DEMONSTRATED.** On the transport, `GET /api/user-portfolios`, both detail, both revisions, both
+holdings-identity routes and `/api/investment/coverage` (identity) answered **200** over **v2** — the
+detail bodies carry `contributionLedger` (1 entry each) with `contributions: []`, which v1 never produces.
+Detail = history on revision (1; 2), provenance digest (`17b2b283…`; `9e5dc076…`) and holdings count
+(64; 1). The W11 capture in a second process exited **0 `CONSISTENT_CAPTURE`** (`ALL_GATING_CHECKS_PASSED`,
+capture `d1992178-…`, operator-selected `DHAN_PORTFOLIO`, revision 1, 64 holdings, 64 resolved /
+`CANONICAL_P04`, 1 security identity present, 63 null). Transport `contributionLedger` (1) = IPD
+`contributionsValidated` (1, operator's read-only query); the W11 v1 `contributionsCount: 0` is the v1
+projection, **not a mismatch**. **Peer authenticity is NOT ATTESTED** by the v1 consumer — preserved.
+**Residual (record §7.2):** the value-level provenance-digest equality capture-vs-transport is not yet
+recorded (the sanitized summary carries presence/length only); it is a comparison of data already on the
+host, not a rerun.
+
+**Identity coverage 503 resolved.** The `observation-sources-unavailable` 503 left outstanding by
+`W05-STEP4-CAPTURE-VALIDATOR-CORRECTION-2026-11-21.md` was an external prerequisite (the
+`IIPS_G3_IPC_BINDING_PROVISIONED` declaration plus endpoint, and the F-3 carrier for the watchlist
+surface), not an implementation gap; it now answers 200 on the configured transport (record §3.1).
+
+**Status and next step.** D5/D6 — the hard external prerequisite of the Stage 5 portfolio loop (§C.2) —
+is met on this build pair, subject to the two recorded residuals. **This is not Stage 5 acceptance and
+overall IID readiness remains NOT READY.** Still open: R-1 host readiness capture (`--strict`), D4 F-3
+carrier as a separate capture (evidenced only indirectly), Marico/KEC v1 mints (not forced), second
+comparable version (not forced), Stage 4 data residuals. **Next roadmap step:** record the two residuals and
+the readiness capture from the existing host state (no reruns), then **D10 / P6-B real browser acceptance**
+on the same build pair. No Stage 6 work, no IPD change, no pin advance and no host provisioning is
+authorized by this amendment.

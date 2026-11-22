@@ -137,3 +137,5 @@ Driver: `docs/integration/artifacts/iid-s5-real-ipd-v2-consumer-probe-2026-11-21
 6. Windows named-pipe endpoint class exercised on the host (the test peers here used the POSIX endpoint class of this sandbox; the client code path is the same `callIpc`).
 
 Items 2–6 are carried, unchanged, into the operator handoff `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-HANDOFF-2026-11-21.md` (§2 build identities, §3 D5, §4 D6, §5 persisted holdings and independent read-back, §8 outcome meanings). Nothing in them is IRR code.
+
+**Status 2026-11-22** (`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`, operator-reported): item 2 — checkout `cbb116d2` (descendant of `4716d0bc`, same IPC/persistence sources) recorded; compiled-module hashes **not** recorded (residual, record §7.1); item 3 — IPD verifier `VERIFIED` (DP-V5/V6/V8) — **done**; item 4 — both variables already set by the startup script, `IIPS_LOCAL_PERSONAL_USE` not set for the transport — **done**; item 5 — read-only scope observed, no write route — **done**; item 6 — Windows named-pipe endpoint exercised: all in-scope routes 200 over v2, W11 second-process capture exit 0 — **done**. Not Stage 5 acceptance.

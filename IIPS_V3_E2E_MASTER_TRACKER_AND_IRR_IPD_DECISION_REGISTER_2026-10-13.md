@@ -24244,4 +24244,53 @@ configuration beyond the two variables. Roadmap Part C §C.5 appended.
 
 **Next milestone.** D5 confirmation by IPD, then D6 live v2 read on the Windows host per the handoff.
 
-Next free §16.310 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.310 IID Stage 5 — D5 CONFIRMED / D6 DEMONSTRATED on the Windows host; evidence published (2026-11-22)
+
+**IRR-only record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` / `CHG` /
+`V` identifier is taken from the CV series. Operator-reported host evidence; Arena accessed no host, service,
+database or evidence directory.
+
+**Executed.** The §16.309 handoff ran on the Windows host against IRR ≥ `a6df94ff…` and IPD
+`main@cbb116d2a221b82a704b4b96cf17efe0560e2498` (descendant of `4716d0bc`; IPC/persistence sources
+unchanged since; `dist/` git-ignored). Record:
+`docs/integration/IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`; roadmap Part C §C.6.
+
+**D5 — CONFIRMED.** IPD read-only Direct P1 verifier (`--mode=verify`, `readOnly: true`, pre/post SHA
+guard): `ok: true`, `status: VERIFIED`, DP-V1..DP-V9 passed (DP-V5 one ACTIVE unrevoked S1 binding, DP-V6
+membership, DP-V8 five-component live resolution, DP-V7 audit chain valid, 2 events; DP-V9 global counts
+portfolios 3 / revisions 13 / holdings 142 / contributions 6 — table totals, not owner-scoped). Named pipe
+present, exactly one match, independent .NET connection succeeded (name withheld). Startup script already
+set `IIPS_G3_IPC_BINDING_PROVISIONED=true` + `IIPS_G2_IPC_ENDPOINT`; no environment change. **Residual:**
+D5-1 build provenance — compiled-module hashes of the running service not recorded; IPD-side publication
+absent (IPD roadmap S1→D02 entry still OPERATIONAL EVIDENCE PENDING). A process command line does not
+attest a build.
+
+**D6 — DEMONSTRATED.** Transport `127.0.0.1:8787`: list, detail ×2, revisions ×2, holdings-identities ×2,
+identity coverage (+ follow-up), investment coverage, HTML views and the Stage 4 company/CIN/ISIN routes all
+**200**. Detail bodies carry `contributionLedger` (1 entry each) + `contributions: []` ⇒ v2 on the wire.
+`DHAN_PORTFOLIO`: revision 1 = history 1, digest `17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f`
+detail = history, holdings 64/64/64. `PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2`: revision 2 = 2, digest
+`9e5dc076ebcceeed24b375296b5c27ad723f1a53cbe9489ae8c8d6af84e14de1` detail = history, holdings 1/1/1. W11
+capture (second process, v1 by design): exit **0 `CONSISTENT_CAPTURE`** / `ALL_GATING_CHECKS_PASSED`,
+capture `d1992178-e6e6-4f52-b70a-046db66c446a`, one attempt, four reads agreeing, operator-selected
+`DHAN_PORTFOLIO`, revision 1, 64 holdings, one matching history entry, ten gating checks; identity 64/64
+resolved, `CANONICAL_P04`, 1 security identity present / 63 null. **Peer authenticity NOT ATTESTED**
+(v1 consumer) — preserved. Contribution reconciliation: transport ledger 1 = IPD `contributionsValidated` 1
+(operator's read-only query); W11 v1 `contributionsCount: 0` is the v1 projection, **not a mismatch**.
+**Residual:** value-level digest equality capture-vs-transport not yet recorded (sanitized summary carries
+presence/length only; comparison of existing host data, no rerun).
+
+**Reconciliations.** The identity-coverage 503 left outstanding by `W05-STEP4-CAPTURE-VALIDATOR-CORRECTION-2026-11-21.md`
+item 1 was an external prerequisite (declaration + endpoint; F-3 carrier for the watchlist surface) — now
+200; no code change. NP-04 record §9.3 D5/D6 rows, implementation record §9 items 2–6 and the handoff header
+carry pointers to the evidence record. R-2 served coverage captures closed; R-1 readiness capture, D4 as a
+separate capture, Marico/KEC mints, second comparable version and Stage 4 data residuals remain open.
+
+**Status.** D5/D6 — the hard external prerequisite of the Stage 5 portfolio loop — met on this build pair
+subject to the two recorded residuals. **Not Stage 5 acceptance; overall IID readiness NOT READY.** No IPD
+change, no pin advance (`1ce6a829…`), no host provisioning, no write route exercised.
+
+**Next milestone.** Record the two residuals and the `--strict` readiness capture from the existing host
+state (no reruns), then D10 / P6-B real browser acceptance on the same build pair.
+
+Next free §16.311 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
