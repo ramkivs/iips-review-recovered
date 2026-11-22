@@ -31,6 +31,10 @@ build-provenance residual, §7.1) and D6 is DEMONSTRATED (with one recorded cros
 residual, §7.2)** on the build pair IRR ≥ `a6df94ff…` / IPD `cbb116d2` (descendant of `4716d0bc`).
 The Stage 5 portfolio read path exists on the host. Overall IID readiness remains **NOT READY** (§9).
 
+> **Update 2026-11-22 (second pass), §11:** both residuals are resolved by later operator evidence —
+> D5-1 compiled-module hashes (§11.1) and the four-source digest comparison (§11.2). The R-1 strict
+> readiness capture is recorded in §11.3. The paragraph above is left as written.
+
 ---
 
 ## 1. Operator-observed host evidence (IPD checkout, service, endpoint)
@@ -191,7 +195,8 @@ recorded as operator-reported. No SQL is reproduced here.
 the IRR transport resolving real holdings" — both present). **One residual stays open and is named
 precisely:** the build-provenance item of D5-1 — the three compiled-module hashes from the running
 service's checkout, compared with a build of `cbb116d2` (identical IPC/persistence sources to `4716d0bc`)
-— plus IPD's own publication of the confirmation. The IPD proposal's approved acceptance model
+— plus IPD's own publication of the confirmation. *(Hashes recorded 2026-11-22, second pass — §11.1; the
+IPD-owned publication remains open — §11.4.)* The IPD proposal's approved acceptance model
 (IPD-S1-D02 proposal §9: "source-policy plus operator binding/peer/build evidence, with no wire binding
 attestation") names build evidence explicitly, so this residual is recorded rather than waived. It is a
 new, single recording step, not a repeat of any check above.
@@ -212,9 +217,9 @@ new, single recording step, not a repeat of any check above.
 channel against IPD's persisted holdings, and an independent second process read the same portfolio back
 consistently. **One residual stays open:** the recorded value-level digest comparison between the capture
 and the transport (`13-readback-comparison.txt`), which is a comparison of data already captured — no
-read is to be repeated.
+read is to be repeated. *(Recorded 2026-11-22T11:35:21Z, result PASS — §11.2.)*
 
-### 7.3 Can D5 / D6 be formally closed?
+### 7.3 Can D5 / D6 be formally closed? *(as assessed at first publication; see §11.4 for the current assessment)*
 
 - **D5:** closable as *CONFIRMED* now on the binding facts; its formal closure record should carry the
   D5-1 build-provenance residual until the three module hashes are recorded (or the owner, as sole
@@ -242,7 +247,7 @@ read is to be repeated.
 
 ---
 
-## 9. What Stage 5 still needs (unchanged list; status after this evidence)
+## 9. What Stage 5 still needs (unchanged list; status after this evidence) *(status column superseded by §11.5)*
 
 | Item (handoff §9 / NP-04 record §9.3) | Status after this record |
 |---|---|
@@ -273,3 +278,160 @@ prerequisite of the portfolio loop and nothing else; it is not Stage 5 acceptanc
 | IPD code facts cited | `src/persistence/binding.ts` L102–147, L186–203 (`S1_D02_PERSONAL_READ`); `directP1Provisioning.ts` verify `readOnly: true` L968, DP-V5 L1302, DP-V6 L1385, DP-V7 L1464, DP-V8 L1500, DP-V9 L1553 (`portfolioCounts` global); `windows-setup/03-Start-IipsServers.ps1` L249, L290–311; IPD roadmap "S1 → D02" entry: OPERATIONAL EVIDENCE PENDING |
 | Dependency pin | `iips-production-market-data#1ce6a829a7ce65550356a0071c108a60f2d813be` — unchanged |
 | Host / IPD-service facts | **none observed by Arena**; all operator-reported (§1–§6) |
+
+---
+
+## 11. Evidence update — 2026-11-22, second operator pass (appended; §§0–10 are the historical record)
+
+**Published from IRR `main` at `5d259a44803f096f8cc2f6adb34cab2b853a9010` (PR #615).** Operator-reported;
+Arena accessed no host, service, database or evidence directory. Evidence root on the host:
+`C:\iips-evidence\IID-STAGE5-20261122\`. This section resolves exactly the two residuals named in §7.1
+(D5-1 compiled-module hashes) and §7.2 (value-level digest cross-comparison), records the R-1 strict
+readiness diagnostic, and reassesses D5/D6. Nothing in §§0–10 is rewritten; where a statement there is
+superseded, a pointer to this section was added beside it.
+
+### 11.1 D5-1 — compiled-module hash verification (resolves the §7.1 residual)
+
+Operator-reported, from the IPD Windows checkout `H:\IIPS\iips-production-market-data`: HEAD
+`cbb116d2a221b82a704b4b96cf17efe0560e2498`, working tree clean; `git merge-base --is-ancestor
+4716d0bc123e5fb3e8e72f74bada257d08d76ba2 HEAD` → exit **0**.
+
+| Compiled module (IPD checkout) | Observed SHA-256 (operator, `Get-FileHash`) | Expected (handoff §2 / R-1 record §1, 8-hex prefix of a `4716d0bc` build) | Independent full-hash rebuild (Arena sandbox, §11.6) |
+|---|---|---|---|
+| `dist\src\ipc\dispatch.js` | `FB4A3ABC68CCA81DF86B6D9938646317BD5FB27F712CBD06179445A828FDE1EC` | `fb4a3abc…` | `fb4a3abc68cca81df86b6d9938646317bd5fb27f712cbd06179445a828fde1ec` — **identical** |
+| `dist\src\persistence\portfolio_store.js` | `76185EC7736AE6B7E221924AA4E2B11AE61E9B8227C620DB3C54421A876FE0CE` | `76185ec7…` | `76185ec7736ae6b7e221924aa4e2b11ae61e9b8227c620db3c54421a876fe0ce` — **identical** |
+| `dist\src\persistence\binding.js` | `551F14B26A8E2E900C0029B6EEA8336C160A1475C7745E4EB43DE8AD8034FA28` | `551f14b2…` | `551f14b26a8e2e900c0029b6eea8336c160a1475c7745e4eb43de8ad8034fa28` — **identical** |
+
+All three observed hashes match the recorded prefixes and, byte for byte, a fresh compile of IPD
+`main@cbb116d2` performed in the Arena sandbox (`npm ci --ignore-scripts` + `tsc` 5.9.3, Node 22.22.3,
+clean clone; no host involvement). The compiled dispatcher, store and binding modules in the operator's
+checkout are therefore the modules verified in `d22f156` and the R-1 record (the sources under `src/ipc`
+and `src/persistence` are unchanged from `4716d0bc` to `cbb116d2`).
+
+**Three distinct statements — only the first two are established:**
+
+1. *Checkout ancestry* — the synchronized checkout is `cbb116d2`, a clean descendant of `4716d0bc` (§1 H-1/H-2;
+   exit 0 above).
+2. *Compiled-module identity* — the three compiled modules **in that checkout** are byte-identical to a
+   build of `cbb116d2` (table above). The handoff §2 "IPD service build" row is now satisfied as written
+   (HEAD + `Get-FileHash`; the compiled layout is `dist\src\…`, as §7.1 noted).
+3. *Code loaded by the already-running process* — **not directly proven, and not claimed.** The service was
+   observed running from this checkout (§1 H-4) and its behaviour is that of the S1→D02 build (§3, §5), but no
+   recorded observation binds the bytes resident in that process to the files hashed afterwards. IPD has no
+   build-identity attestation on the wire or in its startup log (`[g3] listening on …` only). This limitation
+   is permanent for this evidence class and is recorded, not a residual to be worked.
+
+### 11.2 D6 — four-source exact read-back comparison (resolves the §7.2 residual)
+
+Operator-produced `13-readback-comparison.txt`, captured **2026-11-22T11:35:21Z**, generated from the
+host-local W11 exact capture (`d1992178-e6e6-4f52-b70a-046db66c446a`; stays local-only) and the IRR v2
+detail and revision-history responses. Keys only; no holding values.
+
+| Source | Portfolio | Revision | Provenance digest | Holdings |
+|---|---|---|---|---|
+| W11 first `portfolio.get` (v1, second process) | `DHAN_PORTFOLIO` | 1 | `17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f` | 64 |
+| W11 second `portfolio.get` (v1, second process) | `DHAN_PORTFOLIO` | 1 | `17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f` | 64 |
+| IRR transport v2 detail (`11-02`) | `DHAN_PORTFOLIO` | 1 | `17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f` | 64 |
+| IRR transport v2 revision history (`11-03`, entry at revision 1) | `DHAN_PORTFOLIO` | 1 | `17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f` | 64 |
+
+Reported comparison verdicts: portfolio identity **MATCH**; revision **MATCH**; provenance digest
+**MATCH**; holdings count and array length **MATCH**; result **`PASS`**. The §7.2 inference ("equality
+follows from revision parity") is replaced by this recorded observation.
+
+Unchanged and restated so this section can be cited alone: W11 outcome `CONSISTENT_CAPTURE`, exit 0,
+one attempt (`list → get → revisions → get`), ten gating checks passed, operator-selected
+`DHAN_PORTFOLIO`, revision 1, 64 holdings; contribution reconciliation transport v2 `contributionLedger`
+= **1** = IPD read-only `contributionsValidated` **1**, with the W11 v1 `contributionsCount: 0` being the
+v1 projection (no ledger on v1), **not a mismatch**; every route in §3 answered **200** (the §3 table is
+the route-by-route record and is not restated). **Peer authenticity remains `NOT_ATTESTED`** by the v1
+consumer; that the peer was the operator-run IPD service is a host observation (§1), not a wire fact. The
+exact W11 capture, the response bodies and all portfolio contents remain host-local and unpublished.
+
+### 11.3 R-1 — strict readiness diagnostic (new evidence; read-only; its own process environment only)
+
+Operator ran, from the IRR `frontend` package, `npm run iid:readiness -- --strict --data-dir C:\iips-data`;
+output saved as `C:\iips-evidence\IID-STAGE5-20261122\03-readiness.txt`. Header:
+`IID runtime readiness (read-only) — LOCAL_SINGLE_USER_NON_PRODUCTION`; platform `win32`; Node `24.14.0`.
+Conclusion: **`READ-PATH READY: NO`**. The diagnostic states that it was read-only, opened/created/migrated
+no database, contacted no IPC peer, wrote nothing, and that "this report describes only the process
+environment in which it ran — an absent setting there is NOT evidence about another host"; production
+admission NOT ADMITTED.
+
+| # | Finding | Result | Ownership (as reported) | Reason / setting | Status for Stage 5 and how it relates to other evidence |
+|---|---|---|---|---|---|
+| 1 | `identity-files` | **OK** | `irr-owned-operational` | `IDENTITY_SOURCES_VALID` (IID-01/02/03) | operational |
+| 2 | `fundamentals-dataset` | **OK** | `irr-owned-operational` | `DATASET_DIRECTORY_PRESENT_CONTENT_UNVERIFIED` (IID-01/03) | operational; the diagnostic does not read the dataset — content verification is by the existing dataset reader before any mint (Stage 4 records; accepted) |
+| 3 | `reports-owner-context` | TODO | `user-host-provisioning-required` | `REPORTS_OWNER_CONTEXT_UNAVAILABLE (path-not-configured)` — `IIPS_REPORTS_OWNER_PATH` | **absent in this shell.** NP-04 record / roadmap §C.1 recorded the Reports carrier and NP-04 store in use when Infosys was persisted on this host; the carrier is set per process. Open as a readiness-capture item, operator-owned |
+| 4 | `np04-assessment-store` | TODO | `irr-owned-not-configured` | `DATABASE_PATH_NOT_CONFIGURED` — `IIPS_NP04_DATABASE_PATH` | **absent in this shell.** Same note as 3 (`H:\IIPS\runtime\np04\reports.sqlite` exists per §C.1; a configured path is not evidence that records exist — the diagnostic says so). Operator-owned |
+| 5 | `owner-context-carrier` | TODO | `user-host-provisioning-required` | `OWNER_CONTEXT_UNAVAILABLE (path-not-configured)` — `IIPS_OWNER_CONTEXT_PATH` | **absent in this shell.** The transport that served the identity-coverage `200` (§3.1) necessarily resolved the F-3 carrier; the startup script sets this variable for the transport process only. D4 remains "evidenced indirectly, not separately captured" |
+| 6 | `ipd-binding-precondition` | TODO | `ipd-owned-unavailable` | `BINDING_NOT_PROVISIONED` — `IIPS_G3_IPC_BINDING_PROVISIONED` | **absent in this shell.** The declaration was present in the transport's environment (§1 H-6) and the IPD-owned fact behind it is verified (§2). The diagnostic correctly says IRR cannot establish or assert the binding — ownership IPD |
+| 7 | `ipc-endpoint` | TODO | `irr-owned-not-configured` | `ENDPOINT_NOT_RESOLVED (ENDPOINT_NOT_CONFIGURED)` — `IIPS_G2_IPC_ENDPOINT` | **absent in this shell.** Present in the transport's environment (§1 H-6); the live reads in §3/§11.2 went through it. The diagnostic contacted no peer by design |
+| 8 | `local-personal-use-enablement` | TODO | `irr-owned-not-configured` | `LOCAL_PERSONAL_USE_ABSENT` — `IIPS_LOCAL_PERSONAL_USE` | **absent by design** for the read-only Stage 5 scope (handoff §3.3: must not be set; the diagnostic itself says read-only IID assessment does not require it). Not a Stage 5 read-path item |
+
+**Reading.** The diagnostic ran in a shell that did not carry the transport's environment (handoff §3.4
+asked for "a shell that has the same variables"). Its six TODO findings describe **that shell**, as the
+diagnostic itself states, and are **not** evidence that the Windows D5/D6 read path failed: the same host,
+on the same day, served every in-scope route with `200` over v2 and passed the four-source
+comparison (§3, §11.2). No host setting was or should be changed to make the diagnostic pass. For Stage 5
+the R-1 item is now **captured but not green**: NP-04 record §9.3 lists `--strict` exit 0 as *necessary but
+not sufficient*. What remains for R-1 is the same read-only diagnostic executed in the transport's own
+process environment (the environment the startup script builds) — a new capture in a different
+environment, not a repeat of this one and not a configuration change. Its expected residual findings there
+would be 3/4 (Reports carrier and NP-04 path are set only if the startup script finds them; roadmap §C.1
+says they exist) and 8 (by design). Owner: operator; items 3–5 and 7 are operator/host settings, item 6 is
+IPD-owned fact + operator declaration, item 8 is out of scope for reads.
+
+### 11.4 Reassessed status
+
+**D5 — CONFIRMED; the IRR-recordable residual of §7.1 is resolved.** D5-1 now carries the evidence the
+handoff §2 required (ancestry + compiled-module hashes, §11.1), D5-2/D5-3/D5-4 are unchanged (§2, §3, §1
+H-5). The behavioural inference in §7.1 is no longer load-bearing for the artifact identity; the only
+remaining limitation is statement 3 of §11.1 (running-process memory), which is inherent and recorded.
+
+What remains is **IPD-owned and cannot be closed from IRR:** IPD has not published, in its own repository
+under its own process, the confirmation that its handoff rows D5-1..D5-4 contemplate (IPD roadmap
+`IIPS-CURRENT-PORTFOLIO-EXECUTION-ROADMAP.md` "S1 → D02" entry still reads **OPERATIONAL EVIDENCE PENDING**,
+with "reviewed running artifacts, peer/source binding and a real persisted-holdings v2 read" as the
+remaining items). *Sufficiency assessment (IRR's view only, no authority):* the operator-reported set now
+covers each of those three items — running artifacts (`cbb116d2`, three module hashes equal to a build of
+IPD `main`), peer/source binding (Direct P1 verifier `VERIFIED`, DP-V1..V9; pipe present and connectable;
+no Class P refusal on any in-scope read — all answered 200), and a real persisted-holdings v2 read (§3, §11.2) — so IPD appears to have
+what it needs to publish. **Precise remaining action, IPD-owned:** append its operational evidence record
+(checkout HEAD and hashes by reference, verifier result by check id, pipe presence, env-mode name) to its
+D02 evidence pack / roadmap entry and move that entry off OPERATIONAL EVIDENCE PENDING, through an IPD PR.
+Left open here; IRR records nothing on IPD's behalf.
+
+**D6 — DEMONSTRATED; the §7.2 residual is resolved** (§11.2). No D6 residual remains. Peer authenticity
+`NOT_ATTESTED` is a standing limitation of the v1 consumer, not a residual.
+
+**Not changed by this update:** Stage 5 is **not** accepted; overall IID readiness remains **NOT READY**;
+Stage 4 remains closed as recorded (its accepted limitations — S4-R6 / G-4 series, tracker §16.301–§16.307 —
+are Stage 4 facts, not Stage 5 work, and are not reopened here).
+
+### 11.5 Stage 5 remaining work after this update (replaces the status column of §9; the list is unchanged)
+
+| Item | Owner | Status after §11 |
+|---|---|---|
+| D5 active binding | IPD fact / operator declaration | **CONFIRMED** (IRR-recordable evidence complete). Open, IPD-owned: IPD's own publication (§11.4) |
+| D6 live v2 read + independent read-back | operator / IPD peer | **DEMONSTRATED**, no residual; peer authenticity NOT_ATTESTED (standing) |
+| R-1 host readiness capture | operator | **captured, not green** (`READ-PATH READY: NO` in a shell without the transport's variables); remaining: the same diagnostic in the transport's process environment (§11.3) |
+| D4 F-3 carrier / watchlist context | operator (IRR materialiser exists) | evidenced indirectly (§3.1); readiness finding 5 confirms it was not in the diagnostic's shell; a separate capture is still open if watchlists are exercised |
+| R-2 served coverage captures | operator | **CLOSED** (§3) |
+| Marico / KEC successor v1 mints (three-issuer scope) | operator, existing CLI | open; not forced |
+| Second comparable persisted assessment version + change diff | operator (genuine input change required) | open; not forced; readiness findings 3/4 must be set in the minting process's environment when it is pursued |
+| D10 / P6-B formal browser acceptance | operator host | **unblocked by D5/D6**; prerequisites remaining: R-1 green in the transport environment (above) |
+| Stage 4 data limitations | per Stage 4 records | accepted limitations, preserved; not Stage 5 work |
+
+**Next roadmap step:** R-1 readiness in the transport's process environment (read-only; no setting
+changed), then **D10 / P6-B real browser acceptance** on this build pair (IRR ≥ `a6df94ff…` /
+IPD `cbb116d2`). IPD's publication proceeds in parallel under IPD ownership.
+
+### 11.6 Verification performed for this update (Arena; IRR + public IPD; no host access)
+
+| Check | Result |
+|---|---|
+| IRR `main` at the time of this update | `2bfb7a801c1fc5dea452df0649340333709f237c` = PR #614 (broker-import snapshot payload; code/tests only, merged after #615); PR #615 `5d259a44…` is its parent. No documentation path touched by #614; this update is branched from `5d259a44…` and applies cleanly |
+| IPD `main` | still `cbb116d2a221b82a704b4b96cf17efe0560e2498`; `git merge-base --is-ancestor 4716d0bc… HEAD` → 0 in the sandbox clone; roadmap S1→D02 entry unchanged (OPERATIONAL EVIDENCE PENDING) |
+| Independent rebuild | fresh `--depth 30` clone of IPD at `cbb116d2`, `npm ci --ignore-scripts`, `npx tsc` (5.9.3) on Node 22.22.3; `sha256sum` of the three modules equals the operator's three hashes exactly (§11.1). Working tree clean after build (`dist/` ignored). No IPD file changed, nothing pushed |
+| Sanitisation | this section adds portfolio id, revision, digest and counts already of record (§5, IPD W04 basis); no holdings, bodies, exact capture, binding/membership/owner/tenant values, pipe-name value or environment values |
+| Host / IPD-service facts | **none observed by Arena**; all operator-reported |

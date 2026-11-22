@@ -7,7 +7,8 @@ outcome means
 **Status:** **PREPARED (2026-11-21); EXECUTED by the owner on the Windows host (2026-11-22).** Outcome and
 reconciliation: `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` — §8 matrix row 2 (D5
 CONFIRMED, D6 DEMONSTRATED; two recorded residuals: D5-1 build-provenance hashes, §5.3 digest
-cross-comparison). The procedure text below is unchanged. Arena had no access to the Windows host or to
+cross-comparison — **both resolved by the second operator pass of 2026-11-22, record §11**; the
+§2 compiled modules live under `dist\src\…`). The procedure text below is unchanged. Arena had no access to the Windows host or to
 the IPD service at either date.
 **Classification:** Local / Single User / Non-Production. Production explicitly out of scope.
 **Authority:** `IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` (owner is the sole operational

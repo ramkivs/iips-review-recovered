@@ -1592,3 +1592,46 @@ comparable version (not forced), Stage 4 data residuals. **Next roadmap step:** 
 the readiness capture from the existing host state (no reruns), then **D10 / P6-B real browser acceptance**
 on the same build pair. No Stage 6 work, no IPD change, no pin advance and no host provisioning is
 authorized by this amendment.
+
+## C.7 Stage 5 — D5-1 hashes and D6 digest comparison recorded; R-1 readiness captured (operator-reported, 2026-11-22, second pass)
+
+Appended to the §C.6 evidence record as §11 of
+`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (operator-reported; Arena accessed no host,
+service, database or evidence directory). Evidence root `C:\iips-evidence\IID-STAGE5-20261122\`.
+
+**D5-1 resolved (IRR-recordable part).** IPD checkout `cbb116d2` clean, `4716d0bc` ancestor (exit 0);
+`Get-FileHash` of `dist\src\ipc\dispatch.js`, `dist\src\persistence\portfolio_store.js`,
+`dist\src\persistence\binding.js` = `fb4a3abc…`, `76185ec7…`, `551f14b2…` — equal to the prefixes of
+record and, in full, to an independent sandbox compile of IPD `main@cbb116d2`. Three statements are kept
+apart: checkout ancestry (established), compiled-module identity in the checkout (established), code
+resident in the already-running process (**not proven, not claimed** — no attestation exists; recorded as a
+standing limitation). **D5 — CONFIRMED** with no IRR-recordable residual. **Open, IPD-owned:** IPD's own
+publication of its confirmation under its own process (its roadmap S1→D02 entry still reads OPERATIONAL
+EVIDENCE PENDING); IRR's view is that the operator-reported set covers IPD's three remaining items
+(running artifacts, peer/source binding, real persisted-holdings v2 read), but the confirmation is IPD's to
+make. Nothing is written here on IPD's behalf.
+
+**D6 resolved.** `13-readback-comparison.txt` (2026-11-22T11:35:21Z): W11 first read, W11 second read,
+IRR v2 detail and IRR v2 revision history all report `DHAN_PORTFOLIO`, revision 1, digest `17b2b283…`,
+64 holdings — portfolio/revision/digest/count **MATCH**, result **PASS**. Contribution reconciliation
+unchanged (v2 ledger 1 = IPD `contributionsValidated` 1; v1 `contributionsCount: 0` is the v1 projection).
+**D6 — DEMONSTRATED**, no residual. Peer authenticity remains **NOT ATTESTED** (standing). Exact capture
+and bodies remain host-local.
+
+**R-1 readiness captured — not green.** `npm run iid:readiness -- --strict --data-dir C:\iips-data`
+(`03-readiness.txt`, win32, Node 24.14.0): `identity-files` OK, `fundamentals-dataset` OK
+(`DATASET_DIRECTORY_PRESENT_CONTENT_UNVERIFIED`); six TODO — `reports-owner-context`,
+`np04-assessment-store`, `owner-context-carrier`, `ipd-binding-precondition`, `ipc-endpoint`,
+`local-personal-use-enablement`; **`READ-PATH READY: NO`**. The diagnostic describes only the shell it ran
+in (its own statement), contacted no peer, and that shell did not carry the transport's variables; it is
+**not** evidence that the D5/D6 read path failed — the same host served every in-scope route 200 over v2.
+No setting is to be changed to make it pass. Remaining R-1 step: the same read-only diagnostic in the
+transport's process environment (necessary-not-sufficient, NP-04 record §9.3). Ownership: items 3–5, 7
+operator/host settings; item 6 IPD fact + operator declaration; item 8 out of scope for reads.
+
+**Status and next step.** D5 CONFIRMED (IPD publication open, IPD-owned); D6 DEMONSTRATED; R-2 closed;
+R-1 captured/not green; D4 indirect only; Marico/KEC mints, second comparable version (genuine input
+change) and D10/P6-B open; Stage 4 closed with its accepted limitations, not reopened. **Not Stage 5
+acceptance; overall IID readiness remains NOT READY.** **Next:** R-1 in the transport environment, then
+**D10 / P6-B real browser acceptance** on build pair IRR ≥ `a6df94ff…` / IPD `cbb116d2`. No Stage 6 work,
+no IPD change, no pin advance and no host provisioning is authorized by this amendment.
