@@ -1807,3 +1807,45 @@ owner chooses: (a) authorise the IRR implementation item, then author the policy
 disclosed `SYSTEM_DEFAULT` caps and defer L-019; (c) another path. Nothing is pre-selected; no Stage 6
 scope is widened; no Windows-host action is performed or scheduled by this amendment. Stage 6 is **not**
 complete by virtue of this transition.
+
+## C.12 Stage 6 — S6-1 operator limits policy runtime integration IMPLEMENTED (sandbox-verified); S6-1 not complete; S6-1b identified (2026-11-22)
+
+**Authority:** owner instruction 2026-11-22 authorising the narrowly scoped S6-1 prerequisite (implementation,
+targeted tests, documentation, PR). Implementation record:
+`IID-STAGE-6-S6-1-LIMITS-POLICY-RUNTIME-INTEGRATION-2026-11-22.md`; tracker §16.316.
+
+**Re-verified first.** The §C.11 blocker held on `main@58270c82`: no reader of
+`${IIPS_DATA_DIR}/investment/policies/limits-policy.json`, no caller of `resolveDispositionLimits`. The actual
+disposition-generation path is `buildDispositionPayload` → `createDispositionRecordsService().record()`, whose
+**only** caller is the synthetic demonstration CLI (`disposition-demonstration.ts`), which passed a literal
+"no policy".
+
+**Implemented (IRR only; no IPD change; no scoring/assessment/portfolio/verb logic touched).**
+`frontend/server/investment/limitsPolicySource.ts`: `loadOperatorLimitsPolicy` resolves the documented path under
+the existing data-root precedence (explicit > `IIPS_DATA_DIR` > `<cwd>/.iips-data`; file name fixed), reads it and
+hands the bytes to the **existing** `resolveDispositionLimits` → `parseLimitsPolicyText` → `resolveLimits` — no
+parallel parser. Outcomes: absent → labelled `SYSTEM_DEFAULT`, `source.kind = ABSENT`; valid in force →
+`OPERATOR_CONFIG` with the file's `policyVersion`, `source.kind = OPERATOR_FILE`; future-dated → defaults with
+note (unchanged `resolveLimits` rule); empty / directory / unreadable / not JSON / unknown key / invalid value →
+`LimitsPolicyError`, **defaults never substituted**. `isLimitsDisclosureConsistent` states the invariant that
+`OPERATOR_CONFIG` can only be reported when the file was read. The demonstration CLI now loads its caps through
+the loader (before any store opens), gains `--limits-policy-root <dir>` for host verification, evidence
+`limits{…}`, verification point 9, and exit `2` on a rejected policy.
+
+**Verified (sandbox).** 24 + 3 new tests and 17 existing disposition-records tests pass; `tsc --noEmit` clean;
+operator-style runs: absent → `ABSENT`/`SYSTEM_DEFAULT` exit 0; valid root → `OPERATOR_FILE`/`OPERATOR_CONFIG`/
+exact `policyVersion` on loaded limits and on both recorded payloads, exit 0; unknown-key file → `UNKNOWN_KEY`,
+exit 2, nothing written. Verbs identical with and without a policy. Throwaway test values only; **no owner
+values authored, no owner file created.**
+
+**Gap recorded, not closed (§3 of the record).** IRR has **no operator CLI that mints a disposition for a real
+holding** against the live NP-04 store; `OPERATOR_CONFIG` is therefore provable today only on the demonstration
+path. **S6-1b — real-holding disposition mint CLI: OPEN, IRR-owned, awaiting separate authority.** Not started.
+
+**Status.** S6-1: **IMPLEMENTED, NOT COMPLETE** — completion requires host verification with the owner's own
+policy file (`disposition-demonstration.ts --out <scratch> --limits-policy-root %IIPS_DATA_DIR%`, point 9 showing
+`OPERATOR_CONFIG` and the owner's `policyVersion`), which needs the PR delivered by the owner's manual
+synchronisation and the owner's values. Stage 6: **IN PROGRESS**; S6-2…S6-5 untouched. **Next action (owner):**
+decide the limits values and author `limits-policy.json` at the documented path on the host (runbook §15.3), then
+run the verification command; separately, decide whether to authorise S6-1b. No Windows-host action performed
+or scheduled by this amendment.

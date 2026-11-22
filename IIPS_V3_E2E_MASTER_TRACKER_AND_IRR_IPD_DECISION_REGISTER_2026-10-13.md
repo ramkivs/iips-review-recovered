@@ -24500,4 +24500,47 @@ step — S6-1, awaiting the owner's instruction:** prerequisite check found `res
 item then author the policy, (b) proceed on disclosed `SYSTEM_DEFAULT` caps and defer L-019, or (c) another
 path. Nothing pre-selected; Stage 6 scope not widened; Stage 6 not complete.
 
-Next free §16.316 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.316 IID Stage 6 — S6-1 operator limits policy runtime integration IMPLEMENTED and sandbox-verified; S6-1 NOT COMPLETE; S6-1b (real-holding disposition mint) identified, awaiting authority (2026-11-22)
+
+**IRR-only implementation record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` /
+`CHG` / `V` identifier from the CV series. Authority: owner instruction 2026-11-22 (narrow S6-1 prerequisite:
+implementation, targeted tests, documentation, PR; **not** the owner's limits values, **not** a populated policy
+file, **not** other Stage 6 work). Record: `docs/integration/IID-STAGE-6-S6-1-LIMITS-POLICY-RUNTIME-INTEGRATION-2026-11-22.md`;
+roadmap §C.12; runbook §15.3 amended. §16.315 not rewritten.
+
+**Confirmed runtime path (re-verified on `main@58270c82`, not assumed from §16.315).** Engine
+`buildDispositionPayload(limits)` → `createDispositionRecordsService().record()`; sole caller
+`frontend/server/investment/cli/disposition-demonstration.ts` (synthetic subject, throwaway store), which passed
+`policy: null`. No reader of `${IIPS_DATA_DIR}/investment/policies/limits-policy.json` existed; `resolveDispositionLimits`
+had no production caller. Read transport is GET/HEAD only and produces nothing.
+
+**Changed.** New `frontend/server/investment/limitsPolicySource.ts` (`resolveLimitsPolicyPath`,
+`loadOperatorLimitsPolicy`, `isLimitsDisclosureConsistent`): documented path under the existing data-root precedence,
+fixed file name, bytes handed to the existing `resolveDispositionLimits` → `parseLimitsPolicyText` → `resolveLimits`
+(no parallel parser); absent → labelled `SYSTEM_DEFAULT` + `source.kind ABSENT`; valid in force → `OPERATOR_CONFIG` +
+the file's `policyVersion` + `source.kind OPERATOR_FILE`; future-dated → defaults with note; empty / directory /
+unreadable / malformed / unknown key / invalid value → `LimitsPolicyError`, defaults never substituted.
+`disposition-demonstration.ts`: caps loaded through the loader before any store opens; `--limits-policy-root <dir>`;
+evidence `limits{source,basis,policyVersion,effectiveFrom,notes,recordedHeld,recordedCandidate}`; verification point
+9; exit 2 on a rejected policy. New tests `limitsPolicySource.test.ts` (24), `disposition-demonstration.test.ts` (3).
+Untouched: `limits.ts`, `engine.ts`, `dispositionService.ts`, composition, transport, scoring/assessment/portfolio/verb
+logic, UI, IPD.
+
+**Results.** 24/24, 3/3, existing `disposition-records.test.ts` 17/17; `tsc --noEmit` clean (investment-server
+project: only the two pre-existing test-file errors, untouched). Sandbox operator-style runs: no file → `ABSENT` /
+`SYSTEM_DEFAULT` / `…+system-default`, exit 0; valid file → `OPERATOR_FILE` / **`OPERATOR_CONFIG`** / **exact
+`policyVersion`** on loaded limits, both recorded payloads and every `limits.applied` entry, exit 0; unknown-key file
+→ `UNKNOWN_KEY`, exit 2, nothing written. Verbs identical with and without a policy. Throwaway test values in a
+temp directory, deleted; **no owner values authored; no owner file created.**
+
+**Gap recorded, not closed.** No operator CLI mints a disposition for a **real** holding against the live NP-04
+store; `OPERATOR_CONFIG` is provable today only on the demonstration path. **S6-1b — real-holding disposition mint
+CLI: OPEN, IRR-owned, awaiting separate authority.** Not started; scope not widened.
+
+**Status.** S6-1 **IMPLEMENTED, NOT COMPLETE** (host verification with the owner's own file pending; owner's values
+not yet decided). Stage 6 **IN PROGRESS**; S6-2…S6-5 untouched. Stage 5 acceptance (§16.315) unchanged. Owner's
+Windows checkout untouched; delivery is the owner's manual, controlled synchronisation. **Next action (owner):**
+decide the limits values, author `limits-policy.json` at the documented path on the host (runbook §15.3), run
+`disposition-demonstration.ts --out <scratch> --limits-policy-root %IIPS_DATA_DIR%` and read point 9; decide on S6-1b.
+
+Next free §16.317 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.

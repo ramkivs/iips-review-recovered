@@ -828,6 +828,37 @@ Write it to `${IIPS_DATA_DIR}/investment/policies/limits-policy.json`. An unread
 closed** (`policy_inputs_unavailable`); it never silently becomes the defaults. A policy dated in the future does not
 apply and says so in `limits.notes`.
 
+**How the file is found (S6-1, 2026-11-22).** The loader (`server/investment/limitsPolicySource.ts`,
+`loadOperatorLimitsPolicy`) resolves the data root exactly as the identity and dataset directories do — an explicit
+root given by the caller, otherwise `IIPS_DATA_DIR`, otherwise `<cwd>/.iips-data` — and appends
+`investment/policies/limits-policy.json`. **The file name is not configurable**: `OPERATOR_CONFIG` can only ever come
+from that one path. Three outcomes, never a fourth:
+
+| At the documented path | Result | Disclosed as |
+|---|---|---|
+| no file | labelled system defaults (10 % / 30 %) | `source.kind = ABSENT`, `limits.basis = SYSTEM_DEFAULT`, version `…+system-default`, note "no operator limits policy is configured" |
+| a valid policy in force at the assessment instant | **your caps** | `source.kind = OPERATOR_FILE`, `limits.basis = OPERATOR_CONFIG`, **your `policyVersion`** |
+| a valid policy dated in the future | defaults, with the file acknowledged | `source.kind = OPERATOR_FILE`, `basis = SYSTEM_DEFAULT`, note "not yet in force" |
+| anything else — not JSON, not an object, an unknown key (e.g. `sectorMaxPcts`), a missing or out-of-range value, an empty file, a directory, unreadable | **fails closed** — `LimitsPolicyError(<reason>)`, `policy_inputs_unavailable` | the defaults are **not** substituted; the rejection names the key or value |
+
+**Prove it before relying on it.** The disposition demonstration is the one disposition producer in IRR, and it now
+reads its caps through the same loader. Point it at your data root; it uses a synthetic subject and a throwaway store,
+so nothing of yours is read except the policy file and nothing is written anywhere persistent:
+
+```text
+npx tsx server/investment/cli/disposition-demonstration.ts --out <scratch-dir> --limits-policy-root %IIPS_DATA_DIR%
+```
+
+Read verification point 9 on stderr and `limits` in `<scratch-dir>/iid4-disposition-demonstration.json`: `source.kind`
+must be `OPERATOR_FILE`, `basis` `OPERATOR_CONFIG`, `policyVersion` the one you wrote, and `recordedHeld` /
+`recordedCandidate` must say the same. Exit `0` = loaded and applied; exit `2` = your file was rejected (the reason is
+printed; fix the file — the run recorded nothing). Without `--limits-policy-root` the demonstration uses its own
+empty root and reports `ABSENT` / `SYSTEM_DEFAULT`, as before.
+
+**What this does not yet give you.** There is no operator CLI that mints a disposition for a **real** holding against
+the live NP-04 store (the demonstration is synthetic by construction, §15.1). Until one exists, `OPERATOR_CONFIG` can
+be proven on the demonstration path only; the served `GET …/dispositions` routes only read what has been recorded.
+
 Caps only ever move a verb **down**: ACCUMULATE → RETAIN on a single-name breach, INITIATE → WATCH on a sector
 breach. They are named in `disposition.capsApplied`, in `limits.applied`, and in the rationale.
 
