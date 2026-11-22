@@ -24455,4 +24455,49 @@ changed, no mint, no write route, no synthesised assessment or comparison.
 **Next milestone.** Procedure §6.6 steps 1–3 on an Infosys-resolving holding (or record that none is held), then
 §6.4 / §6.7 / §6.8 and the §9 summary sheet → evidence record §15.
 
-Next free §16.315 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.315 IID Stage 5 — ACCEPTED by the PA/PO; Stage 5 evidence collection CLOSED; current stage Stage 6 (owner decision, 2026-11-22)
+
+**IRR-only decision record. No IPD act, no IPD change, no code change, no identifier consumed** — an IID owner
+decision; it takes no `CV-CORR` / `CHG` / `V` identifier from the CV series (as §16.287 for O1). Decision record:
+`docs/integration/IID-STAGE-5-PA-PO-ACCEPTANCE-DECISION-2026-11-22.md`. Evidence record §15; procedure status
+line / §6.7 / §9 / §10; roadmap Part C §C.11. §16.313–§16.314 not rewritten.
+
+**Decision (Ramki, sole user and PA/PO; authority PA-01).** Owner statement: *"Evidence collection for Stage 5
+is CLOSED. No additional screenshots, browser checks, runtime observations, or evidence requests are authorised
+or required. Treat my personal verification as the PA/PO acceptance decision for the Stage 5 checks covered by
+the existing evidence."* Recorded as a governance act, separate from the technical observations. Nothing is
+rendered, extended or inferred by the recording agent.
+
+**Final PA/PO verification (evidence record §15.1; owner-reported; figures recorded at the owner's direction).**
+Portfolio `TEST`: revision 2; total value ₹500.00 (persisted commit-time valuation, not live); 1 constituent
+(0 active, 1 inactive); weight sum 100.0000 %; detail-page persistence status **`UPDATED`** (basis: revision 2,
+operation `REPLACE`, committed `2026-11-12T10:45:20.422Z` — correct derivation); digest `9e5dc076ebcc…`; no
+import contributions. Holding `AIIL` / `MANUAL:AIIL`, qty 1, avg ₹462.00, current ₹500.00, value ₹500.00,
+weight 100 %, Active No, source `manual-personal`, lineage `e0e715ee5ff3…`; **identity unresolved** (no ISIN,
+no exchange symbol) ⇒ company disposition and company/history resolution unavailable — specified result, **not a
+defect**; no identity invented. List-page `Committed` and detail-page `UPDATED` are distinct fields, both
+correct. Revision / count / digest prefix equal the §5 baseline for `PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2`.
+
+**Preserved unchanged.** §16.313/§16.314 observations: Company-assessment navigation verified, content
+**UNAVAILABLE**; Change-history navigation verified to IID-03, version history **UNAVAILABLE**, comparison
+**NOT AVAILABLE**; fail-closed verified; nothing fabricated; assessment content never rendered in a browser pass;
+procedure rows B2/B3, §6.4, §6.8 and HTTP-status transcriptions **CLOSED — NOT COLLECTED** (neither passed nor
+failed); issuer dispositions of §16.313 stand.
+
+**Status after this entry.** D5/D6/R-1/R-2/Stage 4: unchanged. **P6-B / D10: ACCEPTED BY PA/PO for the covered
+checks; remaining rows CLOSED — NOT COLLECTED.** **Stage 5: ACCEPTED (PA/PO, 2026-11-22) with recorded
+limitations. Stage 5 evidence collection: CLOSED.** Marico / KEC v1 mints, second comparable version and first
+persisted comparison: carried into Stage 6, not forced. IPD D02: IPD-owned, unchanged. **Current stage: Stage 6
+— investment intelligence, IN PROGRESS, not complete.** Production / hosting / multi-user / commercial: NOT
+ADMITTED. Pin `1ce6a829…` unchanged. No host setting changed; the owner's Windows checkout untouched.
+
+**Stage 6 (baseline 2026-11-11 §21, adopted by reference; roadmap §C.11).** Work items in order, each an owner
+election: S6-1 operator limits policy (L-019); S6-2 review cadence; S6-3 Marico / KEC v1 mints; S6-4 second
+genuine version + first persisted comparison; S6-5 operating-metric entry (S4-R6 / G-4 open). **Next actionable
+step — S6-1, awaiting the owner's instruction:** prerequisite check found `resolveDispositionLimits` present but
+**no runtime reader bound to `${IIPS_DATA_DIR}/investment/policies/limits-policy.json`** in IRR `main@03daa982`
+(decision record §4.3) — wiring it needs separate implementation authority; the owner chooses (a) authorise that
+item then author the policy, (b) proceed on disclosed `SYSTEM_DEFAULT` caps and defer L-019, or (c) another
+path. Nothing pre-selected; Stage 6 scope not widened; Stage 6 not complete.
+
+Next free §16.316 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
