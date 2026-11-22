@@ -5,8 +5,13 @@
  * transmits identity, and it is never authoritative about whether a row is resolved — only
  * IPD's server-side re-assessment decides that.
  */
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { BrokerImportIngressOrchestrator } from '../../.cache/broker-import/frontend/src/features/portfolio/import/broker-import-ingress.js';
+import type { BrokerDailyFields } from '../../server/broker-import/brokerPartialAcceptanceContract';
+import { validateStage4Request } from '../../server/broker-import/brokerImportStage4';
 import { prepareFullSnapshotBrokerImport } from './brokerFullSnapshotImport';
+
+const dailyFields: ReadonlyArray<keyof BrokerDailyFields> = ['dpQty', 'availableQty', 'profitLoss', 'pnlPercentage'];
 
 const at = '2026-11-05T07:50:49.090Z';
 // One row with a real ISIN+exchange (will be identity-resolvable by the governed master) and
@@ -35,11 +40,52 @@ describe('prepareFullSnapshotBrokerImport', () => {
     expect(prepared!.clientIdentityPreview!.unresolved).toBeGreaterThanOrEqual(1);
   });
 
-  it('carries the broker-reported daily fields verbatim when present, and omits them when absent', () => {
-    const prepared = prepareFullSnapshotBrokerImport(MIXED_CSV, 'dhan.csv', at)!;
+  it('omits all four daily fields when the broker did not report them', () => {
+    const prepared = prepareFullSnapshotBrokerImport(MIXED_CSV, 'dhan.csv', at);
+    expect(prepared).not.toBeNull();
+    if (!prepared) throw new Error('synthetic snapshot was not prepared');
     for (const h of prepared.holdings) {
-      expect('dpQty' in h).toBe(false);
-      expect('availableQty' in h).toBe(false);
+      for (const field of dailyFields) expect(h).not.toHaveProperty(field);
+    }
+  });
+
+  it('carries broker-reported daily fields, including zero and negative values, into the accepted wire shape', () => {
+    const csv = 'Trading Symbol,ISIN,Exchange,Total Qty,Average Buy Price,Last Traded Price,DP Qty,Available Qty,Profit / Loss,P&L %\n'
+      + 'RELIANCE,INE002A01018,NSE,2,100,120,1,0,-12.75,-6.5\n';
+    const prepared = prepareFullSnapshotBrokerImport(csv, 'synthetic-dhan.csv', at);
+    expect(prepared).not.toBeNull();
+    if (!prepared) throw new Error('synthetic snapshot was not prepared');
+    expect(prepared.holdings).toHaveLength(1);
+    expect(prepared.holdings[0]).toMatchObject({
+      quantity: 2, dpQty: 1, availableQty: 0, profitLoss: -12.75, pnlPercentage: -6.5,
+    });
+    const { clientIdentityPreview, ...body } = prepared;
+    expect(clientIdentityPreview).not.toBeNull();
+    expect(validateStage4Request('SYNTHETIC', { ...body, expectedRevision: 1 })).not.toBeNull();
+  });
+
+  it('preserves explicit null daily values, and refuses malformed or non-finite values', () => {
+    const executeIngress = BrokerImportIngressOrchestrator.executeIngress;
+    for (const value of [null, 'invalid', Number.POSITIVE_INFINITY, Number.NaN]) {
+      for (const field of dailyFields) {
+        const spy = vi.spyOn(BrokerImportIngressOrchestrator, 'executeIngress').mockImplementation(request => {
+          const result = executeIngress(request);
+          if (!result.userHoldings[0]) throw new Error('synthetic holding missing');
+          Object.defineProperty(result.userHoldings[0], field, { value, enumerable: true, configurable: true });
+          return result;
+        });
+        try {
+          const prepared = prepareFullSnapshotBrokerImport(MIXED_CSV, 'synthetic-dhan.csv', at);
+          if (value === null) {
+            expect(prepared).not.toBeNull();
+            expect(prepared?.holdings[0]).toHaveProperty(field, null);
+          } else {
+            expect(prepared).toBeNull();
+          }
+        } finally {
+          spy.mockRestore();
+        }
+      }
     }
   });
 

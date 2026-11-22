@@ -56,6 +56,21 @@ interface PipelineIdentitySummary {
 }
 
 /**
+ * The newer ingress pin emits these optional broker observations, but the older
+ * package alias can make TypeScript resolve UserHoldingInput without them. Check
+ * the actual values rather than asserting a wider type or silently dropping data.
+ * Invalid values block preparation; IPD and the server still validate independently.
+ */
+function hasValidDailyFields<T extends object>(holding: T): holding is T & BrokerDailyFields {
+  const valid = (value: unknown): boolean => value === undefined || value === null
+    || (typeof value === 'number' && Number.isFinite(value));
+  return (!('dpQty' in holding) || valid(holding.dpQty))
+    && (!('availableQty' in holding) || valid(holding.availableQty))
+    && (!('profitLoss' in holding) || valid(holding.profitLoss))
+    && (!('pnlPercentage' in holding) || valid(holding.pnlPercentage));
+}
+
+/**
  * Prepares one daily full-snapshot submission from raw CSV text. Returns `null` when the file
  * cannot be parsed as a complete, valid book: a full snapshot must represent everything the
  * broker reported, so any row-level rejection (missing symbol/ISIN, non-positive quantity or
@@ -82,10 +97,12 @@ export function prepareFullSnapshotBrokerImport(
     executionEnvironment: 'NON_PRODUCTION',
   });
 
+  const ingressHoldings = result.userHoldings;
   if (!result.success || result.disposition !== 'READY_FOR_PORTFOLIO_SAVE'
-      || result.userHoldings.length === 0 || result.rejections.length !== 0) return null;
+      || ingressHoldings.length === 0 || result.rejections.length !== 0
+      || !ingressHoldings.every(hasValidDailyFields)) return null;
 
-  const holdings: (BrokerImportHolding & BrokerDailyFields)[] = result.userHoldings.map(h => ({
+  const holdings: (BrokerImportHolding & BrokerDailyFields)[] = ingressHoldings.map(h => ({
     symbol: h.symbol,
     ...(h.isin ? { isin: h.isin } : {}),
     ...(h.exchange ? { exchange: h.exchange } : {}),
