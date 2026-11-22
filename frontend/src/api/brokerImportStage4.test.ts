@@ -147,6 +147,24 @@ describe('commitBrokerImport — one POST, honest outcomes', () => {
     expect(String(init.body)).not.toMatch(/ownerUserId|tenantId|companyId/);
   });
 
+  it('omits only the local snapshot preview without mutating the prepared request', async () => {
+    for (const preview of [null, { evaluated: 1, resolved: 1, unresolved: 0, ambiguous: 0 }]) {
+      const fetchMock = vi.fn(async () => jsonResponse(400, { outcome: 'INVALID_REQUEST' }));
+      vi.stubGlobal('fetch', fetchMock);
+      const request = { ...prepared, portfolioId: 'PERSONAL', expectedRevision: 1, fullSnapshot: true,
+        clientIdentityPreview: preview, unexpectedField: 'must-still-be-validated' };
+      await commitBrokerImport(request);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+      const sent = JSON.parse(String(init.body));
+      expect(sent).not.toHaveProperty('clientIdentityPreview');
+      expect(sent).toMatchObject({ ...prepared, expectedRevision: 1, fullSnapshot: true,
+        unexpectedField: 'must-still-be-validated' });
+      expect(request.clientIdentityPreview).toEqual(preview);
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('relays a duplicate no-op as a no-op and never as a new save', async () => {
     const duplicate = {
       ok: true, disposition: 'ALREADY_IMPORTED_NO_OP', revision: 1, noOp: true, storeEffect: 'NONE',
