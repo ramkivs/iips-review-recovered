@@ -1921,3 +1921,71 @@ decisions D-1…D-11 of which D-1 = F-1 is now decided as above, D-2…D-11 rema
 no disposition recorded. **Status:** S6-1 implemented, **NOT COMPLETE**; S6-1b implemented, **NOT COMPLETE**; Stage 6
 IN PROGRESS; S6-2…S6-5 untouched; PR #622 open, not merged. **Next action (owner):** run §9.3 steps 0–5 on the host and
 return the three JSON reports.
+
+## C.15 Stage 6 — S6-1 COMPLETE on the host (operator-reported readback); S6-1b recording verified, `UNCHANGED` repeat outstanding; next item S6-2 review cadence (owner decision) (2026-11-22)
+
+**Delivery.** PR #622 merged to `main` as `e5245b28e94636efbaa6807f26140ad7622a75f8` (CI green: CI, Windows focused,
+CAP-03 static). Delivered to the owner's Windows checkout by the owner's own controlled procedure; no agent
+synchronisation.
+
+**Host evidence (operator-reported; S6-1 record §10).** Policy `limits-policy/2026-11` already present at
+`C:\iips-data\investment\policies\limits-policy.json` (unchanged). `generate-holding-disposition` on
+`DHAN_PORTFOLIO` / `INFY` (`INE009A01021`, 1 of 65 active holdings, weight 2.29 %): dry run, then an owner-authorised
+recording run — `RECORDED`, `CREATED`, head `58f669f8-6027-43ec-89f8-2aa6ce8994b7` v1 on
+`hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021`, `versionCount 1`. Independent read-only readback via
+`GET /api/investment/portfolio/DHAN_PORTFOLIO/dispositions`: `limits.basis OPERATOR_CONFIG`, `policyVersion
+limits-policy/2026-11`, digest `bf8dd114…` (matches §C.14), `limits.applied` single-name 8 % and `Technology` 20 %
+(neither breached), verb `AVOID` (confidence 0.321, caps none, G-4 SKIP), `noExecutionPath true`.
+
+**Reconciliation.** **S6-1 COMPLETE**: the acceptance in the Stage 5 decision record §4.2 (`OPERATOR_CONFIG` + owner's
+`policyVersion` + owner's caps in `limits.applied`; invalid-file fail-closed covered by CI tests) is met by a host
+artefact. **S6-1b: recording verified; NOT COMPLETE** — the record's own completion standard (§8.5/§9.3/§15.6) asks for
+a third report, the identical repeat showing `UNCHANGED` / `wrote false` / `versionCount 1`, which has not been
+reported. L-019 status change to `RESOLVED` proposed in register §17.32.
+
+**Limitations kept visible.** One holding of 65; sector references cover 2.29 % of weight (the `Technology` cap was
+measured against INFY alone; `DEFAULT` never exercised); the cited assessment is `OPERATOR_SUPPLIED` with
+`dataAsOf 2024-03-31`, `MATERIAL_CONCERNS`; `AVOID` is decision support, not an instruction; Stage 6 acceptance items
+(review notes over ≥ 2 versions per holding; persisted comparison with content; L-023 citation check on this record)
+not yet evidenced.
+
+**Next item (baseline order).** **S6-2 — review cadence chosen and recorded.** This is an **owner decision**, not an
+implementation item: the owner states how often the review loop runs (the baseline says "weekly review loop"), what a
+review consists of (which commands / surfaces: holdings → latest disposition → change timeline), and where review
+notes are kept, so that the Stage 6 acceptance "a quarter of review notes referencing ≥ 2 assessment versions per
+holding" has a start date and a definition. IRR records the choice (runbook + this roadmap + tracker); no code is
+required for the choice itself. Any *runner* / alert / breach ledger (gap assessment §1-E, D-10) would be separate
+implementation authority and is not implied by recording a cadence. S6-3 (Marico / KEC v1 mints) and S6-4 (second
+genuine version + first persisted comparison) follow and are what make the cadence produce content.
+
+**Status.** S6-1 **COMPLETE**; S6-1b **recording verified, NOT COMPLETE** (one host step); Stage 6 IN PROGRESS; production
+NOT ADMITTED. **Next action (owner):** (1) run §9.3 step 5 once and report the `UNCHANGED` line; (2) decide S6-2 —
+cadence, review definition, note location.
+
+## C.16 Stage 6 — S6-1b COMPLETE (identical repeat `UNCHANGED`, no duplicate version); S6-2 review cadence DECIDED by the owner: WEEKLY / FRIDAY, procedure recorded; next item S6-3 (2026-11-22)
+
+**S6-1b closing evidence (operator-reported; S6-1 record §10.6).** Identical re-run of the INFY command, unchanged
+inputs, no `--dry-run`: `UNCHANGED … disposition verb=AVOID caps=0 previous=AVOID hardTrigger=false … persistence
+CLOCK_ONLY_UNCHANGED wrote=false head=58f669f8-6027-43ec-89f8-2aa6ce8994b7 v1 chain=hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021
+versions=1`; limits still `OPERATOR_CONFIG` / `limits-policy/2026-11`. With the dry run, the recording run (`CREATED` v1)
+and the independent readback already in §C.15, every limb of the S6-1b completion standard (S6-1 record §8.5 / §9.3
+steps 3–5 / runbook §15.6) is met: **S6-1b COMPLETE**. S6-1 was already COMPLETE (§C.15); the two remain distinct.
+Nothing on the host was altered to reach this determination.
+
+**S6-2 — review cadence (owner decision, 2026-11-22): WEEKLY, FRIDAY.** Recorded verbatim in
+`docs/integration/IID-STAGE-6-S6-2-REVIEW-CADENCE-OWNER-DECISION-2026-11-22.md` §1. That record also sets out, from
+existing capabilities only: the nine-step weekly procedure (readiness → holdings → coverage → latest dispositions →
+re-run covered holdings → changes since last review → evidence → limits block → note); the **location of record for
+review notes** — `evidence/iid/STAGE-6-WEEKLY-REVIEW-<quarter>/REVIEW-<YYYY-MM-DD>.md` under the existing
+`evidence/iid/` bundle convention (Collaboration threads were examined and found unusable for IID issuers: their anchor
+set resolves against the certified CSIP universe, not IID issuer ids — an application change would be required and is
+not authorised); and the acceptance plan — a quarter = 13 Fridays (projection: 2026-11-27 → 2027-02-19), "≥ 2 versions
+per holding" depends on S6-4, L-023 is checked at the first review, each note answers "what changed / what do we do
+about it" from the surfaces. Runbook §15.7 is the checklist. **S6-2 RECORDED.** No runner, scheduler, alert or breach
+ledger is authorised (gap assessment D-10 stays open).
+
+**Status.** S6-1 COMPLETE · S6-1b COMPLETE · S6-2 RECORDED (loop starts Friday 2026-11-27) · S6-3 Marico / KEC v1 mints
+— next, owner election · S6-4 second genuine version + first persisted comparison · S6-5 operating-metric entry. Stage
+6 **OPEN**; production NOT ADMITTED. Limitations carried: 1 of 65 holdings dispositioned; sector references 2.29 % of
+weight; FY2024 data; `AVOID` is not an instruction. **Next action (owner):** perform the first Friday review
+(2026-11-27) per runbook §15.7, including the L-023 citation check on `58f669f8…`; elect S6-3 when ready.

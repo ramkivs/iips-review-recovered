@@ -57,7 +57,7 @@ responsible phase · evidence references · last status update.
 | L-016 | IID-3 (observed) | NP-04 pin prose and manifest pins disagree; no pin changed by IID-3 | OPEN | 2026-11-06 |
 | L-017 | IID-4 | Portfolio context is a read-model snapshot, not a risk model | OPEN | 2026-11-06 |
 | L-018 | IID-4 | Missing or stale holdings become unmeasured weight, never zero | OPEN | 2026-11-06 |
-| L-019 | IID-4 | Limits policy is operator-supplied; the 10 %/30 % defaults are placeholders | OPEN | 2026-11-06 |
+| L-019 | IID-4 | Limits policy is operator-supplied; the 10 %/30 % defaults are placeholders | RESOLVED (2026-11-22, §17.32) | 2026-11-22 |
 | L-020 | IID-4 | Unsupported subjects (non-equity, unlisted, foreign, merged, delisted) yield no verb | OPEN | 2026-11-06 |
 | L-021 | IID-4 | INSUFFICIENT evidence yields no conclusion; PARTIAL cannot increase exposure | OPEN | 2026-11-06 |
 | L-022 | IID-4 | Sector exposure depends on a sector reference; CSIP scores are absent for user holdings | OPEN | 2026-11-06 |
@@ -501,7 +501,9 @@ sees as a result, and what would be required to close it.
   the future does not apply and says so in `limits.notes`.
 - **Affected contracts / outputs:** `ResolvedLimits`, `limits.basis`, `limits.digest`, `limits.applied`, the
   CAPACITY gates, and the ACCUMULATE→RETAIN / INITIATE→WATCH caps.
-- **Status:** `OPEN`.
+- **Status:** `RESOLVED (2026-11-22, §17.32)` — the operator policy exists with an approval trail and is read at
+  runtime; defaults remain the disclosed fallback for any data root without a policy, which is the designed behaviour,
+  not the gap this entry described.
 - **Downstream phases affected:** IID-5 (a policy change is an input change), IID-6.
 - **Consequence for user-visible results:** out of the box, a disposition is capped at the placeholder limits. A
   user who never writes a policy gets a disposition measured against numbers nobody chose for them — which is why
@@ -509,7 +511,9 @@ sees as a result, and what would be required to close it.
 - **Required resolution / evidence:** an operator-authored policy with an approval trail, plus a test that a version
   change is visible in `limits.policyVersion`/`digest` (present: "a new policy version changes the caps…").
 - **Owner / responsible phase:** operator (policy author), IRR (validation and disclosure).
-- **Evidence:** `iips-platform/src/investment/disposition/limits.ts`; `disposition-limits.test.ts`; register §6.
+- **Evidence:** `iips-platform/src/investment/disposition/limits.ts`; `disposition-limits.test.ts`; register §6;
+  `frontend/server/investment/limitsPolicySource.ts` + `limitsPolicySource.test.ts`; `holdingDisposition.test.ts`;
+  S6-1 record §9.2 (approved policy, digest `bf8dd114…`) and §10 (host readback `OPERATOR_CONFIG`); §17.32.
 
 ### L-020 — Unsupported subjects yield no verb, with a named reason
 
@@ -3333,3 +3337,27 @@ ZIPs/readback, standards, access failures/retries, canonical replay, validation 
 External action: filed/audited same-instant consolidated amount/nil or authoritative applicable2026 IndAS DTS
 and issuer/exchange confirmation distinguishing economic nil, rounded nonzero and default artifact; rights and
 any necessary owner decision must be qualified before admission. No closure, IPD act or other limitation begun.
+
+## 17.32 `L-019` — the operator limits policy exists, is approved, is read at runtime and is on a persisted disposition, so the limitation is `RESOLVED` (2026-11-22; register status change, no code change)
+
+**What the entry described.** The caps were placeholders (`SYSTEM_DEFAULT` 10 % / 30 %) because no operator policy
+existed; the required resolution was "an operator-authored policy with an approval trail, plus a test that a version
+change is visible in `limits.policyVersion` / `digest`".
+
+**§1 rule 3, limb by limb.**
+
+| Limb | Requirement | Evidence |
+|---|---|---|
+| (a) | an implementation that addresses the entry | runtime reader `frontend/server/investment/limitsPolicySource.ts` bound to `<root>/investment/policies/limits-policy.json` (PR #622, `main@e5245b28`); the owner's policy `limits-policy/2026-11` (single-name 8 %, sector `DEFAULT` 25 % / `Technology` 20 %, effective 2026-11-01) authored by the owner, recorded verbatim in the S6-1 record §9.2 with its approval, installed at `C:\iips-data\investment\policies\limits-policy.json` |
+| (b) | an acceptance test that would fail on regression | `limitsPolicySource.test.ts` (operator file ⇒ `OPERATOR_CONFIG` with the file's `policyVersion`; absent ⇒ labelled `SYSTEM_DEFAULT`; malformed ⇒ `LimitsPolicyError`, defaults never substituted); `holdingDisposition.test.ts` (exact `policyVersion` and basis carried into the persisted record; `POLICY_INVALID` stops before any read); `disposition-limits.test.ts` ("a new policy version changes the caps…") — all in CI on `main@e5245b28` |
+| (c) | a pointer in the entry's evidence field | added above; host artefact: disposition `58f669f8-6027-43ec-89f8-2aa6ce8994b7` on `hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021` read back with `limits.basis OPERATOR_CONFIG`, `policyVersion limits-policy/2026-11`, digest `bf8dd114299e34a91a102b8577a2a988cbc2dddd5762bf02f5320eaa42bebc7c` (S6-1 record §10, operator-reported) |
+
+**What `RESOLVED` means here, and what it does not.** The gap — "a disposition is measured against numbers nobody
+chose" — is closed for this owner's data root: the numbers are the owner's and every artifact says so. It does **not**
+mean the caps are *validated* as good numbers (they are the owner's risk appetite), that the sector cap is
+*meaningful* yet (sector references cover 2.29 % of portfolio weight — S6-1 record §10.4), or that a `sectorMaxPct`
+key outside the canonical names would be rejected (gap assessment §2, decision D-3 open). A data root without a policy
+still gets the disclosed `SYSTEM_DEFAULT` placeholders; that is the designed fallback, disclosed on every artifact.
+
+**Statuses after §17.32.** **`L-019` is `RESOLVED`.** `L-023` stays `OPEN` (citation resolution not checked on the host
+record). All other statuses unchanged.

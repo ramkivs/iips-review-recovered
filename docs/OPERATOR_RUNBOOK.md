@@ -934,9 +934,36 @@ Recording real-holding dispositions **after** your policy exists (§15.3) avoids
 policy and the exact host sequence (inspect the existing file first, install without a BOM, §15.3 check, §15.6 dry run,
 recording run, `UNCHANGED` repeat) are in the S6-1 record §9.2–§9.3.
 
-**Verification the owner still has to do on the host:** a `--dry-run` against a real portfolio and holding showing the
-real issuer id, the real assessment head and `limits.basis` as expected for your data root; then a recording run and a
-second run reporting `UNCHANGED`. Until that is done, S6-1 and S6-1b are implemented but **not complete**.
+**Host verification status (2026-11-22, operator-reported; S6-1 record §10).** Done once for `DHAN_PORTFOLIO` / `INFY`:
+`--dry-run`; a recording run (`RECORDED`, `CREATED`, v1 on `hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021`), read back with
+`limits.basis OPERATOR_CONFIG` and `policyVersion limits-policy/2026-11` — **S6-1 complete**; then the identical repeat,
+which reported `UNCHANGED … persistence CLOCK_ONLY_UNCHANGED wrote=false head=58f669f8… v1 … versions=1` — no duplicate
+version — **S6-1b complete** (S6-1 record §10.6). For every other holding the same three steps apply; completion of the
+capability is not a statement about holdings that have not been run.
+
+### 15.7 The weekly review (S6-2, owner decision 2026-11-22: WEEKLY / FRIDAY)
+
+The owner decided the Stage 6 review cadence: **every Friday**. The procedure, the note location and the acceptance
+plan are in `docs/integration/IID-STAGE-6-S6-2-REVIEW-CADENCE-OWNER-DECISION-2026-11-22.md`; this section is the
+operator's checklist and adds nothing to it.
+
+```text
+1  npx tsx server/investment/cli/iid-readiness.ts                         (§16)  — if a read dependency is outstanding, record "not performed" and why
+2  holdings today    UI Personal portfolio / /broker-holdings ; GET /api/investment/portfolio/DHAN_PORTFOLIO/identities
+3  coverage          UI /investment/coverage ; GET /api/investment/coverage
+4  latest verbs      UI /investment/holding-decisions ; GET /api/investment/portfolio/DHAN_PORTFOLIO/dispositions
+5  re-run covered holdings  npx tsx server/investment/cli/generate-holding-disposition.ts --portfolio DHAN_PORTFOLIO --holding symbol:<SYMBOL> ^
+                            --db %IIPS_NP04_DATABASE_PATH% --owner-carrier %IIPS_REPORTS_OWNER_PATH% --data-root C:\iips-data   (§15.6)
+                            UNCHANGED / CLOCK_ONLY_UNCHANGED = nothing moved · APPENDED = read hardTrigger + previous · CHAIN_PARAMETERS_DRIFT = STOP (F-1)
+6  what changed      UI /investment/change-intelligence , /investment/company/<issuerId> ; GET /api/investment/company/<issuerId>/changes
+7  evidence          GET /api/investment/company/<issuerId>/versions/<reportId> ; show-investment-chain.ts --issuer <issuerId>   (§14)
+8  limits block      must read OPERATOR_CONFIG / limits-policy/2026-11 ; SYSTEM_DEFAULT here means the policy file was not read — investigate first
+9  write the note    evidence/iid/STAGE-6-WEEKLY-REVIEW-<quarter>/REVIEW-<YYYY-MM-DD>.md (template in the S6-2 record §7); a missed Friday is a one-line "not performed" row, never a silent gap
+```
+
+What the review never does: mint an assessment (that is §14, when new source data exists), edit the policy, act on a
+verb, or open a second chain for a holding. No scheduler, alert or breach ledger exists or is authorised; the Friday is
+the owner's calendar, not the application's.
 
 ## 16. IID runtime readiness (P6-A) — ask before you start
 
