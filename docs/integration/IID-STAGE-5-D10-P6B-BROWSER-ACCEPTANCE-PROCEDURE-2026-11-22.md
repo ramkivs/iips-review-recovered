@@ -9,8 +9,10 @@ current `main@a2fa6823…` qualifies) / IPD `main@cbb116d2a221b82a704b4b96cf17ef
 **Authority:** `IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md`; P6-A
 `IID-P6A-RUNTIME-DEPENDENCY-ASSESSMENT-2026-11-09.md` §10; roadmap Part C §C.8
 **Classification:** Local / Single User / Non-Production. Production admission **NOT ADMITTED**.
-**Status of this document:** the journey below has **not** been executed. No browser, DOM, console, network or
-screenshot observation exists for it. Nothing here is a result.
+**Status of this document:** first pass executed 2026-11-22 for the portfolio surfaces (§6.1–§6.3 verified,
+operator-reported — evidence record §13.1); §6.6 was executed on an arbitrary holding and produced two findings
+(evidence record §13.2, §13.3), after which §6.6 was **amended** below. §6.4, §6.7, §6.8 and the §9 sheet are
+not yet reported. Nothing here is a P6-B acceptance.
 
 > **What this document is.** P6-A §10 lists seven prerequisites for P6-B. §2 reconciles each against the
 > evidence actually published (no prerequisite is taken as satisfied because the transport-environment
@@ -277,18 +279,49 @@ untouched and never reaches the renderer (implementation record §8). Therefore:
   → *Preview*, note that `portfolio.contributionLedger` has length 1 and `portfolio.contributions` length 0.
   Write only those two lengths into `D10-journey.txt`.
 
-### 6.6 Optional bridge to the Stage 4 surfaces (reference, not repetition)
+### 6.6 Bridge to the company assessment and the change history — **amended 2026-11-22 after the first pass** (evidence record §13)
 
-If at least one holdings row offers **Company assessment →**, follow **one** of them. The target is
-`/investment/company/<issuerId>?portfolioId=DHAN_PORTFOLIO&securityId=<id>` (`companyAssessmentHref`).
-What must render there is defined by Stage 4 procedure §7.2 (chain / `503` state / `404` state, with the
-NP-04 record §4 values if the issuer is Infosys) — apply that section as written; do not re-derive it here.
-Record the status and which of the three §7.2 outcomes occurred (`D10-07-company-bridge.png`). If you also
-follow **Change history →**, a `404 change-not-found` with one stored version is the correct refusal (Stage 4
-§7.6); do not treat it as an error.
+**Amended.** The first pass followed *Company assessment →* on an arbitrary holding and reached the honest
+*"No stored assessment exists for this issuer"* state, and *Change history →* resolved to the same page. The
+first is the specified result for every holding whose issuer has no stored chain (the NP-04 store holds **one**
+chain — Infosys — while the roster may resolve many holdings); the second was a navigation defect, now
+corrected (the link opens the IID-03 workspace). The step is therefore rewritten as follows.
 
-If no row offers the link, record *"no holding resolved to a governed issuer with a company link"* — that is
-the server's identity answer for this portfolio and is not a page defect.
+**Preconditions for this step.** Your IRR checkout includes the correction (`UserPortfolioDetail.tsx` builds
+*Change history →* as `/investment/change-intelligence?issuerId=…`) and `npm run dev` has been restarted on it
+(the transport need not restart; hover the link and read the `href` in the status bar — if it still ends in
+`#change-timeline`, the UI is serving the old bundle: stop here and record that).
+
+1. **Choose the holding by issuer, not at random.** In the holdings table, hover *Company assessment →* on each
+   row that has one and read the `issuerId` in the `href`. Pick the row whose issuer is
+   **`IN:CIN:L85110KA1981PLC013115`** (Infosys — the only chain stored on this host). If no row resolves to it,
+   record *"no holding in DHAN_PORTFOLIO resolves to an assessed issuer"* in §9 row B2 and apply step 4 to **one**
+   other row instead; do not mint anything to change that.
+2. **Company assessment →** on that row. Expected per Stage 4 §7.2 — a chain renders with the NP-04 record §4
+   values (report id `6b6e2316-…`, version 1, `SUFFICIENT / MATERIAL_CONCERNS`, confidence `0.3210`), the
+   held disposition panel addressed by `portfolioId=DHAN_PORTFOLIO&securityId=<id>` (its own honest state if no
+   disposition is stored), and a *Change history* section further down the same page. Screenshot →
+   `D10-07-company-bridge.png`. A `404` **here** is a finding (§13.2 row 1 of the evidence record): record it,
+   do not re-mint.
+3. **Change history →** on the same row. Expected: the URL becomes
+   `/investment/change-intelligence?issuerId=IN:CIN:L85110KA1981PLC013115&portfolioId=DHAN_PORTFOLIO&securityId=<id>`;
+   heading **IID-03 — Historical Change Intelligence**; breadcrumb; **Version history** section with **one** row
+   (v1, report id `6b6e2316-…`, *Open this version →*) and the note *"a chain needs two stored versions before
+   anything can be compared"*; below it the timeline in its no-history state. No comparison is shown and none
+   is expected — there is one stored version. Screenshot → `D10-09-change-history.png`. If the page is the
+   Company assessment page instead, the precondition above was not met.
+4. **One non-assessed holding (expected 404 pair).** On a row whose issuer is **not** one of
+   `IN:CIN:L85110KA1981PLC013115` / `IN:CIN:L15140MH1988PLC049208` / `IN:CIN:L45200MH2005PLC152061`, follow both
+   links. Expected: *Company assessment* → the *"No stored assessment exists…"* state (as seen in the first pass);
+   *Change history* → the **IID-03 page** whose *Version history* section carries the same alert and *"no cached
+   history, no reconstructed comparison and no fallback store"* — a **distinct** page with an honest empty state,
+   not the company page. Record both URLs' `issuerId` and statuses (`GET /api/investment/company/<issuer>` →
+   `404`). This is the correct result for that issuer (dataset and governed population are three issuers);
+   nothing is to be minted for it. Screenshot → `D10-10-not-assessed-pair.png`.
+5. **Marico / KEC (`L15140MH1988PLC049208` / `L45200MH2005PLC152061`), if held.** Today they also return the 404
+   state because their v1 mints are open operator work (NP-04 record §9.3; not forced). If the operator elects
+   to perform a mint it is the existing CLI, in the transport's environment, followed by the Stage 4 §8 read-back
+   — a separate operation recorded on its own, **not** part of this journey and not a precondition for it.
 
 ### 6.7 Second portfolio — minimum check
 
@@ -328,7 +361,7 @@ method is not `GET`/`HEAD` is finding F.
 |---|---|---|
 | `D10-00-checkout.txt`, `D10-00-transport-process.txt` | §4 | yes (commit hash, PID, Node version) |
 | `D10-journey.txt` | §6 (one line per step) | yes after reading it — no holding values |
-| `D10-01` … `D10-08-*.png` | §6 | **no** — host-local. `D10-04` (holdings) in particular contains personal financial data. A cropped `D10-03` (summary cards) may be pasted into a review record if quantities are redacted |
+| `D10-01` … `D10-10-*.png` | §6 | **no** — host-local. `D10-04` (holdings) in particular contains personal financial data. A cropped `D10-03` (summary cards) may be pasted into a review record if quantities are redacted |
 | `D10-network-status.txt` or `D10-network.har` | §6.8 | status list yes; HAR **no** |
 | `D10-console.txt` | §6.8 | yes, sanitised |
 
@@ -345,6 +378,9 @@ B  DHAN_PORTFOLIO: revision <n> (exp 1) | constituents <n> (exp 64) | holding ro
    links: <n> rows with Company assessment, <n> rows "not available — <reason>"
 C  Refresh: statuses <s/s/s/s>, figures unchanged: <yes/no>
 D  404 path: /user-portfolios/D10-NO-SUCH-PORTFOLIO → <status>, "Portfolio not found" shown: <yes/no>; 503 path: NOT EXERCISED (by rule)
+B2 company bridge (Infosys-resolving row): held: <yes/no> | GET /api/investment/company/IN:CIN:L85110KA1981PLC013115 → <status> | chain v1 6b6e2316 rendered: <yes/no/404>
+B3 change history (same row): URL /investment/change-intelligence?issuerId=…: <yes/no> | Version history rows: <n> (exp 1) | comparison shown: <none expected>
+B4 non-assessed row: issuerId <…> | company → 404 state: <yes/no> | change history → IID-03 page with honest alert: <yes/no> | hrefs end in #change-timeline: <no expected>
 E  PERSONAL-fa8ad7bc-…: revision <n> (exp 2) | constituents <n> (exp 1) | digest prefix <8> (exp 9e5dc076) | status <…>
 L  contributionLedger: wire length <1> / contributions length <0>; UI "No import contributions recorded…": <yes/no>
    → ledger not rendered — passed through, unrendered (EXPECTED; recorded UI capability gap)

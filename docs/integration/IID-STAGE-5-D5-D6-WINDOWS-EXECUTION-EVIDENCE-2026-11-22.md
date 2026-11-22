@@ -41,6 +41,12 @@ The Stage 5 portfolio read path exists on the host. Overall IID readiness remain
 > (the recorded browser journey) is the remaining Stage 5 step and is **not executed**. Procedure:
 > `IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md`.
 
+> **Update 2026-11-22 (first D10 browser pass), §13:** portfolio surfaces verified in the browser (64 Dhan
+> holdings, summary, valuation, weights, latest revision); two findings — *Company assessment* reached the
+> honest "No stored assessment" state for the chosen holding (root cause: only the Infosys chain is stored;
+> disposition by issuer in §13.2), and *Change history* resolved to the same page (root cause: anchor to a
+> section mounted only after a successful read; corrected to the IID-03 workspace, §13.3). **P6-B not accepted.**
+
 ---
 
 ## 1. Operator-observed host evidence (IPD checkout, service, endpoint)
@@ -556,3 +562,116 @@ required). IPD's publication proceeds in parallel under IPD ownership.
 | Product facts cited | `frontend/server/investment/runtimeReadiness.ts`: enablement finding `[ok]` iff `IIPS_LOCAL_PERSONAL_USE === '1'` (reason `LOCAL_PERSONAL_USE_DECLARED`); `ready` computed over all findings except `local-personal-use-enablement`; carrier findings return `…_ESTABLISHED` only when the resolver returns ok; NP-04/dataset findings report `…_PRESENT_CONTENT_UNVERIFIED`; endpoint finding states "Peer liveness not probed" |
 | Sanitisation | this section adds a PID, two file names and finding results; no environment **values**, no pipe-name value, no path beyond those already of record, no holdings, no binding/membership/owner/tenant values |
 | Host / IPD-service facts | **none observed by Arena**; all operator-reported |
+
+---
+
+## 13. Evidence update — 2026-11-22, first D10 / P6-B browser pass (operator-reported, partial) and two findings resolved (appended; §§0–12 are the historical record)
+
+Operator-reported; Arena opened no browser and accessed no host. This section records what the operator
+observed in the first run of the D10 / P6-B procedure, the two findings it produced, their root causes as
+established from the IRR source, and what was changed. **P6-B is not accepted by this section** (§13.6).
+
+### 13.1 What the operator observed (as reported)
+
+| Step (procedure §6) | Reported result | Status |
+|---|---|---|
+| 6.2 / 6.3 — `/user-portfolios` → `DHAN_PORTFOLIO` detail | the read-only view displayed the **64** Dhan holdings, the portfolio summary, the valuation, the holding weights and the latest persisted revision | **VERIFIED** (portfolio surfaces). The §9 summary-sheet figures (statuses, digest match, console/network sweep, 404 path, second portfolio) were **not supplied** with this report and remain to be recorded |
+| 6.6 — **Company assessment →** from a Dhan holding | page reached; rendered: *"Company assessment — No stored assessment exists for this issuer. Assessments are produced by the operator CLI. Nothing is substituted for a failed read: no cached assessment, no client-side recomputation and no fallback store."* | **FINDING 1** — honest missing-data state; the bridge did not reach a stored assessment. The issuer id in the page URL was **not reported** |
+| 6.6 — **Change history →** from the same holding | landed on the **same** Company assessment page; no distinct history view | **FINDING 2** — navigation defect, reproduced in source (§13.3) |
+
+The Dhan portfolio portion is not to be repeated. D5, D6, R-1 and R-2 are unchanged and were not rerun.
+
+### 13.2 Finding 1 — Company assessment: root cause and disposition
+
+**Mechanism (source).** `UserPortfolioDetail` offers *Company assessment →* for every holding whose
+`/api/investment/portfolio/DHAN_PORTFOLIO/identities` row carries an `issuerId` (roster resolution; `LinksCell`).
+The link opens `/investment/company/<issuerId>?portfolioId=DHAN_PORTFOLIO&securityId=<id>`;
+`CompanyAssessmentPage` reads `GET /api/investment/company/<issuerId>`; a `404 not-found` renders the fixed
+copy observed (`ASSESSMENT_UNAVAILABLE_COPY['not-found']`, `src/api/investment.ts`). The copy is correct: the
+NP-04 store on this host holds **one** assessment chain — Infosys `IN:CIN:L85110KA1981PLC013115`, version 1
+(NP-04 record §4; Stage 4 §8 separate-process read-back) — while the roster the identities route resolves
+against may be the 2,388-issuer set (O1 record §7.2, operator-reported host fact), so most of the 64 holdings
+resolve to issuers for which **no assessment has ever been produced**. The page did exactly what it is
+specified to do; the gap is between the population that resolves and the population that is assessed.
+
+**Why no stored assessment exists, by issuer — and the only authorised remedies.** The issuer is read from
+the company page URL (`/investment/company/<issuerId>`). Three cases, no fourth:
+
+| Issuer in the URL | Why no chain | Authorised action | Not authorised |
+|---|---|---|---|
+| `IN:CIN:L85110KA1981PLC013115` (Infosys) | would be **unexpected** — this chain exists and was read back (Stage 4 §8, NP-04 record §4) | treat as a **defect**: compare the NP-04 path the serving transport resolved (§12.2 finding 3) with the store the mint wrote to (roadmap §C.1); re-run the Stage 4 §8 `show-investment-chain.ts` read-back **against the transport's own `--db` / `--owner-carrier`**; record the disagreement | re-minting Infosys (NP-04 record: "do not repeat the completed Infosys mint") |
+| `IN:CIN:L15140MH1988PLC049208` (Marico) or `IN:CIN:L45200MH2005PLC152061` (KEC) | the Stage 5 three-issuer v1 mints for these two are **open operator work, not forced** (NP-04 record §9.3; evidence record §11.5/§12.5) | the existing operator CLI `frontend/server/investment/cli/generate-investment-artifacts.ts --issuer <CIN> --data-dir <dataset> --db <NP-04 path> --owner-carrier <Reports carrier>` run in the transport's environment (dataset covers all three issuers; identity resolves; PA-01 authority), then the Stage 4 §8 separate-process read-back, then the browser link. Expected content per tracker §16.305: NOT_QUALIFIED verdicts and exact `CAPITAL_STRUCTURE_INCOMPLETE` / stale-field withholdings — an honest artifact, not a pass | a mint whose purpose is only to make the page render; any engine, policy or input adjustment |
+| any other issuer | the fundamentals dataset on the host covers **three issuers only** (Stage 4 coverage records; §16.305 "three-issuer population"); the IRR-side governed population is the O1 three (O1 record §3.1). The CLI would run the engine over **no statements** for that issuer and persist an INSUFFICIENT artifact — a synthetic assessment minted to satisfy a browser check | **none.** The observed 404 state **is the correct, honest result** for that holding. Record it; choose a holding whose issuer is one of the three for the bridge step | minting; adding the issuer to the dataset or population (an owner population decision under O1 item 4, outside Stage 5) |
+
+**Disposition.** No product change is justified by finding 1: the missing-data behaviour is the specified
+fail-closed behaviour and introduces no substitution. The D10 procedure is amended (§6.6) so the bridge step
+targets a holding whose issuer is Infosys (the only stored chain) and records any other issuer's 404 as the
+expected state. **Which case applies is an operator determination from the URL and is not made here.**
+Candidate improvement, recorded and **not implemented** (unrequested product change): the holdings row could
+state whether a stored assessment exists before the link is followed, as the Stage 4 discovery panel's
+*Assessment* column does.
+
+### 13.3 Finding 2 — Change history: root cause and correction
+
+**Root cause (source, reproduced by test).** `Change history →` in `UserPortfolioDetail.LinksCell` was built by
+`changeHistoryHref()` = `companyAssessmentHref(...) + '#change-timeline'` (IID WI-1 P5 design): the company
+page scrolled to its change-timeline section. `CompanyAssessmentPage` mounts `ChangeTimeline` (the element
+with `id="change-timeline"`) **only in the `ready` state** — in the `unavailable` (404) state it returns the
+alert-only section. For an issuer with no stored chain the fragment therefore had no target, `useHashScroll`
+timed out silently, and the reader saw the identical Company assessment page. Pinned by the first test in
+`iidStage5D10ChangeHistoryNavigation.test.tsx` (`document.getElementById('change-timeline')` is `null`; no
+*Change history* / *Version history* heading).
+
+**Intended destination (existing architecture).** IID-03 Historical Change Intelligence has its own
+workspace route `/investment/change-intelligence` (`CAPABILITY_ROUTES.changeIntelligence`, `ChangeIntelligencePage`;
+Stage 4 procedure §7.6; landing page and `CapabilityBreadcrumb` already link it). It is addressed by issuer,
+carries `portfolioId` / `securityId` / `reportId`, always renders a **Version history** section that names
+itself in every read state (loading / unavailable / error / ready), lists the stored versions with
+*Open this version →* links, and mounts the **existing** `ChangeTimeline` for comparisons — which enforces the
+two-version rule itself and renders `no-history` with one version. Nothing is rebuilt and nothing is invented.
+
+**Correction (product code, minimal).** `UserPortfolioDetail.tsx`: the holding row's *Change history →* now
+uses `changeIntelligenceHref(issuerId, { portfolioId, securityId })` →
+`/investment/change-intelligence?issuerId=<issuer>&portfolioId=DHAN_PORTFOLIO&securityId=<id>`. One import and
+one `Link` target changed; the comment above `LinksCell` records why. `changeHistoryHref` itself, the company
+page's in-page *Historical changes* stage link, and the `Change history →` links on the Stage 4 discovery panel
+and identity-coverage page are **unchanged** (same anchor pattern; recorded in §13.5 as a follow-up, not
+altered here so Stage 4-accepted surfaces are not disturbed by this Stage 5 fix).
+
+**Behaviour after the fix, by data state (all read from the one existing assessment endpoint):**
+
+| Issuer's stored chain | What the IID-03 page shows |
+|---|---|
+| none (404) | heading *IID-03 — Historical Change Intelligence*; *Version history* section with the alert *"No stored assessment exists for this issuer. Assessments are produced by the operator CLI."* and *"no cached history, no reconstructed comparison and no fallback store"*; no table, no timeline |
+| one version (Infosys today) | *Version history* table with one row (v1, report id `6b6e2316-…`, generated, data-as-of, *Open this version →*); note *"a chain needs two stored versions before anything can be compared"*; `ChangeTimeline` in its `no-history` state |
+| two or more versions | the table lists each; `ChangeTimeline` renders the consecutive comparisons with material changes, triggers and attribution, each linking the exact stored pair |
+
+**Tests.** New `frontend/src/features/user-portfolios/iidStage5D10ChangeHistoryNavigation.test.tsx` (3 tests:
+root-cause pin; href distinct from the company link and carrying context; click lands on the IID-03 page with
+the honest 404 state and the chain read for that issuer). Updated expectations in
+`iid6PortfolioIntegration.test.tsx` and `iidWi2LinkIndependence.test.tsx` (context-preservation cases 1–5
+unchanged in intent). Targeted run 3 files / 19 tests pass; full frontend suite **224 files passed, 1 skipped
+(pre-existing) / 3321 tests passed, 1 skipped**; `tsc --noEmit` clean.
+
+### 13.4 Browser verification status of the two findings
+
+| Finding | Repository verification | Browser verification |
+|---|---|---|
+| 1 — Company assessment | mechanism and store state established from source and published records (§13.2) | **not yet**: the issuer id from the URL has to be read and the §13.2 row applied; the bridge is then re-tried on an Infosys-resolving holding (or the Marico/KEC mint is performed first, if the operator elects to) |
+| 2 — Change history | defect reproduced by test; correction merged with this update; distinct destination and honest 404 state covered by tests | **not yet**: requires the operator's IRR checkout to include this update, `npm run dev` restarted (Vite serves the new bundle; the transport need not restart), then procedure §6.6 step 3 |
+
+### 13.5 Follow-ups recorded, not performed
+
+- Sibling `Change history →` links on `CompanyDiscoveryPanel` and `IdentityCoveragePage` still use the
+  `#change-timeline` anchor and have the same no-chain behaviour; unchanged here (Stage 4 surfaces). Owner
+  decision whether to align them.
+- Holdings-row assessment presence indicator (§13.2, candidate improvement) — not implemented.
+- Marico / KEC v1 mints remain open, not forced; they are the only authorised way to widen the assessed
+  population reachable from the Dhan holdings today.
+
+### 13.6 Status after this update
+
+Portfolio surfaces of D10 **verified** (operator-reported); company bridge and change history **not yet
+verified in the browser**; §9 summary sheet outstanding. **P6-B NOT ACCEPTED. Stage 5 NOT ACCEPTED; overall IID
+readiness NOT READY.** D5/D6/R-1/R-2 and Stage 4 closure unchanged. No IPD change, no pin advance, no host
+setting changed, no write route, no mint performed, no assessment data synthesised.

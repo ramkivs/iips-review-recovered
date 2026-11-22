@@ -1683,3 +1683,36 @@ reopened. **Not Stage 5 acceptance; overall IID readiness remains NOT READY.** *
 executes the D10 / P6-B procedure once in a real browser against the running transport (no restart, no
 setting change) and publishes its §9 summary sheet as §13 of the evidence record. No Stage 6 work, no IPD
 change, no pin advance, no product code change and no host provisioning is authorized by this amendment.
+
+## C.9 Stage 5 — first D10 / P6-B browser pass: portfolio surfaces verified; two findings investigated, one navigation defect corrected (2026-11-22)
+
+Evidence record §13 of `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (operator-reported browser
+observations; Arena opened no browser and accessed no host); procedure §6.6 amended.
+
+**Verified (operator-reported).** `/user-portfolios` → `DHAN_PORTFOLIO`: 64 holdings, summary, valuation,
+weights and latest persisted revision displayed. Not repeated; §9 sheet figures still to be supplied.
+
+**Finding 1 — Company assessment → "No stored assessment exists for this issuer".** Specified fail-closed
+`404 not-found` rendering; cause: the NP-04 store holds one chain (Infosys v1) while the identities route
+resolves holdings against the installed roster. Disposition by the issuer in the URL (evidence record §13.2):
+Infosys → defect, investigate the transport's NP-04 path, no re-mint; Marico/KEC → the open, not-forced v1
+mint via the existing `generate-investment-artifacts.ts` CLI is the only authorised remedy; any other issuer →
+the 404 state is the correct result (three-issuer dataset and O1 population) and **nothing is minted to make
+the page render**. No product change. Procedure §6.6 now selects an Infosys-resolving holding for the bridge.
+
+**Finding 2 — Change history → same page.** Root cause: `changeHistoryHref` anchored
+`#change-timeline` on the company page, whose timeline section is mounted only after a successful read, so a
+no-chain issuer showed the identical page. Corrected: `UserPortfolioDetail` now links the IID-03 workspace
+`/investment/change-intelligence?issuerId=…&portfolioId=…&securityId=…` — the existing capability destination
+with an always-present *Version history* section, stored-version table, the existing `ChangeTimeline` for
+comparisons, and honest unavailable / no-history states. One link target changed; new test file
+`iidStage5D10ChangeHistoryNavigation.test.tsx` (root cause pinned + correction); two expectation updates.
+Full frontend suite 224 files / 3321 tests pass; `tsc` clean. Sibling anchor links on the Stage 4 discovery
+and identity-coverage surfaces unchanged (follow-up recorded).
+
+**Status and next step.** Portfolio surfaces verified; company bridge and change history **not yet verified
+in the browser** (operator checkout must include this change; UI restart). **P6-B NOT ACCEPTED; Stage 5 NOT
+ACCEPTED; overall IID readiness NOT READY.** D5/D6/R-1/R-2 and Stage 4 closure unchanged. **Next:** operator
+pulls this change, restarts `npm run dev`, executes amended §6.6 (Infosys-resolving row; one non-assessed row)
+plus the outstanding §6.4/§6.7/§6.8, and supplies the §9 sheet. No IPD change, no pin advance, no host
+provisioning, no mint and no write route is authorized by this amendment.

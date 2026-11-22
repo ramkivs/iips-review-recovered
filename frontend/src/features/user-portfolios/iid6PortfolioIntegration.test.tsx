@@ -180,8 +180,13 @@ describe('each holding points at the investment surfaces that exist for it', () 
       'href',
       `/investment/company/${encodeURIComponent(ISSUER)}?portfolioId=${PORTFOLIO}&securityId=${encodeURIComponent(SECURITY)}`,
     );
+    // IID Stage 5 D10: change history is the IID-03 workspace (a distinct view with its own honest empty
+    // state), addressed by issuer and carrying the same holding context — not an anchor on the company page.
     const historyLink = screen.getByRole('link', { name: 'Change history →' });
-    expect(historyLink.getAttribute('href')).toBe(`${companyLink.getAttribute('href')}#change-timeline`);
+    expect(historyLink).toHaveAttribute(
+      'href',
+      `/investment/change-intelligence?issuerId=${encodeURIComponent(ISSUER)}&portfolioId=${PORTFOLIO}&securityId=${encodeURIComponent(SECURITY)}`,
+    );
     expect(screen.getByRole('link', { name: 'Candidate view →' })).toHaveAttribute(
       'href',
       `/investment/candidate/${encodeURIComponent(SECURITY)}`,

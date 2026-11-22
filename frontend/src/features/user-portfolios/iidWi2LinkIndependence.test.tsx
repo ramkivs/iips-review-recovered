@@ -17,7 +17,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { UserPortfolioDetail } from './UserPortfolioDetail';
 import type { UserPortfolioView } from '../../api/userPortfolios';
 import type { HoldingIdentity } from '../../api/investmentDiscovery';
-import { changeHistoryHref, companyAssessmentHref } from '../investment/investmentContext';
+import { changeIntelligenceHref, companyAssessmentHref } from '../investment/investmentContext';
 
 const PORTFOLIO = 'iid-wi2-portfolio';
 const ISIN = 'IN0000000201';
@@ -167,7 +167,7 @@ function renderDetail() {
 }
 
 const EXPECTED_COMPANY = companyAssessmentHref(ISSUER, { portfolioId: PORTFOLIO, securityId: SECURITY });
-const EXPECTED_HISTORY = changeHistoryHref(ISSUER, { portfolioId: PORTFOLIO, securityId: SECURITY });
+const EXPECTED_HISTORY = changeIntelligenceHref(ISSUER, { portfolioId: PORTFOLIO, securityId: SECURITY });
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -228,7 +228,9 @@ describe('P3 — company and history links do not depend on dispositions', () =>
       expect(href).toContain(`portfolioId=${PORTFOLIO}`);
       expect(href).toContain(`securityId=${encodeURIComponent(SECURITY)}`);
     }
-    expect(history.getAttribute('href')).toContain('#change-timeline');
+    // IID Stage 5 D10: the history link addresses the IID-03 workspace by issuer, not a page anchor.
+    expect(history.getAttribute('href')).toContain(`/investment/change-intelligence?issuerId=${encodeURIComponent(ISSUER)}`);
+    expect(history.getAttribute('href')).not.toContain('#change-timeline');
   });
 
   it('never reads a disposition to decide whether a company link exists', async () => {
