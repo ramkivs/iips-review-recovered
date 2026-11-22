@@ -51,6 +51,13 @@ The Stage 5 portfolio read path exists on the host. Overall IID readiness remain
 > now opens the IID-03 page in the browser (navigation **VERIFIED**; version history **UNAVAILABLE** for the tested
 > issuer — honest state); *Company assessment* navigation **VERIFIED**, content **UNAVAILABLE** (no stored chain
 > for that issuer; correct per §13.2). **P6-B not accepted.**
+>
+> **Update 2026-11-22 (PA/PO decision), §15:** the owner's final verification (portfolio `TEST`: revision 2,
+> 1 constituent, `UPDATED`, digest `9e5dc076ebcc…`, identity unresolved by design) is recorded and the owner has
+> **CLOSED Stage 5 evidence collection**. **Stage 5 ACCEPTED by the PA/PO for the checks covered by this record;
+> P6-B ACCEPTED BY PA/PO for the covered checks; remaining rows CLOSED — NOT COLLECTED.** The technical limitations
+> of §13–§14 (assessment content, version history and comparison UNAVAILABLE; nothing fabricated) are unchanged.
+> Decision record: `IID-STAGE-5-PA-PO-ACCEPTANCE-DECISION-2026-11-22.md`. Current stage: **Stage 6**.
 
 ---
 
@@ -814,3 +821,117 @@ update.
 | Verbatim text | the two page texts in §14.2/§14.3 match the product copy (`ASSESSMENT_UNAVAILABLE_COPY['not-found']`, `CompanyAssessmentPage.tsx` unavailable state, `ChangeIntelligencePage.tsx` header / *Version history* section, `ReadOnlyDisclosure`) and the navigation trail matches `CapabilityBreadcrumb` |
 | Sanitisation | this section adds one operator-supplied security/issuer identifier pair (`INE274Y01021`, supplied for the record by the owner), the portfolio id and PR/commit identifiers; no holding quantities or values, no bodies, no environment values |
 | Host / browser facts | **none observed by Arena**; all operator-reported |
+
+## 15. Final entry — 2026-11-22, PA/PO verification of the second portfolio and closure of Stage 5 evidence collection (owner decision; appended; §§0–14 are the historical record)
+
+**Nature of this section.** Two things, kept apart: (A) the owner's final verification observations, recorded as
+operator-reported technical observations like every section before it; (B) the owner's **decision** as PA/PO,
+which is a governance act and is recorded as such, not as evidence. Full decision record:
+`IID-STAGE-5-PA-PO-ACCEPTANCE-DECISION-2026-11-22.md`. Arena observed nothing on the host; no browser was
+opened by Arena. No application code changed.
+
+### 15.1 (A) Final PA/PO verification — portfolio `TEST` (procedure §6.7 "second portfolio"; owner-reported)
+
+Verified by the owner directly in the running application on delivery HEAD `408f3afbb4780fed9f90ff6a3683c464714e57df`.
+The figures are recorded at the owner's direction (one-row manual test portfolio).
+
+| Item | Observed |
+|---|---|
+| Portfolio | `TEST` |
+| Revision | **2** |
+| Total portfolio value | ₹500.00 — the **persisted commit-time valuation, not a live market valuation** |
+| Constituents | **1** (current revision: 1 persisted constituent — **0 active, 1 inactive**) |
+| Weight allocation sum | 100.0000 % |
+| Persistence status (detail page) | **`UPDATED`** |
+| Digest | `9e5dc076ebcc…` |
+| Last updated | `2026-11-12T10:45:20.422Z` |
+| Status basis | revision 2, operation **`REPLACE`**, committed `2026-11-12T10:45:20.422Z` — a stored `REPLACE` over an existing portfolio; `UPDATED` is the correct detail-page status (procedure §6.3 derivation) |
+| Import contributions | **none recorded** for this portfolio |
+
+| Holding field | Observed |
+|---|---|
+| Symbol | `AIIL` |
+| Company | `MANUAL:AIIL` |
+| Quantity | 1 |
+| Average buy price | ₹462.00 |
+| Current price | ₹500.00 |
+| Market value | ₹500.00 |
+| Weight | 100 % |
+| Active | **No** |
+| Source | `manual-personal` |
+| Lineage | `e0e715ee5ff3…` |
+| Identity | **unresolved** — the row has neither an ISIN nor an exchange symbol |
+| Company disposition; company / history resolution | **unavailable** as a consequence of the unresolved identity |
+
+**Classification of the unresolved identity:** the specified result for a row without an ISIN or exchange
+symbol — **not a defect**. No company identity is inferred, invented or substituted; no assessment, disposition
+or history is fabricated for it.
+
+**Distinction preserved:** the list page's *Status* column shows **`Committed`** (`isSaved`); the detail page's
+status summary shows **`UPDATED`** (derived from the latest revision's stored operation). Two fields, two
+meanings, both correct (procedure §6.2 note, §6.3).
+
+**Reconciliation to the record (Arena; repository only).** Revision 2 / 1 constituent / digest prefix
+`9e5dc076` equal the transport baseline of §5 for `PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2` and the
+expectations of procedure §5 / §6.7. The display name `TEST` is owner-reported context; the name-to-id
+correspondence is not re-derived here.
+
+### 15.2 (A) Technical observations carried forward unchanged
+
+- §13.2 / §14.2 Company assessment: navigation VERIFIED; content **UNAVAILABLE** (no stored chain for the tested
+  issuer; §13.2 dispositions stand); fail-closed VERIFIED; nothing generated or substituted.
+- §13.3 / §14.3 Change history: navigation VERIFIED — PASS to IID-03; version history **UNAVAILABLE**; comparison
+  **NOT AVAILABLE** and never displayed; fail-closed VERIFIED; nothing reconstructed.
+- Assessment **content** was not rendered in any pass (only the Infosys chain `6b6e2316-…` v1 exists; no pass
+  reached a holding resolving to it). This remains true after this section.
+- Procedure rows not reported at closure — §6.6 steps 1–3 on an Infosys-resolving row (B2/B3), §6.4 (404 path),
+  §6.8 (console/network sweep), HTTP-status transcriptions of §9 rows A, C, F.
+
+### 15.3 (B) PA/PO decision — recorded separately from (A)
+
+Owner statement (2026-11-22): *"Evidence collection for Stage 5 is CLOSED. No additional screenshots, browser
+checks, runtime observations, or evidence requests are authorised or required. Treat my personal verification as
+the PA/PO acceptance decision for the Stage 5 checks covered by the existing evidence."* Authority: PA-01 (the
+owner is the sole acceptance authority for local acts; G-8).
+
+| Decision element | Recorded value |
+|---|---|
+| Stage 5 evidence collection | **CLOSED** (2026-11-22). This is the last Stage 5 entry in this record |
+| P6-B / D10 | **ACCEPTED BY PA/PO for the covered checks** (§13.1, §13.2/§14.2 navigation + fail-closed, §13.3/§14.3 navigation + fail-closed, §15.1); the rows in §15.2 last bullet are **CLOSED — NOT COLLECTED** (neither passed nor failed) |
+| Stage 5 | **ACCEPTED (PA/PO, 2026-11-22)** for the checks covered by this record, with the limitations of §15.2 recorded and unchanged |
+| D5 / D6 / R-1 / R-2 / Stage 4 closure | unchanged, not reopened |
+| Marico / KEC v1 mints; second comparable version | carried into **Stage 6** (baseline §21 "mint two versions per covered issuer"); not forced |
+| IPD D02 publication | IPD-owned; unchanged; not a condition of this acceptance |
+| Current stage | **Stage 6 — investment intelligence: IN PROGRESS, not complete** (roadmap §C.11; decision record §4) |
+| Production / hosting / multi-user / commercial | **NOT ADMITTED**; unchanged |
+
+### 15.4 Final D10 / P6-B summary sheet (procedure §9), closed by decision
+
+```text
+D10 / P6-B BROWSER JOURNEY — 2026-11-22  —  result: ACCEPTED BY PA/PO FOR THE COVERED CHECKS; REMAINING ROWS CLOSED — NOT COLLECTED
+IRR checkout: 408f3afbb4780fed9f90ff6a3683c464714e57df (post-#619 delivery HEAD)   transport: not restarted   UI: restarted   IPD: cbb116d2 (unchanged)
+A  list rows: 2 (§13.1)                               GET /api/user-portfolios: status NOT TRANSCRIBED — CLOSED, NOT COLLECTED
+B  DHAN_PORTFOLIO: 64 holdings, summary, valuation, weights, latest persisted revision displayed (§13.1); per-route statuses / digest full-match NOT TRANSCRIBED — CLOSED, NOT COLLECTED
+B2 company bridge (Infosys-resolving row): NOT COLLECTED — CLOSED BY PA/PO DECISION (assessment content never rendered; not claimed)
+B3 change history (same row): NOT COLLECTED — CLOSED BY PA/PO DECISION (version history / comparison never displayed; not claimed)
+B4 non-assessed row: issuerId IN:EQISIN:INE274Y01021 | company → 404 state: yes | change history → IID-03 page with honest alert: yes | hrefs end in #change-timeline: no (§14)
+C  Refresh: NOT COLLECTED — CLOSED
+D  404 path: NOT COLLECTED — CLOSED; 503 path: NOT EXERCISED (by rule)
+E  TEST (PERSONAL-fa8ad7bc-… baseline): revision 2 (exp 2) | constituents 1 (exp 1) | digest prefix 9e5dc076 (exp 9e5dc076) | status UPDATED (REPLACE, rev 2) | identity unresolved by design | contributions: none (§15.1)
+L  contributionLedger: UI "No import contributions recorded…": yes (DHAN §13.1; TEST §15.1) → ledger not rendered — passed through, unrendered (recorded UI capability gap)
+U  presentation findings: list Status "Committed" vs detail "UPDATED" — two fields, both correct; not a finding
+F  non-GET requests observed: NOT COLLECTED — CLOSED   console errors: NOT COLLECTED — CLOSED
+M/R findings: none reported
+Writes performed: NONE.   /personal-portfolio controls used: NONE.   Host settings changed: NONE.
+Stage 5 status after this journey: ACCEPTED BY PA/PO (2026-11-22) with recorded limitations.   Production: NOT ADMITTED.
+```
+
+### 15.5 Verification performed for this section (Arena; IRR only; no host access)
+
+| Check | Result |
+|---|---|
+| Baseline reconciliation | §15.1 revision / count / digest prefix equal §5 for `PERSONAL-fa8ad7bc-…` |
+| `UPDATED` derivation | consistent with procedure §6.3 (`REPLACE` at revision 2 → `UPDATED`) |
+| Decision provenance | owner statement quoted in §15.3; nothing inferred |
+| Sanitisation | one-row manual test portfolio figures recorded at the owner's direction; no Dhan holding values; no environment values; no bodies |
+| Host / browser facts | **none observed by Arena** |

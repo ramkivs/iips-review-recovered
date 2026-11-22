@@ -1,4 +1,4 @@
-# IID Stage 5 — D10 / P6-B real browser acceptance: prerequisite reconciliation and operator procedure (PREPARED, NOT EXECUTED)
+# IID Stage 5 — D10 / P6-B real browser acceptance: prerequisite reconciliation and operator procedure (EXECUTED IN PART; EVIDENCE CLOSED AND ACCEPTED BY THE PA/PO, 2026-11-22)
 
 **Record type:** prerequisite reconciliation (P6-A §10) and operator-executed browser procedure for D10 /
 P6-B — the last open Stage 5 item that is not an optional mint or an IPD-owned publication
@@ -15,8 +15,14 @@ operator-reported — evidence record §13.1); §6.6 was executed on an arbitrar
 HEAD `408f3afbb4780fed9f90ff6a3683c464714e57df`, evidence record §14):** §6.6 step 4 executed on a non-assessed
 holding — Change-history navigation **BROWSER VERIFIED** (IID-03 page opened, honest empty history); Company
 assessment navigation **BROWSER VERIFIED**, content **UNAVAILABLE** (no stored chain for that issuer). §6.6
-steps 1–3 (Infosys-resolving row), §6.4, §6.7, §6.8 and the §9 sheet are not yet reported. Nothing here is a
-P6-B acceptance.
+steps 1–3 (Infosys-resolving row), §6.4, §6.8 and the status transcriptions of the §9 sheet were not reported.
+**Final state (PA/PO decision, 2026-11-22; evidence record §15; decision record
+`IID-STAGE-5-PA-PO-ACCEPTANCE-DECISION-2026-11-22.md`):** the owner verified §6.7 (second portfolio `TEST`:
+revision 2, 1 constituent, `UPDATED`, digest `9e5dc076ebcc…`, identity unresolved by design) and **CLOSED Stage 5
+evidence collection**. **P6-B is ACCEPTED BY THE PA/PO for the covered checks; the unreported rows are CLOSED —
+NOT COLLECTED** (neither passed nor failed). This procedure is **no longer awaiting operator evidence**; no further
+browser check, screenshot or runtime observation is requested by it. The technical limitations (assessment content,
+version history and comparison UNAVAILABLE; nothing fabricated) are unchanged. Current stage: **Stage 6**.
 
 > **What this document is.** P6-A §10 lists seven prerequisites for P6-B. §2 reconciles each against the
 > evidence actually published (no prerequisite is taken as satisfied because the transport-environment
@@ -345,6 +351,16 @@ from revision 2's stored operation as in 6.3 — record what is shown), digest p
 the contributions section text. Screenshot → `D10-08-personal-detail.png`. **Do not** open the same id in
 `/personal-portfolio`.
 
+**Execution record for this step (PA/PO-verified, evidence record §15.1).** Portfolio displayed as `TEST`:
+revision **2**, constituents **1** (0 active, 1 inactive), weight sum 100.0000 %, persistence status **`UPDATED`**
+(status basis: revision 2, operation `REPLACE`, committed `2026-11-12T10:45:20.422Z` — the expected derivation),
+digest `9e5dc076ebcc…` (prefix matches), total value ₹500.00 shown as the persisted commit-time valuation, import
+contributions: none recorded. The single holding (`AIIL`, `MANUAL:AIIL`, source `manual-personal`, lineage
+`e0e715ee5ff3…`, Active: No) has **unresolved identity** because it carries neither an ISIN nor an exchange symbol;
+company disposition and company/history resolution are therefore unavailable — the specified result, **not a
+defect**; no identity invented. List-page *Status* `Committed` and detail-page `UPDATED` are two different fields,
+both correct. Figures recorded at the owner's direction.
+
 ### 6.8 Console and network sweep
 
 Before closing the tab: Console panel → filter *Errors* → record the count and, for each, the first line
@@ -418,10 +434,11 @@ Writes performed: NONE.   /personal-portfolio controls used: NONE.   Host settin
 Stage 5 status: NOT ACCEPTED.   P6-B: NOT ACCEPTED.   Production: NOT ADMITTED.
 ```
 
-Publication: the completed sheet is appended as the **next free section** of
-`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (§13 and §14 are already taken by the first-pass
-and post-merge records; the completed sheet becomes **§15**), plus a roadmap §C entry and a tracker entry —
-through an IRR PR, after reading the sheet for personal data. Nothing on IPD's behalf.
+**Final sheet (2026-11-22; closed by PA/PO decision).** Published as evidence record **§15.4**: rows B4 and E
+filled from §14 and §15.1; rows A/B statuses, B2, B3, C, D and F are **CLOSED — NOT COLLECTED** by the owner's
+decision to close Stage 5 evidence collection; result **ACCEPTED BY PA/PO FOR THE COVERED CHECKS**. No further
+rows are to be supplied; this template is retained as the record of what the journey specified. Roadmap §C.11;
+tracker §16.315. Nothing on IPD's behalf.
 
 ---
 
@@ -435,6 +452,11 @@ through an IRR PR, after reading the sheet for personal data. Nothing on IPD's b
   rendering gap (recorded; a product change only if requested), and the `IIPS_LOCAL_PERSONAL_USE` scope
   observation (operator decision). Stage 4 remains closed with its accepted limitations; nothing here reopens it.
 - **Never:** production admission, multi-user or hosted operation, any IPD-side record.
+- **Outcome recorded 2026-11-22 (PA/PO):** the owner, as the sole acceptance authority under PA-01, accepted
+  Stage 5 for the checks covered by the evidence record (§13–§15) and closed evidence collection; the items
+  listed above as "does not close" are carried into **Stage 6** (mints, second version, comparison) or stand as
+  recorded limitations (ledger rendering gap, peer authenticity `NOT_ATTESTED`, IPD D02). See
+  `IID-STAGE-5-PA-PO-ACCEPTANCE-DECISION-2026-11-22.md` §2.
 
 ---
 
@@ -442,7 +464,7 @@ through an IRR PR, after reading the sheet for personal data. Nothing on IPD's b
 
 | Boundary | Statement |
 |---|---|
-| Execution | **not executed.** No browser was opened by Arena; no DOM, console, network or screenshot observation exists |
+| Execution | **not executed by Arena.** No browser was opened by Arena; no DOM, console, network or screenshot observation exists on Arena's side. Owner-executed steps are recorded in §6.6, §6.7 and evidence record §13–§15 |
 | Product code | no file under `frontend/` changed; no new script, test, dependency or automation framework |
 | Host | no instruction installs, builds, pulls, restarts or changes a setting; the only new network activity is `GET`s from the operator's browser |
 | D5 / D6 / R-1 | not rerun; the comparison baseline is their published evidence |

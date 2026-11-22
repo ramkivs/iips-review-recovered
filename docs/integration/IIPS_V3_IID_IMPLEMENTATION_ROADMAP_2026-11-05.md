@@ -1746,3 +1746,64 @@ that can render content; or record that none is held), then §6.4 / §6.7 / §6.
 record §15. Marico/KEC mints and the second comparable version stay open, not forced; IPD's D02 publication
 IPD-owned. No code change, no mint, no IPD change, no pin advance, no host provisioning authorized by this
 amendment.
+
+## C.11 Stage 5 — ACCEPTED by the PA/PO; Stage 5 evidence collection CLOSED; current stage is Stage 6 (owner decision, 2026-11-22)
+
+**Decision record:** `IID-STAGE-5-PA-PO-ACCEPTANCE-DECISION-2026-11-22.md`. Evidence record §15; procedure
+status line / §6.7 / §9 / §10; tracker §16.315. Documentation only; no code, mint, IPD or host change.
+
+**Decision (owner, sole authority under PA-01).** The owner personally completed the Stage 5 browser
+verification, is satisfied with the evidence recorded (evidence record §§1–15), and decided: **Stage 5
+evidence collection is CLOSED; the owner's personal verification is the PA/PO acceptance decision for the
+Stage 5 checks covered by the existing evidence.** The owner's final verification — portfolio `TEST`:
+revision 2, 1 constituent (0 active, 1 inactive), `UPDATED` (stored `REPLACE` at revision 2), digest
+`9e5dc076ebcc…`, persisted commit-time valuation, identity unresolved because the row has neither ISIN nor
+exchange symbol (specified result, not a defect), no import contributions — is recorded in evidence record
+§15.1. This is a governance act, recorded apart from the technical observations.
+
+**What stands unchanged.** The §C.9/§C.10 observations are preserved: Company-assessment navigation
+verified with content **UNAVAILABLE**; Change-history navigation verified with version history
+**UNAVAILABLE** and comparison **NOT AVAILABLE**; fail-closed behaviour verified; nothing fabricated;
+assessment content never rendered in a browser pass; procedure rows B2/B3, §6.4, §6.8 and the HTTP-status
+transcriptions **CLOSED — NOT COLLECTED** (neither passed nor failed). The §C.9 issuer dispositions stand.
+
+**Status after this amendment.**
+
+| Item | Status |
+|---|---|
+| D5 / D6 / R-1 / R-2 / Stage 4 closure | unchanged, not reopened |
+| P6-B / D10 | **ACCEPTED BY PA/PO for the covered checks; remaining rows CLOSED — NOT COLLECTED** |
+| **Stage 5** | **ACCEPTED (PA/PO, 2026-11-22)** with the recorded limitations |
+| Stage 5 evidence collection | **CLOSED** — no further Stage 5 evidence is requested by any IRR record |
+| Marico / KEC v1 mints; second comparable version; first persisted comparison | carried into Stage 6 (baseline §21 Stage 6 "remaining"); not forced |
+| IPD D02 publication | IPD-owned; unchanged |
+| **Current stage** | **Stage 6 — investment intelligence: IN PROGRESS, not complete** |
+| Production / hosting / multi-user / commercial | NOT ADMITTED; unchanged |
+
+**Stage 6 — definition adopted (baseline 2026-11-11 §21, by reference; decision record §4.1).** Objective:
+routine use — weekly review loop, change detection, dispositions on real holdings, persisted comparable
+reports. Prerequisites: Stage 5; operator limits policy (placeholders until authored); review cadence;
+staleness / operating-metric entry habit. Remaining: operator limits policy (L-019); mint two versions per
+covered issuer per quarter; compare via ChangeTimeline / persisted reports; operating-metric entry per
+sector extension. Acceptance: a quarter of review notes referencing ≥ 2 assessment versions per holding;
+disposition rationale citations resolve (L-023); "what changed since last review and what do we do about
+it" answerable from the surfaces alone. Evidence: persisted report comparison outputs; disposition records
+with resolved citations. PA-01 G-7: the limits policy is ordinary owner configuration, not a gate.
+
+**Stage 6 work items (baseline order; each an owner election; none forced).** S6-1 operator limits policy
+(L-019) → S6-2 review cadence recorded → S6-3 Marico / KEC v1 mints → S6-4 second genuine assessment
+version + first persisted comparison → S6-5 operating-metric entry per sector (S4-R6 / G-4 stays an open
+maintenance choice).
+
+**First actionable step — S6-1, awaiting the owner's instruction.** Owner: Ramki (the caps encode the
+owner's own risk appetite; no agent authors them). Documented mechanism: `${IIPS_DATA_DIR}/investment/policies/limits-policy.json`
+(B.H; runbook §15.3; fail-closed on an invalid file; `limits.basis` `SYSTEM_DEFAULT` → `OPERATOR_CONFIG`).
+**Prerequisite check (repository only, decision record §4.3) — OPEN, IRR-owned:** `resolveDispositionLimits`
+exists and parses operator text fail-closed, but a static search of IRR `main@03daa982` finds **no runtime
+reader bound to the documented path** and no caller of that function outside its module; the served
+application may therefore keep reporting `SYSTEM_DEFAULT` regardless of the file. Wiring it is an
+application change requiring **separate implementation authority — not carried by this amendment**. The
+owner chooses: (a) authorise the IRR implementation item, then author the policy; (b) proceed in Stage 6 on
+disclosed `SYSTEM_DEFAULT` caps and defer L-019; (c) another path. Nothing is pre-selected; no Stage 6
+scope is widened; no Windows-host action is performed or scheduled by this amendment. Stage 6 is **not**
+complete by virtue of this transition.
