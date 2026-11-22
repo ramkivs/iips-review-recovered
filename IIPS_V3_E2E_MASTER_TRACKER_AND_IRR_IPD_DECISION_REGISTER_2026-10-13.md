@@ -24662,4 +24662,35 @@ S6-3 Marico / KEC v1 mints; S6-4 second genuine assessment version + first persi
 entry. Stage 6 **IN PROGRESS**, not complete. **Next action (owner):** report the step-5 `UNCHANGED` line; decide the
 S6-2 cadence, review definition and note location.
 
-Next free §16.320 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.320 IID Stage 6 — S6-1b COMPLETE (identical repeat: `UNCHANGED`, `CLOCK_ONLY_UNCHANGED wrote=false`, head `58f669f8…` v1, `versions=1`); S6-2 review cadence DECIDED by the owner WEEKLY / FRIDAY and recorded with procedure, note location and acceptance plan; Stage 6 OPEN; next S6-3 (2026-11-22)
+
+**S6-1b closing evidence (operator-reported, exact output in S6-1 record §10.6).** `UNCHANGED holding DHAN_PORTFOLIO #30
+INFY (INE009A01021) … limits basis=OPERATOR_CONFIG policyVersion=limits-policy/2026-11 source=OPERATOR_FILE …
+disposition verb=AVOID caps=0 previous=AVOID hardTrigger=false · persistence CLOCK_ONLY_UNCHANGED wrote=false
+head=58f669f8-6027-43ec-89f8-2aa6ce8994b7 v1 chain=hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021 versions=1`. Recorded facts:
+initial persistence created v1; independent API readback verified the record (§16.319); identical repeat `UNCHANGED`;
+`wrote=false`; chain head unchanged; version count 1; no duplicate version. Reconciled limb by limb against S6-1 record
+§8.5 / §9.3 steps 3–5 / runbook §15.6 ⇒ **S6-1b COMPLETE**. S6-1 remains COMPLETE (§16.319) — distinct items. No host
+record altered; no further persistence run.
+
+**S6-2 (owner decision 2026-11-22): review cadence WEEKLY, day FRIDAY.** New decision record
+`docs/integration/IID-STAGE-6-S6-2-REVIEW-CADENCE-OWNER-DECISION-2026-11-22.md`: §1 decision verbatim; §3 nine-step
+weekly procedure over existing surfaces/commands (`iid-readiness.ts`; `/investment/coverage`,
+`/investment/holding-decisions`, `/investment/change-intelligence`; `GET /api/investment/portfolio/:id/{identities,
+dispositions}`, `GET /api/investment/company/:issuerId/{changes,changes/boundaries,versions/:reportId}`;
+`generate-holding-disposition.ts`; `show-investment-chain.ts`); §4 location of record for notes =
+`evidence/iid/STAGE-6-WEEKLY-REVIEW-<quarter>/REVIEW-<YYYY-MM-DD>.md` (existing `evidence/iid/` convention; Collaboration
+threads examined and found unusable for IID issuer anchors without an unauthorised application change); §5 acceptance
+plan (13 Fridays, projection 2026-11-27 → 2027-02-19; "≥ 2 versions per holding" depends on S6-4; L-023 checked at the
+first review; one-sentence "what changed / what we do" per note); §6 boundaries (no runner / scheduler / alert / breach
+ledger; no policy change; nothing IPD / IPO Screening Engine). Runbook §15.7 checklist; roadmap §C.16. **S6-2 RECORDED.**
+
+**Register.** No status change in this entry (L-019 RESOLVED stands from §17.32; L-023 to be checked by the first
+review, not asserted here).
+
+**Status.** S6-1 **COMPLETE** · S6-1b **COMPLETE** · S6-2 **RECORDED** · S6-3 next (owner election) · S6-4, S6-5 open ·
+Stage 6 **OPEN** · production NOT ADMITTED. PR #623 (docs only) open, not merged. **Next action (owner):** first Friday
+review 2026-11-27 per runbook §15.7, including the L-023 citation check on `58f669f8…`; elect S6-3 (Marico / KEC v1
+mints) when ready.
+
+Next free §16.321 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.

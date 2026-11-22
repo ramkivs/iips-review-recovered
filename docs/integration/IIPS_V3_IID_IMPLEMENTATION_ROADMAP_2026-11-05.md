@@ -1961,3 +1961,31 @@ genuine version + first persisted comparison) follow and are what make the caden
 **Status.** S6-1 **COMPLETE**; S6-1b **recording verified, NOT COMPLETE** (one host step); Stage 6 IN PROGRESS; production
 NOT ADMITTED. **Next action (owner):** (1) run §9.3 step 5 once and report the `UNCHANGED` line; (2) decide S6-2 —
 cadence, review definition, note location.
+
+## C.16 Stage 6 — S6-1b COMPLETE (identical repeat `UNCHANGED`, no duplicate version); S6-2 review cadence DECIDED by the owner: WEEKLY / FRIDAY, procedure recorded; next item S6-3 (2026-11-22)
+
+**S6-1b closing evidence (operator-reported; S6-1 record §10.6).** Identical re-run of the INFY command, unchanged
+inputs, no `--dry-run`: `UNCHANGED … disposition verb=AVOID caps=0 previous=AVOID hardTrigger=false … persistence
+CLOCK_ONLY_UNCHANGED wrote=false head=58f669f8-6027-43ec-89f8-2aa6ce8994b7 v1 chain=hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021
+versions=1`; limits still `OPERATOR_CONFIG` / `limits-policy/2026-11`. With the dry run, the recording run (`CREATED` v1)
+and the independent readback already in §C.15, every limb of the S6-1b completion standard (S6-1 record §8.5 / §9.3
+steps 3–5 / runbook §15.6) is met: **S6-1b COMPLETE**. S6-1 was already COMPLETE (§C.15); the two remain distinct.
+Nothing on the host was altered to reach this determination.
+
+**S6-2 — review cadence (owner decision, 2026-11-22): WEEKLY, FRIDAY.** Recorded verbatim in
+`docs/integration/IID-STAGE-6-S6-2-REVIEW-CADENCE-OWNER-DECISION-2026-11-22.md` §1. That record also sets out, from
+existing capabilities only: the nine-step weekly procedure (readiness → holdings → coverage → latest dispositions →
+re-run covered holdings → changes since last review → evidence → limits block → note); the **location of record for
+review notes** — `evidence/iid/STAGE-6-WEEKLY-REVIEW-<quarter>/REVIEW-<YYYY-MM-DD>.md` under the existing
+`evidence/iid/` bundle convention (Collaboration threads were examined and found unusable for IID issuers: their anchor
+set resolves against the certified CSIP universe, not IID issuer ids — an application change would be required and is
+not authorised); and the acceptance plan — a quarter = 13 Fridays (projection: 2026-11-27 → 2027-02-19), "≥ 2 versions
+per holding" depends on S6-4, L-023 is checked at the first review, each note answers "what changed / what do we do
+about it" from the surfaces. Runbook §15.7 is the checklist. **S6-2 RECORDED.** No runner, scheduler, alert or breach
+ledger is authorised (gap assessment D-10 stays open).
+
+**Status.** S6-1 COMPLETE · S6-1b COMPLETE · S6-2 RECORDED (loop starts Friday 2026-11-27) · S6-3 Marico / KEC v1 mints
+— next, owner election · S6-4 second genuine version + first persisted comparison · S6-5 operating-metric entry. Stage
+6 **OPEN**; production NOT ADMITTED. Limitations carried: 1 of 65 holdings dispositioned; sector references 2.29 % of
+weight; FY2024 data; `AVOID` is not an instruction. **Next action (owner):** perform the first Friday review
+(2026-11-27) per runbook §15.7, including the L-023 citation check on `58f669f8…`; elect S6-3 when ready.

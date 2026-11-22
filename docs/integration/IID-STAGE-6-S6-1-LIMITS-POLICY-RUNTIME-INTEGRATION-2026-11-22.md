@@ -377,7 +377,7 @@ tested, and **S6-1 and S6-1b remain NOT COMPLETE**. Completion is declared only 
 `OPERATOR_CONFIG` / `limits-policy/2026-11`, `RECORDED`, then `UNCHANGED` with `versionCount 1` (and, if checked,
 `limits.digest` `bf8dd114…` on the stored disposition).
 
-## 10. Host verification evidence (operator-reported, 2026-11-22) — S6-1 acceptance MET; S6-1b recording verified; one protocol step outstanding
+## 10. Host verification evidence (operator-reported, 2026-11-22) — S6-1 acceptance MET; S6-1b recording verified, then COMPLETE on the identical repeat (§10.6)
 
 **Provenance.** The owner executed §9.3 on the Windows host (`C:\tmp\iips-review-recovered` at `main@e5245b28` = the
 PR #622 merge commit, delivered through the owner's own controlled fetch / fast-forward / build; data root
@@ -394,7 +394,7 @@ the sandbox that wrote it. Main CI at `e5245b28`: all three workflows green.
 | 2 §15.3 loader check | subsumed by step 3 (the real-holding run loaded the file) | `OPERATOR_FILE` |
 | 3 `--dry-run` on one real holding | `DHAN_PORTFOLIO`, holding #30 `INFY` / `INE009A01021`, 65 active holdings, weight 2.2868 %; nothing persisted | `DRY_RUN` |
 | 4 recording run (owner explicitly authorised persistence) | `RECORDED … persistence CREATED wrote=true head=58f669f8-6027-43ec-89f8-2aa6ce8994b7 v1 chain=hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021 versions=1` | `RECORDED` / `CREATED` |
-| 5 identical repeat ⇒ `UNCHANGED` | **not reported** | **outstanding** |
+| 5 identical repeat ⇒ `UNCHANGED` | reported later the same day — see §10.6 | `UNCHANGED` / `CLOCK_ONLY_UNCHANGED`, `wrote=false` |
 | independent readback | `GET /api/investment/portfolio/DHAN_PORTFOLIO/dispositions` (read-only script; no write): HTTP PASS, record identity PASS, holding chain PASS, disposition PASS, operator policy PASS; full 595-line JSON reviewed | PASS |
 
 ### 10.2 Readback facts (sanitised)
@@ -423,9 +423,9 @@ the sandbox that wrote it. Main CI at `e5245b28`: all three workflows green.
 | **S6-1 — Operator limits policy (L-019)** | roadmap §C.11 / decision record §4.2 | all four rows above | **COMPLETE** (operator-reported, independently read back) |
 | S6-1b: `--dry-run` on a real holding shows real issuer, real assessment head, expected `limits.basis` | this record §8.5 / runbook §15.6 | step 3 | **MET** |
 | S6-1b: recording run writes one version on `hd:<portfolio>/<security>` through the existing record path | §8.5 / §15.6 | step 4: `CREATED`, v1, `versionCount 1`; readback confirms chain root = report | **MET** |
-| S6-1b: a second identical run reports `UNCHANGED` and writes nothing | §8.5 / §9.3 step 5 / §15.6 | **not reported** | **OUTSTANDING** |
+| S6-1b: a second identical run reports `UNCHANGED` and writes nothing | §8.5 / §9.3 step 5 / §15.6 | §10.6: status `UNCHANGED`, persistence `CLOCK_ONLY_UNCHANGED wrote=false`, head `58f669f8…` v1 unchanged, `versions=1` | **MET** |
 | F-1 FAIL CLOSED remains in force | §9.1 | `previous none` — no drift possible on a first version; protection untested on the host and not expected to fire while the policy is unchanged | n/a (in force) |
-| **S6-1b — real-holding disposition generation** | §8.6 / §9.4 completion standard ("three reports") | two of three reports in hand | **VERIFIED for recording; NOT COMPLETE until step 5 is reported** (writes nothing when inputs are unchanged) |
+| **S6-1b — real-holding disposition generation** | §8.6 / §9.4 completion standard ("three reports") | all three reports in hand (dry run §10.1 step 3; recording §10.1 step 4 + readback §10.2; repeat §10.6) | **COMPLETE** (see §10.6) |
 
 ### 10.4 Limitations that stay visible (the demonstration does not generalise)
 
@@ -448,7 +448,43 @@ the sandbox that wrote it. Main CI at `e5245b28`: all three workflows green.
 | Item | Status |
 |---|---|
 | S6-1 operator limits policy (L-019) | **COMPLETE** — acceptance of decision record §4.2 met by host readback; register L-019 status change proposed in register §17.32 |
-| S6-1b real-holding disposition generation | recording **verified on the host**; **NOT COMPLETE** until the identical repeat reports `UNCHANGED` (§9.3 step 5, a read-mostly command that writes nothing when inputs are unchanged) |
+| S6-1b real-holding disposition generation | **COMPLETE** (2026-11-22) — dry run, recording run, independent readback and identical repeat (`UNCHANGED`, `wrote=false`, no duplicate version) all evidenced on the host; §10.6 |
 | F-1 | decided FAIL CLOSED (§9.1); unchanged |
 | Stage 6 | IN PROGRESS — S6-2…S6-5 untouched |
-| Next roadmap item | **S6-2 — review cadence chosen and recorded** (owner decision; see roadmap §C.15) |
+| Next roadmap item | **S6-2 — review cadence**: decided by the owner 2026-11-22 as WEEKLY / FRIDAY and recorded in `IID-STAGE-6-S6-2-REVIEW-CADENCE-OWNER-DECISION-2026-11-22.md` (roadmap §C.16) |
+
+### 10.6 Step 5 reported — identical repeat, no write (operator-reported, 2026-11-22) ⇒ S6-1b COMPLETE
+
+The owner ran the identical command again (no `--dry-run`, unchanged inputs). Exact output:
+
+```text
+UNCHANGED holding   DHAN_PORTFOLIO #30 INFY (INE009A01021) weight 2.2868437030765802%
+          identity  IN:CIN:L85110KA1981PLC013115 / IN:ISIN:INE009A01021 [ISIN] securityState=ACTIVE roster=OPERATOR_SUPPLIED
+          assessment 6b6e2316-d958-4187-9700-c47984a9a10a v1 (1 version(s)) adequacy=SUFFICIENT dataset=OPERATOR_SUPPLIED
+          limits    basis=OPERATOR_CONFIG policyVersion=limits-policy/2026-11 source=OPERATOR_FILE singleName=8% sectorDefault=25%
+          disposition verb=AVOID caps=0 previous=AVOID hardTrigger=false
+          persistence CLOCK_ONLY_UNCHANGED wrote=false head=58f669f8-6027-43ec-89f8-2aa6ce8994b7 v1 chain=hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021 versions=1
+```
+
+**Reading of the output against the standard.**
+
+| Claim | Where it is in the output | Standard |
+|---|---|---|
+| Initial persistence created version 1 | §10.1 step 4: `persistence CREATED wrote=true … v1 … versions=1` | §8.5 "recording run" |
+| Independent API readback verified the persisted record | §10.2 (`chainRootReportId` = `reportId` = `58f669f8…`, `versionCount 1`) | §8.5 "`GET …/holding/<securityId>` serves it" (served via the portfolio `/dispositions` read) |
+| Identical repeat returned `UNCHANGED` | first token `UNCHANGED`; `previous=AVOID`, `hardTrigger=false` | §8.5 / §9.3 step 5 / runbook §15.6 |
+| Persistence reported `wrote=false` | `persistence CLOCK_ONLY_UNCHANGED wrote=false` — `CLOCK_ONLY_UNCHANGED` is the outcome runbook §15.6 names for "identity is substantive, not clock-based": only `generatedAt` differed | runbook §15.6 (`UNCHANGED` / `CLOCK_ONLY_UNCHANGED`, `wrote:false`) |
+| Chain head remained unchanged | `head=58f669f8-6027-43ec-89f8-2aa6ce8994b7 v1` — same id and version as §10.1 step 4 | §9.3 step 5 "same headReportId" |
+| Version count remained 1; no duplicate version | `versions=1` | §9.3 step 5 "versionCount still 1" |
+| Limits still the owner's | `basis=OPERATOR_CONFIG policyVersion=limits-policy/2026-11 source=OPERATOR_FILE singleName=8% sectorDefault=25%` | decision record §4.2 |
+| F-1 | no drift (same basis/version as the head) ⇒ protection not triggered, as expected | §9.1 |
+
+**Determination.** Every limb of the completion standard this record set for itself (§8.5, §9.3 steps 3–5, §9.4 "three
+reports", runbook §15.6) is now evidenced by a host artefact or host output: **S6-1b is COMPLETE** as of 2026-11-22.
+Nothing on the host was altered by this determination and no further persistence operation was run. **S6-1** was
+already COMPLETE on the recording-run readback (§10.3); the two statuses are distinct and both are now complete.
+
+**What "complete" covers and what it does not.** It covers the capability: one real holding can be dispositioned under
+the owner's policy, persisted once, read back independently, and re-run without duplication. It does **not** cover the
+other 64 holdings, the sector-coverage limitation (§10.4 item 2), the data-age limitation (§10.4 item 3), or any Stage
+6 acceptance item (§10.4 item 5). Stage 6 stays OPEN.
