@@ -24631,4 +24631,35 @@ tested, nothing recorded.
 **Status.** S6-1 **NOT COMPLETE**; S6-1b **NOT COMPLETE**; Stage 6 IN PROGRESS; S6-2…S6-5 untouched; PR #622 open, not
 merged. **Next action (owner):** execute §9.3 steps 0–5 on the host; return the dry-run, recording and repeat reports.
 
-Next free §16.319 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.319 IID Stage 6 — PR #622 MERGED (`e5245b28`); S6-1 COMPLETE on the host (operator-reported readback: `OPERATOR_CONFIG` / `limits-policy/2026-11` / digest `bf8dd114…`); S6-1b recording verified (`CREATED` v1 on `hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021`), `UNCHANGED` repeat outstanding; next item S6-2 review cadence — owner decision (2026-11-22)
+
+**Delivery.** PR #622 merged as `e5245b28e94636efbaa6807f26140ad7622a75f8`; `main` CI green. Owner delivered it to
+`C:\tmp\iips-review-recovered` by their own controlled procedure.
+
+**Host evidence (operator-reported; S6-1 record §10).** Policy file present and unchanged at
+`C:\iips-data\investment\policies\limits-policy.json`. `generate-holding-disposition --portfolio DHAN_PORTFOLIO
+--holding INFY`: dry run; then owner-authorised recording run ⇒ `RECORDED`, `persistence CREATED wrote=true`, head
+`58f669f8-6027-43ec-89f8-2aa6ce8994b7` v1, `versions=1`; identity `IN:CIN:L85110KA1981PLC013115` /
+`IN:ISIN:INE009A01021` ACTIVE; assessment `6b6e2316-d958-4187-9700-c47984a9a10a` v1 (`SUFFICIENT`, `MATERIAL_CONCERNS`,
+`OPERATOR_SUPPLIED`, `dataAsOf 2024-03-31`); verb `AVOID`, caps none. Independent read-only readback
+(`GET /api/investment/portfolio/DHAN_PORTFOLIO/dispositions`, 595-line JSON reviewed): chain root = report,
+`versionCount 1`; `limits.basis OPERATOR_CONFIG`, `policyVersion limits-policy/2026-11`, digest
+`bf8dd114299e34a91a102b8577a2a988cbc2dddd5762bf02f5320eaa42bebc7c`; `limits.applied` single-name 8 % (2.29 → 2.86,
+not breached), `Technology` 20 % (not breached); `noExecutionPath true`, `decisionSupportOnly`, `noTradeExecution`,
+`nonProduction` all true.
+
+**Reconciliation.** S6-1 acceptance (Stage 5 decision record §4.2) **MET** ⇒ **S6-1 COMPLETE**. S6-1b: dry run and
+recording **verified**; the identical-repeat `UNCHANGED` report (S6-1 record §9.3 step 5; runbook §15.6) **not yet
+reported** ⇒ **S6-1b NOT COMPLETE** (one read-mostly host step remains). F-1 FAIL CLOSED in force (`previous none`).
+L-019 `RESOLVED` proposed (register §17.32).
+
+**Limitations kept visible.** 1 of 65 holdings; sector references cover 2.29 % of weight; FY2024 operator-supplied
+data; `AVOID` is not an instruction; Stage 6 acceptance evidence (review notes over ≥ 2 versions; persisted comparison
+with content; L-023 check) not yet produced.
+
+**Next work item.** **S6-2 — review cadence chosen and recorded** (owner decision; documentation only; no code). Then
+S6-3 Marico / KEC v1 mints; S6-4 second genuine assessment version + first persisted comparison; S6-5 operating-metric
+entry. Stage 6 **IN PROGRESS**, not complete. **Next action (owner):** report the step-5 `UNCHANGED` line; decide the
+S6-2 cadence, review definition and note location.
+
+Next free §16.320 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.

@@ -376,3 +376,79 @@ IPC endpoint, and cannot install the pinned IPD packages; therefore **none of st
 tested, and **S6-1 and S6-1b remain NOT COMPLETE**. Completion is declared only when the owner's three reports show
 `OPERATOR_CONFIG` / `limits-policy/2026-11`, `RECORDED`, then `UNCHANGED` with `versionCount 1` (and, if checked,
 `limits.digest` `bf8dd114…` on the stored disposition).
+
+## 10. Host verification evidence (operator-reported, 2026-11-22) — S6-1 acceptance MET; S6-1b recording verified; one protocol step outstanding
+
+**Provenance.** The owner executed §9.3 on the Windows host (`C:\tmp\iips-review-recovered` at `main@e5245b28` = the
+PR #622 merge commit, delivered through the owner's own controlled fetch / fast-forward / build; data root
+`C:\iips-data`; `IIPS_LOCAL_PERSONAL_USE=1`) and reported the CLI summary and an independent read-only API readback.
+Everything in this section is **operator-reported** and reproduced here in sanitised form; nothing was executed from
+the sandbox that wrote it. Main CI at `e5245b28`: all three workflows green.
+
+### 10.1 What was reported
+
+| Step (§9.3) | Reported | Result |
+|---|---|---|
+| 0 inspect existing policy | `C:\iips-data\investment\policies\limits-policy.json` already present with exactly the §9.2 text (owner-approved) | no write needed; not modified |
+| 1 install | not applicable (already present) | — |
+| 2 §15.3 loader check | subsumed by step 3 (the real-holding run loaded the file) | `OPERATOR_FILE` |
+| 3 `--dry-run` on one real holding | `DHAN_PORTFOLIO`, holding #30 `INFY` / `INE009A01021`, 65 active holdings, weight 2.2868 %; nothing persisted | `DRY_RUN` |
+| 4 recording run (owner explicitly authorised persistence) | `RECORDED … persistence CREATED wrote=true head=58f669f8-6027-43ec-89f8-2aa6ce8994b7 v1 chain=hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021 versions=1` | `RECORDED` / `CREATED` |
+| 5 identical repeat ⇒ `UNCHANGED` | **not reported** | **outstanding** |
+| independent readback | `GET /api/investment/portfolio/DHAN_PORTFOLIO/dispositions` (read-only script; no write): HTTP PASS, record identity PASS, holding chain PASS, disposition PASS, operator policy PASS; full 595-line JSON reviewed | PASS |
+
+### 10.2 Readback facts (sanitised)
+
+| Field | Value |
+|---|---|
+| `reportType` / `scopeToken` | `investment.holding-disposition` / `hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021` |
+| `chainRootReportId` = `reportId` | `58f669f8-6027-43ec-89f8-2aa6ce8994b7`, `artifactVersion 1`, `supersedesReportId null`, `versionCount 1` |
+| report key / payload / input / substantive / substantive-input digests | `e5447d52…0945` / `a17c7e9b…609f` / `0567931a…5a1e` / `e82a22b9…78ed` / `70961cf5…39f3`; grammar `disposition-substantive-identity/1`, source `RECORDED` |
+| identity | `IN:CIN:L85110KA1981PLC013115` / `IN:ISIN:INE009A01021` `[ISIN]`, `securityState ACTIVE`, roster `OPERATOR_SUPPLIED` |
+| assessment cited | `6b6e2316-d958-4187-9700-c47984a9a10a` v1, adequacy `SUFFICIENT`, quality `MATERIAL_CONCERNS`, moat `INSUFFICIENT_EVIDENCE`, `datasetClass OPERATOR_SUPPLIED`, `dataAsOf 2024-03-31`, `knownAsOf 2026-11-14`, `generatedAt 2026-11-15` |
+| disposition | `AVOID`, confidence 0.321, `capsApplied []`, horizon `SHORT_TERM`, `impliedTargetWeightBand null`, `previous none`, `hardTrigger false`; gates G-1 PASS, G-2 PASS, G-3 PASS, G-4 **SKIP**, G-5 PASS, G-6 PASS; `modelVersion disposition-engine/1.0.0`, `policyVersion disposition-policy/1.0.0`, `generatedAt 2026-11-22T18:56:05.602Z`, evidence 9, limitations 25 |
+| **limits** | `basis OPERATOR_CONFIG`, `policyVersion limits-policy/2026-11`, `effectiveFrom 2026-11-01T00:00:00.000Z`, `singleNameMaxPct 8`, `defaultSectorMaxPct 25`, `sectorMaxPct { DEFAULT 25, Technology 20 }`, **digest `bf8dd114299e34a91a102b8577a2a988cbc2dddd5762bf02f5320eaa42bebc7c`** (= §9.2 sandbox digest) |
+| `limits.applied` | `SINGLE_NAME_MAX` cap 8 / measured 2.29 / projected 2.86 / breached false; `SECTOR_MAX` (`Technology`) cap 20 / measured 2.29 / projected 2.86 / breached false — both `OPERATOR_CONFIG` |
+| portfolio context | `holdingsMeasured 65`, `holdingsUnresolved 0`, `holdingsOutOfScope 0`, `measuredWeightPct 100`, `unmeasuredWeightPct 0`, `portfolioRevision 4`; **sector references cover 2.29 % of 100 % measured weight** |
+| safeguards | `interpretation.noExecutionPath true`; `decisionSupportOnly true`; `noTradeExecution true`; `nonProduction true`; "not an instruction" texts present at disposition and top level |
+
+### 10.3 Reconciliation against the acceptance texts
+
+| Requirement | Source | Evidence | Verdict |
+|---|---|---|---|
+| A disposition computed after the policy is in place reports `limits.basis = OPERATOR_CONFIG` with the owner's `policyVersion` | Stage 5 decision record §4.2 (S6-1 acceptance) | readback `OPERATOR_CONFIG` / `limits-policy/2026-11` / digest `bf8dd114…` | **MET** |
+| The caps named in `limits.applied` are the owner's | same | `SINGLE_NAME_MAX` 8 %, `SECTOR_MAX` Technology 20 % | **MET** |
+| An invalid file produces `policy_inputs_unavailable`, never silent defaults | same | CI tests (`limitsPolicySource.test.ts`, `holdingDisposition.test.ts` `POLICY_INVALID` case) on `main@e5245b28`; **not re-demonstrated on the host** (no reason to break the owner's file) | MET by test; host demonstration optional |
+| Evidence: one disposition record or readback showing `OPERATOR_CONFIG` and the version, host artefact published sanitised | same | §10.2 | **MET** |
+| **S6-1 — Operator limits policy (L-019)** | roadmap §C.11 / decision record §4.2 | all four rows above | **COMPLETE** (operator-reported, independently read back) |
+| S6-1b: `--dry-run` on a real holding shows real issuer, real assessment head, expected `limits.basis` | this record §8.5 / runbook §15.6 | step 3 | **MET** |
+| S6-1b: recording run writes one version on `hd:<portfolio>/<security>` through the existing record path | §8.5 / §15.6 | step 4: `CREATED`, v1, `versionCount 1`; readback confirms chain root = report | **MET** |
+| S6-1b: a second identical run reports `UNCHANGED` and writes nothing | §8.5 / §9.3 step 5 / §15.6 | **not reported** | **OUTSTANDING** |
+| F-1 FAIL CLOSED remains in force | §9.1 | `previous none` — no drift possible on a first version; protection untested on the host and not expected to fire while the policy is unchanged | n/a (in force) |
+| **S6-1b — real-holding disposition generation** | §8.6 / §9.4 completion standard ("three reports") | two of three reports in hand | **VERIFIED for recording; NOT COMPLETE until step 5 is reported** (writes nothing when inputs are unchanged) |
+
+### 10.4 Limitations that stay visible (the demonstration does not generalise)
+
+1. **One holding of 65.** `DHAN_PORTFOLIO` has 65 active holdings; one disposition chain exists. Nothing here says the
+   other 64 holdings are rostered, assessable or dispositioned.
+2. **Sector coverage is 2.29 % of weight.** Only the subject carries a sector reference, so the `Technology` cap was
+   measured against INFY alone, and `DEFAULT` was never exercised. The sector cap becomes meaningful only as more
+   holdings are rostered with a canonical sector (gap assessment §2; S6-3 widens the population).
+3. **Data age.** The cited assessment is `OPERATOR_SUPPLIED`, `dataAsOf 2024-03-31`, quality `MATERIAL_CONCERNS`,
+   G-4 valuation `SKIP`, confidence 0.321. The `AVOID` verb is the engine's reading of that evidence; a genuinely
+   newer assessment version (S6-4) is the designed route to a different reading. `SUFFICIENT` describes adequacy of
+   coverage, not currency.
+4. **AVOID is not an instruction.** The stored definition and `noExecutionPath true` say so; this record repeats it.
+5. **Not evidenced yet for Stage 6 acceptance:** a quarter of review notes referencing ≥ 2 assessment versions per
+   holding; a persisted comparison with content; L-023 citation resolution checked on this record's `rationale[]`
+   (the readback summary did not report it).
+
+### 10.5 Status after §10
+
+| Item | Status |
+|---|---|
+| S6-1 operator limits policy (L-019) | **COMPLETE** — acceptance of decision record §4.2 met by host readback; register L-019 status change proposed in register §17.32 |
+| S6-1b real-holding disposition generation | recording **verified on the host**; **NOT COMPLETE** until the identical repeat reports `UNCHANGED` (§9.3 step 5, a read-mostly command that writes nothing when inputs are unchanged) |
+| F-1 | decided FAIL CLOSED (§9.1); unchanged |
+| Stage 6 | IN PROGRESS — S6-2…S6-5 untouched |
+| Next roadmap item | **S6-2 — review cadence chosen and recorded** (owner decision; see roadmap §C.15) |

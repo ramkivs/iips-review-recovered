@@ -1921,3 +1921,43 @@ decisions D-1…D-11 of which D-1 = F-1 is now decided as above, D-2…D-11 rema
 no disposition recorded. **Status:** S6-1 implemented, **NOT COMPLETE**; S6-1b implemented, **NOT COMPLETE**; Stage 6
 IN PROGRESS; S6-2…S6-5 untouched; PR #622 open, not merged. **Next action (owner):** run §9.3 steps 0–5 on the host and
 return the three JSON reports.
+
+## C.15 Stage 6 — S6-1 COMPLETE on the host (operator-reported readback); S6-1b recording verified, `UNCHANGED` repeat outstanding; next item S6-2 review cadence (owner decision) (2026-11-22)
+
+**Delivery.** PR #622 merged to `main` as `e5245b28e94636efbaa6807f26140ad7622a75f8` (CI green: CI, Windows focused,
+CAP-03 static). Delivered to the owner's Windows checkout by the owner's own controlled procedure; no agent
+synchronisation.
+
+**Host evidence (operator-reported; S6-1 record §10).** Policy `limits-policy/2026-11` already present at
+`C:\iips-data\investment\policies\limits-policy.json` (unchanged). `generate-holding-disposition` on
+`DHAN_PORTFOLIO` / `INFY` (`INE009A01021`, 1 of 65 active holdings, weight 2.29 %): dry run, then an owner-authorised
+recording run — `RECORDED`, `CREATED`, head `58f669f8-6027-43ec-89f8-2aa6ce8994b7` v1 on
+`hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021`, `versionCount 1`. Independent read-only readback via
+`GET /api/investment/portfolio/DHAN_PORTFOLIO/dispositions`: `limits.basis OPERATOR_CONFIG`, `policyVersion
+limits-policy/2026-11`, digest `bf8dd114…` (matches §C.14), `limits.applied` single-name 8 % and `Technology` 20 %
+(neither breached), verb `AVOID` (confidence 0.321, caps none, G-4 SKIP), `noExecutionPath true`.
+
+**Reconciliation.** **S6-1 COMPLETE**: the acceptance in the Stage 5 decision record §4.2 (`OPERATOR_CONFIG` + owner's
+`policyVersion` + owner's caps in `limits.applied`; invalid-file fail-closed covered by CI tests) is met by a host
+artefact. **S6-1b: recording verified; NOT COMPLETE** — the record's own completion standard (§8.5/§9.3/§15.6) asks for
+a third report, the identical repeat showing `UNCHANGED` / `wrote false` / `versionCount 1`, which has not been
+reported. L-019 status change to `RESOLVED` proposed in register §17.32.
+
+**Limitations kept visible.** One holding of 65; sector references cover 2.29 % of weight (the `Technology` cap was
+measured against INFY alone; `DEFAULT` never exercised); the cited assessment is `OPERATOR_SUPPLIED` with
+`dataAsOf 2024-03-31`, `MATERIAL_CONCERNS`; `AVOID` is decision support, not an instruction; Stage 6 acceptance items
+(review notes over ≥ 2 versions per holding; persisted comparison with content; L-023 citation check on this record)
+not yet evidenced.
+
+**Next item (baseline order).** **S6-2 — review cadence chosen and recorded.** This is an **owner decision**, not an
+implementation item: the owner states how often the review loop runs (the baseline says "weekly review loop"), what a
+review consists of (which commands / surfaces: holdings → latest disposition → change timeline), and where review
+notes are kept, so that the Stage 6 acceptance "a quarter of review notes referencing ≥ 2 assessment versions per
+holding" has a start date and a definition. IRR records the choice (runbook + this roadmap + tracker); no code is
+required for the choice itself. Any *runner* / alert / breach ledger (gap assessment §1-E, D-10) would be separate
+implementation authority and is not implied by recording a cadence. S6-3 (Marico / KEC v1 mints) and S6-4 (second
+genuine version + first persisted comparison) follow and are what make the cadence produce content.
+
+**Status.** S6-1 **COMPLETE**; S6-1b **recording verified, NOT COMPLETE** (one host step); Stage 6 IN PROGRESS; production
+NOT ADMITTED. **Next action (owner):** (1) run §9.3 step 5 once and report the `UNCHANGED` line; (2) decide S6-2 —
+cadence, review definition, note location.

@@ -934,9 +934,11 @@ Recording real-holding dispositions **after** your policy exists (§15.3) avoids
 policy and the exact host sequence (inspect the existing file first, install without a BOM, §15.3 check, §15.6 dry run,
 recording run, `UNCHANGED` repeat) are in the S6-1 record §9.2–§9.3.
 
-**Verification the owner still has to do on the host:** a `--dry-run` against a real portfolio and holding showing the
-real issuer id, the real assessment head and `limits.basis` as expected for your data root; then a recording run and a
-second run reporting `UNCHANGED`. Until that is done, S6-1 and S6-1b are implemented but **not complete**.
+**Host verification status (2026-11-22, operator-reported; S6-1 record §10).** Done once for `DHAN_PORTFOLIO` / `INFY`:
+`--dry-run`, then a recording run (`RECORDED`, `CREATED`, v1 on `hd:DHAN_PORTFOLIO/IN:ISIN:INE009A01021`), read back
+with `limits.basis OPERATOR_CONFIG` and `policyVersion limits-policy/2026-11` — **S6-1 complete**. The third step — the
+identical repeat that must report `UNCHANGED` with `wrote:false` and the same `versionCount` — has **not** been
+reported yet, so S6-1b stays **not complete** until it is. For every other holding the same three steps apply.
 
 ## 16. IID runtime readiness (P6-A) — ask before you start
 
