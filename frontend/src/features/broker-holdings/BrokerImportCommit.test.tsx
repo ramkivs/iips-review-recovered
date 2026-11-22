@@ -14,6 +14,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { BrokerImportRequest } from 'iips-production-market-data/portfolio-ui';
 import { BrokerImportCommit } from './BrokerImportCommit';
+import { validateStage4Request } from '../../../server/broker-import/brokerImportStage4';
 import type { PreparedBrokerImport } from '../../api/brokerImportStage4';
 import type { PreparedFullSnapshotImport } from '../../api/brokerFullSnapshotImport';
 
@@ -43,8 +44,12 @@ const duplicate = {
   holdingsPersisted: 1, totalMarketValue: 8000, contributions: 0, message: 'already imported',
 };
 
+const snapshotHolding = {
+  ...prepared.holdings[0]!, dpQty: 4, availableQty: null, profitLoss: -5, pnlPercentage: -1,
+};
 const fullSnapshotPrepared: PreparedFullSnapshotImport = {
   ...prepared,
+  holdings: [snapshotHolding],
   fullSnapshot: true,
   clientIdentityPreview: { evaluated: 2, resolved: 1, unresolved: 1, ambiguous: 0 },
 };
@@ -285,7 +290,18 @@ describe('BrokerImportCommit — PR #177/#178 full daily snapshot opt-in', () =>
     fireEvent.click(screen.getByTestId('commit-holdings'));
     await screen.findByTestId('commit-receipt');
     const sent = JSON.parse(h.commits[0]!) as Record<string, unknown>;
-    expect(sent.fullSnapshot).toBe(true);
+    expect(sent).not.toHaveProperty('clientIdentityPreview');
+    expect(sent).toMatchObject({
+      fullSnapshot: true, expectedRevision: 1, mode: 'MERGE', fileName: prepared.fileName,
+      contentDigest: prepared.contentDigest, sourceBroker: prepared.sourceBroker, importedAt: prepared.importedAt,
+      holdings: [snapshotHolding],
+    });
+    // Cross the real browser serialization/server-validation boundary, rather
+    // than accepting a canned fetch response alone. No IPC or live data.
+    expect(validateStage4Request('E2E_SYNTHETIC', sent)).not.toBeNull();
+    expect(validateStage4Request('E2E_SYNTHETIC', { ...sent, clientIdentityPreview: fullSnapshotPrepared.clientIdentityPreview })).toBeNull();
+    expect(validateStage4Request('E2E_SYNTHETIC', { ...sent, unexpectedField: true })).toBeNull();
+    expect(validateStage4Request('E2E_SYNTHETIC', { ...sent, canonicalOwnerId: 'synthetic' })).toBeNull();
   });
 
   it('on PARTIAL_ACCEPTANCE_REQUIRED, writes nothing and shows the exact resolved/unresolved summary', async () => {
@@ -322,7 +338,9 @@ describe('BrokerImportCommit — PR #177/#178 full daily snapshot opt-in', () =>
     await screen.findByTestId('commit-receipt');
     expect(h.commits).toHaveLength(2);
     const resubmitted = JSON.parse(h.commits[1]!) as { partialAcceptance?: Record<string, unknown> };
+    expect(resubmitted).not.toHaveProperty('clientIdentityPreview');
     expect(resubmitted.partialAcceptance).toMatchObject({ approved: true, summaryDigest: partialAcceptanceSummary.summaryDigest, approvedBy: 'local-operator' });
+    expect(validateStage4Request('E2E_SYNTHETIC', resubmitted)).not.toBeNull();
     expect(screen.getByTestId('commit-snapshot-state')).toHaveTextContent('PARTIALLY_ACCEPTED');
     expect(screen.getByTestId('commit-snapshot-state')).toHaveTextContent('1 row(s) remain unresolved');
     expect(screen.getByTestId('commit-reconciliation')).toHaveTextContent('1 observed');

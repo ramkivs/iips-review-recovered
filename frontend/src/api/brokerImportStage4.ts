@@ -176,6 +176,11 @@ export function buildPartialAcceptanceApproval(
 /** One POST, no automatic retry. A lost or malformed acknowledgement stays unknown. */
 export async function commitBrokerImport(request: Stage4Request): Promise<Stage4ClientOutcome> {
   const { portfolioId, ...body } = request;
+  // The full-snapshot preparation also carries a display-only local estimate.
+  // TypeScript's structural typing does not remove extra properties at runtime:
+  // exclude this one UI field from the copied body, while leaving all other keys
+  // for the server's strict validation (including unknown/authority fields).
+  delete (body as typeof body & { clientIdentityPreview?: unknown }).clientIdentityPreview;
   let response: Response;
   try {
     response = await noAuthFetch(`/api/broker-import/${encodeURIComponent(portfolioId)}/holdings`, {
