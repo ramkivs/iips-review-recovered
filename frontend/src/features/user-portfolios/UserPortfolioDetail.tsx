@@ -21,7 +21,7 @@ import {
   fetchPortfolioHoldingIdentities,
   type HoldingIdentity,
 } from '../../api/investmentDiscovery';
-import { changeHistoryHref, companyAssessmentHref } from '../investment/investmentContext';
+import { changeIntelligenceHref, companyAssessmentHref } from '../investment/investmentContext';
 import { formatRatio4, notAvailable } from '../investment/investmentCopy';
 import {
   fetchUserPortfolioRead,
@@ -98,6 +98,15 @@ function DispositionCell({
  * Identity now comes from `/api/investment/portfolio/:id/identities`, which resolves each holding against the
  * governed roster and does not read dispositions at all. The issuer id is the server's; nothing is derived here.
  * An unresolved holding gets an honest reason and no company link, rather than a misleading one.
+ *
+ * IID Stage 5 D10 (2026-11-22) — WHERE "Change history →" GOES. It used to address the company assessment page
+ * scrolled to its `#change-timeline` section. That section is mounted only once an assessment has been READ, so
+ * for an issuer with no stored chain the link landed on the identical "No stored assessment exists" page and no
+ * distinct history view was ever shown (operator browser finding). The link now addresses the IID-03 Historical
+ * Change Intelligence workspace (`/investment/change-intelligence`), which is the capability's own working
+ * destination: it lists the stored versions, mounts the existing `ChangeTimeline` for comparisons, and renders
+ * its own honest unavailable / no-history state. The issuer, portfolio and security context travel in the query
+ * string exactly as before; nothing is derived, defaulted or fabricated here.
  */
 function LinksCell({
   portfolioId,
@@ -148,7 +157,7 @@ function LinksCell({
   return (
     <span>
       <Link to={companyHref}>Company assessment →</Link>{' '}
-      <Link to={changeHistoryHref(issuerId, context)}>Change history →</Link>{' '}
+      <Link to={changeIntelligenceHref(issuerId, context)}>Change history →</Link>{' '}
       {securityId === null ? null : (
         <Link to={`/investment/candidate/${encodeURIComponent(securityId)}`}>Candidate view →</Link>
       )}
