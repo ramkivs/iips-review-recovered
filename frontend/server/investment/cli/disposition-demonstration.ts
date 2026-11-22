@@ -14,6 +14,15 @@
  *   6  verb/definition   the read payload carries the verb the engine produced and its definition
  *   7  not an order      no payload, response or provenance member carries an order, a quantity or a price
  *   8  scope agreement   a candidate is never served from an `hd:` scope (and vice versa)
+ *   9  limits source     the caps come from the documented policy path (S6-1): an absent file is the labelled
+ *                        system default; an operator file is `OPERATOR_CONFIG` with ITS `policyVersion`, and the
+ *                        recorded payload carries exactly the basis and version that were loaded
+ *
+ * LIMITS POLICY. By default the loader is pointed at the demonstration's own fresh root, where no policy exists,
+ * so the run is unchanged from before S6-1 (system defaults, labelled). `--limits-policy-root <dir>` points it at
+ * another data root — the host's `IIPS_DATA_DIR`, typically — so an operator can prove, on a synthetic subject and
+ * a throwaway store, that the file at `<dir>/investment/policies/limits-policy.json` loads and is applied before
+ * any real disposition depends on it. The file name is never configurable.
  *
  * WHAT IT DOES NOT DO. It does not touch an existing store (every run is a fresh temporary directory), it does
  * not use real issuer data (the M-1 synthetic reference company), and it executes nothing: there is no order
@@ -38,7 +47,8 @@ import type {
   DispositionAssessmentRef,
   HoldingDispositionPayload,
 } from '../../../../iips-platform/src/investment/disposition/types';
-import { resolveLimits } from '../../../../iips-platform/src/investment/disposition/limits';
+import { loadOperatorLimitsPolicy, isLimitsDisclosureConsistent } from '../limitsPolicySource.js';
+import { LimitsPolicyError } from '../../../../iips-platform/src/investment/disposition/limits';
 import { present } from '../../../../iips-platform/src/investment/contracts/observation';
 import type { CompanyAssessmentPayload } from '../../../../iips-platform/src/investment/assessment/types';
 import type { G2PortfolioView } from '../../user-portfolio/userPortfolioContract.js';
@@ -69,6 +79,16 @@ export interface DispositionDemonstrationEvidence {
     readonly candidate: { readonly scopeToken: string; readonly reportKey: string; readonly versionCount: number };
   };
   readonly verbs: { readonly held: string | null; readonly candidate: string | null };
+  /** S6-1: where the caps came from and what every recorded payload says about them. */
+  readonly limits: {
+    readonly source: { readonly kind: 'ABSENT' | 'OPERATOR_FILE'; readonly path: string };
+    readonly basis: string;
+    readonly policyVersion: string;
+    readonly effectiveFrom: string;
+    readonly notes: readonly string[];
+    readonly recordedHeld: { readonly basis: string; readonly policyVersion: string };
+    readonly recordedCandidate: { readonly basis: string; readonly policyVersion: string };
+  };
   readonly runs: readonly {
     readonly label: string;
     readonly outcome: string;
@@ -134,8 +154,30 @@ function orderShapedMembersIn(payload: HoldingDispositionPayload): string[] {
   return FORBIDDEN_MEMBERS.filter((member) => text.includes(member));
 }
 
-export async function runDemonstration(outDir: string): Promise<{ evidence: DispositionDemonstrationEvidence }> {
+export interface DemonstrationOptions {
+  /**
+   * Data root whose `investment/policies/limits-policy.json` is consulted. Defaults to the demonstration's own
+   * fresh root (no policy ⇒ labelled system defaults). Only the ROOT is configurable, never the file name.
+   */
+  readonly limitsPolicyRoot?: string;
+}
+
+export async function runDemonstration(
+  outDir: string,
+  options: DemonstrationOptions = {},
+): Promise<{ evidence: DispositionDemonstrationEvidence }> {
   const env = prepareM1Environment();
+  // S6-1: the caps come from the documented path under the chosen data root — never from a literal here. Loaded
+  // before any store is opened, so an invalid operator file fails the run closed with nothing recorded anywhere.
+  let loadedLimits: ReturnType<typeof loadOperatorLimitsPolicy>;
+  try {
+    loadedLimits = loadOperatorLimitsPolicy({ asOf: CLOCK, dataRoot: options.limitsPolicyRoot ?? env.root });
+  } catch (error) {
+    env.cleanup();
+    throw error;
+  }
+  const limits = loadedLimits.limits;
+
   const assembly = assembleAssessment({ identityDir: env.identityDir, datasetDir: env.datasetV1Dir, generatedAt: M1_NOW });
   const assessment = JSON.parse(assembly.composed.content.canonicalPayload) as CompanyAssessmentPayload;
   const securityId = assembly.identity.securityId as string;
@@ -217,7 +259,6 @@ export async function runDemonstration(outDir: string): Promise<{ evidence: Disp
     asOf: '2026-11-06T05:00:00.000Z',
   });
 
-  const limits = resolveLimits({ policy: null, asOf: CLOCK });
   const heldPayload = buildDispositionPayload({
     subject: heldSubject({
       portfolioId: PORTFOLIO_ID,
@@ -324,6 +365,15 @@ export async function runDemonstration(outDir: string): Promise<{ evidence: Disp
       },
     },
     verbs: { held: heldPayload.disposition.verb, candidate: candidatePayload.disposition.verb },
+    limits: {
+      source: loadedLimits.source,
+      basis: limits.basis,
+      policyVersion: limits.policyVersion,
+      effectiveFrom: limits.effectiveFrom,
+      notes: limits.notes,
+      recordedHeld: { basis: heldPayload.limits.basis, policyVersion: heldPayload.limits.policyVersion },
+      recordedCandidate: { basis: candidatePayload.limits.basis, policyVersion: candidatePayload.limits.policyVersion },
+    },
     runs: [
       {
         label: 'held/create',
@@ -459,6 +509,19 @@ export async function runDemonstration(outDir: string): Promise<{ evidence: Disp
         observed: `holding head v${crossRead.headers['x-investment-artifact-version']}, candidate versions ${candidate.chain.versionCount}`,
         pass: String(crossRead.headers['x-investment-artifact-version']) === '2' && candidate.chain.versionCount === 1,
       },
+      {
+        point: 9,
+        name: 'limits come from the documented policy path and are disclosed truthfully',
+        expected:
+          'source ABSENT ⇒ SYSTEM_DEFAULT (+system-default); source OPERATOR_FILE in force ⇒ OPERATOR_CONFIG with the file\'s policyVersion; recorded payloads carry the same basis and version',
+        observed: `source ${loadedLimits.source.kind}, basis ${limits.basis}, policyVersion ${limits.policyVersion}; held ${heldPayload.limits.basis}/${heldPayload.limits.policyVersion}; candidate ${candidatePayload.limits.basis}/${candidatePayload.limits.policyVersion}`,
+        pass:
+          isLimitsDisclosureConsistent(loadedLimits) &&
+          heldPayload.limits.basis === limits.basis &&
+          heldPayload.limits.policyVersion === limits.policyVersion &&
+          candidatePayload.limits.basis === limits.basis &&
+          candidatePayload.limits.policyVersion === limits.policyVersion,
+      },
     ],
   };
 
@@ -478,11 +541,24 @@ const invokedDirectly = process.argv[1] !== undefined && /disposition-demonstrat
 if (invokedDirectly) {
   const index = process.argv.indexOf('--out');
   const outDir = index === -1 ? join(process.cwd(), 'iid4-disposition-evidence') : process.argv[index + 1]!;
-  void runDemonstration(outDir).then(({ evidence }) => {
-    for (const point of evidence.verification) {
-      process.stderr.write(`${point.pass ? 'PASS' : 'FAIL'}  ${point.point}. ${point.name} — ${point.observed}\n`);
-    }
-    process.stdout.write(`${join(outDir, 'iid4-disposition-demonstration.json')}\n`);
-    process.exitCode = evidence.verification.every((point) => point.pass) ? 0 : 1;
-  });
+  const rootIndex = process.argv.indexOf('--limits-policy-root');
+  const limitsPolicyRoot = rootIndex === -1 ? undefined : process.argv[rootIndex + 1];
+  void runDemonstration(outDir, limitsPolicyRoot === undefined ? {} : { limitsPolicyRoot })
+    .then(({ evidence }) => {
+      for (const point of evidence.verification) {
+        process.stderr.write(`${point.pass ? 'PASS' : 'FAIL'}  ${point.point}. ${point.name} — ${point.observed}\n`);
+      }
+      process.stdout.write(`${join(outDir, 'iid4-disposition-demonstration.json')}\n`);
+      process.exitCode = evidence.verification.every((point) => point.pass) ? 0 : 1;
+    })
+    .catch((error: unknown) => {
+      // An operator policy file that exists but is not a valid policy fails the run closed (exit 2) and names
+      // the rejection; it is never replaced by the defaults. Nothing was recorded to any persistent store.
+      if (error instanceof LimitsPolicyError) {
+        process.stderr.write(`FAIL  limits policy (${error.reason}): ${error.message} — policy_inputs_unavailable; defaults NOT substituted\n`);
+        process.exitCode = 2;
+        return;
+      }
+      throw error;
+    });
 }

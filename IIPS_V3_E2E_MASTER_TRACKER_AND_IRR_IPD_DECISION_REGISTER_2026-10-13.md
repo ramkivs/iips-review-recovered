@@ -24500,4 +24500,135 @@ step — S6-1, awaiting the owner's instruction:** prerequisite check found `res
 item then author the policy, (b) proceed on disclosed `SYSTEM_DEFAULT` caps and defer L-019, or (c) another
 path. Nothing pre-selected; Stage 6 scope not widened; Stage 6 not complete.
 
-Next free §16.316 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.316 IID Stage 6 — S6-1 operator limits policy runtime integration IMPLEMENTED and sandbox-verified; S6-1 NOT COMPLETE; S6-1b (real-holding disposition mint) identified, awaiting authority (2026-11-22)
+
+**IRR-only implementation record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` /
+`CHG` / `V` identifier from the CV series. Authority: owner instruction 2026-11-22 (narrow S6-1 prerequisite:
+implementation, targeted tests, documentation, PR; **not** the owner's limits values, **not** a populated policy
+file, **not** other Stage 6 work). Record: `docs/integration/IID-STAGE-6-S6-1-LIMITS-POLICY-RUNTIME-INTEGRATION-2026-11-22.md`;
+roadmap §C.12; runbook §15.3 amended. §16.315 not rewritten.
+
+**Confirmed runtime path (re-verified on `main@58270c82`, not assumed from §16.315).** Engine
+`buildDispositionPayload(limits)` → `createDispositionRecordsService().record()`; sole caller
+`frontend/server/investment/cli/disposition-demonstration.ts` (synthetic subject, throwaway store), which passed
+`policy: null`. No reader of `${IIPS_DATA_DIR}/investment/policies/limits-policy.json` existed; `resolveDispositionLimits`
+had no production caller. Read transport is GET/HEAD only and produces nothing.
+
+**Changed.** New `frontend/server/investment/limitsPolicySource.ts` (`resolveLimitsPolicyPath`,
+`loadOperatorLimitsPolicy`, `isLimitsDisclosureConsistent`): documented path under the existing data-root precedence,
+fixed file name, bytes handed to the existing `resolveDispositionLimits` → `parseLimitsPolicyText` → `resolveLimits`
+(no parallel parser); absent → labelled `SYSTEM_DEFAULT` + `source.kind ABSENT`; valid in force → `OPERATOR_CONFIG` +
+the file's `policyVersion` + `source.kind OPERATOR_FILE`; future-dated → defaults with note; empty / directory /
+unreadable / malformed / unknown key / invalid value → `LimitsPolicyError`, defaults never substituted.
+`disposition-demonstration.ts`: caps loaded through the loader before any store opens; `--limits-policy-root <dir>`;
+evidence `limits{source,basis,policyVersion,effectiveFrom,notes,recordedHeld,recordedCandidate}`; verification point
+9; exit 2 on a rejected policy. New tests `limitsPolicySource.test.ts` (24), `disposition-demonstration.test.ts` (3).
+Untouched: `limits.ts`, `engine.ts`, `dispositionService.ts`, composition, transport, scoring/assessment/portfolio/verb
+logic, UI, IPD.
+
+**Results.** 24/24, 3/3, existing `disposition-records.test.ts` 17/17; `tsc --noEmit` clean (investment-server
+project: only the two pre-existing test-file errors, untouched). Sandbox operator-style runs: no file → `ABSENT` /
+`SYSTEM_DEFAULT` / `…+system-default`, exit 0; valid file → `OPERATOR_FILE` / **`OPERATOR_CONFIG`** / **exact
+`policyVersion`** on loaded limits, both recorded payloads and every `limits.applied` entry, exit 0; unknown-key file
+→ `UNKNOWN_KEY`, exit 2, nothing written. Verbs identical with and without a policy. Throwaway test values in a
+temp directory, deleted; **no owner values authored; no owner file created.**
+
+**Gap recorded, not closed.** No operator CLI mints a disposition for a **real** holding against the live NP-04
+store; `OPERATOR_CONFIG` is provable today only on the demonstration path. **S6-1b — real-holding disposition mint
+CLI: OPEN, IRR-owned, awaiting separate authority.** Not started; scope not widened.
+
+**Status.** S6-1 **IMPLEMENTED, NOT COMPLETE** (host verification with the owner's own file pending; owner's values
+not yet decided). Stage 6 **IN PROGRESS**; S6-2…S6-5 untouched. Stage 5 acceptance (§16.315) unchanged. Owner's
+Windows checkout untouched; delivery is the owner's manual, controlled synchronisation. **Next action (owner):**
+decide the limits values, author `limits-policy.json` at the documented path on the host (runbook §15.3), run
+`disposition-demonstration.ts --out <scratch> --limits-policy-root %IIPS_DATA_DIR%` and read point 9; decide on S6-1b.
+
+Next free §16.317 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+
+## 16.317 IID Stage 6 — S6-1b real-holding disposition generation IMPLEMENTED on PR #622 (fixture-verified in the sandbox, stand-in port); S6-1/S6-1b NOT COMPLETE; finding F-1 (limits policy version is a disposition-chain parameter) opened for owner decision (2026-11-22)
+
+**IRR-only implementation record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` /
+`CHG` / `V` identifier from the CV series. Authority: owner instruction 2026-11-22 (S6-1b, narrow: a safe operator
+CLI/workflow generating a disposition for an **actual persisted holding** from NP-04 persisted data, the existing
+engine, the S6-1 loader and the existing record path; on PR #622's head branch; no separate PR; **#622 not merged**;
+CI guard/visibility resolution owned by the owner; the owner's policy values not authored). Record: §8 of
+`docs/integration/IID-STAGE-6-S6-1-LIMITS-POLICY-RUNTIME-INTEGRATION-2026-11-22.md`; roadmap §C.13; runbook
+§15.1 / §15.3 / new §15.6. §16.316 not rewritten.
+
+**Inspected first.** Real holdings: IPC read channel only (`IpcUserPortfolioPort.getPortfolio` v2, binding
+precondition, empty scope; IRR holds no portfolio store). Identity: `resolveHoldingIdentities` over
+`loadRuntimeIdentitySources` (`assessable = RESOLVED ∧ listingId`). Assessment: persisted
+`investment.company-assessment` chain head via `createInvestmentArtifactService` (`READ` intent = existing store only,
+no create/migrate). Persistence: `createDispositionRecordsService().record()` with substantive idempotency on the head
+(same meaning ⇒ `UNCHANGED`/`CLOCK_ONLY_UNCHANGED`, no write; changed ⇒ `APPENDED`, same `hd:` chain). No real-holding
+writer existed (confirms §16.316).
+
+**Changed (IRR).** New `frontend/server/investment/holdingDisposition.ts` (`generateHoldingDisposition` — ordered
+fail-closed steps: policy via `loadOperatorLimitsPolicy` first; identity sources; real view (injected provider; production
+`createPortfolioViewProvider`); exactly one active holding by `symbol:`/`isin:`/`index:`/bare; resolved assessable
+listed EQUITY with listing in force (`securityState ACTIVE` from the listing window only, else `UNKNOWN`); latest
+persisted assessment, issuer and substantive digest cross-checked, never minted; `buildPortfolioContext` over the real
+view with roster sectors; `heldSubject` from the row as delivered; previous head ⇒ hysteresis verb + observable hard
+triggers (adequacy / quality / moat / identity); unchanged `buildDispositionPayload`; payload must carry the given
+`limits.basis` / `policyVersion` / digest and the given identity/assessment; F-1 pre-check; `record()` with the
+assessment digests and `datasetClass`). New CLI `frontend/server/investment/cli/generate-holding-disposition.ts`
+(`--portfolio --holding [--db --owner-carrier --data-root --as-of --dry-run --out]`; owner from the reports carrier;
+store with READ intent; JSON report + summary lines; exit 0 recorded/unchanged/dry-run, 2 stopped nothing written, 1
+unexpected). Additive `createPortfolioViewProvider` in `sources.ts`. Test-only `np04StandInPortFixture.ts` (in-memory
+five-operation port; never imported by production). New `holdingDisposition.test.ts` (21). Untouched: engine, verbs,
+gates, limits, subject, `dispositionService`, composition, `investmentArtifacts`, transports, the S6-1 demonstration
+wiring, scoring/assessment rules, portfolio/broker-import/UI, `.github/workflows/ci.yml`, IPD.
+
+**Finding F-1 (pre-existing, IID-4).** `stableDispositionParameters` makes `limitsPolicyVersion` and `limitsBasis`
+part of the disposition chain's `reportKey`; a chain recorded on `SYSTEM_DEFAULT` cannot be superseded in place under
+an operator policy (the artifact service would refuse the chain as `CHAIN_SCOPE_DRIFT` after writing). S6-1b stops
+**before** any write with `CHAIN_PARAMETERS_DRIFT`. **Owner decision required**; not resolved here.
+
+**Results (sandbox).** `holdingDisposition.test.ts` 21/21 on the stand-in port (cases: persisted holding selectable
+and processed; identity preserved; actual path receives the resolved limits; `OPERATOR_CONFIG` recorded; exact
+`policyVersion`; missing policy ⇒ `SYSTEM_DEFAULT`; invalid policy fails closed before the portfolio is read; missing
+assessment / unresolved identity / unavailable portfolio block generation with nothing created; persistence failure
+⇒ `PERSISTENCE_FAILED` with the store's message; repeated execution ⇒ `UNCHANGED`, no second version, new assessment
+version ⇒ `APPENDED` on the same `reportKey`; F-1; CLI owner/store/dry-run/invalid-policy/argv paths). Focused run
+111/111 over seven files; `tsc --noEmit` over the S6-1b files 0 errors. **Limitation:** the pinned IPD packages could
+not be installed in this sandbox session (`codeload` 404 anonymously; scoped token cannot read the repository), so the
+suite's real-store branch, `disposition-records` / `disposition-demonstration` and `tsc -p
+tsconfig.investment-server.json` were **not** executed here — they run in CI on #622. The tests are fixtures; **no
+verification against the owner's persisted holdings was performed; no owner policy file or values exist or were
+invented.**
+
+**Status.** S6-1 implemented, **NOT COMPLETE**; S6-1b implemented and fixture-verified, **NOT COMPLETE** (CI
+real-store run; host `--dry-run` and recording run per runbook §15.6; owner's values). Stage 6 **IN PROGRESS**;
+S6-2…S6-5 untouched; Stage 5 acceptance unchanged. PR #622 open, not merged, head updated (see PR). Owner's Windows
+checkout untouched. **Next action (owner):** resolve the CI guard/visibility issue and read #622's checks; decide F-1;
+deliver by manual synchronisation; run §15.6 `--dry-run` against a real portfolio and holding; author the limits values.
+
+## 16.318 IID Stage 6 — F-1 DECIDED by the owner: FAIL CLOSED on disposition-chain parameter drift; owner's limits policy values recorded; host-verification protocol published; S6-1/S6-1b NOT COMPLETE (2026-11-22, later pass)
+
+**Decision (owner, 2026-11-22) — F-1: FAIL CLOSED.** If an existing `hd:<portfolio>/<security>` chain carries a
+different `limitsBasis` or `limitsPolicyVersion`, `generate-holding-disposition` stops with `CHAIN_PARAMETERS_DRIFT`,
+does not overwrite or reuse the chain, and does not create a replacement chain automatically. Behaviour already
+implemented on PR #622 (`frontend/server/investment/holdingDisposition.ts` pre-write check; test `[3′]`; CI green on
+`8364270` / `297b8b4`); **no code change**. Alternatives (new chain identity per policy; limits as provenance) rejected
+for now. Recorded in S6-1 record §9.1, runbook §15.6, roadmap §C.14. D-1 of the Stage 6 gap assessment is thereby
+decided; D-2…D-11 remain open.
+
+**Owner's approved limits policy (recorded verbatim, S6-1 record §9.2; not committed; host path
+`C:\iips-data\investment\policies\limits-policy.json`):** `limits-policy/2026-11`, effective `2026-11-01`, single-name
+8 %, sector `DEFAULT` 25 % / `Technology` 20 %. Sandbox parse check against the committed loader: `OPERATOR_FILE` /
+`OPERATOR_CONFIG` / exact version / digest `bf8dd114299e34a91a102b8577a2a988cbc2dddd5762bf02f5320eaa42bebc7c`. BOM pitfall
+documented (fail-closed `POLICY_INVALID`).
+
+**Host protocol (S6-1 record §9.3):** inspect existing file → install (no overwrite of a differing file) → §15.3
+demonstration `--limits-policy-root C:\iips-data` → §15.6 `--dry-run` on one real holding → recording run → identical
+repeat `UNCHANGED`. Stop on `CHAIN_PARAMETERS_DRIFT`.
+
+**Evidence of this pass:** documentation only — S6-1 record §9 (+ §8.6 rows updated), runbook §15.6 paragraph, roadmap
+§C.14, this entry. No application code, no policy file in the repo, no IPD / IPO Screening Engine file, no scoring /
+verb / chain logic. Host steps **not executed** (no host access from the sandbox): no policy installed, no holding
+tested, nothing recorded.
+
+**Status.** S6-1 **NOT COMPLETE**; S6-1b **NOT COMPLETE**; Stage 6 IN PROGRESS; S6-2…S6-5 untouched; PR #622 open, not
+merged. **Next action (owner):** execute §9.3 steps 0–5 on the host; return the dry-run, recording and repeat reports.
+
+Next free §16.319 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
