@@ -1849,3 +1849,46 @@ synchronisation and the owner's values. Stage 6: **IN PROGRESS**; S6-2…S6-5 un
 decide the limits values and author `limits-policy.json` at the documented path on the host (runbook §15.3), then
 run the verification command; separately, decide whether to authorise S6-1b. No Windows-host action performed
 or scheduled by this amendment.
+
+## C.13 Stage 6 — S6-1b real-holding disposition generation IMPLEMENTED (fixture-verified in the sandbox); S6-1/S6-1b not complete; finding F-1 opened (2026-11-22)
+
+**Authority:** owner instruction 2026-11-22 authorising S6-1b narrowly, on PR #622's head branch (no separate PR;
+#622 not merged; CI guard/visibility resolution owned by the owner). Record: §8 of
+`IID-STAGE-6-S6-1-LIMITS-POLICY-RUNTIME-INTEGRATION-2026-11-22.md`; tracker §16.317; runbook §15.1/§15.3/§15.6.
+
+**Inspected before coding (not assumed from the synthetic demonstration).** Real holdings reach IRR only through the
+same-host IPC read channel (`IpcUserPortfolioPort.getPortfolio`, binding precondition, empty scope); identity is
+`resolveHoldingIdentities` over `loadRuntimeIdentitySources`; assessments are the persisted
+`investment.company-assessment` chain heads in NP-04 (`READ` intent = existing store only); the engine needs the whole
+portfolio view plus `heldSubject`; `record()` already carries substantive idempotency (same meaning ⇒ no write; changed
+meaning ⇒ `APPENDED` on the same chain). **No writer for a real holding existed.**
+
+**Implemented (IRR only).** `holdingDisposition.ts` (`generateHoldingDisposition`: policy → identity sources → real
+view → one active holding → resolved assessable listed EQUITY (`securityState ACTIVE` only from a listing window in
+force) → latest persisted assessment (issuer and substantive digest cross-checked; never created) → portfolio context
+over the real view → subject from the row → previous head for hysteresis + observable hard triggers → unchanged
+`buildDispositionPayload` → payload must carry the given limits and identity → `record()`); the operator CLI
+`cli/generate-holding-disposition.ts` (`--portfolio --holding [--db --owner-carrier --data-root --as-of --dry-run
+--out]`, exit 0 / 2 stopped-nothing-written / 1); additive `createPortfolioViewProvider` in `sources.ts`; a test-only
+in-memory NP-04 stand-in port; 21 fixture tests. Fail-closed stops: `PORTFOLIO_UNAVAILABLE`, `HOLDING_NOT_FOUND /
+_INACTIVE / _AMBIGUOUS`, `IDENTITY_SOURCES_UNAVAILABLE`, `IDENTITY_UNRESOLVED`, `ASSESSMENT_UNAVAILABLE /
+_INCONSISTENT`, `POLICY_INVALID`, `DISPOSITION_INCONSISTENT`, `CHAIN_PARAMETERS_DRIFT`, `PERSISTENCE_FAILED`. Nothing
+synthesised, no assessment minted, no scoring/verb rule touched, no IPD file touched.
+
+**Finding F-1 (pre-existing IID-4 rule, now visible).** `limitsPolicyVersion` / `limitsBasis` are stable chain
+parameters (part of `reportKey`), so a holding chain recorded on `SYSTEM_DEFAULT` cannot be superseded in place by a
+disposition under an operator policy. S6-1b detects this before any write and stops. **Owner decision required**
+(new chain identity per policy vs. limits as provenance). Recording real-holding dispositions only after the policy
+exists avoids the situation.
+
+**Verified (sandbox).** 21/21 on the stand-in port; 111/111 across the seven focused files; `tsc --noEmit` on the
+S6-1b files clean. **Limitation:** the pinned IPD packages could not be installed in this sandbox session (private
+repository; token not scoped), so the real-store branch of the suite, the existing disposition suites and the
+investment-server typecheck run in CI, not here. Tests are fixtures; **no verification against the owner's persisted
+holdings was performed.**
+
+**Status.** S6-1: implemented, NOT COMPLETE (host verification with the owner's file). S6-1b: implemented and
+fixture-verified, NOT COMPLETE (CI real-store run; host `--dry-run` then recording run against a real portfolio;
+owner's policy values still not supplied — not invented). Stage 6 IN PROGRESS; S6-2…S6-5 untouched. Next action
+(owner): resolve the CI guard/visibility issue and read #622's checks; deliver #622 by manual synchronisation; run
+runbook §15.6 `--dry-run` on the host; decide F-1; author the limits values.

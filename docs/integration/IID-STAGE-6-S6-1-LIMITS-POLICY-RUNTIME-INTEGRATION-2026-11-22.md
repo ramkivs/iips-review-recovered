@@ -136,3 +136,112 @@ written to the owner's data root; no owner values exist or were invented.**
 
 No IPD write. No change to the owner's Windows checkout. No fetch/pull/checkout/merge/rebase/reset in the owner's
 environment. Stage 6 remains **IN PROGRESS**; nothing else in Stage 6 was started.
+
+---
+
+## 8. Addendum — S6-1b: real-holding disposition generation (authorised and implemented 2026-11-22, same PR #622)
+
+**Authority:** owner instruction 2026-11-22 authorising S6-1b narrowly: a safe operator CLI/workflow that generates a
+disposition for an **actual persisted holding** using the authoritative NP-04 investment data, the existing disposition
+engine, the S6-1 loader and the existing disposition-record persistence — on PR #622's head branch, no separate PR, no
+merge. §3 and §7 above are **not rewritten**; this section supersedes their "S6-1b OPEN — awaiting authority" lines.
+**Not authorised, not done:** synthesising holdings described as real; creating missing company assessments;
+inventing identities, values or results; changing scoring/assessment/verb rules; IPD files; the owner's policy
+values; the CI guard; merging #622.
+
+### 8.1 What was inspected before writing code (findings that shaped the design)
+
+| Question | Found |
+|---|---|
+| Where real holdings come from | The G2 portfolio view over the same-host **IPC read channel** (`IpcUserPortfolioPort.getPortfolio`, v2 protocol), gated by the server-owned binding precondition (`IIPS_G3_IPC_BINDING_PROVISIONED`, `IIPS_G2_IPC_ENDPOINT`); IPD resolves the owner from its own active A-2 binding; the scope is empty. `createPortfolioHoldingsProvider` (`sources.ts`) already walks this path for one portfolio's rows. IRR holds no portfolio store of its own |
+| How issuer/security identity is established | `resolveHoldingIdentities(portfolioId, holdings, sources, asOf)` (`holding-identity-transport.ts`) over `loadRuntimeIdentitySources(dataRoot)` — `<root>/investment/identity/{eligible-roster,listing-map,corporate-actions}.json`; `assessable = RESOLVED ∧ listingId ≠ null`. The served `/api/investment/holdings/:portfolioId/identity` route uses exactly this |
+| Where assessments live | `createInvestmentArtifactService({port, owner}).readChain(companyScopeToken(issuerId), 'investment.company-assessment')` → head → `readVersionWithPayload`; `InvestmentVersionView` carries `datasetClass`, `payloadDigest`, `inputDigest`, `substantiveDigest`. Store opened through `loadAuthoritativeNp04Persistence(intent)`: `READ` = existing store only, no create/migrate (writes are not restricted by intent); `INITIALISE` = create+migrate, reserved to the mint CLI |
+| The engine input | `DispositionEngineInput{subject, assessment{payload, ref}, portfolio{block, facts}, limits, previous?, hardTrigger?, generatedAt}`; `heldSubject` requires `exchange ∈ {NSE,BSE}`, `securityClass`, `securityState` (default `UNKNOWN` ⇒ gate G-2 withholds); `buildPortfolioContext` needs the **whole** `G2PortfolioView` plus an identity resolver for the other rows |
+| Persistence and duplicate rules | `createDispositionRecordsService().record()` → `recordDisposition` → **substantive idempotency** on the chain head: same meaning ⇒ `UNCHANGED` / `CLOCK_ONLY_UNCHANGED` / `INPUT_CHANGED_CONTENT_IDENTICAL`, `wrote:false`; changed meaning ⇒ `APPENDED` on the same `hd:<portfolio>/<security>` chain. No second mechanism needed |
+| **Finding F-1 (pre-existing IID-4 rule).** | `stableDispositionParameters` (`dispositionComposition.ts`) makes **`limitsPolicyVersion` and `limitsBasis` stable chain parameters**, i.e. part of the chain's `reportKey`. A disposition head recorded under `SYSTEM_DEFAULT` therefore **cannot be superseded on the same chain** by one under an operator policy: the artifact service would append and then refuse the chain as `CHAIN_SCOPE_DRIFT` ("chain member carries a different chain identity"). S6-1b detects this **before any write** and stops (`CHAIN_PARAMETERS_DRIFT`). Whether a policy change should open a new chain identity or be demoted to provenance is an **IID-4 design decision for the owner**, not something this command resolves |
+| Hard trigger | `PreviousDisposition{verb, mosVsMidPct, weightPct}` (`verbs.ts`); hysteresis consumes only `previous.verb`; `hardTrigger` bypasses it. The engine documents the trigger classes but no caller computed them |
+| Existing writers | **None for a real holding** (§3 re-confirmed): the demonstration CLI is synthetic; the transports are GET/HEAD |
+
+### 8.2 What was implemented (IRR only)
+
+| File | Role |
+|---|---|
+| `frontend/server/investment/holdingDisposition.ts` — new | The composable run `generateHoldingDisposition(input, deps)`: **(1)** limits via `loadOperatorLimitsPolicy` first — `LimitsPolicyError` ⇒ `POLICY_INVALID`, nothing else touched; **(2)** identity sources, fail-closed; **(3)** the real portfolio view through the injected provider (production: `createPortfolioViewProvider`), id cross-checked; **(4)** `selectHolding` by `symbol:` / `isin:` / `index:` / bare — no match, inactive, or >1 active match ⇒ stop; **(5)** `resolveHoldingIdentities` for the whole view; subject must be `RESOLVED`, assessable, listing in force, `instrumentType EQUITY`, exchange in the closed set — else `IDENTITY_UNRESOLVED`; `securityState` = `ACTIVE` only when the listing window covers `asOf`, otherwise `UNKNOWN` (no other state inferred); **(6)** latest persisted assessment for `co:<issuerId>` — `CHAIN_NOT_FOUND` ⇒ `ASSESSMENT_UNAVAILABLE` (never created); issuer mismatch or substantive-digest mismatch ⇒ `ASSESSMENT_INCONSISTENT`; `DispositionAssessmentRef` built from the stored version + payload; **(7)** `buildPortfolioContext` over the real view, other rows' issuer/sector from the same identity sources (roster sector); **(8)** `heldSubject` from the row as delivered (`quantity`, `averageBuyPrice`, `marketValue` as `DATASET` observations with a row locator; unrealised gain `DERIVED`, or `NOT_COMPUTABLE` when the average price is not positive); **(9)** previous head on the same chain via `readHolding` ⇒ `previous.verb` for hysteresis, `detectHardTrigger` over the observable subset (adequacy / quality / moat / identity change — named in the report; severity-≥4 risk and restatement detection **not** inferred); **(10)** `buildDispositionPayload` unchanged; payload must carry the given limits (`basis`, `policyVersion`, `digest`) and cite the given identity/assessment or `DISPOSITION_INCONSISTENT`; F-1 pre-check ⇒ `CHAIN_PARAMETERS_DRIFT`; **(11)** `record()` with the assessment's digests and `datasetClass`; store errors ⇒ `PERSISTENCE_FAILED` with the store's own message. `dryRun` stops after (10). The report names portfolio (id, revision, `lastUpdated`), holding (index, symbol, ISIN, broker, quantities, weight), identity (issuer, security, listing, basis, state, `rosterDataClass`), assessment (scope, reportId, version, count, adequacy, `datasetClass`, substantive digest), limits (`basis`, exact `policyVersion`, `source{kind,path}`, caps, notes), previous head, hard-trigger reasons, disposition (chain scope, verb, withheld, caps applied, carried basis/version) and persistence (`outcome`, `wrote`, head id/version, chain `versionCount`) |
+| `frontend/server/investment/cli/generate-holding-disposition.ts` — new | Operator entry point. `--portfolio <id> --holding <selector> [--db] [--owner-carrier] [--data-root] [--as-of] [--dry-run] [--out]`. Owner from the reports carrier (`IIPS_REPORTS_OWNER_PATH` / `--owner-carrier`); store with **READ intent** (must exist; never created or migrated here); portfolio through `createPortfolioViewProvider({env})`; identity + policy under `--data-root` / `IIPS_DATA_DIR`. JSON report to stdout / `--out`; summary lines to stderr; exit 0 recorded/unchanged/dry-run, 2 stopped with a named code (nothing written), 1 unexpected. Releases NP-04 handles on exit |
+| `frontend/server/investment/sources.ts` — additive | `createPortfolioViewProvider(options)` beside `createPortfolioHoldingsProvider`: same precondition, same port, same empty scope, returns the whole view. Existing providers untouched |
+| `frontend/server/investment/np04StandInPortFixture.ts` — new, **tests only** | An in-memory five-operation port keeping the contract the artifact service depends on (store-assigned ids, `reportKey` by the canonical grammar, heads-only `queryByOwner`, contiguous supersession, owner partitioning, `appendVersion` refuses a changed `reportKey`). Never imported by production code; not evidence of persistence |
+| `frontend/server/investment/holdingDisposition.test.ts` — new | §8.3 |
+
+Not changed: `engine.ts`, `verbs.ts`, `gates.ts`, `limits.ts`, `subject.ts`, `dispositionService.ts`,
+`dispositionComposition.ts`, `investmentArtifacts.ts`, the transports, `disposition-demonstration.ts` (S6-1 wiring
+as delivered), scoring/assessment rules, portfolio/broker-import/UI behaviour, `.github/workflows/ci.yml`, any IPD file.
+
+### 8.3 Tests (fixtures — explicitly NOT a verification against the owner's persisted holdings)
+
+`holdingDisposition.test.ts` — 21 tests. The portfolio view is a **fixture** standing where the IPC channel delivers
+the real view (one resolvable M-1 row + one unresolvable row); the assessment is the **real M-1 assembly recorded
+through the real artifact service**; identity sources are the M-1 files; engine, loader, portfolio context and the
+record path are production code. The run-level suite is parameterised over every port available in the process: the
+in-memory stand-in **always**, and the **real governed store (`iips-np04-governed-persistence`) whenever the package
+resolves** — i.e. in CI, where the IPD dependency is installed. Only that run is evidence for persistence on the
+authoritative store.
+
+| Required case | Test | Stand-in result (sandbox) |
+|---|---|---|
+| 1 a persisted holding is selectable and processed | `[1][2]` by symbol / ISIN / index; `RECORDED`, `CREATED`, head v1, read back via `readHolding` | pass |
+| 2 identity preserved | payload `subject` = resolved `IN:EQISIN:…` / `IN:ISIN:…` / symbol / NSE / `ACTIVE`; `companyAssessmentRef.reportId` = the persisted head | pass |
+| 3 actual path receives the resolved limits | `[3][4][5]` payload `limits` = loaded limits (caps 8 / {DEFAULT 25, Technology 20}); `limits.applied` names `SINGLE_NAME_MAX` 8 % `OPERATOR_CONFIG` | pass |
+| 4 `OPERATOR_CONFIG` recorded | read back from the store: `basis OPERATOR_CONFIG` | pass |
+| 5 exact `policyVersion` | `limits-policy/s6-1b-fixture` on loaded limits, payload, report and stored payload | pass |
+| 6 missing policy → `SYSTEM_DEFAULT` | `[6]` `ABSENT`, `limits-policy/1.0.0+system-default`, note present | pass |
+| 7 invalid policy fails closed | `[7]` `POLICY_INVALID(UNKNOWN_KEY)` before the portfolio is read; no chain exists afterwards | pass |
+| 8 missing assessment / unresolved identity block | `[8a]` `IDENTITY_UNRESOLVED` for the unresolvable row; `[8b]` `ASSESSMENT_UNAVAILABLE`, inventories empty (nothing created); `[8c]` unreadable / unknown portfolio ⇒ `PORTFOLIO_UNAVAILABLE` | pass |
+| 9 persistence failure reported accurately | `[9]` write refused ⇒ `PERSISTENCE_FAILED`, `detail.code PERSISTENCE_UNAVAILABLE`, `storeMessage "disk full"`, nothing stored | pass |
+| 10 repeated execution, no duplicates | `[10]` same inputs at a later clock ⇒ `UNCHANGED`, `wrote:false`, `versionCount 1`, same head; new **assessment** version ⇒ `APPENDED` v2 on the **same** `reportKey`, one chain listed | pass |
+| F-1 | `[3′]` head on defaults, then operator policy ⇒ `CHAIN_PARAMETERS_DRIFT` naming `limitsPolicyVersion` / `limitsBasis`; chain still v1 on `SYSTEM_DEFAULT` | pass |
+| CLI | owner absent ⇒ `OWNER_CONTEXT_UNAVAILABLE` (port never loaded); store absent ⇒ `PERSISTENCE_UNAVAILABLE`; full run with `--data-root` ⇒ `RECORDED` + `OPERATOR_CONFIG` + exact version in the summary lines, re-run `UNCHANGED`; `--dry-run` writes nothing; invalid policy ⇒ exit 2 naming the path; malformed argv refused | pass |
+| 11 synthetic demonstration intact | `disposition-demonstration.ts` not modified by S6-1b; its 3-test suite is unchanged (requires the IPD package — runs in CI, see 8.4) | — |
+| helpers | selector parsing, selection (none / inactive / ambiguous), listing-window → `ACTIVE`/`UNKNOWN`, hard-trigger cases | pass |
+
+Sandbox results: **21/21 pass** (stand-in); `limitsPolicySource` 24/24, `portfolio-context`, `sourcesW05Projection`,
+`iidWi2Discovery`, `phase1D114WireToResolverInput`, `iidStage4ServedCoverageRoute` — **111/111** across the seven
+files run. `tsc --noEmit` over the five S6-1b files (replay-server project options): **0 errors**.
+
+### 8.4 Sandbox limitation stated plainly
+
+During this session the sandbox could **not** install the pinned IPD packages (`codeload.github.com/ramkivs/
+iips-production-market-data/...` answered 404 to anonymous fetches and the scoped token cannot read that repository),
+so `iips-np04-governed-persistence` was absent here. Consequences: (a) the **real-store** branch of the S6-1b suite,
+the existing `disposition-records` / `disposition-demonstration` suites and `tsc -p tsconfig.investment-server.json`
+could not be executed in this sandbox — they run in CI once the guard the owner is resolving lets the workflow proceed;
+(b) `generate-holding-disposition.ts` was exercised end-to-end only through `runCli` with the store and the view
+injected, plus a direct invocation confirming the ESM guard, usage and the `OWNER_CONTEXT_UNAVAILABLE` stop. The CI
+results on #622 are therefore the next evidence point for the real-store assertions, before any host run.
+
+### 8.5 Host-side verification that remains (owner)
+
+```text
+cd frontend
+npx tsx server/investment/cli/generate-holding-disposition.ts ^
+  --portfolio <portfolioId> --holding symbol:<SYMBOL> ^
+  --db %IIPS_NP04_DATABASE_PATH% --owner-carrier %IIPS_REPORTS_OWNER_PATH% ^
+  --data-root %IIPS_DATA_DIR% --dry-run --out <scratch>\s6-1b-dry-run.json
+```
+
+With `IIPS_G2_IPC_ENDPOINT` and `IIPS_G3_IPC_BINDING_PROVISIONED=true` set as for the server. Expected: `status
+DRY_RUN`, `holding` = the chosen row, `identity.issuerId` = the governed issuer (e.g. Infosys
+`IN:CIN:L85110KA1981PLC013115` once its holding resolves), `assessment.reportId` = the existing chain head,
+`limits.basis` = `OPERATOR_CONFIG` **only if** the owner's `limits-policy.json` exists at the documented path,
+otherwise `SYSTEM_DEFAULT`. Repeat **without** `--dry-run` to record; a second run must report `UNCHANGED`. Then
+`GET /api/investment/portfolio/<portfolioId>/holding/<securityId>` serves it. No owner policy values are authored by
+this work; **both S6-1 and S6-1b stay NOT COMPLETE until the owner runs this on the host with their own file.**
+
+### 8.6 Status after §8
+
+| Item | Status |
+|---|---|
+| S6-1 loading/validation of the operator policy | implemented; host verification pending (§7) |
+| S6-1b real-holding disposition generation | **implemented and fixture-verified in the sandbox (stand-in port); real-store run pending in CI; host verification pending** |
+| Finding F-1 (limits policy version is a chain parameter) | **OPEN — owner decision required** before a policy change can supersede an existing real-holding chain |
+| Owner's policy values | not supplied, not invented |
+| PR #622 | open; not merged; CI visibility/guard issue owned by the owner |

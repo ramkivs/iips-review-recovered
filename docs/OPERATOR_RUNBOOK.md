@@ -792,9 +792,10 @@ instruction." If you find a disposition without them, it did not come from this 
 
 ### 15.1 What writes, and what can only read
 
-- **Writes.** Only the operator CLI (`server/investment/cli/disposition-demonstration.ts` today, and the same
-  `createDispositionRecordsService().record()` path in any operator script). Writes go through the existing NP-04
-  boundary via the existing IPD adapter; the IRR code holds no store and no SQL.
+- **Writes.** Only the operator CLIs: `server/investment/cli/disposition-demonstration.ts` (synthetic subject,
+  throwaway store) and, since S6-1b (2026-11-22), `server/investment/cli/generate-holding-disposition.ts` (one
+  **real** holding, the live store — §15.6). Both use the same `createDispositionRecordsService().record()` path.
+  Writes go through the existing NP-04 boundary via the existing IPD adapter; the IRR code holds no store and no SQL.
 - **Reads.** `GET /api/investment/portfolio/:portfolioId/dispositions`,
   `GET /api/investment/portfolio/:portfolioId/holding/:securityId`,
   `GET /api/investment/candidate/:securityId?portfolio=<portfolioId>`. GET and HEAD only; every other method is 405
@@ -855,9 +856,9 @@ must be `OPERATOR_FILE`, `basis` `OPERATOR_CONFIG`, `policyVersion` the one you 
 printed; fix the file — the run recorded nothing). Without `--limits-policy-root` the demonstration uses its own
 empty root and reports `ABSENT` / `SYSTEM_DEFAULT`, as before.
 
-**What this does not yet give you.** There is no operator CLI that mints a disposition for a **real** holding against
-the live NP-04 store (the demonstration is synthetic by construction, §15.1). Until one exists, `OPERATOR_CONFIG` can
-be proven on the demonstration path only; the served `GET …/dispositions` routes only read what has been recorded.
+**Beyond the demonstration.** The demonstration is synthetic by construction (§15.1). To see `OPERATOR_CONFIG` on a
+disposition for one of **your** holdings, use the S6-1b command in §15.6, which reads the same policy file through the
+same loader. The served `GET …/dispositions` routes only read what has been recorded.
 
 Caps only ever move a verb **down**: ACCUMULATE → RETAIN on a single-name breach, INITIATE → WATCH on a sector
 breach. They are named in `disposition.capsApplied`, in `limits.applied`, and in the rationale.
@@ -886,6 +887,53 @@ first failure are `SKIP` — so the FIRST failing gate is the thing that was act
   appends a version even with identical evidence; the input digest is what stays equal (`L-014`, `L-026`).
 - **Do not repair a disposition chain by hand.** Same rule as §14.5: a tampered or scope-drifted chain fails closed
   with 503 and no partial history.
+
+### 15.6 Generating a disposition for a real holding (S6-1b, 2026-11-22)
+
+`server/investment/cli/generate-holding-disposition.ts` produces **one** disposition for **one actual persisted
+holding**. It composes only existing parts and invents nothing: if any input is missing it stops with a named code and
+writes nothing.
+
+```text
+cd frontend
+npx tsx server/investment/cli/generate-holding-disposition.ts ^
+  --portfolio <portfolioId> --holding <symbol:INFY | isin:INE009A01021 | index:0 | INFY> ^
+  [--db <np04 store>] [--owner-carrier <carrier>] [--data-root <IIPS_DATA_DIR>] [--as-of YYYY-MM-DD] [--dry-run] [--out <file>]
+```
+
+What it reads, and from where — nothing else:
+
+| Input | Source | If unavailable |
+|---|---|---|
+| the portfolio view | the same-host IPC read channel every holdings read uses (`IIPS_G2_IPC_ENDPOINT`, `IIPS_G3_IPC_BINDING_PROVISIONED=true`; IPD resolves the owner) | `PORTFOLIO_UNAVAILABLE` |
+| the holding | your selector; it must match exactly one **active** row | `HOLDING_NOT_FOUND` / `HOLDING_INACTIVE` / `HOLDING_AMBIGUOUS` |
+| issuer / security identity | `<data-root>/investment/identity/*` through the same resolver as `/api/investment/holdings/:id/identity`; must be `RESOLVED`, assessable, a listed `EQUITY` whose listing window covers `--as-of` | `IDENTITY_SOURCES_UNAVAILABLE` / `IDENTITY_UNRESOLVED` |
+| the company assessment | the **latest persisted** `investment.company-assessment` for the resolved issuer in the NP-04 store (`--db` / `IIPS_NP04_DATABASE_PATH`, owner from `--owner-carrier` / `IIPS_REPORTS_OWNER_PATH`). The store must already exist — this command opens it with READ intent and never creates or migrates one. **It never mints an assessment**: run `generate-investment-artifacts.ts` first (§14) | `OWNER_CONTEXT_UNAVAILABLE` / `PERSISTENCE_UNAVAILABLE` / `ASSESSMENT_UNAVAILABLE` / `ASSESSMENT_INCONSISTENT` |
+| the limits | `<data-root>/investment/policies/limits-policy.json` through the §15.3 loader — absent ⇒ `SYSTEM_DEFAULT`; invalid ⇒ stop **before anything else is read** | `POLICY_INVALID` |
+
+What it writes: at most one `investment.holding-disposition` version on the `hd:<portfolio>/<security>` chain, through
+the existing record path. **Re-running with unchanged inputs writes nothing** (`UNCHANGED` / `CLOCK_ONLY_UNCHANGED`,
+`wrote:false`): identity is substantive, not clock-based. A new assessment version or changed holding facts
+**append** a version on the same chain — that is history, not duplication. `--dry-run` builds and reports everything
+and records nothing.
+
+The JSON report (stdout / `--out`) names the holding (row index, symbol, ISIN, broker, quantity, weight), the resolved
+identity (issuer, security, listing, resolution basis, `securityState`), the assessment version it rested on
+(`reportId`, `artifactVersion`, `datasetClass`), the limits (**`basis`**, **exact `policyVersion`**, `source.kind`
+`OPERATOR_FILE` or `ABSENT`, caps), the previous head and any hard-trigger reason, the resulting verb / withheld
+reasons / caps applied, and what persistence did (`outcome`, `wrote`, head id, chain `versionCount`). Exit `0` =
+recorded, unchanged or dry run; `2` = stopped on a named condition, nothing written; `1` = unexpected failure.
+
+**One rule you will meet (finding F-1).** The limits `policyVersion` and `basis` are part of the disposition chain's
+identity (IID-4 `stableDispositionParameters`). If a holding's chain was recorded on `SYSTEM_DEFAULT` and you later add
+a policy file, the next run stops with `CHAIN_PARAMETERS_DRIFT` and writes nothing — a policy change cannot supersede
+that chain in place. Decide (as PA/PO) whether a policy change should open a new chain identity or whether the limits
+should move to provenance; the command does not decide for you. Recording real-holding dispositions **after** your
+policy exists avoids the situation.
+
+**Verification the owner still has to do on the host:** a `--dry-run` against a real portfolio and holding showing the
+real issuer id, the real assessment head and `limits.basis` as expected for your data root; then a recording run and a
+second run reporting `UNCHANGED`. Until that is done, S6-1 and S6-1b are implemented but **not complete**.
 
 ## 16. IID runtime readiness (P6-A) — ask before you start
 

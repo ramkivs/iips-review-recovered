@@ -19,7 +19,7 @@ import {
   ownerContextFromBinding,
   readBindingPrecondition,
 } from '../user-portfolio/ownerContextFromBinding.js';
-import type { G2HoldingView, G2PortfolioSummary } from '../user-portfolio/userPortfolioContract.js';
+import type { G2HoldingView, G2PortfolioSummary, G2PortfolioView } from '../user-portfolio/userPortfolioContract.js';
 import type { G2Scope } from '../user-portfolio/userPortfolioPort.js';
 import { listWatchlists, type Watchlist } from '../watchlists/watchlists-service.js';
 import { resolveOwnerContext } from '../owner-context-resolver.js';
@@ -204,6 +204,28 @@ export function createPortfolioHoldingsProvider(options: CoverageSourceOptions =
     const scope: G2Scope = {};
     const view = await port.getPortfolio({ scope, portfolioId });
     return view.holdings;
+  };
+}
+
+/**
+ * IID Stage 6 S6-1b — the read-only G2 portfolio VIEW for ONE portfolio, through the SAME IPC path and the SAME
+ * server-owned binding precondition as `createPortfolioHoldingsProvider`.
+ *
+ * Exists because a disposition for a real holding is measured against the whole portfolio (revision, weights,
+ * `lastUpdated`), not against one row. Identical governance: an unestablished owner context throws before the
+ * port is constructed, the scope stays empty so IPD resolves the owner from its own active binding, and no
+ * write capability is used.
+ */
+export function createPortfolioViewProvider(options: CoverageSourceOptions = {}) {
+  return async (portfolioId: string): Promise<G2PortfolioView> => {
+    const env = options.env ?? process.env;
+    const precondition = readBindingPrecondition(env);
+    if (!isOwnerContextEstablished(ownerContextFromBinding(precondition, env))) {
+      throw new Error('owner context not established: the server-owned binding carrier is not configured');
+    }
+    const port = options.portFactory?.() ?? new IpcUserPortfolioPort({ precondition, protocolVersion: IPC_PROTOCOL_VERSION_V2 });
+    const scope: G2Scope = {};
+    return port.getPortfolio({ scope, portfolioId });
   };
 }
 
