@@ -47,6 +47,11 @@ The Stage 5 portfolio read path exists on the host. Overall IID readiness remain
 > disposition by issuer in §13.2), and *Change history* resolved to the same page (root cause: anchor to a
 > section mounted only after a successful read; corrected to the IID-03 workspace, §13.3). **P6-B not accepted.**
 
+> **Update 2026-11-22 (post-merge verification of PR #619), §14:** delivery HEAD `408f3afb…`; *Change history →*
+> now opens the IID-03 page in the browser (navigation **VERIFIED**; version history **UNAVAILABLE** for the tested
+> issuer — honest state); *Company assessment* navigation **VERIFIED**, content **UNAVAILABLE** (no stored chain
+> for that issuer; correct per §13.2). **P6-B not accepted.**
+
 ---
 
 ## 1. Operator-observed host evidence (IPD checkout, service, endpoint)
@@ -675,3 +680,137 @@ Portfolio surfaces of D10 **verified** (operator-reported); company bridge and c
 verified in the browser**; §9 summary sheet outstanding. **P6-B NOT ACCEPTED. Stage 5 NOT ACCEPTED; overall IID
 readiness NOT READY.** D5/D6/R-1/R-2 and Stage 4 closure unchanged. No IPD change, no pin advance, no host
 setting changed, no write route, no mint performed, no assessment data synthesised.
+
+---
+
+## 14. Evidence update — 2026-11-22, post-merge browser verification of PR #619 (operator-reported; appended; §§0–13 are the historical record)
+
+Operator-reported; Arena opened no browser and accessed no host, checkout or service. This section records
+the delivery of PR #619 to the local IRR checkout and the browser observations made afterwards for the two
+§13 findings. The two findings are kept separate. **P6-B is not accepted by this section** (§14.5).
+
+### 14.1 Code delivery (controlled PowerShell delivery script, operator-reported)
+
+| Item | Value |
+|---|---|
+| Change | PR **#619** — `UserPortfolioDetail` *Change history →* now addresses the IID-03 workspace (§13.3); implementation commit `b2e7b0168ebe9c46c487cf1f89f68fd9daee6672`; merged to `main` 2026-11-22T13:36:37Z as merge commit `408f3afbb4780fed9f90ff6a3683c464714e57df` |
+| Fetch completed | TRUE |
+| Fast-forward completed | TRUE |
+| Frontend build passed | TRUE |
+| PR #619 inclusion | VERIFIED |
+| **Final local HEAD (verified delivery HEAD)** | **`408f3afbb4780fed9f90ff6a3683c464714e57df`** (the `main` merge commit — not the implementation commit `b2e7b016…`) |
+| Working-tree changes | None |
+| Service restart during delivery | NOT PERFORMED (by the script); the frontend (`npm run dev`) was restarted **manually** afterwards; the transport was not restarted and did not need to be |
+
+**PR #619 code delivery: COMPLETE.**
+
+### 14.2 Finding 1 — Company assessment (post-merge observation)
+
+Opened *Company assessment →* from the Dhan portfolio (`DHAN_PORTFOLIO`). Displayed, verbatim as reported:
+
+> Company assessment
+>
+> No stored assessment exists for this issuer. Assessments are produced by the operator CLI.
+>
+> Nothing is substituted for a failed read: no cached assessment, no client-side recomputation and no fallback store
+
+| Aspect | Status |
+|---|---|
+| Company Assessment navigation | **BROWSER VERIFIED** — the correct Company assessment page was reached |
+| Persisted assessment for the tested issuer | **NOT AVAILABLE** (`GET /api/investment/company/<issuerId>` → `404 not-found`, §13.2 mechanism) |
+| Assessment-generation process | operator CLI (`generate-investment-artifacts.ts`); **no assessment was generated** during this verification |
+| Substitution | none — no cached assessment, no client-side recomputation, no fallback store |
+| Fail-closed behaviour | **VERIFIED** |
+
+This is **not** a verification of assessment content. The tested issuer (§14.3: `IN:EQISIN:INE274Y01021`,
+an EQISIN-form issuer id) is **not** one of the three governed issuers (`IN:CIN:L85110KA1981PLC013115`,
+`IN:CIN:L15140MH1988PLC049208`, `IN:CIN:L45200MH2005PLC152061`), so §13.2 row 3 applies: the 404 state is
+the **correct result** for that holding; the dataset and the O1 population are three issuers; nothing is to
+be minted for it, and nothing was. The host's NP-04 store still holds exactly one chain — Infosys v1. The
+issuer-specific dispositions of §13.2 are unchanged. The bridge on an **Infosys-resolving** holding
+(procedure §6.6 steps 1–3) has **not yet been reported**.
+
+### 14.3 Finding 2 — Change history (post-merge observation)
+
+After delivery and the frontend restart, *Change history →* was opened from the same Dhan holding.
+
+**Observed: the link opened the IID-03 Historical Change Intelligence page.** Displayed, verbatim as reported:
+
+> IID-03 — Historical Change Intelligence
+>
+> The stored assessment history of one issuer: the versions that exist, the comparisons between consecutive stored versions, the material changes, the review triggers, and the attribution behind them.
+>
+> Read-only surface · decision support only · no trade execution · no order, quantity or price is published here.
+
+Navigation trail displayed: *Investment Intelligence* → *IID-01 — Stock Intelligence* → *IID-02 — Investment &
+Holding Decisions* → *IID-03 — Historical Change Intelligence*. The issuer-selection and direct issuer-id entry
+controls were present.
+
+URL context carried (operator-reported): `issuerId=IN:EQISIN:INE274Y01021`, `portfolioId=DHAN_PORTFOLIO`,
+`securityId=IN:ISIN:INE274Y01021` — i.e. `/investment/change-intelligence?issuerId=…&portfolioId=…&securityId=…`,
+the shape §13.3 specified; no `#change-timeline` fragment.
+
+Version-history section displayed, verbatim as reported:
+
+> Version history
+>
+> Every stored version of this chain. A comparison needs two of them.
+>
+> No stored assessment exists for this issuer. Assessments are produced by the operator CLI.
+>
+> Nothing is substituted for a failed read: no cached history, no reconstructed comparison and no fallback store.
+
+| Aspect | Status |
+|---|---|
+| Change History navigation | **BROWSER VERIFIED — PASS** (the §13.3 defect is corrected in the running UI) |
+| Destination | **IID-03 Historical Change Intelligence** — **OPENED SUCCESSFULLY**; a distinct page, not the Company assessment page |
+| Portfolio and issuer/security context | carried in the URL |
+| Version history for the tested issuer | **NOT AVAILABLE** — the section states the absence honestly (same `404 not-found` read as §14.2, through the one existing assessment endpoint) |
+| Persisted comparison | **NOT AVAILABLE** — none exists; none was displayed; none is claimed |
+| Substitution | none — no cached history, no reconstructed comparison, no fallback store |
+| Fail-closed behaviour | **VERIFIED** |
+
+The absence of stored history is a **data-availability condition** for that issuer (§14.2), not a navigation
+defect. The IID-03 page's one-version and comparison renderings (§13.3 table, rows 2–3) remain
+**unexercised in the browser**: the only stored chain is Infosys v1, and no second version exists anywhere.
+
+### 14.4 Mandatory distinctions (as recorded)
+
+| Area | Status |
+|---|---|
+| PR #619 code delivery | **COMPLETE** (delivery HEAD `408f3afb…`) |
+| Company Assessment navigation | **BROWSER VERIFIED** |
+| Company Assessment content | **UNAVAILABLE — no stored assessment** (for the tested issuer; correct per §13.2 row 3) |
+| Change History navigation | **BROWSER VERIFIED** |
+| IID-03 page | **OPENED SUCCESSFULLY** |
+| Version history | **UNAVAILABLE — no stored assessment** |
+| Historical comparison | **NOT AVAILABLE** |
+| Fail-closed behaviour | **VERIFIED** (both surfaces) |
+| P6-B | **NOT ACCEPTED** |
+| IID Stage 5 | **IN PROGRESS — NOT ACCEPTED** |
+
+### 14.5 What remains for D10 / P6-B after this update
+
+| Item | Status |
+|---|---|
+| Portfolio surfaces (§13.1) | verified; not repeated |
+| Change-history navigation (§13.3) | **closed** — verified on delivery HEAD `408f3afb…` |
+| Company bridge on an **Infosys-resolving** holding (procedure §6.6 steps 1–3; the only chain that can render content; IID-03 one-version rendering on the same row) | **not yet reported** — if no Dhan holding resolves to `IN:CIN:L85110KA1981PLC013115`, record that as a scope limitation; do not mint to change it |
+| Procedure §6.4 (404 path), §6.7 (second portfolio), §6.8 (console/network sweep), §9 summary sheet | **not yet reported** |
+| Marico / KEC v1 mints | open, not forced (only authorised way to widen the assessed population reachable from the holdings) |
+| Second comparable assessment version + change diff (the only way the IID-03 comparison rendering can ever show content) | open; genuine input change required; not forced |
+| IPD's own D02 publication | open, IPD-owned |
+
+**Status:** D5/D6/R-1/R-2 unchanged and not reopened; Stage 4 closed as recorded. **P6-B NOT ACCEPTED; Stage 5
+IN PROGRESS — NOT ACCEPTED; overall IID readiness NOT READY.** No IPD change, no pin advance, no host setting
+changed, no write route, no mint, no synthesised assessment or comparison. No application code changed by this
+update.
+
+### 14.6 Verification performed for this update (Arena; IRR only; no host access)
+
+| Check | Result |
+|---|---|
+| PR #619 | `gh pr view 619`: MERGED, merge commit `408f3afbb4780fed9f90ff6a3683c464714e57df`, 2026-11-22T13:36:37Z — equals the operator-reported delivery HEAD |
+| Verbatim text | the two page texts in §14.2/§14.3 match the product copy (`ASSESSMENT_UNAVAILABLE_COPY['not-found']`, `CompanyAssessmentPage.tsx` unavailable state, `ChangeIntelligencePage.tsx` header / *Version history* section, `ReadOnlyDisclosure`) and the navigation trail matches `CapabilityBreadcrumb` |
+| Sanitisation | this section adds one operator-supplied security/issuer identifier pair (`INE274Y01021`, supplied for the record by the owner), the portfolio id and PR/commit identifiers; no holding quantities or values, no bodies, no environment values |
+| Host / browser facts | **none observed by Arena**; all operator-reported |

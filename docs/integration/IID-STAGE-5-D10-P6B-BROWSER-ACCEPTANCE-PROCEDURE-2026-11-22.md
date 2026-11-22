@@ -11,8 +11,12 @@ current `main@a2fa6823…` qualifies) / IPD `main@cbb116d2a221b82a704b4b96cf17ef
 **Classification:** Local / Single User / Non-Production. Production admission **NOT ADMITTED**.
 **Status of this document:** first pass executed 2026-11-22 for the portfolio surfaces (§6.1–§6.3 verified,
 operator-reported — evidence record §13.1); §6.6 was executed on an arbitrary holding and produced two findings
-(evidence record §13.2, §13.3), after which §6.6 was **amended** below. §6.4, §6.7, §6.8 and the §9 sheet are
-not yet reported. Nothing here is a P6-B acceptance.
+(evidence record §13.2, §13.3), after which §6.6 was **amended** below. **Post-merge pass (PR #619, delivery
+HEAD `408f3afbb4780fed9f90ff6a3683c464714e57df`, evidence record §14):** §6.6 step 4 executed on a non-assessed
+holding — Change-history navigation **BROWSER VERIFIED** (IID-03 page opened, honest empty history); Company
+assessment navigation **BROWSER VERIFIED**, content **UNAVAILABLE** (no stored chain for that issuer). §6.6
+steps 1–3 (Infosys-resolving row), §6.4, §6.7, §6.8 and the §9 sheet are not yet reported. Nothing here is a
+P6-B acceptance.
 
 > **What this document is.** P6-A §10 lists seven prerequisites for P6-B. §2 reconciles each against the
 > evidence actually published (no prerequisite is taken as satisfied because the transport-environment
@@ -318,6 +322,15 @@ corrected (the link opens the IID-03 workspace). The step is therefore rewritten
    not the company page. Record both URLs' `issuerId` and statuses (`GET /api/investment/company/<issuer>` →
    `404`). This is the correct result for that issuer (dataset and governed population are three issuers);
    nothing is to be minted for it. Screenshot → `D10-10-not-assessed-pair.png`.
+**Execution record for this step (operator-reported, evidence record §14).** Post-#619, on delivery HEAD
+`408f3afb…` with the UI restarted, step 4 was executed on the holding resolving to `IN:EQISIN:INE274Y01021`
+(`securityId=IN:ISIN:INE274Y01021`, `portfolioId=DHAN_PORTFOLIO`): *Company assessment* → the *"No stored
+assessment exists…"* state (navigation verified; content unavailable; correct for a non-governed issuer);
+*Change history* → `/investment/change-intelligence?issuerId=IN:EQISIN:INE274Y01021&portfolioId=DHAN_PORTFOLIO&securityId=IN:ISIN:INE274Y01021`,
+heading *IID-03 — Historical Change Intelligence*, breadcrumb trail, *Version history* section with the honest
+alert and the *"no cached history, no reconstructed comparison and no fallback store"* line — **PASS for
+navigation; history and comparison not available**. Steps 1–3 (Infosys-resolving row) **not yet reported**.
+
 5. **Marico / KEC (`L15140MH1988PLC049208` / `L45200MH2005PLC152061`), if held.** Today they also return the 404
    state because their v1 mints are open operator work (NP-04 record §9.3; not forced). If the operator elects
    to perform a mint it is the existing CLI, in the transport's environment, followed by the Stage 4 §8 read-back
@@ -391,9 +404,24 @@ Writes performed: NONE.   /personal-portfolio controls used: NONE.   Host settin
 Stage 5 status after this journey: NOT ACCEPTED (see procedure §10).   Production: NOT ADMITTED.
 ```
 
-Publication: append the filled sheet as **§13** of
-`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (append-only), plus a roadmap §C entry and a
-tracker entry — through an IRR PR, after reading the sheet for personal data. Nothing on IPD's behalf.
+**Rows reported so far (2026-11-22; evidence record §13.1, §14) — the remaining rows are still to be supplied:**
+
+```text
+D10 / P6-B BROWSER JOURNEY — 2026-11-22 (partial)  —  result: NOT YET DETERMINED (rows A, C, D, E, L, U, F, B2, B3 outstanding)
+IRR checkout: 408f3afbb4780fed9f90ff6a3683c464714e57df (post-#619 delivery HEAD)   transport: not restarted   UI: restarted   IPD: cbb116d2 (unchanged)
+B  DHAN_PORTFOLIO: 64 holdings, summary, valuation, weights, latest persisted revision displayed (first pass, §13.1); figures/statuses/digest match not yet transcribed
+B2 company bridge (Infosys-resolving row): NOT YET REPORTED
+B3 change history (same row): NOT YET REPORTED
+B4 non-assessed row: issuerId IN:EQISIN:INE274Y01021 | company → 404 state: yes | change history → IID-03 page with honest alert: yes | hrefs end in #change-timeline: no
+   (navigation VERIFIED for both links; assessment content and version history UNAVAILABLE for this issuer — correct; nothing minted)
+Writes performed: NONE.   /personal-portfolio controls used: NONE.   Host settings changed: NONE.
+Stage 5 status: NOT ACCEPTED.   P6-B: NOT ACCEPTED.   Production: NOT ADMITTED.
+```
+
+Publication: the completed sheet is appended as the **next free section** of
+`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (§13 and §14 are already taken by the first-pass
+and post-merge records; the completed sheet becomes **§15**), plus a roadmap §C entry and a tracker entry —
+through an IRR PR, after reading the sheet for personal data. Nothing on IPD's behalf.
 
 ---
 

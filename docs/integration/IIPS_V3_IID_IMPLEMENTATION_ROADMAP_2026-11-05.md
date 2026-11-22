@@ -1716,3 +1716,33 @@ ACCEPTED; overall IID readiness NOT READY.** D5/D6/R-1/R-2 and Stage 4 closure u
 pulls this change, restarts `npm run dev`, executes amended §6.6 (Infosys-resolving row; one non-assessed row)
 plus the outstanding §6.4/§6.7/§6.8, and supplies the §9 sheet. No IPD change, no pin advance, no host
 provisioning, no mint and no write route is authorized by this amendment.
+
+## C.10 Stage 5 — PR #619 delivered to the host; Change-history navigation browser-verified; both empty-data states recorded (operator-reported, 2026-11-22)
+
+Evidence record §14 of `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (operator-reported; Arena
+opened no browser and accessed no host). Procedure §6.6 execution record and §9 partial sheet updated.
+
+**Delivery.** PR #619 (implementation `b2e7b016…`) merged as `408f3afbb4780fed9f90ff6a3683c464714e57df` and
+delivered to the local IRR checkout by the controlled script: fetch TRUE, fast-forward TRUE, frontend build
+TRUE, PR inclusion VERIFIED, **delivery HEAD `408f3afb…`**, working tree clean; no service restart by the
+script; frontend restarted manually afterwards. **Code delivery COMPLETE.**
+
+**Finding 1 — Company assessment.** Navigation **BROWSER VERIFIED**; content **UNAVAILABLE — no stored
+assessment** for the tested issuer (`IN:EQISIN:INE274Y01021`, not one of the three governed issuers → the 404
+state is the correct result, §13.2 row 3); operator CLI remains the only generation path; nothing generated,
+cached, recomputed or substituted. Fail-closed behaviour **VERIFIED**. Not an assessment-content verification.
+
+**Finding 2 — Change history.** Navigation **BROWSER VERIFIED — PASS**: the link opened the **IID-03 —
+Historical Change Intelligence** page (heading, description, read-only disclosure, breadcrumb trail, issuer
+controls) with `issuerId` / `portfolioId=DHAN_PORTFOLIO` / `securityId` in the URL; *Version history* stated
+honestly that no stored assessment exists for this issuer; **no comparison available, none displayed, none
+claimed**. The §C.9 navigation defect is closed in the running UI.
+
+**Status and next step.** PR #619 delivery COMPLETE; both navigations verified; assessment content, version
+history and comparison **UNAVAILABLE** for the tested issuer (data-availability condition). **P6-B NOT
+ACCEPTED; Stage 5 IN PROGRESS — NOT ACCEPTED; overall IID readiness NOT READY.** R-1/R-2/D5/D6 and Stage 4
+closure not reopened. **Next:** procedure §6.6 steps 1–3 on an **Infosys-resolving** holding (the only chain
+that can render content; or record that none is held), then §6.4 / §6.7 / §6.8 and the §9 sheet → evidence
+record §15. Marico/KEC mints and the second comparable version stay open, not forced; IPD's D02 publication
+IPD-owned. No code change, no mint, no IPD change, no pin advance, no host provisioning authorized by this
+amendment.
