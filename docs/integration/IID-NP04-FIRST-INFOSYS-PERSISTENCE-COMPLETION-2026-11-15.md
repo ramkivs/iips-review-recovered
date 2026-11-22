@@ -166,6 +166,8 @@ It is **not** a prerequisite for the already-completed company-scoped Infosys mi
 
 **Status update 2026-11-22, second pass** (evidence record §11; roadmap §C.7; tracker §16.311): D5-1 compiled-module hashes recorded and matched (D5 CONFIRMED, no IRR-recordable residual; IPD's own publication remains open, IPD-owned); D6 four-source digest comparison PASS (D6 DEMONSTRATED, no residual). **R-1 captured, not green**: `--strict` in a shell without the transport's variables → `READ-PATH READY: NO` (2 OK, 6 TODO); the remaining R-1 step is the same read-only diagnostic in the transport's process environment. D4, the mints, the second version and D10/P6-B remain open as in the table. Not Stage 5 acceptance; overall IID readiness NOT READY.
 
+**Status update 2026-11-22, third pass** (evidence record §12; roadmap §C.8; tracker §16.312): **R-1 CLOSED — GREEN** in the transport's process environment (`--strict` exit 0, `READ-PATH READY: YES`, 8/8 `[ok]`, diagnostic qualifications preserved; necessary-not-sufficient as the table states). D10 / P6-B prerequisites 1–6 evidenced; prerequisite 7 (the recorded browser journey) is the remaining step — procedure `IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md`, **not executed**. The mints and the second version remain open as in the table. Not Stage 5 acceptance; overall IID readiness NOT READY.
+
 ### 9.4 Existing blockers / incomplete decisions carried forward
 
 - IPD binding/IPC remains the hard external blocker for Stage 5's portfolio loop.

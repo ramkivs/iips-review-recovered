@@ -298,7 +298,7 @@ not access the host).
 | R-1 host readiness capture / R-2 served coverage captures — the holdings surface becomes capturable only with D5/D6 | operator | open; this handoff produces both as a side effect (`03-*`, `11-05`) |
 | Remaining Marico / KEC v1 mints (if the three-issuer scope is pursued) | operator, existing CLI | open; not forced |
 | Second comparable version + change diff (needs a genuine input change) | operator | open; do not force a duplicate |
-| D10 / P6-B real browser acceptance (the Personal Portfolio page renders the served v2 view; `contributionLedger` is passed through unrendered — record §8) | operator host | blocked behind the rows above |
+| D10 / P6-B real browser acceptance (the Personal Portfolio page renders the served v2 view; `contributionLedger` is passed through unrendered — record §8) | operator host | blocked behind the rows above — **2026-11-22: unblocked** (evidence record §12; prerequisites 1–6 evidenced); procedure `IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md`, not executed |
 | Stage 4 data residuals (freshness / operating-metric / source) | per Stage 4 records | open in parallel |
 
 **Overall IID readiness remains NOT READY** until those rows carry evidence. Closing D5 and D6 moves the

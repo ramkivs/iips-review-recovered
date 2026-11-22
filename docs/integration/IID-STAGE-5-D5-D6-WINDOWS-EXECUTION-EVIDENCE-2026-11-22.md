@@ -35,6 +35,12 @@ The Stage 5 portfolio read path exists on the host. Overall IID readiness remain
 > D5-1 compiled-module hashes (§11.1) and the four-source digest comparison (§11.2). The R-1 strict
 > readiness capture is recorded in §11.3. The paragraph above is left as written.
 
+> **Update 2026-11-22 (third pass), §12:** R-1 re-captured in the transport's own process environment
+> (PID `18424`) — `READ-PATH READY: YES`, `--strict` exit 0, all eight findings `[ok]` with the
+> diagnostic's qualifications preserved. R-1 closed; P6-A §10 prerequisites 1–6 evidenced; prerequisite 7
+> (the recorded browser journey) is the remaining Stage 5 step and is **not executed**. Procedure:
+> `IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md`.
+
 ---
 
 ## 1. Operator-observed host evidence (IPD checkout, service, endpoint)
@@ -349,6 +355,9 @@ exact W11 capture, the response bodies and all portfolio contents remain host-lo
 
 ### 11.3 R-1 — strict readiness diagnostic (new evidence; read-only; its own process environment only)
 
+> **Superseded for status 2026-11-22 (third pass):** the same diagnostic was afterwards run in the transport's process
+> environment and returned `READ-PATH READY: YES`, exit 0 — see **§12**. The table below remains the record of the shell capture.
+
 Operator ran, from the IRR `frontend` package, `npm run iid:readiness -- --strict --data-dir C:\iips-data`;
 output saved as `C:\iips-evidence\IID-STAGE5-20261122\03-readiness.txt`. Header:
 `IID runtime readiness (read-only) — LOCAL_SINGLE_USER_NON_PRODUCTION`; platform `win32`; Node `24.14.0`.
@@ -410,6 +419,8 @@ are Stage 4 facts, not Stage 5 work, and are not reopened here).
 
 ### 11.5 Stage 5 remaining work after this update (replaces the status column of §9; the list is unchanged)
 
+> **Status column superseded by §12.5** (R-1 closed green in the transport environment; D10 / P6-B procedure published).
+
 | Item | Owner | Status after §11 |
 |---|---|---|
 | D5 active binding | IPD fact / operator declaration | **CONFIRMED** (IRR-recordable evidence complete). Open, IPD-owned: IPD's own publication (§11.4) |
@@ -434,4 +445,114 @@ IPD `cbb116d2`). IPD's publication proceeds in parallel under IPD ownership.
 | IPD `main` | still `cbb116d2a221b82a704b4b96cf17efe0560e2498`; `git merge-base --is-ancestor 4716d0bc… HEAD` → 0 in the sandbox clone; roadmap S1→D02 entry unchanged (OPERATIONAL EVIDENCE PENDING) |
 | Independent rebuild | fresh `--depth 30` clone of IPD at `cbb116d2`, `npm ci --ignore-scripts`, `npx tsc` (5.9.3) on Node 22.22.3; `sha256sum` of the three modules equals the operator's three hashes exactly (§11.1). Working tree clean after build (`dist/` ignored). No IPD file changed, nothing pushed |
 | Sanitisation | this section adds portfolio id, revision, digest and counts already of record (§5, IPD W04 basis); no holdings, bodies, exact capture, binding/membership/owner/tenant values, pipe-name value or environment values |
+| Host / IPD-service facts | **none observed by Arena**; all operator-reported |
+
+---
+
+## 12. Evidence update — 2026-11-22, third operator pass: R-1 in the transport's process environment (appended; §§0–11 are the historical record)
+
+Operator-reported; Arena accessed no host, service, database, process or evidence directory. This section
+records the one R-1 step that §11.3 and §11.5 left open — the same read-only diagnostic executed in the
+transport's own process environment — and nothing else. §11.3 is not rewritten; its eight-row table remains
+the record of the **shell** capture (`03-readiness.txt`). D5/D6 are not re-examined and were not rerun.
+
+### 12.1 What was run, and where its environment came from
+
+| Item | Operator-reported value |
+|---|---|
+| Diagnostic | IRR `frontend` package, `npm run iid:readiness -- --strict` (read-only; same code path as §11.3) |
+| Environment | captured from the **actual running IRR transport process**, PID **`18424`** (the process serving `127.0.0.1:8787` in §3/§11.2), and applied to the diagnostic's process — not a re-typed or reconstructed variable set |
+| Output files | `C:\iips-evidence\IID-STAGE5-20261122\04-readiness-transport-environment.txt` (report) and `04-readiness-transport-exit.txt` (exit code) |
+| Exit code (`--strict`) | **`0`** |
+| Header | `IID runtime readiness (read-only) — LOCAL_SINGLE_USER_NON_PRODUCTION`; platform `win32`; Node `24.14.0` (same host/runtime as §11.3) |
+| Conclusion line | **`READ-PATH READY: YES`** |
+| Production admission | **NOT ADMITTED** (the diagnostic's own statement; unchanged) |
+
+### 12.2 The eight findings in the transport environment (operator-reported), against §11.3
+
+| # | Finding | §11.3 shell result | **Transport-environment result** | What `[ok]` does and does not establish (diagnostic's own qualification, preserved) |
+|---|---|---|---|---|
+| 1 | `identity-files` | OK | **`[ok]`** | identity sources validate (`IDENTITY_SOURCES_VALID`); unchanged |
+| 2 | `reports-owner-context` | TODO (path not configured in that shell) | **`[ok]`** | the Reports owner-context carrier resolved in the transport's environment. The product emits this result only when the resolver returns ok (`REPORTS_OWNER_CONTEXT_ESTABLISHED`, evidence level `configured-runtime` — code fact, `runtimeReadiness.ts`). Resolves the §11.3 row-3 "absent in this shell" |
+| 3 | `np04-assessment-store` | TODO (path not configured in that shell) | **`[ok]`** | NP-04 database **file present**; **stored assessment content unverified by the diagnostic** (it opens no database). Presence of the file is not evidence that a record exists — the Infosys record exists by the separate-process read-back of the NP-04 record, not by this finding |
+| 4 | `owner-context-carrier` | TODO (path not configured in that shell) | **`[ok]`** | the F-3 owner-context carrier resolved in the transport's environment (`OWNER_CONTEXT_ESTABLISHED`, `configured-runtime` — code fact). This is the first **direct** capture of D4 in a diagnostic (§11.5 had it "indirect only") |
+| 5 | `ipd-binding-precondition` | TODO | **`[ok]`** | the declaration `IIPS_G3_IPC_BINDING_PROVISIONED` is present in the transport's environment. **A binding declaration is not proof of IPD retrieval**; IPD verifies the binding per request. The binding fact itself is IPD-owned and was verified in §2, not here |
+| 6 | `ipc-endpoint` | TODO | **`[ok]`** | the configured endpoint **resolved** to an admissible local IPC target; **peer liveness was not probed** (by design). Liveness is evidenced by §3/§11.2, not by this finding |
+| 7 | `fundamentals-dataset` | OK | **`[ok]`** | dataset **directory present, content unverified** (`DATASET_DIRECTORY_PRESENT_CONTENT_UNVERIFIED`); measurement for Infosys is evidenced by the NP-04 record (dataset version `sha256:bdfb2527…`) and the R-2 coverage captures (§3), not by this finding |
+| 8 | `local-personal-use-enablement` | TODO (absent, "by design" for reads) | **`[ok]`** | **observation, recorded factually:** `IIPS_LOCAL_PERSONAL_USE` **is set** in the transport process (the product reports `[ok]` only for the value `1`; reason code `LOCAL_PERSONAL_USE_DECLARED`). See §12.3 |
+
+Diagnostic-wide statements, as reported and preserved: no database was opened, created or migrated; no IPC
+peer was contacted; no application data was written; the report describes only the process environment in
+which it ran. `READ-PATH READY` is computed over findings 1–7 (the enablement finding is excluded from the
+read-path verdict by the product — code fact), so `YES` here is a statement about the **read path** of the
+three capabilities, in the transport's environment, and about nothing else.
+
+### 12.3 Finding 8 — `IIPS_LOCAL_PERSONAL_USE` present in the transport process (recorded, not reinterpreted)
+
+The handoff (§3.3) stated that `IIPS_LOCAL_PERSONAL_USE` "is **not** required for the read path on either
+side and must not be set for this handoff: the host-run scope is reads only, and that switch enables IRR's
+write routes." §11.3 row 8 recorded it as absent in the shell capture and treated that as the designed state.
+The transport-environment capture shows the switch **is** set in the process that served the D5/D6 reads.
+
+What this does and does not mean, kept apart:
+
+- It does **not** invalidate any D5/D6 evidence. Every captured read in §3/§11.2 is a `GET`; the switch
+  enables IRR's personal-use **write** routes (`POST`/`PUT`/`DELETE` under `/api/user-portfolios`) and
+  grants no authority — IPD keeps its own per-request guards and write refusals (diagnostic text; IRR
+  `runtimeReadiness.ts`). No write route was exercised by any Stage 5 step, and none is recorded as exercised.
+- It is a **scope-boundary observation** against the handoff's "reads only" instruction, owned by the
+  operator: the host runs the local personal application (the `/personal-portfolio` surface is admitted
+  only when this switch is set — Program Authority 2026-11-08), which is a legitimate standing configuration
+  of the single-user host, not a Stage 5 step. It is recorded here so the record matches the process that
+  actually served the reads.
+- Consequence for D10 / P6-B: the browser procedure must be explicit that **no create, save, edit or
+  delete control is to be used** during acceptance, because on this host those controls are live. The
+  procedure (§12.5) carries that instruction.
+
+No host setting was changed, and none is to be changed on account of this finding; whether the switch stays
+set is an operator decision outside Stage 5 scope.
+
+### 12.4 What this capture closes, and what it does not
+
+- **R-1 — GREEN in the transport environment.** The §11.5 row "captured, not green … remaining: the same
+  diagnostic in the transport's process environment" is **closed**. The shell-vs-transport discrepancy of
+  §11.3 is resolved exactly as predicted there (the TODO findings were properties of that shell), with one
+  difference from the §11.3 expectation: findings 3 and 4 came back `[ok]`, not TODO, because the startup
+  script does set the Reports carrier and NP-04 path for the transport process.
+- **Necessary, not sufficient** (NP-04 record §9.3, R-1 row): exit 0 is a precondition for D10 / P6-B
+  (P6-A §10 prerequisite 6), not Stage 5 acceptance.
+- **D4** — now captured directly (finding 4 `[ok]` in the serving process); the "separate capture if
+  watchlists are exercised" note stands only for the watchlist read itself.
+- It does **not** independently prove the live IPC read. That proof is D5/D6 (§2, §3, §11.1, §11.2), which
+  this capture neither repeats nor strengthens; the diagnostic contacted no peer.
+- It does **not** verify NP-04 content or dataset content (findings 3 and 7, by the diagnostic's own words).
+- **Stage 5 is not accepted; overall IID readiness remains NOT READY; Stage 4 remains closed as recorded.**
+
+### 12.5 Stage 5 remaining work after this update (supersedes the status column of §11.5; the list is unchanged)
+
+| Item | Owner | Status after §12 |
+|---|---|---|
+| D5 active binding | IPD fact / operator declaration | **CONFIRMED** (unchanged, §11.4). Open, IPD-owned: IPD's own publication |
+| D6 live v2 read + independent read-back | operator / IPD peer | **DEMONSTRATED** (unchanged); peer authenticity NOT_ATTESTED (standing) |
+| R-1 host readiness capture | operator | **CLOSED — GREEN in the transport environment** (`04-readiness-transport-environment.txt`, exit 0, `READ-PATH READY: YES`). Necessary-not-sufficient; qualifications §12.2 |
+| D4 F-3 carrier | operator | **captured directly** (finding 4 `[ok]` in the serving process); watchlist read itself still not separately exercised — not required by any Stage 5 item |
+| R-2 served coverage captures | operator | **CLOSED** (§3) |
+| `IIPS_LOCAL_PERSONAL_USE` present in the transport process | operator | **observation recorded** (§12.3); no Stage 5 action; browser procedure forbids write controls |
+| Marico / KEC successor v1 mints (three-issuer scope) | operator, existing CLI | open; not forced |
+| Second comparable persisted assessment version + change diff | operator (genuine input change required) | open; not forced; **not** a prerequisite for the D10 base journey (P6-A §10 item 4: required only "if change comparison is to be exercised") |
+| D10 / P6-B formal browser acceptance | operator host | **all seven P6-A §10 prerequisites 1–6 now evidenced** (reconciliation in `IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md` §2); prerequisite 7 — the recorded real browser journey — **is the remaining step**, and is **NOT EXECUTED** |
+| Stage 4 data limitations | per Stage 4 records | accepted limitations, preserved; not Stage 5 work |
+
+**Next roadmap step:** execute and record the D10 / P6-B browser journey per
+`docs/integration/IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md` on build pair
+IRR ≥ `a6df94ff…` / IPD `cbb116d2`, against the already-running transport (PID `18424`, no restart
+required). IPD's publication proceeds in parallel under IPD ownership.
+
+### 12.6 Verification performed for this update (Arena; IRR only; no host access)
+
+| Check | Result |
+|---|---|
+| IRR `main` at the time of this update | `a2fa6823f2d4f14d5a3c358d72207bcb44381496` = PR #617 (snapshot daily field type narrowing; code/tests only). No documentation path touched; this update is branched from `7f39ddb8…` (PR #616 merge) and applies cleanly |
+| Product facts cited | `frontend/server/investment/runtimeReadiness.ts`: enablement finding `[ok]` iff `IIPS_LOCAL_PERSONAL_USE === '1'` (reason `LOCAL_PERSONAL_USE_DECLARED`); `ready` computed over all findings except `local-personal-use-enablement`; carrier findings return `…_ESTABLISHED` only when the resolver returns ok; NP-04/dataset findings report `…_PRESENT_CONTENT_UNVERIFIED`; endpoint finding states "Peer liveness not probed" |
+| Sanitisation | this section adds a PID, two file names and finding results; no environment **values**, no pipe-name value, no path beyond those already of record, no holdings, no binding/membership/owner/tenant values |
 | Host / IPD-service facts | **none observed by Arena**; all operator-reported |

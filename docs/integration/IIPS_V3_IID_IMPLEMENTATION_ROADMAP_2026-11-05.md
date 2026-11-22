@@ -1635,3 +1635,51 @@ change) and D10/P6-B open; Stage 4 closed with its accepted limitations, not reo
 acceptance; overall IID readiness remains NOT READY.** **Next:** R-1 in the transport environment, then
 **D10 / P6-B real browser acceptance** on build pair IRR ≥ `a6df94ff…` / IPD `cbb116d2`. No Stage 6 work,
 no IPD change, no pin advance and no host provisioning is authorized by this amendment.
+
+## C.8 Stage 5 — R-1 GREEN in the transport environment; D10 / P6-B prerequisites reconciled and browser procedure published (operator-reported capture, 2026-11-22, third pass)
+
+Appended to the §C.6 evidence record as §12 of
+`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` (operator-reported; Arena accessed no host,
+process, service, database or evidence directory). New procedure:
+`IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md` (**PREPARED, NOT EXECUTED**).
+
+**R-1 closed — GREEN.** `npm run iid:readiness -- --strict` executed with the environment captured from the
+running IRR transport process (PID `18424`, the process that served the D5/D6 reads):
+`04-readiness-transport-environment.txt` / `04-readiness-transport-exit.txt` under
+`C:\iips-evidence\IID-STAGE5-20261122\`; exit **0**; win32, Node 24.14.0; **`READ-PATH READY: YES`**; all
+eight findings `[ok]` — `identity-files`, `reports-owner-context`, `np04-assessment-store`,
+`owner-context-carrier`, `ipd-binding-precondition`, `ipc-endpoint`, `fundamentals-dataset`,
+`local-personal-use-enablement`. Qualifications preserved as the diagnostic states them: NP-04 database file
+present but stored content unverified; dataset directory present, content unverified; a binding declaration is
+not proof of IPD retrieval; endpoint resolved, peer liveness not probed; no database change, no peer contact,
+no application data written; production NOT ADMITTED. The §C.7 shell-vs-transport discrepancy is resolved
+(the six TODO findings were properties of that shell). This capture does **not** independently prove the live
+IPC read — D5/D6 do. Necessary, not sufficient. D4 is now captured directly (finding 4 in the serving process).
+
+**Observation recorded, not reinterpreted.** `IIPS_LOCAL_PERSONAL_USE` is set in the transport process (finding
+8 `[ok]`), whereas the handoff §3.3 asked that it not be set for the reads-only scope. No D5/D6 evidence is
+affected (all captured reads are `GET`s; the switch enables IRR's write routes and grants no authority); it is
+a host-scope observation owned by the operator, and the browser procedure forbids every write control.
+
+**D10 / P6-B reconciliation (procedure §2).** P6-A §10 prerequisites 1–6 are **EVIDENCED** by published
+records — live binding/peer/real read (D5/D6), identity files valid on real data (Stage 4), both carriers
+resolved in the serving process, NP-04 Infosys stored and read back separately, dataset measured for Infosys,
+strict exit 0 — none resting solely on the readiness `YES`. Prerequisite 7, the recorded real browser journey,
+is **OPEN** and is the remaining step. No existing runbook covers the `/user-portfolios` list → detail →
+revision-history journey (Stage 4 §7 covers the company/coverage surfaces and is referenced, not duplicated);
+the new procedure derives it from the implemented routes and components (`UserPortfolioList`,
+`UserPortfolioDetail`, `PortfolioStatusSummary`), fixes the comparison baseline to the published §3/§5 facts
+(`DHAN_PORTFOLIO` rev 1 / 64 / `17b2b283…`; `PERSONAL-fa8ad7bc-…` rev 2 / 1 / `9e5dc076…`), exercises the
+404 path read-only, does not provoke a 503, and states in advance that the *Import contributions* section will
+read "No import contributions recorded" because `contributionLedger` is passed through unrendered — an
+expected, recorded UI capability gap, not a D6 failure. The second comparable assessment version is not a
+prerequisite for the base journey (P6-A §10 item 4) and stays open, not forced. `/personal-portfolio` is
+excluded (write-capable editor).
+
+**Status and next step.** D5 CONFIRMED (IPD publication open, IPD-owned); D6 DEMONSTRATED; R-1 **CLOSED
+GREEN**; R-2 closed; D4 captured directly; Marico/KEC mints and the second comparable version open, not forced;
+D10/P6-B: prerequisites met, **journey not executed**; Stage 4 closed with its accepted limitations, not
+reopened. **Not Stage 5 acceptance; overall IID readiness remains NOT READY.** **Next:** the operator
+executes the D10 / P6-B procedure once in a real browser against the running transport (no restart, no
+setting change) and publishes its §9 summary sheet as §13 of the evidence record. No Stage 6 work, no IPD
+change, no pin advance, no product code change and no host provisioning is authorized by this amendment.

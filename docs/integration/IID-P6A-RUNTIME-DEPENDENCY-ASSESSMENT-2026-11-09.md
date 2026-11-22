@@ -207,3 +207,9 @@ P6-B real-issuer browser acceptance may begin only when **all** hold:
    admissible.
 
 Production admission remains **NOT ADMITTED**. Step 9 / Stage 0 status is unchanged by this work item.
+
+> **Reconciliation 2026-11-22** (`IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md` §2; evidence
+> record §12): prerequisites 1–6 are evidenced by published Stage 4 / Stage 5 records (D5 CONFIRMED, D6
+> DEMONSTRATED, carriers resolved in the serving process, NP-04 Infosys stored and read back separately,
+> dataset measured, `--strict` exit 0 in the transport environment). Prerequisite 7 is **open**: the procedure
+> is published and **not executed**. The seven items above are unchanged.

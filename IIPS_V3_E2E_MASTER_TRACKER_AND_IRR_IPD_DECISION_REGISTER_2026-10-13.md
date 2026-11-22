@@ -24341,4 +24341,47 @@ READY.** No IPD change, no pin advance (`1ce6a829…`), no host provisioning, no
 **Next milestone.** R-1 readiness in the transport environment, then D10 / P6-B real browser acceptance
 on IRR ≥ `a6df94ff…` / IPD `cbb116d2`.
 
-Next free §16.312 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.312 IID Stage 5 — R-1 GREEN in the transport environment; D10 / P6-B prerequisites reconciled, browser procedure published, not executed (2026-11-22, third pass)
+
+**IRR-only record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` / `CHG` /
+`V` identifier is taken from the CV series. Operator-reported capture; Arena accessed no host, process,
+service, database or evidence directory. Appended as §12 of
+`docs/integration/IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`; roadmap Part C §C.8; new
+`docs/integration/IID-STAGE-5-D10-P6B-BROWSER-ACCEPTANCE-PROCEDURE-2026-11-22.md`. §16.310/§16.311 are not
+rewritten.
+
+**R-1 (closes the §16.311 "captured, not green" item).** `npm run iid:readiness -- --strict` run with the
+environment captured from the running IRR transport process, PID `18424` (the process that served the D5/D6
+reads): `04-readiness-transport-environment.txt` + `04-readiness-transport-exit.txt`; exit **0**; win32,
+Node 24.14.0; **`READ-PATH READY: YES`**; 8/8 `[ok]` (`identity-files`, `reports-owner-context`,
+`np04-assessment-store`, `owner-context-carrier`, `ipd-binding-precondition`, `ipc-endpoint`,
+`fundamentals-dataset`, `local-personal-use-enablement`). Diagnostic qualifications preserved: NP-04 file
+present / content unverified; dataset directory present / content unverified; binding declaration ≠ proof of
+IPD retrieval; endpoint resolved, peer liveness not probed; no DB change, no peer contact, no data written;
+production NOT ADMITTED. Resolves the shell-vs-transport discrepancy of §16.311; does **not** independently
+prove the live IPC read (D5/D6 do); necessary, not sufficient (NP-04 record §9.3). D4 now captured directly.
+**Observation:** `IIPS_LOCAL_PERSONAL_USE` is set in the transport process, contrary to the handoff §3.3
+reads-only instruction — recorded factually; no D5/D6 evidence affected (all reads `GET`; the switch enables
+write routes, grants no authority); operator-owned; the browser procedure forbids every write control.
+
+**D10 / P6-B.** P6-A §10 prerequisites 1–6 **EVIDENCED** by published records (D5/D6; Stage 4 identity
+closure; carriers resolved in the serving process; NP-04 Infosys stored + separate-process read-back; dataset
+measured for Infosys; strict exit 0) — none resting solely on the readiness `YES`; prerequisite 7 (recorded real
+browser journey) **OPEN — the remaining step**. No existing runbook covered the `/user-portfolios` list →
+detail → revision-history journey (Stage 4 §7 referenced, not duplicated). The new procedure is derived from
+the implemented routes/components, fixes the baseline to the published facts (`DHAN_PORTFOLIO` rev 1 / 64 /
+`17b2b283…`; `PERSONAL-fa8ad7bc-…` rev 2 / 1 / `9e5dc076…`), exercises the 404 path read-only, does not
+provoke a 503, excludes `/personal-portfolio` (write-capable), and pre-states the `contributionLedger`
+passed-through-unrendered gap as expected and recorded. Second comparable version not a prerequisite for the
+base journey; open, not forced. **The journey is NOT EXECUTED; no browser result exists.**
+
+**Status.** D5 CONFIRMED (IPD publication open, IPD-owned); D6 DEMONSTRATED; R-1 CLOSED GREEN; R-2 closed;
+D4 captured; Marico/KEC mints and second comparable version open, not forced; D10/P6-B prerequisites met,
+journey pending; Stage 4 closed, accepted limitations preserved. **Not Stage 5 acceptance; overall IID
+readiness NOT READY.** No IPD change, no pin advance (`1ce6a829…`), no product code change, no host
+provisioning, no write route.
+
+**Next milestone.** Operator executes the D10 / P6-B browser procedure once against the running transport and
+publishes its §9 summary sheet as evidence record §13.
+
+Next free §16.313 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
