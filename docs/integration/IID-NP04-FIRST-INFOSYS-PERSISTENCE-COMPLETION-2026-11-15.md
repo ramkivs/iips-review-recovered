@@ -164,6 +164,8 @@ It is **not** a prerequisite for the already-completed company-scoped Infosys mi
 
 **Status update 2026-11-22** (`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`, operator-reported; roadmap §C.6; tracker §16.310): **D5 CONFIRMED** (IPD read-only verifier `VERIFIED`, DP-V1..V9; endpoint present and connectable; residual: D5-1 build-provenance hashes + IPD-side publication) and **D6 DEMONSTRATED** (all in-scope routes 200 over v2 with `contributionLedger` on the wire; W11 second-process capture exit 0; residual: recorded digest cross-comparison). **R-2 closed** (both coverage routes 200, holdings surface present). D4 evidenced only indirectly (identity coverage 200); R-1 readiness capture, the mints, the second version and D10/P6-B remain open. The table above is the definition of record and is not rewritten. Not Stage 5 acceptance; overall IID readiness NOT READY.
 
+**Status update 2026-11-22, second pass** (evidence record §11; roadmap §C.7; tracker §16.311): D5-1 compiled-module hashes recorded and matched (D5 CONFIRMED, no IRR-recordable residual; IPD's own publication remains open, IPD-owned); D6 four-source digest comparison PASS (D6 DEMONSTRATED, no residual). **R-1 captured, not green**: `--strict` in a shell without the transport's variables → `READ-PATH READY: NO` (2 OK, 6 TODO); the remaining R-1 step is the same read-only diagnostic in the transport's process environment. D4, the mints, the second version and D10/P6-B remain open as in the table. Not Stage 5 acceptance; overall IID readiness NOT READY.
+
 ### 9.4 Existing blockers / incomplete decisions carried forward
 
 - IPD binding/IPC remains the hard external blocker for Stage 5's portfolio loop.

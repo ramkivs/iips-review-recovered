@@ -24293,4 +24293,52 @@ change, no pin advance (`1ce6a829…`), no host provisioning, no write route exe
 **Next milestone.** Record the two residuals and the `--strict` readiness capture from the existing host
 state (no reruns), then D10 / P6-B real browser acceptance on the same build pair.
 
-Next free §16.311 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.311 IID Stage 5 — D5-1 hashes and D6 digest comparison recorded; R-1 readiness captured, not green (2026-11-22, second pass)
+
+**IRR-only record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` / `CHG` /
+`V` identifier is taken from the CV series. Operator-reported; Arena accessed no host, service, database or
+evidence directory. Appended as §11 of `docs/integration/IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`;
+roadmap Part C §C.7. §16.310 is not rewritten.
+
+**D5-1 (resolves the §16.310 residual, IRR-recordable part).** IPD checkout `cbb116d2` clean, `4716d0bc`
+ancestor (exit 0). `Get-FileHash`: `dist\src\ipc\dispatch.js`
+`fb4a3abc68cca81df86b6d9938646317bd5fb27f712cbd06179445a828fde1ec`; `dist\src\persistence\portfolio_store.js`
+`76185ec7736ae6b7e221924aa4e2b11ae61e9b8227c620db3c54421a876fe0ce`; `dist\src\persistence\binding.js`
+`551f14b26a8e2e900c0029b6eea8336c160a1475c7745e4eb43de8ad8034fa28` — equal to the recorded prefixes and,
+in full, to an Arena-sandbox compile of IPD `main@cbb116d2` (`npm ci --ignore-scripts` + `tsc` 5.9.3, Node
+22.22.3). Established: checkout ancestry; compiled-module identity in the checkout. **Not proven, not
+claimed:** the bytes resident in the already-running process (no attestation exists; standing limitation).
+**D5 — CONFIRMED**, no IRR-recordable residual. **Open, IPD-owned:** IPD's own publication of its
+confirmation (IPD roadmap S1→D02 entry: OPERATIONAL EVIDENCE PENDING) — the operator-reported set covers
+IPD's three remaining items in IRR's view, but the act is IPD's, through an IPD PR.
+
+**D6 (resolves the §16.310 residual).** `13-readback-comparison.txt` (2026-11-22T11:35:21Z): W11 first
+read, W11 second read, IRR v2 detail, IRR v2 history → `DHAN_PORTFOLIO` / revision 1 /
+`17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f` / 64 on all four; identity, revision,
+digest, count **MATCH**; **PASS**. W11 `CONSISTENT_CAPTURE` exit 0, capture `d1992178-…`, ten gating checks;
+v2 ledger 1 = IPD `contributionsValidated` 1; v1 `contributionsCount: 0` = protocol distinction. **D6 —
+DEMONSTRATED**, no residual. Peer authenticity **NOT ATTESTED** (standing). Exact capture and bodies
+host-local.
+
+**R-1 strict readiness (new).** `npm run iid:readiness -- --strict --data-dir C:\iips-data` → `03-readiness.txt`
+(win32, Node 24.14.0): OK `identity-files` (`IDENTITY_SOURCES_VALID`), `fundamentals-dataset`
+(`DATASET_DIRECTORY_PRESENT_CONTENT_UNVERIFIED`); TODO `reports-owner-context` (`IIPS_REPORTS_OWNER_PATH`,
+user-host), `np04-assessment-store` (`IIPS_NP04_DATABASE_PATH`, irr-owned-not-configured),
+`owner-context-carrier` (`IIPS_OWNER_CONTEXT_PATH`, user-host), `ipd-binding-precondition`
+(`IIPS_G3_IPC_BINDING_PROVISIONED`, ipd-owned-unavailable), `ipc-endpoint` (`IIPS_G2_IPC_ENDPOINT`,
+irr-owned-not-configured), `local-personal-use-enablement` (`IIPS_LOCAL_PERSONAL_USE`, by design absent for
+reads); **`READ-PATH READY: NO`**. Read-only; no DB opened; no peer contacted. The report describes only
+its own shell, which did not carry the transport's variables — **not** evidence that the demonstrated D5/D6
+read path failed (same host served all in-scope routes 200 over v2). No setting to be changed to make it
+pass. Remaining R-1 step: the same diagnostic in the transport's process environment
+(necessary-not-sufficient).
+
+**Status.** D5 CONFIRMED (IPD publication open, IPD-owned); D6 DEMONSTRATED; R-2 closed; R-1 captured,
+not green; D4 indirect; Marico/KEC mints, second comparable version, D10/P6-B open; Stage 4 closed, its
+accepted limitations preserved and not reopened. **Not Stage 5 acceptance; overall IID readiness NOT
+READY.** No IPD change, no pin advance (`1ce6a829…`), no host provisioning, no write route.
+
+**Next milestone.** R-1 readiness in the transport environment, then D10 / P6-B real browser acceptance
+on IRR ≥ `a6df94ff…` / IPD `cbb116d2`.
+
+Next free §16.312 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
