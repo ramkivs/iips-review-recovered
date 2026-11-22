@@ -128,3 +128,56 @@ W-11 record).
 - **Next step:** W-07 may begin, as a separately authorized IPD-led coordinated delivery
   under Section 4. W-08 follows W-07; W-09 follows W-08; IRR W-10 follows W-07/W-08.
   Nothing in this record merges PR #565 or any other PR.
+
+---
+
+## 6. IRR acceptance of the W-24 D-7 amendment — 2026-11-21
+
+**Decision.** The Program Authority directs IRR to accept the **complete amended IPD D-7 policy**, not
+just its W-24 corrections, at the exact immutable IPD commit
+[`b0e95611fb2cf7955f2342f0f1aa896f1c58257b`](https://github.com/ramkivs/iips-production-market-data/blob/b0e95611fb2cf7955f2342f0f1aa896f1c58257b/docs/integration/DHAN-D7-PROVIDER-STATE-MODEL-AND-DIAGNOSTICS-POLICY-2026-11-12.md),
+`docs/integration/DHAN-D7-PROVIDER-STATE-MODEL-AND-DIAGNOSTICS-POLICY-2026-11-12.md`
+(policy blob `d9438a1ad70402f287c9142257c6d0108de1112a`). This section records the supplied IRR decision;
+it is not a competing policy and does not speak for IPD.
+
+**Authority and effectiveness.** The owner decisions and M4 interpretation are recorded in IRR at
+[`001848e9c81a4049cc1f6ea2664250ba6351c610`](https://github.com/ramkivs/iips-review-recovered/blob/001848e9c81a4049cc1f6ea2664250ba6351c610/docs/integration/DHAN-W24-OWNER-DECISION-PROPOSAL-2026-11-21.md);
+the further response-reference and transport clarifications are recorded at
+[`06a2b0db30e662a9fc77423ed1b6f3569fcd224d`](https://github.com/ramkivs/iips-review-recovered/blob/06a2b0db30e662a9fc77423ed1b6f3569fcd224d/docs/integration/DHAN-W24-OWNER-DECISION-PROPOSAL-2026-11-21.md).
+Following the convention in the original record, this amendment acceptance is recorded for review on
+this PR branch and becomes effective on IRR `main` when the Program Authority merges this acceptance
+PR. Until then, the IPD amendment awaits formal IRR adoption. IPD PR
+[#186](https://github.com/ramkivs/iips-production-market-data/pull/186) was open and unmerged at
+review; publication or adoption on IPD `main` is an independent IPD action, not asserted here.
+
+**Accepted scope and safeguards.** The complete policy, including its original model, verification
+semantics, disclosure and D-7 acceptance requirements, §4.2.1 and §§4.5–4.10, is accepted as written
+at that revision. The four approved W-24 surfaces are: allowlisted structured events and their
+separately authenticated operator readers; D01 `traceId`/`correlationId`; the IRR response action
+reference; and validated `X-IIPS-Trace-Version`/`X-IIPS-Action-Id` headers on authenticated IRR–IPD
+loopback transport only. The response action reference is **server-side only** and never delivered to
+the browser. Readers, events, rings and bearer credentials must not reach the browser. No trace metadata
+or trace headers go to Dhan; headers are never logged or serialized into events.
+
+The policy's 12-field event allowlist, closed enums, cryptographically secure independently generated
+UUIDv4 identifiers, 1 KiB ceiling, and process-lifetime-only 512-event IRR and 1,024-event IPD rings
+remain binding. D01 requester and producer roles remain distinct: values may be equal for a new
+non-coalesced observation; cache hits retain original producer provenance, coalesced requesters retain
+individual action IDs, cached provenance is not mutated, and D02 provenance is not invented.
+
+Trace generation never triggers credential or secret retrieval or resolution. An operator reader may
+only authenticate with an already-available, authorized server-held bearer; it must use constant-time
+verification, bind loopback-only, be read-only, have no browser exposure and have no unauthenticated
+fallback. A missing or invalid bearer fails closed with no diagnostic entries returned and no credential
+retrieval fallback. Transport acknowledgement and fail-closed requirements remain intact.
+
+The §4.2.1 exception is limited to the four named surfaces and does not weaken the eight original §4.2
+prohibitions or any unrelated disclosure or security requirement. Intentional disclosure remains
+prohibited; the §4.10 independent-identifier coincidence clarification is not a zero-overlap guarantee.
+Untrusted identifiers require validation, UUID syntax alone does not prove trusted generation, secrets
+are not inspected for identifiers, and disclosure canary tests are retained.
+
+**Governance boundaries.** W-24 remains **OPEN**; this record does not establish W-24 completion or
+implementation authorization. The M4 trace interpretation is **FORMALLY RECORDED** on IRR `main`, but
+**M4 acceptance is NOT ESTABLISHED** and all roadmap criteria and dependencies remain independently
+applicable. No implementation, live Dhan call or Windows acceptance is authorized by this decision.
