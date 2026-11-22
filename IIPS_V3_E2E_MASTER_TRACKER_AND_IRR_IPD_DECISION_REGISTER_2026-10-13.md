@@ -24418,4 +24418,41 @@ pin advance (`1ce6a829…`), no host setting changed, no mint, no write route, n
 **Next milestone.** Operator executes amended procedure §6.6 (Infosys-resolving row + one non-assessed row)
 and the outstanding §6.4 / §6.7 / §6.8, and supplies the §9 sheet for publication as evidence record §14.
 
-Next free §16.314 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.314 IID Stage 5 — PR #619 delivered (HEAD `408f3afb…`); Change-history navigation browser-verified; Company-assessment navigation verified with content unavailable (2026-11-22)
+
+**IRR-only record. No IPD act, no IPD change, no identifier consumed** — IID entry; no `CV-CORR` / `CHG` /
+`V` identifier is taken from the CV series. Operator-reported delivery and browser observations; Arena opened
+no browser and accessed no host. Evidence record §14; roadmap Part C §C.10; procedure §6.6 execution record and
+§9 partial sheet. §16.313 not rewritten. No application code changed by this entry.
+
+**Delivery.** PR #619 (impl `b2e7b0168ebe9c46c487cf1f89f68fd9daee6672`) merged 2026-11-22T13:36:37Z as
+`408f3afbb4780fed9f90ff6a3683c464714e57df`; controlled delivery script: fetch TRUE, fast-forward TRUE, frontend
+build TRUE, PR #619 inclusion VERIFIED, **final local HEAD `408f3afbb4780fed9f90ff6a3683c464714e57df`** (the
+verified delivery HEAD; distinct from the implementation commit), working tree clean, no service restart by the
+script; frontend restarted manually. **Code delivery COMPLETE.**
+
+**Finding 1 — Company assessment.** From `DHAN_PORTFOLIO`, the page displayed verbatim: "Company assessment /
+No stored assessment exists for this issuer. Assessments are produced by the operator CLI. / Nothing is
+substituted for a failed read: no cached assessment, no client-side recomputation and no fallback store".
+Navigation **BROWSER VERIFIED**; content **UNAVAILABLE — no stored assessment** (tested issuer
+`IN:EQISIN:INE274Y01021`, outside the three governed issuers → §13.2 row 3: correct result; nothing minted);
+fail-closed **VERIFIED**. Not an assessment-content verification.
+
+**Finding 2 — Change history.** The link opened "IID-03 — Historical Change Intelligence" (description,
+read-only disclosure, breadcrumb Investment Intelligence → IID-01 → IID-02 → IID-03, issuer controls) at
+`/investment/change-intelligence?issuerId=IN:EQISIN:INE274Y01021&portfolioId=DHAN_PORTFOLIO&securityId=IN:ISIN:INE274Y01021`;
+*Version history* displayed verbatim: "Every stored version of this chain. A comparison needs two of them. /
+No stored assessment exists for this issuer. Assessments are produced by the operator CLI. / Nothing is
+substituted for a failed read: no cached history, no reconstructed comparison and no fallback store."
+Navigation **BROWSER VERIFIED — PASS**; IID-03 page **OPENED SUCCESSFULLY**; version history **UNAVAILABLE**;
+comparison **NOT AVAILABLE**; fail-closed **VERIFIED**. Data-availability condition, not a navigation defect.
+
+**Status.** PR #619 delivery COMPLETE; both navigations verified; content/history/comparison unavailable for
+the tested issuer. **P6-B NOT ACCEPTED; Stage 5 IN PROGRESS — NOT ACCEPTED; overall IID readiness NOT READY.**
+R-1, R-2, D5, D6 and Stage 4 closure not reopened. No IPD change, no pin advance (`1ce6a829…`), no host setting
+changed, no mint, no write route, no synthesised assessment or comparison.
+
+**Next milestone.** Procedure §6.6 steps 1–3 on an Infosys-resolving holding (or record that none is held), then
+§6.4 / §6.7 / §6.8 and the §9 summary sheet → evidence record §15.
+
+Next free §16.315 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
