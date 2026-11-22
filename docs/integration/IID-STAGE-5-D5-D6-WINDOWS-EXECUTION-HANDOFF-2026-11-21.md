@@ -4,8 +4,11 @@
 outcome means
 **Date:** 2026-11-21 (UTC)
 **Repository:** `ramkivs/iips-review-recovered` (IRR), `main` at `9d7b4a49ff3f843244c5a3cea1b8e758aecbbdb0`
-**Status:** **PREPARED. NOT EXECUTED.** Nothing in this document has been run on Windows. Arena has no
-access to the Windows host, to the IPD service, or to the IPD repository (private again at this date).
+**Status:** **PREPARED (2026-11-21); EXECUTED by the owner on the Windows host (2026-11-22).** Outcome and
+reconciliation: `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md` — §8 matrix row 2 (D5
+CONFIRMED, D6 DEMONSTRATED; two recorded residuals: D5-1 build-provenance hashes, §5.3 digest
+cross-comparison). The procedure text below is unchanged. Arena had no access to the Windows host or to
+the IPD service at either date.
 **Classification:** Local / Single User / Non-Production. Production explicitly out of scope.
 **Authority:** `IID-PA-01-PERSONAL-USE-OPERATING-AUTHORITY-2026-11-15.md` (owner is the sole operational
 authority; a missing technical dependency is a blocker, an approval ceremony is not); roadmap Part C
