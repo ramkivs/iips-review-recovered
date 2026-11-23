@@ -12,6 +12,32 @@ import { handleDhanQuotesRequest } from './dhanMarketDataRoutes';
 const identity = 'ISIN:INE002A01018:EQ';
 const request = { companyId: 'EQ_RELIANCE_IN', securityId: identity, exchangeSegment: 'NSE_EQ' };
 const evaluatedAt = '2026-09-27T09:06:13.000Z';
+// W-15: the quote surface takes its identity from the instrument-search picker, so the IRR
+// stub also answers `/api/dhan/instruments/search` synthetically (offline, like the provider
+// transport above). The QUALIFIED row carries exactly the identity this test requests.
+const SEARCH_BODY = {
+  data: {
+    results: [
+      {
+        symbol: 'RELIANCE',
+        exchange: 'NSE',
+        result: {
+          status: 'QUALIFIED',
+          securityIdentity: {
+            securityId: identity,
+            isin: 'INE002A01018',
+            series: 'EQ',
+            isinAuthority: 'NON_AUTHORITATIVE',
+          },
+          companyId: request.companyId,
+          exchange: 'NSE',
+          isinAuthority: 'NON_AUTHORITATIVE',
+        },
+      },
+    ],
+  },
+  provenance: { authority: 'IPD', mode: 'SNAPSHOT', dataVersion: 'ipd-p4-identity-http' },
+};
 // The pinned W-07 publication (IPD PR #168 @ `5b384c72…`) FAILS CLOSED on an observation
 // older than twice the D01 freshness threshold (D01 = 15 min): the service emits
 // STALE_DATA_SUPPRESSED instead of an UNAVAILABLE-stamped quote. A STALE observation inside
@@ -65,6 +91,11 @@ describe('joined IPD → IRR → quote presentation (synthetic provider only)', 
     ipdServer = createMarketDataHttpServer({ service, token, env: {} });
     ipdUrl = await listen(ipdServer);
     irrServer = http.createServer((req, res) => {
+      if (req.url === '/api/dhan/instruments/search') {
+        res.writeHead(200, { 'content-type': 'application/json' });
+        res.end(JSON.stringify(SEARCH_BODY));
+        return;
+      }
       void handleDhanQuotesRequest(req, res, { transport: { ok: true, config: {
         baseUrl: ipdUrl, token, timeoutMs: 2000, configured: true,
       } } });
@@ -110,9 +141,15 @@ describe('joined IPD → IRR → quote presentation (synthetic provider only)', 
     // A distinct second observation proves the UI request did not silently reuse the cache.
     body = providerBody(1520, staleTradeTime);
     render(<DhanQuotes />);
-    fireEvent.change(screen.getByTestId('dhan-quote-company'), { target: { value: request.companyId } });
-    fireEvent.change(screen.getByTestId('dhan-quote-security'), { target: { value: identity } });
-    fireEvent.change(screen.getByTestId('dhan-quote-segment'), { target: { value: 'NSE_EQ' } });
+    // W-15: the identity comes from the search picker, not from free-text entry. Selecting
+    // the QUALIFIED result sets companyId + the exact D114 securityId + segment NSE_EQ.
+    fireEvent.change(screen.getByTestId('dhan-quote-search-query'), { target: { value: 'RELIANCE' } });
+    fireEvent.click(screen.getByTestId('dhan-quote-search-submit'));
+    await screen.findByTestId('dhan-quote-search-results');
+    fireEvent.click(screen.getByTestId('dhan-quote-pick'));
+    expect(screen.getByTestId('dhan-quote-selected').textContent).toBe(
+      `${request.companyId} · ${identity} · NSE_EQ`,
+    );
     fireEvent.click(screen.getByTestId('dhan-quote-submit'));
     await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
     expect(calls).toHaveLength(2);
