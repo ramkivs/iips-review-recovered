@@ -24941,3 +24941,70 @@ IPD access restored this pass (gh API + ls-remote + codeload all work; earlier 4
 6. **Open IPD PRs now**: #190 (docs, W-14), #171 (docs, W04 acceptance) — none W09-blocking. Conclusion stands as §16.324, now with the
    #150 identity verified live: **W02 dependency satisfied on IPD main; W09 mechanics verified; final acceptance still blocked on W03/B02
    actual data.** Next free line: §16.326.
+
+### §16.326 — W11 Issuer-Engine Execution — one-pass investigation, decisions on the three capture limitations (2026-11-23; commit pending)
+
+**Premise corrections from current repository evidence (not historical status):** IRR PR **#563 is already MERGED**
+(2026-11-16-era, title "Snapshot-to-Live W07 …", superseded for W11 by **PR #568**, merged 2026-11-16T19:03:51Z, merge
+`064195397dfdb32bf0f34a461b02fd6b9f9a8df0`, 53 files, "Identity projection (D114), W05, W07, W10, **W11**, Windows named-pipe
+IPC fix" — this is the W11 issuer-engine implementation of record). PR **#564** MERGED 2026-11-13T07:07:13Z (merge `08411bc…`,
+head `9dbf4835…`) = W11-DEP1 capture utility. Nothing left to merge for #563 — recorded so the task premise is not acted on blindly.
+IPD is **403 again this pass** (single live check; the earlier 2026-11-23 window closed): IPD PR #157 ("capture record") cannot be
+re-verified live and is labelled unverified from this sandbox; all IPD-side facts below come from IRR-held records
+(`IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`, `…-HANDOFF-2026-11-21.md`, B06 record).
+
+**1. Execution path (traced on this branch, HEAD `d5327c3`):** capture utility `frontend/server/user-portfolio/capture/`
+(`ownerBoundPortfolioCapture.ts` etc., PR #564) performs list → get → revisions → get over the governed IPC port
+(`userPortfolioPort.ts` / `ipcPortAdapter.ts`), discards any attempt on revision/digest/holdings mismatch (W09 mechanics, §16.324),
+and writes SANITIZED-SUMMARY for review while the exact capture stays LOCAL-ONLY-DO-NOT-PUBLISH. The engine side
+`iips-platform/src/investment/execution/` (`types.ts`/`inputs.ts`/`execute.ts`, merged via #568) consumes a
+`PortfolioRevisionEvidence` (portfolioId + integer revision + readSource + observedAt + optional ownerBindingRef) **verbatim —
+it never re-reads, re-stamps or repairs the revision** (`execute.ts:275`, `PORTFOLIO_REVISION_INVALID`/`_MISMATCH`/
+`PORTFOLIO_PROVENANCE_UNVERIFIED` refusals at :298–319; `expectedRevision` pin honoured), resolves each holding through the W08
+governed resolver, qualifies via W10, and executes only through the frozen certified `EngineApiAdapter` (no W11 reimplementation;
+19-code closed refusal vocabulary; refusals carry no score/verdict/recommendation).
+
+**2. Tests executed this pass (offline harness, tsx 4.20.5 + vitest 2.1.8; synthetic vs actual kept apart):**
+platform — `tests/investment/w11IssuerEngineExecution.test.ts` **31/31 pass** (5 suites: actual-issuer refusal on the real
+Infosys dataset/identity files, synthetic contract execution, fail-closed inputs, revision/provenance binding, no-fabrication);
++ `w05CoverageSourceRights` + `w10IssuerEngineMapping` + `w10IssuerEngineQualification` + `w07FinancialLimitationResolution` →
+**94/94 pass** combined. frontend — `server/user-portfolio/*.test.ts` + `capture/*.test.ts` → **16 files, 337/337 pass**
+(incl. `ownerBoundPortfolioCapture.test.ts` 62, `captureOwnerBoundPortfolioCli.test.ts` 18, `captureOwnerBoundPortfolioScript.test.ts`
+22, `ownerContextFromBinding.test.ts` 15). `server/market-data/w11Configuration.test.ts` (Dhan W-11, different work item) needs the
+real IPD package — not run, out of scope. Recorded counts reproduce the 2026-11-12 W11 record (31/31; 85/85 then; 337 now after
+W08/W09 suites were added to the cluster).
+
+**3. Decisions on the three recorded capture limitations** (capture `d1992178-e6e6-4f52-b70a-046db66c446a`, 2026-11-22T101640Z,
+`CONSISTENT_CAPTURE` / exit 0 / ten gating checks; `DHAN_PORTFOLIO` revision **1**, **64** holdings, all four reads agreed):
+- **A. Owner binding — ACCEPTED as an IPD-owned host fact.** Established: IPD's governed Direct P1 verifier DP-V5/V6/V8
+  `VERIFIED` (exactly one ACTIVE S1 binding, five components, unrevoked); every in-scope read answered 200 (no Class P
+  refusal); IRR-side, `ownerContextFromBinding.ts` correctly holds no identity field and treats the declaration as
+  not-proof (IPD verifies per request). Unverified (permanent, by design): nothing on the v1 wire attests the binding; the
+  capture does not claim which binding served the read. Follow-up: none IRR-side; wire attestation would be IPD-owned.
+- **B. Peer authenticity — DEFERRED.** `NOT_ATTESTED` stands: the v1 consumer cannot prove which process served the
+  endpoint; the operator attests by observation (H-4/H-5) only. Required to close: IPD-side peer/process attestation
+  (wire or build-signed) — IPD-owned future work, not an IRR defect. Impact: capture origin trust rests on host observation
+  plus limitation-C build evidence, not on wire proof.
+- **C. IPD build provenance — ACCEPTED for checkout artifact identity; DEFERRED for running-process binding and IPD
+  publication.** Established (§11.1 of the D5/D6 evidence record): checkout HEAD `cbb116d2` clean, `4716d0bc` ancestor
+  (exit 0); the three compiled modules (`dist\src\ipc\dispatch.js` `FB4A3ABC…`, `portfolio_store.js` `76185EC7…`,
+  `binding.js` `551F14B2…`) are byte-identical (full SHA-256) to an independent sandbox rebuild of IPD main `cbb116d2`.
+  Not provable (inherent, recorded not worked): bytes resident in the already-running process. IPD-owned and still open:
+  IPD's own publication of the operational confirmation (its roadmap S1→D02 entry still reads OPERATIONAL EVIDENCE
+  PENDING) — IRR records nothing on IPD's behalf.
+
+**4. Dependency reconciliation:** capture's 64 holdings @ revision 1 with `securityIdentity` present on 1 / null on 63 is
+**identical to the accepted W04 census** (1/64 resolved = AGI `INE415A01038`, `NON_AUTHORITATIVE`; 63 unresolved) — consistent,
+no drift; v1 `contributionsCount: 0` is the v1 protocol projection (v2 ledger = 1 = IPD `contributionsValidated`), not a mismatch.
+W10 COMPLETE (2026-11-12 record): 115 required inputs, **53 authorised / 62 not**; only Banking structurally qualifiable —
+preserved intact. W08 closed (§16.323). W09 mechanics verified (§16.324/§16.325). B05 (= B-05) COMPLETE/VERIFIED at its own
+scope (B06 record; IPD PR #133). W03 remains operator-side (B02 host access) for any *new* portfolio read; the 2026-11-22 host
+capture (D6 DEMONSTRATED) is the actual-read evidence of record.
+
+**5. W11 status: IN PROGRESS (implementation COMPLETE; acceptance NOT claimed).** Implemented and merged (#568, superseding
+#563); capture utility verified (#564); actual host capture CONSISTENT_CAPTURE recorded (operator-reported, sanitized summary
+published, exact capture LOCAL-ONLY); revision-consistent execution proven at contract level and refused on the actual dataset
+(Infosys refused `QUALIFICATION_NOT_QUALIFIED`); tests 31/31 + 94/94 platform, 337/337 frontend. Blocked acceptance conditions
+(unchanged from the 2026-11-12 record §6): actual portfolio-linked *engine execution* (no actual issuer qualifies; identity
+coverage 1/64), W10 source authorisation for the 62 blocked inputs (methodology decision), W03 for new data, limitation B
+(peer authenticity) DEFERRED IPD-owned, limitation C running-process/IPD-publication parts DEFERRED IPD-owned. Next free line: §16.327.
