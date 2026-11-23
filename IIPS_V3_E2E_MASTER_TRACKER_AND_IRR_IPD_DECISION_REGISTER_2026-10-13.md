@@ -25174,3 +25174,47 @@ W12 decisions + W05/W06 actual evidence.
 No technical proposal is represented as approved policy; synthetic vectors are labelled synthetic and are not live coverage.
 
 **Publication:** PR (this branch) → tracker validation CI → merge. Next free line: §16.331.
+
+### §16.331 — W14 Portfolio and Cross-Sector Analytics READINESS investigation (read-only; no implementation, no new aggregation policy) 2026-11-23 (commit pending)
+
+**Repo state:** IRR `main` `71afcc2` (PR #636 merge, §16.330 W12 design published); branch head `435b657` clean. IPD 403 again
+from this sandbox (ls-remote write-not-granted, single live check); the roadmap W14 entry is quoted from the live read of IPD
+`main` `84e988b…` captured today (§16.325): *"W14 — Portfolio and cross-sector analytics. Status: frozen CSIP uses normalized
+outputs and count-based aggregation; actual holdings pipeline unproved. Execution: IRR analytics. Deliverable: meaningful,
+disclosed aggregation over eligible W11 outputs and W13 positions. Acceptance: denominator and partial-coverage vectors,
+output→holding/engine/input trace, reproduction and historical CSIP preservation. **Blocker: W11–13.**"* (table row:
+deps W11, W12, W13; B05 in the task field). No prior W14 tracker entry exists — this is the first; the `DHAN-W14-*` docs are
+the separate Dhan W-14 line and are not W14.
+
+**Existing analytics (inspected, not assumed):** `frontend/server/investment/portfolioContext.ts` — weight reuse from the read
+model, issuer exposure across securities, **count-based** sector exposure/concentration explicitly labelled as counts driving
+no verb (L135), `topHoldingWeightPct`, `concentrationBand`/`diversificationBand` deliberately `notComputable` (L179) because
+frozen CSIP engines score normalized sector-engine outputs a user portfolio does not carry; no CSIP score fabricated (L18).
+`iips-platform/src/investment/coverage/` (`measure.ts`/`investmentCoverage.ts`) — DATASET-level method coverage
+(AVAILABLE/WITHHELD per method-sector), not portfolio aggregation. CSIP `cross-sector/portfolio/PortfolioIntelligence.ts`
+L39–46 — count-based concentration on the FROZEN baseline, not the user's portfolio. IID Stage 6 gap assessment
+(`IID-STAGE-6-INVESTMENT-CONTROLS-GAP-ASSESSMENT-2026-11-22.md`) — top-five concentration, minimum-holdings rule, etc. are
+Class 4 (measurement) / Class 6 (owner threshold) gaps, NOT started (S6-6 proposed, not started). **No W14 implementation or
+tests exist.**
+
+**Upstream dependency status (authoritative, this session):** W11 — IN PROGRESS, implementation merged (#568, §16.327):
+`iips-platform/src/investment/execution/` produces `PortfolioExecutionReport` only at contract/synthetic level; on the actual
+dataset the chain refuses (`QUALIFICATION_NOT_QUALIFIED`); no actual issuer qualifies (W10: 53/115 inputs authorised). W12 —
+technical design COMPLETE (§16.330, PR #636); the three decisions (denominator policy, stale concession, value-vs-count
+threshold θ) remain **UNDECIDED** — and W14's "denominator and partial-coverage vectors" acceptance cannot be finalised without
+them. W13 — mechanism merged (PR #634, §16.328; `positionValuation.ts` + 18+18 tests, cluster 373/373); outputs are
+`PositionValuationReport` with closed status vocabulary, but actual per-position valuation is NOT claimed (W06 actual
+measurement B02-blocked; identity coverage 1/64). B05 (= B-05) — COMPLETE/VERIFIED at its own scope (B06 record, IPD PR #133).
+
+**Available vs missing W14 inputs:** available — portfolio revision-bound holdings (W09), identity projection (W08), W13
+valuation/coverage REPORT SHAPE (synthetic only), W11 execution report shape (synthetic only), count-based sector context
+(portfolioContext). Missing/provisional — actual W11 engine outputs on a real portfolio (none exist; blocked W03/B02 + W10),
+actual W13 valued positions (none qualified; W06/B02), decided W12 denominator/weighting (undecided), W05 source-rights
+completion. Roadmap blocker W11–13 is therefore **active on all three legs**.
+
+**Readiness conclusion: W14 NOT READY to start implementation** (roadmap status Pending, blocker Yes, confirmed by evidence).
+What exists today is disclosure-shaped context (counts, weights, notComputable bands), not "meaningful, disclosed aggregation
+over eligible W11 outputs and W13 positions" — there are no eligible actual W11 outputs and no actual W13 positions yet.
+What can proceed independently: nothing beyond investigation — any aggregation policy would pre-empt the undecided W12
+denominator/weighting decisions, which this pass did not touch. Historical CSIP preservation is already satisfied by not
+modifying the frozen engines. Next free line: §16.332.
