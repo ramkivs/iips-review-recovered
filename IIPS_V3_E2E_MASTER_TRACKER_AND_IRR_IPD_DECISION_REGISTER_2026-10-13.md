@@ -25085,3 +25085,52 @@ input refused). Scoped strict `tsc --noEmit` over the two new files: clean. Full
 Qualified-observation evidence is synthetic-only: W06 actual measurement is blocked on B02, identity coverage is 1/64 (W04), and
 no W12 methodology decision authorises stale-concession valuation or the final denominator. Synthetic fixtures are not live
 valuation coverage and are not presented as such. Next free line: §16.329.
+
+### §16.329 — W12 Valuation Methodology READINESS investigation (read-only; no implementation, no methodology approved) 2026-11-23 (commit pending)
+
+**Repo state:** IRR `main` `25106ad` (PR #634 merge, §16.328 published); branch head `4825240` clean. IPD 403 again from this
+sandbox (codeload 404 / ls-remote write-not-granted, single live check) — roadmap text below is quoted from the live read of IPD
+`main` `84e988b…` captured earlier today (§16.325) and from IRR-held records (`W07-FINANCIAL-LIMITATION-RESOLUTION-2026-11-12.md`
+§6, which quotes the roadmap's W12 deliverable).
+
+**1. Authoritative W12 entry (roadmap, IPD main `84e988b`):** "Valuation methodology — Status: frozen CSIP uses normalized
+outputs and count-based aggregation; actual holdings pipeline unproved. Execution: IRR analytics. Deliverable: practical
+value-weighting formula, denominator, inclusion, currency, time alignment and partial/stale policy plus vectors, **within GD-4**.
+Acceptance: reproducible arithmetic, clear distinction count/monetary weighting and honest withheld cases; **final choices reflect
+actual data**. **Ready: technical design now; final feasibility depends on W05/W06. No new approval cycle.**" No prior W12
+investigation/design record exists in the IRR tracker (first W12 entry is this one); the IID valuation records
+(`IIPS_V3_IID_VII/VIII/IX…2026-11-06`, L-034/L-036) are the ISSUER-ASSESSMENT valuation layer, a different question from W12's
+position/portfolio money-weighting — noted so they are not conflated. CSIP fact of record: concentration is count-based on the
+frozen baseline (`IID-STAGE-6-…-2026-11-22.md` §investment controls; `portfolioContext.ts` labels count-based exposure as counts).
+
+**2. The three outstanding decisions — status: all three UNDECIDED (verified against the whole tracker; §16.328 carried them as
+open and nothing since decides them):** (a) **coverage denominator policy** — W13 currently uses the stored active total only as a
+LABELLED reference denominator (`positionValuation.ts` `observedCoverageOfStored`), provisional; (b) **stale-observation
+concession** — no stale price is used anywhere (W13 refuses `NOT_VALUED_STALE`; IPD's `staleConcessionActive` flag is echoed,
+never acted on); whether any STALE observation may ever be valued is undecided; (c) **value-vs-count weighting threshold** — GD-4
+says exact thresholds/rounding are technical design choices under the grant, not preselected facts, but "final choices reflect
+actual data", so no threshold may be fixed before W05/W06 actual evidence exists.
+
+**3. Dependencies (latest authoritative evidence):** W05 — **IN PROGRESS, NOT COMPLETE, NOT ACCEPTED** (tracker §16.292-area
+current-status record: O3 = Infosys/Marico/KEC only, AGI not admitted; L-041/L-042 RESOLVED but source-rights coverage unfinished;
+63 unresolved holdings unchanged). W06 — **PARTIAL, NOT ACCEPTED** (§16.321/§16.322, decision B): mechanism delivered and
+synthetic-tested; actual quote/freshness measurement over `DHAN_PORTFOLIO` rev 1 BLOCKED on B02 host access, numerator bounded ≤1/64
+by W04. B05 (= B-05) — **COMPLETE/VERIFIED at its own scope** (B06 record, IPD PR #133; corpus bytes match B-04). Conclusion:
+missing source evidence and live observations **prevent final approval, not technical design** — the roadmap itself scopes W12 as
+"technical design now".
+
+**4. GD-4 + W13 (§16.328) implications:** GD-4 authorises "transparent per-position value weighting where valid values/coverage
+permit, document denominator, currencies, time and exclusion rules; withhold when inputs cannot support it". The merged W13
+mechanism already implements the conservative GD-4-bounded subset: qualified-observation-only valuation, independent arithmetic,
+per-currency aggregation with no mixed-currency sum, null-not-zero for unvalued, revision-bound fail-closed reads. Everything in
+W13 that touches an open decision is explicitly marked provisional (`openMethodologyDecisions` on every report). For W13 to
+proceed to ACCEPTANCE, W12 must resolve: the denominator rule, the stale-concession rule, and the value-vs-count threshold —
+each with reproducible vectors over actual (not synthetic) qualified observations, which requires W06/B02.
+
+**5. Readiness conclusion:** **W12 CAN START NOW as technical investigation/design in IRR** (roadmap: "technical design now";
+W07 record lists W12 among "dependency-ready IRR activities … without host personal data"): value-weighting formula drafts,
+denominator/inclusion/currency/time-alignment options, partial/stale/unknown vector matrices, reproducible-arithmetic tests on
+synthetic fixtures, and explicit withheld-case policy. **Must wait:** fixing any threshold/denominator/concession as final,
+and any W13 acceptance claim — those need W05 source-rights completion, W06 actual qualified observations (B02), and actual
+data per the roadmap's acceptance clause. This pass implemented nothing and approved nothing; it is an investigation record only.
+Next free line: §16.330.
