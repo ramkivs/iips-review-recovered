@@ -1,5 +1,5 @@
 /**
- * DHAN-P3 — DHAN QUOTES (read-only market quotes over the IPD market-data transport).
+ * DHAN-P3 / W-15 — DHAN QUOTES (read-only market quotes over the IPD market-data transport).
  *
  * IPD remains the market-data authority. This component is the PRESENTATION layer: it sends
  * a canonical request to the IRR server, which forwards it to IPD, and it renders exactly
@@ -12,26 +12,64 @@
  *   shown separately from the receipt/evaluation timestamps, so a reader can always see how
  *   old the observation is.
  *
- * THE IDENTITY RULE
- *   A quote requires an exact canonical D114 identity (`ISIN:<isin>:<series>`). When the
- *   identity is missing or invalid, the server answers with an IDENTITY failure and this
- *   surface says so explicitly — it does NOT present an "unavailable market data" message
- *   for what is really an identity problem.
+ * THE IDENTITY RULE (W-15)
+ *   A quote requires an exact canonical D114 identity (`ISIN:<isin>:<series>`). The identity
+ *   is NEVER typed by hand: the operator searches IPD's existing instrument-search endpoint
+ *   (`/api/dhan/instruments/search`, forwarded to IPD's `/v1/instruments/search`) and SELECTS
+ *   a QUALIFIED result. Selecting a result populates `companyId`, the canonical `securityId`
+ *   and the exchange segment verbatim from the search result; the exact-identity grammar is
+ *   still validated locally before any request is built, and a request is never issued
+ *   without a valid canonical identity. When the identity is missing or invalid, the server
+ *   answers with an IDENTITY failure and this surface says so explicitly — it does NOT
+ *   present an "unavailable market data" message for what is really an identity problem.
+ *
+ * HONEST FIELD RENDERING (W-13 / D-5)
+ *   Absent bid/ask (null after D-5) render as "unavailable" via `MetricCard` — never 0, never
+ *   the last traded price, never a fabricated value.
  */
 import { useCallback, useState } from 'react';
 import {
   fetchDhanQuote,
   DhanMarketDataApiError,
   type DhanQuoteDto,
+  type DhanQuoteRequest,
   type DhanMarketDataFailureKind,
 } from '../../api/dhanMarketData';
+import {
+  DhanIdentityApiError,
+  searchDhanInstruments,
+  type InstrumentSearchResult,
+} from '../../api/dhanIdentity';
 import { MetricCard, MetricGroup } from '../../components/data/DataComponents';
 import { FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
 import { LoadingState, UnavailableState } from '../../components/state/StateComponents';
 import { DhanFreshnessPanel } from './DhanFreshnessStatus';
 
-/** The canonical identity grammar, mirrored for the client-side input affordance only. */
+/** The canonical identity grammar, mirrored for the client-side validation only. */
 const D114_SECURITY_ID_PATTERN = /^ISIN:[A-Za-z0-9]{12}:[^:\s]+$/;
+
+/** Maps a search result's listing exchange onto the quote request's exchange segment. */
+export function exchangeSegmentFor(exchange: 'NSE' | 'BSE'): 'NSE_EQ' | 'BSE_EQ' {
+  return exchange === 'BSE' ? 'BSE_EQ' : 'NSE_EQ';
+}
+
+/**
+ * Builds the well-formed canonical quote request from a selected identity.
+ *
+ * Returns null unless BOTH the company id is non-empty AND the security id matches the exact
+ * D114 grammar — the same validation the server applies before any provider invocation. The
+ * selected identity is passed through verbatim; nothing is re-derived or normalised.
+ */
+export function buildDhanQuoteRequest(
+  companyId: string,
+  securityId: string,
+  exchangeSegment: 'NSE_EQ' | 'BSE_EQ' | '',
+): DhanQuoteRequest | null {
+  const company = companyId.trim();
+  const security = securityId.trim();
+  if (!company || !D114_SECURITY_ID_PATTERN.test(security)) return null;
+  return { companyId: company, securityId: security, ...(exchangeSegment === '' ? {} : { exchangeSegment }) };
+}
 
 const FAILURE_LABEL: Record<DhanMarketDataFailureKind, string> = {
   request: 'Request rejected',
@@ -54,7 +92,38 @@ function stamp(value: string | null): string {
   return value === null || value === '' ? 'unavailable' : value;
 }
 
+/** A selectable instrument-search row. Only QUALIFIED outcomes can be selected. */
+function SearchResultRow({
+  row,
+  onPick,
+}: {
+  readonly row: InstrumentSearchResult;
+  readonly onPick: (row: InstrumentSearchResult) => void;
+}) {
+  const qualified = row.result.status === 'QUALIFIED';
+  return (
+    <li data-testid="dhan-quote-search-row" data-symbol={row.symbol} data-exchange={row.exchange} data-outcome={row.result.status}>
+      <span>{row.symbol} · {row.exchange} · {row.result.status}</span>
+      {qualified && (
+        <button
+          type="button"
+          data-testid="dhan-quote-pick"
+          data-symbol={row.symbol}
+          data-exchange={row.exchange}
+          onClick={() => onPick(row)}
+        >
+          Use this instrument
+        </button>
+      )}
+    </li>
+  );
+}
+
 export function DhanQuotes() {
+  const [query, setQuery] = useState('');
+  const [searchBusy, setSearchBusy] = useState(false);
+  const [searchError, setSearchError] = useState('');
+  const [searchResults, setSearchResults] = useState<readonly InstrumentSearchResult[] | null>(null);
   const [companyId, setCompanyId] = useState('');
   const [securityId, setSecurityId] = useState('');
   const [exchangeSegment, setExchangeSegment] = useState<'NSE_EQ' | 'BSE_EQ' | ''>('');
@@ -64,14 +133,20 @@ export function DhanQuotes() {
   const [requested, setRequested] = useState(false);
 
   const load = useCallback(async () => {
+    // Exact-identity validation is preserved at request construction: no well-formed
+    // request exists without a canonical identity, and none is sent.
+    const request = buildDhanQuoteRequest(companyId, securityId, exchangeSegment);
     setLoading(true);
     setFailure(null);
+    if (request === null) {
+      setQuote(null);
+      setRequested(true);
+      setLoading(false);
+      setFailure({ kind: 'request', message: 'A canonical identity (ISIN:<isin>:<series>) is required. Select an instrument from the search results.' });
+      return;
+    }
     try {
-      const result = await fetchDhanQuote({
-        companyId: companyId.trim(),
-        securityId: securityId.trim(),
-        ...(exchangeSegment === '' ? {} : { exchangeSegment }),
-      });
+      const result = await fetchDhanQuote(request);
       setQuote(result);
     } catch (e: unknown) {
       // A failed request never leaves a previous quote on screen pretending to be current.
@@ -83,6 +158,32 @@ export function DhanQuotes() {
     }
   }, [companyId, securityId, exchangeSegment]);
 
+  const search = useCallback(async () => {
+    const q = query.trim();
+    if (!q) return;
+    setSearchBusy(true);
+    setSearchError('');
+    try {
+      const response = await searchDhanInstruments(q);
+      setSearchResults(response.results);
+    } catch (e: unknown) {
+      setSearchResults(null);
+      setSearchError(e instanceof DhanIdentityApiError ? e.message : 'Instrument search is unavailable.');
+    } finally {
+      setSearchBusy(false);
+    }
+  }, [query]);
+
+  /** Selecting a search result populates the quote request fields verbatim from it. */
+  const pick = useCallback((row: InstrumentSearchResult) => {
+    if (row.result.status !== 'QUALIFIED') return;
+    setCompanyId(row.result.companyId);
+    setSecurityId(row.result.securityIdentity.securityId);
+    setExchangeSegment(exchangeSegmentFor(row.exchange));
+    setQuote(null);
+    setFailure(null);
+  }, []);
+
   const identityLooksValid = D114_SECURITY_ID_PATTERN.test(securityId.trim()) && companyId.trim() !== '';
 
   return (
@@ -91,7 +192,8 @@ export function DhanQuotes() {
       <p style={{ color: 'var(--color-ink-secondary)', fontSize: 13, margin: '6px 0 0' }}>
         Quotes are read from the IPD market-data service, which remains the market-data
         authority. The browser sends a canonical request only; it never computes a price and
-        never holds a credential.
+        never holds a credential. The instrument identity comes from IPD's instrument search —
+        select a result instead of typing an ISIN.
       </p>
 
       <form
@@ -99,26 +201,56 @@ export function DhanQuotes() {
         style={{ marginTop: 16, display: 'grid', gap: 8, maxWidth: 560 }}
         onSubmit={(e) => { e.preventDefault(); void load(); }}
       >
-        <label htmlFor="dhan-quote-company" style={{ fontSize: 13 }}>Company id</label>
-        <input
-          id="dhan-quote-company"
-          data-testid="dhan-quote-company"
-          value={companyId}
-          onChange={(e) => setCompanyId(e.target.value)}
-          style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13 }}
-        />
+        <label htmlFor="dhan-quote-search-query" style={{ fontSize: 13 }}>Search instrument (symbol or ISIN)</label>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            id="dhan-quote-search-query"
+            data-testid="dhan-quote-search-query"
+            value={query}
+            maxLength={100}
+            placeholder="e.g. RELIANCE or INE002A01018"
+            onChange={(e) => setQuery(e.target.value)}
+            style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13, flex: 1 }}
+          />
+          <button
+            type="button"
+            data-testid="dhan-quote-search-submit"
+            disabled={searchBusy || !query.trim()}
+            onClick={() => { void search(); }}
+            style={{ padding: '6px 12px', fontSize: 13 }}
+          >
+            {searchBusy ? 'Searching…' : 'Search'}
+          </button>
+        </div>
 
-        <label htmlFor="dhan-quote-security" style={{ fontSize: 13 }}>
-          Security identity (ISIN:&lt;isin&gt;:&lt;series&gt;)
-        </label>
-        <input
-          id="dhan-quote-security"
-          data-testid="dhan-quote-security"
-          value={securityId}
-          onChange={(e) => setSecurityId(e.target.value)}
-          placeholder="ISIN:INE002A01018:EQ"
-          style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13 }}
-        />
+        {searchError !== '' && (
+          <p data-testid="dhan-quote-search-error" role="alert" style={{ color: 'var(--color-status-negative)', fontSize: 13 }}>
+            {searchError}
+          </p>
+        )}
+
+        {searchResults !== null && searchResults.length === 0 && (
+          <p data-testid="dhan-quote-search-empty" style={{ fontSize: 13 }}>No instrument candidates were returned by IPD.</p>
+        )}
+
+        {searchResults !== null && searchResults.length > 0 && (
+          <ul data-testid="dhan-quote-search-results" style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 4 }}>
+            {searchResults.map((row, index) => (
+              <SearchResultRow key={`${row.symbol}-${row.exchange}-${index}`} row={row} onPick={pick} />
+            ))}
+          </ul>
+        )}
+
+        <label htmlFor="dhan-quote-selected" style={{ fontSize: 13 }}>Selected instrument</label>
+        <output
+          id="dhan-quote-selected"
+          data-testid="dhan-quote-selected"
+          style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13, minHeight: 18 }}
+        >
+          {identityLooksValid
+            ? `${companyId.trim()} · ${securityId.trim()} · ${exchangeSegment === '' ? 'default segment' : exchangeSegment}`
+            : 'none — select a QUALIFIED search result'}
+        </output>
 
         <label htmlFor="dhan-quote-segment" style={{ fontSize: 13 }}>Exchange segment</label>
         <select
@@ -137,14 +269,14 @@ export function DhanQuotes() {
           <button
             type="submit"
             data-testid="dhan-quote-submit"
-            disabled={loading}
+            disabled={loading || !identityLooksValid}
             style={{ padding: '6px 12px', fontSize: 13 }}
           >
             {loading ? 'Loading…' : 'Get quote'}
           </button>
-          {!identityLooksValid && companyId.trim() !== '' && (
+          {!identityLooksValid && (
             <span data-testid="dhan-quote-identity-hint" style={{ fontSize: 12, color: 'var(--color-status-warning)' }}>
-              A canonical identity (ISIN:&lt;isin&gt;:&lt;series&gt;) is required.
+              A canonical identity (ISIN:&lt;isin&gt;:&lt;series&gt;) is required — select a search result.
             </span>
           )}
         </div>
@@ -204,6 +336,8 @@ export function DhanQuotes() {
             <MetricCard label="Low" value={num(quote.quote?.low)} />
             <MetricCard label="Previous close" value={num(quote.quote?.previousClose)} />
             <MetricCard label="Volume" value={num(quote.quote?.volume)} />
+            {/* D-5 / W-13: an absent bid or ask is null, and MetricCard renders null as
+                "unavailable" — never 0, never the last traded price. */}
             <MetricCard label="Bid" value={num(quote.quote?.bid)} />
             <MetricCard label="Ask" value={num(quote.quote?.ask)} />
             <MetricCard label="VWAP" value={num(quote.quote?.vwap)} />
