@@ -153,7 +153,8 @@ describe('joined IPD → IRR → quote presentation (synthetic provider only)', 
     fireEvent.click(screen.getByTestId('dhan-quote-submit'));
     await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
     expect(calls).toHaveLength(2);
-    expect(calls.map(call => call.body)).toEqual(['{"NSE_EQ":["2885"]}', '{"NSE_EQ":["2885"]}']);
+    // IPD PR #176 (26855625) serializes Dhan quote security IDs as JSON numbers.
+    expect(calls.map(call => call.body)).toEqual(['{"NSE_EQ":[2885]}', '{"NSE_EQ":[2885]}']);
     expect(browserResponse?.status).toBe(200);
     expect(browserResponse?.data.data).toMatchObject({ securityId: identity, freshness: 'STALE', qualityState: 'STALE', asOf,
       receivedAt: evaluatedAt, evaluatedAt, quote: { companyId: request.companyId, ltp: 1520 },
