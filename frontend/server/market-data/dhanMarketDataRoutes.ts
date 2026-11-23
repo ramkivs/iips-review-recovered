@@ -26,6 +26,15 @@
  *   environment and never published. The browser receives canonical market data and its
  *   provenance — never a token, a client id, an access token or a SecretRef value.
  *
+ * W-29 — THE SHARED QUOTE-CONSUMPTION BOUNDARY
+ *   The quote route no longer touches the transport itself. It delegates to
+ *   `quoteConsumptionBoundary.ts`, the ONE server-side module that consumes IPD quotes, and
+ *   publishes its uniform projection. Freshness mapping and quote projection also live
+ *   there, and are re-exported below so the presentation contract and its tests keep
+ *   addressing a single implementation. This module therefore holds NO transport
+ *   composition and issues NO transport request; `quoteConsumptionBoundary.test.ts` asserts
+ *   that structurally.
+ *
  * CONSERVATISM
  *   A quote is never presented as CURRENT unless IPD said it is. A STALE quote is never
  *   presented as current. A failure is reported with IPD's own deterministic code, and the
@@ -45,33 +54,39 @@ import {
   projectIpdFreshnessStatus,
   type DhanFreshnessView,
 } from './dhanFreshnessRoutes';
+import {
+  consumeQuote,
+  IRR_FRESHNESS_VOCABULARY as BOUNDARY_FRESHNESS_VOCABULARY,
+  IRR_PROVIDER_QUALIFICATION as BOUNDARY_PROVIDER_QUALIFICATION,
+  mapIpdFreshnessToIrrFreshness as boundaryMapIpdFreshnessToIrrFreshness,
+  projectIpdQuoteEnvelope as boundaryProjectIpdQuoteEnvelope,
+  type DhanQuoteView as BoundaryQuoteView,
+  type Freshness as BoundaryFreshness,
+  type QuoteConsumptionEntry,
+} from './quoteConsumptionBoundary';
 
 /**
- * IRR's existing freshness vocabulary, mirrored here as a SERVER-SIDE type.
+ * IRR's existing freshness vocabulary, as published by the shared quote-consumption
+ * boundary.
  *
- * It is declared locally rather than imported from `src/api/transportTypes` so the server
- * boundary never depends on browser code, and it is pinned to the same five members by the
- * tests. The browser client declares the same union independently; the two are asserted to
- * agree by the frontend contract test, which compares against the runtime list below.
+ * W-29 moved the declaration to `quoteConsumptionBoundary.ts` so every consumer reads ONE
+ * definition. It is still declared SERVER-side (never imported from browser code) and is
+ * still pinned to the same five members by the frontend contract test, which compares
+ * against the runtime list re-exported below.
  */
-export type Freshness = 'LIVE' | 'SNAPSHOT' | 'STALE' | 'UNAVAILABLE' | 'REPLAY';
+export type Freshness = BoundaryFreshness;
 
 /**
- * The runtime form of IRR's freshness vocabulary.
+ * The runtime form of IRR's freshness vocabulary, re-exported from the shared boundary.
  *
  * It exists so the browser/server contract test can compare the two declarations member by
  * member rather than trusting that they were kept in step by hand.
  */
-export const IRR_FRESHNESS_VOCABULARY: readonly Freshness[] = [
-  'LIVE',
-  'SNAPSHOT',
-  'STALE',
-  'UNAVAILABLE',
-  'REPLAY',
-];
+export const IRR_FRESHNESS_VOCABULARY: readonly Freshness[] = BOUNDARY_FRESHNESS_VOCABULARY;
 
 /**
- * The provider qualification IRR publishes alongside a market-data view.
+ * The provider qualification IRR publishes alongside a market-data view, re-exported from
+ * the shared boundary.
  *
  * This is IPD's OWN qualification vocabulary, and the value is the ONLY one IRR may publish:
  * the provider has NOT been live-qualified. A quote that IPD answered is still a
@@ -79,7 +94,7 @@ export const IRR_FRESHNESS_VOCABULARY: readonly Freshness[] = [
  * this alongside the data is what stops a consumer from reading a successful quote as
  * evidence of live provider connectivity.
  */
-export const IRR_PROVIDER_QUALIFICATION = 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED';
+export const IRR_PROVIDER_QUALIFICATION = BOUNDARY_PROVIDER_QUALIFICATION;
 
 /** The quote route path. */
 export const DHAN_QUOTES_PATH = '/api/dhan/quotes';
@@ -108,87 +123,23 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 /**
  * Maps IPD's canonical freshness verdict onto IRR's existing `Freshness` vocabulary.
  *
- * IRR `Freshness` is `LIVE | SNAPSHOT | STALE | UNAVAILABLE | REPLAY`. IPD's canonical
- * quality states are `GOOD | STALE | UNAVAILABLE` (plus `PARTIAL`), and the transport adds
- * an explicit `CURRENT | STALE | UNAVAILABLE` marker on a quote outcome.
+ * W-29 moved the implementation to the shared boundary so every consumer maps identically;
+ * this re-export keeps the presentation contract addressing ONE implementation.
  *
- * THE MAPPING IS DELIBERATELY CONSERVATIVE:
- *   - IPD `CURRENT` maps to IRR `SNAPSHOT`, NOT `LIVE`. IPD's `CURRENT` means "the data is
- *     within the freshness threshold"; it does NOT mean the data came from a live provider.
- *     The provider's own qualification is reported separately and independently.
+ *   - IPD `CURRENT` maps to IRR `SNAPSHOT`, NOT `LIVE`.
  *   - IPD `STALE` maps to IRR `STALE`.
- *   - IPD `UNAVAILABLE` (and `PARTIAL`, and any unrecognized state) maps to IRR
- *     `UNAVAILABLE`. An unknown verdict is never promoted.
- *   - IRR `LIVE` is never produced by this mapping. Nothing here can justify it.
+ *   - IPD `UNAVAILABLE`, `PARTIAL` and any unrecognized state map to IRR `UNAVAILABLE`.
+ *   - IRR `LIVE` is never produced.
  */
-export function mapIpdFreshnessToIrrFreshness(
-  quality: string | undefined,
-  transportFreshness: 'CURRENT' | 'STALE' | 'UNAVAILABLE' | undefined,
-): Freshness {
-  if (transportFreshness === 'UNAVAILABLE' || (quality !== 'GOOD' && quality !== 'STALE')) return 'UNAVAILABLE';
-  if (transportFreshness === 'STALE' || quality === 'STALE') return 'STALE';
-  return 'SNAPSHOT';
-}
+export const mapIpdFreshnessToIrrFreshness = boundaryMapIpdFreshnessToIrrFreshness;
 
-/** The IRR-facing quote view. Canonical, provider-neutral and safe to render. */
-export interface DhanQuoteView {
-  /** IRR's freshness vocabulary applied to IPD's canonical verdict. */
-  readonly freshness: Freshness;
-  /** IPD's canonical quality state, echoed verbatim. */
-  readonly qualityState: string;
-  /** The provider observation timestamp (`asOf`), when supplied. */
-  readonly asOf: string | null;
-  /** The receipt timestamp (`receivedAt`), when supplied. */
-  readonly receivedAt: string | null;
-  /** The evaluation timestamp (`evaluatedAt`), when supplied. */
-  readonly evaluatedAt: string | null;
-  /** The canonical quote fields. */
-  readonly quote: {
-    readonly companyId: string;
-    readonly symbol: string;
-    readonly exchange: string;
-    readonly currency: string;
-    readonly ltp: number;
-    readonly open: number;
-    readonly high: number;
-    readonly low: number;
-    readonly previousClose: number;
-    readonly volume: number;
-    readonly change: number;
-    readonly pctChange: number;
-    readonly bid: number | null;
-    readonly ask: number | null;
-    readonly vwap?: number;
-    readonly turnover?: number;
-    readonly tradeCount?: number;
-  } | null;
-  /** The canonical security identity the quote was resolved for, when supplied. */
-  readonly securityId: string | null;
-  /** IPD's provenance classification and lineage digest, when supplied. */
-  readonly provenance: {
-    readonly sourceClassification: string | null;
-    readonly dataVersion: string | null;
-    readonly lineageHash: string | null;
-    readonly vendorTier: string | null;
-  } | null;
-  /** The provider's own qualification verdict, echoed verbatim. Never upgraded. */
-  readonly providerQualification: string | null;
-  /**
-   * The provider-side freshness status for the D01 quote scope, when it could be read.
-   *
-   * It is null when the status read failed or was not attempted. A null here NEVER means
-   * "fresh" and NEVER means "the quote is current": it means the freshness evidence is
-   * unknown, and the UI reports it as such.
-   */
-  readonly freshnessStatus: DhanFreshnessView | null;
-  /**
-   * Why the freshness status could not be read, when it could not be read.
-   *
-   * The failure is reported separately from the data so a reader is never left to assume
-   * the absence of a status means freshness.
-   */
-  readonly freshnessStatusFailure: { readonly code: string; readonly message: string } | null;
-}
+/**
+ * The IRR-facing quote view. Canonical, provider-neutral and safe to render.
+ *
+ * W-29 moved the declaration to the shared boundary; this alias keeps the presentation
+ * contract and its existing tests addressing the one definition.
+ */
+export type DhanQuoteView = BoundaryQuoteView;
 
 /** The IRR-facing historical view. */
 export interface DhanHistoricalView {
@@ -503,102 +454,14 @@ export function validateDhanHistoricalRequest(body: unknown): DhanHistoricalRequ
   };
 }
 
-// D-5 applies to the D01 wire schema, not the shared envelope default or D02.
-function isDepthPrice(value: unknown): value is number | null {
-  return value === null || (typeof value === 'number' && Number.isFinite(value) && value > 0);
-}
-
-/** Fail closed before projection: the transport client checks the outer response, not
- * the canonical envelope. Missing quote fields must not become fabricated zeroes. */
-function isCompleteQuoteEnvelope(value: unknown): value is Record<string, unknown> & {
-  payload: Record<string, unknown> & { bid: number | null; ask: number | null };
-  provenance: Record<string, unknown>;
-} {
-  if (!value || typeof value !== 'object') return false;
-  const record = value as Record<string, unknown>;
-  if (record.domain !== 'D01_QUOTES') return false;
-  if (!record.payload || typeof record.payload !== 'object' || !record.provenance || typeof record.provenance !== 'object') return false;
-  const payload = record.payload as Record<string, unknown>;
-  const provenance = record.provenance as Record<string, unknown>;
-  const { bid, ask } = payload;
-  switch (record.schemaVersion) {
-    case '1.0.0': // The pinned producer uses the legacy numeric-only contract.
-      if (!Number.isFinite(bid) || !Number.isFinite(ask)) return false;
-      break;
-    case '2.0.0':
-      if (!isDepthPrice(bid) || !isDepthPrice(ask)) return false;
-      if (bid !== null && ask !== null && bid > ask) return false;
-      break;
-    default:
-      return false;
-  }
-  return ['companyId', 'symbol', 'exchange', 'currency'].every(key => typeof payload[key] === 'string' && payload[key] !== '')
-    && ['ltp', 'open', 'high', 'low', 'previousClose', 'volume', 'change', 'pctChange']
-      .every(key => typeof payload[key] === 'number' && Number.isFinite(payload[key]))
-    && ['qualityState', 'asOf', 'receivedAt', 'evaluatedAt'].every(key => typeof provenance[key] === 'string' && provenance[key] !== '');
-}
-
 /**
  * Projects IPD's canonical quote envelope onto the IRR quote view.
  *
- * `requestedSecurityId` is the canonical identity the caller VALIDATED and sent to IPD. The
- * pinned W-07 publication (IPD PR #168 @ `5b384c72…`) does not echo `securityId` on the
- * quote envelope, so the requested identity is reported for display. The envelope's own
- * value is preferred verbatim when a future publication carries one; nothing is invented –
- * an absent envelope field with no requested identity stays `null`.
+ * W-29 moved the implementation — including the D-5 depth validation and the fail-closed
+ * envelope check — into the shared boundary, so the presentation route and every other
+ * consumer project identically. This re-export is the only quote projection in IRR.
  */
-export function projectIpdQuoteEnvelope(
-  envelope: unknown,
-  transportFreshness: 'CURRENT' | 'STALE' | 'UNAVAILABLE' | undefined,
-  requestedSecurityId: string | null = null,
-): DhanQuoteView | null {
-  if (!isCompleteQuoteEnvelope(envelope)) return null;
-  const record = envelope;
-  const { payload, provenance } = record;
-
-  const qualityState = typeof provenance.qualityState === 'string' ? provenance.qualityState : 'UNAVAILABLE';
-
-  return {
-    freshness: mapIpdFreshnessToIrrFreshness(qualityState, transportFreshness),
-    qualityState,
-    asOf: typeof provenance.asOf === 'string' ? provenance.asOf : null,
-    receivedAt: typeof provenance.receivedAt === 'string' ? provenance.receivedAt : null,
-    evaluatedAt: typeof provenance.evaluatedAt === 'string' ? provenance.evaluatedAt : null,
-    quote: {
-      companyId: String(payload.companyId ?? record.companyId ?? ''),
-      symbol: String(payload.symbol ?? ''),
-      exchange: String(payload.exchange ?? ''),
-      currency: String(payload.currency ?? ''),
-      ltp: Number(payload.ltp ?? 0),
-      open: Number(payload.open ?? 0),
-      high: Number(payload.high ?? 0),
-      low: Number(payload.low ?? 0),
-      previousClose: Number(payload.previousClose ?? 0),
-      volume: Number(payload.volume ?? 0),
-      change: Number(payload.change ?? 0),
-      pctChange: Number(payload.pctChange ?? 0),
-      bid: payload.bid,
-      ask: payload.ask,
-      ...(typeof payload.vwap === 'number' ? { vwap: payload.vwap } : {}),
-      ...(typeof payload.turnover === 'number' ? { turnover: payload.turnover } : {}),
-      ...(typeof payload.tradeCount === 'number' ? { tradeCount: payload.tradeCount } : {}),
-    },
-    securityId:
-      typeof record.securityId === 'string' && record.securityId !== ''
-        ? record.securityId
-        : requestedSecurityId,
-    provenance: {
-      sourceClassification:
-        typeof provenance.sourceClassification === 'string' ? provenance.sourceClassification : null,
-      dataVersion: typeof provenance.dataVersion === 'string' ? provenance.dataVersion : null,
-      lineageHash: typeof provenance.lineageHash === 'string' ? provenance.lineageHash : null,
-      vendorTier: typeof provenance.vendorTier === 'string' ? provenance.vendorTier : null,
-    },
-    providerQualification: IRR_PROVIDER_QUALIFICATION,
-    freshnessStatus: null,
-    freshnessStatusFailure: null,
-  };
-}
+export const projectIpdQuoteEnvelope = boundaryProjectIpdQuoteEnvelope;
 
 /**
  * Projects IPD's canonical historical result onto the IRR historical view.
@@ -750,58 +613,109 @@ export async function handleDhanQuotesRequest(
     return;
   }
 
-  const transport = resolveTransport(deps);
-  if (!transport.ok) {
-    sendJson(res, 503, transport.envelope);
-    return;
-  }
+  // W-29: the quote route consumes market data through the SHARED boundary and nothing
+  // else. It composes no transport client here, issues no request of its own and holds no
+  // provider knowledge — the boundary owns the single consumption path, the bounded
+  // concurrency, the freshness join and the uniform outcome vocabulary.
+  const entry = await consumeQuote(
+    {
+      companyId: validation.companyId,
+      securityId: validation.securityId,
+      ...(validation.exchangeSegment ? { exchangeSegment: validation.exchangeSegment } : {}),
+    },
+    {
+      ...(deps.env !== undefined ? { env: deps.env } : {}),
+      ...(deps.transport !== undefined ? { transport: deps.transport } : {}),
+      ...(deps.fetchImpl !== undefined ? { fetchImpl: deps.fetchImpl } : {}),
+    },
+  );
 
-  const outcome = await transport.client.getQuote({
-    companyId: validation.companyId!,
-    // The canonical security identity is reconstructed from the validated string using IPD's
-    // own grammar. IRR does not rebuild or reinterpret it.
-    securityIdentity: buildIrrD114Identity(validation.securityId!),
-    ...(validation.exchangeSegment ? { exchangeSegment: validation.exchangeSegment } : {}),
-  });
-
-  if (!outcome.ok) {
-    sendJson(res, mapIpdFailureToHttpStatus(outcome.failure.code), {
+  // An empty request cannot occur here: the body was validated above. Treated as a
+  // server-side defect rather than an inference about the market.
+  if (entry === null) {
+    sendJson(res, 500, {
       error: {
-        code: outcome.failure.code,
-        message: outcome.failure.message,
-        identityFailure: IDENTITY_FAILURE_CODES.has(outcome.failure.code),
-        connectionAttempted: true,
+        code: 'INVALID_REQUEST',
+        message: 'The quote request produced no consumption entry.',
+        identityFailure: false,
+        connectionAttempted: false,
       },
     } satisfies DhanMarketDataErrorEnvelope);
     return;
   }
 
-  const view = projectIpdQuoteEnvelope(outcome.envelope, outcome.freshness, validation.securityId);
-  if (!view) {
+  // Every non-served outcome is published with IPD's own deterministic code, its transport
+  // status and the preserved distinction between an identity failure and unavailable data.
+  if (entry.outcome === 'MALFORMED_IDENTITY') {
+    const code = entry.malformedIdentity?.code ?? 'MALFORMED_REQUEST';
+    sendJson(res, 400, {
+      error: {
+        code,
+        message: entry.malformedIdentity?.reason ?? 'The request is invalid.',
+        identityFailure: true,
+        connectionAttempted: false,
+      },
+    } satisfies DhanMarketDataErrorEnvelope);
+    return;
+  }
+
+  if (entry.outcome === 'UNMAPPED') {
+    const unmapped = entry.unmapped!;
     sendJson(res, 502, {
       error: {
-        code: 'MALFORMED_RESPONSE',
-        message: 'market-data transport returned an invalid or unsupported D01 quote envelope',
-        identityFailure: false,
+        code: unmapped.code,
+        message: unmapped.message,
+        identityFailure: true,
         connectionAttempted: true,
       },
     } satisfies DhanMarketDataErrorEnvelope);
     return;
   }
 
-  // The freshness status is read alongside the quote. It is supplementary: if it cannot be
-  // read the quote is still returned, with the status failure reported alongside it.
-  const exchangeSegment = validation.exchangeSegment ?? 'NSE_EQ';
-  const freshness = await readFreshnessForScope(deps, {
-    domain: 'D01_QUOTES',
-    companyId: validation.companyId!,
-    exchangeSegment,
-    securityId: validation.securityId!,
-  });
+  if (entry.outcome === 'UNAVAILABLE') {
+    const unavailable = entry.unavailable!;
+    // A transport that was never configured is a 503 with no connection attempted, exactly
+    // as before; every other failure keeps IPD's own status mapping.
+    const status = unavailable.notAttempted && !unavailable.connectionAttempted
+      ? 503
+      : mapIpdFailureToHttpStatus(unavailable.code);
+    sendJson(res, status, {
+      error: {
+        code: unavailable.code,
+        message: unavailable.message,
+        identityFailure: IDENTITY_FAILURE_CODES.has(unavailable.code),
+        connectionAttempted: unavailable.connectionAttempted,
+      },
+    } satisfies DhanMarketDataErrorEnvelope);
+    return;
+  }
 
-  sendJson(res, 200, {
-    data: { ...view, freshnessStatus: freshness.status, freshnessStatusFailure: freshness.failure },
-  });
+  // CURRENT or STALE: a complete, validated quote. The entry is projected onto the
+  // presentation view the browser contract already declares.
+  const view = toQuoteView(entry);
+  sendJson(res, 200, { data: view });
+}
+
+/**
+ * Projects a served consumption entry onto the browser-facing quote view.
+ *
+ * The mapping is total: a served entry always carries a complete validated quote, so no
+ * field is defaulted, inferred or zero-filled here.
+ */
+function toQuoteView(entry: QuoteConsumptionEntry): DhanQuoteView {
+  return {
+    freshness: entry.freshness,
+    qualityState: entry.qualityState ?? 'UNAVAILABLE',
+    asOf: entry.asOf,
+    receivedAt: entry.receivedAt,
+    evaluatedAt: entry.evaluatedAt,
+    quote: entry.value,
+    securityId: entry.securityId,
+    provenance: entry.provenance,
+    providerQualification: entry.providerQualification,
+    freshnessStatus: entry.freshnessStatus,
+    freshnessStatusFailure: entry.freshnessStatusFailure,
+  };
 }
 
 /**
@@ -880,26 +794,4 @@ export async function handleDhanHistoricalRequest(
   sendJson(res, 200, {
     data: projectIpdHistoricalResult(outcome.result, freshness.status, freshness.failure),
   });
-}
-
-/**
- * Rebuilds a D114 identity object from its validated canonical string.
- *
- * The identity was ALREADY validated against the canonical grammar before this point. IRR
- * reconstructs the object shape IPD's client requires; it does not reinterpret, relax or
- * re-derive the identity.
- */
-function buildIrrD114Identity(securityId: string): {
-  securityId: string;
-  isin: string;
-  series: string;
-  isinAuthority: 'NON_AUTHORITATIVE';
-} {
-  const [, isin, series] = securityId.split(':');
-  return {
-    securityId,
-    isin,
-    series,
-    isinAuthority: 'NON_AUTHORITATIVE',
-  };
 }
