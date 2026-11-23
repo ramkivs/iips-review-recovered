@@ -1,0 +1,97 @@
+{
+  "appliedMigrationCount": 6,
+  "ledgerComparison": [
+    {
+      "migrationId": "001_initial_schema",
+      "observedChecksum": "08e712fd323f547413618f0443ec361015b136285c28b519d967f02b6d9580ab",
+      "expectedRepositoryChecksum": "08e712fd323f547413618f0443ec361015b136285c28b519d967f02b6d9580ab",
+      "appliedAt": "2026-11-01T16:28:13.295Z",
+      "comparisonStatus": "EXACT_MATCH"
+    },
+    {
+      "migrationId": "002_audit_event_sequence",
+      "observedChecksum": "01892a862c8a877c97403a938123fb575cb43f9445d4c5345aa209f5adae47ed",
+      "expectedRepositoryChecksum": "01892a862c8a877c97403a938123fb575cb43f9445d4c5345aa209f5adae47ed",
+      "appliedAt": "2026-11-01T16:28:13.313Z",
+      "comparisonStatus": "EXACT_MATCH"
+    },
+    {
+      "migrationId": "003_local_principal_bindings",
+      "observedChecksum": "7967acc06584811df9cf37e05b84d78d6126b6dae979ee79e0523dfce924004e",
+      "expectedRepositoryChecksum": "7967acc06584811df9cf37e05b84d78d6126b6dae979ee79e0523dfce924004e",
+      "appliedAt": "2026-11-01T16:28:13.330Z",
+      "comparisonStatus": "EXACT_MATCH"
+    },
+    {
+      "migrationId": "004_portfolio_contribution_provenance",
+      "observedChecksum": "0dbf90c129154d8c547b6c5876157877c5e12790ebf2b35c741640751ea7b0ac",
+      "expectedRepositoryChecksum": "0dbf90c129154d8c547b6c5876157877c5e12790ebf2b35c741640751ea7b0ac",
+      "appliedAt": "2026-11-01T16:28:13.348Z",
+      "comparisonStatus": "EXACT_MATCH"
+    },
+    {
+      "migrationId": "005_holding_security_identity",
+      "observedChecksum": "09fb8b68775a3c6cf799852a0c5c0146ea6971911097cb006a1782a9d415ec04",
+      "expectedRepositoryChecksum": "09fb8b68775a3c6cf799852a0c5c0146ea6971911097cb006a1782a9d415ec04",
+      "appliedAt": "2026-11-08T17:18:27.355Z",
+      "comparisonStatus": "EXACT_MATCH"
+    },
+    {
+      "migrationId": "006_portfolio_restore",
+      "observedChecksum": "989a75518ca2fb4803a037e4e59df9053a2e10f38b42a40e67fa4bea01e3f342",
+      "expectedRepositoryChecksum": "989a75518ca2fb4803a037e4e59df9053a2e10f38b42a40e67fa4bea01e3f342",
+      "appliedAt": "2026-11-11T10:43:00.012Z",
+      "comparisonStatus": "EXACT_MATCH"
+    }
+  ],
+  "allAppliedChecksumsMatchRepository": true,
+  "missingRepositoryMigrations": [],
+  "migration006PortfolioRestoreApplied": true,
+  "portfolioRestoreReceiptsTablePresent": true,
+  "schemaObjectsByType": {
+    "index": 7,
+    "table": 10
+  },
+  "presentTables": [
+    "_migration_ledger",
+    "audit_events",
+    "local_principal_bindings",
+    "local_principal_memberships",
+    "portfolio_contributions",
+    "portfolio_holdings",
+    "portfolio_restore_receipts",
+    "portfolio_revisions",
+    "portfolios",
+    "sqlite_sequence"
+  ],
+  "missingRequiredCoreTables": [],
+  "candidateD02TablesChecked": [
+    "principal_owner_migration_ledger",
+    "owner_reassignment_ledger",
+    "d02_owner_reassignment_ledger",
+    "principal_identity_mappings"
+  ],
+  "detectedCandidateD02Tables": [],
+  "d02LedgerSchemaState": "NO_D02_LEDGER_TABLES_PRESENT",
+  "integrityCheck": {
+    "passed": true,
+    "rows": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  },
+  "foreignKeyCheck": {
+    "passed": true,
+    "violationCount": 0,
+    "violations": []
+  },
+  "queryOnlyPragmaInsideSnapshot": {
+    "verified": true,
+    "rows": [
+      {
+        "query_only": 1
+      }
+    ]
+  }
+}

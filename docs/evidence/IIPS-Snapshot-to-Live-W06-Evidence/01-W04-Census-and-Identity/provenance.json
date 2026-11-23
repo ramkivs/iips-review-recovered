@@ -1,0 +1,41 @@
+{
+    "capturedAt":  "2026-11-20T09:59:29.297Z",
+    "route":  "/api/investment/coverage?asOf=2026-11-20",
+    "requestUri":  "http://127.0.0.1:8787/api/investment/coverage?asOf=2026-11-20",
+    "asOf":  "2026-11-20",
+    "generatedAt":  "2026-11-20T00:00:00.000Z",
+    "portfolioId":  "DHAN_PORTFOLIO",
+    "identitySources":  {
+                            "rosterVersion":  "sha256:4baa4e596f84741018e03c08248faf89ff19a37b3d1877220d56dc27aafe7199",
+                            "listingMapVersion":  "sha256:b04416b290d1b6fe682717505f9ecd940e025ee6e0d6d1dc0f68f105604a0dca",
+                            "corporateActionTableVersion":  "sha256:0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819",
+                            "rosterLabel":  "IPD P04 security master export, NSE CM series EQ; batch BATCH-D05-REPLACEMENT-AUTHENTICATED-UNIVERSE-2026-11-08-001; master sha256 b555fd28589a03ea5cbb11c92f880468bcc4b63f449b853a18542aca5817d4c4; mapping IPD-IRR-IDENTITY-EXPORT-MAPPING-1; issuer-key supplement none",
+                            "rosterDataClass":  "OPERATOR_SUPPLIED",
+                            "issuerCount":  2388,
+                            "securityCount":  2388,
+                            "listingCount":  2388,
+                            "corporateActionCount":  0,
+                            "corporateActionsEmpty":  true
+                        },
+    "transportCommit":  "ea738f887b0c4c02d00a609ffd8760cc0517f79e",
+    "repoTreeClean":  false,
+    "responseStatus":  200,
+    "rowCount":  64,
+    "categoryCounts":  {
+                           "QUALIFIED":  1,
+                           "AMBIGUOUS":  0,
+                           "MISSING_OR_UNRESOLVED":  63,
+                           "EXPIRED_OR_INELIGIBLE":  0,
+                           "UNAVAILABLE":  0
+                       },
+    "categoryMapFile":  "C:\\TMP\\W05\\revision1-category-map-2026-11-20.json",
+    "excludedItems":  [
+                          {
+                              "observationId":  "holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001",
+                              "portfolioId":  "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2"
+                          }
+                      ],
+    "missingRevisionRows":  [
+
+                            ]
+}

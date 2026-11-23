@@ -1,0 +1,910 @@
+{
+  "operatorPackageVersion": "2026-11-16.1",
+  "localSensitivityNotice": "LOCAL_PRINCIPAL_REVIEW_REQUIRED_BEFORE_EXTERNAL_SHARING: contains raw Q01-Q14 result rows (including portfolios.portfolio_name, local_principal_bindings.principal_label, and audit_events.detail_json; Q09 omits raw file_name by design).",
+  "sourceReportPath": "docs/integration/IPD-D02-D5-D16-READ-ONLY-INVENTORY-AND-BLOCKER-REPORT-2026-11-16.md",
+  "sourceReportPinnedSha256": "2f5a7b846fb250be031808e9541d2acc366c94224b9bae5aadc85f561d9ba4da",
+  "q01ToQ14CombinedSqlSha256": "af494435061555a33c289f2730d463576d6cf58c9d4f2582341e5f97bc87b937",
+  "statementCountCatalog": 21,
+  "statementCountProcessed": 21,
+  "statements": [
+    {
+      "statementId": "Q01",
+      "queryGroup": "Q01",
+      "title": "Applied migrations and checksums",
+      "sql": "SELECT migration_id, checksum, applied_at\nFROM _migration_ledger\nORDER BY migration_id ASC;",
+      "sqlSha256": "891972b4b83cac0520b0533ccc866c7cd255044223c4a1f42d69db4c26467169",
+      "status": "EXECUTED_OK",
+      "rowCount": 6,
+      "rows": [
+        {
+          "migration_id": "001_initial_schema",
+          "checksum": "08e712fd323f547413618f0443ec361015b136285c28b519d967f02b6d9580ab",
+          "applied_at": "2026-11-01T16:28:13.295Z"
+        },
+        {
+          "migration_id": "002_audit_event_sequence",
+          "checksum": "01892a862c8a877c97403a938123fb575cb43f9445d4c5345aa209f5adae47ed",
+          "applied_at": "2026-11-01T16:28:13.313Z"
+        },
+        {
+          "migration_id": "003_local_principal_bindings",
+          "checksum": "7967acc06584811df9cf37e05b84d78d6126b6dae979ee79e0523dfce924004e",
+          "applied_at": "2026-11-01T16:28:13.330Z"
+        },
+        {
+          "migration_id": "004_portfolio_contribution_provenance",
+          "checksum": "0dbf90c129154d8c547b6c5876157877c5e12790ebf2b35c741640751ea7b0ac",
+          "applied_at": "2026-11-01T16:28:13.348Z"
+        },
+        {
+          "migration_id": "005_holding_security_identity",
+          "checksum": "09fb8b68775a3c6cf799852a0c5c0146ea6971911097cb006a1782a9d415ec04",
+          "applied_at": "2026-11-08T17:18:27.355Z"
+        },
+        {
+          "migration_id": "006_portfolio_restore",
+          "checksum": "989a75518ca2fb4803a037e4e59df9053a2e10f38b42a40e67fa4bea01e3f342",
+          "applied_at": "2026-11-11T10:43:00.012Z"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q02",
+      "queryGroup": "Q02",
+      "title": "Present schema objects (tables, indexes, triggers)",
+      "sql": "SELECT type, name, tbl_name, sql\nFROM sqlite_master\nWHERE name NOT LIKE 'sqlite_autoindex_%'\nORDER BY type ASC, name ASC;",
+      "sqlSha256": "aa2447e5f56603b48565729034657b24e8b3f2cacd7d9b30e8055d74c03a4257",
+      "status": "EXECUTED_OK",
+      "rowCount": 17,
+      "rows": [
+        {
+          "type": "index",
+          "name": "idx_audit_events_entry_checksum",
+          "tbl_name": "audit_events",
+          "sql": "CREATE INDEX idx_audit_events_entry_checksum\n    ON audit_events (entry_checksum)"
+        },
+        {
+          "type": "index",
+          "name": "idx_audit_events_subject",
+          "tbl_name": "audit_events",
+          "sql": "CREATE INDEX idx_audit_events_subject\n    ON audit_events (subject_type, subject_id, id)"
+        },
+        {
+          "type": "index",
+          "name": "idx_local_principal_bindings_single_active",
+          "tbl_name": "local_principal_bindings",
+          "sql": "CREATE UNIQUE INDEX idx_local_principal_bindings_single_active\n    ON local_principal_bindings ((1)) WHERE status = 'ACTIVE'"
+        },
+        {
+          "type": "index",
+          "name": "idx_local_principal_memberships_binding",
+          "tbl_name": "local_principal_memberships",
+          "sql": "CREATE INDEX idx_local_principal_memberships_binding\n    ON local_principal_memberships (binding_id, status)"
+        },
+        {
+          "type": "index",
+          "name": "idx_local_principal_memberships_single_active",
+          "tbl_name": "local_principal_memberships",
+          "sql": "CREATE UNIQUE INDEX idx_local_principal_memberships_single_active\n    ON local_principal_memberships ((1)) WHERE status = 'ACTIVE'"
+        },
+        {
+          "type": "index",
+          "name": "idx_portfolio_holdings_symbol",
+          "tbl_name": "portfolio_holdings",
+          "sql": "CREATE INDEX idx_portfolio_holdings_symbol\n    ON portfolio_holdings (canonical_owner_id, portfolio_id, revision, symbol)"
+        },
+        {
+          "type": "index",
+          "name": "idx_portfolios_owner",
+          "tbl_name": "portfolios",
+          "sql": "CREATE INDEX idx_portfolios_owner\n    ON portfolios (canonical_owner_id, tenant_id)"
+        },
+        {
+          "type": "table",
+          "name": "_migration_ledger",
+          "tbl_name": "_migration_ledger",
+          "sql": "CREATE TABLE _migration_ledger (\n  migration_id TEXT PRIMARY KEY,\n  checksum TEXT NOT NULL,\n  applied_at TEXT NOT NULL\n) WITHOUT ROWID"
+        },
+        {
+          "type": "table",
+          "name": "audit_events",
+          "tbl_name": "audit_events",
+          "sql": "CREATE TABLE audit_events (\n    id              INTEGER PRIMARY KEY AUTOINCREMENT,\n    event_type      TEXT NOT NULL,\n    subject_type    TEXT NOT NULL,\n    subject_id      TEXT NOT NULL,\n    detail_json     TEXT NOT NULL,\n    prev_checksum   TEXT NOT NULL,\n    entry_checksum  TEXT NOT NULL,\n    created_at      TEXT NOT NULL\n)"
+        },
+        {
+          "type": "table",
+          "name": "local_principal_bindings",
+          "tbl_name": "local_principal_bindings",
+          "sql": "CREATE TABLE local_principal_bindings (\n    binding_id       TEXT PRIMARY KEY,\n    principal_label  TEXT NOT NULL,\n    status           TEXT NOT NULL CHECK (status IN ('ACTIVE', 'REVOKED')),\n    created_at       TEXT NOT NULL,\n    updated_at       TEXT NOT NULL,\n    revoked_at       TEXT\n)"
+        },
+        {
+          "type": "table",
+          "name": "local_principal_memberships",
+          "tbl_name": "local_principal_memberships",
+          "sql": "CREATE TABLE local_principal_memberships (\n    membership_id       TEXT PRIMARY KEY,\n    binding_id          TEXT NOT NULL REFERENCES local_principal_bindings(binding_id),\n    tenant_id           TEXT NOT NULL,\n    canonical_owner_id  TEXT NOT NULL,\n    status              TEXT NOT NULL CHECK (status IN ('ACTIVE', 'REVOKED')),\n    created_at          TEXT NOT NULL,\n    updated_at          TEXT NOT NULL,\n    revoked_at          TEXT\n)"
+        },
+        {
+          "type": "table",
+          "name": "portfolio_contributions",
+          "tbl_name": "portfolio_contributions",
+          "sql": "CREATE TABLE portfolio_contributions (\n    canonical_owner_id    TEXT NOT NULL,\n    portfolio_id          TEXT NOT NULL,\n    contribution_id       TEXT NOT NULL,\n    amount                REAL NOT NULL,\n    contributed_at        TEXT NOT NULL,\n    created_at            TEXT NOT NULL, file_name TEXT, source_broker TEXT, content_digest TEXT, lineage_digest TEXT, imported_at TEXT, contribution_semantics TEXT\n  CHECK (contribution_semantics IS NULL OR contribution_semantics IN ('SAVED_NEW_BATCH', 'MERGED_INTO_EXISTING', 'RESET', 'REPLACE')),\n    PRIMARY KEY (canonical_owner_id, portfolio_id, contribution_id),\n    FOREIGN KEY (canonical_owner_id, portfolio_id)\n        REFERENCES portfolios (canonical_owner_id, portfolio_id)\n)"
+        },
+        {
+          "type": "table",
+          "name": "portfolio_holdings",
+          "tbl_name": "portfolio_holdings",
+          "sql": "CREATE TABLE portfolio_holdings (\n    canonical_owner_id    TEXT NOT NULL,\n    portfolio_id          TEXT NOT NULL,\n    revision              INTEGER NOT NULL,\n    holding_key           TEXT NOT NULL,\n    symbol                TEXT NOT NULL,\n    company_id            TEXT NOT NULL,\n    quantity              REAL NOT NULL,\n    average_buy_price     REAL NOT NULL,\n    current_price         REAL NOT NULL,\n    market_value          REAL NOT NULL,\n    weight_percentage     REAL NOT NULL,\n    active                INTEGER NOT NULL DEFAULT 1,\n    source_broker         TEXT NOT NULL,\n    lineage_digest        TEXT NOT NULL,\n    identity_status       TEXT,\n    resolution_disposition TEXT,\n    created_at            TEXT NOT NULL,\n    security_identity     TEXT,\n    PRIMARY KEY (canonical_owner_id, portfolio_id, revision, holding_key),\n    FOREIGN KEY (canonical_owner_id, portfolio_id, revision)\n        REFERENCES portfolio_revisions (canonical_owner_id, portfolio_id, revision)\n)"
+        },
+        {
+          "type": "table",
+          "name": "portfolio_restore_receipts",
+          "tbl_name": "portfolio_restore_receipts",
+          "sql": "CREATE TABLE portfolio_restore_receipts (\n canonical_owner_id TEXT NOT NULL, tenant_id TEXT NOT NULL, portfolio_id TEXT NOT NULL,\n idempotency_key TEXT NOT NULL, request_fingerprint TEXT NOT NULL,\n restored_revision INTEGER NOT NULL, restored_at TEXT NOT NULL, is_saved INTEGER NOT NULL CHECK (is_saved IN (0,1)),\n PRIMARY KEY (canonical_owner_id, portfolio_id, idempotency_key),\n UNIQUE (canonical_owner_id, portfolio_id, restored_revision),\n FOREIGN KEY (canonical_owner_id, portfolio_id, restored_revision)\n REFERENCES portfolio_revisions (canonical_owner_id, portfolio_id, revision)\n)"
+        },
+        {
+          "type": "table",
+          "name": "portfolio_revisions",
+          "tbl_name": "portfolio_revisions",
+          "sql": "CREATE TABLE \"portfolio_revisions\" (\n    portfolio_id          TEXT NOT NULL,\n    canonical_owner_id    TEXT NOT NULL,\n    revision              INTEGER NOT NULL,\n    operation             TEXT NOT NULL CHECK (operation IN ('INITIAL', 'MERGE', 'REPLACE', 'RESET', 'DELETE', 'RESTORE')),\n    total_market_value    REAL NOT NULL DEFAULT 0,\n    weight_sum_percentage REAL NOT NULL DEFAULT 0,\n    holdings_count        INTEGER NOT NULL DEFAULT 0,\n    provenance_digest     TEXT NOT NULL,\n    content_digest        TEXT,\n    created_at            TEXT NOT NULL,\n    PRIMARY KEY (canonical_owner_id, portfolio_id, revision),\n    FOREIGN KEY (canonical_owner_id, portfolio_id)\n        REFERENCES portfolios (canonical_owner_id, portfolio_id)\n)"
+        },
+        {
+          "type": "table",
+          "name": "portfolios",
+          "tbl_name": "portfolios",
+          "sql": "CREATE TABLE portfolios (\n    portfolio_id          TEXT NOT NULL,\n    canonical_owner_id    TEXT NOT NULL,\n    tenant_id             TEXT NOT NULL,\n    portfolio_name        TEXT NOT NULL,\n    current_revision      INTEGER NOT NULL DEFAULT 0,\n    status                TEXT NOT NULL DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'TOMBSTONED')),\n    created_at            TEXT NOT NULL,\n    updated_at            TEXT NOT NULL,\n    deleted_at            TEXT,\n    PRIMARY KEY (canonical_owner_id, portfolio_id)\n)"
+        },
+        {
+          "type": "table",
+          "name": "sqlite_sequence",
+          "tbl_name": "sqlite_sequence",
+          "sql": "CREATE TABLE sqlite_sequence(name,seq)"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q03a",
+      "queryGroup": "Q03",
+      "title": "SQLite structural integrity check",
+      "sql": "PRAGMA integrity_check;",
+      "sqlSha256": "190c4255f4cd4ac912d29012595c92983d4d46c5a2bf2da30daf909f75a25b27",
+      "status": "EXECUTED_OK",
+      "rowCount": 1,
+      "rows": [
+        {
+          "integrity_check": "ok"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q03b",
+      "queryGroup": "Q03",
+      "title": "SQLite foreign-key integrity check",
+      "sql": "PRAGMA foreign_key_check;",
+      "sqlSha256": "78390848a73c380a618898d9cc8e22f5cb3e5996bae72edd58dc46f699000f56",
+      "status": "EXECUTED_OK",
+      "rowCount": 0,
+      "rows": [],
+      "error": null
+    },
+    {
+      "statementId": "Q04a",
+      "queryGroup": "Q04",
+      "title": "Principal bindings inventory",
+      "sql": "SELECT binding_id, principal_label, status, created_at, updated_at, revoked_at\nFROM local_principal_bindings\nORDER BY binding_id ASC;",
+      "sqlSha256": "0546c7fa1f8ecbb55af6a29d11c26cac0d2ce3931174ad77c7a81653f7831c2f",
+      "status": "EXECUTED_OK",
+      "rowCount": 1,
+      "rows": [
+        {
+          "binding_id": "c5808abaffd072d6401ce63ad86c6ac0",
+          "principal_label": "ramki-personal-local",
+          "status": "ACTIVE",
+          "created_at": "2026-11-01T16:28:13.360Z",
+          "updated_at": "2026-11-01T16:28:13.360Z",
+          "revoked_at": null
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q04b",
+      "queryGroup": "Q04",
+      "title": "Principal memberships inventory joined to parent bindings",
+      "sql": "SELECT m.membership_id, m.binding_id, m.tenant_id, m.canonical_owner_id, m.status,\n       m.created_at, m.updated_at, m.revoked_at,\n       b.principal_label AS parent_principal_label, b.status AS parent_binding_status\nFROM local_principal_memberships m\nLEFT JOIN local_principal_bindings b ON b.binding_id = m.binding_id\nORDER BY m.membership_id ASC;",
+      "sqlSha256": "e31af8eabbdaa30741fe4ebf23b8f0b2237df8f605fdbb7c11a281ea25c1a275",
+      "status": "EXECUTED_OK",
+      "rowCount": 1,
+      "rows": [
+        {
+          "membership_id": "d25dcc5370100b00766efc5166f65cf3",
+          "binding_id": "c5808abaffd072d6401ce63ad86c6ac0",
+          "tenant_id": "ipd-personal-local",
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "status": "ACTIVE",
+          "created_at": "2026-11-01T16:28:13.360Z",
+          "updated_at": "2026-11-01T16:28:13.360Z",
+          "revoked_at": null,
+          "parent_principal_label": "ramki-personal-local",
+          "parent_binding_status": "ACTIVE"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q05a",
+      "queryGroup": "Q05",
+      "title": "Audit event sequence bounds and total count",
+      "sql": "SELECT COUNT(*) AS total_events, MIN(id) AS min_id, MAX(id) AS max_id\nFROM audit_events;",
+      "sqlSha256": "0773d1034f2bf0b94f7d464a44369345d2bde2c28713dc8b73b2fbc704afc1f2",
+      "status": "EXECUTED_OK",
+      "rowCount": 1,
+      "rows": [
+        {
+          "total_events": 2,
+          "min_id": 1,
+          "max_id": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q05b",
+      "queryGroup": "Q05",
+      "title": "Audit event breakdown by event_type and subject_type",
+      "sql": "SELECT event_type, subject_type, COUNT(*) AS row_count\nFROM audit_events\nGROUP BY event_type, subject_type\nORDER BY event_type ASC, subject_type ASC;",
+      "sqlSha256": "6ede571c4b5c58da5928b93cdeaa58b6b75313509cc4e9357c5c6a5f121bd11b",
+      "status": "EXECUTED_OK",
+      "rowCount": 2,
+      "rows": [
+        {
+          "event_type": "RESTORE",
+          "subject_type": "portfolio",
+          "row_count": 1
+        },
+        {
+          "event_type": "local_principal_binding.provisioned",
+          "subject_type": "local_principal_binding",
+          "row_count": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q06",
+      "queryGroup": "Q06",
+      "title": "Portfolio headers and explicit owner/tenant/status classification",
+      "sql": "SELECT canonical_owner_id, tenant_id, portfolio_id, portfolio_name,\n       current_revision, status, created_at, updated_at, deleted_at,\n       CASE\n         WHEN canonical_owner_id = 'ipd-owner-ramki-personal' AND tenant_id = 'ipd-personal-local'\n           THEN 'CANDIDATE_S1_HISTORICAL_PORTFOLIO'\n         WHEN canonical_owner_id = 'owner-4dc756b3' AND tenant_id = 'ipd-personal-local'\n           THEN 'EXISTING_D02_OWNER_PORTFOLIO'\n         ELSE 'UNRESOLVED_OTHER_OWNER_OR_TENANT'\n       END AS d16_classification\nFROM portfolios\nORDER BY canonical_owner_id ASC, tenant_id ASC, portfolio_id ASC;",
+      "sqlSha256": "79f64acd36ddc178385eccbed147611276ee6ac644b308a259e9ff5f854a35dd",
+      "status": "EXECUTED_OK",
+      "rowCount": 3,
+      "rows": [
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "tenant_id": "ipd-personal-local",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "portfolio_name": "My Portfolio",
+          "current_revision": 9,
+          "status": "TOMBSTONED",
+          "created_at": "2026-11-08T17:32:19.410Z",
+          "updated_at": "2026-11-11T17:05:10.292Z",
+          "deleted_at": "2026-11-11T17:05:10.292Z",
+          "d16_classification": "CANDIDATE_S1_HISTORICAL_PORTFOLIO"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "tenant_id": "ipd-personal-local",
+          "portfolio_id": "DHAN_PORTFOLIO",
+          "portfolio_name": "DHAN_PORTFOLIO",
+          "current_revision": 1,
+          "status": "ACTIVE",
+          "created_at": "2026-11-11T17:05:50.679Z",
+          "updated_at": "2026-11-11T17:05:50.682Z",
+          "deleted_at": null,
+          "d16_classification": "CANDIDATE_S1_HISTORICAL_PORTFOLIO"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "tenant_id": "ipd-personal-local",
+          "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+          "portfolio_name": "TEST",
+          "current_revision": 2,
+          "status": "ACTIVE",
+          "created_at": "2026-11-12T10:44:57.629Z",
+          "updated_at": "2026-11-12T10:45:20.422Z",
+          "deleted_at": null,
+          "d16_classification": "CANDIDATE_S1_HISTORICAL_PORTFOLIO"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q07",
+      "queryGroup": "Q07",
+      "title": "Portfolio revisions inventory and digest completeness",
+      "sql": "SELECT canonical_owner_id, portfolio_id, revision, operation,\n       holdings_count, total_market_value, weight_sum_percentage,\n       provenance_digest, content_digest, created_at\nFROM portfolio_revisions\nORDER BY canonical_owner_id ASC, portfolio_id ASC, revision ASC;",
+      "sqlSha256": "5720b6fb172824192672330a4361dc21c62543e7a9c16477a0c18cede851a0f7",
+      "status": "EXECUTED_OK",
+      "rowCount": 13,
+      "rows": [
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 1,
+          "operation": "INITIAL",
+          "holdings_count": 2,
+          "total_market_value": 220,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "51a1e075c1c3f5e9f66f8b237ee917fbc67f827c76fe25e0e1435bd96ad50180",
+          "content_digest": "b8ba46048c3759f8e1085e07af5ecdaf509dde0f2da9363209530bf4ed6d6ac7",
+          "created_at": "2026-11-08T17:32:19.422Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 2,
+          "operation": "REPLACE",
+          "holdings_count": 2,
+          "total_market_value": 330,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "a8e51f61b71d16e869e36115f438d6b1881f91e39e68abade651a18a93606732",
+          "content_digest": "9c205d98020adae608568d207ed1205499c6520efcf1aa8dba84acf5ec0615c6",
+          "created_at": "2026-11-08T17:33:42.529Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 3,
+          "operation": "DELETE",
+          "holdings_count": 0,
+          "total_market_value": 0,
+          "weight_sum_percentage": 0,
+          "provenance_digest": "tombstone:DEFAULT_PORTFOLIO",
+          "content_digest": null,
+          "created_at": "2026-11-08T17:58:42.387Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 4,
+          "operation": "RESTORE",
+          "holdings_count": 2,
+          "total_market_value": 330,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "a8e51f61b71d16e869e36115f438d6b1881f91e39e68abade651a18a93606732",
+          "content_digest": "9c205d98020adae608568d207ed1205499c6520efcf1aa8dba84acf5ec0615c6",
+          "created_at": "2026-11-11T10:52:03.253Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 5,
+          "operation": "REPLACE",
+          "holdings_count": 3,
+          "total_market_value": 630,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "45b9c032eebaebc2b34d607699d009ef8d7e6c25aaceb6ca335a9f20043ca732",
+          "content_digest": "ed867c40d9eef4a34d72eb80fcba91acd606e1e8f514ecf8b927972786948d2a",
+          "created_at": "2026-11-11T11:00:19.457Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 6,
+          "operation": "REPLACE",
+          "holdings_count": 2,
+          "total_market_value": 520,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "04d36791592a5873b11bcdd9b65b71a184ea80dfc0ede7ebea015c73e225b8b4",
+          "content_digest": "628da18cfd9dfd8dfc98144cfc7c57b065360cd3dd88c3dceafea6c8dcec0737",
+          "created_at": "2026-11-11T11:00:28.475Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 7,
+          "operation": "MERGE",
+          "holdings_count": 1,
+          "total_market_value": 1361.1,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "da3adabb414ade54ccd215ad8b476505523eaf3d5408e50260280e39be3a4480",
+          "content_digest": "3e605dad8d3a0d44c0abafcd7cbf75f57b9d2429e27988c467429604174f5cc7",
+          "created_at": "2026-11-11T15:01:32.355Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 8,
+          "operation": "MERGE",
+          "holdings_count": 4,
+          "total_market_value": 28341.3,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "81026a6946898fb7c9cd82af6b0ecf0b434805dc7b5850fc35362bc0733fad89",
+          "content_digest": "ec71c319f07f0a95b284dc6e66700b115940484af6eafc9a547e8dd54455e6b0",
+          "created_at": "2026-11-11T16:34:13.166Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 9,
+          "operation": "MERGE",
+          "holdings_count": 59,
+          "total_market_value": 438798.00000000006,
+          "weight_sum_percentage": 99.99999999999999,
+          "provenance_digest": "ed7da9577fe1a9258a3e43b6b37cc5b34676a54198b4ab86ca3172a453a98741",
+          "content_digest": "a22ac4330bdc4daf73b78a485410402761f7d84fbb38fffdb596c7fd7aecfce1",
+          "created_at": "2026-11-11T16:58:41.223Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 10,
+          "operation": "DELETE",
+          "holdings_count": 0,
+          "total_market_value": 0,
+          "weight_sum_percentage": 0,
+          "provenance_digest": "tombstone:DEFAULT_PORTFOLIO",
+          "content_digest": null,
+          "created_at": "2026-11-11T17:05:10.292Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DHAN_PORTFOLIO",
+          "revision": 1,
+          "operation": "INITIAL",
+          "holdings_count": 64,
+          "total_market_value": 468500.4000000001,
+          "weight_sum_percentage": 100.00000000000003,
+          "provenance_digest": "17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f",
+          "content_digest": "0ef481375af906011b9543c0e943fa0e3e29b6fe12563d3fe8b69e24b18f35c8",
+          "created_at": "2026-11-11T17:05:50.682Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+          "revision": 1,
+          "operation": "INITIAL",
+          "holdings_count": 2,
+          "total_market_value": 889,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "ca041a8f882aaadbb7d70b9956b1cbbd929f42761c6a88c8dcf0a05f5524c67c",
+          "content_digest": "4b0d4ceffaa02fb4bcd46125d1df2a70e51c036bba46d4aa578c850f6642c167",
+          "created_at": "2026-11-12T10:44:57.637Z"
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+          "revision": 2,
+          "operation": "REPLACE",
+          "holdings_count": 1,
+          "total_market_value": 500,
+          "weight_sum_percentage": 100,
+          "provenance_digest": "9e5dc076ebcceeed24b375296b5c27ad723f1a53cbe9489ae8c8d6af84e14de1",
+          "content_digest": "1e55888fc4ad57343307c444cfda5d54fdd0755ad9d6590f350580ba56748466",
+          "created_at": "2026-11-12T10:45:20.422Z"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q08",
+      "queryGroup": "Q08",
+      "title": "Portfolio holdings summary by owner, portfolio, revision, broker, and security identity status",
+      "sql": "SELECT canonical_owner_id, portfolio_id, revision,\n       source_broker, active, identity_status, resolution_disposition,\n       CASE WHEN security_identity IS NULL THEN 'NULL' ELSE 'POPULATED' END AS security_identity_state,\n       COUNT(*) AS holding_rows\nFROM portfolio_holdings\nGROUP BY canonical_owner_id, portfolio_id, revision,\n         source_broker, active, identity_status, resolution_disposition, security_identity_state\nORDER BY canonical_owner_id ASC, portfolio_id ASC, revision ASC, source_broker ASC;",
+      "sqlSha256": "c335228ffd890f5a4d2c7ba269e0e790cb2da71cc3254673176e470e0afea137",
+      "status": "EXECUTED_OK",
+      "rowCount": 12,
+      "rows": [
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 1,
+          "source_broker": "manual-personal",
+          "active": 1,
+          "identity_status": "UNRESOLVED",
+          "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+          "security_identity_state": "NULL",
+          "holding_rows": 2
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 2,
+          "source_broker": "manual-personal",
+          "active": 1,
+          "identity_status": "UNRESOLVED",
+          "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+          "security_identity_state": "NULL",
+          "holding_rows": 2
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 4,
+          "source_broker": "manual-personal",
+          "active": 1,
+          "identity_status": "UNRESOLVED",
+          "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+          "security_identity_state": "NULL",
+          "holding_rows": 2
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 5,
+          "source_broker": "manual-personal",
+          "active": 1,
+          "identity_status": "UNRESOLVED",
+          "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+          "security_identity_state": "NULL",
+          "holding_rows": 3
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 6,
+          "source_broker": "manual-personal",
+          "active": 0,
+          "identity_status": "UNRESOLVED",
+          "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+          "security_identity_state": "NULL",
+          "holding_rows": 2
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 7,
+          "source_broker": "DHAN",
+          "active": 1,
+          "identity_status": "RESOLVED",
+          "resolution_disposition": "CANONICAL_P04",
+          "security_identity_state": "POPULATED",
+          "holding_rows": 1
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 8,
+          "source_broker": "DHAN",
+          "active": 1,
+          "identity_status": "RESOLVED",
+          "resolution_disposition": "CANONICAL_P04",
+          "security_identity_state": "NULL",
+          "holding_rows": 4
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "revision": 9,
+          "source_broker": "DHAN",
+          "active": 1,
+          "identity_status": "RESOLVED",
+          "resolution_disposition": "CANONICAL_P04",
+          "security_identity_state": "NULL",
+          "holding_rows": 59
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DHAN_PORTFOLIO",
+          "revision": 1,
+          "source_broker": "DHAN",
+          "active": 1,
+          "identity_status": "RESOLVED",
+          "resolution_disposition": "CANONICAL_P04",
+          "security_identity_state": "NULL",
+          "holding_rows": 63
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DHAN_PORTFOLIO",
+          "revision": 1,
+          "source_broker": "DHAN",
+          "active": 1,
+          "identity_status": "RESOLVED",
+          "resolution_disposition": "CANONICAL_P04",
+          "security_identity_state": "POPULATED",
+          "holding_rows": 1
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+          "revision": 1,
+          "source_broker": "manual-personal",
+          "active": 1,
+          "identity_status": "UNRESOLVED",
+          "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+          "security_identity_state": "NULL",
+          "holding_rows": 2
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+          "revision": 2,
+          "source_broker": "manual-personal",
+          "active": 0,
+          "identity_status": "UNRESOLVED",
+          "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+          "security_identity_state": "NULL",
+          "holding_rows": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q09",
+      "queryGroup": "Q09",
+      "title": "Portfolio contributions and nullable provenance completeness (004_portfolio_contribution_provenance)",
+      "sql": "SELECT canonical_owner_id, portfolio_id, contribution_id,\n       contributed_at, created_at, source_broker, contribution_semantics,\n       content_digest, lineage_digest, imported_at,\n       CASE WHEN file_name IS NULL THEN 1 ELSE 0 END AS file_name_is_null,\n       CASE WHEN source_broker IS NULL THEN 1 ELSE 0 END AS source_broker_is_null,\n       CASE WHEN content_digest IS NULL THEN 1 ELSE 0 END AS content_digest_is_null,\n       CASE WHEN lineage_digest IS NULL THEN 1 ELSE 0 END AS lineage_digest_is_null,\n       CASE WHEN imported_at IS NULL THEN 1 ELSE 0 END AS imported_at_is_null,\n       CASE WHEN contribution_semantics IS NULL THEN 1 ELSE 0 END AS semantics_is_null\nFROM portfolio_contributions\nORDER BY canonical_owner_id ASC, portfolio_id ASC, created_at ASC, contribution_id ASC;",
+      "sqlSha256": "7f325feef4e4b5bddfdff3ff3ea7f673addbf8c7d2ad7313055a626f251f5b03",
+      "status": "EXECUTED_OK",
+      "rowCount": 6,
+      "rows": [
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "contribution_id": "628da18cfd9dfd8dfc98144cfc7c57b065360cd3dd88c3dceafea6c8dcec0737",
+          "contributed_at": "2026-11-11T11:00:28.475Z",
+          "created_at": "2026-11-11T11:00:28.475Z",
+          "source_broker": null,
+          "contribution_semantics": null,
+          "content_digest": null,
+          "lineage_digest": null,
+          "imported_at": null,
+          "file_name_is_null": 1,
+          "source_broker_is_null": 1,
+          "content_digest_is_null": 1,
+          "lineage_digest_is_null": 1,
+          "imported_at_is_null": 1,
+          "semantics_is_null": 1
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "contribution_id": "85918a9a39e0ec01b28ea3e0082a8c429b6afaa223a01a4e6ca244b14048cbcb",
+          "contributed_at": "2026-11-11T15:01:32.355Z",
+          "created_at": "2026-11-11T15:01:32.355Z",
+          "source_broker": "DHAN",
+          "contribution_semantics": "MERGED_INTO_EXISTING",
+          "content_digest": "85918a9a39e0ec01b28ea3e0082a8c429b6afaa223a01a4e6ca244b14048cbcb",
+          "lineage_digest": "da3adabb414ade54ccd215ad8b476505523eaf3d5408e50260280e39be3a4480",
+          "imported_at": "2026-11-11T15:01:25.196Z",
+          "file_name_is_null": 0,
+          "source_broker_is_null": 0,
+          "content_digest_is_null": 0,
+          "lineage_digest_is_null": 0,
+          "imported_at_is_null": 0,
+          "semantics_is_null": 0
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "contribution_id": "8312c5775486053b70d3bcf41e4d2263bd4de55c668628b62d3fe23ecadb485c",
+          "contributed_at": "2026-11-11T16:34:13.166Z",
+          "created_at": "2026-11-11T16:34:13.166Z",
+          "source_broker": "DHAN",
+          "contribution_semantics": "MERGED_INTO_EXISTING",
+          "content_digest": "8312c5775486053b70d3bcf41e4d2263bd4de55c668628b62d3fe23ecadb485c",
+          "lineage_digest": "81026a6946898fb7c9cd82af6b0ecf0b434805dc7b5850fc35362bc0733fad89",
+          "imported_at": "2026-11-11T16:34:03.560Z",
+          "file_name_is_null": 0,
+          "source_broker_is_null": 0,
+          "content_digest_is_null": 0,
+          "lineage_digest_is_null": 0,
+          "imported_at_is_null": 0,
+          "semantics_is_null": 0
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "contribution_id": "64c76fd7e2d378259708a7ef3d49af28b7d37a8af27c8881fdfffd7a319b8cf2",
+          "contributed_at": "2026-11-11T16:58:41.223Z",
+          "created_at": "2026-11-11T16:58:41.223Z",
+          "source_broker": "DHAN",
+          "contribution_semantics": "MERGED_INTO_EXISTING",
+          "content_digest": "64c76fd7e2d378259708a7ef3d49af28b7d37a8af27c8881fdfffd7a319b8cf2",
+          "lineage_digest": "ed7da9577fe1a9258a3e43b6b37cc5b34676a54198b4ab86ca3172a453a98741",
+          "imported_at": "2026-11-11T16:58:33.682Z",
+          "file_name_is_null": 0,
+          "source_broker_is_null": 0,
+          "content_digest_is_null": 0,
+          "lineage_digest_is_null": 0,
+          "imported_at_is_null": 0,
+          "semantics_is_null": 0
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DHAN_PORTFOLIO",
+          "contribution_id": "a3c3ee7635e24e56d1d2d6b9411a6de561f554addd382ab163344706e7b63107",
+          "contributed_at": "2026-11-11T17:05:50.682Z",
+          "created_at": "2026-11-11T17:05:50.682Z",
+          "source_broker": "DHAN",
+          "contribution_semantics": "SAVED_NEW_BATCH",
+          "content_digest": "a3c3ee7635e24e56d1d2d6b9411a6de561f554addd382ab163344706e7b63107",
+          "lineage_digest": "17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f",
+          "imported_at": "2026-11-11T17:05:29.413Z",
+          "file_name_is_null": 0,
+          "source_broker_is_null": 0,
+          "content_digest_is_null": 0,
+          "lineage_digest_is_null": 0,
+          "imported_at_is_null": 0,
+          "semantics_is_null": 0
+        },
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+          "contribution_id": "1e55888fc4ad57343307c444cfda5d54fdd0755ad9d6590f350580ba56748466",
+          "contributed_at": "2026-11-12T10:45:20.422Z",
+          "created_at": "2026-11-12T10:45:20.422Z",
+          "source_broker": null,
+          "contribution_semantics": null,
+          "content_digest": null,
+          "lineage_digest": null,
+          "imported_at": null,
+          "file_name_is_null": 1,
+          "source_broker_is_null": 1,
+          "content_digest_is_null": 1,
+          "lineage_digest_is_null": 1,
+          "imported_at_is_null": 1,
+          "semantics_is_null": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q10",
+      "queryGroup": "Q10",
+      "title": "Portfolio restore receipts inventory (executed if 006_portfolio_restore is present in Q02)",
+      "sql": "SELECT canonical_owner_id, tenant_id, portfolio_id, idempotency_key,\n       request_fingerprint, restored_revision, restored_at, is_saved\nFROM portfolio_restore_receipts\nORDER BY canonical_owner_id ASC, portfolio_id ASC, restored_revision ASC;",
+      "sqlSha256": "379d78f248c1f74e71dad9249af5620326c64b5ddbccb0e3d91d29d2783fa5c1",
+      "status": "EXECUTED_OK",
+      "rowCount": 1,
+      "rows": [
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "tenant_id": "ipd-personal-local",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "idempotency_key": "restore-default-r2-d611941647944f8ebeaf40971ec8ba0f",
+          "request_fingerprint": "[\"RESTORE\",\"ipd-owner-ramki-personal\",\"ipd-personal-local\",\"DEFAULT_PORTFOLIO\",2]",
+          "restored_revision": 4,
+          "restored_at": "2026-11-11T10:52:03.253Z",
+          "is_saved": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q11a",
+      "queryGroup": "Q11",
+      "title": "Collision check (a): identical portfolio_id across S1 and D02 owners",
+      "sql": "SELECT s1.portfolio_id,\n       s1.tenant_id AS s1_tenant_id, s1.status AS s1_status, s1.current_revision AS s1_revision,\n       d02.tenant_id AS d02_tenant_id, d02.status AS d02_status, d02.current_revision AS d02_revision\nFROM portfolios s1\nINNER JOIN portfolios d02\n  ON d02.portfolio_id = s1.portfolio_id\nWHERE s1.canonical_owner_id = 'ipd-owner-ramki-personal'\n  AND d02.canonical_owner_id = 'owner-4dc756b3';",
+      "sqlSha256": "c947870022c81e76e90c3c3a5ff8172350f8cda7db08b48fda5c357644bcabd5",
+      "status": "EXECUTED_OK",
+      "rowCount": 0,
+      "rows": [],
+      "error": null
+    },
+    {
+      "statementId": "Q11b",
+      "queryGroup": "Q11",
+      "title": "Collision check (b): duplicate normalized symbols within any (canonical_owner_id, portfolio_id, revision)",
+      "sql": "SELECT canonical_owner_id, portfolio_id, revision, upper(trim(symbol)) AS norm_symbol, COUNT(*) AS dup_count\nFROM portfolio_holdings\nGROUP BY canonical_owner_id, portfolio_id, revision, upper(trim(symbol))\nHAVING COUNT(*) > 1;",
+      "sqlSha256": "126118ba389053e19828e5bad74c764d52dd503484c1e93b8a76ba408f1a107e",
+      "status": "EXECUTED_OK",
+      "rowCount": 0,
+      "rows": [],
+      "error": null
+    },
+    {
+      "statementId": "Q11c",
+      "queryGroup": "Q11",
+      "title": "Collision check (c): active binding / active membership partial-unique invariant",
+      "sql": "SELECT 'ACTIVE_BINDINGS' AS check_name, COUNT(*) AS active_count\nFROM local_principal_bindings WHERE status = 'ACTIVE'\nUNION ALL\nSELECT 'ACTIVE_MEMBERSHIPS' AS check_name, COUNT(*) AS active_count\nFROM local_principal_memberships WHERE status = 'ACTIVE';",
+      "sqlSha256": "8716fd5c839287c49d01590478c26c19229861857dd4ebf542702753820f3257",
+      "status": "EXECUTED_OK",
+      "rowCount": 2,
+      "rows": [
+        {
+          "check_name": "ACTIVE_BINDINGS",
+          "active_count": 1
+        },
+        {
+          "check_name": "ACTIVE_MEMBERSHIPS",
+          "active_count": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q12a",
+      "queryGroup": "Q12",
+      "title": "Orphan/consistency check (a): memberships referencing missing or non-ACTIVE bindings",
+      "sql": "SELECT m.membership_id, m.binding_id, m.status AS membership_status, b.status AS binding_status\nFROM local_principal_memberships m\nLEFT JOIN local_principal_bindings b ON b.binding_id = m.binding_id\nWHERE b.binding_id IS NULL OR (m.status = 'ACTIVE' AND b.status <> 'ACTIVE');",
+      "sqlSha256": "3809c333f82264d9ba939f1908f5bcaccbec73acf0f7864dcfc123f00c20e17a",
+      "status": "EXECUTED_OK",
+      "rowCount": 0,
+      "rows": [],
+      "error": null
+    },
+    {
+      "statementId": "Q12b",
+      "queryGroup": "Q12",
+      "title": "Orphan/consistency check (b): portfolios whose current_revision has no matching portfolio_revisions row or inconsistent status",
+      "sql": "SELECT p.canonical_owner_id, p.portfolio_id, p.status, p.current_revision, p.deleted_at,\n       r.revision AS matched_revision, r.operation AS current_operation\nFROM portfolios p\nLEFT JOIN portfolio_revisions r\n  ON r.canonical_owner_id = p.canonical_owner_id\n AND r.portfolio_id = p.portfolio_id\n AND r.revision = p.current_revision\nWHERE (p.current_revision > 0 AND r.revision IS NULL)\n   OR (p.status = 'ACTIVE' AND r.operation = 'DELETE')\n   OR (p.status = 'TOMBSTONED' AND (p.deleted_at IS NULL OR r.operation <> 'DELETE'));",
+      "sqlSha256": "4743e571dcfed2350b94b313ef255aa607254da2434fcbd1e833e883ad12fe96",
+      "status": "EXECUTED_OK",
+      "rowCount": 1,
+      "rows": [
+        {
+          "canonical_owner_id": "ipd-owner-ramki-personal",
+          "portfolio_id": "DEFAULT_PORTFOLIO",
+          "status": "TOMBSTONED",
+          "current_revision": 9,
+          "deleted_at": "2026-11-11T17:05:10.292Z",
+          "matched_revision": 9,
+          "current_operation": "MERGE"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q12c",
+      "queryGroup": "Q12",
+      "title": "Orphan/consistency check (c): portfolio_revisions whose holdings_count disagrees with actual portfolio_holdings rows",
+      "sql": "SELECT r.canonical_owner_id, r.portfolio_id, r.revision, r.operation,\n       r.holdings_count AS declared_count, COUNT(h.holding_key) AS actual_count\nFROM portfolio_revisions r\nLEFT JOIN portfolio_holdings h\n  ON h.canonical_owner_id = r.canonical_owner_id\n AND h.portfolio_id = r.portfolio_id\n AND h.revision = r.revision\nGROUP BY r.canonical_owner_id, r.portfolio_id, r.revision, r.operation, r.holdings_count\nHAVING r.holdings_count <> COUNT(h.holding_key);",
+      "sqlSha256": "09741245acb79c1238267c8241b344e718af3df60bb7d58baafad82c2222d951",
+      "status": "EXECUTED_OK",
+      "rowCount": 0,
+      "rows": [],
+      "error": null
+    },
+    {
+      "statementId": "Q13",
+      "queryGroup": "Q13",
+      "title": "Audit hash-chain integrity read (verified in-memory via SHA-256 without write handles)",
+      "sql": "SELECT id, event_type, subject_type, subject_id, detail_json, prev_checksum, entry_checksum, created_at\nFROM audit_events\nORDER BY id ASC;",
+      "sqlSha256": "dc23b5859c2b34567435bb07ca13eef8519668709cc0a870f6e2cc3adfa0a04b",
+      "status": "EXECUTED_OK",
+      "rowCount": 2,
+      "rows": [
+        {
+          "id": 1,
+          "event_type": "local_principal_binding.provisioned",
+          "subject_type": "local_principal_binding",
+          "subject_id": "ramki-personal-local",
+          "detail_json": "{\"tenantId\":\"ipd-personal-local\",\"canonicalOwnerId\":\"ipd-owner-ramki-personal\"}",
+          "prev_checksum": "0000000000000000000000000000000000000000000000000000000000000000",
+          "entry_checksum": "34d613e659ea7edaacaf9bcc6322a312caed5aff86efbbbd207f6f503b1e2573",
+          "created_at": "2026-11-01T16:28:13.362Z"
+        },
+        {
+          "id": 2,
+          "event_type": "RESTORE",
+          "subject_type": "portfolio",
+          "subject_id": "DEFAULT_PORTFOLIO",
+          "detail_json": "{\"canonicalOwnerId\":\"ipd-owner-ramki-personal\",\"tenantId\":\"ipd-personal-local\",\"sourceRevision\":2,\"revision\":4}",
+          "prev_checksum": "34d613e659ea7edaacaf9bcc6322a312caed5aff86efbbbd207f6f503b1e2573",
+          "entry_checksum": "edbf27d8fd26a5c8954c95743dada00cb04ed60bbb78c6bb5ba859d4fb61f15f",
+          "created_at": "2026-11-11T10:52:03.255Z"
+        }
+      ],
+      "error": null
+    },
+    {
+      "statementId": "Q14",
+      "queryGroup": "Q14",
+      "title": "Read-only connection verification pragma inside snapshot",
+      "sql": "PRAGMA query_only;",
+      "sqlSha256": "cfbfd45dcdf2cfb78dc3ee69d883bb44f44b824b40c51c052e952820eb09fa8a",
+      "status": "EXECUTED_OK",
+      "rowCount": 1,
+      "rows": [
+        {
+          "query_only": 1
+        }
+      ],
+      "error": null
+    }
+  ]
+}

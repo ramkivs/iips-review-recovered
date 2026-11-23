@@ -1,0 +1,73 @@
+﻿W04 E4 read-only identifier-supply probe (w04-e4-probe/1); node v24.14.0; win32
+
+== 1. Exact capture (input 1)
+[INFO] capture.source: default capture root searched: 1 exact capture file(s) examined, 1 with the expected SHA-256
+[INFO] capture.sha256: c5dd51f51025e3e17e3b798164c6b8078fa5487392d8f0dfd96be9bb7c79eda3
+[PASS] capture.sha256.expected: capture SHA-256 equals the expected digest: yes
+[PASS] capture.schema: schema is the exact-capture schema v1: yes
+[PASS] capture.outcome: outcome is CONSISTENT_CAPTURE: yes
+[INFO] capture.evidenceEligibility: HOST_CAPTURE_SUBJECT_TO_REVIEW
+[INFO] capture.reads: 4 read(s); portfolio.get with a result: 2; portfolio.revisions with a result: 1
+[PASS] capture.reads.agree: every portfolio.get result in the capture is identical: yes
+[PASS] capture.portfolio: portfolio selected and returned is DHAN_PORTFOLIO: yes
+[PASS] capture.revision: revision is 1 (observed 1): yes
+[PASS] capture.holdings: holdings array and holdingsCount are 64 (observed 64 and 64): yes
+[PASS] capture.identity.null: securityIdentity null on 63 (observed 63): yes
+[PASS] capture.identity.object: securityIdentity object on 1 (observed 1): yes
+[PASS] capture.identity.wellformed: every securityIdentity is an object or null: yes
+[INFO] capture.identityStatus: {"RESOLVED":64}
+[INFO] capture.resolutionDisposition: {"CANONICAL_P04":64}
+[INFO] capture.holdingsPerSourceBroker: {"DHAN":64}
+[INFO] capture.holdings.active: 64 of 64
+[INFO] capture.holdings.lineageDigest: 64 of 64 carry a SHA-256 lineage digest
+[INFO] capture.revision.provenanceDigest: 17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f
+[INFO] capture.revisions: 1 history entr(ies); entry for the examined revision: {"operation":"INITIAL","revisionContentDigest":"0ef481375af906011b9543c0e943fa0e3e29b6fe12563d3fe8b69e24b18f35c8","provenanceDigest":"17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f"}
+[INFO] capture.revisions.note: revisionContentDigest is the digest of the stored revision. It is NOT the digest of the imported file and is never used as the match key
+[INFO] capture.wireType: LocalPortfolioDetail
+[INFO] capture.importEvidence: 1 committed import(s) on the wire
+[INFO] capture.importEvidence[1]: {"contentDigest":"a3c3ee7635e24e56d1d2d6b9411a6de561f554addd382ab163344706e7b63107","importProvenanceDigest":"17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f","sourceBroker":"DHAN","semantics":"SAVED_NEW_BATCH","importedAtIsIsoUtc":true,"equalsRevisionProvenanceDigest":true}
+[PASS] capture.matchKey: match key available (content digest of a committed import): yes
+[INFO] capture.trackedCandidate: IRR:evidence/broker-import/operator-supplied/dhan-holdings-withisin.csv: digest equal as committed (LF) no; with CRLF no
+[INFO] capture.trackedCandidate: IRR:evidence/broker-import/operator-supplied/dhan-holdings.csv: digest equal as committed (LF) no; with CRLF no
+[INFO] capture.trackedCandidate: IRR:evidence/broker-import/operator-supplied/zerodha-holdings.csv: digest equal as committed (LF) no; with CRLF no
+[INFO] capture.trackedCandidate: IPD:evidence/operator_drop/wave2-2026-11-06/source.csv: digest equal as committed (LF) no; with CRLF no
+[INFO] capture.trackedCandidate.note: only equality is evidence; a file that was re-encoded or edited has another digest
+
+== 2. Committed input per holding, from the capture alone (lineage digest)
+[INFO] lineage.asOf: 1 import instant(s) available as the lineage timestamp
+[INFO] lineage.captureOnly: 1 of 64 stored lineage digests reproduced without the evidence journal
+
+== 3. IRR broker-import evidence journal (input 2; E4 as specified)
+[INFO] journal.locations: 1 data director(ies) given with --data-dir
+[INFO] journal[1].reset: owner-reset recovery entries beside the journal: 0 (not opened)
+[WARN] journal[1].journal: evidence journal exists: no (no broker-import evidence was ever retained in this data directory, or it was reset)
+[WARN] e4.recordFound: evidence record with the committed import's content digest found: no
+[INFO] e4.noSubstitute: no record was substituted. Nothing was matched on a timestamp, a file name or a revision digest
+
+== 4. Committed input per holding, with the matched evidence record
+[SKIP] lineage.journal: no matched evidence record with ISINs; step 2 stands unchanged
+
+== 5. Independent verification against the stored revision
+[FAIL] verify.holdings: every stored holding lineage digest reproduced (1 of 64): no
+[SKIP] verify.import: not every holding input is determined; the import provenance digest cannot be recomputed
+
+== 6. Supplementary: tracked P7 qualification manifest (input 3, optional)
+[SKIP] registry: no --ipd-root given
+
+== 7. Cause distribution of the null-identity holdings
+[INFO] class.all: {"ISIN+EXCHANGE_NSE":1,"UNDETERMINED":63}
+[INFO] class.withIdentity: {"ISIN+EXCHANGE_NSE":1}
+[INFO] class.nullIdentity: {"UNDETERMINED":63}
+[INFO] class.evidence: {"NOT_REPRODUCED":63,"OWN_STORED_IDENTITY":1}
+[INFO] cause.A: no ISIN in the committed input (CONFIRMED): 0 (with an exchange 0, without 0)
+[INFO] cause.B: ISIN but no exchange in the committed input (CONFIRMED): 0
+[INFO] cause.C: ISIN and exchange in the committed input, no identity stored (NOT_APPLICABLE): 0; holdings of this revision that did receive an identity from ISIN and exchange: 1
+[INFO] cause.D: undetermined (UNKNOWN): 63
+[PASS] cause.sum: the four classes sum to the null-identity holdings (63 of 63): yes
+
+== Result
+E4_RESULT_JSON: {"probe":"w04-e4-probe/1","result":"PARTIAL","capture":{"captureSha256":"c5dd51f51025e3e17e3b798164c6b8078fa5487392d8f0dfd96be9bb7c79eda3","captureIsRecordedCapture":true,"evidenceEligibility":"HOST_CAPTURE_SUBJECT_TO_REVIEW","portfolioIdIsRecorded":true,"revision":1,"holdingsCountField":64,"holdings":64,"identity":{"object":1,"null":63,"other":0},"identityStatus":{"RESOLVED":64},"resolutionDisposition":{"CANONICAL_P04":64},"holdingsPerSourceBroker":{"DHAN":64},"holdingsActive":64,"holdingsWithLineageDigest":64,"provenanceDigest":"17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f","revisionEntries":1,"revisionEntry":{"operation":"INITIAL","revisionContentDigest":"0ef481375af906011b9543c0e943fa0e3e29b6fe12563d3fe8b69e24b18f35c8","provenanceDigest":"17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f"},"wireType":"LocalPortfolioDetail","importEvidence":[{"contentDigest":"a3c3ee7635e24e56d1d2d6b9411a6de561f554addd382ab163344706e7b63107","importProvenanceDigest":"17b2b2833268222310c21f7b685d0ca5e595ebd6a62bda7f118a9c0c6b84781f","sourceBroker":"DHAN","semantics":"SAVED_NEW_BATCH","importedAtIsIsoUtc":true,"equalsRevisionProvenanceDigest":true}],"matchKeyAvailable":true,"trackedCandidateEquality":[{"label":"IRR:evidence/broker-import/operator-supplied/dhan-holdings-withisin.csv","equalAsCommittedLf":false,"equalWithCrlf":false},{"label":"IRR:evidence/broker-import/operator-supplied/dhan-holdings.csv","equalAsCommittedLf":false,"equalWithCrlf":false},{"label":"IRR:evidence/broker-import/operator-supplied/zerodha-holdings.csv","equalAsCommittedLf":false,"equalWithCrlf":false},{"label":"IPD:evidence/operator_drop/wave2-2026-11-06/source.csv","equalAsCommittedLf":false,"equalWithCrlf":false}]},"e4":{"recordFound":false,"matchedRecords":[],"journals":[{"label":"journal[1]","dataDirectoryExists":true,"journalExists":false,"resetRecoveryEntries":0}]},"verification":{"holdingLineageDigestsReproduced":1,"holdings":64,"importProvenanceDigest":"NOT_COMPUTED"},"classification":{"classes":{"all":{"ISIN+EXCHANGE_NSE":1,"UNDETERMINED":63},"withIdentity":{"ISIN+EXCHANGE_NSE":1},"nullIdentity":{"UNDETERMINED":63}},"evidenceUsed":{"NOT_REPRODUCED":63,"OWN_STORED_IDENTITY":1},"causes":{"nullIdentityHoldings":63,"A_NO_ISIN_IN_COMMITTED_INPUT":{"count":0,"standing":"CONFIRMED","withExchange":0,"withoutExchange":0},"B_ISIN_WITHOUT_EXCHANGE_IN_COMMITTED_INPUT":{"count":0,"standing":"CONFIRMED"},"C_ISIN_AND_EXCHANGE_BUT_NO_IDENTITY":{"count":0,"standing":"NOT_APPLICABLE","qualificationPathEvidencedByHoldingsWithIdentity":1},"D_UNDETERMINED":{"count":63,"standing":"UNKNOWN"}},"undetermined":63},"registry":null,"checks":{"PASS":12,"FAIL":1,"WARN":2,"INFO":33,"SKIP":3}}
+E4_RESULT_JSON_SHA256: 2f7a15c3a76eb52cf147ae9d43f5431b2c7f2d3d58ffaf5049de134e206f9790
+checks: PASS 12, FAIL 1, WARN 2, INFO 33, SKIP 3
+RESULT: PARTIAL
+

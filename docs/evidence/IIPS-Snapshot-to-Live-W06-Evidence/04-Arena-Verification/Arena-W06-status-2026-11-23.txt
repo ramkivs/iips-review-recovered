@@ -1,0 +1,72 @@
+I'll work through W06 verification in one pass on the new branch. First, establish the repository and branch state:
+
+Now verify the W06 mechanism implementation in detail:
+
+Implementation verified in code. Now locate the supplied evidence files and check B02/B03 records:
+
+B03/Q1–Q7 state verified. Now check AGI eligibility policy, W06 acceptance criteria, and main CI:
+
+Now verify the test suite runs, PR #624 diff, the capture shape, and the quote boundary:
+
+Mechanism tests pass locally (8/8). Now a labelled synthetic dry-run of the 64-row aggregation shape, plus the AGI eligibility check:
+
+One dry-run assertion failed — let me see which, then clean up:
+
+Dry-run reconciles exactly. Final evidence checks — capture tooling, W04 reconciliation statements, and the new W-29 boundary on main:
+
+All checks complete. The tree is clean on `arena/e48e8c34-iips-review-recovered` @ `22a68a4` — no code changes were needed or made this pass (no defect demonstrated; the mechanism is already merged). Here is the consolidated report.
+
+---
+
+# W06 — Consolidated verification report (2026-11-23, branch `arena/e48e8c34-iips-review-recovered` @ `22a68a4`)
+
+## A. IIPS Snapshot-to-Live — verified status
+
+| Item | Status | Authoritative record + date |
+|---|---|---|
+| **W06 (Snapshot-to-Live market-observation coverage)** | **Decision B — PARTIAL; NOT ACCEPTED.** Mechanism delivered + merged; actual revision-1 measurement **BLOCKED on B02** | tracker §16.321 (2026-11-23), `docs/integration/W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` |
+| W03 (actual inventory) | PARTIAL — actual counts blocked by B02 | Stage-2 record §2; tracker §16.321 |
+| W04 (identity coverage) | **ACCEPTED AS MEASURED 2026-11-16: 1 of 64 identified (AGI), 63 unresolved** | tracker §16.286; IPD PR #166 merge `49742e36…`; IRR PR #568 merge `0641953…` |
+| B02 (authorized non-production host access / capture) | **Operator-only; not available to Arena.** Capture file of 2026-11-13 is local to the host by design; revision-1 rows are in **no repository** | tracker §16.286 limitations; `W05-W04-RECONCILIATION-2026-11-18.md` §3–5 |
+| B03 (source rights) | **NARROWED, NOT SETTLED** — Q1–Q6 open, Q7 closed (PA-directed, evidence-limited) | `W05-RIGHTS-QUESTIONS-Q1-Q7-ADDENDUM-2026-11-17.md`; tracker §16.290 |
+| Dhan live qualification | **`SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED` — unchanged** | `quoteConsumptionBoundary.ts:99` (now on main via PR #625); Dhan-roadmap W-06 owner-attested at IPD `617fab0…` — attestation ≠ live qualification |
+
+## B. Existing implementation (PR #624)
+
+- **PR #624 is now MERGED** (state `closed`/merged, `merged_at 2026-11-23T13:11:23Z`, `mergedBy ramkivs`, merge commit `774df7b4e0d899ffb35098aa35363c178f3153b6`, parents `b7927de` + head `9654f78b…`). I did not merge it. It carried 3 commits / 7 files (+1479/−94): the W06 mechanism + test + doc + tracker §16.321, plus the stacked W-15 commits.
+- **CI evidence:** PR-head run `45180704766` on `9654f78` — **all 3 checks PASS** (`Typecheck · Test · Build` 3m29s, Python/static, Windows). Post-merge **main `22a68a4`: both check-runs SUCCESS 2026-11-23T13:12Z**.
+- **Mechanism verified in code** (`frontend/server/market-data/dhanRevisionCoverage.ts`, 388 lines, now on main): schema `iips.w06.dhan-revision-coverage/v1`; categories exactly `COVERAGE_CURRENT | COVERAGE_STALE | COVERAGE_UNAVAILABLE | COVERAGE_UNKNOWN | STATUS_UNREADABLE | IDENTITY_UNRESOLVED` (note: the first four carry the `COVERAGE_` prefix — the message's bare `STALE/UNAVAILABLE/UNKNOWN` names are the IPD verdicts these map from); fail-closed `CAPTURE_REF_INCOMPLETE` when `portfolioId`/integer `revision`/`provenanceDigest`/`capturedAt` are missing; **exactly one read-only `readQuote` + one `readFreshness` per resolved identity, no retry/refresh/write**; unresolved rows get **zero** data calls; provider qualification echoed verbatim; report bound to the exact captured revision. **No defect found — nothing rewritten.**
+- **Local verification this pass:** the module's own suite `dhanRevisionCoverage.test.ts` — **8/8 passed** (offline harness with the private IPD package alias-stubbed; CI is the authoritative full-suite run). A labelled **synthetic dry-run** (temp file, deleted after) with the W04 census shape reconciled exactly: `rows=64, identityResolved=1, identityUnresolved=63, statusUnreadable=1`, quote calls = 1, freshness calls = 1 (AGI row only, `ISIN:INE415A01038:EQ`), `providerQualification=SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED`, plus fail-closed `CAPTURE_REF_INCOMPLETE` on an empty digest.
+
+## C. B02 capture evidence
+
+- **Locations inspected:** entire sandbox filesystem search for `census-rows*`, `identities-route-response*`, `provenance*.json`, `input-digests.json`, `w04-census-expected*`, `*revision1-category-map*`, `*w11-dep1*`, `*w04-e4*` — **none present**. `/mnt/data` no longer mounts the host uploads this session. The Windows paths in the brief (`C:\iips-data\iips\user-portfolio.sqlite`, `%LOCALAPPDATA%\IIPS\w11-dep1-capture\`, `C:\Users\USER\AppData\Local\IIPS\w04-e4\w04-e4-output.txt`, `C:\Users\USER\Desktop\dhan_holdings_withisinv1`, `C:\TMP\W05\revision1-category-map-2026-11-20.json`) are **not reachable from this Linux sandbox** — they are operator-host locations.
+- **Original `census-rows.json` (expected 22,137 bytes, sha256 `a2c34229…`):** **not found** in any accessible location; the two older `/mnt/data` copies (30 B; 17,712 B) previously did not match and are not present now either. The three other supplied files matched their digests per the brief, but are also not present in this sandbox now.
+- **In-repo:** only the 68-row operator-supplied CSVs under `evidence/broker-import/operator-supplied/` exist; per the standing D1 record, they must **not** be mapped onto revision 1. The capture producer is `frontend/server/user-portfolio/capture/ownerBoundPortfolioCapture.ts` (W11-DEP1 shape: `portfolio.list → portfolio.get → portfolio.revisions → portfolio.get`, one revision + `provenanceDigest` + `capturedAt`) — the bundle it produces is host-local by design.
+- **Conclusion: B02 evidence is INSUFFICIENT / absent for W06 measurement from Arena.** No bundle was fabricated or substituted.
+
+## D. Actual W06 measurement
+
+**A valid revision-bound measurement was NOT possible** — the required inputs (operator capture bundle: revision-1 rows with stored identities + `provenanceDigest`/`capturedAt`, and the quote/freshness observations or references) exist only on the authorized host. What can be stated from verified evidence:
+
+- Eligible identity population per accepted W04: **1 of 64** — AGI, `ISIN:INE415A01038:EQ` (qty 2, NSE EQ). **AGI IS eligible for a W06 quote/freshness read despite `NON_AUTHORITATIVE`:** the label is carried as a qualification on QUALIFIED identities (`dhanIdentityTransport` validation requires `isinAuthority: NON_AUTHORITATIVE` on qualified rows) and the quote route validates only the D114 grammar + companyId; no policy bars NON_AUTHORITATIVE identities from quote requests. The label must be surfaced in any report, not treated as ineligibility.
+- The 63 unresolved holdings: `NO_IDENTIFIER_PROVIDED` — **not** submitted as quote requests, no identities constructed from names/symbols/exchanges. Under the merged mechanism they classify `IDENTITY_UNRESOLVED` with zero market-data calls (demonstrated in the dry-run).
+- Aggregate totals that reconcile to 64 (shape-level, from accepted W04 + mechanism dry-run; **not** a market-data measurement): total 64 · eligible 1 · unresolved 63 · current/stale/unavailable/unknown/unreadable for AGI = **outstanding, pending B02** (dry-run with no evidence yields AGI = `STATUS_UNREADABLE`, never fresh).
+
+## E. B03 qualification
+
+Per the authoritative addendum (2026-11-17): **Q1 (NSE cl. 8 local use), Q2 (Copyright Act §52 interaction), Q3 (BSE-only source choice), Q4 (AGI/issuer terms — AGI stays outside O3, not admitted), Q5 (NSE cl. 9 automated retrieval — no repeat), Q6 (redistribution — none authorized): all OPEN. Q7 (SEBI LODR): CLOSED, PA-directed, evidence-limited.** W06 generates no evidence that closes Q1–Q6: a coverage report measures market-data availability, not source rights. **B03 remains outstanding; W06 output does not and cannot satisfy it.** No B03 work was expanded into.
+
+## F. Blockers
+
+1. **B02 — revision-1 captured input bundle (rows + provenanceDigest/capturedAt + quote/freshness evidence or references).** Why it matters: without it the mechanism fails closed (`CAPTURE_REF_INCOMPLETE`) or measures nothing; it is the sole gate on actual W06 measurement. **Type: operator-only action on the authorized Windows host** (paths in §C). Exact evidence needed: the W11-DEP1 capture output for `DHAN_PORTFOLIO` revision 1 (contribution digest `a3c3ee76…`, lineage `17b2b283…` as recorded), the 64 holding rows with stored `securityIdentity`, and the captured quote/freshness observations or IPD references, plus the original `census-rows.json` (22,137 B, `a2c34229…`) for digest verification.
+2. **B03 — source-rights narrowing (Q1–Q6).** Governance/legal-scope dependency, not an Arena task; W06 cannot supply it.
+3. **Environment (non-blocking):** full `npm ci` impossible in this sandbox (private IPD tarball 403); verified instead via offline harness (8/8 mechanism tests + labelled dry-run) **and** hosted CI (full suite green on `9654f78` and on main `22a68a4`). IPD API 403 from sandbox — IPD facts taken from IRR-recorded read-backs.
+
+## G. W06 acceptance decision
+
+**BLOCKED — OPERATOR EVIDENCE REQUIRED** (unchanged from §16.321's decision B / PARTIAL). Against the acceptance items: mechanism delivered ✅ (merged, PR #624); mechanism verified ✅ (CI full suite green; 8/8 local; dry-run reconciles to 64); persisted revision identified ✅ (`DHAN_PORTFOLIO` rev 1, 64 holdings, digests recorded); capture bundle complete/referenced ❌ **B02 absent**; W04 population respected ✅ (1 eligible, 63 unresolved, no fabricated requests); per-eligible-identity quote/freshness evidence ❌ pending B02; every holding explainable ✅ at classification level (63 × `IDENTITY_UNRESOLVED`, 1 pending); totals reconcile ✅ to 64 at shape level; reproducible from retained evidence ❌ (bundle not retained in any repository); B03 ❌ outstanding; no live-data claims ✅ (`SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED` everywhere). Implementation/measurement/evidence/acceptance kept as separate states; no acceptance requirement lowered.
+
+## H. Next Snapshot-to-Live action
+
+**Stay on W06** (per §16.321 next-action): the **operator supplies the revision-1 captured input bundle on the authorized host** (W11-DEP1 capture output + original `census-rows.json` + quote/freshness evidence references), then the merged mechanism (`measureDhanRevisionCoverage`) is run once against the exact captured revision — exactly one read-only quote + freshness call for AGI only, zero calls for the 63 unresolved — and W06 is re-assessed for acceptance. Do not move to W07+; do not re-import; do not repair the 63 identities (that is IPD PR #163 import work, not W06). No repository change was required or made this pass; branch left clean at `22a68a4`.

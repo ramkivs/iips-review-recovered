@@ -1,0 +1,146 @@
+﻿[
+    {
+        "group":  "W04 census",
+        "sourceFile":  "census-rows(2).json",
+        "packagedFile":  "01-W04-Census-and-Identity/census-rows.json",
+        "sha256":  "a2c342293c173c03db166ed77f9d46a70f3c8d3945908df3792025430b39b820",
+        "bytes":  22137,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W04 census",
+        "sourceFile":  "identities-route-response(3).json",
+        "packagedFile":  "01-W04-Census-and-Identity/identities-route-response.json",
+        "sha256":  "35c7ed4d1048a64e5094580ceea1c32863d0a79ab8fb393ae710246d00c8bef4",
+        "bytes":  339676,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W04 census",
+        "sourceFile":  "provenance(3).json",
+        "packagedFile":  "01-W04-Census-and-Identity/provenance.json",
+        "sha256":  "5912e9add64bccec759b7ec003e576c57b1a469be4ed5cad911ddd56d15141a0",
+        "bytes":  2324,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W04 census",
+        "sourceFile":  "w04-census-expected(1).json",
+        "packagedFile":  "01-W04-Census-and-Identity/w04-census-expected.json",
+        "sha256":  "215998574e2412bf63a1c4b49794e2050689b45d9541a64c19420e155a7b08ee",
+        "bytes":  414,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W04 census",
+        "sourceFile":  "input-digests(1).json",
+        "packagedFile":  "01-W04-Census-and-Identity/input-digests.json",
+        "sha256":  "b3ced7c9ee6fe057f06ec4d3251db49959b94644be5007a3ad6824569059f231",
+        "bytes":  1222,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W04 census",
+        "sourceFile":  "capture-report.json",
+        "packagedFile":  "01-W04-Census-and-Identity/capture-report.json",
+        "sha256":  "952f991b67d7a972db6d02d1f84ad06ce16c345cec0c81a57b6981b36ee6e620",
+        "bytes":  3062,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W05 identity sources",
+        "sourceFile":  "eligible-roster.json",
+        "packagedFile":  "02-W05-Identity-Sources/eligible-roster.json",
+        "sha256":  "078e89cc1896d0f59e09e2ad05a12378e248cd81b97775ee7667b5f1e750e937",
+        "bytes":  1350516,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W05 identity sources",
+        "sourceFile":  "listing-map.json",
+        "packagedFile":  "02-W05-Identity-Sources/listing-map.json",
+        "sha256":  "6a330123a2fea31e9e1dd54f01e5adbe13f9721f077a5a82a34ee7cd60bcf458",
+        "bytes":  1285774,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W05 identity sources",
+        "sourceFile":  "corporate-actions.json",
+        "packagedFile":  "02-W05-Identity-Sources/corporate-actions.json",
+        "sha256":  "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+        "bytes":  70,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W05 identity sources",
+        "sourceFile":  "identity-sources-assembly-provenance(2).json",
+        "packagedFile":  "02-W05-Identity-Sources/identity-sources-assembly-provenance.json",
+        "sha256":  "7cad0e5db8cb29641314864356fbfeb92e105736f55e123dc86626565286e0f6",
+        "bytes":  10778,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W06 B02",
+        "sourceFile":  "revision1-category-map-2026-11-20.json",
+        "packagedFile":  "03-W06-B02-Revision1-Capture/revision1-category-map-2026-11-20.json",
+        "sha256":  "49bf1dee06f813ce85f10259327546c38bcd448b12f92b255ca5a5de56044b43",
+        "bytes":  3964,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W06 B02 sanitized summary",
+        "sourceFile":  "w11-dep1-capture-summary.md",
+        "packagedFile":  "03-W06-B02-Revision1-Capture/w11-dep1-capture-summary.md",
+        "sha256":  "47e633335acd09fe208ad4c763983e8ef10e65b5fa38b087d051220b7d0f2cf7",
+        "bytes":  10120,
+        "copyVerified":  true
+    },
+    {
+        "group":  "W06 B02 sanitized summary",
+        "sourceFile":  "w11-dep1-capture-summary(1).json",
+        "packagedFile":  "03-W06-B02-Revision1-Capture/w11-dep1-capture-summary.json",
+        "sha256":  "e0f90b51dde383c2a5d7eb3fc0c9dd9eeff140bd9e7941986319d826746ed011",
+        "bytes":  9460,
+        "copyVerified":  true
+    },
+    {
+        "group":  "Arena verification",
+        "sourceFile":  "Pasted text(20261123-134111).txt",
+        "packagedFile":  "04-Arena-Verification/Arena-W06-status-2026-11-23.txt",
+        "sha256":  "2ad08bf401aef79bdb3c598d9c8d6cdfa01ac52451c166b17897eb6905d494e5",
+        "bytes":  11332,
+        "copyVerified":  true
+    },
+    {
+        "group":  "Historical background",
+        "sourceFile":  "02-q01-q14-query-results.json",
+        "packagedFile":  "05-W04-Database-Background/02-q01-q14-query-results.json",
+        "sha256":  "ac7a0ed83fb4829268b8cb02836cf98a2a8e682eda96c9ac603b96e92130c5d3",
+        "bytes":  45233,
+        "copyVerified":  true
+    },
+    {
+        "group":  "Historical background",
+        "sourceFile":  "03-migration-ledger-and-schema-evidence.json",
+        "packagedFile":  "05-W04-Database-Background/03-migration-ledger-and-schema-evidence.json",
+        "sha256":  "8e85dc52724d32562eab39eec229b48b8d6729f0253cc7e8c012bf192a55b3f0",
+        "bytes":  3338,
+        "copyVerified":  true
+    },
+    {
+        "group":  "Historical background",
+        "sourceFile":  "06-provenance-and-unresolved-records.json",
+        "packagedFile":  "05-W04-Database-Background/06-provenance-and-unresolved-records.json",
+        "sha256":  "e1eefc127bad99db16d1a48e7b6d5d46f2325507aa00221e24a4944ec38ef2f7",
+        "bytes":  14567,
+        "copyVerified":  true
+    },
+    {
+        "group":  "Historical background",
+        "sourceFile":  "w04-e4-output.txt",
+        "packagedFile":  "05-W04-Database-Background/w04-e4-output.txt",
+        "sha256":  "f4ebd1a7b1915e8e58170a27ae6cb928871153e2abb21133cfbdb8d46404731a",
+        "bytes":  8399,
+        "copyVerified":  true
+    }
+]

@@ -1,0 +1,21 @@
+{
+    "algorithm":  "SHA-256",
+    "files":  {
+                  "census-rows.json":  {
+                                           "sha256":  "a2c342293c173c03db166ed77f9d46a70f3c8d3945908df3792025430b39b820",
+                                           "bytes":  22137
+                                       },
+                  "identities-route-response.json":  {
+                                                         "sha256":  "35c7ed4d1048a64e5094580ceea1c32863d0a79ab8fb393ae710246d00c8bef4",
+                                                         "bytes":  339676
+                                                     },
+                  "w04-census-expected.json":  {
+                                                   "sha256":  "215998574e2412bf63a1c4b49794e2050689b45d9541a64c19420e155a7b08ee",
+                                                   "bytes":  414
+                                               },
+                  "provenance.json":  {
+                                          "sha256":  "5912e9add64bccec759b7ec003e576c57b1a469be4ed5cad911ddd56d15141a0",
+                                          "bytes":  2324
+                                      }
+              }
+}

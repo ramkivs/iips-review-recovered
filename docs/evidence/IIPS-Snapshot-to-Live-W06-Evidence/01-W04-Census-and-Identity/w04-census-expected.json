@@ -1,0 +1,11 @@
+{
+    "total":  64,
+    "categories":  {
+                       "QUALIFIED":  1,
+                       "AMBIGUOUS":  0,
+                       "MISSING_OR_UNRESOLVED":  63,
+                       "EXPIRED_OR_INELIGIBLE":  0,
+                       "UNAVAILABLE":  0
+                   },
+    "source":  "W04 census record as published (tracker record); counts validated against the captured response"
+}

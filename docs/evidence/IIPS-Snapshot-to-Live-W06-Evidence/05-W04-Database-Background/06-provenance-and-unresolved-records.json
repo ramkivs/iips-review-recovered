@@ -1,0 +1,328 @@
+{
+  "nonInferenceAttestation": {
+    "ownershipInferredFromPrincipalLabels": false,
+    "ownershipInferredFromBrokerNames": false,
+    "ownershipInferredFromFileNames": false,
+    "ownershipInferredFromSymbolsOrCompanyIds": false,
+    "ownershipInferredFromPortfolioNames": false,
+    "rawFileNamesProjectedInQ09": false
+  },
+  "establishedS1Reference": {
+    "bindingId": "c5808abaffd072d6401ce63ad86c6ac0",
+    "principalLabel": "ramki-personal-local",
+    "membershipId": "d25dcc5370100b00766efc5166f65cf3",
+    "tenantId": "ipd-personal-local",
+    "canonicalOwnerId": "ipd-owner-ramki-personal"
+  },
+  "approvedD02TargetReference": {
+    "canonicalOwnerId": "owner-4dc756b3",
+    "tenantId": "ipd-personal-local"
+  },
+  "portfolioProvenanceClassifications": [
+    {
+      "portfolioId": "DEFAULT_PORTFOLIO",
+      "canonicalOwnerId": "ipd-owner-ramki-personal",
+      "tenantId": "ipd-personal-local",
+      "status": "TOMBSTONED",
+      "currentRevision": 9,
+      "createdAt": "2026-11-08T17:32:19.410Z",
+      "updatedAt": "2026-11-11T17:05:10.292Z",
+      "deletedAt": "2026-11-11T17:05:10.292Z",
+      "d16Classification": "CANDIDATE_S1_HISTORICAL_PORTFOLIO",
+      "hasS1D02PortfolioIdCollision": false,
+      "revisionCount": 10,
+      "contributionCount": 4,
+      "contributionsWithNull004ProvenanceCount": 1,
+      "provenanceCompletenessClass": "MIXED_PRE_AND_POST_004_PROVENANCE_ROWS",
+      "holdingRowsWithPopulated005SecurityIdentity": 1,
+      "holdingRowsWithNull005SecurityIdentity": 74,
+      "d16ActionabilityReadiness": "ELIGIBLE_CANDIDATE_FOR_FUTURE_D16_DESIGN_SUBJECT_TO_PRINCIPAL_CONFIRMATION",
+      "classificationBasis": "EXPLICIT_SQL_COLUMN_EQUALITY_ONLY (canonical_owner_id, tenant_id, status, nullable column flags); ZERO_INFERENCE_FROM_NAMES_BROKERS_FILES_OR_SYMBOLS"
+    },
+    {
+      "portfolioId": "DHAN_PORTFOLIO",
+      "canonicalOwnerId": "ipd-owner-ramki-personal",
+      "tenantId": "ipd-personal-local",
+      "status": "ACTIVE",
+      "currentRevision": 1,
+      "createdAt": "2026-11-11T17:05:50.679Z",
+      "updatedAt": "2026-11-11T17:05:50.682Z",
+      "deletedAt": null,
+      "d16Classification": "CANDIDATE_S1_HISTORICAL_PORTFOLIO",
+      "hasS1D02PortfolioIdCollision": false,
+      "revisionCount": 1,
+      "contributionCount": 1,
+      "contributionsWithNull004ProvenanceCount": 0,
+      "provenanceCompletenessClass": "POST_004_PROVENANCE_POPULATED",
+      "holdingRowsWithPopulated005SecurityIdentity": 1,
+      "holdingRowsWithNull005SecurityIdentity": 63,
+      "d16ActionabilityReadiness": "ELIGIBLE_CANDIDATE_FOR_FUTURE_D16_DESIGN_SUBJECT_TO_PRINCIPAL_CONFIRMATION",
+      "classificationBasis": "EXPLICIT_SQL_COLUMN_EQUALITY_ONLY (canonical_owner_id, tenant_id, status, nullable column flags); ZERO_INFERENCE_FROM_NAMES_BROKERS_FILES_OR_SYMBOLS"
+    },
+    {
+      "portfolioId": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+      "canonicalOwnerId": "ipd-owner-ramki-personal",
+      "tenantId": "ipd-personal-local",
+      "status": "ACTIVE",
+      "currentRevision": 2,
+      "createdAt": "2026-11-12T10:44:57.629Z",
+      "updatedAt": "2026-11-12T10:45:20.422Z",
+      "deletedAt": null,
+      "d16Classification": "CANDIDATE_S1_HISTORICAL_PORTFOLIO",
+      "hasS1D02PortfolioIdCollision": false,
+      "revisionCount": 2,
+      "contributionCount": 1,
+      "contributionsWithNull004ProvenanceCount": 1,
+      "provenanceCompletenessClass": "PRE_004_OR_UNPOPULATED_PROVENANCE_COLUMNS_NULL",
+      "holdingRowsWithPopulated005SecurityIdentity": 0,
+      "holdingRowsWithNull005SecurityIdentity": 3,
+      "d16ActionabilityReadiness": "ELIGIBLE_CANDIDATE_FOR_FUTURE_D16_DESIGN_SUBJECT_TO_PRINCIPAL_CONFIRMATION",
+      "classificationBasis": "EXPLICIT_SQL_COLUMN_EQUALITY_ONLY (canonical_owner_id, tenant_id, status, nullable column flags); ZERO_INFERENCE_FROM_NAMES_BROKERS_FILES_OR_SYMBOLS"
+    }
+  ],
+  "unresolvedSummary": {
+    "totalFlaggedItems": 15,
+    "blockerUnresolvedCount": 1,
+    "nonInferentialObservationCount": 14
+  },
+  "unresolvedRecords": [
+    {
+      "category": "PORTFOLIO_CURRENT_REVISION_OR_TOMBSTONE_ANOMALY",
+      "severity": "BLOCKER",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "status": "TOMBSTONED",
+        "current_revision": 9,
+        "deleted_at": "2026-11-11T17:05:10.292Z",
+        "matched_revision": 9,
+        "current_operation": "MERGE"
+      },
+      "reason": "Portfolio current_revision pointer or TOMBSTONED/ACTIVE state disagrees with portfolio_revisions."
+    },
+    {
+      "category": "OBSERVATION_CONTRIBUTION_WITH_NULLABLE_PROVENANCE_FIELDS",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonicalOwnerId": "ipd-owner-ramki-personal",
+        "portfolioId": "DEFAULT_PORTFOLIO",
+        "contributionId": "628da18cfd9dfd8dfc98144cfc7c57b065360cd3dd88c3dceafea6c8dcec0737",
+        "fileNameIsNull": 1,
+        "sourceBrokerIsNull": 1,
+        "contentDigestIsNull": 1,
+        "lineageDigestIsNull": 1,
+        "importedAtIsNull": 1,
+        "semanticsIsNull": 1
+      },
+      "reason": "Contribution row contains one or more NULL provenance columns (expected for pre-004 rows); recorded factually without backfilling or inferring missing provenance."
+    },
+    {
+      "category": "OBSERVATION_CONTRIBUTION_WITH_NULLABLE_PROVENANCE_FIELDS",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonicalOwnerId": "ipd-owner-ramki-personal",
+        "portfolioId": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+        "contributionId": "1e55888fc4ad57343307c444cfda5d54fdd0755ad9d6590f350580ba56748466",
+        "fileNameIsNull": 1,
+        "sourceBrokerIsNull": 1,
+        "contentDigestIsNull": 1,
+        "lineageDigestIsNull": 1,
+        "importedAtIsNull": 1,
+        "semanticsIsNull": 1
+      },
+      "reason": "Contribution row contains one or more NULL provenance columns (expected for pre-004 rows); recorded factually without backfilling or inferring missing provenance."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 1,
+        "source_broker": "manual-personal",
+        "active": 1,
+        "identity_status": "UNRESOLVED",
+        "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+        "security_identity_state": "NULL",
+        "holding_rows": 2
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 2,
+        "source_broker": "manual-personal",
+        "active": 1,
+        "identity_status": "UNRESOLVED",
+        "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+        "security_identity_state": "NULL",
+        "holding_rows": 2
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 4,
+        "source_broker": "manual-personal",
+        "active": 1,
+        "identity_status": "UNRESOLVED",
+        "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+        "security_identity_state": "NULL",
+        "holding_rows": 2
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 5,
+        "source_broker": "manual-personal",
+        "active": 1,
+        "identity_status": "UNRESOLVED",
+        "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+        "security_identity_state": "NULL",
+        "holding_rows": 3
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 6,
+        "source_broker": "manual-personal",
+        "active": 0,
+        "identity_status": "UNRESOLVED",
+        "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+        "security_identity_state": "NULL",
+        "holding_rows": 2
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 7,
+        "source_broker": "DHAN",
+        "active": 1,
+        "identity_status": "RESOLVED",
+        "resolution_disposition": "CANONICAL_P04",
+        "security_identity_state": "POPULATED",
+        "holding_rows": 1
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 8,
+        "source_broker": "DHAN",
+        "active": 1,
+        "identity_status": "RESOLVED",
+        "resolution_disposition": "CANONICAL_P04",
+        "security_identity_state": "NULL",
+        "holding_rows": 4
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DEFAULT_PORTFOLIO",
+        "revision": 9,
+        "source_broker": "DHAN",
+        "active": 1,
+        "identity_status": "RESOLVED",
+        "resolution_disposition": "CANONICAL_P04",
+        "security_identity_state": "NULL",
+        "holding_rows": 59
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DHAN_PORTFOLIO",
+        "revision": 1,
+        "source_broker": "DHAN",
+        "active": 1,
+        "identity_status": "RESOLVED",
+        "resolution_disposition": "CANONICAL_P04",
+        "security_identity_state": "NULL",
+        "holding_rows": 63
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "DHAN_PORTFOLIO",
+        "revision": 1,
+        "source_broker": "DHAN",
+        "active": 1,
+        "identity_status": "RESOLVED",
+        "resolution_disposition": "CANONICAL_P04",
+        "security_identity_state": "POPULATED",
+        "holding_rows": 1
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+        "revision": 1,
+        "source_broker": "manual-personal",
+        "active": 1,
+        "identity_status": "UNRESOLVED",
+        "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+        "security_identity_state": "NULL",
+        "holding_rows": 2
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    },
+    {
+      "category": "OBSERVATION_HOLDING_GROUP_NON_CANONICAL_OR_NULL_SECURITY_IDENTITY",
+      "severity": "OBSERVATION_NON_INFERENTIAL",
+      "recordKey": {
+        "canonical_owner_id": "ipd-owner-ramki-personal",
+        "portfolio_id": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+        "revision": 2,
+        "source_broker": "manual-personal",
+        "active": 0,
+        "identity_status": "UNRESOLVED",
+        "resolution_disposition": "MANUAL_PERSONAL_ENTRY",
+        "security_identity_state": "NULL",
+        "holding_rows": 1
+      },
+      "reason": "Holding summary group has NULL security_identity or non-CANONICAL identity_status; recorded factually without inferring ownership or security resolution."
+    }
+  ]
+}

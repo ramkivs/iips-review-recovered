@@ -1,0 +1,125 @@
+{
+    "captureArtifacts":  {
+                             "before":  [
+                                            {
+                                                "sha256":  "35c7ed4d1048a64e5094580ceea1c32863d0a79ab8fb393ae710246d00c8bef4",
+                                                "name":  "identities-route-response.json",
+                                                "bytes":  339676
+                                            },
+                                            {
+                                                "sha256":  "a2c342293c173c03db166ed77f9d46a70f3c8d3945908df3792025430b39b820",
+                                                "name":  "census-rows.json",
+                                                "bytes":  22137
+                                            },
+                                            {
+                                                "sha256":  "215998574e2412bf63a1c4b49794e2050689b45d9541a64c19420e155a7b08ee",
+                                                "name":  "w04-census-expected.json",
+                                                "bytes":  414
+                                            },
+                                            {
+                                                "sha256":  "5912e9add64bccec759b7ec003e576c57b1a469be4ed5cad911ddd56d15141a0",
+                                                "name":  "provenance.json",
+                                                "bytes":  2324
+                                            },
+                                            {
+                                                "sha256":  "b3ced7c9ee6fe057f06ec4d3251db49959b94644be5007a3ad6824569059f231",
+                                                "name":  "input-digests.json",
+                                                "bytes":  1222
+                                            },
+                                            {
+                                                "sha256":  "952f991b67d7a972db6d02d1f84ad06ce16c345cec0c81a57b6981b36ee6e620",
+                                                "name":  "capture-report.json",
+                                                "bytes":  3062
+                                            }
+                                        ],
+                             "after":  [
+                                           {
+                                               "sha256":  "35c7ed4d1048a64e5094580ceea1c32863d0a79ab8fb393ae710246d00c8bef4",
+                                               "name":  "identities-route-response.json",
+                                               "bytes":  339676,
+                                               "unchanged":  true
+                                           },
+                                           {
+                                               "sha256":  "a2c342293c173c03db166ed77f9d46a70f3c8d3945908df3792025430b39b820",
+                                               "name":  "census-rows.json",
+                                               "bytes":  22137,
+                                               "unchanged":  true
+                                           },
+                                           {
+                                               "sha256":  "215998574e2412bf63a1c4b49794e2050689b45d9541a64c19420e155a7b08ee",
+                                               "name":  "w04-census-expected.json",
+                                               "bytes":  414,
+                                               "unchanged":  true
+                                           },
+                                           {
+                                               "sha256":  "5912e9add64bccec759b7ec003e576c57b1a469be4ed5cad911ddd56d15141a0",
+                                               "name":  "provenance.json",
+                                               "bytes":  2324,
+                                               "unchanged":  true
+                                           },
+                                           {
+                                               "sha256":  "b3ced7c9ee6fe057f06ec4d3251db49959b94644be5007a3ad6824569059f231",
+                                               "name":  "input-digests.json",
+                                               "bytes":  1222,
+                                               "unchanged":  true
+                                           },
+                                           {
+                                               "sha256":  "952f991b67d7a972db6d02d1f84ad06ce16c345cec0c81a57b6981b36ee6e620",
+                                               "name":  "capture-report.json",
+                                               "bytes":  3062,
+                                               "unchanged":  true
+                                           }
+                                       ]
+                         },
+    "files":  [
+                  {
+                      "targetPath":  "C:\\TMP\\W05\\revision1-bundle-2026-11-20-categorized\\identity-sources\\eligible-roster.json",
+                      "sha256Version":  "4baa4e596f84741018e03c08248faf89ff19a37b3d1877220d56dc27aafe7199",
+                      "versionVerified":  true,
+                      "name":  "eligible-roster.json",
+                      "sha256Raw":  "078e89cc1896d0f59e09e2ad05a12378e248cd81b97775ee7667b5f1e750e937",
+                      "rawVerified":  true,
+                      "sourcePath":  "H:\\IIPS\\runtime\\identity-provisioning\\identity\\eligible-roster.json",
+                      "bytes":  1350516
+                  },
+                  {
+                      "targetPath":  "C:\\TMP\\W05\\revision1-bundle-2026-11-20-categorized\\identity-sources\\listing-map.json",
+                      "sha256Version":  "b04416b290d1b6fe682717505f9ecd940e025ee6e0d6d1dc0f68f105604a0dca",
+                      "versionVerified":  true,
+                      "name":  "listing-map.json",
+                      "sha256Raw":  "6a330123a2fea31e9e1dd54f01e5adbe13f9721f077a5a82a34ee7cd60bcf458",
+                      "rawVerified":  true,
+                      "sourcePath":  "H:\\IIPS\\runtime\\identity-provisioning\\identity\\listing-map.json",
+                      "bytes":  1285774
+                  },
+                  {
+                      "targetPath":  "C:\\TMP\\W05\\revision1-bundle-2026-11-20-categorized\\identity-sources\\corporate-actions.json",
+                      "sha256Version":  "0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819",
+                      "versionVerified":  true,
+                      "name":  "corporate-actions.json",
+                      "sha256Raw":  "d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd",
+                      "rawVerified":  true,
+                      "sourcePath":  "H:\\IIPS\\runtime\\identity-provisioning\\identity\\corporate-actions.json",
+                      "bytes":  70
+                  }
+              ],
+    "evidenceClass":  "HOST execution record. Arena/Linux evidence is separate and lives in docs/integration/W05-IDENTITY-SOURCE-RECOVERY-2026-11-20.md",
+    "copyTimeUtc":  "2026-11-21T09:27:34.4497289Z",
+    "sourceIdentityDir":  "H:\\IIPS\\runtime\\identity-provisioning\\identity",
+    "verification":  {
+                         "layer2CanonicalContentNode":  "canonical.ts semantics, verified before and after copy",
+                         "nodeExitCodePreCopy":  0,
+                         "nodeOutputPostCopy":  "[\n  {\n    \"name\": \"eligible-roster.json\",\n    \"bytes\": 1350516,\n    \"rawSha256\": \"078e89cc1896d0f59e09e2ad05a12378e248cd81b97775ee7667b5f1e750e937\",\n    \"contentVersionSha256\": \"4baa4e596f84741018e03c08248faf89ff19a37b3d1877220d56dc27aafe7199\",\n    \"rawMatch\": true,\n    \"versionMatch\": true,\n    \"sizeMatch\": true\n  },\n  {\n    \"name\": \"corporate-actions.json\",\n    \"bytes\": 70,\n    \"rawSha256\": \"d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd\",\n    \"contentVersionSha256\": \"0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819\",\n    \"rawMatch\": true,\n    \"versionMatch\": true,\n    \"sizeMatch\": true\n  },\n  {\n    \"name\": \"listing-map.json\",\n    \"bytes\": 1285774,\n    \"rawSha256\": \"6a330123a2fea31e9e1dd54f01e5adbe13f9721f077a5a82a34ee7cd60bcf458\",\n    \"contentVersionSha256\": \"b04416b290d1b6fe682717505f9ecd940e025ee6e0d6d1dc0f68f105604a0dca\",\n    \"rawMatch\": true,\n    \"versionMatch\": true,\n    \"sizeMatch\": true\n  }\n]\n",
+                         "nodeOutputPreCopy":  "[\n  {\n    \"name\": \"eligible-roster.json\",\n    \"bytes\": 1350516,\n    \"rawSha256\": \"078e89cc1896d0f59e09e2ad05a12378e248cd81b97775ee7667b5f1e750e937\",\n    \"contentVersionSha256\": \"4baa4e596f84741018e03c08248faf89ff19a37b3d1877220d56dc27aafe7199\",\n    \"rawMatch\": true,\n    \"versionMatch\": true,\n    \"sizeMatch\": true\n  },\n  {\n    \"name\": \"corporate-actions.json\",\n    \"bytes\": 70,\n    \"rawSha256\": \"d6bc14d1b676260bb0f1c2280e62956d3f6a7e07b9b9265a73b49f821185ffcd\",\n    \"contentVersionSha256\": \"0b1d3cbfe52c62afbfabffe2a8ed66dd4a0812ca712f05e1ed9a58caa4b75819\",\n    \"rawMatch\": true,\n    \"versionMatch\": true,\n    \"sizeMatch\": true\n  },\n  {\n    \"name\": \"listing-map.json\",\n    \"bytes\": 1285774,\n    \"rawSha256\": \"6a330123a2fea31e9e1dd54f01e5adbe13f9721f077a5a82a34ee7cd60bcf458\",\n    \"contentVersionSha256\": \"b04416b290d1b6fe682717505f9ecd940e025ee6e0d6d1dc0f68f105604a0dca\",\n    \"rawMatch\": true,\n    \"versionMatch\": true,\n    \"sizeMatch\": true\n  }\n]\n",
+                         "nodeTimeoutMs":  120000,
+                         "layer1RawSha256PowerShell":  "Get-FileHash, no normalization, verified before and after copy",
+                         "nodeExitCodePostCopy":  0,
+                         "nodeVerifierPath":  "C:\\Users\\USER\\AppData\\Local\\Temp\\w05-identity-version-check.cjs",
+                         "nodeVerifierSha256":  "7a4f4d7d7ff26f08b6582f921b8dc574d9fe52c680c5dd2fa3e71b83d656ea2b"
+                     },
+    "bundleDir":  "C:\\TMP\\W05\\revision1-bundle-2026-11-20-categorized",
+    "expectationSource":  "commit 92eda04b evidence/integration/w04-irr-identity-approval-supersession-2026-11-15 (files 01, 02, 05; review-for-approval-901e479.json); acceptance versions = 2026-11-20 Step 1 capture provenance identitySources",
+    "schema":  "W05-IDENTITY-SOURCES-ASSEMBLY-V1",
+    "status":  "VERIFIED_AND_COPIED",
+    "recordedAtUtc":  "2026-11-21T09:27:34.4760396Z"
+}

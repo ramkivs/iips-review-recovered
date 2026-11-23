@@ -1,0 +1,63 @@
+{
+    "tool":  "W05-STEP1-CAPTURE-REVISION1-IDENTITIES",
+    "result":  "OK",
+    "ok":  true,
+    "capturedAt":  "2026-11-20T09:59:29.297Z",
+    "asOf":  "2026-11-20",
+    "outDir":  "C:\\TMP\\W05\\revision1-bundle-2026-11-20-categorized",
+    "transportCommit":  "ea738f887b0c4c02d00a609ffd8760cc0517f79e",
+    "rowCount":  64,
+    "excludedItems":  [
+                          {
+                              "observationId":  "holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001",
+                              "portfolioId":  "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2"
+                          }
+                      ],
+    "missingRevisionRows":  [
+
+                            ],
+    "checks":  [
+                   {
+                       "Id":  "transport-commit-recorded",
+                       "Ok":  true,
+                       "Detail":  "transport commit ea738f887b0c4c02d00a609ffd8760cc0517f79e (exit code 0)"
+                   },
+                   {
+                       "Id":  "response-captured",
+                       "Ok":  true,
+                       "Detail":  "GET http://127.0.0.1:8787/api/investment/coverage?asOf=2026-11-20 -\u003e HTTP 200; raw body preserved at identities-route-response.json"
+                   },
+                   {
+                       "Id":  "response-json-parses",
+                       "Ok":  true,
+                       "Detail":  "response body parsed as JSON"
+                   },
+                   {
+                       "Id":  "row-count-matches-w04",
+                       "Ok":  true,
+                       "Detail":  "64 row(s) in the response; the W04 record expects 64; 1 item(s) outside DHAN_PORTFOLIO excluded"
+                   },
+                   {
+                       "Id":  "category-counts-match-w04",
+                       "Ok":  true,
+                       "Detail":  "QUALIFIED 1, AMBIGUOUS 0, MISSING_OR_UNRESOLVED 63, EXPIRED_OR_INELIGIBLE 0, UNAVAILABLE 0; expected 1/0/63/0/0"
+                   },
+                   {
+                       "Id":  "every-row-categorized",
+                       "Ok":  true,
+                       "Detail":  "rows without a five-category value:  (supply -CategoryMapFile; the script never maps states to categories)"
+                   },
+                   {
+                       "Id":  "portfolio-revision-recorded",
+                       "Ok":  true,
+                       "Detail":  "rows without a served portfolioRevision (never fabricated, never substituted): "
+                   },
+                   {
+                       "Id":  "portfolio-identity",
+                       "Ok":  true,
+                       "Detail":  "every row belongs to DHAN_PORTFOLIO"
+                   }
+               ],
+    "error":  "",
+    "note":  "The raw response is preserved at identities-route-response.json whatever the outcome. A capture marked CAPTURED-UNAVAILABLE is evidence of the documented 503 state, not a completed input bundle."
+}
