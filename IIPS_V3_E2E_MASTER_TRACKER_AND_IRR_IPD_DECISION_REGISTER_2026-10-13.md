@@ -25134,3 +25134,43 @@ synthetic fixtures, and explicit withheld-case policy. **Must wait:** fixing any
 and any W13 acceptance claim — those need W05 source-rights completion, W06 actual qualified observations (B02), and actual
 data per the roadmap's acceptance clause. This pass implemented nothing and approved nothing; it is an investigation record only.
 Next free line: §16.330.
+
+### §16.330 — W12 Valuation Methodology TECHNICAL DESIGN (design only; three decisions remain UNDECIDED) 2026-11-23 (commit pending)
+
+**Baseline:** §16.329 readiness (W12 can start as technical design now, within GD-4; final approval needs W05/W06 actual data);
+W13 mechanism `frontend/server/investment/positionValuation.ts` (PR #634, §16.328). IRR `main` `f536d2c` at pass start.
+
+**Deliverables this pass (IRR-only, additive):**
+1. `docs/integration/W12-VALUATION-METHODOLOGY-TECHNICAL-DESIGN-2026-11-23.md` — design record covering the six required
+   areas with alternatives/calculations/advantages/limitations/W13-impact: (1) valuation formula `round2(qty × ltp)` kept;
+   stored-price fallback REJECTED (revision fact, not observed quote); mid/vwap alternative deferred (null-never-zero depth
+   fields); value-vs-count weighting switch at coverage θ documented with θ UNDECIDED. (2) Denominator: stored active total
+   kept ONLY as labelled reference (`observedCoverageOfStored`); observed-total denominator REJECTED (self-referential, hides
+   partial coverage); quantity denominator rejected (mixes units); inactive counted but excluded; unresolved identity excluded,
+   never symbol-inferred (W08). (3) Currency: per-currency totals, single total only when one currency, mixed → null total +
+   `mixedCurrencies` flag; FX conversion REJECTED (no qualified FX source). (4) Time alignment: per-position `asOf`/`receivedAt`
+   retained verbatim + report `evaluatedAt` + capture binding; no cross-position alignment invented; freshness threshold is
+   IPD-owned (verdicts echoed, never upgraded). (5) Partial/missing/stale/unknown: closed W13 vocabulary preserved;
+   UNKNOWN (no observation) distinct from STALE; unreadable status never fresh; stale concession UNDECIDED (none implemented;
+   `staleConcessionActive` echoed only). (6) Withheld outcomes: unvalued = null never zero; every report carries
+   `openMethodologyDecisions`.
+2. `frontend/server/investment/w12ValuationDesignVectors.test.ts` — **18 deterministic synthetic vectors** (fixed clock
+   `2026-11-23T10:00:00Z`, capture `DHAN_PORTFOLIO` rev 1 digest `17b2b283…`, injected fake readers): V1 qualified
+   10×250.5=2505 divergence 105; V2 one read pair per identity; V3 unresolved (no calls); V4 quote missing (stored not
+   promoted); V5 STALE; V6 UNKNOWN; V7 unreadable status; V8 error code carried; V9 inactive excluded; V10 partial
+   3505/4800=73.02 % + partial flag; V11 nothing valued → null totals; V12 mixed currencies → per-currency, null total;
+   V13 zero quantity = true zero; V14 negative quantity → negative observed value (short inclusion rule documented undecided);
+   V15 distinct per-position asOf retained; V16 byte-identical reruns; V17 malformed refused pre-read; V18 count-vs-value
+   weights recorded as data (71.47 %/28.53 % vs 50/50), not applied. **18/18 pass**; full targeted cluster 18 files
+   **373/373 pass**; scoped strict tsc over the new file clean.
+
+**W13 compatibility:** current `positionValuation.ts` already supports the recommended alternatives (formula A, labelled
+reference denominator, per-currency no-sum, timestamp retention, full partial/stale/unknown vocabulary, null-not-zero,
+revision-bound fail-closed). Only three changes await decisions: θ weighting switch, stale concession, FX base — all gated on
+W12 decisions + W05/W06 actual evidence.
+
+**Decisions still UNDECIDED (unchanged, by instruction and by evidence):**
+(1) coverage denominator policy; (2) stale-observation concession; (3) value-vs-count weighting threshold θ.
+No technical proposal is represented as approved policy; synthetic vectors are labelled synthetic and are not live coverage.
+
+**Publication:** PR (this branch) → tracker validation CI → merge. Next free line: §16.331.
