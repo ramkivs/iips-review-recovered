@@ -24740,3 +24740,61 @@ host (as in `W05-W04-RECONCILIATION-2026-11-18.md` §4–5) so the delivered mec
 revision; then re-assess W06 acceptance. The 63 unresolved identities are future import work (IPD PR #163), not W06.
 
 Next free §16.322 / `CV-CORR-274` / `CHG-2026-11-06-37` / `V2241`.
+
+## 16.322 Snapshot-to-Live W06 — published evidence package verified; quote/freshness observations confirmed still outstanding; measurement remains operator-side (2026-11-23)
+
+**Change `CV-CORR-274`; `CHG-2026-11-06-37`; validation `V2241` (2026-11-23 UTC).** Documentation-only record on branch
+`arena/e48e8c34-iips-review-recovered` from `main` `22a68a4ac8546149cd9759ab978dec459fcef8aa`. No code change, no IPD
+change or write, no host access, no vendor call, no credential read, no database touch, no pin change, no workflow change;
+the published evidence was read via the GitHub API only (no fetch/sync/switch of the local checkout).
+
+**Publication verified.** Branch `w06/snapshot-to-live-evidence-2026-11-23` @ commit
+`64ab7b13073befec4f97ee4669c411534111fad1` ("docs: publish IIPS W06 snapshot-to-live evidence"), parent `e5245b28e94636efbaa6807f26140ad7622a75f8`,
+docs-only: exactly **20 added files** under `docs/evidence/IIPS-Snapshot-to-Live-W06-Evidence/`, zero modifications/deletions.
+All **18 manifest-listed files hash-verified OK** (SHA-256 + byte size recomputed from the published blobs and matched to
+`evidence-manifest.json`); the 4 `input-digests.json` entries independently verified against the published blobs:
+`census-rows.json` 22,137 B `a2c34229…b820` (the originally missing file is now present and matches),
+`identities-route-response.json` 339,676 B `35c7ed4d…bef4`, `provenance.json` 2,324 B `5912e9ad…41a0`,
+`w04-census-expected.json` 414 B `21599857…8ee`. The remaining 2 of the 20 files are `README-STATUS.txt` and the manifest itself.
+
+**Content verified against the captured revision.** `census-rows.json`: 64 rows, all `portfolioId=DHAN_PORTFOLIO`,
+`portfolioRevision="1"`; categories 1 `QUALIFIED` / 63 `MISSING_OR_UNRESOLVED`; exactly one stored identity —
+`holding:DHAN_PORTFOLIO:0001` AGI, `storedSecurityIdentity=ISIN:INE415A01038:EQ` (qty 2); the category map
+`revision1-category-map-2026-11-20.json` agrees row-for-row. `identities-route-response.json` (reportVersion 1, asOf 2026-11-20):
+65 items (64 Dhan + 1 PERSONAL AIIL excluded), resolver counts RESOLVED 1 / UNMATCHED 64; the AGI binding is
+`IN:EQISIN:INE415A01038` / `IN:ISIN:INE415A01038` / `IN:NSE:AGI:EQ:EQUITY` with the recorded roster/listing/corporate-action
+versions (`sha256:4baa4e59…`, `sha256:b04416b2…`, `sha256:0b1d3cbf…`); the 63 unresolved rows carry `NO_IDENTIFIER_PROVIDED`.
+`provenance.json` records the same source versions, transport commit `ea738f88…`, rowCount 64, category counts 1/0/63/0/0.
+`w11-dep1-capture-summary.json` (SANITIZED_SUMMARY, not the exact capture): `CONSISTENT_CAPTURE`, revision 1, 64 holdings,
+`provenanceDigest` present (64 chars; the value stays LOCAL-ONLY), four sequential reads agreed, 1 stored securityIdentity /
+63 null. The exact `exact-owner-bound-portfolio-capture.json` is intentionally excluded and was NOT reconstructed or fabricated.
+
+**Quote/freshness observation status — confirmed outstanding.** All 20 published files were scanned: the package contains
+identity/census/capture evidence only and **no actual quote observation and no actual freshness observation** for the eligible
+AGI identity (no LTP/bid/ask/asOf/D01 fields anywhere; `README-STATUS.txt` itself states both were "not supplied / not evidenced
+as completed"). A repository-wide scan found no actual AGI quote/freshness observation record either (only synthetic test
+fixtures and identity records reference `INE415A01038`).
+
+**Measurement execution — not possible from Arena; exact remaining requirement recorded.** The merged mechanism
+(`frontend/server/market-data/dhanRevisionCoverage.ts`, on `main` via PR #624, merge `774df7b4…`) was re-verified this pass:
+8/8 of its vitest tests pass locally (offline harness; hosted full suite green on `9654f78` and on `main` `22a68a4` at 2026-11-23T13:12Z),
+and a labelled synthetic dry-run with the W04 census shape reconciled exactly to 64 rows (63 `IDENTITY_UNRESOLVED` with zero
+data calls; the single resolved AGI row received exactly one quote + one freshness call; fail-closed `CAPTURE_REF_INCOMPLETE`
+verified on an empty digest). Executing the ACTUAL measurement additionally requires (a) the exact `provenanceDigest` value,
+which exists only in the LOCAL-ONLY capture on the host, and (b) live read-only readers against the IPD market-data daemon
+(host runtime + transport token) — neither is available to Arena (sandbox has no daemon/token, the private IPD package is 403
+here, and no live vendor request is permitted). The mechanism is delivered as a module + tests and is not yet wired to a server
+route; no defect — no rewiring was made.
+
+**W06 acceptance: unchanged — PARTIAL, NOT ACCEPTED (decision B stands, §16.321).** Mechanism delivered and verified; persisted
+revision identified (`DHAN_PORTFOLIO` revision 1, 64 holdings); W04 population respected (1 eligible — AGI, whose
+`NON_AUTHORITATIVE` label is a carried qualification, not an eligibility bar — 63 unresolved, never submitted as quote requests);
+every holding explainable at classification level and totals reconcile to 64 at shape level. Still missing: the actual
+per-identity quote + freshness observation for AGI. **Exact next action (operator-only, B02-class):** on the authorized host, run
+the merged mechanism once against the exact LOCAL-ONLY capture (revision 1 + its `provenanceDigest` + `capturedAt`) with the IPD
+daemon runtime — one read-only quote + one freshness call for `ISIN:INE415A01038:EQ` only, zero calls for the 63 unresolved —
+and publish the resulting W06 report (or supply the raw observation outputs with evidence references); then re-assess W06 acceptance.
+Dhan live qualification remains `SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED`; no live-data claim is made. B03 (Q1–Q6 open, Q7 closed
+evidence-limited) is untouched and unsatisfied by this package.
+
+Next free §16.323 / `CV-CORR-275` / `CHG-2026-11-06-38` / `V2242`.
