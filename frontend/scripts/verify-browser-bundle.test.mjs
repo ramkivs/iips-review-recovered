@@ -23,6 +23,8 @@ test('every prohibited class is rejected in emitted files, including source maps
   const dir = await fixture(t);
   for (const forbidden of ['IIPS_MARKET_DATA_BASE_URL', 'IIPS_DHAN_BASE_URL', 'DhanApiClient',
     'MarketDataTransportClient', 'vault://synthetic', '-----BEGIN PRIVATE KEY-----',
+    'quoteConsumptionBoundary', 'consumeQuotes', 'readIpdFreshnessStatus',
+    'createIpdMarketDataTransportClient', 'IpdFreshnessStatus', 'IRR_PROVIDER_QUALIFICATION',
     'http://user:password@example.test', 'password="syntheticsecret"', '"Bearer abcdefghijklmnop"',
     'node:sqlite', 'api.dhan.co', 'src/persistence/file']) {
     await writeFile(join(dir, 'assets', 'app.js.map'), forbidden);

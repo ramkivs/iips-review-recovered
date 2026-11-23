@@ -15,6 +15,10 @@ const rules = [
   ['hard-coded bearer', /["']Bearer\s+[A-Za-z0-9._~+\/-]{12,}["']/i],
   ['Dhan provider implementation', /\b(?:DhanApiClient|DhanMarketDataSource|DhanMarketDataService|PreAccessNoNetworkTransport|DhanServerHttpsTransport|LocalHostVaultDhanCredentialResolver|DisabledWindowsHostVaultBackend|startMarketDataDaemon|MarketDataTransportClient|createMarketDataHttpServer|resolveDhanProviderConfig)\b/],
   ['server-only Dhan dependency', /(?:api\.dhan\.co|dhan-server|dhan_local_daemon|dhan_server_egress|dhan_local_vault_resolver)/i],
+  // W-29: the shared quote-consumption boundary and the IPD transport it composes are
+  // server-only. Their symbol names appearing in browser output means a server module (or a
+  // type-only import that became a value import) reached the client bundle.
+  ['server-only quote-consumption boundary', /\b(?:quoteConsumptionBoundary|consumeQuotes?|IpdMarketDataTransportConfig|IpdTransportConfigResolution|IpdFreshnessStatus|readIpdFreshnessStatus|resolveIpdMarketDataTransportConfig|createIpdMarketDataTransportClient|IRR_PROVIDER_QUALIFICATION)\b/],
   ['server-only runtime', /(?:node:(?:net|sqlite|fs|http|https|path|crypto)|\b(?:createConnection|DatabaseSync|listenIpc|persistBrokerImport|PitReadService|HistoricalPitIngestionLoader|NON_PRODUCTION_D114)\b|src\/(?:ipc|persistence)\/)/],
 ];
 
