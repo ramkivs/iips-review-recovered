@@ -25,6 +25,7 @@ import {
   type WatchlistTrigger,
   type TriggerOperator,
 } from '../../api/watchlists';
+import { fetchWatchlistQuotes, type WatchlistQuoteEntry, type WatchlistQuotesView } from '../../api/watchlistQuotes';
 import { LoadingState, ErrorState, EmptyState } from '../../components/state/StateComponents';
 
 function fmt(v: number | null): string {
@@ -35,6 +36,199 @@ function fmt(v: number | null): string {
 function Delta({ value }: { value: number | null }) {
   if (value === null) return <span>unavailable</span>;
   return <span>{value > 0 ? `+${value}` : String(value)}</span>;
+}
+
+/** Format a price without inventing zero: null -> '—', number -> localized string */
+function fmtPrice(v: number | null | undefined): string {
+  if (v === null || v === undefined) return '—';
+  return String(v);
+}
+
+/** Freshness badge — truthful, stale never presented as current */
+function FreshnessBadge({ freshness }: { freshness: string }) {
+  const label =
+    freshness === 'SNAPSHOT' ? 'Current' : freshness === 'STALE' ? 'Stale' : freshness === 'UNAVAILABLE' ? 'Unavailable' : freshness;
+  const color =
+    freshness === 'SNAPSHOT' ? 'var(--color-status-positive)' : freshness === 'STALE' ? 'var(--color-status-warning, #b7791f)' : 'var(--color-status-negative)';
+  const testId = `freshness-${freshness.toLowerCase()}`;
+  return (
+    <span data-testid={testId} style={{ color, fontWeight: 600, fontSize: 12 }}>
+      {label}
+    </span>
+  );
+}
+
+function QuoteLtp({ entry }: { entry: WatchlistQuoteEntry }) {
+  if (entry.value === null) return <span data-testid={`ltp-unavailable-${entry.securityId ?? entry.request.securityId}`}>—</span>;
+  return <span data-testid={`ltp-${entry.securityId ?? entry.request.securityId}`}>{fmtPrice(entry.value.ltp)}</span>;
+}
+
+function QuoteChange({ entry }: { entry: WatchlistQuoteEntry }) {
+  if (entry.value === null) return <span>—</span>;
+  const c = entry.value.change;
+  const pct = entry.value.pctChange;
+  return (
+    <span data-testid={`change-${entry.securityId ?? entry.request.securityId}`}>
+      {c > 0 ? `+${c}` : String(c)} ({pct > 0 ? `+${pct.toFixed(2)}%` : `${pct.toFixed(2)}%`})
+    </span>
+  );
+}
+
+function QuoteStatus({ entry }: { entry: WatchlistQuoteEntry }) {
+  if (entry.outcome === 'CURRENT') {
+    return <span data-testid={`status-current-${entry.securityId ?? entry.request.securityId}`}>Priced</span>;
+  }
+  if (entry.outcome === 'STALE') {
+    return (
+      <span data-testid={`status-stale-${entry.securityId ?? entry.request.securityId}`} style={{ color: 'var(--color-status-warning, #b7791f)' }}>
+        Stale — not current
+      </span>
+    );
+  }
+  if (entry.outcome === 'UNMAPPED') {
+    return (
+      <span data-testid={`status-unmapped-${entry.securityId ?? entry.request.securityId}`}>
+        Unresolved — {entry.unmapped?.code ?? 'UNRESOLVED_INSTRUMENT'}: {entry.unmapped?.message ?? 'no exact provider mapping'}
+      </span>
+    );
+  }
+  if (entry.outcome === 'MALFORMED_IDENTITY') {
+    return (
+      <span data-testid={`status-malformed-${entry.securityId ?? entry.request.securityId ?? entry.request.companyId}`}>
+        Unresolved — {entry.malformedIdentity?.code}: {entry.malformedIdentity?.reason}
+      </span>
+    );
+  }
+  // UNAVAILABLE
+  const code = entry.unavailable?.code ?? 'UNAVAILABLE';
+  const msg = entry.unavailable?.message ?? '';
+  const notAttempted = entry.unavailable?.notAttempted ? ' (not attempted — rate limited)' : '';
+  return (
+    <span data-testid={`status-unavailable-${entry.securityId ?? entry.request.securityId}`}>
+      Unavailable — {code}
+      {msg ? `: ${msg}` : ''}
+      {notAttempted}
+    </span>
+  );
+}
+
+/**
+ * W-31 — per-watchlist sourced market-data panel.
+ *
+ * Fetches quotes for one watchlist through ONE batch endpoint (bounded, rate-limit aware).
+ * Ordering is preserved: quotes[i] answers watchlist.items[i]. Unresolved/unavailable items
+ * are never rendered as zero, and stale is never presented as current.
+ */
+function WatchlistMarketDataPanel({ watchlist }: { watchlist: WatchlistView }) {
+  const [quotesView, setQuotesView] = useState<WatchlistQuotesView | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadQuotes = useCallback(async () => {
+    if (watchlist.items.length === 0) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const env = await fetchWatchlistQuotes(watchlist.watchlistId);
+      setQuotesView(env.data);
+    } catch (e: unknown) {
+      setError(String(e));
+    } finally {
+      setLoading(false);
+    }
+  }, [watchlist.watchlistId, watchlist.items.length]);
+
+  useEffect(() => {
+    void loadQuotes();
+  }, [loadQuotes]);
+
+  if (watchlist.items.length === 0) return null;
+
+  return (
+    <div data-testid={`watchlist-quotes-${watchlist.watchlistId}`} style={{ marginTop: 16 }}>
+      <h3 style={{ fontSize: 14, margin: '0 0 8px', fontWeight: 600 }}>Market prices (sourced)</h3>
+      <p style={{ fontSize: 12, color: 'var(--color-ink-secondary)', margin: '0 0 8px' }}>
+        Sourced through the shared quote-consumption boundary. One batch per watchlist (bounded concurrency, rate-limit aware).
+        {quotesView?.summary.providerQualification && (
+          <span> · Qualification: {quotesView.summary.providerQualification}</span>
+        )}
+      </p>
+
+      {loading && <p style={{ fontSize: 12, color: 'var(--color-ink-secondary)' }}>Loading market prices…</p>}
+      {error !== null && !loading && <p data-testid={`watchlist-quotes-error-${watchlist.watchlistId}`} style={{ fontSize: 12, color: 'var(--color-status-negative)' }}>{error}</p>}
+
+      {quotesView !== null && (
+        <>
+          {quotesView.summary.rateLimited && (
+            <p data-testid={`watchlist-quotes-rate-limited-${watchlist.watchlistId}`} style={{ fontSize: 12, color: 'var(--color-status-warning, #b7791f)', margin: '0 0 8px' }}>
+              Rate limited — some items were not attempted. No retry was performed.
+            </p>
+          )}
+          {!quotesView.summary.transportConfigured && (
+            <p data-testid={`watchlist-quotes-not-configured-${watchlist.watchlistId}`} style={{ fontSize: 12, color: 'var(--color-status-negative)', margin: '0 0 8px' }}>
+              Market-data transport not configured ({quotesView.summary.transportFailureCode ?? 'NOT_CONFIGURED'}) — no provider request was attempted.
+            </p>
+          )}
+          <table style={{ width: '100%', fontSize: 13, borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '4px 8px' }}>Security</th>
+                <th style={{ textAlign: 'left', padding: '4px 8px' }}>LTP</th>
+                <th style={{ textAlign: 'left', padding: '4px 8px' }}>Change</th>
+                <th style={{ textAlign: 'left', padding: '4px 8px' }}>Freshness</th>
+                <th style={{ textAlign: 'left', padding: '4px 8px' }}>Status</th>
+                <th style={{ textAlign: 'left', padding: '4px 8px' }}>As of</th>
+              </tr>
+            </thead>
+            <tbody>
+              {watchlist.items.map((item, index) => {
+                const entry = quotesView.quotes[index];
+                if (!entry) return null;
+                // Preserve ordering: quotes[index] answers items[index]; verify association by canonicalSecurityId
+                return (
+                  <tr
+                    key={`quote-${item.canonicalSecurityId}-${index}`}
+                    data-testid={`watchlist-quote-row-${item.canonicalSecurityId}`}
+                    style={{ borderTop: '1px solid var(--color-border)' }}
+                  >
+                    <td style={{ padding: '6px 8px' }}>{item.canonicalSecurityId}</td>
+                    <td data-testid={`quote-ltp-${item.canonicalSecurityId}`} style={{ padding: '6px 8px' }}>
+                      <QuoteLtp entry={entry} />
+                    </td>
+                    <td data-testid={`quote-change-${item.canonicalSecurityId}`} style={{ padding: '6px 8px' }}>
+                      <QuoteChange entry={entry} />
+                    </td>
+                    <td data-testid={`quote-freshness-${item.canonicalSecurityId}`} style={{ padding: '6px 8px' }}>
+                      <FreshnessBadge freshness={entry.freshness} />
+                    </td>
+                    <td data-testid={`quote-status-${item.canonicalSecurityId}`} style={{ padding: '6px 8px' }}>
+                      <QuoteStatus entry={entry} />
+                    </td>
+                    <td data-testid={`quote-asof-${item.canonicalSecurityId}`} style={{ padding: '6px 8px' }}>
+                      {entry.asOf ?? '—'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <p
+            data-testid={`watchlist-quotes-summary-${watchlist.watchlistId}`}
+            style={{ fontSize: 11, color: 'var(--color-ink-secondary)', marginTop: 8 }}
+          >
+            {quotesView.summary.pricedCount} priced of {quotesView.summary.requestedCount} · {quotesView.summary.counts.CURRENT} current,{' '}
+            {quotesView.summary.counts.STALE} stale, {quotesView.summary.counts.UNAVAILABLE} unavailable,{' '}
+            {quotesView.summary.counts.UNMAPPED} unresolved (unmapped), {quotesView.summary.counts.MALFORMED_IDENTITY} unresolved (malformed)
+            {' · '}worst freshness: {quotesView.summary.worstFreshness} · concurrency: {quotesView.summary.concurrency}
+            {quotesView.summary.transportConfigured ? '' : ' · transport not configured'}
+          </p>
+        </>
+      )}
+    </div>
+  );
 }
 
 export function Watchlists() {
@@ -273,6 +467,7 @@ export function Watchlists() {
               </tbody>
             </table>
           )}
+          <WatchlistMarketDataPanel watchlist={list} />
         </article>
       ))}
 

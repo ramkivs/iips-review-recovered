@@ -25,6 +25,7 @@ test('every prohibited class is rejected in emitted files, including source maps
     'MarketDataTransportClient', 'vault://synthetic', '-----BEGIN PRIVATE KEY-----',
     'quoteConsumptionBoundary', 'consumeQuotes', 'readIpdFreshnessStatus',
     'createIpdMarketDataTransportClient', 'IpdFreshnessStatus', 'IRR_PROVIDER_QUALIFICATION',
+    'watchlists-quotes', 'enrichWatchlistWithQuotes', 'handleWatchlistQuotesRequest',
     'http://user:password@example.test', 'password="syntheticsecret"', '"Bearer abcdefghijklmnop"',
     'node:sqlite', 'api.dhan.co', 'src/persistence/file']) {
     await writeFile(join(dir, 'assets', 'app.js.map'), forbidden);
