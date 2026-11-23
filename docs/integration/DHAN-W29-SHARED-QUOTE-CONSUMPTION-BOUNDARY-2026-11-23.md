@@ -162,7 +162,21 @@ These are all covered by the repository's CI workflow, which mints a read-scoped
 
 The first CI run (`45169391291`) failed at step 10, **"Strict governed Screen replay server import closure"**, on one defect introduced by this change: the bundle-gate test reached `scripts/verify-browser-bundle.mjs` through a dynamic `import()`, and that step rejects a JavaScript module without a declaration file (`TS7016`). The workflow's `Typecheck` step (9) had already passed, and steps 11–13 (full Vitest suite, zero-test guard, production build + bundle gate) were skipped rather than failed.
 
-Fix: the gate is now exercised through its **real command-line entry point** with `spawnSync`, exactly as `npm run verify:browser-bundle` invokes it. This removes the untyped import, typechecks under the strict closure, and is stronger evidence — the test now asserts the exit code a build would actually receive. The affected suites were re-run locally after the fix: `quoteConsumptionBoundary` 40/40, `tsc` clean. Re-run of CI on the amended commit is recorded on the PR.
+Fix: the gate is now exercised through its **real command-line entry point** with `spawnSync`, exactly as `npm run verify:browser-bundle` invokes it. This removes the untyped import, typechecks under the strict closure, and is stronger evidence — the test now asserts the exit code a build would actually receive. The affected suites were re-run locally after the fix: `quoteConsumptionBoundary` 40/40, `tsc` clean.
+
+**Re-run on `df55137` — CI run `45170132762`, job `137677225614`: all steps SUCCESS.**
+
+| Step | Result |
+|---|---|
+| 7 Install dependencies from the committed lockfile | success |
+| 8 Verify all private dependencies resolve to their committed pins | success |
+| 9 Typecheck | success |
+| 10 Strict governed Screen replay server import closure | success |
+| 11 Run the full Vitest suite | success |
+| 12 Assert a non-zero, fully passing test run | success |
+| 13 Production build (includes `verify:browser-bundle` on REAL emitted output) | success |
+
+The second check, `Windows runner · SQLite lifecycle · local IPC · child-process restart` (run `45170132728`), also **passed**. The repository's own CI is therefore the authoritative verification record for the suites this sandbox could not install dependencies for, **and** for the browser-bundle gate against genuine production output — not only against fixtures. The local stand-in described in §5 produced the same results as the real pinned packages for every suite W-29 touches.
 
 ---
 
