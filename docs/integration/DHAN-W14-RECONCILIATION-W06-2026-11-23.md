@@ -1,20 +1,18 @@
 # W-14 Reconciliation against the new W-06 record (2026-11-23)
 
-> **Post-PR-#627 / PR-#629 Recovery Note:** Recovered verbatim from PR #626 (`413d1b4b`). Subsequent to this snapshot, IRR PR #627 (`8f893112`) advanced the pinned IPD dependency from `1ce6a829…` to PR #176 (`2685562522f1a2fd1d745a7857f771bf21453315`) (satisfying `B-W14-1` pin advance) and PR #629 (`4059e045`) reconciled `D4-DR-01..03`. See master tracker `§16.326`.
-
-**Date:** 2026-11-23 (UTC)
-**Type:** Investigation reconciliation — no IPD source modified, no live Dhan request made, no credential accessed, no Windows host touched.
-**Branch for this reconciliation:** `arena/f18beaf5-iips-review-recovered` @ `6f3e9a2` (base `b7927de65e55fab9519eecebd1c4cb0a73717bd6`)
-**Reconciled target:** `origin/main` @ `22a68a4` which merges PR #624 (W06 Snapshot-to-Live) via `774df7b` and PR #625 (W-29) via `3f3d61a` — the first commit that contains the new W-06 record.
-**Original investigation preserved:** `docs/integration/DHAN-W14-INVESTIGATION-2026-11-23.md` at `6f3e9a2` — **not modified, not superseded**. This document is an addendum that establishes exactly what the new record proves and how it changes (and does not change) the W-14 position.
-**Primary references verified in this checkout:**
-- New W-06 record: `docs/integration/W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (blob `8f77f90` at `774df7b`/`22a68a4`; PR #624 MERGED 2026-11-23T13:11:23Z, head `arena/0365f7c9-iips-review-recovered` `9654f78`)
-- Existing W-14 investigation: `docs/integration/DHAN-W14-INVESTIGATION-2026-11-23.md` at `6f3e9a2` (PR #626 OPEN as W-31)
-- Roadmap v1.1: `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` (ID `DHAN-LIVE-ROADMAP-2026-11-11`) — W-14 scope/exit in §6, M2 exit in §10.3, G-M2 evidence standard in §9
-- W-06 assessment: `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md` (PARTIAL, superseded by header attestation at IPD `617fab0` per roadmap p1)
-- Quote-API root cause: `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md` (string→number)
-- D-7 acceptance: `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md` (effective `752fb3e` via PR #565/567)
-- W-11 execution: `docs/integration/DHAN-W11-IRR-EXECUTION-2026-11-15.md` / `DHAN-W11-CAPABILITY-GAPS-IPD-HANDOFF-2026-11-16.md`
+**Date:** 2026-11-23 (UTC)  
+**Type:** Investigation reconciliation — no IPD source modified, no live Dhan request made, no credential accessed, no Windows host touched.  
+**Branch for this reconciliation:** `arena/f18beaf5-iips-review-recovered` @ `6f3e9a2` (base `b7927de65e55fab9519eecebd1c4cb0a73717bd6`)  
+**Reconciled target:** `origin/main` @ `22a68a4` which merges PR #624 (W06 Snapshot-to-Live) via `774df7b` and PR #625 (W-29) via `3f3d61a` — the first commit that contains the new W-06 record.  
+**Original investigation preserved:** `docs/integration/DHAN-W14-INVESTIGATION-2026-11-23.md` at `6f3e9a2` — **not modified, not superseded**. This document is an addendum that establishes exactly what the new record proves and how it changes (and does not change) the W-14 position.  
+**Primary references verified in this checkout:**  
+- New W-06 record: `docs/integration/W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (blob `8f77f90` at `774df7b`/`22a68a4`; PR #624 MERGED 2026-11-23T13:11:23Z, head `arena/0365f7c9-iips-review-recovered` `9654f78`)  
+- Existing W-14 investigation: `docs/integration/DHAN-W14-INVESTIGATION-2026-11-23.md` at `6f3e9a2` (PR #626 OPEN as W-31)  
+- Roadmap v1.1: `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` (ID `DHAN-LIVE-ROADMAP-2026-11-11`) — W-14 scope/exit in §6, M2 exit in §10.3, G-M2 evidence standard in §9  
+- W-06 assessment: `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md` (PARTIAL, superseded by header attestation at IPD `617fab0` per roadmap p1)  
+- Quote-API root cause: `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md` (string→number)  
+- D-7 acceptance: `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md` (effective `752fb3e` via PR #565/567)  
+- W-11 execution: `docs/integration/DHAN-W11-IRR-EXECUTION-2026-11-15.md` / `DHAN-W11-CAPABILITY-GAPS-IPD-HANDOFF-2026-11-16.md`  
 
 ---
 
@@ -147,5 +145,37 @@ The two lines are **unrelated histories for merge purposes** (`git merge origin/
 
 ---
 
-**Artifacts cited:** `W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (`8f77f90` @ `774df7b`/`22a68a4`, PR #624), `DHAN-W14-INVESTIGATION-2026-11-23.md` (`6f3e9a2`), roadmap `DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` v1.1, `DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md`, `DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md`, `DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`, `DHAN-W11-IRR-EXECUTION-2026-11-15.md`, `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` §16.321/§16.320/§16.286, `frontend/server/market-data/dhanRevisionCoverage.ts` + `.test.ts`, `frontend/server/market-data/quoteConsumptionBoundary.ts` (W-29), `frontend/package.json` pin `1ce6a829a7ce65550356a0071c108a60f2d813be`, IPD PRs #156/#164/#166/#167/#168, `617fab0`/`af4460ee`/`bcfa6cb…`/`1ce6a829…`/`774df7b`/`22a68a4`/`b7927de`/`6f3e9a2`.
+**Artifacts cited:** `W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (`8f77f90` @ `774df7b`/`22a68a4`, PR #624), `DHAN-W14-INVESTIGATION-2026-11-23.md` (`6f3e9a2`), roadmap `DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` v1.1, `DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md`, `DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md`, `DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`, `DHAN-W11-IRR-EXECUTION-2026-11-15.md`, `IIPS_V3_E2E_MASTER_TRACKER_AND_IRR_IPD_DECISION_REGISTER_2026-10-13.md` §16.321/§16.320/§16.286, `frontend/server/market-data/dhanRevisionCoverage.ts` + `.test.ts`, `frontend/server/market-data/quoteConsumptionBoundary.ts` (W-29), `frontend/package.json` pin `1ce6a829a7ce65550356a0071c108a60f2d813be`, IPD PRs #156/#164/#166/#167/#168, `617fab0`/`af4460ee`/`bcfa6cb…`/`1ce6a829…`/`774df7b`/`22a68a4`/`b7927de`/`6f3e9a2`.  
 **Repo state at write:** `HEAD` `6f3e9a2` (this branch `arena/f18beaf5-iips-review-recovered`, base `b7927de`), `origin/main` `22a68a4` (includes `774df7b`). No IPD access attempted; no merge performed.
+
+---
+
+## 7. Post-PR #627 reconciliation (2026-11-23)
+
+This addendum reconciles §4–§6 with PR #627, which merged to `main` at `8f89311273afc9c488db1144aed5112511613a53` on 2026-11-23T17:25:21Z. The original reconciliation above is preserved as the record of the pre-merge position.
+
+### 7.1 What changed on `main`
+
+- The IRR IPD pin advanced from `1ce6a829a7ce65550356a0071c108a60f2d813be` to **`2685562522f1a2fd1d745a7857f771bf21453315`** in `frontend/package.json`, `frontend/package-lock.json`, `.ci/verify-ipd-pins.mjs`, and `docs/OPERATOR_RUNBOOK.md`. This is the pin the W-14 quote path now consumes.
+- D-4 (`D-4.1`–`D-4.7`) was accepted for IRR and merged; W-12 historical request-builder verification was recorded.
+- PR #627's own D-4 acceptance record describes B-W14-1 as *prepared on branch*; after the merge that wording is superseded — the pin advance is now on `main`.
+
+### 7.2 Reconciled dependency and gap table
+
+| Item | Pre-#627 status in this document | Reconciled status |
+|---|---|---|
+| **B-W14-1 IPD serialization fix** | "Still mandatory, still owned by IPD" | **SATISFIED.** IPD PR #176 is merged at `26855625…`; IRR's pin consumes it. The quote path serializes numeric security IDs. |
+| **B-W14-2 baseline + budget + reviewer** | "Still mandatory" | **Still mandatory.** Now an authorization-only gate; the technical baseline (`26855625…`) is merged. |
+| **B-W14-3 credential/backend** | "Still mandatory, re-verify" | **Still mandatory.** Must be re-verified on the live baseline selected for the E4 run. |
+| **G-3 serialization → 400** | Sharpened / open | **Closed for the quote path.** |
+| **G-6 pin divergence** | Confirmed open | **Closed.** One approved pin (`26855625…`); the superseded `1ce6a829…` is a canary only. |
+| **W-12 quote serializer** | Outstanding | **Verified fixed at `26855625…`.** |
+| **W-12 historical builder** | Not addressed | **Verified unchanged by PR #176; live historical contract unproven.** Remains a W-12 / D-4.6 gate and is not a W-14 quote-path blocker. |
+| **W-06 progression** | Satisfied via Dhan W-06 attestation | **Unchanged.** |
+| **Snapshot-to-Live W06 mechanism** | Delivered; measurement B02-blocked | **Unchanged.** |
+
+### 7.3 Reconciled conclusion and branch position
+
+The conclusion in §6 is updated as follows: W-14 remains **OPEN as live mapping qualification**, but it is no longer blocked on B-W14-1. The 97-request E4 window is **technically ready** on the merged `26855625…` baseline; the remaining gate is the explicit owner execution authorization (B-W14-2 / B-W14-3). The "next action is publication/review" wording in §6 is superseded: the pin advance and D-4 acceptance are now merged, so the next action is the bounded, authorized E4 run — not another pin advance.
+
+The branch-integration options in §5 are historical. The clean successor branch `arena/365e9113-iips-review-recovered` (based on `main` @ `8f893112`) carries the W-14 records, the W-28 measurement implementation and the W-31 watchlists implementation forward, preserves `main`'s approved `26855625…` pin and its lockfile integrity/pin guards, and supersedes PR #626.

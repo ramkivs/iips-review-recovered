@@ -178,7 +178,8 @@ describe('W-31 Watchlists market prices — browser', () => {
       </MemoryRouter>,
     );
 
-    // Wait for market prices panel to finish loading (one batch per watchlist)
+    // Wait for market prices panel to load (one batch per watchlist), then for the batch result.
+    await waitFor(() => expect(screen.getByTestId('watchlist-quotes-wl-mixed')).toBeInTheDocument());
     await waitFor(() => expect(screen.getByTestId('quote-ltp-ISIN:INE002A01018:EQ')).toBeInTheDocument());
 
     // Priced item: LTP and change present, freshness Current

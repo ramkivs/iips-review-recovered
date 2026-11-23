@@ -44,12 +44,12 @@ import {
   projectWatchlistQuotesView,
   handleWatchlistQuotesRequest,
   type WatchlistQuotesDeps,
+  type WatchlistQuotesView,
 } from './watchlists-quotes';
 import {
   DEFAULT_QUOTE_BATCH_CONCURRENCY,
   MAX_QUOTE_BATCH_CONCURRENCY,
   IRR_PROVIDER_QUALIFICATION,
-  type QuoteConsumptionEntry,
 } from '../market-data/quoteConsumptionBoundary';
 import { syntheticFreshnessStatus, syntheticQuoteEnvelope } from '../market-data/dhanSyntheticFixtures';
 
@@ -210,7 +210,7 @@ const ipd = new SyntheticWatchlistTransport();
 // ── Helpers for watchlist persistence ─────────────────────────────────────────
 
 const TENANT_ID = APPROVED_TENANT_ID;
-const OWNER_USER_ID = 'w31-test-owner';
+const OWNER_USER_ID = APPROVED_OWNER_USER_ID;
 
 let dataDir: string;
 let store: PersistenceService;
@@ -585,12 +585,7 @@ describe('W-31 edge cases: empty list and unconfigured transport', () => {
     addItem(TENANT_ID, OWNER_USER_ID, 'wl-nc', governRow('ISIN:INE002A01018:EQ', 'SYNTH_CURRENT'), [], store);
     const wl = readWatchlist(TENANT_ID, OWNER_USER_ID, 'wl-nc', store)!;
     const batch = await enrichWatchlistWithQuotes(wl, {
-      transport: {
-        ok: false,
-        code: 'NOT_CONFIGURED',
-        message: 'IIPS_MARKET_DATA_BASE_URL is not configured',
-        connectionAttempted: false,
-      },
+      transport: { ok: false, code: 'NOT_CONFIGURED', message: 'IIPS_MARKET_DATA_BASE_URL is not configured', connectionAttempted: false },
     });
     expect(batch.transportConfigured).toBe(false);
     expect(batch.transportFailureCode).toBe('NOT_CONFIGURED');
@@ -618,12 +613,12 @@ describe('W-31 HTTP boundary — GET /api/watchlists/:id/quotes', () => {
     carrierPath = path.join(tmpDir, OWNER_CONTEXT_CARRIER_FILENAME);
     void carrier;
     process.env[OWNER_CONTEXT_PATH_ENV] = carrierPath;
-    // Create a watchlist for HTTP tests under the governed carrier owner
+    // Create a watchlist for HTTP tests
     const s = new PersistenceService({ dataDir: path.join(tmpDir, 'watchlists') });
-    createWatchlist(TENANT_ID, APPROVED_OWNER_USER_ID, 'http-wl', 'HTTP WL', s, '2026-11-01T00:00:00.000Z');
-    addItem(TENANT_ID, APPROVED_OWNER_USER_ID, 'http-wl', governRow('ISIN:INE002A01018:EQ', 'SYNTH_CURRENT'), [], s);
-    addItem(TENANT_ID, APPROVED_OWNER_USER_ID, 'http-wl', governRow('Technology', 'Technology-H1'), [], s);
-    addItem(TENANT_ID, APPROVED_OWNER_USER_ID, 'http-wl', governRow('ISIN:INE467B01029:EQ', 'SYNTH_UNAVAILABLE'), [], s);
+    createWatchlist(TENANT_ID, OWNER_USER_ID, 'http-wl', 'HTTP WL', s, '2026-11-01T00:00:00.000Z');
+    addItem(TENANT_ID, OWNER_USER_ID, 'http-wl', governRow('ISIN:INE002A01018:EQ', 'SYNTH_CURRENT'), [], s);
+    addItem(TENANT_ID, OWNER_USER_ID, 'http-wl', governRow('Technology', 'Technology-H1'), [], s);
+    addItem(TENANT_ID, OWNER_USER_ID, 'http-wl', governRow('ISIN:INE467B01029:EQ', 'SYNTH_UNAVAILABLE'), [], s);
     resetWatchlistsPersistence();
   });
 
@@ -711,7 +706,7 @@ describe('W-31 HTTP boundary — GET /api/watchlists/:id/quotes', () => {
       });
     });
     expect(result.status).toBe(200);
-    const data = result.body.data as { watchlistId: string; quotes: QuoteConsumptionEntry[]; summary: { pricedCount: number } };
+    const data = result.body.data as { watchlistId: string; quotes: WatchlistQuotesView['quotes']; summary: { pricedCount: number } };
     expect(data.watchlistId).toBe('http-wl');
     expect(data.quotes).toHaveLength(3);
     expect(data.quotes[0]!.outcome).toBe('CURRENT');
