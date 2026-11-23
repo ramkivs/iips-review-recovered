@@ -1,0 +1,65 @@
+{
+  "schema": "iips.w28.coverage-blocked/v1",
+  "at": "2026-11-23T13:05:00.000Z",
+  "note": "BLOCKED placeholder — holdings snapshot unavailable in Linux sandbox. Final coverage requires authorized Windows host capture via IpcUserPortfolioPort (list/get/revisions/get) with the exact ISIN+exchange+series matcher. See docs/integration/DHAN-W28-COVERAGE-BLOCKER-2026-11-15.md and DHAN-W28-MEASUREMENT-2026-11-23.md. This file is overwritten by npm run w28:measure on the Windows host with a sanitized public summary (raw ISINs stay in the owner-local report).",
+  "registrySnapshot": {
+    "manifestCommit": "371bf3bd4bb3eba49bbf6ae614d3edaaa04793ed",
+    "pipelineCommit": "325266d684f857a377d55b147e7306e02c7a495a",
+    "manifestSha256": "69a918f78791114e8fb036ddfd2a2005facdddf785a7496bc28f541fd4964769",
+    "registryVersion": "371bf3b@qualified-4680",
+    "qualifiedCount": 4680,
+    "counts": {
+      "qualified": 4680,
+      "non_equity": 193340,
+      "invalid": 24,
+      "no_p04": 19060
+    },
+    "verification": "scripts/w28_verify_manifest.py (SHA, pipeline, counts, registry shape, exchange/series breakdown NSE:EQ 2390/BSE:A 700/BSE:B 1590)",
+    "limitation": "Manifest retains 4680 qualified + 500 sampled non-equity; 19060 no-P04 rows not individually retained — missing qualified mapping alone cannot distinguish no P04 correspondence from no provider row; matcher reports NO_QUALIFIED_MAPPING_EVIDENCE_LIMITED when p04/provider universes absent."
+  },
+  "holdingsSource": {
+    "attempted": true,
+    "contract": "frontend/server/user-portfolio/userPortfolioContract.ts G2HoldingView (isin?, exchange? NSE|BSE, identityStatus, resolutionDisposition, securityIdentity) / G2PortfolioView",
+    "path": "IpcUserPortfolioPort.listPortfolios/getPortfolio/revisionHistory via callIpc over IIPS_G2_IPC_ENDPOINT with IIPS_G3_IPC_BINDING_PROVISIONED",
+    "captureUtility": "frontend/server/user-portfolio/capture/ownerBoundPortfolioCapture.ts (read-only, bounded, consistent; Windows-host only)",
+    "outcome": "CONFIGURATION_INVALID",
+    "reasonCode": "BINDING_PRECONDITION_NOT_AFFIRMED+ENDPOINT_NOT_CONFIGURED",
+    "exitCode": 2,
+    "configurationProblems": [
+      {
+        "setting": "IIPS_G3_IPC_BINDING_PROVISIONED",
+        "code": "BINDING_PRECONDITION_NOT_AFFIRMED"
+      },
+      {
+        "setting": "IIPS_G2_IPC_ENDPOINT",
+        "code": "ENDPOINT_NOT_CONFIGURED"
+      }
+    ],
+    "holdingsCounts": null,
+    "revisions": null,
+    "totalHoldings": null
+  },
+  "measurement": null,
+  "measurementInfrastructure": {
+    "code": "frontend/server/w28/coverageMeasurement.ts (measureCoverage, maskIsin, sanitizeForPublication, buildHoldingsSnapshotRef)",
+    "registryLoader": "frontend/server/w28/registrySnapshot.ts (loadRegistrySnapshotFromFile, SHA/pipeline validation)",
+    "cli": "frontend/server/w28/measureCoverageCli.ts (npm run w28:measure -- --manifest <path>)",
+    "tests": "frontend/server/w28/coverageMeasurement.test.ts (vitest, 11 conditions) + frontend/server/w28/run-w28-tests.mjs (no-vitest runner)",
+    "syntheticTestResult": "21 passed, 0 failed — all 11 required conditions verified on synthetic fixtures (no owner data, no vendor call) — 2026-11-23",
+    "reasons": [
+      "EXACT_QUALIFIED_MATCH",
+      "MISSING_PERSISTED_ISIN",
+      "UNSUPPORTED_EXCHANGE",
+      "IDENTITY_NOT_RESOLVED",
+      "AMBIGUOUS_IDENTITY",
+      "MISSING_P04_CORRESPONDENCE",
+      "NO_PROVIDER_ROW",
+      "PROPOSED_MAPPING_NOT_QUALIFIED",
+      "NO_QUALIFIED_MAPPING",
+      "NO_QUALIFIED_MAPPING_EVIDENCE_LIMITED"
+    ],
+    "matchingDiscipline": "Strict exact securityId ISIN:isin:series + exchangeSegment; no name/symbol/fuzzy/company-level; same-company different-series rejected; proposed never qualified; every input holding once; aggregates reconcile; deterministic",
+    "privacy": "Owner-local detailed report (raw ISINs) stays on Windows host, never committed; public evidence has isin=null and maskedIsin only"
+  },
+  "nextStep": "On the authorized Windows host with IPD running and binding provisioned: download the manifest read-only from GitHub contents API at the exact commit, run python3 scripts/w28_verify_manifest.py <file>, then npm run w28:measure -- --manifest <file> [--portfolioId <id>]. The CLI overwrites this file with the publishable sanitized summary and writes the owner-local detailed report to IIPS_W28_OWNER_LOCAL_OUTPUT (or /tmp)."
+}
