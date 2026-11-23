@@ -25034,4 +25034,3 @@ published, exact capture LOCAL-ONLY); revision-consistent execution proven at co
 (unchanged from the 2026-11-12 record §6): actual portfolio-linked *engine execution* (no actual issuer qualifies; identity
 coverage 1/64), W10 source authorisation for the 62 blocked inputs (methodology decision), W03 for new data, limitation B
 (peer authenticity) DEFERRED IPD-owned, limitation C running-process/IPD-publication parts DEFERRED IPD-owned. Next free line: §16.328.
-
