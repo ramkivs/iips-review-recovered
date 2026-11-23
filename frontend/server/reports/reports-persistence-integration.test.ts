@@ -86,11 +86,12 @@ describe('R3-Option B dependency surface', () => {
     // coordinated W-07, then to `d80d773…` — the published IPD `main` carrying W-07
     // (PR #168), W-08 (PR #169) and W-09 (PR #170) — in coordinated W-10, and finally to
     // `1ce6a829…` — the published IPD `main` merge carrying the W-10
-    // `POST /v1/connection/verify` operation — in coordinated W-10 verify. The advances are
-    // additive; every subpath this guard's consumers rely on is still published at the new
-    // commit.
+    // `POST /v1/connection/verify` operation — in coordinated W-10 verify, and now to
+    // `26855625…` (IPD PR #176 merge commit, numeric quote security-ID serialization).
+    // The advances are additive; every subpath this guard's consumers rely on is still
+    // published at the new commit.
     expect(manifest.dependencies['iips-production-market-data']).toBe(
-      'github:ramkivs/iips-production-market-data#1ce6a829a7ce65550356a0071c108a60f2d813be',
+      'github:ramkivs/iips-production-market-data#2685562522f1a2fd1d745a7857f771bf21453315',
     );
     // The broker-import alias is guarded by `broker-import-package-profile.json`, the single source
     // of truth shared with `scripts/materialize-broker-import.mjs` and the CAP-02 B-1R guard.
