@@ -75,7 +75,7 @@ Each requested identity gets its **own** scoped D01 freshness read (`domain=D01_
 | File | Change |
 |---|---|
 | `frontend/server/market-data/quoteConsumptionBoundary.ts` | **NEW** — the shared boundary: identity intake, bounded pool, rate-limit stop, freshness join, uniform projection, quote/freshness mapping and projection (moved here). |
-| `frontend/server/market-data/quoteConsumptionBoundary.test.ts` | **NEW** — 39 synthetic-fixture tests (mixed batch, concurrency, rate limit, partial results, join semantics, architecture, browser bundle). |
+| `frontend/server/market-data/quoteConsumptionBoundary.test.ts` | **NEW** — 40 synthetic-fixture tests (mixed batch, concurrency, rate limit, partial results, join semantics, architecture, browser bundle). |
 | `frontend/server/market-data/dhanMarketDataRoutes.ts` | Quote route **migrated** to the boundary: its transport call, quote-identity construction and freshness read are removed; `Freshness`, `IRR_FRESHNESS_VOCABULARY`, `IRR_PROVIDER_QUALIFICATION`, `mapIpdFreshnessToIrrFreshness`, `DhanQuoteView` and `projectIpdQuoteEnvelope` now re-export the single boundary implementation. Historical route and its D02 freshness read are untouched (W-39 scope). |
 | `frontend/server/market-data/dhanFreshnessRoutes.ts` | Documentation only: records that the freshness vocabulary is declared once here and re-exported by the boundary. |
 | `frontend/scripts/verify-browser-bundle.mjs` | New prohibited class **"server-only quote-consumption boundary"**: `quoteConsumptionBoundary`, `consumeQuotes`, `consumeQuote`, `IpdMarketDataTransportConfig`, `IpdTransportConfigResolution`, `IpdFreshnessStatus`, `readIpdFreshnessStatus`, `resolveIpdMarketDataTransportConfig`, `createIpdMarketDataTransportClient`, `IRR_PROVIDER_QUALIFICATION`. |
@@ -131,13 +131,13 @@ Asserted additionally: request-order correlation, per-outcome counts, `pricedCou
 | Architecture — no direct transport use | `handleDhanQuotesRequest` contains no `createIpdMarketDataTransportClient`, `readIpdFreshnessStatus` or `getQuote`; it imports and calls `consumeQuote`. |
 | No duplicate client / normalization / cache | The boundary contains no provider client, no normalizer, no `Map`/TTL/memo/interval, exactly one `client.getQuote(` and one `readIpdFreshnessStatus(`; the freshness vocabulary is **declared once** and re-exported. |
 | Browser reachability | No production file under `frontend/src` references the boundary or the transport (browser *contract tests* may, and do, address the server declaration to pin it). |
-| Browser bundle | New bundle-gate class rejects all ten boundary/transport symbols in emitted output and source maps; every injected negative fixture fails the gate; the clean bundle passes; the gate prints the rule label and never the matched text. |
+| Browser bundle | New bundle-gate class rejects every boundary/transport symbol in emitted output and source maps; each of eleven injected negative fixtures drives the gate's **real CLI** to exit 1, the clean bundle exits 0, and a rejection names the file and a rule label but never the matched text. |
 
 ### 5.3 Test executions
 
 | Suite | Result |
 |---|---|
-| `quoteConsumptionBoundary.test.ts` (new) | **39 passed** |
+| `quoteConsumptionBoundary.test.ts` (new) | **40 passed** |
 | `dhanMarketDataRoutes.test.ts` (migrated route contract) | **63 passed** |
 | `dhanFreshnessRoutes.test.ts` | **30 passed** |
 | `dhanMarketDataTransport.test.ts` | **11 passed** |
@@ -147,7 +147,7 @@ Asserted additionally: request-order correlation, per-outcome counts, `pricedCou
 | `node --test scripts/verify-browser-bundle.test.mjs` | **3 passed** |
 | Strict TypeScript check over the boundary, its test, the migrated route, the freshness route and the transport composition | **clean** |
 
-**Total: 181 targeted tests passed, 0 failed; typecheck clean.**
+**Total: 182 targeted tests passed, 0 failed; typecheck clean.**
 
 Suites that could **not** be executed in this sandbox, and why — none of them for a W-29 reason:
 
@@ -157,6 +157,12 @@ Suites that could **not** be executed in this sandbox, and why — none of them 
 - The production `vite build` + `verify:browser-bundle` gate on real output — requires the private packages.
 
 These are all covered by the repository's CI workflow, which mints a read-scoped IPD token (`IRR_IPD_APP_CLIENT_ID` / `IRR_IPD_APP_PRIVATE_KEY`) and runs typecheck, the replay-server closure, the full Vitest suite, the zero-test guard, and the production build with the bundle gate. **The PR is therefore the authoritative verification artefact for those suites.**
+
+### 5.4 CI reconciliation (PR #625)
+
+The first CI run (`45169391291`) failed at step 10, **"Strict governed Screen replay server import closure"**, on one defect introduced by this change: the bundle-gate test reached `scripts/verify-browser-bundle.mjs` through a dynamic `import()`, and that step rejects a JavaScript module without a declaration file (`TS7016`). The workflow's `Typecheck` step (9) had already passed, and steps 11–13 (full Vitest suite, zero-test guard, production build + bundle gate) were skipped rather than failed.
+
+Fix: the gate is now exercised through its **real command-line entry point** with `spawnSync`, exactly as `npm run verify:browser-bundle` invokes it. This removes the untyped import, typechecks under the strict closure, and is stronger evidence — the test now asserts the exit code a build would actually receive. The affected suites were re-run locally after the fix: `quoteConsumptionBoundary` 40/40, `tsc` clean. Re-run of CI on the amended commit is recorded on the PR.
 
 ---
 

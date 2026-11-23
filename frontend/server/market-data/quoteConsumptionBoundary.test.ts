@@ -21,6 +21,7 @@ import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest';
 import http from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { join, resolve, sep } from 'node:path';
 
 import {
@@ -752,7 +753,7 @@ describe('W-29 — architectural isolation', () => {
     // A closed allowlist, each with a stated reason:
     //   dhanMarketDataTransport.ts — defines the factory (no request of its own).
     //   quoteConsumptionBoundary.ts — the ONE quote consumer (W-29).
-    //   dhanMarketDataRoutes.ts     — historical only; W-39 scope, cannot reach a quote.
+    //   dhanMarketDataRoutes.ts     — presentation/historical only; no quote call (W-39).
     //   dhanHealthTransport.ts      — diagnostics/verification only; no quotes.
     expect(callers).toEqual([
       'market-data/dhanHealthTransport.ts',
@@ -827,38 +828,63 @@ describe('W-29 — architectural isolation', () => {
 });
 
 describe('W-29 — browser bundle gate', () => {
-  it('rejects every W-29 boundary and transport symbol in emitted browser output', async () => {
-    const { verifyBrowserBundle } = (await import('../../scripts/verify-browser-bundle.mjs')) as unknown as {
-      verifyBrowserBundle: (root: string) => Promise<{ files: number; hits: { file: string; rule: string }[] }>;
-    };
-    // A clean bundle passes.
-    const clean = await makeFixtureBundle(['console.log("safe")']);
-    try {
-      const result = await verifyBrowserBundle(clean);
-      expect(result.hits).toEqual([]);
-    } finally {
-      await removeFixtureBundle(clean);
-    }
+  /**
+   * The gate is exercised through its REAL command-line entry point, exactly as the
+   * production build invokes it (`npm run verify:browser-bundle`). Running the CLI is also
+   * what proves the exit code a build would actually see.
+   */
+  function runGate(bundleDir: string): { status: number | null; stdout: string; stderr: string } {
+    // Resolved from this file, so the gate is the one in THIS repository regardless of the
+    // runner's working directory.
+    const gate = resolve(HERE, '..', '..', 'scripts', 'verify-browser-bundle.mjs');
+    const result = spawnSync(process.execPath, [gate, bundleDir], { encoding: 'utf8' });
+    return { status: result.status, stdout: result.stdout ?? '', stderr: result.stderr ?? '' };
+  }
 
-    // Each W-29 symbol must be refused in emitted output, source maps included.
+  it('passes a clean bundle', () => {
+    const dir = makeFixtureBundle(['console.log("safe")']);
+    try {
+      const result = runGate(dir);
+      expect(result.stderr).toBe('');
+      expect(result.status).toBe(0);
+      expect(result.stdout).toContain('passed');
+    } finally {
+      removeFixtureBundle(dir);
+    }
+  });
+
+  it('rejects every W-29 boundary and transport symbol in emitted browser output', () => {
     for (const forbidden of [
       'quoteConsumptionBoundary',
+      'consumeQuote(',
       'consumeQuotes(',
       'IpdMarketDataTransportConfig',
+      'IpdTransportConfigResolution',
+      'IpdFreshnessStatus',
       'readIpdFreshnessStatus',
+      'resolveIpdMarketDataTransportConfig',
+      'createIpdMarketDataTransportClient',
       'MarketDataTransportClient',
       'IIPS_MARKET_DATA_TRANSPORT_TOKEN',
       'IRR_PROVIDER_QUALIFICATION',
     ]) {
-      const dir = await makeFixtureBundle([`export const x = ${JSON.stringify(forbidden)};`]);
+      // Written into a source map, i.e. the hardest place to catch and an extension the
+      // gate must not trust.
+      const dir = makeFixtureBundle([`export const x = ${JSON.stringify(forbidden)};`]);
       try {
-        const result = await verifyBrowserBundle(dir);
-        expect(
-          result.hits.length,
-          `the browser gate accepted ${forbidden}`,
-        ).toBeGreaterThan(0);
+        const result = runGate(dir);
+        expect(result.status, `the browser gate accepted ${forbidden}`).toBe(1);
+        // A rejected bundle names the FILE and a RULE, never the matched content. A symbol
+        // can trip more than one class (the transport client is also a provider symbol), so
+        // any rule that legitimately covers it is accepted — the point is that SOMETHING
+        // covers it and that the matched text is never echoed.
+        expect(result.stderr).toContain('Browser bundle rejected');
+        expect(result.stderr).toMatch(
+          /\((?:server-only quote-consumption boundary|Dhan provider implementation|market-data configuration|server-only Dhan dependency)\)/,
+        );
+        expect(result.stderr).not.toContain(forbidden);
       } finally {
-        await removeFixtureBundle(dir);
+        removeFixtureBundle(dir);
       }
     }
   });
@@ -867,7 +893,8 @@ describe('W-29 — browser bundle gate', () => {
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 
-async function makeFixtureBundle(files: string[]): Promise<string> {
+/** A throwaway "emitted browser bundle": one JS file plus a source map. */
+function makeFixtureBundle(files: string[]): string {
   const dir = mkdtempSync(join(tmpdir(), 'irr-w29-bundle-'));
   mkdirSync(join(dir, 'assets'), { recursive: true });
   writeFileSync(join(dir, 'assets', 'app.js'), files[0] ?? 'console.log("safe");');
@@ -875,7 +902,7 @@ async function makeFixtureBundle(files: string[]): Promise<string> {
   return dir;
 }
 
-async function removeFixtureBundle(dir: string): Promise<void> {
+function removeFixtureBundle(dir: string): void {
   rmSync(dir, { recursive: true, force: true });
 }
 
