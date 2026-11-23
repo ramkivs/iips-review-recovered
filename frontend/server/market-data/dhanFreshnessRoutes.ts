@@ -46,6 +46,10 @@ import {
   type IpdFreshnessStatus,
   type IpdTransportConfigResolution,
 } from './dhanMarketDataTransport';
+/**
+ * The freshness vocabulary IRR publishes is declared once, in this module, and re-exported
+ * by the shared quote-consumption boundary (W-29) so a consumer cannot drift from it.
+ */
 
 /**
  * IRR's existing freshness vocabulary, mirrored here as a SERVER-SIDE type.
