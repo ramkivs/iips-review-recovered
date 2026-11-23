@@ -24693,4 +24693,50 @@ Stage 6 **OPEN** · production NOT ADMITTED. PR #623 (docs only) open, not merge
 review 2026-11-27 per runbook §15.7, including the L-023 citation check on `58f669f8…`; elect S6-3 (Marico / KEC v1
 mints) when ready.
 
-Next free §16.321 / `CV-CORR-273` / `CHG-2026-11-06-36` / `V2240`.
+## 16.321 Snapshot-to-Live W06 — per-identity quote and freshness coverage for the captured revision: live-state investigation; decision B (PARTIAL); read-only revision-bound mechanism delivered and synthetic-tested; actual measurement BLOCKED on B02, bounded by W04 (1/64); NOT ACCEPTED (2026-11-23)
+
+**Change `CV-CORR-273`; `CHG-2026-11-06-36`; validation `V2240` (2026-11-23 UTC).** Additive record on branch
+`arena/0365f7c9-iips-review-recovered` from `main` `b7927de65e55fab9519eecebd1c4cb0a73717bd6`. No IPD change, no host
+access, no vendor call, no credential read, no pin change, no workflow change, no captured-data change; synthetic
+fixtures only. Full record: `docs/integration/W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md`.
+
+**Live state established (2026-11-23).** W06 had no tracker entry before this one; the Snapshot-to-Live roadmap is
+IPD-held (latest IRR read-back blob `7affba55…` at IPD `main` `26855625…`); IPD API access from the execution sandbox
+returns 403 (retested; consistent with the 2026-11-18 limitation record). W03 PARTIAL (actual counts blocked, B02);
+W04 ACCEPTED AS MEASURED 2026-11-16 (§16.286; IPD PR #166 merge `49742e36…`; IRR PR #568 merge `0641953…`) — 1 of 64
+identified, 63 unresolved; B02 operator-only (capture file local to the host by design); B03 narrowed not settled
+(Q1–Q6 open, Q7 closed evidence-limited; §16.290). IRR PR #565 MERGED `3cc99a1f` — its PR-head run `43874026297` and
+post-merge main run `43874761511` FAILED solely because the new node:test file
+`frontend/scripts/verify-browser-bundle.test.mjs` was collected by vitest ("No test suite found in file"); remediated
+by PR #567 commit `7f6ca94ac9` (vitest exclude `scripts/**`, `frontend/vite.config.ts` L37) — main run `43923969498`
+success and current main `b7927de` is green (CI `45056360700`, static `45062387296`, Windows `45056360740`); **no
+further CI correction required**. IRR PR #567 is MERGED (not draft) `fa4e2987…`: W-07 IRR leg + pin `af4460ee…` →
+`5b384c72…` (IPD PR #168 head, ancestor of IPD main `10f326cb…`) + the CI fix; it does not deliver W06. IPD
+`af4460eeab9bb0544e009322526a5498df0d5909` is the unmerged identity-contract candidate (IPD PR #167 line): NOT an
+ancestor of IPD main (`901e4791…`, compare 37 ahead / 35 behind main→pin); repository-owned resolution = pin the
+published IPD `main` merge, already in place at `1ce6a829a7ce65550356a0071c108a60f2d813be` (enforced by
+`.ci/verify-ipd-pins.mjs` and pin-guard canaries). IPD PR #164 MERGED `bcb45d7…`; #166 MERGED `49742e36…`; #168 MERGED
+`10f326cb…`; #156 open per the 2026-11-13 read-back and carries the Dhan W-06 conformance census; #158 not re-verified
+(403). Dhan-roadmap W-06 is COMPLETE — OWNER ATTESTED at IPD `617fab0…`; provider qualification remains
+`SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED`.
+
+**Deliverable assessment.** Captured revision = W11-DEP1 capture (one `revision` + `provenanceDigest`); identity =
+stored D114 `securityIdentity` per holding; quote association = DHAN-P3 `POST /api/dhan/quotes`; freshness = DHAN-P5
+`GET /v1/freshness` (IPD verdicts `GOOD|STALE|UNAVAILABLE|UNKNOWN` verbatim; `UNKNOWN` = no observation, distinct from
+stale/unavailable; read failure never fresh). The per-identity aggregation over a captured revision did not exist and
+was added as `frontend/server/market-data/dhanRevisionCoverage.ts` + `dhanRevisionCoverage.test.ts` (schema
+`iips.w06.dhan-revision-coverage/v1`): fail-closed capture binding (`CAPTURE_REF_INCOMPLETE` without a digest),
+categories `COVERAGE_CURRENT|COVERAGE_STALE|COVERAGE_UNAVAILABLE|COVERAGE_UNKNOWN|STATUS_UNREADABLE|IDENTITY_UNRESOLVED`,
+exactly one read-only quote + freshness call per resolved identity (no refresh, no retry, no write), deterministic,
+provider qualification published verbatim.
+
+**Decision: B — PARTIAL.** Mechanism delivered (this branch/PR); actual measurement over `DHAN_PORTFOLIO` revision 1
+BLOCKED on B02 (rows in no repository) and bounded by W04 (numerator ≤ 1); W06 NOT COMPLETE, NOT ACCEPTED. Local
+verification: tsx functional run of the module passed all assertions; targeted strict `tsc --noEmit` over the new files
+clean; full suite runs in hosted PR CI (sandbox cannot npm-ci the private IPD package, 403).
+
+**Next action (roadmap):** remain on W06 — operator supplies the revision-1 captured input bundle on the authorized
+host (as in `W05-W04-RECONCILIATION-2026-11-18.md` §4–5) so the delivered mechanism can run against the exact captured
+revision; then re-assess W06 acceptance. The 63 unresolved identities are future import work (IPD PR #163), not W06.
+
+Next free §16.322 / `CV-CORR-274` / `CHG-2026-11-06-37` / `V2241`.

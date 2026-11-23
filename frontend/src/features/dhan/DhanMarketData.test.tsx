@@ -10,7 +10,7 @@
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
-import { DhanQuotes } from './DhanQuotes';
+import { DhanQuotes, buildDhanQuoteRequest, exchangeSegmentFor } from './DhanQuotes';
 import { DhanHistorical, validateHistoricalRange } from './DhanHistorical';
 
 function quoteBody(overrides: Record<string, unknown> = {}) {
@@ -90,32 +90,128 @@ function errFetch(status: number, error: Record<string, unknown>) {
     Promise.resolve({ ok: false, status, json: () => Promise.resolve({ error }) } as Response));
 }
 
+/* ------------------------------------------------------------------------ */
+/* W-15 helpers: the quote form is driven by the instrument-search picker.  */
+/* ------------------------------------------------------------------------ */
+
+const QUALIFIED_ROW = {
+  symbol: 'SYNTH',
+  exchange: 'NSE' as const,
+  result: {
+    status: 'QUALIFIED' as const,
+    securityIdentity: {
+      securityId: 'ISIN:INE002A01018:EQ' as const,
+      isin: 'INE002A01018',
+      series: 'EQ',
+      isinAuthority: 'NON_AUTHORITATIVE' as const,
+    },
+    companyId: 'SYNTHETIC:COMPANY',
+    exchange: 'NSE' as const,
+    isinAuthority: 'NON_AUTHORITATIVE' as const,
+  },
+};
+
+const QUALIFIED_ROW_BSE = {
+  symbol: 'SYNTH-BSE',
+  exchange: 'BSE' as const,
+  result: {
+    status: 'QUALIFIED' as const,
+    securityIdentity: {
+      securityId: 'ISIN:INE002A01019:EQ' as const,
+      isin: 'INE002A01019',
+      series: 'EQ',
+      isinAuthority: 'NON_AUTHORITATIVE' as const,
+    },
+    companyId: 'SYNTHETIC:COMPANY-BSE',
+    exchange: 'BSE' as const,
+    isinAuthority: 'NON_AUTHORITATIVE' as const,
+  },
+};
+
+const UNRESOLVED_ROW = {
+  symbol: 'SYNTH-UNRESOLVED',
+  exchange: 'NSE' as const,
+  result: { status: 'UNRESOLVED' as const, reason: 'MISSING_P7_MAPPING', details: 'P7 evidence is missing.' },
+};
+
+function searchBody(results: readonly unknown[] = [QUALIFIED_ROW]) {
+  return {
+    data: { results },
+    provenance: { authority: 'IPD', mode: 'SNAPSHOT', dataVersion: 'ipd-p4-identity-http' },
+  };
+}
+
+type QuoteFetchResult = { readonly ok: true; readonly body: unknown } | { readonly ok: false; readonly status: number; readonly error: Record<string, unknown> };
+
+/**
+ * Routes the stubbed global fetch by URL: the instrument-search route gets the search body,
+ * the quotes route gets the queued quote result(s). Anything else rejects.
+ */
+function dhanQuoteFetch(search: unknown, quoteResults: readonly QuoteFetchResult[]) {
+  let quoteCall = 0;
+  return vi.fn((url: string, _init?: RequestInit) => {
+    if (String(url).includes('/api/dhan/instruments/search')) {
+      return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(search) } as Response);
+    }
+    if (String(url).includes('/api/dhan/quotes')) {
+      const result = quoteResults[Math.min(quoteCall, quoteResults.length - 1)]!;
+      quoteCall += 1;
+      return result.ok
+        ? Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(result.body) } as Response)
+        : Promise.resolve({ ok: false, status: result.status, json: () => Promise.resolve({ error: result.error }) } as Response);
+    }
+    return Promise.reject(new Error(`unexpected fetch url: ${String(url)}`));
+  });
+}
+
+function quoteOk(body: unknown): QuoteFetchResult {
+  return { ok: true, body };
+}
+function quoteErr(status: number, error: Record<string, unknown>): QuoteFetchResult {
+  return { ok: false, status, error };
+}
+
+/** Runs a search and selects the `index`-th QUALIFIED result, as an operator would. */
+async function searchAndPick(index = 0, query = 'SYNTH'): Promise<void> {
+  fireEvent.change(screen.getByTestId('dhan-quote-search-query'), { target: { value: query } });
+  fireEvent.click(screen.getByTestId('dhan-quote-search-submit'));
+  await screen.findByTestId('dhan-quote-search-results');
+  fireEvent.click(screen.getAllByTestId('dhan-quote-pick')[index]!);
+}
+
+/** Selects an instrument from the search results and submits the quote form. */
+async function submitQuote(): Promise<void> {
+  await searchAndPick(0);
+  fireEvent.click(screen.getByTestId('dhan-quote-submit'));
+}
+
 afterEach(() => {
   vi.unstubAllGlobals();
 });
-
-/** Fills the quote form with a valid canonical identity and submits it. */
-async function submitQuote(): Promise<void> {
-  fireEvent.change(screen.getByTestId('dhan-quote-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-  fireEvent.change(screen.getByTestId('dhan-quote-security'), {
-    target: { value: 'ISIN:INE002A01018:EQ' },
-  });
-  fireEvent.click(screen.getByTestId('dhan-quote-submit'));
-}
 
 describe('DHAN-P3 quote surface', () => {
   it('renders the surface with a data-testid on every element', () => {
     render(<DhanQuotes />);
     expect(screen.getByTestId('dhan-quotes-surface')).toBeTruthy();
     expect(screen.getByTestId('dhan-quote-form')).toBeTruthy();
-    expect(screen.getByTestId('dhan-quote-company')).toBeTruthy();
-    expect(screen.getByTestId('dhan-quote-security')).toBeTruthy();
+    expect(screen.getByTestId('dhan-quote-search-query')).toBeTruthy();
+    expect(screen.getByTestId('dhan-quote-search-submit')).toBeTruthy();
+    expect(screen.getByTestId('dhan-quote-selected')).toBeTruthy();
     expect(screen.getByTestId('dhan-quote-segment')).toBeTruthy();
     expect(screen.getByTestId('dhan-quote-submit')).toBeTruthy();
+    // W-15: there is no free-text identity entry on the surface any more.
+    expect(screen.queryByTestId('dhan-quote-company')).toBeNull();
+    expect(screen.queryByTestId('dhan-quote-security')).toBeNull();
+  });
+
+  it('keeps the submit disabled until a QUALIFIED search result is selected', async () => {
+    render(<DhanQuotes />);
+    expect((screen.getByTestId('dhan-quote-submit') as HTMLButtonElement).disabled).toBe(true);
+    await waitFor(() => expect(screen.getByTestId('dhan-quote-identity-hint')).toBeTruthy());
   });
 
   it('renders a successful quote with its freshness, provenance and timestamps', async () => {
-    vi.stubGlobal('fetch', okFetch(quoteBody()));
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody())]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -135,7 +231,7 @@ describe('DHAN-P3 quote surface', () => {
   it.each([[null, null], [99, null], [null, 101], [99, 101]] as const)(
     'renders bid %s and ask %s without substituting last traded price', async (bid, ask) => {
       const quote = { ...quoteBody().data.quote, bid, ask };
-      vi.stubGlobal('fetch', okFetch(quoteBody({ quote })));
+      vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({ quote }))]));
       render(<DhanQuotes />);
       await submitQuote();
       await screen.findByTestId('dhan-quote-result');
@@ -148,7 +244,7 @@ describe('DHAN-P3 quote surface', () => {
   );
 
   it('publishes the provider qualification and never implies live qualification', async () => {
-    vi.stubGlobal('fetch', okFetch(quoteBody()));
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody())]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -159,7 +255,7 @@ describe('DHAN-P3 quote surface', () => {
   });
 
   it('never renders a quote as LIVE', async () => {
-    vi.stubGlobal('fetch', okFetch(quoteBody({ freshness: 'SNAPSHOT' })));
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({ freshness: 'SNAPSHOT' }))]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -174,7 +270,7 @@ describe('DHAN-P3 quote surface', () => {
   });
 
   it('renders a STALE quote as stale and says so explicitly', async () => {
-    vi.stubGlobal('fetch', okFetch(quoteBody({ freshness: 'STALE', qualityState: 'STALE' })));
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({ freshness: 'STALE', qualityState: 'STALE' }))]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -189,7 +285,7 @@ describe('DHAN-P3 quote surface', () => {
   });
 
   it('renders an UNAVAILABLE observation without presenting it as current', async () => {
-    vi.stubGlobal('fetch', okFetch(quoteBody({ freshness: 'UNAVAILABLE', qualityState: 'UNAVAILABLE' })));
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({ freshness: 'UNAVAILABLE', qualityState: 'UNAVAILABLE' }))]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -203,24 +299,30 @@ describe('DHAN-P3 quote surface', () => {
   });
 
   it('shows a loading state while the request is in flight', async () => {
-    let resolveFetch: ((value: Response) => void) | null = null;
-    vi.stubGlobal('fetch', vi.fn(() => new Promise<Response>((resolve) => { resolveFetch = resolve; })));
+    let resolveQuote: ((value: Response) => void) | null = null;
+    const fetchMock = vi.fn((url: string) => {
+      if (String(url).includes('/api/dhan/instruments/search')) {
+        return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(searchBody()) } as Response);
+      }
+      return new Promise<Response>((resolve) => { resolveQuote = resolve; });
+    });
+    vi.stubGlobal('fetch', fetchMock);
     render(<DhanQuotes />);
     await submitQuote();
 
     await waitFor(() => expect(screen.getByTestId('state-loading')).toBeTruthy());
     await act(async () => {
-      resolveFetch?.({ ok: true, status: 200, json: () => Promise.resolve(quoteBody()) } as Response);
+      resolveQuote?.({ ok: true, status: 200, json: () => Promise.resolve(quoteBody()) } as Response);
     });
   });
 
   it('distinguishes an identity failure from unavailable market data', async () => {
-    vi.stubGlobal('fetch', errFetch(400, {
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteErr(400, {
       code: 'MISSING_REQUIRED_FIELD',
       message: 'securityId is required',
       identityFailure: true,
       connectionAttempted: false,
-    }));
+    })]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -229,12 +331,12 @@ describe('DHAN-P3 quote surface', () => {
   });
 
   it('distinguishes a transport failure from a request failure', async () => {
-    vi.stubGlobal('fetch', errFetch(401, {
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteErr(401, {
       code: 'UNAUTHENTICATED',
       message: 'missing or invalid transport credential',
       identityFailure: false,
       connectionAttempted: true,
-    }));
+    })]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -243,35 +345,32 @@ describe('DHAN-P3 quote surface', () => {
   });
 
   it('offers a retry after a failure', async () => {
-    const fetchMock = errFetch(502, {
-      code: 'TRANSPORT_FAILURE',
-      message: 'connection refused',
-      identityFailure: false,
-      connectionAttempted: true,
-    });
+    const fetchMock = dhanQuoteFetch(searchBody(), [
+      quoteErr(502, { code: 'TRANSPORT_FAILURE', message: 'connection refused', identityFailure: false, connectionAttempted: true }),
+      quoteErr(502, { code: 'TRANSPORT_FAILURE', message: 'connection refused', identityFailure: false, connectionAttempted: true }),
+    ]);
     vi.stubGlobal('fetch', fetchMock);
     render(<DhanQuotes />);
     await submitQuote();
 
     await waitFor(() => expect(screen.getByTestId('dhan-quote-failure')).toBeTruthy());
     fireEvent.click(screen.getByTestId('dhan-quote-retry'));
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+    await waitFor(() => {
+      const quoteCalls = fetchMock.mock.calls.filter(([url]) => String(url).includes('/api/dhan/quotes'));
+      expect(quoteCalls).toHaveLength(2);
+    });
   });
 
   it('never renders a stale quote after a failed refresh', async () => {
-    const fetchMock = vi.fn((_url: string, _init?: RequestInit) =>
-      Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(quoteBody()) } as Response));
+    const fetchMock = dhanQuoteFetch(searchBody(), [
+      quoteOk(quoteBody()),
+      quoteErr(502, { code: 'TRANSPORT_FAILURE', message: 'down', identityFailure: false, connectionAttempted: true }),
+    ]);
     vi.stubGlobal('fetch', fetchMock);
     render(<DhanQuotes />);
     await submitQuote();
     await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
 
-    fetchMock.mockImplementationOnce(() =>
-      Promise.resolve({
-        ok: false,
-        status: 502,
-        json: () => Promise.resolve({ error: { code: 'TRANSPORT_FAILURE', message: 'down', identityFailure: false, connectionAttempted: true } }),
-      } as Response));
     fireEvent.click(screen.getByTestId('dhan-quote-submit'));
 
     await waitFor(() => expect(screen.getByTestId('dhan-quote-failure')).toBeTruthy());
@@ -279,28 +378,25 @@ describe('DHAN-P3 quote surface', () => {
     expect(screen.queryByTestId('dhan-quote-result')).toBeNull();
   });
 
-  it('hints at the canonical identity format when one is typed', async () => {
-    render(<DhanQuotes />);
-    fireEvent.change(screen.getByTestId('dhan-quote-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-    fireEvent.change(screen.getByTestId('dhan-quote-security'), { target: { value: 'garbage' } });
-    await waitFor(() => expect(screen.getByTestId('dhan-quote-identity-hint')).toBeTruthy());
-  });
-
   it('never sends an Authorization header', async () => {
-    const fetchMock = okFetch(quoteBody());
+    const fetchMock = dhanQuoteFetch(searchBody(), [quoteOk(quoteBody())]);
     vi.stubGlobal('fetch', fetchMock);
     render(<DhanQuotes />);
     await submitQuote();
 
     await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
-    const headers = (fetchMock.mock.calls[0]?.[1]?.headers ?? {}) as Record<string, string>;
-    for (const key of Object.keys(headers)) {
-      expect(key.toLowerCase()).not.toBe('authorization');
+    // Every request the surface made — search and quote alike — must be credential-free.
+    expect(fetchMock.mock.calls.length).toBeGreaterThanOrEqual(2);
+    for (const call of fetchMock.mock.calls) {
+      const headers = (call[1]?.headers ?? {}) as Record<string, string>;
+      for (const key of Object.keys(headers)) {
+        expect(key.toLowerCase()).not.toBe('authorization');
+      }
     }
   });
 
   it('embeds the provider freshness status in the quote view', async () => {
-    vi.stubGlobal('fetch', okFetch(quoteBody({
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({
       freshnessStatus: {
         domain: 'D01_QUOTES',
         freshness: 'SNAPSHOT',
@@ -321,7 +417,7 @@ describe('DHAN-P3 quote surface', () => {
         explanation: "Cache state is 'CURRENT'.",
       },
       freshnessStatusFailure: null,
-    })));
+    }))]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -332,10 +428,10 @@ describe('DHAN-P3 quote surface', () => {
   });
 
   it('states that the freshness evidence is unknown when it could not be read', async () => {
-    vi.stubGlobal('fetch', okFetch(quoteBody({
+    vi.stubGlobal('fetch', dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({
       freshnessStatus: null,
       freshnessStatusFailure: { code: 'TRANSPORT_FAILURE', message: 'market-data transport request failed' },
-    })));
+    }))]));
     render(<DhanQuotes />);
     await submitQuote();
 
@@ -514,5 +610,210 @@ describe('DHAN-P3 historical range validation', () => {
 
   it('rejects 1826 inclusive days', () => {
     expect(validateHistoricalRange('2021-01-01', '2025-12-31')).toContain('exceeds the maximum');
+  });
+});
+
+/* ------------------------------------------------------------------------ */
+/* W-15 — quote identity picker and honest field rendering.                  */
+/* All payloads are synthetic fixtures, labelled as such.                    */
+/* ------------------------------------------------------------------------ */
+describe('W-15 quote identity picker', () => {
+  function quoteRequestBodies(fetchMock: ReturnType<typeof vi.fn>): Record<string, unknown>[] {
+    return fetchMock.mock.calls
+      .filter(([url]) => String(url).includes('/api/dhan/quotes'))
+      .map(([, init]) => JSON.parse(String(init?.body)) as Record<string, unknown>);
+  }
+
+  it('maps listing exchanges onto quote exchange segments', () => {
+    expect(exchangeSegmentFor('NSE')).toBe('NSE_EQ');
+    expect(exchangeSegmentFor('BSE')).toBe('BSE_EQ');
+  });
+
+  it('buildDhanQuoteRequest preserves exact-identity validation', () => {
+    // valid canonical identity -> a well-formed request
+    expect(buildDhanQuoteRequest('COMP-A', 'ISIN:INE002A01018:EQ', 'NSE_EQ')).toEqual({
+      companyId: 'COMP-A',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    });
+    // the segment is optional
+    expect(buildDhanQuoteRequest('COMP-A', 'ISIN:INE002A01018:EQ', '')).toEqual({
+      companyId: 'COMP-A',
+      securityId: 'ISIN:INE002A01018:EQ',
+    });
+    // anything that is not an exact canonical identity yields NO request at all
+    for (const bad of [
+      ['', 'ISIN:INE002A01018:EQ'],
+      ['COMP-A', 'garbage'],
+      ['COMP-A', 'INE002A01018'],
+      ['COMP-A', 'ISIN:INE002A01018'],       // missing series
+      ['COMP-A', 'ISIN:INE002A01018:EQ:EXTRA'],
+      ['COMP-A', 'ISIN:INE002A0101:EQ'],      // ISIN must be exactly 12 alphanumeric
+      ['COMP-A', 'ISIN:INE002A01018:'],       // empty series
+      ['COMP-A', ''],
+    ] as const) {
+      expect(buildDhanQuoteRequest(bad[0], bad[1], '')).toBeNull();
+    }
+    // The D114 grammar is preserved unchanged: surrounding whitespace is trimmed and the
+    // 12-char alphanumeric ISIN check is exactly the pre-W-15 client pattern.
+    expect(buildDhanQuoteRequest('COMP-A', ' ISIN:INE002A01018:EQ ', '')).toEqual({
+      companyId: 'COMP-A',
+      securityId: 'ISIN:INE002A01018:EQ',
+    });
+  });
+
+  it('case 1: selecting a search result generates a well-formed quote request', async () => {
+    const fetchMock = dhanQuoteFetch(searchBody(), [quoteOk(quoteBody())]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+
+    await searchAndPick(0);
+    fireEvent.click(screen.getByTestId('dhan-quote-submit'));
+    await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
+
+    const bodies = quoteRequestBodies(fetchMock);
+    expect(bodies).toHaveLength(1);
+    expect(bodies[0]).toEqual({
+      companyId: 'SYNTHETIC:COMPANY',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    });
+  });
+
+  it('case 1b: a BSE result maps to BSE_EQ in the generated request', async () => {
+    const fetchMock = dhanQuoteFetch(searchBody([QUALIFIED_ROW, QUALIFIED_ROW_BSE]), [quoteOk(quoteBody())]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+
+    await searchAndPick(1);
+    fireEvent.click(screen.getByTestId('dhan-quote-submit'));
+    await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
+
+    expect(quoteRequestBodies(fetchMock)[0]).toEqual({
+      companyId: 'SYNTHETIC:COMPANY-BSE',
+      securityId: 'ISIN:INE002A01019:EQ',
+      exchangeSegment: 'BSE_EQ',
+    });
+  });
+
+  it('case 2: the exact identity is preserved verbatim through selection and request', async () => {
+    const fetchMock = dhanQuoteFetch(searchBody(), [quoteOk(quoteBody())]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+
+    await searchAndPick(0);
+    // the selected identity is displayed exactly as the search result supplied it
+    expect(screen.getByTestId('dhan-quote-selected').textContent).toBe(
+      'SYNTHETIC:COMPANY · ISIN:INE002A01018:EQ · NSE_EQ',
+    );
+    fireEvent.click(screen.getByTestId('dhan-quote-submit'));
+    await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
+
+    const bodies = quoteRequestBodies(fetchMock);
+    expect(bodies[0]?.securityId).toBe('ISIN:INE002A01018:EQ');
+    expect(screen.getByTestId('dhan-quote-security-id').textContent).toBe('ISIN:INE002A01018:EQ');
+  });
+
+  it('case 2b: non-QUALIFIED results cannot be selected and cannot produce a request', async () => {
+    const fetchMock = dhanQuoteFetch(searchBody([UNRESOLVED_ROW]), [quoteOk(quoteBody())]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+
+    fireEvent.change(screen.getByTestId('dhan-quote-search-query'), { target: { value: 'SYNTH' } });
+    fireEvent.click(screen.getByTestId('dhan-quote-search-submit'));
+    await screen.findByTestId('dhan-quote-search-results');
+
+    expect(screen.queryAllByTestId('dhan-quote-pick')).toHaveLength(0);
+    expect((screen.getByTestId('dhan-quote-submit') as HTMLButtonElement).disabled).toBe(true);
+    expect(quoteRequestBodies(fetchMock)).toHaveLength(0);
+  });
+
+  it('case 2c: no quote request is issued without a selected identity', async () => {
+    const fetchMock = dhanQuoteFetch(searchBody(), [quoteOk(quoteBody())]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+
+    // Submit is disabled; even a forced form submit must not build a request.
+    fireEvent.submit(screen.getByTestId('dhan-quote-form'));
+    await waitFor(() => expect(screen.getByTestId('dhan-quote-failure')).toBeTruthy());
+    expect(quoteRequestBodies(fetchMock)).toHaveLength(0);
+    // The search route may be called only by an explicit search, never by submit.
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).includes('/api/dhan/quotes'))).toHaveLength(0);
+  });
+
+  it('case 3: absent bid/ask render as "unavailable", never 0 or the last traded price', async () => {
+    const quote = { ...quoteBody().data.quote, bid: null, ask: null };
+    const fetchMock = dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({ quote }))]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+    await submitQuote();
+    await screen.findByTestId('dhan-quote-result');
+
+    for (const label of ['Bid', 'Ask']) {
+      const card = screen.getByText(label).closest('[data-testid="metric-card"]');
+      const value = card?.querySelector('[data-testid="metric-value"]')?.textContent;
+      expect(value).toBe('unavailable');
+      expect(value).not.toBe('0');
+      expect(value).not.toBe(String(quote.ltp));
+    }
+    // the rest of the quote still renders
+    expect(screen.getByTestId('dhan-quote-symbol').textContent).toContain('SYNTH');
+  });
+
+  it('case 4: a STALE quote is never rendered as current', async () => {
+    const fetchMock = dhanQuoteFetch(searchBody(), [quoteOk(quoteBody({ freshness: 'STALE', qualityState: 'STALE' }))]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+    await submitQuote();
+    await screen.findByTestId('dhan-quote-result');
+
+    expect(screen.getByTestId('dhan-quote-stale-notice').textContent).toContain('not a current price');
+    expect(screen.getByTestId('freshness-stale')).toBeTruthy();
+    expect(screen.queryByTestId('freshness-live')).toBeNull();
+    expect(screen.queryByTestId('freshness-snapshot')).toBeNull();
+  });
+
+  it('case 5: existing quote behaviour is intact after the picker change', async () => {
+    const fetchMock = dhanQuoteFetch(searchBody(), [quoteOk(quoteBody())]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+    await submitQuote();
+    await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
+
+    expect(screen.getByTestId('dhan-quote-symbol').textContent).toContain('SYNTH');
+    expect(screen.getByTestId('dhan-quote-as-of').textContent).toBe('2026-11-06T10:15:00.000Z');
+    expect(screen.getByTestId('dhan-quote-received-at').textContent).toBe('2026-11-06T10:15:00.120Z');
+    expect(screen.getByTestId('dhan-quote-evaluated-at').textContent).toBe('2026-11-06T10:15:00.121Z');
+    expect(screen.getByTestId('dhan-quote-security-id').textContent).toBe('ISIN:INE002A01018:EQ');
+    expect(screen.getByTestId('dhan-quote-source-classification').textContent).toBe('CANONICAL_MARKET_DATA');
+    expect(screen.getByTestId('dhan-quote-data-version').textContent).toBe('synthetic-fixture-v1');
+    expect(screen.getByTestId('dhan-quote-qualification').textContent).toBe('SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED');
+    expect(screen.getByTestId('freshness-snapshot')).toBeTruthy();
+    expect(screen.queryByTestId('freshness-live')).toBeNull();
+    // the search went to the identity route, the quote to the quotes route — and nothing else
+    const urls = fetchMock.mock.calls.map(([url]) => String(url));
+    expect(urls).toEqual(['/api/dhan/instruments/search', '/api/dhan/quotes']);
+  });
+
+  it('case 5b: a search failure is shown as an identity-search problem, not market data', async () => {
+    const fetchMock = vi.fn((url: string) => {
+      if (String(url).includes('/api/dhan/instruments/search')) {
+        return Promise.resolve({
+          ok: false,
+          status: 503,
+          json: () => Promise.resolve({ error: { code: 'TRANSPORT_UNAVAILABLE', message: 'The IPD service could not be reached.' } }),
+        } as Response);
+      }
+      return Promise.reject(new Error(`unexpected fetch url: ${String(url)}`));
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanQuotes />);
+
+    fireEvent.change(screen.getByTestId('dhan-quote-search-query'), { target: { value: 'SYNTH' } });
+    fireEvent.click(screen.getByTestId('dhan-quote-search-submit'));
+
+    await waitFor(() => expect(screen.getByTestId('dhan-quote-search-error')).toBeTruthy());
+    expect(screen.getByTestId('dhan-quote-search-error').textContent).toContain('IPD service could not be reached');
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).includes('/api/dhan/quotes'))).toHaveLength(0);
   });
 });
