@@ -2,18 +2,18 @@
 
 > **Post-PR-#627 / PR-#629 Recovery Note:** Recovered verbatim from PR #626 (`71e562e2`). Subsequent to this snapshot, IRR PR #627 (`8f893112`) verified IPD PR #176 (`2685562522f1a2fd1d745a7857f771bf21453315`) directly and advanced IRR's pin from `1ce6a829…` to `26855625…`, satisfying the `B-W14-1` quote-serializer pin prerequisite while keeping full `W-12` DTO/historical qualification and `W-14` `E4` owner authorization open. See master tracker `§16.326`.
 
-**Date:** 2026-11-23 (UTC)  
-**Branch:** `arena/f18beaf5-iips-review-recovered` (base `b7927de65e55fab9519eecebd1c4cb0a73717bd6`, `origin/main` at reconciliation `22a68a4`)  
-**Head at write:** `413d1b4b6881885f60986341ab1cd732a4f45031` (parent `6f3e9a2c025a74da3db7722b0869dce4a7f7da0b`)  
-**PR:** #626 `W-31 — Watchlists: sourced price display` (OPEN, `headRefOid` `413d1b4` verified 2026-11-23T15:39Z)  
-**Type:** Focused evidence review — no IPD source modified, no live Dhan request made, no credential accessed, no Windows host touched. Checks IPD only by read; all vendor calls are historical evidence cited, not executed here.  
-**Documents verified in this checkout:**  
-- `docs/integration/DHAN-W14-INVESTIGATION-2026-11-23.md` @ `6f3e9a2` (SHA `4a71fbd11e9f53fd4f36aaf245a6a914c682ad2f`, 41055 bytes) — original W-14 investigation  
-- `docs/integration/DHAN-W14-RECONCILIATION-W06-2026-11-23.md` @ `413d1b4` (SHA `785e95dda2ebd0712705796296411e625ac6cead`, 19860 bytes) — reconciliation addendum  
-- `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md` — serialization root cause (string `[\"2885\"]` → 400 `DH-905/813`, number `[2885]` → 200)  
-- `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` (ID `DHAN-LIVE-ROADMAP-2026-11-11` v1.1, `W-12` §356, `W-14` §380, Appendix A)  
-- `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md` and `W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (blob `8f77f90` @ `774df7b`/`22a68a4`, PR #624)  
-- `frontend/package.json` pin `iips-production-market-data#1ce6a829a7ce65550356a0071c108a60f2d813be` (W-07 PR #168 `5b384c72`, W-08 #169 `75db511`, W-09 #170 `a402eee`, W-10 `POST /v1/connection/verify`)  
+**Date:** 2026-11-23 (UTC)
+**Branch:** `arena/f18beaf5-iips-review-recovered` (base `b7927de65e55fab9519eecebd1c4cb0a73717bd6`, `origin/main` at reconciliation `22a68a4`)
+**Head at write:** `413d1b4b6881885f60986341ab1cd732a4f45031` (parent `6f3e9a2c025a74da3db7722b0869dce4a7f7da0b`)
+**PR:** #626 `W-31 — Watchlists: sourced price display` (OPEN, `headRefOid` `413d1b4` verified 2026-11-23T15:39Z)
+**Type:** Focused evidence review — no IPD source modified, no live Dhan request made, no credential accessed, no Windows host touched. Checks IPD only by read; all vendor calls are historical evidence cited, not executed here.
+**Documents verified in this checkout:**
+- `docs/integration/DHAN-W14-INVESTIGATION-2026-11-23.md` @ `6f3e9a2` (SHA `4a71fbd11e9f53fd4f36aaf245a6a914c682ad2f`, 41055 bytes) — original W-14 investigation
+- `docs/integration/DHAN-W14-RECONCILIATION-W06-2026-11-23.md` @ `413d1b4` (SHA `785e95dda2ebd0712705796296411e625ac6cead`, 19860 bytes) — reconciliation addendum
+- `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md` — serialization root cause (string `[\"2885\"]` → 400 `DH-905/813`, number `[2885]` → 200)
+- `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` (ID `DHAN-LIVE-ROADMAP-2026-11-11` v1.1, `W-12` §356, `W-14` §380, Appendix A)
+- `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md` and `W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (blob `8f77f90` @ `774df7b`/`22a68a4`, PR #624)
+- `frontend/package.json` pin `iips-production-market-data#1ce6a829a7ce65550356a0071c108a60f2d813be` (W-07 PR #168 `5b384c72`, W-08 #169 `75db511`, W-09 #170 `a402eee`, W-10 `POST /v1/connection/verify`)
 
 **Sandbox limitation re-confirmed in this pass:** Direct verification of IPD PR #176 implementation is blocked from Arena — `gh api repos/ramkivs/iips-production-market-data` returns `403 Resource not accessible by integration` (token `arena-egress-dummy-token`); `git ls-remote https://github.com/ramkivs/iips-production-market-data.git` returns `403 Write access to repository not granted`; `GET https://codeload.github.com/ramkivs/iips-production-market-data/zip/1ce6a829` returns `404 Not Found` for the IPD host in this egress context. This is consistent with every prior IPD access block recorded (`IPD-WORK-HANDOFF-2026-11-17.md`). `frontend/node_modules/iips-production-market-data` is absent in this checkout (`ls` reports `No such file or directory`; `npm ci` not runnable without egress). The findings in §§1–2 therefore distinguish **reported evidence** from **independently verified evidence** and name the exact artifacts that close the gap.
 
@@ -178,8 +178,8 @@ The reconciliation (§5) listed four options; with publication verified at `413d
 
 **Recommended maintainer decisions:**
 
-1. Keep PR #626 OPEN as the reconciliation vehicle (do not close it for title reasons — `W-31` title reflects branch origin, not scope; add a PR comment clarifying `6f3e9a2` + `413d1b4` are W-14).  
-2. Do **not** cherry-pick or merge histories at this stage.  
+1. Keep PR #626 OPEN as the reconciliation vehicle (do not close it for title reasons — `W-31` title reflects branch origin, not scope; add a PR comment clarifying `6f3e9a2` + `413d1b4` are W-14).
+2. Do **not** cherry-pick or merge histories at this stage.
 3. Open the next branch from `22a68a4` *after* IPD publishes the PR #176 merge SHA and IRR publishes the pin-advance commit — that branch then carries the authorization and the 97-request evidence.
 
 ---
@@ -188,7 +188,7 @@ The reconciliation (§5) listed four options; with publication verified at `413d
 
 ### Owner decisions — none required on W-14 scope; authorization required on execution
 
-- No new owner decision is required to authorize W-14's *scope* (roadmap v1.1 §6 governs it: live mapping correctness for existing + W-27-added rows that matter + stale-id signature).  
+- No new owner decision is required to authorize W-14's *scope* (roadmap v1.1 §6 governs it: live mapping correctness for existing + W-27-added rows that matter + stale-id signature).
 - **Execution authorization is required** before any vendor call: IPD baseline SHA (at/after PR #176), 96+1 sample, optional W-27 subset as separate grant, request budget, off-market window (including IST session note), and disclosure reviewer per D-7 `MUST NOT` / W-03.
 
 ### Next action
@@ -197,14 +197,14 @@ The reconciliation (§5) listed four options; with publication verified at `413d
 
 Concretely:
 
-1. IPD maintainer publishes: PR #176 merge commit SHA on `main`, `buildQuoteRequestBody` + historical-builder file/blob SHAs, test asserting numbers, and the redacted Reliance transcript tying the 200 to the builder's output.  
-2. IRR maintainer on a new branch from `22a68a4` updates `frontend/package.json` + `frontend/package-lock.json` + `.ci/verify-ipd-pins.mjs` to that SHA, proves `.ci/verify-ipd-pins.mjs` pass + CI green, and records the baseline/sample definition (§6) for W-14 authorization.  
+1. IPD maintainer publishes: PR #176 merge commit SHA on `main`, `buildQuoteRequestBody` + historical-builder file/blob SHAs, test asserting numbers, and the redacted Reliance transcript tying the 200 to the builder's output.
+2. IRR maintainer on a new branch from `22a68a4` updates `frontend/package.json` + `frontend/package-lock.json` + `.ci/verify-ipd-pins.mjs` to that SHA, proves `.ci/verify-ipd-pins.mjs` pass + CI green, and records the baseline/sample definition (§6) for W-14 authorization.
 3. **Do not run the 97-request E4 until step 2 is merged** — that keeps readiness and authorization distinct and closes `B-W14-1` from `PARTIALLY SATISFIED` to `SATISFIED` on E4 evidence, not on an assumption.
 
 This preserves the reconciliation's "no execution yet" charter, establishes the accurate W-14 readiness position from merged implementation evidence (not from a carried-forward blocker label), and makes the subsequent E4 window a bounded, reviewable operation.
 
 ---
 
-**Repository state at publish:** `HEAD` `413d1b4b6881885f60986341ab1cd732a4f45031` on `arena/f18beaf5-iips-review-recovered` (parent `6f3e9a2`, base `b7927de`, `origin/main` `22a68a4` with PR #624 `774df7b` + PR #625 `3f3d61a`); `frontend/package.json` pin `1ce6a829a7ce65550356a0071c108a60f2d813be` (W-07…W-10); IPD `main` not independently read back from this sandbox (403) — PR #176 merge SHA and implementation files are reported, not verified here; no merge, rebase, or history rewrite performed; no vendor call executed; PR #626 OPEN (`headRefOid` `413d1b4`).  
-**Artifacts cited:** `DHAN-W14-INVESTIGATION-2026-11-23.md` (`4a71fbd…` @ `6f3e9a2` / `413d1b4`, 41055 bytes), `DHAN-W14-RECONCILIATION-W06-2026-11-23.md` (`785e95d…` @ `413d1b4`, 19860 bytes), `DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md`, roadmap `DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` v1.1 (§6 W-14, §10.3 M2, §9 G-M2), `W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (blob `8f77f90` @ `774df7b`/`22a68a4`), `W14-W12-…` (this document), `frontend/server/market-data/dhanMarketDataTransport.ts`, `.ci/verify-ipd-pins.mjs`, `iips-production-market-data#1ce6a829…` / `a624d06` / `617fab0` / `af4460ee` / `bcfa6cb…`, IPD PR #156/#164/#166/#167/#168/#176, PR #624 `774df7b` / #625 `22a68a4` / #626 `413d1b4`, commits `b7927de`/`6f3e9a2`/`413d1b4`/`22a68a4`.  
+**Repository state at publish:** `HEAD` `413d1b4b6881885f60986341ab1cd732a4f45031` on `arena/f18beaf5-iips-review-recovered` (parent `6f3e9a2`, base `b7927de`, `origin/main` `22a68a4` with PR #624 `774df7b` + PR #625 `3f3d61a`); `frontend/package.json` pin `1ce6a829a7ce65550356a0071c108a60f2d813be` (W-07…W-10); IPD `main` not independently read back from this sandbox (403) — PR #176 merge SHA and implementation files are reported, not verified here; no merge, rebase, or history rewrite performed; no vendor call executed; PR #626 OPEN (`headRefOid` `413d1b4`).
+**Artifacts cited:** `DHAN-W14-INVESTIGATION-2026-11-23.md` (`4a71fbd…` @ `6f3e9a2` / `413d1b4`, 41055 bytes), `DHAN-W14-RECONCILIATION-W06-2026-11-23.md` (`785e95d…` @ `413d1b4`, 19860 bytes), `DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md`, roadmap `DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` v1.1 (§6 W-14, §10.3 M2, §9 G-M2), `W06-SNAPSHOT-TO-LIVE-QUOTE-FRESHNESS-COVERAGE-2026-11-23.md` (blob `8f77f90` @ `774df7b`/`22a68a4`), `W14-W12-…` (this document), `frontend/server/market-data/dhanMarketDataTransport.ts`, `.ci/verify-ipd-pins.mjs`, `iips-production-market-data#1ce6a829…` / `a624d06` / `617fab0` / `af4460ee` / `bcfa6cb…`, IPD PR #156/#164/#166/#167/#168/#176, PR #624 `774df7b` / #625 `22a68a4` / #626 `413d1b4`, commits `b7927de`/`6f3e9a2`/`413d1b4`/`22a68a4`.
 **Evidence classes:** W-12 serialization fix = **E4 reported** (IPD PR #176, blocked from independent read-back here); W-12 wire qualification = **E4 outstanding**; W-14 mapping correctness = **E4 outstanding**; reconciliation/wiring = **E1/E2 synthetic + E3 operational (PR/CI states)**.

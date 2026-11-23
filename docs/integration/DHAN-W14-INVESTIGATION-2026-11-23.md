@@ -2,17 +2,17 @@
 
 > **Post-PR-#627 / PR-#629 Recovery Note:** Recovered verbatim from PR #626 (`6f3e9a2c`). Subsequent to this snapshot, IRR PR #627 (`8f893112`) advanced the pinned IPD dependency from `1ce6a829…` to PR #176 (`2685562522f1a2fd1d745a7857f771bf21453315`) and merged `D-4` acceptance, and PR #629 (`4059e045`, `D4-DR-02`) clarified that all `4,680` W-27/P7 rows are statically qualified (`proposedAdditions: 0`, `alreadyQualified: 4680`) while remaining `SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED` until `W-14` `E4` + `W-27` parity complete. See master tracker `§16.326`.
 
-**Date:** 2026-11-23  
-**Branch:** `arena/f18beaf5-iips-review-recovered` @ `b52b6e5` (base `b7927de`)  
-**Type:** Investigation only. No IPD source modified, no live Dhan request made, no credential accessed, no Windows host touched.  
-**Primary references verified in this repo checkout:**  
-- Roadmap v1.1: `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` (ID `DHAN-LIVE-ROADMAP-2026-11-11`, rev 2026-11-11)  
-- Baseline investigation: `docs/integration/DHAN-LIVE-MARKET-DATA-CURRENT-STATE-INVESTIGATION-2026-11-11.md` (IRR `9e957ad`, IPD `a624d06`, pin `1aee57f`)  
-- W-06 assessment: `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md`  
-- Quote-API root cause: `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md`  
-- D-7 acceptance: `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`  
-- W-11 execution: `docs/integration/DHAN-W11-IRR-EXECUTION-2026-11-15.md`  
-- W-28 blocker/measurement: `docs/integration/DHAN-W28-COVERAGE-BLOCKER-2026-11-15.md` / `DHAN-W28-MEASUREMENT-2026-11-23.md`  
+**Date:** 2026-11-23
+**Branch:** `arena/f18beaf5-iips-review-recovered` @ `b52b6e5` (base `b7927de`)
+**Type:** Investigation only. No IPD source modified, no live Dhan request made, no credential accessed, no Windows host touched.
+**Primary references verified in this repo checkout:**
+- Roadmap v1.1: `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` (ID `DHAN-LIVE-ROADMAP-2026-11-11`, rev 2026-11-11)
+- Baseline investigation: `docs/integration/DHAN-LIVE-MARKET-DATA-CURRENT-STATE-INVESTIGATION-2026-11-11.md` (IRR `9e957ad`, IPD `a624d06`, pin `1aee57f`)
+- W-06 assessment: `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md`
+- Quote-API root cause: `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md`
+- D-7 acceptance: `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`
+- W-11 execution: `docs/integration/DHAN-W11-IRR-EXECUTION-2026-11-15.md`
+- W-28 blocker/measurement: `docs/integration/DHAN-W28-COVERAGE-BLOCKER-2026-11-15.md` / `DHAN-W28-MEASUREMENT-2026-11-23.md`
 
 ---
 
@@ -37,11 +37,11 @@
 
 Extracted verbatim from roadmap v1.1 §6 (normative):
 
-> **Prerequisites:** W-06 (W-12 recommended first); W-27 for rows added later  
-> **Scope:** For each instrument in the qualification sample — the 96 existing rows, sampled across NSE and BSE, plus every row added by W-27 that matters to the owner — confirm the vendor returns the expected instrument for that `(exchangeSegment, dhanSecurityId)`, and record per-instrument evidence. Identify the failure signature of a stale `dhanSecurityId` so it can be recognised later. **This is the only item that establishes live mapping correctness**; W-27 establishes construction correctness, W-28 establishes measured coverage, and neither substitutes for this  
-> **Verification:** Targeted + **E4**: sample confirms against the vendor; a deliberately wrong `dhanSecurityId` produces `UNRESOLVED_INSTRUMENT` or an obvious mismatch rather than silent wrong data  
-> **Exit:** Mapping correctness evidenced for sample; mismatch signature documented; newly added rows either qualified or explicitly withheld  
-> **Enables:** M2 declaration, W-27 promotion of new rows, W-30/W-33  
+> **Prerequisites:** W-06 (W-12 recommended first); W-27 for rows added later
+> **Scope:** For each instrument in the qualification sample — the 96 existing rows, sampled across NSE and BSE, plus every row added by W-27 that matters to the owner — confirm the vendor returns the expected instrument for that `(exchangeSegment, dhanSecurityId)`, and record per-instrument evidence. Identify the failure signature of a stale `dhanSecurityId` so it can be recognised later. **This is the only item that establishes live mapping correctness**; W-27 establishes construction correctness, W-28 establishes measured coverage, and neither substitutes for this
+> **Verification:** Targeted + **E4**: sample confirms against the vendor; a deliberately wrong `dhanSecurityId` produces `UNRESOLVED_INSTRUMENT` or an obvious mismatch rather than silent wrong data
+> **Exit:** Mapping correctness evidenced for sample; mismatch signature documented; newly added rows either qualified or explicitly withheld
+> **Enables:** M2 declaration, W-27 promotion of new rows, W-30/W-33
 
 **Scope clarifications present in roadmap but not in W-14 table:**
 
@@ -295,7 +295,6 @@ W-14 is on the M2 critical path: `M2a → W-12 → W-13 → W-14 → M2`. M2 exi
 
 ---
 
-**Repo paths cited:** `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md:124-210,380-390,700-810,900-960`, `docs/integration/DHAN-LIVE-MARKET-DATA-CURRENT-STATE-INVESTIGATION-2026-11-11.md:§A/E/F/H`, `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md:§3-9`, `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md:§1-3`, `docs/integration/DHAN-W28-COVERAGE-BLOCKER-2026-11-15.md`, `docs/integration/DHAN-W11-IRR-EXECUTION-2026-11-15.md`, `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`, `docs/integration/B04-DHAN-68-ISIN-NSE-REASSESSMENT-2026-11-06.md`, `frontend/server/market-data/dhanMarketDataTransport.ts:48-90`, `frontend/node_modules/iips-production-market-data/dhan-server/index.js`, `frontend/server/w28/*`, `evidence/w28-coverage-summary.json`, `frontend/package.json:26-28` (pin `1ce6a829…`), `IIPS_V3_E2E_MASTER_TRACKER…` (commit `b7927de` line), `IIPS_V3_IID_IMPLEMENTATION_ROADMAP…` (`a988194d…`).  
-**Commits/PRs referenced:** IRR `9e957ad`, `a624d06`, `1aee57f`, `901e4791e271cafdb777d56f9f66f6867b3f60c6`, `b52b6e5`, `752fb3e…`, `617fab0` (IPD attestation, per roadmap), `af4460ee…`, `bcfa6cb…`, IPD PR #164 `bcb45d7…` / manifest `371bf3bd…` / pipeline `325266d…`, IPD PR #156 (conformance), Python probe `2885` (number vs `\"2885\"` string).  
+**Repo paths cited:** `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md:124-210,380-390,700-810,900-960`, `docs/integration/DHAN-LIVE-MARKET-DATA-CURRENT-STATE-INVESTIGATION-2026-11-11.md:§A/E/F/H`, `docs/integration/DHAN-QUOTE-API-FAILURE-ROOT-CAUSE-2026-11-18.md:§3-9`, `docs/integration/DHAN-W06-ROADMAP-PROGRESSION-ASSESSMENT-2026-11-15.md:§1-3`, `docs/integration/DHAN-W28-COVERAGE-BLOCKER-2026-11-15.md`, `docs/integration/DHAN-W11-IRR-EXECUTION-2026-11-15.md`, `docs/integration/DHAN-D7-IRR-ACCEPTANCE-2026-11-16.md`, `docs/integration/B04-DHAN-68-ISIN-NSE-REASSESSMENT-2026-11-06.md`, `frontend/server/market-data/dhanMarketDataTransport.ts:48-90`, `frontend/node_modules/iips-production-market-data/dhan-server/index.js`, `frontend/server/w28/*`, `evidence/w28-coverage-summary.json`, `frontend/package.json:26-28` (pin `1ce6a829…`), `IIPS_V3_E2E_MASTER_TRACKER…` (commit `b7927de` line), `IIPS_V3_IID_IMPLEMENTATION_ROADMAP…` (`a988194d…`).
+**Commits/PRs referenced:** IRR `9e957ad`, `a624d06`, `1aee57f`, `901e4791e271cafdb777d56f9f66f6867b3f60c6`, `b52b6e5`, `752fb3e…`, `617fab0` (IPD attestation, per roadmap), `af4460ee…`, `bcfa6cb…`, IPD PR #164 `bcb45d7…` / manifest `371bf3bd…` / pipeline `325266d…`, IPD PR #156 (conformance), Python probe `2885` (number vs `\"2885\"` string).
 **Evidence classes per §8:** M1/M2a owner-attested E4 (IPD), current Reliance sample partial E4 with wrong serialization, all other mapping evidence E1/E2 synthetic — insufficient for M2.
-
