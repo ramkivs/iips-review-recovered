@@ -13,7 +13,7 @@ const installedLock = readJson(resolve(frontend, 'node_modules/.package-lock.jso
 const pinned = {
   'iips-broker-import': '12a3d625d0ad603cb0bd9cea46bae314942ee40f',
   'iips-np04-governed-persistence': '2e11fa3b689d1a3674a5e4ba1f1de9a559e20494',
-  'iips-production-market-data': '1ce6a829a7ce65550356a0071c108a60f2d813be',
+  'iips-production-market-data': '84e988b092058df8075ffa52f5dfb0f4fef07eaf',
 };
 
 for (const [name, commit] of Object.entries(pinned)) {
