@@ -24846,3 +24846,61 @@ full identity acceptance NOT claimed** — the actual per-row mapping coverage r
 source acquisition satisfied, governed coverage incomplete. **Next roadmap step:** stay on the Snapshot-to-Live chain — the 63
 unresolved identities remain import-side work (IPD PR #163); W08 needs no further mechanism work. W06 measurement remains the
 outstanding operator-side action (§16.322).
+
+### §16.324 — W09 Revision-Aware Consumer — reassessed against IPD main 2026-11-23 (record; commit pending)
+
+**Scope:** one pass, branch `arena/e48e8c34-iips-review-recovered`, PR #628 open. Recorded against the original PR #548 evidence
+(`docs/integration/IIPS-CURRENT-PORTFOLIO-STAGE-2-IRR-RECORD-2026-11-10.md` §6); not a reinterpretation. IPD is 403 from this
+sandbox (gh API, ls-remote, codeload all re-confirmed dead this pass) — every IPD-side fact below comes from IRR-held records.
+
+**1. Original finding (PR #548 §6, merged `c9115f3` 2026-11-10):** IRR already consumes one IPC `portfolio.get` returning one
+`G2PortfolioView` with one `revision` + `provenanceDigest` (`frontend/server/user-portfolio/ipcPortAdapter.ts:252-253`, revision at
+:502; disposition `portfolioRevision` at `frontend/server/investment/portfolioContext.ts:139`, null = absent, never zero);
+disclosed limitation: `frontend/server/investment/sources.ts:128-140` coverage provider is list-then-get per portfolio, so portfolios
+can be read at different revisions. Decisive gap was IPD-side: the W02 read-snapshot fix `29caac3134ec1fb12e4d822c31a806d782cc3e1b`
+(`withReadSnapshot`/`getSnapshot`/`revisionsSnapshot`) was NOT in IPD main on 2026-11-10 (`withReadSnapshot` count 0); W09 acceptance
+not claimed.
+
+**2. IPD #150 effect (from IRR-held records; exact merge commit NOT fetchable — IPD 403 — labelled unverified):** by IPD main
+`4716d0bc…` (2026-11-21, per `IID-STAGE-5-IPD-RESPONSE-CONTRACT-VERIFICATION-2026-11-21.md`) and `cbb116d2…` (PR #186,
+2026-11-22T04:06Z, per `IID-STAGE-5-D5-D6-WINDOWS-EXECUTION-EVIDENCE-2026-11-22.md`, sandbox-verified),
+`src/persistence/portfolio_store.ts` L756–766 `readHoldingsPortfolio` DOES run inside one `withReadSnapshot` transaction on the v2
+read path (v1 `portfolio.get` path unchanged per dispatch.ts L440–444; v2-only S1→D02 read relationship per finding F-1; v1 passes
+DR-4r only under `IIPS_LOCAL_PERSONAL_USE=1` per F-2). Conclusion: IPD #150's read-snapshot fix appears merged between 2026-11-10
+and 2026-11-21 and is present on the latest known IPD main; the IRR package pin (`iips-production-market-data#1ce6a829…`) is 59
+commits behind `4716d0bc` and was NOT advanced. Whether #150 fully satisfies W02: the single-portfolio read-snapshot precondition is
+met on the v2 path; the exact #150 merge commit/diff identity remains unverified from this sandbox.
+
+**3. IRR consumer verified end to end (this pass, targeted run):** revision identification/propagation — one `portfolio.get` → one
+`revision`/`provenanceDigest` pair, projected as `portfolioRevision` (`portfolioContext.ts:139`) and onto every holding observation
+(`sources.ts:180`); consistency between observed revision and returned holdings — the owner-bound capture performs list → get →
+revisions → get and **discards the whole attempt** on any revision mismatch, digest mismatch, duplicate/missing history entry for the
+captured revision, differing holdings at the same revision+digest, or empty digest (`ownerBoundPortfolioCapture.test.ts` "consistency
+checks" cluster); stale/missing/malformed revision — detail with non-integer revision, missing `provenanceDigest`, null detail,
+non-array list/revisions all refused, never repaired ("missing and malformed responses — refused, never repaired" cluster);
+holding-level + identity data preserved — holdings carry no revision (per-row revision is projected from the portfolio's real
+revision, `sources.ts:87-92`); no cross-revision mixing — the two-get consistency check is exactly the guard. Contract-compatibility
+vs actual behaviour distinguished: adapter/contract tests prove the wire mapping (mocked IPC); the capture consistency tests prove the
+actual consumer behaviour on the real port; both executed here.
+
+**4. Targeted test execution (offline harness `/tmp/w08harness`, vitest 2.1.8, root `frontend/`, IPD dhan-server aliased to stub;
+symlink removed after):** 22 files, **399/399 pass, 0 fail** — full `server/user-portfolio/*.test.ts` + `capture/*.test.ts` cluster
+(incl. `ipcPortAdapter.test.ts` 41, `ipcPortAdapterIntegration.test.ts`, `ipcV2ReadChannel(.Integration).test.ts`,
+`userPortfolioContract.test.ts` 19, `ipcContractAlignment.test.ts` 14, `ownerContextFromBinding.test.ts` 15, `fenceUnchanged.test.ts`
+13, `translationBoundary.test.ts` 4, `option2F.test.ts` 15, `userPortfolioBoundary.test.ts` 8, `userPortfolioDirectP1Integration.test.ts`
+2, `ipcClient.test.ts`, `brokerImportPackageConsumer.test.ts`, capture suites 22+), plus investment consumers
+`portfolio-context.test.ts` 11, `sourcesW05Projection.test.ts` 5, `holdingDisposition.test.ts`, `disposition-composition.test.ts` 16.
+Two suites (`disposition-records.test.ts`, `disposition-transport.test.ts`) need the real `iips-np04-governed-persistence` SQLite
+package, which cannot be honestly stubbed — CI-only, not executed here (not W09-relevant). Roadmap-listed consumer tests are therefore
+executed and recorded, not absent.
+
+**5. Dependencies:** W02 — IPD-side read-snapshot fix present on latest known IPD main (see 2); IRR side was already correct per PR #548.
+W03 — actual inventory still operator-side, blocked on B02 host access (unchanged; W11 record: actual revision-consistent consumption
+remains unproven against live data). B04 — §16.271 COMPLETE/VERIFIED, 1/68 resolved (AGI), 67 unresolved (unchanged).
+
+**6. Conclusion:** the original PR #548 finding is **reassessed, not replaced**: the IPD-side blocker (W02 fix absent from IPD main)
+is resolved on the latest known IPD main per IRR-held records; the IRR consumer is verified revision-aware end to end by executed
+tests (399/399). Remaining explicit gaps: (a) exact IPD #150 merge commit unverified (IPD 403); (b) IRR package pin not advanced to a
+main that contains the fix; (c) `sources.ts:128-140` list-then-get cross-portfolio limitation still stands (disclosed, per-portfolio
+revisions can differ); (d) no live-portfolio execution — W09 acceptance against actual persisted data remains blocked on W03/B02.
+W09 recorded as **mechanics verified / actual-data acceptance not claimed**. Next free line: §16.325.
