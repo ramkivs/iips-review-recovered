@@ -50,6 +50,8 @@
     "server/market-data/dhanFreshnessRoutes.ts",
     "server/market-data/dhanFreshnessRoutes.test.ts",
     "server/market-data/quoteConsumptionBoundary.ts",
-    "server/market-data/quoteConsumptionBoundary.test.ts"
+    "server/market-data/quoteConsumptionBoundary.test.ts",
+    "server/watchlists/watchlists-quotes.ts",
+    "server/watchlists/watchlists-quotes.test.ts"
   ]
 }

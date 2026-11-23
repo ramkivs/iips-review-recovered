@@ -47,8 +47,37 @@ function envelope(items: Record<string, unknown>[] = [item()]) {
 }
 
 function mockFetch(body: unknown) {
-  return vi.fn((_url: string, _init?: { method?: string; body?: string }) =>
-    Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) } as Response));
+  // W-31: watchlist quotes are fetched via GET /api/watchlists/:id/quotes (bounded batch,
+  // sourced through W-29). The existing tests exercise the governed list surface, not the
+  // market-data enrichment, so a quotes request should return an empty but valid batch rather
+  // than failing the whole surface. Keep the existing envelope for the list route and return
+  // a minimal quotes view for the quotes route.
+  return vi.fn((url: string, _init?: { method?: string; body?: string }) => {
+    if (url.includes('/quotes')) {
+      const quotesBody = {
+        data: {
+          watchlistId: 'wl-1',
+          name: 'Core banks',
+          createdAt: '2026-08-09T00:00:00.000Z',
+          totalItems: 0,
+          quotes: [],
+          summary: {
+            requestedCount: 0,
+            pricedCount: 0,
+            counts: { CURRENT: 0, STALE: 0, UNAVAILABLE: 0, UNMAPPED: 0, MALFORMED_IDENTITY: 0 },
+            worstFreshness: 'UNAVAILABLE',
+            providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+            transportConfigured: true,
+            transportFailureCode: null,
+            rateLimited: false,
+            concurrency: 4,
+          },
+        },
+      };
+      return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(quotesBody) } as Response);
+    }
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) } as Response);
+  });
 }
 
 afterEach(() => { vi.restoreAllMocks(); });
@@ -168,7 +197,34 @@ describe('UI07 — Watchlists surface', () => {
  */
 describe('Watchlists — the refused membership is explained, not opaque', () => {
   it('shows the server-authored reason when the identifier is refused', async () => {
-    const f = vi.fn((_url: string, init?: { method?: string; body?: string }) => {
+    const f = vi.fn((url: string, init?: { method?: string; body?: string }) => {
+      if (url.includes('/quotes')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () =>
+            Promise.resolve({
+              data: {
+                watchlistId: 'wl-1',
+                name: 'Core banks',
+                createdAt: '2026-08-09T00:00:00.000Z',
+                totalItems: 0,
+                quotes: [],
+                summary: {
+                  requestedCount: 0,
+                  pricedCount: 0,
+                  counts: { CURRENT: 0, STALE: 0, UNAVAILABLE: 0, UNMAPPED: 0, MALFORMED_IDENTITY: 0 },
+                  worstFreshness: 'UNAVAILABLE',
+                  providerQualification: 'SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED',
+                  transportConfigured: true,
+                  transportFailureCode: null,
+                  rateLimited: false,
+                  concurrency: 4,
+                },
+              },
+            }),
+        } as Response);
+      }
       if (init?.method === 'POST') {
         return Promise.resolve({
           ok: false,
