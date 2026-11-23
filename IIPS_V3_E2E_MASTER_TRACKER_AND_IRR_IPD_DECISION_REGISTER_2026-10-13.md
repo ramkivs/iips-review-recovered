@@ -24797,4 +24797,52 @@ and publish the resulting W06 report (or supply the raw observation outputs with
 Dhan live qualification remains `SYNTHETIC_ONLY_NOT_LIVE_QUALIFIED`; no live-data claim is made. B03 (Q1–Q6 open, Q7 closed
 evidence-limited) is untouched and unsatisfied by this package.
 
-Next free §16.323 / `CV-CORR-275` / `CHG-2026-11-06-38` / `V2242`.
+Next free §16.324 / `CV-CORR-276` / `CHG-2026-11-06-39` / `V2243`.
+
+## 16.323 Snapshot-to-Live W08 — security-to-issuer bridge: verification pass against published hash-verified evidence; AGI mapping path PROVEN; no defect found; implementation complete, identity coverage still 1/64 (2026-11-23)
+
+**Change `CV-CORR-275`; `CHG-2026-11-06-38`; validation `V2242` (2026-11-23 UTC).** Documentation-only record on branch
+`arena/e48e8c34-iips-review-recovered` from `main` `22a68a4ac8546149cd9759ab978dec459fcef8aa`. No code change, no IPD change or
+write, no host access, no vendor call, no database touch, no pin or workflow change; IPD roadmap read via IRR-held records only
+(IPD API 403 from this sandbox).
+
+**Prior state verified.** IRR PR #548 MERGED 2026-11-10T16:30:58Z (`c9115f32…`) closed the W08 bridge-mechanics gap (series and
+observed symbol/exchange now constrain the ISIN path in `iips-platform/src/investment/identity/resolver.ts`;
+`iips-platform/tests/investment/w08SecurityToIssuerBridge.test.ts`). The D114 projection is carried by IRR PR #568 MERGED
+2026-11-16T19:03:51Z (`0641953…`, commits `7f3f7db`/`8765860`): `G2HoldingView.securityIdentity`
+(`frontend/server/user-portfolio/userPortfolioContract.ts:330`) projected losslessly by
+`iips-platform/src/investment/identity/d114Projection.ts` (absent / unresolved_null / populated / rejected-MALFORMED-or-CONFLICT;
+`isinAuthority: NON_AUTHORITATIVE` preserved; no symbol/exchange fallback). The roadmap note "PR #563 previously reported open"
+is superseded: PR #563 is MERGED 2026-11-16T19:03:53Z (`90e6728…`) and is the W07 item; the D114 projection lives in PR #568.
+
+**Targeted verification this pass (offline harness; private IPD package alias-stubbed; hosted CI is the authoritative full run —
+green on `main` `22a68a4` at 2026-11-23T13:12Z).**
+- iips-platform (node:test via tsx): W08 bridge + identity cluster — **138/138 pass** (`w08SecurityToIssuerBridge` 11,
+  `identity-resolver` 30, plus identity-coverage/endpoint/sources/runtime/corporate-actions/readiness/dataset-identity).
+- frontend vitest: D114 projection + owner guards — **79/79 pass** across `phase1D114IdentityProjection` (6),
+  `phase1D114WireToResolverInput` (3), `sourcesW05Projection` (5), `ownerContextFromBinding` (15), `userPortfolioContract` (19),
+  `fenceUnchanged` (13), `ipcContractAlignment` (14), `translationBoundary` (4).
+- **Actual mapping path proven against published, hash-verified evidence** (branch
+  `w06/snapshot-to-live-evidence-2026-11-23` @ `64ab7b13…`, verified in §16.322): the real resolver loaded the published
+  `eligible-roster.json` / `listing-map.json` / `corporate-actions.json` fail-closed (2,388 issuers = 2,388 securities = 2,388
+  listings, 0 corporate actions); parsed-content source versions reconcile exactly to the recorded versions
+  (`sha256:4baa4e59…` / `sha256:b04416b2…` / `sha256:0b1d3cbf…`). The single W04-eligible holding AGI
+  (`holding:DHAN_PORTFOLIO:0001`, stored D114 `ISIN:INE415A01038:EQ`, `NON_AUTHORITATIVE`) resolves:
+  `RESOLVED` via ISIN basis → securityId `IN:ISIN:INE415A01038`, listingId `IN:NSE:AGI:EQ:EQUITY` (from the separately evidenced
+  listing map), issuerId `IN:EQISIN:INE415A01038` — identical to the accepted W04 binding in the published
+  identities-route-response. A representative unresolved row (no identifier) stays `UNMATCHED` with no listing and no fallback.
+- All nine required acceptance cases are covered by existing tests and pass: (1) ISIN+series resolution, (2) exchange/listing→issuer
+  from separately evidenced listing data, (3) missing identity (`null` → UNRESOLVED, never inferred), (4) ambiguous identity
+  (`AMBIGUOUS`/`AMBIGUOUS_LISTING`/`MULTIPLE_SECURITIES_SHARE_LISTING`), (5) reused symbol (`SYMBOL_REUSED_BY_OTHER_SECURITY`
+  precedence preserved), (6) multiple listing series (multi-series `IN0000000029` EQ/BE discrimination), (7) expired/ineligible
+  (`LISTING_WINDOW_EXPIRED`/`LISTING_NOT_YET_EFFECTIVE`), (8) D114 nested projection (lossless, conflict/malformed rejected),
+  (9) owner isolation (fail-closed owner context, no caller substitution, wire-contract and boundary fences).
+
+**Defects:** none found; no changes made. **W08 status: implementation COMPLETE and now evidence-proven for the eligible holding;
+full identity acceptance NOT claimed** — the actual per-row mapping coverage remains the accepted W04 measured position
+(§16.286): 1 of 64 revision-1 holdings identified (AGI, `NON_AUTHORITATIVE` label preserved and visible), 63 unresolved
+(`NO_IDENTIFIER_PROVIDED`), never resolved by symbol/name inference. B04 dependency: B-04 Dhan68 reassessment COMPLETE/VERIFIED
+2026-11-06 (§16.271) — 1 resolved (AGI `INE415A01038`→`EQ_AGI_IN`), 67 unresolved against the governed 2,250-record D05 corpus;
+source acquisition satisfied, governed coverage incomplete. **Next roadmap step:** stay on the Snapshot-to-Live chain — the 63
+unresolved identities remain import-side work (IPD PR #163); W08 needs no further mechanism work. W06 measurement remains the
+outstanding operator-side action (§16.322).
