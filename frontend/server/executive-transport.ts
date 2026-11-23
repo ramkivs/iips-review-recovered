@@ -1098,6 +1098,20 @@ const server = http.createServer(async (req, res) => {
   }
   // UI07 Watchlists: owner-scoped boundary. The owner context is established server-side by the
   // governed owner-context resolver; the governed universe (item values) is composed here.
+  // W-31 — sourced price display: GET /api/watchlists/:watchlistId/quotes enriches the
+  // watchlist's items with LTP, change, freshness and explicit unresolved/unavailable state
+  // through W-29's ONE quote-consumption boundary (bounded concurrency, rate-limit aware).
+  if (req.url !== undefined && req.url.split('?')[0].match(/^\/api\/watchlists\/[^/]+\/quotes$/)) {
+    void (async () => {
+      try {
+        const wq = await import('./watchlists/watchlists-quotes');
+        await wq.handleWatchlistQuotesRequest(req, res);
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: 'watchlists-quotes transport error', detail: String(e) }));
+      }
+    })();
+    return;
+  }
   if (req.url?.startsWith('/api/watchlists')) {
     void (async () => {
       try {
