@@ -278,8 +278,9 @@ function measureOneHolding(
 ): HoldingCoverageResult {
   const isin = typeof holding.isin === 'string' && holding.isin.trim() !== '' ? holding.isin.trim() : null;
   const exchange = typeof holding.exchange === 'string' && holding.exchange.trim() !== '' ? holding.exchange.trim() : null;
-  const identityStatus = (holding as Record<string, unknown>).identityStatus as string | undefined ?? null;
-  const resolutionDisposition = (holding as Record<string, unknown>).resolutionDisposition as string | undefined ?? null;
+  const holdingRecord = holding as unknown as Record<string, unknown>;
+  const identityStatus = holdingRecord.identityStatus as string | undefined ?? null;
+  const resolutionDisposition = holdingRecord.resolutionDisposition as string | undefined ?? null;
 
   const holdingReference = `holding:${portfolioId}:${String(holdingIndex + 1).padStart(4, '0')}`;
   const maskedIsin = maskIsin(isin);
@@ -345,7 +346,7 @@ function measureOneHolding(
   // ── Step 2: existing G-2 identity resolution status ──────────────────────
   // If IPD's durable store already says UNRESOLVED, or securityIdentity is null,
   // we must not invent a resolution — report IDENTITY_NOT_RESOLVED.
-  const securityIdentity = (holding as Record<string, unknown>).securityIdentity as
+  const securityIdentity = (holding as unknown as Record<string, unknown>).securityIdentity as
     | { securityId?: string; isin?: string; series?: string; isinAuthority?: string } | null | undefined;
   const hasSecurityIdentity = securityIdentity !== null && securityIdentity !== undefined && typeof securityIdentity === 'object';
   const securityId = hasSecurityIdentity && typeof securityIdentity.securityId === 'string' ? securityIdentity.securityId.trim() : null;

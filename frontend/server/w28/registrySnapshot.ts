@@ -104,7 +104,7 @@ export function loadRegistrySnapshotFromBytes(bytes: Buffer | Uint8Array | strin
     registryVersion: `${(json.manifestCommit ?? W28_EXPECTED_MANIFEST_COMMIT).slice(0, 7)}@qualified-${qualifiedRegistry.size}`,
     qualifiedCount: qualifiedRegistry.size,
     counts: counts as Readonly<Record<string, number>>,
-    generatedAt: (json as Record<string, unknown>).generatedAt as string ?? null,
+    generatedAt: (json as unknown as Record<string, unknown>).generatedAt as string ?? null,
   };
 }
 
