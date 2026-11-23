@@ -18,7 +18,9 @@ const rules = [
   // W-29: the shared quote-consumption boundary and the IPD transport it composes are
   // server-only. Their symbol names appearing in browser output means a server module (or a
   // type-only import that became a value import) reached the client bundle.
-  ['server-only quote-consumption boundary', /\b(?:quoteConsumptionBoundary|consumeQuotes?|IpdMarketDataTransportConfig|IpdTransportConfigResolution|IpdFreshnessStatus|readIpdFreshnessStatus|resolveIpdMarketDataTransportConfig|createIpdMarketDataTransportClient|IRR_PROVIDER_QUALIFICATION)\b/],
+  // W-31 extends the server-only set with the watchlist quote consumer (it composes the
+  // boundary and must never be in the browser bundle).
+  ['server-only quote-consumption boundary', /\b(?:quoteConsumptionBoundary|consumeQuotes?|IpdMarketDataTransportConfig|IpdTransportConfigResolution|IpdFreshnessStatus|readIpdFreshnessStatus|resolveIpdMarketDataTransportConfig|createIpdMarketDataTransportClient|IRR_PROVIDER_QUALIFICATION|watchlists-quotes|enrichWatchlistWithQuotes|watchlistItemToQuoteIdentity|handleWatchlistQuotesRequest)\b/],
   ['server-only runtime', /(?:node:(?:net|sqlite|fs|http|https|path|crypto)|\b(?:createConnection|DatabaseSync|listenIpc|persistBrokerImport|PitReadService|HistoricalPitIngestionLoader|NON_PRODUCTION_D114)\b|src\/(?:ipc|persistence)\/)/],
 ];
 
