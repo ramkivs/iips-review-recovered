@@ -25034,3 +25034,54 @@ published, exact capture LOCAL-ONLY); revision-consistent execution proven at co
 (unchanged from the 2026-11-12 record §6): actual portfolio-linked *engine execution* (no actual issuer qualifies; identity
 coverage 1/64), W10 source authorisation for the 62 blocked inputs (methodology decision), W03 for new data, limitation B
 (peer authenticity) DEFERRED IPD-owned, limitation C running-process/IPD-publication parts DEFERRED IPD-owned. Next free line: §16.328.
+
+### §16.328 — W13 Position Valuation and Coverage — investigation + read-only mechanism implemented and tested; actual valuation NOT claimed (2026-11-23; commit pending)
+
+**Repo state at pass start:** IRR `main` `f21d7c5` (PR #633 merge; §16.327 W11 published); branch `arena/e48e8c34-iips-review-recovered`
+`65fdd9b` clean. IPD 403 again from this sandbox (single live check) — latest known IPD main `84e988b…` (verified live earlier today,
+§16.325); roadmap W13 row re-read from the 2026-11-23 IPD-main capture: *"stored prices are revision facts, not proven live quotes;
+IRR valuation consumer, IPD owns freshness; deliverable per-position valuation and coverage using qualified observations;
+acceptance: distinguish stored and observed price, currency/units, as-of/received/evaluated, partial/stale/unknown, independent
+arithmetic, no fabricated zero; blocker W06/W08/W09/W12."*
+
+**Dependency status (verified this pass):** W06 — PARTIAL/NOT ACCEPTED (§16.321/§16.322, decision B): mechanism
+`frontend/server/market-data/dhanRevisionCoverage.ts` delivered; actual quote/freshness measurement over `DHAN_PORTFOLIO` rev 1
+BLOCKED on B02, bounded by W04 (≤1/64). W08 — closed §16.323 (resolver proven; coverage 1/64, 63 unresolved, AGI
+`NON_AUTHORITATIVE`). W09 — mechanics verified §16.324/§16.325 (399/399 then; 337/337 this pass on the same cluster). W12 —
+**no approved valuation-methodology decision exists in the tracker**; roadmap W12 is at "technical design now; final feasibility
+depends on W05/W06", GD-4 authorises transparent per-position value weighting with documented denominator/currency/time/exclusion
+rules and withholding when inputs cannot support it. B05 (= B-05) — COMPLETE/VERIFIED at its own scope (B06 record; IPD PR #133).
+
+**Existing components reused:** `G2HoldingView` (quantity, stored currentPrice/marketValue/weightPercentage = revision facts;
+`securityIdentity.securityId` D114 wire shape), `DhanQuoteView`/`QuoteConsumptionValue` (ltp, currency, asOf/receivedAt/
+evaluatedAt, provenance, providerQualification echoed verbatim), `IpdFreshnessStatus` (verdict GOOD|STALE|UNAVAILABLE|UNKNOWN,
+eligibleForUse), W06's `CapturedRevisionRef`/`validateCapturedRevisionRef`/`D114_SECURITY_ID_PATTERN`/`RevisionCoverageReaders`
+(one read-only quote + one freshness call per resolved identity, no retry/refresh/write, clock-injected).
+
+**Implementation (this pass, IRR-only, additive, read-only):** new `frontend/server/investment/positionValuation.ts` +
+`positionValuation.test.ts`. `measurePositionValuation(capture, positions, readers)` binds to the exact captured revision
+(fail-closed `CAPTURE_REF_INCOMPLETE` without digest, before any read) and classifies each position into a closed vocabulary:
+`VALUED` (resolved identity + quote present + verdict GOOD + eligibleForUse) / `IDENTITY_UNRESOLVED` (no data call) /
+`OBSERVATION_UNREADABLE` / `OBSERVATION_MISSING` / `NOT_VALUED_STALE` / `NOT_VALUED_UNAVAILABLE` / `NOT_VALUED_UNKNOWN` /
+`NOT_VALUED_STATUS_UNREADABLE` / `POSITION_INACTIVE`. Valued positions get `observedMarketValue = round2(quantity × ltp)`
+(independent arithmetic), quote currency, full observation provenance (asOf/receivedAt/evaluatedAt, lineageHash,
+sourceClassification, providerQualification verbatim — never upgraded), and `storedDivergence = |observed − stored|` reported,
+never hidden. Stored prices are carried as revision facts and NEVER used as observed. Aggregation: per-currency totals; a single
+portfolio total only when one currency (mixed currencies → `mixedCurrencies: true`, total null); unvalued positions contribute
+null (unknown, never zero); `observedCoverageOfStored` uses the stored active total as a LABELLED reference denominator;
+`observedTotalIsPartial` flags any unvalued active position. Open W12 decisions (denominator policy, stale concession,
+value-vs-count weighting threshold) are carried on every report (`openMethodologyDecisions`), not invented.
+
+**Tests executed this pass (offline harness, vitest 2.1.8, synthetic injected readers only — no live vendor request, no host
+capture):** `frontend/server/investment/positionValuation.test.ts` **18/18 pass** (revision binding fail-closed; independent
+arithmetic 10×250.5=2505 vs stored 2400 with divergence 105; one call per identity shared across positions; no call on
+unresolved identity; stored price not used when quote missing; STALE/UNKNOWN/UNAVAILABLE/unreadable never valued; unreadable
+status never fresh; read failure carries its code; inactive counted but excluded; partial-total and coverage-vs-stored
+aggregation; null totals when nothing valued; mixed-currency no-sum; byte-identical reruns; open decisions disclosed; malformed
+input refused). Scoped strict `tsc --noEmit` over the two new files: clean. Full targeted cluster re-run:
+`server/user-portfolio/*.test.ts` + `capture/*.test.ts` + `positionValuation.test.ts` → **17 files, 355/355 pass**.
+
+**W13 status: IN PROGRESS — mechanism implemented and synthetic-tested; actual per-position valuation NOT claimed.**
+Qualified-observation evidence is synthetic-only: W06 actual measurement is blocked on B02, identity coverage is 1/64 (W04), and
+no W12 methodology decision authorises stale-concession valuation or the final denominator. Synthetic fixtures are not live
+valuation coverage and are not presented as such. Next free line: §16.329.
