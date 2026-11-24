@@ -107,29 +107,46 @@ describe('W16 envelope — producer mappings preserve producer-specific fields',
       executions: [{ engineId: 'sector.banking', inputDigest: 'in1', requestId: 'w11-abc', output: { outputDigest: 'out1' } }],
     });
     expect(e.producer).toBe('W11_EXECUTION');
-    expect(e.artifactId).toBe('w11-abc');
+    expect(e.artifactId).toBeNull(); // REVIEW: a W11 report has no single durable id; requestIds are per-execution
     expect(e.digest).toBe('sha256:deadbeef');
+    expect(e.extensions.executionDigests).toEqual([{ requestId: 'w11-abc', inputDigest: 'in1', outputDigest: 'out1' }]);
     expect(e.sources.map((s) => s.kind)).toEqual(['CAPTURE', 'DATASET', 'ENGINE']);
     expect(e.buildProvenance.verification).toBe('UNKNOWN');
   });
 
-  it('W15 report artifact maps: chainRef + artifactId preserved, revision null (chain versions are not portfolio revisions)', () => {
+  it('W15 report artifact maps: reportId=chain identity, reportKey=content identity, artifactVersion=chainVersion, revision stays null', () => {
     const e = mapReportArtifactToEnvelope({
       reportType: 'investment.change-report',
       portfolioId: 'DHAN_PORTFOLIO',
       chainRef: 'icr:DHAN_PORTFOLIO',
-      artifactId: 'art-1',
+      reportId: 'art-1',
+      reportKey: 'ab'.repeat(32),
+      artifactVersion: 2,
+      supersedesReportId: 'art-0',
       engineOutputId: 'eo-9',
       schemaVersion: 1,
       generatedAt: '2026-11-20T00:00:00Z',
-      contentDigest: 'sha256:cafe',
     });
     expect(e.producer).toBe('W15_REPORT');
     expect(e.chainRef).toBe('icr:DHAN_PORTFOLIO');
-    expect(e.artifactId).toBe('art-1');
-    expect(e.revision).toBeNull();
+    expect(e.artifactId).toBe('art-1'); // reportId — chain identity, NOT the engine content-derived form
+    expect(e.digest).toBe('ab'.repeat(32)); // reportKey — content identity
+    expect(e.chainVersion).toBe(2);
+    expect(e.supersedes).toBe('art-0');
+    expect(e.revision).toBeNull(); // chain versions are NOT portfolio revisions — never conflated
     expect(e.timestamps.createdAt).toBe('2026-11-20T00:00:00Z');
-    expect(e.extensions.schemaVersion).toBe(1);
+    expect(e.missing).toEqual([]);
+  });
+
+  it('W15 missing reportKey/reportId/artifactVersion are reported in missing, never defaulted', () => {
+    const e = mapReportArtifactToEnvelope({
+      reportType: 't', portfolioId: 'p', chainRef: 'c',
+      reportId: null, reportKey: '', artifactVersion: null, supersedesReportId: null,
+      engineOutputId: null, schemaVersion: 1, generatedAt: null,
+    });
+    expect(e.missing).toEqual(['reportKey', 'reportId', 'artifactVersion']);
+    expect(e.digest).toBeNull();
+    expect(e.chainVersion).toBeNull();
   });
 });
 
@@ -163,7 +180,7 @@ describe('W16 comparison contract — pair classifications', () => {
   const sameRevOtherDigest: W16ProvenanceEnvelope = mapCaptureRefToEnvelope({ ...CAPTURE, provenanceDigest: 'ee'.repeat(32) });
 
   it('different producers → INCOMPARABLE', () => {
-    const other = mapReportArtifactToEnvelope({ reportType: 't', portfolioId: 'p', chainRef: null, artifactId: 'a', engineOutputId: null, schemaVersion: 1, generatedAt: null, contentDigest: null });
+    const other = mapReportArtifactToEnvelope({ reportType: 't', portfolioId: 'p', chainRef: null, reportId: 'a', reportKey: null, artifactVersion: null, supersedesReportId: null, engineOutputId: null, schemaVersion: 1, generatedAt: null });
     expect(classifyPair(base, other, { contentDigestsEqual: false }).classification).toBe('INCOMPARABLE');
   });
 
@@ -203,5 +220,85 @@ describe('W16 comparison contract — pair classifications', () => {
     expect(a.classification).toBe('INCOMPARABLE');
     expect(a.reasons.join(' ')).toContain('missing digest');
     expect(noDigest.missing).toContain('provenanceDigest');
+  });
+});
+
+describe('W16 REVIEW vectors — W15 successive chain versions (revision is null; chain identity governs)', () => {
+  const w15 = (version: number, key: string, supersedes: string | null = null) =>
+    mapReportArtifactToEnvelope({
+      reportType: 'investment.change-report',
+      portfolioId: 'DHAN_PORTFOLIO',
+      chainRef: 'icr:DHAN_PORTFOLIO',
+      reportId: 'art-1',
+      reportKey: key,
+      artifactVersion: version,
+      supersedesReportId: supersedes,
+      engineOutputId: 'eo-9',
+      schemaVersion: 1,
+      generatedAt: '2026-11-20T00:00:00Z',
+    });
+
+  it('R1: same chain + later artifactVersion, different reportKey -> SUCCESSIVE_REVISION (chain-version sense, not portfolio revision)', () => {
+    const a = classifyPair(w15(1, 'aa'.repeat(32), null), w15(2, 'bb'.repeat(32), 'art-1'), { contentDigestsEqual: false });
+    expect(a.classification).toBe('SUCCESSIVE_REVISION');
+    expect(a.reasons.join(' ')).toContain('chain version 1 -> 2');
+  });
+
+  it('R2: same chain, same reportKey -> UNCHANGED (NP-04 content-identical non-write; no new version is minted)', () => {
+    const key = 'cc'.repeat(32);
+    const a = classifyPair(w15(1, key, null), w15(1, key, null), { contentDigestsEqual: true });
+    expect(a.classification).toBe('UNCHANGED');
+    expect(a.delta).toBe('NONE');
+  });
+
+  it('R3: same chain, different reportId -> INCOMPARABLE (different instance identity)', () => {
+    const x = w15(1, 'aa'.repeat(32), null);
+    const y = { ...w15(2, 'bb'.repeat(32), 'other'), artifactId: 'art-2' };
+    expect(classifyPair(x, y, { contentDigestsEqual: false }).classification).toBe('INCOMPARABLE');
+  });
+
+  it('R4: different chainRef, same reportId -> INCOMPARABLE', () => {
+    const x = w15(1, 'aa'.repeat(32), null);
+    const y = { ...w15(2, 'bb'.repeat(32), 'art-1'), chainRef: 'icr:OTHER' };
+    expect(classifyPair(x, y, { contentDigestsEqual: false }).classification).toBe('INCOMPARABLE');
+  });
+
+  it('R5: missing reportKey on one side -> INCOMPARABLE even within a chain', () => {
+    const x = w15(1, 'aa'.repeat(32), null);
+    const y = { ...w15(2, '', 'art-1'), digest: null };
+    expect(classifyPair(x, y, { contentDigestsEqual: false }).classification).toBe('INCOMPARABLE');
+  });
+
+  it('R6: reconstructed flag on a chain version -> RECONSTRUCTED (never mistaken for contemporaneous)', () => {
+    const a = classifyPair(w15(1, 'aa'.repeat(32), null), w15(2, 'bb'.repeat(32), 'art-1'), { contentDigestsEqual: false, bReconstructed: true });
+    expect(a.classification).toBe('RECONSTRUCTED');
+  });
+});
+
+describe('W16 REVIEW vectors — classification precedence boundaries (non-W15)', () => {
+  const base = mapCaptureRefToEnvelope(CAPTURE);
+
+  it('R7: RECONSTRUCTED outranks content equality', () => {
+    expect(classifyPair(base, base, { contentDigestsEqual: true, bReconstructed: true }).classification).toBe('RECONSTRUCTED');
+  });
+
+  it('R8: missing digest outranks revision ordering (never silently compared)', () => {
+    const noDigest = mapCaptureRefToEnvelope({ ...CAPTURE, revision: 5, provenanceDigest: '' });
+    const a = classifyPair(base, noDigest, { contentDigestsEqual: false });
+    expect(a.classification).toBe('INCOMPARABLE');
+  });
+
+  it('R9: source change outranks observation detail; position delta is PRESENCE', () => {
+    const srcChanged = { ...base, sources: [{ kind: 'CAPTURE', id: 'OTHER', digest: base.digest }] };
+    expect(classifyPair(base, srcChanged, { contentDigestsEqual: false }).classification).toBe('PRODUCER_OR_SOURCE_CHANGED');
+    const withDelta = classifyPair(base, base, { contentDigestsEqual: false, positionDelta: -1 });
+    expect(withDelta).toMatchObject({ classification: 'POSITIONS_ADDED_REMOVED', delta: 'PRESENCE' });
+  });
+
+  it('R10: equal identity + observation change -> OBSERVATION_CHANGED (CATEGORICAL); output digest change -> OUTPUT_CHANGED (NUMERIC)', () => {
+    const obs = { ...base, timestamps: { ...base.timestamps, observedAt: '2026-11-23T09:30:00Z' } };
+    expect(classifyPair(base, obs, { contentDigestsEqual: false })).toMatchObject({ classification: 'OBSERVATION_CHANGED', delta: 'CATEGORICAL' });
+    const out = { ...base, digest: 'dd'.repeat(32), revision: 2 };
+    expect(classifyPair(base, out, { contentDigestsEqual: false }).classification).toBe('SUCCESSIVE_REVISION');
   });
 });

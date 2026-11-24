@@ -48,8 +48,16 @@ export interface W16ProvenanceEnvelope {
   readonly artifactId: string | null;
   /** Governed chain reference (NP-04/NP-06) for W15; null for producers without a chain. */
   readonly chainRef: string | null;
+  /**
+   * Store-assigned chain version (NP-04/NP-06 `artifactVersion`, integer >= 1) for W15;
+   * null otherwise. Portfolio `revision` and chain version are DIFFERENT identities and are
+   * never conflated: W15 artifacts carry `revision: null` and compare via chain identity.
+   */
+  readonly chainVersion: number | null;
+  /** NP-04/NP-06 `supersedesReportId` (null iff version 1) for W15; null otherwise. */
+  readonly supersedes: string | null;
   readonly sources: readonly W16SourceRef[];
-  /** Portfolio/producer revision when the producer carries one; null otherwise. */
+  /** Portfolio/producer revision when the producer carries one; null otherwise (null for W15). */
   readonly revision: number | null;
   /** Content/provenance digest when the producer carries one; null otherwise. */
   readonly digest: string | null;
@@ -78,6 +86,8 @@ export function mapCaptureRefToEnvelope(capture: CapturedRevisionRef): W16Proven
   return envelope('W09_CAPTURE', {
     artifactId: `${capture.portfolioId}@${String(capture.revision)}`,
     chainRef: null,
+    chainVersion: null,
+    supersedes: null,
     sources: [{ kind: 'CAPTURE', id: capture.portfolioId, digest: capture.provenanceDigest || null }],
     revision: Number.isInteger(capture.revision) ? capture.revision : null,
     digest: capture.provenanceDigest || null,
@@ -104,6 +114,8 @@ export function mapValuationReportToEnvelope(report: PositionValuationReport): W
   return envelope('W13_VALUATION', {
     artifactId: null, // the report carries no durable id; identity is its bytes (same rule as change reports)
     chainRef: null,
+    chainVersion: null,
+    supersedes: null,
     sources: [
       { kind: 'CAPTURE', id: report.capture.portfolioId, digest: report.capture.provenanceDigest || null },
       ...(first
@@ -158,8 +170,10 @@ export interface W11ExecutionReportShape {
 
 export function mapExecutionReportToEnvelope(report: W11ExecutionReportShape): W16ProvenanceEnvelope {
   return envelope('W11_EXECUTION', {
-    artifactId: report.executions[0]?.requestId ?? null,
+    artifactId: null, // REVIEW CORRECTION: a W11 report has no single durable id; per-execution requestIds live in extensions
     chainRef: null,
+    chainVersion: null,
+    supersedes: null,
     sources: [
       { kind: 'CAPTURE', id: report.portfolioId, digest: null },
       { kind: 'DATASET', id: report.datasetVersion, digest: report.contentDigest },
@@ -190,27 +204,39 @@ export interface W15ReportArtifactShape {
   readonly reportType: string;
   readonly portfolioId: string;
   readonly chainRef: string | null;
-  readonly artifactId: string | null;
+  /** Store-assigned durable instance identity (NP-04 `reportId`) — the CHAIN identity. */
+  readonly reportId: string | null;
+  /** Deterministic CONTENT identity (NP-04 `reportKey`, sha256 over canonical members). */
+  readonly reportKey: string | null;
+  /** Store-assigned chain version (NP-04 `artifactVersion`, integer >= 1). */
+  readonly artifactVersion: number | null;
+  /** NP-04 `supersedesReportId` (null iff artifactVersion === 1). */
+  readonly supersedesReportId: string | null;
   readonly engineOutputId: string | null;
   readonly schemaVersion: number;
   readonly generatedAt: string | null;
-  readonly contentDigest: string | null;
 }
 
 export function mapReportArtifactToEnvelope(artifact: W15ReportArtifactShape): W16ProvenanceEnvelope {
+  const missing: string[] = [];
+  if (artifact.reportKey === null || artifact.reportKey === '') missing.push('reportKey');
+  if (artifact.reportId === null || artifact.reportId === '') missing.push('reportId');
+  if (artifact.artifactVersion === null) missing.push('artifactVersion');
   return envelope('W15_REPORT', {
-    artifactId: artifact.artifactId,
+    artifactId: artifact.reportId, // chain/instance identity (reportId), NOT the content-derived engine form
     chainRef: artifact.chainRef,
+    chainVersion: artifact.artifactVersion,
+    supersedes: artifact.supersedesReportId,
     sources: [{ kind: 'REPORT_TYPE', id: artifact.reportType, digest: null }, { kind: 'ENGINE_OUTPUT', id: artifact.engineOutputId, digest: null }],
-    revision: null, // NP-04 versions are chain versions, not portfolio revisions
-    digest: artifact.contentDigest,
+    revision: null, // NP-04 versions are chain versions, not portfolio revisions — never conflated
+    digest: artifact.reportKey || null, // reportKey is the CONTENT identity
+    missing,
     timestamps: { observedAt: null, receivedAt: null, evaluatedAt: null, createdAt: artifact.generatedAt },
     providerQualification: null,
     freshnessVerdict: null,
     sourceClassification: null,
     buildProvenance: { buildId: null, verification: 'UNKNOWN' },
-    missing: artifact.generatedAt === null ? ['generatedAt'] : [],
-    extensions: { schemaVersion: artifact.schemaVersion, portfolioId: artifact.portfolioId },
+    extensions: { schemaVersion: artifact.schemaVersion, portfolioId: artifact.portfolioId, generatedAt: artifact.generatedAt },
   });
 }
 
@@ -272,42 +298,82 @@ export interface W16PairAssessment {
 }
 
 /**
- * Classifies a pair of envelopes. Identity checks come first: different producers or
- * artifact kinds are INCOMPARABLE, never compared. Equal digests and equal identity are
- * UNCHANGED (the NP-04/NP-06 content-identical non-write). A `reconstructed` extension
- * flag yields RECONSTRUCTED. Missing revision/digest on either side → INCOMPARABLE.
+ * Classifies a pair of envelopes. PRECEDENCE (reviewed 2026-11-24, §16.335):
+ *   0. different producers -> INCOMPARABLE (never cross-producer comparison);
+ *   1. W15 governed-chain pairs compare on CHAIN identity (chainRef + reportId), never on
+ *      portfolio revision (W15 revision is always null): different chainRef or reportId ->
+ *      INCOMPARABLE; equal content digest (reportKey) -> UNCHANGED (NP-04 content-identical
+ *      non-write); later artifactVersion -> SUCCESSIVE_REVISION (chain-version sense);
+ *      otherwise differing reportKey at equal version -> OUTPUT_CHANGED;
+ *   2. reconstructed flag on the second artifact -> RECONSTRUCTED;
+ *   3. equal content digests -> UNCHANGED;
+ *   4. missing digest on either side -> INCOMPARABLE (non-W15: missing revision also blocks);
+ *   5. revision: later -> SUCCESSIVE_REVISION; equal revision with different digest ->
+ *      SAME_REVISION_CONTENT_CHANGED;
+ *   6. source refs differ -> PRODUCER_OR_SOURCE_CHANGED;
+ *   7. position delta -> POSITIONS_ADDED_REMOVED (PRESENCE);
+ *   8. observation timestamps/verdicts differ -> OBSERVATION_CHANGED (CATEGORICAL);
+ *   9. output digests differ -> OUTPUT_CHANGED (NUMERIC);
+ *   10. otherwise -> INCOMPARABLE (identity insufficient).
  */
 export function classifyPair(
   a: W16ProvenanceEnvelope,
   b: W16ProvenanceEnvelope,
   opts: { readonly contentDigestsEqual: boolean; readonly bReconstructed?: boolean; readonly positionDelta?: number },
 ): W16PairAssessment {
-  const reasons: string[] = [];
+  // 0. Cross-producer pairs are never compared.
   if (a.producer !== b.producer) {
     return { classification: 'INCOMPARABLE', reasons: ['different producers'], delta: 'UNKNOWN' };
   }
-  if (a.artifactId !== null && b.artifactId !== null && a.artifactId !== b.artifactId && a.producer === 'W15_REPORT') {
-    return { classification: 'INCOMPARABLE', reasons: ['different artifact identities on a governed chain'], delta: 'UNKNOWN' };
+
+  // 1. W15 governed-chain pairs: chain identity (chainRef + reportId) replaces portfolio revision.
+  if (a.producer === 'W15_REPORT') {
+    if (a.chainRef !== b.chainRef || a.artifactId !== b.artifactId) {
+      return { classification: 'INCOMPARABLE', reasons: ['different chain or artifact identity (chainRef/reportId)'], delta: 'UNKNOWN' };
+    }
+    if (opts.bReconstructed === true) {
+      return { classification: 'RECONSTRUCTED', reasons: ['second artifact flagged reconstructed'], delta: 'UNKNOWN' };
+    }
+    if (opts.contentDigestsEqual) {
+      return { classification: 'UNCHANGED', reasons: ['reportKey (content identity) equal — non-write'], delta: 'NONE' };
+    }
+    if (a.digest === null || b.digest === null) {
+      return { classification: 'INCOMPARABLE', reasons: ['missing reportKey on at least one side'], delta: 'UNKNOWN' };
+    }
+    if (a.chainVersion !== null && b.chainVersion !== null && b.chainVersion > a.chainVersion) {
+      return { classification: 'SUCCESSIVE_REVISION', reasons: [`chain version ${String(a.chainVersion)} -> ${String(b.chainVersion)} on ${a.chainRef ?? 'chain'}`], delta: 'UNKNOWN' };
+    }
+    if (a.digest !== b.digest) {
+      return { classification: 'OUTPUT_CHANGED', reasons: ['reportKey differs at equal chain identity'], delta: 'NUMERIC' };
+    }
+    return { classification: 'UNCHANGED', reasons: ['same chain identity and content'], delta: 'NONE' };
   }
+
+  // 2-3. Reconstruction flag, then content-identical non-write.
   if (opts.bReconstructed === true) {
     return { classification: 'RECONSTRUCTED', reasons: ['second artifact flagged reconstructed'], delta: 'UNKNOWN' };
   }
   if (opts.contentDigestsEqual) {
     return { classification: 'UNCHANGED', reasons: ['content digests equal'], delta: 'NONE' };
   }
-  // Missing identity/provenance on either side: never silently compared.
+
+  // 4. Missing identity/provenance on either side: never silently compared.
   if (a.digest === null || b.digest === null || a.revision === null || b.revision === null) {
     const missing: string[] = [];
     if (a.digest === null || b.digest === null) missing.push('digest');
     if (a.revision === null || b.revision === null) missing.push('revision');
     return { classification: 'INCOMPARABLE', reasons: [`missing ${missing.join(' and ')} on at least one side`], delta: 'UNKNOWN' };
   }
-  if (a.revision !== null && b.revision !== null) {
-    if (b.revision > a.revision) return { classification: 'SUCCESSIVE_REVISION', reasons: [`revision ${String(a.revision)} → ${String(b.revision)}`], delta: 'UNKNOWN' };
-    if (a.revision === b.revision && a.digest !== null && b.digest !== null && a.digest !== b.digest) {
-      return { classification: 'SAME_REVISION_CONTENT_CHANGED', reasons: ['same revision, different digest'], delta: 'UNKNOWN' };
-    }
+
+  // 5. Revision ordering.
+  if (b.revision > a.revision) {
+    return { classification: 'SUCCESSIVE_REVISION', reasons: [`revision ${String(a.revision)} -> ${String(b.revision)}`], delta: 'UNKNOWN' };
   }
+  if (a.revision === b.revision && a.digest !== b.digest) {
+    return { classification: 'SAME_REVISION_CONTENT_CHANGED', reasons: ['same revision, different content digest'], delta: 'UNKNOWN' };
+  }
+
+  // 6-9. Source, positions, observations, output.
   if (a.sources.length !== b.sources.length || a.sources.some((s, i) => s.id !== b.sources[i]?.id || s.digest !== b.sources[i]?.digest)) {
     return { classification: 'PRODUCER_OR_SOURCE_CHANGED', reasons: ['source references differ'], delta: 'UNKNOWN' };
   }
@@ -317,11 +383,9 @@ export function classifyPair(
   if (a.timestamps.observedAt !== b.timestamps.observedAt || a.freshnessVerdict !== b.freshnessVerdict) {
     return { classification: 'OBSERVATION_CHANGED', reasons: ['observation timestamps or verdicts differ'], delta: 'CATEGORICAL' };
   }
-  if (a.digest !== null && b.digest !== null && a.digest !== b.digest) {
+  if (a.digest !== b.digest) {
     return { classification: 'OUTPUT_CHANGED', reasons: ['output digests differ'], delta: 'NUMERIC' };
   }
-  if (a.digest === null || b.digest === null || a.revision === null || b.revision === null) {
-    return { classification: 'INCOMPARABLE', reasons: ['missing revision or digest on at least one side'], delta: 'UNKNOWN' };
-  }
-  return { classification: 'OUTPUT_CHANGED', reasons: ['content differs without a more specific class'], delta: 'NUMERIC' };
+  // 10.
+  return { classification: 'INCOMPARABLE', reasons: ['identity insufficient to compare'], delta: 'UNKNOWN' };
 }
