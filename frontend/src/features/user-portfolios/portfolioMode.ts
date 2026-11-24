@@ -39,8 +39,8 @@ export interface PortfolioModeInput {
   readonly provenanceDigest: string | null;
   /** Read/source timestamp (W09 observedAt / capture capturedAt), when known. */
   readonly observedAt: string | null;
-  /** Qualified-observation coverage, or null when no observation evidence exists. */
-  readonly coverage: ModeCoverageInput | null;
+  /** Qualified-observation coverage; absent/null when no observation evidence exists. */
+  readonly coverage?: ModeCoverageInput | null;
 }
 
 export interface PortfolioModeDecision {
@@ -68,7 +68,7 @@ export function selectPortfolioMode(input: PortfolioModeInput): PortfolioModeDec
     missing.push('read/source timestamp');
   }
 
-  const coverage = input.coverage;
+  const coverage = input.coverage ?? null;
   if (coverage !== null && coverage.activePositions === 0) {
     // A read exists but the revision holds no active positions: nothing to observe —
     // persisted reference display, never ACTUAL.
