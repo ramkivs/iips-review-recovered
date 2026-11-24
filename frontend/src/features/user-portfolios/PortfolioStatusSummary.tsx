@@ -37,6 +37,8 @@ import {
   rejectedRevisionsNote,
   type PortfolioPersistenceObservation,
 } from './portfolioPersistenceStatus';
+import { PortfolioModeIndicator } from './PortfolioModeIndicator';
+import { selectPortfolioMode } from './portfolioMode';
 
 interface Props {
   readonly portfolioId: string;
@@ -137,6 +139,21 @@ export function PortfolioStatusSummary({ portfolioId, read, onRefresh }: Props) 
         Persisted portfolio facts read from IPD. The valuation is the value IPD stored when the revision was
         committed — it is <strong>not</strong> a live market valuation.
       </p>
+      <PortfolioModeIndicator
+        decision={selectPortfolioMode({
+          readPresent: true,
+          revision: view.revision,
+          provenanceDigest: view.provenanceDigest,
+          observedAt: view.lastUpdated,
+          // No qualified-observation evidence is attached to this surface yet (W06/W13
+          // actual measurement is B02-blocked), so the mode is REFERENCE — persisted
+          // revision facts, never presented as live.
+          coverage: null,
+        })}
+        revision={view.revision}
+        provenanceDigest={view.provenanceDigest}
+        observedAt={view.lastUpdated}
+      />
 
       <MetricGroup label="Portfolio">
         <SummaryCard label="Total Portfolio Value" testId="summary-total-value">

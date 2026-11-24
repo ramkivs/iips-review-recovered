@@ -25383,3 +25383,28 @@ consumer behaviour and NP-04/NP-06 chains are unchanged (no wire or persisted sh
 **W16 status: contract ADOPTED (§16.336) + optional projection IMPLEMENTED (§16.337); acceptance still PENDING actual producer
 artifacts and B02 evidence.** Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present; B06 verified.
 Next free line: §16.338.
+
+### §16.338 — W17 User-Facing Modes IMPLEMENTED (ACTUAL/REFERENCE/DEGRADED) at the portfolio status boundary 2026-11-24 (commit pending)
+
+**Existing UI found:** `PortfolioStatusSummary.tsx` already renders W09 persisted facts (revision, provenanceDigest,
+lastUpdated, stored value labelled not-live, empty-vs-unavailable); badges follow symbol+label+semantic-token; no mode
+concept existed. Data flow: W09 read (`UserPortfolioRead`) → summary; W13/W16 reports are not yet wired to any view.
+
+**Implemented (additive, IRR-only):** `frontend/src/features/user-portfolios/portfolioMode.ts` — pure
+`selectPortfolioMode`: ACTUAL only with a W09 read + complete identity (revision, digest, read timestamp) + full
+qualified-observation coverage (W13 `valued === active`, zero unresolved/stale/unavailable/UNKNOWN/unreadable);
+REFERENCE when persisted data exists but no observation evidence (or zero active positions) — never presented as
+live; DEGRADED when the read is unavailable or coverage/identity is incomplete, with an explicit `missing` list.
+UNKNOWN never rendered as STALE; no fabricated values; mode is a pure recomputation (no hidden state, no silent
+substitution). `PortfolioModeIndicator.tsx` renders the mode badge + details (revision, short digest, read time,
+coverage x/y, missing list) with status tokens + symbol+label. Wired additively into `PortfolioStatusSummary`
+(no existing element changed; its 23 tests pass unchanged).
+
+**Verification:** `portfolioMode.test.ts` 9/9 (mode matrix incl. UNKNOWN-vs-STALE, no-read, missing-digest-blocks-ACTUAL,
+zero-active→REFERENCE, pure transitions); `PortfolioModeIndicator.test.tsx` 4/4; `PortfolioStatusSummary.test.tsx`
+23/23 unchanged; targeted cluster **23 files, 444/444 pass**; scoped strict tsc clean; PR CI Typecheck·Test·Build pass.
+Doc: `docs/integration/W17-USER-FACING-MODES-2026-11-24.md`.
+
+**W17 status: modes IMPLEMENTED and published; ACTUAL display not claimable yet** — requires W13 actual qualified
+coverage (W06/B02-blocked, W12 decisions pending). Deps: W09 verified; W13 synthetic-only; W14 NOT READY (§16.331);
+W15/W16 published (§16.334–§16.337); B06 verified. Next free line: §16.339.
