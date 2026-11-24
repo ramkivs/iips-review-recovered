@@ -5,8 +5,9 @@ concession, value-versus-count weighting threshold — remain UNDECIDED. Nothing
 final selection requires actual W05/W06 evidence (B02) and an authorised decision, per the roadmap acceptance clause
 ("final choices reflect actual data") and GD-4 ("exact thresholds/rounding are technical design choices under the grant,
 not preselected facts").** *Amended 2026-11-24: §10 reconciles this design with the authoritative roadmap's Section K
-monetary-coverage requirements (signed value vs gross exposure, unrounded gate arithmetic, `C`/`t`/alignment). The
-amendment selects no decision and changes no code; D1–D3 remain UNDECIDED.*
+monetary-coverage requirements (signed value vs gross exposure, unrounded gate arithmetic, `C`/`t`/alignment); §11
+completes the evidence-independent methodology work (D1–D3 examined alongside Section K; new test specs V19–V24).
+The amendments select no decision and change no code; D1–D3 remain UNDECIDED.*
 
 **Baseline:** readiness record tracker §16.329; W13 mechanism `frontend/server/investment/positionValuation.ts`
 (PR #634, tracker §16.328); GD-4 (roadmap decision table): *distinguish count from money; use transparent per-position
@@ -232,3 +233,138 @@ delivered and synthetic-tested; actual quote/freshness measurement over `DHAN_PO
 access, numerator bounded ≤ 1/64 by W04 identity coverage); B05 COMPLETE/VERIFIED at its own scope. These evidence gaps
 defer the final methodology decisions; they do **not** mean the technical design or the W13 mechanism is absent — both
 exist and are cited above. Tracker record: §16.342.
+
+---
+
+## 11. Evidence-independent methodology completion (2026-11-24) — D1–D3 examined alongside the Section K reconciliations
+
+**Status: TECHNICAL DESIGN / DOCUMENTATION ONLY, completed to the extent possible without new W05/W06 portfolio
+evidence.** No code is changed by this section; it specifies methodology and test specifications. Every choice that
+genuinely requires evidence or an owner decision is left open with its exact dependency recorded. Authoritative basis:
+the W12 roadmap row (IPD `84e988b…`, quoted in tracker §16.329: deliverable = *"practical value-weighting formula,
+denominator, inclusion, currency, time alignment and partial/stale policy plus vectors, within GD-4"*; acceptance =
+*"reproducible arithmetic, clear distinction count/monetary weighting and honest withheld cases; final choices reflect
+actual data"*; *"Ready: technical design now; final feasibility depends on W05/W06. No new approval cycle."*), GD-4, and
+Section K (roadmap L364–368 population/gate, L374–380 monetary coverage; IRR-held blob `7affba55…` at IPD `26855625…`).
+
+**Classification legend used below:** **[R]** already explicitly established by the authoritative roadmap (W12 may
+restate it as methodology now) · **[S]** specifiable now from existing repository evidence, no new portfolio evidence
+needed · **[E]** genuinely requires W05/W06 actual evidence (B02) · **[O]** genuinely requires an explicit owner/PA
+decision · **[W13]** conditional W13 implementation implication (only after a recorded decision).
+
+### 11.1 Gross exposure (Section K) — non-negative, |quantity|-based, no long/short netting
+
+| # | Statement | Class |
+|---|---|---|
+| 1 | Monetary-coverage exposure is **non-negative gross exposure computed from absolute quantity**: `grossExposure = \|quantity\| × price`, per position, per currency. Long and short positions must **not** net. | [R] Section K L374–380 |
+| 2 | The signed position value (`quantity × ltp`, V14) and the gross exposure are **two distinct outputs computed from the same qualified observation** (resolved identity + quote present + freshness `GOOD` + `eligibleForUse`); neither substitutes for the other. | [S] — follows from [R] + the existing W13 qualification gate |
+| 3 | An unqualified position (any non-`VALUED` status) has **unknown** exposure: `null`, never `0`; it **remains in the denominator population** `E` (counted), and an exact denominator is **blocked unless reliably established**. | [R] Section K L364–368 |
+| 4 | Instrument units/multipliers: applicable units/multipliers **must be accounted for** in exposure; no multiplier source exists in the repository today, so the specified treatment is: **no multiplier is applied; any future multiplier must come from a governed reference source and be recorded** — the parameter itself is open. | [R] requirement + [E] the actual unit/multiplier values (need W04 identity + reference data) |
+| 5 | **Specifiable now (no W13 change needed for the gate):** `ValuedPosition` already carries `quantity` and `observation.ltp`, so W20 can compute `\|quantity\| × ltp` and the unrounded products **from the existing report fields** — one computation owner (W20 for the gate; W13 stays the producer of the qualified observation). A W13-side `grossExposure` presentation field is optional and conditional. | [S] + [W13] |
+| 6 | Test specs: **V19, V20** below. Existing coverage: V14 covers the signed negative value only; it does not test gross exposure (no duplication). | [S] |
+
+### 11.2 Unrounded monetary gate arithmetic (Section K) — rounding is presentation-only
+
+| # | Statement | Class |
+|---|---|---|
+| 1 | Gate evaluation uses **unrounded** values; rounding applies **only for presentation** (roadmap quote: *"round only for display and evaluate the unrounded ratio"*). | [R] Section K; IRR-held quote in `W05-ROADMAP-RECONCILIATION-2026-11-17.md` §8 |
+| 2 | **Precision boundary (specified now):** W13's `round2` at `positionValuation.ts` L315/L337 is **presentation rounding**. The gate inputs are the unrounded per-position products `quantity × ltp` and their unrounded sums (`N`, `D`, `N / D`). Presentation values remain `round2` of the unrounded aggregates. No additional precision/scale rules are introduced. | [S] |
+| 3 | `\|E\| = 0` → gate result **not applicable / W20 blocked, never 100 %** (roadmap quote). | [R] |
+| 4 | Denominator population `E` for the monetary gate = **all active positions of the captured revision** bound to the report (unknown-exposure positions included, counted — see 11.1 #3). The observed-value sum is **never** the gate denominator (self-referential; already rejected as sole denominator in §2 Alt B). | [S] from [R] Section K population rules |
+| 5 | The **value of `θM`** is unestablished (`θI/θF/θA/θM` are the roadmap's unestablished thresholds; `θF` precedent: set from observed evidence under the standing grant, gates W20, fail-closed until then). | [E] W05/W06 actual evidence; no value asserted |
+| 6 | W20 must evaluate the gate on the unrounded sums of the **same eligible population and same captured revision** as the report, and must not compute exposure inconsistently with the producer (single-computation rule from §10.2: W20 consumes the report's `quantity`/`ltp` or a W13-exposed unrounded field verbatim — never a second rounding path). | [R]+[S]; [W13] only if an unrounded field is exposed |
+| 7 | Test specs: **V21, V22** below. Existing coverage: V1 checks per-position `round2` presentation arithmetic only; no vector tests aggregate/gate behavior under rounding (no duplication). | [S] |
+
+### 11.3 Reporting currency `C`, valuation instant `t`, alignment (Section K) — IPD freshness ownership unchanged
+
+| # | Statement | Class |
+|---|---|---|
+| 1 | The report must **record** a reporting currency `C` and a valuation instant `t`, and the alignment/freshness policy must be documented, including acceptable quote/FX observation ages and time zones. | [R] Section K L374–380 |
+| 2 | **Specifiable now:** `C` = the single currency of all valued positions when exactly one currency spans them; when mixed, `C` is recorded as **not singular** (null/multi) with the per-currency breakdown — never a fabricated converted total (consistent with §3 Alt A/B and V12). All timestamps are recorded in UTC (ISO-8601 `Z`), which is the specified time-zone convention. | [S] from existing repo behavior |
+| 3 | **Specifiable now:** `t` (valuation instant) is recorded on the report; the baseline candidate is the report's own read time `evaluatedAt` (the captured revision's read). **Alignment** means: each position's observation `asOf` is retained verbatim (retention — already V15) **and** the report states each observation's age relative to `t` (`t − asOf`); no observation is re-timestamped and no cross-position "latest asOf" portfolio timestamp is invented. Retention ≠ alignment: V15 proves retention only. | [S] from [R]; the choice of `t` among candidates (read time vs aligned observation time) is [O] |
+| 4 | Acceptable quote/FX observation ages (max age at which an observation may contribute to the gate at `t`) and any FX conversion for mixed `C`: **open parameters** — they require W06 actual freshness/observation evidence and (for FX) a qualified FX source (none exists; §3-B rejected until W06 qualifies one). No age limit or conversion is invented. | [E] W06/B02 |
+| 5 | IPD continues to own freshness verdicts and provider-specific semantics; IRR consumes verdicts verbatim and never upgrades. Nothing in this section adds an IRR freshness rule. | [R] boundary, unchanged |
+| 6 | Test specs: **V23, V24** below (V15 already covers retention — V23 adds only the alignment metadata; V12 already covers mixed-currency aggregation — V24 adds only the `C` recording). | [S] |
+
+### 11.4 D1 — coverage denominator policy: interaction with Section K (remains UNDECIDED)
+
+- [R] GD-4/roadmap: document the denominator; distinguish count from money; withhold when inputs cannot support it. Section K fixes the **gate** denominator rule (population `E`, unknowns included, unrounded, `|E|=0` → N/A) — see 11.2 #3–#4; the observed-total sole denominator is rejected (self-referential, §2 Alt B).
+- [S] The W13 **presentation** denominator alternatives are already enumerated (§2 A–D) with the stored-active reference implemented and labelled.
+- [E][O] The **final** D1 choice "reflects actual data" (roadmap acceptance clause) → requires W05/W06 actual evidence (B02) and an authorised decision. **D1 remains UNDECIDED**; exact dependency: W05 source-rights completion + W06 actual qualified observations over `DHAN_PORTFOLIO` rev 1 (B02 host access), then owner decision.
+- [W13] Any denominator change is a W13 report-shape change, only after that decision.
+
+### 11.5 D2 — stale-observation concession: interaction with Section K (remains UNDECIDED)
+
+- [R]+[S] Specifiable now without evidence: a STALE observation contributes **nothing to the qualified numerator** (current baseline, V5) **but the position stays in the denominator population `E`** (Section K: unqualified/unknown stays in the population). No stale concession is implemented; `staleConcessionActive` is echoed only.
+- [E][O] Whether any concession (discount/haircut) may ever apply to qualified exposure: requires W06 actual staleness evidence and an explicit owner decision. **D2 remains UNDECIDED**; dependency recorded as above.
+- [W13] None now; any concession needs code + vectors after the decision.
+
+### 11.6 D3 — value-vs-count weighting threshold θ: separate from Section K `θM` (remains UNDECIDED)
+
+- [R] GD-4/roadmap acceptance: **clear distinction count vs monetary weighting** — settled methodology: count weights and value weights are always published side-by-side as data (V18 does this); no silent switch.
+- [S] The switch **mechanism** (value weights when coverage against the chosen denominator is known; count weights always alongside) is already the design proposal of §1.
+- [E][O] The threshold **value** θ (coverage at which count-based presentation replaces/joins value-based) "reflects actual data" → needs W05/W06 evidence + owner decision. **D3 remains UNDECIDED.** `θM` (Section K's mandatory monetary-coverage threshold, gates W20) is **not** D3 and is not set either (11.2 #5) — the two are never conflated.
+- [W13] V18 already records both weightings as data; a θ-driven behavior change is conditional on the D3 decision.
+
+### 11.7 New test specifications for Section K-established requirements (specs only — not implemented in this pass)
+
+Each spec is deterministic against the existing `measurePositionValuation` harness (injected fake readers, fixed clock
+`2026-11-23T10:00:00.000Z`, capture `DHAN_PORTFOLIO` rev 1 digest `17b2b283…`). "Expected" is given wherever the
+authoritative requirements determine it; "cannot yet be specified" is stated where they do not.
+
+- **V19 — gross exposure without long/short netting [R]:** positions qty `+10` ltp `250.5` (stored 2400) and qty `−2` ltp `100`
+  (stored −200), same currency, both `VALUED`. Expected (determined): signed value total = `2505 − 200 = 2305`; gross exposure
+  per position = `2505` and `200`; **gross exposure total = 2705**; `grossTotal ≥ \|signedTotal\|`; no netting. Computed by
+  W20 from report `quantity`/`observation.ltp` (11.1 #5) — expected gate numerator (unrounded) = `2705`.
+- **V20 — unqualified position stays in denominator population [R]:** one `VALUED` position (+10 × 250.5) and one `NOT_VALUED_STALE`
+  position. Expected (determined): qualified gross numerator `N = 2505`; population `E = 2` (the STALE position is counted,
+  contributes `null` exposure — never 0); ratio is partial-flagged, **not 100 %**; STALE is not in `N` (11.5 baseline).
+- **V21 — unrounded gate arithmetic vs presentation rounding [R]:** three `VALUED` positions, qty `1` × ltp `0.125` each
+  (per-position product `0.125`; `round2(0.125) = 0.13`). Expected (determined): gate inputs unrounded — `N = 0.375`;
+  sum-of-rounded would be `0.39` and must **not** be used; presentation total = `round2(0.375) = 0.38`. The three values
+  (`0.375` gate, `0.38` presentation, `0.39` naive) must be distinguishable in the report/gate path.
+- **V22 — empty denominator population [R]:** zero active positions on the captured revision. Expected (determined): `|E| = 0` →
+  gate result **not applicable / W20 blocked, never 100 %**.
+- **V23 — alignment metadata distinct from retention [R]+[S]:** two `VALUED` positions with different `asOf` (as in V15) and
+  recorded `t = evaluatedAt = 2026-11-23T10:00:00.000Z`. Expected (determined): each `asOf` retained verbatim (retention —
+  already V15, not duplicated); report additionally records `t` and per-position age `t − asOf` (`120 min`, `30 min`) in UTC;
+  no observation re-timestamped; no invented portfolio-level "as-of" price time. *Not yet specifiable:* whether an observation
+  older than the (unset) maximum age may contribute at `t` — depends on 11.3 #4 [E].
+- **V24 — reporting currency `C` recorded [R]+[S]:** single-currency report → `C = 'INR'` recorded on the report; mixed-currency
+  report → `C` recorded as not singular with per-currency breakdown (aggregation behavior already V12; V24 adds only the
+  explicit `C` field). Expected (determined) for the single-currency case; for mixed, no converted total is fabricated.
+  *Not yet specifiable:* FX conversion to a single `C` for mixed portfolios — needs a qualified FX observation [E] (§3-B).
+- **Cannot-yet-specified expected outcomes (recorded, not guessed):** the W20 gate open/closed verdict at `θM` (θM unestablished,
+  11.2 #5 [E]); any stale-concession effect (D2 [E][O]); the final D1 denominator choice [E][O]; the alignment max age and
+  `t` choice among candidates [E]/[O]; instrument multipliers [E].
+
+### 11.8 Existing vectors V1–V18 — coverage map (no duplication)
+
+V1 per-position presentation arithmetic · V2 one read pair per identity · V3 unresolved identity · V4 stored not promoted ·
+V5 STALE not valued (D2 baseline) · V6 UNKNOWN distinct · V7 unreadable never fresh · V8 read error carried · V9 inactive
+excluded/counted · V10 partial coverage flag + `observedCoverageOfStored` · V11 null-not-zero totals · V12 mixed currency
+per-currency · V13 true zero · V14 **signed** negative value (gross exposure covered only by new V19/V20) · V15 timestamp
+**retention** (alignment metadata covered only by new V23) · V16 reproducibility · V17 fail-closed malformed input ·
+V18 count/value weights as data (D3 disclosure rule). New specs V19–V24 add only the Section K-determined behaviors above.
+
+### 11.9 Responsibility separation (W12 / W13 / W20 / IPD) — consolidated
+
+- **W12 (this document):** owns the methodology — gross-exposure definition, precision boundary, population rule `E`,
+  `C`/`t` recording and alignment policy, D1–D3 framing. Settled here: everything marked [R]/[S]. Open here: everything
+  marked [E]/[O], with exact dependencies recorded (11.4–11.6).
+- **W13 (`positionValuation.ts`, PR #634):** unchanged in this pass. Conditional future changes, each only after a recorded
+  decision: a presentation `grossExposure` field (else W20 computes from existing fields — 11.1 #5); exposure of unrounded
+  per-position products (else W20 computes from `quantity` × `observation.ltp` — 11.2 #6); explicit `C`/`t`/age fields
+  (11.3 #2–#3); any D1/D2/D3-driven behavior.
+- **W20:** acceptance — evaluates the monetary gate on **unrounded** `N`/`D`/`N/D` over the **same eligible population `E` and
+  same captured revision**, non-negative gross exposure, `|E| = 0` fail-closed, recorded `C`/`t` policy applied, `θM` set from
+  observed evidence under the standing grant (fail-closed until then).
+- **IPD:** freshness verdicts and provider semantics — unchanged, never overridden by IRR.
+
+### 11.10 Boundaries
+
+Documentation/design only: no code or test file changed in this pass; no D1–D3 selection; no W13 change; no IPD change
+or freshness-behavior change; no operator-side evidence collection; no live vendor request; no host access; no acceptance
+claim. Evidence status carried unchanged from §16.329/§16.342: W05 IN PROGRESS — NOT ACCEPTED; W06 PARTIAL — NOT ACCEPTED
+(mechanism delivered + synthetic-tested; actual measurement blocked on B02, numerator bounded ≤ 1/64 by W04); B05
+COMPLETE/VERIFIED at its own scope. Tracker record: §16.343.
