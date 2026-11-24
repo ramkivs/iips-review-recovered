@@ -25360,3 +25360,26 @@ precedence boundaries) — **26/26 pass**; targeted cluster (user-portfolio + ca
 NOT methodology approval, NOT producer-boundary integration (out of scope per task), NOT W16 acceptance (needs actual
 W09/W11/W13/W15 artifacts via B02). Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present;
 B06 COMPLETE/VERIFIED. Next free line: §16.337.
+
+### §16.337 — W16 optional provenance projection IMPLEMENTED at IRR producer boundaries (additive; no producer contract changed) 2026-11-24 (commit pending)
+
+**Boundary ownership inspected:** W09 capture (`frontend/server/user-portfolio/capture/` + `market-data/dhanRevisionCoverage.ts`),
+W13 valuation (`frontend/server/investment/positionValuation.ts`), W15 reports (`frontend/server/reports/` + `investment/change/`)
+— all IRR/frontend. W11 execution module lives in `iips-platform` (same repository, but it must not import frontend), so the W11
+projection is applied at the IRR consumer side of the platform handoff — documented, not a cross-repo change. IPD untouched.
+
+**Implementation:** `frontend/server/investment/lineage/projections.ts` — `attachOptionalProvenanceEnvelope` (shallow copy with
+optional `provenanceEnvelope` field; original output never mutated; projection absent when not called) + `projectW09Capture` /
+`projectW13Valuation` / `projectW11Execution` / `projectW15Report` using the ADOPTED envelope (`iips.w16.provenance-envelope/v1`,
+§16.336). Missing/unattested provenance stays `missing`/`UNKNOWN`; W15 keeps chain identity (`chainRef`/`artifactId`=reportId/
+`chainVersion`/`supersedes`) distinct from portfolio revision (null); no historical chain or persisted artifact is modified.
+
+**Verification:** `projections.test.ts` 9 vectors — **9/9 pass** (mapping per producer; optionality/absence; input and NP-04
+artifact immutability; W15 successive-version classification via classifyPair; projection-failure isolation). Targeted cluster
+(lineage + W12/W13 investment + user-portfolio + capture): **20 files, 408/408 pass**; scoped strict `tsc --noEmit` clean on the
+new files; CI on the PR: tracker validation + Typecheck·Test·Build + Windows runner all pass. Existing producer outputs,
+consumer behaviour and NP-04/NP-06 chains are unchanged (no wire or persisted shape touched).
+
+**W16 status: contract ADOPTED (§16.336) + optional projection IMPLEMENTED (§16.337); acceptance still PENDING actual producer
+artifacts and B02 evidence.** Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present; B06 verified.
+Next free line: §16.338.
