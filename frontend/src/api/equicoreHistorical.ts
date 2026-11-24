@@ -3,8 +3,8 @@
  * historical proxy routes (`/api/equicore/*`).
  *
  * Strictly uses `noAuthFetch` (`credentials: 'omit'`, `Authorization` stripped): the browser
- * never contacts EquiCore directly, never reads `IIPS_EQUICORE_*` environment settings, and
- * never receives or transmits bearer credentials.
+ * never contacts the upstream historical daemon directly, never reads server environment
+ * settings, and never receives or transmits bearer credentials.
  */
 import type { Freshness } from './transportTypes';
 import { noAuthFetch } from '../core/network/noAuthFetch';
