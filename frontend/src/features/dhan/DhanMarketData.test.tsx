@@ -11,7 +11,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import { DhanQuotes, buildDhanQuoteRequest, exchangeSegmentFor } from './DhanQuotes';
-import { DhanHistorical, validateHistoricalRange } from './DhanHistorical';
+import { DhanHistorical, buildDhanHistoricalRequest, validateHistoricalRange } from './DhanHistorical';
 
 function quoteBody(overrides: Record<string, unknown> = {}) {
   return {
@@ -55,6 +55,8 @@ function historicalBody(overrides: Record<string, unknown> = {}) {
   return {
     data: {
       freshness: 'SNAPSHOT',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
       candles: [
         {
           candleStart: '2026-11-01T00:00:00.000Z',
@@ -78,16 +80,6 @@ function historicalBody(overrides: Record<string, unknown> = {}) {
       ...overrides,
     },
   };
-}
-
-function okFetch(body: unknown) {
-  return vi.fn((_url: string, _init?: RequestInit) =>
-    Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) } as Response));
-}
-
-function errFetch(status: number, error: Record<string, unknown>) {
-  return vi.fn((_url: string, _init?: RequestInit) =>
-    Promise.resolve({ ok: false, status, json: () => Promise.resolve({ error }) } as Response));
 }
 
 /* ------------------------------------------------------------------------ */
@@ -183,6 +175,46 @@ async function searchAndPick(index = 0, query = 'SYNTH'): Promise<void> {
 async function submitQuote(): Promise<void> {
   await searchAndPick(0);
   fireEvent.click(screen.getByTestId('dhan-quote-submit'));
+}
+
+type HistoricalFetchResult =
+  | { readonly ok: true; readonly body: unknown }
+  | { readonly ok: false; readonly status: number; readonly error: Record<string, unknown> };
+
+function dhanHistoricalFetch(search: unknown, historicalResults: readonly HistoricalFetchResult[]) {
+  let callIndex = 0;
+  return vi.fn((url: string, _init?: RequestInit) => {
+    if (String(url).includes('/api/dhan/instruments/search')) {
+      return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(search) } as Response);
+    }
+    if (String(url).includes('/api/dhan/historical')) {
+      const result = historicalResults[Math.min(callIndex, historicalResults.length - 1)]!;
+      callIndex += 1;
+      return result.ok
+        ? Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(result.body) } as Response)
+        : Promise.resolve({ ok: false, status: result.status, json: () => Promise.resolve({ error: result.error }) } as Response);
+    }
+    return Promise.reject(new Error(`unexpected fetch url: ${String(url)}`));
+  });
+}
+
+function historicalOk(body: unknown): HistoricalFetchResult {
+  return { ok: true, body };
+}
+function historicalErr(status: number, error: Record<string, unknown>): HistoricalFetchResult {
+  return { ok: false, status, error };
+}
+
+async function searchAndPickHistorical(index = 0, query = 'SYNTH'): Promise<void> {
+  fireEvent.change(screen.getByTestId('dhan-historical-search-query'), { target: { value: query } });
+  fireEvent.click(screen.getByTestId('dhan-historical-search-submit'));
+  await screen.findByTestId('dhan-historical-search-results');
+  fireEvent.click(screen.getAllByTestId('dhan-historical-pick')[index]!);
+}
+
+async function submitHistorical(): Promise<void> {
+  await searchAndPickHistorical(0);
+  fireEvent.click(screen.getByTestId('dhan-historical-submit'));
 }
 
 afterEach(() => {
@@ -448,23 +480,34 @@ describe('DHAN-P3 historical surface', () => {
     render(<DhanHistorical />);
     expect(screen.getByTestId('dhan-historical-surface')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-form')).toBeTruthy();
-    expect(screen.getByTestId('dhan-historical-company')).toBeTruthy();
-    expect(screen.getByTestId('dhan-historical-isin')).toBeTruthy();
+    expect(screen.getByTestId('dhan-historical-search-query')).toBeTruthy();
+    expect(screen.getByTestId('dhan-historical-search-submit')).toBeTruthy();
+    expect(screen.getByTestId('dhan-historical-selected')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-segment')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-interval')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-from')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-to')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-submit')).toBeTruthy();
+    // D-4.6: free-text companyId/ISIN inputs are removed symmetrically with DhanQuotes.
+    expect(screen.queryByTestId('dhan-historical-company')).toBeNull();
+    expect(screen.queryByTestId('dhan-historical-isin')).toBeNull();
+  });
+
+  it('keeps the submit disabled until a QUALIFIED search result is selected', async () => {
+    render(<DhanHistorical />);
+    expect((screen.getByTestId('dhan-historical-submit') as HTMLButtonElement).disabled).toBe(true);
+    await waitFor(() => expect(screen.getByTestId('dhan-historical-identity-hint')).toBeTruthy());
   });
 
   it('renders candles with the requested inclusive range and coverage claim', async () => {
-    vi.stubGlobal('fetch', okFetch(historicalBody()));
+    vi.stubGlobal('fetch', dhanHistoricalFetch(searchBody(), [historicalOk(historicalBody())]));
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+    await submitHistorical();
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
+    expect(screen.getByTestId('dhan-historical-security-id').textContent).toBe('ISIN:INE002A01018:EQ');
+    expect(screen.getByTestId('dhan-historical-segment-value').textContent).toBe('NSE_EQ');
     expect(screen.getByTestId('dhan-historical-range').textContent).toContain('2026-11-01');
     expect(screen.getByTestId('dhan-historical-range').textContent).toContain('inclusive');
     expect(screen.getByTestId('dhan-historical-count').textContent).toBe('1');
@@ -492,11 +535,10 @@ describe('DHAN-P3 historical surface', () => {
   });
 
   it('renders an empty series as an explicit empty result, not a failure', async () => {
-    vi.stubGlobal('fetch', okFetch(historicalBody({ candles: [], returnedCandleCount: 0 })));
+    vi.stubGlobal('fetch', dhanHistoricalFetch(searchBody(), [historicalOk(historicalBody({ candles: [], returnedCandleCount: 0 }))]));
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+    await submitHistorical();
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
     expect(screen.getByTestId('dhan-historical-empty')).toBeTruthy();
@@ -507,7 +549,7 @@ describe('DHAN-P3 historical surface', () => {
   });
 
   it('discloses mixed adjustment status and retains the unadjusted warning when any candle is unadjusted', async () => {
-    vi.stubGlobal('fetch', okFetch(historicalBody({
+    vi.stubGlobal('fetch', dhanHistoricalFetch(searchBody(), [historicalOk(historicalBody({
       returnedCandleCount: 2,
       candles: [
         {
@@ -533,11 +575,10 @@ describe('DHAN-P3 historical surface', () => {
           isAdjusted: false,
         },
       ],
-    })));
+    }))]));
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+    await submitHistorical();
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
     expect(screen.getByTestId('status-warning').textContent).toContain('Mixed');
@@ -548,7 +589,7 @@ describe('DHAN-P3 historical surface', () => {
   });
 
   it('omits the unadjusted warning banner when all returned candles are adjusted', async () => {
-    vi.stubGlobal('fetch', okFetch(historicalBody({
+    vi.stubGlobal('fetch', dhanHistoricalFetch(searchBody(), [historicalOk(historicalBody({
       returnedCandleCount: 1,
       candles: [
         {
@@ -563,11 +604,10 @@ describe('DHAN-P3 historical surface', () => {
           isAdjusted: true,
         },
       ],
-    })));
+    }))]));
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+    await submitHistorical();
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
     expect(screen.getByTestId('status-positive').textContent).toContain('Adjusted for corporate actions');
@@ -577,33 +617,33 @@ describe('DHAN-P3 historical surface', () => {
     expect(screen.queryByTestId('dhan-historical-unadjusted-disclosure')).toBeNull();
   });
 
-  it('rejects an inverted date range without contacting the server', async () => {
-    const fetchMock = okFetch(historicalBody());
+  it('rejects an inverted date range without contacting the historical route', async () => {
+    const fetchMock = dhanHistoricalFetch(searchBody(), [historicalOk(historicalBody())]);
     vi.stubGlobal('fetch', fetchMock);
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
+    await searchAndPickHistorical(0);
     fireEvent.change(screen.getByTestId('dhan-historical-from'), { target: { value: '2026-10-31' } });
     fireEvent.change(screen.getByTestId('dhan-historical-to'), { target: { value: '2026-10-01' } });
     fireEvent.click(screen.getByTestId('dhan-historical-submit'));
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-range-error')).toBeTruthy());
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).includes('/api/dhan/historical'))).toHaveLength(0);
   });
 
-  it('rejects a window beyond the maximum without contacting the server', async () => {
-    const fetchMock = okFetch(historicalBody());
+  it('rejects a window beyond the maximum without contacting the historical route', async () => {
+    const fetchMock = dhanHistoricalFetch(searchBody(), [historicalOk(historicalBody())]);
     vi.stubGlobal('fetch', fetchMock);
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
+    await searchAndPickHistorical(0);
     fireEvent.change(screen.getByTestId('dhan-historical-from'), { target: { value: '2020-01-01' } });
     fireEvent.change(screen.getByTestId('dhan-historical-to'), { target: { value: '2026-10-31' } });
     fireEvent.click(screen.getByTestId('dhan-historical-submit'));
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-range-error')).toBeTruthy());
     expect(screen.getByTestId('dhan-historical-range-error').textContent).toContain('1825');
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).includes('/api/dhan/historical'))).toHaveLength(0);
   });
 
   it('offers every supported interval', () => {
@@ -614,23 +654,22 @@ describe('DHAN-P3 historical surface', () => {
   });
 
   it('reports a transport failure distinctly', async () => {
-    vi.stubGlobal('fetch', errFetch(502, {
+    vi.stubGlobal('fetch', dhanHistoricalFetch(searchBody(), [historicalErr(502, {
       code: 'TRANSPORT_FAILURE',
       message: 'connection refused',
       identityFailure: false,
       connectionAttempted: true,
-    }));
+    })]));
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+    await submitHistorical();
 
     await waitFor(() => expect(screen.getByTestId('dhan-historical-failure')).toBeTruthy());
     expect(screen.getByTestId('dhan-historical-failure-kind').textContent).toBe('Transport unavailable');
   });
 
   it('carries the D02 freshness limitation into the historical view', async () => {
-    vi.stubGlobal('fetch', okFetch(historicalBody({
+    vi.stubGlobal('fetch', dhanHistoricalFetch(searchBody(), [historicalOk(historicalBody({
       freshnessStatus: {
         domain: 'D02_OHLCV',
         freshness: 'UNAVAILABLE',
@@ -651,11 +690,10 @@ describe('DHAN-P3 historical surface', () => {
         explanation: 'No cache or refresh evidence is available for this domain.',
       },
       freshnessStatusFailure: null,
-    })));
+    }))]));
     render(<DhanHistorical />);
 
-    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
-    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+    await submitHistorical();
 
     await waitFor(() => expect(screen.getByTestId('dhan-freshness-panel')).toBeTruthy());
     // The D02 limitation is stated, not inferred.
@@ -720,11 +758,8 @@ describe('W-15 quote identity picker', () => {
       securityId: 'ISIN:INE002A01018:EQ',
       exchangeSegment: 'NSE_EQ',
     });
-    // the segment is optional
-    expect(buildDhanQuoteRequest('COMP-A', 'ISIN:INE002A01018:EQ', '')).toEqual({
-      companyId: 'COMP-A',
-      securityId: 'ISIN:INE002A01018:EQ',
-    });
+    // D-4.6: omitting exchangeSegment is rejected symmetrically on D01 and D02.
+    expect(buildDhanQuoteRequest('COMP-A', 'ISIN:INE002A01018:EQ', '')).toBeNull();
     // anything that is not an exact canonical identity yields NO request at all
     for (const bad of [
       ['', 'ISIN:INE002A01018:EQ'],
@@ -736,13 +771,14 @@ describe('W-15 quote identity picker', () => {
       ['COMP-A', 'ISIN:INE002A01018:'],       // empty series
       ['COMP-A', ''],
     ] as const) {
-      expect(buildDhanQuoteRequest(bad[0], bad[1], '')).toBeNull();
+      expect(buildDhanQuoteRequest(bad[0], bad[1], 'NSE_EQ')).toBeNull();
     }
     // The D114 grammar is preserved unchanged: surrounding whitespace is trimmed and the
-    // 12-char alphanumeric ISIN check is exactly the pre-W-15 client pattern.
-    expect(buildDhanQuoteRequest('COMP-A', ' ISIN:INE002A01018:EQ ', '')).toEqual({
+    // 12-char alphanumeric ISIN check is preserved.
+    expect(buildDhanQuoteRequest('COMP-A', ' ISIN:INE002A01018:EQ ', 'NSE_EQ')).toEqual({
       companyId: 'COMP-A',
       securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
     });
   });
 
@@ -899,5 +935,109 @@ describe('W-15 quote identity picker', () => {
     await waitFor(() => expect(screen.getByTestId('dhan-quote-search-error')).toBeTruthy());
     expect(screen.getByTestId('dhan-quote-search-error').textContent).toContain('IPD service could not be reached');
     expect(fetchMock.mock.calls.filter(([url]) => String(url).includes('/api/dhan/quotes'))).toHaveLength(0);
+  });
+});
+
+describe('D-4.6 — D01/D02 UI & request-builder identity symmetry', () => {
+  it('buildDhanHistoricalRequest mirrors buildDhanQuoteRequest canonical 3-tuple rules', () => {
+    expect(
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'ISIN:INE002A01018:EQ',
+        'NSE_EQ',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+      ),
+    ).toEqual({
+      companyId: 'COMP-A',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+      interval: '1D',
+      fromDate: '2026-10-01',
+      toDate: '2026-10-31',
+    });
+
+    expect(
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'ISIN:INE002A01018:EQ',
+        '',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+      ),
+    ).toBeNull();
+
+    expect(
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'INE002A01018',
+        'NSE_EQ',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+      ),
+    ).toBeNull();
+
+    expect(
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'ISIN:INE002A01018:EQ',
+        'NSE_EQ',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+        'INE009A01021',
+      ),
+    ).toBeNull();
+  });
+
+  it('rejects impossible calendar dates locally in validateHistoricalRange', () => {
+    expect(validateHistoricalRange('2026-02-30', '2026-03-05')).toContain('valid calendar dates');
+    expect(validateHistoricalRange('2026-02-01', '2026-02-29')).toContain('valid calendar dates');
+  });
+
+  it('DhanHistorical submits exact BSE_EQ identity from a QUALIFIED BSE row and locks segment', async () => {
+    const fetchMock = dhanHistoricalFetch(
+      searchBody([QUALIFIED_ROW, QUALIFIED_ROW_BSE]),
+      [historicalOk(historicalBody({ securityId: 'ISIN:INE002A01019:EQ', exchangeSegment: 'BSE_EQ' }))],
+    );
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanHistorical />);
+
+    await searchAndPickHistorical(1);
+    expect(screen.getByTestId('dhan-historical-selected').textContent).toBe(
+      'SYNTHETIC:COMPANY-BSE · ISIN:INE002A01019:EQ · BSE_EQ',
+    );
+    expect((screen.getByTestId('dhan-historical-segment') as HTMLSelectElement).disabled).toBe(true);
+
+    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+    await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
+
+    const bodies = fetchMock.mock.calls
+      .filter(([url]) => String(url).includes('/api/dhan/historical'))
+      .map(([, init]) => JSON.parse(String(init?.body)) as Record<string, unknown>);
+    expect(bodies).toHaveLength(1);
+    expect(bodies[0]).toMatchObject({
+      companyId: 'SYNTHETIC:COMPANY-BSE',
+      securityId: 'ISIN:INE002A01019:EQ',
+      exchangeSegment: 'BSE_EQ',
+      interval: '1D',
+    });
+  });
+
+  it('DhanHistorical refuses UNRESOLVED search rows and does not issue historical requests', async () => {
+    const fetchMock = dhanHistoricalFetch(searchBody([UNRESOLVED_ROW]), [historicalOk(historicalBody())]);
+    vi.stubGlobal('fetch', fetchMock);
+    render(<DhanHistorical />);
+
+    fireEvent.change(screen.getByTestId('dhan-historical-search-query'), { target: { value: 'SYNTH' } });
+    fireEvent.click(screen.getByTestId('dhan-historical-search-submit'));
+    await screen.findByTestId('dhan-historical-search-results');
+
+    expect(screen.queryAllByTestId('dhan-historical-pick')).toHaveLength(0);
+    expect((screen.getByTestId('dhan-historical-submit') as HTMLButtonElement).disabled).toBe(true);
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).includes('/api/dhan/historical'))).toHaveLength(0);
   });
 });

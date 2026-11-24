@@ -2,9 +2,9 @@
  * IRR DHAN quote and historical-data HTTP boundaries (DHAN-P3).
  *
  * Routes:
- *   POST /api/dhan/quotes      { companyId, securityId, exchangeSegment? }  -> quote view
- *   POST /api/dhan/historical  { companyId, exchangeSegment?, isin?, interval, fromDate, toDate }
- *                                                                        -> historical view
+ *   POST /api/dhan/quotes      { companyId, securityId, exchangeSegment }             -> quote view
+ *   POST /api/dhan/historical  { companyId, securityId, exchangeSegment, interval, fromDate, toDate, isin? }
+ *                                                                                     -> historical view
  *
  * WHAT THESE ROUTES ARE
  *   A thin, provider-neutral PRESENTATION layer over IPD's existing market-data service. IPD
@@ -55,6 +55,10 @@ import {
   type DhanFreshnessView,
 } from './dhanFreshnessRoutes';
 import {
+  validateCanonicalDhanIdentity,
+  type DhanExchangeSegment,
+} from './dhanCanonicalIdentity';
+import {
   consumeQuote,
   IRR_FRESHNESS_VOCABULARY as BOUNDARY_FRESHNESS_VOCABULARY,
   IRR_PROVIDER_QUALIFICATION as BOUNDARY_PROVIDER_QUALIFICATION,
@@ -101,12 +105,6 @@ export const DHAN_QUOTES_PATH = '/api/dhan/quotes';
 
 /** The historical route path. */
 export const DHAN_HISTORICAL_PATH = '/api/dhan/historical';
-
-/**
- * The canonical D114 security identity grammar. `ISIN:<isin>:<series>` — the exact form IPD's
- * transport validates server-side before any provider invocation.
- */
-const D114_SECURITY_ID_PATTERN = /^ISIN:[A-Za-z0-9]{12}:[^:\s]+$/;
 
 /** The supported historical intervals, exactly IPD's `DHAN_SUPPORTED_HISTORICAL_INTERVALS`. */
 export const DHAN_HISTORICAL_INTERVALS = ['1m', '5m', '15m', '1h', '1D'] as const;
@@ -166,6 +164,10 @@ export interface DhanHistoricalView {
   readonly requestedToDate: string;
   /** IPD's own coverage claim, echoed verbatim. Never upgraded to a coverage assertion. */
   readonly coverageClaim: string | null;
+  /** The canonical security identity resolved for this series, when carried through. */
+  readonly securityId?: string | null;
+  /** The canonical exchange segment resolved for this series, when carried through. */
+  readonly exchangeSegment?: DhanExchangeSegment | null;
   /** The provider qualification, for the same reason as on a quote view. */
   readonly providerQualification: string;
   /**
@@ -283,7 +285,9 @@ export interface DhanQuoteRequestValidation {
   readonly ok: boolean;
   readonly companyId?: string;
   readonly securityId?: string;
-  readonly exchangeSegment?: 'NSE_EQ' | 'BSE_EQ';
+  readonly isin?: string;
+  readonly series?: string;
+  readonly exchangeSegment?: DhanExchangeSegment;
   readonly code?: string;
   readonly message?: string;
 }
@@ -291,63 +295,36 @@ export interface DhanQuoteRequestValidation {
 /**
  * Validates a quote request.
  *
- * The canonical security identity is REQUIRED: IPD's transport rejects a quote without an
- * exact `ISIN:<isin>:<series>` identity before any provider invocation, and IRR fails the
- * same way, locally, so the browser learns immediately that the identity — not the market
- * data — was the problem.
+ * D-4.6 exact-identity symmetry: both D01 quote requests and D02 historical requests
+ * require the exact canonical 3-tuple `(companyId, exchangeSegment, securityId)` and
+ * reject any missing, malformed, or contradictory identifier before contacting IPD.
  */
 export function validateDhanQuoteRequest(body: unknown): DhanQuoteRequestValidation {
-  if (typeof body !== 'object' || body === null) {
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) {
     return { ok: false, code: 'MALFORMED_REQUEST', message: 'The request body must be a JSON object.' };
   }
-  const record = body as Record<string, unknown>;
-  const companyId = typeof record.companyId === 'string' ? record.companyId.trim() : '';
-  if (!companyId) {
-    return {
-      ok: false,
-      code: 'MISSING_REQUIRED_FIELD',
-      message: 'companyId is required to request a quote.',
-    };
-  }
-  const securityId = typeof record.securityId === 'string' ? record.securityId.trim() : '';
-  if (!securityId) {
-    return {
-      ok: false,
-      code: 'MISSING_REQUIRED_FIELD',
-      message:
-        'A canonical security identity is required to request a quote (ISIN:<isin>:<series>).',
-    };
-  }
-  if (!D114_SECURITY_ID_PATTERN.test(securityId)) {
-    return {
-      ok: false,
-      code: 'MALFORMED_REQUEST',
-      message:
-        'The security identity is not a canonical D114 identity (expected ISIN:<isin>:<series>).',
-    };
-  }
-  const rawSegment = record.exchangeSegment;
-  if (rawSegment !== undefined && rawSegment !== 'NSE_EQ' && rawSegment !== 'BSE_EQ') {
-    return {
-      ok: false,
-      code: 'MALFORMED_REQUEST',
-      message: 'exchangeSegment must be NSE_EQ or BSE_EQ when supplied.',
-    };
+  const identity = validateCanonicalDhanIdentity(body as Record<string, unknown>, 'quote');
+  if (!identity.ok) {
+    return { ok: false, code: identity.code, message: identity.message };
   }
   return {
     ok: true,
-    companyId,
-    securityId,
-    ...(rawSegment !== undefined ? { exchangeSegment: rawSegment as 'NSE_EQ' | 'BSE_EQ' } : {}),
+    companyId: identity.companyId,
+    securityId: identity.securityId,
+    isin: identity.isin,
+    series: identity.series,
+    exchangeSegment: identity.exchangeSegment,
   };
 }
 
-/** Validates a historical request against IPD's own contract rules. */
+/** Validates a historical request against IPD's own contract rules and D-4.6 canonical identity. */
 export interface DhanHistoricalRequestValidation {
   readonly ok: boolean;
   readonly companyId?: string;
-  readonly exchangeSegment?: 'NSE_EQ' | 'BSE_EQ';
+  readonly securityId?: string;
+  readonly exchangeSegment?: DhanExchangeSegment;
   readonly isin?: string;
+  readonly series?: string;
   readonly interval?: DhanHistoricalInterval;
   readonly fromDate?: string;
   readonly toDate?: string;
@@ -358,23 +335,22 @@ export interface DhanHistoricalRequestValidation {
 /**
  * Validates a historical request.
  *
- * The inclusive date semantics and the 1,825-day maximum are IPD's own rules
- * (`DHAN_MAX_HISTORICAL_WINDOW_DAYS`); IRR applies them locally as a UX affordance so an
- * invalid range never leaves the server. IPD re-validates and remains the authority.
+ * D-4.6 closes the H-5 boundary asymmetry between D01 and D02: historical requests now
+ * require the exact same canonical 3-tuple `(companyId, exchangeSegment, securityId)` as
+ * quotes, rejecting `companyId`-only or bare-ISIN ambiguity and contradictory fields.
+ *
+ * The inclusive date semantics, calendar round-trip check, and 1,825-day maximum enforce
+ * IPD's rules fail-closed before any transport invocation.
  */
 export function validateDhanHistoricalRequest(body: unknown): DhanHistoricalRequestValidation {
-  if (typeof body !== 'object' || body === null) {
+  if (typeof body !== 'object' || body === null || Array.isArray(body)) {
     return { ok: false, code: 'MALFORMED_REQUEST', message: 'The request body must be a JSON object.' };
   }
   const record = body as Record<string, unknown>;
 
-  const companyId = typeof record.companyId === 'string' ? record.companyId.trim() : '';
-  if (!companyId) {
-    return {
-      ok: false,
-      code: 'MISSING_REQUIRED_FIELD',
-      message: 'companyId is required to request historical data.',
-    };
+  const identity = validateCanonicalDhanIdentity(record, 'historical data');
+  if (!identity.ok) {
+    return { ok: false, code: identity.code, message: identity.message };
   }
 
   const interval = record.interval;
@@ -401,11 +377,16 @@ export function validateDhanHistoricalRequest(body: unknown): DhanHistoricalRequ
 
   const fromMs = Date.parse(`${fromDate}T00:00:00.000Z`);
   const toMs = Date.parse(`${toDate}T00:00:00.000Z`);
-  if (Number.isNaN(fromMs) || Number.isNaN(toMs)) {
+  if (
+    Number.isNaN(fromMs) ||
+    Number.isNaN(toMs) ||
+    new Date(fromMs).toISOString().slice(0, 10) !== fromDate ||
+    new Date(toMs).toISOString().slice(0, 10) !== toDate
+  ) {
     return {
       ok: false,
       code: 'INVALID_DATE_RANGE',
-      message: 'fromDate and toDate are not parseable calendar dates.',
+      message: 'fromDate and toDate must be valid calendar dates.',
     };
   }
   if (fromMs > toMs) {
@@ -426,31 +407,16 @@ export function validateDhanHistoricalRequest(body: unknown): DhanHistoricalRequ
     };
   }
 
-  const rawSegment = record.exchangeSegment;
-  if (rawSegment !== undefined && rawSegment !== 'NSE_EQ' && rawSegment !== 'BSE_EQ') {
-    return {
-      ok: false,
-      code: 'MALFORMED_REQUEST',
-      message: 'exchangeSegment must be NSE_EQ or BSE_EQ when supplied.',
-    };
-  }
-  const isin = typeof record.isin === 'string' ? record.isin.trim() : undefined;
-  if (isin !== undefined && !/^[A-Za-z0-9]{12}$/.test(isin)) {
-    return {
-      ok: false,
-      code: 'MALFORMED_REQUEST',
-      message: 'isin must be a 12-character ISIN when supplied.',
-    };
-  }
-
   return {
     ok: true,
-    companyId,
+    companyId: identity.companyId,
+    securityId: identity.securityId,
+    exchangeSegment: identity.exchangeSegment,
+    isin: identity.isin,
+    series: identity.series,
     interval: interval as DhanHistoricalInterval,
     fromDate,
     toDate,
-    ...(rawSegment !== undefined ? { exchangeSegment: rawSegment as 'NSE_EQ' | 'BSE_EQ' } : {}),
-    ...(isin !== undefined && isin !== '' ? { isin } : {}),
   };
 }
 
@@ -470,6 +436,7 @@ export function projectIpdHistoricalResult(
   result: unknown,
   freshnessStatus: DhanFreshnessView | null = null,
   freshnessStatusFailure: { readonly code: string; readonly message: string } | null = null,
+  requestedIdentity: { readonly securityId: string; readonly exchangeSegment: DhanExchangeSegment } | null = null,
 ): DhanHistoricalView {
   const record = (result ?? {}) as Record<string, unknown>;
   const rawCandles = Array.isArray(record.candles) ? record.candles : [];
@@ -492,6 +459,14 @@ export function projectIpdHistoricalResult(
 
   const returnedCandleCount =
     typeof record.returnedCandleCount === 'number' ? record.returnedCandleCount : candles.length;
+  const securityId =
+    typeof record.securityId === 'string' && record.securityId.trim() !== ''
+      ? record.securityId.trim()
+      : requestedIdentity?.securityId ?? null;
+  const exchangeSegment =
+    record.exchangeSegment === 'NSE_EQ' || record.exchangeSegment === 'BSE_EQ'
+      ? record.exchangeSegment
+      : requestedIdentity?.exchangeSegment ?? null;
 
   return {
     // IPD's historical result carries no per-series quality verdict, so IRR does not invent
@@ -502,6 +477,8 @@ export function projectIpdHistoricalResult(
     requestedFromDate: String(record.requestedFromDate ?? ''),
     requestedToDate: String(record.requestedToDate ?? ''),
     coverageClaim: typeof record.coverageClaim === 'string' ? record.coverageClaim : null,
+    ...(securityId !== null ? { securityId } : {}),
+    ...(exchangeSegment !== null ? { exchangeSegment } : {}),
     providerQualification: IRR_PROVIDER_QUALIFICATION,
     freshnessStatus,
     freshnessStatusFailure,
@@ -771,8 +748,8 @@ export async function handleDhanHistoricalRequest(
     interval: validation.interval!,
     fromDate: validation.fromDate!,
     toDate: validation.toDate!,
-    ...(validation.exchangeSegment ? { exchangeSegment: validation.exchangeSegment } : {}),
-    ...(validation.isin ? { isin: validation.isin } : {}),
+    exchangeSegment: validation.exchangeSegment!,
+    isin: validation.isin!,
   });
 
   if (!outcome.ok) {
@@ -787,11 +764,43 @@ export async function handleDhanHistoricalRequest(
     return;
   }
 
+  // Fail closed if upstream echoes a canonical securityId or exchangeSegment that
+  // contradicts the validated canonical request identity.
+  const resultRecord = (outcome.result ?? {}) as unknown as Record<string, unknown>;
+  const returnedSecurityId =
+    typeof resultRecord.securityId === 'string' && resultRecord.securityId.trim() !== ''
+      ? resultRecord.securityId.trim()
+      : null;
+  const returnedSegment =
+    typeof resultRecord.exchangeSegment === 'string' && resultRecord.exchangeSegment.trim() !== ''
+      ? resultRecord.exchangeSegment.trim()
+      : null;
+  if (
+    (returnedSecurityId !== null && returnedSecurityId !== validation.securityId) ||
+    (returnedSegment !== null && returnedSegment !== validation.exchangeSegment)
+  ) {
+    sendJson(res, 502, {
+      error: {
+        code: 'CONFLICTING_INSTRUMENT_MAPPING',
+        message:
+          'Upstream historical response identity contradicted the requested canonical security identity.',
+        identityFailure: true,
+        connectionAttempted: true,
+      },
+    } satisfies DhanMarketDataErrorEnvelope);
+    return;
+  }
+
   // The D02 freshness status is read alongside the series. IPD reports D02's cache and
   // refresh evidence as NOT_AVAILABLE / UNKNOWN, and IRR carries that unchanged.
   const freshness = await readFreshnessForScope(deps, { domain: 'D02_OHLCV' });
 
   sendJson(res, 200, {
-    data: projectIpdHistoricalResult(outcome.result, freshness.status, freshness.failure),
+    data: projectIpdHistoricalResult(
+      outcome.result,
+      freshness.status,
+      freshness.failure,
+      { securityId: validation.securityId!, exchangeSegment: validation.exchangeSegment! },
+    ),
   });
 }

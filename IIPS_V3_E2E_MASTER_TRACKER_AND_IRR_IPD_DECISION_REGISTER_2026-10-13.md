@@ -25316,3 +25316,21 @@ not portfolio revisions); no existing consumer or immutable historical record is
 read-time staleness not universal; build digest UNKNOWN where unattested (§16.327 limitation C); final evidence needs actual
 W09/W11/W13/W15 artifacts (B02). Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present; B06
 COMPLETE/VERIFIED. W16 status: **design proposed, READY for review; acceptance NOT claimed**. Next free line: §16.335.
+
+### §16.335 — D-4.6 D01/D02 Exact Security-Identity Symmetry (IRR) 2026-11-23 (commit pending)
+
+**Authority & Scope:** Implements `D-4.6` (`H-5` closure) from [`docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md`](docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md) §2 items 1–2, 5–6 and [`docs/integration/DHAN-D4-OWNER-DECISION-PROPOSAL-2026-11-23.md`](docs/integration/DHAN-D4-OWNER-DECISION-PROPOSAL-2026-11-23.md) §15, §20. Closes the IRR-side `D01` (`POST /api/dhan/quotes`) vs `D02` (`POST /api/dhan/historical`) request-identity asymmetry independently of `D-4.5` (`D114/PIT` admission) and without modifying pinned IPD (`26855625`; IPD-side `POST /v1/historical` symmetry remains an IPD obligation).
+
+**Deliverables this pass:**
+1. **Server canonical identity & route symmetry (`frontend/server/market-data/dhanCanonicalIdentity.ts`, `dhanMarketDataRoutes.ts`, `quoteConsumptionBoundary.ts`):**
+   - `dhanCanonicalIdentity.ts` defines symmetric validation (`validateCanonicalDhanIdentity`, `validateCanonicalIdentityCoherence`, `formatCanonicalDhanIdentityKey`) requiring `(companyId, exchangeSegment: 'NSE_EQ' | 'BSE_EQ', securityId: ISIN:<12-alnum>:<series>)` with zero silent `NSE_EQ` defaulting and strict cross-field coherence against optional `isin`/`series`/`exchange`.
+   - `dhanMarketDataRoutes.ts` enforces `validateCanonicalDhanIdentity` on both `POST /api/dhan/quotes` and `POST /api/dhan/historical`, adds strict calendar round-trip validation in `validateDhanHistoricalRequest` (rejecting impossible dates such as `2026-02-30` with `400 INVALID_DATE_RANGE`), forwards `(companyId, exchangeSegment, isin)` to IPD `getHistorical` at pin `26855625`, fails closed (`502 CONFLICTING_INSTRUMENT_MAPPING`) on echoed upstream identity mismatch, and attaches validated `securityId`/`exchangeSegment` to `DhanHistoricalView`.
+   - `quoteConsumptionBoundary.ts` rejects mismatched upstream `envelope.securityId` in `projectIpdQuoteEnvelope` and enforces `validateCanonicalIdentityCoherence` on optional `isin`/`series`/`exchange` in `resolveIdentityRequest` while preserving `W-31` `exchangeSegment -> 'NSE_EQ'` fallback for legacy watchlist items.
+2. **Browser contract & search-picker UI (`frontend/src/api/dhanMarketData.ts`, `frontend/src/features/dhan/dhanCanonicalIdentity.ts`, `DhanQuotes.tsx`, `DhanHistorical.tsx`):**
+   - Both `DhanQuoteRequest` and `DhanHistoricalRequest` require `(companyId, securityId, exchangeSegment)`.
+   - Browser-only `dhanCanonicalIdentity.ts` shares `canonicalIdentityFromSearchRow`, `buildDhanQuoteRequest`, `buildDhanHistoricalRequest`, and `exchangeSegmentFor` across `DhanQuotes` and `DhanHistorical` with zero server imports.
+   - `DhanHistorical.tsx` adopts the `W-15` `QUALIFIED` search-picker pattern (removing free-text `companyId`/`isin`), locks `dhan-quote-segment`/`dhan-historical-segment` to picked `QUALIFIED` rows, adds calendar round-trip validation to `validateHistoricalRange`, and preserves all `D-4.4` corporate-action adjustment disclosures and `DhanFreshnessPanel`.
+3. **Documentation & tests:**
+   - Added [`docs/integration/DHAN-D4-6-IDENTITY-SYMMETRY-IMPLEMENTATION-2026-11-23.md`](docs/integration/DHAN-D4-6-IDENTITY-SYMMETRY-IMPLEMENTATION-2026-11-23.md) and `frontend/server/market-data/dhanCanonicalIdentity.test.ts`; updated `dhanMarketDataRoutes.test.ts`, `quoteConsumptionBoundary.test.ts`, `dhanMarketData.test.ts`, and `DhanMarketData.test.tsx`.
+
+**Next free line: §16.336.**

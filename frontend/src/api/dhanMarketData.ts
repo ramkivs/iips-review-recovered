@@ -147,6 +147,8 @@ export interface DhanHistoricalDto {
   readonly requestedFromDate: string;
   readonly requestedToDate: string;
   readonly coverageClaim: string | null;
+  readonly securityId?: string | null;
+  readonly exchangeSegment?: 'NSE_EQ' | 'BSE_EQ' | null;
   /** The provider qualification. Never a live-qualification claim. */
   readonly providerQualification: string;
   /**
@@ -199,16 +201,18 @@ export interface DhanQuoteRequest {
   readonly companyId: string;
   /** The canonical D114 security identity: `ISIN:<isin>:<series>`. */
   readonly securityId: string;
-  readonly exchangeSegment?: 'NSE_EQ' | 'BSE_EQ';
+  readonly exchangeSegment: 'NSE_EQ' | 'BSE_EQ';
 }
 
 /** The request body for a historical series. */
 export interface DhanHistoricalRequest {
   readonly companyId: string;
+  /** The canonical D114 security identity: `ISIN:<isin>:<series>`. */
+  readonly securityId: string;
+  readonly exchangeSegment: 'NSE_EQ' | 'BSE_EQ';
   readonly interval: '1m' | '5m' | '15m' | '1h' | '1D';
   readonly fromDate: string;
   readonly toDate: string;
-  readonly exchangeSegment?: 'NSE_EQ' | 'BSE_EQ';
   readonly isin?: string;
 }
 

@@ -1,10 +1,18 @@
 /**
- * DHAN-P3 — DHAN HISTORICAL DATA (read-only OHLCV over the IPD market-data transport).
+ * DHAN-P3 / D-4.6 — DHAN HISTORICAL DATA (read-only OHLCV over the IPD market-data transport).
  *
  * IPD remains the market-data authority: IPD resolves the instrument, normalizes the vendor
  * payload into canonical candles and reports its own coverage claim. This component is the
  * PRESENTATION layer — it renders exactly the candles IPD returned and computes no
  * indicator, average, return or derived series of its own.
+ *
+ * THE IDENTITY RULE (D-4.6 SYMMETRY WITH D01 QUOTES)
+ *   Historical requests require the exact same canonical 3-tuple as quotes:
+ *   `(companyId, securityId: 'ISIN:<isin>:<series>', exchangeSegment: 'NSE_EQ' | 'BSE_EQ')`.
+ *   The identity is NEVER typed as free-text `companyId` or bare `isin`: the operator
+ *   searches IPD's instrument-search endpoint (`/api/dhan/instruments/search`) and selects
+ *   a `QUALIFIED` result, populating `(companyId, securityId, exchangeSegment)` verbatim
+ *   with no silent fallback between `NSE_EQ` and `BSE_EQ`.
  *
  * THE CONTRACT PRESERVED HERE
  *   - The supported intervals are IPD's: `1m`, `5m`, `15m`, `1h`, `1D`.
@@ -24,10 +32,23 @@ import {
   type DhanHistoricalDto,
   type DhanMarketDataFailureKind,
 } from '../../api/dhanMarketData';
+import {
+  DhanIdentityApiError,
+  searchDhanInstruments,
+  type InstrumentSearchResult,
+} from '../../api/dhanIdentity';
 import { DataTable, type Column } from '../../components/data/DataComponents';
 import { FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
 import { LoadingState, UnavailableState } from '../../components/state/StateComponents';
 import { DhanFreshnessPanel } from './DhanFreshnessStatus';
+import {
+  buildDhanHistoricalRequest,
+  canonicalIdentityFromSearchRow,
+  exchangeSegmentFor,
+  type DhanExchangeSegment,
+} from './dhanCanonicalIdentity';
+
+export { buildDhanHistoricalRequest, exchangeSegmentFor };
 
 /** IPD's supported historical intervals. */
 const INTERVALS = ['1m', '5m', '15m', '1h', '1D'] as const;
@@ -48,7 +69,8 @@ function failureOf(e: unknown): { kind: DhanMarketDataFailureKind; message: stri
 }
 
 /**
- * Validates the requested range with IPD's inclusive semantics and maximum window.
+ * Validates the requested range with IPD's inclusive semantics, calendar validity, and
+ * maximum window.
  *
  * This is a UX affordance, not a re-implementation of IPD's validation: it exists so an
  * invalid range is reported before the request leaves the browser. IPD remains the
@@ -61,8 +83,13 @@ export function validateHistoricalRange(fromDate: string, toDate: string): strin
   }
   const fromMs = Date.parse(`${fromDate}T00:00:00.000Z`);
   const toMs = Date.parse(`${toDate}T00:00:00.000Z`);
-  if (Number.isNaN(fromMs) || Number.isNaN(toMs)) {
-    return 'Both dates must be parseable calendar dates.';
+  if (
+    Number.isNaN(fromMs) ||
+    Number.isNaN(toMs) ||
+    new Date(fromMs).toISOString().slice(0, 10) !== fromDate ||
+    new Date(toMs).toISOString().slice(0, 10) !== toDate
+  ) {
+    return 'Both dates must be valid calendar dates.';
   }
   if (fromMs > toMs) {
     return 'The start date must not be after the end date.';
@@ -86,10 +113,46 @@ const CANDLE_COLUMNS: readonly Column<DhanHistoricalDto['candles'][number]>[] = 
   { key: 'isAdjusted', header: 'Adjusted', render: (row) => (row.isAdjusted ? 'yes' : 'no') },
 ];
 
+/** A selectable instrument-search row. Only QUALIFIED outcomes can be selected. */
+function HistoricalSearchResultRow({
+  row,
+  onPick,
+}: {
+  readonly row: InstrumentSearchResult;
+  readonly onPick: (row: InstrumentSearchResult) => void;
+}) {
+  const qualified = canonicalIdentityFromSearchRow(row) !== null;
+  return (
+    <li
+      data-testid="dhan-historical-search-row"
+      data-symbol={row.symbol}
+      data-exchange={row.exchange}
+      data-outcome={row.result.status}
+    >
+      <span>{row.symbol} · {row.exchange} · {row.result.status}</span>
+      {qualified && (
+        <button
+          type="button"
+          data-testid="dhan-historical-pick"
+          data-symbol={row.symbol}
+          data-exchange={row.exchange}
+          onClick={() => onPick(row)}
+        >
+          Use this instrument
+        </button>
+      )}
+    </li>
+  );
+}
+
 export function DhanHistorical() {
+  const [query, setQuery] = useState('');
+  const [searchBusy, setSearchBusy] = useState(false);
+  const [searchError, setSearchError] = useState('');
+  const [searchResults, setSearchResults] = useState<readonly InstrumentSearchResult[] | null>(null);
   const [companyId, setCompanyId] = useState('');
-  const [isin, setIsin] = useState('');
-  const [exchangeSegment, setExchangeSegment] = useState<'NSE_EQ' | 'BSE_EQ' | ''>('');
+  const [securityId, setSecurityId] = useState('');
+  const [exchangeSegment, setExchangeSegment] = useState<DhanExchangeSegment | ''>('');
   const [interval, setInterval] = useState<Interval>('1D');
   const [fromDate, setFromDate] = useState('2026-10-01');
   const [toDate, setToDate] = useState('2026-10-31');
@@ -100,7 +163,9 @@ export function DhanHistorical() {
   const [requested, setRequested] = useState(false);
 
   const load = useCallback(async () => {
-    const rangeProblem = validateHistoricalRange(fromDate.trim(), toDate.trim());
+    const trimmedFrom = fromDate.trim();
+    const trimmedTo = toDate.trim();
+    const rangeProblem = validateHistoricalRange(trimmedFrom, trimmedTo);
     setRangeError(rangeProblem);
     if (rangeProblem !== null) {
       // An invalid range never leaves the browser.
@@ -110,17 +175,30 @@ export function DhanHistorical() {
       return;
     }
 
+    const request = buildDhanHistoricalRequest(
+      companyId,
+      securityId,
+      exchangeSegment,
+      interval,
+      trimmedFrom,
+      trimmedTo,
+    );
+    if (request === null) {
+      setResult(null);
+      setRequested(true);
+      setLoading(false);
+      setFailure({
+        kind: 'request',
+        message:
+          'A canonical identity (companyId, ISIN:<isin>:<series>, exchangeSegment) is required. Select an instrument from the search results.',
+      });
+      return;
+    }
+
     setLoading(true);
     setFailure(null);
     try {
-      const data = await fetchDhanHistorical({
-        companyId: companyId.trim(),
-        interval,
-        fromDate: fromDate.trim(),
-        toDate: toDate.trim(),
-        ...(exchangeSegment === '' ? {} : { exchangeSegment }),
-        ...(isin.trim() === '' ? {} : { isin: isin.trim() }),
-      });
+      const data = await fetchDhanHistorical(request);
       setResult(data);
     } catch (e: unknown) {
       setResult(null);
@@ -129,7 +207,44 @@ export function DhanHistorical() {
       setLoading(false);
       setRequested(true);
     }
-  }, [companyId, isin, exchangeSegment, interval, fromDate, toDate]);
+  }, [companyId, securityId, exchangeSegment, interval, fromDate, toDate]);
+
+  const search = useCallback(async () => {
+    const q = query.trim();
+    if (!q) return;
+    setSearchBusy(true);
+    setSearchError('');
+    try {
+      const response = await searchDhanInstruments(q);
+      setSearchResults(response.results);
+    } catch (e: unknown) {
+      setSearchResults(null);
+      setSearchError(e instanceof DhanIdentityApiError ? e.message : 'Instrument search is unavailable.');
+    } finally {
+      setSearchBusy(false);
+    }
+  }, [query]);
+
+  /** Selecting a search result populates the historical request fields verbatim from it. */
+  const pick = useCallback((row: InstrumentSearchResult) => {
+    const selected = canonicalIdentityFromSearchRow(row);
+    if (selected === null) return;
+    setCompanyId(selected.companyId);
+    setSecurityId(selected.securityId);
+    setExchangeSegment(selected.exchangeSegment);
+    setResult(null);
+    setFailure(null);
+  }, []);
+
+  const identityLooksValid =
+    buildDhanHistoricalRequest(
+      companyId,
+      securityId,
+      exchangeSegment,
+      interval,
+      fromDate.trim(),
+      toDate.trim(),
+    ) !== null;
 
   return (
     <section data-testid="dhan-historical-surface">
@@ -137,7 +252,8 @@ export function DhanHistorical() {
       <p style={{ color: 'var(--color-ink-secondary)', fontSize: 13, margin: '6px 0 0' }}>
         Historical OHLCV is read from the IPD market-data service, which normalizes the
         provider payload into canonical candles. The date range is inclusive on both ends and
-        spans at most {MAX_WINDOW_DAYS} days.
+        spans at most {MAX_WINDOW_DAYS} days. Select a qualified instrument from search so
+        company id, canonical security id, and exchange segment match D01 quotes identically.
       </p>
 
       <form
@@ -145,34 +261,67 @@ export function DhanHistorical() {
         style={{ marginTop: 16, display: 'grid', gap: 8, maxWidth: 560 }}
         onSubmit={(e) => { e.preventDefault(); void load(); }}
       >
-        <label htmlFor="dhan-historical-company" style={{ fontSize: 13 }}>Company id</label>
-        <input
-          id="dhan-historical-company"
-          data-testid="dhan-historical-company"
-          value={companyId}
-          onChange={(e) => setCompanyId(e.target.value)}
-          style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13 }}
-        />
+        <label htmlFor="dhan-historical-search-query" style={{ fontSize: 13 }}>Search instrument (symbol or ISIN)</label>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            id="dhan-historical-search-query"
+            data-testid="dhan-historical-search-query"
+            value={query}
+            maxLength={100}
+            placeholder="e.g. RELIANCE or INE002A01018"
+            onChange={(e) => setQuery(e.target.value)}
+            style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13, flex: 1 }}
+          />
+          <button
+            type="button"
+            data-testid="dhan-historical-search-submit"
+            disabled={searchBusy || !query.trim()}
+            onClick={() => { void search(); }}
+            style={{ padding: '6px 12px', fontSize: 13 }}
+          >
+            {searchBusy ? 'Searching…' : 'Search'}
+          </button>
+        </div>
 
-        <label htmlFor="dhan-historical-isin" style={{ fontSize: 13 }}>ISIN (optional)</label>
-        <input
-          id="dhan-historical-isin"
-          data-testid="dhan-historical-isin"
-          value={isin}
-          onChange={(e) => setIsin(e.target.value)}
-          placeholder="INE002A01018"
-          style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13 }}
-        />
+        {searchError !== '' && (
+          <p data-testid="dhan-historical-search-error" role="alert" style={{ color: 'var(--color-status-negative)', fontSize: 13 }}>
+            {searchError}
+          </p>
+        )}
+
+        {searchResults !== null && searchResults.length === 0 && (
+          <p data-testid="dhan-historical-search-empty" style={{ fontSize: 13 }}>No instrument candidates were returned by IPD.</p>
+        )}
+
+        {searchResults !== null && searchResults.length > 0 && (
+          <ul data-testid="dhan-historical-search-results" style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 4 }}>
+            {searchResults.map((row, index) => (
+              <HistoricalSearchResultRow key={`${row.symbol}-${row.exchange}-${index}`} row={row} onPick={pick} />
+            ))}
+          </ul>
+        )}
+
+        <label htmlFor="dhan-historical-selected" style={{ fontSize: 13 }}>Selected instrument</label>
+        <output
+          id="dhan-historical-selected"
+          data-testid="dhan-historical-selected"
+          style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13, minHeight: 18 }}
+        >
+          {identityLooksValid
+            ? `${companyId.trim()} · ${securityId.trim()} · ${exchangeSegment}`
+            : 'none — select a QUALIFIED search result'}
+        </output>
 
         <label htmlFor="dhan-historical-segment" style={{ fontSize: 13 }}>Exchange segment</label>
         <select
           id="dhan-historical-segment"
           data-testid="dhan-historical-segment"
           value={exchangeSegment}
-          onChange={(e) => setExchangeSegment(e.target.value as 'NSE_EQ' | 'BSE_EQ' | '')}
+          disabled
+          aria-readonly="true"
           style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13 }}
         >
-          <option value="">(default)</option>
+          <option value="">(select a qualified instrument)</option>
           <option value="NSE_EQ">NSE_EQ</option>
           <option value="BSE_EQ">BSE_EQ</option>
         </select>
@@ -212,11 +361,16 @@ export function DhanHistorical() {
           <button
             type="submit"
             data-testid="dhan-historical-submit"
-            disabled={loading}
+            disabled={loading || !identityLooksValid}
             style={{ padding: '6px 12px', fontSize: 13 }}
           >
             {loading ? 'Loading…' : 'Get history'}
           </button>
+          {!identityLooksValid && (
+            <span data-testid="dhan-historical-identity-hint" style={{ fontSize: 12, color: 'var(--color-status-warning)' }}>
+              A canonical identity (companyId, ISIN:&lt;isin&gt;:&lt;series&gt;, exchangeSegment) is required — select a search result.
+            </span>
+          )}
         </div>
       </form>
 
@@ -274,6 +428,16 @@ export function DhanHistorical() {
             data-testid="dhan-historical-provenance"
             style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '4px 12px', fontSize: 13 }}
           >
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Security identity</dt>
+            <dd data-testid="dhan-historical-security-id" style={{ margin: 0 }}>
+              {result.securityId ?? securityId}
+            </dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Exchange segment</dt>
+            <dd data-testid="dhan-historical-segment-value" style={{ margin: 0 }}>
+              {result.exchangeSegment ?? exchangeSegment}
+            </dd>
+
             <dt style={{ color: 'var(--color-ink-secondary)' }}>Requested range</dt>
             <dd data-testid="dhan-historical-range" style={{ margin: 0 }}>
               {result.requestedFromDate} → {result.requestedToDate} (inclusive)
