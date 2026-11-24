@@ -20,6 +20,8 @@ import {
   releaseNp04DatabasesUnderDirectory,
 } from './persistence-port';
 import {
+  APPROVED_REPORTS_OWNER_USER_ID,
+  APPROVED_REPORTS_TENANT_ID,
   materialiseReportsOwnerCarrier,
 } from '../reports-owner-carrier';
 import { REPORTS_OWNER_PATH_ENV } from '../reports-owner-resolver';
@@ -213,10 +215,10 @@ describe('D-4.7 HistoricalPriceEvidence v1 contract, NP-04 persistence, offline 
   it('persists into real NP-04 SQLite, serves GET /api/reports/artifacts/:reportId offline with EquiCore stopped, and diffs v1 vs v2 in W16', async () => {
     const dir = tempDir();
     const dbPath = path.join(dir, 'reports-d47.db');
-    const carrierPath = path.join(dir, 'reports-owner.json');
+    const carrierDir = path.join(dir, 'owner');
 
     // Materialize R1 owner carrier for HTTP read route
-    const ownerDeclared = materialiseReportsOwnerCarrier(carrierPath);
+    const carrierPath = materialiseReportsOwnerCarrier(carrierDir);
     process.env[REPORTS_OWNER_PATH_ENV] = carrierPath;
     process.env[NP04_DATABASE_PATH_ENV] = dbPath;
 
@@ -244,7 +246,7 @@ describe('D-4.7 HistoricalPriceEvidence v1 contract, NP-04 persistence, offline 
     const db = openDatabase({ path: dbPath, createDirectory: true, migrate: true });
     try {
       const persistence = new ReportsPersistence(adaptNp04Store(new GovernedArtifactStore(db)));
-      const ownerPair = { tenantId: ownerDeclared.tenantId, userId: ownerDeclared.ownerUserId };
+      const ownerPair = { tenantId: APPROVED_REPORTS_TENANT_ID, userId: APPROVED_REPORTS_OWNER_USER_ID };
 
       const v1 = persistence.persistNew(ownerPair, {
         engineOutput: makeEngineOutput(ev1),
