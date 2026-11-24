@@ -461,3 +461,12 @@ All six specs from §11.7 are **implementable now** as pure functions over the e
 ### 12.9 Boundaries
 
 Documentation/design only: no code or test file changed; no D1–D3/θM decision; no W13 change; no IPD or freshness-behavior change; no operator-side evidence collection; no live vendor request; no acceptance claim. Evidence status unchanged (§16.329/§16.343): W05 IN PROGRESS — NOT ACCEPTED; W06 PARTIAL — NOT ACCEPTED (B02-blocked, ≤ 1/64 via W04); B05 COMPLETE/VERIFIED at its own scope. Tracker record: §16.344.
+
+### 12.10 Implementation note (2026-11-24)
+
+The contract above is now implemented W20-side as the pure function
+`evaluateMonetaryCoverageGate` in `frontend/server/investment/w20MonetaryCoverageGate.ts` (+ 17 synthetic tests,
+V19–V24 and boundary cases — record: `docs/integration/W20-MONETARY-COVERAGE-GATE-SYNTHETIC-IMPLEMENTATION-2026-11-24.md`).
+The implementation reads only existing W13 report fields — **no W13 change was needed**, confirming §12.7. The
+implementation is synthetic-verified only; it is not W20 acceptance, sets no θM, and decides nothing. D1–D3, θM,
+max-age, `t` choice and multipliers remain open exactly as recorded in §11/§12. Tracker: §16.345.
