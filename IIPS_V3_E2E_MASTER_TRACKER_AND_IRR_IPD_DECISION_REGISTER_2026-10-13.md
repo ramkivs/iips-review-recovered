@@ -25334,3 +25334,29 @@ COMPLETE/VERIFIED. W16 status: **design proposed, READY for review; acceptance N
    - Added [`docs/integration/DHAN-D4-6-IDENTITY-SYMMETRY-IMPLEMENTATION-2026-11-23.md`](docs/integration/DHAN-D4-6-IDENTITY-SYMMETRY-IMPLEMENTATION-2026-11-23.md) and `frontend/server/market-data/dhanCanonicalIdentity.test.ts`; updated `dhanMarketDataRoutes.test.ts`, `quoteConsumptionBoundary.test.ts`, `dhanMarketData.test.ts`, and `DhanMarketData.test.tsx`.
 
 **Next free line: §16.336.**
+
+### §16.336 — W16 contract REVIEW: corrections made, precedence fixed, W15 chain-version comparison supported; ADOPTION DECISION: adopted as proposed contract (design-level only) 2026-11-24 (commit pending)
+
+**Review basis:** authoritative NP-04/NP-06 chain in `frontend/server/reports/artifact.ts` (`reportKey` = content
+identity, `reportId` = store-assigned chain identity, `artifactVersion` >= 1 with `supersedesReportId`, contiguity via
+`validateArtifactChain`); proposal §16.334 / PR #640.
+
+**Findings and corrections (in `lineage/provenanceEnvelope.ts`):** (1) W15 pairs previously compared via portfolio
+revision — always null for W15, so successive chain versions were wrongly INCOMPARABLE; envelope now carries
+`chainVersion`/`supersedes`, W15 maps `artifactId=reportId`, `digest=reportKey`, and `classifyPair` has a dedicated
+W15 branch on chain identity (different chainRef/reportId → INCOMPARABLE; equal reportKey → UNCHANGED; later
+artifactVersion → SUCCESSIVE_REVISION; differing reportKey → OUTPUT_CHANGED). (2) W11 reports have no single durable
+id — `artifactId` now null, per-execution requestIds kept in `extensions`. (3) Classification precedence now explicit
+and documented in code (cross-producer INCOMPARABLE → W15 chain branch → RECONSTRUCTED → UNCHANGED → missing-identity
+INCOMPARABLE → revision ordering → sources → positions → observations → output). Producer mappings re-verified:
+W09/W11/W13 direct, W15 direct with `revision: null` (chain versions never conflated with portfolio revisions); no
+information loss; build provenance stays NOT_ATTESTED/UNKNOWN as recorded.
+
+**Verification:** `provenanceEnvelope.test.ts` 26 vectors (15 original + R1–R6 W15 chain-version cases, R7–R10
+precedence boundaries) — **26/26 pass**; targeted cluster (user-portfolio + capture + W12/W13/W16 investment suites)
+**19 files, 399/399 pass**; scoped strict tsc clean; CI Typecheck·Test·Build pass on the PR.
+
+**ADOPTION DECISION: ADOPTED as the proposed W16 contract at design level** — approves the contract design only;
+NOT methodology approval, NOT producer-boundary integration (out of scope per task), NOT W16 acceptance (needs actual
+W09/W11/W13/W15 artifacts via B02). Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present;
+B06 COMPLETE/VERIFIED. Next free line: §16.337.
