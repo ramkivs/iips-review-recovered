@@ -309,6 +309,42 @@ describe('the view shows what qualifies an assessment', () => {
       expect(fetchMock.mock.calls.some(([url]) => String(url).includes('/versions/r-1'))).toBe(true);
     });
   });
+
+  it('discloses corporate-action refusal explicitly when margin of safety refuses an unadjusted price', async () => {
+    const refused = {
+      ...ENVELOPE,
+      assessment: {
+        ...ENVELOPE.assessment,
+        valuation: {
+          ...ENVELOPE.assessment.valuation,
+          marginOfSafety: {
+            ...ENVELOPE.assessment.valuation.marginOfSafety,
+            price: {
+              value: null,
+              presence: 'MISSING' as const,
+              reason: 'PRICE_STALE',
+              note: 'unadjusted across CA-TECH-BONUS-2026',
+            },
+            mosVsMid: observation(null, 'PRICE_STALE'),
+            mosVsLow: observation(null, 'PRICE_STALE'),
+            band: null,
+            refusal: 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION',
+          },
+        },
+      },
+    };
+    stubFetch(() => new Response(JSON.stringify(refused), { status: 200 }));
+    renderPage();
+
+    await screen.findByRole('heading', { name: /Chandra Meridian Bank/i });
+    expect(screen.getByText(/price refused: UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION/)).toBeInTheDocument();
+    expect(screen.getByTestId('mos-corporate-action-disclosure').textContent).toContain(
+      'Unadjusted for corporate actions',
+    );
+    expect(screen.getByTestId('mos-corporate-action-disclosure').textContent).toContain(
+      'CA-TECH-BONUS-2026',
+    );
+  });
 });
 
 describe('the view offers no decision affordance', () => {

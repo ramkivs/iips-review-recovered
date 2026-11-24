@@ -247,11 +247,27 @@ export function DhanHistorical() {
         </div>
       )}
 
-      {!loading && requested && failure === null && rangeError === null && result !== null && (
+      {!loading && requested && failure === null && rangeError === null && result !== null && (() => {
+        const hasCandles = result.candles.length > 0;
+        const unadjustedCount = result.candles.filter((candle) => !candle.isAdjusted).length;
+        const hasUnadjusted = unadjustedCount > 0;
+        const allAdjusted = hasCandles && !hasUnadjusted;
+        const mixedAdjustment = hasCandles && hasUnadjusted && unadjustedCount < result.candles.length;
+        return (
         <div data-testid="dhan-historical-result" style={{ marginTop: 20 }}>
           <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
             <FreshnessBadge state={result.freshness.toLowerCase() as 'live' | 'snapshot' | 'stale' | 'unavailable' | 'replay'} />
             <StatusBadge status="informational" label={`Candles: ${result.returnedCandleCount}`} />
+            {hasCandles && (
+              hasUnadjusted ? (
+                <StatusBadge
+                  status="warning"
+                  label={mixedAdjustment ? 'Adjustment: Mixed (contains unadjusted)' : 'Unadjusted (corporate actions)'}
+                />
+              ) : (
+                <StatusBadge status="positive" label="Adjusted for corporate actions" />
+              )
+            )}
           </div>
 
           <dl
@@ -275,6 +291,17 @@ export function DhanHistorical() {
             <dd data-testid="dhan-historical-qualification" style={{ margin: 0 }}>
               {result.providerQualification ?? 'unavailable'}
             </dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Corporate-action adjustment</dt>
+            <dd data-testid="dhan-historical-adjustment-status" style={{ margin: 0 }}>
+              {!hasCandles
+                ? 'no candles returned'
+                : allAdjusted
+                  ? 'Adjusted for corporate actions'
+                  : mixedAdjustment
+                    ? `Mixed: ${unadjustedCount} of ${result.candles.length} candles unadjusted for corporate actions (splits/bonuses/dividends)`
+                    : 'Unadjusted for corporate actions (splits/bonuses/dividends)'}
+            </dd>
           </dl>
 
           {/* The D02 freshness status. IPD reports that no cache or refresh evidence
@@ -285,6 +312,25 @@ export function DhanHistorical() {
             failure={result.freshnessStatusFailure ?? null}
             heading="Provider freshness (D02_OHLCV)"
           />
+
+          {hasUnadjusted && (
+            <div
+              role="note"
+              data-testid="dhan-historical-unadjusted-disclosure"
+              style={{
+                marginTop: 12,
+                padding: '10px 12px',
+                border: '1px solid var(--color-status-warning)',
+                borderRadius: 4,
+                fontSize: 13,
+                background: 'var(--color-surface-1)',
+              }}
+            >
+              <strong>Unadjusted for corporate actions (splits/bonuses/dividends).</strong>{' '}
+              Raw unadjusted D02 candles are prohibited from driving split-sensitive valuation or
+              portfolio return attribution until corporate-action adjustment is verified and modelled.
+            </div>
+          )}
 
           {result.candles.length === 0 ? (
             <div style={{ marginTop: 16 }}>
@@ -300,7 +346,8 @@ export function DhanHistorical() {
             </div>
           )}
         </div>
-      )}
+        );
+      })()}
     </section>
   );
 }

@@ -478,6 +478,17 @@ describe('DHAN-P3 historical surface', () => {
     // The freshness badge must not read LIVE.
     expect(screen.getByTestId('freshness-snapshot')).toBeTruthy();
     expect(screen.queryByTestId('freshness-live')).toBeNull();
+    // D-4.4: unadjusted D02 candles must surface explicit corporate-action disclosure.
+    expect(screen.getByTestId('status-warning')).toBeTruthy();
+    expect(screen.getByTestId('dhan-historical-adjustment-status').textContent).toBe(
+      'Unadjusted for corporate actions (splits/bonuses/dividends)',
+    );
+    expect(screen.getByTestId('dhan-historical-unadjusted-disclosure').textContent).toContain(
+      'Unadjusted for corporate actions (splits/bonuses/dividends)',
+    );
+    expect(screen.getByTestId('dhan-historical-unadjusted-disclosure').textContent).toContain(
+      'prohibited from driving split-sensitive valuation or portfolio return attribution',
+    );
   });
 
   it('renders an empty series as an explicit empty result, not a failure', async () => {
@@ -490,7 +501,80 @@ describe('DHAN-P3 historical surface', () => {
     await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
     expect(screen.getByTestId('dhan-historical-empty')).toBeTruthy();
     expect(screen.getByTestId('dhan-historical-empty').textContent).toContain('not a failure');
+    expect(screen.getByTestId('dhan-historical-adjustment-status').textContent).toBe('no candles returned');
+    expect(screen.queryByTestId('dhan-historical-unadjusted-disclosure')).toBeNull();
     expect(screen.queryByTestId('dhan-historical-failure')).toBeNull();
+  });
+
+  it('discloses mixed adjustment status and retains the unadjusted warning when any candle is unadjusted', async () => {
+    vi.stubGlobal('fetch', okFetch(historicalBody({
+      returnedCandleCount: 2,
+      candles: [
+        {
+          candleStart: '2026-10-31T00:00:00.000Z',
+          interval: '1D',
+          open: 100,
+          high: 102,
+          low: 99,
+          close: 101,
+          volume: 1000,
+          vwap: null,
+          isAdjusted: true,
+        },
+        {
+          candleStart: '2026-11-01T00:00:00.000Z',
+          interval: '1D',
+          open: 101,
+          high: 103,
+          low: 100,
+          close: 102,
+          volume: 1200,
+          vwap: null,
+          isAdjusted: false,
+        },
+      ],
+    })));
+    render(<DhanHistorical />);
+
+    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
+    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+
+    await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
+    expect(screen.getByTestId('status-warning').textContent).toContain('Mixed');
+    expect(screen.getByTestId('dhan-historical-adjustment-status').textContent).toBe(
+      'Mixed: 1 of 2 candles unadjusted for corporate actions (splits/bonuses/dividends)',
+    );
+    expect(screen.getByTestId('dhan-historical-unadjusted-disclosure')).toBeTruthy();
+  });
+
+  it('omits the unadjusted warning banner when all returned candles are adjusted', async () => {
+    vi.stubGlobal('fetch', okFetch(historicalBody({
+      returnedCandleCount: 1,
+      candles: [
+        {
+          candleStart: '2026-11-01T00:00:00.000Z',
+          interval: '1D',
+          open: 100,
+          high: 102,
+          low: 99,
+          close: 101,
+          volume: 1000,
+          vwap: null,
+          isAdjusted: true,
+        },
+      ],
+    })));
+    render(<DhanHistorical />);
+
+    fireEvent.change(screen.getByTestId('dhan-historical-company'), { target: { value: 'SYNTHETIC:COMPANY' } });
+    fireEvent.click(screen.getByTestId('dhan-historical-submit'));
+
+    await waitFor(() => expect(screen.getByTestId('dhan-historical-result')).toBeTruthy());
+    expect(screen.getByTestId('status-positive').textContent).toContain('Adjusted for corporate actions');
+    expect(screen.getByTestId('dhan-historical-adjustment-status').textContent).toBe(
+      'Adjusted for corporate actions',
+    );
+    expect(screen.queryByTestId('dhan-historical-unadjusted-disclosure')).toBeNull();
   });
 
   it('rejects an inverted date range without contacting the server', async () => {

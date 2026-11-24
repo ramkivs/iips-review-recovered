@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 
 import { assessCompany } from '../../src/investment/assessment/engine';
 import { selectPrice } from '../../src/investment/assessment/margin';
+import { renderAssessmentHtml } from '../../src/investment/assessment/view';
 import type { CorporateActionRecord, PriceRecord } from '../../src/investment/fundamentals/types';
 import { techAssessmentInput, techDataset, TECH_ISSUER } from './assessmentFixtures';
 
@@ -138,5 +139,110 @@ describe('the band is a policy function of the margin, and the policy version tr
     } else {
       assert.equal(mos.refusal, null);
     }
+  });
+});
+
+describe('D-4.4 — corporate-action adjustment enforcement and disclosure in valuation', () => {
+  test('an issuer-wide corporate action (subjectSecurityId: null) refuses an unadjusted price in assessCompany', () => {
+    const issuerWideBonus: CorporateActionRecord = {
+      actionId: 'CA-TECH-BONUS-2026',
+      type: 'BONUS',
+      effectiveDate: '2026-07-24',
+      subjectIssuerId: TECH_ISSUER,
+      subjectSecurityId: null,
+      perShareComparable: false,
+      adjustmentFactor: 0.5,
+      factorBasis: '1:1 bonus issue',
+      successors: [],
+      sourceRef: 'ca-table:fixture',
+    };
+    const { payload, narrative } = assessCompany(
+      techAssessmentInput({
+        dataset: techDataset({
+          prices: [price({ adjustment: null })],
+          corporateActions: [issuerWideBonus],
+        }),
+      }),
+    );
+    const mos = payload.valuation.marginOfSafety!;
+    assert.equal(mos.refusal, 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION');
+    assert.equal(mos.price.presence, 'MISSING');
+    assert.equal(mos.price.value, null);
+    assert.equal(mos.band, null);
+    assert.match(mos.price.note ?? '', /CA-TECH-BONUS-2026/);
+    assert.ok(
+      narrative.some((line) => line.includes('UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION') && line.includes('CA-TECH-BONUS-2026')),
+    );
+    const html = renderAssessmentHtml(payload, narrative);
+    assert.ok(html.includes('UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION'));
+    assert.ok(html.includes('CA-TECH-BONUS-2026'));
+    assert.ok(html.includes('never silently adjusted'));
+  });
+
+  test('an issuer-wide corporate action for a different issuer does not block the subject security', () => {
+    const otherIssuerSplit: CorporateActionRecord = {
+      actionId: 'CA-OTHER-SPLIT-2026',
+      type: 'SPLIT',
+      effectiveDate: '2026-07-24',
+      subjectIssuerId: 'IN:EQISIN:IN9999999999',
+      subjectSecurityId: null,
+      perShareComparable: false,
+      adjustmentFactor: 0.2,
+      factorBasis: 'other issuer 1:5 split',
+      successors: [],
+      sourceRef: 'ca-table:fixture',
+    };
+    const selection = alignment({
+      issuerId: TECH_ISSUER,
+      prices: [price({ adjustment: null })],
+      corporateActions: [otherIssuerSplit],
+    });
+    assert.equal(selection.refusal, null);
+    assert.equal(selection.observation.value, 850);
+  });
+
+  test('an effectiveDate matching the calendar date of an ISO generatedAt timestamp still blocks an unadjusted price', () => {
+    const selection = alignment({
+      issuerId: TECH_ISSUER,
+      generatedAt: '2026-07-25T10:00:00Z',
+      prices: [price({ asOf: '2026-07-25', adjustment: null })],
+      corporateActions: [
+        {
+          actionId: 'CA-TECH-SAMEDAY-SPLIT',
+          type: 'SPLIT',
+          effectiveDate: '2026-07-25',
+          subjectIssuerId: TECH_ISSUER,
+          subjectSecurityId: null,
+          perShareComparable: false,
+          adjustmentFactor: 0.5,
+          factorBasis: 'same-day split',
+          successors: [],
+          sourceRef: 'ca-table:fixture',
+        },
+      ],
+    });
+    assert.equal(selection.refusal, 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION');
+    assert.match(selection.observation.note ?? '', /CA-TECH-SAMEDAY-SPLIT/);
+  });
+
+  test('invalid or mismatched adjustment factors on a price record are refused', () => {
+    for (const badFactor of [0, -0.2, Number.NaN, 0.5]) {
+      const selection = alignment({
+        prices: [price({ adjustment: { factor: badFactor, corporateActionId: 'CA-TECH-SPLIT-2026' } })],
+      });
+      assert.equal(selection.refusal, 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION');
+      assert.equal(selection.observation.presence, 'MISSING');
+      assert.equal(selection.observation.value, null);
+    }
+  });
+
+  test('a non-R-6 price source (e.g. unverified raw D02 feed) is refused at runtime', () => {
+    const selection = alignment({
+      prices: [price({ source: 'DHAN_D02_OHLCV' as unknown as PriceRecord['source'] })],
+    });
+    assert.equal(selection.refusal, 'INADMISSIBLE_PRICE_SOURCE');
+    assert.equal(selection.observation.presence, 'MISSING');
+    assert.equal(selection.observation.reason, 'PRICE_UNAVAILABLE');
+    assert.match(selection.observation.note ?? '', /DHAN_D02_OHLCV/);
   });
 });

@@ -209,7 +209,17 @@ ${
 ${
   mos === null
     ? '<p class="absent">Margin of safety not computed.</p>'
-    : `<p><strong>Margin of safety:</strong> ${mos.refusal === null ? `${pct(mos.mosVsMid)} against the midpoint (band ${mos.band}), price as of ${escapeHtml(mos.priceAsOf ?? '—')}` : `<span class="absent">withheld — ${escapeHtml(mos.refusal)}</span>`}</p>`
+    : `<p><strong>Margin of safety:</strong> ${
+        mos.refusal === null
+          ? `${pct(mos.mosVsMid)} against the midpoint (band ${mos.band}), price as of ${escapeHtml(mos.priceAsOf ?? '—')}`
+          : `<span class="absent">withheld — ${escapeHtml(mos.refusal)}${
+              mos.price.note ? ` (${escapeHtml(mos.price.note)})` : ''
+            }${
+              mos.refusal === 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION'
+                ? ' — unadjusted price refused; never silently adjusted'
+                : ''
+            }</span>`
+      }</p>`
 }
 <table>
 <thead><tr><th>Method</th><th>Role</th><th>Per-share low / mid / high</th><th>Basis</th></tr></thead>

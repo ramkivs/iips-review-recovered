@@ -21,6 +21,7 @@ import { VALUATION_POLICY, mosBandFor } from './policy';
 import type { IntrinsicRange, MarginOfSafetyBlock } from './types';
 
 export interface PriceAlignmentInput {
+  readonly issuerId?: string;
   readonly securityId: string;
   readonly prices: readonly PriceRecord[];
   readonly corporateActions: readonly CorporateActionRecord[];
@@ -43,9 +44,10 @@ function daysBetween(earlier: string, later: string): number {
 
 /** Choose the price the assessment is allowed to use, or refuse and say why. */
 export function selectPrice(input: PriceAlignmentInput): PriceSelection {
+  const generatedDate = input.generatedAt.slice(0, 10);
   const candidates = input.prices
     .filter((price) => price.securityId === input.securityId)
-    .filter((price) => price.asOf <= input.generatedAt)
+    .filter((price) => price.asOf <= generatedDate)
     .sort((a, b) => (a.asOf < b.asOf ? 1 : a.asOf > b.asOf ? -1 : 0));
 
   if (candidates.length === 0) {
@@ -63,6 +65,19 @@ export function selectPrice(input: PriceAlignmentInput): PriceSelection {
       ? present(price.value, source, { basis: 'AS_FILED', periodEnd: price.asOf })
       : { ...present(price.value, source, { basis: 'AS_FILED', periodEnd: price.asOf }), note };
 
+  if (price.source !== 'PIT_D01' && price.source !== 'DATASET_EOD') {
+    return {
+      observation: {
+        ...asObservation(`price source "${String(price.source)}" is not admissible under R-6 (expected PIT_D01 or DATASET_EOD)`),
+        presence: 'MISSING',
+        value: null,
+        reason: 'PRICE_UNAVAILABLE',
+      },
+      asOf: price.asOf,
+      refusal: 'INADMISSIBLE_PRICE_SOURCE',
+    };
+  }
+
   if (price.asOf < input.knownAsOf.slice(0, 10)) {
     return {
       observation: { ...asObservation('price predates the knowledge cutoff'), presence: 'MISSING', value: null, reason: 'PRICE_STALE' },
@@ -71,7 +86,7 @@ export function selectPrice(input: PriceAlignmentInput): PriceSelection {
     };
   }
 
-  const age = daysBetween(price.asOf, input.generatedAt.slice(0, 10));
+  const age = daysBetween(price.asOf, generatedDate);
   if (age > VALUATION_POLICY.freshness.priceMaxAgeDays) {
     return {
       observation: {
@@ -89,13 +104,29 @@ export function selectPrice(input: PriceAlignmentInput): PriceSelection {
   // on the post-action share base while the filings are on the pre-action base, and a price observed before
   // it sits on the pre-action base while later filings are restated. In both directions the record must
   // carry the applied factor, or the comparison is refused rather than half-made.
+  //
+  // Both security-specific actions and issuer-wide (`subjectSecurityId === null`) actions apply; unadjusted
+  // prices (or adjustments with invalid/mismatched factors) are refused unconditionally.
+  const appliesToSubject = (action: CorporateActionRecord): boolean =>
+    action.subjectSecurityId === input.securityId ||
+    (action.subjectSecurityId === null &&
+      input.issuerId !== undefined &&
+      action.subjectIssuerId === input.issuerId);
+
+  const hasValidAdjustment = (action: CorporateActionRecord): boolean => {
+    if (price.adjustment === null) return false;
+    if (price.adjustment.corporateActionId !== action.actionId) return false;
+    if (!Number.isFinite(price.adjustment.factor) || price.adjustment.factor <= 0) return false;
+    if (action.adjustmentFactor !== null && Math.abs(price.adjustment.factor - action.adjustmentFactor) > 1e-9) {
+      return false;
+    }
+    return true;
+  };
+
   const needingAdjustment = input.corporateActions.filter(
-    (action) =>
-      action.subjectSecurityId === input.securityId &&
-      action.perShareComparable === false &&
-      action.effectiveDate <= input.generatedAt,
+    (action) => appliesToSubject(action) && action.perShareComparable === false && action.effectiveDate <= generatedDate,
   );
-  const unadjusted = needingAdjustment.filter((action) => price.adjustment === null || price.adjustment.corporateActionId !== action.actionId);
+  const unadjusted = needingAdjustment.filter((action) => !hasValidAdjustment(action));
   if (unadjusted.length > 0) {
     return {
       observation: {
