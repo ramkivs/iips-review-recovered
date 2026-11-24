@@ -25335,7 +25335,56 @@ COMPLETE/VERIFIED. W16 status: **design proposed, READY for review; acceptance N
 
 **Next free line: §16.336.**
 
-### §16.336 — D-4.5 D114/PIT Admission Assessment (`B2` / `CV-32` Boundary & Expansion Requirements) 2026-11-23 (commit pending)
+### §16.336 — W16 contract REVIEW: corrections made, precedence fixed, W15 chain-version comparison supported; ADOPTION DECISION: adopted as proposed contract (design-level only) 2026-11-24 (commit pending)
+
+**Review basis:** authoritative NP-04/NP-06 chain in `frontend/server/reports/artifact.ts` (`reportKey` = content
+identity, `reportId` = store-assigned chain identity, `artifactVersion` >= 1 with `supersedesReportId`, contiguity via
+`validateArtifactChain`); proposal §16.334 / PR #640.
+
+**Findings and corrections (in `lineage/provenanceEnvelope.ts`):** (1) W15 pairs previously compared via portfolio
+revision — always null for W15, so successive chain versions were wrongly INCOMPARABLE; envelope now carries
+`chainVersion`/`supersedes`, W15 maps `artifactId=reportId`, `digest=reportKey`, and `classifyPair` has a dedicated
+W15 branch on chain identity (different chainRef/reportId → INCOMPARABLE; equal reportKey → UNCHANGED; later
+artifactVersion → SUCCESSIVE_REVISION; differing reportKey → OUTPUT_CHANGED). (2) W11 reports have no single durable
+id — `artifactId` now null, per-execution requestIds kept in `extensions`. (3) Classification precedence now explicit
+and documented in code (cross-producer INCOMPARABLE → W15 chain branch → RECONSTRUCTED → UNCHANGED → missing-identity
+INCOMPARABLE → revision ordering → sources → positions → observations → output). Producer mappings re-verified:
+W09/W11/W13 direct, W15 direct with `revision: null` (chain versions never conflated with portfolio revisions); no
+information loss; build provenance stays NOT_ATTESTED/UNKNOWN as recorded.
+
+**Verification:** `provenanceEnvelope.test.ts` 26 vectors (15 original + R1–R6 W15 chain-version cases, R7–R10
+precedence boundaries) — **26/26 pass**; targeted cluster (user-portfolio + capture + W12/W13/W16 investment suites)
+**19 files, 399/399 pass**; scoped strict tsc clean; CI Typecheck·Test·Build pass on the PR.
+
+**ADOPTION DECISION: ADOPTED as the proposed W16 contract at design level** — approves the contract design only;
+NOT methodology approval, NOT producer-boundary integration (out of scope per task), NOT W16 acceptance (needs actual
+W09/W11/W13/W15 artifacts via B02). Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present;
+B06 COMPLETE/VERIFIED. Next free line: §16.337.
+
+### §16.337 — W16 optional provenance projection IMPLEMENTED at IRR producer boundaries (additive; no producer contract changed) 2026-11-24 (commit pending)
+
+**Boundary ownership inspected:** W09 capture (`frontend/server/user-portfolio/capture/` + `market-data/dhanRevisionCoverage.ts`),
+W13 valuation (`frontend/server/investment/positionValuation.ts`), W15 reports (`frontend/server/reports/` + `investment/change/`)
+— all IRR/frontend. W11 execution module lives in `iips-platform` (same repository, but it must not import frontend), so the W11
+projection is applied at the IRR consumer side of the platform handoff — documented, not a cross-repo change. IPD untouched.
+
+**Implementation:** `frontend/server/investment/lineage/projections.ts` — `attachOptionalProvenanceEnvelope` (shallow copy with
+optional `provenanceEnvelope` field; original output never mutated; projection absent when not called) + `projectW09Capture` /
+`projectW13Valuation` / `projectW11Execution` / `projectW15Report` using the ADOPTED envelope (`iips.w16.provenance-envelope/v1`,
+§16.336). Missing/unattested provenance stays `missing`/`UNKNOWN`; W15 keeps chain identity (`chainRef`/`artifactId`=reportId/
+`chainVersion`/`supersedes`) distinct from portfolio revision (null); no historical chain or persisted artifact is modified.
+
+**Verification:** `projections.test.ts` 9 vectors — **9/9 pass** (mapping per producer; optionality/absence; input and NP-04
+artifact immutability; W15 successive-version classification via classifyPair; projection-failure isolation). Targeted cluster
+(lineage + W12/W13 investment + user-portfolio + capture): **20 files, 408/408 pass**; scoped strict `tsc --noEmit` clean on the
+new files; CI on the PR: tracker validation + Typecheck·Test·Build + Windows runner all pass. Existing producer outputs,
+consumer behaviour and NP-04/NP-06 chains are unchanged (no wire or persisted shape touched).
+
+**W16 status: contract ADOPTED (§16.336) + optional projection IMPLEMENTED (§16.337); acceptance still PENDING actual producer
+artifacts and B02 evidence.** Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present; B06 verified.
+Next free line: §16.338.
+
+### §16.338 — D-4.5 D114/PIT Admission Assessment (`B2` / `CV-32` Boundary & Expansion Requirements) 2026-11-23 (commit pending)
 
 **Authority & Scope:** Executes `D-4.5` assessment under [`docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md`](docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md) §2 item 5, [`docs/integration/DHAN-D4-OWNER-DECISION-PROPOSAL-2026-11-23.md`](docs/integration/DHAN-D4-OWNER-DECISION-PROPOSAL-2026-11-23.md) §5/§7/§20, and IPD mirror acceptance `df74b500` (IPD PR #191). Assessment and documentation only — **zero runtime code, pin, route, fence, or admission state modified**.
 
@@ -25348,9 +25397,9 @@ COMPLETE/VERIFIED. W16 status: **design proposed, READY for review; acceptance N
 4. **Governance & Ownership:** **No broader PIT implementation may proceed independently.** Non-production maintenance inside `B2`'s 5 files stays permitted; any durable-store wiring, real Bhavcopy ingestion, `queryRange`, or UI requires Program Authority + Product Owner acts and coordinated IPD (store/ingestion/schema/read service) + IRR (route/client/UI/`NP-04`) execution.
 5. **Status:** **`D-4.5` ASSESSMENT COMPLETE** (`B2` / `P4` / `CV-32` retained intact; expansion blocked on PA admission & IPD durable ingestion contract). Note: PR #641 (`D-4.6`, §16.335) merged on `main` at `dbb91b7`.
 
-**Next free line: §16.337.**
+**Next free line: §16.339.**
 
-### §16.337 — IIPS–EquiCore Integration: Request/Response Architecture Assessment 2026-11-23 (commit pending)
+### §16.339 — IIPS–EquiCore Integration: Request/Response Architecture Assessment 2026-11-23 (commit pending)
 
 **Scope & Authority Boundary:** Cross-repository architecture assessment across `ramkivs/iips-review-recovered` (IRR `ecacf83` atop `main` `dbb91b7`) and `ramkivs/equity-market-data-engine` (EquiCore `origin/main` `b79cf1d0`), with `ramkivs/iips-production-market-data` (IPD) cited strictly from IRR-checked-in pin/contract records (direct IPD GitHub API inaccessible `403`). **Assessment and recommendation only** — EquiCore's `I5` 10-year qualification and `D23` local UI grant do **not** authorize EquiCore-to-IIPS API implementation or IRR source admission.
 
@@ -25363,4 +25412,4 @@ COMPLETE/VERIFIED. W16 status: **design proposed, READY for review; acceptance N
 4. **Governance decisions required before implementation:** (a) EquiCore `D23`-extension authorization for `iips-equicore-historical/v1` + Class-(4) `(isin, series)` index; (b) IRR `D-4` PA admission of `EQUICORE_NSE_EOD` under `D-4.1`–`D-4.4` and `D-4.7` `NP-04` embedding.
 5. **Recommended next work item:** Draft and submit the joint `IIPS-EQUICORE-SERVING-AUTHORIZATION-PROPOSAL` before beginning Phase B (EquiCore endpoint) or Phase C (IRR consumer).
 
-**Next free line: §16.338.**
+**Next free line: §16.340.**
