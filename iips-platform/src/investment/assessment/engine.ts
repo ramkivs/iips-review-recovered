@@ -211,6 +211,7 @@ export function assessCompany(input: AssessCompanyInput): AssessCompanyResult {
   const methods = evaluateMethods(context);
   const intrinsicOutcome = buildIntrinsic(methods);
   const price = selectPrice({
+    issuerId: input.issuerId,
     securityId: input.securityId,
     prices: input.dataset.prices,
     corporateActions: input.dataset.corporateActions,

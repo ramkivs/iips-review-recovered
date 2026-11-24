@@ -774,16 +774,24 @@ export default function CompanyAssessmentPage({
         {assessment.valuation.marginOfSafety === null ? (
           <p>No margin of safety was produced.</p>
         ) : (
-          <p>
-            price {numeric(assessment.valuation.marginOfSafety.price)} (as of{' '}
-            {assessment.valuation.marginOfSafety.priceAsOf ?? 'unknown'}) · vs mid{' '}
-            {numeric(assessment.valuation.marginOfSafety.mosVsMid, '%')} · vs low{' '}
-            {numeric(assessment.valuation.marginOfSafety.mosVsLow, '%')} · band{' '}
-            {assessment.valuation.marginOfSafety.band ?? 'none'}
-            {assessment.valuation.marginOfSafety.refusal === null
-              ? ''
-              : ` · price refused: ${assessment.valuation.marginOfSafety.refusal}`}
-          </p>
+          <>
+            <p>
+              price {numeric(assessment.valuation.marginOfSafety.price)} (as of{' '}
+              {assessment.valuation.marginOfSafety.priceAsOf ?? 'unknown'}) · vs mid{' '}
+              {numeric(assessment.valuation.marginOfSafety.mosVsMid, '%')} · vs low{' '}
+              {numeric(assessment.valuation.marginOfSafety.mosVsLow, '%')} · band{' '}
+              {assessment.valuation.marginOfSafety.band ?? 'none'}
+              {assessment.valuation.marginOfSafety.refusal === null
+                ? ''
+                : ` · price refused: ${assessment.valuation.marginOfSafety.refusal}`}
+            </p>
+            {assessment.valuation.marginOfSafety.refusal === 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION' && (
+              <p className="muted" data-testid="mos-corporate-action-disclosure">
+                Unadjusted for corporate actions — raw unadjusted price withheld from Margin of Safety
+                valuation{assessment.valuation.marginOfSafety.price.note ? ` (${assessment.valuation.marginOfSafety.price.note})` : ''}.
+              </p>
+            )}
+          </>
         )}
         <h3>Sensitivity</h3>
         {assessment.valuation.sensitivity.length === 0 ? (

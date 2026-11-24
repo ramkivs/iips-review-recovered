@@ -25218,3 +25218,22 @@ over eligible W11 outputs and W13 positions" — there are no eligible actual W1
 What can proceed independently: nothing beyond investigation — any aggregation policy would pre-empt the undecided W12
 denominator/weighting decisions, which this pass did not touch. Historical CSIP preservation is already satisfied by not
 modifying the frozen engines. Next free line: §16.332.
+
+### §16.332 — D-4.4 Corporate-Action Adjustment Disclosure and Valuation Enforcement (IRR + IID) 2026-11-23 (commit pending)
+
+**Authority & Scope:** Implements `D-4.4` from [`docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md`](docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md) §2 item 4 (*"Unadjusted for corporate actions (splits/bonuses/dividends)"* disclosure on historical surfaces; raw `isAdjusted: false` `D02` candles prohibited from driving split-sensitive valuation; `margin.ts` `UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` enforcement preserved and tightened) without touching deferred `W-20` items (`D-4.3` freshness, `D-4.6` identity symmetry) or altering the Infosys WI-3/RIV real-issuer `CompanyAssessmentPayload` baseline.
+
+**Deliverables this pass:**
+1. **IID valuation enforcement (`iips-platform/src/investment/assessment/margin.ts`, `engine.ts`):**
+   - Closed the issuer-wide (`subjectSecurityId: null`) corporate-action gap by passing `issuerId` from `engine.ts` to `selectPrice` and matching `subjectSecurityId === securityId || (subjectSecurityId === null && subjectIssuerId === issuerId)`.
+   - Normalized `generatedAt.slice(0, 10)` for candidate and `effectiveDate` comparisons; validated finite positive `price.adjustment.factor` and consistency against `action.adjustmentFactor` when non-null; added runtime `INADMISSIBLE_PRICE_SOURCE` refusal if a non-`PIT_D01`/`DATASET_EOD` source (e.g. raw `DHAN_D02_OHLCV`) crosses the boundary.
+   - Added corporate-action refusal disclosure detail (`price.note` naming blocking action IDs and explicit non-adjustment statement) in `view.ts` and `explain.ts`, leaving `CompanyAssessmentPayload` / `MarginOfSafetyBlock` shape untouched.
+2. **IRR historical & assessment disclosures (`frontend/src/features/dhan/DhanHistorical.tsx`, `frontend/src/features/investment/CompanyAssessmentPage.tsx`):**
+   - `DhanHistorical.tsx`: renders series-level adjustment `StatusBadge`, `Corporate-action adjustment` provenance row (`no candles returned` / `Adjusted for corporate actions` / `Mixed` / `Unadjusted for corporate actions (splits/bonuses/dividends)`), and explicit `dhan-historical-unadjusted-disclosure` banner whenever any returned candle has `isAdjusted: false`, stating that raw unadjusted `D02` candles are prohibited from driving split-sensitive valuation or portfolio return attribution.
+   - `CompanyAssessmentPage.tsx`: renders `mos-corporate-action-disclosure` whenever `valuation.marginOfSafety.refusal === 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION'`.
+3. **Tests & verification:**
+   - `iips-platform/tests/investment/assessment-price.test.ts`: 5 new tests (issuer-wide `subjectSecurityId: null` refusal, cross-issuer non-interference, same-day ISO `generatedAt` effective-date boundary, invalid/mismatched `adjustment.factor` refusal, runtime `INADMISSIBLE_PRICE_SOURCE` refusal); `npm run typecheck` clean and `npm run test:iid` **1696/1696** tests across **352** suites pass.
+   - `iips-platform/scripts/riv-head-revalidation.ts`: all 3 committed Infosys RIV artifacts (`payload-diff-vs-wi3.json`, `independent-recomputation.json`, `mapping-census.json`) reproduced byte-identically (`persisted == fresh analysis: true`).
+   - `frontend/src/features/dhan/DhanMarketData.test.tsx` & `frontend/src/features/investment/CompanyAssessmentPage.test.tsx`: added unadjusted, mixed-adjustment, all-adjusted, empty-series, and `UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` UI disclosure tests (verified via GitHub Actions `CI` workflow).
+
+**Next free line: §16.333.**

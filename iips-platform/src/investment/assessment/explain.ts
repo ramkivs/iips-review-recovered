@@ -31,10 +31,13 @@ export function assessmentNarrative(payload: CompanyAssessmentPayload): readonly
   }
 
   if (payload.valuation.marginOfSafety !== null) {
+    const mos = payload.valuation.marginOfSafety;
     lines.push(
-      payload.valuation.marginOfSafety.refusal === null
-        ? `At the ${payload.valuation.marginOfSafety.priceAsOf} price the margin of safety is ${((payload.valuation.marginOfSafety.mosVsMid.value ?? 0) * 100).toFixed(1)}% against the midpoint (${payload.valuation.marginOfSafety.band}).`
-        : `Margin of safety is withheld: ${payload.valuation.marginOfSafety.refusal}.`,
+      mos.refusal === null
+        ? `At the ${mos.priceAsOf} price the margin of safety is ${((mos.mosVsMid.value ?? 0) * 100).toFixed(1)}% against the midpoint (${mos.band}).`
+        : mos.refusal === 'UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION' && mos.price.note
+          ? `Margin of safety is withheld: ${mos.refusal} (${mos.price.note}; unadjusted prices across corporate actions are never used or silently adjusted).`
+          : `Margin of safety is withheld: ${mos.refusal}.`,
     );
   }
 
