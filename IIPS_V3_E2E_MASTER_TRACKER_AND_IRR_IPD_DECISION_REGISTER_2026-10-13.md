@@ -25441,3 +25441,40 @@ W15/W16 published (§16.334–§16.337); B06 verified. Next free line: §16.339.
 6. **Joint Authorization Proposal (`EC-DEC-01`..`04` & `PA-DEC-01`..`05`):** Requests EquiCore Owner `D23` extension (`serving.iips_serve` + Class-(4) `(isin_normalized, series, business_date)` index scoped to `M2` / `NSE_EQ` / `1D` / `RAW_UNADJUSTED`) and IIPS PA admission of `EQUICORE_NSE_EOD`, `D-4.2` non-blending, server integration boundary, and `D-4.7` `NP-04` implementation, with ownership matrix and Phases A–D acceptance criteria (`EC-AC-*`, `IRR-AC-*`).
 
 **Next free line: §16.341.**
+
+### §16.341 — IIPS–EquiCore Owner & Program Authority Approvals Recorded (`PA-DEC-01`..`05` & `EC-DEC-01`..`04` `APPROVED`) 2026-11-24
+
+**Authority, Ownership & Application Scope (Authoritative):**
+- IIPS and EquiCore are local, single-user applications.
+- Ramki is the sole owner and decision-maker for both applications.
+- Both applications are strictly for personal use.
+- The authorization is exclusively for personal-use integration between these applications.
+- There is no production environment or production deployment requirement.
+- No hosted, commercial, multi-user, or production deployment is authorized or required.
+- No production-readiness gates, separate production-owner approvals, or multi-user deployment assumptions apply.
+
+**Deliverables & Authoritative Locations (IRR `ramkivs/iips-review-recovered`, post-PR #643 `616f010c`):**
+- **IRR PA Approval Record:** [`docs/integration/IIPS-EQUICORE-PA-APPROVAL-RECORD-2026-11-24.md`](docs/integration/IIPS-EQUICORE-PA-APPROVAL-RECORD-2026-11-24.md) (`IIPS-EQUICORE-PA-APPROVAL-RECORD-2026-11-24`)
+- **Updated Proposal Sign-Off:** [`docs/integration/IIPS-EQUICORE-SERVING-AUTHORIZATION-PROPOSAL-2026-11-23.md`](docs/integration/IIPS-EQUICORE-SERVING-AUTHORIZATION-PROPOSAL-2026-11-23.md) (§1.1, §6 updated; §2–§5 original decision wording, conditions, and acceptance criteria preserved verbatim)
+- **Prepared EquiCore Handoff Record:** [`docs/integration/artifacts/EQUICORE-D40-IIPS-SERVING-EXTENSION-PREPARED-2026-11-24.md`](docs/integration/artifacts/EQUICORE-D40-IIPS-SERVING-EXTENSION-PREPARED-2026-11-24.md) (ready for `ramkivs/equity-market-data-engine/docs/architecture/D40_IIPS_EQUICORE_SERVING_EXTENSION_AUTHORITY_DECISION.md`)
+
+**Recorded Dispositions (All 9 Decisions `APPROVED`, 2026-11-24, Ramki):**
+1. **IIPS PA Decisions (`ramkivs/iips-review-recovered`):**
+   - `PA-DEC-01` — **`APPROVED`** (Admit `EQUICORE_NSE_EOD` for `1D`/`NSE_EQ`/`RAW_UNADJUSTED`; Dhan `D02` retained for intraday/`BSE_EQ`).
+   - `PA-DEC-02` — **`APPROVED`** (Preserve `D-4.2` no-fallback / no-blending invariants and `D-4.4` unadjusted disclosure).
+   - `PA-DEC-03` — **`APPROVED`** (Server-side `frontend/server/` transport boundary, mandatory `IIPS_EQUICORE_TRANSPORT_TOKEN`, `verify-browser-bundle.mjs` isolation, IRR `D-4.6` identity resolution).
+   - `PA-DEC-04` — **`APPROVED`** (`D-4.7` `NP-04` `HistoricalPriceEvidence` v1 embedding + `W16` diffs + offline read guarantee).
+   - `PA-DEC-05` — **`APPROVED`** (Preserve `B2` / `P4` / `CV-32` (`D-4.5`) and `IID R-6` boundaries unchanged).
+2. **EquiCore Owner Decisions (`ramkivs/equity-market-data-engine`):**
+   - `EC-DEC-01` — **`APPROVED`** (Extend `D23` for headless local loopback HTTP API `serving.iips_serve` on `127.0.0.1:8614`, mandatory bearer auth, loopback `Host` check, zero CORS, `responseDigest`).
+   - `EC-DEC-02` — **`APPROVED`** (Rebuildable Class-(4) `(isin_normalized, series, business_date)` index over `VALID` ISIN rows only, preserving `D05/1.0` verbatim `Decimal` and `nse_engine` immutability).
+   - `EC-DEC-03` — **`APPROVED`** (Lock initial scope to qualified M2 `i4-20261008-M2`, `NSE_EQ`, `1D`, `RAW_UNADJUSTED`, `POST /v1/historical/eod-observation` strictly `PINNED_GENERATION_EOD_SNAPSHOT`).
+   - `EC-DEC-04` — **`APPROVED`** (Exclude raw archive bytes and post-M2 `B5` composite generations initially; retain fail-closed `D21` `409 D21_CONFLICT_HELD`).
+3. **Strict Repository Publication Status:**
+   - **IRR (`ramkivs/iips-review-recovered`):** Authoritative `PA-DEC-01`..`05` record published via PR from `arena/fbeebd7c-iips-review-recovered`.
+   - **EquiCore (`ramkivs/equity-market-data-engine`):** Baseline `origin/main` `b79cf1d0` verified read-only; `git push --dry-run` returned `HTTP 403 Permission denied` for this IRR-scoped GitHub installation, so zero EquiCore writes were performed. Authoritative EquiCore publication of `D40` (`EC-DEC-01`..`04`) remains pending in `ramkivs/equity-market-data-engine` via its own branch/PR.
+4. **Implementation Authorization Boundary & Phase B / Phase C Eligibility:**
+   - **No Phase B or Phase C implementation is authorized by this record** (governance documentation only; zero code, endpoints, indexes, pins, or runtime gates changed).
+   - **Phase B (EquiCore serving)** and **Phase C (IIPS integration & `NP-04` evidence)** are now **eligible for separate implementation authorization**, with EquiCore `D40` publication on `ramkivs/equity-market-data-engine` `main` completing the EquiCore-repository governance record alongside/prior to Phase B, and Phase C live loopback E2E (`IRR-AC-05`) depending on Phase B delivery.
+
+**Next free line: §16.342.**
