@@ -82,16 +82,6 @@ function historicalBody(overrides: Record<string, unknown> = {}) {
   };
 }
 
-function okFetch(body: unknown) {
-  return vi.fn((_url: string, _init?: RequestInit) =>
-    Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) } as Response));
-}
-
-function errFetch(status: number, error: Record<string, unknown>) {
-  return vi.fn((_url: string, _init?: RequestInit) =>
-    Promise.resolve({ ok: false, status, json: () => Promise.resolve({ error }) } as Response));
-}
-
 /* ------------------------------------------------------------------------ */
 /* W-15 helpers: the quote form is driven by the instrument-search picker.  */
 /* ------------------------------------------------------------------------ */
@@ -951,35 +941,55 @@ describe('W-15 quote identity picker', () => {
 describe('D-4.6 — D01/D02 UI & request-builder identity symmetry', () => {
   it('buildDhanHistoricalRequest mirrors buildDhanQuoteRequest canonical 3-tuple rules', () => {
     expect(
-      buildDhanHistoricalRequest('COMP-A', 'ISIN:INE002A01018:EQ', 'NSE_EQ', {
-        interval: '1D',
-        fromDate: '2026-10-01',
-        toDate: '2026-10-31',
-      }),
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'ISIN:INE002A01018:EQ',
+        'NSE_EQ',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+      ),
     ).toEqual({
       companyId: 'COMP-A',
       securityId: 'ISIN:INE002A01018:EQ',
       exchangeSegment: 'NSE_EQ',
-      isin: 'INE002A01018',
       interval: '1D',
       fromDate: '2026-10-01',
       toDate: '2026-10-31',
     });
 
     expect(
-      buildDhanHistoricalRequest('COMP-A', 'ISIN:INE002A01018:EQ', '', {
-        interval: '1D',
-        fromDate: '2026-10-01',
-        toDate: '2026-10-31',
-      }),
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'ISIN:INE002A01018:EQ',
+        '',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+      ),
     ).toBeNull();
 
     expect(
-      buildDhanHistoricalRequest('COMP-A', 'INE002A01018', 'NSE_EQ', {
-        interval: '1D',
-        fromDate: '2026-10-01',
-        toDate: '2026-10-31',
-      }),
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'INE002A01018',
+        'NSE_EQ',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+      ),
+    ).toBeNull();
+
+    expect(
+      buildDhanHistoricalRequest(
+        'COMP-A',
+        'ISIN:INE002A01018:EQ',
+        'NSE_EQ',
+        '1D',
+        '2026-10-01',
+        '2026-10-31',
+        'INE009A01021',
+      ),
     ).toBeNull();
   });
 
@@ -1013,7 +1023,6 @@ describe('D-4.6 — D01/D02 UI & request-builder identity symmetry', () => {
       companyId: 'SYNTHETIC:COMPANY-BSE',
       securityId: 'ISIN:INE002A01019:EQ',
       exchangeSegment: 'BSE_EQ',
-      isin: 'INE002A01019',
       interval: '1D',
     });
   });

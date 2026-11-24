@@ -766,7 +766,7 @@ export async function handleDhanHistoricalRequest(
 
   // Fail closed if upstream echoes a canonical securityId or exchangeSegment that
   // contradicts the validated canonical request identity.
-  const resultRecord = (outcome.result ?? {}) as Record<string, unknown>;
+  const resultRecord = (outcome.result ?? {}) as unknown as Record<string, unknown>;
   const returnedSecurityId =
     typeof resultRecord.securityId === 'string' && resultRecord.securityId.trim() !== ''
       ? resultRecord.securityId.trim()
