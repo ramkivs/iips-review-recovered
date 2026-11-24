@@ -1096,6 +1096,36 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // Phase C (PA-DEC-01..03): EquiCore local loopback historical API (`iips-equicore-historical/v1`)
+  // and explicit source-selected historical consumption (`/api/historical`). Server starts cleanly
+  // when EquiCore is stopped or unconfigured; bearer token never reaches the browser.
+  const reqPath = (req.url ?? '').split('?')[0];
+  if (reqPath === '/api/equicore' || reqPath.startsWith('/api/equicore/')) {
+    void (async () => {
+      try {
+        const equicore = await import('./market-data/equicoreRoutes');
+        await equicore.handleEquiCoreRequest(req, res, { env: process.env });
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'equicore transport error' }));
+        }
+      }
+    })();
+    return;
+  }
+  if (reqPath === '/api/historical') {
+    void (async () => {
+      try {
+        const equicore = await import('./market-data/equicoreRoutes');
+        await equicore.handleHistoricalSeriesRequest(req, res, { env: process.env });
+      } catch {
+        if (!res.headersSent && !res.destroyed) {
+          res.writeHead(500); res.end(JSON.stringify({ error: 'historical transport error' }));
+        }
+      }
+    })();
+    return;
+  }
   // UI07 Watchlists: owner-scoped boundary. The owner context is established server-side by the
   // governed owner-context resolver; the governed universe (item values) is composed here.
   // W-31 — sourced price display: GET /api/watchlists/:watchlistId/quotes enriches the

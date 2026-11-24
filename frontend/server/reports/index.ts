@@ -100,3 +100,23 @@ export {
   type Np04Acquisition,
   type Np04Resolution,
 } from './np04-adapter.js';
+
+export {
+  HISTORICAL_PRICE_EVIDENCE_SCHEMA,
+  HISTORICAL_EVIDENCE_SOURCES,
+  HistoricalPriceEvidenceError,
+  computeObservationDigest,
+  validateHistoricalPriceEvidence,
+  extractHistoricalPriceEvidenceFromPayload,
+  diffHistoricalPriceEvidence,
+  type HistoricalEvidenceSource,
+  type HistoricalEvidenceExchange,
+  type HistoricalEvidenceExchangeSegment,
+  type HistoricalEvidenceAdjustmentMode,
+  type HistoricalEvidenceTemporalModel,
+  type ScalarPriceLiteral,
+  type HistoricalPriceObservation,
+  type HistoricalPriceEvidence,
+  type HistoricalPriceFieldDelta,
+  type HistoricalPriceEvidenceDiff,
+} from './historicalEvidence.js';

@@ -8,6 +8,7 @@ import { pathToFileURL } from 'node:url';
 const rules = [
   ['market-data configuration', /IIPS_MARKET_DATA_[A-Z0-9_]*/],
   ['Dhan configuration', /IIPS_DHAN_[A-Z0-9_]*/],
+  ['EquiCore configuration', /IIPS_EQUICORE_[A-Z0-9_]*/],
   ['secret reference', /vault:\/\//i],
   ['private key', /-----BEGIN (?:[A-Z ]+ )?PRIVATE KEY-----/],
   ['credential-bearing URL', /https?:\/\/[^\s/"'<>:@]+:[^\s/"'<>@]+@/i],
@@ -21,6 +22,9 @@ const rules = [
   // W-31 extends the server-only set with the watchlist quote consumer (it composes the
   // boundary and must never be in the browser bundle).
   ['server-only quote-consumption boundary', /\b(?:quoteConsumptionBoundary|consumeQuotes?|IpdMarketDataTransportConfig|IpdTransportConfigResolution|IpdFreshnessStatus|readIpdFreshnessStatus|resolveIpdMarketDataTransportConfig|createIpdMarketDataTransportClient|IRR_PROVIDER_QUALIFICATION|watchlists-quotes|enrichWatchlistWithQuotes|watchlistItemToQuoteIdentity|handleWatchlistQuotesRequest)\b/],
+  // Phase C (PA-DEC-03 / IRR-AC-01): EquiCore transport, historical consumption boundary, and
+  // EquiCore loopback endpoint are strictly server-only.
+  ['server-only EquiCore boundary', /(?:\b(?:equicoreTransportConfig|equicoreTransport|historicalConsumptionBoundary|readEquiCoreTransportConfiguration|createEquiCoreTransportClient|verifyEquiCoreResponseDigest|consumeHistoricalSeries|readIpdHistoricalSeries|EquiCoreTransportClient|handleEquiCoreHistoricalRequest|handleEquiCoreHealthRequest|handleEquiCoreEodObservationRequest|handleEquiCoreAssociationsRequest|handleEquiCoreCalendarRequest|handleEquiCoreRequest)\b|127\.0\.0\.1:8614|iips-equicore-historical\/v1)/],
   ['server-only runtime', /(?:node:(?:net|sqlite|fs|http|https|path|crypto)|\b(?:createConnection|DatabaseSync|listenIpc|persistBrokerImport|PitReadService|HistoricalPitIngestionLoader|NON_PRODUCTION_D114)\b|src\/(?:ipc|persistence)\/)/],
 ];
 
