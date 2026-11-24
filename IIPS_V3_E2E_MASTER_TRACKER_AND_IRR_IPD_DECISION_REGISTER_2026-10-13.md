@@ -25218,3 +25218,52 @@ over eligible W11 outputs and W13 positions" — there are no eligible actual W1
 What can proceed independently: nothing beyond investigation — any aggregation policy would pre-empt the undecided W12
 denominator/weighting decisions, which this pass did not touch. Historical CSIP preservation is already satisfied by not
 modifying the frozen engines. Next free line: §16.332.
+
+### §16.332 — W16 Lineage, Staleness and Comparison READINESS investigation (read-only; no implementation) 2026-11-23 (commit pending)
+
+**Repo state:** IRR `main` `1a12cb6` (PR #637 merge, §16.331 W14 published); branch head `638f217` clean. IPD 403 again (single
+live check); the roadmap W16 entry is quoted from the live read of IPD `main` `84e988b…` today (§16.325): *"W16 — Lineage,
+staleness and comparison. Status: NP-04/NP-06 version mechanisms exist; generic revision/quote lineage and read-time staleness
+not universal. Execution: IRR reports/IID. Deliverable: per-producer provenance and comparison using existing chains, with
+compatible changes only if needed. Acceptance: actual revision, issuer, dataset, source/quote times, model/policy,
+calculation/report times and readback; immutable historical versions, chain identity and input-changed/content-identical
+non-write preserved; unknown build digest stays unknown. **Ready: contract design now; final evidence depends on
+W09/W11/W13/W15 and actual artifacts.**"* (table row: deps W09; W11/W13/W15 for relevant producers; B06). First W16 tracker
+entry; the `DHAN-W16`-style docs do not exist — no collision.
+
+**Producer lineage found at each boundary (inspected this pass):**
+- **W09 consumer/capture** — `CapturedRevisionRef` (portfolioId + integer revision + provenanceDigest + capturedAt),
+  fail-closed binding; per-read `observedAt`/`evaluatedAt`; whole-attempt discard on mismatch (§16.324/§16.325).
+- **W11 execution** — `PortfolioExecutionReport` carries per-record `mappingDigest`/`qualificationDigest`/`inputDigest`/
+  `outputDigest`, `requestId`, `snapshotRef`, pinned `asOf`; certified-adapter provenance; 19-code refusal vocabulary (§16.327).
+- **W13 valuation** — `PositionValuationReport` binds the same capture ref, carries per-observation `asOf`/`receivedAt`/
+  `evaluatedAt`, `lineageHash`, `sourceClassification`, `providerQualification` verbatim, plus report `evaluatedAt` (§16.328).
+- **W15 (IID assessment/disposition)** — governed NP-04/NP-06 chains: `frontend/server/reports/artifact.ts`
+  `ReportProvenance.engineOutputId`, `ReportContent` (reportType/portfolioId/scenario/parameters/schemaVersion/generatedAt;
+  instance identity minted only by `createInstance`/`appendVersion` — immutable historical versions + chain identity);
+  `frontend/server/investment/change/` (`compare.ts` PAIR_CLASSIFICATIONS + ObservedDelta numeric/presence/categorical,
+  `attribute.ts`, `reproduce.ts` ReproductionRecord, `materiality.ts` policy version) with change-report semantics
+  **UNCHANGED = content-identical non-write**, **RECONSTRUCTED** flagged so a late explanation is never mistaken for
+  contemporaneous — exactly the roadmap's "input-changed/content-identical non-write preserved".
+- **Staleness** — IPD DHAN-P5 verdicts GOOD/STALE/UNAVAILABLE/UNKNOWN echoed verbatim with `ageSeconds`/`thresholdSeconds`/
+  `staleConcessionActive` (never acted on); IRR `Freshness` vocabulary LIVE/SNAPSHOT/STALE/UNAVAILABLE/REPLAY; assessment-layer
+  `freshness.ts`. Stale vs missing (UNKNOWN = no observation) vs unavailable are already distinct at every producer.
+
+**What comparison is legitimately possible today:** successive-report comparison on existing `icr:` chains via
+`change/compare.ts` + reproduce; revision/digest comparison across capture reads (W09); digest-pinned execution reports
+(W11); per-position observation timestamps (W13). **Missing:** a common cross-producer provenance representation (each
+producer has its own shape — capture ref, execution digests, valuation observation, report provenance); read-time staleness
+is not universal; build digest stays unknown where unattested (§16.327 limitation C, recorded not waived).
+
+**Dependencies:** W09 — VERIFIED (§16.324/§16.325), available for design now. W11 — implementation merged, synthetic/contract
+outputs only (§16.327); shape available, actual outputs blocked W03/B02+W10. W13 — mechanism merged, synthetic only (§16.328);
+shape available, actual values blocked W06/B02. W15 — NP-04/NP-06 chains + change module exist and are tested
+(`change/comparison.test.ts`, `store.test.ts`, reports-persistence integration); IID Stage 6 records current. B06 (= B-06
+wave-2 reassessment) — COMPLETE/VERIFIED at its own scope (B06 record 2026-11-06). Design-start needs only the existing
+contracts; final evidence needs actual artifacts (B02 host access).
+
+**Readiness conclusion: W16 CAN START contract/technical design now** (roadmap: "contract design now"), independently of
+final producer evidence: define the common per-producer provenance envelope over the four existing shapes, the
+stale/missing/unavailable distinction rules, and the comparable pairs — as PROPOSALS, not approved methodology. Must wait:
+any acceptance claim, any producer change beyond "compatible changes", and any comparison over actual artifacts (needs
+W09/W11/W13/W15 actual evidence + B02). This pass implemented nothing and approved nothing. Next free line: §16.333.
