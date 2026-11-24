@@ -7,7 +7,8 @@ final selection requires actual W05/W06 evidence (B02) and an authorised decisio
 not preselected facts").** *Amended 2026-11-24: §10 reconciles this design with the authoritative roadmap's Section K
 monetary-coverage requirements (signed value vs gross exposure, unrounded gate arithmetic, `C`/`t`/alignment); §11
 completes the evidence-independent methodology work (D1–D3 examined alongside Section K; new test specs V19–V24).
-The amendments select no decision and change no code; D1–D3 remain UNDECIDED.*
+The amendments select no decision and change no code; D1–D3 remain UNDECIDED. §12 defines the W12–W20 valuation
+interface contract (W13 report → W20 Section K gate).*
 
 **Baseline:** readiness record tracker §16.329; W13 mechanism `frontend/server/investment/positionValuation.ts`
 (PR #634, tracker §16.328); GD-4 (roadmap decision table): *distinguish count from money; use transparent per-position
@@ -368,3 +369,95 @@ or freshness-behavior change; no operator-side evidence collection; no live vend
 claim. Evidence status carried unchanged from §16.329/§16.342: W05 IN PROGRESS — NOT ACCEPTED; W06 PARTIAL — NOT ACCEPTED
 (mechanism delivered + synthetic-tested; actual measurement blocked on B02, numerator bounded ≤ 1/64 by W04); B05
 COMPLETE/VERIFIED at its own scope. Tracker record: §16.343.
+
+---
+
+## 12. W12–W20 valuation interface contract (design, 2026-11-24) — W13 report → W20 Section K monetary-coverage acceptance
+
+**Status: INTERFACE CONTRACT DESIGN ONLY.** This section defines the consumption contract between the existing W13
+producer (`frontend/server/investment/positionValuation.ts`, PR #634, schema `iips.w13.position-valuation/v1`) and the
+W20 acceptance gate, per Section K (roadmap L364–368 population/gate, L374–380 monetary coverage; IRR-held blob
+`7affba55…` at IPD `26855625…`) and §10–§11 of this document. **No code changes; no decisions selected; no acceptance
+claimed.** W20 remains `BLOCKED / NOT ACCEPTED` (`θF`/`θM` unestablished, B02).
+
+### 12.1 Input contract — the exact W13 report fields W20 consumes
+
+W20 consumes `PositionValuationReport` (and refuses the fail-closed outcome `{ ok: false, code, message }` —
+`MALFORMED_POSITIONS`, `TOO_MANY_ROWS`, invalid `CapturedRevisionRef` — with the W13 refusal code carried verbatim):
+
+| Field | Shape | W20 use |
+|---|---|---|
+| `schema` | `'iips.w13.position-valuation/v1'` | version check; any other schema → refuse, never adapt silently |
+| `capture` | `CapturedRevisionRef` = `{ portfolioId, revision: integer, provenanceDigest, capturedAt (UTC ISO-8601) }` | **binds acceptance to this exact captured revision** (same-population/same-revision rule); echoed on every output |
+| `evaluatedAt` | UTC ISO-8601 read time of this report | baseline candidate for valuation instant `t` (§12.5) |
+| `positions[]` | `PositionValuationEntry[]` | per-holding audit source (§12.6) |
+| `positions[i].rowId` | opaque row label | audit key |
+| `positions[i].securityId` | `string \| null` (stored D114 identity) | resolved-identity flag; `null` → `IDENTITY_UNRESOLVED`, no observation exists |
+| `positions[i].status` | closed vocabulary: `VALUED`, `IDENTITY_UNRESOLVED`, `OBSERVATION_UNREADABLE`, `OBSERVATION_MISSING`, `NOT_VALUED_STALE`, `NOT_VALUED_UNAVAILABLE`, `NOT_VALUED_UNKNOWN`, `NOT_VALUED_STATUS_UNREADABLE`, `POSITION_INACTIVE` | qualified vs unknown-exposure classification (§12.2); consumed verbatim, never re-derived |
+| `positions[i].quantity` | signed number (instrument units as stored in the revision) | gross-exposure input: `\|quantity\|` |
+| `VALUED` only: `observedMarketValue` | `round2(quantity × ltp)` — **presentation** value | signed value for divergence/P&L-style display only; never a gate input |
+| `VALUED` only: `currency` / `observation.quoteCurrency` | currency code | `C` determination (§12.5) |
+| `VALUED` only: `observation` | `QualifiedObservation` = `{ securityId, quoteCurrency, ltp, asOf, receivedAt, evaluatedAt, freshnessVerdict, providerQualification, lineageHash, sourceClassification }` | **gate price input `ltp`**; timestamps and **IPD freshness verdict consumed verbatim** (§12.5); provenance echoed on the audit record |
+| unvalued: `observedMarketValue: null`, `currency: null`, `observation: QualifiedObservation \| null`, `readError` | | unknown exposure = `null`, never `0` |
+| every entry: `storedCurrentPrice`, `storedMarketValue`, `storedWeightPercentage`, (`storedDivergence` when valued) | revision facts | labelled reference only; never promoted to observed |
+| `totals` | `{ positions, active, inactive, valued, unvaluedActive, identityUnresolved, observedMarketValueTotal (null unless single currency), perCurrency[], mixedCurrencies, storedActiveMarketValue, storedActiveWeightPct, observedCoverageOfStored (labelled reference only), observedTotalIsPartial }` | population `E` = `active` count; cross-checks only — **W20 recomputes gate arithmetic from per-position fields, never from these presentation totals** |
+| `openMethodologyDecisions` | readonly string[] (D1/D2/D3) | echoed on W20 output; W20 never resolves them |
+
+Producer-side input (for completeness): `PositionValuationInput` = `{ rowId, companyId, exchangeSegment?, securityId?, quantity, storedCurrentPrice, storedMarketValue, storedWeightPercentage, active }` — one row per holding of the captured revision. One quote + one freshness read per resolved identity, shared across positions of the same security.
+
+### 12.2 Gross exposure derivation (Section K)
+
+- **Qualified position** (`status === 'VALUED'`): `grossExposure_i = \|quantity_i\| × observation.ltp_i`, **unrounded**, in `observation.quoteCurrency`. Long and short positions both contribute positively — **no netting**; the signed `observedMarketValue` is retained separately and is never netted into exposure. (`ltp < 0` would be malformed → refuse the report, fail-closed.)
+- **Unqualified active position** (any status other than `VALUED`, incl. `IDENTITY_UNRESOLVED`, `OBSERVATION_MISSING/UNREADABLE`, `NOT_VALUED_STALE/UNAVAILABLE/UNKNOWN/STATUS_UNREADABLE`): exposure is **unknown** — represented `null` with the status as reason; **never `0`**; the position **remains in population `E`**.
+- **`POSITION_INACTIVE`**: excluded from the active population `E` (counted separately, per V9 / `totals.inactive`); not in `N`, not in `D`.
+- **Aggregation:** `N = Σ grossExposure_i` over VALUED positions, **per currency only**; if `totals.mixedCurrencies` is true there is **no single `N`/`D`** — per-currency results only, no fabricated converted total.
+
+### 12.3 Precision — unrounded gate inputs, presentation rounding kept separate
+
+- Gate inputs are the **unrounded** per-position products: signed `p_i = quantity_i × ltp_i`; gross `g_i = \|quantity_i\| × ltp_i`. `N = Σ g_i`, `D = Σ_{i ∈ E} g_i` (exact only when every active position is valued — see §12.6), ratio `N / D` — **all unrounded** (Section K: "round only for display and evaluate the unrounded ratio").
+- W13's `round2` outputs (`observedMarketValue`, `observedMarketValueTotal`, `observedCoverageOfStored`, …) are **presentation**; W20 does not consume them for the gate.
+- **Single-computation rule:** W13 owns observation qualification and produces `ltp`/`quantity`; W20 owns gate arithmetic and computes `g_i`, `N`, `D`, ratio unrounded from those report fields. Exposure is never computed in two places with different rounding. Presentation values shown to users = `round2` of the unrounded aggregates (V21 distinguishes gate `0.375` / presentation `0.38` / naive `0.39`).
+- `\|E\| = 0` → gate result **NOT_APPLICABLE** (W20 blocked), never 100 %.
+
+### 12.4 Units and multipliers
+
+- The existing data model supports **quantity in stored instrument units** and **price per unit** (`ltp`, in `quoteCurrency`). There is **no unit/multiplier factor field** in `PositionValuationInput`, `QualifiedObservation`, or the report.
+- Specified now: no multiplier is applied by default; exposure is `\|quantity\| × ltp` as stored.
+- Still required (precise gap): a governed **instrument unit/multiplier factor** keyed by resolved `securityId`, with source and asOf — e.g. `instrumentUnitMultiplier(securityId) → { factor, source, asOf } \| null`. Until such a source exists, any position whose instrument unit ≠ 1 cannot be exactly exposed: its exposure is **unknown (unit/multiplier not established)**, it stays in `E` with `null` exposure, and an exact denominator is blocked — consistent with Section K's unknown-in-population rule. The multiplier source itself is [E] (needs W04 identity + reference data) and its use policy is [O].
+
+### 12.5 Valuation context — `C`, `t`, timestamps, alignment policy; IPD freshness stays authoritative
+
+- **`C` (reporting currency):** if all VALUED positions share one `quoteCurrency`, `C` = that currency and is recorded on the W20 output; if `mixedCurrencies`, `C` is recorded as **not singular** and results are per-currency — no FX conversion (none qualified; §3-B rejected until W06 qualifies an FX observation).
+- **`t` (valuation instant):** recorded on every W20 output; baseline candidate = report `evaluatedAt` (the captured revision's read time). Final choice among candidates is [O]; until decided, `t = evaluatedAt` is the documented default.
+- **Timestamps:** per position, `observation.asOf` (IPD provider), `receivedAt`, `evaluatedAt`, plus capture `capturedAt` and report `evaluatedAt` — all retained verbatim, UTC ISO-8601 `Z`. **Alignment** = recording `t` and each position's age `age_i = t − asOf_i` (computed in UTC); observations are **never re-timestamped** and no portfolio-level "as-of price time" is invented. Retention (V15) ≠ alignment (V23).
+- **Alignment/freshness policy parameters:** acceptable maximum observation age at `t`, and any FX observation age — **open parameters [E]**, requiring W06 actual freshness evidence; not set here.
+- **IPD freshness verdicts are authoritative inputs:** W20 consumes `observation.freshnessVerdict` (`GOOD`/`STALE`/`UNAVAILABLE`/`UNKNOWN`/unreadable) and the W13 status verbatim; only `VALUED` (which requires verdict `GOOD` + `eligibleForUse`) contributes to `N`. W20 **never re-derives freshness, never upgrades a verdict, and adds no IRR freshness rule** — IPD owns verdicts and provider-specific semantics.
+
+### 12.6 Acceptance output — W20 per-holding audit record, aggregates, coverage result
+
+- **Per-holding audit record:** `{ rowId, securityId, status, quantity, grossExposure (unrounded number) | null, unknownReason (status/unit-multiplier), signedObservedValue (round2 presentation), currency, observation: { asOf, receivedAt, evaluatedAt, freshnessVerdict, providerQualification, lineageHash, sourceClassification } | null, ageAtT (t − asOf, UTC) | null, inPopulationE (bool), unitMultiplier: { factor, source, asOf } | 'NOT_ESTABLISHED' }` — plus the bound `capture` (`portfolioId`, `revision`, `provenanceDigest`, `capturedAt`) on the report-level output.
+- **Aggregates (per currency `C` when singular; else per-currency list):** `|E|` (active population), `valuedCount`, `unknownExposureCount`, `N` (unrounded Σ gross), `D` (exact unrounded Σ over `E` **only if every active position is valued and no unit/multiplier is missing**, else `null`), ratio `N / D` unrounded when `D` exact, presentation `round2(ratio)`, `mixedCurrencies` flag, `t`, `C`, `θM` status (`UNESTABLISHED` until set from observed evidence).
+- **Coverage result vocabulary (closed):** `PASS` / `FAIL` against `θM` **only** when `θM` is established AND `D` is exact AND `|E| > 0`; otherwise **`BLOCKED`** with explicit reason codes — `EMPTY_POPULATION` (`|E| = 0` → not applicable, never 100 %), `DENOMINATOR_INDETERMINATE` (unknown exposure or missing multiplier in `E`), `THETA_M_UNESTABLISHED`, `NO_SINGLE_CURRENCY`, `SCHEMA_OR_REFUSAL` (W13 refusal code carried). Unavailable or indeterminate results are **never** presented as a percentage or as 100 %; `openMethodologyDecisions` (D1–D3) are echoed on the output.
+
+### 12.7 Test readiness — V19–V24 against this interface
+
+All six specs from §11.7 are **implementable now** as pure functions over the existing `PositionValuationReport` (synthetic fixtures via the existing `measurePositionValuation` harness; no W13 change needed because `quantity` and `observation.ltp` are already report fields):
+
+| Spec | Interface fields used | Implementable now? |
+|---|---|---|
+| V19 gross no-netting (+10×250.5, −2×100 → signed 2305 vs gross 2705) | `quantity`, `observation.ltp`, `status` | **yes** |
+| V20 unknown stays in `E` (STALE counted, null exposure, N=2505, not 100 %) | `status`, `totals.active` | **yes** |
+| V21 unrounded gate (0.375) vs presentation (0.38) vs naive (0.39) | `quantity`, `observation.ltp` (unrounded) | **yes** — needs the W20-side unrounded path per §12.3 |
+| V22 `\|E\| = 0` → NOT_APPLICABLE, never 100 % | `totals.active` | **yes** |
+| V23 alignment metadata: `t = evaluatedAt`, ages 120/30 min, `asOf` verbatim | `evaluatedAt`, `observation.asOf` | **yes** (default-`t` rule §12.5); max-age enforcement **no** [E] |
+| V24 `C` recorded (single 'INR'; mixed → not singular) | `observation.quoteCurrency`, `totals.mixedCurrencies` | **yes**; FX conversion **no** [E] |
+
+**Not implementable yet (exact blockers):** gate PASS/FAIL at `θM` (θM unestablished [E]); stale-concession effect (D2 [E][O]); final D1 denominator (W13 presentation denominator [E][O]; note the **gate** denominator rule is already fixed by §12.3/§12.6); max observation age (W06 [E]); `t` final choice ([O]; default specified); instrument multipliers (reference source [E], policy [O]); W20 acceptance itself (B02 actual revision + θM/θF evidence).
+
+### 12.8 Responsibility separation (consolidated, unchanged in substance)
+
+**W12** owns methodology and this interface contract. **W13** owns the producer: observation qualification, the report schema, fail-closed refusals — unchanged by this contract; optional future presentation fields (`grossExposure`, unrounded value, explicit `C`/`t`/age fields) only after a recorded decision, and never required for the gate because the raw fields suffice. **W20** owns acceptance: gate arithmetic per §12.3–§12.6, the audit output, θM/θF application from observed evidence. **IPD** owns freshness verdicts and provider semantics — authoritative inputs, never overridden.
+
+### 12.9 Boundaries
+
+Documentation/design only: no code or test file changed; no D1–D3/θM decision; no W13 change; no IPD or freshness-behavior change; no operator-side evidence collection; no live vendor request; no acceptance claim. Evidence status unchanged (§16.329/§16.343): W05 IN PROGRESS — NOT ACCEPTED; W06 PARTIAL — NOT ACCEPTED (B02-blocked, ≤ 1/64 via W04); B05 COMPLETE/VERIFIED at its own scope. Tracker record: §16.344.
