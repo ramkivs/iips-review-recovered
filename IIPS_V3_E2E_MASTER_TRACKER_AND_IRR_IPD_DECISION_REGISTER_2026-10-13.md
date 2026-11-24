@@ -25384,7 +25384,32 @@ consumer behaviour and NP-04/NP-06 chains are unchanged (no wire or persisted sh
 artifacts and B02 evidence.** Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present; B06 verified.
 Next free line: §16.338.
 
-### §16.338 — D-4.5 D114/PIT Admission Assessment (`B2` / `CV-32` Boundary & Expansion Requirements) 2026-11-23 (commit pending)
+### §16.338 — W17 User-Facing Modes IMPLEMENTED (ACTUAL/REFERENCE/DEGRADED) at the portfolio status boundary 2026-11-24 (commit pending)
+
+**Existing UI found:** `PortfolioStatusSummary.tsx` already renders W09 persisted facts (revision, provenanceDigest,
+lastUpdated, stored value labelled not-live, empty-vs-unavailable); badges follow symbol+label+semantic-token; no mode
+concept existed. Data flow: W09 read (`UserPortfolioRead`) → summary; W13/W16 reports are not yet wired to any view.
+
+**Implemented (additive, IRR-only):** `frontend/src/features/user-portfolios/portfolioMode.ts` — pure
+`selectPortfolioMode`: ACTUAL only with a W09 read + complete identity (revision, digest, read timestamp) + full
+qualified-observation coverage (W13 `valued === active`, zero unresolved/stale/unavailable/UNKNOWN/unreadable);
+REFERENCE when persisted data exists but no observation evidence (or zero active positions) — never presented as
+live; DEGRADED when the read is unavailable or coverage/identity is incomplete, with an explicit `missing` list.
+UNKNOWN never rendered as STALE; no fabricated values; mode is a pure recomputation (no hidden state, no silent
+substitution). `PortfolioModeIndicator.tsx` renders the mode badge + details (revision, short digest, read time,
+coverage x/y, missing list) with status tokens + symbol+label. Wired additively into `PortfolioStatusSummary`
+(no existing element changed; its 23 tests pass unchanged).
+
+**Verification:** `portfolioMode.test.ts` 9/9 (mode matrix incl. UNKNOWN-vs-STALE, no-read, missing-digest-blocks-ACTUAL,
+zero-active→REFERENCE, pure transitions); `PortfolioModeIndicator.test.tsx` 4/4; `PortfolioStatusSummary.test.tsx`
+23/23 unchanged; targeted cluster **23 files, 444/444 pass**; scoped strict tsc clean; PR CI Typecheck·Test·Build pass.
+Doc: `docs/integration/W17-USER-FACING-MODES-2026-11-24.md`.
+
+**W17 status: modes IMPLEMENTED and published; ACTUAL display not claimable yet** — requires W13 actual qualified
+coverage (W06/B02-blocked, W12 decisions pending). Deps: W09 verified; W13 synthetic-only; W14 NOT READY (§16.331);
+W15/W16 published (§16.334–§16.337); B06 verified. Next free line: §16.339.
+
+### §16.339 — D-4.5 D114/PIT Admission Assessment (`B2` / `CV-32` Boundary & Expansion Requirements) 2026-11-23 (commit pending)
 
 **Authority & Scope:** Executes `D-4.5` assessment under [`docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md`](docs/integration/DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md) §2 item 5, [`docs/integration/DHAN-D4-OWNER-DECISION-PROPOSAL-2026-11-23.md`](docs/integration/DHAN-D4-OWNER-DECISION-PROPOSAL-2026-11-23.md) §5/§7/§20, and IPD mirror acceptance `df74b500` (IPD PR #191). Assessment and documentation only — **zero runtime code, pin, route, fence, or admission state modified**.
 
@@ -25397,19 +25422,22 @@ Next free line: §16.338.
 4. **Governance & Ownership:** **No broader PIT implementation may proceed independently.** Non-production maintenance inside `B2`'s 5 files stays permitted; any durable-store wiring, real Bhavcopy ingestion, `queryRange`, or UI requires Program Authority + Product Owner acts and coordinated IPD (store/ingestion/schema/read service) + IRR (route/client/UI/`NP-04`) execution.
 5. **Status:** **`D-4.5` ASSESSMENT COMPLETE** (`B2` / `P4` / `CV-32` retained intact; expansion blocked on PA admission & IPD durable ingestion contract). Note: PR #641 (`D-4.6`, §16.335) merged on `main` at `dbb91b7`.
 
-**Next free line: §16.339.**
-
-### §16.339 — IIPS–EquiCore Integration: Request/Response Architecture Assessment 2026-11-23 (commit pending)
-
-**Scope & Authority Boundary:** Cross-repository architecture assessment across `ramkivs/iips-review-recovered` (IRR `ecacf83` atop `main` `dbb91b7`) and `ramkivs/equity-market-data-engine` (EquiCore `origin/main` `b79cf1d0`), with `ramkivs/iips-production-market-data` (IPD) cited strictly from IRR-checked-in pin/contract records (direct IPD GitHub API inaccessible `403`). **Assessment and recommendation only** — EquiCore's `I5` 10-year qualification and `D23` local UI grant do **not** authorize EquiCore-to-IIPS API implementation or IRR source admission.
-
-**Deliverable:** [`docs/integration/IIPS-EQUICORE-REQUEST-RESPONSE-ARCHITECTURE-ASSESSMENT-2026-11-23.md`](docs/integration/IIPS-EQUICORE-REQUEST-RESPONSE-ARCHITECTURE-ASSESSMENT-2026-11-23.md)
-
-**Key Architectural Findings & Recommendations:**
-1. **Verified baseline:** EquiCore holds the `I5`-qualified 10-year NSE corpus (`i4-20261008-M2`: `2,462` archives, `5,689,949` rows, `2016-09-20`–`2026-09-18`, Windows custody), `D16` durable classes `(1)`–`(4)` + `D21` conflict hold, `D23`-granted local loopback serving/UI (`127.0.0.1:8613`, stdlib Python 3, Q1–Q10), and open `B5` incremental catalog (`catalog-composite/1..14`). EquiCore is **NSE-only**, **daily EOD (`1D`) only**, **explicitly unadjusted** (`DEC-1` deferred), and currently indexes files by `(symbol, series)` rather than `(isin, series)`.
-2. **Recommended boundary & contract (`iips-equicore-historical/v1`):** Dedicated loopback HTTP/1.1 + canonical JSON machine endpoint on EquiCore (`127.0.0.1:8614`, separate from `src/ui/serve.py:8613` static UI), consumed strictly server-side by IRR (`equicoreTransport.ts` + `historicalConsumptionBoundary.ts`) mirroring `dhanMarketDataTransport.ts` security rules. Exposes `/v1/health`, `POST /v1/historical/bars`, `POST /v1/historical/point-in-time`, `GET /v1/instruments/:isin/associations`, and `GET /v1/calendar`, enforcing `D-4.6` canonical `(ISIN:<12-alnum>:<series>, exchangeSegment: 'NSE_EQ')`, `RAW_UNADJUSTED` (`isAdjusted: false`), `responseDigest`, `baselineManifestSha256`/`compositeGeneration` pinning, and `D-4.2` zero-fallback / non-blending with Dhan `D02`.
-3. **Consumer & `D-4.5`/`D-4.7` reassessment:** Daily NSE charts (`DhanHistorical`/`W-21`), analytics (`W-39`), and `NP-04` report snapshot embedding (`D-4.7`) can reuse EquiCore directly once authorized; `IID R-6` (`margin.ts`) remains gated on corporate-action `{ factor, corporateActionId }` support; `D-4.5` gaps `BSE_EQ`, 4-timestamp `knownAsOf`, `supersedesVersion` restatements, and `asOf`-CA timeline remain unaddressed by EquiCore.
-4. **Governance decisions required before implementation:** (a) EquiCore `D23`-extension authorization for `iips-equicore-historical/v1` + Class-(4) `(isin, series)` index; (b) IRR `D-4` PA admission of `EQUICORE_NSE_EOD` under `D-4.1`–`D-4.4` and `D-4.7` `NP-04` embedding.
-5. **Recommended next work item:** Draft and submit the joint `IIPS-EQUICORE-SERVING-AUTHORIZATION-PROPOSAL` before beginning Phase B (EquiCore endpoint) or Phase C (IRR consumer).
-
 **Next free line: §16.340.**
+
+### §16.340 — IIPS–EquiCore Integration: Architecture Assessment Revision `1.1` & Joint Serving Authorization Proposal 2026-11-23 (commit pending)
+
+**Scope & Authority Boundary:** Cross-repository governance preparation across `ramkivs/iips-review-recovered` (merged through `origin/main` `d4d70b6`, PR #645 W17) and `ramkivs/equity-market-data-engine` (`origin/main` `b79cf1d0`), with IPD referenced from IRR-checked-in pin/contract records (`403` direct API). **Documentation and governance proposal only** — zero serving endpoint, ISIN index, consumer code, pin, or runtime gate modified.
+
+**Deliverables:**
+- [`docs/integration/IIPS-EQUICORE-REQUEST-RESPONSE-ARCHITECTURE-ASSESSMENT-2026-11-23.md`](docs/integration/IIPS-EQUICORE-REQUEST-RESPONSE-ARCHITECTURE-ASSESSMENT-2026-11-23.md) (Revision `1.1`)
+- [`docs/integration/IIPS-EQUICORE-SERVING-AUTHORIZATION-PROPOSAL-2026-11-23.md`](docs/integration/IIPS-EQUICORE-SERVING-AUTHORIZATION-PROPOSAL-2026-11-23.md)
+
+**Assessment Revision `1.1` Corrections & Proposal Summary:**
+1. **Daily EOD Lookup vs True `knownAsOf` PIT:** Replaced `/v1/historical/point-in-time` with `POST /v1/historical/eod-observation` stamped `temporalModel: 'PINNED_GENERATION_EOD_SNAPSHOT'` and `bitemporalKnowledgeAsOf: false`. True bitemporal `/v1/pit/as-of` remains reserved and deferred pending 4-timestamp + restatement lineage (`D-4.5`).
+2. **Identity Separation & Invalid/Missing ISIN Rules:** IRR owns `companyId` (`IN:CIN:*`/`IN:EQUITY_ISIN:*`) → canonical `(ISIN:<12-alnum>:<series>, exchangeSegment: 'NSE_EQ')` resolution (`D-4.6`); EquiCore indexes and correlates strictly over `isin_validity === 'VALID'` rows per `D05 §6.1` (`BLANK` / `INVALID_*` excluded from ISIN joins), fails closed `409 IDENTITY_AMBIGUOUS` on overlapping symbols, and returns sequential `observedSymbols[]` on clean renames.
+3. **Calendar & Archive Completeness:** Explicitly separates `official-holiday`, `unexplainedCalendarDates[]` (`unexplained-by-obtained-circulars`), `notRetrievedCalendarDates[]`, `file_present: true` with security absent (`securityAbsentOnTradingDaysCount`), and `D21` held/corrupt archives (`d21HeldDates[]`, `409 D21_CONFLICT_HELD`).
+4. **Finalized Local Security Model:** Mandatory `Authorization: Bearer <token>` (`IIPS_EQUICORE_TRANSPORT_TOKEN`) on all data endpoints (including `/v1/calendar` and `/v1/instruments/:isin/associations`), strict `127.0.0.1:8614` bind + loopback `Host` allowlist + zero CORS + `Cache-Control: no-store`, browser bundle isolation via `verify-browser-bundle.mjs`, and non-disclosing configuration errors.
+5. **Scope Separation & Strengthened `D-4.7` `NP-04` Contract:** Explicitly separates qualified `M2` (`NSE_EQ`, `1D`, `RAW_UNADJUSTED`) from open `B5`/`B6`/`B7` incremental closure, absent `BSE_EQ`/intraday/CA factors, and ungranted `D-4.5` PIT. Defines normative `HistoricalPriceEvidence` v1 (`observations`, `observationDigest`, `sourceIdentity`, `adjustment`, M2/generation `provenance`, `temporal`/`completeness`, and verified `responseDigest`) for offline `NP-04` reads and `W16` diffs.
+6. **Joint Authorization Proposal (`EC-DEC-01`..`04` & `PA-DEC-01`..`05`):** Requests EquiCore Owner `D23` extension (`serving.iips_serve` + Class-(4) `(isin_normalized, series, business_date)` index scoped to `M2` / `NSE_EQ` / `1D` / `RAW_UNADJUSTED`) and IIPS PA admission of `EQUICORE_NSE_EOD`, `D-4.2` non-blending, server integration boundary, and `D-4.7` `NP-04` implementation, with ownership matrix and Phases A–D acceptance criteria (`EC-AC-*`, `IRR-AC-*`).
+
+**Next free line: §16.341.**
