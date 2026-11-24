@@ -35,8 +35,8 @@ import {
   type EquiCoreHistoricalRow,
 } from './equicoreTransport';
 import {
-  createIpdMarketDataTransportClient,
   readIpdFreshnessStatus,
+  readIpdHistoricalSeries,
   resolveIpdMarketDataTransportConfig,
   type IpdTransportConfigResolution,
 } from './dhanMarketDataTransport';
@@ -648,8 +648,7 @@ export async function consumeHistoricalSeries(
     });
   }
 
-  const client = createIpdMarketDataTransportClient(ipdResolution.config);
-  const outcome = await client.getHistorical({
+  const outcome = await readIpdHistoricalSeries(ipdResolution.config, {
     companyId: identity.companyId,
     interval: interval as HistoricalInterval,
     fromDate: dateCheck.fromDate,

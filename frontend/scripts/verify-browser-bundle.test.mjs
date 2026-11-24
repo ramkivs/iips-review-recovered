@@ -27,7 +27,7 @@ test('every prohibited class is rejected in emitted files, including source maps
     'createIpdMarketDataTransportClient', 'IpdFreshnessStatus', 'IRR_PROVIDER_QUALIFICATION',
     'equicoreTransportConfig', 'equicoreTransport', 'historicalConsumptionBoundary',
     'readEquiCoreTransportConfiguration', 'createEquiCoreTransportClient',
-    'verifyEquiCoreResponseDigest', 'consumeHistoricalSeries', 'handleEquiCoreHistoricalRequest',
+    'verifyEquiCoreResponseDigest', 'consumeHistoricalSeries', 'readIpdHistoricalSeries', 'handleEquiCoreHistoricalRequest',
     '127.0.0.1:8614', 'iips-equicore-historical/v1',
     'watchlists-quotes', 'enrichWatchlistWithQuotes', 'handleWatchlistQuotesRequest',
     'http://user:password@example.test', 'password="syntheticsecret"', '"Bearer abcdefghijklmnop"',

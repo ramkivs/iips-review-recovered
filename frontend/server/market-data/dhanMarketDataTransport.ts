@@ -249,6 +249,19 @@ export function createIpdMarketDataTransportClient(
 }
 
 /**
+ * Executes a D02 historical OHLCV read through IPD's own `MarketDataTransportClient`.
+ * Kept inside the IPD transport composition module so quote-boundary architectural isolation
+ * remains closed over `createIpdMarketDataTransportClient`.
+ */
+export async function readIpdHistoricalSeries(
+  config: IpdMarketDataTransportConfig,
+  request: Parameters<MarketDataTransportClient['getHistorical']>[0],
+): ReturnType<MarketDataTransportClient['getHistorical']> {
+  const client = createIpdMarketDataTransportClient(config);
+  return client.getHistorical(request);
+}
+
+/**
  * The IPD freshness route, exactly as IPD publishes it in `MARKET_DATA_ROUTES`.
  *
  * The route is a READ-ONLY status lookup: it never starts a refresh, calls the provider,
