@@ -1,9 +1,9 @@
 # D-4.5 D114/PIT Admission Assessment (`B2` / `CV-32` Boundary & Expansion Requirements)
 
-**Document ID:** `DHAN-D4-5-PIT-ADMISSION-ASSESSMENT-2026-11-23`  
-**Date:** 2026-11-23 (UTC; repository baseline verified against IRR `main` `dbb91b7` merged `2026-11-24`)  
-**Work Item:** `D-4.5` (*D114/PIT Admission Gate*) under approved `D-4` (`DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md`)  
-**Type:** Read-only architecture, governance, and capability assessment. **Zero runtime code, route, pin, fence, or admission state modified.**
+- **Document ID:** `DHAN-D4-5-PIT-ADMISSION-ASSESSMENT-2026-11-23`
+- **Date:** 2026-11-23 (UTC; repository baseline verified against IRR `main` `dbb91b7` merged `2026-11-24`)
+- **Work Item:** `D-4.5` (*D114/PIT Admission Gate*) under approved `D-4` (`DHAN-D4-OWNER-ACCEPTANCE-2026-11-23.md`)
+- **Type:** Read-only architecture, governance, and capability assessment. **Zero runtime code, route, pin, fence, or admission state modified.**
 
 ---
 
