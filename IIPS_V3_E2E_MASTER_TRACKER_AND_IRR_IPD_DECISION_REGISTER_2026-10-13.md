@@ -25349,3 +25349,18 @@ COMPLETE/VERIFIED. W16 status: **design proposed, READY for review; acceptance N
 5. **Status:** **`D-4.5` ASSESSMENT COMPLETE** (`B2` / `P4` / `CV-32` retained intact; expansion blocked on PA admission & IPD durable ingestion contract). Note: PR #641 (`D-4.6`, §16.335) merged on `main` at `dbb91b7`.
 
 **Next free line: §16.337.**
+
+### §16.337 — IIPS–EquiCore Integration: Request/Response Architecture Assessment 2026-11-23 (commit pending)
+
+**Scope & Authority Boundary:** Cross-repository architecture assessment across `ramkivs/iips-review-recovered` (IRR `ecacf83` atop `main` `dbb91b7`) and `ramkivs/equity-market-data-engine` (EquiCore `origin/main` `b79cf1d0`), with `ramkivs/iips-production-market-data` (IPD) cited strictly from IRR-checked-in pin/contract records (direct IPD GitHub API inaccessible `403`). **Assessment and recommendation only** — EquiCore's `I5` 10-year qualification and `D23` local UI grant do **not** authorize EquiCore-to-IIPS API implementation or IRR source admission.
+
+**Deliverable:** [`docs/integration/IIPS-EQUICORE-REQUEST-RESPONSE-ARCHITECTURE-ASSESSMENT-2026-11-23.md`](docs/integration/IIPS-EQUICORE-REQUEST-RESPONSE-ARCHITECTURE-ASSESSMENT-2026-11-23.md)
+
+**Key Architectural Findings & Recommendations:**
+1. **Verified baseline:** EquiCore holds the `I5`-qualified 10-year NSE corpus (`i4-20261008-M2`: `2,462` archives, `5,689,949` rows, `2016-09-20`–`2026-09-18`, Windows custody), `D16` durable classes `(1)`–`(4)` + `D21` conflict hold, `D23`-granted local loopback serving/UI (`127.0.0.1:8613`, stdlib Python 3, Q1–Q10), and open `B5` incremental catalog (`catalog-composite/1..14`). EquiCore is **NSE-only**, **daily EOD (`1D`) only**, **explicitly unadjusted** (`DEC-1` deferred), and currently indexes files by `(symbol, series)` rather than `(isin, series)`.
+2. **Recommended boundary & contract (`iips-equicore-historical/v1`):** Dedicated loopback HTTP/1.1 + canonical JSON machine endpoint on EquiCore (`127.0.0.1:8614`, separate from `src/ui/serve.py:8613` static UI), consumed strictly server-side by IRR (`equicoreTransport.ts` + `historicalConsumptionBoundary.ts`) mirroring `dhanMarketDataTransport.ts` security rules. Exposes `/v1/health`, `POST /v1/historical/bars`, `POST /v1/historical/point-in-time`, `GET /v1/instruments/:isin/associations`, and `GET /v1/calendar`, enforcing `D-4.6` canonical `(ISIN:<12-alnum>:<series>, exchangeSegment: 'NSE_EQ')`, `RAW_UNADJUSTED` (`isAdjusted: false`), `responseDigest`, `baselineManifestSha256`/`compositeGeneration` pinning, and `D-4.2` zero-fallback / non-blending with Dhan `D02`.
+3. **Consumer & `D-4.5`/`D-4.7` reassessment:** Daily NSE charts (`DhanHistorical`/`W-21`), analytics (`W-39`), and `NP-04` report snapshot embedding (`D-4.7`) can reuse EquiCore directly once authorized; `IID R-6` (`margin.ts`) remains gated on corporate-action `{ factor, corporateActionId }` support; `D-4.5` gaps `BSE_EQ`, 4-timestamp `knownAsOf`, `supersedesVersion` restatements, and `asOf`-CA timeline remain unaddressed by EquiCore.
+4. **Governance decisions required before implementation:** (a) EquiCore `D23`-extension authorization for `iips-equicore-historical/v1` + Class-(4) `(isin, series)` index; (b) IRR `D-4` PA admission of `EQUICORE_NSE_EOD` under `D-4.1`–`D-4.4` and `D-4.7` `NP-04` embedding.
+5. **Recommended next work item:** Draft and submit the joint `IIPS-EQUICORE-SERVING-AUTHORIZATION-PROPOSAL` before beginning Phase B (EquiCore endpoint) or Phase C (IRR consumer).
+
+**Next free line: §16.338.**
