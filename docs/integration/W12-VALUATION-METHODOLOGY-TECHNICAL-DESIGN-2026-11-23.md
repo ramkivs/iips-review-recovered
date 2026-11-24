@@ -4,7 +4,9 @@
 concession, value-versus-count weighting threshold — remain UNDECIDED. Nothing in this document is an approved policy;
 final selection requires actual W05/W06 evidence (B02) and an authorised decision, per the roadmap acceptance clause
 ("final choices reflect actual data") and GD-4 ("exact thresholds/rounding are technical design choices under the grant,
-not preselected facts").**
+not preselected facts").** *Amended 2026-11-24: §10 reconciles this design with the authoritative roadmap's Section K
+monetary-coverage requirements (signed value vs gross exposure, unrounded gate arithmetic, `C`/`t`/alignment). The
+amendment selects no decision and changes no code; D1–D3 remain UNDECIDED.*
 
 **Baseline:** readiness record tracker §16.329; W13 mechanism `frontend/server/investment/positionValuation.ts`
 (PR #634, tracker §16.328); GD-4 (roadmap decision table): *distinguish count from money; use transparent per-position
@@ -109,3 +111,124 @@ current implementation (run 2026-11-23, offline vitest harness; full targeted cl
 
 IRR-only, additive; no IPD change; no live vendor request; no host access; synthetic fixtures only, labelled synthetic;
 the three decisions stay UNDECIDED; no W13 acceptance is claimed; W05/W06/B05 statuses unchanged (§16.329).
+
+---
+
+## 10. Amendment 2026-11-24 — reconciliation with the roadmap's Section K monetary-coverage requirements (design only)
+
+**Status of this section: TECHNICAL DESIGN / DOCUMENTATION ONLY.** It reconciles this design with the authoritative
+roadmap's Section K monetary-coverage requirements. It does **not** select D1–D3, does **not** change W13, does **not**
+modify IPD or IPD freshness behavior, and claims no acceptance.
+
+**Authoritative source.** IPD `docs/integration/IIPS-CURRENT-PORTFOLIO-EXECUTION-ROADMAP.md` — IRR-held read-back blob
+`7affba55a5ba568333fdc2961a322c2f76b4c671` (SHA-256 `875938b087bca87415c5215283967049d331d609383095ecc93adfe7e5e98e89`)
+at IPD `main` `2685562522f1a2fd1d745a7857f771bf21453315` (recorded in `W05-ROADMAP-RECONCILIATION-2026-11-17.md` §1;
+live re-read from this sandbox returns HTTP 403 — single probe, not cached). Line references: **W12 lines 206–207;
+W13/W14 lines 209–213; Section K lines 374–380; population and gate requirements lines 364–368.** Corroborating
+IRR-held Section K quotes already on record: *"round only for display and evaluate the unrounded ratio"*;
+*"`|E| = 0` gives not applicable / W20 blocked, never 100 %"* (eligible population `E`; `W05-ROADMAP-RECONCILIATION-2026-11-17.md` §8);
+the roadmap's unestablished thresholds are `θI`, `θF`, `θA`, `θM` (`W05-ACTUAL-FINANCIAL-DATASET-QUALIFICATION-2026-11-12.md`),
+with `θF` the portfolio-wide financial ratio that gates W20.
+
+### 10.1 Signed position value is not Section K's monetary-coverage exposure
+
+W13's current `observedMarketValue = round2(quantity × ltp)` (`positionValuation.ts` L315) is a **signed position-value
+calculation**: a negative quantity yields a negative observed value (vector V14), so long and short positions net against
+each other. Section K's monetary-coverage **exposure** instead requires a **non-negative gross exposure computed from the
+absolute quantity** (`|quantity| × price`), and long/short positions must not be netted in a way that hides exposure.
+
+Clarifications recorded here (design only):
+
+- The existing design does **not** yet define the treatment of instrument units or multipliers beyond Section K's
+  requirement that applicable units/multipliers be accounted for. No unit/multiplier rule is invented here.
+- Unqualified quantity, price, currency, identity, or freshness cannot be silently turned into a qualified exposure.
+  Section K keeps **unknown exposure in the denominator population** and **blocks an exact denominator** unless the
+  denominator is reliably established — consistent with this design's null-not-zero and withheld-outcome rules (§6),
+  but distinct: the population rule is Section K's, not something W13 currently computes.
+- **Responsibility boundary:** W12 owns this methodology distinction (this document). W13 may need a **separate
+  gross-exposure output or calculation** — only after the W12/W20 data boundary is specified; no such output exists today
+  and none is added now. W20 applies and evidences the coverage gate.
+- **Test gap:** vector V14 verifies that a negative quantity yields a negative *signed* value; it does **not** verify
+  non-negative gross exposure. No vector computes `|quantity|`-based exposure.
+
+### 10.2 Presentation rounding is not gate arithmetic
+
+W13 currently rounds **each position's** `quantity × ltp` to two decimals (`round2`, `positionValuation.ts` L171–172, L315)
+and then aggregates the **rounded** per-position values (L337 sums rounded entries; L341–342 round totals again).
+Section K requires **unrounded** values for monetary coverage-gate evaluation, with rounding applied **only for
+presentation** (roadmap quote above).
+
+Clarifications recorded here (design only):
+
+- Existing vector V1 checks a simple per-position arithmetic result (`round2(quantity × ltp)`); **no vector tests
+  aggregate/gate behavior where per-position rounding changes `N`, `D`, or `N / D`** — i.e. the precision boundary's
+  effect on the gate is unverified.
+- W12 should specify the **precision boundary**: which values are retained unrounded, which are rounded for display.
+  W13 may need to retain or expose unrounded inputs/results if the gate consumes them. **W20 must evaluate the gate using
+  unrounded values.** If W20 computes its own gate input, the interface must be defined so the same exposure is not
+  calculated inconsistently in two places (one computation, one owner per value; the other side consumes it verbatim).
+- No additional precision, scale, or rounding rules are invented beyond the requirement: **unrounded gate values, rounding
+  for presentation only.**
+
+### 10.3 Reporting currency `C`, valuation instant `t`, and alignment — without taking IPD freshness ownership
+
+Section K requires choosing and **recording** the reporting currency `C` and the valuation instant `t`, and establishing a
+**documented alignment/freshness policy**, including acceptable quote/FX observation ages and time zones.
+
+Clarifications recorded here (design only):
+
+- W13 currently retains per-position timestamps (`asOf`, `receivedAt`, read `evaluatedAt`) and consumes IPD freshness
+  verdicts verbatim (this design §4), but it does **not** establish an as-of portfolio and does **not** align observations to
+  a selected `t`. Vector V15 verifies timestamp **retention** only; it does not demonstrate compliance with a chosen
+  alignment policy.
+- **Responsibility boundary:** W12 owns the methodology for choosing and documenting `C`, `t`, and the alignment policy.
+  W13 may implement the chosen consumer behavior (only after a recorded decision). W20 records and verifies its application.
+- **IPD continues to own its freshness verdicts and provider-specific semantics.** No IRR rule overrides an IPD verdict;
+  nothing here adds or implies one.
+- **No observation-age limit or time-zone rule is invented.** These are parameters that require evidence (W05/W06/B02)
+  and an explicit methodology decision; they are listed as open parameters, not set.
+
+### 10.4 Interaction with the UNDECIDED decisions D1–D3 (still UNDECIDED)
+
+- **D1 (coverage denominator policy)** intersects the eligible-exposure denominator and unknown exposures: Section K's
+  population rule (unknown exposure stays in the denominator population; exact denominator blocked unless reliably
+  established) constrains whatever denominator D1 selects. D1 remains UNDECIDED.
+- **D2 (stale-observation concession)** intersects whether a STALE observation may contribute to qualified exposure; no
+  concession is implemented and `staleConcessionActive` is only echoed. D2 remains UNDECIDED.
+- **D3 (value-vs-count weighting threshold θ)** is **separate from the mandatory Section K `θM`**. They are not conflated
+  here, and neither threshold is invented or set: `θM` is a roadmap threshold that W20 evidences; D3 is this design's
+  undecided presentation/weighting switch. D3 remains UNDECIDED.
+
+### 10.5 What the existing code and vectors do and do not verify
+
+Supported bounded behavior (unchanged by this amendment): per-position signed arithmetic V1; partial-coverage flag V10;
+true zero for zero quantity V13; signed negative value V14; per-position timestamp retention V15; byte-identical reruns V16;
+side-by-side count/value weights as data V18; `positionValuation.ts` null-not-zero, closed partial/stale/unknown vocabulary,
+per-currency no-sum, revision-bound fail-closed reads.
+
+**Not verified by any existing code or vector:** non-negative `|quantity|`-based gross exposure; netting prohibition at
+portfolio level; units/multipliers accounting; unrounded aggregate/gate arithmetic (N, D, N/D under per-position rounding);
+chosen and recorded `C` and `t`; any alignment/freshness policy application; denominator population including unknown
+exposures; the `θM` gate; empty-denominator behavior of the monetary gate (`|E| = 0` → not applicable / W20 blocked).
+
+### 10.6 Responsibility boundary (W12 / W13 / W20 / IPD)
+
+- **W12 (this document):** owns the methodology — signed value vs gross exposure, precision boundary, `C`/`t`/alignment
+  policy, denominator population rule interaction with D1–D3. Design only; decisions await W05/W06 evidence and an
+  authorised decision.
+- **W13 (`positionValuation.ts`):** owns the current mechanism. Any change (gross-exposure output, unrounded-value
+  retention/exposure, chosen `C`/`t` consumer behavior) is **conditional on a recorded methodology decision** and, for the
+  data boundary, on the specified W12→W13/W20 interface. No W13 change is made by this amendment.
+- **W20:** applies and evidences the coverage gate — same eligible population and revision, non-negative gross exposure,
+  **unrounded** gate arithmetic, recorded `C`/`t` policy, `|E| = 0` fail-closed.
+- **IPD:** owns freshness verdicts and provider-specific semantics. Unchanged; no IRR override.
+
+### 10.7 Boundaries and evidence status (carried from §16.329, unchanged)
+
+Documentation/design only: no D1–D3 selection; no W13 change; no IPD modification and no IPD freshness-behavior change; no
+operator-side evidence collection; no live vendor request; no host access; no acceptance claim. Evidence status carried
+forward: **W05 IN PROGRESS — NOT COMPLETE, NOT ACCEPTED; W06 PARTIAL — NOT ACCEPTED** (read-only revision-bound mechanism
+delivered and synthetic-tested; actual quote/freshness measurement over `DHAN_PORTFOLIO` rev 1 **blocked on B02** host
+access, numerator bounded ≤ 1/64 by W04 identity coverage); B05 COMPLETE/VERIFIED at its own scope. These evidence gaps
+defer the final methodology decisions; they do **not** mean the technical design or the W13 mechanism is absent — both
+exist and are cited above. Tracker record: §16.342.
