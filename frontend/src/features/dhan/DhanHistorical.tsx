@@ -33,6 +33,13 @@ import {
   type DhanMarketDataFailureKind,
 } from '../../api/dhanMarketData';
 import {
+  fetchEquiCoreHistorical,
+  EquiCoreHistoricalApiError,
+  type EquiCoreBarDto,
+  type EquiCoreHistoricalDto,
+  type HistoricalSourceChoice,
+} from '../../api/equicoreHistorical';
+import {
   DhanIdentityApiError,
   searchDhanInstruments,
   type InstrumentSearchResult,
@@ -65,8 +72,22 @@ const FAILURE_LABEL: Record<DhanMarketDataFailureKind, string> = {
 
 function failureOf(e: unknown): { kind: DhanMarketDataFailureKind; message: string } {
   if (e instanceof DhanMarketDataApiError) return { kind: e.kind, message: e.message };
+  if (e instanceof EquiCoreHistoricalApiError) return { kind: e.kind, message: e.message };
   return { kind: 'transport', message: String(e) };
 }
+
+const EQUICORE_BAR_COLUMNS: readonly Column<EquiCoreBarDto>[] = [
+  { key: 'businessDate', header: 'Business date', render: (row) => row.businessDate },
+  { key: 'observedSymbol', header: 'Symbol', render: (row) => row.observedSymbol ?? 'unavailable' },
+  { key: 'series', header: 'Series', render: (row) => row.series ?? 'unavailable' },
+  { key: 'open', header: 'Open', render: (row) => row.open ?? 'unavailable' },
+  { key: 'high', header: 'High', render: (row) => row.high ?? 'unavailable' },
+  { key: 'low', header: 'Low', render: (row) => row.low ?? 'unavailable' },
+  { key: 'close', header: 'Close', render: (row) => row.close ?? 'unavailable' },
+  { key: 'volume', header: 'Volume', render: (row) => row.volume ?? 'unavailable' },
+  { key: 'isinValidity', header: 'ISIN validity', render: (row) => row.isinValidity ?? 'unavailable' },
+  { key: 'isAdjusted', header: 'Adjusted', render: () => 'no (RAW_UNADJUSTED)' },
+];
 
 /**
  * Validates the requested range with IPD's inclusive semantics, calendar validity, and
@@ -146,6 +167,7 @@ function HistoricalSearchResultRow({
 }
 
 export function DhanHistorical() {
+  const [source, setSource] = useState<HistoricalSourceChoice>('DHAN_D02_OHLCV');
   const [query, setQuery] = useState('');
   const [searchBusy, setSearchBusy] = useState(false);
   const [searchError, setSearchError] = useState('');
@@ -157,6 +179,7 @@ export function DhanHistorical() {
   const [fromDate, setFromDate] = useState('2026-10-01');
   const [toDate, setToDate] = useState('2026-10-31');
   const [result, setResult] = useState<DhanHistoricalDto | null>(null);
+  const [equicoreResult, setEquicoreResult] = useState<EquiCoreHistoricalDto | null>(null);
   const [loading, setLoading] = useState(false);
   const [failure, setFailure] = useState<{ kind: DhanMarketDataFailureKind; message: string } | null>(null);
   const [rangeError, setRangeError] = useState<string | null>(null);
@@ -165,11 +188,23 @@ export function DhanHistorical() {
   const load = useCallback(async () => {
     const trimmedFrom = fromDate.trim();
     const trimmedTo = toDate.trim();
-    const rangeProblem = validateHistoricalRange(trimmedFrom, trimmedTo);
+    const rangeProblem = source === 'DHAN_D02_OHLCV'
+      ? validateHistoricalRange(trimmedFrom, trimmedTo)
+      : (() => {
+          const iso = /^\d{4}-\d{2}-\d{2}$/;
+          if (!iso.test(trimmedFrom) || !iso.test(trimmedTo)) {
+            return 'Both dates must be ISO calendar dates (YYYY-MM-DD).';
+          }
+          if (Date.parse(`${trimmedFrom}T00:00:00.000Z`) > Date.parse(`${trimmedTo}T00:00:00.000Z`)) {
+            return 'The start date must not be after the end date.';
+          }
+          return null;
+        })();
     setRangeError(rangeProblem);
     if (rangeProblem !== null) {
       // An invalid range never leaves the browser.
       setResult(null);
+      setEquicoreResult(null);
       setFailure(null);
       setRequested(true);
       return;
@@ -185,6 +220,7 @@ export function DhanHistorical() {
     );
     if (request === null) {
       setResult(null);
+      setEquicoreResult(null);
       setRequested(true);
       setLoading(false);
       setFailure({
@@ -195,8 +231,59 @@ export function DhanHistorical() {
       return;
     }
 
+    if (source === 'EQUICORE_NSE_EOD') {
+      if (request.exchangeSegment !== 'NSE_EQ') {
+        setResult(null);
+        setEquicoreResult(null);
+        setRequested(true);
+        setLoading(false);
+        setFailure({
+          kind: 'request',
+          message:
+            'EQUICORE_NSE_EOD serves NSE_EQ only; BSE_EQ is rejected without falling back to DHAN_D02_OHLCV.',
+        });
+        return;
+      }
+      if (request.interval !== '1D') {
+        setResult(null);
+        setEquicoreResult(null);
+        setRequested(true);
+        setLoading(false);
+        setFailure({
+          kind: 'request',
+          message:
+            'EQUICORE_NSE_EOD serves daily (1D) bars only; intraday intervals are rejected without falling back to DHAN_D02_OHLCV.',
+        });
+        return;
+      }
+      setLoading(true);
+      setFailure(null);
+      setResult(null);
+      try {
+        const data = await fetchEquiCoreHistorical({
+          source: 'EQUICORE_NSE_EOD',
+          companyId: request.companyId,
+          securityId: request.securityId,
+          exchangeSegment: 'NSE_EQ',
+          interval: '1D',
+          fromDate: request.fromDate,
+          toDate: request.toDate,
+          adjustmentMode: 'RAW_UNADJUSTED',
+        });
+        setEquicoreResult(data);
+      } catch (e: unknown) {
+        setEquicoreResult(null);
+        setFailure(failureOf(e));
+      } finally {
+        setLoading(false);
+        setRequested(true);
+      }
+      return;
+    }
+
     setLoading(true);
     setFailure(null);
+    setEquicoreResult(null);
     try {
       const data = await fetchDhanHistorical(request);
       setResult(data);
@@ -207,7 +294,7 @@ export function DhanHistorical() {
       setLoading(false);
       setRequested(true);
     }
-  }, [companyId, securityId, exchangeSegment, interval, fromDate, toDate]);
+  }, [source, companyId, securityId, exchangeSegment, interval, fromDate, toDate]);
 
   const search = useCallback(async () => {
     const q = query.trim();
@@ -233,6 +320,7 @@ export function DhanHistorical() {
     setSecurityId(selected.securityId);
     setExchangeSegment(selected.exchangeSegment);
     setResult(null);
+    setEquicoreResult(null);
     setFailure(null);
   }, []);
 
@@ -261,6 +349,28 @@ export function DhanHistorical() {
         style={{ marginTop: 16, display: 'grid', gap: 8, maxWidth: 560 }}
         onSubmit={(e) => { e.preventDefault(); void load(); }}
       >
+        <label htmlFor="historical-source-select" style={{ fontSize: 13 }}>Historical data source (explicit, no silent fallback)</label>
+        <select
+          id="historical-source-select"
+          data-testid="historical-source-select"
+          value={source}
+          onChange={(e) => {
+            const next = e.target.value as HistoricalSourceChoice;
+            setSource(next);
+            setResult(null);
+            setEquicoreResult(null);
+            setFailure(null);
+            setRangeError(null);
+            if (next === 'EQUICORE_NSE_EOD') {
+              setInterval('1D');
+            }
+          }}
+          style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13 }}
+        >
+          <option value="DHAN_D02_OHLCV">DHAN_D02_OHLCV (IPD D02 · NSE_EQ / BSE_EQ · 1m..1D)</option>
+          <option value="EQUICORE_NSE_EOD">EQUICORE_NSE_EOD (EquiCore M2 · NSE_EQ · 1D · RAW_UNADJUSTED)</option>
+        </select>
+
         <label htmlFor="dhan-historical-search-query" style={{ fontSize: 13 }}>Search instrument (symbol or ISIN)</label>
         <div style={{ display: 'flex', gap: 8 }}>
           <input
@@ -512,6 +622,129 @@ export function DhanHistorical() {
         </div>
         );
       })()}
+
+      {!loading && requested && failure === null && rangeError === null && equicoreResult !== null && (
+        <div data-testid="equicore-historical-result" style={{ marginTop: 20 }}>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <FreshnessBadge state={equicoreResult.freshness.toLowerCase() as 'live' | 'snapshot' | 'stale' | 'unavailable' | 'replay'} />
+            <StatusBadge status="informational" label={`Source: ${equicoreResult.source}`} />
+            <StatusBadge status="informational" label={`Bars: ${equicoreResult.returnedBarCount} / ${equicoreResult.total}`} />
+            <StatusBadge status="warning" label="Unadjusted for corporate actions" />
+          </div>
+
+          <dl
+            data-testid="equicore-historical-provenance"
+            style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '4px 12px', fontSize: 13 }}
+          >
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Historical source</dt>
+            <dd data-testid="equicore-historical-source" style={{ margin: 0 }}>{equicoreResult.source}</dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Security identity</dt>
+            <dd style={{ margin: 0 }}>{equicoreResult.securityId} ({equicoreResult.exchangeSegment})</dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Observed symbols</dt>
+            <dd style={{ margin: 0 }}>
+              {equicoreResult.observedSymbols.length > 0 ? equicoreResult.observedSymbols.join(', ') : 'none'}
+            </dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Requested range</dt>
+            <dd style={{ margin: 0 }}>{equicoreResult.requestedFromDate} → {equicoreResult.requestedToDate} (inclusive)</dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Temporal classification</dt>
+            <dd data-testid="equicore-historical-temporal" style={{ margin: 0 }}>
+              {equicoreResult.temporal.temporalModel} (bitemporalKnowledgeAsOf: {String(equicoreResult.temporal.bitemporalKnowledgeAsOf)})
+            </dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Dataset / Baseline manifest</dt>
+            <dd data-testid="equicore-historical-manifest" style={{ margin: 0 }}>
+              {equicoreResult.provenance.dataset} · {equicoreResult.provenance.baselineManifestSha256 ?? 'unavailable'}
+            </dd>
+
+            <dt style={{ color: 'var(--color-ink-secondary)' }}>Response digest (SHA-256)</dt>
+            <dd data-testid="equicore-historical-digest" style={{ margin: 0 }}>
+              {equicoreResult.integrity.responseDigest} (verified)
+            </dd>
+          </dl>
+
+          <div
+            data-testid="equicore-completeness-panel"
+            style={{
+              marginTop: 12,
+              padding: '10px 12px',
+              border: '1px solid var(--color-border)',
+              borderRadius: 4,
+              fontSize: 13,
+            }}
+          >
+            <strong>MD-09 Calendar &amp; Completeness ({equicoreResult.completeness.status})</strong>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+              <StatusBadge
+                status="informational"
+                label={`Trading days with archive: ${equicoreResult.completeness.tradingDaysWithArchive ?? 'unavailable'}`}
+              />
+              <StatusBadge
+                status="informational"
+                label={`Absent trading days: ${equicoreResult.completeness.securityAbsentOnTradingDaysCount ?? 'unavailable'}`}
+              />
+              <StatusBadge
+                status={
+                  equicoreResult.completeness.unexplainedCalendarDates &&
+                  equicoreResult.completeness.unexplainedCalendarDates.length > 0
+                    ? 'warning'
+                    : 'positive'
+                }
+                label={`Unexplained calendar dates: ${
+                  equicoreResult.completeness.unexplainedCalendarDates
+                    ? equicoreResult.completeness.unexplainedCalendarDates.length
+                    : 'unavailable'
+                }`}
+              />
+              <StatusBadge
+                status="informational"
+                label={`Not-retrieved weekdays: ${
+                  equicoreResult.completeness.notRetrievedCalendarDates
+                    ? equicoreResult.completeness.notRetrievedCalendarDates.length
+                    : 'unavailable'
+                }`}
+              />
+              <StatusBadge
+                status="informational"
+                label={`Official holidays: ${
+                  equicoreResult.completeness.officialHolidayDates
+                    ? equicoreResult.completeness.officialHolidayDates.length
+                    : 'unavailable'
+                }`}
+              />
+            </div>
+          </div>
+
+          <div
+            role="note"
+            data-testid="equicore-historical-unadjusted-disclosure"
+            style={{
+              marginTop: 12,
+              padding: '10px 12px',
+              border: '1px solid var(--color-status-warning)',
+              borderRadius: 4,
+              fontSize: 13,
+              background: 'var(--color-surface-1)',
+            }}
+          >
+            <strong>Unadjusted for corporate actions (RAW_UNADJUSTED).</strong>{' '}
+            {equicoreResult.adjustment.unitsProvenanceNote}
+          </div>
+
+          {equicoreResult.bars.length === 0 ? (
+            <div style={{ marginTop: 16 }}>
+              <UnavailableState reason="No EquiCore bars in the requested range" />
+            </div>
+          ) : (
+            <div style={{ marginTop: 16 }}>
+              <DataTable columns={EQUICORE_BAR_COLUMNS} rows={equicoreResult.bars} />
+            </div>
+          )}
+        </div>
+      )}
     </section>
   );
 }

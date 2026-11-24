@@ -20,6 +20,10 @@ import {
   type CanonicalParameterValue,
   type CanonicalReportKeyInput,
 } from './canonical.js';
+import {
+  HistoricalPriceEvidenceError,
+  validateHistoricalPriceEvidence,
+} from './historicalEvidence.js';
 
 /** Raised when an artifact fails the §5.3 validation contract. Reports fails closed. */
 export class ReportValidationError extends Error {
@@ -329,6 +333,26 @@ export function validateArtifact(
       stored: a.canonicalPayload,
       recomputed: recanonicalized,
     });
+  }
+
+  // D-4.7 / PA-DEC-04: when canonicalPayload embeds HistoricalPriceEvidence, validate it
+  // fail-closed on both write (persistNew/appendVersion) and offline read (resolve/queryByOwner).
+  if (
+    parsed !== null &&
+    typeof parsed === 'object' &&
+    !Array.isArray(parsed) &&
+    'historicalPriceEvidence' in parsed
+  ) {
+    try {
+      validateHistoricalPriceEvidence(
+        (parsed as Record<string, unknown>).historicalPriceEvidence,
+      );
+    } catch (err) {
+      if (err instanceof HistoricalPriceEvidenceError) {
+        reject(err.message, err.detail);
+      }
+      throw err;
+    }
   }
 
   // ownership: present, equals creating principal.

@@ -51,6 +51,16 @@
     "server/market-data/dhanFreshnessRoutes.test.ts",
     "server/market-data/quoteConsumptionBoundary.ts",
     "server/market-data/quoteConsumptionBoundary.test.ts",
+    "server/market-data/equicoreTransportConfig.ts",
+    "server/market-data/equicoreTransportConfig.test.ts",
+    "server/market-data/equicoreTransport.ts",
+    "server/market-data/equicoreTransport.test.ts",
+    "server/market-data/historicalConsumptionBoundary.ts",
+    "server/market-data/historicalConsumptionBoundary.test.ts",
+    "server/market-data/equicoreRoutes.ts",
+    "server/market-data/equicoreRoutes.test.ts",
+    "server/reports/historicalEvidence.ts",
+    "server/reports/historicalEvidence.test.ts",
     "server/watchlists/watchlists-quotes.ts",
     "server/watchlists/watchlists-quotes.test.ts"
   ]

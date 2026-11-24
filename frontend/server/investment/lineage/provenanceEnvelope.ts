@@ -13,6 +13,11 @@
  */
 import type { CapturedRevisionRef } from '../../market-data/dhanRevisionCoverage';
 import type { PositionValuationReport } from '../positionValuation';
+import {
+  diffHistoricalPriceEvidence,
+  type HistoricalPriceEvidence,
+  type HistoricalPriceEvidenceDiff,
+} from '../../reports/historicalEvidence';
 
 /** Producer kinds the envelope currently maps. */
 export type W16ProducerKind = 'W09_CAPTURE' | 'W11_EXECUTION' | 'W13_VALUATION' | 'W15_REPORT';
@@ -215,6 +220,8 @@ export interface W15ReportArtifactShape {
   readonly engineOutputId: string | null;
   readonly schemaVersion: number;
   readonly generatedAt: string | null;
+  /** Optional D-4.7 HistoricalPriceEvidence v1 embedded in canonicalPayload. */
+  readonly historicalPriceEvidence?: HistoricalPriceEvidence | null;
 }
 
 export function mapReportArtifactToEnvelope(artifact: W15ReportArtifactShape): W16ProvenanceEnvelope {
@@ -222,21 +229,58 @@ export function mapReportArtifactToEnvelope(artifact: W15ReportArtifactShape): W
   if (artifact.reportKey === null || artifact.reportKey === '') missing.push('reportKey');
   if (artifact.reportId === null || artifact.reportId === '') missing.push('reportId');
   if (artifact.artifactVersion === null) missing.push('artifactVersion');
+  const hpe = artifact.historicalPriceEvidence ?? null;
+  const sources: W16SourceRef[] = [
+    { kind: 'REPORT_TYPE', id: artifact.reportType, digest: null },
+    { kind: 'ENGINE_OUTPUT', id: artifact.engineOutputId, digest: null },
+  ];
+  if (hpe !== null) {
+    sources.push({
+      kind: 'HISTORICAL_PRICE_EVIDENCE',
+      id: hpe.sourceIdentity.securityId,
+      digest: hpe.observationDigest,
+    });
+  }
   return envelope('W15_REPORT', {
     artifactId: artifact.reportId, // chain/instance identity (reportId), NOT the content-derived engine form
     chainRef: artifact.chainRef,
     chainVersion: artifact.artifactVersion,
     supersedes: artifact.supersedesReportId,
-    sources: [{ kind: 'REPORT_TYPE', id: artifact.reportType, digest: null }, { kind: 'ENGINE_OUTPUT', id: artifact.engineOutputId, digest: null }],
+    sources,
     revision: null, // NP-04 versions are chain versions, not portfolio revisions — never conflated
     digest: artifact.reportKey || null, // reportKey is the CONTENT identity
     missing,
-    timestamps: { observedAt: null, receivedAt: null, evaluatedAt: null, createdAt: artifact.generatedAt },
+    timestamps: {
+      observedAt: null,
+      receivedAt: hpe?.integrity.retrievedAt ?? null,
+      evaluatedAt: null,
+      createdAt: artifact.generatedAt,
+    },
     providerQualification: null,
     freshnessVerdict: null,
-    sourceClassification: null,
+    sourceClassification: hpe?.sourceIdentity.source ?? null,
     buildProvenance: { buildId: null, verification: 'UNKNOWN' },
-    extensions: { schemaVersion: artifact.schemaVersion, portfolioId: artifact.portfolioId, generatedAt: artifact.generatedAt },
+    extensions: {
+      schemaVersion: artifact.schemaVersion,
+      portfolioId: artifact.portfolioId,
+      generatedAt: artifact.generatedAt,
+      ...(hpe !== null
+        ? {
+            historicalPriceEvidence: {
+              source: hpe.sourceIdentity.source,
+              securityId: hpe.sourceIdentity.securityId,
+              observationDigest: hpe.observationDigest,
+              baselineManifestSha256: hpe.provenance.baselineManifestSha256,
+              compositeGeneration: hpe.provenance.compositeGeneration,
+              adjustmentMode: hpe.adjustment.mode,
+              isAdjusted: hpe.adjustment.isAdjusted,
+              responseDigest: hpe.integrity.responseDigest,
+              retrievedAt: hpe.integrity.retrievedAt,
+              evidence: hpe,
+            },
+          }
+        : {}),
+    },
   });
 }
 
@@ -388,4 +432,78 @@ export function classifyPair(
   }
   // 10.
   return { classification: 'INCOMPARABLE', reasons: ['identity insufficient to compare'], delta: 'UNKNOWN' };
+}
+
+export interface W15HistoricalComparison {
+  readonly pair: W16PairAssessment;
+  readonly evidenceDiff: HistoricalPriceEvidenceDiff | null;
+}
+
+function evidenceFromEnvelope(env: W16ProvenanceEnvelope): HistoricalPriceEvidence | null {
+  const ext = env?.extensions?.historicalPriceEvidence;
+  if (ext && typeof ext === 'object' && !Array.isArray(ext)) {
+    const raw = (ext as Record<string, unknown>).evidence;
+    if (raw && typeof raw === 'object') {
+      return raw as HistoricalPriceEvidence;
+    }
+  }
+  return null;
+}
+
+/**
+ * Compares two `W15_REPORT` envelopes carrying optional `D-4.7` `HistoricalPriceEvidence`.
+ * When both artifacts belong to a real `NP-04` supersession chain (same `chainRef`, or `b`
+ * supersedes `a`), preserves `W16` chain classification and surfaces exact `priceDeltas`,
+ * `baselineManifestSha256`, `compositeGeneration`, `adjustment`, and `responseDigest` deltas.
+ */
+export function compareW15HistoricalEvidence(
+  a: W16ProvenanceEnvelope,
+  b: W16ProvenanceEnvelope,
+): W15HistoricalComparison {
+  const evA = evidenceFromEnvelope(a);
+  const evB = evidenceFromEnvelope(b);
+  const evidenceDiff = evA !== null && evB !== null ? diffHistoricalPriceEvidence(evA, evB) : null;
+
+  const sameSupersededChain =
+    a.producer === 'W15_REPORT' &&
+    b.producer === 'W15_REPORT' &&
+    a.chainRef !== null &&
+    a.chainRef === b.chainRef &&
+    (a.artifactId === b.artifactId || b.supersedes === a.artifactId);
+
+  let pair: W16PairAssessment;
+  if (sameSupersededChain && a.artifactId !== b.artifactId) {
+    // Real NP-04 appendVersion mints a distinct durable reportId on the same chain.
+    if (a.digest === null || b.digest === null) {
+      pair = { classification: 'INCOMPARABLE', reasons: ['missing reportKey on at least one side'], delta: 'UNKNOWN' };
+    } else if (a.chainVersion !== null && b.chainVersion !== null && b.chainVersion > a.chainVersion) {
+      const reasons = [`chain version ${String(a.chainVersion)} -> ${String(b.chainVersion)} on ${a.chainRef ?? 'chain'}`];
+      if (evidenceDiff && !evidenceDiff.identical) {
+        if (evidenceDiff.baselineManifestSha256.changed) reasons.push('baselineManifestSha256 changed');
+        if (evidenceDiff.compositeGeneration.changed) reasons.push('compositeGeneration changed');
+        if (evidenceDiff.responseDigest.changed) reasons.push('responseDigest changed');
+        if (evidenceDiff.adjustment.changed) reasons.push('adjustment changed');
+        if (evidenceDiff.priceDeltas.length > 0 || evidenceDiff.addedDates.length > 0 || evidenceDiff.removedDates.length > 0) {
+          reasons.push('historical prices changed');
+        }
+      }
+      pair = {
+        classification: 'SUCCESSIVE_REVISION',
+        reasons,
+        delta: evidenceDiff && evidenceDiff.priceDeltas.length > 0 ? 'NUMERIC' : 'UNKNOWN',
+      };
+    } else {
+      pair = classifyPair(a, b, {
+        contentDigestsEqual: a.digest === b.digest && (evidenceDiff === null || evidenceDiff.identical),
+      });
+    }
+  } else {
+    const contentDigestsEqual =
+      a.digest !== null &&
+      a.digest === b.digest &&
+      (evidenceDiff === null || evidenceDiff.identical);
+    pair = classifyPair(a, b, { contentDigestsEqual });
+  }
+
+  return { pair, evidenceDiff };
 }
