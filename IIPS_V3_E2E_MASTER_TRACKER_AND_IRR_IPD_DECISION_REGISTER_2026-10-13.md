@@ -25286,3 +25286,33 @@ W09/W11/W13/W15 actual evidence + B02). This pass implemented nothing and approv
    - `frontend/src/features/dhan/DhanMarketData.test.tsx` & `frontend/src/features/investment/CompanyAssessmentPage.test.tsx`: added unadjusted, mixed-adjustment, all-adjusted, empty-series, and `UNADJUSTED_PRICE_ACROSS_CORPORATE_ACTION` UI disclosure tests (verified via GitHub Actions `CI` workflow).
 
 **Next free line: §16.334.**
+
+### §16.334 — W16 Lineage, Staleness and Comparison CONTRACT DESIGN (proposal; not approved policy) 2026-11-24 (commit pending)
+
+(§16.332's "next free §16.333" was overtaken by main's D-4.4 §16.333 in PR #639; this record is §16.334.)
+
+**Baseline:** §16.332 readiness (design READY now on existing chains). Producers verified in code: W09 `CapturedRevisionRef`
+(`portfolioId/revision/provenanceDigest/capturedAt`, fail-closed), W11 `PortfolioExecutionReport`/`EngineExecutionRecord`
+(digests, requestId, snapshotRef, pinned asOf), W13 `PositionValuationReport` (capture binding + per-observation
+asOf/receivedAt/evaluatedAt/lineageHash/providerQualification), W15 NP-04/NP-06 (`ReportProvenance.engineOutputId`,
+`createInstance`/`appendVersion` identity, `change/` compare/reproduce/materiality with UNCHANGED/RECONSTRUCTED).
+
+**Deliverables this pass (additive, pure, no producer changes):**
+1. `frontend/server/investment/lineage/provenanceEnvelope.ts` — PROPOSED `iips.w16.provenance-envelope/v1`: producer kind,
+   artifactId, chainRef, source refs, revision/digest, four timestamps, verbatim qualification fields, buildProvenance with
+   verification status (UNKNOWN stays unknown), `missing` list (never defaulted), verbatim `extensions`. Mappers for all
+   four producers; `assessStaleness` (recorded verdict verbatim vs independent read-time FRESH/STALE/UNKNOWN — never fresh by
+   default, UNKNOWN never merged with STALE); `classifyPair` (INCOMPARABLE on producer/missing-identity, UNCHANGED on equal
+   digests, RECONSTRUCTED flag, SUCCESSIVE_REVISION, SAME_REVISION_CONTENT_CHANGED, PRODUCER_OR_SOURCE_CHANGED,
+   POSITIONS_ADDED_REMOVED, OBSERVATION_CHANGED, OUTPUT_CHANGED with NUMERIC/CATEGORICAL/PRESENCE deltas).
+2. `frontend/server/investment/lineage/provenanceEnvelope.test.ts` — **15 deterministic vectors, 15/15 pass**; full targeted
+   cluster (user-portfolio + capture + W12/W13/W16 investment suites) **19 files, 388/388 pass**; scoped strict tsc clean.
+3. `docs/integration/W16-LINEAGE-STALENESS-COMPARISON-CONTRACT-DESIGN-2026-11-24.md` — full design doc: envelope field
+   definitions, per-producer mappings, staleness semantics, comparison contract, compatibility table.
+
+**Compatibility findings:** W09/W11/W13/W15 all map directly with no adapters; W15 keeps `revision: null` (chain versions are
+not portfolio revisions); no existing consumer or immutable historical record is affected; the module is pure and additive.
+**Outstanding gaps (evidence, not design):** the common envelope exists only as this proposal — no producer emits it yet;
+read-time staleness not universal; build digest UNKNOWN where unattested (§16.327 limitation C); final evidence needs actual
+W09/W11/W13/W15 artifacts (B02). Dependencies unchanged: W09 verified; W11/W13 synthetic-only; W15 chains present; B06
+COMPLETE/VERIFIED. W16 status: **design proposed, READY for review; acceptance NOT claimed**. Next free line: §16.335.
