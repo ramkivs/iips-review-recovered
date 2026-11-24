@@ -98,3 +98,22 @@ corrected contract maps all four producer shapes without loss, preserves NP-04/N
 read-time evaluation, and is pure/additive — no producer boundary is modified by this adoption, per task scope.
 This adoption approves the CONTRACT DESIGN only; it is not methodology approval, not producer integration, and
 not W16 acceptance (which still requires actual artifacts via B02).
+
+## 7. Optional projection integration (2026-11-24)
+
+Implemented as `frontend/server/investment/lineage/projections.ts` (pure, additive):
+
+- `attachOptionalProvenanceEnvelope(output, envelope)` — returns a shallow copy carrying the
+  optional `provenanceEnvelope` field; the producer output is never mutated, so existing consumers
+  and contracts are unchanged and the projection is strictly optional (absent = not projected).
+- Producer-boundary projections: `projectW09Capture` (capture ref), `projectW13Valuation` (valuation
+  report), `projectW11Execution` (execution report, applied at the IRR consumer side of the
+  iips-platform handoff — the envelope module stays in frontend, iips-platform must not import it),
+  `projectW15Report` (NP-04/NP-06 artifact: chain identity/version preserved, `revision` stays null).
+- Missing/unattested provenance stays in `missing` / `UNKNOWN`; no historical report, chain version
+  or persisted artifact is modified.
+
+Verification: `projections.test.ts` — 9 vectors (per-producer mapping, optionality/absence,
+immutability of inputs and NP-04 artifacts, W15 successive-version classification, projection-failure
+isolation) — 9/9 pass; targeted cluster 20 files / 408 tests pass; scoped strict tsc clean.
+No producer output shape was changed; no wire contract touched; IPD untouched.
