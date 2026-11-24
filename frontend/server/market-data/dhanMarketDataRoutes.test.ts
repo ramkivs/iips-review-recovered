@@ -50,6 +50,7 @@ class SyntheticIpdTransport {
   private baseUrl = '';
   public lastQuoteRequest: unknown = null;
   public lastQuoteAuthorization: string | undefined;
+  public lastHistoricalRequest: unknown = null;
 
   public setScenario(scenario: SyntheticScenario): void {
     this.scenario = scenario;
@@ -65,6 +66,11 @@ class SyntheticIpdTransport {
         let body = '';
         req.on('data', chunk => { body += chunk; });
         req.on('end', () => { this.lastQuoteRequest = JSON.parse(body); });
+      }
+      if (url.split('?')[0] === '/v1/historical') {
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', () => { this.lastHistoricalRequest = JSON.parse(body); });
       }
       const path = url.split('?')[0];
       const route: SyntheticRoute =
@@ -184,10 +190,13 @@ async function callHistorical(
 const VALID_QUOTE = {
   companyId: 'SYNTHETIC:COMPANY',
   securityId: 'ISIN:INE002A01018:EQ',
+  exchangeSegment: 'NSE_EQ' as const,
 };
 
 const VALID_HISTORICAL = {
   companyId: 'SYNTHETIC:COMPANY',
+  securityId: 'ISIN:INE002A01018:EQ',
+  exchangeSegment: 'NSE_EQ' as const,
   interval: '1D',
   fromDate: '2026-10-01',
   toDate: '2026-10-31',
@@ -460,8 +469,7 @@ describe('DHAN-P3 historical route', () => {
     // 1825 inclusive days from 2021-01-01 is 2025-12-30: 2024 is a leap year, so the naive
     // calendar answer is off by one. The bound is computed exactly as IPD computes it.
     const validation = validateDhanHistoricalRequest({
-      companyId: 'SYNTHETIC:COMPANY',
-      interval: '1D',
+      ...VALID_HISTORICAL,
       fromDate: '2021-01-01',
       toDate: '2025-12-30',
     });
@@ -470,8 +478,7 @@ describe('DHAN-P3 historical route', () => {
 
   it('rejects a window of one day beyond the maximum', () => {
     const validation = validateDhanHistoricalRequest({
-      companyId: 'SYNTHETIC:COMPANY',
-      interval: '1D',
+      ...VALID_HISTORICAL,
       fromDate: '2021-01-01',
       toDate: '2025-12-31',
     });
@@ -481,8 +488,7 @@ describe('DHAN-P3 historical route', () => {
 
   it('accepts a single-day range (both ends inclusive)', () => {
     const validation = validateDhanHistoricalRequest({
-      companyId: 'SYNTHETIC:COMPANY',
-      interval: '1D',
+      ...VALID_HISTORICAL,
       fromDate: '2026-10-01',
       toDate: '2026-10-01',
     });
@@ -629,8 +635,8 @@ describe('DHAN-P3 failure-code mapping', () => {
 
 describe('DHAN-P3 request validation', () => {
   it('requires a company id', () => {
-    expect(validateDhanQuoteRequest({ securityId: 'ISIN:INE002A01018:EQ' }).ok).toBe(false);
-    expect(validateDhanHistoricalRequest({ interval: '1D', fromDate: '2026-01-01', toDate: '2026-01-02' }).ok).toBe(false);
+    expect(validateDhanQuoteRequest({ securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ' }).ok).toBe(false);
+    expect(validateDhanHistoricalRequest({ securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ', interval: '1D', fromDate: '2026-01-01', toDate: '2026-01-02' }).ok).toBe(false);
   });
 
   it('requires a canonical quote identity', () => {
@@ -659,6 +665,16 @@ describe('DHAN-P3 request validation', () => {
     expect(validation.code).toBe('INVALID_DATE_RANGE');
   });
 
+  it('rejects an impossible calendar date such as 2026-02-30 even when rolled date <= toDate', () => {
+    const validation = validateDhanHistoricalRequest({
+      ...VALID_HISTORICAL,
+      fromDate: '2026-02-30',
+      toDate: '2026-03-05',
+    });
+    expect(validation.ok).toBe(false);
+    expect(validation.code).toBe('INVALID_DATE_RANGE');
+  });
+
   it('rejects a malformed ISIN', () => {
     const validation = validateDhanHistoricalRequest({
       ...VALID_HISTORICAL,
@@ -668,12 +684,188 @@ describe('DHAN-P3 request validation', () => {
     expect(validation.code).toBe('MALFORMED_REQUEST');
   });
 
-  it('accepts a well-formed ISIN', () => {
+  it('accepts a well-formed matching ISIN', () => {
     const validation = validateDhanHistoricalRequest({
       ...VALID_HISTORICAL,
       isin: 'INE002A01018',
     });
     expect(validation.ok).toBe(true);
     expect(validation.isin).toBe('INE002A01018');
+  });
+});
+
+describe('D-4.6 — D01/D02 exact security-identity symmetry', () => {
+  it('requires companyId, canonical securityId, and exchangeSegment symmetrically on both routes', async () => {
+    const incompletePayloads = [
+      { companyId: 'EQ_INFOSYS_IN' },
+      { companyId: 'EQ_INFOSYS_IN', isin: 'INE009A01021' },
+      { companyId: 'EQ_INFOSYS_IN', securityId: 'ISIN:INE009A01021:EQ' },
+      { companyId: 'EQ_INFOSYS_IN', exchangeSegment: 'BSE_EQ' },
+    ];
+
+    for (const payload of incompletePayloads) {
+      const qRes = await callQuotes(payload, 'QUOTE_SUCCESS');
+      const hRes = await callHistorical(
+        { ...payload, interval: '1D', fromDate: '2026-10-01', toDate: '2026-10-31' },
+        'HISTORICAL_SUCCESS',
+      );
+      expect(qRes.status).toBe(400);
+      expect(hRes.status).toBe(400);
+      expect((qRes.body.error as Record<string, unknown>).code).toBe('MISSING_REQUIRED_FIELD');
+      expect((hRes.body.error as Record<string, unknown>).code).toBe('MISSING_REQUIRED_FIELD');
+      expect((qRes.body.error as Record<string, unknown>).identityFailure).toBe(true);
+      expect((hRes.body.error as Record<string, unknown>).identityFailure).toBe(true);
+      expect((qRes.body.error as Record<string, unknown>).connectionAttempted).toBe(false);
+      expect((hRes.body.error as Record<string, unknown>).connectionAttempted).toBe(false);
+    }
+  });
+
+  it('rejects contradictory isin, series, or exchange across both D01 and D02 before contacting transport', async () => {
+    const contradictions = [
+      {
+        companyId: 'EQ_RELIANCE_IN',
+        securityId: 'ISIN:INE002A01018:EQ',
+        exchangeSegment: 'NSE_EQ',
+        isin: 'INE009A01021',
+      },
+      {
+        companyId: 'EQ_INFOSYS_IN',
+        securityId: 'ISIN:INE009A01021:A',
+        exchangeSegment: 'BSE_EQ',
+        exchange: 'NSE',
+      },
+      {
+        companyId: 'EQ_INFOSYS_IN',
+        securityId: 'ISIN:INE009A01021:A',
+        exchangeSegment: 'BSE_EQ',
+        series: 'B',
+      },
+    ];
+
+    for (const payload of contradictions) {
+      const qRes = await callQuotes(payload, 'QUOTE_SUCCESS');
+      const hRes = await callHistorical(
+        { ...payload, interval: '1D', fromDate: '2026-10-01', toDate: '2026-10-31' },
+        'HISTORICAL_SUCCESS',
+      );
+      expect(qRes.status).toBe(400);
+      expect(hRes.status).toBe(400);
+      expect((qRes.body.error as Record<string, unknown>).code).toBe('MALFORMED_REQUEST');
+      expect((hRes.body.error as Record<string, unknown>).code).toBe('MALFORMED_REQUEST');
+      expect((qRes.body.error as Record<string, unknown>).connectionAttempted).toBe(false);
+      expect((hRes.body.error as Record<string, unknown>).connectionAttempted).toBe(false);
+    }
+  });
+
+  it('preserves NSE_EQ vs BSE_EQ exchange distinctions for the same companyId and ISIN', async () => {
+    const nseRes = await callHistorical(
+      {
+        companyId: 'EQ_INFOSYS_IN',
+        securityId: 'ISIN:INE009A01021:EQ',
+        exchangeSegment: 'NSE_EQ',
+        interval: '1D',
+        fromDate: '2026-10-01',
+        toDate: '2026-10-31',
+      },
+      'HISTORICAL_SUCCESS',
+    );
+    expect(nseRes.status).toBe(200);
+    expect(transport.lastHistoricalRequest).toMatchObject({
+      companyId: 'EQ_INFOSYS_IN',
+      exchangeSegment: 'NSE_EQ',
+      isin: 'INE009A01021',
+    });
+    expect((nseRes.body.data as Record<string, unknown>).securityId).toBe('ISIN:INE009A01021:EQ');
+    expect((nseRes.body.data as Record<string, unknown>).exchangeSegment).toBe('NSE_EQ');
+
+    const bseRes = await callHistorical(
+      {
+        companyId: 'EQ_INFOSYS_IN',
+        securityId: 'ISIN:INE009A01021:A',
+        exchangeSegment: 'BSE_EQ',
+        interval: '1D',
+        fromDate: '2026-10-01',
+        toDate: '2026-10-31',
+      },
+      'HISTORICAL_SUCCESS',
+    );
+    expect(bseRes.status).toBe(200);
+    expect(transport.lastHistoricalRequest).toMatchObject({
+      companyId: 'EQ_INFOSYS_IN',
+      exchangeSegment: 'BSE_EQ',
+      isin: 'INE009A01021',
+    });
+    expect((bseRes.body.data as Record<string, unknown>).securityId).toBe('ISIN:INE009A01021:A');
+    expect((bseRes.body.data as Record<string, unknown>).exchangeSegment).toBe('BSE_EQ');
+  });
+
+  it('refuses upstream D02 responses whose echoed securityId or exchangeSegment contradicts the request', async () => {
+    const server = http.createServer((req, res) => {
+      const path = (req.url ?? '').split('?')[0];
+      const payload =
+        path === '/v1/historical'
+          ? {
+              ok: true,
+              result: {
+                ...syntheticHistoricalResult(),
+                securityId: 'ISIN:INE009A01021:EQ',
+                exchangeSegment: 'NSE_EQ',
+              },
+            }
+          : {
+              domain: 'D02_OHLCV',
+              cacheState: 'NOT_AVAILABLE',
+              asOf: null,
+              timestampEvidence: 'NOT_AVAILABLE',
+              receivedAt: null,
+              evaluatedAt: '2026-11-06T10:15:00.121Z',
+              observationEvaluatedAt: null,
+              thresholdSeconds: 86400,
+              ageSeconds: null,
+              verdict: 'UNKNOWN',
+              staleConcessionActive: false,
+              suppressExecution: true,
+              eligibleForUse: false,
+              lastRefresh: { outcome: 'UNKNOWN', lastFailure: null },
+            };
+      const text = JSON.stringify(payload);
+      res.writeHead(200, { 'content-type': 'application/json', 'content-length': Buffer.byteLength(text) });
+      res.end(text);
+    });
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+    const ipdBaseUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+
+    const irrServer = http.createServer((req, res) => {
+      void handleDhanHistoricalRequest(req, res, {
+        transport: {
+          ok: true,
+          config: { baseUrl: ipdBaseUrl, token: 'synthetic-token', timeoutMs: 2000, configured: true },
+        },
+      });
+    });
+    await new Promise<void>((resolve) => irrServer.listen(0, '127.0.0.1', resolve));
+    const irrPort = (irrServer.address() as AddressInfo).port;
+
+    try {
+      const response = await fetch(`http://127.0.0.1:${irrPort}${DHAN_HISTORICAL_PATH}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companyId: 'EQ_RELIANCE_IN',
+          securityId: 'ISIN:INE002A01018:EQ',
+          exchangeSegment: 'BSE_EQ',
+          interval: '1D',
+          fromDate: '2026-10-01',
+          toDate: '2026-10-31',
+        }),
+      });
+      expect(response.status).toBe(502);
+      const body = (await response.json()) as { error: Record<string, unknown> };
+      expect(body.error.code).toBe('CONFLICTING_INSTRUMENT_MAPPING');
+      expect(body.error.identityFailure).toBe(true);
+    } finally {
+      await new Promise<void>((resolve) => irrServer.close(() => resolve()));
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+    }
   });
 });

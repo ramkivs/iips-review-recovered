@@ -32,7 +32,6 @@ import {
   fetchDhanQuote,
   DhanMarketDataApiError,
   type DhanQuoteDto,
-  type DhanQuoteRequest,
   type DhanMarketDataFailureKind,
 } from '../../api/dhanMarketData';
 import {
@@ -44,32 +43,14 @@ import { MetricCard, MetricGroup } from '../../components/data/DataComponents';
 import { FreshnessBadge, StatusBadge } from '../../components/ui/Badges';
 import { LoadingState, UnavailableState } from '../../components/state/StateComponents';
 import { DhanFreshnessPanel } from './DhanFreshnessStatus';
+import {
+  buildDhanQuoteRequest,
+  canonicalIdentityFromSearchRow,
+  exchangeSegmentFor,
+  type DhanExchangeSegment,
+} from './dhanCanonicalIdentity';
 
-/** The canonical identity grammar, mirrored for the client-side validation only. */
-const D114_SECURITY_ID_PATTERN = /^ISIN:[A-Za-z0-9]{12}:[^:\s]+$/;
-
-/** Maps a search result's listing exchange onto the quote request's exchange segment. */
-export function exchangeSegmentFor(exchange: 'NSE' | 'BSE'): 'NSE_EQ' | 'BSE_EQ' {
-  return exchange === 'BSE' ? 'BSE_EQ' : 'NSE_EQ';
-}
-
-/**
- * Builds the well-formed canonical quote request from a selected identity.
- *
- * Returns null unless BOTH the company id is non-empty AND the security id matches the exact
- * D114 grammar — the same validation the server applies before any provider invocation. The
- * selected identity is passed through verbatim; nothing is re-derived or normalised.
- */
-export function buildDhanQuoteRequest(
-  companyId: string,
-  securityId: string,
-  exchangeSegment: 'NSE_EQ' | 'BSE_EQ' | '',
-): DhanQuoteRequest | null {
-  const company = companyId.trim();
-  const security = securityId.trim();
-  if (!company || !D114_SECURITY_ID_PATTERN.test(security)) return null;
-  return { companyId: company, securityId: security, ...(exchangeSegment === '' ? {} : { exchangeSegment }) };
-}
+export { buildDhanQuoteRequest, exchangeSegmentFor };
 
 const FAILURE_LABEL: Record<DhanMarketDataFailureKind, string> = {
   request: 'Request rejected',
@@ -126,7 +107,7 @@ export function DhanQuotes() {
   const [searchResults, setSearchResults] = useState<readonly InstrumentSearchResult[] | null>(null);
   const [companyId, setCompanyId] = useState('');
   const [securityId, setSecurityId] = useState('');
-  const [exchangeSegment, setExchangeSegment] = useState<'NSE_EQ' | 'BSE_EQ' | ''>('');
+  const [exchangeSegment, setExchangeSegment] = useState<DhanExchangeSegment | ''>('');
   const [quote, setQuote] = useState<DhanQuoteDto | null>(null);
   const [loading, setLoading] = useState(false);
   const [failure, setFailure] = useState<{ kind: DhanMarketDataFailureKind; message: string } | null>(null);
@@ -134,7 +115,7 @@ export function DhanQuotes() {
 
   const load = useCallback(async () => {
     // Exact-identity validation is preserved at request construction: no well-formed
-    // request exists without a canonical identity, and none is sent.
+    // request exists without a canonical identity and exchangeSegment, and none is sent.
     const request = buildDhanQuoteRequest(companyId, securityId, exchangeSegment);
     setLoading(true);
     setFailure(null);
@@ -142,7 +123,7 @@ export function DhanQuotes() {
       setQuote(null);
       setRequested(true);
       setLoading(false);
-      setFailure({ kind: 'request', message: 'A canonical identity (ISIN:<isin>:<series>) is required. Select an instrument from the search results.' });
+      setFailure({ kind: 'request', message: 'A canonical identity (companyId, ISIN:<isin>:<series>, exchangeSegment) is required. Select an instrument from the search results.' });
       return;
     }
     try {
@@ -176,15 +157,16 @@ export function DhanQuotes() {
 
   /** Selecting a search result populates the quote request fields verbatim from it. */
   const pick = useCallback((row: InstrumentSearchResult) => {
-    if (row.result.status !== 'QUALIFIED') return;
-    setCompanyId(row.result.companyId);
-    setSecurityId(row.result.securityIdentity.securityId);
-    setExchangeSegment(exchangeSegmentFor(row.exchange));
+    const selected = canonicalIdentityFromSearchRow(row);
+    if (selected === null) return;
+    setCompanyId(selected.companyId);
+    setSecurityId(selected.securityId);
+    setExchangeSegment(selected.exchangeSegment);
     setQuote(null);
     setFailure(null);
   }, []);
 
-  const identityLooksValid = D114_SECURITY_ID_PATTERN.test(securityId.trim()) && companyId.trim() !== '';
+  const identityLooksValid = buildDhanQuoteRequest(companyId, securityId, exchangeSegment) !== null;
 
   return (
     <section data-testid="dhan-quotes-surface">
@@ -248,7 +230,7 @@ export function DhanQuotes() {
           style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13, minHeight: 18 }}
         >
           {identityLooksValid
-            ? `${companyId.trim()} · ${securityId.trim()} · ${exchangeSegment === '' ? 'default segment' : exchangeSegment}`
+            ? `${companyId.trim()} · ${securityId.trim()} · ${exchangeSegment}`
             : 'none — select a QUALIFIED search result'}
         </output>
 
@@ -257,10 +239,11 @@ export function DhanQuotes() {
           id="dhan-quote-segment"
           data-testid="dhan-quote-segment"
           value={exchangeSegment}
-          onChange={(e) => setExchangeSegment(e.target.value as 'NSE_EQ' | 'BSE_EQ' | '')}
+          disabled
+          aria-readonly="true"
           style={{ padding: 6, border: '1px solid var(--color-border)', borderRadius: 4, fontSize: 13 }}
         >
-          <option value="">(default)</option>
+          <option value="">(select a qualified instrument)</option>
           <option value="NSE_EQ">NSE_EQ</option>
           <option value="BSE_EQ">BSE_EQ</option>
         </select>

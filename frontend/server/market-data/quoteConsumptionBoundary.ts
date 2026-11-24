@@ -77,6 +77,7 @@ import {
   type DhanFreshnessView,
   type Freshness,
 } from './dhanFreshnessRoutes';
+import { validateCanonicalIdentityCoherence } from './dhanCanonicalIdentity';
 
 /**
  * IRR's freshness vocabulary, re-used from the freshness boundary rather than re-declared.
@@ -452,6 +453,20 @@ export function projectIpdQuoteEnvelope(
   if (!isCompleteQuoteEnvelope(envelope)) return null;
   const record = envelope;
   const { payload, provenance } = record;
+  const envelopeSecurityId =
+    typeof record.securityId === 'string' && record.securityId.trim() !== ''
+      ? record.securityId.trim()
+      : null;
+
+  // Fail closed if upstream returns a canonical securityId that contradicts the requested
+  // canonical identity — never present a quote for another security or series.
+  if (
+    envelopeSecurityId !== null &&
+    requestedSecurityId !== null &&
+    envelopeSecurityId !== requestedSecurityId
+  ) {
+    return null;
+  }
 
   const qualityState = typeof provenance.qualityState === 'string' ? provenance.qualityState : 'UNAVAILABLE';
 
@@ -577,7 +592,25 @@ function resolveIdentityRequest(raw: unknown): ResolvedIdentity | RejectedIdenti
   }
 
   const [, isin, series] = rawSecurityId.split(':');
-  return { ok: true, companyId: rawCompanyId, securityId: rawSecurityId, isin, series, exchangeSegment };
+  const coherence = validateCanonicalIdentityCoherence({
+    isinFromSecurityId: isin!,
+    seriesFromSecurityId: series!,
+    exchangeSegment,
+    rawIsin: record.isin,
+    rawSeries: record.series,
+    rawExchange: record.exchange,
+  });
+  if (!coherence.ok) {
+    return {
+      ok: false,
+      companyId: rawCompanyId,
+      securityId: rawSecurityId,
+      exchangeSegment,
+      code: coherence.code,
+      reason: coherence.message,
+    };
+  }
+  return { ok: true, companyId: rawCompanyId, securityId: rawSecurityId, isin: isin!.toUpperCase(), series: series!, exchangeSegment };
 }
 
 /**

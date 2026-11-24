@@ -59,6 +59,8 @@ function historicalBody(overrides: Record<string, unknown> = {}) {
   return {
     data: {
       freshness: 'SNAPSHOT',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
       candles: [
         {
           candleStart: '2026-11-01T00:00:00.000Z',
@@ -131,6 +133,7 @@ describe('DHAN-P3 quote client', () => {
     const result = await fetchDhanQuote({
       companyId: 'SYNTHETIC:COMPANY',
       securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
     });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -139,6 +142,7 @@ describe('DHAN-P3 quote client', () => {
     expect(JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body))).toEqual({
       companyId: 'SYNTHETIC:COMPANY',
       securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
     });
 
     expect(result.freshness).toBe('SNAPSHOT');
@@ -148,7 +152,11 @@ describe('DHAN-P3 quote client', () => {
 
   it('preserves a STALE freshness verdict', async () => {
     vi.stubGlobal('fetch', okFetch(quoteBody({ freshness: 'STALE', qualityState: 'STALE' })));
-    const result = await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' });
+    const result = await fetchDhanQuote({
+      companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    });
     expect(result.freshness).toBe('STALE');
   });
 
@@ -156,7 +164,11 @@ describe('DHAN-P3 quote client', () => {
     const fetchMock = okFetch(quoteBody());
     vi.stubGlobal('fetch', fetchMock);
 
-    await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' });
+    await fetchDhanQuote({
+      companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    });
 
     const init = fetchMock.mock.calls[0]?.[1];
     const headers = (init?.headers ?? {}) as Record<string, string>;
@@ -175,7 +187,9 @@ describe('DHAN-P3 quote client', () => {
       connectionAttempted: false,
     }));
 
-    await expect(fetchDhanQuote({ companyId: 'C', securityId: '' })).rejects.toMatchObject({
+    await expect(
+      fetchDhanQuote({ companyId: 'C', securityId: '', exchangeSegment: 'NSE_EQ' }),
+    ).rejects.toMatchObject({
       kind: 'request',
       status: 400,
     });
@@ -189,7 +203,11 @@ describe('DHAN-P3 quote client', () => {
       connectionAttempted: true,
     }));
 
-    const error = await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' }).catch((e) => e);
+    const error = await fetchDhanQuote({
+      companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    }).catch((e) => e);
     expect(error).toBeInstanceOf(DhanMarketDataApiError);
     expect(error.kind).toBe('request');
     expect(error.detail?.identityFailure).toBe(true);
@@ -203,7 +221,11 @@ describe('DHAN-P3 quote client', () => {
       connectionAttempted: true,
     }));
 
-    const error = await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' }).catch((e) => e);
+    const error = await fetchDhanQuote({
+      companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    }).catch((e) => e);
     expect(error.kind).toBe('transport');
   });
 
@@ -215,13 +237,21 @@ describe('DHAN-P3 quote client', () => {
       connectionAttempted: true,
     }));
 
-    const error = await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' }).catch((e) => e);
+    const error = await fetchDhanQuote({
+      companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    }).catch((e) => e);
     expect(error.kind).toBe('unavailable');
   });
 
   it('classifies a network failure as a transport failure', async () => {
     vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('network down'))));
-    const error = await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' }).catch((e) => e);
+    const error = await fetchDhanQuote({
+      companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    }).catch((e) => e);
     expect(error).toBeInstanceOf(DhanMarketDataApiError);
     expect(error.kind).toBe('transport');
     expect(error.status).toBeNull();
@@ -229,7 +259,11 @@ describe('DHAN-P3 quote client', () => {
 
   it('fails closed when the response omits the data envelope', async () => {
     vi.stubGlobal('fetch', okFetch({ nothing: true }));
-    const error = await fetchDhanQuote({ companyId: 'C', securityId: 'ISIN:INE002A01018:EQ' }).catch((e) => e);
+    const error = await fetchDhanQuote({
+      companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
+    }).catch((e) => e);
     expect(error).toBeInstanceOf(DhanMarketDataApiError);
     expect(error.kind).toBe('transport');
   });
@@ -329,6 +363,8 @@ describe('DHAN-P3 historical client', () => {
 
     const result = await fetchDhanHistorical({
       companyId: 'SYNTHETIC:COMPANY',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
       interval: '1D',
       fromDate: '2026-11-01',
       toDate: '2026-11-03',
@@ -337,6 +373,8 @@ describe('DHAN-P3 historical client', () => {
     expect(fetchMock.mock.calls[0]?.[0]).toBe(DHAN_HISTORICAL_PATH);
     expect(JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body))).toEqual({
       companyId: 'SYNTHETIC:COMPANY',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
       interval: '1D',
       fromDate: '2026-11-01',
       toDate: '2026-11-03',
@@ -344,6 +382,8 @@ describe('DHAN-P3 historical client', () => {
 
     expect(result.candles).toHaveLength(1);
     expect(result.returnedCandleCount).toBe(1);
+    expect(result.securityId).toBe('ISIN:INE002A01018:EQ');
+    expect(result.exchangeSegment).toBe('NSE_EQ');
     expect(result.coverageClaim).toBe('ACCESS_PENDING_UNVERIFIED');
   });
 
@@ -351,6 +391,8 @@ describe('DHAN-P3 historical client', () => {
     vi.stubGlobal('fetch', okFetch(historicalBody({ candles: [], returnedCandleCount: 0 })));
     const result = await fetchDhanHistorical({
       companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
       interval: '1D',
       fromDate: '2026-11-01',
       toDate: '2026-11-03',
@@ -365,6 +407,8 @@ describe('DHAN-P3 historical client', () => {
 
     await fetchDhanHistorical({
       companyId: 'C',
+      securityId: 'ISIN:INE002A01018:EQ',
+      exchangeSegment: 'NSE_EQ',
       interval: '1h',
       fromDate: '2026-11-01',
       toDate: '2026-11-03',

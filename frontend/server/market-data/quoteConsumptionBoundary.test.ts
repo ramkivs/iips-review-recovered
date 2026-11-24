@@ -32,6 +32,7 @@ import {
   QUOTE_CONSUMPTION_OUTCOMES,
   consumeQuote,
   consumeQuotes,
+  projectIpdQuoteEnvelope,
   type QuoteConsumptionDeps,
 } from './quoteConsumptionBoundary';
 import {
@@ -955,7 +956,7 @@ describe('W-29 — migrated presentation route', () => {
   it('returns the boundary projection with the joined freshness and provenance', async () => {
     installMixedBehaviours();
     const response = await callQuoteRoute(
-      { companyId: 'SYNTH_CURRENT', securityId: 'ISIN:INE002A01018:EQ' },
+      { companyId: 'SYNTH_CURRENT', securityId: 'ISIN:INE002A01018:EQ', exchangeSegment: 'NSE_EQ' },
       ipd.deps(),
     );
     expect(response.status).toBe(200);
@@ -987,12 +988,46 @@ describe('W-29 — migrated presentation route', () => {
   it('publishes unavailable market data with IPD own code', async () => {
     installMixedBehaviours();
     const response = await callQuoteRoute(
-      { companyId: 'SYNTH_UNAVAILABLE', securityId: 'ISIN:INE467B01029:EQ' },
+      { companyId: 'SYNTH_UNAVAILABLE', securityId: 'ISIN:INE467B01029:EQ', exchangeSegment: 'NSE_EQ' },
       ipd.deps(),
     );
     expect(response.status).toBe(502);
     const error = response.body.error as Record<string, unknown>;
     expect(error.code).toBe('PROVIDER_STATUS_FAILURE');
     expect(error.identityFailure).toBe(false);
+  });
+
+  it('D-4.6: refuses contradictory batch identity fields and upstream securityId mismatches', async () => {
+    installMixedBehaviours();
+    const contradicted = await consumeQuotes(
+      [
+        {
+          companyId: 'SYNTH_CURRENT',
+          securityId: 'ISIN:INE002A01018:EQ',
+          exchangeSegment: 'BSE_EQ',
+          exchange: 'NSE',
+        },
+        {
+          companyId: 'SYNTH_CURRENT',
+          securityId: 'ISIN:INE002A01018:EQ',
+          exchangeSegment: 'NSE_EQ',
+          isin: 'INE009A01021',
+        },
+      ],
+      ipd.deps(),
+    );
+    expect(contradicted.entries.map((e) => e.outcome)).toEqual([
+      'MALFORMED_IDENTITY',
+      'MALFORMED_IDENTITY',
+    ]);
+    expect(ipd.quoteRequestCount).toBe(0);
+
+    expect(
+      projectIpdQuoteEnvelope(
+        { ...syntheticQuoteEnvelope({ qualityState: 'GOOD' }), securityId: 'ISIN:INE009A01021:EQ' },
+        'CURRENT',
+        'ISIN:INE002A01018:EQ',
+      ),
+    ).toBeNull();
   });
 });
