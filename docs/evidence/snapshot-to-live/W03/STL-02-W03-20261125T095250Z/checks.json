@@ -1,0 +1,62 @@
+[
+    {
+        "Id":  "irr-api-health",
+        "Ok":  true,
+        "Detail":  "GET /api/health -\u003e 200"
+    },
+    {
+        "Id":  "ipd-g3-pipe",
+        "Ok":  true,
+        "Detail":  "named pipe present: \\\\.\\pipe\\iips-user-portfolio-v1"
+    },
+    {
+        "Id":  "capture-source",
+        "Ok":  true,
+        "Detail":  "reusing newest CONSISTENT_CAPTURE summary: G:\\IIPS-Evidence\\snapshot-to-live\\01-W02\\STL-01-W02-20261124T202255Z\\output\\concurrent-0\\w11-dep1-capture-20261124T202259Z-a1146cc0\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json"
+    },
+    {
+        "Id":  "capture-fields",
+        "Ok":  false,
+        "Detail":  "capture revision=4 holdingsCount= (digest kept local, compared by equality only)"
+    },
+    {
+        "Id":  "list-200",
+        "Ok":  true,
+        "Detail":  "GET /api/user-portfolios -\u003e 200"
+    },
+    {
+        "Id":  "detail-200",
+        "Ok":  true,
+        "Detail":  "GET /api/user-portfolios/DHAN_PORTFOLIO -\u003e 200 (503 owner-context-unavailable = config state, NOT an empty portfolio)"
+    },
+    {
+        "Id":  "revisions-200",
+        "Ok":  true,
+        "Detail":  "GET .../revisions -\u003e 200"
+    },
+    {
+        "Id":  "holdings-200",
+        "Ok":  false,
+        "Detail":  "GET .../holdings -\u003e 405"
+    },
+    {
+        "Id":  "reconcile-revision",
+        "Ok":  false,
+        "Detail":  "api detail revision= vs capture revision=4"
+    },
+    {
+        "Id":  "reconcile-holdings-count",
+        "Ok":  false,
+        "Detail":  "api holdings count=0 vs capture holdingsCount="
+    },
+    {
+        "Id":  "reconcile-revisions-history",
+        "Ok":  true,
+        "Detail":  "revisions history entries=4; exactly one entry at the captured revision: True"
+    },
+    {
+        "Id":  "reports-leg-skipped",
+        "Ok":  true,
+        "Detail":  "reports config names absent - leg skipped as BLOCKED, distinguished from empty"
+    }
+]

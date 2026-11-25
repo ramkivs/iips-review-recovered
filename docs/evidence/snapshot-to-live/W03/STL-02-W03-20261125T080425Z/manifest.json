@@ -1,0 +1,55 @@
+{
+    "executionId":  "STL-02-W03-20261125T080425Z",
+    "workstream":  "W03",
+    "createdAtUtc":  "2026-11-25T08:04:26.812Z",
+    "algorithm":  "SHA-256",
+    "note":  "auto-sealed at completion",
+    "fileCount":  9,
+    "files":  [
+                  {
+                      "path":  "checks.json",
+                      "bytes":  2002,
+                      "sha256":  "d5554175c81b0499236055526fde17e0ddcc90a4375aea8b6ebb6375e300bc41"
+                  },
+                  {
+                      "path":  "execution.json",
+                      "bytes":  920,
+                      "sha256":  "98013b2836bd11432de5a9db18bc4892d0c35033a30c9c3811886736ef6d4efb"
+                  },
+                  {
+                      "path":  "result.json",
+                      "bytes":  4235,
+                      "sha256":  "59e7836d8681db60fd79da9f3ca3d146bbe38126075c4a50c2ae61331adfa303"
+                  },
+                  {
+                      "path":  "output\\api-user-portfolios-detail.json",
+                      "bytes":  38407,
+                      "sha256":  "021fd139b0c8b4a28a861a532e666e66087c1beb41d6704a32174c32e8b2a464"
+                  },
+                  {
+                      "path":  "output\\api-user-portfolios-holdings.json",
+                      "bytes":  30,
+                      "sha256":  "ec91ec953f76f533df2f1366d908b4eca3ba5e30bbe3ed15a03dfc9d573be831"
+                  },
+                  {
+                      "path":  "output\\api-user-portfolios-list.json",
+                      "bytes":  652,
+                      "sha256":  "2ded9d75f20db1b2947e087f1d78d3e016b87953acd3dcb0abc5f0dfdbfa4e57"
+                  },
+                  {
+                      "path":  "output\\api-user-portfolios-revisions.json",
+                      "bytes":  881,
+                      "sha256":  "58323f799a3fb730732fe270e6caf96f387025c2bc858dc5fbadccaa645c1afe"
+                  },
+                  {
+                      "path":  "output\\capture-summary.json",
+                      "bytes":  9338,
+                      "sha256":  "9585c529e4935e4d0034406f092ef835c013ec06b1cb7f39366c47f27f5945b3"
+                  },
+                  {
+                      "path":  "output\\reconciliation.json",
+                      "bytes":  272,
+                      "sha256":  "a42578149025d6d92dc184c3f3d6bbaf72a3ff32a7016a803be9cc25e06b39c0"
+                  }
+              ]
+}

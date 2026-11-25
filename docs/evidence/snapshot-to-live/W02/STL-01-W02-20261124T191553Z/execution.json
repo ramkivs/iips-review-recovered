@@ -1,0 +1,20 @@
+{
+    "executionId":  "STL-01-W02-20261124T191553Z",
+    "seq":  "01",
+    "workstream":  "W02",
+    "objective":  "Verify cross-call concurrency, revision-change behaviour and multi-process coherence (IRR two concurrent captures + IPD read-snapshot race suites).",
+    "startedAtUtc":  "2026-11-24T19:15:53.205Z",
+    "evidenceRoot":  "G:\\IIPS-Evidence",
+    "packageDir":  "G:\\IIPS-Evidence\\snapshot-to-live\\01-W02\\STL-01-W02-20261124T191553Z",
+    "irrRoot":  "C:\\tmp\\iips-review-recovered",
+    "irrCommit":  "e5245b28e94636efbaa6807f26140ad7622a75f8",
+    "irrDirty":  false,
+    "ipdRoot":  "H:\\IIPS\\iips-production-market-data",
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "ipdRevisionOk":  true,
+    "apiBaseUrl":  "http://127.0.0.1:8787",
+    "portfolioId":  "",
+    "machine":  "DESKTOP-NO0NHTP",
+    "userName":  "USER"
+}

@@ -1,0 +1,26 @@
+{
+    "Ok":  true,
+    "Problems":  [
+
+                 ],
+    "CaptureRevision":  4,
+    "CaptureHoldingsCount":  65,
+    "CaptureDigestPresent":  true,
+    "CaptureDigestLength":  64,
+    "DetailRevision":  4,
+    "DetailTotalHoldingsCount":  65,
+    "DetailHoldingsArrayCount":  65,
+    "DetailProvenanceDigest":  "5c53e6ba269c1709d5598c8d5a448cd459b575317071a03f7905cbcde4b13e5b",
+    "HoldingsEndpointStatus":  405,
+    "HoldingsEndpointClassification":  "unsupported-405-write-only",
+    "RevisionsEntries":  4,
+    "MatchingRevisionEntries":  1,
+    "MatchingOperation":  "MERGE",
+    "MatchingHoldingsCount":  65,
+    "DigestDetailVsHistory":  true,
+    "DigestDetailVsExact":  true,
+    "ExactDigestAvailable":  true,
+    "RevisionOk":  true,
+    "HoldingsOk":  true,
+    "HistoryOk":  true
+}

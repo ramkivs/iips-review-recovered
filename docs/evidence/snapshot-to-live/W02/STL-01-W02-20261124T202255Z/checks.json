@@ -1,0 +1,57 @@
+[
+    {
+        "Id":  "ipd-g3-pipe-present",
+        "Ok":  true,
+        "Detail":  "named pipe present: \\\\.\\pipe\\iips-user-portfolio-v1"
+    },
+    {
+        "Id":  "ipd-ipc-process",
+        "Ok":  true,
+        "Detail":  "processes whose command line contains \"ipc\\entrypoint.js\": 1"
+    },
+    {
+        "Id":  "capture-env-names-present",
+        "Ok":  true,
+        "Detail":  "IIPS_G2_IPC_ENDPOINT and IIPS_G3_IPC_BINDING_PROVISIONED are defined in this window (values not printed)"
+    },
+    {
+        "Id":  "frontend-node-modules",
+        "Ok":  true,
+        "Detail":  "frontend\\node_modules present: True (else run npm ci in frontend/)"
+    },
+    {
+        "Id":  "capture-cli-present",
+        "Ok":  true,
+        "Detail":  "C:\\tmp\\iips-review-recovered\\frontend\\server\\user-portfolio\\capture\\capture-owner-bound-portfolio.ts"
+    },
+    {
+        "Id":  "captures-exit-0",
+        "Ok":  true,
+        "Detail":  "capture exit codes: 0,0; summaries: 2"
+    },
+    {
+        "Id":  "concurrent-captures-consistent",
+        "Ok":  true,
+        "Detail":  "concurrent runs=2; same revision=True; actual provenance digest equality=True"
+    },
+    {
+        "Id":  "ipd-suite-present-dist\\tests\\stage2_portfolio_read_snapshot.test.js",
+        "Ok":  true,
+        "Detail":  "H:\\IIPS\\iips-production-market-data\\dist\\tests\\stage2_portfolio_read_snapshot.test.js"
+    },
+    {
+        "Id":  "ipd-suite-pass-dist\\tests\\stage2_portfolio_read_snapshot.test.js",
+        "Ok":  true,
+        "Detail":  "node --test dist\\tests\\stage2_portfolio_read_snapshot.test.js exit=0 timedOut=False"
+    },
+    {
+        "Id":  "ipd-suite-present-dist\\tests\\g3_portfolio_read_isolation.test.js",
+        "Ok":  true,
+        "Detail":  "H:\\IIPS\\iips-production-market-data\\dist\\tests\\g3_portfolio_read_isolation.test.js"
+    },
+    {
+        "Id":  "ipd-suite-pass-dist\\tests\\g3_portfolio_read_isolation.test.js",
+        "Ok":  true,
+        "Detail":  "node --test dist\\tests\\g3_portfolio_read_isolation.test.js exit=0 timedOut=False"
+    }
+]

@@ -1,0 +1,13 @@
+{
+    "Ok":  true,
+    "Manifest":  "G:\\IIPS-Evidence\\snapshot-to-live\\01-W02\\STL-01-W02-20261124T185627Z\\manifest.json",
+    "FileCount":  3,
+    "Verified":  3,
+    "Mismatches":  [
+
+                   ],
+    "Missing":  [
+
+                ],
+    "CheckedAtUtc":  "2026-11-24T18:56:28.385Z"
+}

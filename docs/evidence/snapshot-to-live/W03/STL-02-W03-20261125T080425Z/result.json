@@ -1,0 +1,81 @@
+{
+    "executionId":  "STL-02-W03-20261125T080425Z",
+    "seq":  "02",
+    "workstream":  "W03",
+    "objective":  "Reconcile the actual portfolio/report inventory against the captured portfolio revision (counts reconcile; empty/unavailable/unknown distinguished).",
+    "result":  "FAIL",
+    "startedAtUtc":  "2026-11-25T08:04:25.411Z",
+    "finishedAtUtc":  "2026-11-25T08:04:26.768Z",
+    "irrCommit":  "e5245b28e94636efbaa6807f26140ad7622a75f8",
+    "irrDirty":  false,
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "checks":  [
+                   {
+                       "Id":  "irr-api-health",
+                       "Ok":  true,
+                       "Detail":  "GET /api/health -\u003e 200"
+                   },
+                   {
+                       "Id":  "ipd-g3-pipe",
+                       "Ok":  true,
+                       "Detail":  "named pipe present: \\\\.\\pipe\\iips-user-portfolio-v1"
+                   },
+                   {
+                       "Id":  "capture-source",
+                       "Ok":  true,
+                       "Detail":  "reusing newest CONSISTENT_CAPTURE summary: G:\\IIPS-Evidence\\snapshot-to-live\\01-W02\\STL-01-W02-20261124T202255Z\\output\\concurrent-0\\w11-dep1-capture-20261124T202259Z-a1146cc0\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json"
+                   },
+                   {
+                       "Id":  "capture-fields",
+                       "Ok":  false,
+                       "Detail":  "capture revision=4 holdingsCount= (digest kept local, compared by equality only)"
+                   },
+                   {
+                       "Id":  "list-200",
+                       "Ok":  true,
+                       "Detail":  "GET /api/user-portfolios -\u003e 200"
+                   },
+                   {
+                       "Id":  "detail-200",
+                       "Ok":  true,
+                       "Detail":  "GET /api/user-portfolios/DHAN_PORTFOLIO -\u003e 200 (503 owner-context-unavailable = config state, NOT an empty portfolio)"
+                   },
+                   {
+                       "Id":  "revisions-200",
+                       "Ok":  true,
+                       "Detail":  "GET .../revisions -\u003e 200"
+                   },
+                   {
+                       "Id":  "holdings-200",
+                       "Ok":  false,
+                       "Detail":  "GET .../holdings -\u003e 405"
+                   },
+                   {
+                       "Id":  "reconcile-revision",
+                       "Ok":  false,
+                       "Detail":  "api detail revision= vs capture revision=4"
+                   },
+                   {
+                       "Id":  "reconcile-holdings-count",
+                       "Ok":  false,
+                       "Detail":  "api holdings count=0 vs capture holdingsCount="
+                   },
+                   {
+                       "Id":  "reconcile-revisions-history",
+                       "Ok":  true,
+                       "Detail":  "revisions history entries=4; exactly one entry at the captured revision: True"
+                   },
+                   {
+                       "Id":  "reports-leg-skipped",
+                       "Ok":  true,
+                       "Detail":  "reports config names absent - leg skipped as BLOCKED, distinguished from empty"
+                   }
+               ],
+    "failedCheckCount":  4,
+    "diagnostics":  [
+                        "reports env names absent: reports artifact reconciliation skipped (BLOCKED leg); portfolio legs unaffected."
+                    ],
+    "downstreamNote":  "PASS unblocks W05/W06/W09 actual-data verification (steps 05/04/06) and feeds W03 acceptance (counts reconciled to the captured revision). A fresh CONSISTENT capture here is reused by steps 03/06/08/09 - no re-capture needed.",
+    "resumeRequirement":  "B02-class inputs: running IPD G3 IPC provider with an active owner binding, healthy IRR API, writable G: root. If reports leg skipped: add IIPS_REPORTS_OWNER_PATH + IIPS_NP04_DATABASE_PATH to .env.local and restart the API transport."
+}

@@ -1,0 +1,20 @@
+{
+    "executionId":  "STL-02-W03-20261125T080425Z",
+    "seq":  "02",
+    "workstream":  "W03",
+    "objective":  "Reconcile the actual portfolio/report inventory against the captured portfolio revision (counts reconcile; empty/unavailable/unknown distinguished).",
+    "startedAtUtc":  "2026-11-25T08:04:25.411Z",
+    "evidenceRoot":  "G:\\IIPS-Evidence",
+    "packageDir":  "G:\\IIPS-Evidence\\snapshot-to-live\\02-W03\\STL-02-W03-20261125T080425Z",
+    "irrRoot":  "C:\\tmp\\iips-review-recovered",
+    "irrCommit":  "e5245b28e94636efbaa6807f26140ad7622a75f8",
+    "irrDirty":  false,
+    "ipdRoot":  "H:\\IIPS\\iips-production-market-data",
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "ipdRevisionOk":  true,
+    "apiBaseUrl":  "http://127.0.0.1:8787",
+    "portfolioId":  "DHAN_PORTFOLIO",
+    "machine":  "DESKTOP-NO0NHTP",
+    "userName":  "USER"
+}

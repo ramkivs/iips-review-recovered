@@ -1,0 +1,119 @@
+# W11 acceptance dependency 1 - owner-bound portfolio capture: sanitized summary
+
+> Sanitized summary only. This is NOT the complete capture evidence and must not be described as such. The exact capture (portfolio contents) is a separate LOCAL-ONLY file that stays on the capturing host.
+
+- Outcome: **IPC_CONNECTION_FAILURE** (TRANSPORT_FAULT), exit code 10
+- Evidence eligibility: NO_CAPTURE
+- Capture id: 00d4fe4e-47f4-4eae-9ac1-9e03fab2db28
+- Detail: portfolio.list failed with a transport fault on the existing IPC client. The client reports one class for all of: nothing is serving the endpoint (IPD IPC service not running, or a different pipe name); the connection was reset; the response was malformed, disclosed a caller-identity field, used a different protocol version, or exceeded the 262144-byte response cap. This utility never starts IPD.
+
+## Sanitized summary (JSON)
+
+```json
+{
+  "schema": "iips.w11-dep1.owner-bound-portfolio-capture.summary/v1",
+  "artifactClass": "SANITIZED_SUMMARY",
+  "notice": "Sanitized summary only. This is NOT the complete capture evidence and must not be described as such. The exact capture (portfolio contents) is a separate LOCAL-ONLY file that stays on the capturing host.",
+  "captureId": "00d4fe4e-47f4-4eae-9ac1-9e03fab2db28",
+  "outcome": "IPC_CONNECTION_FAILURE",
+  "reasonCode": "TRANSPORT_FAULT",
+  "message": "portfolio.list failed with a transport fault on the existing IPC client. The client reports one class for all of: nothing is serving the endpoint (IPD IPC service not running, or a different pipe name); the connection was reset; the response was malformed, disclosed a caller-identity field, used a different protocol version, or exceeded the 262144-byte response cap. This utility never starts IPD.",
+  "exitCode": 10,
+  "evidenceEligibility": "NO_CAPTURE",
+  "peerAuthenticity": "NOT_ATTESTED: the consumer cannot prove which process served the endpoint. That the peer was the operator-run IPD service is a host fact the operator attests separately.",
+  "consumerObservation": {
+    "firstReadStartedAtUtc": null,
+    "finalReadCompletedAtUtc": null,
+    "note": "Read from the CONSUMER host clock in UTC. These are observation timestamps. They are NOT IPD persistence timestamps and say nothing about when the data was written."
+  },
+  "attempts": {
+    "maxAttempts": 3,
+    "made": 1,
+    "policy": "Only a failed consistency check is repeated, as a whole new sequence. A failed attempt is discarded entirely; reads from different attempts are never combined.",
+    "perAttempt": [
+      {
+        "attempt": 1,
+        "startedAtUtc": "2026-11-24T20:09:29.536Z",
+        "completedAtUtc": "2026-11-24T20:09:29.545Z",
+        "outcome": "IPC_CONNECTION_FAILURE",
+        "reasonCode": "TRANSPORT_FAULT",
+        "failedOperation": "portfolio.list",
+        "failedCheckIds": [],
+        "requestSequence": [
+          "portfolio.list"
+        ]
+      }
+    ]
+  },
+  "requestSequence": null,
+  "selection": {
+    "method": null,
+    "listedPortfolioCount": null,
+    "operatorSuppliedPortfolioId": true,
+    "rule": "Identified from the actual portfolio.list response. No default portfolio id is assumed."
+  },
+  "portfolio": null,
+  "identity": null,
+  "consistency": null,
+  "caveats": [],
+  "configuration": {
+    "valid": true,
+    "problems": [],
+    "endpoint": {
+      "kind": "windows-named-pipe",
+      "source": "absolute-path"
+    }
+  },
+  "protocol": {
+    "clientProtocolVersion": 1,
+    "responseProtocolVersionsObserved": [],
+    "negotiation": "NONE (wire contract v1 fixes the version; the existing client refuses any other)",
+    "perCallTimeoutMs": 5000,
+    "responseCapBytes": 262144,
+    "consumerPath": "IpcUserPortfolioPort over callIpc (existing IRR IPC consumer); no new framing"
+  },
+  "build": {
+    "ipdBuildOnWire": "NOT_AVAILABLE: wire contract v1 responses carry the protocol version only; the service attests no build",
+    "ipdHostObserved": {
+      "checkoutCommit": null,
+      "checkoutSource": null,
+      "entrypointLastWriteUtc": null,
+      "ipcProcessCount": null,
+      "caveat": "Observed on the host by the PowerShell entry point (git HEAD of the IPD checkout, file time of its compiled IPC entrypoint, visible process count). It is NOT reported by the running service and does not prove which commit the running process was built from."
+    },
+    "irr": {
+      "commit": null,
+      "workingTreeDirty": null
+    },
+    "consumerRuntime": {
+      "node": "v24.14.0",
+      "platform": "win32",
+      "arch": "x64"
+    }
+  },
+  "ownerContext": {
+    "source": "IPD_A2_BINDING",
+    "irrLocalPreconditionAffirmed": true,
+    "bindingIdentifiedByResponse": false,
+    "note": "IPD resolves its owner binding server-side on every request and discloses nothing about it. No owner, tenant or binding identifier is sent or received, and the response does not identify the binding. The IRR-local precondition records that an operator provisioned a binding; it is not proof of one."
+  },
+  "exactCapture": {
+    "location": "LOCAL_ONLY_NOT_PUBLISHED",
+    "written": false,
+    "fileName": null,
+    "sha256": null,
+    "bytes": null,
+    "note": "The SHA-256 binds this summary to the local exact capture file without disclosing its contents."
+  },
+  "readOnly": {
+    "operationsSent": "portfolio.list, portfolio.get, portfolio.revisions only",
+    "statement": "No write operation was sent. The utility did not start, stop, configure or migrate IPD and opened no database."
+  },
+  "limitations": [
+    "Windows named-pipe behaviour and ACLs are host facts; the existing IRR client verifies only the POSIX path in CI.",
+    "The capture proves read consistency over the observation window, not atomicity.",
+    "The service build is not attested on the wire; host-observed build facts are labelled as such.",
+    "The response does not identify the IPD owner binding."
+  ]
+}
+```

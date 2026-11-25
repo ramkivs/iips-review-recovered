@@ -1,0 +1,25 @@
+{
+    "executionId":  "STL-01-W02-20261124T185627Z",
+    "workstream":  "W02",
+    "createdAtUtc":  "2026-11-24T18:56:28.323Z",
+    "algorithm":  "SHA-256",
+    "note":  "auto-sealed at completion",
+    "fileCount":  3,
+    "files":  [
+                  {
+                      "path":  "checks.json",
+                      "bytes":  693,
+                      "sha256":  "5ce5cbc3fdc147e96019aa132ac11853ec78d7d1ec8ed69ec79092cc40df21cb"
+                  },
+                  {
+                      "path":  "execution.json",
+                      "bytes":  905,
+                      "sha256":  "94fad6a009727286c9fa09725a09001488e1586d14dd06aa1db2d3c9f00efbfb"
+                  },
+                  {
+                      "path":  "result.json",
+                      "bytes":  2284,
+                      "sha256":  "2caab41995a3fd00c3fdcbdbc7a888521c1ce33113142aa6ec455cdd9b6e768a"
+                  }
+              ]
+}

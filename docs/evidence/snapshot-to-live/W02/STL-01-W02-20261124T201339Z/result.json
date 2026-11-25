@@ -1,0 +1,76 @@
+{
+    "executionId":  "STL-01-W02-20261124T201339Z",
+    "seq":  "01",
+    "workstream":  "W02",
+    "objective":  "Verify cross-call concurrency, revision-change behaviour and multi-process coherence (IRR two concurrent captures + IPD read-snapshot race suites).",
+    "result":  "FAIL",
+    "startedAtUtc":  "2026-11-24T20:13:39.679Z",
+    "finishedAtUtc":  "2026-11-24T20:13:45.084Z",
+    "irrCommit":  "e5245b28e94636efbaa6807f26140ad7622a75f8",
+    "irrDirty":  false,
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "checks":  [
+                   {
+                       "Id":  "ipd-g3-pipe-present",
+                       "Ok":  true,
+                       "Detail":  "named pipe present: \\\\.\\pipe\\iips-user-portfolio-v1"
+                   },
+                   {
+                       "Id":  "ipd-ipc-process",
+                       "Ok":  true,
+                       "Detail":  "processes whose command line contains \"ipc\\entrypoint.js\": 1"
+                   },
+                   {
+                       "Id":  "capture-env-names-present",
+                       "Ok":  true,
+                       "Detail":  "IIPS_G2_IPC_ENDPOINT and IIPS_G3_IPC_BINDING_PROVISIONED are defined in this window (values not printed)"
+                   },
+                   {
+                       "Id":  "frontend-node-modules",
+                       "Ok":  true,
+                       "Detail":  "frontend\\node_modules present: True (else run npm ci in frontend/)"
+                   },
+                   {
+                       "Id":  "capture-cli-present",
+                       "Ok":  true,
+                       "Detail":  "C:\\tmp\\iips-review-recovered\\frontend\\server\\user-portfolio\\capture\\capture-owner-bound-portfolio.ts"
+                   },
+                   {
+                       "Id":  "captures-exit-0",
+                       "Ok":  true,
+                       "Detail":  "capture exit codes: 0,0; summaries: 2"
+                   },
+                   {
+                       "Id":  "concurrent-captures-consistent",
+                       "Ok":  false,
+                       "Detail":  "concurrent runs=2; same revision=False; same digest (equality only, value not recorded)=True"
+                   },
+                   {
+                       "Id":  "ipd-suite-present-dist\\tests\\stage2_portfolio_read_snapshot.test.js",
+                       "Ok":  true,
+                       "Detail":  "H:\\IIPS\\iips-production-market-data\\dist\\tests\\stage2_portfolio_read_snapshot.test.js"
+                   },
+                   {
+                       "Id":  "ipd-suite-pass-dist\\tests\\stage2_portfolio_read_snapshot.test.js",
+                       "Ok":  true,
+                       "Detail":  "node --test dist\\tests\\stage2_portfolio_read_snapshot.test.js exit=0 timedOut=False"
+                   },
+                   {
+                       "Id":  "ipd-suite-present-dist\\tests\\g3_portfolio_read_isolation.test.js",
+                       "Ok":  true,
+                       "Detail":  "H:\\IIPS\\iips-production-market-data\\dist\\tests\\g3_portfolio_read_isolation.test.js"
+                   },
+                   {
+                       "Id":  "ipd-suite-pass-dist\\tests\\g3_portfolio_read_isolation.test.js",
+                       "Ok":  true,
+                       "Detail":  "node --test dist\\tests\\g3_portfolio_read_isolation.test.js exit=0 timedOut=False"
+                   }
+               ],
+    "failedCheckCount":  1,
+    "diagnostics":  [
+
+                    ],
+    "downstreamNote":  "PASS strengthens W09 revision-aware read-path verification (step 06). Concurrency evidence feeds W09 actual-data acceptance; W02 acceptance itself additionally needs the IPD-side suites green on the pinned IPD main.",
+    "resumeRequirement":  "Start the IPD G3 IPC provider (named pipe), load .env.local names into this window, npm ci in frontend/, re-run 00-preflight then this script."
+}

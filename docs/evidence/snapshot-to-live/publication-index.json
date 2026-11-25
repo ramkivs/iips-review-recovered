@@ -1,0 +1,805 @@
+﻿{
+    "publicationType":  "STL_EVIDENCE_ONLY",
+    "updatedAtUtc":  "2026-11-25T13:10:07.1285444Z",
+    "branch":  "evidence/stl-w02-w12-publication",
+    "remote":  "origin",
+    "remoteUrl":  "https://github.com/ramkivs/iips-review-recovered.git",
+    "evidenceRoot":  "G:\\IIPS-Evidence\\snapshot-to-live",
+    "workItems":  [
+                      {
+                          "workItem":  "W02",
+                          "statusAttested":  "PASS",
+                          "sourceDirectory":  "G:\\IIPS-Evidence\\snapshot-to-live\\01-W02",
+                          "publishedDirectory":  "docs\\evidence\\snapshot-to-live\\W02",
+                          "fileCount":  121,
+                          "excludedDirectoryNames":  [
+                                                         "LOCAL-ONLY-DO-NOT-PUBLISH"
+                                                     ],
+                          "files":  [
+                                        {
+                                            "path":  "STL-01-W02-20261124T185627Z\\checks.json",
+                                            "length":  693,
+                                            "sha256":  "5CE5CBC3FDC147E96019AA132AC11853EC78D7D1EC8ED69EC79092CC40DF21CB"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185627Z\\execution.json",
+                                            "length":  905,
+                                            "sha256":  "94FAD6A009727286C9FA09725A09001488E1586D14DD06AA1DB2D3C9F00EFBFB"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185627Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "EACF84619EAFB1FF3255D04C6770BE9A1D5533B423078CFC84591FFAD784002E"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185627Z\\manifest.json",
+                                            "length":  952,
+                                            "sha256":  "DB903BD30B51F1366B1AC152BB73B14E5733107D9AE15245F6A4FB932ADD3CDD"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185627Z\\result.json",
+                                            "length":  2284,
+                                            "sha256":  "2CAAB41995A3FD00C3FDCBDBC7A888521C1CE33113142AA6EC455CDD9B6E768A"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185840Z\\checks.json",
+                                            "length":  898,
+                                            "sha256":  "AC787A1E006597E9534C8BCC72DB84B4FA4708EBAF92FB70F68C81F36FE2F7CB"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185840Z\\execution.json",
+                                            "length":  905,
+                                            "sha256":  "D39B21841B16413F95F4CCF80CF0F80687F1CFAEA97DB0BF3C4E3FD991B4C8B1"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185840Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "809630629F9C5CC9A4BE19BACB88DB10004EB6F272FAB23BE8D66C6C6E2A9C72"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185840Z\\manifest.json",
+                                            "length":  952,
+                                            "sha256":  "65AD9BD94556BADF59816EDD6DC56E1D8500559C04AE408BA72715C216E2A3A7"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T185840Z\\result.json",
+                                            "length":  2596,
+                                            "sha256":  "C1F43F288BFDAD5EB0D32657311A908177044425EC820B7DB859277AA2F07B6E"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\execution.json",
+                                            "length":  905,
+                                            "sha256":  "FCE2A9EA0193C2447454DE0949502EDA5BBFA67632EEF12542B30A3FFF69AA24"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-0.log",
+                                            "length":  1219,
+                                            "sha256":  "BB6AC238C7B1F0A3EA199B48CA206A8DE7117804A004D3AA81AA88A699A47C68"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-1.log",
+                                            "length":  1219,
+                                            "sha256":  "6A7199B5969642A9A746BFB9903BE752C550B39BC0DAAB3853E87685BBC0E4B6"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-0.log",
+                                            "length":  1202,
+                                            "sha256":  "E246FEEF783A982386B6C3205906B02A033ED8D145998AD22D1F98092DC11292"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-1.log",
+                                            "length":  1096,
+                                            "sha256":  "A471ABF2C246C4AEA25E861E30E43C22801C82CF869A23927A367C59B0CE67FF"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\ipd-tests_g3_portfolio_read_isolation.test.ts.log",
+                                            "length":  1695,
+                                            "sha256":  "317DF7135F287EB269B20F083709BA0DCD38B44AD94B0F0F97DE21956559443F"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\ipd-tests_stage2_portfolio_read_snapshot.test.ts.log",
+                                            "length":  1720,
+                                            "sha256":  "AAA395086302FB14E5CFD1F8D33C5591546465A0DE555F27F128972A6F59C121"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-0\\w11-dep1-capture-20261124T191556Z-86e60bd9\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-0\\w11-dep1-capture-20261124T191556Z-86e60bd9\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4802,
+                                            "sha256":  "EFA6E28FEFA8E4A4E92704EDF932DAB67974374E0E44090B9CBEB7BB8381C723"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-0\\w11-dep1-capture-20261124T191556Z-86e60bd9\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5489,
+                                            "sha256":  "ACD5E5AD693AFFA5E27DFEE76AA3B41403EA33125D97B7B1E68D70941BEC1470"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-1\\w11-dep1-capture-20261124T191559Z-8eba4cc8\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-1\\w11-dep1-capture-20261124T191559Z-8eba4cc8\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4802,
+                                            "sha256":  "E45202AFDBA755BC4140AC73F026C5E45669CE7CB0C2666892D91B63DCB10700"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\capture-run-1\\w11-dep1-capture-20261124T191559Z-8eba4cc8\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5489,
+                                            "sha256":  "FEB584112E0BB7C6C948F0D0B1B2168AAE58E78272CEEC138DDB58B213B93224"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-0\\w11-dep1-capture-20261124T191600Z-bf1b206f\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-0\\w11-dep1-capture-20261124T191600Z-bf1b206f\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4802,
+                                            "sha256":  "A4A7AA9C88200D9D5417E16C62D35FF44834155D976612DCB8DBEC530B34A012"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-0\\w11-dep1-capture-20261124T191600Z-bf1b206f\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5489,
+                                            "sha256":  "02D498E361905FBF7164C69940DA1959DA0E8D02B0D0EAD165F0C35AA30BBFD4"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-1\\w11-dep1-capture-20261124T191600Z-20e0cb07\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-1\\w11-dep1-capture-20261124T191600Z-20e0cb07\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4994,
+                                            "sha256":  "84CBCE3ECAEC2E482616B842B0BB23B44AD7462B655E3C56DE3C6E3DC9837D8E"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T191553Z\\output\\concurrent-1\\w11-dep1-capture-20261124T191600Z-20e0cb07\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5891,
+                                            "sha256":  "98B0E90A84E99FA2EEBB5C7F824DFC0C293FE84634C157EABB74EECEE335422A"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\checks.json",
+                                            "length":  2117,
+                                            "sha256":  "B8A817EC83466B2B06D024711F4BB0A9F18CD9D4103E835C65120090A5B25B81"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\execution.json",
+                                            "length":  905,
+                                            "sha256":  "8C2FB35A0F4C2C26E5D66CC865ACE2D74433461BD4F4F49EFD3E7D39A2F298DD"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\manifest-verify.json",
+                                            "length":  313,
+                                            "sha256":  "99C3EA65FE372043DA79F23B367112A80E91AA4AC3F581F0A0F78C5D313177C6"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\manifest.json",
+                                            "length":  8997,
+                                            "sha256":  "4F78B6CE3C655127AF65400AF18BBFC21CD7919C5A74E01B47E09DE7161ED3BF"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\result.json",
+                                            "length":  4040,
+                                            "sha256":  "661BB2CC2EE5018B6636C4D917F5BD084B6288386B0AB345FAB721A37BF89F66"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-0.log",
+                                            "length":  1219,
+                                            "sha256":  "A50D679A338EEA98BE95015D451F2A2DDAECD05EDAF6D785F26960055A3724F8"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-1.log",
+                                            "length":  1219,
+                                            "sha256":  "639CFCA174B5C2AE933D3F16A019E10DCA56423FA3999D2A778E71AB7F47D7F3"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-0.log",
+                                            "length":  1202,
+                                            "sha256":  "C585D5CCBD349BA28BDA8F5F5560EDC1EBF1137DD4F9AE0A8D64A39BDCDD692D"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-1.log",
+                                            "length":  1202,
+                                            "sha256":  "E4F9FC22651C2FBC2B6BF883BA4280626B7215D2F479948DAC1012B3E767BB95"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\ipd-tests_g3_portfolio_read_isolation.test.ts.log",
+                                            "length":  1697,
+                                            "sha256":  "5585A241424C86A73BC9AED12428D158FAA079476179588EF3378FB8EC0430D0"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\ipd-tests_stage2_portfolio_read_snapshot.test.ts.log",
+                                            "length":  1721,
+                                            "sha256":  "A61395692FC1AFD83515AEE457A4466A41CDD8615EDDE1595221774389D326A5"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4802,
+                                            "sha256":  "FD887CF38331DE4E7E9193BB1B862ED815D7066699622BDA66A179C6B2CB61B4"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5489,
+                                            "sha256":  "4AF5CBE044D6A297C111CB1ADD1BD054D7BBF1BF664DEE087D60D067227B3CAD"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4802,
+                                            "sha256":  "88D36246D2D5168763017B372DC5240C7CFF63F72AA431A69ABD1DD33A06353D"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5489,
+                                            "sha256":  "F118D01229AF628447300C2EDB65CEFE57089ACBA82ADB9BCFB2C7969807034A"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4802,
+                                            "sha256":  "35E55AB00981B67D3EE7BA550003030F47B2F97B24396386039BCD290C7527B4"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5489,
+                                            "sha256":  "D48ECCAD6E157D6418DAB367E5EE9BB13D70EDF1DFFB09E03B0F0814EA3D77E2"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4802,
+                                            "sha256":  "0D0539E768573FD8751B7947664B32896B5C6A4F0240E1CDEBB3C314F6CED0E6"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T192044Z\\output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5489,
+                                            "sha256":  "2C2B74B1ECDCE91119CFD5F9E9936E44BA07CC417E21C837BA3EE50635502715"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\checks.json",
+                                            "length":  2161,
+                                            "sha256":  "57511173161A0A6A663152BA00DB0CA2947C5EB8305D1EC24F730D0B030B224F"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\execution.json",
+                                            "length":  905,
+                                            "sha256":  "09BF4176D135F4A4B288FD87044C09A189A1BBDDE6B1B99373738DFD7DF78727"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\manifest-verify.json",
+                                            "length":  313,
+                                            "sha256":  "86C7C5E32B731AFB9DC3CF6CA7F94E7EE6E83D84FE94E1D0AEF4EBC69CAFA96B"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\manifest.json",
+                                            "length":  8724,
+                                            "sha256":  "FC5C57B162EF67D27E1AAFD90DDE9C5FAFAA7F419A90D5E22215E23008528D52"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\result.json",
+                                            "length":  4084,
+                                            "sha256":  "ABD5091D9D1DDD9787E9331E1C404877E2E6D0535C8E563E7115E7DAF82D2D96"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-0.log",
+                                            "length":  1289,
+                                            "sha256":  "366437793679A74C29F496659A131461492C250C2BC9940BE628E573889304C0"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-1.log",
+                                            "length":  1289,
+                                            "sha256":  "44E8CCCD18D7BCB0570DFE502709D3E86AF18E3000874893CFFB935A2F792A46"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-0.log",
+                                            "length":  1272,
+                                            "sha256":  "2612B5B966E1641FFDF1782B6CCCA4791C0DA670CB10DAF513D56FD6FD0AA66E"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-1.log",
+                                            "length":  1096,
+                                            "sha256":  "238AA2D84AE74DD533CCAD64D1898094BBFF0D0247125F9B2AD35F168EB04C62"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\ipd-dist_tests_g3_portfolio_read_isolation.test.js.log",
+                                            "length":  962,
+                                            "sha256":  "D64A32D2EE641E07A72F66D957C9F1E7CE8A2DB9083EE5305531B57C686FDEEF"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\ipd-dist_tests_stage2_portfolio_read_snapshot.test.js.log",
+                                            "length":  1354,
+                                            "sha256":  "5C1E1C22C4952ACA3E385E72F8EA4BCAFD653461C3B927B1A91634A3319B3509"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-0\\w11-dep1-capture-20261124T200927Z-c1435b5e\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-0\\w11-dep1-capture-20261124T200927Z-c1435b5e\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "773FAD1B82F7130F8818376A822714E83D1BF225F69954F755ECF8E2764D3D0C"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-0\\w11-dep1-capture-20261124T200927Z-c1435b5e\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "21245A8789046FDAF36C09AA67634D32905F655FB3DD42207F0E380A1E710EA1"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-1\\w11-dep1-capture-20261124T200928Z-be9b84d7\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-1\\w11-dep1-capture-20261124T200928Z-be9b84d7\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "EC5EEAAE660BE050F4B708D212543EB76464968C718FA57380C1B1B22B42AA60"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\capture-run-1\\w11-dep1-capture-20261124T200928Z-be9b84d7\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "319C2F9B43EB04F7A189D786D287BF86B630439FEBF9A0E94F27241DB0D54E14"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-0\\w11-dep1-capture-20261124T200929Z-336c41e4\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-0\\w11-dep1-capture-20261124T200929Z-336c41e4\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "BC774422D38BF5135EB5E93F1DD70CDFD8799BF2A3AEA23AACE60ADDFBB562D3"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-0\\w11-dep1-capture-20261124T200929Z-336c41e4\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "3772F640D69FEFDB1909BD7B24FAFB7609941EE701C5C6BF5571CCAB3ADC34D1"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-1\\w11-dep1-capture-20261124T200929Z-00d4fe4e\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-1\\w11-dep1-capture-20261124T200929Z-00d4fe4e\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4993,
+                                            "sha256":  "19CAB5ED2084F51F056F199A9C275B4C019EAB833DD8C3033E058D08D6FA7180"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T200926Z\\output\\concurrent-1\\w11-dep1-capture-20261124T200929Z-00d4fe4e\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5890,
+                                            "sha256":  "A0160AF5E1424C103D433B297ED3D676EB58468D2B4175C0B66976BF73507ED4"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\checks.json",
+                                            "length":  2161,
+                                            "sha256":  "ECEA2B1E822E1438A0CB83A11CD963A1714FF25751CEB94E91A0260616BDCA2D"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\execution.json",
+                                            "length":  905,
+                                            "sha256":  "C50B475826435FE71F8FDE51388E801ED1B24721FE33DD47224D71CCFEF89037"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\manifest-verify.json",
+                                            "length":  313,
+                                            "sha256":  "43BA6ABB9EDFF942886842F29BC8D92E1812ADCE4D4C6B794925D3A3ADF17726"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\manifest.json",
+                                            "length":  8724,
+                                            "sha256":  "261C76F0CD9419BB19C0470C5A281334E2D5A982A0A4F463F74E9F1D9372142B"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\result.json",
+                                            "length":  4084,
+                                            "sha256":  "FF3E41A9951EC80E4DDB6B84955A2F396A60F5C2895A43696C1E93CE064A7427"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-0.log",
+                                            "length":  1289,
+                                            "sha256":  "30D4CF1594857600CBD1EAE7518182BD7B593FAB9A6CCC44264273F4913EA446"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-1.log",
+                                            "length":  1289,
+                                            "sha256":  "9F267BB86B391F89B19B32A8FF3D887C9174EB599E1F441E4C34008AF6E50DC0"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-0.log",
+                                            "length":  1096,
+                                            "sha256":  "0D09FE0E9177113A2FAE8ACB83648A7AF2750AC12280B932F2C2CD689AE885D8"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-1.log",
+                                            "length":  1272,
+                                            "sha256":  "C09CDED2861AB77A36DD2100C1F897956DB3E56D262A9C6048F5021E6A50C5C7"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\ipd-dist_tests_g3_portfolio_read_isolation.test.js.log",
+                                            "length":  961,
+                                            "sha256":  "CC5FED86C12D13D06442027265C9DD8DE6947B69712EEAC798D232B31D57A8DB"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\ipd-dist_tests_stage2_portfolio_read_snapshot.test.js.log",
+                                            "length":  1352,
+                                            "sha256":  "A00CBA4C11A49E38AF84FCC01D4777D0F91EC43BA5DFE1B84CEF6515C4F1DAA3"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-0\\w11-dep1-capture-20261124T201340Z-8f3f8c9c\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-0\\w11-dep1-capture-20261124T201340Z-8f3f8c9c\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "A320FBAE43D4569253E1E9AAF5D112E3413301C745A584568C91B04EFA4353EE"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-0\\w11-dep1-capture-20261124T201340Z-8f3f8c9c\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "93935EF6F8485E1EBB5D491918B6E014E10BA854BD7DAAB3637D4F6E4933F645"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-1\\w11-dep1-capture-20261124T201341Z-64ef62b4\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-1\\w11-dep1-capture-20261124T201341Z-64ef62b4\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "2371E71B158C20C045156D82EE593A457AC566719D89EC7D299DDF46BC67058C"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\capture-run-1\\w11-dep1-capture-20261124T201341Z-64ef62b4\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "07EF2F7CEC7F8D2527DB6546FF07BE649D245A1EE4C227CBB1B0150BD882C4DF"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-0\\w11-dep1-capture-20261124T201342Z-98d68d51\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-0\\w11-dep1-capture-20261124T201342Z-98d68d51\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  4993,
+                                            "sha256":  "551FB611C0AA55849608E25F8FD2DB58B287E02DE18AC5E38A9C97072F1818C0"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-0\\w11-dep1-capture-20261124T201342Z-98d68d51\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  5890,
+                                            "sha256":  "3F9C2A450D6D39F2C2853165AF1B6C1A0F58A9B628A615A0B6A7F53E0AECBD37"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-1\\w11-dep1-capture-20261124T201342Z-368051f4\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-1\\w11-dep1-capture-20261124T201342Z-368051f4\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "F94CC781E27382A1381B866C01CB36804FEE6289FCFF349E497A37A26F8E8739"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T201339Z\\output\\concurrent-1\\w11-dep1-capture-20261124T201342Z-368051f4\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "1389597054448D059E9EB6F6458ED6E2B439EF851393F24BCAEBC899663E11AC"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\checks.json",
+                                            "length":  2145,
+                                            "sha256":  "178B968B11C1732E4A3F4A5894C62D6A7AEF8BC2F07746C900BE0540152B80F0"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\execution.json",
+                                            "length":  905,
+                                            "sha256":  "8A24B6F7358057BB11C68B8140BD5A3242E6FD41AB780D26EBFA258C4DDC447C"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\manifest-verify.json",
+                                            "length":  313,
+                                            "sha256":  "E572678432BF05D1813A6C21946F1B5EA52E2AB6E5B1835518767FEA2012B170"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\manifest.json",
+                                            "length":  9078,
+                                            "sha256":  "EEF876E3C54FC7B43BD814524444719FE5AC863978733C61B0C51449E8C1093E"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\result.json",
+                                            "length":  4068,
+                                            "sha256":  "4C05D82D2886721D7D927F6EAF8D90B421E95089DB2CD555D238CAA6AA8A4884"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-0.log",
+                                            "length":  1289,
+                                            "sha256":  "80B1B5B944A26665C5E5B7F42ADE4439C0F6F8686EBF44710A3D138C1F72A0E5"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-1.log",
+                                            "length":  1289,
+                                            "sha256":  "4A3358B7D71DC534613945CDE4F8EA174BFB279EB9A685956F6D1772E2C7E5E7"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-0.log",
+                                            "length":  1272,
+                                            "sha256":  "FE3C46EDA8FA3EFBFCA7B1E458AEB383D451BC57A62671DF935B3B00755CA7BA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-1.log",
+                                            "length":  1272,
+                                            "sha256":  "57A9A1A219D83D5F158FB0B831AAC95A0FF6CD9D2B0D5F8267E190E5BCC9DA0A"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\ipd-dist_tests_g3_portfolio_read_isolation.test.js.log",
+                                            "length":  965,
+                                            "sha256":  "0DC601DC058FBFB7D9D07CE184C8AEE71AA0A49E784D831B54849D5DEDB58EDD"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\ipd-dist_tests_stage2_portfolio_read_snapshot.test.js.log",
+                                            "length":  1353,
+                                            "sha256":  "8ACC780C3F2D03133FC2740E257817332C1C909BF087F29568D1FFF6EF2105DF"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-0\\w11-dep1-capture-20261124T202256Z-164a2f07\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-0\\w11-dep1-capture-20261124T202256Z-164a2f07\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "C3E4DAAD81D9F2A625A70409330FC7CE237FEA2CE2D133F33FEFEF6B25350CD9"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-0\\w11-dep1-capture-20261124T202256Z-164a2f07\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "E82E1114059D694C7994F6E752112CBAE2F4BFCFC16EBD636CB9FDD2A185F755"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-1\\w11-dep1-capture-20261124T202257Z-880338d3\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-1\\w11-dep1-capture-20261124T202257Z-880338d3\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "FD929D383D7AD2FF5D776C2ED8559DBC026B52D1ABA62846F723DF0A6846A08D"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\capture-run-1\\w11-dep1-capture-20261124T202257Z-880338d3\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "FA13725381F38BAEA51725A31A828C88573C9D35C3C092666A6BE6FE170AFF3F"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-0\\w11-dep1-capture-20261124T202259Z-a1146cc0\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-0\\w11-dep1-capture-20261124T202259Z-a1146cc0\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "9585C529E4935E4D0034406F092EF835C013EC06B1CB7F39366C47F27F5945B3"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-0\\w11-dep1-capture-20261124T202259Z-a1146cc0\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "EBDD631E4C273CB5189176F11F95E66C259A6DDC6B83A80466595D2C6432D23C"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-1\\w11-dep1-capture-20261124T202259Z-942a944f\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-1\\w11-dep1-capture-20261124T202259Z-942a944f\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "D652B064D9CAD1F84586F114F6E53783C640BAD59A0390EC9AF449F9F2C16EC8"
+                                        },
+                                        {
+                                            "path":  "STL-01-W02-20261124T202255Z\\output\\concurrent-1\\w11-dep1-capture-20261124T202259Z-942a944f\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "122D69B1CC999BBDA1577754293F7D52A62FD0BFAA637605E89676EE4D82C42A"
+                                        }
+                                    ]
+                      },
+                      {
+                          "workItem":  "W03",
+                          "statusAttested":  "PASS",
+                          "sourceDirectory":  "G:\\IIPS-Evidence\\snapshot-to-live\\02-W03",
+                          "publishedDirectory":  "docs\\evidence\\snapshot-to-live\\W03",
+                          "fileCount":  33,
+                          "excludedDirectoryNames":  [
+                                                         "LOCAL-ONLY-DO-NOT-PUBLISH"
+                                                     ],
+                          "files":  [
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\checks.json",
+                                            "length":  2002,
+                                            "sha256":  "D5554175C81B0499236055526FDE17E0DDCC90A4375AEA8B6EBB6375E300BC41"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\execution.json",
+                                            "length":  920,
+                                            "sha256":  "98013B2836BD11432DE5A9DB18BC4892D0C35033A30C9C3811886736EF6D4EFB"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "D52E7A18AC97AABEDE2DAD3118B676AE097C42FB0ED2C78735E5868EAE360C09"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\manifest.json",
+                                            "length":  2477,
+                                            "sha256":  "378088E24F6B5B909989A80BDB76A615D2EC960CB82D3390B6665D6D69EE9566"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\result.json",
+                                            "length":  4235,
+                                            "sha256":  "59E7836D8681DB60FD79DA9F3CA3D146BBE38126075C4A50C2AE61331ADFA303"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\output\\api-user-portfolios-detail.json",
+                                            "length":  38407,
+                                            "sha256":  "021FD139B0C8B4A28A861A532E666E66087C1BEB41D6704A32174C32E8B2A464"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\output\\api-user-portfolios-holdings.json",
+                                            "length":  30,
+                                            "sha256":  "EC91EC953F76F533DF2F1366D908B4ECA3BA5E30BBE3ED15A03DFC9D573BE831"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\output\\api-user-portfolios-list.json",
+                                            "length":  652,
+                                            "sha256":  "2DED9D75F20DB1B2947E087F1D78D3E016B87953ACD3DCB0ABC5F0DFDBFA4E57"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\output\\api-user-portfolios-revisions.json",
+                                            "length":  881,
+                                            "sha256":  "58323F799A3FB730732FE270E6CAF96F387025C2BC858DC5FBADCCAA645C1AFE"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\output\\capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "9585C529E4935E4D0034406F092EF835C013EC06B1CB7F39366C47F27F5945B3"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T080425Z\\output\\reconciliation.json",
+                                            "length":  272,
+                                            "sha256":  "A42578149025D6D92DC184C3F3D6BBAF72A3FF32A7016A803BE9CC25E06B39C0"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\checks.json",
+                                            "length":  2002,
+                                            "sha256":  "D5554175C81B0499236055526FDE17E0DDCC90A4375AEA8B6EBB6375E300BC41"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\execution.json",
+                                            "length":  920,
+                                            "sha256":  "9046DFC0487DB0E41A19EE8D57D2BA139446990793D55C5CC9C6B7EBCF36E6BF"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "45ADF45BA26F5D8697EE903C347114E5BBF238C16973E7645E3EE422B2B49CF2"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\manifest.json",
+                                            "length":  2477,
+                                            "sha256":  "A0C893A6E023F2ACD985BE81784D79833389AE6B0E5A33CA703B8831596D0C51"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\result.json",
+                                            "length":  4235,
+                                            "sha256":  "8AE05B57838642328A360F310C7FF249015AA46A650DC1CA0CAE463FEF6EC5D9"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\output\\api-user-portfolios-detail.json",
+                                            "length":  38407,
+                                            "sha256":  "021FD139B0C8B4A28A861A532E666E66087C1BEB41D6704A32174C32E8B2A464"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\output\\api-user-portfolios-holdings.json",
+                                            "length":  30,
+                                            "sha256":  "EC91EC953F76F533DF2F1366D908B4ECA3BA5E30BBE3ED15A03DFC9D573BE831"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\output\\api-user-portfolios-list.json",
+                                            "length":  652,
+                                            "sha256":  "2DED9D75F20DB1B2947E087F1D78D3E016B87953ACD3DCB0ABC5F0DFDBFA4E57"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\output\\api-user-portfolios-revisions.json",
+                                            "length":  881,
+                                            "sha256":  "58323F799A3FB730732FE270E6CAF96F387025C2BC858DC5FBADCCAA645C1AFE"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\output\\capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "9585C529E4935E4D0034406F092EF835C013EC06B1CB7F39366C47F27F5945B3"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T095250Z\\output\\reconciliation.json",
+                                            "length":  272,
+                                            "sha256":  "A42578149025D6D92DC184C3F3D6BBAF72A3FF32A7016A803BE9CC25E06B39C0"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\checks.json",
+                                            "length":  2875,
+                                            "sha256":  "84125CCA8C038A28CA39E9344E32BC84F4EC089C8DFD85DD26589011BE4304DC"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\execution.json",
+                                            "length":  920,
+                                            "sha256":  "1154600B4BAE19E36D6C31555A7607E4F47DC567EC0D1373523780F1A13C416E"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "7548610938B271BFC61BCB9E1C44C7E15D7912F979D06BA8B929E410B4A9280A"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\manifest.json",
+                                            "length":  2477,
+                                            "sha256":  "6760C7F230F1F7FEB19E1B6A420FF1D450772968E3E99596CB4C22663420352B"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\result.json",
+                                            "length":  5258,
+                                            "sha256":  "BDC1059F092EE50C7C77F9E15BBC9C9F8643F6989B5B254CA5256EC5DE70634D"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\output\\api-user-portfolios-detail.json",
+                                            "length":  38407,
+                                            "sha256":  "021FD139B0C8B4A28A861A532E666E66087C1BEB41D6704A32174C32E8B2A464"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\output\\api-user-portfolios-holdings.json",
+                                            "length":  30,
+                                            "sha256":  "EC91EC953F76F533DF2F1366D908B4ECA3BA5E30BBE3ED15A03DFC9D573BE831"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\output\\api-user-portfolios-list.json",
+                                            "length":  652,
+                                            "sha256":  "2DED9D75F20DB1B2947E087F1D78D3E016B87953ACD3DCB0ABC5F0DFDBFA4E57"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\output\\api-user-portfolios-revisions.json",
+                                            "length":  881,
+                                            "sha256":  "58323F799A3FB730732FE270E6CAF96F387025C2BC858DC5FBADCCAA645C1AFE"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\output\\capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "9585C529E4935E4D0034406F092EF835C013EC06B1CB7F39366C47F27F5945B3"
+                                        },
+                                        {
+                                            "path":  "STL-02-W03-20261125T100309Z\\output\\reconciliation.json",
+                                            "length":  826,
+                                            "sha256":  "88C1BA2765E4794B89093EAA45B4FA7AE202B61F62F27854A521A7F414E37D98"
+                                        }
+                                    ]
+                      }
+                  ],
+    "note":  "Evidence copied without editing. Directories named LOCAL-ONLY-DO-NOT-PUBLISH are deliberately excluded. PASS is an explicit operator attestation; publication does not itself constitute formal work-item acceptance."
+}

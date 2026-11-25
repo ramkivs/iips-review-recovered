@@ -1,0 +1,155 @@
+{
+    "executionId":  "STL-01-W02-20261124T192044Z",
+    "workstream":  "W02",
+    "createdAtUtc":  "2026-11-24T19:20:48.065Z",
+    "algorithm":  "SHA-256",
+    "note":  "auto-sealed at completion",
+    "fileCount":  29,
+    "files":  [
+                  {
+                      "path":  "checks.json",
+                      "bytes":  2117,
+                      "sha256":  "b8a817ec83466b2b06d024711f4bb0a9f18cd9d4103e835c65120090a5b25b81"
+                  },
+                  {
+                      "path":  "execution.json",
+                      "bytes":  905,
+                      "sha256":  "8c2fb35a0f4c2c26e5d66cc865ace2d74433461bd4f4f49efd3e7d39a2f298dd"
+                  },
+                  {
+                      "path":  "result.json",
+                      "bytes":  4040,
+                      "sha256":  "661bb2cc2ee5018b6636c4d917f5bd084b6288386b0ab345fab721a37bf89f66"
+                  },
+                  {
+                      "path":  "output\\capture-run-0.log",
+                      "bytes":  1219,
+                      "sha256":  "a50d679a338eea98be95015d451f2a2ddaecd05edaf6d785f26960055a3724f8"
+                  },
+                  {
+                      "path":  "output\\capture-run-1.log",
+                      "bytes":  1219,
+                      "sha256":  "639cfca174b5c2ae933d3f16a019e10dca56423fa3999d2a778e71ab7f47d7f3"
+                  },
+                  {
+                      "path":  "output\\concurrent-0.log",
+                      "bytes":  1202,
+                      "sha256":  "c585d5ccbd349ba28bda8f5f5560edc1ebf1137dd4f9ae0a8d64a39bdcdd692d"
+                  },
+                  {
+                      "path":  "output\\concurrent-1.log",
+                      "bytes":  1202,
+                      "sha256":  "e4f9fc22651c2fbc2b6bf883ba4280626b7215d2f479948dac1012b3e767bb95"
+                  },
+                  {
+                      "path":  "output\\ipd-tests_g3_portfolio_read_isolation.test.ts.log",
+                      "bytes":  1697,
+                      "sha256":  "5585a241424c86a73bc9aed12428d158faa079476179588ef3378fb8ec0430d0"
+                  },
+                  {
+                      "path":  "output\\ipd-tests_stage2_portfolio_read_snapshot.test.ts.log",
+                      "bytes":  1721,
+                      "sha256":  "a61395692fc1afd83515aee457a4466a41cdd8615edde1595221774389d326a5"
+                  },
+                  {
+                      "path":  "output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\README.txt",
+                      "bytes":  476,
+                      "sha256":  "5d1a27cb07bd4cffa3fe964df9a37589d7fcbaedf00db9e4241d82e55cc3e8aa"
+                  },
+                  {
+                      "path":  "output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\LOCAL-ONLY-DO-NOT-PUBLISH\\portfolio-candidates.json",
+                      "bytes":  659,
+                      "sha256":  "51776ea574012ad6e393df41167140b60ae59bb15933e1d74e56d77e78bbf9f5"
+                  },
+                  {
+                      "path":  "output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\LOCAL-ONLY-DO-NOT-PUBLISH\\README-LOCAL-ONLY.txt",
+                      "bytes":  583,
+                      "sha256":  "2940e44fd65028f95088ef2873b6bbb9a245f26da963eb4cc9ec2c0180ded894"
+                  },
+                  {
+                      "path":  "output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                      "bytes":  4802,
+                      "sha256":  "fd887cf38331de4e7e9193bb1b862ed815d7066699622bda66a179c6b2cb61b4"
+                  },
+                  {
+                      "path":  "output\\capture-run-0\\w11-dep1-capture-20261124T192045Z-46588add\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                      "bytes":  5489,
+                      "sha256":  "4af5cbe044d6a297c111cb1add1bd054d7bbf1bf664dee087d60d067227b3cad"
+                  },
+                  {
+                      "path":  "output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\README.txt",
+                      "bytes":  476,
+                      "sha256":  "5d1a27cb07bd4cffa3fe964df9a37589d7fcbaedf00db9e4241d82e55cc3e8aa"
+                  },
+                  {
+                      "path":  "output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\LOCAL-ONLY-DO-NOT-PUBLISH\\portfolio-candidates.json",
+                      "bytes":  659,
+                      "sha256":  "51776ea574012ad6e393df41167140b60ae59bb15933e1d74e56d77e78bbf9f5"
+                  },
+                  {
+                      "path":  "output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\LOCAL-ONLY-DO-NOT-PUBLISH\\README-LOCAL-ONLY.txt",
+                      "bytes":  583,
+                      "sha256":  "2940e44fd65028f95088ef2873b6bbb9a245f26da963eb4cc9ec2c0180ded894"
+                  },
+                  {
+                      "path":  "output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                      "bytes":  4802,
+                      "sha256":  "88d36246d2d5168763017b372dc5240c7cff63f72aa431a69abd1dd33a06353d"
+                  },
+                  {
+                      "path":  "output\\capture-run-1\\w11-dep1-capture-20261124T192046Z-0e443b9a\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                      "bytes":  5489,
+                      "sha256":  "f118d01229af628447300c2edb65cefe57089acba82adb9bcfb2c7969807034a"
+                  },
+                  {
+                      "path":  "output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\README.txt",
+                      "bytes":  476,
+                      "sha256":  "5d1a27cb07bd4cffa3fe964df9a37589d7fcbaedf00db9e4241d82e55cc3e8aa"
+                  },
+                  {
+                      "path":  "output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\LOCAL-ONLY-DO-NOT-PUBLISH\\portfolio-candidates.json",
+                      "bytes":  659,
+                      "sha256":  "51776ea574012ad6e393df41167140b60ae59bb15933e1d74e56d77e78bbf9f5"
+                  },
+                  {
+                      "path":  "output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\LOCAL-ONLY-DO-NOT-PUBLISH\\README-LOCAL-ONLY.txt",
+                      "bytes":  583,
+                      "sha256":  "2940e44fd65028f95088ef2873b6bbb9a245f26da963eb4cc9ec2c0180ded894"
+                  },
+                  {
+                      "path":  "output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                      "bytes":  4802,
+                      "sha256":  "35e55ab00981b67d3ee7ba550003030f47b2f97b24396386039bcd290c7527b4"
+                  },
+                  {
+                      "path":  "output\\concurrent-0\\w11-dep1-capture-20261124T192047Z-bb49118b\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                      "bytes":  5489,
+                      "sha256":  "d48eccad6e157d6418dab367e5ee9bb13d70edf1dffb09e03b0f0814ea3d77e2"
+                  },
+                  {
+                      "path":  "output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\README.txt",
+                      "bytes":  476,
+                      "sha256":  "5d1a27cb07bd4cffa3fe964df9a37589d7fcbaedf00db9e4241d82e55cc3e8aa"
+                  },
+                  {
+                      "path":  "output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\LOCAL-ONLY-DO-NOT-PUBLISH\\portfolio-candidates.json",
+                      "bytes":  659,
+                      "sha256":  "51776ea574012ad6e393df41167140b60ae59bb15933e1d74e56d77e78bbf9f5"
+                  },
+                  {
+                      "path":  "output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\LOCAL-ONLY-DO-NOT-PUBLISH\\README-LOCAL-ONLY.txt",
+                      "bytes":  583,
+                      "sha256":  "2940e44fd65028f95088ef2873b6bbb9a245f26da963eb4cc9ec2c0180ded894"
+                  },
+                  {
+                      "path":  "output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                      "bytes":  4802,
+                      "sha256":  "0d0539e768573fd8751b7947664b32896b5c6a4f0240e1cdebb3c314f6ced0e6"
+                  },
+                  {
+                      "path":  "output\\concurrent-1\\w11-dep1-capture-20261124T192047Z-3653ad04\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                      "bytes":  5489,
+                      "sha256":  "2c2b74b1ecdce91119cfd5f9e9936e44ba07cc417e21c837ba3ee50635502715"
+                  }
+              ]
+}
