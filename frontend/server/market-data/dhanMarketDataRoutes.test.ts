@@ -827,6 +827,8 @@ describe('D-4.6 — D01/D02 exact security-identity symmetry', () => {
               suppressExecution: true,
               eligibleForUse: false,
               lastRefresh: { outcome: 'UNKNOWN', lastFailure: null },
+              calendarMode: 'NOT_APPLICABLE',
+              calendarAssessment: 'NOT_EVALUATED',
             };
       const text = JSON.stringify(payload);
       res.writeHead(200, { 'content-type': 'application/json', 'content-length': Buffer.byteLength(text) });

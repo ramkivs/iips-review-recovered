@@ -386,6 +386,52 @@ describe('DHAN-P5 freshness status projection', () => {
     expect(view.lastRefresh.lastFailure).toEqual({ code: 'REFRESH_FAILED', priorPreserved: false });
   });
 
+  it('preserves W-19 D02 provenance and W-22 calendar fields verbatim', () => {
+    const timestamps = {
+      marketTimestamp: '2026-11-19T00:00:00.000Z',
+      marketTimestampDerivation: 'SOURCE_DECLARED_CANDLE_PERIOD_START',
+      providerResponseTimestamp: null,
+      retrievalTimestamp: '2026-11-20T06:00:00.000Z',
+      cacheTimestamp: '2026-11-20T06:00:00.001Z',
+      evidence: {
+        marketTimestamp: 'DECLARED',
+        providerResponseTimestamp: 'NOT_DECLARED',
+        retrievalTimestamp: 'DECLARED',
+        cacheTimestamp: 'DECLARED',
+      },
+    };
+    const revision = {
+      state: 'BASELINE',
+      contentDigest: 'synthetic-digest',
+      priorContentDigest: null,
+    };
+    const view = projectIpdFreshnessStatus(
+      syntheticFreshnessStatus({
+        domain: 'D02_OHLCV',
+        cacheState: 'CURRENT',
+        verdict: 'GOOD',
+        calendarMode: 'NOT_APPLICABLE',
+        calendarAssessment: 'NOT_EVALUATED',
+        timestamps,
+        timestampStates: timestamps.evidence,
+        revision,
+        evidenceSource: 'HISTORICAL_CACHE',
+        refreshOutcome: 'SUCCESS',
+      }) as never,
+    );
+
+    expect(view.timestamps).toEqual(timestamps);
+    expect(view.timestampStates).toEqual(timestamps.evidence);
+    expect(view.revision).toEqual(revision);
+    expect(view.evidenceSource).toBe('HISTORICAL_CACHE');
+    expect(view.refreshOutcome).toBe('SUCCESS');
+    expect(view.calendarMode).toBe('NOT_APPLICABLE');
+    expect(view.calendarAssessment).toBe('NOT_EVALUATED');
+    expect(view.evidenceAvailable).toBe(true);
+    expect(view.freshness).toBe('SNAPSHOT');
+    expect(view.freshness).not.toBe('LIVE');
+  });
+
   it('marks the evidence as unavailable for a NOT_AVAILABLE cache state', () => {
     const view = projectIpdFreshnessStatus(
       syntheticFreshnessStatus({
