@@ -399,12 +399,12 @@ describe('DHAN-P5 freshness status projection', () => {
         retrievalTimestamp: 'DECLARED',
         cacheTimestamp: 'DECLARED',
       },
-    };
+    } as const;
     const revision = {
       state: 'BASELINE',
       contentDigest: 'synthetic-digest',
       priorContentDigest: null,
-    };
+    } as const;
     const view = projectIpdFreshnessStatus(
       syntheticFreshnessStatus({
         domain: 'D02_OHLCV',
