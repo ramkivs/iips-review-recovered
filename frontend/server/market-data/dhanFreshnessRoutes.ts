@@ -156,13 +156,31 @@ export interface DhanFreshnessView {
     readonly outcome: string;
     readonly lastFailure: { readonly code: string; readonly priorPreserved: boolean } | null;
   };
+  /** W-22 session-calendar fields, echoed verbatim when IPD reports them. */
+  readonly calendarMode?: IpdFreshnessStatus['calendarMode'];
+  readonly calendarAssessment?: IpdFreshnessStatus['calendarAssessment'];
+  readonly ageBasis?: IpdFreshnessStatus['ageBasis'];
+  readonly basis?: IpdFreshnessStatus['basis'];
+  readonly sessionState?: IpdFreshnessStatus['sessionState'];
+  readonly calendarVersion?: IpdFreshnessStatus['calendarVersion'];
+  readonly completedTradingDays?: IpdFreshnessStatus['completedTradingDays'];
+  readonly calendarIssue?: IpdFreshnessStatus['calendarIssue'];
+  /** W-19 D02 provenance fields, echoed verbatim when IPD reports them. */
+  readonly timestamps?: IpdFreshnessStatus['timestamps'];
+  readonly timestampStates?: IpdFreshnessStatus['timestampStates'];
+  readonly revision?: IpdFreshnessStatus['revision'];
+  readonly evidenceSource?: IpdFreshnessStatus['evidenceSource'];
+  readonly refreshOutcome?: IpdFreshnessStatus['refreshOutcome'];
   /**
    * Whether this domain's cache and refresh evidence is available at all.
    *
-   * For D02 this is false: IPD's composed D02 service does not wire the historical cache or
-   * the refresh orchestrator, so it reports `NOT_AVAILABLE` / `UNKNOWN` regardless of what
-   * has been served. The flag exists so the UI can state the limitation rather than let a
-   * reader assume the series was never refreshed.
+   * Derived from IPD's cache state alone. A W-19 D02 report with
+   * `evidenceSource: 'NO_OBSERVATION'` carries `cacheState: 'NOT_AVAILABLE'` and reports the
+   * verdict as `UNKNOWN`, so this flag is false and the view states the limitation. When IPD
+   * retains evidence (`evidenceSource: 'HISTORICAL_CACHE'`), that retained evidence is
+   * published verbatim in the W-19 fields above and is not replaced by an inferred snapshot.
+   * The flag exists so the UI can state what IPD actually holds rather than let a reader
+   * assume the series was never refreshed.
    */
   readonly evidenceAvailable: boolean;
   /**
@@ -204,6 +222,19 @@ export function projectIpdFreshnessStatus(status: IpdFreshnessStatus): DhanFresh
     },
     evidenceAvailable,
     explanation: explainIpdFreshnessStatus(status, evidenceAvailable),
+    ...(status.calendarMode !== undefined ? { calendarMode: status.calendarMode } : {}),
+    ...(status.calendarAssessment !== undefined ? { calendarAssessment: status.calendarAssessment } : {}),
+    ...(status.ageBasis !== undefined ? { ageBasis: status.ageBasis } : {}),
+    ...(status.basis !== undefined ? { basis: status.basis } : {}),
+    ...(status.sessionState !== undefined ? { sessionState: status.sessionState } : {}),
+    ...(status.calendarVersion !== undefined ? { calendarVersion: status.calendarVersion } : {}),
+    ...(status.completedTradingDays !== undefined ? { completedTradingDays: status.completedTradingDays } : {}),
+    ...(status.calendarIssue !== undefined ? { calendarIssue: status.calendarIssue } : {}),
+    ...(status.timestamps !== undefined ? { timestamps: status.timestamps } : {}),
+    ...(status.timestampStates !== undefined ? { timestampStates: status.timestampStates } : {}),
+    ...(status.revision !== undefined ? { revision: status.revision } : {}),
+    ...(status.evidenceSource !== undefined ? { evidenceSource: status.evidenceSource } : {}),
+    ...(status.refreshOutcome !== undefined ? { refreshOutcome: status.refreshOutcome } : {}),
   };
 }
 

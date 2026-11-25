@@ -86,17 +86,22 @@ const frontendRoot = resolve(here, '..', '..');
  * (`1`) and `validateDhanServiceHealth`. Legacy payloads remain parseable; unknown values
  * and unsupported versions fail closed. It is superseded by `d80d773…`.
  *
- * `2685562522f1a2fd1d745a7857f771bf21453315` is the published IPD `main` merge of PR #176
+ * `26855625…` is the published IPD `main` merge of PR #176
  * (*"Serialize Dhan quote security IDs as numbers on the current main lineage"*). Advancing
- * the primary pin from `1ce6a829…` brings IPD's numeric quote security-ID serialization
+ * the primary pin from `1ce6a829…` brought IPD's numeric quote security-ID serialization
  * (`DhanApiClient.buildQuoteRequestBody`) and `vendorHttpStatus` transport failure diagnostics
- * into IRR's pinned dependency. The advance is additive: every `./dhan-server` export the
- * existing consumers use remains published. The materialized broker-import alias is UNCHANGED.
+ * into IRR's pinned dependency; it is superseded by the W-26 advance below.
+ *
+ * `02786a778881e25821ecc8c62b12b33981e7e4c3` is the published IPD `main` merge of PR #197
+ * (W-26): it adds `MarketDataTransportClient.getFreshness()`, the fail-closed freshness wire
+ * validator and `MARKET_DATA_ROUTES.freshness`. Advancing the primary pin from `26855625…`
+ * adopts that contract; all previously consumed `./dhan-server` exports remain published.
+ * The materialized broker-import alias is UNCHANGED.
  *
  * `1ce6a829…` is the prior published IPD `main` merge carrying W-10 (`POST /v1/connection/verify`),
- * superseded by `26855625…` for PR #176 numeric quote serialization.
+ * superseded by `26855625…` for PR #176 numeric quote serialization, and then by `02786a77…`.
  */
-export const EXPECTED_IPD_PIN_SHA = '2685562522f1a2fd1d745a7857f771bf21453315';
+export const EXPECTED_IPD_PIN_SHA = '02786a778881e25821ecc8c62b12b33981e7e4c3';
 
 /**
  * The W-10 verify pin, retained so a silent rollback cannot go unnoticed.

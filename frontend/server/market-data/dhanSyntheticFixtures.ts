@@ -24,6 +24,13 @@
  *   themselves state that they are synthetic.
  */
 
+import type {
+  DhanFreshnessTimestamps,
+  DhanHistoricalRevision,
+  DhanTimestampEvidence,
+  FreshnessStatus,
+} from 'iips-production-market-data/dhan-server';
+
 /** The data version stamped on every synthetic envelope, so a synthetic response is self-identifying. */
 export const SYNTHETIC_DATA_VERSION = 'synthetic-fixture-v1';
 
@@ -212,11 +219,22 @@ export function syntheticFreshnessStatus(options: {
   readonly eligibleForUse?: boolean;
   readonly lastRefreshOutcome?: string;
   readonly lastFailure?: { readonly code: string; readonly priorPreserved: boolean } | null;
+  readonly calendarMode?: FreshnessStatus['calendarMode'];
+  readonly calendarAssessment?: FreshnessStatus['calendarAssessment'];
+  readonly timestamps?: DhanFreshnessTimestamps;
+  readonly timestampStates?: DhanTimestampEvidence;
+  readonly revision?: DhanHistoricalRevision | null;
+  readonly evidenceSource?: FreshnessStatus['evidenceSource'];
+  readonly refreshOutcome?: FreshnessStatus['refreshOutcome'];
 } = {}): Record<string, unknown> {
   const domain = options.domain ?? 'D01_QUOTES';
+  const cacheState = options.cacheState ?? 'CURRENT';
+  // W-22: a D02 domain with no observation has no session to assess. Every other synthetic
+  // fixture remains in the legacy elapsed-time mode with no calendar configured.
+  const noD02Evidence = domain === 'D02_OHLCV' && cacheState === 'NOT_AVAILABLE';
   return {
     domain,
-    cacheState: options.cacheState ?? 'CURRENT',
+    cacheState,
     asOf: options.asOf === undefined ? SYNTHETIC_AS_OF : options.asOf,
     timestampEvidence: options.timestampEvidence ?? 'VALID',
     receivedAt: options.receivedAt === undefined ? SYNTHETIC_RECEIVED_AT : options.receivedAt,
@@ -235,6 +253,16 @@ export function syntheticFreshnessStatus(options: {
       outcome: options.lastRefreshOutcome ?? 'SUCCESS',
       lastFailure: options.lastFailure ?? null,
     },
+    calendarMode:
+      options.calendarMode ??
+      (noD02Evidence ? 'NOT_APPLICABLE' : 'LEGACY_ELAPSED_UNQUALIFIED'),
+    calendarAssessment:
+      options.calendarAssessment ?? (noD02Evidence ? 'NOT_EVALUATED' : 'NOT_CONFIGURED'),
+    ...(options.timestamps !== undefined ? { timestamps: options.timestamps } : {}),
+    ...(options.timestampStates !== undefined ? { timestampStates: options.timestampStates } : {}),
+    ...(options.revision !== undefined ? { revision: options.revision } : {}),
+    ...(options.evidenceSource !== undefined ? { evidenceSource: options.evidenceSource } : {}),
+    ...(options.refreshOutcome !== undefined ? { refreshOutcome: options.refreshOutcome } : {}),
   };
 }
 

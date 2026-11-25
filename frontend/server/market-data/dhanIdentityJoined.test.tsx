@@ -201,9 +201,7 @@ describe('joined IPD → IRR → quote presentation (synthetic provider only)', 
   });
 
   it('preserves identity for provider, authentication and identity errors; they remain errors', async () => {
-    status = 403; body = '{}'; let result = await postIrr(request);
-    expect(result.status).not.toBe(200); expect(result.body.error.code).toBe('AUTHENTICATION_FAILURE');
-    status = 400; body = '{"errorCode":"806"}'; result = await postIrr(request);
+    status = 400; body = '{"errorCode":"806"}'; let result = await postIrr(request);
     expect(result.status).not.toBe(200); expect(result.body.error.code).toBe('HTTP_ERROR');
     status = 200; body = providerBody(1520, '27/09/2026 14:36:13', '999'); result = await postIrr(request);
     expect(result.status).not.toBe(200); expect(result.body.error.code).toBe('INSTRUMENT_NOT_IN_RESPONSE');
@@ -216,5 +214,10 @@ describe('joined IPD → IRR → quote presentation (synthetic provider only)', 
     expect(unauthenticated.status).toBe(401); expect(calls).toHaveLength(before);
     failTransport = true; result = await postIrr(request);
     expect(result.status).not.toBe(200); expect(result.body.error.code).toBe('TRANSPORT_FAILURE');
+    // IPD W-05 (in the W-26 pin): a 403 spends the credential session's single bounded
+    // re-read and then latches the failed-auth state. Run this case last so the latch cannot
+    // mask the distinct HTTP_ERROR / INSTRUMENT_NOT_IN_RESPONSE / TRANSPORT_FAILURE cases.
+    failTransport = false; status = 403; body = '{}'; result = await postIrr(request);
+    expect(result.status).not.toBe(200); expect(result.body.error.code).toBe('AUTHENTICATION_FAILURE');
   });
 });
