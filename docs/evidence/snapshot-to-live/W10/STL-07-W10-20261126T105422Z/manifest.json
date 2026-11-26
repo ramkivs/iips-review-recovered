@@ -1,0 +1,45 @@
+{
+    "executionId":  "STL-07-W10-20261126T105422Z",
+    "workstream":  "W10",
+    "createdAtUtc":  "2026-11-26T10:54:29.431Z",
+    "algorithm":  "SHA-256",
+    "note":  "auto-sealed at completion",
+    "fileCount":  7,
+    "files":  [
+                  {
+                      "path":  "checks.json",
+                      "bytes":  1725,
+                      "sha256":  "a154b2163e1e03e1aca1dcc2c09101f2273540579b5d4fce3cb0905c2b33e3dc"
+                  },
+                  {
+                      "path":  "execution.json",
+                      "bytes":  964,
+                      "sha256":  "6bd626dbdc7ecfb8875cdf816479d94a3fc7d7046c16063d8ed7f6edf6fa202b"
+                  },
+                  {
+                      "path":  "result.json",
+                      "bytes":  3816,
+                      "sha256":  "e45560f22a21dad0cf315fe519ee67be820dfe827805f8f237f9880ab1f16d26"
+                  },
+                  {
+                      "path":  "output\\identities-route-response.json",
+                      "bytes":  175725,
+                      "sha256":  "8ef63c309493f9cec0e55f818e7809dfcf069a4acc136b5ff2d5bd2741e43ffc"
+                  },
+                  {
+                      "path":  "output\\investment-coverage-route.json",
+                      "bytes":  22244,
+                      "sha256":  "03142e51df4e5082226ab6ef16a836e2d17b10f35c8227c659369cf28fb99e1b"
+                  },
+                  {
+                      "path":  "output\\w10-platform-suites.log",
+                      "bytes":  6183,
+                      "sha256":  "858dee3cc6c5498a17294dcf923cf92917e47ade5f8c4ecca3171b201f01cd11"
+                  },
+                  {
+                      "path":  "output\\w10-qualification-summary.json",
+                      "bytes":  885,
+                      "sha256":  "5ae855ede8c6cedee82fee112eb17844a074c171eb86fb2298df7165f215e3a4"
+                  }
+              ]
+}

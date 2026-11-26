@@ -1,0 +1,56 @@
+{
+    "executionId":  "STL-06-W09-20261126T044337Z",
+    "seq":  "06",
+    "workstream":  "W09",
+    "objective":  "Verify the actual persisted-data read path and revision consistency through the IRR API transport (two read cycles + capture cross-check; refuse, never repair).",
+    "result":  "PASS",
+    "startedAtUtc":  "2026-11-26T04:43:37.187Z",
+    "finishedAtUtc":  "2026-11-26T04:43:41.394Z",
+    "irrCommit":  "e5245b28e94636efbaa6807f26140ad7622a75f8",
+    "irrDirty":  false,
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "checks":  [
+                   {
+                       "Id":  "irr-api-health",
+                       "Ok":  true,
+                       "Detail":  "GET /api/health -\u003e 200"
+                   },
+                   {
+                       "Id":  "capture-consistent",
+                       "Ok":  true,
+                       "Detail":  "fresh capture exit=0 (0=CONSISTENT_CAPTURE)"
+                   },
+                   {
+                       "Id":  "cycles-200",
+                       "Ok":  true,
+                       "Detail":  "cycle0 detail/revisions = 200/200; cycle1 = 200/200"
+                   },
+                   {
+                       "Id":  "cycles-same-revision",
+                       "Ok":  true,
+                       "Detail":  "both cycles revision=4 and 4 equal=True"
+                   },
+                   {
+                       "Id":  "cycles-same-digest",
+                       "Ok":  true,
+                       "Detail":  "digest equality between cycles=True (value never recorded)"
+                   },
+                   {
+                       "Id":  "revisions-history-single-entry",
+                       "Ok":  true,
+                       "Detail":  "exactly one history entry at the returned revision in both cycles: True/True"
+                   },
+                   {
+                       "Id":  "cross-portfolio-limitation-disclosed",
+                       "Ok":  true,
+                       "Detail":  "sources.ts:128-140 list-then-get may read different revisions per portfolio; recorded as a disclosed limitation - no cross-service atomicity is asserted (roadmap rule)"
+                   }
+               ],
+    "failedCheckCount":  0,
+    "diagnostics":  [
+
+                    ],
+    "downstreamNote":  "PASS gives W09 actual persisted-data read-path evidence (with W03 counts and W02 concurrency) and unblocks downstream actual-data integration verification (W13/W16/W17 consume this capture ref).",
+    "resumeRequirement":  "IPD G3 IPC provider running + bound, .env.local names loaded in this window, IRR API healthy on :8787, G: writable."
+}

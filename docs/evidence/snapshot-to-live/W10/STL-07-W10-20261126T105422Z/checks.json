@@ -1,0 +1,42 @@
+[
+    {
+        "Id":  "irr-api-health",
+        "Ok":  true,
+        "Detail":  "GET /api/health -\u003e 200"
+    },
+    {
+        "Id":  "w10-platform-suites",
+        "Ok":  true,
+        "Detail":  "w10 mapping+qualification suites exit=0"
+    },
+    {
+        "Id":  "investment-coverage-200",
+        "Ok":  true,
+        "Detail":  "GET /api/investment/coverage/investment?asOf=2026-11-26 -\u003e 200"
+    },
+    {
+        "Id":  "identities-route-200",
+        "Ok":  true,
+        "Detail":  "GET /api/investment/coverage?asOf=2026-11-26 -\u003e 200"
+    },
+    {
+        "Id":  "optional-leg-issuer-values",
+        "Ok":  false,
+        "Detail":  "coverage-response row for ISIN:INE009A01021:EQ: found=True isin= exchange= symbol=INFY (read from raw.isin/raw.exchange/raw.symbol of the matching identities-route item, never derived from the securityId string)"
+    },
+    {
+        "Id":  "optional-leg-daemon-8791",
+        "Ok":  true,
+        "Detail":  "daemon availability probe 127.0.0.1:8791 -\u003e TCP connect to 127.0.0.1:8791 succeeded"
+    },
+    {
+        "Id":  "optional-leg-identity-qualify",
+        "Ok":  true,
+        "Detail":  "qualification POST not executed - gate failed: issuer isin/exchange/symbol not found in the coverage response for ISIN:INE009A01021:EQ; - unavailable optional leg, distinguished from a successfully executed qualification request"
+    },
+    {
+        "Id":  "sufficiency-verdict-recorded",
+        "Ok":  true,
+        "Detail":  "W11 sufficiency verdict: NOT sufficient today (53/115; no actual issuer qualifies) - W11 actual execution remains refused QUALIFICATION_NOT_QUALIFIED until W10 authorisation improves"
+    }
+]

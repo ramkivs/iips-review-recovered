@@ -1,0 +1,66 @@
+{
+    "executionId":  "STL-07-W10-20261126T122720Z",
+    "seq":  "07",
+    "workstream":  "W10",
+    "objective":  "Verify issuer-specific engine-input mapping and source/period qualification: platform W10 suites + served investment-coverage report + at most one identity-qualify call for the resolved issuer.",
+    "result":  "FAIL",
+    "startedAtUtc":  "2026-11-26T12:27:20.518Z",
+    "finishedAtUtc":  "2026-11-26T12:27:27.651Z",
+    "irrCommit":  "ca71a03b81037dfa8e6bee75ea599ace616dd717",
+    "irrDirty":  true,
+    "ipdCommit":  "68249bc9755ac680b0948a7e139399e0aac6c677",
+    "ipdDirty":  true,
+    "checks":  [
+                   {
+                       "Id":  "irr-api-health",
+                       "Ok":  true,
+                       "Detail":  "GET /api/health -\u003e 200"
+                   },
+                   {
+                       "Id":  "w10-platform-suites",
+                       "Ok":  true,
+                       "Detail":  "w10 mapping+qualification suites exit=0"
+                   },
+                   {
+                       "Id":  "investment-coverage-200",
+                       "Ok":  true,
+                       "Detail":  "GET /api/investment/coverage/investment?asOf=2026-11-26 -\u003e 200"
+                   },
+                   {
+                       "Id":  "identities-route-200",
+                       "Ok":  true,
+                       "Detail":  "GET /api/investment/coverage?asOf=2026-11-26 -\u003e 200"
+                   },
+                   {
+                       "Id":  "optional-leg-issuer-values",
+                       "Ok":  true,
+                       "Detail":  "coverage-response row for ISIN:INE009A01021:EQ: found=True isin=INE009A01021 (raw[\u0027securityIdentity.isin\u0027], cross-checked vs the securityId ISIN segment) exchange=NSE (resolved from binding.listingId via the canonical listing-ID parser) symbol=INFY (raw.symbol); validated isin=True exchange=True symbol=True"
+                   },
+                   {
+                       "Id":  "optional-leg-daemon-8791",
+                       "Ok":  true,
+                       "Detail":  "daemon availability probe 127.0.0.1:8791 -\u003e TCP connect to 127.0.0.1:8791 succeeded"
+                   },
+                   {
+                       "Id":  "identity-qualify-one-call",
+                       "Ok":  true,
+                       "Detail":  "POST /api/dhan/identity/qualify {isin=INE009A01021, exchange=NSE, symbol=INFY} for resolved securityId ISIN:INE009A01021:EQ -\u003e HTTP 503 (single attempt, no retry; response body preserved verbatim; actual status recorded)"
+                   },
+                   {
+                       "Id":  "identity-qualify-succeeded",
+                       "Ok":  false,
+                       "Detail":  "qualification request successful ONLY on 2xx; actual HTTP status 503 - non-2xx is captured but NOT successful, never inferred from body or attempt"
+                   },
+                   {
+                       "Id":  "sufficiency-verdict-recorded",
+                       "Ok":  true,
+                       "Detail":  "W11 sufficiency verdict: NOT sufficient today (53/115; no actual issuer qualifies) - W11 actual execution remains refused QUALIFICATION_NOT_QUALIFIED until W10 authorisation improves"
+                   }
+               ],
+    "failedCheckCount":  1,
+    "diagnostics":  [
+
+                    ],
+    "downstreamNote":  "PASS records the mapping/qualification evidence. W11 actual execution (step 09) proceeds ONLY for a sufficiently qualified issuer - today none qualifies, so step 09 records the refusal rather than executing. Improving W10 (the 62 unauthorised inputs, a methodology decision) is what would unblock W11 actual execution.",
+    "resumeRequirement":  "iips-platform deps installed; IRR API healthy; optional qualify leg needs only the IPD daemon on 127.0.0.1:8791 (no env-file inspection)."
+}

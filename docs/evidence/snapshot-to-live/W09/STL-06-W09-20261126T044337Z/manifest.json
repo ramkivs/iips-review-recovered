@@ -1,0 +1,80 @@
+{
+    "executionId":  "STL-06-W09-20261126T044337Z",
+    "workstream":  "W09",
+    "createdAtUtc":  "2026-11-26T04:43:41.491Z",
+    "algorithm":  "SHA-256",
+    "note":  "auto-sealed at completion",
+    "fileCount":  14,
+    "files":  [
+                  {
+                      "path":  "checks.json",
+                      "bytes":  1170,
+                      "sha256":  "90f15512e397e847b78ae95682728eb4dbfb70cbcbb439b0c6514eecaf3aab58"
+                  },
+                  {
+                      "path":  "execution.json",
+                      "bytes":  932,
+                      "sha256":  "2c6b4cfa538192bb7c73ae23924085657e6144d1f35846ae4430a19bdb63da6f"
+                  },
+                  {
+                      "path":  "result.json",
+                      "bytes":  2758,
+                      "sha256":  "07cfaeb9313872874bba84cc18457066349388cf140b544d27c32a6c19ff9d36"
+                  },
+                  {
+                      "path":  "output\\capture-run.log",
+                      "bytes":  1260,
+                      "sha256":  "9d84eb5e7024f558257644db38be52c4ea2b4ac365c42dca7518b8a665314988"
+                  },
+                  {
+                      "path":  "output\\cycles-summary.json",
+                      "bytes":  649,
+                      "sha256":  "5c7dfd712fad50da1e0089b31cf62035532dad59e0c70b02f4c47a4d48901f24"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\README.txt",
+                      "bytes":  476,
+                      "sha256":  "5d1a27cb07bd4cffa3fe964df9a37589d7fcbaedf00db9e4241d82e55cc3e8aa"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\LOCAL-ONLY-DO-NOT-PUBLISH\\exact-owner-bound-portfolio-capture.json",
+                      "bytes":  252931,
+                      "sha256":  "d2c6854a37b4f88de7547008d6e9eaed726e7094d34520493c628636ddf42e7c"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\LOCAL-ONLY-DO-NOT-PUBLISH\\README-LOCAL-ONLY.txt",
+                      "bytes":  583,
+                      "sha256":  "2940e44fd65028f95088ef2873b6bbb9a245f26da963eb4cc9ec2c0180ded894"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                      "bytes":  9338,
+                      "sha256":  "9af65f3ebf98983783c9e8b1c78c7d784d36c3a171038d90e555f09d36a3a9d1"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                      "bytes":  9998,
+                      "sha256":  "402367d833768ce15b49e8a8bdc663364beb05367a960043dce020d2cfd46b77"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-0\\detail.json",
+                      "bytes":  38407,
+                      "sha256":  "021fd139b0c8b4a28a861a532e666e66087c1beb41d6704a32174c32e8b2a464"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-0\\revisions.json",
+                      "bytes":  881,
+                      "sha256":  "58323f799a3fb730732fe270e6caf96f387025c2bc858dc5fbadccaa645c1afe"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-1\\detail.json",
+                      "bytes":  38407,
+                      "sha256":  "021fd139b0c8b4a28a861a532e666e66087c1beb41d6704a32174c32e8b2a464"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-1\\revisions.json",
+                      "bytes":  881,
+                      "sha256":  "58323f799a3fb730732fe270e6caf96f387025c2bc858dc5fbadccaa645c1afe"
+                  }
+              ]
+}

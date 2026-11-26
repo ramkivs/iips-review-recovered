@@ -1,0 +1,20 @@
+{
+    "executionId":  "STL-07-W10-20261126T105422Z",
+    "seq":  "07",
+    "workstream":  "W10",
+    "objective":  "Verify issuer-specific engine-input mapping and source/period qualification: platform W10 suites + served investment-coverage report + at most one identity-qualify call for the resolved issuer.",
+    "startedAtUtc":  "2026-11-26T10:54:22.728Z",
+    "evidenceRoot":  "G:\\IIPS-Evidence",
+    "packageDir":  "G:\\IIPS-Evidence\\snapshot-to-live\\07-W10\\STL-07-W10-20261126T105422Z",
+    "irrRoot":  "C:\\tmp\\iips-review-recovered",
+    "irrCommit":  "ca71a03b81037dfa8e6bee75ea599ace616dd717",
+    "irrDirty":  true,
+    "ipdRoot":  "H:\\IIPS\\iips-production-market-data",
+    "ipdCommit":  "68249bc9755ac680b0948a7e139399e0aac6c677",
+    "ipdDirty":  true,
+    "ipdRevisionOk":  true,
+    "apiBaseUrl":  "http://127.0.0.1:8787",
+    "portfolioId":  "DHAN_PORTFOLIO",
+    "machine":  "DESKTOP-NO0NHTP",
+    "userName":  "USER"
+}

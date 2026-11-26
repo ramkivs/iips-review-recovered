@@ -1,0 +1,1 @@
+{"error":{"code":"TRANSPORT_NOT_CONFIGURED","message":"The server-side IPD identity transport is not configured; no request was sent to IPD.","requiredSettings":["IIPS_MARKET_DATA_TRANSPORT_URL","IIPS_MARKET_DATA_TRANSPORT_TOKEN"]}}

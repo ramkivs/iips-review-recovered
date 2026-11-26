@@ -1,6 +1,6 @@
 ﻿{
     "publicationType":  "STL_EVIDENCE_ONLY",
-    "updatedAtUtc":  "2026-11-25T13:10:07.1285444Z",
+    "updatedAtUtc":  "2026-11-26T17:32:04.7388015Z",
     "branch":  "evidence/stl-w02-w12-publication",
     "remote":  "origin",
     "remoteUrl":  "https://github.com/ramkivs/iips-review-recovered.git",
@@ -797,6 +797,490 @@
                                             "path":  "STL-02-W03-20261125T100309Z\\output\\reconciliation.json",
                                             "length":  826,
                                             "sha256":  "88C1BA2765E4794B89093EAA45B4FA7AE202B61F62F27854A521A7F414E37D98"
+                                        }
+                                    ]
+                      },
+                      {
+                          "workItem":  "W09",
+                          "statusAttested":  "PASS",
+                          "sourceDirectory":  "G:\\IIPS-Evidence\\snapshot-to-live\\06-W09",
+                          "publishedDirectory":  "docs\\evidence\\snapshot-to-live\\W09",
+                          "fileCount":  30,
+                          "excludedDirectoryNames":  [
+                                                         "LOCAL-ONLY-DO-NOT-PUBLISH"
+                                                     ],
+                          "files":  [
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\checks.json",
+                                            "length":  2084,
+                                            "sha256":  "4C15D9F998342408B81F4BB08481D4B2A7A5EA8140FE08E7715DFC1B5D3055D0"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\execution.json",
+                                            "length":  938,
+                                            "sha256":  "D7D9D6F1199DD923B9B4E9C5EB6CA4B70E8DAD5FA541B252581597452D0D07D1"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\manifest-verify.json",
+                                            "length":  313,
+                                            "sha256":  "1224B7F0501A0CC3203083ABBDD106F570D6D9579BACD8F67C11712B971C3243"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\manifest.json",
+                                            "length":  4626,
+                                            "sha256":  "6EA5DC0E0FCBA57CA51F8D48F18A13A6DEBD4F196813CB3B5F34931F7066295B"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\result.json",
+                                            "length":  4125,
+                                            "sha256":  "4D8016D4E0E722F32112BCD6CF1A067B379D57031462E8607CB77B4CDE32A772"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\capture-run.log",
+                                            "length":  1260,
+                                            "sha256":  "82B1C01E8012F17C300EF9DEFC0B7228D15C07D2BD20C8F99491A6380CE3B944"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\cycles-summary.json",
+                                            "length":  603,
+                                            "sha256":  "EBB35AA1EFB7238372D94A2B7100DE213F38C4A828C6D13D0012923909610C37"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "CA30A49620D6BA67BBA33C3B1754B397DB5489B6622BEEA82A182796B233F4AF"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "FC31E4CF6357DD8434F65AD30388A7449DD2E4E764D2B3C02AAAF761F5E7A4DC"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\read-cycles\\cycle-0\\detail.json",
+                                            "length":  38407,
+                                            "sha256":  "021FD139B0C8B4A28A861A532E666E66087C1BEB41D6704A32174C32E8B2A464"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\read-cycles\\cycle-0\\holdings.json",
+                                            "length":  30,
+                                            "sha256":  "EC91EC953F76F533DF2F1366D908B4ECA3BA5E30BBE3ED15A03DFC9D573BE831"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\read-cycles\\cycle-0\\revisions.json",
+                                            "length":  881,
+                                            "sha256":  "58323F799A3FB730732FE270E6CAF96F387025C2BC858DC5FBADCCAA645C1AFE"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\read-cycles\\cycle-1\\detail.json",
+                                            "length":  38407,
+                                            "sha256":  "021FD139B0C8B4A28A861A532E666E66087C1BEB41D6704A32174C32E8B2A464"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\read-cycles\\cycle-1\\holdings.json",
+                                            "length":  30,
+                                            "sha256":  "EC91EC953F76F533DF2F1366D908B4ECA3BA5E30BBE3ED15A03DFC9D573BE831"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261125T163728Z\\output\\read-cycles\\cycle-1\\revisions.json",
+                                            "length":  881,
+                                            "sha256":  "58323F799A3FB730732FE270E6CAF96F387025C2BC858DC5FBADCCAA645C1AFE"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\checks.json",
+                                            "length":  1170,
+                                            "sha256":  "90F15512E397E847B78AE95682728EB4DBFB70CBCBB439B0C6514EECAF3AAB58"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\execution.json",
+                                            "length":  932,
+                                            "sha256":  "2C6B4CFA538192BB7C73AE23924085657E6144D1F35846AE4430A19BDB63DA6F"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\manifest-verify.json",
+                                            "length":  313,
+                                            "sha256":  "FD72E6472F02ED815CC4BF10E278B6ACCB677A8A949F6F23FAA8506837F49992"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\manifest.json",
+                                            "length":  4106,
+                                            "sha256":  "540CF63BBBD399A52537CEB1227D0B5A9EF35480D0050599F61201CF535C192A"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\result.json",
+                                            "length":  2758,
+                                            "sha256":  "07CFAEB9313872874BBA84CC18457066349388CF140B544D27C32A6C19FF9D36"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\capture-run.log",
+                                            "length":  1260,
+                                            "sha256":  "9D84EB5E7024F558257644DB38BE52C4EA2B4AC365C42DCA7518B8A665314988"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\cycles-summary.json",
+                                            "length":  649,
+                                            "sha256":  "5C7DFD712FAD50DA1E0089B31CF62035532DAD59E0C70B02F4C47A4D48901F24"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\README.txt",
+                                            "length":  476,
+                                            "sha256":  "5D1A27CB07BD4CFFA3FE964DF9A37589D7FCBAEDF00DB9E4241D82E55CC3E8AA"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                                            "length":  9338,
+                                            "sha256":  "9AF65F3EBF98983783C9E8B1C78C7D784D36C3A171038D90E555F09D36A3A9D1"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\capture\\w11-dep1-capture-20261126T044340Z-7e23c7dd\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                                            "length":  9998,
+                                            "sha256":  "402367D833768CE15B49E8A8BDC663364BEB05367A960043DCE020D2CFD46B77"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\read-cycles\\cycle-0\\detail.json",
+                                            "length":  38407,
+                                            "sha256":  "021FD139B0C8B4A28A861A532E666E66087C1BEB41D6704A32174C32E8B2A464"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\read-cycles\\cycle-0\\revisions.json",
+                                            "length":  881,
+                                            "sha256":  "58323F799A3FB730732FE270E6CAF96F387025C2BC858DC5FBADCCAA645C1AFE"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\read-cycles\\cycle-1\\detail.json",
+                                            "length":  38407,
+                                            "sha256":  "021FD139B0C8B4A28A861A532E666E66087C1BEB41D6704A32174C32E8B2A464"
+                                        },
+                                        {
+                                            "path":  "STL-06-W09-20261126T044337Z\\output\\read-cycles\\cycle-1\\revisions.json",
+                                            "length":  881,
+                                            "sha256":  "58323F799A3FB730732FE270E6CAF96F387025C2BC858DC5FBADCCAA645C1AFE"
+                                        }
+                                    ]
+                      },
+                      {
+                          "workItem":  "W10",
+                          "statusAttested":  "PASS",
+                          "sourceDirectory":  "G:\\IIPS-Evidence\\snapshot-to-live\\07-W10",
+                          "publishedDirectory":  "docs\\evidence\\snapshot-to-live\\W10",
+                          "fileCount":  62,
+                          "excludedDirectoryNames":  [
+                                                         "LOCAL-ONLY-DO-NOT-PUBLISH"
+                                                     ],
+                          "files":  [
+                                        {
+                                            "path":  "STL-07-W10-20261126T073446Z\\checks.json",
+                                            "length":  1190,
+                                            "sha256":  "8749AB7771C30D5F60305526C2ABB103AB17871F73F9306AA75CD0DE53DFDB0A"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T073446Z\\execution.json",
+                                            "length":  965,
+                                            "sha256":  "F14970B7D04E44D01AC4A472E30CBD8D516FC528BDC85D9003EEDA22C6FFEB26"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T073446Z\\result.json",
+                                            "length":  3088,
+                                            "sha256":  "1776901E4B5D1D498B1D33D115E4518FDF0A06047C32DA19EDD49C86D8C1811A"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T073446Z\\output\\investment-coverage-route.json",
+                                            "length":  22244,
+                                            "sha256":  "03142E51DF4E5082226AB6EF16A836E2D17B10F35C8227C659369CF28FB99E1B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T073446Z\\output\\w10-platform-suites.log",
+                                            "length":  12116,
+                                            "sha256":  "E8579148CF70BC1CDC522119E627DBDDF9723C2C9388B9670900D2F569623ECE"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T073446Z\\output\\w10-qualification-summary.json",
+                                            "length":  735,
+                                            "sha256":  "D43059007921CF31B64D72C3106E99288572BF13F94E9EA079DF34C16654C7CA"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\checks.json",
+                                            "length":  1190,
+                                            "sha256":  "8749AB7771C30D5F60305526C2ABB103AB17871F73F9306AA75CD0DE53DFDB0A"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\execution.json",
+                                            "length":  965,
+                                            "sha256":  "212463352963D30578639E402A2019B526B9EE173AD3D924C421D66436C33B66"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "B38F18220F5C42EB9B2C828D114BED90A22EE3240DA2D3B28979FFB878B3B5C3"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\manifest.json",
+                                            "length":  1718,
+                                            "sha256":  "5C65F49C3EC9017E3240A4B6FA6B35D1FA63870511EB76FC22D898467EB00553"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\result.json",
+                                            "length":  3088,
+                                            "sha256":  "B9924EBDE42D2750EB4013D93F72490C63EE4F61B5605497CDDDFCD9471E46C6"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\output\\investment-coverage-route.json",
+                                            "length":  22244,
+                                            "sha256":  "03142E51DF4E5082226AB6EF16A836E2D17B10F35C8227C659369CF28FB99E1B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\output\\w10-platform-suites.log",
+                                            "length":  12116,
+                                            "sha256":  "E8579148CF70BC1CDC522119E627DBDDF9723C2C9388B9670900D2F569623ECE"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T074820Z\\output\\w10-qualification-summary.json",
+                                            "length":  735,
+                                            "sha256":  "D43059007921CF31B64D72C3106E99288572BF13F94E9EA079DF34C16654C7CA"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\checks.json",
+                                            "length":  1430,
+                                            "sha256":  "B614800B3B53032BF79D615D2FAD7F220D9E4C7BF448A2E3223FF24D01B24AA9"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\execution.json",
+                                            "length":  964,
+                                            "sha256":  "E422F566C7A692A6E4198DB5AF498BE514D6DB79DA7BE0096EA96E192D6B3209"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "C7A3AC137C13A2F3E2D580DD85EE14068CED6F144A21D526F16041D8964634DC"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\manifest.json",
+                                            "length":  1972,
+                                            "sha256":  "1897D044D8F9B2FF0E4A171EF78551F618738368500CC6C2505F629F86EB217A"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\result.json",
+                                            "length":  3196,
+                                            "sha256":  "24EC7271C897F93705BB76390B9F5192C7D82F0B8FF2745A22F4ED28388E9AA4"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\output\\identity-qualify-response.json",
+                                            "length":  97,
+                                            "sha256":  "60FAB4D500CC4527A9489C7DE3F54C41694A927F3741B7F9AF48EA8FF0866840"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\output\\investment-coverage-route.json",
+                                            "length":  22244,
+                                            "sha256":  "03142E51DF4E5082226AB6EF16A836E2D17B10F35C8227C659369CF28FB99E1B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\output\\w10-platform-suites.log",
+                                            "length":  6213,
+                                            "sha256":  "717ED1722A2B8C6700F6380E7208F355B8AEFD5E06E976A60001D354AE19C20A"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T082732Z\\output\\w10-qualification-summary.json",
+                                            "length":  644,
+                                            "sha256":  "BBDD79C00B2C291B4C762655D1C92D2D586925EB1E8D0D471585414F8DA2986D"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\checks.json",
+                                            "length":  1725,
+                                            "sha256":  "A154B2163E1E03E1ACA1DCC2C09101F2273540579B5D4FCE3CB0905C2B33E3DC"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\execution.json",
+                                            "length":  964,
+                                            "sha256":  "6BD626DBDC7ECFB8875CDF816479D94A3FC7D7046C16063D8ED7F6EDF6FA202B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "21CDABE0FAD4D8CCD6157665C6F5C04C52E0B2D1EFE7DF99D0A0116E4ED652C1"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\manifest.json",
+                                            "length":  1976,
+                                            "sha256":  "0DE6CA6550F689E68D7245924FAA269097B31A2ED6C5318A09D11633363E2AA0"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\result.json",
+                                            "length":  3816,
+                                            "sha256":  "E45560F22A21DAD0CF315FE519EE67BE820DFE827805F8F237F9880AB1F16D26"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\output\\identities-route-response.json",
+                                            "length":  175725,
+                                            "sha256":  "8EF63C309493F9CEC0E55F818E7809DFCF069A4ACC136B5FF2D5BD2741E43FFC"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\output\\investment-coverage-route.json",
+                                            "length":  22244,
+                                            "sha256":  "03142E51DF4E5082226AB6EF16A836E2D17B10F35C8227C659369CF28FB99E1B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\output\\w10-platform-suites.log",
+                                            "length":  6183,
+                                            "sha256":  "858DEE3CC6C5498A17294DCF923CF92917E47ADE5F8C4ECCA3171B201F01CD11"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T105422Z\\output\\w10-qualification-summary.json",
+                                            "length":  885,
+                                            "sha256":  "5AE855EDE8C6CEDEE82FEE112EB17844A074C171EB86FB2298DF7165F215E3A4"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\checks.json",
+                                            "length":  2077,
+                                            "sha256":  "4311DBF36FD32F75B2898916862C1A754204CB3629735BF1F49D6E06AF6E2CA7"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\execution.json",
+                                            "length":  964,
+                                            "sha256":  "EBDDE7979E77BEA3C4620D4ECC0DF7DFDFC9AD7A3587CE82205416C13349A17A"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "4CCDC1099EF9F5044E958F3037B9CCF869106F41B0EDA6BC7B9FFA3A4A8517C2"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\manifest.json",
+                                            "length":  2232,
+                                            "sha256":  "47B0D5734D33024D1EEEE2C95779A816E7ECA3C60808B90A738B2F1416E46CE3"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\result.json",
+                                            "length":  3993,
+                                            "sha256":  "7C861DA3805E0397015491E1335873B1C33CF01FE0C51B7F2558F553A3C322E3"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\output\\identities-route-response.json",
+                                            "length":  175725,
+                                            "sha256":  "8EF63C309493F9CEC0E55F818E7809DFCF069A4ACC136B5FF2D5BD2741E43FFC"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\output\\identity-qualify-response.json",
+                                            "length":  232,
+                                            "sha256":  "DFE0EFB500979135B50C0796787291EFB50BB0D5A6096F3EFB3A52E6484CB52F"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\output\\investment-coverage-route.json",
+                                            "length":  22244,
+                                            "sha256":  "03142E51DF4E5082226AB6EF16A836E2D17B10F35C8227C659369CF28FB99E1B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\output\\w10-platform-suites.log",
+                                            "length":  6188,
+                                            "sha256":  "E7A8713952DD98CC587C3F7DD2A73D123B55549194297876142DBF363F636B67"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T122720Z\\output\\w10-qualification-summary.json",
+                                            "length":  765,
+                                            "sha256":  "D1560F8B6A3F856A04079C1F5D31B186D9615684C15F58BC018D309D35A3F801"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\checks.json",
+                                            "length":  2077,
+                                            "sha256":  "4311DBF36FD32F75B2898916862C1A754204CB3629735BF1F49D6E06AF6E2CA7"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\execution.json",
+                                            "length":  964,
+                                            "sha256":  "17D17AAE804A17D74D35048906B5F32CFA39B4710AC2719D2FA154F7EF9BE1C2"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "34FC79150DC3CA2E823F69A06B4333432D5171654CC3AF96C2FCAD9186107B6E"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\manifest.json",
+                                            "length":  2232,
+                                            "sha256":  "9436D76D2CBF277DD4ED5902F153779E45CA61F62EC5D6815EF555096DE2877B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\result.json",
+                                            "length":  3993,
+                                            "sha256":  "A60FE4115F29E79023844515BCF8E6525391EEC0296FCFEBA46305E5DDC5B18A"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\output\\identities-route-response.json",
+                                            "length":  175725,
+                                            "sha256":  "8EF63C309493F9CEC0E55F818E7809DFCF069A4ACC136B5FF2D5BD2741E43FFC"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\output\\identity-qualify-response.json",
+                                            "length":  232,
+                                            "sha256":  "DFE0EFB500979135B50C0796787291EFB50BB0D5A6096F3EFB3A52E6484CB52F"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\output\\investment-coverage-route.json",
+                                            "length":  22244,
+                                            "sha256":  "03142E51DF4E5082226AB6EF16A836E2D17B10F35C8227C659369CF28FB99E1B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\output\\w10-platform-suites.log",
+                                            "length":  6186,
+                                            "sha256":  "A752F677199B79951A26AF683EE2406F6E92093BDFA99AD7EE16EB5977351998"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T160922Z\\output\\w10-qualification-summary.json",
+                                            "length":  765,
+                                            "sha256":  "D1560F8B6A3F856A04079C1F5D31B186D9615684C15F58BC018D309D35A3F801"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\checks.json",
+                                            "length":  2076,
+                                            "sha256":  "DA1B80948D85BAF958329E0AAA02C07FA2139E472BC6C4EB7EA2A67EACD08297"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\execution.json",
+                                            "length":  964,
+                                            "sha256":  "328DEF22E506CAB3CB0A7EEB19BA8560295FF703FCAF9D352DF399A50DB5C301"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\manifest-verify.json",
+                                            "length":  311,
+                                            "sha256":  "B870874B408D141FBA27A785F57A3C8D9CE100FFE5B79B1560D2664B82A01E9D"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\manifest.json",
+                                            "length":  2232,
+                                            "sha256":  "0D9BC2F49C6FFA95E5C51C28269BE52222C760D7CAE26328EA4F0BCA90B340C4"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\result.json",
+                                            "length":  3992,
+                                            "sha256":  "D7E674C99FDF1C4AED90D651D26EA0E083E6EE47DA08F5A1C3C2BCA1AFA58CE1"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\output\\identities-route-response.json",
+                                            "length":  175725,
+                                            "sha256":  "8EF63C309493F9CEC0E55F818E7809DFCF069A4ACC136B5FF2D5BD2741E43FFC"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\output\\identity-qualify-response.json",
+                                            "length":  326,
+                                            "sha256":  "774BFF8F936B2592906984573847C34942FFC39743C3FC36211AC0140755E5B2"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\output\\investment-coverage-route.json",
+                                            "length":  22244,
+                                            "sha256":  "03142E51DF4E5082226AB6EF16A836E2D17B10F35C8227C659369CF28FB99E1B"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\output\\w10-platform-suites.log",
+                                            "length":  6181,
+                                            "sha256":  "07502C7EB206454F10551E7D6D517DBC90CBA89ADA596CE29B5234F0786D823E"
+                                        },
+                                        {
+                                            "path":  "STL-07-W10-20261126T162536Z\\output\\w10-qualification-summary.json",
+                                            "length":  764,
+                                            "sha256":  "2DD7F22B356B25AF8FFF3D0963FA0A18332E69C64F91E10BFE4801BD66B976F9"
                                         }
                                     ]
                       }

@@ -1,0 +1,62 @@
+[
+    {
+        "Id":  "irr-api-health",
+        "Ok":  true,
+        "Detail":  "GET /api/health -\u003e 200"
+    },
+    {
+        "Id":  "capture-prerequisites",
+        "Ok":  true,
+        "Detail":  "G3 pipe=True; IIPS_G2_IPC_ENDPOINT present=True; IIPS_G3_IPC_BINDING_PROVISIONED present=True; capture CLI present=True; npx.cmd available=True"
+    },
+    {
+        "Id":  "capture-command-exit-zero",
+        "Ok":  true,
+        "Detail":  "fresh capture command exit=0"
+    },
+    {
+        "Id":  "capture-summary-valid",
+        "Ok":  false,
+        "Detail":  "capture exited zero but required sanitized summary file is missing"
+    },
+    {
+        "Id":  "cycles-200",
+        "Ok":  false,
+        "Detail":  "cycle0 detail/revisions/holdings=200/200/405; cycle1=200/200/405"
+    },
+    {
+        "Id":  "cycles-holdings-counts-present",
+        "Ok":  false,
+        "Detail":  "cycle0 holdings count=; cycle1 holdings count="
+    },
+    {
+        "Id":  "cycles-same-holdings-count",
+        "Ok":  false,
+        "Detail":  "holdings counts equal across cycles=False"
+    },
+    {
+        "Id":  "cycles-same-revision",
+        "Ok":  false,
+        "Detail":  "both cycles revision= and  equal=False"
+    },
+    {
+        "Id":  "cycles-same-digest",
+        "Ok":  false,
+        "Detail":  "non-empty digest equality between cycles=False (value never recorded)"
+    },
+    {
+        "Id":  "revisions-history-single-entry",
+        "Ok":  false,
+        "Detail":  "exactly one history entry at the returned revision in both cycles: False/False"
+    },
+    {
+        "Id":  "capture-vs-api-cross-check",
+        "Ok":  false,
+        "Detail":  "cross-check not performed because no valid fresh capture is available"
+    },
+    {
+        "Id":  "cross-portfolio-limitation-disclosed",
+        "Ok":  true,
+        "Detail":  "sources.ts:128-140 list-then-get may read different revisions per portfolio; recorded as a disclosed limitation - no cross-service atomicity is asserted (roadmap rule)"
+    }
+]

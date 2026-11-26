@@ -1,0 +1,17 @@
+{
+    "asOf":  "2026-11-26",
+    "portfolioId":  "DHAN_PORTFOLIO",
+    "resolvedSecurityId":  "ISIN:INE009A01021:EQ",
+    "authorisedInputs":  53,
+    "unauthorisedInputs":  62,
+    "requiredInputs":  115,
+    "note":  "Census of record Â§16.327 Â§4 (2026-11-12 W10 record): 53/115 authorised; only Banking structurally qualifiable. Unsupported metrics remain withheld. Sufficient for W11 actual execution? NO today - recorded verdict, not a failure of this step.",
+    "qualifyCallMade":  true,
+    "qualifyRequestIsin":  "INE009A01021",
+    "qualifyRequestExchange":  "NSE",
+    "qualifyRequestSymbol":  "INFY",
+    "qualifyHttpStatus":  503,
+    "qualifyResponseCaptured":  true,
+    "qualifySucceeded":  false,
+    "qualifySkipReason":  ""
+}

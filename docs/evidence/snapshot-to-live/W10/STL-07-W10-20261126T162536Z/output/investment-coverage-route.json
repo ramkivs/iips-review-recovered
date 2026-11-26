@@ -1,0 +1,822 @@
+{
+  "reportVersion": 1,
+  "availabilitySemantics": "EXISTENTIAL_ANNUAL_PERIOD",
+  "asOf": "2026-11-26",
+  "generatedAt": "2026-11-26T00:00:00.000Z",
+  "dataset": {
+    "datasetVersion": "NONE",
+    "contentDigest": "",
+    "provider": "none",
+    "licence": "none",
+    "dataAsOf": null,
+    "knownAsOf": null,
+    "lastImportAt": "",
+    "importRunId": "",
+    "quality": "unavailable",
+    "completenessPct": 0,
+    "datasetClass": "NONE",
+    "sourceRights": null,
+    "issuers": 0,
+    "securities": 0,
+    "listings": 0,
+    "annualPeriods": 0,
+    "quarterlyPeriods": 0,
+    "prices": 0,
+    "operatingMetricRecords": 0,
+    "corporateActions": 0,
+    "earliestPeriodEnd": null,
+    "latestPeriodEnd": null
+  },
+  "sectors": [
+    {
+      "sector": "Auto",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "PE_RELATIVE",
+        "EV_EBITDA",
+        "EV_REVENUE"
+      ],
+      "methods": [
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "AU_CAPACITY_UTILISATION",
+            "AU_MARKET_SHARE"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Banking",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "RESIDUAL_INCOME",
+        "PB_RELATIVE",
+        "DIVIDEND_DISCOUNT"
+      ],
+      "methods": [
+        {
+          "methodId": "RESIDUAL_INCOME",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "NET_PROFIT",
+            "TOTAL_EQUITY",
+            "BOOK_VALUE_PER_SHARE",
+            "BM_NIM",
+            "BM_GNPA",
+            "BM_CET1"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PB_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "BOOK_VALUE_PER_SHARE",
+            "BM_GNPA"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "DIVIDEND_DISCOUNT",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "DIVIDENDS_PAID",
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Capital Markets",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "P_AUM",
+        "PE_RELATIVE",
+        "DCF_FCFF"
+      ],
+      "methods": [
+        {
+          "methodId": "P_AUM",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "NET_PROFIT",
+            "TOTAL_EQUITY",
+            "CM_AUM",
+            "CM_COST_TO_INCOME"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "DCF_FCFF",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Consumer",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 100,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "PE_RELATIVE",
+        "EV_EBITDA"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Energy",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDAX",
+        "NAV_RESERVES"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDAX",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "EM_LIFTING_COST"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "NAV_RESERVES",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "TOTAL_ASSETS",
+            "EM_RESERVE_REPLACEMENT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Healthcare",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA",
+        "PE_RELATIVE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "HC_OCCUPANCY",
+            "HC_ARPOB"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Hospitality",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA",
+        "PE_RELATIVE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "HM_REVPAR"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Industrials",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA",
+        "EV_REVENUE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "IN_BOOK_TO_BILL"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Insurance",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "P_EMBEDDED_VALUE",
+        "PE_RELATIVE"
+      ],
+      "methods": [
+        {
+          "methodId": "P_EMBEDDED_VALUE",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "NET_PROFIT",
+            "TOTAL_EQUITY",
+            "IM_EMBEDDED_VALUE",
+            "IM_VNB_MARGIN",
+            "IM_SOLVENCY"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Materials",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "EV_EBITDA",
+        "NAV_RESERVES"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "NAV_RESERVES",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "TOTAL_ASSETS",
+            "MM_RESERVE_LIFE",
+            "MM_COST_POSITION"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Technology",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "PE_RELATIVE",
+        "EV_EBITDA",
+        "EV_REVENUE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PE_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EPS_DILUTED",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_EBITDA",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "EV_REVENUE",
+          "role": "CROSS_CHECK",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "TM_NRR",
+            "TM_RECURRING_REVENUE_PCT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Telecom",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "EV_SUBSCRIBER",
+        "DCF_FCFF"
+      ],
+      "methods": [
+        {
+          "methodId": "EV_SUBSCRIBER",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "EBITDA",
+            "NET_DEBT",
+            "TL_SUBSCRIBERS",
+            "TL_ARPU"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "DCF_FCFF",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    },
+    {
+      "sector": "Utilities",
+      "issuersConsidered": [],
+      "annualPeriodsConsidered": 0,
+      "statementCoveragePct": 0,
+      "operatingMetricCoveragePct": 0,
+      "stage": "UNMEASURED",
+      "measured": false,
+      "usableMethods": [],
+      "withheldMethods": [
+        "DCF_FCFF",
+        "PB_RELATIVE",
+        "REGULATED_ASSET_BASE"
+      ],
+      "methods": [
+        {
+          "methodId": "DCF_FCFF",
+          "role": "PRIMARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "REVENUE_FROM_OPERATIONS",
+            "EBITDA",
+            "OPERATING_CASH_FLOW",
+            "CAPITAL_EXPENDITURE",
+            "TOTAL_EQUITY",
+            "NET_PROFIT"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "PB_RELATIVE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "BOOK_VALUE_PER_SHARE"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        },
+        {
+          "methodId": "REGULATED_ASSET_BASE",
+          "role": "SECONDARY",
+          "state": "WITHHELD",
+          "reason": "NO_DATA_FOR_SECTOR",
+          "missing": [
+            "TOTAL_ASSETS",
+            "UM_RAB",
+            "UM_ALLOWED_ROE"
+          ],
+          "issuersAvailable": [],
+          "issuersConsidered": 0
+        }
+      ]
+    }
+  ],
+  "measuredSectors": 0,
+  "totalSectors": 13,
+  "outstandingSectors": [
+    "Auto",
+    "Banking",
+    "Capital Markets",
+    "Consumer",
+    "Energy",
+    "Healthcare",
+    "Hospitality",
+    "Industrials",
+    "Insurance",
+    "Materials",
+    "Technology",
+    "Telecom",
+    "Utilities"
+  ],
+  "offVocabularyIssuers": [],
+  "issuers": [],
+  "counts": {
+    "observed": 0,
+    "COVERED": 0,
+    "NO_FINANCIALS": 0,
+    "SECTOR_NOT_MEASURED": 0,
+    "ISSUED_DATA": 0
+  },
+  "issues": [],
+  "financialCoverage": {
+    "measuredSectors": 0,
+    "totalSectors": 13,
+    "outstandingSectors": [
+      "Auto",
+      "Banking",
+      "Capital Markets",
+      "Consumer",
+      "Energy",
+      "Healthcare",
+      "Hospitality",
+      "Industrials",
+      "Insurance",
+      "Materials",
+      "Technology",
+      "Telecom",
+      "Utilities"
+    ],
+    "usableMethods": 0,
+    "withheldMethods": 38,
+    "xbrlMappedTags": 22,
+    "derivationItems": 8,
+    "unmappedTagsObserved": [],
+    "datasetClass": "NONE",
+    "note": "Identity coverage says whether a row has a defensible issuer/security/listing. It says nothing about whether the issuer has usable fundamentals: 0 of 13 sectors have been measured, 22 XBRL tags are mapped and 8 items are derivable. An identity-resolved security is not a covered sector."
+  },
+  "statusLine": "No investment dataset is installed: no issuer is covered.",
+  "notes": [
+    "Investment coverage describes what the served dataset holds. It is not identity coverage: a row here states the dataset position for an issuer, and says nothing about whether that issuer has a defensible security or listing.",
+    "Identity coverage is a separate read. Where the identity sources could not be loaded, that is disclosed per row and in this report's identity disclosure — it never removes the investment-coverage position.",
+    "No investment dataset is installed, so there is nothing to cover. This is a disclosed position, not a failure of this surface.",
+    "Method availability is HISTORICAL, and existential over annual periods: a method is available when at least one eligible issuer and annual period carries every input it declares. It is not a statement that the latest period supports the method, and it is not a statement that an assessment would produce a figure. Each issuer row separates the two: `latestPeriodAvailable` (qualifies at the newest annual period), `earlierPeriodsOnly` (available historically, not at the newest period) and `neverAvailable` (no period qualifies). Missing, stale, incomplete or invalid latest inputs keep withholding or blocking; nothing is substituted with a zero or with an older value."
+  ],
+  "identitySourcesAvailable": true,
+  "identitySourceDetail": null
+}

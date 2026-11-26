@@ -1,0 +1,20 @@
+{
+    "executionId":  "STL-06-W09-20261125T163728Z",
+    "seq":  "06",
+    "workstream":  "W09",
+    "objective":  "Verify the actual persisted-data read path and revision consistency through the IRR API transport (two read cycles + fresh capture cross-check; refuse, never repair).",
+    "startedAtUtc":  "2026-11-25T16:37:28.675Z",
+    "evidenceRoot":  "G:\\IIPS-Evidence",
+    "packageDir":  "G:\\IIPS-Evidence\\snapshot-to-live\\06-W09\\STL-06-W09-20261125T163728Z",
+    "irrRoot":  "C:\\tmp\\iips-review-recovered",
+    "irrCommit":  "e5245b28e94636efbaa6807f26140ad7622a75f8",
+    "irrDirty":  false,
+    "ipdRoot":  "H:\\IIPS\\iips-production-market-data",
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "ipdRevisionOk":  true,
+    "apiBaseUrl":  "http://127.0.0.1:8787",
+    "portfolioId":  "DHAN_PORTFOLIO",
+    "machine":  "DESKTOP-NO0NHTP",
+    "userName":  "USER"
+}

@@ -1,0 +1,81 @@
+{
+    "executionId":  "STL-06-W09-20261125T163728Z",
+    "seq":  "06",
+    "workstream":  "W09",
+    "objective":  "Verify the actual persisted-data read path and revision consistency through the IRR API transport (two read cycles + fresh capture cross-check; refuse, never repair).",
+    "result":  "FAIL",
+    "startedAtUtc":  "2026-11-25T16:37:28.675Z",
+    "finishedAtUtc":  "2026-11-25T16:37:33.718Z",
+    "irrCommit":  "e5245b28e94636efbaa6807f26140ad7622a75f8",
+    "irrDirty":  false,
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "checks":  [
+                   {
+                       "Id":  "irr-api-health",
+                       "Ok":  true,
+                       "Detail":  "GET /api/health -\u003e 200"
+                   },
+                   {
+                       "Id":  "capture-prerequisites",
+                       "Ok":  true,
+                       "Detail":  "G3 pipe=True; IIPS_G2_IPC_ENDPOINT present=True; IIPS_G3_IPC_BINDING_PROVISIONED present=True; capture CLI present=True; npx.cmd available=True"
+                   },
+                   {
+                       "Id":  "capture-command-exit-zero",
+                       "Ok":  true,
+                       "Detail":  "fresh capture command exit=0"
+                   },
+                   {
+                       "Id":  "capture-summary-valid",
+                       "Ok":  false,
+                       "Detail":  "capture exited zero but required sanitized summary file is missing"
+                   },
+                   {
+                       "Id":  "cycles-200",
+                       "Ok":  false,
+                       "Detail":  "cycle0 detail/revisions/holdings=200/200/405; cycle1=200/200/405"
+                   },
+                   {
+                       "Id":  "cycles-holdings-counts-present",
+                       "Ok":  false,
+                       "Detail":  "cycle0 holdings count=; cycle1 holdings count="
+                   },
+                   {
+                       "Id":  "cycles-same-holdings-count",
+                       "Ok":  false,
+                       "Detail":  "holdings counts equal across cycles=False"
+                   },
+                   {
+                       "Id":  "cycles-same-revision",
+                       "Ok":  false,
+                       "Detail":  "both cycles revision= and  equal=False"
+                   },
+                   {
+                       "Id":  "cycles-same-digest",
+                       "Ok":  false,
+                       "Detail":  "non-empty digest equality between cycles=False (value never recorded)"
+                   },
+                   {
+                       "Id":  "revisions-history-single-entry",
+                       "Ok":  false,
+                       "Detail":  "exactly one history entry at the returned revision in both cycles: False/False"
+                   },
+                   {
+                       "Id":  "capture-vs-api-cross-check",
+                       "Ok":  false,
+                       "Detail":  "cross-check not performed because no valid fresh capture is available"
+                   },
+                   {
+                       "Id":  "cross-portfolio-limitation-disclosed",
+                       "Ok":  true,
+                       "Detail":  "sources.ts:128-140 list-then-get may read different revisions per portfolio; recorded as a disclosed limitation - no cross-service atomicity is asserted (roadmap rule)"
+                   }
+               ],
+    "failedCheckCount":  8,
+    "diagnostics":  [
+                        "Fresh capture summary missing after exit zero."
+                    ],
+    "downstreamNote":  "PASS gives W09 actual persisted-data read-path evidence (with W03 counts and W02 concurrency) and unblocks downstream actual-data integration verification (W13/W16/W17 consume this capture ref).",
+    "resumeRequirement":  "IPD G3 IPC provider running + bound, .env.local names loaded in this window, IRR API healthy on :8787, G: writable."
+}

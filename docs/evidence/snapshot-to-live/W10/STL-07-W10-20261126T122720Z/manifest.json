@@ -1,0 +1,50 @@
+{
+    "executionId":  "STL-07-W10-20261126T122720Z",
+    "workstream":  "W10",
+    "createdAtUtc":  "2026-11-26T12:27:27.691Z",
+    "algorithm":  "SHA-256",
+    "note":  "auto-sealed at completion",
+    "fileCount":  8,
+    "files":  [
+                  {
+                      "path":  "checks.json",
+                      "bytes":  2077,
+                      "sha256":  "4311dbf36fd32f75b2898916862c1a754204cb3629735bf1f49d6e06af6e2ca7"
+                  },
+                  {
+                      "path":  "execution.json",
+                      "bytes":  964,
+                      "sha256":  "ebdde7979e77bea3c4620d4ecc0df7dfdfc9ad7a3587ce82205416c13349a17a"
+                  },
+                  {
+                      "path":  "result.json",
+                      "bytes":  3993,
+                      "sha256":  "7c861da3805e0397015491e1335873b1c33cf01fe0c51b7f2558f553a3c322e3"
+                  },
+                  {
+                      "path":  "output\\identities-route-response.json",
+                      "bytes":  175725,
+                      "sha256":  "8ef63c309493f9cec0e55f818e7809dfcf069a4acc136b5ff2d5bd2741e43ffc"
+                  },
+                  {
+                      "path":  "output\\identity-qualify-response.json",
+                      "bytes":  232,
+                      "sha256":  "dfe0efb500979135b50c0796787291efb50bb0d5a6096f3efb3a52e6484cb52f"
+                  },
+                  {
+                      "path":  "output\\investment-coverage-route.json",
+                      "bytes":  22244,
+                      "sha256":  "03142e51df4e5082226ab6ef16a836e2d17b10f35c8227c659369cf28fb99e1b"
+                  },
+                  {
+                      "path":  "output\\w10-platform-suites.log",
+                      "bytes":  6188,
+                      "sha256":  "e7a8713952dd98cc587c3f7dd2a73d123b55549194297876142dbf363f636b67"
+                  },
+                  {
+                      "path":  "output\\w10-qualification-summary.json",
+                      "bytes":  765,
+                      "sha256":  "d1560f8b6a3f856a04079c1f5d31b186d9615684c15f58bc018d309d35a3f801"
+                  }
+              ]
+}

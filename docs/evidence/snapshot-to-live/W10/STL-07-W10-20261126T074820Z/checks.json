@@ -1,0 +1,32 @@
+[
+    {
+        "Id":  "irr-api-health",
+        "Ok":  true,
+        "Detail":  "GET /api/health -\u003e 200"
+    },
+    {
+        "Id":  "w10-platform-suites",
+        "Ok":  false,
+        "Detail":  "w10 mapping+qualification suites exit=1"
+    },
+    {
+        "Id":  "investment-coverage-200",
+        "Ok":  true,
+        "Detail":  "GET /api/investment/coverage/investment?asOf=2026-11-26 -\u003e 200"
+    },
+    {
+        "Id":  "ipd-daemon-8791",
+        "Ok":  true,
+        "Detail":  "daemon availability probe 127.0.0.1:8791 -\u003e TCP connect to 127.0.0.1:8791 succeeded"
+    },
+    {
+        "Id":  "identity-qualify-leg",
+        "Ok":  true,
+        "Detail":  "qualification POST not executed - gate failed: W10 platform suites not successful (exit=1); - unavailable optional leg, distinguished from a successfully executed qualification request"
+    },
+    {
+        "Id":  "sufficiency-verdict-recorded",
+        "Ok":  true,
+        "Detail":  "W11 sufficiency verdict: NOT sufficient today (53/115; no actual issuer qualifies) - W11 actual execution remains refused QUALIFICATION_NOT_QUALIFIED until W10 authorisation improves"
+    }
+]

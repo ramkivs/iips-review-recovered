@@ -1,0 +1,22 @@
+[
+    {
+        "Index":  0,
+        "DetailStatus":  200,
+        "RevisionsStatus":  200,
+        "Revision":  4,
+        "Digest":  "5c53e6ba269c1709d5598c8d5a448cd459b575317071a03f7905cbcde4b13e5b",
+        "HoldingsCount":  65,
+        "RevisionsEntries":  4,
+        "ExactlyOneEntryAtRevision":  true
+    },
+    {
+        "Index":  1,
+        "DetailStatus":  200,
+        "RevisionsStatus":  200,
+        "Revision":  4,
+        "Digest":  "5c53e6ba269c1709d5598c8d5a448cd459b575317071a03f7905cbcde4b13e5b",
+        "HoldingsCount":  65,
+        "RevisionsEntries":  4,
+        "ExactlyOneEntryAtRevision":  true
+    }
+]

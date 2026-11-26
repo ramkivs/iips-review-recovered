@@ -1,0 +1,51 @@
+{
+    "executionId":  "STL-07-W10-20261126T073446Z",
+    "seq":  "07",
+    "workstream":  "W10",
+    "objective":  "Verify issuer-specific engine-input mapping and source/period qualification: platform W10 suites + served investment-coverage report + at most one identity-qualify call for the resolved issuer.",
+    "result":  "FAIL",
+    "startedAtUtc":  "2026-11-26T07:34:46.609Z",
+    "finishedAtUtc":  "2026-11-26T07:34:52.602Z",
+    "irrCommit":  "ca71a03b81037dfa8e6bee75ea599ace616dd717",
+    "irrDirty":  false,
+    "ipdCommit":  "fccd07f452ea73f3697a5af188f43edcefcadada",
+    "ipdDirty":  true,
+    "checks":  [
+                   {
+                       "Id":  "irr-api-health",
+                       "Ok":  true,
+                       "Detail":  "GET /api/health -\u003e 200"
+                   },
+                   {
+                       "Id":  "w10-platform-suites",
+                       "Ok":  false,
+                       "Detail":  "w10 mapping+qualification suites exit=1"
+                   },
+                   {
+                       "Id":  "investment-coverage-200",
+                       "Ok":  true,
+                       "Detail":  "GET /api/investment/coverage/investment?asOf=2026-11-26 -\u003e 200"
+                   },
+                   {
+                       "Id":  "ipd-daemon-8791",
+                       "Ok":  true,
+                       "Detail":  "daemon availability probe 127.0.0.1:8791 -\u003e TCP connect to 127.0.0.1:8791 succeeded"
+                   },
+                   {
+                       "Id":  "identity-qualify-leg",
+                       "Ok":  true,
+                       "Detail":  "qualification POST not executed - gate failed: W10 platform suites not successful (exit=1); - unavailable optional leg, distinguished from a successfully executed qualification request"
+                   },
+                   {
+                       "Id":  "sufficiency-verdict-recorded",
+                       "Ok":  true,
+                       "Detail":  "W11 sufficiency verdict: NOT sufficient today (53/115; no actual issuer qualifies) - W11 actual execution remains refused QUALIFICATION_NOT_QUALIFIED until W10 authorisation improves"
+                   }
+               ],
+    "failedCheckCount":  1,
+    "diagnostics":  [
+                        "qualification POST not executed - gate failed: W10 platform suites not successful (exit=1); (optional leg recorded as not executed, distinct from a successful call; no POST issued)"
+                    ],
+    "downstreamNote":  "PASS records the mapping/qualification evidence. W11 actual execution (step 09) proceeds ONLY for a sufficiently qualified issuer - today none qualifies, so step 09 records the refusal rather than executing. Improving W10 (the 62 unauthorised inputs, a methodology decision) is what would unblock W11 actual execution.",
+    "resumeRequirement":  "iips-platform deps installed; IRR API healthy; optional qualify leg needs only the IPD daemon on 127.0.0.1:8791 (no env-file inspection)."
+}

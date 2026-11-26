@@ -1,0 +1,37 @@
+[
+    {
+        "Id":  "irr-api-health",
+        "Ok":  true,
+        "Detail":  "GET /api/health -\u003e 200"
+    },
+    {
+        "Id":  "capture-consistent",
+        "Ok":  true,
+        "Detail":  "fresh capture exit=0 (0=CONSISTENT_CAPTURE)"
+    },
+    {
+        "Id":  "cycles-200",
+        "Ok":  true,
+        "Detail":  "cycle0 detail/revisions = 200/200; cycle1 = 200/200"
+    },
+    {
+        "Id":  "cycles-same-revision",
+        "Ok":  true,
+        "Detail":  "both cycles revision=4 and 4 equal=True"
+    },
+    {
+        "Id":  "cycles-same-digest",
+        "Ok":  true,
+        "Detail":  "digest equality between cycles=True (value never recorded)"
+    },
+    {
+        "Id":  "revisions-history-single-entry",
+        "Ok":  true,
+        "Detail":  "exactly one history entry at the returned revision in both cycles: True/True"
+    },
+    {
+        "Id":  "cross-portfolio-limitation-disclosed",
+        "Ok":  true,
+        "Detail":  "sources.ts:128-140 list-then-get may read different revisions per portfolio; recorded as a disclosed limitation - no cross-service atomicity is asserted (roadmap rule)"
+    }
+]

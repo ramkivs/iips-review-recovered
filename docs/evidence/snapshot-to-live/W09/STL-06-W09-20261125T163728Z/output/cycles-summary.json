@@ -1,0 +1,24 @@
+[
+    {
+        "Index":  0,
+        "DetailStatus":  200,
+        "RevisionsStatus":  200,
+        "HoldingsStatus":  405,
+        "Revision":  null,
+        "Digest":  null,
+        "HoldingsCount":  null,
+        "RevisionsEntries":  4,
+        "ExactlyOneEntryAtRevision":  false
+    },
+    {
+        "Index":  1,
+        "DetailStatus":  200,
+        "RevisionsStatus":  200,
+        "HoldingsStatus":  405,
+        "Revision":  null,
+        "Digest":  null,
+        "HoldingsCount":  null,
+        "RevisionsEntries":  4,
+        "ExactlyOneEntryAtRevision":  false
+    }
+]

@@ -1,0 +1,90 @@
+{
+    "executionId":  "STL-06-W09-20261125T163728Z",
+    "workstream":  "W09",
+    "createdAtUtc":  "2026-11-25T16:37:33.791Z",
+    "algorithm":  "SHA-256",
+    "note":  "auto-sealed at completion",
+    "fileCount":  16,
+    "files":  [
+                  {
+                      "path":  "checks.json",
+                      "bytes":  2084,
+                      "sha256":  "4c15d9f998342408b81f4bb08481d4b2a7a5ea8140fe08e7715dfc1b5d3055d0"
+                  },
+                  {
+                      "path":  "execution.json",
+                      "bytes":  938,
+                      "sha256":  "d7d9d6f1199dd923b9b4e9c5eb6ca4b70e8dad5fa541b252581597452d0d07d1"
+                  },
+                  {
+                      "path":  "result.json",
+                      "bytes":  4125,
+                      "sha256":  "4d8016d4e0e722f32112bcd6cf1a067b379d57031462e8607cb77b4cde32a772"
+                  },
+                  {
+                      "path":  "output\\capture-run.log",
+                      "bytes":  1260,
+                      "sha256":  "82b1c01e8012f17c300ef9defc0b7228d15c07d2bd20c8f99491a6380ce3b944"
+                  },
+                  {
+                      "path":  "output\\cycles-summary.json",
+                      "bytes":  603,
+                      "sha256":  "ebb35aa1efb7238372d94a2b7100de213f38c4a828c6d13d0012923909610c37"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\README.txt",
+                      "bytes":  476,
+                      "sha256":  "5d1a27cb07bd4cffa3fe964df9a37589d7fcbaedf00db9e4241d82e55cc3e8aa"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\LOCAL-ONLY-DO-NOT-PUBLISH\\exact-owner-bound-portfolio-capture.json",
+                      "bytes":  252931,
+                      "sha256":  "043fc44aa20b024d8ad357b6dca80eb137ce9c2575827141b413fa918b91d82a"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\LOCAL-ONLY-DO-NOT-PUBLISH\\README-LOCAL-ONLY.txt",
+                      "bytes":  583,
+                      "sha256":  "2940e44fd65028f95088ef2873b6bbb9a245f26da963eb4cc9ec2c0180ded894"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.json",
+                      "bytes":  9338,
+                      "sha256":  "ca30a49620d6ba67bba33c3b1754b397db5489b6622beea82a182796b233f4af"
+                  },
+                  {
+                      "path":  "output\\capture\\w11-dep1-capture-20261125T163733Z-01c1de8d\\SANITIZED-SUMMARY\\w11-dep1-capture-summary.md",
+                      "bytes":  9998,
+                      "sha256":  "fc31e4cf6357dd8434f65ad30388a7449dd2e4e764d2b3c02aaaf761f5e7a4dc"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-0\\detail.json",
+                      "bytes":  38407,
+                      "sha256":  "021fd139b0c8b4a28a861a532e666e66087c1beb41d6704a32174c32e8b2a464"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-0\\holdings.json",
+                      "bytes":  30,
+                      "sha256":  "ec91ec953f76f533df2f1366d908b4eca3ba5e30bbe3ed15a03dfc9d573be831"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-0\\revisions.json",
+                      "bytes":  881,
+                      "sha256":  "58323f799a3fb730732fe270e6caf96f387025c2bc858dc5fbadccaa645c1afe"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-1\\detail.json",
+                      "bytes":  38407,
+                      "sha256":  "021fd139b0c8b4a28a861a532e666e66087c1beb41d6704a32174c32e8b2a464"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-1\\holdings.json",
+                      "bytes":  30,
+                      "sha256":  "ec91ec953f76f533df2f1366d908b4eca3ba5e30bbe3ed15a03dfc9d573be831"
+                  },
+                  {
+                      "path":  "output\\read-cycles\\cycle-1\\revisions.json",
+                      "bytes":  881,
+                      "sha256":  "58323f799a3fb730732fe270e6caf96f387025c2bc858dc5fbadccaa645c1afe"
+                  }
+              ]
+}
