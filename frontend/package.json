@@ -18,6 +18,7 @@
     "portfolio:capture": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/user-portfolio/capture/capture-owner-bound-portfolio.ts",
     "w28:measure": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/w28/measureCoverageCli.ts",
     "w28:test": "tsx server/w28/run-w28-tests.mjs",
+    "w38:preflight": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/market-data/dhanStartupPreflightCli.ts",
     "typecheck:portfolio-capture": "tsc -p tsconfig.portfolio-capture.json",
     "typecheck:replay-server": "tsc -p tsconfig.replay-server.json --noEmit",
     "typecheck:investment-server": "tsc -p tsconfig.investment-server.json --noEmit",

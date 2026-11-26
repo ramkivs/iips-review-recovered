@@ -655,6 +655,8 @@ W-36 is therefore specified as an **extension of this launcher**, reusing its he
 | Exit criteria | Owner diagnoses a broken setup in one step |
 | Priority | **Medium** |
 
+**W-38 completion record (2026-11-26):** IRR implementation is COMPLETE at E2/synthetic evidence. `npm run w38:preflight` from `frontend/` performs one authenticated IPD diagnostics read and reports seven statuses (`transport-config`, `daemon-reachable`, `token-auth`, `backend-active-ready`, `instrument-mappings`, `provider-state`, `token-expiry`) as PASS / FAIL / CONFIG-MISSING with fixed, disclosure-safe explanations; exit 0 only when all seven pass. Targeted suite 11/11, full Vitest 3,638 passed / 1 skipped (247 files passed / 1 skipped), strict replay-server and portfolio-capture typechecks, production build and browser-bundle checks all passed. Nine deliberate failure configurations identify the precise broken check; the report contains no credential, path or vault-scheme value. W-36's launcher-startable daemon prerequisite is established at code level on IPD `main@6fa282bae9d996d7d85d22eef7a35e7bc41887b9` (`03 -StartMarketDataDaemon`, port-8791 ownership guard, authenticated health readiness, matching `06` stop), landed in IPD `97850ea9…`. The W-36 E3 five-service Windows transcript and the owner's E4 dry-run are still outstanding; they are not claimed here. Evidence: `DHAN-W38-STARTUP-READINESS-PREFLIGHT-2026-11-26.md`.
+
 ### 7.3 What a single user must be able to do
 
 | Requirement | Current state | Delivered by |

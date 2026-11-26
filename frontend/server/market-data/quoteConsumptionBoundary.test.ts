@@ -756,10 +756,12 @@ describe('W-29 — architectural isolation', () => {
     //   quoteConsumptionBoundary.ts — the ONE quote consumer (W-29).
     //   dhanMarketDataRoutes.ts     — presentation/historical only; no quote call (W-39).
     //   dhanHealthTransport.ts      — diagnostics/verification only; no quotes.
+    //   dhanStartupPreflight.ts     — W-38 diagnostics preflight only; no quotes.
     expect(callers).toEqual([
       'market-data/dhanHealthTransport.ts',
       'market-data/dhanMarketDataRoutes.ts',
       'market-data/dhanMarketDataTransport.ts',
+      'market-data/dhanStartupPreflight.ts',
       'market-data/quoteConsumptionBoundary.ts',
     ]);
   });
