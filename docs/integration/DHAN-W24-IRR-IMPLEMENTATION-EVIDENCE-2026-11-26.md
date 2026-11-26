@@ -12,7 +12,7 @@
 | IRR trace correlation + ring | **COMPLETE** — one `actionId` spans IRR events, IPD ring events and D01 provenance. |
 | Joined E2/synthetic tests | **COMPLETE** — successful quotes, cache hits, coalesced work, failures, identifiers, eviction, safeguards and W-19/W-22/Dhan compatibility all exercised on the final branch head. |
 | Full IRR regression / build | **PASS** — 3,651 passed / 1 skipped; strict typechecks, production build, browser-bundle guard and pin guard pass. |
-| Publication | Pending on this branch; this record is updated with PR/CI/merge evidence after publication. |
+| Published to GitHub | **COMPLETE** — branch `arena/8f80ee85-iips-review-recovered`, implementation commit `bb2bdae956fbf0fff434fda83e80d0839c42b3dd`, PR [#656](https://github.com/ramkivs/iips-review-recovered/pull/656), merged into IRR `main` as `f4b08f9924a145250cc32b549609ab92bd80f9d7`; publication record commit follows on the same branch. |
 | M4 acceptance | **NOT CLAIMED** — see §8. |
 
 ## 2. Authority and upstream verification
@@ -132,4 +132,10 @@ Publication records: this document and the authoritative roadmap.
 
 ## 9. Next roadmap step
 
-After publication, the next step is the W-36 E3 launcher transcript and the W-38 owner dry-run (with W-37 runbook closure following), then the M2/M3 live qualification gates. W-24 does not unblock E4 by itself.
+Publication is complete (§10). The next step is the W-36 E3 launcher transcript and the W-38 owner dry-run (with W-37 runbook closure following), then the M2/M3 live qualification gates. W-24 does not unblock E4 by itself.
+
+## 10. Publication record
+
+W-24 implementation was published on branch `arena/8f80ee85-iips-review-recovered` as commit `bb2bdae956fbf0fff434fda83e80d0839c42b3dd` and PR [#656](https://github.com/ramkivs/iips-review-recovered/pull/656) to IRR `main`. Both required checks passed on the PR head: `Typecheck · Test · Build` (run `45790180561`, 4m04s) and `Windows runner · SQLite lifecycle · local IPC · child-process restart` (run `45790180361`, 3m42s). The full diff (24 files, 1,421 insertions / 55 deletions) was reviewed; `git diff --check` passed and no new secret, vault-scheme or location disclosure was introduced.
+
+PR #656 was merged with `gh pr merge 656 --merge` at `2026-11-26T09:19:17Z` as merge commit **`f4b08f9924a145250cc32b549609ab92bd80f9d7`**. Independent post-merge verification through the GitHub API confirmed `frontend/server/market-data/dhanTrace.ts` and this evidence file are present on `main`, and that `frontend/package.json` on `main` pins `iips-production-market-data@0071980f8d35406ea6388edd413bde597fd65dde` with sibling pins unchanged. Post-merge CI runs `45790876046` (CI) and `45790875971` (Windows compatibility) both completed with `success` on that exact merge SHA. A follow-up publication-record PR records these facts in the authoritative roadmap; the merge establishes publication only, not operational acceptance.
