@@ -870,6 +870,14 @@ describe('W-29 — browser bundle gate', () => {
       'MarketDataTransportClient',
       'IIPS_MARKET_DATA_TRANSPORT_TOKEN',
       'IRR_PROVIDER_QUALIFICATION',
+      // W-24: ring, reader and approved loopback headers must stay server-side.
+      'DhanDiagnosticRing',
+      'W24_TRACE_CONTRACT_VERSION',
+      'IRR_W24_CONTRACT',
+      'buildIrrTraceHeaders',
+      'readIpdTraceRing',
+      'handleDhanTraceRequest',
+      'X-IIPS-Action-Id',
     ]) {
       // Written into a source map, i.e. the hardest place to catch and an extension the
       // gate must not trust.
@@ -883,7 +891,7 @@ describe('W-29 — browser bundle gate', () => {
         // covers it and that the matched text is never echoed.
         expect(result.stderr).toContain('Browser bundle rejected');
         expect(result.stderr).toMatch(
-          /\((?:server-only quote-consumption boundary|Dhan provider implementation|market-data configuration|server-only Dhan dependency)\)/,
+          /\((?:server-only quote-consumption boundary|Dhan provider implementation|market-data configuration|server-only Dhan dependency|server-only W-24 trace reader)\)/,
         );
         expect(result.stderr).not.toContain(forbidden);
       } finally {

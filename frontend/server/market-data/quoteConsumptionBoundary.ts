@@ -78,6 +78,16 @@ import {
   type Freshness,
 } from './dhanFreshnessRoutes';
 import { validateCanonicalIdentityCoherence } from './dhanCanonicalIdentity';
+import {
+  correlateIrrAction,
+  createIrrActionContext,
+  isIrrActionContext,
+  readIpdTraceEventsForAction,
+  recordIrrEvent,
+  type IrrActionTrace,
+  type IrrW24Event,
+} from './dhanTrace';
+import type { IpdTraceContext } from './dhanMarketDataTransport';
 
 /**
  * IRR's freshness vocabulary, re-used from the freshness boundary rather than re-declared.
@@ -196,6 +206,10 @@ export interface QuoteProvenance {
   readonly dataVersion: string | null;
   readonly lineageHash: string | null;
   readonly vendorTier: string | null;
+  /** W-24: current requester action, from D01. Server-side only. */
+  readonly traceId?: string | null;
+  /** W-24: original producer action on a cache hit, from D01. Server-side only. */
+  readonly correlationId?: string | null;
 }
 
 /**
@@ -257,6 +271,8 @@ export interface QuoteConsumptionEntry {
   readonly freshnessStatus: DhanFreshnessView | null;
   /** Why the freshness status could not be read, when it could not be read. */
   readonly freshnessStatusFailure: { readonly code: string; readonly message: string } | null;
+  /** W-24 correlation for this identity. Server-side only: never projected to the browser. */
+  readonly trace: IrrActionTrace;
 }
 
 /** The batch-level summary a consumer uses for a portfolio- or list-level label. */
@@ -287,6 +303,8 @@ export interface QuoteConsumptionBatch {
   readonly rateLimited: boolean;
   /** The bounded concurrency this batch used. */
   readonly concurrency: number;
+  /** W-24 action correlation shared by every entry in the batch. Server-side only. */
+  readonly trace: IrrActionTrace;
 }
 
 /** Dependencies of a quote-consumption call. */
@@ -307,6 +325,11 @@ export interface QuoteConsumptionDeps {
    * caller that already has a status may turn it off. The join NEVER fails a quote.
    */
   readonly joinFreshness?: boolean;
+  /**
+   * A pre-minted W-24 action context, used by tests and by an upstream IRR action that has
+   * already minted one. When absent, the boundary mints a fresh lowercase UUIDv4 itself.
+   */
+  readonly traceContext?: IpdTraceContext;
 }
 
 /* ------------------------------------------------------------------------------------- *
@@ -505,6 +528,10 @@ export function projectIpdQuoteEnvelope(
       dataVersion: typeof provenance.dataVersion === 'string' ? provenance.dataVersion : null,
       lineageHash: typeof provenance.lineageHash === 'string' ? provenance.lineageHash : null,
       vendorTier: typeof provenance.vendorTier === 'string' ? provenance.vendorTier : null,
+      // W-24: carried from D01 verbatim. Only a string is accepted; a malformed value is
+      // dropped rather than echoed. These fields never leave the server boundary.
+      traceId: typeof provenance.traceId === 'string' ? provenance.traceId : null,
+      correlationId: typeof provenance.correlationId === 'string' ? provenance.correlationId : null,
     },
     providerQualification: IRR_PROVIDER_QUALIFICATION,
     freshnessStatus: null,
@@ -677,6 +704,7 @@ function normaliseConcurrency(requested: number | undefined): number {
 function malformedEntry(
   rejected: RejectedIdentity,
   request: QuoteConsumptionEntry['request'],
+  trace: IrrActionTrace,
 ): QuoteConsumptionEntry {
   return {
     request,
@@ -696,6 +724,7 @@ function malformedEntry(
     provenance: null,
     freshnessStatus: null,
     freshnessStatusFailure: null,
+    trace,
   };
 }
 
@@ -708,6 +737,7 @@ function unavailableEntry(
     readonly connectionAttempted: boolean;
     readonly notAttempted: boolean;
   },
+  trace: IrrActionTrace,
   freshness: {
     readonly status: DhanFreshnessView | null;
     readonly failure: { readonly code: string; readonly message: string } | null;
@@ -737,6 +767,7 @@ function unavailableEntry(
     provenance: null,
     freshnessStatus: freshness.status,
     freshnessStatusFailure: freshness.failure,
+    trace,
   };
 }
 
@@ -744,6 +775,7 @@ function unmappedEntry(
   request: QuoteConsumptionEntry['request'],
   securityId: string | null,
   failure: { readonly code: string; readonly message: string },
+  trace: IrrActionTrace,
   freshness: {
     readonly status: DhanFreshnessView | null;
     readonly failure: { readonly code: string; readonly message: string } | null;
@@ -767,6 +799,7 @@ function unmappedEntry(
     provenance: null,
     freshnessStatus: freshness.status,
     freshnessStatusFailure: freshness.failure,
+    trace,
   };
 }
 
@@ -791,6 +824,7 @@ async function readQuoteFreshness(
   config: IpdMarketDataTransportConfig,
   identity: ResolvedIdentity,
   deps: QuoteConsumptionDeps,
+  traceContext: IpdTraceContext,
 ): Promise<FreshnessRead> {
   const outcome = await readIpdFreshnessStatus(
     config,
@@ -801,6 +835,7 @@ async function readQuoteFreshness(
       securityId: identity.securityId,
     },
     deps.fetchImpl,
+    traceContext,
   );
   if (!outcome.ok) return { status: null, failure: { code: outcome.code, message: outcome.message } };
   return { status: projectIpdFreshnessStatus(outcome.status), failure: null };
@@ -821,8 +856,25 @@ export async function consumeQuotes(
   identities: readonly unknown[],
   deps: QuoteConsumptionDeps = {},
 ): Promise<QuoteConsumptionBatch> {
+  const startedAt = Date.now();
   const concurrency = normaliseConcurrency(deps.concurrency);
   const joinFreshness = deps.joinFreshness !== false;
+  // W-24: one action id per IRR application action. An injected context is validated before
+  // use; anything else is minted here with IPD's lowercase UUIDv4 generator.
+  const traceContext =
+    deps.traceContext !== undefined && isIrrActionContext(deps.traceContext)
+      ? deps.traceContext
+      : createIrrActionContext();
+  const actionId = traceContext.actionId;
+  const initialTrace = correlateIrrAction({ actionId });
+
+  recordIrrEvent({
+    operation: 'QUOTE',
+    event: 'ACTION_START',
+    actionId,
+    outcome: 'UNKNOWN',
+    durationMs: 0,
+  });
 
   // Normalise every request first: a malformed identity is refused before any transport use.
   const resolved = identities.map((raw) => resolveIdentityRequest(raw));
@@ -834,7 +886,8 @@ export async function consumeQuotes(
 
   const resolution = deps.transport ?? resolveIpdMarketDataTransportConfig(deps.env ?? {});
 
-  // Not configured: NOTHING is attempted, and every entry says so explicitly.
+  // Not configured: NOTHING is attempted, and every entry says so explicitly. The failed
+  // action is still ring-traceable, because a pre-IPD failure is the case W-24 must explain.
   if (!resolution.ok) {
     const entries = resolved.map((item, index) =>
       item.ok
@@ -843,26 +896,38 @@ export async function consumeQuotes(
             message: resolution.message,
             connectionAttempted: false,
             notAttempted: true,
-          })
-        : malformedEntry(item, requests[index]!),
+          }, initialTrace)
+        : malformedEntry(item, requests[index]!, initialTrace),
     );
+    recordIrrEvent({
+      operation: 'QUOTE',
+      event: 'ACTION_END',
+      actionId,
+      outcome: 'FAILURE',
+      failureCategory: resolution.code,
+      durationMs: Date.now() - startedAt,
+    });
     return summarise(entries, {
       concurrency,
       transportConfigured: false,
       transportFailureCode: resolution.code,
       rateLimited: false,
+      trace: initialTrace,
     });
   }
 
   const config = resolution.config;
-  const client = createIpdMarketDataTransportClient(config);
+  const client = createIpdMarketDataTransportClient(
+    config,
+    deps.fetchImpl ? { fetchImpl: deps.fetchImpl } : undefined,
+  );
 
   // Shared stop flag: set when IPD rate limits, so no further quote request is dispatched.
   let rateLimited = false;
 
   const entries = await runBounded(resolved, concurrency, async (item, index): Promise<QuoteConsumptionEntry> => {
     const request = requests[index]!;
-    if (!item.ok) return malformedEntry(item, request);
+    if (!item.ok) return malformedEntry(item, request, initialTrace);
 
     // The rate limit stops the batch BEFORE any new request is issued. The identity is
     // reported as explicitly not attempted — never as unavailable data, never as zero.
@@ -872,20 +937,28 @@ export async function consumeQuotes(
         message: 'The batch stopped dispatching quote requests after IPD reported a rate limit.',
         connectionAttempted: false,
         notAttempted: true,
-      });
+      }, initialTrace);
     }
+
+    recordIrrEvent({
+      operation: 'QUOTE',
+      event: 'REQUEST_ADMITTED',
+      actionId,
+      outcome: 'UNKNOWN',
+      durationMs: 0,
+    });
 
     const outcome = await client.getQuote({
       companyId: item.companyId,
       securityIdentity: toTransportIdentity(item),
       exchangeSegment: item.exchangeSegment,
-    });
+    }, traceContext);
 
     if (!outcome.ok) {
       const failure = outcome.failure;
       // Freshness is still read for an identity failure so the consumer receives a complete
       // scoped record, but a failure NEVER waits on it in a way that changes the outcome.
-      const freshness = joinFreshness ? await readQuoteFreshness(config, item, deps) : { status: null, failure: null };
+      const freshness = joinFreshness ? await readQuoteFreshness(config, item, deps, traceContext) : { status: null, failure: null };
       if (failure.code === 'RATE_LIMITED') {
         rateLimited = true;
         return unavailableEntry(request, item.securityId, {
@@ -893,10 +966,10 @@ export async function consumeQuotes(
           message: failure.message,
           connectionAttempted: true,
           notAttempted: false,
-        }, freshness);
+        }, initialTrace, freshness);
       }
       if (IDENTITY_UNMAPPED_CODES.has(failure.code)) {
-        return unmappedEntry(request, item.securityId, failure, freshness);
+        return unmappedEntry(request, item.securityId, failure, initialTrace, freshness);
       }
       // Every other failure is market data being unavailable, including a suppressed or
       // unrecognized provider state. It is never promoted.
@@ -905,22 +978,22 @@ export async function consumeQuotes(
         message: failure.message,
         connectionAttempted: true,
         notAttempted: false,
-      }, freshness);
+      }, initialTrace, freshness);
     }
 
     const view = projectIpdQuoteEnvelope(outcome.envelope, outcome.freshness, item.securityId);
     if (view === null || view.quote === null) {
       // The transport answered, but not with a usable canonical quote. No value is invented.
-      const freshness = joinFreshness ? await readQuoteFreshness(config, item, deps) : { status: null, failure: null };
+      const freshness = joinFreshness ? await readQuoteFreshness(config, item, deps, traceContext) : { status: null, failure: null };
       return unavailableEntry(request, item.securityId, {
         code: 'MALFORMED_RESPONSE',
         message: 'market-data transport returned an invalid or unsupported D01 quote envelope',
         connectionAttempted: true,
         notAttempted: false,
-      }, freshness);
+      }, initialTrace, freshness);
     }
 
-    const freshness = joinFreshness ? await readQuoteFreshness(config, item, deps) : { status: null, failure: null };
+    const freshness = joinFreshness ? await readQuoteFreshness(config, item, deps, traceContext) : { status: null, failure: null };
 
     // THE JOIN.
     //
@@ -963,14 +1036,74 @@ export async function consumeQuotes(
       provenance: view.provenance,
       freshnessStatus: freshness.status,
       freshnessStatusFailure: freshness.failure,
+      trace: initialTrace,
     };
   });
 
-  return summarise(entries, {
+  // W-24: read IPD's bounded ring ONCE per batch and correlate by the shared action id.
+  // A failed ring read never changes the quote outcome; it is reported as a trace gap.
+  let ipdEvents: readonly IrrW24Event[] = [];
+  let ringReadFailureCode: string | null = null;
+  const attempted = entries.some((entry) => entry.unavailable?.connectionAttempted === true);
+  const answered = entries.some((entry) =>
+    entry.outcome === 'CURRENT' ||
+    entry.outcome === 'STALE' ||
+    entry.outcome === 'UNMAPPED' ||
+    (entry.unavailable?.connectionAttempted === true &&
+      entry.unavailable.code !== 'TIMEOUT' &&
+      entry.unavailable.code !== 'REQUEST_TIMEOUT' &&
+      entry.unavailable.code !== 'TRANSPORT_FAILURE'),
+  );
+  if (answered) {
+    const ring = await readIpdTraceEventsForAction(config, actionId, deps.fetchImpl);
+    if (ring.ok) ipdEvents = ring.events;
+    else ringReadFailureCode = ring.code;
+  } else if (attempted) {
+    // A hung or unreachable daemon cannot answer a second read. The failed action remains
+    // in IRR's ring; the IPD ring read is explicitly skipped rather than retried.
+    ringReadFailureCode = 'RING_READ_SKIPPED_TRANSPORT_FAILURE';
+  }
+
+  const tracedEntries = entries.map((entry) => ({
+    ...entry,
+    trace: correlateIrrAction({
+      actionId,
+      d01TraceId: entry.provenance?.traceId ?? null,
+      d01CorrelationId: entry.provenance?.correlationId ?? null,
+      ipdEvents,
+      ringReadFailureCode,
+    }),
+  }));
+
+  const failed = tracedEntries.some((entry) => entry.outcome !== 'CURRENT' && entry.outcome !== 'STALE');
+  const failureCode = tracedEntries.find((entry) => entry.outcome !== 'CURRENT' && entry.outcome !== 'STALE');
+  recordIrrEvent({
+    operation: 'QUOTE',
+    event: 'ACTION_END',
+    actionId,
+    outcome: failed ? 'FAILURE' : 'SUCCESS',
+    failureCategory:
+      failureCode?.unavailable?.code ??
+      failureCode?.unmapped?.code ??
+      failureCode?.malformedIdentity?.code ??
+      null,
+    durationMs: Date.now() - startedAt,
+  });
+
+  const firstTrace = tracedEntries[0]?.trace ?? initialTrace;
+  const batchTrace = {
+    ...firstTrace,
+    d01TraceId: tracedEntries.find((entry) => entry.provenance?.traceId != null)?.provenance?.traceId ?? null,
+    d01CorrelationId: tracedEntries.find((entry) => entry.provenance?.correlationId != null)?.provenance?.correlationId ?? null,
+    identifierConsistent: tracedEntries.every((entry) => entry.trace.identifierConsistent),
+  };
+
+  return summarise(tracedEntries, {
     concurrency,
     transportConfigured: true,
     transportFailureCode: null,
     rateLimited,
+    trace: batchTrace,
   });
 }
 
@@ -982,6 +1115,7 @@ function summarise(
     readonly transportConfigured: boolean;
     readonly transportFailureCode: string | null;
     readonly rateLimited: boolean;
+    readonly trace: IrrActionTrace;
   },
 ): QuoteConsumptionBatch {
   const counts: Record<QuoteConsumptionOutcome, number> = {
@@ -1015,6 +1149,7 @@ function summarise(
     transportFailureCode: meta.transportFailureCode,
     rateLimited: meta.rateLimited,
     concurrency: meta.concurrency,
+    trace: meta.trace,
   };
 }
 

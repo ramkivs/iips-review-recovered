@@ -572,3 +572,35 @@ export function syntheticBehaviourForRoute(
       return syntheticBehaviourFor(scenario);
   }
 }
+
+/**
+ * W-24 pin adoption (IPD `0071980…`): diagnostics contract v3 added fail-closed validation of
+ * the effective freshness thresholds (W-25) and persistence state (W-23). Synthetic
+ * diagnostics payloads must include both complete blocks or IPD's own validator rejects them.
+ * Every value below is a fixed literal; no environment or credential is read.
+ */
+export const SYNTHETIC_DIAGNOSTICS_FRESHNESS = Object.freeze({
+  thresholds: Object.freeze({
+    D01_QUOTES: 900,
+    D02_OHLCV: 86400,
+    D03_FUNDAMENTALS: 2592000,
+    D04_CORPORATE_ACTIONS: 2592000,
+    D05_SECURITY_MASTER: 86400,
+    D06_NEWS: 86400,
+    D07_ESTIMATES: 2592000,
+    D08_MACRO: 86400,
+    D09_ALTDATA: 86400,
+  }),
+  overrides: Object.freeze([]),
+});
+
+export const SYNTHETIC_DIAGNOSTICS_PERSISTENCE = Object.freeze({
+  enabled: false,
+  restoreStatus: 'DISABLED',
+  restoreReason: null,
+  quotesRestored: 0,
+  quotesDroppedAsUnavailable: 0,
+  refreshEntriesRestored: 0,
+  observedStateRestored: false,
+  authLatchClearedByRestart: false,
+});

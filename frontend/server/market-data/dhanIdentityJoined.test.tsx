@@ -138,7 +138,8 @@ describe('joined IPD → IRR → quote presentation (synthetic provider only)', 
     expect(upstreamBody.envelope.companyId).toBe(request.companyId);
     expect(upstreamBody.envelope.provenance).toMatchObject({ qualityState: 'STALE', asOf, receivedAt: evaluatedAt, evaluatedAt });
     expect(upstreamBody.envelope.payload.ltp).toBe(1519);
-    // A distinct second observation proves the UI request did not silently reuse the cache.
+    // A changed provider body is deliberately NOT issued again: IPD's W-24 cache-hit path
+    // serves the first observation, and the assertion below proves that is what IRR shows.
     body = providerBody(1520, staleTradeTime);
     render(<DhanQuotes />);
     // W-15: the identity comes from the search picker, not from free-text entry. Selecting
@@ -152,16 +153,19 @@ describe('joined IPD → IRR → quote presentation (synthetic provider only)', 
     );
     fireEvent.click(screen.getByTestId('dhan-quote-submit'));
     await waitFor(() => expect(screen.getByTestId('dhan-quote-result')).toBeTruthy());
-    expect(calls).toHaveLength(2);
+    // IPD `0071980` (W-24) serves the second request from its own D01 cache: one vendor
+    // handoff, two traced IRR actions. This tests that the UI does not force a second
+    // vendor request, and that a cache hit still carries the requested identity.
+    expect(calls).toHaveLength(1);
     // IPD PR #176 (26855625) serializes Dhan quote security IDs as JSON numbers.
-    expect(calls.map(call => call.body)).toEqual(['{"NSE_EQ":[2885]}', '{"NSE_EQ":[2885]}']);
+    expect(calls.map(call => call.body)).toEqual(['{"NSE_EQ":[2885]}']);
     expect(browserResponse?.status).toBe(200);
     expect(browserResponse?.data.data).toMatchObject({ securityId: identity, freshness: 'STALE', qualityState: 'STALE', asOf,
-      receivedAt: evaluatedAt, evaluatedAt, quote: { companyId: request.companyId, ltp: 1520 },
+      receivedAt: evaluatedAt, evaluatedAt, quote: { companyId: request.companyId, ltp: 1519 },
       freshnessStatus: { verdict: 'STALE', eligibleForUse: true, suppressExecution: false } });
     expect((Date.parse(evaluatedAt) - Date.parse(asOf)) / 1000).toBe(1500);
     expect(screen.getByTestId('dhan-quote-security-id').textContent).toBe(identity);
-    expect(screen.getByTestId('dhan-quote-result').textContent).toMatch(/1,520|1520/);
+    expect(screen.getByTestId('dhan-quote-result').textContent).toMatch(/1,519|1519/);
     expect(screen.getByTestId('dhan-quote-as-of').textContent).toBe(asOf);
     expect(screen.getByTestId('dhan-quote-received-at').textContent).toBe(evaluatedAt);
     expect(screen.getByTestId('dhan-quote-evaluated-at').textContent).toBe(evaluatedAt);

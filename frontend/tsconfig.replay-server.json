@@ -52,6 +52,8 @@
     "server/market-data/dhanStartupPreflight.ts",
     "server/market-data/dhanStartupPreflight.test.ts",
     "server/market-data/dhanStartupPreflightCli.ts",
+    "server/market-data/dhanTrace.ts",
+    "server/market-data/dhanTrace.test.ts",
     "server/market-data/quoteConsumptionBoundary.ts",
     "server/market-data/quoteConsumptionBoundary.test.ts",
     "server/market-data/equicoreTransportConfig.ts",

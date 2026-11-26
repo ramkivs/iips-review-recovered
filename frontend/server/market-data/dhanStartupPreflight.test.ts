@@ -14,6 +14,7 @@ import {
   type PreflightReport,
   type PreflightStatus,
 } from './dhanStartupPreflight';
+import { SYNTHETIC_DIAGNOSTICS_FRESHNESS, SYNTHETIC_DIAGNOSTICS_PERSISTENCE } from './dhanSyntheticFixtures';
 
 const TOKEN = 'w38-synthetic-transport-token';
 const BASE_URL = 'http://127.0.0.1:8791';
@@ -30,7 +31,7 @@ function env(overrides: Record<string, string | undefined> = {}): Record<string,
 /** A fully valid IPD W-09 diagnostics payload; overrides isolate one broken fact at a time. */
 function diagnostics(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
-    contractVersion: 1,
+    contractVersion: 3,
     service: 'UP',
     providerState: 'OPERATIONAL',
     providerConfiguration: 'CONFIGURED',
@@ -66,6 +67,8 @@ function diagnostics(overrides: Record<string, unknown> = {}): Record<string, un
       staleEntries: 0,
       unavailableEntries: 0,
     },
+    freshness: SYNTHETIC_DIAGNOSTICS_FRESHNESS,
+    persistence: SYNTHETIC_DIAGNOSTICS_PERSISTENCE,
     ...overrides,
   };
 }
