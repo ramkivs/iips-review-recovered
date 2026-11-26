@@ -2,13 +2,14 @@
  * IRR server-side IPD market-data transport configuration (DHAN-P3).
  *
  * Authority:
- *   - IPD `ramkivs/iips-production-market-data` @ `02786a778881e25821ecc8c62b12b33981e7e4c3`
- *     (the published IPD `main` merge of PR #197 / W-26, adding
- *     `MarketDataTransportClient.getFreshness()`, `MARKET_DATA_ROUTES.freshness` and the
- *     fail-closed freshness wire validator). Earlier pins carried W-07/W-08/W-09/W-10 and
- *     PR #176 numeric quote serialization; the W-26 advance makes IPD's client the sole
- *     freshness transport, so IRR no longer re-implements the loopback, bearer, timeout or
- *     response-validation guards. Consumed through the server-only `./dhan-server` subpath.
+ *   - IPD `ramkivs/iips-production-market-data` @ `0071980f8d35406ea6388edd413bde597fd65dde`
+ *     (the published IPD `main` merge of PR #203 / W-24, adding the v1 trace contract,
+ *     `DhanDiagnosticRing`, `MarketDataTransportClient.getTraceRing()` and D01
+ *     `traceId`/`correlationId`). The prior `02786a77…` pin carried W-26
+ *     (`getFreshness()`, `MARKET_DATA_ROUTES.freshness` and the fail-closed freshness wire
+ *     validator); earlier pins carried W-07/W-08/W-09/W-10 and PR #176 numeric quote
+ *     serialization. IRR delegates all loopback, bearer, timeout and response-validation
+ *     guards to IPD's client. Consumed through the server-only `./dhan-server` subpath.
  *   - The transport credential env name is IPD's own: `MARKET_DATA_TRANSPORT_TOKEN_ENV` =
  *     `IIPS_MARKET_DATA_TRANSPORT_TOKEN`. The transport credential is SEPARATE from the Dhan
  *     API credentials and is never a Dhan credential.
@@ -257,6 +258,31 @@ export function createIpdMarketDataTransportClient(
 }
 
 /**
+ * W-24 trace context, derived from IPD's own client so IRR never declares a second contract.
+ * `traceVersion` is the published literal `1`; `actionId` is an opaque lowercase UUIDv4.
+ */
+export type IpdTraceContext = ReturnType<MarketDataTransportClient['generateTraceContext']>;
+
+/** The read-only W-24 trace-ring read options IPD publishes. */
+export type IpdTraceRingOptions = Parameters<MarketDataTransportClient['getTraceRing']>[0];
+
+/**
+ * Reads IPD's bounded diagnostic ring through IPD's own client.
+ *
+ * This is a supplementary operator read: it never mutates IPD state, never triggers a quote
+ * or a refresh, and its failure never changes the outcome of an application action. The
+ * client enforces loopback, bearer authentication, bounded parameters and wire validation.
+ */
+export function readIpdTraceRing(
+  config: IpdMarketDataTransportConfig,
+  options?: IpdTraceRingOptions,
+  fetchImpl?: typeof fetch,
+): ReturnType<MarketDataTransportClient['getTraceRing']> {
+  const client = createIpdMarketDataTransportClient(config, fetchImpl ? { fetchImpl } : undefined);
+  return client.getTraceRing(options);
+}
+
+/**
  * Executes a D02 historical OHLCV read through IPD's own `MarketDataTransportClient`.
  * Kept inside the IPD transport composition module so quote-boundary architectural isolation
  * remains closed over `createIpdMarketDataTransportClient`.
@@ -351,14 +377,18 @@ export interface IpdFreshnessStatus {
  * IRR does NOT re-implement IPD's freshness evaluation: the verdict, the threshold, the
  * stale concession and the suppression decision all come from IPD and are published
  * verbatim. This function only carries the request and maps transport failures.
+ *
+ * W-24 adds an optional trace context: when supplied, IPD's client attaches the approved
+ * headers to this supplementary read as well, so the freshness event shares the action id.
  */
 export async function readIpdFreshnessStatus(
   config: IpdMarketDataTransportConfig,
   query: FreshnessRequest | Readonly<Record<string, string>>,
   fetchImpl?: typeof fetch,
+  traceContext?: IpdTraceContext,
 ): Promise<IpdFreshnessReadOutcome> {
   const client = createIpdMarketDataTransportClient(config, fetchImpl ? { fetchImpl } : undefined);
-  const outcome = await client.getFreshness(query as FreshnessRequest);
+  const outcome = await client.getFreshness(query as FreshnessRequest, traceContext);
 
   if (outcome.ok) {
     return { ok: true, status: outcome.status };

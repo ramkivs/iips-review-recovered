@@ -1059,6 +1059,19 @@ const server = http.createServer(async (req, res) => {
     })();
     return;
   }
+  // W-24: the server-only operator trace reader. It is not a browser API: it requires the
+  // server-held transport bearer and a loopback peer, and it never reaches the UI bundle.
+  if ((req.url ?? '').split('?')[0] === '/api/dhan/trace') {
+    void (async () => {
+      try {
+        const dhanMarketData = await import('./market-data/dhanMarketDataRoutes');
+        await dhanMarketData.handleDhanTraceRequest(req, res, { env: process.env });
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ ok: false, code: 'TRACE_READER_ERROR' }));
+      }
+    })();
+    return;
+  }
   // DHAN-P3: the canonical quote and historical-data surfaces. IPD remains the market-data
   // authority: these routes forward the canonical request to IPD's own transport client and
   // project IPD's canonical envelope onto IRR's presentation vocabulary. No quote is computed,

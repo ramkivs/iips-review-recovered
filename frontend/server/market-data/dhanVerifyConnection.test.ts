@@ -24,6 +24,7 @@ import {
   verificationNoteFor,
 } from './dhanHealthTransport';
 import { resolveIpdMarketDataTransportConfig } from './dhanMarketDataTransport';
+import { SYNTHETIC_DIAGNOSTICS_FRESHNESS, SYNTHETIC_DIAGNOSTICS_PERSISTENCE } from './dhanSyntheticFixtures';
 
 const FORBIDDEN_PAYLOAD_PATTERNS: readonly RegExp[] = [
   /vault:\/\//,
@@ -39,7 +40,7 @@ const FORBIDDEN_PAYLOAD_PATTERNS: readonly RegExp[] = [
 
 function diagnosticsFixture(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
-    contractVersion: 1,
+    contractVersion: 3,
     service: 'UP',
     providerState: 'CREDENTIALS_RESOLVED',
     providerConfiguration: 'CONFIGURED',
@@ -68,6 +69,8 @@ function diagnosticsFixture(overrides: Record<string, unknown> = {}): Record<str
     },
     qualifiedMappingsLoaded: 21,
     quoteCache: { size: 4, capacity: 256, state: 'CURRENT', currentEntries: 4, staleEntries: 0, unavailableEntries: 0 },
+    freshness: SYNTHETIC_DIAGNOSTICS_FRESHNESS,
+    persistence: SYNTHETIC_DIAGNOSTICS_PERSISTENCE,
     ...overrides,
   };
 }

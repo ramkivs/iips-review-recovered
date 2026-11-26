@@ -43,6 +43,8 @@
  */
 
 import type http from 'node:http';
+import { createHash, timingSafeEqual } from 'node:crypto';
+import { MARKET_DATA_TRANSPORT_TOKEN_ENV } from 'iips-production-market-data/dhan-server';
 import { sendJson } from '../owner-scoped-http';
 import {
   resolveIpdMarketDataTransportConfig,
@@ -68,6 +70,12 @@ import {
   type Freshness as BoundaryFreshness,
   type QuoteConsumptionEntry,
 } from './quoteConsumptionBoundary';
+import {
+  correlateIrrAction,
+  getIrrDiagnosticRing,
+  IRR_W24_CONTRACT,
+  readIpdTraceEventsForAction,
+} from './dhanTrace';
 
 /**
  * IRR's existing freshness vocabulary, as published by the shared quote-consumption
@@ -105,6 +113,12 @@ export const DHAN_QUOTES_PATH = '/api/dhan/quotes';
 
 /** The historical route path. */
 export const DHAN_HISTORICAL_PATH = '/api/dhan/historical';
+
+/**
+ * W-24 operator trace-reader path. Server-side only: it is never declared in the browser API
+ * surface, never exposed by the browser bundle and requires the server-held transport bearer.
+ */
+export const DHAN_TRACE_PATH = '/api/dhan/trace';
 
 /** The supported historical intervals, exactly IPD's `DHAN_SUPPORTED_HISTORICAL_INTERVALS`. */
 export const DHAN_HISTORICAL_INTERVALS = ['1m', '5m', '15m', '1h', '1D'] as const;
@@ -688,7 +702,14 @@ function toQuoteView(entry: QuoteConsumptionEntry): DhanQuoteView {
     evaluatedAt: entry.evaluatedAt,
     quote: entry.value,
     securityId: entry.securityId,
-    provenance: entry.provenance,
+    // W-24: D01 trace identifiers and IRR's action reference are server-side evidence only.
+    // The browser continues to receive exactly the four provenance fields it always had.
+    provenance: entry.provenance === null ? null : {
+      sourceClassification: entry.provenance.sourceClassification,
+      dataVersion: entry.provenance.dataVersion,
+      lineageHash: entry.provenance.lineageHash,
+      vendorTier: entry.provenance.vendorTier,
+    },
     providerQualification: entry.providerQualification,
     freshnessStatus: entry.freshnessStatus,
     freshnessStatusFailure: entry.freshnessStatusFailure,
@@ -802,5 +823,128 @@ export async function handleDhanHistoricalRequest(
       freshness.failure,
       { securityId: validation.securityId!, exchangeSegment: validation.exchangeSegment! },
     ),
+  });
+}
+
+/* ------------------------------------------------------------------------------------- *
+ * W-24 operator trace reader (server-side only)
+ * ------------------------------------------------------------------------------------- */
+
+/** Loopback peer check, independent of how the server was bound. */
+function isLoopbackPeer(req: http.IncomingMessage): boolean {
+  const address = req.socket.remoteAddress ?? '';
+  return (
+    address === '127.0.0.1' ||
+    address === '::1' ||
+    address === '::ffff:127.0.0.1'
+  );
+}
+
+/**
+ * Constant-time bearer verification using digests, so a wrong length cannot short-circuit
+ * the comparison. No credential value, length or fingerprint is logged or returned.
+ */
+function operatorBearerValid(req: http.IncomingMessage, expected: string | undefined): boolean {
+  if (typeof expected !== 'string' || expected.trim() === '') return false;
+  const header = req.headers.authorization;
+  if (typeof header !== 'string' || !header.startsWith('Bearer ')) return false;
+  const presented = header.slice('Bearer '.length);
+  if (presented.trim() === '') return false;
+  const a = createHash('sha256').update(presented).digest();
+  const b = createHash('sha256').update(expected).digest();
+  return timingSafeEqual(a, b);
+}
+
+/** Strict bounded query parameter: absent is allowed; anything else must be a safe integer. */
+function traceQueryInteger(raw: string | null, minimum: number): number | undefined | null {
+  if (raw === null) return undefined;
+  if (!/^\d+$/.test(raw)) return null;
+  const value = Number(raw);
+  if (!Number.isSafeInteger(value) || value < minimum) return null;
+  return value;
+}
+
+/**
+ * Handles `GET /api/dhan/trace`.
+ *
+ * This is the approved IRR operator reader: loopback-only, read-only, bounded, authenticated
+ * with the already-available server-held transport bearer, with no unauthenticated fallback
+ * and no browser surface. It returns IRR's 512-event ring, the matching slice of IPD's ring
+ * when the transport is configured, and a pure correlation view keyed by `actionId`.
+ */
+export async function handleDhanTraceRequest(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  deps: DhanMarketDataRouteDeps = {},
+): Promise<void> {
+  res.setHeader('Content-Type', 'application/json');
+
+  const [path] = (req.url ?? '').split('?');
+  if (path !== DHAN_TRACE_PATH || (req.method ?? 'GET') !== 'GET') {
+    sendJson(res, 404, { ok: false, code: 'NOT_FOUND' });
+    return;
+  }
+  if (!isLoopbackPeer(req)) {
+    sendJson(res, 403, { ok: false, code: 'FORBIDDEN' });
+    return;
+  }
+
+  const env = deps.env ?? process.env;
+  if (!operatorBearerValid(req, env[MARKET_DATA_TRANSPORT_TOKEN_ENV])) {
+    sendJson(res, 401, { ok: false, code: 'UNAUTHORIZED' });
+    return;
+  }
+
+  const url = new URL(req.url ?? DHAN_TRACE_PATH, 'http://localhost');
+  const limit = traceQueryInteger(url.searchParams.get('limit'), 1);
+  const sinceSequence = traceQueryInteger(url.searchParams.get('sinceSequence'), 0);
+  if (limit === null || sinceSequence === null) {
+    sendJson(res, 400, { ok: false, code: 'INVALID_QUERY' });
+    return;
+  }
+
+  const ring = getIrrDiagnosticRing();
+  const irrEvents = ring.list({
+    ...(limit !== undefined ? { limit } : {}),
+    ...(sinceSequence !== undefined ? { sinceSequence } : {}),
+  });
+  const actionId = url.searchParams.get('actionId');
+
+  let ipd: {
+    readonly available: boolean;
+    readonly code: string | null;
+    readonly events: readonly ReturnType<typeof ring.list>[number][];
+  } = { available: false, code: 'NOT_CONFIGURED', events: [] };
+  if (actionId !== null && actionId !== '') {
+    const resolution = resolveIpdMarketDataTransportConfig(env);
+    if (!resolution.ok) {
+      ipd = { available: false, code: resolution.code, events: [] };
+    } else {
+      const outcome = await readIpdTraceEventsForAction(
+        resolution.config,
+        actionId,
+        deps.fetchImpl,
+      );
+      ipd = outcome.ok
+        ? { available: true, code: null, events: outcome.events }
+        : { available: false, code: outcome.code, events: [] };
+    }
+  }
+
+  sendJson(res, 200, {
+    ok: true,
+    contractVersion: IRR_W24_CONTRACT.contractVersion,
+    schemaVersion: IRR_W24_CONTRACT.eventSchemaVersion,
+    actionId,
+    irr: { events: irrEvents, stats: ring.getStats() },
+    ipd,
+    correlation:
+      actionId === null || actionId === ''
+        ? null
+        : correlateIrrAction({
+            actionId,
+            ipdEvents: ipd.events,
+            ringReadFailureCode: ipd.available ? null : ipd.code,
+          }),
   });
 }

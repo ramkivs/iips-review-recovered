@@ -25,6 +25,8 @@ const rules = [
   // Phase C (PA-DEC-03 / IRR-AC-01): EquiCore transport, historical consumption boundary, and
   // EquiCore loopback endpoint are strictly server-only.
   ['server-only EquiCore boundary', /(?:\b(?:equicoreTransportConfig|equicoreTransport|historicalConsumptionBoundary|readEquiCoreTransportConfiguration|createEquiCoreTransportClient|verifyEquiCoreResponseDigest|consumeHistoricalSeries|readIpdHistoricalSeries|EquiCoreTransportClient|handleEquiCoreHistoricalRequest|handleEquiCoreHealthRequest|handleEquiCoreEodObservationRequest|handleEquiCoreAssociationsRequest|handleEquiCoreCalendarRequest|handleEquiCoreRequest)\b|127\.0\.0\.1:8614|iips-equicore-historical\/v1)/],
+  // W-24: rings, headers and action references are server-side operator evidence only.
+  ['server-only W-24 trace reader', /\b(?:DhanDiagnosticRing|W24_TRACE_CONTRACT_VERSION|W24_RING_CAPACITY_IRR|W24_MAX_EVENT_BYTES|IRR_W24_CONTRACT|buildIrrTraceHeaders|correlateIrrAction|readIpdTraceRing|handleDhanTraceRequest)\b|X-IIPS-(?:Trace-Version|Action-Id)/i],
   ['server-only runtime', /(?:node:(?:net|sqlite|fs|http|https|path|crypto)|\b(?:createConnection|DatabaseSync|listenIpc|persistBrokerImport|PitReadService|HistoricalPitIngestionLoader|NON_PRODUCTION_D114)\b|src\/(?:ipc|persistence)\/)/],
 ];
 

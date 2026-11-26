@@ -80,6 +80,19 @@ export interface WatchlistQuoteItem {
 }
 
 /**
+ * A server-side consumption entry projected for the browser. W-24's action reference and
+ * D01 trace identifiers are operator evidence, not UI data, and are removed here.
+ */
+export type BrowserQuoteEntry = Omit<QuoteConsumptionEntry, 'trace' | 'provenance'> & {
+  readonly provenance: {
+    readonly sourceClassification: string | null;
+    readonly dataVersion: string | null;
+    readonly lineageHash: string | null;
+    readonly vendorTier: string | null;
+  } | null;
+};
+
+/**
  * The response payload for GET /api/watchlists/:watchlistId/quotes.
  *
  * `quotes` is one entry per watchlist item, in watchlist order. A failed item carries
@@ -91,7 +104,8 @@ export interface WatchlistQuotesView {
   readonly name: string;
   readonly createdAt: string;
   readonly totalItems: number;
-  readonly quotes: readonly QuoteConsumptionEntry[];
+  /** Browser-safe entries: W-24 action references and D01 trace fields are stripped. */
+  readonly quotes: readonly BrowserQuoteEntry[];
   readonly summary: {
     readonly requestedCount: number;
     readonly pricedCount: number;
@@ -184,6 +198,22 @@ export async function enrichWatchlistWithQuotes(
   return consumeQuotes(identities, deps);
 }
 
+/** Removes W-24 operator evidence before a consumption entry crosses the HTTP boundary. */
+function toBrowserQuoteEntry(entry: QuoteConsumptionEntry): BrowserQuoteEntry {
+  const { trace, provenance, ...browserFields } = entry;
+  // Explicitly consumed so a future refactor cannot silently re-add the server-only field.
+  void trace;
+  return {
+    ...browserFields,
+    provenance: provenance === null ? null : {
+      sourceClassification: provenance.sourceClassification,
+      dataVersion: provenance.dataVersion,
+      lineageHash: provenance.lineageHash,
+      vendorTier: provenance.vendorTier,
+    },
+  };
+}
+
 /**
  * Projects a watchlist and its quote batch into the HTTP view.
  *
@@ -201,7 +231,7 @@ export function projectWatchlistQuotesView(
     name: watchlist.name,
     createdAt: watchlist.createdAt,
     totalItems: watchlist.items.length,
-    quotes: batch.entries,
+    quotes: batch.entries.map(toBrowserQuoteEntry),
     summary: {
       requestedCount: batch.requestedCount,
       pricedCount: batch.pricedCount,

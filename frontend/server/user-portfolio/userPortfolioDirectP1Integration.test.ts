@@ -185,11 +185,12 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     // W-09 (PR #170) — in coordinated W-10, and finally -> `1ce6a829…` — the published IPD
     // `main` merge carrying the W-10 `POST /v1/connection/verify` operation — in coordinated
     // W-10 verify, then -> `26855625…` (IPD PR #176 merge commit, numeric quote
-    // security-ID serialization), and now -> `02786a77…` (IPD PR #197 merge commit, W-26
-    // `getFreshness()` contract).
+    // security-ID serialization), then -> `02786a77…` (IPD PR #197 merge commit, W-26
+    // `getFreshness()` contract), and now -> `0071980f…` (IPD PR #203 merge commit, W-24
+    // trace contract and bounded ring).
     // The Direct P1 HTTP-to-IPC behaviour asserted below is unchanged: the advance is
     // additive and IPD's Direct P1 surface is untouched by it.
-    const expected = 'github:ramkivs/iips-production-market-data#02786a778881e25821ecc8c62b12b33981e7e4c3';
+    const expected = 'github:ramkivs/iips-production-market-data#0071980f8d35406ea6388edd413bde597fd65dde';
     const manifest = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as {
       dependencies: Record<string, string>;
     };
@@ -199,7 +200,7 @@ describe('Direct P1 IRR HTTP-to-IPC integration', () => {
     expect(manifest.dependencies['iips-production-market-data']).toBe(expected);
     expect(lock.packages[''].dependencies?.['iips-production-market-data']).toBe(expected);
     expect(lock.packages['node_modules/iips-production-market-data'].resolved)
-      .toContain('#02786a778881e25821ecc8c62b12b33981e7e4c3');
+      .toContain('#0071980f8d35406ea6388edd413bde597fd65dde');
   });
 
   // Undefined until each resource actually starts: if `startPeer()` throws (e.g. the endpoint
