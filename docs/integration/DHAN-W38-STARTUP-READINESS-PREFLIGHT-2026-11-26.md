@@ -5,6 +5,14 @@
 **W-38 implementation and targeted/synthetic verification: COMPLETE.**
 **Owner-operated E4 acceptance: NOT PERFORMED** — no live daemon, Windows host or credential material was used in this sandbox. The preflight is proven against IPD's own validated client and a synthetic loopback diagnostics response; the owner's one-command dry-run on the configured machine remains the operational acceptance.
 
+| Milestone | Status |
+|---|---|
+| Implementation | **COMPLETE** |
+| Local verification | **COMPLETE** — re-verified on the final branch head before publication (see §6). |
+| Published to GitHub | **COMPLETE** — branch `arena/8f80ee85-iips-review-recovered`, implementation commit `40135a4f3047cecbc11fd335a058170c993f55f6`, CI-visibility commit `00ec13c5f0bdfaf899b8545eea6f1f13130da223`, PR [#653](https://github.com/ramkivs/iips-review-recovered/pull/653). |
+| Merged into IRR `main` | **COMPLETE** — merge commit `961e1f80538941924106ff396c3fd0c883b00577`, merged 2026-11-26T05:38:30Z; W-38 files confirmed present on `main` through the GitHub contents API. |
+| Operational acceptance | **PENDING** — W-36 E3 five-service Windows evidence and the W-38 owner dry-run. A successful merge establishes publication only, not operational acceptance. |
+
 ## 2. Authority and prerequisites
 
 - Authoritative roadmap: `docs/integration/DHAN-LIVE-INTEGRATION-IMPLEMENTATION-ROADMAP-2026-11-11.md` §7.2, W-38. This record is additive and does not rewrite the historical roadmap.
@@ -90,3 +98,13 @@ CLI smoke runs: with no configuration, exit 1 and seven `CONFIG-MISSING` lines; 
 ## 7. Final W-38 position
 
 IRR W-38 is implemented, safe by construction, and green under the full local suite, strict typechecks, production build and disclosure/guard tests. The roadmap W-38 row is updated with this evidence. Operational acceptance (E4 owner dry-run on the configured Windows machine, including a live daemon and the W-36 five-service evidence) remains outstanding and is explicitly not claimed by this record.
+
+## 8. Publication and merge record
+
+- Branch: `arena/8f80ee85-iips-review-recovered` (the W-38 publication branch; the repository's session branch name is fixed).
+- Commits: `40135a4f3047cecbc11fd335a058170c993f55f6` (W-38 implementation, CLI, tests, script/typecheck/allowlist/runbook/roadmap/evidence) and `00ec13c5f0bdfaf899b8545eea6f1f13130da223` (CI token-verification fix).
+- PR: [#653](https://github.com/ramkivs/iips-review-recovered/pull/653), base `main`, merged 2026-11-26T05:38:30Z as merge commit `961e1f80538941924106ff396c3fd0c883b00577`.
+- Initial PR checks failed at the CI step that asserted IPD was private; IPD is now public. Both workflows were changed to verify that the scoped token can read the repository without asserting a particular visibility, while still requiring a successful authenticated `gh api` call. Re-run results: `Typecheck · Test · Build` PASS (3m52s), `Windows runner · SQLite lifecycle · local IPC · child-process restart` PASS (3m18s), `Python compile · source/evidence/tracker validation` PASS (39s). No W-38 test or build step failed.
+- Post-merge runs on `961e1f80538941924106ff396c3fd0c883b00577`: CI run `45762924238` PASS; CAP-03 static checks run `45762924237` PASS; Windows compatibility run `45762924428` PASS. Merge state was `CLEAN`/`MERGEABLE` with all required checks green.
+- Presence on `main` verified through the GitHub contents API for the new evidence document and the three new W-38 modules; `frontend/package.json` on `main` contains the `w38:preflight` script.
+- Next roadmap step: W-36 E3 / W-38 owner dry-run, then W-37 after W-38 acceptance.
