@@ -179,3 +179,62 @@ describe('W05 Step 1 capture corrections are pinned, and the pinning is real', (
     }
   });
 });
+
+describe('W05 Step 1 capture — contract v2 (2026-11-28): baseline vs current census, resolver-state carriage, provenance', () => {
+  // NOTE: check ids and route strings are string literals, so these pins run against the RAW
+  // source; only the code-vs-code negative pins use the comment/string-stripped text.
+  test('E — the historical W04 baseline is recorded, never the pass/fail bar', () => {
+    const step1 = raw(STEP1);
+    const step1Code = stripCommentsAndStrings(step1);
+    // the old ids that used the W04 record as the bar are gone entirely
+    assert.ok(!/row-count-matches-w04/.test(step1), 'row-count-matches-w04 must be gone');
+    assert.ok(!/category-counts-match-w04/.test(step1), 'category-counts-match-w04 must be gone');
+    // current-census ids and the baseline params exist
+    assert.match(step1, /row-count-matches-current-census/, 'current-census row-count check');
+    assert.match(step1, /category-counts-match-current-census/, 'current-census category check');
+    assert.match(step1Code, /W04BaselineRowCount = 64/, 'W04 baseline row count defaults to the historical 64');
+    assert.match(step1Code, /W04BaselineMissingOrUnresolved = 63/, 'W04 baseline category defaults preserved');
+    assert.match(step1Code, /ExpectedRowCount = 65/, 'current-census default is the live 65-row population');
+    assert.match(step1Code, /AssertCategoryCounts/, 'category assertion is explicit and opt-in');
+    assert.match(step1, /w04-baseline-recorded/, 'baseline is recorded as its own check');
+    // the baseline file keeps its historical meaning and shape for the STEP2 reader
+    assert.match(step1, /w04-census-expected\.json/, 'historical baseline file kept');
+    assert.match(step1Code, /total\s*=\s*\$W04BaselineRowCount/, 'w04-census-expected.json carries the BASELINE total, not the current expectation');
+    assert.match(step1, /current-census-expected\.json/, 'current expectation written to its own file');
+    assert.match(step1, /W05-CENSUS-CAPTURE-V2/, 'contract version stamped');
+  });
+
+  test('F — category counts are asserted only with a category source; never derived from resolver state', () => {
+    const step1 = raw(STEP1);
+    assert.match(step1, /category-source-recorded/, 'the category source is recorded');
+    assert.match(step1, /if \(\$AssertCategoryCounts\)/, 'assertion is gated');
+    assert.match(step1, /\$categorySource -ne 'none'/, 'assertion requires a category source');
+    // the category path still reads only raw.category / the map - never item state or reason
+    const helpersCode = stripCommentsAndStrings(raw(HELPERS));
+    assert.ok(!/\$item\.(state|reason)\s*.*category|category\s*=\s*\$item/.test(helpersCode), 'category is never derived from the served resolver state/reason');
+  });
+
+  test('G — stored identity and resolver state travel side by side, divergence recorded', () => {
+    const helpersCode = stripCommentsAndStrings(raw(HELPERS));
+    assert.match(helpersCode, /resolverState\s*=\s*\$item\.state/, 'served resolver state carried on the row');
+    assert.match(helpersCode, /resolverReason\s*=\s*\$item\.reason/, 'served resolver reason carried on the row');
+    assert.match(helpersCode, /DivergentRows/, 'stored-identity-vs-resolver divergence is recorded');
+    assert.match(raw(STEP1), /stored-identity-vs-resolver-state/, 'the divergence check exists in the capture');
+  });
+
+  test('H — the served revision is cross-checked against the authoritative portfolio route', () => {
+    const step1 = raw(STEP1);
+    assert.match(step1, /portfolio-revision-matches-portfolio-route/, 'revision cross-check exists');
+    assert.match(step1, /\/api\/user-portfolios\//, 'the authoritative portfolio route is read');
+    assert.match(step1, /portfolioRouteRevision/, 'the route revision is recorded');
+    assert.match(step1, /\$revisionCrossOk/, 'the cross-check gates the result');
+  });
+
+  test('I — transport provenance surfaces the git exit code, stderr and safe.directory', () => {
+    const step1 = raw(STEP1);
+    assert.match(step1, /safe\.directory=/, 'git runs with an explicit safe.directory (dubious-ownership refusal becomes visible)');
+    assert.match(step1, /transportCommitGitError/, 'git stderr is captured into provenance');
+    assert.match(step1, /repoTreeState/, 'tree state distinguishes clean / dirty / git-failed');
+    assert.match(step1, /transportCommitExitCode/, 'the git exit code is recorded');
+  });
+});
