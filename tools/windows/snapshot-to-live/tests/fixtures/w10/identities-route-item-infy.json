@@ -1,0 +1,16 @@
+{
+  "observationId": "holding:DHAN_PORTFOLIO:0030",
+  "source": "HOLDING",
+  "portfolioId": "DHAN_PORTFOLIO",
+  "raw": {
+    "securityIdentity.securityId": "ISIN:INE009A01021:EQ",
+    "securityIdentity.isin": "INE009A01021",
+    "symbol": "INFY",
+    "quantity": 120
+  },
+  "binding": {
+    "status": "RESOLVED",
+    "securityId": "ISIN:INE009A01021:EQ",
+    "listingId": "IN:NSE:INFY:EQ:EQUITY"
+  }
+}

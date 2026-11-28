@@ -1,0 +1,28 @@
+{
+  "revisions": [
+    {
+      "revision": 1,
+      "operation": "CREATE",
+      "holdingsCount": 64,
+      "provenanceDigest": "1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "revision": 2,
+      "operation": "MERGE",
+      "holdingsCount": 60,
+      "provenanceDigest": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    {
+      "revision": 3,
+      "operation": "MERGE",
+      "holdingsCount": 63,
+      "provenanceDigest": "3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    {
+      "revision": 4,
+      "operation": "MERGE",
+      "holdingsCount": 65,
+      "provenanceDigest": "4444444444444444444444444444444444444444444444444444444444444444"
+    }
+  ]
+}

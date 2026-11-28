@@ -1,0 +1,25 @@
+{
+  "schema": "iips.w11-dep1.owner-bound-portfolio-capture.summary/v1",
+  "captureId": "W03-FIXTURE-SYNTHETIC-1",
+  "outcome": "CONSISTENT_CAPTURE",
+  "note": "SYNTHETIC TEST VECTOR - not a live capture. Sanitized-summary shape: no digest value, no holdingsCount field.",
+  "portfolio": {
+    "revision": 4,
+    "holdingsCountReported": 65,
+    "holdingsArrayLength": 65,
+    "isSaved": true,
+    "provenanceDigestPresent": true,
+    "provenanceDigestLength": 64,
+    "historyEntryCount": 4,
+    "matchingHistoryEntry": {
+      "revision": 4,
+      "operation": "MERGE",
+      "holdingsCount": 65
+    }
+  },
+  "exactCapture": {
+    "written": true,
+    "fileName": "exact-owner-bound-portfolio-capture.json",
+    "sha256": "9c0681654c2367200cbbcf81b8ccca7dc76867d94c92790a92dc8f9068b52368"
+  }
+}

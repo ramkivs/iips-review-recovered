@@ -1,0 +1,17 @@
+{
+  "captureId": "w03-fixture-capture",
+  "outcome": "CONSISTENT_CAPTURE",
+  "note": "SYNTHETIC TEST VECTOR - not live owner data.",
+  "portfolio": {
+    "revision": 4,
+    "holdingsCountReported": 65,
+    "holdingsArrayLength": 65,
+    "provenanceDigestPresent": true,
+    "provenanceDigestLength": 64,
+    "matchingHistoryEntry": {
+      "revision": 4,
+      "operation": "MERGE",
+      "holdingsCount": 65
+    }
+  }
+}
