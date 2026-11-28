@@ -26089,3 +26089,19 @@ remains with existing grants — none invoked. Next free line: §16.353.
 **Owner-side follow-ups (not done by Arena):** re-run W05-STEP1 on the host from a transport process serving the current build (the revision cross-check will name a stale one); supply `-CategoryMapFile` for the current 65-row census and `-AssertCategoryCounts $true` when category assertion is wanted; host Pester re-run of W05-SCRIPTS.Tests.ps1.
 
 Next free line: §16.378.
+
+## 16.378 Snapshot-to-Live W05 contract v2 (W05-CENSUS-CAPTURE-V2) PUBLISHED — PR #660 merged into IRR main (2026-11-28)
+
+**Publication record.** Branch `arena/e48e8c34-iips-review-recovered`: commit `cb14067d` ("feat(stl/w05): W05 census capture contract v2 ...") + merge of `origin/main` (`5b3cacda`). PR **#660** https://github.com/ramkivs/iips-review-recovered/pull/660 (base `main`, head `arena/e48e8c34-iips-review-recovered`) — all three required check suites PASS ("Python compile · source/evidence/tracker validation" 43s, "Typecheck · Test · Build" 3m32s, "Windows runner · SQLite lifecycle · local IPC · child-process restart" 3m2s); merged 2026-11-28T12:28:23Z, **merge commit `b9a71318b1b56a148dbca6c28d1978e353f11bc8`** on `origin/main`.
+
+**Verified on remote main:** `git fetch origin main` → `origin/main` at `b9a71318`; `git merge-base --is-ancestor cb14067d origin/main` true; all six files present at `origin/main` (`tools/windows/W05-STEP1-CAPTURE-REVISION1-IDENTITIES.ps1`, `tools/windows/W05-SCRIPT-HELPERS.psm1`, `tools/windows/W05-SCRIPTS.Tests.ps1`, `iips-platform/tests/investment/w05Step1Capture.test.ts`, NEW `frontend/server/investment/w05CoverageRouteCensusContract.test.ts`, tracker §16.377 with the `W05-CENSUS-CAPTURE-V2` stamp).
+
+**Files changed (6):** the three `tools/windows/W05-*` files (contract v2 params/checks/provenance + the earlier uncommitted W05 capture hardening they depend on), the platform capture-pin test, the new served-route contract test, and this tracker.
+
+**Test results at publication:** iips-platform `tsx --test tests/investment/w05*.test.ts` 129/129 PASS (28 suites); frontend vitest (new route-contract file + sourcesW05Projection + w05CoverageTransportRights + w05AuthorizationReferenceCoverageRoute) 17/17 PASS; sandbox end-to-end contract-v2 capture 13/13 checks PASS (RESULT OK/CAPTURED, bundle `/tmp/w05-v2-verify/W05-STEP1-V2-2026-11-28T1148`) + asserted-category mode PASS; `git diff --check` clean. CI: 3/3 suites pass.
+
+**Not in this PR (left as uncommitted local work on the branch):** `frontend/server/market-data/marketDataTransportConfig.ts`/`.test.ts` and the two `zero-socket-*.json` evidence files (separate market-data workstream), plus untracked `publish/`.
+
+**Remaining work (owner-side):** Windows-host W05-STEP1 re-run from a transport process serving the current build (the new `portfolio-revision-matches-portfolio-route` cross-check names a stale one); authoritative category map for the current 65-row census (`-CategoryMapFile` + `-AssertCategoryCounts $true`); host Pester re-run of `W05-SCRIPTS.Tests.ps1` (V2-1..V2-7); O1 roster provisioning stays an owner act (§16.376).
+
+Next free line: §16.379.
