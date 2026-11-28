@@ -21,10 +21,14 @@ test('clean browser output passes', async (t) => {
 
 test('every prohibited class is rejected in emitted files, including source maps', async (t) => {
   const dir = await fixture(t);
-  for (const forbidden of ['IIPS_MARKET_DATA_BASE_URL', 'IIPS_DHAN_BASE_URL', 'DhanApiClient',
+  for (const forbidden of ['IIPS_MARKET_DATA_BASE_URL', 'IIPS_DHAN_BASE_URL', 'IIPS_EQUICORE_BASE_URL', 'IIPS_EQUICORE_TRANSPORT_TOKEN', 'DhanApiClient',
     'MarketDataTransportClient', 'vault://synthetic', '-----BEGIN PRIVATE KEY-----',
     'quoteConsumptionBoundary', 'consumeQuotes', 'readIpdFreshnessStatus',
     'createIpdMarketDataTransportClient', 'IpdFreshnessStatus', 'IRR_PROVIDER_QUALIFICATION',
+    'equicoreTransportConfig', 'equicoreTransport', 'historicalConsumptionBoundary',
+    'readEquiCoreTransportConfiguration', 'createEquiCoreTransportClient',
+    'verifyEquiCoreResponseDigest', 'consumeHistoricalSeries', 'readIpdHistoricalSeries', 'handleEquiCoreHistoricalRequest',
+    '127.0.0.1:8614', 'iips-equicore-historical/v1',
     'watchlists-quotes', 'enrichWatchlistWithQuotes', 'handleWatchlistQuotesRequest',
     'http://user:password@example.test', 'password="syntheticsecret"', '"Bearer abcdefghijklmnop"',
     'node:sqlite', 'api.dhan.co', 'src/persistence/file']) {

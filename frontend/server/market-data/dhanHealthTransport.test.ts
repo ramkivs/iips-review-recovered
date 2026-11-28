@@ -31,6 +31,7 @@ import {
 import { classifyDhanHealth, isGovernedProviderState } from './dhanHealthState';
 import { resolveIpdMarketDataTransportConfig, createIpdMarketDataTransportClient } from './dhanMarketDataTransport';
 import type { ServiceDiagnostics } from 'iips-production-market-data/dhan-server';
+import { SYNTHETIC_DIAGNOSTICS_FRESHNESS, SYNTHETIC_DIAGNOSTICS_PERSISTENCE } from './dhanSyntheticFixtures';
 
 const FORBIDDEN_PAYLOAD_PATTERNS: readonly RegExp[] = [
   /vault:\/\//,
@@ -51,7 +52,7 @@ function expectNoProhibitedMarkers(serialized: string): void {
 /** A fully valid diagnostics payload; overrides tweak individual fields. */
 function diagnosticsFixture(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
-    contractVersion: 1,
+    contractVersion: 3,
     service: 'UP',
     providerState: 'CONFIGURED',
     providerConfiguration: 'CONFIGURED',
@@ -80,6 +81,8 @@ function diagnosticsFixture(overrides: Record<string, unknown> = {}): Record<str
     },
     qualifiedMappingsLoaded: 12,
     quoteCache: { size: 2, capacity: 256, state: 'CURRENT', currentEntries: 2, staleEntries: 0, unavailableEntries: 0 },
+    freshness: SYNTHETIC_DIAGNOSTICS_FRESHNESS,
+    persistence: SYNTHETIC_DIAGNOSTICS_PERSISTENCE,
     ...overrides,
   };
 }

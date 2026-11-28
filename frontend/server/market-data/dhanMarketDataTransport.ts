@@ -2,12 +2,14 @@
  * IRR server-side IPD market-data transport configuration (DHAN-P3).
  *
  * Authority:
- *   - IPD `ramkivs/iips-production-market-data` @ `1ce6a829a7ce65550356a0071c108a60f2d813be`
- *     (the published IPD `main` merge carrying W-07 PR #168 `5b384c72…`, W-08 PR #169
- *     `75db511…`, W-09 PR #170 `a402eee…` and W-10's `POST /v1/connection/verify` operation;
- *     the pin advanced from `d80d773…` so the Status-page Verify action can invoke IPD's
- *     governed operator-initiated connection-verification operation), consumed through the
- *     server-only `./dhan-server` subpath.
+ *   - IPD `ramkivs/iips-production-market-data` @ `0071980f8d35406ea6388edd413bde597fd65dde`
+ *     (the published IPD `main` merge of PR #203 / W-24, adding the v1 trace contract,
+ *     `DhanDiagnosticRing`, `MarketDataTransportClient.getTraceRing()` and D01
+ *     `traceId`/`correlationId`). The prior `02786a77…` pin carried W-26
+ *     (`getFreshness()`, `MARKET_DATA_ROUTES.freshness` and the fail-closed freshness wire
+ *     validator); earlier pins carried W-07/W-08/W-09/W-10 and PR #176 numeric quote
+ *     serialization. IRR delegates all loopback, bearer, timeout and response-validation
+ *     guards to IPD's client. Consumed through the server-only `./dhan-server` subpath.
  *   - The transport credential env name is IPD's own: `MARKET_DATA_TRANSPORT_TOKEN_ENV` =
  *     `IIPS_MARKET_DATA_TRANSPORT_TOKEN`. The transport credential is SEPARATE from the Dhan
  *     API credentials and is never a Dhan credential.
@@ -33,9 +35,10 @@
  *
  * LOOPBACK AND AUTHENTICATION BOUNDARIES
  *   IPD's own client enforces the boundary, not IRR: it refuses a non-loopback base URL, a
- *   non-`http:` scheme, embedded URL credentials, a query string, a production environment
- *   and an empty token, each with a typed fail-closed outcome. IRR therefore does not
- *   duplicate those checks — it configures the address and lets IPD's client police it.
+ *   non-`http:` scheme, embedded URL credentials, a query string, a production environment,
+ *   an unusable bearer token, redirects and an unbounded response, each with a typed
+ *   fail-closed outcome. IRR therefore does not duplicate those checks — it configures the
+ *   address and lets IPD's client police it, including for `GET /v1/freshness`.
  *
  *   IRR additionally refuses to CONSTRUCT a client at all when the transport credential is
  *   absent or blank, so an unconfigured workstation reports "not configured" rather than
@@ -44,7 +47,11 @@
 
 import {
   MarketDataTransportClient,
+  MARKET_DATA_ROUTES,
   MARKET_DATA_TRANSPORT_TOKEN_ENV,
+  type FreshnessRequest,
+  type FreshnessStatus,
+  type MarketDataTransportClientOptions,
 } from 'iips-production-market-data/dhan-server';
 
 /** The server-side environment variable naming the IPD market-data daemon base URL. */
@@ -242,10 +249,50 @@ export function describeIpdMarketDataTransportStatus(
  */
 export function createIpdMarketDataTransportClient(
   config: IpdMarketDataTransportConfig,
+  options?: Pick<MarketDataTransportClientOptions, 'fetchImpl'>,
 ): MarketDataTransportClient {
   return new MarketDataTransportClient(config.baseUrl, config.token, {
     timeoutMs: config.timeoutMs,
+    ...options,
   });
+}
+
+/**
+ * W-24 trace context, derived from IPD's own client so IRR never declares a second contract.
+ * `traceVersion` is the published literal `1`; `actionId` is an opaque lowercase UUIDv4.
+ */
+export type IpdTraceContext = ReturnType<MarketDataTransportClient['generateTraceContext']>;
+
+/** The read-only W-24 trace-ring read options IPD publishes. */
+export type IpdTraceRingOptions = Parameters<MarketDataTransportClient['getTraceRing']>[0];
+
+/**
+ * Reads IPD's bounded diagnostic ring through IPD's own client.
+ *
+ * This is a supplementary operator read: it never mutates IPD state, never triggers a quote
+ * or a refresh, and its failure never changes the outcome of an application action. The
+ * client enforces loopback, bearer authentication, bounded parameters and wire validation.
+ */
+export function readIpdTraceRing(
+  config: IpdMarketDataTransportConfig,
+  options?: IpdTraceRingOptions,
+  fetchImpl?: typeof fetch,
+): ReturnType<MarketDataTransportClient['getTraceRing']> {
+  const client = createIpdMarketDataTransportClient(config, fetchImpl ? { fetchImpl } : undefined);
+  return client.getTraceRing(options);
+}
+
+/**
+ * Executes a D02 historical OHLCV read through IPD's own `MarketDataTransportClient`.
+ * Kept inside the IPD transport composition module so quote-boundary architectural isolation
+ * remains closed over `createIpdMarketDataTransportClient`.
+ */
+export async function readIpdHistoricalSeries(
+  config: IpdMarketDataTransportConfig,
+  request: Parameters<MarketDataTransportClient['getHistorical']>[0],
+): ReturnType<MarketDataTransportClient['getHistorical']> {
+  const client = createIpdMarketDataTransportClient(config);
+  return client.getHistorical(request);
 }
 
 /**
@@ -254,7 +301,7 @@ export function createIpdMarketDataTransportClient(
  * The route is a READ-ONLY status lookup: it never starts a refresh, calls the provider,
  * mutates the cache or schedules work.
  */
-export const IPD_FRESHNESS_PATH = '/v1/freshness';
+export const IPD_FRESHNESS_PATH = MARKET_DATA_ROUTES.freshness;
 
 /**
  * The outcome of a freshness read.
@@ -276,9 +323,11 @@ export type IpdFreshnessReadOutcome =
 /**
  * IPD's freshness status shape, mirrored as a structural type.
  *
- * It is declared structurally rather than imported so the server boundary stays explicit
- * about exactly which IPD fields it consumes, and so a missing or malformed field is
- * detected at the projection boundary rather than silently trusted.
+ * It is declared structurally rather than imported wholesale so the server boundary stays
+ * explicit about which IPD fields it consumes. Optional W-22 calendar and W-19 D02 evidence
+ * fields are typed directly from IPD's `FreshnessStatus`: they are passed through verbatim,
+ * never recomputed or invented. `cacheState` remains a string because IRR's synthetic
+ * fixtures use the legacy `'HIT'`/`'EMPTY'` spellings in addition to IPD's own vocabulary.
  */
 export interface IpdFreshnessStatus {
   readonly domain: string;
@@ -298,156 +347,74 @@ export interface IpdFreshnessStatus {
     readonly outcome: string;
     readonly lastFailure: { readonly code: string; readonly priorPreserved: boolean } | null;
   };
+  /** W-22: how observation age was assessed. */
+  readonly calendarMode?: FreshnessStatus['calendarMode'];
+  /** W-22: whether session-calendar coverage was found. */
+  readonly calendarAssessment?: FreshnessStatus['calendarAssessment'];
+  readonly ageBasis?: FreshnessStatus['ageBasis'];
+  readonly basis?: FreshnessStatus['basis'];
+  readonly sessionState?: FreshnessStatus['sessionState'];
+  readonly calendarVersion?: FreshnessStatus['calendarVersion'];
+  readonly completedTradingDays?: FreshnessStatus['completedTradingDays'];
+  readonly calendarIssue?: FreshnessStatus['calendarIssue'];
+  /** W-19: D02 four-instant provenance evidence. */
+  readonly timestamps?: FreshnessStatus['timestamps'];
+  readonly timestampStates?: FreshnessStatus['timestampStates'];
+  readonly revision?: FreshnessStatus['revision'];
+  readonly evidenceSource?: FreshnessStatus['evidenceSource'];
+  readonly refreshOutcome?: FreshnessStatus['refreshOutcome'];
 }
 
 /**
- * Reads IPD's read-only freshness status.
+ * Reads IPD's read-only freshness status via IPD's own typed transport client.
  *
- * WHY THIS EXISTS SEPARATELY FROM `MarketDataTransportClient`
- *   IPD P5 publishes `GET /v1/freshness` on the market-data HTTP server, but the typed
- *   `MarketDataTransportClient` exposes only `getQuote`, `getHistorical` and `health` — it
- *   has no `getFreshness`. IRR therefore performs the read itself, at the same loopback
- *   boundary, with the SAME bearer credential and the SAME timeout, and applies the SAME
- *   guards IPD's client applies (loopback-only, `http:` only, no credentials embedded in
- *   the URL, non-empty token, bounded request).
+ * Since W-26 (IPD PR #197) `MarketDataTransportClient.getFreshness` performs the read: it
+ * enforces the production guard, loopback-only URL, bearer-token hygiene, redirect refusal,
+ * bounded timeout, HTTP status/error propagation and strict wire validation, including the
+ * W-22 calendar and W-19 D02 timestamp/revision fields. IRR delegates to it rather than
+ * maintaining a second client, and only adapts IPD's failure vocabulary to IRR's.
  *
- *   IRR does NOT re-implement IPD's freshness evaluation: the verdict, the threshold, the
- *   stale concession and the suppression decision all come from IPD and are published
- *   verbatim. This function only carries the request and validates the response shape.
+ * IRR does NOT re-implement IPD's freshness evaluation: the verdict, the threshold, the
+ * stale concession and the suppression decision all come from IPD and are published
+ * verbatim. This function only carries the request and maps transport failures.
+ *
+ * W-24 adds an optional trace context: when supplied, IPD's client attaches the approved
+ * headers to this supplementary read as well, so the freshness event shares the action id.
  */
 export async function readIpdFreshnessStatus(
   config: IpdMarketDataTransportConfig,
-  query: Readonly<Record<string, string>>,
-  fetchImpl: typeof fetch = fetch,
+  query: FreshnessRequest | Readonly<Record<string, string>>,
+  fetchImpl?: typeof fetch,
+  traceContext?: IpdTraceContext,
 ): Promise<IpdFreshnessReadOutcome> {
-  // The SAME guards IPD's own client enforces, re-asserted so IRR cannot widen the
-  // boundary by using a different call path.
-  if (!config.token.trim()) {
-    return { ok: false, code: 'UNAUTHENTICATED', message: 'missing or empty transport credential', httpStatus: null };
+  const client = createIpdMarketDataTransportClient(config, fetchImpl ? { fetchImpl } : undefined);
+  const outcome = await client.getFreshness(query as FreshnessRequest, traceContext);
+
+  if (outcome.ok) {
+    return { ok: true, status: outcome.status };
   }
-  let parsed: URL;
-  try {
-    parsed = new URL(config.baseUrl);
-  } catch {
-    return { ok: false, code: 'TRANSPORT_FAILURE', message: 'market-data transport baseUrl is malformed', httpStatus: null };
-  }
-  if (
-    parsed.protocol !== 'http:' ||
-    !LOOPBACK_HOSTS.has(parsed.hostname.toLowerCase()) ||
-    parsed.username !== '' ||
-    parsed.password !== '' ||
-    parsed.search !== ''
-  ) {
+
+  const { failure } = outcome;
+  if (failure.code === 'TIMEOUT') {
     return {
       ok: false,
-      code: 'TRANSPORT_FAILURE',
-      message: 'market-data transport is restricted to local loopback http:// server-to-server endpoints',
-      httpStatus: null,
+      code: 'REQUEST_TIMEOUT',
+      message: failure.message,
+      httpStatus: failure.httpStatus ?? 504,
     };
   }
-
-  const url = new URL(`${config.baseUrl.replace(/\/+$/, '')}${IPD_FRESHNESS_PATH}`);
-  for (const [key, value] of Object.entries(query)) {
-    url.searchParams.set(key, value);
-  }
-
-  let response: Response;
-  try {
-    response = await fetchImpl(url.toString(), {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${config.token}`,
-      },
-      redirect: 'error',
-      signal: AbortSignal.timeout(config.timeoutMs),
-    });
-  } catch (err: unknown) {
-    const name = (err as { name?: unknown } | null)?.name;
-    if (name === 'TimeoutError' || name === 'AbortError') {
-      return { ok: false, code: 'REQUEST_TIMEOUT', message: 'market-data transport request timed out', httpStatus: 504 };
-    }
-    return { ok: false, code: 'TRANSPORT_FAILURE', message: 'market-data transport request failed', httpStatus: 502 };
-  }
-
-  let payload: unknown;
-  try {
-    payload = await response.json();
-  } catch {
-    return { ok: false, code: 'MALFORMED_RESPONSE', message: 'market-data transport response is not valid JSON', httpStatus: response.status };
-  }
-
-  if (response.status < 200 || response.status >= 300) {
-    const error = (payload as { error?: { code?: unknown; message?: unknown } } | null)?.error;
+  if (failure.code === 'TRANSPORT_FAILURE' && failure.httpStatus == null) {
     return {
       ok: false,
-      code: typeof error?.code === 'string' ? error.code : 'TRANSPORT_FAILURE',
-      message: typeof error?.message === 'string' ? error.message : 'market-data transport request failed',
-      httpStatus: response.status,
+      code: failure.code,
+      message: failure.message,
+      httpStatus: 502,
     };
   }
-
-  const status = parseIpdFreshnessStatus(payload);
-  if (status === null) {
-    return {
-      ok: false,
-      code: 'MALFORMED_RESPONSE',
-      message: 'market-data transport returned a malformed freshness status',
-      httpStatus: response.status,
-    };
-  }
-  return { ok: true, status };
-}
-
-/**
- * Validates IPD's freshness payload shape.
- *
- * A payload that does not carry the required fields is REJECTED rather than projected with
- * invented values. A null return means "this is not a freshness status".
- */
-function parseIpdFreshnessStatus(payload: unknown): IpdFreshnessStatus | null {
-  const record = (payload ?? {}) as Record<string, unknown>;
-  if (typeof record.domain !== 'string') return null;
-  if (typeof record.cacheState !== 'string') return null;
-  if (typeof record.timestampEvidence !== 'string') return null;
-  if (typeof record.evaluatedAt !== 'string') return null;
-  if (typeof record.verdict !== 'string') return null;
-  if (typeof record.thresholdSeconds !== 'number' || !Number.isFinite(record.thresholdSeconds)) return null;
-  if (typeof record.staleConcessionActive !== 'boolean') return null;
-  if (typeof record.suppressExecution !== 'boolean') return null;
-  if (typeof record.eligibleForUse !== 'boolean') return null;
-
-  const lastRefresh = (record.lastRefresh ?? {}) as Record<string, unknown>;
-  if (typeof lastRefresh.outcome !== 'string') return null;
-  const rawFailure = lastRefresh.lastFailure;
-  let failure: { readonly code: string; readonly priorPreserved: boolean } | null = null;
-  if (rawFailure !== null && rawFailure !== undefined) {
-    const failureRecord = rawFailure as Record<string, unknown>;
-    if (typeof failureRecord.code !== 'string' || typeof failureRecord.priorPreserved !== 'boolean') {
-      return null;
-    }
-    failure = { code: failureRecord.code, priorPreserved: failureRecord.priorPreserved };
-  }
-
-  const nullableString = (value: unknown): string | null =>
-    typeof value === 'string' && value.trim() !== '' ? value : null;
-  const nullableNumber = (value: unknown): number | null =>
-    typeof value === 'number' && Number.isFinite(value) ? value : null;
-
   return {
-    domain: record.domain,
-    cacheState: record.cacheState,
-    asOf: nullableString(record.asOf),
-    timestampEvidence: record.timestampEvidence,
-    receivedAt: nullableString(record.receivedAt),
-    evaluatedAt: record.evaluatedAt,
-    observationEvaluatedAt: nullableString(record.observationEvaluatedAt),
-    thresholdSeconds: record.thresholdSeconds,
-    ageSeconds: nullableNumber(record.ageSeconds),
-    verdict: record.verdict,
-    staleConcessionActive: record.staleConcessionActive,
-    suppressExecution: record.suppressExecution,
-    eligibleForUse: record.eligibleForUse,
-    lastRefresh: { outcome: lastRefresh.outcome, lastFailure: failure },
+    ok: false,
+    code: failure.code,
+    message: failure.message,
+    httpStatus: failure.httpStatus ?? null,
   };
 }

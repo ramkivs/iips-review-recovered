@@ -25556,78 +25556,31 @@ W15/W16 published (§16.334–§16.337); B06 verified. Next free line: §16.339.
 
 **Status distinction (explicit):** this is SYNTHETIC implementation verification of the gate mechanics. W20 acceptance of an actual portfolio remains **BLOCKED / NOT ACCEPTED** — it requires actual captured-revision evidence via B02 host access plus W05/W06, and an established θM (from observed evidence under the standing grant). No D1/D2/D3/θM/max-age/multiplier policy was invented or selected. Next free line: §16.346.
 
+### §16.346 — EquiCore Phase C IRR Consumer, Transport, D-4.7 Evidence & Explicit Source UI IMPLEMENTED (continues §16.341 / EquiCore PR #8) 2026-11-24 (commit pending)
 
-### §16.346 — Snapshot-to-Live W02/W03 evidence publication VERIFIED on `evidence/stl-w02-w12-publication`; downstream W02–W12 dependency assessment (read-only; no acceptance change) 2026-11-25 (commit pending)
+**Repo state & authority:** IRR `main` `b271308` (PR #650 / §16.345); EquiCore `ramkivs/equity-market-data-engine` `5101714` (PR #8 Phase B `serving.iips_serve` verified locally: 50/50 tests pass in `tests/test_serving_iips_serve.py`). Implements the IRR-side Phase C scope authorized under `docs/integration/IIPS-EQUICORE-PA-APPROVAL-RECORD-2026-11-24.md` (`PA-DEC-01..05`, `IRR-AC-01..05`). IPD 403 from this sandbox; full `npm ci` + `iips-production-market-data` + `iips-np04-governed-persistence` typecheck/tests/build are verified by GitHub Actions CI on the PR.
 
-**Change `CV-CORR-277`; `CHG-2026-11-25-01`; validation `V2244` (2026-11-25 UTC).** Documentation-only record on branch
-`arena/e48e8c34-iips-review-recovered`. Read-only verification: the published branch was inspected via `git ls-remote` /
-GitHub API / `git fetch` + `git show FETCH_HEAD` / `git ls-tree` only — **no checkout, no switch, no modification of the
-published branch, no host access, no vendor call, no credential read, no IPD write, no pin change**. Existing execution and
-acceptance statuses are preserved untouched; publication verification is recorded separately from formal acceptance.
+**Files added/changed (IRR-only):**
+- **Server config, transport & boundary:**
+  - `frontend/server/market-data/equicoreTransportConfig.ts` & `equicoreTransportConfig.test.ts` — loopback-only (`127.0.0.1` / `localhost` / `::1`) env reader (`IIPS_EQUICORE_BASE_URL`, `IIPS_EQUICORE_TRANSPORT_TOKEN`, `IIPS_EQUICORE_TIMEOUT_MS`), rejecting credentials, queries, fragments, non-root paths, and malformed tokens without disclosing tokens (`PA-DEC-03`).
+  - `frontend/server/market-data/equicoreTransport.ts` & `equicoreTransport.test.ts` — fail-closed HTTP client for `iips-equicore-historical/v1` (`GET /v1/health`, `POST /v1/historical/bars`, `POST /v1/historical/eod-observation`, `GET /v1/instruments/:isin/associations`, `GET /v1/calendar`) verifying EquiCore's canonical `responseDigest` + `X-Response-Digest` SHA-256 and `PINNED_GENERATION_EOD_SNAPSHOT` / `bitemporalKnowledgeAsOf: false` invariants (`PA-DEC-03`, `PA-DEC-05`).
+  - `frontend/server/market-data/historicalConsumptionBoundary.ts` & `historicalConsumptionBoundary.test.ts` — explicit `EQUICORE_NSE_EOD | DHAN_D02_OHLCV` consumption boundary enforcing `D-4.2` (no silent fallback, no blending), `D-4.6` canonical 3-tuple identity, `PA-DEC-01` scope bounds (`422`), `MD-09` completeness accounting, and `buildHistoricalPriceEvidenceFromConsumption` (`IRR-AC-01`, `IRR-AC-02`, `IRR-AC-03`).
+  - `frontend/server/market-data/equicoreRoutes.ts` & `equicoreRoutes.test.ts`, wired into `frontend/server/executive-transport.ts` — mounts `/api/equicore/health`, `/api/equicore/historical`, `/api/equicore/eod-observation`, `/api/equicore/instruments/:isin/associations`, `/api/equicore/calendar`, and `/api/historical` (`PA-DEC-01`..`03`).
+- **`D-4.7` durable evidence & `W16` lineage:**
+  - `frontend/server/reports/historicalEvidence.ts`, `historicalEvidence.test.ts`, `frontend/server/reports/index.ts`, and `frontend/server/reports/artifact.ts` — `iips.historical-price-evidence/v1` normative validator, `observationDigest`, fail-closed `artifact.ts` enforcement on `NP-04`/`NP-06` `canonicalPayload.historicalPriceEvidence`, and offline SQLite/transport replay tests (`PA-DEC-04`, `IRR-AC-04`).
+  - `frontend/server/investment/lineage/provenanceEnvelope.ts` — `compareW15HistoricalEvidence` surfacing `W16` `v1` vs `v2` `priceDeltas`, `baselineManifestSha256`, `compositeGeneration`, `adjustment`, and `responseDigest` diffs (`PA-DEC-04`).
+- **Browser bundle security gate, TS config & UI:**
+  - `frontend/scripts/verify-browser-bundle.mjs` & `verify-browser-bundle.test.mjs` — rejects `IIPS_EQUICORE_*`, `127.0.0.1:8614`, `iips-equicore-historical/v1`, and EquiCore server symbols in `dist/` (`IRR-AC-05`).
+  - `frontend/tsconfig.replay-server.json` — includes all Phase C EquiCore and historical-evidence server modules and tests.
+  - `frontend/src/api/equicoreHistorical.ts`, `frontend/src/features/dhan/DhanHistorical.tsx`, and `frontend/src/features/dhan/EquicoreHistorical.test.tsx` — browser `noAuthFetch` client, explicit `Historical data source` selector (`DHAN_D02_OHLCV | EQUICORE_NSE_EOD`), `D-4.2` non-fallback refusal for `BSE_EQ`/intraday, `D-4.4` unadjusted disclosure, and `MD-09` completeness badges (`IRR-AC-03`).
 
-**1. Publication verified.** Remote branch `evidence/stl-w02-w12-publication` exists at exactly
-**`c2e9cd88ba991945bb30c94bd6c5f16e8801d76d`** ("Publish STL evidence: W02, W03", author Ramaki `sairam260573@gmail.com`,
-`2026-11-25T13:10:08Z`, parent `e5245b28e94636efbaa6807f26140ad7622a75f8`). `publication-index.json`
-(`docs/evidence/snapshot-to-live/publication-index.json`) declares `publicationType=STL_EVIDENCE_ONLY`,
-`evidenceRoot=G:\IIPS-Evidence\snapshot-to-live`, updated `2026-11-25T13:10:07Z`, workItems W02 (statusAttested PASS,
-fileCount 121, excludedDirectoryNames [`LOCAL-ONLY-DO-NOT-PUBLISH`]) and W03 (PASS, 33).
+**Local verification executed (sandbox; pre-CI):**
+- `tests/test_serving_iips_serve.py` (`ramkivs/equity-market-data-engine@5101714`): 50/50 pass.
+- Cross-process loopback integration check (live Python `serving.iips_serve` over `tests/serving_fixtures.py` <-> Node `equicoreTransport.ts` + `historicalEvidence.ts`): `/v1/health`, `/v1/historical/bars` (`200`, `responseDigest` verified), `/v1/historical/eod-observation` (`200`, `PINNED_GENERATION_EOD_SNAPSHOT`), `/v1/instruments/INE002A01018/associations` (`200`), `/v1/calendar` (`200`), `iips.historical-price-evidence/v1` validation pass, and offline fail-closed check (`TRANSPORT_FAILURE`, zero token leak).
+- Standalone Vitest & Node suites: `verify-browser-bundle.test.mjs` (3/3), `equicoreTransportConfig.test.ts` (4/4), `equicoreTransport.test.ts` (3/3), `DhanMarketData.test.tsx` (52/52), `EquicoreHistorical.test.tsx` (2/2), `reports-artifact.test.ts` (56/56), `provenanceEnvelope.test.ts` (26/26).
+- Full `npm ci` + `typecheck` + `typecheck:replay-server` + `test:ci` (`historicalConsumptionBoundary.test.ts`, `equicoreRoutes.test.ts`, `historicalEvidence.test.ts`, and full IRR suite) + `build` + `verify:browser-bundle`: pending GitHub Actions CI run on PR push.
 
-**2. Inventory + integrity.** Published tree under `docs/evidence/snapshot-to-live/` contains **only** `W02/` (6 execution
-directories, 91 files), `W03/` (3 execution directories, 33 files) and `publication-index.json` — **125 evidence files;
-zero W04–W12 paths anywhere under `docs/evidence/`** (confirmed W04–W12 were NOT published). **All 124 published files
-re-hash-verified**: SHA-256 + byte length recomputed from the published blobs match the index entries 124/124 (W02 91/91,
-W03 33/33); zero files in the tree that are absent from the index. The 30 index-listed W02 files not present in the branch
-are exclusively `*.log` files (capture-run/concurrent/ipd test logs) — excluded by the repo `.gitignore` (`*.log`,
-`LOCAL-ONLY-DO-NOT-PUBLISH/`), i.e. the local-only/log exclusion policy held; no `.env.local`, no `node_modules`, no
-`.arena`, no drive-letter/local paths in the published tree. Per-execution `manifest-verify.json` all `Ok=true`
-(W02 PASS `STL-01-W02-20261124T202255Z` 29/29; FAIL runs `...T192044Z` 29/29, `...T200926Z` 28/28, `...T201339Z` 28/28;
-`...T185627Z` BLOCKED 3/3; `...T185840Z` FAIL 3/3; `...T191553Z` carries `execution.json` + 12 capture output files but no
-result/manifest — an incomplete run published as-is. W03: `...T080425Z` FAIL 9/9, `...T095250Z` FAIL 9/9,
-`STL-02-W03-20261125T100309Z` PASS 9/9).
-
-**3. Key published content.** W02 PASS (`STL-01-W02-20261124T202255Z`): concurrent captures exit 0,0, same revision=True,
-provenance digest equality=True; IPD suites `stage2_portfolio_read_snapshot.test.js` and `g3_portfolio_read_isolation.test.js`
-exit 0. W03 PASS (`STL-02-W03-20261125T100309Z`): capture `a1146cc0-0baf-4cbe-aeb1-9687ed29cf75` revision **4**, holdings
-**65/65**, digest present (64 hex); `reconciliation.json` Ok=true (detail rev 4/65 = capture, revisions route 4 entries,
-holdings endpoint 405 classified `unsupported-405-write-only`, digest detail-vs-history and detail-vs-exact match).
-
-**4. Statuses preserved (no acceptance change).** W04 remains **ACCEPTED AS MEASURED 1/64 (§16.286; IPD PR #166)** — this
-publication changes no acceptance. W06 remains NOT ACCEPTED (§16.321/§16.322). W09 mechanics verified, actual-data acceptance
-not claimed (§16.324/§16.325). W11 refusal recorded, not accepted (§16.327). W13 actual valuation not claimed (§16.328).
-The 2026-11-25 failed W04 execution `STL-03-W04-20261125T121636Z` remains under code correction (Arena branch work);
-**W04 is not re-accepted by this entry**.
-
-**5. Downstream dependency assessment (W02–W12, per master runbook §2/§2a deps).** Published W02+W03 PASS evidence now
-satisfies the *evidence-input* side of every step whose deps include 1/2 — but those steps still require their own host
-execution (B02) to run; published evidence enables verification, it does not execute.
-- **W02** — evidence publication VERIFIED (PASS execution published, hash-verified). Downstream: strengthens W09.
-- **W03** — evidence publication VERIFIED (PASS `STL-02-W03-20261125T100309Z`, rev 4/65 reconciled, manifest 9/9).
-- **W04** — **PARTIALLY UNBLOCKED**: step-02 capture now exists published and reconciles (cross-reconciliation input
-  satisfied); still needs a fresh host execution with a successful W05-STEP1 `CAPTURED` route capture after the code
-  correction; acceptance unchanged (§16.286 stands).
-- **W05** — **PARTIALLY UNBLOCKED**: deps 0,2 satisfied as published evidence; host execution + all four W05 steps still
-  required (workstream IN PROGRESS — NOT ACCEPTED regardless).
-- **W06** — **PARTIALLY UNBLOCKED**: call budget now bounded by published W03 rev-4 census and W04 1/64; actual measurement
-  still BLOCKED on B02 host access + daemon :8791 (§16.321/§16.322 unchanged).
-- **W09** — **PARTIALLY UNBLOCKED**: W02 consistency evidence + W03 reconciled capture published (mechanics verified
-  §16.324/§16.325); actual-data acceptance still needs a live host run under B02.
-- **W10** — **PARTIALLY UNBLOCKED**: census cross-reference available from published evidence; needs steps 02–05 host run;
-  qualification remains 53/115.
-- **W11** — refusal **recording** UNBLOCKED (default dep 6 only, and refusal recording is independent); **actual execution
-  STILL BLOCKED** (`-AttemptActualExecution` needs 02/04/05/06/07 PASS — W03 actual data via B02, W05 rights, W06
-  observations, W10-sufficient qualification; today the honest outcome is the recorded refusal).
-- **W12** — **STILL BLOCKED**: D1–D3/θM await W05/W06 *actual* evidence; published W02/W03 supply no quotes/rights.
-
-**6. Remaining blockers.** B02 host access for all live runs; fresh W04 execution post-correction; W05 financial-coverage
-rights evidence; W10 qualification 53/115 (62 inputs unauthorised); IPD PR #163 identity import for beyond-1/64; θM/D1–D3
-await W05/W06 actuals. Governance: this pass performed no implementation and moved no acceptance; implementation authority
-for any downstream code remains with the existing PA/owner grants (NP-12 series) — none invoked here.
-
-**7. Recommended next roadmap activity.** (a) Fresh host execution of corrected W04 (Arena branch package) to obtain a
-successful `CAPTURED` identities-route census 64/1/63 — the single gating item for W06/W10/W11-actual/W12 evaluation
-inputs; (b) then W05 + W06 host runs under B02 using the now-published W03 PASS capture as the reconciled baseline;
-(c) W09 actual-data acceptance pass with W02 consistency evidence. Next free line: §16.347.
-
+**Boundary preserved:** EquiCore serves `RAW_UNADJUSTED` `1D` `NSE_EQ` EOD only (`bitemporalKnowledgeAsOf: false`); `D-4.2` non-fallback, `D-4.6` canonical identity, and `D-4.7` offline report replay remain strictly enforced. Next free line: §16.347.
 ### §16.347 — Snapshot-to-Live W10 correction: env-file prerequisite removed from `07-w10-mapping-qualify.ps1`; qualify POST gated on suites+route+daemon and recorded successful only on HTTP 2xx (code correction; no acceptance change) 2026-11-25
 
 - **Change (Arena branch, authoritative tree):** `tools/windows/snapshot-to-live/07-w10-mapping-qualify.ps1`

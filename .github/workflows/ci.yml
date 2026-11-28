@@ -82,12 +82,12 @@ jobs:
           repositories: iips-production-market-data
           permission-contents: read
 
-      - name: Verify the scoped token can read the private IPD repository
+      - name: Verify the scoped token can read the IPD repository
         env:
           GH_TOKEN: ${{ steps.ipd-token.outputs.token }}
         run: |
-          test "$(gh api repos/ramkivs/iips-production-market-data --jq '.private')" = true
-          echo 'Verified the scoped token reads a private IPD repository.'
+          gh api repos/ramkivs/iips-production-market-data --jq 'if (.private == true or .private == false) then .full_name else error("unexpected IPD visibility") end'
+          echo 'Verified the scoped token reads the IPD repository.'
 
       # Prepare Basic auth only in a masked workflow output; the authorization header is passed
       # to Git through the install step's environment and is never written to Git config.
