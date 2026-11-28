@@ -14,6 +14,137 @@
     Invoke-Pester -Path tools\windows\W05-SCRIPTS.Tests.ps1 -Output Detailed
 #>
 
+# Fixture builders. Defined BEFORE every Describe block so the BeforeAll blocks can
+# resolve them during the Pester run phase (2026-11-27 repair, tracker section 16).
+
+function New-W05Step1FixtureItems {
+  # The served 65-item shape (operator evidence 2026-11-19): 64 DHAN_PORTFOLIO items -
+  # one populated flat 'securityIdentity.securityId' and 63 explicit `securityIdentity: null` -
+  # plus one AIIL default-portfolio item. Synthetic stand-in values only.
+  $items = @()
+  $populatedRaw = [pscustomobject]@{
+    symbol                           = 'FIXTURE-SYM-1'
+    isin                             = 'FIXTURE-ISIN-1'
+    exchange                         = 'NSE'
+    quantity                         = 2.0
+    'securityIdentity.securityId'    = 'ISIN:INE415A01038:EQ'
+    'securityIdentity.isin'          = 'INE415A01038'
+    'securityIdentity.series'        = 'EQ'
+    'securityIdentity.isinAuthority' = 'NON_AUTHORITATIVE'
+    portfolioRevision                = 1
+  }
+  $items += [pscustomobject]@{
+    observationId  = 'holding:DHAN_PORTFOLIO:0001'
+    portfolioId    = 'DHAN_PORTFOLIO'
+    state          = 'UNMATCHED'
+    reason         = 'ISIN_NOT_IN_ROSTER'
+    upstreamStatus = 'RESOLVED'
+    raw            = $populatedRaw
+  }
+  $index = 2
+  while ($index -le 64) {
+    $nullRaw = [pscustomobject]@{
+    symbol            = ('FIXTURE-SYM-' + $index.ToString())
+      isin              = $null
+      exchange          = $null
+      quantity          = 1.0
+      securityIdentity  = $null
+      portfolioRevision = 1
+    }
+    $items += [pscustomobject]@{
+      observationId  = ('holding:DHAN_PORTFOLIO:' + $index.ToString().PadLeft(4, '0'))
+      portfolioId    = 'DHAN_PORTFOLIO'
+      state          = 'UNMATCHED'
+      reason         = 'NO_IDENTIFIER_PROVIDED'
+      upstreamStatus = $null
+      raw            = $nullRaw
+    }
+    $index = $index + 1
+  }
+  $aiilRaw = [pscustomobject]@{
+    symbol            = 'FIXTURE-AIIL-SYM'
+    isin              = $null
+    exchange          = $null
+    quantity          = 1.0
+    securityIdentity  = $null
+    portfolioRevision = 1
+  }
+  $items += [pscustomobject]@{
+    observationId  = 'holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001'
+    portfolioId    = 'PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2'
+    state          = 'UNMATCHED'
+    reason         = 'NO_IDENTIFIER_PROVIDED'
+    upstreamStatus = $null
+    raw            = $aiilRaw
+  }
+  Write-Output -NoEnumerate $items
+}
+
+function New-W05Step1FixtureMap {
+  # The operator-built category map: QUALIFIED for the one populated row (from the served
+  # stored identity), MISSING_OR_UNRESOLVED for the 63 explicit-null rows. Never inferred.
+  $map = @{}
+  $map['holding:DHAN_PORTFOLIO:0001'] = 'QUALIFIED'
+  $index = 2
+  while ($index -le 64) {
+    $map[('holding:DHAN_PORTFOLIO:' + $index.ToString().PadLeft(4, '0'))] = 'MISSING_OR_UNRESOLVED'
+    $index = $index + 1
+  }
+  Write-Output $map
+}
+
+function New-W05Step4InvestmentReport {
+  # InvestmentCoverageReport shape (coverage/investmentCoverage.ts): the investment route
+  # contract, including the identity disclosure fields exactly as the report carries them.
+  Write-Output ([pscustomobject]@{
+    reportVersion            = 1
+    asOf                     = '2026-09-15'
+    generatedAt              = '2026-09-15T00:00:00.000Z'
+    dataset                  = [pscustomobject]@{ datasetVersion = 'FIXTURE-DATASET'; datasetClass = 'OPERATOR_SUPPLIED'; issuers = 3 }
+    availabilitySemantics    = 'EXISTENTIAL_ANNUAL_PERIOD'
+    sectors                  = @()
+    measuredSectors          = 0
+    totalSectors             = 0
+    outstandingSectors       = @()
+    offVocabularyIssuers     = @()
+    issuers                  = @([pscustomobject]@{ issuerId = 'FIXTURE-ISSUER-1'; state = 'COVERED'; identityDependency = $null; identityDependencyDetail = 'FIXTURE detail' })
+    counts                   = [pscustomobject]@{ observed = 1; COVERED = 1; NO_FINANCIALS = 0; SECTOR_NOT_MEASURED = 0; ISSUED_DATA = 0 }
+    issues                   = @()
+    financialCoverage        = [pscustomobject]@{ datasetClass = 'OPERATOR_SUPPLIED'; measuredSectors = 0 }
+    statusLine               = 'FIXTURE'
+    notes                    = @()
+    identitySourcesAvailable = $true
+    identitySourceDetail     = $null
+  })
+}
+
+function New-W05Step4IdentityReport {
+  # IdentityCoverageReport shape (identity/coverage.ts): the identity route contract.
+  Write-Output ([pscustomobject]@{
+    reportVersion           = 1
+    asOf                    = '2026-09-15'
+    generatedAt             = '2026-09-15T00:00:00.000Z'
+    identitySources         = [pscustomobject]@{ rosterVersion = 'FIXTURE-ROSTER'; listingMapVersion = 'FIXTURE-LISTING'; corporateActionTableVersion = 'FIXTURE-CA' }
+    counts                  = [pscustomobject]@{ observed = 1; resolved = 1; unresolved = 0 }
+    bySource                = [pscustomobject]@{ HOLDING = 1 }
+    items                   = @([pscustomobject]@{ observationId = 'FIXTURE-OBS-1'; state = 'RESOLVED' })
+    unresolved              = @()
+    successorReconciliations = @()
+    financialCoverage       = [pscustomobject]@{ datasetClass = 'OPERATOR_SUPPLIED'; measuredSectors = 0 }
+    statusLine              = 'FIXTURE'
+    notes                   = @()
+  })
+}
+
+function New-W05Step4ErrorPayload {
+  # The documented error shape (error, asOf, issues) shared by both endpoints.
+  Write-Output ([pscustomobject]@{
+    error = 'observation-sources-unavailable'
+    asOf  = '2026-09-15'
+    issues = @([pscustomobject]@{ code = 'OBSERVATION_SOURCE_UNAVAILABLE'; subject = 'holdings/broker-preview/watchlist'; detail = 'FIXTURE' })
+  })
+}
+
 Describe 'W05 scripts — parameter contracts' {
   It 'every script exposes mandatory named parameters with validation' {
     $scriptDir = $PSScriptRoot
@@ -159,79 +290,12 @@ Describe 'W05 scripts — mandatory coding rules (source scan)' {
 
   It 'every script uses the $OK explicit success gate and a param block' {
     foreach ($name in $script:Sources.Keys) {
-      if ($name -like '*.psm1') { Continue }
+      if ($name -like '*.psm1' -or $name -like '*.Tests.ps1') { Continue }
       $code = $script:Sources[$name]
       $code | Should -Match '\$OK' -Because $name
       $code | Should -Match '\bparam\s*\(' -Because $name
     }
   }
-}
-
-function New-W05Step1FixtureItems {
-  # The served 65-item shape (operator evidence 2026-11-19): 64 DHAN_PORTFOLIO items -
-  # one populated flat 'securityIdentity.securityId' and 63 explicit `securityIdentity: null` -
-  # plus one AIIL default-portfolio item. Synthetic stand-in values only.
-  $items = @()
-  $populatedRaw = [pscustomobject]@{
-    symbol                           = 'FIXTURE-SYM-1'
-    isin                             = 'FIXTURE-ISIN-1'
-    exchange                         = 'NSE'
-    quantity                         = 2.0
-    'securityIdentity.securityId'    = 'ISIN:INE415A01038:EQ'
-    'securityIdentity.isin'          = 'INE415A01038'
-    'securityIdentity.series'        = 'EQ'
-    'securityIdentity.isinAuthority' = 'NON_AUTHORITATIVE'
-    portfolioRevision                = 1
-  }
-  $items += [pscustomobject]@{
-    observationId = 'holding:DHAN_PORTFOLIO:0001'
-    portfolioId   = 'DHAN_PORTFOLIO'
-    raw           = $populatedRaw
-  }
-  $index = 2
-  while ($index -le 64) {
-    $nullRaw = [pscustomobject]@{
-    symbol            = ('FIXTURE-SYM-' + $index.ToString())
-      isin              = $null
-      exchange          = $null
-      quantity          = 1.0
-      securityIdentity  = $null
-      portfolioRevision = 1
-    }
-    $items += [pscustomobject]@{
-      observationId = ('holding:DHAN_PORTFOLIO:' + $index.ToString().PadLeft(4, '0'))
-      portfolioId   = 'DHAN_PORTFOLIO'
-      raw           = $nullRaw
-    }
-    $index = $index + 1
-  }
-  $aiilRaw = [pscustomobject]@{
-    symbol            = 'FIXTURE-AIIL-SYM'
-    isin              = $null
-    exchange          = $null
-    quantity          = 1.0
-    securityIdentity  = $null
-    portfolioRevision = 1
-  }
-  $items += [pscustomobject]@{
-    observationId = 'holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001'
-    portfolioId   = 'PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2'
-    raw           = $aiilRaw
-  }
-  Write-Output -NoEnumerate $items
-}
-
-function New-W05Step1FixtureMap {
-  # The operator-built category map: QUALIFIED for the one populated row (from the served
-  # stored identity), MISSING_OR_UNRESOLVED for the 63 explicit-null rows. Never inferred.
-  $map = @{}
-  $map['holding:DHAN_PORTFOLIO:0001'] = 'QUALIFIED'
-  $index = 2
-  while ($index -le 64) {
-    $map[('holding:DHAN_PORTFOLIO:' + $index.ToString().PadLeft(4, '0'))] = 'MISSING_OR_UNRESOLVED'
-    $index = $index + 1
-  }
-  Write-Output $map
 }
 
 Describe 'W05 STEP1 — census extraction honours the served evidence (2026-11-19 corrections)' {
@@ -368,58 +432,6 @@ Describe 'W05 STEP1 — JSON output is UTF-8 without BOM, parseable by the Step 
   }
 }
 
-function New-W05Step4InvestmentReport {
-  # InvestmentCoverageReport shape (coverage/investmentCoverage.ts): the investment route
-  # contract, including the identity disclosure fields exactly as the report carries them.
-  Write-Output ([pscustomobject]@{
-    reportVersion            = 1
-    asOf                     = '2026-09-15'
-    generatedAt              = '2026-09-15T00:00:00.000Z'
-    dataset                  = [pscustomobject]@{ datasetVersion = 'FIXTURE-DATASET'; datasetClass = 'OPERATOR_SUPPLIED'; issuers = 3 }
-    availabilitySemantics    = 'EXISTENTIAL_ANNUAL_PERIOD'
-    sectors                  = @()
-    measuredSectors          = 0
-    totalSectors             = 0
-    outstandingSectors       = @()
-    offVocabularyIssuers     = @()
-    issuers                  = @([pscustomobject]@{ issuerId = 'FIXTURE-ISSUER-1'; state = 'COVERED'; identityDependency = $null; identityDependencyDetail = 'FIXTURE detail' })
-    counts                   = [pscustomobject]@{ observed = 1; COVERED = 1; NO_FINANCIALS = 0; SECTOR_NOT_MEASURED = 0; ISSUED_DATA = 0 }
-    issues                   = @()
-    financialCoverage        = [pscustomobject]@{ datasetClass = 'OPERATOR_SUPPLIED'; measuredSectors = 0 }
-    statusLine               = 'FIXTURE'
-    notes                    = @()
-    identitySourcesAvailable = $true
-    identitySourceDetail     = $null
-  })
-}
-
-function New-W05Step4IdentityReport {
-  # IdentityCoverageReport shape (identity/coverage.ts): the identity route contract.
-  Write-Output ([pscustomobject]@{
-    reportVersion           = 1
-    asOf                    = '2026-09-15'
-    generatedAt             = '2026-09-15T00:00:00.000Z'
-    identitySources         = [pscustomobject]@{ rosterVersion = 'FIXTURE-ROSTER'; listingMapVersion = 'FIXTURE-LISTING'; corporateActionTableVersion = 'FIXTURE-CA' }
-    counts                  = [pscustomobject]@{ observed = 1; resolved = 1; unresolved = 0 }
-    bySource                = [pscustomobject]@{ HOLDING = 1 }
-    items                   = @([pscustomobject]@{ observationId = 'FIXTURE-OBS-1'; state = 'RESOLVED' })
-    unresolved              = @()
-    successorReconciliations = @()
-    financialCoverage       = [pscustomobject]@{ datasetClass = 'OPERATOR_SUPPLIED'; measuredSectors = 0 }
-    statusLine              = 'FIXTURE'
-    notes                   = @()
-  })
-}
-
-function New-W05Step4ErrorPayload {
-  # The documented error shape (error, asOf, issues) shared by both endpoints.
-  Write-Output ([pscustomobject]@{
-    error = 'observation-sources-unavailable'
-    asOf  = '2026-09-15'
-    issues = @([pscustomobject]@{ code = 'OBSERVATION_SOURCE_UNAVAILABLE'; subject = 'holdings/broker-preview/watchlist'; detail = 'FIXTURE' })
-  })
-}
-
 Describe 'W05 STEP4 — capture shape classification honours each route contract' {
   BeforeAll {
     Import-Module (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Force
@@ -523,5 +535,154 @@ Describe 'W05 STEP4 — capture shape classification honours each route contract
     }
     Test-Path -LiteralPath (Join-Path $outDir 'capture-identity.json') | Should -BeTrue
     Test-Path -LiteralPath (Join-Path $outDir 'capture-identity.body.json') | Should -BeTrue
+  }
+}
+
+
+Describe 'W05 regression guards - 2026-11-27 repairs (tracker section 16.364)' {
+  BeforeAll {
+    Import-Module (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Force
+    $script:TestSrc = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'W05-SCRIPTS.Tests.ps1') -Raw
+    $script:HelperSrc = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Raw
+    $script:Step1Src = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'W05-STEP1-CAPTURE-REVISION1-IDENTITIES.ps1') -Raw
+  }
+
+  It 'R-1: the \$OK/param source scan skips test files (*.Tests.ps1), not only modules' {
+    $script:TestSrc | Should -Match 'if \(\$name -like ''\*\.psm1'' -or \$name -like ''\*\.Tests\.ps1''\) \{ Continue \}'
+  }
+
+  It 'R-2: STEP1 has no else construct in code (the response-captured detail uses an if-only suffix variable)' {
+    $code = [regex]::Replace($script:Step1Src, '<#.*?#>', '', 'Singleline')
+    $code = [regex]::Replace($code, '(?m)#.*$', '')
+    $code = [regex]::Replace($code, "'[^']*'", "''")
+    $code = [regex]::Replace($code, '"[^"]*"', '""')
+    $code | Should -Not -Match '\belse(?:if)?\b'
+    $script:Step1Src | Should -Match '\$httpErrorSuffix'
+  }
+
+  It 'R-3a: a wrapped collection is detected BEFORE unrolling and throws' {
+    { ConvertTo-W05JsonArray -Value @(, @(1, 2)) } | Should -Throw -ExpectedMessage '*wrapped collection*'
+  }
+  It 'R-3b: null Value still unrolls to an empty array without throwing (AllowNull preserved)' {
+    @(ConvertTo-W05JsonArray -Value $null).Count | Should -Be 0
+  }
+  It 'R-3c: ordinary arrays still count correctly after the guard moved before the unroll' {
+    @(ConvertTo-W05JsonArray -Value (ConvertFrom-Json -InputObject '[1,2,3]')).Count | Should -Be 3
+    @(ConvertTo-W05JsonArray -Value (ConvertFrom-Json -InputObject '[]')).Count | Should -Be 0
+    @(ConvertTo-W05JsonArray -Value (ConvertFrom-Json -InputObject '[{"a":1}]')).Count | Should -Be 1
+  }
+
+  It 'R-4a: exit code is captured reliably for a normal native exit' {
+    $native = Invoke-W05Native -FilePath 'cmd.exe' -ArgumentList @('/c', 'exit 3') -WorkingDirectory $TestDrive -TimeoutSeconds 30
+    $native.TimedOut | Should -BeFalse
+    $native.ExitCode | Should -Be 3
+  }
+  It 'R-4b: the timeout-kill path completes without throwing and still captures an int exit code' {
+    $native = Invoke-W05Native -FilePath 'cmd.exe' -ArgumentList @('/c', 'ping -n 60 127.0.0.1') -WorkingDirectory $TestDrive -TimeoutSeconds 2
+    $native.TimedOut | Should -BeTrue
+    $native.ExitCode | Should -BeOfType ([int])
+  }
+  It 'R-4c: helper source waits unboundedly after Kill and retries the temp-file read/cleanup' {
+    $script:HelperSrc | Should -Match '\[void\]\$process\.WaitForExit\(\)'
+    $script:HelperSrc | Should -Match 'Get-Content -LiteralPath \$stdoutFile -Raw -ErrorAction Stop'
+    $script:HelperSrc | Should -Match 'Remove-Item -LiteralPath \$stdoutFile -Force -ErrorAction Stop'
+  }
+
+  It 'R-5a: every fixture function is defined BEFORE the first Describe block' {
+    $firstDescribe = $script:TestSrc.IndexOf("Describe '")
+    foreach ($fn in @('New-W05Step1FixtureItems', 'New-W05Step1FixtureMap', 'New-W05Step4InvestmentReport', 'New-W05Step4IdentityReport', 'New-W05Step4ErrorPayload')) {
+      $pos = $script:TestSrc.IndexOf('function ' + $fn)
+      $pos | Should -BeGreaterThan -1 -Because ($fn + ' must be defined in this file')
+      $pos | Should -BeLessThan $firstDescribe -Because ($fn + ' must precede the first Describe so BeforeAll resolves it')
+    }
+  }
+  It 'R-5b: every fixture function is resolvable at run time' {
+    foreach ($fn in @('New-W05Step1FixtureItems', 'New-W05Step1FixtureMap', 'New-W05Step4InvestmentReport', 'New-W05Step4IdentityReport', 'New-W05Step4ErrorPayload')) {
+      Get-Command $fn -ErrorAction SilentlyContinue | Should -Not -BeNullOrEmpty -Because ($fn + ' must be visible inside the test run')
+    }
+  }
+}
+
+Describe 'W05 STEP1 — contract v2 (2026-11-28): baseline vs current census, resolver-state carriage, provenance' {
+  BeforeAll {
+    Import-Module (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Force
+    $script:FixtureItems = New-W05Step1FixtureItems
+    $script:FixtureMap = New-W05Step1FixtureMap
+    $script:Extraction = ConvertTo-W05CensusRows -Items $script:FixtureItems -PortfolioId 'DHAN_PORTFOLIO' -CategoryMap $script:FixtureMap
+    $script:Step1Src = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'W05-STEP1-CAPTURE-REVISION1-IDENTITIES.ps1') -Raw
+    $script:HelpersSrc = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'W05-SCRIPT-HELPERS.psm1') -Raw
+  }
+
+  It 'V2-1: every census row carries the served resolver state/reason verbatim beside the stored identity' {
+    $script:Extraction.Rows[0].resolverState | Should -Be 'UNMATCHED'
+    $script:Extraction.Rows[0].resolverReason | Should -Be 'ISIN_NOT_IN_ROSTER'
+    $script:Extraction.Rows[0].upstreamStatus | Should -Be 'RESOLVED'
+    $script:Extraction.Rows[0].storedSecurityIdentity | Should -Be 'ISIN:INE415A01038:EQ'
+    $script:Extraction.Rows[1].resolverState | Should -Be 'UNMATCHED'
+    $script:Extraction.Rows[1].resolverReason | Should -Be 'NO_IDENTIFIER_PROVIDED'
+  }
+
+  It 'V2-2: rows whose stored identity coexists with a non-RESOLVED resolver state are recorded in DivergentRows, never conflated' {
+    $divergentCount = 0
+    foreach ($holdingId in $script:Extraction.DivergentRows) { $divergentCount = $divergentCount + 1 }
+    # the populated fixture row is stored-identified but UNMATCHED -> exactly 1 divergent row
+    $divergentCount | Should -Be 1
+    $script:Extraction.DivergentRows[0] | Should -Be 'holding:DHAN_PORTFOLIO:0001'
+  }
+
+  It 'V2-3: the category is still never derived from the resolver state or reason' {
+    $code = $script:HelpersSrc
+    $code = [regex]::Replace($code, '<#.*?#>', '', 'Singleline')
+    $code = [regex]::Replace($code, '(?m)#.*$', '')
+    $code = [regex]::Replace($code, "'[^']*'", "''")
+    $code = [regex]::Replace($code, '"[^"]*"', '""')
+    $code | Should -Not -Match 'category\s*=\s*\$item\.state'
+    $code | Should -Not -Match 'category\s*=\s*\$item\.reason'
+    $code | Should -Not -Match 'category\s*=\s*\$resolverState'
+  }
+
+  It 'V2-4: STEP1 separates the current-census expectation (default 65) from the historical W04 baseline (default 64/1/0/63/0/0)' {
+    $code = $script:Step1Src
+    $code = [regex]::Replace($code, '<#.*?#>', '', 'Singleline')
+    $code = [regex]::Replace($code, '(?m)#.*$', '')
+    $code | Should -Match 'ExpectedRowCount = 65'
+    $code | Should -Match 'W04BaselineRowCount = 64'
+    $code | Should -Match 'W04BaselineMissingOrUnresolved = 63'
+    $code | Should -Match 'AssertCategoryCounts'
+    $code | Should -Match 'row-count-matches-current-census'
+    $code | Should -Match 'w04-baseline-recorded'
+    $code | Should -Not -Match 'row-count-matches-w04'
+    $code | Should -Match 'W05-CENSUS-CAPTURE-V2'
+    $code | Should -Match 'current-census-expected\.json'
+  }
+
+  It 'V2-5: category counts are asserted only with an explicit flag and a category source for the current census' {
+    $code = $script:Step1Src
+    $code = [regex]::Replace($code, '<#.*?#>', '', 'Singleline')
+    $code = [regex]::Replace($code, '(?m)#.*$', '')
+    $code | Should -Match 'category-source-recorded'
+    $code | Should -Match 'if \(\$AssertCategoryCounts\)'
+    $code | Should -Match '\$categorySource -ne ''none'''
+  }
+
+  It 'V2-6: the served per-row revision is cross-checked against the authoritative portfolio route' {
+    $code = $script:Step1Src
+    $code = [regex]::Replace($code, '<#.*?#>', '', 'Singleline')
+    $code = [regex]::Replace($code, '(?m)#.*$', '')
+    $code | Should -Match 'portfolio-revision-matches-portfolio-route'
+    $code | Should -Match '/api/user-portfolios/'
+    $code | Should -Match 'portfolioRouteRevision'
+  }
+
+  It 'V2-7: transport provenance runs git with safe.directory and records exit code, stderr and tree state' {
+    $code = $script:Step1Src
+    $code = [regex]::Replace($code, '<#.*?#>', '', 'Singleline')
+    $code = [regex]::Replace($code, '(?m)#.*$', '')
+    $code = [regex]::Replace($code, "'[^']*'", "''")
+    $code = [regex]::Replace($code, '"[^"]*"', '""')
+    $code | Should -Match 'safe\.directory='
+    $code | Should -Match 'transportCommitExitCode'
+    $code | Should -Match 'transportCommitGitError'
+    $code | Should -Match 'repoTreeState'
   }
 }

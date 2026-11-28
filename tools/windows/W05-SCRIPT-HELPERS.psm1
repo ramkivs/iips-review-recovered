@@ -114,19 +114,19 @@ function Get-W05ResponseShape {
 }
 
 function ConvertTo-W05JsonArray {
-  param([Parameter(Mandatory = $true)]$Value)
+  param([Parameter(Mandatory = $true)][AllowNull()]$Value)
   # The corrected pattern: a foreach collection loop counts every element - and zero elements -
   # correctly under both Windows PowerShell 5.1 and PowerShell 7. The shape guard names a
-  # wrapped collection (the pinned incident) instead of mis-counting it.
+  # wrapped collection (the pinned incident) instead of mis-counting it. Detection must inspect
+  # the ELEMENTS OF $Value BEFORE any += unrolling: += flattens a nested array, which made the
+  # old post-loop guard dead code (2026-11-27 fix, tracker section 16).
+  $wrapped = 0
+  foreach ($element in $Value) { if ($element -is [System.Array]) { $wrapped += 1 } }
+  if ($wrapped -gt 0) {
+    throw ('ConvertTo-W05JsonArray: wrapped collection detected (' + $wrapped.ToString() + ' element(s) are arrays themselves) - refusing to report a count')
+  }
   $items = @()
   foreach ($element in $Value) { $items += $element }
-  $wrapped = @()
-  foreach ($element in $items) {
-    if ($element -is [System.Array]) { $wrapped += 'element' }
-  }
-  if ($wrapped.Count -gt 0) {
-    throw ('ConvertTo-W05JsonArray: wrapped collection detected (' + $wrapped.Count.ToString() + ' element(s) are arrays themselves) - refusing to report a count')
-  }
   Write-Output $items
 }
 
@@ -148,14 +148,39 @@ function Invoke-W05Native {
   $timedOut = $false
   if (-not $completed) {
     $timedOut = $true
-    $process.Kill()
-    [void]$process.WaitForExit(5000)
+    try { $process.Kill() } catch { }
+    # Unbounded wait after Kill: a killed process may need a moment to release its
+    # redirected-output handles. A bounded wait here races the OS, which can leave
+    # HasExited false (ExitCode unreadable) and the temp files locked (2026-11-27 fix).
+    [void]$process.WaitForExit()
   }
-  $exitCode = $process.ExitCode
-  $stdout = Get-Content -LiteralPath $stdoutFile -Raw
-  $stderr = Get-Content -LiteralPath $stderrFile -Raw
-  Remove-Item -LiteralPath $stdoutFile -Force
-  Remove-Item -LiteralPath $stderrFile -Force
+  # Reliable exit-code capture: read ExitCode only when HasExited; -1 otherwise - the
+  # timeout path must never return a $null exit code or throw from this function.
+  $exitCode = -1
+  if ($process.HasExited) {
+    try { $exitCode = $process.ExitCode } catch { $exitCode = -1 }
+  }
+  # Read and delete the per-call temp files (GetTempFileName = unique per call) with a short
+  # retry: a just-killed process can hold the handle briefly. Cleanup must never discard the
+  # captured output or the exit code.
+  $stdout = ''
+  $stderr = ''
+  foreach ($attempt in @(1, 2, 3, 4, 5)) {
+    try {
+      $stdout = Get-Content -LiteralPath $stdoutFile -Raw -ErrorAction Stop
+      $stderr = Get-Content -LiteralPath $stderrFile -Raw -ErrorAction Stop
+      Remove-Item -LiteralPath $stdoutFile -Force -ErrorAction Stop
+      Remove-Item -LiteralPath $stderrFile -Force -ErrorAction Stop
+      break
+    }
+    catch {
+      if ($attempt -eq 5) {
+        try { $stdout = Get-Content -LiteralPath $stdoutFile -Raw -ErrorAction SilentlyContinue } catch { }
+        try { $stderr = Get-Content -LiteralPath $stderrFile -Raw -ErrorAction SilentlyContinue } catch { }
+      }
+      if ($attempt -lt 5) { Start-Sleep -Milliseconds 200 }
+    }
+  }
   [pscustomobject]@{
     ExitCode = $exitCode
     TimedOut = $timedOut
@@ -184,9 +209,14 @@ function Get-W05Http {
     $webResponse = $_.Exception.Response
     if ($null -ne $webResponse) {
       $status = [int]$webResponse.StatusCode
-      $reader = New-Object System.IO.StreamReader($webResponse.GetResponseStream())
-      $body = '{0}' -f $reader.ReadToEnd()
-      $reader.Dispose()
+      $stream = $null
+      try { $stream = $webResponse.GetResponseStream() } catch { $stream = $null }
+      if ($null -ne $stream) {
+        $reader = New-Object System.IO.StreamReader($stream)
+        $body = '{0}' -f $reader.ReadToEnd()
+        $reader.Dispose()
+      }
+      if ($body -eq '') { $body = '{0}' -f $webResponse.GetResponseStream() }
     }
   }
   [pscustomobject]@{
@@ -243,7 +273,15 @@ function ConvertTo-W05CensusRows {
       fabricating a revision.
     - Category: raw.category when it is one of the five governance categories, else the
       per-holding entry of the operator-built category map, else null (listed in
-      Uncategorized; the capture refuses to pass validation).
+      Uncategorized; the capture refuses to pass validation). Categories are governance-side
+      (a separately versioned classification contract) and are NEVER derived from resolver
+      state, identityStatus, resolutionDisposition or any other served field.
+    - Resolver state: the served item's state/reason/upstreamStatus are carried through
+      verbatim as resolverState/resolverReason/upstreamStatus on the row. Stored identity
+      (IPD's stored securityIdentity) and resolver eligibility (roster lookup) are TWO
+      DIFFERENT FACTS: a row can carry a stored identity while the resolver reports
+      UNMATCHED (for example ISIN_NOT_IN_ROSTER). DivergentRows lists exactly those rows so
+      the bundle records both facts side by side instead of conflating them.
     Items are `ConvertFrom-Json` shaped (PSCustomObject), as served by the identities route.
   #>
   param(
@@ -255,6 +293,7 @@ function ConvertTo-W05CensusRows {
   $excluded = @()
   $uncategorized = @()
   $missingRevision = @()
+  $divergent = @()
   $categoryCounts = [ordered]@{
     QUALIFIED             = 0
     AMBIGUOUS             = 0
@@ -264,6 +303,10 @@ function ConvertTo-W05CensusRows {
   }
   $vocabulary = @('QUALIFIED', 'AMBIGUOUS', 'MISSING_OR_UNRESOLVED', 'EXPIRED_OR_INELIGIBLE', 'UNAVAILABLE')
   foreach ($item in $Items) {
+    # root-cause guard (2026-11-25 W04 failure STL-03-W04-20261125T121636Z): a null element
+    # inside items previously surfaced as an opaque 'method on a null-valued expression';
+    # it is an INVALID response shape and fails closed here with a named location instead
+    if ($null -eq $item) { throw ('ConvertTo-W05CensusRows: null element in the items collection - invalid response shape, refusing to build a census row from it') }
     $holdingId = '{0}' -f $item.observationId
     $itemPortfolio = '{0}' -f $item.portfolioId
     $inScope = $itemPortfolio -ceq $PortfolioId
@@ -311,6 +354,15 @@ function ConvertTo-W05CensusRows {
       if ($null -eq $revision -or $revision -eq '') {
         $missingRevision += $holdingId
       }
+      # contract v2 (2026-11-28): the served resolver state travels with the row, verbatim.
+      # Stored identity availability and resolver eligibility are separate facts; a stored
+      # identity on a row the resolver does not resolve is recorded in DivergentRows, never
+      # treated as a contradiction to hide or a resolution to claim.
+      $resolverState = $item.state
+      $resolverReason = $item.reason
+      if ($null -ne $storedIdentity -and ('{0}' -f $resolverState) -cne 'RESOLVED') {
+        $divergent += $holdingId
+      }
       $row = [ordered]@{
         holdingId              = $holdingId
         portfolioId            = $itemPortfolio
@@ -321,6 +373,9 @@ function ConvertTo-W05CensusRows {
         quantity               = $raw.quantity
         storedSecurityIdentity = $storedIdentity
         category               = $category
+        resolverState          = $resolverState
+        resolverReason         = $resolverReason
+        upstreamStatus         = $item.upstreamStatus
       }
       $rows += [pscustomobject]$row
     }
@@ -330,6 +385,7 @@ function ConvertTo-W05CensusRows {
     Excluded            = $excluded
     Uncategorized       = $uncategorized
     MissingRevisionRows = $missingRevision
+    DivergentRows       = $divergent
     CategoryCounts      = $categoryCounts
   })
 }
