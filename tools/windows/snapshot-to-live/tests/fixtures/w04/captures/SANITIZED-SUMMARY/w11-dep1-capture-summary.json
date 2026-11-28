@@ -1,0 +1,14 @@
+{
+  "schema": "iips.w11-dep1.owner-bound-portfolio-capture.summary/v1",
+  "captureId": "d1992178-e6e6-4f52-b70a-046db66c446a",
+  "outcome": "CONSISTENT_CAPTURE",
+  "capturedAtUtc": "2026-11-22T10:16:40.000Z",
+  "note": "SYNTHETIC TEST VECTOR - not live owner data.",
+  "portfolio": {
+    "revision": 1,
+    "holdingsCountReported": 64,
+    "holdingsArrayLength": 64,
+    "provenanceDigestPresent": true,
+    "provenanceDigestLength": 64
+  }
+}

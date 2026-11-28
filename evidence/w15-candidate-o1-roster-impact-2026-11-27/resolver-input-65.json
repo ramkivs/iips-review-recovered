@@ -1,0 +1,1435 @@
+{
+ "source": "host GET responses pasted 2026-11-27 (identities route count=65; portfolio detail totalHoldingsCount=65, revision 4)",
+ "rows": [
+  {
+   "holdingIndex": 0,
+   "symbol": "AGI",
+   "isin": "INE415A01038",
+   "series": "EQ",
+   "companyId": "EQ_AGI_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE415A01038:EQ",
+    "isin": "INE415A01038",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE415A01038",
+    "securityId": "IN:ISIN:INE415A01038",
+    "listingId": "IN:NSE:AGI:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 1,
+   "symbol": "AJAXENGG",
+   "isin": "INE274Y01021",
+   "series": "EQ",
+   "companyId": "EQ_AJAXENGG_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE274Y01021:EQ",
+    "isin": "INE274Y01021",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE274Y01021",
+    "securityId": "IN:ISIN:INE274Y01021",
+    "listingId": "IN:NSE:AJAXENGG:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 2,
+   "symbol": "ARIHANTCAP",
+   "isin": "INE420B01036",
+   "series": "EQ",
+   "companyId": "EQ_ARIHANTCAP_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE420B01036:EQ",
+    "isin": "INE420B01036",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE420B01036",
+    "securityId": "IN:ISIN:INE420B01036",
+    "listingId": "IN:NSE:ARIHANTCAP:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 3,
+   "symbol": "ARROWGREEN",
+   "isin": "INE570D01018",
+   "series": "EQ",
+   "companyId": "EQ_ARROWGREEN_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE570D01018:EQ",
+    "isin": "INE570D01018",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE570D01018",
+    "securityId": "IN:ISIN:INE570D01018",
+    "listingId": "IN:NSE:ARROWGREEN:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 4,
+   "symbol": "ASHOKA",
+   "isin": "INE442H01029",
+   "series": "EQ",
+   "companyId": "EQ_ASHOKA_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE442H01029:EQ",
+    "isin": "INE442H01029",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE442H01029",
+    "securityId": "IN:ISIN:INE442H01029",
+    "listingId": "IN:NSE:ASHOKA:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 5,
+   "symbol": "ASKAUTOLTD",
+   "isin": "INE491J01022",
+   "series": "B",
+   "companyId": "EQ_ASKAUTOLTD_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE491J01022:B",
+    "isin": "INE491J01022",
+    "series": "B",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "AMBIGUOUS_LISTING",
+    "issuerId": null,
+    "securityId": null,
+    "listingId": null,
+    "resolutionBasis": null,
+    "reason": "MULTIPLE_SECURITIES_SHARE_LISTING",
+    "assessable": false
+   }
+  },
+  {
+   "holdingIndex": 6,
+   "symbol": "BANKBARODA",
+   "isin": "INE028A01039",
+   "series": "EQ",
+   "companyId": "EQ_BANKBARODA_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE028A01039:EQ",
+    "isin": "INE028A01039",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE028A01039",
+    "securityId": "IN:ISIN:INE028A01039",
+    "listingId": "IN:NSE:BANKBARODA:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 7,
+   "symbol": "BHARATCOAL",
+   "isin": "INE05XR01022",
+   "series": "EQ",
+   "companyId": "EQ_BHARATCOAL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE05XR01022:EQ",
+    "isin": "INE05XR01022",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE05XR01022",
+    "securityId": "IN:ISIN:INE05XR01022",
+    "listingId": "IN:NSE:BHARATCOAL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 8,
+   "symbol": "BLUEJET",
+   "isin": "INE0KBH01020",
+   "series": "EQ",
+   "companyId": "EQ_BLUEJET_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0KBH01020:EQ",
+    "isin": "INE0KBH01020",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0KBH01020",
+    "securityId": "IN:ISIN:INE0KBH01020",
+    "listingId": "IN:NSE:BLUEJET:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 9,
+   "symbol": "CRAMC",
+   "isin": "INE218I01013",
+   "series": "EQ",
+   "companyId": "EQ_CRAMC_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE218I01013:EQ",
+    "isin": "INE218I01013",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE218I01013",
+    "securityId": "IN:ISIN:INE218I01013",
+    "listingId": "IN:NSE:CRAMC:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 10,
+   "symbol": "DAMCAPITAL",
+   "isin": "INE284H01025",
+   "series": "EQ",
+   "companyId": "EQ_DAMCAPITAL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE284H01025:EQ",
+    "isin": "INE284H01025",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE284H01025",
+    "securityId": "IN:ISIN:INE284H01025",
+    "listingId": "IN:NSE:DAMCAPITAL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 11,
+   "symbol": "ECOSMOBLTY",
+   "isin": "INE06HJ01020",
+   "series": "EQ",
+   "companyId": "EQ_ECOSMOBLTY_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE06HJ01020:EQ",
+    "isin": "INE06HJ01020",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE06HJ01020",
+    "securityId": "IN:ISIN:INE06HJ01020",
+    "listingId": "IN:NSE:ECOSMOBLTY:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 12,
+   "symbol": "ELECON",
+   "isin": "INE205B01031",
+   "series": "EQ",
+   "companyId": "EQ_ELECON_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE205B01031:EQ",
+    "isin": "INE205B01031",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE205B01031",
+    "securityId": "IN:ISIN:INE205B01031",
+    "listingId": "IN:NSE:ELECON:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 13,
+   "symbol": "EMAMILTD",
+   "isin": "INE548C01032",
+   "series": "EQ",
+   "companyId": "EQ_EMAMILTD_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE548C01032:EQ",
+    "isin": "INE548C01032",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE548C01032",
+    "securityId": "IN:ISIN:INE548C01032",
+    "listingId": "IN:NSE:EMAMILTD:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 14,
+   "symbol": "EMSLIMITED",
+   "isin": "INE0OV601013",
+   "series": "EQ",
+   "companyId": "EQ_EMSLIMITED_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0OV601013:EQ",
+    "isin": "INE0OV601013",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0OV601013",
+    "securityId": "IN:ISIN:INE0OV601013",
+    "listingId": "IN:NSE:EMSLIMITED:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 15,
+   "symbol": "ENGINERSIN",
+   "isin": "INE510A01028",
+   "series": "EQ",
+   "companyId": "EQ_ENGINERSIN_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE510A01028:EQ",
+    "isin": "INE510A01028",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE510A01028",
+    "securityId": "IN:ISIN:INE510A01028",
+    "listingId": "IN:NSE:ENGINERSIN:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 16,
+   "symbol": "EPACKPEB",
+   "isin": "INE0MLS01022",
+   "series": "EQ",
+   "companyId": "EQ_EPACKPEB_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0MLS01022:EQ",
+    "isin": "INE0MLS01022",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0MLS01022",
+    "securityId": "IN:ISIN:INE0MLS01022",
+    "listingId": "IN:NSE:EPACKPEB:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 17,
+   "symbol": "FCL",
+   "isin": "INE045J01034",
+   "series": "EQ",
+   "companyId": "EQ_FCL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE045J01034:EQ",
+    "isin": "INE045J01034",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE045J01034",
+    "securityId": "IN:ISIN:INE045J01034",
+    "listingId": "IN:NSE:FCL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 18,
+   "symbol": "GATEWAY",
+   "isin": "INE079J01017",
+   "series": "EQ",
+   "companyId": "EQ_GATEWAY_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE079J01017:EQ",
+    "isin": "INE079J01017",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE079J01017",
+    "securityId": "IN:ISIN:INE079J01017",
+    "listingId": "IN:NSE:GATEWAY:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 19,
+   "symbol": "GEEKAYWIRE",
+   "isin": "INE669X01032",
+   "series": "EQ",
+   "companyId": "EQ_GEEKAYWIRE_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE669X01032:EQ",
+    "isin": "INE669X01032",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE669X01032",
+    "securityId": "IN:ISIN:INE669X01032",
+    "listingId": "IN:NSE:GEEKAYWIRE:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 20,
+   "symbol": "GENUSPOWER",
+   "isin": "INE955D01029",
+   "series": "EQ",
+   "companyId": "EQ_GENUSPOWER_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE955D01029:EQ",
+    "isin": "INE955D01029",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE955D01029",
+    "securityId": "IN:ISIN:INE955D01029",
+    "listingId": "IN:NSE:GENUSPOWER:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 21,
+   "symbol": "GHCL",
+   "isin": "INE539A01019",
+   "series": "EQ",
+   "companyId": "EQ_GHCL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE539A01019:EQ",
+    "isin": "INE539A01019",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE539A01019",
+    "securityId": "IN:ISIN:INE539A01019",
+    "listingId": "IN:NSE:GHCL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 22,
+   "symbol": "GMRP&UI",
+   "isin": "INE0CU601026",
+   "series": "EQ",
+   "companyId": "EQ_GMRPUI_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0CU601026:EQ",
+    "isin": "INE0CU601026",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0CU601026",
+    "securityId": "IN:ISIN:INE0CU601026",
+    "listingId": "IN:NSE:GMRP&UI:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 23,
+   "symbol": "GPPL",
+   "isin": "INE517F01014",
+   "series": "EQ",
+   "companyId": "EQ_GPPL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE517F01014:EQ",
+    "isin": "INE517F01014",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE517F01014",
+    "securityId": "IN:ISIN:INE517F01014",
+    "listingId": "IN:NSE:GPPL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 24,
+   "symbol": "GRAUWEIL",
+   "isin": "INE266D01021",
+   "series": "EQ",
+   "companyId": "EQ_GRAUWEIL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE266D01021:EQ",
+    "isin": "INE266D01021",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE266D01021",
+    "securityId": "IN:ISIN:INE266D01021",
+    "listingId": "IN:NSE:GRAUWEIL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 25,
+   "symbol": "HSCL",
+   "isin": "INE019C01026",
+   "series": "EQ",
+   "companyId": "EQ_HSCL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE019C01026:EQ",
+    "isin": "INE019C01026",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE019C01026",
+    "securityId": "IN:ISIN:INE019C01026",
+    "listingId": "IN:NSE:HSCL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 26,
+   "symbol": "IDFCFIRSTB",
+   "isin": "INE092T01019",
+   "series": "EQ",
+   "companyId": "EQ_IDFCFIRSTB_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE092T01019:EQ",
+    "isin": "INE092T01019",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE092T01019",
+    "securityId": "IN:ISIN:INE092T01019",
+    "listingId": "IN:NSE:IDFCFIRSTB:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 27,
+   "symbol": "IGIL",
+   "isin": "INE0Q9301021",
+   "series": "EQ",
+   "companyId": "EQ_IGIL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0Q9301021:EQ",
+    "isin": "INE0Q9301021",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0Q9301021",
+    "securityId": "IN:ISIN:INE0Q9301021",
+    "listingId": "IN:NSE:IGIL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 28,
+   "symbol": "IIFLCAPS",
+   "isin": "INE489L01022",
+   "series": "EQ",
+   "companyId": "EQ_IIFLCAPS_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE489L01022:EQ",
+    "isin": "INE489L01022",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE489L01022",
+    "securityId": "IN:ISIN:INE489L01022",
+    "listingId": "IN:NSE:IIFLCAPS:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 29,
+   "symbol": "INDRAMEDCO",
+   "isin": "INE681B01017",
+   "series": "EQ",
+   "companyId": "EQ_INDRAMEDCO_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE681B01017:EQ",
+    "isin": "INE681B01017",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE681B01017",
+    "securityId": "IN:ISIN:INE681B01017",
+    "listingId": "IN:NSE:INDRAMEDCO:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 30,
+   "symbol": "INFY",
+   "isin": "INE009A01021",
+   "series": "EQ",
+   "companyId": "EQ_INFY_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE009A01021:EQ",
+    "isin": "INE009A01021",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE009A01021",
+    "securityId": "IN:ISIN:INE009A01021",
+    "listingId": "IN:NSE:INFY:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 31,
+   "symbol": "INTLCONV",
+   "isin": "INE575C01027",
+   "series": "EQ",
+   "companyId": "EQ_INTLCONV_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE575C01027:EQ",
+    "isin": "INE575C01027",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE575C01027",
+    "securityId": "IN:ISIN:INE575C01027",
+    "listingId": "IN:NSE:INTLCONV:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 32,
+   "symbol": "JAIBALAJI",
+   "isin": "INE091G01026",
+   "series": "EQ",
+   "companyId": "EQ_JAIBALAJI_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE091G01026:EQ",
+    "isin": "INE091G01026",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE091G01026",
+    "securityId": "IN:ISIN:INE091G01026",
+    "listingId": "IN:NSE:JAIBALAJI:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 33,
+   "symbol": "JAMNAAUTO",
+   "isin": "INE039C01032",
+   "series": "EQ",
+   "companyId": "EQ_JAMNAAUTO_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE039C01032:EQ",
+    "isin": "INE039C01032",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE039C01032",
+    "securityId": "IN:ISIN:INE039C01032",
+    "listingId": "IN:NSE:JAMNAAUTO:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 34,
+   "symbol": "JKIL",
+   "isin": "INE576I01022",
+   "series": "EQ",
+   "companyId": "EQ_JKIL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE576I01022:EQ",
+    "isin": "INE576I01022",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE576I01022",
+    "securityId": "IN:ISIN:INE576I01022",
+    "listingId": "IN:NSE:JKIL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 35,
+   "symbol": "JPL",
+   "isin": "INE0BJO01010",
+   "series": "EQ",
+   "companyId": "EQ_JPL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0BJO01010:EQ",
+    "isin": "INE0BJO01010",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0BJO01010",
+    "securityId": "IN:ISIN:INE0BJO01010",
+    "listingId": "IN:NSE:JPL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 36,
+   "symbol": "KMSUGAR",
+   "isin": "INE157H01023",
+   "series": "EQ",
+   "companyId": "EQ_KMSUGAR_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE157H01023:EQ",
+    "isin": "INE157H01023",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE157H01023",
+    "securityId": "IN:ISIN:INE157H01023",
+    "listingId": "IN:NSE:KMSUGAR:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 37,
+   "symbol": "KPEL",
+   "isin": "INE127T01021",
+   "series": "EQ",
+   "companyId": "EQ_KPEL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE127T01021:EQ",
+    "isin": "INE127T01021",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE127T01021",
+    "securityId": "IN:ISIN:INE127T01021",
+    "listingId": "IN:NSE:KPEL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 38,
+   "symbol": "KROSS",
+   "isin": "INE0O6601022",
+   "series": "EQ",
+   "companyId": "EQ_KROSS_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0O6601022:EQ",
+    "isin": "INE0O6601022",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0O6601022",
+    "securityId": "IN:ISIN:INE0O6601022",
+    "listingId": "IN:NSE:KROSS:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 39,
+   "symbol": "LANDMARK",
+   "isin": "INE559R01029",
+   "series": "EQ",
+   "companyId": "EQ_LANDMARK_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE559R01029:EQ",
+    "isin": "INE559R01029",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE559R01029",
+    "securityId": "IN:ISIN:INE559R01029",
+    "listingId": "IN:NSE:LANDMARK:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 40,
+   "symbol": "MATRIMONY",
+   "isin": "INE866R01028",
+   "series": "EQ",
+   "companyId": "EQ_MATRIMONY_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE866R01028:EQ",
+    "isin": "INE866R01028",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE866R01028",
+    "securityId": "IN:ISIN:INE866R01028",
+    "listingId": "IN:NSE:MATRIMONY:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 41,
+   "symbol": "MONARCH",
+   "isin": "INE903D01011",
+   "series": "EQ",
+   "companyId": "EQ_MONARCH_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE903D01011:EQ",
+    "isin": "INE903D01011",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE903D01011",
+    "securityId": "IN:ISIN:INE903D01011",
+    "listingId": "IN:NSE:MONARCH:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 42,
+   "symbol": "MUFTI",
+   "isin": "INE220Q01020",
+   "series": "EQ",
+   "companyId": "EQ_MUFTI_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE220Q01020:EQ",
+    "isin": "INE220Q01020",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE220Q01020",
+    "securityId": "IN:ISIN:INE220Q01020",
+    "listingId": "IN:NSE:MUFTI:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 43,
+   "symbol": "OSWALPUMPS",
+   "isin": "INE0BYP01024",
+   "series": "EQ",
+   "companyId": "EQ_OSWALPUMPS_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0BYP01024:EQ",
+    "isin": "INE0BYP01024",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0BYP01024",
+    "securityId": "IN:ISIN:INE0BYP01024",
+    "listingId": "IN:NSE:OSWALPUMPS:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 44,
+   "symbol": "PANAMAPET",
+   "isin": "INE305C01029",
+   "series": "EQ",
+   "companyId": "EQ_PANAMAPET_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE305C01029:EQ",
+    "isin": "INE305C01029",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE305C01029",
+    "securityId": "IN:ISIN:INE305C01029",
+    "listingId": "IN:NSE:PANAMAPET:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 45,
+   "symbol": "PARADEEP",
+   "isin": "INE088F01024",
+   "series": "EQ",
+   "companyId": "EQ_PARADEEP_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE088F01024:EQ",
+    "isin": "INE088F01024",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE088F01024",
+    "securityId": "IN:ISIN:INE088F01024",
+    "listingId": "IN:NSE:PARADEEP:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 46,
+   "symbol": "PDMJEPAPER",
+   "isin": "INE865T01018",
+   "series": "EQ",
+   "companyId": "EQ_PDMJEPAPER_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE865T01018:EQ",
+    "isin": "INE865T01018",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE865T01018",
+    "securityId": "IN:ISIN:INE865T01018",
+    "listingId": "IN:NSE:PDMJEPAPER:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 47,
+   "symbol": "PRECWIRE",
+   "isin": "INE372C01037",
+   "series": "EQ",
+   "companyId": "EQ_PRECWIRE_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE372C01037:EQ",
+    "isin": "INE372C01037",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE372C01037",
+    "securityId": "IN:ISIN:INE372C01037",
+    "listingId": "IN:NSE:PRECWIRE:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 48,
+   "symbol": "PREMIERPOL",
+   "isin": "INE309M01020",
+   "series": "EQ",
+   "companyId": "EQ_PREMIERPOL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE309M01020:EQ",
+    "isin": "INE309M01020",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE309M01020",
+    "securityId": "IN:ISIN:INE309M01020",
+    "listingId": "IN:NSE:PREMIERPOL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 49,
+   "symbol": "RAJOOENG",
+   "isin": "INE535F01024",
+   "series": "EQ",
+   "companyId": "EQ_RAJOOENG_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE535F01024:EQ",
+    "isin": "INE535F01024",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE535F01024",
+    "securityId": "IN:ISIN:INE535F01024",
+    "listingId": "IN:NSE:RAJOOENG:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 50,
+   "symbol": "RATEGAIN",
+   "isin": "INE0CLI01024",
+   "series": "EQ",
+   "companyId": "EQ_RATEGAIN_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0CLI01024:EQ",
+    "isin": "INE0CLI01024",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0CLI01024",
+    "securityId": "IN:ISIN:INE0CLI01024",
+    "listingId": "IN:NSE:RATEGAIN:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 51,
+   "symbol": "SALASAR",
+   "isin": "INE170V01027",
+   "series": "EQ",
+   "companyId": "EQ_SALASAR_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE170V01027:EQ",
+    "isin": "INE170V01027",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE170V01027",
+    "securityId": "IN:ISIN:INE170V01027",
+    "listingId": "IN:NSE:SALASAR:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 52,
+   "symbol": "SHAKTIPUMP",
+   "isin": "INE908D01010",
+   "series": "EQ",
+   "companyId": "EQ_SHAKTIPUMP_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE908D01010:EQ",
+    "isin": "INE908D01010",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE908D01010",
+    "securityId": "IN:ISIN:INE908D01010",
+    "listingId": "IN:NSE:SHAKTIPUMP:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 53,
+   "symbol": "SHARDAMOTR",
+   "isin": "INE597I01028",
+   "series": "EQ",
+   "companyId": "EQ_SHARDAMOTR_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE597I01028:EQ",
+    "isin": "INE597I01028",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE597I01028",
+    "securityId": "IN:ISIN:INE597I01028",
+    "listingId": "IN:NSE:SHARDAMOTR:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 54,
+   "symbol": "SIGMA",
+   "isin": "INE0A0S01028",
+   "series": "EQ",
+   "companyId": "EQ_SIGMA_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE0A0S01028:EQ",
+    "isin": "INE0A0S01028",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE0A0S01028",
+    "securityId": "IN:ISIN:INE0A0S01028",
+    "listingId": "IN:NSE:SIGMA:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 55,
+   "symbol": "SIYSIL",
+   "isin": "INE076B01028",
+   "series": "EQ",
+   "companyId": "EQ_SIYSIL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE076B01028:EQ",
+    "isin": "INE076B01028",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE076B01028",
+    "securityId": "IN:ISIN:INE076B01028",
+    "listingId": "IN:NSE:SIYSIL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 56,
+   "symbol": "STEELCAS",
+   "isin": "INE124E01038",
+   "series": "EQ",
+   "companyId": "EQ_STEELCAS_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE124E01038:EQ",
+    "isin": "INE124E01038",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE124E01038",
+    "securityId": "IN:ISIN:INE124E01038",
+    "listingId": "IN:NSE:STEELCAS:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 57,
+   "symbol": "SUZLON",
+   "isin": "INE040H01021",
+   "series": "EQ",
+   "companyId": "EQ_SUZLON_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE040H01021:EQ",
+    "isin": "INE040H01021",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE040H01021",
+    "securityId": "IN:ISIN:INE040H01021",
+    "listingId": "IN:NSE:SUZLON:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 58,
+   "symbol": "THYROCARE",
+   "isin": "INE594H01019",
+   "series": "EQ",
+   "companyId": "EQ_THYROCARE_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE594H01019:EQ",
+    "isin": "INE594H01019",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE594H01019",
+    "securityId": "IN:ISIN:INE594H01019",
+    "listingId": "IN:NSE:THYROCARE:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 59,
+   "symbol": "TITAGARH",
+   "isin": "INE615H01020",
+   "series": "EQ",
+   "companyId": "EQ_TITAGARH_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE615H01020:EQ",
+    "isin": "INE615H01020",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE615H01020",
+    "securityId": "IN:ISIN:INE615H01020",
+    "listingId": "IN:NSE:TITAGARH:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 60,
+   "symbol": "VISHNU",
+   "isin": "INE270I01022",
+   "series": "EQ",
+   "companyId": "EQ_VISHNU_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE270I01022:EQ",
+    "isin": "INE270I01022",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE270I01022",
+    "securityId": "IN:ISIN:INE270I01022",
+    "listingId": "IN:NSE:VISHNU:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 61,
+   "symbol": "VMM",
+   "isin": "INE01EA01019",
+   "series": "EQ",
+   "companyId": "EQ_VMM_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE01EA01019:EQ",
+    "isin": "INE01EA01019",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE01EA01019",
+    "securityId": "IN:ISIN:INE01EA01019",
+    "listingId": "IN:NSE:VMM:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 62,
+   "symbol": "VSSL",
+   "isin": "INE050M01012",
+   "series": "EQ",
+   "companyId": "EQ_VSSL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE050M01012:EQ",
+    "isin": "INE050M01012",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE050M01012",
+    "securityId": "IN:ISIN:INE050M01012",
+    "listingId": "IN:NSE:VSSL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 63,
+   "symbol": "WAAREERTL",
+   "isin": "INE299N01021",
+   "series": "EQ",
+   "companyId": "EQ_WAAREERTL_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE299N01021:EQ",
+    "isin": "INE299N01021",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE299N01021",
+    "securityId": "IN:ISIN:INE299N01021",
+    "listingId": "IN:NSE:WAAREERTL:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  },
+  {
+   "holdingIndex": 64,
+   "symbol": "WEBELSOLAR",
+   "isin": "INE855C01023",
+   "series": "EQ",
+   "companyId": "EQ_WEBELSOLAR_IN",
+   "securityIdentity": {
+    "securityId": "ISIN:INE855C01023:EQ",
+    "isin": "INE855C01023",
+    "series": "EQ",
+    "isinAuthority": "NON_AUTHORITATIVE"
+   },
+   "current": {
+    "state": "RESOLVED",
+    "issuerId": "IN:EQISIN:INE855C01023",
+    "securityId": "IN:ISIN:INE855C01023",
+    "listingId": "IN:NSE:WEBELSOLAR:EQ:EQUITY",
+    "resolutionBasis": "ISIN",
+    "reason": null,
+    "assessable": true
+   }
+  }
+ ]
+}

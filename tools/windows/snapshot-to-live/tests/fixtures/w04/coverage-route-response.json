@@ -1,0 +1,727 @@
+{
+  "asOf": "2026-11-25",
+  "items": [
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0001",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "AGI",
+        "isin": "INE415A01038",
+        "exchange": "NSE",
+        "quantity": 2.0,
+        "portfolioRevision": 1,
+        "securityIdentity.securityId": "ISIN:INE415A01038:EQ",
+        "securityIdentity.isin": "INE415A01038",
+        "securityIdentity.series": "EQ",
+        "securityIdentity.isinAuthority": "NON_AUTHORITATIVE"
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0002",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-002",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0003",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-003",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0004",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-004",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0005",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-005",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0006",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-006",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0007",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-007",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0008",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-008",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0009",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-009",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0010",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-010",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0011",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-011",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0012",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-012",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0013",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-013",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0014",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-014",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0015",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-015",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0016",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-016",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0017",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-017",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0018",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-018",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0019",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-019",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0020",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-020",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0021",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-021",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0022",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-022",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0023",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-023",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0024",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-024",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0025",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-025",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0026",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-026",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0027",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-027",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0028",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-028",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0029",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-029",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0030",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "INFY",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 5.0,
+        "portfolioRevision": 1,
+        "securityIdentity": null
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0031",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-031",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0032",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-032",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0033",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-033",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0034",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-034",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0035",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-035",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0036",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-036",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0037",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-037",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0038",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-038",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0039",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-039",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0040",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-040",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0041",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-041",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0042",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-042",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0043",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-043",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0044",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-044",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0045",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-045",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0046",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-046",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0047",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-047",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0048",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-048",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0049",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-049",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0050",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-050",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0051",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-051",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0052",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-052",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0053",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-053",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0054",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-054",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0055",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-055",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0056",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-056",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0057",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-057",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0058",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-058",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0059",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-059",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0060",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-060",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0061",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-061",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0062",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-062",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0063",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-063",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:DHAN_PORTFOLIO:0064",
+      "portfolioId": "DHAN_PORTFOLIO",
+      "raw": {
+        "symbol": "FIXTURE-SYM-064",
+        "isin": null,
+        "exchange": "NSE",
+        "quantity": 1.0,
+        "portfolioRevision": 1
+      }
+    },
+    {
+      "observationId": "holding:PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2:0001",
+      "portfolioId": "PERSONAL-fa8ad7bc-efec-5562-cfbd-de362b782fa2",
+      "raw": {
+        "symbol": "FIXTURE-AIIL-SYM",
+        "isin": null,
+        "exchange": null,
+        "quantity": 1.0,
+        "securityIdentity": null,
+        "portfolioRevision": 1
+      }
+    }
+  ],
+  "note": "SYNTHETIC TEST VECTOR - not live owner data."
+}

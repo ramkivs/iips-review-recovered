@@ -1,0 +1,9 @@
+{
+  "note": "SYNTHETIC TEST VECTOR - status recorded alongside the body the script saves",
+  "status": 405,
+  "allow": "PUT",
+  "body": {
+    "error": "method-not-allowed",
+    "detail": "GET not allowed on /api/user-portfolios/:id/holdings; Allow: PUT"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "revisions": [
+    {
+      "revision": 1,
+      "operation": "CREATE",
+      "holdingsCount": 10,
+      "provenanceDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+      "createdAt": "2026-11-20T10:00:00.000Z"
+    },
+    {
+      "revision": 2,
+      "operation": "MERGE",
+      "holdingsCount": 30,
+      "provenanceDigest": "2222222222222222222222222222222222222222222222222222222222222222",
+      "createdAt": "2026-11-21T10:00:00.000Z"
+    },
+    {
+      "revision": 3,
+      "operation": "MERGE",
+      "holdingsCount": 50,
+      "provenanceDigest": "3333333333333333333333333333333333333333333333333333333333333333",
+      "createdAt": "2026-11-23T10:00:00.000Z"
+    },
+    {
+      "revision": 4,
+      "operation": "MERGE",
+      "holdingsCount": 65,
+      "provenanceDigest": "7ba5460cfc82d470d4cb566c3c5aa5013f2f1f525902f94b2488dd41b9178d9b",
+      "createdAt": "2026-11-24T20:22:55.000Z"
+    }
+  ]
+}

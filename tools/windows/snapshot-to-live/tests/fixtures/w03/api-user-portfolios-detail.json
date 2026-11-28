@@ -1,0 +1,664 @@
+{
+  "portfolio": {
+    "portfolioId": "DHAN_PORTFOLIO",
+    "revision": 4,
+    "holdings": [
+      {
+        "symbol": "SYM00",
+        "companyId": "IN:TEST:SYM00",
+        "exchange": "NSE",
+        "quantity": 1,
+        "currentPrice": 100,
+        "marketValue": 100,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM01",
+        "companyId": "IN:TEST:SYM01",
+        "exchange": "NSE",
+        "quantity": 2,
+        "currentPrice": 101,
+        "marketValue": 202,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM02",
+        "companyId": "IN:TEST:SYM02",
+        "exchange": "NSE",
+        "quantity": 3,
+        "currentPrice": 102,
+        "marketValue": 306,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM03",
+        "companyId": "IN:TEST:SYM03",
+        "exchange": "NSE",
+        "quantity": 4,
+        "currentPrice": 103,
+        "marketValue": 412,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM04",
+        "companyId": "IN:TEST:SYM04",
+        "exchange": "NSE",
+        "quantity": 5,
+        "currentPrice": 104,
+        "marketValue": 520,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM05",
+        "companyId": "IN:TEST:SYM05",
+        "exchange": "NSE",
+        "quantity": 6,
+        "currentPrice": 105,
+        "marketValue": 630,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM06",
+        "companyId": "IN:TEST:SYM06",
+        "exchange": "NSE",
+        "quantity": 7,
+        "currentPrice": 106,
+        "marketValue": 742,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM07",
+        "companyId": "IN:TEST:SYM07",
+        "exchange": "NSE",
+        "quantity": 8,
+        "currentPrice": 107,
+        "marketValue": 856,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM08",
+        "companyId": "IN:TEST:SYM08",
+        "exchange": "NSE",
+        "quantity": 9,
+        "currentPrice": 108,
+        "marketValue": 972,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM09",
+        "companyId": "IN:TEST:SYM09",
+        "exchange": "NSE",
+        "quantity": 10,
+        "currentPrice": 109,
+        "marketValue": 1090,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM10",
+        "companyId": "IN:TEST:SYM10",
+        "exchange": "NSE",
+        "quantity": 11,
+        "currentPrice": 110,
+        "marketValue": 1210,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM11",
+        "companyId": "IN:TEST:SYM11",
+        "exchange": "NSE",
+        "quantity": 12,
+        "currentPrice": 111,
+        "marketValue": 1332,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM12",
+        "companyId": "IN:TEST:SYM12",
+        "exchange": "NSE",
+        "quantity": 13,
+        "currentPrice": 112,
+        "marketValue": 1456,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM13",
+        "companyId": "IN:TEST:SYM13",
+        "exchange": "NSE",
+        "quantity": 14,
+        "currentPrice": 113,
+        "marketValue": 1582,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM14",
+        "companyId": "IN:TEST:SYM14",
+        "exchange": "NSE",
+        "quantity": 15,
+        "currentPrice": 114,
+        "marketValue": 1710,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM15",
+        "companyId": "IN:TEST:SYM15",
+        "exchange": "NSE",
+        "quantity": 16,
+        "currentPrice": 115,
+        "marketValue": 1840,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM16",
+        "companyId": "IN:TEST:SYM16",
+        "exchange": "NSE",
+        "quantity": 17,
+        "currentPrice": 116,
+        "marketValue": 1972,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM17",
+        "companyId": "IN:TEST:SYM17",
+        "exchange": "NSE",
+        "quantity": 18,
+        "currentPrice": 117,
+        "marketValue": 2106,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM18",
+        "companyId": "IN:TEST:SYM18",
+        "exchange": "NSE",
+        "quantity": 19,
+        "currentPrice": 118,
+        "marketValue": 2242,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM19",
+        "companyId": "IN:TEST:SYM19",
+        "exchange": "NSE",
+        "quantity": 20,
+        "currentPrice": 119,
+        "marketValue": 2380,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM20",
+        "companyId": "IN:TEST:SYM20",
+        "exchange": "NSE",
+        "quantity": 21,
+        "currentPrice": 120,
+        "marketValue": 2520,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM21",
+        "companyId": "IN:TEST:SYM21",
+        "exchange": "NSE",
+        "quantity": 22,
+        "currentPrice": 121,
+        "marketValue": 2662,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM22",
+        "companyId": "IN:TEST:SYM22",
+        "exchange": "NSE",
+        "quantity": 23,
+        "currentPrice": 122,
+        "marketValue": 2806,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM23",
+        "companyId": "IN:TEST:SYM23",
+        "exchange": "NSE",
+        "quantity": 24,
+        "currentPrice": 123,
+        "marketValue": 2952,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM24",
+        "companyId": "IN:TEST:SYM24",
+        "exchange": "NSE",
+        "quantity": 25,
+        "currentPrice": 124,
+        "marketValue": 3100,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM25",
+        "companyId": "IN:TEST:SYM25",
+        "exchange": "NSE",
+        "quantity": 26,
+        "currentPrice": 125,
+        "marketValue": 3250,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM26",
+        "companyId": "IN:TEST:SYM26",
+        "exchange": "NSE",
+        "quantity": 27,
+        "currentPrice": 126,
+        "marketValue": 3402,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM27",
+        "companyId": "IN:TEST:SYM27",
+        "exchange": "NSE",
+        "quantity": 28,
+        "currentPrice": 127,
+        "marketValue": 3556,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM28",
+        "companyId": "IN:TEST:SYM28",
+        "exchange": "NSE",
+        "quantity": 29,
+        "currentPrice": 128,
+        "marketValue": 3712,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM29",
+        "companyId": "IN:TEST:SYM29",
+        "exchange": "NSE",
+        "quantity": 30,
+        "currentPrice": 129,
+        "marketValue": 3870,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM30",
+        "companyId": "IN:TEST:SYM30",
+        "exchange": "NSE",
+        "quantity": 31,
+        "currentPrice": 130,
+        "marketValue": 4030,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM31",
+        "companyId": "IN:TEST:SYM31",
+        "exchange": "NSE",
+        "quantity": 32,
+        "currentPrice": 131,
+        "marketValue": 4192,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM32",
+        "companyId": "IN:TEST:SYM32",
+        "exchange": "NSE",
+        "quantity": 33,
+        "currentPrice": 132,
+        "marketValue": 4356,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM33",
+        "companyId": "IN:TEST:SYM33",
+        "exchange": "NSE",
+        "quantity": 34,
+        "currentPrice": 133,
+        "marketValue": 4522,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM34",
+        "companyId": "IN:TEST:SYM34",
+        "exchange": "NSE",
+        "quantity": 35,
+        "currentPrice": 134,
+        "marketValue": 4690,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM35",
+        "companyId": "IN:TEST:SYM35",
+        "exchange": "NSE",
+        "quantity": 36,
+        "currentPrice": 135,
+        "marketValue": 4860,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM36",
+        "companyId": "IN:TEST:SYM36",
+        "exchange": "NSE",
+        "quantity": 37,
+        "currentPrice": 136,
+        "marketValue": 5032,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM37",
+        "companyId": "IN:TEST:SYM37",
+        "exchange": "NSE",
+        "quantity": 38,
+        "currentPrice": 137,
+        "marketValue": 5206,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM38",
+        "companyId": "IN:TEST:SYM38",
+        "exchange": "NSE",
+        "quantity": 39,
+        "currentPrice": 138,
+        "marketValue": 5382,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM39",
+        "companyId": "IN:TEST:SYM39",
+        "exchange": "NSE",
+        "quantity": 40,
+        "currentPrice": 139,
+        "marketValue": 5560,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM40",
+        "companyId": "IN:TEST:SYM40",
+        "exchange": "NSE",
+        "quantity": 41,
+        "currentPrice": 140,
+        "marketValue": 5740,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM41",
+        "companyId": "IN:TEST:SYM41",
+        "exchange": "NSE",
+        "quantity": 42,
+        "currentPrice": 141,
+        "marketValue": 5922,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM42",
+        "companyId": "IN:TEST:SYM42",
+        "exchange": "NSE",
+        "quantity": 43,
+        "currentPrice": 142,
+        "marketValue": 6106,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM43",
+        "companyId": "IN:TEST:SYM43",
+        "exchange": "NSE",
+        "quantity": 44,
+        "currentPrice": 143,
+        "marketValue": 6292,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM44",
+        "companyId": "IN:TEST:SYM44",
+        "exchange": "NSE",
+        "quantity": 45,
+        "currentPrice": 144,
+        "marketValue": 6480,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM45",
+        "companyId": "IN:TEST:SYM45",
+        "exchange": "NSE",
+        "quantity": 46,
+        "currentPrice": 145,
+        "marketValue": 6670,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM46",
+        "companyId": "IN:TEST:SYM46",
+        "exchange": "NSE",
+        "quantity": 47,
+        "currentPrice": 146,
+        "marketValue": 6862,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM47",
+        "companyId": "IN:TEST:SYM47",
+        "exchange": "NSE",
+        "quantity": 48,
+        "currentPrice": 147,
+        "marketValue": 7056,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM48",
+        "companyId": "IN:TEST:SYM48",
+        "exchange": "NSE",
+        "quantity": 49,
+        "currentPrice": 148,
+        "marketValue": 7252,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM49",
+        "companyId": "IN:TEST:SYM49",
+        "exchange": "NSE",
+        "quantity": 50,
+        "currentPrice": 149,
+        "marketValue": 7450,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM50",
+        "companyId": "IN:TEST:SYM50",
+        "exchange": "NSE",
+        "quantity": 51,
+        "currentPrice": 150,
+        "marketValue": 7650,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM51",
+        "companyId": "IN:TEST:SYM51",
+        "exchange": "NSE",
+        "quantity": 52,
+        "currentPrice": 151,
+        "marketValue": 7852,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM52",
+        "companyId": "IN:TEST:SYM52",
+        "exchange": "NSE",
+        "quantity": 53,
+        "currentPrice": 152,
+        "marketValue": 8056,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM53",
+        "companyId": "IN:TEST:SYM53",
+        "exchange": "NSE",
+        "quantity": 54,
+        "currentPrice": 153,
+        "marketValue": 8262,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM54",
+        "companyId": "IN:TEST:SYM54",
+        "exchange": "NSE",
+        "quantity": 55,
+        "currentPrice": 154,
+        "marketValue": 8470,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM55",
+        "companyId": "IN:TEST:SYM55",
+        "exchange": "NSE",
+        "quantity": 56,
+        "currentPrice": 155,
+        "marketValue": 8680,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM56",
+        "companyId": "IN:TEST:SYM56",
+        "exchange": "NSE",
+        "quantity": 57,
+        "currentPrice": 156,
+        "marketValue": 8892,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM57",
+        "companyId": "IN:TEST:SYM57",
+        "exchange": "NSE",
+        "quantity": 58,
+        "currentPrice": 157,
+        "marketValue": 9106,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM58",
+        "companyId": "IN:TEST:SYM58",
+        "exchange": "NSE",
+        "quantity": 59,
+        "currentPrice": 158,
+        "marketValue": 9322,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM59",
+        "companyId": "IN:TEST:SYM59",
+        "exchange": "NSE",
+        "quantity": 60,
+        "currentPrice": 159,
+        "marketValue": 9540,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM60",
+        "companyId": "IN:TEST:SYM60",
+        "exchange": "NSE",
+        "quantity": 61,
+        "currentPrice": 160,
+        "marketValue": 9760,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM61",
+        "companyId": "IN:TEST:SYM61",
+        "exchange": "NSE",
+        "quantity": 62,
+        "currentPrice": 161,
+        "marketValue": 9982,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM62",
+        "companyId": "IN:TEST:SYM62",
+        "exchange": "NSE",
+        "quantity": 63,
+        "currentPrice": 162,
+        "marketValue": 10206,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM63",
+        "companyId": "IN:TEST:SYM63",
+        "exchange": "NSE",
+        "quantity": 64,
+        "currentPrice": 163,
+        "marketValue": 10432,
+        "weightPercentage": 1.5385,
+        "active": true
+      },
+      {
+        "symbol": "SYM64",
+        "companyId": "IN:TEST:SYM64",
+        "exchange": "NSE",
+        "quantity": 65,
+        "currentPrice": 164,
+        "marketValue": 10660,
+        "weightPercentage": 1.5385,
+        "active": true
+      }
+    ],
+    "totalHoldingsCount": 65,
+    "provenanceDigest": "7ba5460cfc82d470d4cb566c3c5aa5013f2f1f525902f94b2488dd41b9178d9b",
+    "isSaved": true,
+    "weightSumPercentage": 100.0,
+    "lastUpdated": "2026-11-24T20:22:55.000Z",
+    "contributions": []
+  }
+}
