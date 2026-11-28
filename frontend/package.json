@@ -16,6 +16,7 @@
     "server:dev": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/executive-transport.ts",
     "iid:readiness": "tsx server/investment/cli/iid-readiness.ts",
     "portfolio:capture": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/user-portfolio/capture/capture-owner-bound-portfolio.ts",
+    "w06:observe": "tsx server/market-data/runW06ObservationCli.ts",
     "w28:measure": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/w28/measureCoverageCli.ts",
     "w28:test": "tsx server/w28/run-w28-tests.mjs",
     "w38:preflight": "tsx --env-file-if-exists=../.env.local --env-file-if-exists=.env.local server/market-data/dhanStartupPreflightCli.ts",

@@ -47,6 +47,10 @@
  */
 
 import {
+  validateCanonicalDhanIdentity,
+  type DhanExchangeSegment,
+} from './dhanCanonicalIdentity';
+import {
   mapIpdVerdictToIrrFreshness,
   projectIpdFreshnessStatus,
   type DhanFreshnessView,
@@ -79,17 +83,45 @@ export interface CapturedRevisionRef {
 }
 
 /**
- * One row of the captured revision, as supplied by the caller from the capture.
+ * Non-secret diagnostic metadata carried from `/api/investment/coverage` onto a W-06 row.
  *
- * `rowId` is an opaque, non-secret row label (position or holding key); no amount, no personal
+ * Preserves the governed IRR resolution state/reason alongside the stored D114 identifier so
+ * unresolved holdings (such as `AMBIGUOUS_LISTING` on `ASKAUTOLTD`) remain auditable without
+ * triggering any market-data call.
+ */
+export interface HoldingIdentityDiagnostics {
+  readonly identityState: string | null;
+  readonly identityReason: string | null;
+  readonly identityDetail: string | null;
+  readonly storedSecurityId: string | null;
+  readonly canonicalSecurityId: string | null;
+  readonly listingId: string | null;
+  readonly isinAuthority: string | null;
+}
+
+/**
+ * One row of the captured revision, as supplied by the caller from the capture or Coverage-to-W-06
+ * adapter.
+ *
+ * `rowId` is an opaque, non-secret row label (position or observation key); no amount, no personal
  * identifier beyond what the caller already holds server-side.
+ *
+ * D-4.6 / W-06 boundary rules:
+ *   - `companyId` and `exchangeSegment` ('NSE_EQ' | 'BSE_EQ') are required for eligibility; missing
+ *     values fail closed as `IDENTITY_UNRESOLVED` (`exchangeSegment` is never defaulted to `'NSE_EQ'`).
+ *   - `identityResolved === false` forces `IDENTITY_UNRESOLVED` with zero data calls even if
+ *     syntactic identifiers are present on the row.
  */
 export interface CapturedHoldingRow {
   readonly rowId: string;
-  readonly companyId: string;
-  readonly exchangeSegment?: 'NSE_EQ' | 'BSE_EQ';
+  readonly companyId?: string | null;
+  readonly exchangeSegment?: DhanExchangeSegment | null;
   /** The stored D114 identity; null/absent/invalid means unresolved (W04) — no data call. */
   readonly securityId?: string | null;
+  /** Explicit resolution eligibility flag; `false` bars quote/freshness calls unconditionally. */
+  readonly identityResolved?: boolean;
+  /** Optional preserved diagnostics from the Coverage-to-W-06 handoff. */
+  readonly diagnostics?: HoldingIdentityDiagnostics;
 }
 
 /** Outcome of a per-identity quote read (already IPD-projected by DHAN-P3). */
@@ -144,6 +176,10 @@ export type IdentityCoverageCategory =
 export interface PerIdentityCoverage {
   readonly rowId: string;
   readonly companyId: string;
+  /** The resolved D01 exchange segment (`NSE_EQ` | `BSE_EQ`), or null when unresolved/absent. */
+  readonly exchangeSegment: DhanExchangeSegment | null;
+  /** The stored D114 securityId observed on the holding row (preserved even when unresolved). */
+  readonly storedSecurityId: string | null;
   /** The canonical D114 identity the quote was requested for, or null when unresolved. */
   readonly securityId: string | null;
   readonly category: IdentityCoverageCategory;
@@ -162,6 +198,8 @@ export interface PerIdentityCoverage {
   readonly ageSeconds: number | null;
   readonly staleConcessionActive: boolean;
   readonly suppressExecution: boolean;
+  /** Preserved handoff diagnostics when supplied by the caller. */
+  readonly diagnostics?: HoldingIdentityDiagnostics;
 }
 
 /** Aggregate counts. Every identity is counted exactly once, by its category. */
@@ -268,18 +306,40 @@ export async function measureDhanRevisionCoverage(
   const identities: PerIdentityCoverage[] = [];
 
   for (const row of rows) {
-    if (!row || typeof row !== 'object' || typeof row.rowId !== 'string' || row.rowId === '') {
+    if (!row || typeof row !== 'object' || typeof row.rowId !== 'string' || row.rowId.trim() === '') {
       return { ok: false, code: 'MALFORMED_ROWS', message: 'every row needs a non-empty rowId.' };
     }
-    const securityId = typeof row.securityId === 'string' ? row.securityId.trim() : '';
-    const exchangeSegment = row.exchangeSegment ?? 'NSE_EQ';
+    const rawCompanyId = typeof row.companyId === 'string' ? row.companyId.trim() : '';
+    const rawSecurityId = typeof row.securityId === 'string' ? row.securityId.trim() : '';
+    const storedSecurityId =
+      row.diagnostics !== undefined ? row.diagnostics.storedSecurityId : rawSecurityId !== '' ? rawSecurityId : null;
+    const explicitSegment: DhanExchangeSegment | null =
+      row.exchangeSegment === 'NSE_EQ' || row.exchangeSegment === 'BSE_EQ' ? row.exchangeSegment : null;
 
-    if (!securityId || !D114_SECURITY_ID_PATTERN.test(securityId)) {
-      // No stored canonical identity (the W04 unresolved case): an identity gap, NOT a
-      // market-data gap. No quote or freshness call is made for this row.
+    // D-4.6 + W-06 fail-closed eligibility gate:
+    //   1. `identityResolved === false` (e.g. AMBIGUOUS_LISTING on ASKAUTOLTD) is ineligible.
+    //   2. `companyId`, `exchangeSegment` ('NSE_EQ' | 'BSE_EQ' — never defaulted to 'NSE_EQ'),
+    //      and `securityId` (`ISIN:<12-alnum>:<series>`) must all validate coherently.
+    const canonical =
+      row.identityResolved === false
+        ? null
+        : validateCanonicalDhanIdentity(
+            {
+              companyId: row.companyId,
+              exchangeSegment: row.exchangeSegment,
+              securityId: row.securityId,
+            },
+            'quote',
+          );
+
+    if (canonical === null || !canonical.ok || !D114_SECURITY_ID_PATTERN.test(canonical.securityId)) {
+      // Unresolved or incomplete canonical identity: an identity gap, NOT a market-data gap.
+      // Zero quote or freshness calls are made for this row.
       identities.push({
         rowId: row.rowId,
-        companyId: typeof row.companyId === 'string' ? row.companyId : '',
+        companyId: rawCompanyId,
+        exchangeSegment: explicitSegment,
+        storedSecurityId,
         securityId: null,
         category: 'IDENTITY_UNRESOLVED',
         quotePresent: false,
@@ -292,20 +352,23 @@ export async function measureDhanRevisionCoverage(
         ageSeconds: null,
         staleConcessionActive: false,
         suppressExecution: false,
+        ...(row.diagnostics !== undefined ? { diagnostics: row.diagnostics } : {}),
       });
       continue;
     }
 
+    const { companyId, exchangeSegment, securityId } = canonical;
+
     // Exactly one read-only quote call and one read-only freshness call for this identity.
     // No retry, no refresh, no cache write — the readers themselves are read-only.
     const quote = await readers.readQuote({
-      companyId: row.companyId,
+      companyId,
       securityId,
       exchangeSegment,
     });
     const freshnessRead = await readers.readFreshness({
       domain: 'D01_QUOTES',
-      companyId: row.companyId,
+      companyId,
       exchangeSegment,
       securityId,
     });
@@ -338,7 +401,9 @@ export async function measureDhanRevisionCoverage(
 
     identities.push({
       rowId: row.rowId,
-      companyId: row.companyId,
+      companyId,
+      exchangeSegment,
+      storedSecurityId: storedSecurityId ?? securityId,
       securityId,
       category,
       quotePresent: quote.ok && quote.view.quote !== null,
@@ -353,6 +418,7 @@ export async function measureDhanRevisionCoverage(
       ageSeconds,
       staleConcessionActive,
       suppressExecution,
+      ...(row.diagnostics !== undefined ? { diagnostics: row.diagnostics } : {}),
     });
   }
 
