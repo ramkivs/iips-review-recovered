@@ -129,7 +129,7 @@ describe('W06 revision coverage — capture binding', () => {
     }));
     const outcome = await measureDhanRevisionCoverage(
       CAPTURE,
-      [{ rowId: 'r1', companyId: 'C1', securityId: ID_GOOD }],
+      [{ rowId: 'r1', companyId: 'C1', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD }],
       readers,
     );
     expect(outcome.ok).toBe(true);
@@ -150,7 +150,7 @@ describe('W06 revision coverage — capture binding', () => {
     expect(validateCapturedRevisionRef(bad).ok).toBe(false);
     const outcome = await measureDhanRevisionCoverage(
       bad,
-      [{ rowId: 'r1', companyId: 'C1', securityId: ID_GOOD }],
+      [{ rowId: 'r1', companyId: 'C1', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD }],
       readers,
     );
     expect(outcome.ok).toBe(false);
@@ -168,7 +168,7 @@ describe('W06 revision coverage — capture binding', () => {
     };
     const badRev = await measureDhanRevisionCoverage(
       { ...CAPTURE, revision: 1.5 },
-      [{ rowId: 'r1', companyId: 'C1', securityId: ID_GOOD }],
+      [{ rowId: 'r1', companyId: 'C1', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD }],
       readers,
     );
     expect(badRev.ok).toBe(false);
@@ -177,6 +177,7 @@ describe('W06 revision coverage — capture binding', () => {
       Array.from({ length: MAX_COVERAGE_ROWS + 1 }, (_, i) => ({
         rowId: `r${i}`,
         companyId: 'C1',
+        exchangeSegment: null,
         securityId: null,
       })),
       readers,
@@ -189,12 +190,12 @@ describe('W06 revision coverage — capture binding', () => {
 describe('W06 revision coverage — per-identity categories', () => {
   it('distinguishes CURRENT / STALE / UNAVAILABLE / UNKNOWN and keeps UNKNOWN distinct from stale or unavailable', async () => {
     const rows: CapturedHoldingRow[] = [
-      { rowId: 'r-good', companyId: 'C1', securityId: ID_GOOD },
-      { rowId: 'r-stale', companyId: 'C2', securityId: ID_STALE, exchangeSegment: 'BSE_EQ' },
-      { rowId: 'r-unknown', companyId: 'C3', securityId: ID_UNKNOWN },
-      { rowId: 'r-unavail', companyId: 'C4', securityId: ID_UNAVAILABLE },
-      { rowId: 'r-unresolved', companyId: 'C5', securityId: null },
-      { rowId: 'r-invalid-id', companyId: 'C6', securityId: 'not-a-d114-identity' },
+      { rowId: 'r-good', companyId: 'C1', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD },
+      { rowId: 'r-stale', companyId: 'C2', exchangeSegment: 'BSE_EQ', securityId: ID_STALE },
+      { rowId: 'r-unknown', companyId: 'C3', exchangeSegment: 'NSE_EQ', securityId: ID_UNKNOWN },
+      { rowId: 'r-unavail', companyId: 'C4', exchangeSegment: 'NSE_EQ', securityId: ID_UNAVAILABLE },
+      { rowId: 'r-unresolved', companyId: 'C5', exchangeSegment: null, securityId: null },
+      { rowId: 'r-invalid-id', companyId: 'C6', exchangeSegment: 'NSE_EQ', securityId: 'not-a-d114-identity' },
     ];
     const log: ReaderLog = { quoteCalls: [], freshnessCalls: [] };
     const readers = makeReaders(log, (securityId) => {
@@ -291,7 +292,7 @@ describe('W06 revision coverage — per-identity categories', () => {
     }));
     const outcome = await measureDhanRevisionCoverage(
       CAPTURE,
-      [{ rowId: 'r1', companyId: 'C1', securityId: ID_GOOD }],
+      [{ rowId: 'r1', companyId: 'C1', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD }],
       readers,
     );
     expect(outcome.ok).toBe(true);
@@ -319,7 +320,7 @@ describe('W06 revision coverage — per-identity categories', () => {
     }));
     const outcome = await measureDhanRevisionCoverage(
       CAPTURE,
-      [{ rowId: 'r1', companyId: 'C1', securityId: ID_GOOD }],
+      [{ rowId: 'r1', companyId: 'C1', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD }],
       readers,
     );
     expect(outcome.ok).toBe(true);
@@ -332,10 +333,60 @@ describe('W06 revision coverage — per-identity categories', () => {
     expect(entry.category).toBe('COVERAGE_UNKNOWN');
   });
 
+  it('fails closed as IDENTITY_UNRESOLVED with zero calls when companyId or exchangeSegment is missing or identityResolved is false', async () => {
+    const log: ReaderLog = { quoteCalls: [], freshnessCalls: [] };
+    const readers = makeReaders(log, (securityId) => ({
+      quote: { ok: true, view: quoteView(securityId) },
+      freshness: { ok: true, status: freshnessStatus() },
+    }));
+
+    const rows: CapturedHoldingRow[] = [
+      // Missing/blank companyId despite valid exchangeSegment + D114 securityId:
+      { rowId: 'r-empty-company', companyId: '', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD },
+      { rowId: 'r-null-company', companyId: null, exchangeSegment: 'NSE_EQ', securityId: ID_GOOD },
+      // Missing exchangeSegment — must NEVER silently default to NSE_EQ:
+      { rowId: 'r-missing-segment', companyId: 'EQ_AGI_IN', securityId: ID_STALE },
+      { rowId: 'r-null-segment', companyId: 'EQ_AGI_IN', exchangeSegment: null, securityId: ID_STALE },
+      // Ambiguous listing carrying a syntactically valid stored D114 securityId (ASKAUTOLTD shape):
+      {
+        rowId: 'holding:DHAN_PORTFOLIO:0006',
+        companyId: 'EQ_ASKAUTOLTD_IN',
+        exchangeSegment: 'NSE_EQ',
+        securityId: 'ISIN:INE491J01022:B',
+        identityResolved: false,
+        diagnostics: {
+          identityState: 'AMBIGUOUS_LISTING',
+          identityReason: 'MULTIPLE_SECURITIES_SHARE_LISTING',
+          identityDetail: 'multiple securities share listing',
+          storedSecurityId: 'ISIN:INE491J01022:B',
+          canonicalSecurityId: null,
+          listingId: null,
+          isinAuthority: 'NON_AUTHORITATIVE',
+        },
+      },
+    ];
+
+    const outcome = await measureDhanRevisionCoverage(CAPTURE, rows, readers);
+    expect(outcome.ok).toBe(true);
+    if (!outcome.ok) return;
+
+    expect(log.quoteCalls).toHaveLength(0);
+    expect(log.freshnessCalls).toHaveLength(0);
+    expect(outcome.report.totals.identityResolved).toBe(0);
+    expect(outcome.report.totals.identityUnresolved).toBe(5);
+    expect(outcome.report.identities.every((i) => i.category === 'IDENTITY_UNRESOLVED')).toBe(true);
+    expect(outcome.report.identities.every((i) => i.securityId === null)).toBe(true);
+
+    const byRow = new Map(outcome.report.identities.map((i) => [i.rowId, i]));
+    expect(byRow.get('r-missing-segment')?.exchangeSegment).toBeNull();
+    expect(byRow.get('holding:DHAN_PORTFOLIO:0006')?.storedSecurityId).toBe('ISIN:INE491J01022:B');
+    expect(byRow.get('holding:DHAN_PORTFOLIO:0006')?.diagnostics?.identityState).toBe('AMBIGUOUS_LISTING');
+  });
+
   it('is deterministic for fixed inputs and injected clock', async () => {
     const rows: CapturedHoldingRow[] = [
-      { rowId: 'r1', companyId: 'C1', securityId: ID_GOOD },
-      { rowId: 'r2', companyId: 'C2', securityId: null },
+      { rowId: 'r1', companyId: 'C1', exchangeSegment: 'NSE_EQ', securityId: ID_GOOD },
+      { rowId: 'r2', companyId: 'C2', exchangeSegment: null, securityId: null },
     ];
     const run = async () => {
       const log: ReaderLog = { quoteCalls: [], freshnessCalls: [] };
